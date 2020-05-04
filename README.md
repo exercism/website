@@ -24,3 +24,11 @@ CREATE DATABASE `exercism_v3_test-1`;
 ALTER DATABASE `exercism_v3_test-1` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON `exercism_v3_test-1`.* TO 'exercism_v3'@'localhost';
 ```
+
+I've also found that you need a general one too:
+
+```bash
+CREATE DATABASE `exercism_v3_test`;
+ALTER DATABASE `exercism_v3_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON `exercism_v3_test`.* TO 'exercism_v3'@'localhost';
+```

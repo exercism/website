@@ -1,0 +1,1 @@
+class PracticeExercise < Exercise; end

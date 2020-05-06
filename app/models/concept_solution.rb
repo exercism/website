@@ -1,0 +1,1 @@
+class ConceptSolution < Solution; end

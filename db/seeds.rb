@@ -1,1 +1,7 @@
 user = User.create!(handle: 'iHiD')
+track = Track.create!(slug: 'ruby', title: 'Ruby')
+UserTrack.create!(user: user, track: track)
+concept_exercise = ConceptExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "c1", prerequisites: [])
+practice_exercise = PracticeExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "p1", prerequisites: [])
+concept_solution = ConceptSolution.create!(exercise: concept_exercise, user: user, uuid: SecureRandom.uuid)
+practice_solution = PracticeSolution.create!(exercise: practice_exercise, user: user, uuid: SecureRandom.uuid)

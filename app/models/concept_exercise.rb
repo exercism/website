@@ -1,0 +1,1 @@
+class ConceptExercise < Exercise; end

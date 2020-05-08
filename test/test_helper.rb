@@ -9,4 +9,12 @@ class ActiveSupport::TestCase
 
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
+
+  # Create a few models and return a random one.
+  # Use this method to guarantee that a method isn't
+  # working because it's accessing the first or last 
+  # object created or stored in the db
+  def random_of_many(model, params = {}, num: 3)
+    num.times.map { create(model, params) }.sample
+  end
 end

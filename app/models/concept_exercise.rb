@@ -1,1 +1,2 @@
-class ConceptExercise < Exercise; end
+class ConceptExercise < Exercise
+end

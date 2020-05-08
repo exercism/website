@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()
   var isDevelopmentEnv = api.env('development')
@@ -21,9 +21,9 @@ module.exports = function(api) {
         '@babel/preset-env',
         {
           targets: {
-            node: 'current'
-          }
-        }
+            node: 'current',
+          },
+        },
       ],
       (isProductionEnv || isDevelopmentEnv) && [
         '@babel/preset-env',
@@ -32,9 +32,9 @@ module.exports = function(api) {
           useBuiltIns: 'entry',
           corejs: 3,
           modules: false,
-          exclude: ['transform-typeof-symbol']
-        }
-      ]
+          exclude: ['transform-typeof-symbol'],
+        },
+      ],
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
@@ -44,29 +44,29 @@ module.exports = function(api) {
       [
         '@babel/plugin-proposal-class-properties',
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true
-        }
+          useBuiltIns: true,
+        },
       ],
       [
         '@babel/plugin-transform-runtime',
         {
           helpers: false,
           regenerator: true,
-          corejs: false
-        }
+          corejs: false,
+        },
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false
-        }
-      ]
-    ].filter(Boolean)
+          async: false,
+        },
+      ],
+    ].filter(Boolean),
   }
 }

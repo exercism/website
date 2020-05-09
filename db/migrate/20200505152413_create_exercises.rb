@@ -7,8 +7,6 @@ class CreateExercises < ActiveRecord::Migration[6.0]
       t.string :type, null: false
 
       t.string :slug, null: false
-      t.json :prerequisites, null: false
-      t.json :concepts_taught, null: true
 
       t.timestamps
     end

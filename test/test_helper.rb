@@ -8,7 +8,8 @@ class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
 
   # Run tests in parallel with specified workers
-  parallelize(workers: :number_of_processors)
+  #parallelize(workers: :number_of_processors)
+  parallelize(workers: 1)
 
   # Create a few models and return a random one.
   # Use this method to guarantee that a method isn't

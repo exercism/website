@@ -1,4 +1,4 @@
-class UserTrack
+class User
   class StartExercise
     class ExerciseUnavailable < RuntimeError; end
 

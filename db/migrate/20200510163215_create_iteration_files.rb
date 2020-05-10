@@ -4,7 +4,7 @@ class CreateIterationFiles < ActiveRecord::Migration[6.0]
       t.belongs_to :iteration, foreign_key: true, null: false
 
       t.string :filename, null: false
-      t.binary :contents, null: false
+      t.binary :content, null: false
       t.text :digest, null: false
 
       t.timestamps

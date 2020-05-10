@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_163215) do
   create_table "iteration_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.string "filename", null: false
-    t.binary "contents", null: false
+    t.binary "content", null: false
     t.text "digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

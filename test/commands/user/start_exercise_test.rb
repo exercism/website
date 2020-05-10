@@ -6,8 +6,8 @@ class StartExerciseTest < ActiveSupport::TestCase
     ut = create :user_track
     ut.expects(:exercise_available?).with(ex).returns(false)
 
-    assert_raises UserTrack::StartExercise::ExerciseUnavailable do
-      UserTrack::StartExercise.(ut, ex)
+    assert_raises User::StartExercise::ExerciseUnavailable do
+      User::StartExercise.(ut, ex)
     end
   end
 
@@ -16,7 +16,7 @@ class StartExerciseTest < ActiveSupport::TestCase
     ut = create :user_track
     ut.expects(:exercise_available?).with(ex).returns(true)
 
-    solution = UserTrack::StartExercise.(ut, ex)
+    solution = User::StartExercise.(ut, ex)
     assert solution.is_a?(ConceptSolution)
     assert_equal ut.user, solution.user
     assert_equal ex, solution.exercise
@@ -27,7 +27,7 @@ class StartExerciseTest < ActiveSupport::TestCase
     ut = create :user_track
     ut.expects(:exercise_available?).with(ex).returns(true)
 
-    solution = UserTrack::StartExercise.(ut, ex)
+    solution = User::StartExercise.(ut, ex)
     assert solution.is_a?(PracticeSolution)
     assert_equal ut.user, solution.user
     assert_equal ex, solution.exercise
@@ -40,7 +40,7 @@ class StartExerciseTest < ActiveSupport::TestCase
     ut = create :user_track, user: user
     ut.expects(:exercise_available?).with(ex).returns(true)
 
-    assert_equal solution, UserTrack::StartExercise.(ut, ex)
+    assert_equal solution, User::StartExercise.(ut, ex)
   end
 end
 

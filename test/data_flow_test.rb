@@ -20,6 +20,9 @@ class DataFlowTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_basics], ut.available_concept_exercises
 
     # Start the exercise and get a solution
-    basics_solution = UserTrack::StartExercise.(ut, concept_exercise_basics)
+    basics_solution = User::StartExercise.(ut, concept_exercise_basics)
+
+    # Submit an iteration
+    basics_iteration_1 = User::SubmitIteration.(basics_solution, [{filename: "basics.rb", content: "my code"}])
   end
 end

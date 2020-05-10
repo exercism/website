@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_141523) do
     t.bigint "track_concept_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "track_concept_id"], name: "index_exercise_prerequisites_on_exercise_id_and_track_concept_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_prerequisites_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_prerequisites_on_track_concept_id"
   end
@@ -89,5 +90,15 @@ ActiveRecord::Schema.define(version: 2020_05_10_141523) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "exercise_prerequisites", "exercises"
+  add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercises", "tracks"
+  add_foreign_key "iterations", "solutions"
+  add_foreign_key "solutions", "exercises"
+  add_foreign_key "solutions", "users"
+  add_foreign_key "track_concepts", "tracks"
+  add_foreign_key "user_track_concepts", "track_concepts"
+  add_foreign_key "user_track_concepts", "user_tracks"
+  add_foreign_key "user_tracks", "tracks"
+  add_foreign_key "user_tracks", "users"
 end

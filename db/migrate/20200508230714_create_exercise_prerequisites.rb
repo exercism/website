@@ -1,8 +1,8 @@
 class CreateExercisePrerequisites < ActiveRecord::Migration[6.0]
   def change
     create_table :exercise_prerequisites do |t|
-      t.belongs_to :exercise, null: false
-      t.belongs_to :track_concept, null: false
+      t.belongs_to :exercise, foreign_key: true, null: false
+      t.belongs_to :track_concept, foreign_key: true, null: false
 
       t.timestamps
 

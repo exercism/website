@@ -14,6 +14,7 @@ class UserTrack
       )
     end
 
+    private
     def guard!
       raise ExerciseUnavailable unless user_track.exercise_available?(exercise)
     end

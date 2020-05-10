@@ -6,9 +6,11 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.belongs_to :user, foreign_key: true, null: false
       t.belongs_to :exercise, foreign_key: true, null: false
 
-      t.string :uuid, null: false
+      t.string :uuid, null: false, unique: true
 
       t.timestamps
+
+      t.index [:user_id, :exercise_id], unique: true
     end
   end
 end

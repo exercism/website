@@ -1,7 +1,7 @@
 require "test_helper"
 
 class DataFlowTest < ActiveSupport::TestCase
-  test "the flow" do
+  test "sign up, start a track, submit exercises" do
     # TODO - Destub these
     track = create :track
     concept_exercise_basics = create :concept_exercise, track: track, slug: 'basics', prerequisites: []
@@ -23,6 +23,8 @@ class DataFlowTest < ActiveSupport::TestCase
     basics_solution = User::StartExercise.(ut, concept_exercise_basics)
 
     # Submit an iteration
+    Iteration::UploadWithExercise.stubs(:call)
+    Iteration::UploadForStorage.stubs(:call)
     basics_iteration_1 = User::SubmitIteration.(basics_solution, [{filename: "basics.rb", content: "my code"}])
   end
 end

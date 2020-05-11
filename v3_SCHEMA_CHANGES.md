@@ -4,5 +4,6 @@ These are deliberate schema changes that need to be handled during ETL.
 
 ## Iteration Files
 
-- Rename `file_contents` to `content`
+- Need `uuid` generating. Consider pregenerating a whole load and going through to make this quicker.
 - Rename `file_contents_digest` to `digest`
+- `file_contents` need uploading to s3 rather than being stored.

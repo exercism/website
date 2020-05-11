@@ -1,0 +1,15 @@
+development:
+  base_dir: ./tmp/git_repo_cache
+  #problem_specifications: https://github.com/exercism/problem-specifications
+  #website_content: ../website-copy
+
+test:
+  base_dir: ./test/tmp/git_repo_cache
+  #problem_specifications: ./test/fixtures/problem-specifications
+  #website_content: ./test/fixtures/website-copy
+
+production:
+  base_dir: ./tmp/git_repo_cache
+  #problem_specifications: https://github.com/exercism/problem-specifications
+  #website_content: https://github.com/exercism/website-copy
+

@@ -5,6 +5,14 @@
 
 This is the WIP website for Exercism v3.
 
+## Local setup
+
+### OS-Specific
+
+#### Mac
+
+- `brew install libgit2 cmake pkg-config`
+
 ### Configure the database
 
 Running these commands inside a mysql console will get a working database setup:
@@ -36,9 +44,29 @@ ALTER DATABASE `exercism_v3_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_
 GRANT ALL PRIVILEGES ON `exercism_v3_test`.* TO 'exercism_v3'@'localhost';
 ```
 
-## Configure Solargraph
+### Configure Solargraph
 
 If you'd like to use solargraph, the gem is in the file. You need to run and set `solargraph.useBundler` to `true` in your config. I have this working well with coc-solargraph. [This article](http://blog.jamesnewton.com/setting-up-coc-nvim-for-ruby-development) was helpful for setting it up.
 
 - `bundle exec yard gems`
 - `solargraph bundle`
+
+## Testing
+
+### Git Repos
+
+To make a new Git repo for use in tests:
+
+```
+mkdir /Users/iHiD/Code/exercism/v3/test/repos/new-repo
+cd /Users/iHiD/Code/exercism/v3/test/repos/new-repo
+git init --bare
+
+cd ~
+git clone file:///Users/iHiD/Code/exercism/v3/test/repos/track exercism-new-git-repo
+cd exercism-new-git-repo
+echo "{}" > config.json
+git add config.json
+git commit -m "First commit"
+git push origin head
+```

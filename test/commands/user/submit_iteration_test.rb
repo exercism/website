@@ -1,21 +1,24 @@
 require 'test_helper'
 
 class User::SubmitIterationTest < ActiveSupport::TestCase
-  test "creates iteration" do
-    solution = create :concept_solution
+  test "creates iteration in the database" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
-    digest_1 = "digest #1"
+    digest_1 = Digest::MD5.new.tap {|md5| md5.update(content_1) }.hexdigest
 
     filename_2 = "barfood.rb"
     content_2 = "something = :else"
-    digest_2 = "digest #2"
+    digest_2 = Digest::MD5.new.tap {|md5| md5.update(content_2) }.hexdigest
  
     files = [
       { filename: filename_1, content: content_1 },
       { filename: filename_2, content: content_2 }
     ]
 
+    Iteration::UploadWithExercise.expects(:call)
+    Iteration::UploadForStorage.expects(:call)
+
+    solution = create :concept_solution
     iteration = User::SubmitIteration.(solution, files)
 
     assert iteration.persisted?
@@ -24,27 +27,29 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
 
     first_file = iteration.files.first
     assert_equal filename_1, first_file.filename
-    assert_equal content_1, first_file.content
+    assert_equal digest_1, first_file.digest
 
     second_file = iteration.files.last
     assert_equal filename_2, second_file.filename
-    assert_equal content_2, second_file.content
+    assert_equal digest_2, second_file.digest
   end
 
   test "guards against duplicates" do
     solution = create :concept_solution
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
-    digest_1 = "digest #1"
 
     filename_2 = "barfood.rb"
     content_2 = "something = :else"
-    digest_2 = "digest #2"
  
     files = [
       { filename: filename_1, content: content_1 },
       { filename: filename_2, content: content_2 }
     ]
+
+    # We'll call upload so stub it
+    Iteration::UploadWithExercise.stubs(:call)
+    Iteration::UploadForStorage.stubs(:call)
 
     # Do it once successfully
     User::SubmitIteration.(solution, files)
@@ -61,5 +66,16 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
     User::SubmitIteration.(solution, files)
   end
 
-end
+  test "updates solution status" do
+    files = [{ filename: 'foo.bar', content: "foobar" }]
 
+    solution = create :concept_solution
+    assert_equal 'pending', solution.status
+    assert solution.pending?
+
+    Iteration::UploadWithExercise.stubs(:call)
+    Iteration::UploadForStorage.stubs(:call)
+    User::SubmitIteration.(solution, [files.first])
+    assert_equal 'submitted', solution.reload.status
+  end
+end

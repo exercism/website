@@ -18,8 +18,7 @@ module CLI
 
         {
           filename: filename,
-          content: content,
-          digest: IterationFile.generate_digest(content)
+          content: content
         }
       end
     end

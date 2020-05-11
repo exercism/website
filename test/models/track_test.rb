@@ -15,4 +15,13 @@ class TrackTest < ActiveSupport::TestCase
     track = random_of_many(:track)
     assert_equal track, Track.for!(track.slug)
   end
+
+  %w{head_sha}.each do |delegate|
+    test "delegates git_#{delegate}" do
+      url = TestHelpers.git_repo_url("track-with-exercises")
+      git_track = Git::Track.new(url)
+      track = create :track, repo_url: url
+      assert_equal git_track.send(delegate), track.send("git_#{delegate}")
+    end
+  end
 end

@@ -1,0 +1,12 @@
+shared: 
+  region: 'eu-west-1'
+
+development: 
+  access_key_id:
+  secret_access_key:
+  iterations_bucket:
+
+test: 
+  access_key_id:
+  secret_access_key:
+  iterations_bucket:

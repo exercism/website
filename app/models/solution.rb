@@ -1,7 +1,7 @@
 class Solution < ApplicationRecord
-
   belongs_to :user
   belongs_to :exercise
+  has_one :track, through: :exercise
   has_many :iterations
 
   before_create do
@@ -10,6 +10,8 @@ class Solution < ApplicationRecord
     # solution UUID for URLs, we're removing the hyphen
     # to remove any spurious, accidental, and arbitrary
     # meaning.
-    self.uuid = SecureRandom.uuid.gsub('-', '') unless self.uuid
+    self.uuid = SecureRandom.compact_uuid unless self.uuid
+    self.git_slug = exercise.slug
+    self.git_sha = track.git_head_sha
   end
 end

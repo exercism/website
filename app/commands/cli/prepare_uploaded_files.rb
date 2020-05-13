@@ -6,7 +6,7 @@ module CLI
 
     def call
       http_files.map do |file|
-        filename = file.headers.split("\r\n").
+        filename = file.headers.lines.
                         detect{|s|s.start_with?("Content-Disposition: ")}.
                         split(";").
                         map(&:strip).

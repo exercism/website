@@ -3,9 +3,8 @@ class Iteration
     include Mandate
 
     def initialize(iteration_uuid, files)
+      @iteration_uuid = iteration_uuid
       @files = files
-      @path = "#{Rails.env}/storage/#{iteration_uuid}"
-      @files_to_upload = {}
     end
 
     def call
@@ -15,9 +14,10 @@ class Iteration
     end
 
     private
-    attr_reader :files, :path
+    attr_reader :iteration_uuid, :files
 
     def upload_file(filename, code)
+      path = "#{Rails.env}/storage/#{iteration_uuid}"
 
       # Don't memoize this as it's used in multiple threads
       # Consider moving it safely to a readonly var.

@@ -21,7 +21,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
     }.each do |filename, content|
       s3_client.expects(:put_object).with(
         bucket: ExercismCredentials.aws_iterations_bucket,
-        key: "test/testing/#{iteration_uuid}/#{filename}",
+        key: "test/combined/#{iteration_uuid}/#{filename}",
         acl: 'private',
         body: content
       )

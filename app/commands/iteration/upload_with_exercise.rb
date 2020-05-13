@@ -42,17 +42,19 @@ class Iteration
     end
 
     def upload_files
-      path = "#{Rails.env}/testing/#{iteration_uuid}"
-
       files_to_upload.map { |filename, code|
-        Thread.new do
-          s3_client = Aws::S3::Client.new(ExercismCredentials.aws_auth)
-          s3_client.put_object(body: code,
-                               bucket: ExercismCredentials.aws_iterations_bucket,
-                               key: "#{path}/#{filename}",
-                               acl: 'private')
-        end
+        Thread.new { upload_file(filename, code) }
       }.each(&:join)
+    end
+
+    def upload_file(filename, code)
+      path = "#{Rails.env}/combined/#{iteration_uuid}"
+
+      s3_client = Aws::S3::Client.new(ExercismCredentials.aws_auth)
+      s3_client.put_object(body: code,
+                           bucket: ExercismCredentials.aws_iterations_bucket,
+                           key: "#{path}/#{filename}",
+                           acl: 'private')
     end
   end
 end

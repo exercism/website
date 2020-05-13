@@ -21,26 +21,26 @@ class Iteration::UploadForStorageTest < ActiveSupport::TestCase
     s3_client = mock
     s3_client.expects(:put_object).with(
       body: file_1_contents,
-      bucket: ExercismCredentials.aws_iterations_bucket,
+      bucket: Exercism.config.aws_iterations_bucket,
       key: "test/storage/#{iteration_uuid}/#{file_1_name}",
       acl: 'private'
     )
 
     s3_client.expects(:put_object).with(
       body: file_2_contents,
-      bucket: ExercismCredentials.aws_iterations_bucket,
+      bucket: Exercism.config.aws_iterations_bucket,
       key: "test/storage/#{iteration_uuid}/#{file_2_name}",
       acl: 'private'
     )
 
     s3_client.expects(:put_object).with(
       body: file_3_contents,
-      bucket: ExercismCredentials.aws_iterations_bucket,
+      bucket: Exercism.config.aws_iterations_bucket,
       key: "test/storage/#{iteration_uuid}/#{file_3_name}",
       acl: 'private'
     )
 
-    Aws::S3::Client.expects(:new).times(3).with(ExercismCredentials.aws_auth).returns(s3_client)
+    Aws::S3::Client.expects(:new).times(3).with(Exercism.config.aws_auth).returns(s3_client)
     Iteration::UploadForStorage.(iteration_uuid, files)
   end
 end

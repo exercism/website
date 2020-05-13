@@ -10,9 +10,12 @@ gem 'puma', '~> 4.1'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 
+# Interaction gems
+gem 'rugged' # Git
+gem 'rest-client' # http
+
 # General-purpose gems
 gem 'mandate'
-gem 'rugged' # Git
 
 # Setup dependencies
 gem 'bootsnap', '>= 1.4.2', require: false

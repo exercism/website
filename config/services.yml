@@ -1,0 +1,8 @@
+development: 
+  test_runner_orchestrator_url:
+
+test: 
+  test_runner_orchestrator_url: "http://test-runner.example.com"
+  analyzer_orchestrator_url: "http://analyzer.example.com"
+  representer_orchestrator_url: "http://representer.example.com"
+

@@ -17,6 +17,9 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
 
     Iteration::UploadWithExercise.expects(:call)
     Iteration::UploadForStorage.expects(:call)
+    Iteration::TestRun::Init.expects(:call)
+    Iteration::Analysis::Init.expects(:call)
+    Iteration::Representation::Init.expects(:call)
 
     solution = create :concept_solution
     iteration = User::SubmitIteration.(solution, files)

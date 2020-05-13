@@ -16,22 +16,19 @@ class User
     end
 
     def call
+      # This needs to be fast. 
+      guard!
+
       # Kick off the threads to get things uploaded
       # before we do anything with the database.
-      # We even want to do this before guarding. A few
-      # extra files in s3 isn't a worry.
 
       # These thread must *not* touch the DB or have any 
       # db models passed to them.
-      threads = []
+      threads = [
+        Thread.new { init_services },
+        Thread.new { Iteration::UploadForStorage.(iteration_uuid, files) }
+      ]
 
-      git_slug = solution.git_slug
-      git_sha = solution.git_sha
-      track_repo = solution.track.repo
-      threads << Thread.new { Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files) }
-      threads << Thread.new { Iteration::UploadForStorage.(iteration_uuid, files) }
-
-      guard!
       iteration = create_iteration!
       update_solution!
       
@@ -53,6 +50,22 @@ class User
       prev_files = last_iteration.files.map {|f| "#{f.filename}|#{f.digest}" }
       new_files = files.map {|f| "#{f[:filename]}|#{f[:digest]}" }
       raise DuplicateIterationError if prev_files.sort == new_files.sort
+    end
+
+    def init_services
+      git_slug = solution.git_slug
+      git_sha = solution.git_sha
+      track_repo = solution.track.repo
+      
+      # Let's get it up first, then we'll fan out to
+      # all the services we want to run this,
+      Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files) 
+
+      [
+        Thread.new{Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
+        Thread.new{Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
+        Thread.new{Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) }
+      ].each(&:join)
     end
 
     def create_iteration!

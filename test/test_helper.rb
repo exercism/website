@@ -17,6 +17,10 @@ class ActiveSupport::TestCase
   #parallelize(workers: :number_of_processors)
   parallelize(workers: 1)
 
+  def setup
+    RestClient.stubs(:post)
+  end
+
   # Create a few models and return a random one.
   # Use this method to guarantee that a method isn't
   # working because it's accessing the first or last 

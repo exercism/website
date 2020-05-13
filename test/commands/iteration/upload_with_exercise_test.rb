@@ -20,7 +20,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
       "subdir/new_file.rb": "New file contents",
     }.each do |filename, content|
       s3_client.expects(:put_object).with(
-        bucket: ExercismCredentials.aws_iterations_bucket,
+        bucket: Exercism.config.aws_iterations_bucket,
         key: "test/combined/#{iteration_uuid}/#{filename}",
         acl: 'private',
         body: content

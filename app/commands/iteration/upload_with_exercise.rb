@@ -50,9 +50,9 @@ class Iteration
     def upload_file(filename, code)
       path = "#{Rails.env}/combined/#{iteration_uuid}"
 
-      s3_client = Aws::S3::Client.new(ExercismCredentials.aws_auth)
+      s3_client = Aws::S3::Client.new(Exercism.config.aws_auth)
       s3_client.put_object(body: code,
-                           bucket: ExercismCredentials.aws_iterations_bucket,
+                           bucket: Exercism.config.aws_iterations_bucket,
                            key: "#{path}/#{filename}",
                            acl: 'private')
     end

@@ -13,6 +13,7 @@ class Iteration::TestRun < ApplicationRecord
     super.try(&:to_sym)
   end
 
+  # TODO Memoize
   def raw_results
     HashWithIndifferentAccess.new(super)
   end
@@ -27,5 +28,32 @@ class Iteration::TestRun < ApplicationRecord
 
   def failed?
     status == :fail
+  end
+
+  # TODO Memoize
+  def test_results
+    tests.map do |test|
+      TestResult.new(HashWithIndifferentAccess.new(test))
+    end
+  end
+
+  class TestResult 
+    attr_reader :name, :status, :cmd, :message, :expected
+
+    def initialize(test)
+      @name = test[:name]
+      @status = test[:status].to_sym
+      @cmd = test[:cmd]
+      @message = test[:message]
+      @expected = test[:expected]
+      @output = test[:output]
+    end
+
+    def output_html
+      output ? Ansi::To::Html.new(output).to_html : nil
+    end
+
+    private
+    attr_reader :output
   end
 end

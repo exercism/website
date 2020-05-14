@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_204406) do
     t.bigint "iteration_id", null: false
     t.string "status", null: false
     t.text "message"
-    t.json "tests", null: false
+    t.json "tests"
     t.integer "ops_status", limit: 2, null: false
     t.text "ops_message"
     t.json "raw_results", null: false

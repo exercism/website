@@ -26,5 +26,14 @@ class DataFlowTest < ActiveSupport::TestCase
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
     basics_iteration_1 = User::SubmitIteration.(basics_solution, [{filename: "basics.rb", content: "my code"}])
+
+    Iteration::TestRun::Process.(basics_iteration_1.uuid, 200, "success", {
+      status: :pass,
+      message: nil,
+      tests: [{
+        name: "test1",
+        status: "pass"
+      }]
+    })
   end
 end

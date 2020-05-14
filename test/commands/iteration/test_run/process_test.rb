@@ -21,6 +21,6 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     assert_equal status.to_sym, tr.status
     assert_equal message, tr.message
     assert_equal tests, tr.tests
-    assert_equal results, tr.raw_results
+    assert_equal results, tr.send(:raw_results)
   end
 end

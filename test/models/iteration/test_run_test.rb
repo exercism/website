@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class Iteration::TestRunTest < ActiveSupport::TestCase
+  test "ops_success?" do
+    refute create(:iteration_test_run, ops_status: 199).ops_success?
+    assert create(:iteration_test_run, ops_status: 200).ops_success?
+    refute create(:iteration_test_run, ops_status: 201).ops_success?
+  end
+
   test "explodes raw_results" do
     status = "foobar"
     message = "some barfoo message"
@@ -66,4 +72,6 @@ class Iteration::TestRunTest < ActiveSupport::TestCase
     assert_equal expected, result.expected
     assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", result.output_html
   end
+
+  # TODO - Add a test for if the raw_results is empty
 end

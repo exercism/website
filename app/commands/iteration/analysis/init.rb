@@ -1,5 +1,5 @@
 class Iteration
-  module Analysis
+  class Analysis
     class Init
       include Mandate
 

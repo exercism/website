@@ -13,9 +13,8 @@ class Iteration::TestRun < ApplicationRecord
     super.try(&:to_sym)
   end
 
-  # TODO Memoize
-  def raw_results
-    HashWithIndifferentAccess.new(super)
+  def ops_success?
+    ops_status == 200
   end
 
   def passed?
@@ -37,6 +36,12 @@ class Iteration::TestRun < ApplicationRecord
     end
   end
 
+  private
+  # TODO Memoize
+  def raw_results
+    HashWithIndifferentAccess.new(super)
+  end
+
   class TestResult 
     attr_reader :name, :status, :cmd, :message, :expected
 
@@ -56,4 +61,5 @@ class Iteration::TestRun < ApplicationRecord
     private
     attr_reader :output
   end
+  private_constant :TestResult
 end

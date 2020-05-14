@@ -1,5 +1,5 @@
 class Iteration
-  module TestRun
+  class TestRun
     class Init
       include Mandate
 

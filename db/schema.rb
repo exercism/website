@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_163215) do
+ActiveRecord::Schema.define(version: 2020_05_13_204406) do
 
   create_table "exercise_prerequisites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
@@ -41,6 +41,19 @@ ActiveRecord::Schema.define(version: 2020_05_10_163215) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["iteration_id"], name: "index_iteration_files_on_iteration_id"
+  end
+
+  create_table "iteration_test_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "iteration_id", null: false
+    t.string "status", null: false
+    t.text "message"
+    t.json "tests", null: false
+    t.integer "ops_status", limit: 2, null: false
+    t.text "ops_message"
+    t.json "raw_results", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["iteration_id"], name: "index_iteration_test_runs_on_iteration_id"
   end
 
   create_table "iterations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -111,6 +124,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_163215) do
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "iteration_files", "iterations"
+  add_foreign_key "iteration_test_runs", "iterations"
   add_foreign_key "iterations", "solutions"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"

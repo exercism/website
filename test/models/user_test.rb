@@ -16,7 +16,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
-  test "reputation" do
+  test "reputation sums correctly" do
     user = create :user
     create :user_reputation_acquisition
     create :user_reputation_acquisition, user: user, category: "track_ruby", amount: 1
@@ -27,5 +27,17 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 15, user.reputation
     assert_equal 3, user.reputation(track_slug: :ruby)
     assert_equal 8, user.reputation(category: :docs)
+  end
+
+  test "reputation raises with both track_slug and category specified" do
+    user = create :user
+    
+    # Sanity check the individuals work
+    # before testing them both together
+    assert user.reputation(track_slug: :ruby)
+    assert user.reputation(category: :docs)
+    assert_raises do
+      user.reputation(track_slug: :ruby, category: :docs)
+    end
   end
 end

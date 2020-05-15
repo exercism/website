@@ -9,9 +9,11 @@ class User < ApplicationRecord
   end
 
   def reputation(track_slug:nil, category:nil)
+    raise if track_slug && category
+    category = "track_#{track_slug}" if track_slug
+
     q = reputation_acquisitions
     q.where!(category: category) if category
-    q.where!(category: "track_#{track_slug}") if track_slug
     q.sum(:amount)
   end
 end

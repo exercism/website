@@ -90,8 +90,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_002232) do
   create_table "solution_mentor_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.integer "status", limit: 1, default: 0, null: false
-    t.integer "type", limit: 1, default: 0, null: false
-    t.text "comment", null: false
+    t.integer "type", limit: 1, null: false
+    t.text "comment"
     t.integer "bounty", limit: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_002232) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "handle", null: false
+    t.integer "credits", limit: 2, default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

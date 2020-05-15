@@ -4,6 +4,8 @@ class Solution < ApplicationRecord
   has_one :track, through: :exercise
   has_many :iterations
 
+  has_many :mentor_requests, class_name: "Solution::MentorRequest"
+
   before_create do
     # Search engines derive meaning by using hyphens
     # as word-boundaries in URLs. Since we use the

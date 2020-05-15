@@ -1,14 +1,11 @@
 require "test_helper"
 
-class DataFlowTest < ActiveSupport::TestCase
-  test "sign up, start a track, submit exercises" do
-    # TODO - Destub these
+class ExerciseFlowsTest < ActiveSupport::TestCase
+  test "start a track and submit an exercise" do
     track = create :track
     concept_exercise_basics = create :concept_exercise, track: track, slug: 'basics', prerequisites: []
     concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
     create :exercise_prerequisite, exercise: concept_exercise_strings
-
-    # TODO - Destub these
     user = create :user
 
     # User joins the track
@@ -33,6 +30,14 @@ class DataFlowTest < ActiveSupport::TestCase
       tests: [{
         name: "test1",
         status: "pass"
+      }]
+    })
+
+    Iteration::Analysis::Process.(basics_iteration_1.uuid, 200, "success", {
+      status: :pass,
+      comments: [{
+        name: "test1",
+        data: []
       }]
     })
   end

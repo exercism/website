@@ -10,6 +10,10 @@ class Solution::MentorRequest < ApplicationRecord
     super.to_sym
   end
 
+  def type
+    super.to_sym
+  end
+
   def fulfilled!
     update_column(:status, :fulfilled)
   end

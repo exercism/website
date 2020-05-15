@@ -1,6 +1,5 @@
 class User
   class RequestMentor
-    class NotEnoughCreditsError < RuntimeError; end
     class AlreadyRequestedError < RuntimeError
       attr_reader :request
       def initialize(request)
@@ -28,20 +27,17 @@ class User
       )
 
       ActiveRecord::Base.transaction do
-        # Keep this as a local variable for locking
-        user = solution.user
-        
+        # By locking the solution before checking the amount of mentorships
+        # we should avoid duplicates without having to lock the whole mentorships
+        # table.
         solution.lock!
-        user.lock!
-
-        # Guard once locked
-        raise NotEnoughCreditsError if user.credits < bounty
         
-        # Check there's not an existing request. By locking the user before we do this
-        # we should be safe that we don't get duplicates here. I'd like a unique index
+        # Check there's not an existing request. I'd like a unique index
         # but that would involve schema change as we allow multiple fulfilled records.
         existing_request = solution.mentor_requests.pending.first
         raise AlreadyRequestedError.new(existing_request) if existing_request
+
+        User::SpendCredits.(solution.user, bounty)
 
         request.save!
       end

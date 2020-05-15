@@ -77,4 +77,18 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     assert_equal 0, Solution::MentorDiscussion.count
   end
 
+  test "request not fullfiled if locked" do
+    mentor = create :user
+    solution = create :practice_solution
+    request = create :solution_mentor_request, solution: solution
+    request.expects(:lockable_by?).with(mentor).returns(false)
+    iteration = create :iteration, solution: solution
+
+    assert_raises SolutionLockedByAnotherMentorError do
+      Mentor::StartDiscussion.(mentor, request, iteration, "foobar")
+    end
+
+    assert_equal :pending, request.reload.status
+    assert_equal 0, Solution::MentorDiscussion.count
+  end
 end

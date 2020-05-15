@@ -104,8 +104,11 @@ ActiveRecord::Schema.define(version: 2020_05_15_225546) do
     t.integer "type", limit: 1, null: false
     t.text "comment"
     t.integer "bounty", limit: 2, null: false
+    t.bigint "locked_by_id"
+    t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["locked_by_id"], name: "index_solution_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_solution_mentor_requests_on_solution_id"
   end
 
@@ -191,6 +194,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_225546) do
   add_foreign_key "solution_mentor_discussions", "solutions"
   add_foreign_key "solution_mentor_discussions", "users", column: "mentor_id"
   add_foreign_key "solution_mentor_requests", "solutions"
+  add_foreign_key "solution_mentor_requests", "users", column: "locked_by_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "track_concepts", "tracks"

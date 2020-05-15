@@ -1,8 +1,6 @@
 class User
   class SubmitIteration
     include Mandate
-    class DuplicateIterationError < RuntimeError; end
-    class TooManyIterationsError < RuntimeError; end
 
     def initialize(solution, files)
       @solution = solution

@@ -58,7 +58,7 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
     User::SubmitIteration.(solution, files)
 
     # The second time *in a row* it should fail
-    assert_raises User::SubmitIteration::DuplicateIterationError do
+    assert_raises DuplicateIterationError do
       User::SubmitIteration.(solution, files)
     end
 

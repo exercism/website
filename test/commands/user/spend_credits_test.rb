@@ -9,7 +9,7 @@ class User::SpendCreditsTest < ActiveSupport::TestCase
 
   test "raises without enough credits" do
     user = create :user, credits: 1
-    assert_raises User::SpendCredits::NotEnoughCreditsError do
+    assert_raises NotEnoughCreditsError do
       User::SpendCredits.(user, 3)
     end
   end

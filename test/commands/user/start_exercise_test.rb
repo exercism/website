@@ -6,7 +6,7 @@ class StartExerciseTest < ActiveSupport::TestCase
     ut = create :user_track
     ut.expects(:exercise_available?).with(ex).returns(false)
 
-    assert_raises User::StartExercise::ExerciseUnavailable do
+    assert_raises ExerciseUnavailableError do
       User::StartExercise.(ut, ex)
     end
   end

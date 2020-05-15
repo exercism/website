@@ -5,6 +5,7 @@ class Solution < ApplicationRecord
   has_many :iterations
 
   has_many :mentor_requests, class_name: "Solution::MentorRequest"
+  has_many :mentor_discussions, class_name: "Solution::MentorDiscussion"
 
   before_create do
     # Search engines derive meaning by using hyphens

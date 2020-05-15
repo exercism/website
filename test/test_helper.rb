@@ -10,6 +10,12 @@ module TestHelpers
   end
 end
 
+class ActiveSupport::TimeWithZone
+  def ==(other)
+    to_i == other.to_i
+  end
+end
+
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
 

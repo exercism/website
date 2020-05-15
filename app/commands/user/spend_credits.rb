@@ -1,7 +1,5 @@
 class User
   class SpendCredits
-    class NotEnoughCreditsError < RuntimeError; end
-
     include Mandate
 
     initialize_with :user, :amount

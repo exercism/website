@@ -1,7 +1,5 @@
 class User
   class StartExercise
-    class ExerciseUnavailable < RuntimeError; end
-
     include Mandate
     initialize_with :user_track, :exercise
 
@@ -16,7 +14,7 @@ class User
 
     private
     def guard!
-      raise ExerciseUnavailable unless user_track.exercise_available?(exercise)
+      raise ExerciseUnavailableError unless user_track.exercise_available?(exercise)
     end
 
     def solution_class 

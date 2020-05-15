@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_002232) do
+ActiveRecord::Schema.define(version: 2020_05_15_225546) do
 
   create_table "exercise_prerequisites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
@@ -76,15 +76,26 @@ ActiveRecord::Schema.define(version: 2020_05_15_002232) do
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
   end
 
-  create_table "solution_mentor_conversations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "solution_discussion_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "iteration_id", null: false
+    t.string "discussion_type", null: false
+    t.bigint "discussion_id", null: false
+    t.text "content_markdown", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discussion_type", "discussion_id"], name: "discussion_post_discussion_idx"
+    t.index ["iteration_id"], name: "index_solution_discussion_posts_on_iteration_id"
+  end
+
+  create_table "solution_mentor_discussions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
     t.bigint "request_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["mentor_id"], name: "index_solution_mentor_conversations_on_mentor_id"
-    t.index ["request_id"], name: "index_solution_mentor_conversations_on_request_id"
-    t.index ["solution_id"], name: "index_solution_mentor_conversations_on_solution_id"
+    t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"
+    t.index ["request_id"], name: "index_solution_mentor_discussions_on_request_id"
+    t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"
   end
 
   create_table "solution_mentor_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -175,9 +186,10 @@ ActiveRecord::Schema.define(version: 2020_05_15_002232) do
   add_foreign_key "iteration_files", "iterations"
   add_foreign_key "iteration_test_runs", "iterations"
   add_foreign_key "iterations", "solutions"
-  add_foreign_key "solution_mentor_conversations", "solution_mentor_requests", column: "request_id"
-  add_foreign_key "solution_mentor_conversations", "solutions"
-  add_foreign_key "solution_mentor_conversations", "users", column: "mentor_id"
+  add_foreign_key "solution_discussion_posts", "iterations"
+  add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
+  add_foreign_key "solution_mentor_discussions", "solutions"
+  add_foreign_key "solution_mentor_discussions", "users", column: "mentor_id"
   add_foreign_key "solution_mentor_requests", "solutions"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"

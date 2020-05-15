@@ -11,6 +11,6 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     request = User::RequestMentor.(solution, 3, :code_review, "")
     assert_equal 2, user.reload.credits
 
-    Mentor::StartConversation.(mentor, request)
+    Mentor::StartDiscussion.(mentor, request, iteration, "This is great!! Why do you even need a mentor?")
   end
 end

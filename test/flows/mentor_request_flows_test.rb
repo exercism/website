@@ -8,7 +8,9 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user
     iteration = create :iteration, solution: solution
 
-    request = User::RequestMentor.(solution, 5, :code_review, "")
+    request = User::RequestMentor.(solution, 3, :code_review, "")
+    assert_equal 2, user.reload.credits
+
     Mentor::StartConversation.(mentor, request)
   end
 end

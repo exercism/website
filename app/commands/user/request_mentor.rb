@@ -28,8 +28,7 @@ class User
 
       ActiveRecord::Base.transaction do
         # By locking the solution before checking the amount of mentorships
-        # we should avoid duplicates without having to lock the whole mentorships
-        # table.
+        # we should avoid duplicates without having to lock the whole requests table
         solution.lock!
         
         # Check there's not an existing request. I'd like a unique index

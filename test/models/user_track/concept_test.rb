@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ExercisePrerequisiteTest < ActiveSupport::TestCase
+class UserTrack::ConceptTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

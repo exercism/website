@@ -1,14 +1,14 @@
 require 'test_helper'
 
-class User::SubmitIterationTest < ActiveSupport::TestCase
+class Iteration::CreateTest < ActiveSupport::TestCase
   test "creates iteration in the database" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
-    digest_1 = Digest::MD5.new.tap {|md5| md5.update(content_1) }.hexdigest
+    digest_1 = Digest::SHA1.hexdigest(content_1)
 
     filename_2 = "barfood.rb"
     content_2 = "something = :else"
-    digest_2 = Digest::MD5.new.tap {|md5| md5.update(content_2) }.hexdigest
+    digest_2 = Digest::SHA1.hexdigest(content_2)
  
     files = [
       { filename: filename_1, content: content_1 },
@@ -22,7 +22,7 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
     Iteration::Representation::Init.expects(:call)
 
     solution = create :concept_solution
-    iteration = User::SubmitIteration.(solution, files)
+    iteration = Iteration::Create.(solution, files)
 
     assert iteration.persisted?
     assert_equal iteration.solution, solution
@@ -55,18 +55,18 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
     Iteration::UploadForStorage.stubs(:call)
 
     # Do it once successfully
-    User::SubmitIteration.(solution, files)
+    Iteration::Create.(solution, files)
 
     # The second time *in a row* it should fail
     assert_raises DuplicateIterationError do
-      User::SubmitIteration.(solution, files)
+      Iteration::Create.(solution, files)
     end
 
     # Submit something different
-    User::SubmitIteration.(solution, [files.first])
+    Iteration::Create.(solution, [files.first])
 
     # The duplicate should now succeed
-    User::SubmitIteration.(solution, files)
+    Iteration::Create.(solution, files)
   end
 
   test "updates solution status" do
@@ -78,7 +78,7 @@ class User::SubmitIterationTest < ActiveSupport::TestCase
 
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
-    User::SubmitIteration.(solution, [files.first])
+    Iteration::Create.(solution, [files.first])
     assert_equal 'submitted', solution.reload.status
   end
 end

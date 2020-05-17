@@ -3,7 +3,7 @@ FactoryBot.define do
     iteration
     ops_status { 200 }
     ops_message { "success" } 
-    raw_analysis {{
+    data {{
       status: "pass",
       comments: []
     }} 

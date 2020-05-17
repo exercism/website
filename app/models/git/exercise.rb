@@ -16,6 +16,11 @@ module Git
       mapped[path] ? repo.read_blob(mapped[path]) : nil
     end
 
+    # TODO - Read this from the config
+    def version
+      "1.0.0"
+    end
+
     private
     attr_reader :repo, :slug, :commit, :track_config
 

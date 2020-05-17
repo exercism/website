@@ -1,5 +1,5 @@
-class User
-  class SubmitIteration
+class Iteration
+  class Create
     include Mandate
 
     def initialize(solution, files)
@@ -9,7 +9,7 @@ class User
 
       @files.each do |f|
         f[:uuid] = SecureRandom.compact_uuid,
-        f[:digest] = digest(f[:content])
+        f[:digest] = Digest::SHA1.hexdigest(f[:content])
       end
     end
 
@@ -77,12 +77,6 @@ class User
     def update_solution!
       solution.status = :submitted if solution.pending?
       solution.save!
-    end
-
-    def digest(content)
-      Digest::MD5.new.tap {|md5|
-        md5.update(content)
-      }.hexdigest
     end
   end
 end

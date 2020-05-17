@@ -3,18 +3,20 @@ class Iteration
     class Process
       include Mandate
 
-      def initialize(iteration_uuid, ops_status, ops_message, analysis_data)
+      def initialize(iteration_uuid, ops_status, ops_message, data)
         @iteration = Iteration.find_by_uuid!(iteration_uuid)
         @ops_status = ops_status.to_i
         @ops_message = ops_message
-        @analysis_data = analysis_data.is_a?(Hash) ? analysis_data.symbolize_keys : {}
+        @data = data.is_a?(Hash) ? data.symbolize_keys : {}
       end
 
       def call
+        # Let's create a record for debugging and to give
+        # us some basis of the next set of decisions etc.
         analysis = iteration.analyses.create!(
           ops_status: ops_status,
           ops_message: ops_message,
-          raw_analysis: analysis_data
+          data: data
         )
 
         # Then all of the submethods here should
@@ -41,7 +43,7 @@ class Iteration
       end
         
       private
-      attr_reader :iteration, :ops_status, :ops_message, :analysis_data
+      attr_reader :iteration, :ops_status, :ops_message, :data
 
       def handle_ops_error!
         iteration.analysis_exceptioned!

@@ -1,5 +1,5 @@
 class Iteration
-  module Representation
+  class Representation
     class Init
       include Mandate
 

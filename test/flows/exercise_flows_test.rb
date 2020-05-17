@@ -22,7 +22,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # Submit an iteration
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
-    basics_iteration_1 = User::SubmitIteration.(basics_solution, [{filename: "basics.rb", content: "my code"}])
+    basics_iteration_1 = Iteration::Create.(basics_solution, [{filename: "basics.rb", content: "my code"}])
 
     Iteration::TestRun::Process.(basics_iteration_1.uuid, 200, "success", {
       status: :pass,

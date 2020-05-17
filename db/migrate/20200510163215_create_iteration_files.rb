@@ -5,7 +5,7 @@ class CreateIterationFiles < ActiveRecord::Migration[6.0]
 
       t.string :uuid, null: false
       t.string :filename, null: false
-      t.text :digest, null: false
+      t.string :digest, null: false
 
       # We're going to save content for now
       # to make local development easier and 

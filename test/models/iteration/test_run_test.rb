@@ -7,6 +7,12 @@ class Iteration::TestRunTest < ActiveSupport::TestCase
     refute create(:iteration_test_run, ops_status: 201).ops_success?
   end
 
+  test "ops_errored?" do
+    assert create(:iteration_test_run, ops_status: 199).ops_errored?
+    refute create(:iteration_test_run, ops_status: 200).ops_errored?
+    assert create(:iteration_test_run, ops_status: 201).ops_errored?
+  end
+
   test "explodes raw_results" do
     status = "foobar"
     message = "some barfoo message"

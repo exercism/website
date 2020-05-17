@@ -23,4 +23,54 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     assert_equal tests, tr.tests
     assert_equal results, tr.send(:raw_results)
   end
+
+  test "handle ops error" do
+    iteration = create :iteration
+    results = {'status' => 'pass', 'message' => "", 'tests' => []}
+    Iteration::TestRun::Process.(iteration.uuid, 500, "", results)
+
+    assert iteration.reload.tests_exceptioned?
+  end
+
+  test "handle tests pass" do
+    iteration = create :iteration
+    results = {'status' => 'pass', 'message' => "", 'tests' => []}
+    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+
+    assert iteration.reload.tests_passed?
+  end
+
+  test "handle tests fail" do
+    iteration = create :iteration
+    results = {'status' => 'fail', 'message' => "", 'tests' => []}
+
+    # Cancel reprsentation and analysis
+    Iteration::Representation::Cancel.expects(:call).with(iteration.uuid)
+    Iteration::Analysis::Cancel.expects(:call).with(iteration.uuid)
+
+    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+
+    assert iteration.reload.tests_failed?
+  end
+
+  test "handle tests error" do
+    iteration = create :iteration
+    results = {'status' => 'error', 'message' => "", 'tests' => []}
+
+    # Cancel reprsentation and analysis
+    Iteration::Representation::Cancel.expects(:call).with(iteration.uuid)
+    Iteration::Analysis::Cancel.expects(:call).with(iteration.uuid)
+
+    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+
+    assert iteration.reload.tests_errored?
+  end
+
+  test "handle bad status" do
+    iteration = create :iteration
+    results = {'status' => 'oops', 'message' => "", 'tests' => []}
+    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+
+    assert iteration.reload.tests_exceptioned?
+  end
 end

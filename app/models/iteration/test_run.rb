@@ -17,6 +17,10 @@ class Iteration::TestRun < ApplicationRecord
     ops_status == 200
   end
 
+  def ops_errored?
+    !ops_success?
+  end
+
   def passed?
     status == :pass
   end

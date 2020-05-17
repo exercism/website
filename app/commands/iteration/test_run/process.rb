@@ -11,11 +11,34 @@ class Iteration
       end
 
       def call
-        iteration.test_runs.create!(
+        # This goes in its own transaction. We want
+        # to record this whatever happens.
+        test_run = iteration.test_runs.create!(
           ops_status: ops_status,
           ops_message: ops_message,
           raw_results: results
         )
+
+        # Then all of the submethods here should
+        # action within transaction setting the 
+        # status to be an error if it fails.
+        begin
+          case
+          when test_run.ops_errored?
+            handle_ops_error!
+          when test_run.passed?
+            handle_pass!
+          when test_run.failed?
+            handle_fail!
+          when test_run.errored?
+            handle_error!
+          else 
+            raise "Unknown status"
+          end
+        rescue
+          iteration.tests_exceptioned!
+        end
+
         # TODO: Mark iteration as tested and broadcast
         # it here, when we've decided how that works
         #iteration.broadcast!
@@ -23,6 +46,29 @@ class Iteration
         
       private
       attr_reader :iteration, :ops_status, :ops_message, :results
+
+      def handle_ops_error!
+        iteration.tests_exceptioned!
+      end
+
+      def handle_pass!
+        iteration.tests_passed!
+      end
+
+      def handle_fail!
+        iteration.tests_failed!
+        cancel_other_services!
+      end
+
+      def handle_error!
+        iteration.tests_errored!
+        cancel_other_services!
+      end
+
+      def cancel_other_services!
+        Iteration::Analysis::Cancel.(iteration.uuid)
+        Iteration::Representation::Cancel.(iteration.uuid)
+      end
     end
   end
 end

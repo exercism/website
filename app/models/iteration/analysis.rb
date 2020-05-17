@@ -16,6 +16,18 @@ class Iteration::Analysis < ApplicationRecord
     ops_status == 200
   end
 
+  def ops_errored?
+    !ops_success?
+  end
+
+  def approved?
+    status == :approved
+  end
+
+  def disapproved?
+    status == :disapproved
+  end
+
   private
   def comments_data
     super

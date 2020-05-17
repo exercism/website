@@ -21,5 +21,37 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
     assert_equal comments, tr.send(:comments_data)
     assert_equal analysis, tr.send(:raw_analysis)
   end
+
+  test "handle ops error" do
+    iteration = create :iteration
+    analysis = {'status' => :pass, 'comments' => []}
+    Iteration::Analysis::Process.(iteration.uuid, 500, "", analysis)
+
+    assert iteration.reload.analysis_exceptioned?
+  end
+
+  test "handle approval" do
+    iteration = create :iteration
+    analysis = {'status' => :approved, 'comments' => []}
+    Iteration::Analysis::Process.(iteration.uuid, 200, "", analysis)
+
+    assert iteration.reload.analysis_approved?
+  end
+
+  test "handle disapproval" do
+    iteration = create :iteration
+    analysis = {'status' => :disapproved, 'comments' => []}
+    Iteration::Analysis::Process.(iteration.uuid, 200, "", analysis)
+
+    assert iteration.reload.analysis_disapproved?
+  end
+
+  test "handle ambiguous" do
+    iteration = create :iteration
+    analysis = {'status' => :ambiguous, 'comments' => []}
+    Iteration::Analysis::Process.(iteration.uuid, 200, "", analysis)
+
+    assert iteration.reload.analysis_exceptioned?
+  end
 end
 

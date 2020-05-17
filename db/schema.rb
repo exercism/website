@@ -82,6 +82,9 @@ ActiveRecord::Schema.define(version: 2020_05_17_154437) do
   create_table "iterations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.string "uuid", null: false
+    t.integer "tests_status", default: 0, null: false
+    t.integer "representation_status", default: 0, null: false
+    t.integer "analysis_status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"

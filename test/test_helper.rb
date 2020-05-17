@@ -4,6 +4,12 @@ require 'rails/test_help'
 require 'mocha/minitest'
 require 'timecop'
 
+# Require the support helper files
+Dir.foreach(Rails.root / "test" / "support") do |path|
+  next if path.starts_with?('.')
+  require Rails.root / "test" / "support" / path
+end
+
 module TestHelpers
   def self.git_repo_url(slug)
     "file://#{(Rails.root / "test" / "repos" / slug.to_s)}"

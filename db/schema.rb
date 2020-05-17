@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_225546) do
+ActiveRecord::Schema.define(version: 2020_05_17_154437) do
 
   create_table "exercise_prerequisites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 2020_05_15_225546) do
     t.index ["exercise_id", "track_concept_id"], name: "index_exercise_prerequisites_on_exercise_id_and_track_concept_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_prerequisites_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_prerequisites_on_track_concept_id"
+  end
+
+  create_table "exercise_representations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.integer "exercise_version", limit: 2, null: false
+    t.text "representation", null: false
+    t.text "feedback_markdown"
+    t.text "feedback_html"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
   end
 
   create_table "exercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -81,6 +92,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_225546) do
     t.string "discussion_type", null: false
     t.bigint "discussion_id", null: false
     t.text "content_markdown", null: false
+    t.text "content_html", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["discussion_type", "discussion_id"], name: "discussion_post_discussion_idx"
@@ -184,6 +196,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_225546) do
 
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
+  add_foreign_key "exercise_representations", "exercises"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "iteration_analyses", "iterations"
   add_foreign_key "iteration_files", "iterations"

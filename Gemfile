@@ -29,6 +29,7 @@ gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
 gem "haml-rails", "~> 2.0"
+gem 'commonmarker'
 gem "ansi-to-html"
 
 group :development, :test do

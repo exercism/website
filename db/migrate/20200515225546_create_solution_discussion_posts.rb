@@ -4,7 +4,7 @@ class CreateSolutionDiscussionPosts < ActiveRecord::Migration[6.0]
       t.belongs_to :iteration, null: false, foreign_key: true
       t.belongs_to :discussion, polymorphic: true, index: {name: "discussion_post_discussion_idx"}, null: false
       t.text :content_markdown, null: false
-      #t.text :content_html, null: false
+      t.text :content_html, null: false
 
       t.timestamps
     end

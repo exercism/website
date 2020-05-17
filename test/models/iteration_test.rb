@@ -7,4 +7,12 @@ class IterationTest < ActiveSupport::TestCase
     assert iteration.representation_pending?
     assert iteration.analysis_pending?
   end
+
+  test "iterations get their solution's git data" do
+    solution = create :concept_solution
+    iteration = create :iteration, solution: solution
+
+    assert_equal solution.git_sha, iteration.git_sha
+    assert_equal solution.git_slug, iteration.git_slug
+  end
 end

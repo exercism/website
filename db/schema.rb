@@ -85,6 +85,8 @@ ActiveRecord::Schema.define(version: 2020_05_17_154437) do
     t.integer "tests_status", default: 0, null: false
     t.integer "representation_status", default: 0, null: false
     t.integer "analysis_status", default: 0, null: false
+    t.string "git_slug", null: false
+    t.string "git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"

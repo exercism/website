@@ -1,6 +1,13 @@
 class ParseMarkdown
   include Mandate
 
+  #TODO This needs fixing in mandate but I don't know
+  # how to do it without breaking hashes passed as the
+  # last argument. 
+  def self.call(*args, **kwargs)
+    new(*args, **kwargs).call
+  end
+
   def initialize(text, nofollow_links: false)
     @text = text.to_s
     @nofollow_links = nofollow_links

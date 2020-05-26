@@ -1,12 +1,15 @@
-require "test_helper"
+require 'test_helper'
 
 class ExerciseFlowsTest < ActiveSupport::TestCase
-  test "start a track and submit an exercise" do
+  test 'start a track and submit an exercise that gets approved' do
     track = create :track
-    concept_exercise_basics = create :concept_exercise, track: track, slug: 'basics', prerequisites: []
-    concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
+    concept_exercise_basics =
+      create :concept_exercise, track: track, slug: 'basics', prerequisites: []
+    concept_exercise_strings =
+      create :concept_exercise, track: track, slug: 'strings', prerequisites: []
     create :exercise_prerequisite, exercise: concept_exercise_strings
     user = create :user
+    mentor = create :user
 
     # User joins the track
     # Check its retrieved correctly.
@@ -17,28 +20,55 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_basics], ut.available_concept_exercises
 
     # Start the exercise and get a solution
-    basics_solution = User::StartExercise.(ut, concept_exercise_basics)
+    basics_solution = User::StartExercise.call(ut, concept_exercise_basics)
 
     # Submit an iteration
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
-    basics_iteration_1 = Iteration::Create.(basics_solution, [{filename: "basics.rb", content: "my code"}])
+    basics_iteration_1 =
+      Iteration::Create.call(
+        basics_solution,
+        [{ filename: 'basics.rb', content: 'my code' }]
+      )
 
-    Iteration::TestRun::Process.(basics_iteration_1.uuid, 200, "success", {
-      status: :pass,
-      message: nil,
-      tests: [{
-        name: "test1",
-        status: "pass"
-      }]
-    })
+    # Simulate a test run being returned
+    # It should pass
+    Iteration::TestRun::Process.call(
+      basics_iteration_1.uuid,
+      200,
+      'success',
+      {
+        status: :pass, message: nil, tests: [{ name: 'test1', status: 'pass' }]
+      }
+    )
+    assert basics_iteration_1.reload.tests_passed?
 
-    Iteration::Analysis::Process.(basics_iteration_1.uuid, 200, "success", {
-      status: :pass,
-      comments: [{
-        name: "test1",
-        data: []
-      }]
-    })
+    # Simulate an analysis being returned
+    # It should be inconclusive
+    Iteration::Analysis::Process.call(
+      basics_iteration_1.uuid,
+      200,
+      'success',
+      { status: :inconclusive, comments: [] }
+    )
+    assert basics_iteration_1.reload.analysis_inconclusive?
+
+    # Create a representation with feedback that should be given
+    # It should approve with comment
+    exercise_representation =
+      create :exercise_representation,
+             exercise: concept_exercise_basics,
+             exercise_version: 1,
+             ast_digest: Iteration::Representation.digest_ast('some ast'),
+             action: :approve,
+             feedback_markdown: "Fantastic Work!!",
+             feedback_author: mentor
+    Iteration::Representation::Process.call(
+      basics_iteration_1.uuid,
+      200,
+      'success',
+      'some ast'
+    )
+    assert basics_iteration_1.reload.representation_approved?
   end
 end

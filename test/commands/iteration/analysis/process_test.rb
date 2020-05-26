@@ -38,6 +38,14 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
     assert iteration.reload.analysis_approved?
   end
 
+  test "handle inconclusive" do
+    iteration = create :iteration
+    data = {'status' => :inconclusive, 'comments' => []}
+    Iteration::Analysis::Process.(iteration.uuid, 200, "", data)
+
+    assert iteration.reload.analysis_inconclusive?
+  end
+
   test "handle disapproval" do
     iteration = create :iteration
     data = {'status' => :disapproved, 'comments' => []}
@@ -45,6 +53,7 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
 
     assert iteration.reload.analysis_disapproved?
   end
+
 
   test "handle ambiguous" do
     iteration = create :iteration

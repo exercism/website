@@ -30,6 +30,8 @@ class Iteration
             handle_approved!
           when analysis.disapproved?
             handle_disapproved!
+          when analysis.inconclusive?
+            handle_inconclusive!
           else 
             raise "Unknown status"
           end
@@ -55,6 +57,10 @@ class Iteration
 
       def handle_disapproved!
         iteration.analysis_disapproved!
+      end
+
+      def handle_inconclusive!
+        iteration.analysis_inconclusive!
       end
     end
   end

@@ -27,6 +27,10 @@ class Iteration::Analysis < ApplicationRecord
     status == :disapproved
   end
 
+  def inconclusive?
+    status == :inconclusive
+  end
+
   private
   # TODO Memoize
   def data

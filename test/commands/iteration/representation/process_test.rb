@@ -53,4 +53,56 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     assert_equal 3, Iteration::Representation.count
     assert_equal 2, Exercise::Representation.count
   end
+
+  test "handle ops error" do
+    iteration = create :iteration
+    Iteration::Representation::Process.(iteration.uuid, 500, "", "ast")
+
+    assert iteration.reload.representation_exceptioned?
+  end
+
+  test "handle approval" do
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    exercise_representation = create :exercise_representation, 
+      exercise: exercise,
+      exercise_version: 1,
+      ast_digest: Iteration::Representation.digest_ast(ast),
+      action: :approve
+
+    iteration = create :iteration, exercise: exercise
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+
+    assert iteration.reload.representation_approved?
+  end
+
+  test "handle disapproved" do
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    exercise_representation = create :exercise_representation, 
+      exercise: exercise,
+      exercise_version: 1,
+      ast_digest: Iteration::Representation.digest_ast(ast),
+      action: :disapprove
+
+    iteration = create :iteration, exercise: exercise
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+
+    assert iteration.reload.representation_disapproved?
+  end
+
+  test "handle inconclusive" do
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    exercise_representation = create :exercise_representation, 
+      exercise: exercise,
+      exercise_version: 1,
+      ast_digest: Iteration::Representation.digest_ast(ast),
+      action: :pending
+
+    iteration = create :iteration, exercise: exercise
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+
+    assert iteration.reload.representation_inconclusive?
+  end
 end

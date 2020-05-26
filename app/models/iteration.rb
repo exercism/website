@@ -9,8 +9,8 @@ class Iteration < ApplicationRecord
   has_many :representations, class_name: "Iteration::Representation"
 
   enum tests_status: [:pending, :passed, :failed, :errored, :exceptioned], _prefix: "tests"
-  enum representation_status: [:pending, :approved, :disapproved, :inclusive, :exceptioned], _prefix: "representation"
-  enum analysis_status: [:pending, :approved, :disapproved, :exceptioned], _prefix: "analysis"
+  enum representation_status: [:pending, :approved, :disapproved, :inconclusive, :exceptioned], _prefix: "representation"
+  enum analysis_status: [:pending, :approved, :disapproved, :inconclusive, :exceptioned], _prefix: "analysis"
 
   before_create do
     self.git_slug = solution.git_slug

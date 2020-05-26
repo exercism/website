@@ -29,10 +29,15 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
     t.string "ast_digest", null: false
     t.text "feedback_markdown"
     t.text "feedback_html"
+    t.bigint "feedback_author_id"
+    t.bigint "feedback_editor_id"
+    t.integer "action", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id", "exercise_version", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
+    t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
+    t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
   end
 
   create_table "exercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -213,6 +218,8 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"
+  add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
+  add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "iteration_analyses", "iterations"
   add_foreign_key "iteration_files", "iterations"

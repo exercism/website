@@ -5,8 +5,13 @@ class CreateExerciseRepresentations < ActiveRecord::Migration[6.0]
       t.integer :exercise_version, null: false, limit: 2
       t.text :ast, null: false
       t.string :ast_digest, null: false
+
       t.text :feedback_markdown, null: true
       t.text :feedback_html, null: true
+      t.belongs_to :feedback_author, foreign_key: {to_table: :users}, null: true
+      t.belongs_to :feedback_editor, foreign_key: {to_table: :users}, null: true
+
+      t.integer :action, null: false, default: 0
 
       t.timestamps
 

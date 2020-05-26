@@ -18,6 +18,6 @@ class IterationTest < ActiveSupport::TestCase
 
   test "exercise_version" do
     iteration = create :iteration
-    assert_equal '1.0.0', iteration.exercise_version
+    assert_equal '15.8.12', iteration.exercise_version
   end
 end

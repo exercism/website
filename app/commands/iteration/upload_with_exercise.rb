@@ -25,8 +25,10 @@ class Iteration
     attr_reader :iteration_uuid, :exercise_slug, :git_sha, :track_repo, :iteration_files, :files_to_upload
 
     def add_iteration_files
+      #TODO Skip files that have non alphanumeric chars
       iteration_files.each do |filename, code|
         next if filename =~ track_repo.test_regexp
+        next if filename.starts_with?(".meta")
         next if files_to_upload[filename]
         files_to_upload[filename] = code
       end

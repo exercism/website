@@ -10,6 +10,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
       "subdir/more_bob.rb" => "Overriden subdir solution file", # Override old file
       "subdir/new_file.rb" => "New file contents", # Add new file
       "bob_test.rb" => "Overriden tests", # Don't override tests
+      ".meta/config.json" => "Overriden config", # Don't override tests
     }
 
     {
@@ -18,6 +19,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
       "README.md": "README content\n",
       "subdir/more_bob.rb": "Overriden subdir solution file",
       "subdir/new_file.rb": "New file contents",
+      ".meta/config.json": "{\n  \"version\": \"15.8.12\"\n}\n",
     }.each do |filename, content|
       s3_client.expects(:put_object).with(
         bucket: Exercism.config.aws_iterations_bucket,
@@ -27,7 +29,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
       )
     end
 
-    Aws::S3::Client.expects(:new).times(5).returns(s3_client)
+    Aws::S3::Client.expects(:new).times(6).returns(s3_client)
     Iteration::UploadWithExercise.(iteration_uuid, solution.git_slug, solution.git_sha, solution.track.repo, iteration_files)
   end
 end

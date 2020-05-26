@@ -16,9 +16,8 @@ module Git
       mapped[path] ? repo.read_blob(mapped[path]) : nil
     end
 
-    # TODO - Read this from the config
     def version
-      "1.0.0"
+      config[:version]
     end
 
     private
@@ -37,6 +36,13 @@ module Git
       oid = commit.tree['exercises'][:oid]
       exercises = repo.lookup_tree(oid)
       repo.lookup_tree(exercises[slug][:oid])
+    end
+
+    #TODO memoize
+    def config
+      HashWithIndifferentAccess.new(
+        JSON.parse(read_file_blob('.meta/config.json'))
+      )
     end
   end
 end

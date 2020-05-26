@@ -13,11 +13,12 @@ class Iteration::Representation < ApplicationRecord
     !ops_success?
   end
 
+  #TOOD: Memoize
   def exercise_representation
     Exercise::Representation.find_by!(
-      exercise: exercise,
-      exercise_version: exercise_version,
-      ast_digest: iteration_representation.ast_digest
+      exercise: iteration.exercise,
+      exercise_version: iteration.exercise_version,
+      ast_digest: ast_digest
     )
   end
 

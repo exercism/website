@@ -34,7 +34,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
 
     # TODO: Check the exercise version properly here. 
     # Add it to the git repo and check it retrieves correctly
-    assert_equal 1, representation.exercise_version
+    assert_equal 15, representation.exercise_version
   end
 
   test "test exercise representations are reused" do
@@ -66,7 +66,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     exercise_representation = create :exercise_representation, 
       exercise: exercise,
-      exercise_version: 1,
+      exercise_version: 15,
       ast_digest: Iteration::Representation.digest_ast(ast),
       action: :approve
 
@@ -81,7 +81,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     exercise_representation = create :exercise_representation, 
       exercise: exercise,
-      exercise_version: 1,
+      exercise_version: 15,
       ast_digest: Iteration::Representation.digest_ast(ast),
       action: :disapprove
 
@@ -99,7 +99,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     exercise_representation = create :exercise_representation, 
       exercise: exercise,
-      exercise_version: 1,
+      exercise_version: 15,
       ast_digest: Iteration::Representation.digest_ast(ast),
       action: :disapprove,
       feedback_author: mentor,
@@ -119,7 +119,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     exercise_representation = create :exercise_representation, 
       exercise: exercise,
-      exercise_version: 1,
+      exercise_version: 15,
       ast_digest: Iteration::Representation.digest_ast(ast),
       action: :pending
 

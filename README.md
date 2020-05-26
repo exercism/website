@@ -63,7 +63,7 @@ cd /Users/iHiD/Code/exercism/v3/test/repos/new-repo
 git init --bare
 
 cd ~
-git clone file:///Users/iHiD/Code/exercism/v3/test/repos/track exercism-new-git-repo
+git clone file:///Users/iHiD/Code/exercism/v3/test/repos/new-repo exercism-new-git-repo
 cd exercism-new-git-repo
 echo "{}" > config.json
 git add config.json

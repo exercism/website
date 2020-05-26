@@ -7,6 +7,7 @@ class Iteration < ApplicationRecord
   has_many :test_runs, class_name: "Iteration::TestRun"
   has_many :analyses, class_name: "Iteration::Analysis"
   has_many :representations, class_name: "Iteration::Representation"
+  has_many :discussion_posts, class_name: "Iteration::DiscussionPost"
 
   enum tests_status: [:pending, :passed, :failed, :errored, :exceptioned], _prefix: "tests"
   enum representation_status: [:pending, :approved, :disapproved, :inconclusive, :exceptioned], _prefix: "representation"
@@ -16,17 +17,8 @@ class Iteration < ApplicationRecord
     self.git_slug = solution.git_slug
     self.git_sha = solution.git_sha
   end
-end
 
-=begin
-- Tests Passwed
-- Tests Fail
-- Tests Error
-- Representation Approved
-- Representation Disapproved
-- Representation Inconclusive
-- Representation Errored
-- Analysis Approved
-- Analysis Disapproved
-- Analysis Errored
-=end
+  def exercise_version
+    track.repo.exercise(git_slug, git_sha).version
+  end
+end

@@ -24,7 +24,8 @@ module Mentor
 
         Iteration::DiscussionPost.create!(
           iteration: iteration,
-          discussion: discussion,
+          source: discussion,
+          user: mentor,
           content_markdown: content_markdown
         )
       end

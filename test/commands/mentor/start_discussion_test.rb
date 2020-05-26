@@ -19,6 +19,7 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
 
     assert_equal 1, discussion.posts.count
     assert_equal content_markdown, discussion.posts.first.content_markdown
+    assert_equal mentor, discussion.posts.first.user
   end
 
   test "fulfils request" do

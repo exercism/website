@@ -24,4 +24,10 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     refute create(:exercise_representation, action: :approve).disapprove?
     assert create(:exercise_representation, action: :disapprove).disapprove?
   end
+
+  test "has_feedback?" do
+    refute create(:exercise_representation, feedback_markdown: "foo", feedback_author: nil).has_feedback?
+    refute create(:exercise_representation, feedback_markdown: nil, feedback_author: create(:user)).has_feedback?
+    assert create(:exercise_representation, feedback_markdown: "foo", feedback_author: create(:user)).has_feedback?
+  end
 end

@@ -13,6 +13,14 @@ class Iteration::Representation < ApplicationRecord
     !ops_success?
   end
 
+  def exercise_representation
+    Exercise::Representation.find_by!(
+      exercise: exercise,
+      exercise_version: exercise_version,
+      ast_digest: iteration_representation.ast_digest
+    )
+  end
+
   def self.digest_ast(ast)
     Digest::SHA1.hexdigest(ast)
   end

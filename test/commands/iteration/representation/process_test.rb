@@ -91,6 +91,29 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     assert iteration.reload.representation_disapproved?
   end
 
+  test "handle disapproved with comments" do
+    mentor = create :user
+    feedback = "foobar"
+
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    exercise_representation = create :exercise_representation, 
+      exercise: exercise,
+      exercise_version: 1,
+      ast_digest: Iteration::Representation.digest_ast(ast),
+      action: :disapprove,
+      feedback_author: mentor,
+      feedback_markdown: feedback
+
+    iteration = create :iteration, exercise: exercise
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+
+    assert iteration.reload.representation_disapproved?
+    assert_equal 1, iteration.reload.discussion_posts.size
+    assert_equal mentor, iteration.reload.discussion_posts.first.user
+    assert_equal feedback, iteration.reload.discussion_posts.first.content_markdown
+  end
+
   test "handle inconclusive" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise

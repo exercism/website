@@ -13,7 +13,7 @@ class Iteration
       def call
         # Let's create a record for debugging and to give
         # us some basis of the next set of decisions etc.
-        iteration_representation = Iteration::Representation.create!(
+        @iteration_representation = Iteration::Representation.create!(
           iteration: iteration,
           ops_status: ops_status,
           ops_message: ops_message,
@@ -24,7 +24,7 @@ class Iteration
 
         # Now we need to check to see if we already have an exercise
         # representation for this iteration and version
-        exercise_representation = Exercise::Representation.create_or_find_by!(
+        @exercise_representation = Exercise::Representation.create_or_find_by!(
           exercise: iteration.exercise,
           exercise_version: exercise_version,
           ast_digest: iteration_representation.ast_digest
@@ -50,13 +50,12 @@ class Iteration
 
       end
       attr_reader :iteration, :ops_status, :ops_message, :ast
+      attr_reader :iteration_representation, :exercise_representation
 
       private
 
       def exercise_version
-        git_track = iteration.track.repo
-        git_exercise = git_track.exercise(iteration.git_slug, iteration.git_sha)
-        git_exercise.version.to_i # to_i returns everything up to the dot
+        iteration.exercise_version.to_i # to_i returns everything up to the dot
       end
 
       def handle_ops_error!
@@ -65,14 +64,26 @@ class Iteration
 
       def handle_approve!
         iteration.representation_approved!
+        create_discussion_post!
       end
 
       def handle_disapprove!
         iteration.representation_disapproved!
+        create_discussion_post!
       end
 
       def handle_pending!
         iteration.representation_inconclusive!
+      end
+
+      def create_discussion_post!
+        return unless exercise_representation.has_feedback?
+
+        Iteration::DiscussionPost::CreateFromRepresentation.(
+          iteration, 
+          iteration_representation,
+          exercise_representation
+        )
       end
     end
   end

@@ -15,4 +15,9 @@ class IterationTest < ActiveSupport::TestCase
     assert_equal solution.git_sha, iteration.git_sha
     assert_equal solution.git_slug, iteration.git_slug
   end
+
+  test "exercise_version" do
+    iteration = create :iteration
+    assert_equal '1.0.0', iteration.exercise_version
+  end
 end

@@ -1,4 +1,4 @@
-class Solution::DiscussionPost < ApplicationRecord
+class Iteration::DiscussionPost < ApplicationRecord
   belongs_to :discussion, polymorphic: true
   belongs_to :iteration
 

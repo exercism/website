@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
     t.index ["iteration_id"], name: "index_iteration_analyses_on_iteration_id"
   end
 
+  create_table "iteration_discussion_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "iteration_id", null: false
+    t.string "discussion_type", null: false
+    t.bigint "discussion_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discussion_type", "discussion_id"], name: "discussion_post_discussion_idx"
+    t.index ["iteration_id"], name: "index_iteration_discussion_posts_on_iteration_id"
+  end
+
   create_table "iteration_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.string "uuid", null: false
@@ -106,18 +118,6 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
-  end
-
-  create_table "solution_discussion_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.string "discussion_type", null: false
-    t.bigint "discussion_id", null: false
-    t.text "content_markdown", null: false
-    t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["discussion_type", "discussion_id"], name: "discussion_post_discussion_idx"
-    t.index ["iteration_id"], name: "index_solution_discussion_posts_on_iteration_id"
   end
 
   create_table "solution_mentor_discussions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -222,11 +222,11 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "iteration_analyses", "iterations"
+  add_foreign_key "iteration_discussion_posts", "iterations"
   add_foreign_key "iteration_files", "iterations"
   add_foreign_key "iteration_representations", "iterations"
   add_foreign_key "iteration_test_runs", "iterations"
   add_foreign_key "iterations", "solutions"
-  add_foreign_key "solution_discussion_posts", "iterations"
   add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
   add_foreign_key "solution_mentor_discussions", "solutions"
   add_foreign_key "solution_mentor_discussions", "users", column: "mentor_id"

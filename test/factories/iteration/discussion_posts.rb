@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :solution_discussion_post, class: 'Solution::DiscussionPost' do
+  factory :iteration_discussion_post, class: 'Iteration::DiscussionPost' do
     iteration
     discussion { create :solution_mentor_discussion }
     content_markdown { "Some interesting text" }

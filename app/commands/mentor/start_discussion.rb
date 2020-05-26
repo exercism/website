@@ -22,7 +22,7 @@ module Mentor
           request: request
         )
 
-        Solution::DiscussionPost.create!(
+        Iteration::DiscussionPost.create!(
           iteration: iteration,
           discussion: discussion,
           content_markdown: content_markdown

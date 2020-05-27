@@ -7,7 +7,7 @@ This is the WIP website for Exercism v3.
 
 ## Local setup
 
-### OS-Specific
+### OS-Specific
 
 #### Mac
 

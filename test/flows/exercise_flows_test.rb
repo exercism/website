@@ -3,10 +3,8 @@ require 'test_helper'
 class ExerciseFlowsTest < ActiveSupport::TestCase
   test 'start a track and submit an exercise that gets approved' do
     track = create :track
-    concept_exercise_basics =
-      create :concept_exercise, track: track, slug: 'basics', prerequisites: []
-    concept_exercise_strings =
-      create :concept_exercise, track: track, slug: 'strings', prerequisites: []
+    concept_exercise_basics = create :concept_exercise, track: track, slug: 'bob', prerequisites: []
+    concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
     create :exercise_prerequisite, exercise: concept_exercise_strings
     user = create :user
     mentor = create :user

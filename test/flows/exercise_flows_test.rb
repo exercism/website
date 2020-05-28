@@ -11,20 +11,20 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # User joins the track
     # Check its retrieved correctly.
-    ut = User::JoinTrack.call(user, track)
+    ut = User::JoinTrack.(user, track)
     assert_equal ut, UserTrack.for!(user, track)
 
     # Check we only have basics to start with
     assert_equal [concept_exercise_basics], ut.available_concept_exercises
 
     # Start the exercise and get a solution
-    basics_solution = User::StartExercise.call(ut, concept_exercise_basics)
+    basics_solution = User::StartExercise.(ut, concept_exercise_basics)
 
     # Submit an iteration
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
     basics_iteration_1 =
-      Iteration::Create.call(
+      Iteration::Create.(
         basics_solution,
         [{ filename: 'basics.rb', content: 'my code' }],
         :cli
@@ -32,7 +32,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # Simulate a test run being returned
     # It should pass
-    Iteration::TestRun::Process.call(
+    Iteration::TestRun::Process.(
       basics_iteration_1.uuid,
       200,
       'success',
@@ -44,7 +44,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # Simulate an analysis being returned
     # It should be inconclusive
-    Iteration::Analysis::Process.call(
+    Iteration::Analysis::Process.(
       basics_iteration_1.uuid,
       200,
       'success',
@@ -62,7 +62,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
              action: :approve,
              feedback_markdown: "Fantastic Work!!",
              feedback_author: mentor
-    Iteration::Representation::Process.call(
+    Iteration::Representation::Process.(
       basics_iteration_1.uuid,
       200,
       'success',

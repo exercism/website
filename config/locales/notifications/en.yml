@@ -3,6 +3,6 @@ en:
     mentor_discussion_started:
       1: >
         %{mentor_name} has started mentoring your solution to %{track_title}:%{exercise_title}
-    mentor_reply:
+    mentor_replied:
       1: >
-        Some text here
+        %{mentor_name} has added a new comment on your solution to %{track_title}:%{exercise_title}

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Notification::MentorDiscussionStartedNotificationTest < ActiveSupport::TestCase
-  test "i18n for mentor_discussion_started" do
+  test "text is valid" do
     track = create :track
     exercise = create :practice_exercise, track: track
     mentor = create(:user)

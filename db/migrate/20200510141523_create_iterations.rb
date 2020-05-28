@@ -8,6 +8,8 @@ class CreateIterations < ActiveRecord::Migration[6.0]
       t.integer :representation_status, null: false, default:0 
       t.integer :analysis_status, null: false, default: 0
 
+      t.string :submitted_via, null: false
+
       t.string :git_slug, null: false
       t.string :git_sha, null: false
 

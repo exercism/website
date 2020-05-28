@@ -28,7 +28,20 @@ module Mentor
           user: mentor,
           content_markdown: content_markdown
         )
+
+        Notification::Create.(
+          solution.user,
+          :mentor_discussion_started,
+          {
+            discussion: discussion
+          }
+        )
       end
+    end
+
+    private 
+    def solution
+      request.solution
     end
   end
 end

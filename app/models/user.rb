@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :solutions
+  has_many :notifications
+
   has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition"
 
   def self.for!(param)

@@ -3,5 +3,6 @@ FactoryBot.define do
     track
     uuid { SecureRandom.uuid }
     slug { :bob }
+    title { "Bob" }
   end
 end

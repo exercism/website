@@ -22,6 +22,16 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     assert_equal mentor, discussion.posts.first.user
   end
 
+  test "creates notification" do
+    request = create :solution_mentor_request
+    iteration = create :iteration, solution: request.solution
+    user = request.solution.user
+    Mentor::StartDiscussion.(create(:user), request, iteration, "foobar")
+
+    assert_equal 1, user.notifications.size
+    assert_equal Notification::MentorDiscussionStartedNotification, user.notifications.first.class
+  end
+
   test "fulfils request" do
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution

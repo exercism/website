@@ -22,7 +22,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Representation::Init.expects(:call)
 
     solution = create :concept_solution
-    iteration = Iteration::Create.(solution, files)
+    iteration = Iteration::Create.(solution, files, :cli)
 
     assert iteration.persisted?
     assert_equal iteration.solution, solution
@@ -55,18 +55,18 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::UploadForStorage.stubs(:call)
 
     # Do it once successfully
-    Iteration::Create.(solution, files)
+    Iteration::Create.(solution, files, :cli)
 
     # The second time *in a row* it should fail
     assert_raises DuplicateIterationError do
-      Iteration::Create.(solution, files)
+      Iteration::Create.(solution, files, :cli)
     end
 
     # Submit something different
-    Iteration::Create.(solution, [files.first])
+    Iteration::Create.(solution, [files.first], :cli)
 
     # The duplicate should now succeed
-    Iteration::Create.(solution, files)
+    Iteration::Create.(solution, files, :cli)
   end
 
   test "updates solution status" do
@@ -78,7 +78,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
-    Iteration::Create.(solution, [files.first])
+    Iteration::Create.(solution, [files.first], :cli)
     assert_equal 'submitted', solution.reload.status
   end
 end

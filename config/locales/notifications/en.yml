@@ -1,0 +1,8 @@
+en: 
+  notifications:
+    mentor_discussion_started:
+      1: >
+        %{mentor_name} has started mentoring your solution to %{track_title}:%{exercise_title}
+    mentor_reply:
+      1: >
+        Some text here

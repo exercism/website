@@ -26,7 +26,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     basics_iteration_1 =
       Iteration::Create.call(
         basics_solution,
-        [{ filename: 'basics.rb', content: 'my code' }]
+        [{ filename: 'basics.rb', content: 'my code' }],
+        :cli
       )
 
     # Simulate a test run being returned

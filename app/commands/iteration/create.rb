@@ -2,9 +2,10 @@ class Iteration
   class Create
     include Mandate
 
-    def initialize(solution, files)
+    def initialize(solution, files, submitted_via)
       @solution = solution
       @files = files
+      @submitted_via = submitted_via
       @iteration_uuid = SecureRandom.compact_uuid
 
       @files.each do |f|
@@ -39,7 +40,7 @@ class Iteration
     end
 
     private
-    attr_reader :solution, :files, :iteration_uuid
+    attr_reader :solution, :files, :iteration_uuid, :submitted_via
 
     def guard!
       last_iteration = solution.iterations.last
@@ -67,7 +68,10 @@ class Iteration
     end
 
     def create_iteration!
-      solution.iterations.create!(uuid: iteration_uuid).tap do |iteration|
+      solution.iterations.create!(
+        uuid: iteration_uuid, 
+        submitted_via: submitted_via
+      ).tap do |iteration|
         files.each do |file|
           iteration.files.create!(file.slice(:uuid, :filename, :content, :digest))
         end

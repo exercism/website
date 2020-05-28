@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_17_182800) do
+ActiveRecord::Schema.define(version: 2020_05_27_151811) do
 
   create_table "exercise_prerequisites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
     t.string "uuid", null: false
     t.string "type", null: false
     t.string "slug", null: false
+    t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_exercises_on_track_id"
@@ -115,11 +116,24 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
     t.integer "tests_status", default: 0, null: false
     t.integer "representation_status", default: 0, null: false
     t.integer "analysis_status", default: 0, null: false
+    t.string "submitted_via", null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
+  end
+
+  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "type", null: false
+    t.integer "version", null: false
+    t.json "params", null: false
+    t.boolean "email_status", default: false, null: false
+    t.boolean "read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "solution_mentor_discussions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -230,6 +244,7 @@ ActiveRecord::Schema.define(version: 2020_05_17_182800) do
   add_foreign_key "iteration_representations", "iterations"
   add_foreign_key "iteration_test_runs", "iterations"
   add_foreign_key "iterations", "solutions"
+  add_foreign_key "notifications", "users"
   add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
   add_foreign_key "solution_mentor_discussions", "solutions"
   add_foreign_key "solution_mentor_discussions", "users", column: "mentor_id"

@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/ihid/mandate.git
+  revision: 809ff0a87c53b39bd8741dc54dff4b4d2e75004d
+  branch: AndrewRadev-keyword-args
+  specs:
+    mandate (0.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -147,7 +154,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mandate (0.3.0)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     maruku (0.7.3)
@@ -328,7 +334,7 @@ DEPENDENCIES
   haml-rails (~> 2.0)
   image_processing (~> 1.2)
   listen (>= 3.0.5, < 3.2)
-  mandate
+  mandate!
   mocha
   mysql2 (>= 0.4.4)
   puma (~> 4.1)

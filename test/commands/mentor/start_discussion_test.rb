@@ -29,7 +29,7 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     Mentor::StartDiscussion.(create(:user), request, iteration, "foobar")
 
     assert_equal 1, user.notifications.size
-    assert_equal Notification::MentorDiscussionStartedNotification, user.notifications.first.class
+    assert_equal Notification::MentorStartedDiscussionNotification, user.notifications.first.class
   end
 
   test "fulfils request" do

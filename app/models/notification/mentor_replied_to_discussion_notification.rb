@@ -1,5 +1,5 @@
 class Notification
-  class MentorDiscussionStartedNotification < Notification
+  class MentorRepliedToDiscussionNotification < Notification
     def i18n_params
       {
         mentor_name: mentor.handle,
@@ -18,17 +18,18 @@ class Notification
     end
 
     def solution
-      discussion.solution
+      discussion_post.solution
     end
 
     def mentor
-      discussion.mentor
+      discussion_post.user
     end
 
-    def discussion
-      params[:discussion]
+    def discussion_post
+      params[:discussion_post]
     end
+
+
 
   end
 end
-

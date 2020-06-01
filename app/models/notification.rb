@@ -47,11 +47,12 @@ class Notification < ApplicationRecord
     end
   end
 
-
   private
   def latest_i18n_version
     I18n.backend.send(:init_translations)
     I18n.backend.send(:translations)[:en][:notifications][i18n_key].keys.first
+  rescue
+    raise "Missing key for this notification"
   end
 
   def i18n_key

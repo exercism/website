@@ -9,8 +9,13 @@ class NotificationsFlowsTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution
     content_markdown = "This\nis some sort of\nreply"
 
-    Mentor::StartDiscussion.(mentor, request, iteration, content_markdown)
-
+    discussion = Mentor::StartDiscussion.(mentor, request, iteration, content_markdown)
     assert_equal 1, user.notifications.count
+
+    User::ReplyToDiscussion.(discussion, iteration, "This is great")
+    assert_equal 1, mentor.notifications.count
+
+    Mentor::ReplyToDiscussion.(discussion, iteration, "This is great")
+    assert_equal 2, user.notifications.count
   end
 end

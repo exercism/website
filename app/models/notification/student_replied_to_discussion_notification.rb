@@ -1,8 +1,8 @@
 class Notification
-  class MentorRepliedNotification < Notification
+  class StudentRepliedToDiscussionNotification < Notification
     def i18n_params
       {
-        mentor_name: mentor.handle,
+        student_name: student.handle,
         track_title: track.title,
         exercise_title: exercise.title
       }
@@ -17,19 +17,17 @@ class Notification
       solution.exercise
     end
 
-    def solution
-      discussion_post.solution
+    def student
+      solution.user
     end
 
-    def mentor
-      discussion_post.user
+    def solution
+      discussion_post.solution
     end
 
     def discussion_post
       params[:discussion_post]
     end
-
-
-
   end
 end
+

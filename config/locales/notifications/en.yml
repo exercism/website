@@ -1,8 +1,13 @@
 en: 
   notifications:
-    mentor_discussion_started:
+    
+    # Mentoring
+    mentor_started_discussion:
       1: >
         %{mentor_name} has started mentoring your solution to %{track_title}:%{exercise_title}
-    mentor_replied:
+    mentor_replied_to_discussion:
       1: >
         %{mentor_name} has added a new comment on your solution to %{track_title}:%{exercise_title}
+    student_replied_to_discussion:
+      1: >
+        %{student_name} has added a new comment on the solution you are mentoring for %{track_title}:%{exercise_title}

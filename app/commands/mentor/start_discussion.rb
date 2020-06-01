@@ -22,7 +22,7 @@ module Mentor
           request: request
         )
 
-        Iteration::DiscussionPost.create!(
+        discussion_post = Iteration::DiscussionPost.create!(
           iteration: iteration,
           source: discussion,
           user: mentor,
@@ -31,11 +31,14 @@ module Mentor
 
         Notification::Create.(
           solution.user,
-          :mentor_discussion_started,
-          {
-            discussion: discussion
+          :mentor_started_discussion,
+          { 
+            discussion: discussion,
+            discussion_post: discussion_post
           }
         )
+
+        discussion
       end
     end
 

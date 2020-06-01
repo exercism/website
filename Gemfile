@@ -15,7 +15,7 @@ gem 'rugged' # Git
 gem 'rest-client' # http
 
 # General-purpose gems
-gem 'mandate'
+gem 'mandate', github: "ihid/mandate", branch: "AndrewRadev-keyword-args"
 
 # Setup dependencies
 gem 'bootsnap', '>= 1.4.2', require: false

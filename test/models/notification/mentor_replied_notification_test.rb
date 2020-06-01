@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Notification::MentorRepliedNotificationTest < ActiveSupport::TestCase
+class Notification::MentorRepliedToDiscussionNotificationTest < ActiveSupport::TestCase
   test "text is valid" do
     track = create :track
     exercise = create :practice_exercise, track: track
@@ -9,7 +9,7 @@ class Notification::MentorRepliedNotificationTest < ActiveSupport::TestCase
     mentor = create(:user)
     discussion_post = create(:iteration_discussion_post, iteration: iteration, user: mentor)
     
-    notification = Notification::MentorRepliedNotification.create!(
+    notification = Notification::MentorRepliedToDiscussionNotification.create!(
       user: create(:user),
       params: { discussion_post: discussion_post }
     )

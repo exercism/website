@@ -16,6 +16,4 @@ class Track < ApplicationRecord
   def repo
     Git::Track.new(repo_url)
   end
-
-  private
 end

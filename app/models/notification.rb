@@ -1,22 +1,22 @@
 class Notification < ApplicationRecord
-  #TYPES = {
-  #  mentor_discussion_started: {version: 1},
-  #  mentor_reply: {version: 1}
-  #}
-
-  #disable_sti!
-
   enum email_status: [:pending, :skipped, :sent, :failed]
 
   belongs_to :user
+
+  scope :read, -> { where.not(read_at: nil) }
+  scope :unread, -> { where(read_at: nil) }
 
   before_create do
     self.version = latest_i18n_version
   end
 
-  #def type
-  #  super.to_sym
-  #end
+  def read?
+    read_at.present?
+  end
+
+  def read!
+    update_column(:read_at, Time.current)
+  end
 
   def text
     I18n.t("notifications.#{i18n_key}.#{version}", i18n_params).strip

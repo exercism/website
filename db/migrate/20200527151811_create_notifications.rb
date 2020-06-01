@@ -5,9 +5,9 @@ class CreateNotifications < ActiveRecord::Migration[6.0]
       t.string :type, null: false
       t.integer :version, null: false
       t.json :params, null: false
-      t.boolean :email_status, null: false, default: 0
+      t.integer :email_status, null: false, default: 0, limit: 1
 
-      t.boolean :read, null: false, default: false
+      t.datetime :read_at, null: true
 
       t.timestamps
     end

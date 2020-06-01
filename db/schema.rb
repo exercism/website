@@ -129,8 +129,8 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
     t.string "type", null: false
     t.integer "version", null: false
     t.json "params", null: false
-    t.boolean "email_status", default: false, null: false
-    t.boolean "read", default: false, null: false
+    t.integer "email_status", limit: 1, default: 0, null: false
+    t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_notifications_on_user_id"

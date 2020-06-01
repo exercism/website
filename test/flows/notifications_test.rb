@@ -14,8 +14,20 @@ class NotificationsFlowsTest < ActiveSupport::TestCase
 
     User::ReplyToDiscussion.(discussion, iteration, "This is great")
     assert_equal 1, mentor.notifications.count
+    assert_equal 1, mentor.notifications.unread.count
 
     Mentor::ReplyToDiscussion.(discussion, iteration, "This is great")
     assert_equal 2, user.notifications.count
+    assert_equal 2, user.notifications.unread.count
+
+    mentor.notifications.first.read!
+    assert_equal 1, mentor.notifications.count
+    assert_equal 0, mentor.notifications.unread.count
+    assert_equal 1, mentor.notifications.read.count
+
+    user.notifications.first.read!
+    assert_equal 2, user.notifications.count
+    assert_equal 1, user.notifications.unread.count
+    assert_equal 1, user.notifications.read.count
   end
 end

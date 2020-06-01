@@ -3,16 +3,17 @@ require 'test_helper'
 class NotificationTest < ActiveSupport::TestCase
   test "read, unread, read? and read!" do
     Timecop.freeze do
-      notification = create :notification
+      user = create :user
+      notification = create :notification, user: user
       refute notification.read?
-      assert_equal [], Notification.read
-      assert_equal [notification], Notification.unread
+      assert_equal [], user.notifications.read
+      assert_equal [notification], user.notifications.unread
 
       notification.read!
       assert notification.read?
       assert_equal Time.current, notification.read_at
-      assert_equal [notification], Notification.read
-      assert_equal [], Notification.unread
+      assert_equal [notification], user.notifications.read
+      assert_equal [], user.notifications.unread
     end
   end
 end

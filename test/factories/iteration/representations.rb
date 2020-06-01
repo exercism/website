@@ -3,7 +3,6 @@ FactoryBot.define do
     iteration
     ops_status { 200 }
     ops_message { "success" } 
-    ast { "some(sort(of(ast)))" }
-    
+    ast { SecureRandom.uuid }
   end
 end

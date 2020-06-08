@@ -24,4 +24,3 @@ class Notification
     end
   end
 end
-

@@ -68,7 +68,6 @@ module Git
       raise
     end
 
-
     MAIN_BRANCH_REF = "origin/master"
     private_constant :MAIN_BRANCH_REF
   end

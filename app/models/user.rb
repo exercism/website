@@ -4,6 +4,12 @@ class User < ApplicationRecord
 
   has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition"
 
+  has_many :user_badges, class_name: "User::Badge"
+  has_many :badges, through: :user_badge
+
+  belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
+  has_one :featured_badge, through: :featured_user_badge
+
   def self.for!(param)
     return param if param.is_a?(User)
     return find_by_id!(param) if param.is_a?(Numeric)

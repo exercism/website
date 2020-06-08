@@ -8,7 +8,7 @@ class Notification
       klass = "notification/#{type}_notification".camelize.constantize
       klass.create!(
         user: user,
-        params: params
+        params: params,
       )
     end
   end

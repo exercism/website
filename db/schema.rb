@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_151811) do
+ActiveRecord::Schema.define(version: 2020_06_08_143942) do
+
+  create_table "badges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "exercise_prerequisites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
@@ -130,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
     t.integer "version", null: false
     t.json "params", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
+    t.string "anti_duplicate_key", null: false
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -192,6 +199,16 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_badges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "badge_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["badge_id"], name: "index_user_badges_on_badge_id"
+    t.index ["user_id", "badge_id"], name: "index_user_badges_on_user_id_and_badge_id", unique: true
+    t.index ["user_id"], name: "index_user_badges_on_user_id"
+  end
+
   create_table "user_reputation_acquisitions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "reason_object_type"
@@ -220,6 +237,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
+    t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
   end
 
@@ -227,6 +245,8 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
     t.string "handle", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "featured_user_badge_id"
+    t.index ["featured_user_badge_id"], name: "index_users_on_featured_user_badge_id"
   end
 
   add_foreign_key "exercise_prerequisites", "exercises"
@@ -251,9 +271,12 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "track_concepts", "tracks"
+  add_foreign_key "user_badges", "badges"
+  add_foreign_key "user_badges", "users"
   add_foreign_key "user_reputation_acquisitions", "users"
   add_foreign_key "user_track_concepts", "track_concepts"
   add_foreign_key "user_track_concepts", "user_tracks"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
+  add_foreign_key "users", "user_badges", column: "featured_user_badge_id"
 end

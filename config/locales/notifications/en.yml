@@ -11,3 +11,6 @@ en:
     student_replied_to_discussion:
       1: >
         %{student_name} has added a new comment on the solution you are mentoring for %{track_title}:%{exercise_title}
+    acquired_badge:
+      1: >
+        You have been awarded the %{badge_name} badge.

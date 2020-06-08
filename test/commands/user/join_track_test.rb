@@ -13,4 +13,11 @@ class User::JoinTrackTest < ActiveSupport::TestCase
     assert_equal user, ut.user
     assert_equal track, ut.track
   end
+
+  test "idempotent" do
+    user = create :user
+    track = create :track
+
+    assert_idempotent_command { User::JoinTrack.(user, track) }
+  end
 end

@@ -40,5 +40,11 @@ class ActiveSupport::TestCase
   def random_of_many(model, params = {}, num: 3)
     num.times.map { create(model, params) }.sample
   end
+
+  def assert_idempotent_command(&cmd)
+    obj1 = cmd.call
+    obj2 = cmd.call
+    assert_equal obj1, obj2
+  end
 end
 

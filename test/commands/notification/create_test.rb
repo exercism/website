@@ -4,7 +4,8 @@ class Notification::CreateTest < ActiveSupport::TestCase
   test "create db record" do
     user = create :user
     type = :mentor_started_discussion
-    params = {foo: 'bar'}
+    discussion = create(:solution_mentor_discussion)
+    params = {discussion: discussion}
 
     notification = Notification::Create.(user, type, params)
 
@@ -12,6 +13,7 @@ class Notification::CreateTest < ActiveSupport::TestCase
     assert_equal user, notification.user
     assert_equal Notification::MentorStartedDiscussionNotification, notification.class
     assert_equal 1, notification.version
+    assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.anti_duplicate_key
     assert_equal params, notification.send(:params)
   end
 end

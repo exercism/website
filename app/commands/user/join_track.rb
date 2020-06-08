@@ -5,7 +5,7 @@ class User
     initialize_with :user, :track
 
     def call
-      ::UserTrack.create!(user: user, track: track)
+      ::UserTrack.create_or_find_by!(user: user, track: track)
     end
   end
 end

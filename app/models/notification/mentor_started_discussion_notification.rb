@@ -8,6 +8,10 @@ class Notification
       }
     end
 
+    def guard_params
+      "Discussion##{discussion.id}"
+    end
+
     private
     def track
       exercise.track

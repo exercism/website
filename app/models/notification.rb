@@ -8,6 +8,7 @@ class Notification < ApplicationRecord
 
   before_create do
     self.version = latest_i18n_version
+    self.anti_duplicate_key = "#{user_id}-#{type_key}-#{guard_params}"
   end
 
   def read?
@@ -20,6 +21,10 @@ class Notification < ApplicationRecord
 
   def text
     I18n.t("notifications.#{i18n_key}.#{version}", i18n_params).strip
+  end
+
+  def type_key
+    type.split("::").last.underscore.split("_notification").first.to_sym
   end
 
   # This maps 

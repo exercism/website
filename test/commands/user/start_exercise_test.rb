@@ -33,14 +33,13 @@ class StartExerciseTest < ActiveSupport::TestCase
     assert_equal ex, solution.exercise
   end
 
-  test "duplicated exercises are a noop that return solution" do
+  test "idempotent" do
     user = create :user
     ex = create :concept_exercise
-    solution = create :concept_solution, user: user, exercise: ex
     ut = create :user_track, user: user
-    ut.expects(:exercise_available?).with(ex).returns(true)
+    ut.expects(:exercise_available?).with(ex).returns(true).twice
 
-    assert_equal solution, User::StartExercise.(ut, ex)
+    assert_idempotent_command { User::StartExercise.(ut, ex) }
   end
 end
 

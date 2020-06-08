@@ -9,7 +9,7 @@ class User
 
     include Mandate
 
-    initialize_with :solution, :bounty, :type, :comment
+    initialize_with :solution, :type, :comment
 
     def call
       create_request
@@ -22,7 +22,6 @@ class User
       request = Solution::MentorRequest.new(
         solution: solution,
         type: type, 
-        bounty: bounty,
         comment: comment
       )
 
@@ -35,8 +34,6 @@ class User
         # but that would involve schema change as we allow multiple fulfilled records.
         existing_request = solution.mentor_requests.pending.first
         raise AlreadyRequestedError.new(existing_request) if existing_request
-
-        User::SpendCredits.(solution.user, bounty)
 
         request.save!
       end

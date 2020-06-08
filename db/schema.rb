@@ -152,7 +152,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "type", limit: 1, null: false
     t.text "comment"
-    t.integer "bounty", limit: 2, null: false
     t.bigint "locked_by_id"
     t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
@@ -226,7 +225,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_151811) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "handle", null: false
-    t.integer "credits", limit: 2, default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

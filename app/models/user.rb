@@ -18,8 +18,4 @@ class User < ApplicationRecord
     q.where!(category: category) if category
     q.sum(:amount)
   end
-
-  def available_credits
-    credits
-  end
 end

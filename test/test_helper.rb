@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 require 'mocha/minitest'
+require 'minitest/pride'
 require 'timecop'
 
 # Require the support helper files

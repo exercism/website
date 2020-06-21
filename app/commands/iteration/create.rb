@@ -83,5 +83,9 @@ class Iteration
       solution.status = :submitted if solution.pending?
       solution.save!
     end
+
+    def schedule_jobs!
+      AwardBadgeJob.perform_later(solution.user, :rookie)
+    end
   end
 end

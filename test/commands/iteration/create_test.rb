@@ -81,4 +81,19 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, [files.first], :cli)
     assert_equal 'submitted', solution.reload.status
   end
+
+  test "award rookie badge job is enqueued" do
+    # Generic setup
+    files = [{ filename: 'foo.bar', content: "foobar" }]
+    Iteration::UploadWithExercise.stubs(:call)
+    Iteration::UploadForStorage.stubs(:call)
+
+    # Create user and solution
+    user = create :user
+    solution = create :concept_solution, user: user
+
+    assert_enqueued_with(job: AwardBadgeJob, args: [user, :rookie]) do
+      Iteration::Create.(solution, [files.first], :cli)
+    end
+  end
 end

@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class Notification::StudentRepliedToDiscussionNotificationTest < ActiveSupport::TestCase
+class Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSupport::TestCase
   test "anti_duplicate_key" do
     user = create :user
     discussion_post = create(:iteration_discussion_post)
  
-    notification = Notification::StudentRepliedToDiscussionNotification.create!(
+    notification = Notifications::StudentRepliedToDiscussionNotification.create!(
       user: user,
       params: { 
         discussion_post: discussion_post 
@@ -24,7 +24,7 @@ class Notification::StudentRepliedToDiscussionNotificationTest < ActiveSupport::
     mentor = create(:user)
     discussion_post = create(:iteration_discussion_post, iteration: iteration, user: mentor)
     
-    notification = Notification::StudentRepliedToDiscussionNotification.create!(
+    notification = Notifications::StudentRepliedToDiscussionNotification.create!(
       user: mentor,
       params: { 
         discussion_post: discussion_post 

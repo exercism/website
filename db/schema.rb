@@ -2,23 +2,26 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_143942) do
+ActiveRecord::Schema.define(version: 2020_06_08_143333) do
 
-  create_table "badges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "type"
+  create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "type"], name: "index_badges_on_user_id_and_type", unique: true
+    t.index ["user_id"], name: "index_badges_on_user_id"
   end
 
-  create_table "exercise_prerequisites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "exercise_prerequisites", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "track_concept_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -28,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["track_concept_id"], name: "index_exercise_prerequisites_on_track_concept_id"
   end
 
-  create_table "exercise_representations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "exercise_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.integer "exercise_version", limit: 2, null: false
     t.text "ast", null: false
@@ -46,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
   end
 
-  create_table "exercises", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "uuid", null: false
     t.string "type", null: false
@@ -57,7 +60,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["track_id"], name: "index_exercises_on_track_id"
   end
 
-  create_table "iteration_analyses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "iteration_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.integer "ops_status", limit: 2, null: false
     t.text "ops_message"
@@ -67,7 +70,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["iteration_id"], name: "index_iteration_analyses_on_iteration_id"
   end
 
-  create_table "iteration_discussion_posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "iteration_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.bigint "user_id", null: false
     t.string "source_type"
@@ -81,7 +84,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["user_id"], name: "index_iteration_discussion_posts_on_user_id"
   end
 
-  create_table "iteration_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "iteration_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.string "uuid", null: false
     t.string "filename", null: false
@@ -92,7 +95,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["iteration_id"], name: "index_iteration_files_on_iteration_id"
   end
 
-  create_table "iteration_representations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "iteration_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.integer "ops_status", limit: 2, null: false
     t.text "ops_message"
@@ -103,7 +106,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["iteration_id"], name: "index_iteration_representations_on_iteration_id"
   end
 
-  create_table "iteration_test_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "iteration_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
     t.string "status", null: false
     t.text "message"
@@ -116,7 +119,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["iteration_id"], name: "index_iteration_test_runs_on_iteration_id"
   end
 
-  create_table "iterations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.string "uuid", null: false
     t.integer "tests_status", default: 0, null: false
@@ -130,7 +133,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
   end
 
-  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "type", null: false
     t.integer "version", null: false
@@ -143,7 +146,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "solution_mentor_discussions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "solution_mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
     t.bigint "request_id", null: false
@@ -154,7 +157,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"
   end
 
-  create_table "solution_mentor_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "solution_mentor_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "type", limit: 1, null: false
@@ -167,7 +170,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["solution_id"], name: "index_solution_mentor_requests_on_solution_id"
   end
 
-  create_table "solutions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.bigint "user_id", null: false
     t.bigint "exercise_id", null: false
@@ -182,7 +185,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["user_id"], name: "index_solutions_on_user_id"
   end
 
-  create_table "track_concepts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "uuid", null: false
     t.string "name", null: false
@@ -191,7 +194,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["track_id"], name: "index_track_concepts_on_track_id"
   end
 
-  create_table "tracks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title", null: false
     t.string "repo_url", null: false
@@ -199,17 +202,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "user_badges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "badge_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["badge_id"], name: "index_user_badges_on_badge_id"
-    t.index ["user_id", "badge_id"], name: "index_user_badges_on_user_id_and_badge_id", unique: true
-    t.index ["user_id"], name: "index_user_badges_on_user_id"
-  end
-
-  create_table "user_reputation_acquisitions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "user_reputation_acquisitions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "reason_object_type"
     t.bigint "reason_object_id"
@@ -222,7 +215,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["user_id"], name: "index_user_reputation_acquisitions_on_user_id"
   end
 
-  create_table "user_track_concepts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "user_track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_track_id", null: false
     t.bigint "track_concept_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -231,7 +224,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["user_track_id"], name: "index_user_track_concepts_on_user_track_id"
   end
 
-  create_table "user_tracks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -241,14 +234,15 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "handle", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "featured_user_badge_id"
-    t.index ["featured_user_badge_id"], name: "index_users_on_featured_user_badge_id"
+    t.bigint "featured_badge_id"
+    t.index ["featured_badge_id"], name: "index_users_on_featured_badge_id"
   end
 
+  add_foreign_key "badges", "users"
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"
@@ -271,12 +265,10 @@ ActiveRecord::Schema.define(version: 2020_06_08_143942) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "track_concepts", "tracks"
-  add_foreign_key "user_badges", "badges"
-  add_foreign_key "user_badges", "users"
   add_foreign_key "user_reputation_acquisitions", "users"
   add_foreign_key "user_track_concepts", "track_concepts"
   add_foreign_key "user_track_concepts", "user_tracks"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
-  add_foreign_key "users", "user_badges", column: "featured_user_badge_id"
+  add_foreign_key "users", "badges", column: "featured_badge_id"
 end

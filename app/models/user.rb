@@ -4,8 +4,7 @@ class User < ApplicationRecord
 
   has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition"
 
-  has_many :user_badges, class_name: "User::Badge"
-  has_many :badges, through: :user_badge
+  has_many :badges
 
   belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
   has_one :featured_badge, through: :featured_user_badge

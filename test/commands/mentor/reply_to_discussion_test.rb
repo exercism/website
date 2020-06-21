@@ -32,7 +32,7 @@ class Mentor::ReplyToDiscussionTest < ActiveSupport::TestCase
     )
     assert_equal 1, user.notifications.size
     notification = user.notifications.first
-    assert_equal Notification::MentorRepliedToDiscussionNotification, notification.class
+    assert_equal Notifications::MentorRepliedToDiscussionNotification, notification.class
     assert_equal({discussion_post: Iteration::DiscussionPost.first}, notification.send(:params))
   end
 

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :notification, class: "Notification::MentorStartedDiscussionNotification" do
+  factory :notification, class: "Notifications::MentorStartedDiscussionNotification" do
     user
     params {{
       discussion: create(:solution_mentor_discussion)

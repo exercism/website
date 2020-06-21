@@ -1,4 +1,4 @@
-class Notification
+module Notifications
   class AcquiredBadgeNotification < Notification
     def i18n_params
       {
@@ -7,7 +7,7 @@ class Notification
     end
 
     def guard_params
-      "UserBadge##{user_badge.id}"
+      "Badge##{badge.id}"
     end
 
     private
@@ -16,11 +16,7 @@ class Notification
     end
 
     def badge
-      user_badge.badge
-    end
-
-    def user_badge
-      params[:user_badge]
+      params[:badge]
     end
   end
 end

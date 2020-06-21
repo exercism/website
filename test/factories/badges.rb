@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :badge do
-    type { :foobar }
+  factory :badge, class: 'Badges::FirstSubmissionBadge' do
+    user { create :user }
   end
 end

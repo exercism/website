@@ -1,15 +1,15 @@
-class Notification
-  class StudentRepliedToDiscussionNotification < Notification
+module Notifications
+  class MentorStartedDiscussionNotification < Notification
     def i18n_params
       {
-        student_name: student.handle,
+        mentor_name: mentor.handle,
         track_title: track.title,
         exercise_title: exercise.title
       }
     end
 
     def guard_params
-      "DiscussionPost##{discussion_post.id}"
+      "Discussion##{discussion.id}"
     end
 
     private
@@ -21,12 +21,16 @@ class Notification
       solution.exercise
     end
 
-    def student
-      solution.user
+    def solution
+      discussion.solution
     end
 
-    def solution
-      discussion_post.solution
+    def mentor
+      discussion.mentor
+    end
+
+    def discussion
+      params[:discussion]
     end
 
     def discussion_post

@@ -1,6 +1,5 @@
 class Badge
   class Create
-
     include Mandate
 
     initialize_with :user, :slug
@@ -28,6 +27,9 @@ class Badge
         Notification::Create.(user, :acquired_badge, {badge: badge})
         badge
 
+      # Guard against the race condition
+      # and return the badge if it's been created
+      # in paralel to this command
       rescue ActiveRecord::RecordNotUnique
         klass.find_by!(user: user)
       end

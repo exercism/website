@@ -40,4 +40,12 @@ class UserTest < ActiveSupport::TestCase
       user.reputation(track_slug: :ruby, category: :docs)
     end
   end
+
+  test "has_badge?" do
+    user = create :user
+    refute user.has_badge?(:rookie)
+
+    create :rookie_badge, user: user
+    assert user.reload.has_badge?(:rookie)
+  end
 end

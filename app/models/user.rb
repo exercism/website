@@ -25,4 +25,9 @@ class User < ApplicationRecord
     q.where!(category: category) if category
     q.sum(:amount)
   end
+
+  def has_badge?(slug)
+    type = Badge.slug_to_type(slug)
+    badges.where(type: type).exists?
+  end
 end

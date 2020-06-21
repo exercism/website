@@ -30,6 +30,7 @@ class Iteration
 
       iteration = create_iteration!
       update_solution!
+      schedule_jobs!
       
       # Finally wait for everyting to finish before
       # we return the iteration

@@ -5,6 +5,14 @@ require 'mocha/minitest'
 require 'minitest/pride'
 require 'timecop'
 
+# Configure mocach to be safe
+Mocha.configure do |c|
+  #c.stubbing_method_unnecessarily = :prevent
+  c.stubbing_non_existent_method = :prevent
+  c.stubbing_non_public_method = :warn
+  c.stubbing_method_on_nil = :prevent
+end
+
 # Require the support helper files
 Dir.foreach(Rails.root / "test" / "support") do |path|
   next if path.starts_with?('.')

@@ -1,0 +1,39 @@
+# This file contains per-environment settings for AnyCable.
+#
+# Since AnyCable config is based on anyway_config (https://github.com/palkan/anyway_config), all AnyCable settings
+# can be set or overridden through the corresponding environment variables.
+# E.g., `rpc_host` is overridden by ANYCABLE_RPC_HOST, `debug` by ANYCABLE_DEBUG etc.
+#
+# Note that AnyCable recognizes REDIS_URL env variable for Redis pub/sub adapter. If you want to
+# use another Redis instance for AnyCable, provide ANYCABLE_REDIS_URL variable.
+#
+# Read more about AnyCable configuration here: https://docs.anycable.io/v1/#/ruby/configuration
+#
+default: &default
+  # Turn on/off access logs ("Started..." and "Finished...")
+  access_logs_disabled: false
+  # Persist "dirty" session between RPC calls (might be required for apps using stimulus_reflex <3.0)
+  # persistent_session_enabled: true
+  # This is the host and the port to run AnyCable RPC server on.
+  # You must configure your WebSocket server to connect to it, e.g.:
+  #   $ anycable-go --rpc-host="<rpc hostname>:50051"
+  rpc_host: "127.0.0.1:50051"
+
+  # Whether to enable gRPC level logging or not
+  log_grpc: false
+
+  # Use Redis to broadcast messages to AnyCable server
+  broadcast_adapter: redis
+
+  # Use the same channel name for WebSocket server, e.g.:
+  #   $ anycable-go --redis-channel="__anycable__"
+  redis_channel: "__anycable__"
+
+development:
+  <<: *default
+  redis_url: "redis://localhost:6379/1"
+  log_grpc: true
+  debug: true
+
+production:
+  <<: *default

@@ -9,6 +9,7 @@ gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.1'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
+gem "anycable-rails", "~> 0.6"#, "~> 1.0.0.rc1"
 
 # Interaction gems
 gem 'rugged' # Git

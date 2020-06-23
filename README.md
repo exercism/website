@@ -7,6 +7,10 @@ This is the WIP website for Exercism v3.
 
 ## Local setup
 
+You need the following installed:
+- MySQL
+- Redis
+
 ### OS-Specific
 
 #### Mac
@@ -43,13 +47,15 @@ GRANT ALL PRIVILEGES ON `exercism_v3_test-0`.* TO 'exercism_v3'@'localhost';
 GRANT ALL PRIVILEGES ON `exercism_v3_dj_test-0`.* TO 'exercism_v3'@'localhost';
 ```
 
-### Running the server
+### Running the local servers
 
-Run both a webpack server and a Rails server
+We have a Procfile which executes the various commands need to run Exercism locally.
+On MacOSX we recommend using `hivemind` to manage this, which can be installed via `brew install hivemind`.
+
+To get everything started you can then run:
 
 ```bash
-bundle exec bin/webpack-dev-server 
-bundle exec bin/rails server
+hivemind -p 3000 Procfile.dev
 ```
 
 ### Configure Solargraph

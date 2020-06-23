@@ -1,6 +1,6 @@
 require "test_helper"
 
-class IterationsChannelTest < ActionCable::Channel::TestCase
+class IterationChannelTest < ActionCable::Channel::TestCase
   # test "subscribes" do
   #   subscribe
   #   assert subscription.confirmed?

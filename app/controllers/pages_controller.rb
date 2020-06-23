@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def index
-    IterationsChannel.broadcast_to Solution.first, {foo: 'bar', time: Time.now.to_f}
+    #IterationChannel.broadcast_to Iteration.first, {foo: 'bar'}
   end
 end

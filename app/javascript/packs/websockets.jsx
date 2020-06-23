@@ -30,7 +30,10 @@ document.addEventListener("turbolinks:load", () => {
   document.querySelectorAll("[data-react-iteration-summary]").forEach(elem => {
     const reactDataId = elem.dataset.reactDataId;
     ReactDOM.render(<IterationSummary id={reactDataId} />, elem);
+
+    const unloadOnce = () => {
+      ReactDOM.unmountComponentAtNode(elem);
+      document.removeEventListener("turbolinks:before-render", unloadOnce);
+    };
   });
 });
-
-//  ReactDOM.unmountComponentAtNode(domContainerNode)

@@ -6,3 +6,9 @@ concept_exercise = ConceptExercise.create!(track: track, uuid: SecureRandom.uuid
 practice_exercise = PracticeExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "p1", prerequisites: [], title: "P1")
 concept_solution = ConceptSolution.create!(exercise: concept_exercise, user: user, uuid: SecureRandom.uuid)
 practice_solution = PracticeSolution.create!(exercise: practice_exercise, user: user, uuid: SecureRandom.uuid)
+
+Iteration.create!(
+  solution: concept_solution,
+  uuid: SecureRandom.uuid,
+  submitted_via: "cli"
+)

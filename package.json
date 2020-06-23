@@ -2,11 +2,17 @@
   "name": "exercism",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.10.1",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
+    "actioncable": "^5.2.4-3",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "global": "^4.4.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

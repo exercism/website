@@ -7,4 +7,8 @@ class IterationsChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def self.broadcast!(solution)
+    broadcast_to solution, iterations: solution.serialized_iterations
+  end
 end

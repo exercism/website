@@ -17,4 +17,14 @@ class Solution < ApplicationRecord
     self.git_slug = exercise.slug
     self.git_sha = track.git_head_sha
   end
+
+  # TODO - Use an actual serializer
+  def serialized_iterations
+    iterations.map do |i|
+      {
+        id: i.id,
+        testsStatus: i.tests_status
+      }
+    end
+  end
 end

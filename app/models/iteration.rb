@@ -18,6 +18,10 @@ class Iteration < ApplicationRecord
     self.git_sha = solution.git_sha
   end
 
+  def broadcast!
+    IterationsChannel.broadcast!(solution)
+  end
+
   def exercise_version
     track.repo.exercise(git_slug, git_sha).version
   end

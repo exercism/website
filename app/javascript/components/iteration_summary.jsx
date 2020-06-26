@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import actionCable from "actioncable";
 
-import consumer from "../channels/consumer";
+import consumer from "../application/action_cable_consumer";
 
-function IterationSummary({ id, time }) {
+function IterationSummary({ id, testsStatus }) {
   return (
     <div>
-      {id}: {time}
+      {id}: {testsStatus}
     </div>
   );
 }
@@ -15,27 +15,15 @@ export function IterationsSummaryTable({ solutionId, iterations }) {
   const [stateIterations, setIterations] = useState(iterations);
 
   useEffect(() => {
-    const received = data => {
-      console.log("recieved");
-      console.log(data);
-      setIterations(data.iterations);
-    };
-
-    const connected = () => {
-      console.log("connected");
-    };
-
-    const rejected = () => {
-      console.log("rejected");
-    };
+    const received = data => setIterations(data.iterations);
 
     const subscription = consumer.subscriptions.create(
       { channel: "IterationsChannel", solution_id: solutionId },
       {
-        received, connected, rejected
+        received
       }
     );
-    console.log(subscription.consumer)
+    //console.log(subscription.consumer)
     return () => subscription.unsubscribe();
   }, [solutionId]);
 
@@ -44,7 +32,7 @@ export function IterationsSummaryTable({ solutionId, iterations }) {
       <IterationSummary
         key={iteration.id}
         id={iteration.id}
-        time={iteration.time}
+        testsStatus={iteration.testsStatus}
         idx={idx}
       />
     );

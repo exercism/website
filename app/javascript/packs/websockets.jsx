@@ -1,35 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import actionCable from "actioncable";
 
-import consumer from "../channels/consumer";
-
-function IterationSummary({ id }) {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const received = data => setTime(data.time);
-
-    const subscription = consumer.subscriptions.create(
-      { channel: "IterationChannel", iteration_id: id },
-      {
-        received
-      }
-    );
-    return () => subscription.unsubscribe();
-  }, [id]);
-
-  return (
-    <div>
-      {id}: {time}
-    </div>
-  );
-}
+import { IterationsSummaryTable } from '../components/iteration_summary.jsx'
 
 document.addEventListener("turbolinks:load", () => {
-  document.querySelectorAll("[data-react-iteration-summary]").forEach(elem => {
-    const reactDataId = elem.dataset.reactDataId;
-    ReactDOM.render(<IterationSummary id={reactDataId} />, elem);
+  document.querySelectorAll("[data-react-iterations-summary-table]").forEach(elem => {
+    const reactDataSolutionId = elem.dataset.reactDataSolutionId;
+    const reactDataIterations = JSON.parse(elem.dataset.reactDataIterations);
+    ReactDOM.render(<IterationsSummaryTable solutionId={reactDataSolutionId} iterations={reactDataIterations} />, elem);
 
     const unloadOnce = () => {
       ReactDOM.unmountComponentAtNode(elem);

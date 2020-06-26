@@ -1,3 +1,5 @@
 .hello hello 
 
-%div{data: {react: {"iteration-summary": true, data: {id: 1}}}}
+-solution = Solution.first
+-iterations = [{id: 1, time: Time.current.to_f}]
+%div{data: {react: {"iterations-summary-table": true, data: {solution_id: solution.id, iterations: iterations.to_json}}}}

@@ -1,5 +1,11 @@
 class PagesController < ApplicationController
   def index
-    #IterationChannel.broadcast_to Iteration.first, {foo: 'bar'}
+    solution = Solution.first
+    IterationsChannel.broadcast_to solution, iterations: solution.iterations.map{|i|
+      {
+        id: i.id,
+        time: Time.current.to_f
+      }
+    }
   end
 end

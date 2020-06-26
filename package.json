@@ -18,7 +18,20 @@
   "version": "0.1.0",
   "devDependencies": {
     "@prettier/plugin-ruby": "^0.18.2",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.3",
+    "jest": "^26.1.0",
+    "mock-socket": "^9.0.3",
     "prettier": "^2.0.5",
     "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "test-watch": "jest --watch"
+  },
+  "jest": {
+    "roots": [
+      "test/javascript"
+    ]
   }
 }

@@ -1,4 +1,11 @@
 ENV['RAILS_ENV'] ||= 'test'
+
+# This must happen above the env require below
+if ENV["CAPTURE_CODE_COVERAGE"]
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 require_relative '../config/environment'
 require 'rails/test_help'
 require 'mocha/minitest'

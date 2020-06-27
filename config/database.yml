@@ -6,7 +6,8 @@ default: &default
   host: <%= ENV.fetch("MYSQL_HOST") { 'localhost' } %>
   username: exercism_v3
   password: exercism_v3
-  socket: /tmp/mysql.sock
+  socket: <%= ENV.fetch("MYSQL_SOCKET") { '/tmp/mysql.sock' } %>
+  port: <%= ENV.fetch("MYSQL_PORT") { nil } %>
   timeout: 5000
   variables:
     sql_mode: traditional
@@ -25,5 +26,5 @@ test:
     database: exercism_v3_test
   dj:
     <<: *default
-    database: exercism_v3_dj_test
+    database: exercism_v3_test
     migrations_paths: "db/dj_migrate"

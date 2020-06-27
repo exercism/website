@@ -55,5 +55,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'mocha'
+  gem 'simplecov', "~> 0.17.0", require: false
 end
 

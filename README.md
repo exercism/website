@@ -1,5 +1,6 @@
 # Exercism
 
+![Tests Passing](https://github.com/exercism/v3-website/workflows/Tests%20Passing/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/maintainability)](https://codeclimate.com/github/exercism/v3-website/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/test_coverage)](https://codeclimate.com/github/exercism/v3-website/test_coverage)
 
@@ -34,17 +35,12 @@ GRANT ALL PRIVILEGES ON exercism_v3_dj_development.* TO 'exercism_v3'@'localhost
 CREATE DATABASE `exercism_v3_test`;
 ALTER DATABASE `exercism_v3_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON `exercism_v3_test`.* TO 'exercism_v3'@'localhost';
-
-CREATE DATABASE `exercism_v3_dj_test`;
-ALTER DATABASE `exercism_v3_dj_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON `exercism_v3_dj_test`.* TO 'exercism_v3'@'localhost';
 ```
 
 Tests are parallelized so you need a db per processor, so you need to do this for `n` processors.
 
 ```bash
 GRANT ALL PRIVILEGES ON `exercism_v3_test-0`.* TO 'exercism_v3'@'localhost';
-GRANT ALL PRIVILEGES ON `exercism_v3_dj_test-0`.* TO 'exercism_v3'@'localhost';
 ```
 
 ### Running the local servers

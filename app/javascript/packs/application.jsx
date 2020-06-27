@@ -3,14 +3,27 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
-require("turbolinks").start()
-require("@rails/activestorage").start()
-require("channels")
+require("@rails/ujs").start();
+require("turbolinks").start();
+require("@rails/activestorage").start();
+require("channels");
 
-import 'css/application.css'
+import "css/application.css";
 
-import './websockets.jsx'
+import React from "react";
+import { initReact } from "./react_bootloader.jsx";
+import { IterationsSummaryTable } from "../components/iteration_summary.jsx";
+
+// Add all react components here.
+// Each should map 1-1 to a compoenent in app/helpers/components
+initReact({
+  "iterations-summary-table": data => (
+    <IterationsSummaryTable
+      solutionId={data.solution_id}
+      iterations={data.iterations}
+    />
+  )
+});
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)

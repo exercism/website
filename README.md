@@ -1,6 +1,6 @@
 # Exercism
 
-![Tests Passing](https://github.com/exercism/v3-website/workflows/Tests%20Passing/badge.svg)
+![Tests](https://github.com/exercism/v3-website/workflows/run-tests/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/maintainability)](https://codeclimate.com/github/exercism/v3-website/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/test_coverage)](https://codeclimate.com/github/exercism/v3-website/test_coverage)
 

@@ -12,7 +12,7 @@ test("renders component", () => {
   const { container, getByText } = render(
     <IterationsSummaryTable
       solutionId={1}
-      iterations={[{ id: 1, testsStatus: 'passed' }]}
+      iterations={[{ id: 1, testsStatus: "passed" }]}
     />
   );
 

@@ -3,7 +3,6 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'mocha/minitest'
 require 'minitest/pride'
-require 'timecop'
 
 # Configure mocach to be safe
 Mocha.configure do |c|
@@ -36,7 +35,7 @@ class ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   # Run tests in parallel with specified workers
-  parallelize(workers: :number_of_processors)
+  #parallelize(workers: :number_of_processors)
 
   def setup
     RestClient.stubs(:post)

@@ -294,7 +294,6 @@ GEM
     temple (0.8.2)
     thor (1.0.1)
     tilt (2.0.10)
-    timecop (0.9.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -349,7 +348,6 @@ DEPENDENCIES
   rugged
   selenium-webdriver
   solargraph
-  timecop
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)

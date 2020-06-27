@@ -2,7 +2,7 @@ require "test_helper"
 
 class Mentor::LockRequestTest < ActiveSupport::TestCase
   test "locks request" do
-    Timecop.freeze do
+    freeze_time do
       mentor = create :user
       request = create :solution_mentor_request
 
@@ -15,7 +15,7 @@ class Mentor::LockRequestTest < ActiveSupport::TestCase
   end
 
   test "extends if already locked by the mentor" do
-    Timecop.freeze do
+    freeze_time do
       mentor = create :user
       request = create :solution_mentor_request, locked_until: Time.current + 5.minutes, locked_by: mentor
 
@@ -28,7 +28,7 @@ class Mentor::LockRequestTest < ActiveSupport::TestCase
   end
 
   test "locks if previous lock has expired" do
-    Timecop.freeze do
+    freeze_time do
       mentor = create :user
       request = create :solution_mentor_request, locked_until: Time.current - 5.minutes, locked_by: create(:user)
 

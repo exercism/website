@@ -2,7 +2,7 @@ require 'test_helper'
 
 class NotificationTest < ActiveSupport::TestCase
   test "read, unread, read? and read!" do
-    Timecop.freeze do
+    freeze_time do
       user = create :user
       notification = create :notification, user: user
       refute notification.read?

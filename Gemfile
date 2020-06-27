@@ -55,6 +55,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'mocha'
-  gem 'timecop'
 end
 

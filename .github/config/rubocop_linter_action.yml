@@ -9,4 +9,4 @@ versions:
   - rubocop
   - rubocop-rails
   - rubocop-minitest
-  - rubocop-performance: '1.5.1'
+  - rubocop-performance

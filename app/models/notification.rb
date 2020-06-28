@@ -1,5 +1,5 @@
 class Notification < ApplicationRecord
-  enum email_status: [:pending, :skipped, :sent, :failed]
+  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
 
   belongs_to :user
 
@@ -27,15 +27,15 @@ class Notification < ApplicationRecord
     type.split("::").last.underscore.split("_notification").first.to_sym
   end
 
-  # This maps 
+  # This maps
   # {discussion: Solution::MentorDiscussion.find(186)}
   # to
   # {discussion: "gid://exercism/Solution::MentorDiscussion/186"}
   #
   # Any non-object params are left as the were passed in.
   def params=(hash)
-    self[:params] = hash.each_with_object({}) do |(k,v), h|
-      h[k] = v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
+    self[:params] = hash.transform_values do |v|
+      v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
     end
   end
 
@@ -47,16 +47,15 @@ class Notification < ApplicationRecord
   # Any non-object params are left as the were passed in.
   private
   def params
-    super.each_with_object({}) do |(k,v), h|
+    super.each_with_object({}) do |(k, v), h|
       h[k.to_sym] = GlobalID::Locator.locate(v) || v
     end
   end
 
-  private
   def latest_i18n_version
     I18n.backend.send(:init_translations)
     I18n.backend.send(:translations)[:en][:notifications][i18n_key].keys.first
-  rescue
+  rescue StandardError
     raise "Missing key for this notification"
   end
 

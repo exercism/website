@@ -4,4 +4,3 @@ FactoryBot.define do
     exercise { create :concept_exercise }
   end
 end
-

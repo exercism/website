@@ -4,5 +4,3 @@ FactoryBot.define do
     exercise { create :practice_exercise }
   end
 end
-
-

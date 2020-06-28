@@ -16,7 +16,7 @@ class Iteration::TestRunTest < ActiveSupport::TestCase
   test "explodes raw_results" do
     status = "foobar"
     message = "some barfoo message"
-    tests = [{'status' => 'pass'}]
+    tests = [{ 'status' => 'pass' }]
 
     raw_results = {
       status: status,
@@ -57,7 +57,7 @@ class Iteration::TestRunTest < ActiveSupport::TestCase
     message = "some message"
     expected = "Some expected"
     output = "\e[31mHello\e[0m\e[34mWorld\e[0"
-    
+
     tests = [{
       'name' => name,
       'status' => status,
@@ -69,7 +69,7 @@ class Iteration::TestRunTest < ActiveSupport::TestCase
 
     tr = create :iteration_test_run, tests: tests
     assert_equal 1, tr.test_results.size
-    result =  tr.test_results.first
+    result = tr.test_results.first
 
     assert_equal name, result.name
     assert_equal status.to_sym, result.status
@@ -79,5 +79,5 @@ class Iteration::TestRunTest < ActiveSupport::TestCase
     assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", result.output_html
   end
 
-  # TODO - Add a test for if the raw_results is empty
+  # TODO: - Add a test for if the raw_results is empty
 end

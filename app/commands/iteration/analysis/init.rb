@@ -18,7 +18,7 @@ class Iteration
           version_slug: version_slug
         }
       end
-      
+
       private
       attr_reader :iteration_uuid, :language_slug, :exercise_slug, :version_slug
 
@@ -27,5 +27,4 @@ class Iteration
       end
     end
   end
-
 end

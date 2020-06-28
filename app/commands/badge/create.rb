@@ -5,26 +5,21 @@ class Badge
     initialize_with :user, :slug
 
     def call
-      klass = Badge.slug_to_type(slug).constantize
-
       # Check to see if it exists already before
       # doing any other expensive things
-      begin
-        return klass.find_by!(user: user)
-      rescue ActiveRecord::RecordNotFound; end
+      badge = klass.find_by(user: user)
+      return badge if badge
 
       # Build the badge
       badge = klass.new(user: user)
 
-      # Check if the badge should be awarded. 
+      # Check if the badge should be awarded.
       # Raise an exception if not
-      unless badge.should_award?
-        raise BadgeCriteriaNotFulfilledError 
-      end
+      raise BadgeCriteriaNotFulfilledError unless badge.should_award?
 
       begin
         badge.save!
-        Notification::Create.(user, :acquired_badge, {badge: badge})
+        Notification::Create.(user, :acquired_badge, { badge: badge })
         badge
 
       # Guard against the race condition
@@ -34,6 +29,10 @@ class Badge
         klass.find_by!(user: user)
       end
     end
+
+    memoize
+    def klass
+      Badge.slug_to_type(slug).constantize
+    end
   end
 end
-

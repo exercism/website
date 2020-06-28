@@ -25,11 +25,12 @@ class Iteration
     attr_reader :iteration_uuid, :exercise_slug, :git_sha, :track_repo, :iteration_files, :files_to_upload
 
     def add_iteration_files
-      #TODO Skip files that have non alphanumeric chars
+      # TODO: Skip files that have non alphanumeric chars
       iteration_files.each do |filename, code|
-        next if filename =~ track_repo.test_regexp
+        next if filename.match?(track_repo.test_regexp)
         next if filename.starts_with?(".meta")
         next if files_to_upload[filename]
+
         files_to_upload[filename] = code
       end
     end
@@ -37,16 +38,17 @@ class Iteration
     def add_exercise_files
       exercise = track_repo.exercise(exercise_slug, git_sha)
       exercise.filenames.each do |filepath|
-        next if filepath =~ track_repo.ignore_regexp
+        next if filepath.match?(track_repo.ignore_regexp)
         next if files_to_upload[filepath]
+
         files_to_upload[filepath] = exercise.read_file_blob(filepath)
       end
     end
 
     def upload_files
-      files_to_upload.map { |filename, code|
+      files_to_upload.map do |filename, code|
         Thread.new { upload_file(filename, code) }
-      }.each(&:join)
+      end.each(&:join)
     end
 
     def upload_file(filename, code)

@@ -6,5 +6,3 @@ class ConceptSolutionTest < ActiveSupport::TestCase
     assert_equal "foobarcatdog", SecureRandom.compact_uuid
   end
 end
-
-

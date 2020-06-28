@@ -1,8 +1,8 @@
 class Solution::MentorRequest < ApplicationRecord
   disable_sti!
 
-  enum status: [:pending, :fulfilled]
-  enum type: [:code_review, :question], _prefix: true
+  enum status: { pending: 0, fulfilled: 1 }
+  enum type: { code_review: 0, question: 1 }, _prefix: true
 
   belongs_to :solution
   belongs_to :locked_by, class_name: "User", optional: true
@@ -20,7 +20,7 @@ class Solution::MentorRequest < ApplicationRecord
   end
 
   # If this request is locked by someone else then
-  # the user has timed out and someone else has started 
+  # the user has timed out and someone else has started
   # work on this solution, which is a mess.
   #
   # If the solution isn't locked at all then the person timed

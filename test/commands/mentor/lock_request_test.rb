@@ -49,5 +49,3 @@ class Mentor::LockRequestTest < ActiveSupport::TestCase
     end
   end
 end
-
-

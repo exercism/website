@@ -54,14 +54,13 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # Create a representation with feedback that should be given
     # It should approve with comment
-    exercise_representation =
-      create :exercise_representation,
-             exercise: concept_exercise_basics,
-             exercise_version: 15,
-             ast_digest: Iteration::Representation.digest_ast('some ast'),
-             action: :approve,
-             feedback_markdown: "Fantastic Work!!",
-             feedback_author: mentor
+    create :exercise_representation,
+           exercise: concept_exercise_basics,
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast('some ast'),
+           action: :approve,
+           feedback_markdown: "Fantastic Work!!",
+           feedback_author: mentor
     Iteration::Representation::Process.(
       basics_iteration_1.uuid,
       200,

@@ -1,15 +1,14 @@
 require 'test_helper'
 
 class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
-
   test "creates test_run record" do
     iteration = create :iteration
     ops_status = 201
     ops_message = "some ops message"
     status = "foobar"
     message = "some barfoo message"
-    tests = [{'foo' => 'bar'}]
-    results = {'status' => status, 'message' => message, 'tests' => tests}
+    tests = [{ 'foo' => 'bar' }]
+    results = { 'status' => status, 'message' => message, 'tests' => tests }
 
     Iteration::TestRun::Process.(iteration.uuid, ops_status, ops_message, results)
 
@@ -26,7 +25,7 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "handle ops error" do
     iteration = create :iteration
-    results = {'status' => 'pass', 'message' => "", 'tests' => []}
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     Iteration::TestRun::Process.(iteration.uuid, 500, "", results)
 
     assert iteration.reload.tests_exceptioned?
@@ -34,7 +33,7 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "handle tests pass" do
     iteration = create :iteration
-    results = {'status' => 'pass', 'message' => "", 'tests' => []}
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
 
     assert iteration.reload.tests_passed?
@@ -42,7 +41,7 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "handle tests fail" do
     iteration = create :iteration
-    results = {'status' => 'fail', 'message' => "", 'tests' => []}
+    results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
 
     # Cancel reprsentation and analysis
     Iteration::Representation::Cancel.expects(:call).with(iteration.uuid)
@@ -55,7 +54,7 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "handle tests error" do
     iteration = create :iteration
-    results = {'status' => 'error', 'message' => "", 'tests' => []}
+    results = { 'status' => 'error', 'message' => "", 'tests' => [] }
 
     # Cancel reprsentation and analysis
     Iteration::Representation::Cancel.expects(:call).with(iteration.uuid)
@@ -68,7 +67,7 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "handle bad status" do
     iteration = create :iteration
-    results = {'status' => 'oops', 'message' => "", 'tests' => []}
+    results = { 'status' => 'oops', 'message' => "", 'tests' => [] }
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
 
     assert iteration.reload.tests_exceptioned?

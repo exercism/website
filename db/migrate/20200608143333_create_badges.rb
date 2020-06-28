@@ -7,9 +7,9 @@ class CreateBadges < ActiveRecord::Migration[6.0]
 
       t.timestamps
 
-      t.index [:user_id, :type], unique: true
+      t.index %i[user_id type], unique: true
     end
 
-    add_belongs_to :users, :featured_badge, null: true, foreign_key: {to_table: :badges}
+    add_belongs_to :users, :featured_badge, null: true, foreign_key: { to_table: :badges }
   end
 end

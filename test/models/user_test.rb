@@ -31,7 +31,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "reputation raises with both track_slug and category specified" do
     user = create :user
-    
+
     # Sanity check the individuals work
     # before testing them both together
     assert user.reputation(track_slug: :ruby)

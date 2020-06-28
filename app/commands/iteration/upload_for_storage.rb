@@ -8,9 +8,9 @@ class Iteration
     end
 
     def call
-      files.map { |filename, code|
+      files.map do |filename, code|
         Thread.new { upload_file(filename, code) }
-      }.each(&:join)
+      end.each(&:join)
     end
 
     private

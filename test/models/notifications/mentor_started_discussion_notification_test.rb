@@ -8,7 +8,7 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
 
     notification = Notifications::MentorStartedDiscussionNotification.create!(
       user: user,
-      params: { 
+      params: {
         discussion: discussion,
         discussion_post: discussion_post
       }
@@ -23,10 +23,10 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
     mentor = create(:user)
     discussion = create(:solution_mentor_discussion, solution: create(:practice_solution, exercise: exercise), mentor: mentor)
     discussion_post = create(:iteration_discussion_post, source: discussion)
-    
+
     notification = Notifications::MentorStartedDiscussionNotification.create!(
       user: create(:user),
-      params: { 
+      params: {
         discussion: discussion,
         discussion_post: discussion_post
       }

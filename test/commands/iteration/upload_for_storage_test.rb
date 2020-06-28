@@ -15,7 +15,7 @@ class Iteration::UploadForStorageTest < ActiveSupport::TestCase
     files = {
       file_1_name => file_1_contents,
       file_2_name => file_2_contents,
-      file_3_name => file_3_contents,
+      file_3_name => file_3_contents
     }
 
     s3_client = mock

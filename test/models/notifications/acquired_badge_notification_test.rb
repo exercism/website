@@ -4,10 +4,10 @@ class Notifications::AcquiredBadgeNotificationTest < ActiveSupport::TestCase
   test "anti_duplicate_key" do
     user = create :user
     badge = create(:badge)
- 
+
     notification = Notifications::AcquiredBadgeNotification.create!(
       user: user,
-      params: { 
+      params: {
         badge: badge
       }
     )
@@ -18,16 +18,13 @@ class Notifications::AcquiredBadgeNotificationTest < ActiveSupport::TestCase
   test "text is valid" do
     user = create :user
     badge = create(:badge)
- 
+
     notification = Notifications::AcquiredBadgeNotification.create!(
       user: user,
-      params: { 
+      params: {
         badge: badge
       }
     )
     assert_equal "You have been awarded the #{badge.name} badge.", notification.text
   end
 end
-
-
-

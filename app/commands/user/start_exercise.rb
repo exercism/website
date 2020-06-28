@@ -17,14 +17,14 @@ class User
       raise ExerciseUnavailableError unless user_track.exercise_available?(exercise)
     end
 
-    def solution_class 
-      if exercise.is_a?(ConceptExercise) 
-        ConceptSolution 
-      elsif exercise.is_a?(PracticeExercise) 
+    def solution_class
+      if exercise.is_a?(ConceptExercise)
+        ConceptSolution
+      elsif exercise.is_a?(PracticeExercise)
         PracticeSolution
       else
         # Guard against some further third type
-        raise RuntimeError 
+        raise RuntimeError
       end
     end
   end

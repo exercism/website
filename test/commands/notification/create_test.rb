@@ -5,7 +5,7 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:solution_mentor_discussion)
-    params = {discussion: discussion}
+    params = { discussion: discussion }
 
     notification = Notification::Create.(user, type, params)
 

@@ -1,0 +1,12 @@
+check_name: 'Rubocop Results'
+
+rubocop_fail_level: 'refactor'
+
+rubocop_excluded_cops:
+  - 'Metrics'
+        
+versions:
+  - rubocop
+  - rubocop-rails
+  - rubocop-minitest
+  - rubocop-performance: '1.5.1'

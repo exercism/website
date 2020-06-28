@@ -22,12 +22,9 @@ module Mentor
     end
 
     private
-
     memoize
     def solution
       iteration.solution
     end
-
   end
 end
-

@@ -14,7 +14,7 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
 
       t.timestamps
 
-      t.index [:user_id, :exercise_id], unique: true
+      t.index %i[user_id exercise_id], unique: true
     end
   end
 end

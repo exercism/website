@@ -61,6 +61,25 @@ If you'd like to use solargraph, the gem is in the file. You need to run and set
 - `bundle exec yard gems`
 - `solargraph bundle`
 
+### Code Standards
+
+Rubocop is enforced on PRs. To run it locally:
+```
+bundle exec rubocop --except Metrics
+```
+
+To autoupdate based on it's suggestions, add the `-a` flag:
+```
+bundle exec rubocop --except Metrics -a
+```
+
+To check the complexity of your code and ensure you're not
+adding things that are more complex to the codebase, run without the `--except` flag:
+```
+bundle exec rubocop -a
+```
+
+
 ## Testing
 
 ### Git Repos

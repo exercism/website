@@ -1,11 +1,11 @@
 class ParseMarkdown
   include Mandate
 
-  #TODO This needs fixing in mandate but I don't know
+  # TODO: This needs fixing in mandate but I don't know
   # how to do it without breaking hashes passed as the
-  # last argument. 
+  # last argument
   def self.call(*args, **kwargs)
-    new(*args, **kwargs).call
+    new(*args, **kwargs).()
   end
 
   def initialize(text, nofollow_links: false)
@@ -14,7 +14,8 @@ class ParseMarkdown
   end
 
   def call
-    return "" unless text.present?
+    return "" if text.blank?
+
     sanitized_html
   end
 
@@ -31,7 +32,7 @@ class ParseMarkdown
       html = CommonMarker.render_doc(
         preprocessed_text,
         :DEFAULT,
-        [:table, :tagfilter, :strikethrough]
+        %i[table tagfilter strikethrough]
       )
       renderer.render(html)
     end
@@ -43,7 +44,7 @@ class ParseMarkdown
   end
 
   class Renderer < CommonMarker::HtmlRenderer
-    def initialize(options: , nofollow_links: false)
+    def initialize(options:, nofollow_links: false)
       super(options: options)
       @nofollow_links = nofollow_links
     end
@@ -53,9 +54,7 @@ class ParseMarkdown
 
     def link(node)
       out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
-      if node.title && !node.title.empty?
-        out(' title="', escape_html(node.title), '"')
-      end
+      out(' title="', escape_html(node.title), '"') if node.title.present?
       out(' rel="nofollow"') if nofollow_links
       out('>', :children, '</a>')
     end
@@ -63,7 +62,7 @@ class ParseMarkdown
     def code_block(node)
       block do
         out("<pre#{sourcepos(node)}><code")
-        if node.fence_info && !node.fence_info.empty?
+        if node.fence_info.present?
           out(' class="language-', node.fence_info.split(/\s+/)[0], '">')
         else
           out(' class="language-plain">')

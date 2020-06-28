@@ -10,8 +10,8 @@ class Badge::CreateTest < ActiveSupport::TestCase
   class Badges::DummyBadBadge < Badge
     def should_award?
       false
-    end 
-  end 
+    end
+  end
 
   test "acquires badge for user" do
     user = create :user

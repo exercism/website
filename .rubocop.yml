@@ -1,9 +1,11 @@
+
 require: 
   - rubocop-rails
   - rubocop-minitest
   - rubocop-performance
 
 AllCops:
+  NewCops: disable
   Exclude:
     - "bin/**/*"
     - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"

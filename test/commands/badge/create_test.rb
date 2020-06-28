@@ -5,7 +5,7 @@ class Badge::CreateTest < ActiveSupport::TestCase
     def should_award?
       true
     end
-  end
+  end 
 
   class Badges::DummyBadBadge < Badge
     def should_award?
@@ -20,7 +20,7 @@ class Badge::CreateTest < ActiveSupport::TestCase
     assert badge.persisted?
     assert_equal user, badge.user
     assert_equal Badges::DummyGoodBadge, badge.class
-  end 
+  end
 
   test "idempotent" do
     user = create :user

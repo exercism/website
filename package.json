@@ -37,7 +37,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged",
+      "pre-commit": "git diff --name-only --staged | grep '.rb$' | xargs bundle exec rubocop --except Metrics --format junit -a --display-only-failed"
     }
   }
 }

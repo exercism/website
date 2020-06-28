@@ -18,42 +18,43 @@ class Iteration::RepresentationTest < ActiveSupport::TestCase
     ast = "My AST"
     ast_digest = Iteration::Representation.digest_ast(ast)
 
-    representation = create :iteration_representation, 
-      iteration: create(:iteration, exercise: exercise),
-      ast: ast
+    representation = create :iteration_representation,
+                            iteration: create(:iteration, exercise: exercise),
+                            ast: ast
 
     # Wrong exercise version
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 2,
-      ast_digest: ast_digest
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 2,
+           ast_digest: ast_digest
     assert_raises do
       representation.exercise_representation
     end
 
     # Wrong exercise
-    exercise_representation = create :exercise_representation, 
-      exercise: create(:concept_exercise),
-      exercise_version: 15,
-      ast_digest: Iteration::Representation.digest_ast(ast)
+    create :exercise_representation,
+           exercise: create(:concept_exercise),
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast(ast)
     assert_raises do
       representation.exercise_representation
     end
 
     # Wrong ast
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 15,
-      ast_digest: "something"
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 15,
+           ast_digest: "something"
+
     assert_raises do
       representation.exercise_representation
     end
 
     # Correct everything!
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 15,
-      ast_digest: ast_digest
+    exercise_representation = create :exercise_representation,
+                                     exercise: exercise,
+                                     exercise_version: 15,
+                                     ast_digest: ast_digest
     assert_equal exercise_representation, representation.exercise_representation
   end
 end

@@ -4,14 +4,14 @@ class Iteration
       include Mandate
 
       def initialize(iteration_uuid, ops_status, ops_message, data)
-        @iteration = Iteration.find_by_uuid!(iteration_uuid)
+        @iteration = Iteration.find_by!(uuid: iteration_uuid)
         @ops_status = ops_status.to_i
         @ops_message = ops_message
         @data = data.is_a?(Hash) ? data.symbolize_keys : {}
       end
 
       def call
-        # Let's create a record for debugging and to give
+        # Firstly create a record for debugging and to give
         # us some basis of the next set of decisions etc.
         analysis = iteration.analyses.create!(
           ops_status: ops_status,
@@ -20,30 +20,29 @@ class Iteration
         )
 
         # Then all of the submethods here should
-        # action within transaction setting the 
+        # action within transaction setting the
         # status to be an error if it fails.
         begin
-          case
-          when analysis.ops_errored?
+          if analysis.ops_errored?
             handle_ops_error!
-          when analysis.approved?
+          elsif analysis.approved?
             handle_approved!
-          when analysis.disapproved?
+          elsif analysis.disapproved?
             handle_disapproved!
-          when analysis.inconclusive?
+          elsif analysis.inconclusive?
             handle_inconclusive!
-          else 
+          else
             raise "Unknown status"
           end
-        rescue
+        rescue StandardError
           iteration.analysis_exceptioned!
         end
 
         # TODO: Mark iteration as analyzed and broadcast
         # it here, when we've decided how that works
-        #iteration.broadcast!
+        # iteration.broadcast!
       end
-        
+
       private
       attr_reader :iteration, :ops_status, :ops_message, :data
 
@@ -65,4 +64,3 @@ class Iteration
     end
   end
 end
-

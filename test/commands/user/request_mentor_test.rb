@@ -30,6 +30,4 @@ class User::RequestMentorTest < ActiveSupport::TestCase
     new_request = User::RequestMentor.(existing_request.solution, :code_review, "")
     refute_equal existing_request, new_request
   end
-
 end
-

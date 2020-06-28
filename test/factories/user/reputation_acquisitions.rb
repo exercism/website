@@ -3,6 +3,6 @@ FactoryBot.define do
     user
     amount { 1 }
     category { "misc" }
-    reason { "misc" } 
+    reason { "misc" }
   end
 end

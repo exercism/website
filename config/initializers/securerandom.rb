@@ -2,6 +2,6 @@ require 'securerandom'
 
 module SecureRandom
   def self.compact_uuid
-    SecureRandom.uuid.gsub('-', '')
+    SecureRandom.uuid.delete('-')
   end
 end

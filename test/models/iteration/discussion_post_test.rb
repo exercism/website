@@ -13,5 +13,5 @@ class Iteration::DiscussionPostTest < ActiveSupport::TestCase
 
     post.content_markdown = " "
     refute post.valid?
-   end
+  end
 end

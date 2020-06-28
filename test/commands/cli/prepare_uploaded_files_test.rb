@@ -2,7 +2,6 @@ require 'test_helper'
 
 class CLI::PrepareUploadedFilesTest < ActiveSupport::TestCase
   test "creates iteration correctly" do
-
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
     headers_1 = "Content-Disposition: form-data; name=\"files[]\"; filename=\"#{filename_1}\"\r\nContent-Type: application/octet-stream\r\n"
@@ -26,5 +25,3 @@ class CLI::PrepareUploadedFilesTest < ActiveSupport::TestCase
     assert_equal content_2, second_file[:content]
   end
 end
-
-

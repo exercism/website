@@ -42,4 +42,3 @@ class StartExerciseTest < ActiveSupport::TestCase
     assert_idempotent_command { User::StartExercise.(ut, ex) }
   end
 end
-

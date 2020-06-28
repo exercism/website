@@ -8,7 +8,7 @@ class User::ReplyToDiscussionTest < ActiveSupport::TestCase
 
     discussion_post = User::ReplyToDiscussion.(
       discussion,
-      iteration, 
+      iteration,
       content_markdown
     )
     assert discussion_post.persisted?
@@ -33,8 +33,6 @@ class User::ReplyToDiscussionTest < ActiveSupport::TestCase
     assert_equal 1, mentor.notifications.size
     notification = mentor.notifications.first
     assert_equal Notifications::StudentRepliedToDiscussionNotification, notification.class
-    assert_equal({discussion_post: Iteration::DiscussionPost.first}, notification.send(:params))
+    assert_equal({ discussion_post: Iteration::DiscussionPost.first }, notification.send(:params))
   end
 end
-
-

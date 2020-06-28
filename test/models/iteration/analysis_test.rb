@@ -14,15 +14,15 @@ class Iteration::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "approved?" do
-    assert create(:iteration_analysis, ops_status: 200, data: {status: :approved}).approved?
-    refute create(:iteration_analysis, ops_status: 200, data: {status: :disapproved}).approved?
-    refute create(:iteration_analysis, ops_status: 200, data: {status: :misc}).approved?
+    assert create(:iteration_analysis, ops_status: 200, data: { status: :approved }).approved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :disapproved }).approved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :misc }).approved?
   end
 
   test "disapproved?" do
-    refute create(:iteration_analysis, ops_status: 200, data: {status: :approved}).disapproved?
-    assert create(:iteration_analysis, ops_status: 200, data: {status: :disapproved}).disapproved?
-    refute create(:iteration_analysis, ops_status: 200, data: {status: :misc}).disapproved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :approved }).disapproved?
+    assert create(:iteration_analysis, ops_status: 200, data: { status: :disapproved }).disapproved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :misc }).disapproved?
   end
 
   test "status" do
@@ -33,11 +33,11 @@ class Iteration::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments" do
-    comments = [{'status' => 'pass'}]
+    comments = [{ 'status' => 'pass' }]
     data = { comments: comments }
     analysis = create :iteration_analysis, data: data
     assert_equal comments, analysis.comments
   end
 
-  # TODO - Add a test for if the data is empty
+  # TODO: - Add a test for if the data is empty
 end

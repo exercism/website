@@ -10,18 +10,18 @@ class Iteration
 
       @files.each do |f|
         f[:uuid] = SecureRandom.compact_uuid,
-        f[:digest] = Digest::SHA1.hexdigest(f[:content])
+                   f[:digest] = Digest::SHA1.hexdigest(f[:content])
       end
     end
 
     def call
-      # This needs to be fast. 
+      # This needs to be fast.
       guard!
 
       # Kick off the threads to get things uploaded
       # before we do anything with the database.
 
-      # These thread must *not* touch the DB or have any 
+      # These thread must *not* touch the DB or have any
       # db models passed to them.
       threads = [
         Thread.new { init_services },
@@ -31,7 +31,7 @@ class Iteration
       iteration = create_iteration!
       update_solution!
       schedule_jobs!
-      
+
       # Finally wait for everyting to finish before
       # we return the iteration
       threads.each(&:join)
@@ -47,8 +47,8 @@ class Iteration
       last_iteration = solution.iterations.last
       return unless last_iteration
 
-      prev_files = last_iteration.files.map {|f| "#{f.filename}|#{f.digest}" }
-      new_files = files.map {|f| "#{f[:filename]}|#{f[:digest]}" }
+      prev_files = last_iteration.files.map { |f| "#{f.filename}|#{f.digest}" }
+      new_files = files.map { |f| "#{f[:filename]}|#{f[:digest]}" }
       raise DuplicateIterationError if prev_files.sort == new_files.sort
     end
 
@@ -56,21 +56,21 @@ class Iteration
       git_slug = solution.git_slug
       git_sha = solution.git_sha
       track_repo = solution.track.repo
-      
+
       # Let's get it up first, then we'll fan out to
       # all the services we want to run this,
-      Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files) 
+      Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files)
 
       [
-        Thread.new{Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
-        Thread.new{Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
-        Thread.new{Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) }
+        Thread.new { Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
+        Thread.new { Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
+        Thread.new { Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) }
       ].each(&:join)
     end
 
     def create_iteration!
       solution.iterations.create!(
-        uuid: iteration_uuid, 
+        uuid: iteration_uuid,
         submitted_via: submitted_via
       ).tap do |iteration|
         files.each do |file|

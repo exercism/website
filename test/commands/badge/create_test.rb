@@ -35,9 +35,8 @@ class Badge::CreateTest < ActiveSupport::TestCase
   test "race conditions" do
     user = create :user
     badge = Badges::DummyGoodBadge.create!(user: user)
-    Badges::DummyGoodBadge.expects(:find_by!).twice.
-                                              raises(ActiveRecord::RecordNotFound).
-                                              then.returns(badge)
+    Badges::DummyGoodBadge.expects(:find_by).returns(nil)
+    Badges::DummyGoodBadge.expects(:find_by!).returns(badge)
 
     new_badge = Badge::Create.(user, :dummy_good)
     assert_equal badge, new_badge
@@ -51,7 +50,7 @@ class Badge::CreateTest < ActiveSupport::TestCase
     assert_equal 1, user.notifications.size
     notification = user.notifications.first
     assert_equal Notifications::AcquiredBadgeNotification, notification.class
-    assert_equal({badge: badge}, notification.send(:params))
+    assert_equal({ badge: badge }, notification.send(:params))
   end
 
   test "raises if the badge shouldn't be awarded" do

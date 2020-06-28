@@ -16,7 +16,7 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal track, Track.for!(track.slug)
   end
 
-  %w{head_sha}.each do |delegate|
+  %w[head_sha].each do |delegate|
     test "delegates git_#{delegate}" do
       url = TestHelpers.git_repo_url("track-with-exercises")
       git_track = Git::Track.new(url)

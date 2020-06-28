@@ -2,10 +2,10 @@ class Solution < ApplicationRecord
   belongs_to :user
   belongs_to :exercise
   has_one :track, through: :exercise
-  has_many :iterations
+  has_many :iterations, dependent: :destroy
 
-  has_many :mentor_requests, class_name: "Solution::MentorRequest"
-  has_many :mentor_discussions, class_name: "Solution::MentorDiscussion"
+  has_many :mentor_requests, class_name: "Solution::MentorRequest", dependent: :destroy
+  has_many :mentor_discussions, class_name: "Solution::MentorDiscussion", dependent: :destroy
 
   before_create do
     # Search engines derive meaning by using hyphens
@@ -18,7 +18,7 @@ class Solution < ApplicationRecord
     self.git_sha = track.git_head_sha
   end
 
-  # TODO - Use an actual serializer
+  # TODO: - Use an actual serializer
   def serialized_iterations
     iterations.map do |i|
       {

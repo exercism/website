@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SolutionTest < ActiveSupport::TestCase
-  [:concept_solution, :practice_solution].each do |solution_type|
+  %i[concept_solution practice_solution].each do |solution_type|
     test "#{solution_type}: sets uuid" do
       solution = build solution_type, uuid: nil
       assert_nil solution.uuid
@@ -23,8 +23,6 @@ class SolutionTest < ActiveSupport::TestCase
     end
 
     test "#{solution_type}: git_slug and git_sha are set correctly" do
-      track = create :track, repo_url: TestHelpers.git_repo_url(:track)
-
       solution = create solution_type
       assert_equal solution.git_sha, solution.track.git_head_sha
       assert_equal solution.git_slug, solution.exercise.slug

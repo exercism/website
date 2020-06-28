@@ -1,6 +1,5 @@
 module Mentor
   class StartDiscussion
-
     include Mandate
 
     initialize_with :mentor, :request, :iteration, :content_markdown
@@ -13,7 +12,7 @@ module Mentor
 
         # Now we're in the happy path.
         # Mark the request as fulfilled, create the discussion
-        # and a first post. If any of these fail then the 
+        # and a first post. If any of these fail then the
         # whole load need to fail.
         request.fulfilled!
 
@@ -32,7 +31,7 @@ module Mentor
         Notification::Create.(
           solution.user,
           :mentor_started_discussion,
-          { 
+          {
             discussion: discussion,
             discussion_post: discussion_post
           }
@@ -42,10 +41,9 @@ module Mentor
       end
     end
 
-    private 
+    private
     def solution
       request.solution
     end
   end
 end
-

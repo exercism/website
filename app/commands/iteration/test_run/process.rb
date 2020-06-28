@@ -4,7 +4,7 @@ class Iteration
       include Mandate
 
       def initialize(iteration_uuid, ops_status, ops_message, results)
-        @iteration = Iteration.find_by_uuid!(iteration_uuid)
+        @iteration = Iteration.find_by!(uuid: iteration_uuid)
         @ops_status = ops_status.to_i
         @ops_message = ops_message
         @results = results.is_a?(Hash) ? results.symbolize_keys : {}
@@ -20,22 +20,21 @@ class Iteration
         )
 
         # Then all of the submethods here should
-        # action within transaction setting the 
+        # action within transaction setting the
         # status to be an error if it fails.
         begin
-          case
-          when test_run.ops_errored?
+          if test_run.ops_errored?
             handle_ops_error!
-          when test_run.passed?
+          elsif test_run.passed?
             handle_pass!
-          when test_run.failed?
+          elsif test_run.failed?
             handle_fail!
-          when test_run.errored?
+          elsif test_run.errored?
             handle_error!
-          else 
+          else
             raise "Unknown status"
           end
-        rescue
+        rescue StandardError
           iteration.tests_exceptioned!
         end
 
@@ -43,7 +42,7 @@ class Iteration
         # it here, when we've decided how that works
         iteration.broadcast!
       end
-        
+
       private
       attr_reader :iteration, :ops_status, :ops_message, :results
 

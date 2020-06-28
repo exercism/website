@@ -9,7 +9,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     filename_2 = "barfood.rb"
     content_2 = "something = :else"
     digest_2 = Digest::SHA1.hexdigest(content_2)
- 
+
     files = [
       { filename: filename_1, content: content_1 },
       { filename: filename_2, content: content_2 }
@@ -44,7 +44,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     filename_2 = "barfood.rb"
     content_2 = "something = :else"
- 
+
     files = [
       { filename: filename_1, content: content_1 },
       { filename: filename_2, content: content_2 }

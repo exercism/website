@@ -4,14 +4,14 @@ class Iteration
       include Mandate
 
       def initialize(iteration_uuid, ops_status, ops_message, ast)
-        @iteration = Iteration.find_by_uuid!(iteration_uuid)
+        @iteration = Iteration.find_by!(uuid: iteration_uuid)
         @ops_status = ops_status.to_i
         @ops_message = ops_message
         @ast = ast
       end
 
       def call
-        # Let's create a record for debugging and to give
+        # Firstly, create a record for debugging and to give
         # us some basis of the next set of decisions etc.
         @iteration_representation = Iteration::Representation.create!(
           iteration: iteration,
@@ -33,27 +33,24 @@ class Iteration
         end
 
         # Then all of the submethods here should
-        # action within transaction setting the 
+        # action within transaction setting the
         # status to be an error if it fails.
         begin
-          case
-          when exercise_representation.approve?
+          if exercise_representation.approve?
             handle_approve!
-          when exercise_representation.disapprove?
+          elsif exercise_representation.disapprove?
             handle_disapprove!
-          else 
+          else
             handle_pending!
           end
-        rescue
+        rescue StandardError
           iteration.analysis_exceptioned!
         end
-
       end
       attr_reader :iteration, :ops_status, :ops_message, :ast
       attr_reader :iteration_representation, :exercise_representation
 
       private
-
       def exercise_version
         iteration.exercise_version.to_i # to_i returns everything up to the dot
       end
@@ -80,7 +77,7 @@ class Iteration
         return unless exercise_representation.has_feedback?
 
         Iteration::DiscussionPost::CreateFromRepresentation.(
-          iteration, 
+          iteration,
           iteration_representation,
           exercise_representation
         )

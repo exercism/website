@@ -1,6 +1,6 @@
 class Iteration::TestRun < ApplicationRecord
   belongs_to :iteration
-  
+
   scope :ops_successful, -> { where(ops_status: 200) }
 
   before_create do
@@ -8,7 +8,7 @@ class Iteration::TestRun < ApplicationRecord
     self.message = raw_results[:message] unless self.message
     self.tests = raw_results[:tests] unless self.tests
   end
-  
+
   def status
     super.try(&:to_sym)
   end
@@ -33,7 +33,7 @@ class Iteration::TestRun < ApplicationRecord
     status == :fail
   end
 
-  # TODO Memoize
+  # TODO: Memoize
   def test_results
     tests.map do |test|
       TestResult.new(HashWithIndifferentAccess.new(test))
@@ -41,12 +41,12 @@ class Iteration::TestRun < ApplicationRecord
   end
 
   private
-  # TODO Memoize
+  # TODO: Memoize
   def raw_results
     HashWithIndifferentAccess.new(super)
   end
 
-  class TestResult 
+  class TestResult
     attr_reader :name, :status, :cmd, :message, :expected
 
     def initialize(test)

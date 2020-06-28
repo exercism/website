@@ -22,11 +22,9 @@ class User
     end
 
     private
-
     memoize
     def solution
       iteration.solution
     end
-
   end
 end

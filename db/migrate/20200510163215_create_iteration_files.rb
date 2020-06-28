@@ -8,9 +8,9 @@ class CreateIterationFiles < ActiveRecord::Migration[6.0]
       t.string :digest, null: false
 
       # We're going to save content for now
-      # to make local development easier and 
+      # to make local development easier and
       # to keep old content inline for now.
-      # Once we're happy everything is in S3, 
+      # Once we're happy everything is in S3,
       # we can delete this column
       t.binary :content, null: false
 

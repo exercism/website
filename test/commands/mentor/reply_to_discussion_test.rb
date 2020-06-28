@@ -9,7 +9,7 @@ class Mentor::ReplyToDiscussionTest < ActiveSupport::TestCase
 
     discussion_post = Mentor::ReplyToDiscussion.(
       discussion,
-      iteration, 
+      iteration,
       content_markdown
     )
     assert discussion_post.persisted?
@@ -23,7 +23,7 @@ class Mentor::ReplyToDiscussionTest < ActiveSupport::TestCase
     user = create :user
     solution = create :practice_solution, user: user
     iteration = create :iteration, solution: solution
-    discussion = create(:solution_mentor_discussion, solution:solution)
+    discussion = create(:solution_mentor_discussion, solution: solution)
 
     Mentor::ReplyToDiscussion.(
       discussion,
@@ -33,8 +33,6 @@ class Mentor::ReplyToDiscussionTest < ActiveSupport::TestCase
     assert_equal 1, user.notifications.size
     notification = user.notifications.first
     assert_equal Notifications::MentorRepliedToDiscussionNotification, notification.class
-    assert_equal({discussion_post: Iteration::DiscussionPost.first}, notification.send(:params))
+    assert_equal({ discussion_post: Iteration::DiscussionPost.first }, notification.send(:params))
   end
-
 end
-

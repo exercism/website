@@ -1,8 +1,8 @@
 class Iteration::Analysis < ApplicationRecord
   belongs_to :iteration
-  
+
   scope :ops_successful, -> { where(ops_status: 200) }
-  
+
   def status
     data[:status].try(&:to_sym)
   end
@@ -32,9 +32,8 @@ class Iteration::Analysis < ApplicationRecord
   end
 
   private
-  # TODO Memoize
+  # TODO: Memoize
   def data
     HashWithIndifferentAccess.new(super)
   end
-
 end

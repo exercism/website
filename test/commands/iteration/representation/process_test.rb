@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
-
   test "creates iteration representation record" do
     iteration = create :iteration
     ops_status = 200
@@ -32,7 +31,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     assert_equal ast, representation.ast
     assert_equal ast_digest, representation.ast_digest
 
-    # TODO: Check the exercise version properly here. 
+    # TODO: Check the exercise version properly here.
     # Add it to the git repo and check it retrieves correctly
     assert_equal 15, representation.exercise_version
   end
@@ -64,11 +63,11 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
   test "handle approval" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 15,
-      ast_digest: Iteration::Representation.digest_ast(ast),
-      action: :approve
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast(ast),
+           action: :approve
 
     iteration = create :iteration, exercise: exercise
     Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
@@ -79,11 +78,11 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
   test "handle disapproved" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 15,
-      ast_digest: Iteration::Representation.digest_ast(ast),
-      action: :disapprove
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast(ast),
+           action: :disapprove
 
     iteration = create :iteration, exercise: exercise
     Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
@@ -97,13 +96,13 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
 
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 15,
-      ast_digest: Iteration::Representation.digest_ast(ast),
-      action: :disapprove,
-      feedback_author: mentor,
-      feedback_markdown: feedback
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast(ast),
+           action: :disapprove,
+           feedback_author: mentor,
+           feedback_markdown: feedback
 
     iteration = create :iteration, exercise: exercise
     Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
@@ -117,11 +116,11 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
   test "handle inconclusive" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
-    exercise_representation = create :exercise_representation, 
-      exercise: exercise,
-      exercise_version: 15,
-      ast_digest: Iteration::Representation.digest_ast(ast),
-      action: :pending
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast(ast),
+           action: :pending
 
     iteration = create :iteration, exercise: exercise
     Iteration::Representation::Process.(iteration.uuid, 200, "", ast)

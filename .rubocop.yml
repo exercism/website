@@ -1,0 +1,95 @@
+require: 
+  - rubocop-rails
+  - rubocop-minitest
+  - rubocop-performance
+
+AllCops:
+  Exclude:
+    - "bin/**/*"
+    - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"
+    - "db/schema.rb"
+    - "db/seeds.rb"
+    - "node_modules/**/*"
+    - "lib/solargraph-rails.rb"
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/EmptyLinesAroundAccessModifier:
+  EnforcedStyle: only_before
+
+Layout/LineLength:
+  Exclude:
+    - "config/**/*"
+    - "test/models/notifications/*"
+    - "test/commands/cli/prepare_uploaded_files_test.rb"
+
+Lint/SuppressedException:
+  Exclude:
+    - "test/**/*"
+
+Metrics/BlockLength:
+  Exclude:
+    - "test/**/*"
+
+Metrics/MethodLength:
+  # We probably want to bring this down but let's start here for now
+  Max: 20
+  Exclude:
+    - "test/**/*"
+
+Metrics/AbcSize:
+  IgnoredMethods: ["CLI::PrepareUploadedFiles.call"]
+
+Naming/PredicateName:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DocumentationMethod:
+  Enabled: false
+
+Style/RedundantSelf:
+  Enabled: false
+
+Style/ZeroLengthPredicate:
+  Enabled: false
+
+# I don't mind this being enabled if
+# someone fixes all the fails.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+Style/LambdaCall:
+  EnforcedStyle: braces
+
+Rails/RefuteMethods:
+  EnforcedStyle: refute
+
+Rails/FilePath: 
+  EnforcedStyle: arguments
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+# 
+Rails/HasManyOrHasOneDependent: 
+  Exclude:
+    - "app/models/exercise/representation.rb"
+    - "app/models/iteration/representation.rb"

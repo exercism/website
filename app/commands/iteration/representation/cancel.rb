@@ -9,10 +9,10 @@ class Iteration
 
       def call
         RestClient.post "#{orchestrator_url}/iterations/cancel", {
-          iteration_uuid: iteration_uuid,
+          iteration_uuid: iteration_uuid
         }
       end
-      
+
       private
       attr_reader :iteration_uuid
 

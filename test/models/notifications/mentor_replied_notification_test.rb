@@ -20,7 +20,7 @@ class Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSupport::
     iteration = create :iteration, solution: solution
     mentor = create(:user)
     discussion_post = create(:iteration_discussion_post, iteration: iteration, user: mentor)
-    
+
     notification = Notifications::MentorRepliedToDiscussionNotification.create!(
       user: create(:user),
       params: { discussion_post: discussion_post }
@@ -28,4 +28,3 @@ class Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSupport::
     assert_equal "#{mentor.handle} has added a new comment on your solution to #{track.title}:#{exercise.title}", notification.text
   end
 end
-

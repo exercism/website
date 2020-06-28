@@ -6,7 +6,7 @@ class ParseMarkdownTest < ActiveSupport::TestCase
   end
 
   test "converts markdown to html" do
-    expected = %q{<h1>OHAI</h1>
+    expected = '<h1>OHAI</h1>
 <p>So I was split between two ways of doing this.</p>
 <ol>
 <li>Either method pairs with adjectives (which I did),</li>
@@ -15,9 +15,9 @@ class ParseMarkdownTest < ActiveSupport::TestCase
 <p><a href="http://example.com" target="_blank">Some link</a></p>
 <p>Watch this:</p>
 <pre><code class="language-plain">$ go home
-</code></pre>}
+</code></pre>'
 
-    actual = ParseMarkdown.(%q{
+    actual = ParseMarkdown.('
 # OHAI
 
 So I was split between two ways of doing this.
@@ -32,36 +32,36 @@ Watch this:
 ```
 $ go home
 ```
-})
+')
     assert_equal expected.chomp, actual.chomp
   end
 
   test "sanitizes bad tags" do
-    expected = %q{<p>Here is a sample of what a textarea block looks like:</p>
+    expected = '<p>Here is a sample of what a textarea block looks like:</p>
 &lt;iframe&gt;&lt;/iframe&gt;
-<p>Done</p>}
+<p>Done</p>'
 
-    actual = ParseMarkdown.(%q{
+    actual = ParseMarkdown.('
 Here is a sample of what a textarea block looks like:
 
 <iframe></iframe>
 
-Done})
+Done')
     assert_equal expected.chomp, actual.chomp
   end
   test "allows details" do
-    expected = %q{<p>Here is a sample of what a details/summary block looks like:</p>
+    expected = '<p>Here is a sample of what a details/summary block looks like:</p>
 <details><summary>Click the little arrow to get a hint!</summary>
 This is the spoiler that I want to show.</details>
-<p>Done</p>}
+<p>Done</p>'
 
-    actual = ParseMarkdown.(%q{
+    actual = ParseMarkdown.('
 Here is a sample of what a details/summary block looks like:
 
 <details><summary>Click the little arrow to get a hint!</summary>
 This is the spoiler that I want to show.</details>
 
-Done})
+Done')
     assert_equal expected.chomp, actual.chomp
   end
 
@@ -75,7 +75,6 @@ Done})
       --- | ---
       3   | 4
     TABLE
-
 
     expected = <<~HTML
       <table>
@@ -97,11 +96,11 @@ Done})
   end
 
   test "resepects rel_nofollow" do
-    normal = %q{<p><a href="http://example.com" target="_blank">Some link</a></p>}
-    rel_nofollow = %q{<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>}
+    normal = '<p><a href="http://example.com" target="_blank">Some link</a></p>'
+    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>'
 
-    assert_equal normal.chomp, ParseMarkdown.(%q{[Some link](http://example.com)}).chomp
-    assert_equal rel_nofollow.chomp, ParseMarkdown.(%q{[Some link](http://example.com)}, nofollow_links: true).chomp
+    assert_equal normal.chomp, ParseMarkdown.('[Some link](http://example.com)').chomp
+    assert_equal rel_nofollow.chomp, ParseMarkdown.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
   test "parses double tildes as strikethrough" do

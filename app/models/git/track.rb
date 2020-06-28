@@ -11,19 +11,19 @@ module Git
     # TODO: Read this from the repo
     def test_regexp
       pattern = config[:test_pattern]
-      Regexp.new(pattern.present?? pattern : "[tT]est")
+      Regexp.new(pattern.presence || "[tT]est")
     end
 
     # TODO: Ignore pattern
     def ignore_regexp
       pattern = config[:ignore_pattern]
-      Regexp.new(pattern.present?? pattern : "[iI]gnore")
+      Regexp.new(pattern.presence || "[iI]gnore")
     end
 
     def exercise(slug, sha)
       commit = repo.lookup_commit(sha)
       Git::Exercise.new(
-        repo, slug, commit, 
+        repo, slug, commit,
         config(commit: commit)
       )
     end
@@ -37,4 +37,3 @@ module Git
     end
   end
 end
-

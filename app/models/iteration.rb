@@ -4,14 +4,19 @@ class Iteration < ApplicationRecord
   has_one :track, through: :exercise
 
   has_many :files, class_name: "Iteration::File", dependent: :destroy
-  has_many :test_runs, class_name: "Iteration::TestRun"
-  has_many :analyses, class_name: "Iteration::Analysis"
-  has_many :representations, class_name: "Iteration::Representation"
-  has_many :discussion_posts, class_name: "Iteration::DiscussionPost"
+  has_many :test_runs, class_name: "Iteration::TestRun", dependent: :destroy
+  has_many :analyses, class_name: "Iteration::Analysis", dependent: :destroy
+  has_many :representations, class_name: "Iteration::Representation", dependent: :destroy
+  has_many :discussion_posts, class_name: "Iteration::DiscussionPost", dependent: :destroy
 
-  enum tests_status: [:pending, :passed, :failed, :errored, :exceptioned], _prefix: "tests"
-  enum representation_status: [:pending, :approved, :disapproved, :inconclusive, :exceptioned], _prefix: "representation"
-  enum analysis_status: [:pending, :approved, :disapproved, :inconclusive, :exceptioned], _prefix: "analysis"
+  enum tests_status: { pending: 0, passed: 1, failed: 2, errored: 3, exceptioned: 4 },
+       _prefix: "tests"
+
+  enum representation_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4 },
+       _prefix: "representation"
+
+  enum analysis_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4 },
+       _prefix: "analysis"
 
   before_create do
     self.git_slug = solution.git_slug

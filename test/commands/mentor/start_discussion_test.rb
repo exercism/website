@@ -47,11 +47,11 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     request = create :solution_mentor_request, solution: solution
     iteration = create :iteration, solution: solution
 
-    request.expects(:fulfilled!).raises
+    request.expects(:fulfilled!).raises(RuntimeError)
 
     begin
       Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
-    rescue
+    rescue RuntimeError
     end
 
     assert_equal :pending, request.reload.status
@@ -63,11 +63,11 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     request = create :solution_mentor_request, solution: solution
     iteration = create :iteration, solution: solution
 
-    Solution::MentorDiscussion.expects(:create!).raises
+    Solution::MentorDiscussion.expects(:create!).raises(RuntimeError)
 
     begin
       Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
-    rescue
+    rescue RuntimeError
     end
 
     assert_equal :pending, request.reload.status
@@ -81,7 +81,7 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
 
     begin
       Mentor::StartDiscussion.(create(:user), request, iteration, " \n ")
-    rescue
+    rescue ActiveRecord::RecordInvalid
     end
 
     assert_equal :pending, request.reload.status

@@ -13,7 +13,7 @@ require 'minitest/pride'
 
 # Configure mocach to be safe
 Mocha.configure do |c|
-  #c.stubbing_method_unnecessarily = :prevent
+  # c.stubbing_method_unnecessarily = :prevent
   c.stubbing_non_existent_method = :prevent
   c.stubbing_non_public_method = :warn
   c.stubbing_method_on_nil = :prevent
@@ -22,12 +22,13 @@ end
 # Require the support helper files
 Dir.foreach(Rails.root / "test" / "support") do |path|
   next if path.starts_with?('.')
+
   require Rails.root / "test" / "support" / path
 end
 
 module TestHelpers
   def self.git_repo_url(slug)
-    "file://#{(Rails.root / "test" / "repos" / slug.to_s)}"
+    "file://#{(Rails.root / 'test' / 'repos' / slug.to_s)}"
   end
 end
 
@@ -42,7 +43,7 @@ class ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   # Run tests in parallel with specified workers
-  #parallelize(workers: :number_of_processors)
+  # parallelize(workers: :number_of_processors)
 
   def setup
     RestClient.stubs(:post)
@@ -50,16 +51,15 @@ class ActiveSupport::TestCase
 
   # Create a few models and return a random one.
   # Use this method to guarantee that a method isn't
-  # working because it's accessing the first or last 
+  # working because it's accessing the first or last
   # object created or stored in the db
   def random_of_many(model, params = {}, num: 3)
-    num.times.map { create(model, params) }.sample
+    Array(num).map { create(model, params) }.sample
   end
 
   def assert_idempotent_command(&cmd)
-    obj1 = cmd.call
-    obj2 = cmd.call
-    assert_equal obj1, obj2
+    obj_1 = cmd.yield
+    obj_2 = cmd.yield
+    assert_equal obj_1, obj_2
   end
 end
-

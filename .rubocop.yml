@@ -1,9 +1,10 @@
-require: 
+require:
   - rubocop-rails
   - rubocop-minitest
   - rubocop-performance
 
 AllCops:
+  NewCops: disable
   Exclude:
     - "bin/**/*"
     - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"
@@ -82,14 +83,14 @@ Style/LambdaCall:
 Rails/RefuteMethods:
   EnforcedStyle: refute
 
-Rails/FilePath: 
+Rails/FilePath:
   EnforcedStyle: arguments
 
 Rails/SkipsModelValidations:
   Enabled: false
 
-# 
-Rails/HasManyOrHasOneDependent: 
+#
+Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"
     - "app/models/iteration/representation.rb"

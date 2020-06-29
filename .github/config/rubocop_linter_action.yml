@@ -1,10 +1,10 @@
-check_name: 'Rubocop Results'
+check_name: "Rubocop"
 
-rubocop_fail_level: 'refactor'
+rubocop_fail_level: "refactor"
 
 rubocop_excluded_cops:
-  - 'Metrics'
-        
+  - "Metrics"
+
 versions:
   - rubocop
   - rubocop-rails

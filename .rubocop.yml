@@ -1,5 +1,4 @@
-
-require: 
+require:
   - rubocop-rails
   - rubocop-minitest
   - rubocop-performance
@@ -84,14 +83,14 @@ Style/LambdaCall:
 Rails/RefuteMethods:
   EnforcedStyle: refute
 
-Rails/FilePath: 
+Rails/FilePath:
   EnforcedStyle: arguments
 
 Rails/SkipsModelValidations:
   Enabled: false
 
-# 
-Rails/HasManyOrHasOneDependent: 
+#
+Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"
     - "app/models/iteration/representation.rb"

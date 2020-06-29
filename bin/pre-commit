@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-`pretty-quick --staged`
-`git diff --name-only --staged | grep '.rb$' | xargs bundle exec rubocop --except Metrics --auto-correct --format quiet "`
-`git diff --name-only --staged | grep '.rb$' | xargs git add`
-

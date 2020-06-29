@@ -2,8 +2,8 @@ check_name: "Rubocop"
 
 rubocop_fail_level: "refactor"
 
-rubocop_excluded_cops:
-  - "Metrics"
+#rubocop_excluded_cops:
+#  - "Metrics"
 
 versions:
   - rubocop

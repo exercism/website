@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: exercism_v3
+      MYSQL_PASSWORD: exercism_v3
+      MYSQL_DATABASE: exercism_v3_test
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379/tcp"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10

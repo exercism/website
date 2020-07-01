@@ -28,3 +28,13 @@ services:
       ADMINER_DEFAULT_SERVER: mysql
     ports:
       - 8080:8080
+
+  website:
+    build: .
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app

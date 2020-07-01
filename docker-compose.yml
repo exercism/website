@@ -3,10 +3,9 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      MYSQL_USER: exercism_v3
-      MYSQL_PASSWORD: exercism_v3
-      MYSQL_DATABASE: exercism_v3_test
       MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     healthcheck:

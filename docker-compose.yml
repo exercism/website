@@ -6,8 +6,6 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - ./docker:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping"]
       interval: 10s
@@ -16,10 +14,17 @@ services:
 
   redis:
     image: redis
-    ports:
-      - "6379:6379/tcp"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 10
+
+  adminer:
+    image: adminer:4.7.7-standalone
+    depends_on:
+      - mysql
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 8080:8080

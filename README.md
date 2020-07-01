@@ -11,6 +11,7 @@ This is the WIP website for Exercism v3.
 You need the following installed:
 - MySQL
 - Redis
+- [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
 
 ### OS-Specific
 

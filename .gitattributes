@@ -1,3 +1,3 @@
-# Retain UNIX line endings to allow these files to
-# be used when mapped in a UNIX docker container
-*.*  text eol=lf
+# Use UNIX line endings for all files to allow them
+# to be used when mapped in a UNIX docker container
+* text eol=lf

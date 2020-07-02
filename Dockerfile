@@ -11,12 +11,16 @@ RUN curl -L -o - https://github.com/DarthSim/hivemind/releases/download/v1.0.6/h
     gunzip > /usr/local/bin/hivemind && \
     chmod u+x /usr/local/bin/hivemind
 
+# Install anycable-go
+RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
+    chmod u+x /usr/local/bin/anycable-go
+
 WORKDIR /usr/src/app
 
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
-RUN yarn install && \
-    gem install bundler && \
-    bundle install
+RUN gem install bundler && \
+    bundle install && \
+    yarn install
 
 CMD ["hivemind", "-p", "3000", "./Procfile.dev"]

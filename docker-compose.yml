@@ -2,6 +2,7 @@ version: "3"
 services:
   mysql:
     image: mysql:5.7
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
     volumes:
@@ -14,6 +15,7 @@ services:
 
   redis:
     image: redis
+    restart: always
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -25,6 +27,7 @@ services:
     depends_on:
       - mysql
       - redis
+    restart: always
     ports:
       - 3000:3000
     volumes:
@@ -34,6 +37,7 @@ services:
     image: adminer:4.7.7-standalone
     depends_on:
       - mysql
+    restart: always
     environment:
       ADMINER_DEFAULT_SERVER: mysql
     ports:
@@ -45,6 +49,5 @@ services:
     restart: always
     ports:
       - 9000:9000
-      - 8000:8000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

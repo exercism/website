@@ -20,15 +20,6 @@ services:
       timeout: 3s
       retries: 10
 
-  adminer:
-    image: adminer:4.7.7-standalone
-    depends_on:
-      - mysql
-    environment:
-      ADMINER_DEFAULT_SERVER: mysql
-    ports:
-      - 8080:8080
-
   website:
     build: .
     depends_on:
@@ -38,3 +29,22 @@ services:
       - 3000:3000
     volumes:
       - ./:/usr/src/app
+
+  adminer:
+    image: adminer:4.7.7-standalone
+    depends_on:
+      - mysql
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 8080:8080
+
+  portainer:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

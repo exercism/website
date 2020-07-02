@@ -13,9 +13,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
 
 WORKDIR /usr/src/app
 
-COPY Gemfile Gemfile.lock package.json yarn.lock ./
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
 
-RUN bundle install && \
-    yarn install
+COPY package.json yarn.lock ./
+RUN yarn install
 
 CMD ["hivemind", "-p", "3000", "./Procfile.dev"]

@@ -4,7 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.6'
 
 # Service/framework dependencies
-gem 'rails', github: "rails/rails", branch: "master" # , '~> 6.0.2', '>= 6.0.2.2'
+# gem 'rails', github: "rails/rails", branch: "master" # , '~> 6.0.2', '>= 6.0.2.2'
+gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.1'
 gem 'redis', '~> 4.0'

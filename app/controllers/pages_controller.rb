@@ -4,4 +4,4 @@ class PagesController < ApplicationController
 
     IterationsChannel.broadcast!(solution)
   end
-end   
+end

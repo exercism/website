@@ -1,3 +1,4 @@
 # Retain UNIX line endings to allow these files to
 # be used when mapped in a UNIX docker container
 *.rb text eol=lf
+*.ru text eol=lf

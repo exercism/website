@@ -19,6 +19,9 @@ Bundler/OrderedGems:
 Layout/DotPosition:
   EnforcedStyle: trailing
 
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 

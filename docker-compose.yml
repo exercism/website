@@ -7,20 +7,10 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - ./docker:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 10
 
   redis:
     image: redis
     restart: always
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 10
 
   website:
     build: .

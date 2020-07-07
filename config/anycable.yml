@@ -30,7 +30,7 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
 
 development:
   <<: *default
-  redis_url: "redis://localhost:6379/1"
+  redis_url: "redis://<%= ENV.fetch("REDIS_HOST", "127.0.0.1") %>:6379/1"
   log_grpc: true
   debug: true
 

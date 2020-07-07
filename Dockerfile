@@ -16,4 +16,7 @@ WORKDIR /usr/src/app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-CMD ["sh", "./docker/init.sh"]
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
+
+CMD ["sh", "docker/init.sh"]

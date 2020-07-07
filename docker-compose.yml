@@ -21,6 +21,10 @@ services:
     environment:
       MYSQL_HOST: mysql
       MYSQL_SOCKET:
+      MYSQL_PORT: 3306
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: password
+      REDIS_HOST: redis
     ports:
       - 3000:3000
     volumes:

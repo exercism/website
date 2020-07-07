@@ -18,9 +18,11 @@ services:
       - mysql
       - redis
     restart: always
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_SOCKET:
     ports:
       - 3000:3000
-    working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
 

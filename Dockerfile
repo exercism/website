@@ -11,4 +11,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     chmod u+x /usr/local/bin/anycable-go && \
     gem install bundler
 
+WORKDIR /usr/src/app
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
 CMD ["sh", "./docker/init.sh"]

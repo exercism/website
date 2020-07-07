@@ -1,4 +1,4 @@
-server: MYSQL_HOST=mysql MYSQL_SOCKET= bin/rails server -b '0.0.0.0' --redis_url="redis://redis:6379"
+server: bin/rails server -b '0.0.0.0' --redis_url="redis://redis:6379"
 assets: bin/webpack-dev-server
 anycable: bundle exec anycable --server-command "anycable-go --host=localhost --port 3334"
 js-tests: yarn test-watch

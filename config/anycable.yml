@@ -9,8 +9,7 @@
 #
 # Read more about AnyCable configuration here: https://docs.anycable.io/v1/#/ruby/configuration
 #
-default: &default
-  # Turn on/off access logs ("Started..." and "Finished...")
+default: &default # Turn on/off access logs ("Started..." and "Finished...")
   access_logs_disabled: false
   # Persist "dirty" session between RPC calls (might be required for apps using stimulus_reflex <3.0)
   # persistent_session_enabled: true
@@ -31,7 +30,7 @@ default: &default
 
 development:
   <<: *default
-  redis_url: "redis://localhost:6379/1"
+  redis_url: "redis://<%= ENV.fetch('REDIS_HOST', '127.0.0.1') %>:6379/1"
   log_grpc: true
   debug: true
 

@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: f485a0da293d4cfd55a3fa292091f31a59054c61
+  revision: d927d3be05874736fb0921f93c41597520f962c5
   branch: master
   specs:
     actioncable (6.1.0.alpha)
@@ -102,20 +102,20 @@ GEM
     anycable-rails (0.6.5)
       anycable (~> 0.6.0)
       rails (>= 5)
-    anyway_config (2.0.5)
+    anyway_config (2.0.6)
       ruby-next-core (>= 0.8.0)
     ast (2.4.1)
     aws-eventstream (1.1.0)
-    aws-partitions (1.336.0)
-    aws-sdk-core (3.102.1)
+    aws-partitions (1.339.0)
+    aws-sdk-core (3.103.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.35.0)
+    aws-sdk-kms (1.36.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.72.0)
+    aws-sdk-s3 (1.73.0)
       aws-sdk-core (~> 3, >= 3.102.1)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -160,8 +160,8 @@ GEM
     google-protobuf (3.12.2)
     googleapis-common-protos-types (1.0.5)
       google-protobuf (~> 3.11)
-    grpc (1.28.0)
-      google-protobuf (~> 3.11)
+    grpc (1.30.0)
+      google-protobuf (~> 3.12)
       googleapis-common-protos-types (~> 1.0)
     haml (5.1.2)
       temple (>= 0.8.0)
@@ -187,7 +187,7 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     jaro_winkler (1.5.4)
     jmespath (1.4.0)
-    json (2.3.0)
+    json (2.3.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -213,7 +213,7 @@ GEM
     mysql2 (0.5.3)
     netrc (0.11.0)
     nio4r (2.5.2)
-    nokogiri (1.10.9)
+    nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     parallel (1.19.2)
     parser (2.7.1.4)
@@ -246,21 +246,21 @@ GEM
     reverse_markdown (2.0.0)
       nokogiri
     rexml (3.2.4)
-    rubocop (0.86.0)
+    rubocop (0.87.1)
       parallel (~> 1.10)
-      parser (>= 2.7.0.1)
+      parser (>= 2.7.1.1)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.7)
       rexml
-      rubocop-ast (>= 0.0.3, < 1.0)
+      rubocop-ast (>= 0.1.0, < 1.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.1.0)
       parser (>= 2.7.0.1)
     rubocop-minitest (0.9.0)
       rubocop (>= 0.74)
-    rubocop-performance (1.6.1)
-      rubocop (>= 0.71.0)
+    rubocop-performance (1.7.0)
+      rubocop (>= 0.82.0)
     rubocop-rails (2.6.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
@@ -285,7 +285,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    solargraph (0.39.8)
+    solargraph (0.39.11)
       backport (~> 1.1)
       benchmark
       bundler (>= 1.17.2)
@@ -337,7 +337,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.25)
-    zeitwerk (2.3.0)
+    zeitwerk (2.3.1)
 
 PLATFORMS
   ruby

@@ -1,0 +1,4 @@
+server: bin/rails server -b '0.0.0.0'
+assets: bin/webpack-dev-server
+anycable: anycable --server-command "anycable-go --host=localhost --port 3334 --redis_url='redis://redis:6379'"
+js-tests: yarn test-watch

@@ -29,7 +29,6 @@ services:
       - 5000:3000
     volumes:
       - ./:/usr/src/app
-      - /usr/src/app/node_modules
 
   adminer:
     image: adminer:4.7.7-standalone

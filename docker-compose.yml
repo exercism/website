@@ -26,7 +26,7 @@ services:
       MYSQL_PASSWORD: password
       REDIS_HOST: redis
     ports:
-      - 5000:3000
+      - 3020:3020
     volumes:
       - ./:/usr/src/app
 

@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+dir = File.expand_path("../..", __FILE__)
+
+cmd = %W{
+docker run 
+-v #{dir}:/usr/src/app 
+exercism-website:latest
+}.join(" ")
+
+exec cmd
+

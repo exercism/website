@@ -8,6 +8,8 @@ class Iteration
       @submitted_via = submitted_via
       @iteration_uuid = SecureRandom.compact_uuid
 
+      # TODO: - Move this into another service
+      # and that service should also guard filesnames
       @files.each do |f|
         f[:uuid] = SecureRandom.compact_uuid,
                    f[:digest] = Digest::SHA1.hexdigest(f[:content])
@@ -59,12 +61,18 @@ class Iteration
 
       # Let's get it up first, then we'll fan out to
       # all the services we want to run this,
-      Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files)
+      s3_uri = Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files)
 
       [
-        Thread.new { Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
-        Thread.new { Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) },
-        Thread.new { Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug) }
+        Thread.new do
+          Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+        end,
+        Thread.new do
+          Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+        end,
+        Thread.new do
+          Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+        end
       ].each(&:join)
     end
 

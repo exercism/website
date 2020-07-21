@@ -25,25 +25,32 @@ module Git
 
     # TODO: Memoize
     def files
-      tree.walk(:preorder).map do |root, entry|
-        next if entry[:type] == :tree
+      @files ||= begin
+        tree.walk(:preorder).map do |root, entry|
+          next if entry[:type] == :tree
 
-        entry[:full] = "#{root}#{entry[:name]}"
-        entry
-      end.compact
+          entry[:full] = "#{root}#{entry[:name]}"
+          entry
+        end.compact
+      end
     end
 
+    # TODO: Memoize
     def tree
-      oid = commit.tree['exercises'][:oid]
-      exercises = repo.lookup_tree(oid)
-      repo.lookup_tree(exercises[slug][:oid])
+      @tree ||= begin
+        oid = commit.tree['exercises'][:oid]
+        exercises = repo.lookup_tree(oid)
+        repo.lookup_tree(exercises[slug][:oid])
+      end
     end
 
     # TODO: memoize
     def config
-      HashWithIndifferentAccess.new(
-        JSON.parse(read_file_blob('.meta/config.json'))
-      )
+      @config ||= begin
+        HashWithIndifferentAccess.new(
+          JSON.parse(read_file_blob('.meta/config.json'))
+        )
+      end
     end
   end
 end

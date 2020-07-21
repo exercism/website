@@ -8,8 +8,8 @@ class Iteration
     end
 
     def call
-      files.map do |filename, code|
-        Thread.new { upload_file(filename, code) }
+      files.map do |file|
+        Thread.new { upload_file(file[:filename], file[:content]) }
       end.each(&:join)
     end
 

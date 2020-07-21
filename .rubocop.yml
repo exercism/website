@@ -9,9 +9,13 @@ AllCops:
     - "bin/**/*"
     - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"
     - "db/schema.rb"
+    - "db/dj_schema.rb"
+    - "db/migrate/*"
+    - "db/dj_migrate/*"
     - "db/seeds.rb"
     - "node_modules/**/*"
     - "lib/solargraph-rails.rb"
+    - "scripts/**/*"
 
 Bundler/OrderedGems:
   Enabled: false

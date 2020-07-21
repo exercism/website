@@ -16,7 +16,7 @@ class Iteration::UploadForStorageTest < ActiveSupport::TestCase
       file_1_name => file_1_contents,
       file_2_name => file_2_contents,
       file_3_name => file_3_contents
-    }
+    }.map { |k, v| { filename: k, content: v } }
 
     s3_client = mock
     s3_client.expects(:put_object).with(

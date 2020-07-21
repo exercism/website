@@ -3,8 +3,9 @@ class ExercismConfig
 
   def aws_auth
     {
-      access_key_id: aws_config[:access_key_id],
-      secret_access_key: aws_config[:secret_access_key],
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+      profile: aws_config[:profile],
       region: aws_config[:region]
     }
   end

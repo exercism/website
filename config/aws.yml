@@ -1,12 +1,10 @@
-shared: 
-  region: 'eu-west-1'
+shared:
+  region: "eu-west-2"
 
-development: 
-  access_key_id:
-  secret_access_key:
-  iterations_bucket:
+development:
+  iterations_bucket: exercism-staging-iterations
+  profile: exercism_website
 
-test: 
-  access_key_id:
-  secret_access_key:
-  iterations_bucket:
+test:
+  iterations_bucket: exercism-staging-iterations
+  profile: exercism_website

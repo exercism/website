@@ -1,8 +1,9 @@
-development: 
-  test_runner_orchestrator_url:
+development:
+  test_runner_orchestrator_url: "http://127.0.0.1:3021"
+  analyzer_orchestrator_url: "http://127.0.0.1:3021"
+  representer_orchestrator_url: "http://127.0.0.1:3021"
 
-test: 
+test:
   test_runner_orchestrator_url: "http://test-runner.example.com"
   analyzer_orchestrator_url: "http://analyzer.example.com"
   representer_orchestrator_url: "http://representer.example.com"
-

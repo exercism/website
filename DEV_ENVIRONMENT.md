@@ -7,11 +7,20 @@ Exercism is a large open-source project. It is made up of over 250 repositories.
 The world-facing website.
 
 - **Repo:** [exercism/v3-website](https://github.com/exercism/v3-website)
-- **Architecture:** A Ruby on Rails app, backed by MySQl and Redis.
+- **Architecture:** A Ruby on Rails application, backed by MySQl and Redis.
 - **Behaviours:**
   - Web server on 3020
 
 The website can be run locally, via Docker or via Docker Compose. Depending on your existing local setup, you might prefer any of those options. We recommend working through the website's README for instructions.
+
+## Tooling Orchestrator
+
+An internal service that queues tooling jobs (test-runs, analyzers, etc) and provides the link between the website and the invokers.
+
+- **Repo:** [exercism/tooling-orchestrator](https://github.com/exercism/tooling-orchestrator)
+- **Architecture:** A Ruby Sinatra application.
+- **Behaviours:**
+  - Web server on 3021
 
 ## Tooling Invoker
 

@@ -48,15 +48,17 @@ module Git
 
     # TODO: Memoize
     def rugged_repo
-      if File.directory?(repo_dir)
-        Rugged::Repository.new(repo_dir).tap do |r|
-          # If we're in dev or test mode we want to just fetch
-          # every time to get up to date. In production
-          # we schedule this based of webhooks instead
-          r.fetch('origin') unless Rails.env.production?
+      @rugged_repo ||= begin
+        if File.directory?(repo_dir)
+          Rugged::Repository.new(repo_dir).tap do |r|
+            # If we're in dev or test mode we want to just fetch
+            # every time to get up to date. In production
+            # we schedule this based of webhooks instead
+            r.fetch('origin') unless Rails.env.production?
+          end
+        else
+          Rugged::Repository.clone_at(url, repo_dir, bare: true)
         end
-      else
-        Rugged::Repository.clone_at(url, repo_dir, bare: true)
       end
     rescue StandardError => e
       Rails.logger.error "Failed to clone repo #{url}"

@@ -11,7 +11,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
       "subdir/new_file.rb" => "New file contents", # Add new file
       "bob_test.rb" => "Overriden tests", # Don't override tests
       ".meta/config.json" => "Overriden config" # Don't override tests
-    }
+    }.map { |k, v| { filename: k, content: v } }
 
     {
       "bob.rb": "stub content\n",
@@ -30,8 +30,11 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
     end
 
     Aws::S3::Client.expects(:new).times(6).returns(s3_client)
-    Iteration::UploadWithExercise.(
+    actual_s3_uri = Iteration::UploadWithExercise.(
       iteration_uuid, solution.git_slug, solution.git_sha, solution.track.repo, iteration_files
     )
+
+    expected_s3_uri = "s3://#{Exercism.config.aws_iterations_bucket}/test/combined/#{iteration_uuid}"
+    assert_equal expected_s3_uri, actual_s3_uri
   end
 end

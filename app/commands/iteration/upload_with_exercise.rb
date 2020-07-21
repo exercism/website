@@ -19,6 +19,9 @@ class Iteration
 
       # Then upload them all in parallel
       upload_files
+
+      # Return the s3_uri
+      "s3://#{iterations_bucket}/#{s3_path}"
     end
 
     private
@@ -26,12 +29,14 @@ class Iteration
 
     def add_iteration_files
       # TODO: Skip files that have non alphanumeric chars
-      iteration_files.each do |filename, code|
+      iteration_files.each do |file|
+        filename = file[:filename]
+
         next if filename.match?(track_repo.test_regexp)
         next if filename.starts_with?(".meta")
         next if files_to_upload[filename]
 
-        files_to_upload[filename] = code
+        files_to_upload[filename] = file[:content]
       end
     end
 
@@ -52,13 +57,21 @@ class Iteration
     end
 
     def upload_file(filename, code)
-      path = "#{Rails.env}/combined/#{iteration_uuid}"
-
       s3_client = Aws::S3::Client.new(Exercism.config.aws_auth)
       s3_client.put_object(body: code,
-                           bucket: Exercism.config.aws_iterations_bucket,
-                           key: "#{path}/#{filename}",
+                           bucket: iterations_bucket,
+                           key: "#{s3_path}/#{filename}",
                            acl: 'private')
+    end
+
+    memoize
+    def iterations_bucket
+      Exercism.config.aws_iterations_bucket
+    end
+
+    memoize
+    def s3_path
+      "#{Rails.env}/combined/#{iteration_uuid}"
     end
   end
 end

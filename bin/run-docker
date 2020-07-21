@@ -9,4 +9,3 @@ exercism-website:latest
 }.join(" ")
 
 exec cmd
-

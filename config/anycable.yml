@@ -16,7 +16,6 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
   # This is the host and the port to run AnyCable RPC server on.
   # You must configure your WebSocket server to connect to it, e.g.:
   #   $ anycable-go --rpc-host="<rpc hostname>:50051"
-  rpc_host: "127.0.0.1:50051"
 
   # Whether to enable gRPC level logging or not
   log_grpc: false
@@ -31,8 +30,11 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
 development:
   <<: *default
   redis_url: "redis://<%= ENV.fetch('REDIS_HOST', '127.0.0.1') %>:6379/1"
+  rpc_host: "127.0.0.1:50051"
   log_grpc: true
   debug: true
 
 production:
   <<: *default
+  redis_url: "redis://<%= Exercism.config.anycable_endpoint %>:6379/1"
+  rpc_host: "127.0.0.1:50051"

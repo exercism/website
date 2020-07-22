@@ -1,43 +1,14 @@
-class ExercismConfig
-  include Singleton
+aws_config = Rails.application.config_for(:aws)
+services_config = Rails.application.config_for(:services)
 
-  def aws_auth
-    {
-      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-      profile: aws_config[:profile],
-      region: aws_config[:region]
-    }
-  end
+Exercism.config.aws_auth = {
+  access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+  secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+  profile: aws_config[:profile],
+  region: aws_config[:region]
+}
 
-  def aws_iterations_bucket
-    aws_config[:iterations_bucket]
-  end
-
-  def test_runner_orchestrator_url
-    services_config[:test_runner_orchestrator_url]
-  end
-
-  def analyzer_orchestrator_url
-    services_config[:analyzer_orchestrator_url]
-  end
-
-  def representer_orchestrator_url
-    services_config[:representer_orchestrator_url]
-  end
-
-  private
-  def aws_config
-    Rails.application.config_for(:aws)
-  end
-
-  def services_config
-    Rails.application.config_for(:services)
-  end
-end
-
-module Exercism
-  def self.config
-    ExercismConfig.instance
-  end
-end
+Exercism.config.aws_iterations_bucket = aws_config[:iterations_bucket]
+Exercism.config.test_runner_orchestrator_url = services_config[:test_runner_orchestrator_url]
+Exercism.config.analyzer_orchestrator_url = services_config[:analyzer_orchestrator_url]
+Exercism.config.representer_orchestrator_url = services_config[:representer_orchestrator_url]

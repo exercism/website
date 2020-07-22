@@ -13,6 +13,12 @@ RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-g
 
 RUN gem install bundler
 
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
+
 WORKDIR /usr/src/app
 
 CMD ["sh", "docker/init.dev.sh"]

@@ -32,6 +32,8 @@ gem 'haml-rails', '~> 2.0'
 gem 'commonmarker'
 gem 'ansi-to-html'
 
+gem 'exercism_config', '>= 0.5.0'
+
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
   # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

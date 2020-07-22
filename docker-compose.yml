@@ -19,12 +19,14 @@ services:
       - redis
     restart: always
     environment:
-      MYSQL_HOST: mysql
-      MYSQL_SOCKET:
-      MYSQL_PORT: 3306
-      MYSQL_USERNAME: root
-      MYSQL_PASSWORD: password
-      REDIS_HOST: redis
+      - MYSQL_HOST=mysql
+      - MYSQL_SOCKET=
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=password
+      - REDIS_HOST=redis
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     ports:
       - 3020:3020
     volumes:

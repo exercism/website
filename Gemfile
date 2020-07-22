@@ -19,6 +19,7 @@ gem 'rest-client' # http
 gem 'mandate', github: 'ihid/mandate', branch: 'AndrewRadev-keyword-args'
 
 # Setup dependencies
+gem 'exercism_config', '>= 0.6.0'
 # gem 'bootsnap', '>= 1.4.2', require: false
 
 # Model-level dependencies
@@ -31,8 +32,6 @@ gem 'turbolinks', '~> 5'
 gem 'haml-rails', '~> 2.0'
 gem 'commonmarker'
 gem 'ansi-to-html'
-
-gem 'exercism_config', '>= 0.5.0'
 
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do

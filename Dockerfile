@@ -15,10 +15,14 @@ RUN gem install bundler
 RUN bundle config set deployment 'true'
 RUN bundle config set without 'development test'
 
-RUN mkdir /usr/src/app
-COPY . /usr/src/app
 WORKDIR /usr/src/app
+
+COPY Gemfile Gemfile.lock ./
 RUN bundle install
+
+COPY package.json yarn.lock ./
 RUN yarn install
+
+COPY . ./
 
 CMD ["sh", "docker/init.sh"]

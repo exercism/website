@@ -27,12 +27,16 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
   #   $ anycable-go --redis-channel="__anycable__"
   redis_channel: "__anycable__"
 
-development:
+development: &development
   <<: *default
-  redis_url: "redis://<%= ENV.fetch('REDIS_HOST', '127.0.0.1') %>:6379/1"
+  redis_url: "redis://127.0.0.1:6379/1"
   rpc_host: "127.0.0.1:50051"
   log_grpc: true
   debug: true
+
+development_docker:
+  <<: *development
+  redis_url: "redis:redis:6379/1"
 
 production:
   <<: *default

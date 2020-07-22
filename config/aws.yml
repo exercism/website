@@ -5,6 +5,10 @@ development:
   iterations_bucket: exercism-staging-iterations
   profile: exercism_website
 
+development_docker:
+  iterations_bucket: exercism-staging-iterations
+  profile: exercism_website
+
 test:
   iterations_bucket: exercism-staging-iterations
   profile: exercism_website

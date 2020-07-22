@@ -20,6 +20,16 @@ development:
     <<: *default
     database: exercism_v3_dj_development
     migrations_paths: "db/dj_migrate"
+
+development_docker:
+  primary:
+    <<: *default
+    database: exercism_v3_development
+  dj:
+    <<: *default
+    database: exercism_v3_dj_development
+    migrations_paths: "db/dj_migrate"
+
 test:
   primary:
     <<: *default

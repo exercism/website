@@ -48,7 +48,7 @@ default: &default
     - .jpeg
     - .jpg
 
-development:
+development: &development
   <<: *default
   compile: true
 
@@ -74,6 +74,9 @@ development:
       "Access-Control-Allow-Origin": "*"
     watch_options:
       ignored: "**/node_modules/**"
+
+development_docker:
+  <<: *development
 
 test:
   <<: *default

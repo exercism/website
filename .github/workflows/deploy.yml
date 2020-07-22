@@ -4,7 +4,7 @@ env:
   task_definition: .github/config/.ecs-task-def.json
   container_name: webserver
   service_name: webservers
-  cluster_name: Webservers
+  cluster_name: webservers
 
 on: push
 

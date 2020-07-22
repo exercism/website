@@ -15,4 +15,4 @@ RUN gem install bundler
 
 WORKDIR /usr/src/app
 
-CMD ["sh", "docker/init.sh"]
+CMD ["sh", "docker/init.dev.sh"]

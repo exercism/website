@@ -37,6 +37,7 @@ development:
 development_docker:
   <<: *default
   redis_url: "redis://redis:6379/1"
+  rpc_host: "127.0.0.1:50051"
   log_grpc: true
   debug: true
 

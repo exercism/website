@@ -1,0 +1,49 @@
+{
+  "executionRoleArn": "arn:aws:iam::591712695352:role/ecs-task-execution-role",
+  "family": "webserver",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "906394416424.dkr.ecr.eu-west-2.amazonaws.com/aws-for-fluent-bit:latest",
+      "name": "log_router",
+      "firelensConfiguration": {
+        "type": "fluentbit",
+        "enable-ecs-log-metadata": true
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "webservers",
+          "awslogs-region": "eu-west-2",
+          "awslogs-stream-prefix": "firelens"
+        }
+      },
+      "memoryReservation": 50
+    },
+    {
+      "essential": true,
+      "name": "webserver",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+
+      "logConfiguration": {
+        "logDriver": "awsfirelens",
+        "options": {
+          "Name": "cloudwatch",
+          "region": "eu-west-2",
+          "log_group_name": "webservers",
+          "log_stream_prefix": "from-fluent-bit"
+        }
+      }
+    }
+  ]
+}

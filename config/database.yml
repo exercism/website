@@ -13,13 +13,20 @@ default: &default
     sql_mode: traditional
 
 development:
-  primary:
+  primary: &development-primary
     <<: *default
     database: exercism_v3_development
-  dj:
+  dj: &development-dj
     <<: *default
     database: exercism_v3_dj_development
     migrations_paths: "db/dj_migrate"
+
+development_docker:
+  primary:
+    <<: *development-primary
+  dj:
+    <<: *development-dj
+
 test:
   primary:
     <<: *default

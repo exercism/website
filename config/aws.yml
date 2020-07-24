@@ -1,9 +1,12 @@
 shared:
   region: "eu-west-2"
 
-development:
+development: &development
   iterations_bucket: exercism-staging-iterations
   profile: exercism_website
+
+development_docker:
+  <<: *development
 
 test:
   iterations_bucket: exercism-staging-iterations

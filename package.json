@@ -37,7 +37,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && bundle exec rubocop --except Metrics --auto-correct --format quiet && git diff --name-only --staged | grep '.rb$' | xargs git add"
+      "pre-commit": "pretty-quick --staged && git diff --name-only --staged | grep '.rb$' | xargs bundle exec rubocop --except Metrics --auto-correct --format quiet app/controllers/application_controller.rb && git diff --name-only --staged | grep '.rb$' | xargs git add"
     }
   }
 }

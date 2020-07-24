@@ -1,6 +1,6 @@
 module ComponentsHelper
-  def test_iterations_summary_table(solution)
-    react_component("test-iterations-summary-table", {
+  def example_iterations_summary_table(solution)
+    react_component("example-iterations-summary-table", {
                       solution_id: solution.id,
                       iterations: solution.serialized_iterations
                     })

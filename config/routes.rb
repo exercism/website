@@ -18,7 +18,12 @@ Rails.application.routes.draw do
 
     namespace :test do
       namespace :components do
-        get 'iterations_summary_table/:id', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+        namespace :maintaining do
+          get 'iterations_summary_table', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+        end
+        namespace :example do
+          get 'iterations_summary_table/:id', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+        end
       end
     end
   end

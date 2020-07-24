@@ -21,21 +21,34 @@ solution = ConceptSolution.create!(
   exercise: two_fer
 )
 
-puts "Creating Iteration..."
 
-Iteration::Create.(
-  solution,
-  [
-    {
-      filename: "two_fer.rb",
-      content: %q{
-class TwoFer
-  def two_fer(name=nil)
-    "One for #{name}, one for me"
+loop do
+  puts "Creating Iteration..."
+  begin
+    files = [
+      {
+        filename: "two_fer.rb",
+        content: %Q{
+  class TwoFer
+    def two_fer(name=nil)
+      "One for \#{name}, one for me"
+    end
   end
+  # #{SecureRandom.hex}
+        }.strip
+      }
+    ]
+
+    Iteration::Create.(
+      solution,
+      files,
+      submitted_via: "script"
+    )
+  puts "Done"
+  rescue => e
+    puts "Failed: #{e.message}"
+    puts e
+  end
+
+  sleep(10)
 end
-      }.strip
-    }
-  ],
-  submitted_via: "script"
-)

@@ -43,6 +43,9 @@ You need the following installed:
 - MySQL
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
+- [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
+
+Run DynamoDB on port 3039 locally (e.g. `docker run -dp 3039:8000 amazon/dynamodb-local`)
 
 #### Mac-Specific
 

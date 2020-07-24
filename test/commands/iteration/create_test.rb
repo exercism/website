@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Iteration::CreateTest < ActiveSupport::TestCase
   test "creates iteration in the database" do
+    skip
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
     digest_1 = Digest::SHA1.hexdigest(content_1)

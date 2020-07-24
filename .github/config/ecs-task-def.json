@@ -12,7 +12,9 @@
       "name": "log_router",
       "firelensConfiguration": {
         "type": "fluentbit",
-        "enable-ecs-log-metadata": true
+        "options": {
+          "enable-ecs-log-metadata": true
+        }
       },
       "logConfiguration": {
         "logDriver": "awslogs",

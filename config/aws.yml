@@ -6,7 +6,7 @@ development: &development
   profile: exercism_website
 
 development_docker:
-  <<: &development
+  <<: *development
 
 test:
   iterations_bucket: exercism-staging-iterations

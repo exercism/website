@@ -12,8 +12,8 @@ import "css/application.css";
 
 import React from "react";
 import { initReact } from "./react_bootloader.jsx";
-import { TestIterationsSummaryTable } from "../components/test_iterations_summary_table.jsx";
-import { MaintainingIterationsSummaryTable } from "../components/maintaining_iterations_summary_table.jsx";
+import { TestIterationsSummaryTable } from "../components/test/iterations_summary_table.jsx";
+import { MaintainingIterationsSummaryTable } from "../components/maintaining/iterations_summary_table.jsx";
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components

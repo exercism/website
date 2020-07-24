@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class IterationsSummaryTableTest < ApplicationSystemTestCase
+class TestIterationsSummaryTableTest < ApplicationSystemTestCase
   test "visiting the index" do
     solution = create :concept_solution
     iteration = create :iteration, solution: solution

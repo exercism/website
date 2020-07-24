@@ -6,11 +6,11 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // Component
-import { IterationsSummaryTable } from "../../../app/javascript/components/iteration_summary.jsx";
+import { TestIterationsSummaryTable } from "../../../app/javascript/components/test_iterations_summary_table.jsx";
 
 test("renders component", () => {
   const { container, getByText } = render(
-    <IterationsSummaryTable
+    <TestIterationsSummaryTable
       solutionId={1}
       iterations={[{ id: 1, testsStatus: "passed" }]}
     />

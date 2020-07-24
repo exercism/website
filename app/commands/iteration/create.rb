@@ -66,13 +66,13 @@ class Iteration
       [
         Thread.new do
           Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-        end,
-        Thread.new do
-          Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-        end,
-        Thread.new do
-          Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
         end
+        # Thread.new do
+        #  Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+        # end,
+        # Thread.new do
+        #  Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+        # end
       ].each(&:join)
     end
 

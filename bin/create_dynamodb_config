@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+require 'exercism_config'
+
+client = ExercismConfig::SetupDynamodbClient.(:development)
+
+def create_table
+  client.create_table(
+    table_name: :config,
+    attribute_definitions: [
+      {
+        attribute_name: "id", 
+        attribute_type: "S", 
+      },
+    ],
+    key_schema: [
+      {
+        attribute_name: "id", 
+        key_type: "HASH", 
+      }
+    ],
+    provisioned_throughput: {
+      read_capacity_units: 1, 
+      write_capacity_units: 1, 
+    }
+  )
+end
+
+def set_config_value(id, value)
+  client.put_item(
+    table_name: :config,
+    item: {
+      id: id,
+      value: value
+    }
+  )
+end
+
+begin
+  create_table
+rescue Aws::DynamoDB::Errors::ResourceInUseException => e
+  p "Config table already exists"
+end
+
+settings = {
+  aws_iterations_bucket: "exercism-staging-iterations",
+}
+if ENV["DOCKER"]
+  settings.merge!{
+    test_runner_orchestrator_url: "http://tooling-orchestrator:3021",
+    analyzer_orchestrator_url: "http://tooling-orchestrator:3021"
+    representer_orchestrator_url: "http://tooling-orchestrator:3021"
+  }
+else
+  {
+    test_runner_orchestrator_url: "http://127.0.0.1:3021",
+    analyzer_orchestrator_url: "http://127.0.0.1:3021"
+    representer_orchestrator_url: "http://127.0.0.1:3021"
+  }
+end
+
+settings.each do |key, value|
+  set_config_value(key, value)
+end
+

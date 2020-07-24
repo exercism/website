@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root to: "pages#index"
 
   mount ActionCable.server => '/cable'
+  namespace :spi do
+    resources :tooling_jobs, only: :update
+  end
 
   unless Rails.env.production?
     namespace :test do

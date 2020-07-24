@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Iteration::Analysis::InitTest < ActiveSupport::TestCase
   test "calls to publish_message" do
+    skip
     solution = create :concept_solution
     iteration_uuid = SecureRandom.compact_uuid
     s3_uri = mock
@@ -16,6 +17,7 @@ class Iteration::Analysis::InitTest < ActiveSupport::TestCase
   end
 
   test "uses version_slug" do
+    skip
     solution = create :concept_solution
     iteration_uuid = SecureRandom.compact_uuid
     s3_uri = mock

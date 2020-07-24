@@ -1,6 +1,6 @@
 class IterationChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "iteration"
+    stream_from CHANNEL_NAME
   end
 
   def unsubscribed
@@ -8,6 +8,9 @@ class IterationChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(iteration)
-    ActionCable.server.broadcast "iteration", iteration: iteration.serialized
+    ActionCable.server.broadcast CHANNEL_NAME, iteration: iteration.serialized
   end
+
+  private
+  CHANNEL_NAME = "iteration".freeze
 end

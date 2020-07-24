@@ -12,14 +12,14 @@ import "css/application.css";
 
 import React from "react";
 import { initReact } from "./react_bootloader.jsx";
-import { TestIterationsSummaryTable } from "../components/test/iterations_summary_table.jsx";
+import { ExampleIterationsSummaryTable } from "../components/example/iterations_summary_table.jsx";
 import { MaintainingIterationsSummaryTable } from "../components/maintaining/iterations_summary_table.jsx";
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  "test-iterations-summary-table": data => (
-    <TestIterationsSummaryTable
+  "example-iterations-summary-table": data => (
+    <ExampleIterationsSummaryTable
       solutionId={data.solution_id}
       iterations={data.iterations}
     />

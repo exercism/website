@@ -6,7 +6,10 @@ env:
   service_name: webservers
   cluster_name: webservers
 
-on: push
+on:
+  push:
+    branches:
+      - master
 
 name: Deploy to Amazon ECS
 

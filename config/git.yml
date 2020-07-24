@@ -1,12 +1,10 @@
-development:
+development: &development
   base_dir: ./tmp/git_repo_cache
   #problem_specifications: https://github.com/exercism/problem-specifications
   #website_content: ../website-copy
 
 development_docker:
-  base_dir: ./tmp/git_repo_cache
-  #problem_specifications: https://github.com/exercism/problem-specifications
-  #website_content: ../website-copy
+  <<: &development
 
 test:
   base_dir: ./test/tmp/git_repo_cache

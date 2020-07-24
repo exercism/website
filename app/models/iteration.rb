@@ -25,9 +25,19 @@ class Iteration < ApplicationRecord
 
   def broadcast!
     IterationsChannel.broadcast!(solution)
+    IterationChannel.broadcast!(self)
   end
 
   def exercise_version
     track.repo.exercise(git_slug, git_sha).version
+  end
+
+  def serialized
+    {
+      id: id,
+      testsStatus: tests_status,
+      representationStatus: representation_status,
+      analysisStatus: analysis_status
+    }
   end
 end

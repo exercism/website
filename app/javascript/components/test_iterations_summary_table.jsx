@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import actionCable from "actioncable";
+import "actioncable";
 
 import consumer from "../application/action_cable_consumer";
 
-function IterationSummary({ id, testsStatus }) {
+function TestIterationSummary({ id, testsStatus }) {
   return (
     <div>
       {id}: {testsStatus}
@@ -11,7 +11,7 @@ function IterationSummary({ id, testsStatus }) {
   );
 }
 
-export function IterationsSummaryTable({ solutionId, iterations }) {
+export function TestIterationsSummaryTable({ solutionId, iterations }) {
   const [stateIterations, setIterations] = useState(iterations);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function IterationsSummaryTable({ solutionId, iterations }) {
 
   return stateIterations.map((iteration, idx) => {
     return (
-      <IterationSummary
+      <TestIterationSummary
         key={iteration.id}
         id={iteration.id}
         testsStatus={iteration.testsStatus}

@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     resources :tooling_jobs, only: :update
   end
 
+  namespace :maintaining do
+    get 'iterations', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+  end
+
   unless Rails.env.production?
 
     namespace :tmp do

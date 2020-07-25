@@ -1,5 +1,6 @@
 {
   "executionRoleArn": "arn:aws:iam::591712695352:role/ecs-task-execution-role",
+  "taskRoleArn": "arn:aws:iam::591712695352:role/ecs_webservers",
   "family": "webserver",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],

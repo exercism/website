@@ -11,3 +11,6 @@ development_docker:
 test:
   iterations_bucket: exercism-staging-iterations
   profile: exercism_website
+
+production:
+  iterations_bucket: exercism-staging-iterations

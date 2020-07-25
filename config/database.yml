@@ -26,6 +26,7 @@ development_docker:
     <<: *development-primary
   dj:
     <<: *development-dj
+    migrations_paths: "db/dj_migrate"
 
 test:
   primary:
@@ -34,4 +35,21 @@ test:
   dj:
     <<: *default
     database: exercism_v3_test
+    migrations_paths: "db/dj_migrate"
+
+production:
+  primary:
+    <<: *default
+    host: <%= Exercism.config.rds_master_endpoint %>
+    username: exercism_v3
+    password: exercism_v3
+    database: exercism_v3
+    port: 3306
+  dj:
+    <<: *default
+    host: <%= Exercism.config.rds_master_endpoint %>
+    username: exercism_v3
+    password: exercism_v3
+    database: exercism_v3_dj
+    port: 3306
     migrations_paths: "db/dj_migrate"

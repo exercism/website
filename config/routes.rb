@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
 
   namespace :maintaining do
-    get 'iterations', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+    resources :iterations, only: [:index]
   end
 
   unless Rails.env.production?

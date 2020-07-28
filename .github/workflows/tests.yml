@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
@@ -18,91 +18,90 @@ jobs:
           MYSQL_DATABASE: exercism_v3_test
           MYSQL_ROOT_PASSWORD: password
         ports:
-        - 3306
+          - 3306
         #options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
 
       redis:
         image: redis
         ports:
-        - 6379/tcp
+          - 6379/tcp
 
     steps:
-    ###
-    # Checkout using GitHub's checkout action
-    - uses: actions/checkout@v2
+      ###
+      # Checkout using GitHub's checkout action
+      - uses: actions/checkout@v2
 
-    ###
-    # Setup Ruby - this needs to match the version in the Gemfile
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
-      with:
-        ruby-version: 2.6.6
+      ###
+      # Setup Ruby - this needs to match the version in the Gemfile
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+        with:
+          ruby-version: 2.6.6
 
-    ###
-    # Caching using GitHub's caching action
-      
-    # https://github.com/actions/cache/blob/master/examples.md#node---yarn
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      ###
+      # Caching using GitHub's caching action
 
-    - name: Cache yarn
-      uses: actions/cache@v2
-      id: yarn-cache
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-          
-    - name: Cache Bundler
-      uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
+      # https://github.com/actions/cache/blob/master/examples.md#node---yarn
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    ###
-    # Install bundler and yarn dependencies
-    - name: Install dependencies
-      run: |
-        bundle config path vendor/bundle # This is needed for the caching above
-        bundle install --jobs 4 --retry 3
-        yarn install
+      - name: Cache yarn
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-    ###
-    # Setup code climate
-    - name: Setup Code Climate test-reporter
-      run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
-        
-    ###
-    # Run the tests
-    - name: Run Ruby tests
-      env:
-        MYSQL_HOST: 127.0.0.1
-        MYSQL_SOCKET: false
-        MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        CAPTURE_CODE_COVERAGE: true
-      run: |
-        bundle exec rails test
-        ./cc-test-reporter format-coverage -t simplecov -o codeclimate.backend.json coverage/backend/.resultset.json
+      - name: Cache Bundler
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
-        bundle exec rails test:system
-        ./cc-test-reporter format-coverage -t simplecov -o codeclimate.system.json coverage/backend/.resultset.json
-        
-    - name: Run JS tests
-      run: yarn test
-      
-    ###
-    # Publish the coverage to CodeClimate
-    - name: Publish code coverage
-      env: 
-        GIT_BRANCH: ${GITHUB_REF/refs\/heads\//}
-        CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-      run: |
-        ./cc-test-reporter sum-coverage codeclimate.*.json -p 2 -o codeclimate.total.json
-        ./cc-test-reporter upload-coverage -i codeclimate.total.json
+      ###
+      # Install bundler and yarn dependencies
+      - name: Install dependencies
+        run: |
+          bundle config path vendor/bundle # This is needed for the caching above
+          bundle install --jobs 4 --retry 3
+          yarn install
+
+      ###
+      # Setup code climate
+      - name: Setup Code Climate test-reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+
+      ###
+      # Run the tests
+      - name: Run Ruby tests
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          CAPTURE_CODE_COVERAGE: true
+        run: |
+          bundle exec rails test
+          ./cc-test-reporter format-coverage -t simplecov -o codeclimate.backend.json coverage/backend/.resultset.json
+
+          bundle exec rails test:system
+          ./cc-test-reporter format-coverage -t simplecov -o codeclimate.system.json coverage/backend/.resultset.json
+
+      - name: Run JS tests
+        run: yarn test
+
+      ###
+      # Publish the coverage to CodeClimate
+      - name: Publish code coverage
+        env:
+          GIT_BRANCH: ${GITHUB_REF/refs\/heads\//}
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        run: |
+          ./cc-test-reporter sum-coverage codeclimate.*.json -p 2 -o codeclimate.total.json
+          ./cc-test-reporter upload-coverage -i codeclimate.total.json

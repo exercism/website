@@ -3,9 +3,6 @@ development: &development
   #problem_specifications: https://github.com/exercism/problem-specifications
   #website_content: ../website-copy
 
-development_docker:
-  <<: *development
-
 test:
   base_dir: ./test/tmp/git_repo_cache
   #problem_specifications: ./test/fixtures/problem-specifications

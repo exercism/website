@@ -11,6 +11,9 @@ RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/o
 RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
     chmod u+x /usr/local/bin/anycable-go
 
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt install -y ./google-chrome-stable_current_amd64.deb
+
 RUN gem install bundler:2.1.4
 
 WORKDIR /usr/src/app

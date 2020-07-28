@@ -11,6 +11,5 @@ class IterationChannel < ApplicationCable::Channel
     ActionCable.server.broadcast CHANNEL_NAME, iteration: iteration.serialized
   end
 
-  private
   CHANNEL_NAME = "iteration".freeze
 end

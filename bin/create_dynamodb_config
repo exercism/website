@@ -47,14 +47,17 @@ settings = {
 if ENV["DOCKER"]
   settings.merge!{
     test_runner_orchestrator_url: "http://tooling-orchestrator:3021",
-    analyzer_orchestrator_url: "http://tooling-orchestrator:3021"
-    representer_orchestrator_url: "http://tooling-orchestrator:3021"
+    analyzer_orchestrator_url: "http://tooling-orchestrator:3021",
+    representer_orchestrator_url: "http://tooling-orchestrator:3021",
+    anycable_endpoint: redis
+    anycable_rpc_host: 0.0.0.0
   }
 else
   {
     test_runner_orchestrator_url: "http://127.0.0.1:3021",
-    analyzer_orchestrator_url: "http://127.0.0.1:3021"
+    analyzer_orchestrator_url: "http://127.0.0.1:3021",
     representer_orchestrator_url: "http://127.0.0.1:3021"
+    anycable_endpoint: 127.0.0.1
   }
 end
 

@@ -27,19 +27,13 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
   #   $ anycable-go --redis-channel="__anycable__"
   redis_channel: "__anycable__"
 
+  redis_url: "redis://<%= Exercism.config.anycable_endpoint %>:6379/1"
+  rpc_host: "<%= Exercism.config.anycable_rpc_host %>:50051"
+
 development: &development
   <<: *default
-  redis_url: "redis://127.0.0.1:6379/1"
-  rpc_host: "127.0.0.1:50051"
   log_grpc: true
   debug: true
 
-development_docker:
-  <<: *development
-  redis_url: "redis://redis:6379/1"
-  rpc_host: "0.0.0.0:50051"
-
 production:
   <<: *default
-  redis_url: "redis://<%= Exercism.config.anycable_endpoint %>:6379/1"
-  rpc_host: "127.0.0.1:50051"

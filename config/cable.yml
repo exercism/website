@@ -4,9 +4,6 @@
 development: &development
   adapter: <%= ENV.fetch("ACTION_CABLE_ADAPTER", "any_cable") %>
 
-development_docker:
-  <<: *development
-
 test:
   adapter: test
 

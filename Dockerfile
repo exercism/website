@@ -25,4 +25,5 @@ RUN yarn install
 
 COPY . ./
 
-CMD ["sh", "docker/init.sh"]
+#CMD ["sh", "docker/init.sh"]
+ENTRYPOINT RAILS_LOG_TO_STDOUT=true bundle exec bin/rails server -e production -b '0.0.0.0' -p 80

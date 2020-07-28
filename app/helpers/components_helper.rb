@@ -8,7 +8,7 @@ module ComponentsHelper
 
   def maintaining_iterations_summary_table(iterations)
     react_component("maintaining-iterations-summary-table", {
-                      iterations: iterations.map {|iteration| iteration.serialized}
+                      iterations: iterations.map(&:serialized)
                     })
   end
 

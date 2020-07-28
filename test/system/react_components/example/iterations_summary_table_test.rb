@@ -1,19 +1,21 @@
 require "application_system_test_case"
 
-class Example::IterationsSummaryTableTest < ApplicationSystemTestCase
-  test "visiting the index" do
-    solution = create :concept_solution
-    iteration = create :iteration, solution: solution
+module Example
+  class IterationsSummaryTableTest < ApplicationSystemTestCase
+    test "visiting the index" do
+      solution = create :concept_solution
+      iteration = create :iteration, solution: solution
 
-    visit test_components_example_iterations_summary_table_url(solution.id)
-    sleep(0.1) # Set the websocket connection
+      visit test_components_example_iterations_summary_table_url(solution.id)
+      sleep(0.1) # Set the websocket connection
 
-    assert_text "#{iteration.id}: pending"
+      assert_text "#{iteration.id}: pending"
 
-    iteration.tests_passed!
-    iteration.broadcast!
+      iteration.tests_passed!
+      iteration.broadcast!
 
-    sleep(0.1) # Wait for websocket to broadcast
-    assert_text "#{iteration.id}: passed"
+      sleep(0.1) # Wait for websocket to broadcast
+      assert_text "#{iteration.id}: passed"
+    end
   end
 end

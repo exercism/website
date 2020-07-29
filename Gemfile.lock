@@ -145,7 +145,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism_config (0.18.0)
+    exercism_config (0.22.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk
@@ -350,7 +350,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   delayed_job_active_record (~> 4.1.4)
-  exercism_config (>= 0.18.0)
+  exercism_config (>= 0.22.0)
   factory_bot_rails
   haml-rails (~> 2.0)
   image_processing (~> 1.2)

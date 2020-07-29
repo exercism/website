@@ -22,3 +22,4 @@ COPY package.json yarn.lock ./
 RUN yarn install --check-files
 
 CMD ["sh", "docker/init.dev.sh"]
+

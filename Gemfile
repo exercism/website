@@ -16,10 +16,10 @@ gem 'rugged' # Git
 gem 'rest-client' # http
 
 # General-purpose gems
-gem 'mandate', github: 'ihid/mandate', branch: 'AndrewRadev-keyword-args'
+gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism_config', '>= 0.17.0'
+gem 'exercism_config', '>= 0.18.0'
 #gem 'exercism_config', path: '../exercism_config'
 # gem 'bootsnap', '>= 1.4.2', require: false
 

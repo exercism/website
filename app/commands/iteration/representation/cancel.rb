@@ -17,7 +17,7 @@ class Iteration
       attr_reader :iteration_uuid
 
       def orchestrator_url
-        Exercism.config.representer_orchestrator_url
+        Exercism.config.tooling_orchestrator_url
       end
     end
   end

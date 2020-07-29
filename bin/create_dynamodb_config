@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 require 'exercism_config'
+require 'exercism_config'
 
-client = ExercismConfig::SetupDynamodbClient.(:development)
-
-def create_table
+def create_table(client)
   client.create_table(
     table_name: :config,
     attribute_definitions: [
@@ -25,7 +24,13 @@ def create_table
   )
 end
 
-def set_config_value(id, value)
+def delete_table(client)
+  client.delete_table(
+    table_name: :config,
+  )
+end
+
+def set_config_value(client, id, value)
   client.put_item(
     table_name: :config,
     item: {
@@ -35,33 +40,40 @@ def set_config_value(id, value)
   )
 end
 
+client = ExercismConfig::SetupDynamoDBClient.()
+
 begin
-  create_table
+  create_table(client)
 rescue Aws::DynamoDB::Errors::ResourceInUseException => e
-  p "Config table already exists"
+  delete_table(client)
+  create_table(client)
 end
 
 settings = {
   aws_iterations_bucket: "exercism-staging-iterations",
+  dynamodb_tooling_jobs_table: "tooling_jobs"
 }
-if ENV["DOCKER"]
-  settings.merge!{
-    test_runner_orchestrator_url: "http://tooling-orchestrator:3021",
-    analyzer_orchestrator_url: "http://tooling-orchestrator:3021",
-    representer_orchestrator_url: "http://tooling-orchestrator:3021",
-    anycable_endpoint: redis
-    anycable_rpc_host: 0.0.0.0
-  }
+if ENV["EXERCISM_DOCKER"]
+  settings.merge!(
+    tooling_orchestrator_url: "http://tooling-orchestrator:3021",
+    anycable_endpoint: 'redis',
+    anycable_rpc_host: '0.0.0.0',
+    dynamodb_endpoint: "http://localhost:8000",
+    rds_master_endpoint: "mysql",
+    rds_port: 3306
+  )
 else
-  {
-    test_runner_orchestrator_url: "http://127.0.0.1:3021",
-    analyzer_orchestrator_url: "http://127.0.0.1:3021",
-    representer_orchestrator_url: "http://127.0.0.1:3021"
-    anycable_endpoint: 127.0.0.1
-  }
+  settings.merge!(
+    tooling_orchestrator_url: "http://127.0.0.1:3021",
+    anycable_endpoint: '127.0.0.1',
+    anycable_rpc_host: '127.0.0.1',
+    dynamodb_endpoint: "http://localhost:3039",
+    rds_master_endpoint: "localhost",
+    mysql_socket: "/tmp/mysql.sock"
+  )
 end
 
 settings.each do |key, value|
-  set_config_value(key, value)
+  set_config_value(client, key, value)
 end
 

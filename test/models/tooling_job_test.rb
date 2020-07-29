@@ -10,7 +10,7 @@ class ToolingJobTest < ActiveSupport::TestCase
       # TODO: Test via the db rather than mocks
       client = Exercism.config.dynamodb_client
       client.expects(:put_item).with(
-        table_name: 'tooling_jobs-test',
+        table_name: Exercism.config.dynamodb_tooling_jobs_table,
         item: {
           id: uuid,
           created_at: Time.current.utc.to_i,
@@ -49,7 +49,7 @@ class ToolingJobTest < ActiveSupport::TestCase
     # and test via the db rather than mocks
     client = Exercism.config.dynamodb_client
     client.expects(:get_item).with(
-      table_name: 'tooling_jobs-test',
+      table_name: Exercism.config.dynamodb_tooling_jobs_table,
       key: { id: id },
       attributes_to_get: %i[
         type

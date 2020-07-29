@@ -26,7 +26,7 @@ class Iteration
       attr_reader :iteration_uuid, :language_slug, :exercise_slug, :s3_uri, :version_slug
 
       def orchestrator_url
-        Exercism.config.representer_orchestrator_url
+        Exercism.config.tooling_orchestrator_url
       end
     end
   end

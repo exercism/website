@@ -2,7 +2,7 @@ class ToolingJob
   def self.create!(type, attributes)
     client = Exercism.config.dynamodb_client
     client.put_item(
-      table_name: Exercism.config.tooling_jobs_table,
+      table_name: Exercism.config.dynamodb_tooling_jobs_table,
       item: attributes.merge(
         id: SecureRandom.uuid,
         created_at: Time.current.utc.to_i,
@@ -15,7 +15,7 @@ class ToolingJob
   def self.process!(id)
     client = Exercism.config.dynamodb_client
     attrs = client.get_item(
-      table_name: Exercism.config.tooling_jobs_table,
+      table_name: Exercism.config.dynamodb_tooling_jobs_table,
       key: { id: id },
       attributes_to_get: %i[
         type

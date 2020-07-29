@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: ef4cb3995e48bd5f9d115774195beff5e5b1ab88
+  revision: c6f02cbb56b6291533a3756bb5016964c76f5c20
   branch: master
   specs:
     actioncable (6.1.0.alpha)
@@ -152,7 +152,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism_config (0.7.0)
+    exercism_config (0.17.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk
@@ -187,7 +187,7 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (1.8.4)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     image_processing (1.11.0)
       mini_magick (>= 4.9.5, < 5)
@@ -264,11 +264,11 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.2.0)
       parser (>= 2.7.0.1)
-    rubocop-minitest (0.10.0)
+    rubocop-minitest (0.10.1)
       rubocop (>= 0.87)
     rubocop-performance (1.7.1)
       rubocop (>= 0.82.0)
-    rubocop-rails (2.7.0)
+    rubocop-rails (2.7.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 0.87.0)
@@ -356,7 +356,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   delayed_job_active_record (~> 4.1.4)
-  exercism_config (>= 0.7.0)
+  exercism_config (>= 0.17.0)
   factory_bot_rails
   haml-rails (~> 2.0)
   image_processing (~> 1.2)

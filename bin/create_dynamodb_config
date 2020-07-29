@@ -56,18 +56,16 @@ settings = {
 if ENV["EXERCISM_DOCKER"]
   settings.merge!(
     tooling_orchestrator_url: "http://tooling-orchestrator:3021",
-    anycable_endpoint: 'redis',
-    anycable_rpc_host: '0.0.0.0',
-    dynamodb_endpoint: "http://localhost:8000",
+    anycable_redis_url: 'redis://redis:6379/1',
+    anycable_rpc_host: '0.0.0.0:50051',
     rds_master_endpoint: "mysql",
     rds_port: 3306
   )
 else
   settings.merge!(
     tooling_orchestrator_url: "http://127.0.0.1:3021",
-    anycable_endpoint: '127.0.0.1',
-    anycable_rpc_host: '127.0.0.1',
-    dynamodb_endpoint: "http://localhost:3039",
+    anycable_redis_url: 'redis://127.0.0.1:6379/1',
+    anycable_rpc_host: '127.0.0.1:50051',
     rds_master_endpoint: "localhost",
     mysql_socket: "/tmp/mysql.sock"
   )

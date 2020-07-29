@@ -19,7 +19,7 @@ gem 'rest-client' # http
 gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism_config', '>= 0.18.0'
+gem 'exercism_config', '>= 0.22.0'
 #gem 'exercism_config', path: '../exercism_config'
 # gem 'bootsnap', '>= 1.4.2', require: false
 

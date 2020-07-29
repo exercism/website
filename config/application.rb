@@ -19,7 +19,7 @@ require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
 
-module Exercism
+module Website
   class Application < Rails::Application
     config.load_defaults 6.0
 

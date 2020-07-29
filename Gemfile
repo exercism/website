@@ -19,7 +19,7 @@ gem 'rest-client' # http
 gem 'mandate', github: 'ihid/mandate', branch: 'AndrewRadev-keyword-args'
 
 # Setup dependencies
-gem 'exercism_config', '>= 0.7.0'
+gem 'exercism_config', '>= 0.17.0'
 #gem 'exercism_config', path: '../exercism_config'
 # gem 'bootsnap', '>= 1.4.2', require: false
 

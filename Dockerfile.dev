@@ -16,7 +16,7 @@ RUN gem install bundler
 WORKDIR /usr/src/app
 
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+RUN bundle install --full-index
 
 COPY package.json yarn.lock ./
 RUN yarn install --check-files

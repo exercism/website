@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/ihid/mandate.git
-  revision: 809ff0a87c53b39bd8741dc54dff4b4d2e75004d
-  branch: AndrewRadev-keyword-args
-  specs:
-    mandate (0.3.0)
-
-GIT
   remote: https://github.com/rails/rails.git
   revision: c6f02cbb56b6291533a3756bb5016964c76f5c20
   branch: master
@@ -152,7 +145,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism_config (0.17.0)
+    exercism_config (0.18.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk
@@ -204,6 +197,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    mandate (0.4.0.beta.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     maruku (0.7.3)
@@ -356,12 +350,12 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   delayed_job_active_record (~> 4.1.4)
-  exercism_config (>= 0.17.0)
+  exercism_config (>= 0.18.0)
   factory_bot_rails
   haml-rails (~> 2.0)
   image_processing (~> 1.2)
   listen (>= 3.0.5, < 3.2)
-  mandate!
+  mandate (= 0.4.0.beta.1)
   mocha
   mysql2 (>= 0.4.4)
   puma (~> 4.1)

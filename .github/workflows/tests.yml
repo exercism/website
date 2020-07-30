@@ -81,7 +81,7 @@ jobs:
           bundle install --jobs 4 --retry 3
           yarn install
           bundle exec setup_exercism_config
-          bundle exec bin/rails runner scripts/setup_dynamodb_locally.rb
+          bundle exec bin/rails runner scripts/setup_aws_locally.rb
 
       ###
       # Setup code climate

@@ -40,7 +40,7 @@ class Iteration::UploadForStorageTest < ActiveSupport::TestCase
       acl: 'private'
     )
 
-    Aws::S3::Client.expects(:new).times(3).with(Exercism.config.aws_auth).returns(s3_client)
+    ExercismConfig::SetupS3Client.stubs(call: s3_client)
     Iteration::UploadForStorage.(iteration_uuid, files)
   end
 end

@@ -31,3 +31,6 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Cache used for docker
+.cache

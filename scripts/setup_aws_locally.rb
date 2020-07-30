@@ -4,7 +4,12 @@ return unless Rails.env.development?
 ##################
 # Setup local s3 #
 ##################
-ExercismConfig::SetupS3Client.().create_bucket(bucket: Exercism.config.aws_iterations_bucket)
+
+# We don't need this running for CI atm as none of our 
+# tests actually hit s3. Although we might choose to change this
+unless ENV["EXERCISM_CI"]
+  ExercismConfig::SetupS3Client.().create_bucket(bucket: Exercism.config.aws_iterations_bucket)
+end
 
 ########################
 # Setup local dynamodb #

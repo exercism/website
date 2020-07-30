@@ -145,7 +145,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism_config (0.25.0)
+    exercism_config (0.26.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk

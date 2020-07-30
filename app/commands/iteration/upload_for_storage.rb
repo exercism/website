@@ -21,7 +21,7 @@ class Iteration
 
       # Don't memoize this as it's used in multiple threads
       # Consider moving it safely to a readonly var.
-      s3_client = Aws::S3::Client.new(Exercism.config.aws_auth)
+      s3_client = ExercismConfig::SetupS3Client.()
       s3_client.put_object(body: code,
                            bucket: Exercism.config.aws_iterations_bucket,
                            key: "#{path}/#{filename}",

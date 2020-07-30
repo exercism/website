@@ -57,7 +57,7 @@ class Iteration
     end
 
     def upload_file(filename, code)
-      s3_client = Aws::S3::Client.new(Exercism.config.aws_auth)
+      s3_client = ExercismConfig::SetupS3Client.()
       s3_client.put_object(body: code,
                            bucket: iterations_bucket,
                            key: "#{s3_path}/#{filename}",

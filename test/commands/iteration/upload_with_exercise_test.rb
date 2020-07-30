@@ -29,7 +29,7 @@ class Iteration::UploadWithExerciseTest < ActiveSupport::TestCase
       )
     end
 
-    Aws::S3::Client.expects(:new).times(6).returns(s3_client)
+    ExercismConfig::SetupS3Client.stubs(call: s3_client)
     actual_s3_uri = Iteration::UploadWithExercise.(
       iteration_uuid, solution.git_slug, solution.git_sha, solution.track.repo, iteration_files
     )

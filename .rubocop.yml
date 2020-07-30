@@ -6,6 +6,7 @@ require:
 AllCops:
   NewCops: disable
   Exclude:
+    - "app/controllers/tmp/**/*"
     - "bin/**/*"
     - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"
     - "db/schema.rb"

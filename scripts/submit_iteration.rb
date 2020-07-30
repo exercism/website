@@ -21,14 +21,13 @@ solution = ConceptSolution.create!(
   exercise: two_fer
 )
 
-
 loop do
   puts "Creating Iteration..."
   begin
     files = [
       {
         filename: "two_fer.rb",
-        content: %Q{
+        content: %{
   class TwoFer
     def two_fer(name=nil)
       "One for \#{name}, one for me"
@@ -44,11 +43,12 @@ loop do
       files,
       submitted_via: "script"
     )
-  puts "Done"
-  rescue => e
+    puts "Done"
+  rescue StandardError => e
     puts "Failed: #{e.message}"
     puts e
   end
 
+  exit
   sleep(10)
 end

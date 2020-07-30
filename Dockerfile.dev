@@ -3,7 +3,7 @@ FROM ruby:2.6.6
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y cmake nodejs yarn tmux
+    apt-get install -y cmake nodejs yarn
 
 RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/overmind-v2.2.0-linux-arm64.gz | gunzip > /usr/local/bin/overmind && \	
     chmod u+x /usr/local/bin/overmind
@@ -11,15 +11,21 @@ RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/o
 RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
     chmod u+x /usr/local/bin/anycable-go
 
-RUN gem install bundler
-
 WORKDIR /usr/src/app
 
+RUN gem install bundler:2.1.4
+ENV BUNDLE_PATH /usr/src/bundler_cache
 COPY Gemfile Gemfile.lock ./
+COPY .cache/bundler/ /usr/src/bundler_cache
 RUN bundle install
 
+# TODO: At runtime we should mount this cache path
+# and copy the natively compiled extensions back into it
+# to avoid future native compilation.
+
 COPY package.json yarn.lock ./
+COPY .cache/yarn/ /usr/src/yarn_cache/
+RUN echo "--cache-folder /usr/src/yarn_cache" > .yarnrc
 RUN yarn install
 
 CMD ["sh", "docker/init.dev.sh"]
-

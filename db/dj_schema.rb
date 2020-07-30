@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_721_220_344) do
+ActiveRecord::Schema.define(version: 2020_07_21_220344) do
+
   create_table "delayed_jobs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -23,6 +24,7 @@ ActiveRecord::Schema.define(version: 20_200_721_220_344) do
     t.string "queue"
     t.datetime "created_at", precision: 6
     t.datetime "updated_at", precision: 6
-    t.index %w[priority run_at], name: "delayed_jobs_priority"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
+
 end

@@ -1,6 +1,13 @@
+echo "Install bundler stuff"
 bundle update --full-index --conservative exercism_config
-EXERCISM_DOCKER=true EXERCISM_ENV=development setup_exercism_config
-bin/rails db:create
-bin/rails db:migrate
-bin/rails runner scripts/setup_aws_locally.rb
-overmind start -p 3020 -f ./Procfile.docker.dev
+
+echo "Setup Exercism Config"
+bundle exec setup_exercism_config
+
+echo "Create and migrate DBs"
+bundle exec bin/rails db:create
+bundle exec bin/rails db:migrate
+
+echo "Set up local AWS"
+bundle exec bin/rails runner scripts/setup_aws_locally.rb
+overmind start -p 3020 -s /usr/src/tmp/overmind.sock -f ./Procfile.docker.dev

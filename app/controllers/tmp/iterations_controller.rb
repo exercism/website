@@ -12,7 +12,7 @@ class Tmp::IterationsController < ApplicationController
         filename: "two_fer.rb",
         content: %{
   class TwoFer
-    def two_fer(name=nil)
+    def self.two_fer(name=nil)
       "One for \#{name}, one for me"
     end
   end

@@ -10,4 +10,4 @@ bundle exec bin/rails db:migrate
 
 echo "Set up local AWS"
 bundle exec bin/rails runner scripts/setup_aws_locally.rb
-overmind start -p 3020 -s /usr/src/tmp/overmind.sock -f ./Procfile.docker.dev
+overmind start -p 3020 -s /usr/src/app/tmp/overmind.sock -f ./Procfile.docker.dev

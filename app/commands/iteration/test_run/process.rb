@@ -16,7 +16,8 @@ class Iteration
         test_run = iteration.test_runs.create!(
           ops_status: ops_status,
           ops_message: ops_message,
-          raw_results: results
+          raw_results: results,
+          status: "TODO"
         )
 
         # Then all of the submethods here should

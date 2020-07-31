@@ -10,13 +10,12 @@ Rails.application.routes.draw do
     resources :iterations, only: [:index]
   end
 
+  namespace :tmp do
+    resources :iterations, only: [:create]
+    resources :tracks, only: [:create]
+  end
+
   unless Rails.env.production?
-
-    namespace :tmp do
-      resources :iterations, only: [:create]
-      resources :tracks, only: [:create]
-    end
-
     namespace :test do
       namespace :components do
         namespace :maintaining do

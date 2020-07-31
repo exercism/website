@@ -11,10 +11,10 @@ function MaintainingIterationsSummaryTableRow({
 }) {
   return (
     <tr>
-      <th>{id}</th>
-      <th>{testsStatus}</th>
-      <th>{representationStatus}</th>
-      <th>{analysisStatus}</th>
+      <td>{id}</td>
+      <td>{testsStatus}</td>
+      <td>{representationStatus}</td>
+      <td>{analysisStatus}</td>
     </tr>
   )
 }

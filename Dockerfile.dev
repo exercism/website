@@ -25,6 +25,8 @@ RUN bundle install
 
 COPY package.json yarn.lock ./
 COPY .cache/yarn/ /usr/src/yarn_cache/
+COPY .cache/node_modules/ /usr/src/node_modules/
+RUN echo "--modules-folder /usr/src/node_modules" > .yarnrc
 RUN echo "--cache-folder /usr/src/yarn_cache" > .yarnrc
 RUN yarn install
 

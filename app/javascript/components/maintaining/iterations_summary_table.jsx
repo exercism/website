@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
-import "actioncable";
+import React, { useState, useEffect } from 'react'
+import 'actioncable'
 
-import consumer from "../../application/action_cable_consumer";
+import consumer from '../../application/action_cable_consumer'
 
-function MaintainingIterationsSummaryTableRow({ id, testsStatus, representationStatus, analysisStatus }) {
+function MaintainingIterationsSummaryTableRow({
+  id,
+  testsStatus,
+  representationStatus,
+  analysisStatus,
+}) {
   return (
     <tr>
       <th>{id}</th>
@@ -11,20 +16,34 @@ function MaintainingIterationsSummaryTableRow({ id, testsStatus, representationS
       <th>{representationStatus}</th>
       <th>{analysisStatus}</th>
     </tr>
-  );
+  )
 }
 
 export function MaintainingIterationsSummaryTable({ iterations }) {
-  const [stateIterations, setIterations] = useState(iterations);
+  const [stateIterations, setIterations] = useState(iterations)
 
   useEffect(() => {
-    const received = data => setIterations([data.iteration, ...stateIterations]);
+    const received = (data) => {
+      const existingIterations = [...stateIterations]
+      const existingIndex = existingIterations.findIndex(
+        (iteration) => iteration.id === data.iteration.id
+      )
+
+      if (existingIndex !== -1) {
+        existingIterations[existingIndex] = data.iteration
+      } else {
+        existingIterations.unshift(data.iteration)
+      }
+
+      setIterations(existingIterations)
+    }
 
     const subscription = consumer.subscriptions.create(
-      { channel: "IterationChannel" }, { received }
-    );
-    return () => subscription.unsubscribe();
-  });
+      { channel: 'IterationChannel' },
+      { received }
+    )
+    return () => subscription.unsubscribe()
+  })
 
   return (
     <table>
@@ -37,7 +56,7 @@ export function MaintainingIterationsSummaryTable({ iterations }) {
         </tr>
       </thead>
       <tbody>
-        {stateIterations.map((iteration, idx) =>
+        {stateIterations.map((iteration, idx) => (
           <MaintainingIterationsSummaryTableRow
             key={iteration.id}
             id={iteration.id}
@@ -45,8 +64,9 @@ export function MaintainingIterationsSummaryTable({ iterations }) {
             representationStatus={iteration.representationStatus}
             analysisStatus={iteration.analysisStatus}
             idx={idx}
-          />)}
+          />
+        ))}
       </tbody>
     </table>
-  );
+  )
 }

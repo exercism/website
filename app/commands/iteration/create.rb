@@ -33,6 +33,7 @@ class Iteration
       iteration = create_iteration!
       update_solution!
       schedule_jobs!
+      iteration.broadcast!
 
       # Finally wait for everyting to finish before
       # we return the iteration

@@ -1,3 +1,3 @@
-RAILS_ENV=production bin/rails db:create
-RAILS_ENV=production bin/rails db:migrate
-hivemind -p 80 ./Procfile
+RAILS_ENV=production bundle exec bin/rails db:create
+RAILS_ENV=production bundle exec bin/rails db:migrate
+overmind start -p 80 -f ./Procfile

@@ -5,8 +5,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y cmake nodejs yarn
 
-RUN curl -L -o - https://github.com/DarthSim/hivemind/releases/download/v1.0.6/hivemind-v1.0.6-linux-amd64.gz | gunzip > /usr/local/bin/hivemind && \	
-    chmod u+x /usr/local/bin/hivemind
+RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/overmind-v2.2.0-linux-amd64.gz | gunzip > /usr/local/bin/overmind && \	
+    chmod u+x /usr/local/bin/overmind
 
 RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
     chmod u+x /usr/local/bin/anycable-go

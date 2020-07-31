@@ -3,7 +3,7 @@ FROM ruby:2.6.6
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y cmake nodejs yarn
+    apt-get install -y cmake nodejs yarn tmux
 
 RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/overmind-v2.2.0-linux-amd64.gz | gunzip > /usr/local/bin/overmind && \	
     chmod u+x /usr/local/bin/overmind

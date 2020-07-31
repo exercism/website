@@ -1,19 +1,20 @@
 class Tmp::IterationsController < ApplicationController
   def create
-    user = User.create!(handle: SecureRandom.uuid)
-    track = Track.find_by(slug: :csharp) ||
-           Track.create!(slug: 'csharp', title: 'C#', repo_url: "http://github.com/exercism/csharp")
-    exercise = ConceptExercise.find_by(track: track, slug: "two-fer") ||
-               ConceptExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "two-fer", prerequisites: [], title: "Two Fer")
-    solution = ConceptSolution.create!(uuid: SecureRandom.uuid, user: user, exercise: exercise)
 
-    git_exercise = track.repo.exercise('two-fer', track.repo.head_sha)
-    example = git_exercise.read_file_blob("Example.cs")
+    track_slug = params[:track_slug]
+    exercise_slug = params[:exercise_slug].underscore.dasherize
+    exercise_title = params[:exercise_slug].titleize
+
+    user = User.create!(handle: SecureRandom.uuid)
+    track = Track.find_by(slug: track_slug)
+    exercise = ConceptExercise.find_by(track: track, slug: exercise_slug) ||
+               ConceptExercise.create!(track: track, uuid: SecureRandom.uuid, slug: exercise_slug, prerequisites: [], title: exercise_title)
+    solution = ConceptSolution.create!(uuid: SecureRandom.uuid, user: user, exercise: exercise)
 
     files = [
       {
-        filename: "TwoFer.cs",
-        content: example
+        filename: params[:exercise_filename],
+        content: params[:exercise_implementation]
       }
     ]
 

@@ -1,4 +1,18 @@
-%ul
-  %li
-    = link_to "Create Iteration", tmp_iterations_path, method: :post, remote: true
+= form_with url: tmp_iterations_path do
+  %ul
+    %li
+      = label_tag(:track_slug, "Track slug:")
+      = select_tag(:track_slug, options_for_select(Track.all.sort_by{|t|t.slug}.map{|t|[t.slug, t.slug]}))
+      = button_tag "Submit iteration"
+    %li
+      = label_tag(:exercise_slug, "Exercise slug:")
+      = text_field_tag(:exercise_slug, nil, placeholder: 'E.g. two-fer', required: true)
+    %li
+      = label_tag(:exercise_filename, "Exercise filename:")
+      = text_field_tag(:exercise_filename, nil, placeholder: 'E.g. two_fer.rb', required: true)
+    %li
+      = label_tag(:exercise_implementation, "Exercise implementation:")
+      = text_area_tag(:exercise_implementation, nil, size: "40x15", placeholder: "E.g.\n\nclass TwoFer\n  def self.two_fer(name = 'you')\n    \"One for #\{name\}, one for me.\"\n  end\nend", required: true)
+    %li
+      = button_tag "Submit iteration"
 = maintaining_iterations_summary_table(@iterations)

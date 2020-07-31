@@ -1,7 +1,7 @@
 class Tmp::IterationsController < ApplicationController
   def create
 
-    track_slug = params[:track_slug]
+    track_slug = params[:track_slug].underscore.dasherize
     exercise_slug = params[:exercise_slug].underscore.dasherize
     exercise_title = params[:exercise_slug].titleize
 

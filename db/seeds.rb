@@ -12,3 +12,6 @@ Iteration.create!(
   uuid: SecureRandom.uuid,
   submitted_via: "cli"
 )
+
+track = Track.create!(slug: 'csharp', title: 'C#', repo_url: "http://github.com/exercism/csharp")
+UserTrack.create!(user: user, track: track)

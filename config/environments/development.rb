@@ -55,7 +55,7 @@ Rails.application.configure do
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc.
-  config.file_watcher = ActiveSupport::EventedFileUpdateChecker unless ENV['EXERCISM_DOCKER']
+  config.file_watcher = ENV['EXERCISM_DOCKER'] ? ActiveSupport::FileUpdateChecker : ActiveSupport::EventedFileUpdateChecker
 
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
 end

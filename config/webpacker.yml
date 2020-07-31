@@ -88,9 +88,9 @@ production:
   # Production depends on precompilation of packs prior to booting for performance.
   # TODO - CHANGE TO FALSE
   compile: true
-
   # Extract and emit a css file
-  extract_css: true
-
+  # TODO - CHANGE TO TRUE
+  #extract_css: true
   # Cache manifest.json for performance
-  cache_manifest: true
+  # TODO - CHANGE TO TRUE
+  #cache_manifest: true

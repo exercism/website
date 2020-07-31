@@ -17,7 +17,7 @@ class Iteration
           ops_status: ops_status,
           ops_message: ops_message,
           raw_results: results,
-          status: "TODO"
+          status: status
         )
 
         # Then all of the submethods here should
@@ -63,6 +63,12 @@ class Iteration
       def handle_error!
         iteration.tests_errored!
         cancel_other_services!
+      end
+
+      def status
+        return @results[:status].to_sym if @results[:status]
+
+        :error
       end
 
       def cancel_other_services!

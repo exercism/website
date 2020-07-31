@@ -28,19 +28,19 @@ class ToolingJobTest < ActiveSupport::TestCase
     id = SecureRandom.uuid
     type = "test_runner"
     iteration_uuid = "iteration-uuid"
-    job_status = "job-status"
+    execution_status = "job-status"
     result = { 'some' => 'result' }
 
     item = {
       "type" => type,
       "iteration_uuid" => iteration_uuid,
-      "job_status" => job_status,
+      "execution_status" => execution_status,
       "result" => result
     }
 
     Iteration::TestRun::Process.expects(:call).with(
       iteration_uuid,
-      job_status,
+      execution_status,
       "Nothing to report",
       result
     )
@@ -54,7 +54,7 @@ class ToolingJobTest < ActiveSupport::TestCase
       attributes_to_get: %i[
         type
         iteration_uuid
-        job_status
+        execution_status
         result
       ]
     ).returns(mock(item: item))

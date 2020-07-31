@@ -4,7 +4,7 @@ ruby '2.6.6'
 
 # Service/framework dependencies
 gem 'rails', git: 'http://github.com/rails/rails.git', ref: "f4bf62ee8e0f8762a82f85a789119b2211fdecb4"
-#gem 'rails', '~> 6.1.0.alpha'
+# gem 'rails', '~> 6.1.0.alpha'
 gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.1'
 gem 'redis', '~> 4.0'
@@ -20,7 +20,7 @@ gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
 gem 'exercism_config', '>= 0.23.0'
-#gem 'exercism_config', path: '../exercism_config'
+# gem 'exercism_config', path: '../exercism_config'
 # gem 'bootsnap', '>= 1.4.2', require: false
 
 # Model-level dependencies

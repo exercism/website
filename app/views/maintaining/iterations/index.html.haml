@@ -1,9 +1,18 @@
+= form_with url: tmp_tracks_path, remote: false do
+  %ul
+    %li
+      = label_tag(:track_slug, "Track slug:")
+      = text_field_tag(:track_slug, nil, placeholder: 'E.g. csharp', required: true)
+    %li
+      = label_tag(:track_title, "Track title:")
+      = text_field_tag(:track_title, nil, placeholder: 'E.g. C#', required: true)
+    %li
+      = button_tag "Add track"
 = form_with url: tmp_iterations_path do
   %ul
     %li
       = label_tag(:track_slug, "Track slug:")
-      = select_tag(:track_slug, options_for_select(Track.all.sort_by{|t|t.slug}.map{|t|[t.slug, t.slug]}))
-      = button_tag "Submit iteration"
+      = select_tag(:track_slug, options_for_select(Track.all.sort_by{|t|t.title}.map{|t|[t.title, t.slug]}))
     %li
       = label_tag(:exercise_slug, "Exercise slug:")
       = text_field_tag(:exercise_slug, nil, placeholder: 'E.g. two-fer', required: true)

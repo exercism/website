@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
     namespace :tmp do
       resources :iterations, only: [:create]
+      resources :tracks, only: [:create]
     end
 
     namespace :test do

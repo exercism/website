@@ -22,8 +22,8 @@ RUN bundle install
 
 COPY package.json yarn.lock ./
 RUN yarn install
-RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
 
 COPY . ./
+RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
 
 CMD ["sh", "docker/init.sh"]

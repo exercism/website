@@ -20,7 +20,7 @@ class ToolingJob
       attributes_to_get: %i[
         type
         iteration_uuid
-        job_status
+        execution_status
         result
       ]
     ).item
@@ -29,7 +29,7 @@ class ToolingJob
     when "test_runner"
       Iteration::TestRun::Process.(
         attrs["iteration_uuid"],
-        attrs["job_status"],
+        attrs["execution_status"],
         "Nothing to report", # TOOD
         attrs["result"]
       )

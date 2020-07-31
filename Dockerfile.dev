@@ -14,18 +14,10 @@ RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-g
 WORKDIR /usr/src/app
 
 RUN gem install bundler:2.1.4
-ENV BUNDLE_PATH /usr/src/bundler_cache
 COPY Gemfile Gemfile.lock ./
-COPY .cache/bundler/ /usr/src/bundler_cache
 RUN bundle install
 
-# TODO: At runtime we should mount this cache path
-# and copy the natively compiled extensions back into it
-# to avoid future native compilation.
-
 COPY package.json yarn.lock ./
-COPY .cache/yarn/ /usr/src/yarn_cache/
-RUN echo "--cache-folder /usr/src/yarn_cache" > .yarnrc
 RUN yarn install
 
 CMD ["sh", "docker/init.dev.sh"]

@@ -98,6 +98,9 @@
         = label_tag(:track_title, "Track title:")
         = text_field_tag(:track_title, nil, placeholder: 'E.g. C#', required: true)
       .field
+        = label_tag(:repo_url, "GitHub Repo:")
+        = text_field_tag(:repo_url, nil, placeholder: 'https://github.com/exercism/csharp', required: true)
+      .field
         = button_tag "Add track"
   .info
     %h2 Iterations

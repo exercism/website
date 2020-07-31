@@ -1,3 +1,6 @@
 # Use UNIX line endings for all files to allow them
 # to be used when mapped in a UNIX docker container
 * text eol=lf
+
+config/credentials/*.yml.enc diff=rails_credentials
+config/credentials.yml.enc diff=rails_credentials

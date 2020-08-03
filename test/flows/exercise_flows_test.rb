@@ -23,6 +23,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # Submit an iteration
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
+    ToolingJob.stubs(:create!)
     basics_iteration_1 =
       Iteration::Create.(
         basics_solution,

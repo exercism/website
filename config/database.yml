@@ -8,8 +8,8 @@ default: &default
   socket: <%= Exercism.config.mysql_socket %>
   timeout: 5000
 
-  host: <%= Exercism.config.rds_master_endpoint %>
-  port: <%= Exercism.config.rds_port %>
+  host: <%= Exercism.config.mysql_master_endpoint %>
+  port: <%= Exercism.config.mysql_port %>
 
   variables:
     sql_mode: traditional

@@ -21,6 +21,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::TestRun::Init.expects(:call)
     Iteration::Analysis::Init.expects(:call)
     Iteration::Representation::Init.expects(:call)
+    ToolingJob.expects(:create!)
 
     solution = create :concept_solution
     iteration = Iteration::Create.(solution, files, :cli)
@@ -54,6 +55,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     # We'll call upload so stub it
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
+    ToolingJob.stubs(:create!)
 
     # Do it once successfully
     Iteration::Create.(solution, files, :cli)
@@ -79,6 +81,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
+    ToolingJob.stubs(:create!)
     Iteration::Create.(solution, [files.first], :cli)
     assert_equal 'submitted', solution.reload.status
   end
@@ -88,6 +91,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     files = [{ filename: 'foo.bar', content: "foobar" }]
     Iteration::UploadWithExercise.stubs(:call)
     Iteration::UploadForStorage.stubs(:call)
+    ToolingJob.stubs(:create!)
 
     # Create user and solution
     user = create :user

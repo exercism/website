@@ -24,4 +24,4 @@ RUN bundle install
 COPY package.json yarn.lock ./
 RUN yarn install
 
-CMD ["sh", "docker/init.dev.sh"]
+CMD ["sh", "docker/development/init.dev.sh"]

@@ -1,5 +1,6 @@
 module Git
   class Track
+
     def initialize(url)
       @repo = Git::Repository.new(url)
     end
@@ -28,12 +29,11 @@ module Git
       )
     end
 
+    def config(commit: repo.head_commit)
+      repo.read_json_blob(commit, 'languages/ruby/config.json')
+    end
+
     private
     attr_reader :repo
-
-    def config(commit: repo.head_commit)
-      config_pointer = commit.tree['config.json']
-      repo.read_json_blob(config_pointer[:oid])
-    end
   end
 end

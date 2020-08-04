@@ -1,0 +1,4 @@
+#!/bin/bash
+
+git diff --name-status --staged | grep '^[MA]' | grep -o '\\s\\+.*rb' | xargs bundle exec rubocop --except Metrics --auto-correct --format quiet --force-exclusion app/controllers/application_controller.rb && \
+git diff --name-status --staged | grep '^[MA]' | grep -o '\\s\\+.*rb' | xargs git add

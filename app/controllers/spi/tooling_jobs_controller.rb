@@ -1,7 +1,7 @@
 module SPI
   class ToolingJobsController < BaseController
     def update
-      ToolingJob.process!(params[:id])
+      ToolingJob::Process.(params[:id])
     end
   end
 end

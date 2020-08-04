@@ -1,30 +1,7 @@
 require 'test_helper'
 
-class ToolingJobTest < ActiveSupport::TestCase
-  test "create! proxies to dynamodb" do
-    freeze_time do
-      type = "foobars"
-      uuid = SecureRandom.uuid
-      SecureRandom.expects(:uuid).returns(uuid)
-
-      # TODO: Test via the db rather than mocks
-      client = Exercism.config.dynamodb_client
-      client.expects(:put_item).with(
-        table_name: Exercism.config.dynamodb_tooling_jobs_table,
-        item: {
-          id: uuid,
-          created_at: Time.current.utc.to_i,
-          type: type,
-          job_status: :pending,
-          foo: :bar
-        }
-      )
-
-      ToolingJob.create!(type, { foo: :bar })
-    end
-  end
-
-  test "process! proxies to test run" do
+class ToolingJob::ProcessTest < ActiveSupport::TestCase
+  test "proxies to test run" do
     id = SecureRandom.uuid
     type = "test_runner"
     iteration_uuid = "iteration-uuid"
@@ -47,7 +24,8 @@ class ToolingJobTest < ActiveSupport::TestCase
 
     # TODO: Create some factory methods for this
     # and test via the db rather than mocks
-    client = Exercism.config.dynamodb_client
+    client = mock
+    ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
     client.expects(:get_item).with(
       table_name: Exercism.config.dynamodb_tooling_jobs_table,
       key: { id: id },
@@ -59,6 +37,6 @@ class ToolingJobTest < ActiveSupport::TestCase
       ]
     ).returns(mock(item: item))
 
-    ToolingJob.process!(id)
+    ToolingJob::Process.(id)
   end
 end

@@ -6,7 +6,7 @@ class Iteration::TestRun::InitTest < ActiveSupport::TestCase
     iteration_uuid = SecureRandom.compact_uuid
     s3_uri = "s3://..."
 
-    ToolingJob.expects(:create!).with(
+    ToolingJob::Create.expects(:call).with(
       :test_runner,
       iteration_uuid: iteration_uuid,
       language: solution.track.slug,

@@ -12,7 +12,7 @@ class Iteration
       end
 
       def call
-        ToolingJob.create!(
+        ToolingJob::Create.(
           job_type,
           iteration_uuid: iteration_uuid,
           language: language_slug,

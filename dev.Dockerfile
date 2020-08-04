@@ -67,7 +67,6 @@ FROM slim-website
 # copy over gems from build
 COPY Gemfile Gemfile.lock ./
 COPY --from=gembuilder /usr/local/bundle /usr/local/bundle
-RUN bundle list
 
 COPY package.json yarn.lock ./
 RUN yarn install && yarn cache clean;

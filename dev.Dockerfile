@@ -64,11 +64,17 @@ RUN bundle install && \
 #############
 FROM slim-website
 
+# we need the mysql client for our init script to setup the databases
+RUN apt-get install -y default-mysql-client;
+
 # copy over gems from build
 COPY Gemfile Gemfile.lock ./
 COPY --from=gembuilder /usr/local/bundle /usr/local/bundle
 
 COPY package.json yarn.lock ./
 RUN yarn install && yarn cache clean;
+
+WORKDIR /usr/src/app
+COPY . .
 
 CMD ["sh", "docker/init.dev.sh"]

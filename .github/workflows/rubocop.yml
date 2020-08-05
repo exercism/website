@@ -2,16 +2,28 @@ name: Rubocop
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   rubocop:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Rubocop Linter Action
-      uses: andrewmcodes/rubocop-linter-action@v3.0.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+        with:
+          ruby-version: 2.6.6
+
+      - name: Install gems
+        run: |
+          gem install rubocop
+          gem install rubocop-minitest
+          gem install rubocop-performance
+          gem install rubocop-rails
+
+      - name: Run Rubocop
+        run: rubocop --except Metrics

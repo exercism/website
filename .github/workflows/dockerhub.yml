@@ -17,7 +17,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ihid/exercism-website
+          repository: exercism/website
           tag_with_sha: true
           tags: latest
           dockerfile: dev.Dockerfile

@@ -98,6 +98,7 @@ jobs:
           EXERCISM_ENV: test
           EXERCISM_CI: true
           DYNAMODB_PORT: ${{ job.services.dynamodb.ports['8000'] }}
+          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           CAPTURE_CODE_COVERAGE: true
         run: |
           bundle exec rails test

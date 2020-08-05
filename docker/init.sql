@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS `exercism_v3_development`;
 ALTER DATABASE `exercism_v3_development` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-/* implicetly create the user with our first DB to avoid errors if they already exist */
+/* Implicitly create the user with our first DB to avoid errors if they already exist */
 GRANT ALL PRIVILEGES ON `exercism_v3_development`.* TO 'exercism_v3' IDENTIFIED BY 'exercism_v3';
 
 CREATE DATABASE IF NOT EXISTS `exercism_v3_dj_development`;

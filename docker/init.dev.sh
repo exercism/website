@@ -1,5 +1,11 @@
+while ! mysqladmin ping -h"$DB_HOST" --silent; do
+    echo "Waiting on MySQL..."
+    sleep 2
+done
+
 echo "Create and migrate DBs"
-bundle exec bin/rails db:create
+# init.sql creates initial MySQL USER and databases
+mysql -u root -ppassword -h "$DB_HOST" < docker/init.sql
 bundle exec bin/rails db:migrate
 
 echo "Set up local AWS"

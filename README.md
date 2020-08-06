@@ -54,7 +54,7 @@ Assuming your docker-compose is already "up". All these are run "inside" the exi
 ./docker/run-tests
 
 # run rake test:system
-./docker/run-systems-tests
+./docker/run-system-tests
 
 # run yarn test
 ./docker/run-js-tests

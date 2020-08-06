@@ -97,7 +97,6 @@ Rails/FilePath:
 Rails/SkipsModelValidations:
   Enabled: false
 
-#
 Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"

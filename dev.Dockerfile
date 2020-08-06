@@ -25,7 +25,8 @@ FROM ruby:2.6.6-slim-buster as slim-website
 
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y curl gnupg; \
+    # we need the mysql client for our init script to setup the databases
+    apt-get install -y curl gnupg default-mysql-client; \
     rm -rf /var/lib/apt/lists/*
 
 # copy over anycable and overmind
@@ -63,9 +64,6 @@ RUN bundle install && \
 ## Stage 4 ##
 #############
 FROM slim-website
-
-# we need the mysql client for our init script to setup the databases
-RUN apt-get install -y default-mysql-client;
 
 # copy over gems from build
 COPY Gemfile Gemfile.lock ./

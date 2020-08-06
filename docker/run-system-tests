@@ -1,0 +1,13 @@
+#!/bin/bash
+# docker build -t exercism/website . -f ./dev.Dockerfile
+
+source ./docker/lib/utils.sh
+
+docker exec \
+    -e EXERCISM_DOCKER=true \
+    -e EXERCISM_ENV=test \
+    -it v3-docker-compose_website_1 \
+    /bin/sh \
+    '-c' 'bundle exec rake test:system'
+
+handle_container_error

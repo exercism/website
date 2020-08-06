@@ -1,5 +1,3 @@
-
-
 handle_container_error() {
 result=$?
 if [ $result -ne 0 ]

@@ -40,7 +40,7 @@ To fire up the Exercism stack using Docker Compose:
 ./bin/start
 ```
 
-Please check the repositories README for additional help.
+Please check the repository README for additional help.
 
 #### Running tests in the scope of Docker Compose
 

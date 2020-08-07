@@ -37,7 +37,7 @@ To fire up the Exercism stack using Docker Compose:
 ```sh
 # edit stack.yml
 ./bin/build_stack
-docker-compose up
+./bin/start
 ```
 
 Please check the repositories README for additional help.

@@ -8,5 +8,5 @@ echo "Create and migrate DBs"
 mysql -u root -ppassword -h "$DB_HOST" < docker/init.sql
 bundle exec bin/rails db:migrate
 
-echo "Set up local AWS"
+echo "Start up the website stack"
 overmind start -p 3020 -s /usr/src/app/tmp/overmind.sock -f ./Procfile.docker.dev

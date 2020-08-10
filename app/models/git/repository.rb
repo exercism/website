@@ -8,7 +8,8 @@ module Git
       main_branch.target
     end
 
-    def read_json_blob(oid)
+    def read_json_blob(commit, path)
+      oid = find_blob_oid(commit, path)
       raw = read_blob(oid, "{}")
       JSON.parse(raw, symbolize_names: true)
     end
@@ -28,12 +29,34 @@ module Git
       end
     end
 
+    def find_blob_oid(commit, path)
+      parts = path.split('/')
+      target_filename = parts.pop
+      dir = "#{parts.join('/')}/"
+
+      commit.tree.walk_blobs do |obj_dir, obj|
+        return obj[:oid] if obj[:name] == target_filename && obj_dir == dir
+      end
+
+      raise "No blob found: #{target_filename}"
+    end
+
+    def read_tree(commit, path)
+      parts = path.split("/")
+      dir_name = parts.pop
+      root_path = parts.present? ? "#{parts.join('/')}/" : ""
+
+      commit.tree.walk_trees do |obj_dir, obj|
+        return lookup(obj[:oid]) if obj_dir == root_path && obj[:name] == dir_name
+      end
+
+      raise "No blob found: #{path}"
+    end
+
+    delegate :lookup, to: :rugged_repo
+
     private
     attr_reader :url
-
-    def lookup(oid)
-      rugged_repo.lookup(oid)
-    end
 
     def main_branch
       rugged_repo.branches[MAIN_BRANCH_REF]

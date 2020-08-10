@@ -9,13 +9,11 @@ module Git
       repo.head_commit.oid
     end
 
-    # TODO: Read this from the repo
     def test_regexp
       pattern = config[:test_pattern]
       Regexp.new(pattern.presence || "[tT]est")
     end
 
-    # TODO: Ignore pattern
     def ignore_regexp
       pattern = config[:ignore_pattern]
       Regexp.new(pattern.presence || "[iI]gnore")

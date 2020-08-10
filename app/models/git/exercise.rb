@@ -39,7 +39,7 @@ module Git
     def tree
       @tree ||= begin
         # TODO: When things are exploded back into repos, do this
-        #repo.read_tree(commit, "exercises")
+        # repo.read_tree(commit, "exercises")
         repo.read_tree(commit, "languages/#{track_config[:slug]}/exercises/concept/#{slug}")
       end
     end

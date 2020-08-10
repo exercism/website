@@ -5,6 +5,6 @@ FactoryBot.define do
     repo_url { TestHelpers.git_repo_url("v3-monorepo") }
 
     # TODO: Readd this when we move away from monorepo
-    #repo_url { TestHelpers.git_repo_url("track-with-exercises") }
+    # repo_url { TestHelpers.git_repo_url("track-with-exercises") }
   end
 end

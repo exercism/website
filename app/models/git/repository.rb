@@ -38,24 +38,22 @@ module Git
         return obj[:oid] if obj[:name] == target_filename && obj_dir == dir
       end
 
-      raise RuntimeError, "No blob found: #{target_filename}"
+      raise "No blob found: #{target_filename}"
     end
 
     def read_tree(commit, path)
       parts = path.split("/")
       dir_name = parts.pop
-      root_path = parts.present?? "#{parts.join('/')}/" : ""
+      root_path = parts.present? ? "#{parts.join('/')}/" : ""
 
       commit.tree.walk_trees do |obj_dir, obj|
         return lookup(obj[:oid]) if obj_dir == root_path && obj[:name] == dir_name
       end
 
-      raise RuntimeError, "No blob found: #{path}"
+      raise "No blob found: #{path}"
     end
 
-    def lookup(oid)
-      rugged_repo.lookup(oid)
-    end
+    delegate :lookup, to: :rugged_repo
 
     private
     attr_reader :url

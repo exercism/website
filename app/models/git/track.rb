@@ -1,6 +1,5 @@
 module Git
   class Track
-
     def initialize(url)
       @repo = Git::Repository.new(url)
     end

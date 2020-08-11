@@ -7,7 +7,7 @@ RUN set -ex; \
     apt-get update; \
     apt-get install -y cmake;
 
-# this work we can do early since it's just copyign a binary to the slim build later
+# We can do this work early and then copy a binary to the slim build later
 # overmind
 RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/overmind-v2.2.0-linux-amd64.gz | gunzip > /usr/local/bin/overmind && \
     chmod u+x /usr/local/bin/overmind

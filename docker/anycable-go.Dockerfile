@@ -1,0 +1,1 @@
+FROM anycable/anycable-go

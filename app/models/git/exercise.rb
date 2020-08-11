@@ -38,9 +38,9 @@ module Git
     # TODO: Memoize
     def tree
       @tree ||= begin
-        oid = commit.tree['exercises'][:oid]
-        exercises = repo.lookup_tree(oid)
-        repo.lookup_tree(exercises[slug][:oid])
+        # TODO: When things are exploded back into repos, do this
+        # repo.read_tree(commit, "exercises")
+        repo.read_tree(commit, "languages/#{track_config[:slug]}/exercises/concept/#{slug}")
       end
     end
 

@@ -76,4 +76,4 @@ RUN yarn install && yarn cache clean;
 WORKDIR /usr/src/app
 COPY . .
 
-CMD ["sh", "docker/init.dev.sh"]
+CMD ["sh", "docker/dev/init.dev.sh"]

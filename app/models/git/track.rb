@@ -8,13 +8,11 @@ module Git
       repo.head_commit.oid
     end
 
-    # TODO: Read this from the repo
     def test_regexp
       pattern = config[:test_pattern]
       Regexp.new(pattern.presence || "[tT]est")
     end
 
-    # TODO: Ignore pattern
     def ignore_regexp
       pattern = config[:ignore_pattern]
       Regexp.new(pattern.presence || "[iI]gnore")
@@ -28,12 +26,11 @@ module Git
       )
     end
 
+    def config(commit: repo.head_commit)
+      repo.read_json_blob(commit, 'languages/ruby/config.json')
+    end
+
     private
     attr_reader :repo
-
-    def config(commit: repo.head_commit)
-      config_pointer = commit.tree['config.json']
-      repo.read_json_blob(config_pointer[:oid])
-    end
   end
 end

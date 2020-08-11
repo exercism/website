@@ -37,3 +37,5 @@ development: &development
 
 production:
   <<: *default
+  log_grpc: true
+  debug: true

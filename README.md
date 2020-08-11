@@ -30,10 +30,34 @@ To execute the Dockerfile, run the following with your AWS keys:
 
 ### Using Docker Compose
 
-To use the Docker Compose file, run:
+You'll need to fetch the [v3-docker-compose](https://github.com/exercism/v3-docker-compose) repository.
 
+To fire up the Exercism stack using Docker Compose:
+
+```sh
+# edit stack.yml
+./bin/build_stack
+./bin/start
 ```
-docker-compose up
+
+Please check the repository README for additional help.
+
+#### Running tests in the scope of Docker Compose
+
+Assuming your docker-compose is already "up". All these are run "inside" the existing `website` container that needs to already have been started.
+
+```sh
+# run rubocop to lint the codebase
+./docker/dev/lint
+
+# run rake test
+./docker/dev/run-tests
+
+# run rake test:system
+./docker/dev/run-system-tests
+
+# run yarn test
+./docker/dev/run-js-tests
 ```
 
 ### Local setup

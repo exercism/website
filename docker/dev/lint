@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source ./docker/dev/lib/utils.sh
+
+docker exec \
+    -e EXERCISM_DOCKER=true \
+    -it v3-docker-compose_website_1 \
+    /bin/sh \
+    '-c' 'bundle exec rubocop --except Metrics'
+
+handle_container_error

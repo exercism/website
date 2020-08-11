@@ -1,13 +1,12 @@
-echo "Install bundler stuff"
-bundle update --full-index --conservative exercism_config
-
-echo "Setup Exercism Config"
-bundle exec setup_exercism_config
+while ! mysqladmin ping -h"$DB_HOST" --silent; do
+    echo "Waiting on MySQL..."
+    sleep 2
+done
 
 echo "Create and migrate DBs"
-bundle exec bin/rails db:create
+# init.sql creates initial MySQL USER and databases
+mysql -u root -ppassword -h "$DB_HOST" < docker/dev/init.sql
 bundle exec bin/rails db:migrate
 
-echo "Set up local AWS"
-bundle exec bin/rails runner scripts/setup_aws_locally.rb
+echo "Start up the website stack"
 overmind start -p 3020 -s /usr/src/app/tmp/overmind.sock -f ./Procfile.docker.dev

@@ -26,7 +26,8 @@ FROM ruby:2.6.6-slim-buster as slim-website
 RUN set -ex; \
     apt-get update; \
     # we need the mysql client for our init script to setup the databases
-    apt-get install -y curl gnupg default-mysql-client; \
+    # git is required for `jest --watch`
+    apt-get install -y curl gnupg default-mysql-client git; \
     rm -rf /var/lib/apt/lists/*
 
 # copy over anycable and overmind

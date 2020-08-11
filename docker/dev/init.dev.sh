@@ -5,7 +5,7 @@ done
 
 echo "Create and migrate DBs"
 # init.sql creates initial MySQL USER and databases
-mysql -u root -ppassword -h "$DB_HOST" < docker/init.sql
+mysql -u root -ppassword -h "$DB_HOST" < docker/dev/init.sql
 bundle exec bin/rails db:migrate
 
 echo "Start up the website stack"

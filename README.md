@@ -48,16 +48,16 @@ Assuming your docker-compose is already "up". All these are run "inside" the exi
 
 ```sh
 # run rubocop to lint the codebase
-./docker/lint
+./docker/dev/lint
 
 # run rake test
-./docker/run-tests
+./docker/dev/run-tests
 
 # run rake test:system
-./docker/run-system-tests
+./docker/dev/run-system-tests
 
 # run yarn test
-./docker/run-js-tests
+./docker/dev/run-js-tests
 ```
 
 ### Local setup

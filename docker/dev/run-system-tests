@@ -1,5 +1,4 @@
 #!/bin/bash
-# docker build -t exercism/website . -f ./dev.Dockerfile
 
 source ./docker/dev/lib/utils.sh
 

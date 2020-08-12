@@ -29,7 +29,7 @@ tree.each_tree { |obj| track_slugs << obj[:name] }
 track_slugs.each do |track_slug|
   p "Adding Track: #{track_slug}"
   track = Track.create!(slug: track_slug, title: track_slug, repo_url: v3_url)
-  track.update(title: track.repo.config[:language])
+  #track.update(title: track.repo.config[:language])
   track.repo.config[:exercises][:concept].each do |exercise_config|
     ce = ConceptExercise.create!(
       track: track,

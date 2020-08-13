@@ -18,9 +18,10 @@ class TrackTest < ActiveSupport::TestCase
 
   %w[head_sha].each do |delegate|
     test "delegates git_#{delegate}" do
+      slug = SecureRandom.uuid
       url = TestHelpers.git_repo_url("track-with-exercises")
-      git_track = Git::Track.new(url)
-      track = create :track, repo_url: url
+      git_track = Git::Track.new(url, slug)
+      track = create :track, repo_url: url, slug: slug
       assert_equal git_track.send(delegate), track.send("git_#{delegate}")
     end
   end

@@ -15,6 +15,8 @@ class Track < ApplicationRecord
 
   # TODO: Memoize
   def repo
-    Git::Track.new(repo_url)
+    # TODO: Slug can be removed from this
+    # once we're out of the monorepo
+    Git::Track.new(repo_url, slug)
   end
 end

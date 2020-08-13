@@ -1,7 +1,10 @@
 module Git
   class Track
-    def initialize(url)
+    # TODO: Slug can be removed from this
+    # once we're out of the monorepo
+    def initialize(url, slug)
       @repo = Git::Repository.new(url)
+      @slug = slug
     end
 
     def head_sha
@@ -27,10 +30,10 @@ module Git
     end
 
     def config(commit: repo.head_commit)
-      repo.read_json_blob(commit, 'languages/ruby/config.json')
+      repo.read_json_blob(commit, "languages/#{slug}/config.json")
     end
 
     private
-    attr_reader :repo
+    attr_reader :repo, :slug
   end
 end

@@ -41,8 +41,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     apt-get install -y nodejs yarn tmux
 
 # chrome, for headless tests
-RUN curl -L -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt install -y ./google-chrome-stable_current_amd64.deb && \
+RUN DEBIAN_FRONTEND=noninteractive && \
+    curl -L -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
     rm ./google-chrome-stable_current_amd64.deb
 
 RUN apt-get install -y libmariadb-dev git;

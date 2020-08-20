@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker exec \
+    -e EXERCISM_DOCKER=true \
+    -e EXERCISM_ENV=test \
+    website \
+    bundle exec rake test:system

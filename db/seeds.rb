@@ -2,10 +2,6 @@ user = User.create!(handle: 'iHiD')
 #track = Track.create!(slug: 'ruby', title: 'Ruby', repo_url: "http://github.com/exercism/v3")
 #UserTrack.create!(user: user, track: track)
 
-Solution.destroy_all
-Exercise.destroy_all
-Track.destroy_all
-
 # This is all temporary and horrible while we have a monorepo
 v3_url = "http://github.com/exercism/v3"
 repo = Git::Track.new(v3_url)

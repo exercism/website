@@ -14,20 +14,6 @@ The website can be run natively, through Docker, or as part of a wider Docker-co
 
 If you are looking to create a full Exercism setup locally, with tooling such as test-runners and other services, please check out our [development environment instructions](./DEV_ENVIRONMENT.md).
 
-### Using Docker
-
-To build the Dockerfile, run:
-
-```
-docker build -f Dockerfile.dev -t exercism-website .
-```
-
-To execute the Dockerfile, run the following with your AWS keys:
-
-```
-./bin/run-docker
-```
-
 ### Using Docker Compose
 
 You'll need to fetch the [v3-docker-compose](https://github.com/exercism/v3-docker-compose) repository.

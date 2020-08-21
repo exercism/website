@@ -44,20 +44,20 @@ Please check the repository README for additional help.
 
 #### Running tests in the scope of Docker Compose
 
-Assuming your docker-compose is already "up". All these are run "inside" the existing `website` container that needs to already have been started.
+Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to run tests. All these are run "inside" the existing `website` container that needs to already have been started.
 
 ```sh
 # run rubocop to lint the codebase
-./docker/dev/lint
+./bin/script website lint
 
 # run rake test
-./docker/dev/run-tests
+./bin/script website run-tests
 
 # run rake test:system
-./docker/dev/run-system-tests
+./bin/script website run-system-tests
 
 # run yarn test
-./docker/dev/run-js-tests
+./bin/script website run-js-tests
 ```
 
 ### Local setup

@@ -16,7 +16,10 @@ class Track < ApplicationRecord
   # TODO: Memoize
   def repo
     # TODO: Slug can be removed from this
+    # TODO: The repo URL can be changed to the DB value
     # once we're out of the monorepo
-    Git::Track.new(repo_url, slug)
+    # This is all temporary and horrible while we have a monorepo
+    Git::Track.new("http://github.com/exercism/v3", slug)
+    # Git::Track.new(repo_url, slug)
   end
 end

@@ -1,6 +1,0 @@
-#!/bin/bash
-
-docker-compose exec \
-    -e EXERCISM_DOCKER=true \
-    website \
-    bundle exec rubocop --except Metrics

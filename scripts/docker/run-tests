@@ -1,7 +1,0 @@
-#!/bin/bash
-
-docker-compose exec \
-    -e EXERCISM_DOCKER=true \
-    -e EXERCISM_ENV=test \
-    website \
-    bundle exec rake test

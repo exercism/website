@@ -4,7 +4,7 @@ user = User.create!(handle: 'iHiD') unless User.find_by(handle: 'iHiD')
 #UserTrack.create!(user: user, track: track)
 
 # This is all temporary and horrible while we have a monorepo
-v3_url = "http://github.com/exercism/v3"
+v3_url = "https://github.com/exercism/v3"
 repo = Git::Track.new(v3_url, :ruby)
 
 # This updates it once before we stub it below

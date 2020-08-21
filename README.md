@@ -30,7 +30,7 @@ To execute the Dockerfile, run the following with your AWS keys:
 
 ### Using Docker Compose
 
-You'll need to fetch the [v3-docker-compose](https://github.com/exercism/v3-docker-compose) repository.
+You'll need to fetch the [development-environment](https://github.com/exercism/development-environment) repository.
 
 To fire up the Exercism stack using Docker Compose:
 

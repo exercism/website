@@ -40,7 +40,7 @@ class Iteration
 
         # TODO: Mark iteration as analyzed and broadcast
         # it here, when we've decided how that works
-        # iteration.broadcast!
+        iteration.broadcast!
       end
 
       private

@@ -24,6 +24,20 @@ module ToolingJob
           "Nothing to report", # TOOD
           attrs["result"]
         )
+      when "representer"
+        Iteration::Representation::Process.(
+          attrs["iteration_uuid"],
+          attrs["execution_status"],
+          "Nothing to report", # TOOD
+          attrs["result"]
+        )
+      when "analyzer"
+        Iteration::Analysis::Process.(
+          attrs["iteration_uuid"],
+          attrs["execution_status"],
+          "Nothing to report", # TOOD
+          attrs["result"]
+        )
       end
     end
 

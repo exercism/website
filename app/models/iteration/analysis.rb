@@ -20,15 +20,15 @@ class Iteration::Analysis < ApplicationRecord
   end
 
   def approved?
-    status == :approved
+    status == :approve
   end
 
   def disapproved?
-    status == :disapproved
+    status == :disapprove
   end
 
   def inconclusive?
-    status == :inconclusive
+    status == :refer_to_mentor
   end
 
   private

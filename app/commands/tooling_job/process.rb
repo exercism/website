@@ -21,7 +21,21 @@ module ToolingJob
         Iteration::TestRun::Process.(
           attrs["iteration_uuid"],
           attrs["execution_status"],
-          "Nothing to report", # TOOD
+          "Nothing to report", # TODO
+          attrs["result"]
+        )
+      when "representer"
+        Iteration::Representation::Process.(
+          attrs["iteration_uuid"],
+          attrs["execution_status"],
+          "Nothing to report", # TODO
+          attrs["result"]
+        )
+      when "analyzer"
+        Iteration::Analysis::Process.(
+          attrs["iteration_uuid"],
+          attrs["execution_status"],
+          "Nothing to report", # TODO
           attrs["result"]
         )
       end

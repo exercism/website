@@ -14,15 +14,24 @@ class Iteration::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "approved?" do
-    assert create(:iteration_analysis, ops_status: 200, data: { status: :approved }).approved?
-    refute create(:iteration_analysis, ops_status: 200, data: { status: :disapproved }).approved?
+    assert create(:iteration_analysis, ops_status: 200, data: { status: :approve }).approved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :disapprove }).approved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :refer_to_mentor }).approved?
     refute create(:iteration_analysis, ops_status: 200, data: { status: :misc }).approved?
   end
 
   test "disapproved?" do
-    refute create(:iteration_analysis, ops_status: 200, data: { status: :approved }).disapproved?
-    assert create(:iteration_analysis, ops_status: 200, data: { status: :disapproved }).disapproved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :approve }).disapproved?
+    assert create(:iteration_analysis, ops_status: 200, data: { status: :disapprove }).disapproved?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :refer_to_mentor }).disapproved?
     refute create(:iteration_analysis, ops_status: 200, data: { status: :misc }).disapproved?
+  end
+
+  test "inconclusive?" do
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :approve }).inconclusive?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :disapprove }).inconclusive?
+    assert create(:iteration_analysis, ops_status: 200, data: { status: :refer_to_mentor }).inconclusive?
+    refute create(:iteration_analysis, ops_status: 200, data: { status: :misc }).inconclusive?
   end
 
   test "status" do

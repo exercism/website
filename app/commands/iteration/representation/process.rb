@@ -46,6 +46,8 @@ class Iteration
         rescue StandardError
           iteration.analysis_exceptioned!
         end
+
+        iteration.broadcast!
       end
       attr_reader :iteration, :ops_status, :ops_message, :ast
       attr_reader :iteration_representation, :exercise_representation

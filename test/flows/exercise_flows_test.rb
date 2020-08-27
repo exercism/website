@@ -49,7 +49,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       basics_iteration_1.uuid,
       200,
       'success',
-      { status: :inconclusive, comments: [] }
+      { status: :refer_to_mentor, comments: [] }
     )
     assert basics_iteration_1.reload.analysis_inconclusive?
 

@@ -31,7 +31,7 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
 
   test "handle approval" do
     iteration = create :iteration
-    data = { 'status' => :approved, 'comments' => [] }
+    data = { 'status' => :approve, 'comments' => [] }
     Iteration::Analysis::Process.(iteration.uuid, 200, "", data)
 
     assert iteration.reload.analysis_approved?
@@ -39,7 +39,7 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
 
   test "handle inconclusive" do
     iteration = create :iteration
-    data = { 'status' => :inconclusive, 'comments' => [] }
+    data = { 'status' => :refer_to_mentor, 'comments' => [] }
     Iteration::Analysis::Process.(iteration.uuid, 200, "", data)
 
     assert iteration.reload.analysis_inconclusive?
@@ -47,7 +47,7 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
 
   test "handle disapproval" do
     iteration = create :iteration
-    data = { 'status' => :disapproved, 'comments' => [] }
+    data = { 'status' => :disapprove, 'comments' => [] }
     Iteration::Analysis::Process.(iteration.uuid, 200, "", data)
 
     assert iteration.reload.analysis_disapproved?

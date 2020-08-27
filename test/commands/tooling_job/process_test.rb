@@ -39,4 +39,82 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
 
     ToolingJob::Process.(id)
   end
+
+  test "proxies to analyzer" do
+    id = SecureRandom.uuid
+    type = "analyzer"
+    iteration_uuid = "iteration-uuid"
+    execution_status = "job-status"
+    result = { 'some' => 'result' }
+
+    item = {
+      "type" => type,
+      "iteration_uuid" => iteration_uuid,
+      "execution_status" => execution_status,
+      "result" => result
+    }
+
+    Iteration::Analysis::Process.expects(:call).with(
+      iteration_uuid,
+      execution_status,
+      "Nothing to report",
+      result
+    )
+
+    # TODO: Create some factory methods for this
+    # and test via the db rather than mocks
+    client = mock
+    ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
+    client.expects(:get_item).with(
+      table_name: Exercism.config.dynamodb_tooling_jobs_table,
+      key: { id: id },
+      attributes_to_get: %i[
+        type
+        iteration_uuid
+        execution_status
+        result
+      ]
+    ).returns(mock(item: item))
+
+    ToolingJob::Process.(id)
+  end
+
+  test "proxies to representer" do
+    id = SecureRandom.uuid
+    type = "representer"
+    iteration_uuid = "iteration-uuid"
+    execution_status = "job-status"
+    result = { 'some' => 'result' }
+
+    item = {
+      "type" => type,
+      "iteration_uuid" => iteration_uuid,
+      "execution_status" => execution_status,
+      "result" => result
+    }
+
+    Iteration::Representation::Process.expects(:call).with(
+      iteration_uuid,
+      execution_status,
+      "Nothing to report",
+      result
+    )
+
+    # TODO: Create some factory methods for this
+    # and test via the db rather than mocks
+    client = mock
+    ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
+    client.expects(:get_item).with(
+      table_name: Exercism.config.dynamodb_tooling_jobs_table,
+      key: { id: id },
+      attributes_to_get: %i[
+        type
+        iteration_uuid
+        execution_status
+        result
+      ]
+    ).returns(mock(item: item))
+
+    ToolingJob::Process.(id)
+  end
 end

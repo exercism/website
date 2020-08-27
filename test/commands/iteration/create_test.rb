@@ -20,8 +20,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::TestRun::Init.expects(:call)
     Iteration::Analysis::Init.expects(:call)
     Iteration::Representation::Init.expects(:call)
-    # TODO: re-enable
-    # ToolingJob::Create.expects(:call).times(3)
 
     solution = create :concept_solution
     iteration = Iteration::Create.(solution, files, :cli)

@@ -2,7 +2,6 @@ require 'test_helper'
 
 class Iteration::CreateTest < ActiveSupport::TestCase
   test "creates iteration in the database" do
-    skip
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
     digest_1 = Digest::SHA1.hexdigest(content_1)
@@ -21,7 +20,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::TestRun::Init.expects(:call)
     Iteration::Analysis::Init.expects(:call)
     Iteration::Representation::Init.expects(:call)
-    ToolingJob::Create.expects(:call)
+    # TODO: re-enable
+    # ToolingJob::Create.expects(:call).times(3)
 
     solution = create :concept_solution
     iteration = Iteration::Create.(solution, files, :cli)

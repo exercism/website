@@ -38,8 +38,6 @@ class Iteration
           iteration.analysis_exceptioned!
         end
 
-        # TODO: Mark iteration as analyzed and broadcast
-        # it here, when we've decided how that works
         iteration.broadcast!
       end
 

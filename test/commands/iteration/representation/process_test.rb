@@ -127,4 +127,21 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
 
     assert iteration.reload.representation_inconclusive?
   end
+
+  test "broadcast" do
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    create :exercise_representation,
+           exercise: exercise,
+           exercise_version: 15,
+           ast_digest: Iteration::Representation.digest_ast(ast),
+           action: :approve
+
+    iteration = create :iteration, exercise: exercise
+
+    IterationChannel.expects(:broadcast!).with(iteration)
+    IterationsChannel.expects(:broadcast!).with(iteration.solution)
+
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+  end
 end

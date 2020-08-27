@@ -72,4 +72,14 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
     assert iteration.reload.tests_exceptioned?
   end
+
+  test "broadcast" do
+    iteration = create :iteration
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+
+    IterationChannel.expects(:broadcast!).with(iteration)
+    IterationsChannel.expects(:broadcast!).with(iteration.solution)
+
+    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+  end
 end

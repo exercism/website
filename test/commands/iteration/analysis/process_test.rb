@@ -60,4 +60,14 @@ class Iteration::Analysis::ProcessTest < ActiveSupport::TestCase
 
     assert iteration.reload.analysis_exceptioned?
   end
+
+  test "broadcast" do
+    iteration = create :iteration
+    data = { 'status' => :approve, 'comments' => [] }
+
+    IterationChannel.expects(:broadcast!).with(iteration)
+    IterationsChannel.expects(:broadcast!).with(iteration.solution)
+
+    Iteration::Analysis::Process.(iteration.uuid, 200, "", data)
+  end
 end

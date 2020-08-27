@@ -47,8 +47,6 @@ class Iteration
           iteration.analysis_exceptioned!
         end
 
-        # TODO: Mark iteration as represented and broadcast
-        # it here, when we've decided how that works
         iteration.broadcast!
       end
       attr_reader :iteration, :ops_status, :ops_message, :ast

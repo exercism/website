@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
     t.string "uuid", null: false
     t.string "filename", null: false
     t.string "digest", null: false
-    t.binary "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["iteration_id"], name: "index_iteration_files_on_iteration_id"

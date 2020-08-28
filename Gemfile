@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Service/framework dependencies
-gem 'rails', git: 'http://github.com/rails/rails.git', ref: "b39ea7cc3662345ad8efbe496db5ae594449f85f"
+gem 'rails', git: 'http://github.com/rails/rails.git', ref: "7101489293ece071013417aeed2da3aa1b0927c9"
 # gem 'rails', '~> 6.1.0.alpha'
 gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.1'
@@ -22,7 +22,7 @@ gem 'mandate', '0.4.0.beta.1'
 gem 'exercism-config', '>= 0.36.0'
 # gem 'exercism-config', path: '../exercism_config'
 
-# gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap', '>= 1.4.2', require: false
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'

@@ -1,5 +1,13 @@
 module Git
   class Exercise
+    def self.for_solution(solution)
+      repo = solution.track.repo
+      repo.exercise(
+        solution.exercise.slug,
+        solution.git_sha
+      )
+    end
+
     def initialize(repo, slug, commit, track_config)
       @repo = repo
       @slug = slug
@@ -7,7 +15,7 @@ module Git
       @track_config = track_config
     end
 
-    def filenames
+    def filepaths
       files.map { |defn| defn[:full] }
     end
 

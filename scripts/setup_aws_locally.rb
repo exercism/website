@@ -16,13 +16,13 @@ end
 ########################
 %w[tooling_jobs tooling_jobs-test].each do |table_name|
   begin
-    Exercism.config.dynamodb_client.delete_table(
+    ExercismConfig::SetupDynamoDBClient.().delete_table(
       table_name: table_name
     )
   rescue Aws::DynamoDB::Errors::ResourceNotFoundException
   end
 
-  Exercism.config.dynamodb_client.create_table(
+  ExercismConfig::SetupDynamoDBClient.().create_table(
     table_name: table_name,
     attribute_definitions: [
       {
@@ -42,7 +42,7 @@ end
     }
   )
 
-  Exercism.config.dynamodb_client.update_table(
+  ExercismConfig::SetupDynamoDBClient.().update_table(
     table_name: table_name,
     attribute_definitions: [
       {

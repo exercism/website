@@ -16,6 +16,8 @@ module CLI
 
         content = file.read
 
+        raise IterationFileTooLargeError if content.size > 1.megabyte
+
         {
           filename: filename,
           content: content

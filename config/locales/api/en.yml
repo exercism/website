@@ -1,0 +1,15 @@
+en:
+  api:
+    errors:
+      duplicate_iteration: "No files you submitted have changed since your last iteration"
+      exercise_not_found: "The exercise you specified could not be found"
+      invalid_auth_token: "The auth token provided is invalid"
+      resource_not_found: "This URL was not recognised"
+      solution_not_found: "This solution could not be found"
+      solution_not_accessible: "You do not have permission to view this solution"
+      solution_not_unlocked: "You have not unlocked this exercise"
+      team_not_found: "The team could not be found"
+      track_ambiguous: "Please specify a track ID"
+      track_not_found: "The track you specified does not exist"
+      track_not_joined: "You have not joined this track"
+      file_not_found: "The file was not found"

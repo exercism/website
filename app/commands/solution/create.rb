@@ -1,5 +1,5 @@
-class User
-  class StartExercise
+class Solution
+  class Create
     include Mandate
     initialize_with :user_track, :exercise
 

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :user_tracks, dependent: :destroy
+  has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy
   has_many :iterations, through: :solutions, dependent: :destroy
 
@@ -31,5 +33,10 @@ class User < ApplicationRecord
   def has_badge?(slug)
     type = Badge.slug_to_type(slug)
     badges.where(type: type).exists?
+  end
+
+  # TODO: This needs fleshing out for mentors
+  def may_view_solution?(solution)
+    id == solution.user_id
   end
 end

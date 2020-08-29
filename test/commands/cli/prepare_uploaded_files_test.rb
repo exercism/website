@@ -24,4 +24,15 @@ class CLI::PrepareUploadedFilesTest < ActiveSupport::TestCase
     assert_equal filename_2, second_file[:filename]
     assert_equal content_2, second_file[:content]
   end
+
+  test "raises if file is too large" do
+    filename = "subdir/foobar.rb"
+    content = Array.new(1.megabyte + 1, 'x')
+    headers = "Content-Disposition: form-data; name=\"files[]\"; filename=\"#{filename}\"\r\nContent-Type: application/octet-stream\r\n"
+    file = mock(read: content, headers: headers)
+
+    assert_raises IterationFileTooLargeError do
+      CLI::PrepareUploadedFiles.([file])
+    end
+  end
 end

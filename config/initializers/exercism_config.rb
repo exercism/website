@@ -1,3 +1,1 @@
-# TODO: Remove this and inline it wherever its used
-Exercism.config.dynamodb_client =
-  ExercismConfig::SetupDynamoDBClient.()
+Exercism.config.api_host = "https://api.exercism.io".freeze

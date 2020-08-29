@@ -29,7 +29,9 @@ class Iteration
           exercise_version: exercise_version,
           ast_digest: iteration_representation.ast_digest
         ) do |rep|
+          # rep.source_iteration = iteration
           rep.ast = ast
+          # rep.mapping = mapping
         end
 
         # Then all of the submethods here should

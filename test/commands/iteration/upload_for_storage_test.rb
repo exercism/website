@@ -22,21 +22,21 @@ class Iteration::UploadForStorageTest < ActiveSupport::TestCase
     s3_client.expects(:put_object).with(
       body: file_1_contents,
       bucket: Exercism.config.aws_iterations_bucket,
-      key: "test/storage/#{iteration_uuid}/#{file_1_name}",
+      key: Iteration::File::GenerateS3Key.(iteration_uuid, file_1_name),
       acl: 'private'
     )
 
     s3_client.expects(:put_object).with(
       body: file_2_contents,
       bucket: Exercism.config.aws_iterations_bucket,
-      key: "test/storage/#{iteration_uuid}/#{file_2_name}",
+      key: Iteration::File::GenerateS3Key.(iteration_uuid, file_2_name),
       acl: 'private'
     )
 
     s3_client.expects(:put_object).with(
       body: file_3_contents,
       bucket: Exercism.config.aws_iterations_bucket,
-      key: "test/storage/#{iteration_uuid}/#{file_3_name}",
+      key: Iteration::File::GenerateS3Key.(iteration_uuid, file_3_name),
       acl: 'private'
     )
 

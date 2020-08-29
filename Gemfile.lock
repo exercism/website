@@ -1,7 +1,7 @@
 GIT
   remote: http://github.com/rails/rails.git
-  revision: b39ea7cc3662345ad8efbe496db5ae594449f85f
-  ref: b39ea7cc3662345ad8efbe496db5ae594449f85f
+  revision: 7101489293ece071013417aeed2da3aa1b0927c9
+  ref: 7101489293ece071013417aeed2da3aa1b0927c9
   specs:
     actioncable (6.1.0.alpha)
       actionpack (= 6.1.0.alpha)
@@ -73,7 +73,7 @@ GIT
       activerecord (= 6.1.0.alpha)
       activestorage (= 6.1.0.alpha)
       activesupport (= 6.1.0.alpha)
-      bundler (>= 1.3.0)
+      bundler (>= 1.15.0)
       railties (= 6.1.0.alpha)
       sprockets-rails (>= 2.0.0)
     railties (6.1.0.alpha)
@@ -120,6 +120,8 @@ GEM
     backport (1.1.2)
     benchmark (0.1.0)
     bindex (0.8.1)
+    bootsnap (1.4.8)
+      msgpack (~> 1.0)
     builder (3.2.4)
     capybara (3.33.0)
       addressable
@@ -192,7 +194,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.6.0)
+    loofah (2.7.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -211,6 +213,7 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.14.1)
     mocha (1.11.2)
+    msgpack (1.3.3)
     mysql2 (0.5.3)
     netrc (0.11.0)
     nio4r (2.5.2)
@@ -347,6 +350,7 @@ DEPENDENCIES
   ansi-to-html
   anycable-rails (~> 0.6)
   aws-sdk-s3 (~> 1)
+  bootsnap (>= 1.4.2)
   capybara (>= 2.15)
   commonmarker
   delayed_job_active_record (~> 4.1.4)

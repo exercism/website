@@ -83,7 +83,7 @@ class Iteration
         submitted_via: submitted_via
       ).tap do |iteration|
         files.each do |file|
-          iteration.files.create!(file.slice(:uuid, :filename, :content, :digest))
+          iteration.files.create!(file.slice(:uuid, :filename, :digest))
         end
       end
     end

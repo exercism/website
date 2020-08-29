@@ -62,4 +62,30 @@ class ActiveSupport::TestCase
     obj_2 = cmd.yield
     assert_equal obj_1, obj_2
   end
+
+  def write_to_dynamodb(table_name, item)
+    client = ExercismConfig::SetupDynamoDBClient.()
+    client.put_item(
+      table_name: table_name,
+      item: item
+    )
+  end
+
+  def upload_to_s3(bucket, key, body)
+    client = ExercismConfig::SetupS3Client.()
+    client.put_object(
+      bucket: bucket,
+      key: key,
+      body: body,
+      acl: 'private'
+    )
+  end
+
+  def download_s3_file(bucket, key)
+    client = ExercismConfig::SetupS3Client.()
+    client.get_object(
+      bucket: bucket,
+      key: key
+    ).body.read
+  end
 end

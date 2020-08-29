@@ -3,6 +3,7 @@ class Exercise::Representation < ApplicationRecord
   has_markdown_field :feedback
 
   belongs_to :exercise
+  belongs_to :source_iteration, class_name: "Iteration"
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
 

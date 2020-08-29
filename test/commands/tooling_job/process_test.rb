@@ -6,75 +6,31 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     type = "test_runner"
     iteration_uuid = "iteration-uuid"
     execution_status = "job-status"
-    result = { 'some' => 'result' }
+    results = { 'some' => 'result' }
+    s3_key = "#{id}/results.json"
 
-    item = {
-      "type" => type,
-      "iteration_uuid" => iteration_uuid,
-      "execution_status" => execution_status,
-      "result" => result
-    }
+    upload_to_s3(
+      Exercism.config.aws_tooling_jobs_bucket,
+      s3_key,
+      results.to_json
+    )
+    write_to_dynamodb(
+      Exercism.config.dynamodb_tooling_jobs_table,
+      {
+        "id" => id,
+        "type" => type,
+        "iteration_uuid" => iteration_uuid,
+        "execution_status" => execution_status,
+        "output" => { "results.json" => s3_key }
+      }
+    )
 
     Iteration::TestRun::Process.expects(:call).with(
       iteration_uuid,
       execution_status,
       "Nothing to report",
-      result
+      results
     )
-
-    # TODO: Create some factory methods for this
-    # and test via the db rather than mocks
-    client = mock
-    ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
-    client.expects(:get_item).with(
-      table_name: Exercism.config.dynamodb_tooling_jobs_table,
-      key: { id: id },
-      attributes_to_get: %i[
-        type
-        iteration_uuid
-        execution_status
-        result
-      ]
-    ).returns(mock(item: item))
-
-    ToolingJob::Process.(id)
-  end
-
-  test "proxies to analyzer" do
-    id = SecureRandom.uuid
-    type = "analyzer"
-    iteration_uuid = "iteration-uuid"
-    execution_status = "job-status"
-    result = { 'some' => 'result' }
-
-    item = {
-      "type" => type,
-      "iteration_uuid" => iteration_uuid,
-      "execution_status" => execution_status,
-      "result" => result
-    }
-
-    Iteration::Analysis::Process.expects(:call).with(
-      iteration_uuid,
-      execution_status,
-      "Nothing to report",
-      result
-    )
-
-    # TODO: Create some factory methods for this
-    # and test via the db rather than mocks
-    client = mock
-    ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
-    client.expects(:get_item).with(
-      table_name: Exercism.config.dynamodb_tooling_jobs_table,
-      key: { id: id },
-      attributes_to_get: %i[
-        type
-        iteration_uuid
-        execution_status
-        result
-      ]
-    ).returns(mock(item: item))
 
     ToolingJob::Process.(id)
   end
@@ -84,36 +40,77 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     type = "representer"
     iteration_uuid = "iteration-uuid"
     execution_status = "job-status"
-    result = { 'some' => 'result' }
+    representation_contents = "some\nrepresentation"
+    representation_s3_key = "#{id}/representation.txt"
 
-    item = {
-      "type" => type,
-      "iteration_uuid" => iteration_uuid,
-      "execution_status" => execution_status,
-      "result" => result
-    }
+    mapping_contents = { 'foo' => 'bar' }
+    mapping_s3_key = "#{id}/mapping.json"
+
+    upload_to_s3(
+      Exercism.config.aws_tooling_jobs_bucket,
+      representation_s3_key,
+      representation_contents
+    )
+    upload_to_s3(
+      Exercism.config.aws_tooling_jobs_bucket,
+      mapping_s3_key,
+      mapping_contents.to_json
+    )
+    write_to_dynamodb(
+      Exercism.config.dynamodb_tooling_jobs_table,
+      {
+        "id" => id,
+        "type" => type,
+        "iteration_uuid" => iteration_uuid,
+        "execution_status" => execution_status,
+        "output" => {
+          "representation.txt" => representation_s3_key,
+          "mapping.json" => mapping_s3_key
+        }
+      }
+    )
 
     Iteration::Representation::Process.expects(:call).with(
       iteration_uuid,
       execution_status,
       "Nothing to report",
-      result
+      representation_contents,
+      mapping_contents
     )
 
-    # TODO: Create some factory methods for this
-    # and test via the db rather than mocks
-    client = mock
-    ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
-    client.expects(:get_item).with(
-      table_name: Exercism.config.dynamodb_tooling_jobs_table,
-      key: { id: id },
-      attributes_to_get: %i[
-        type
-        iteration_uuid
-        execution_status
-        result
-      ]
-    ).returns(mock(item: item))
+    ToolingJob::Process.(id)
+  end
+
+  test "proxies to analyzer" do
+    id = SecureRandom.uuid
+    type = "analyzer"
+    iteration_uuid = "iteration-uuid"
+    execution_status = "job-status"
+    analysis = { 'some' => 'result' }
+    s3_key = "#{id}/analysis.json"
+
+    upload_to_s3(
+      Exercism.config.aws_tooling_jobs_bucket,
+      s3_key,
+      analysis.to_json
+    )
+    write_to_dynamodb(
+      Exercism.config.dynamodb_tooling_jobs_table,
+      {
+        "id" => id,
+        "type" => type,
+        "iteration_uuid" => iteration_uuid,
+        "execution_status" => execution_status,
+        "output" => { "analysis.json" => s3_key }
+      }
+    )
+
+    Iteration::Analysis::Process.expects(:call).with(
+      iteration_uuid,
+      execution_status,
+      "Nothing to report",
+      analysis
+    )
 
     ToolingJob::Process.(id)
   end

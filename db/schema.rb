@@ -89,9 +89,9 @@ ActiveRecord::Schema.define(version: 2020_08_29_151831) do
 
   create_table "iteration_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
-    t.string "uuid", null: false
     t.string "filename", null: false
     t.string "digest", null: false
+    t.string "uri", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["iteration_id"], name: "index_iteration_files_on_iteration_id"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 2020_08_29_151831) do
     t.integer "status", default: 0, null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
+    t.datetime "downloaded_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"

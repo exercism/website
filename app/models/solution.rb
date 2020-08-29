@@ -20,6 +20,10 @@ class Solution < ApplicationRecord
     self.git_sha = track.git_head_sha
   end
 
+  def downloaded?
+    !!downloaded_at
+  end
+
   # TODO: - Use an actual serializer
   def serialized_iterations
     iterations.map do |i|
@@ -32,5 +36,12 @@ class Solution < ApplicationRecord
 
   def anonymised_user_handle
     "anonymous-#{mentor_uuid}"
+  end
+
+  def update_git_info!
+    update!(
+      git_slug: exercise.slug,
+      git_sha: track.git_head_sha
+    )
   end
 end

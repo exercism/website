@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :auth_tokens, dependent: :destroy
+
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy

@@ -17,7 +17,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 401
     expected = { error: {
       type: "invalid_auth_token",
-      message: "The auth token provided is invalid"
+      message: I18n.t('api.errors.invalid_auth_token')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -31,7 +31,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 404
     expected = { error: {
       type: "track_not_found",
-      message: "The track you specified does not exist",
+      message: I18n.t('api.errors.track_not_found'),
       fallback_url: tracks_url
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -46,7 +46,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 404
     expected = { error: {
       type: "exercise_not_found",
-      message: "The exercise you specified could not be found",
+      message: I18n.t('api.errors.exercise_not_found'),
       fallback_url: track_url(track)
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -62,7 +62,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 403
     expected = { error: {
       type: "track_not_joined",
-      message: "You have not joined this track"
+      message: I18n.t('api.errors.track_not_joined')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -75,7 +75,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     create :user_track, user: @current_user, track: track
     exercise = create :concept_exercise, track: track
 
-    UserTrack.any_instance.expects(:exercise_available?).with(exercise).returns(false)
+    UserTrack.any_instance.expects(:exercise_available?).returns(false)
 
     get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
@@ -89,53 +89,43 @@ class API::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "latest should return 200 if solution is unlocked" do
-    skip
     setup_user
     track = create :track
-    core = create :concept_exercise, track: track
-    exercise = create :concept_exercise, unlocked_by: core, track: track
+    exercise = create :concept_exercise, track: track
     create :concept_solution, user: @current_user, exercise: exercise
     create :user_track, user: @current_user, track: track
 
-    get latest_api_solutions_path(exercise_id: exercise.slug), headers: @headers, as: :json
+    get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success
   end
 
   test "latest should return 200 if solution is unlockable" do
-    skip
     setup_user
     track = create :track
-    core = create :concept_exercise, track: track
-    exercise = create :concept_exercise, unlocked_by: core, track: track
+    exercise = create :concept_exercise, track: track
     create :user_track, user: @current_user, track: track
 
-    UserTrack.any_instance.expects(:exercise_available?).with(exercise).returns(true)
+    UserTrack.any_instance.stubs(exercise_available?: true)
 
-    get latest_api_solutions_path(exercise_id: exercise.slug), headers: @headers, as: :json
+    get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success
   end
 
   test "latest should use solution serializer" do
-    skip
     setup_user
     exercise = create :concept_exercise
     track = exercise.track
     create :user_track, user: @current_user, track: track
-    create :concept_solution, user: @current_user, exercise: exercise
-
-    expected = { foo: 'bar' }
-    serializer = mock(to_hash: expected)
-    API::SolutionSerializer.expects(:new).returns(serializer)
+    solution = create :concept_solution, user: @current_user, exercise: exercise
 
     get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
     assert_response :success
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
+    serializer = API::SolutionSerializer.new(solution, @current_user)
+    assert_equal serializer.to_hash.to_json, response.body
   end
 
   test "latest should set downloaded_at" do
-    skip
     freeze_time do
       setup_user
       exercise = create :concept_exercise
@@ -151,46 +141,30 @@ class API::SolutionsControllerTest < API::BaseTestCase
     end
   end
 
-  test "latest should update git slug and sha if exercise is downloaded for the first time" do
-    skip
-    freeze_time do
-      setup_user
-      exercise = create :concept_exercise
-      track = exercise.track
-      solution = create :concept_solution,
-                        user: @current_user,
-                        exercise: exercise,
-                        downloaded_at: nil,
-                        git_sha: "1234",
-                        git_slug: 'meh'
-      create :user_track, user: solution.user, track: track
+  test "latest updates git sha if exercise was not previously downloaded" do
+    setup_user
+    solution = create :concept_solution,
+                      user: @current_user,
+                      downloaded_at: nil
 
-      get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
+    create :user_track, user: @current_user, track: solution.track
 
-      solution.reload
-      assert_equal exercise.slug, solution.git_slug
-      assert_equal "4567", solution.git_sha
-    end
+    Solution.any_instance.expects(:update_git_info!)
+    get latest_api_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
+        headers: @headers, as: :json
   end
 
   test "latest does not update git sha if exercise was downloaded" do
-    skip
-    freeze_time do
-      setup_user
-      exercise = create :concept_exercise
-      track = exercise.track
-      solution = create :concept_solution,
-                        user: @current_user,
-                        exercise: exercise,
-                        downloaded_at: Time.utc(2016, 12, 25),
-                        git_sha: "1234"
-      create :user_track, user: solution.user, track: track
+    setup_user
+    solution = create :concept_solution,
+                      user: @current_user,
+                      downloaded_at: Time.current
 
-      get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
+    create :user_track, user: @current_user, track: solution.track
 
-      solution.reload
-      assert_equal "1234", solution.git_sha
-    end
+    Solution.any_instance.expects(:update_git_info!).never
+    get latest_api_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
+        headers: @headers, as: :json
   end
 
   ###
@@ -201,7 +175,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 401
     expected = { error: {
       type: "invalid_auth_token",
-      message: "The auth token provided is invalid"
+      message: I18n.t('api.errors.invalid_auth_token')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -211,6 +185,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "show should return 404 if user is not author" do
     setup_user
     solution = create :concept_solution
+    create :user_track, user: @current_user, track: solution.track
 
     get api_solution_path(solution.uuid), headers: @headers, as: :json
 
@@ -224,26 +199,24 @@ class API::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "show should use solution serializer" do
-    skip
     setup_user
     solution = create :concept_solution, user: @current_user
-
-    expected = { foo: 'bar' }
-    serializer = mock(to_hash: expected)
-    API::SolutionSerializer.expects(:new).returns(serializer)
+    create :user_track, user: solution.user, track: solution.track
 
     get api_solution_path(solution.uuid), headers: @headers, as: :json
 
     assert_response :success
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
+    serializer = API::SolutionSerializer.new(solution, @current_user)
+    assert_equal serializer.to_hash.to_json, response.body
   end
 
   test "show should set downloaded_at" do
-    skip
     freeze_time do
       setup_user
-      solution = create :concept_solution, user: @current_user
+      exercise = create :concept_exercise
+      track = exercise.track
+      solution = create :concept_solution, user: @current_user, exercise: exercise
+      create :user_track, user: solution.user, track: track
 
       get api_solution_path(solution.uuid), headers: @headers, as: :json
       assert_response :success
@@ -253,38 +226,28 @@ class API::SolutionsControllerTest < API::BaseTestCase
     end
   end
 
-  test "show should update git slug and sha if exercise is downloaded for the first time" do
-    skip
-    freeze_time do
-      setup_user
-      solution = create :concept_solution,
-                        user: @current_user,
-                        downloaded_at: nil,
-                        git_sha: "1234",
-                        git_slug: 'meh'
+  test "show updates git sha if exercise was not previously downloaded" do
+    setup_user
+    solution = create :concept_solution,
+                      user: @current_user,
+                      downloaded_at: nil
 
-      get api_solution_path(solution.uuid), headers: @headers, as: :json
+    create :user_track, user: @current_user, track: solution.track
 
-      solution.reload
-      assert_equal exercise.slug, solution.git_slug
-      assert_equal "4567", solution.git_sha
-    end
+    Solution.any_instance.expects(:update_git_info!)
+    get api_solution_path(solution.uuid), headers: @headers, as: :json
   end
 
   test "show does not update git sha if exercise was downloaded" do
-    skip
-    freeze_time do
-      setup_user
-      solution = create :concept_solution,
-                        user: @current_user,
-                        downloaded_at: Time.utc(2016, 12, 25),
-                        git_sha: "1234"
+    setup_user
+    solution = create :concept_solution,
+                      user: @current_user,
+                      downloaded_at: Time.current
 
-      get api_solution_path(solution.uuid), headers: @headers, as: :json
+    create :user_track, user: @current_user, track: solution.track
 
-      solution.reload
-      assert_equal "1234", solution.git_sha
-    end
+    Solution.any_instance.expects(:update_git_info!).never
+    get api_solution_path(solution.uuid), headers: @headers, as: :json
   end
 
   ###
@@ -308,7 +271,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 403
     expected = { error: {
       type: "solution_not_accessible",
-      message: "You do not have permission to view this solution"
+      message: I18n.t('api.errors.solution_not_accessible')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -347,7 +310,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 400
     expected = { error: {
       type: "duplicate_iteration",
-      message: "No files you submitted have changed since your last iteration"
+      message: I18n.t('api.errors.duplicate_iteration')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual

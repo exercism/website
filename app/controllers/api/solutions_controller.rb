@@ -78,12 +78,7 @@ module API
     end
 
     def respond_with_authored_solution(solution)
-      unless solution.downloaded?
-        solution.update(
-          git_slug: solution.exercise.slug,
-          git_sha: solution.track_head
-        )
-      end
+      solution.update_git_info!  unless solution.downloaded?
 
       responder = API::SolutionSerializer.new(solution, current_user)
       render json: responder.to_hash

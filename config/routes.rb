@@ -7,14 +7,13 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      # resource :cli_settings, only: [:show]
-      # resources :tracks, only: [:show]
+      resources :tracks, only: [:show]
       resources :solutions, only: %i[show update] do
         collection do
           get :latest
         end
 
-        # get 'files/*filepath', to: 'files#show', format: false, as: "file"
+        get 'files/*filepath', to: 'files#show', format: false, as: "file"
       end
     end
   end

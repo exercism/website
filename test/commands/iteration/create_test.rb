@@ -16,7 +16,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     ]
 
     Iteration::UploadWithExercise.expects(:call)
-    Iteration::UploadForStorage.expects(:call)
     Iteration::TestRun::Init.expects(:call)
     Iteration::Analysis::Init.expects(:call)
     Iteration::Representation::Init.expects(:call)
@@ -31,10 +30,12 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     first_file = iteration.files.first
     assert_equal filename_1, first_file.filename
     assert_equal digest_1, first_file.digest
+    assert_equal content_1, first_file.content
 
     second_file = iteration.files.last
     assert_equal filename_2, second_file.filename
     assert_equal digest_2, second_file.digest
+    assert_equal content_2, second_file.content
   end
 
   test "guards against duplicates" do
@@ -52,7 +53,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     # We'll call upload so stub it
     Iteration::UploadWithExercise.stubs(:call)
-    Iteration::UploadForStorage.stubs(:call)
     ToolingJob::Create.stubs(:call)
 
     # Do it once successfully
@@ -78,7 +78,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert solution.pending?
 
     Iteration::UploadWithExercise.stubs(:call)
-    Iteration::UploadForStorage.stubs(:call)
     ToolingJob::Create.stubs(:call)
     Iteration::Create.(solution, [files.first], :cli)
     assert_equal 'submitted', solution.reload.status
@@ -88,7 +87,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     # Generic setup
     files = [{ filename: 'foo.bar', content: "foobar" }]
     Iteration::UploadWithExercise.stubs(:call)
-    Iteration::UploadForStorage.stubs(:call)
     ToolingJob::Create.stubs(:call)
 
     # Create user and solution

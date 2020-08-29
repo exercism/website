@@ -49,6 +49,10 @@ module API
       render_403(:solution_not_accessible)
     end
 
+    def render_file_not_found
+      render_404(:file_not_found)
+    end
+
     def render_error(status, type, data = {})
       message = I18n.t("api.errors.#{type}")
 

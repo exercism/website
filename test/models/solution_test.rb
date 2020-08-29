@@ -26,8 +26,26 @@ class SolutionTest < ActiveSupport::TestCase
 
     test "#{solution_type}: git_slug and git_sha are set correctly" do
       solution = create solution_type
-      assert_equal solution.git_sha, solution.track.git_head_sha
-      assert_equal solution.git_slug, solution.exercise.slug
+      assert_equal solution.track.git_head_sha, solution.git_sha
+      assert_equal solution.exercise.slug, solution.git_slug
     end
+  end
+
+  test "downloaded?" do
+    refute create(:concept_solution, downloaded_at: nil).downloaded?
+    assert create(:concept_solution, downloaded_at: Time.current).downloaded?
+  end
+
+  test "update_git_info!" do
+    solution = create :concept_solution
+    solution.update!(git_sha: "foo", git_slug: "bar")
+
+    # Sanity
+    assert_equal "foo", solution.git_sha
+    assert_equal "bar", solution.git_slug
+
+    solution.update_git_info!
+    assert_equal solution.track.git_head_sha, solution.git_sha
+    assert_equal solution.exercise.slug, solution.git_slug
   end
 end

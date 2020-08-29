@@ -14,6 +14,8 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.string :git_slug, null: false
       t.string :git_sha, null: false
 
+      t.datetime :downloaded_at, null: true
+
       t.timestamps
 
       t.index %i[user_id exercise_id], unique: true

@@ -12,7 +12,7 @@ module ToolingJob
           type
           iteration_uuid
           execution_status
-          result
+          output
         ]
       ).item
 
@@ -22,21 +22,22 @@ module ToolingJob
           attrs["iteration_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
-          attrs["result"]
+          JSON.parse(download_file(attrs["output"]["results.json"]))
         )
       when "representer"
         Iteration::Representation::Process.(
           attrs["iteration_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
-          attrs["result"]
+          download_file(attrs["output"]["representation.txt"]),
+          JSON.parse(download_file(attrs["output"]["mapping.json"]))
         )
       when "analyzer"
         Iteration::Analysis::Process.(
           attrs["iteration_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
-          attrs["result"]
+          JSON.parse(download_file(attrs["output"]["analysis.json"]))
         )
       end
     end
@@ -44,6 +45,15 @@ module ToolingJob
     memoize
     def client
       ExercismConfig::SetupDynamoDBClient.()
+    end
+
+    def download_file(key)
+      s3_client = ExercismConfig::SetupS3Client.()
+      s3_obj = s3_client.get_object(
+        bucket: Exercism.config.aws_tooling_jobs_bucket,
+        key: key
+      )
+      s3_obj.body.read
     end
   end
 end

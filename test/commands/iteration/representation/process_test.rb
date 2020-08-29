@@ -7,7 +7,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     ops_message = "some ops message"
     ast = "here(lives(an(ast)))"
 
-    Iteration::Representation::Process.(iteration.uuid, ops_status, ops_message, ast)
+    Iteration::Representation::Process.(iteration.uuid, ops_status, ops_message, ast, {})
 
     assert_equal 1, iteration.reload.representations.size
     representation = iteration.reload.representations.first
@@ -21,8 +21,9 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     ast = "my ast"
     ast_digest = Digest::SHA1.hexdigest(ast)
     iteration = create :iteration
+    mapping = { 'foo' => 'bar' }
 
-    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast, mapping)
 
     assert_equal 1, Exercise::Representation.count
     representation = Exercise::Representation.first
@@ -30,6 +31,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     assert_equal iteration.exercise, representation.exercise
     assert_equal ast, representation.ast
     assert_equal ast_digest, representation.ast_digest
+    assert_equal mapping, representation.mapping
 
     # TODO: Check the exercise version properly here.
     # Add it to the git repo and check it retrieves correctly
@@ -42,20 +44,20 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     iteration_2 = create :iteration, solution: solution
     iteration_3 = create :iteration, solution: solution
 
-    Iteration::Representation::Process.(iteration_1.uuid, 200, "", "ast 1")
-    Iteration::Representation::Process.(iteration_2.uuid, 200, "", "ast 1")
+    Iteration::Representation::Process.(iteration_1.uuid, 200, "", "ast 1", {})
+    Iteration::Representation::Process.(iteration_2.uuid, 200, "", "ast 1", {})
 
     assert_equal 2, Iteration::Representation.count
     assert_equal 1, Exercise::Representation.count
 
-    Iteration::Representation::Process.(iteration_3.uuid, 200, "", "ast 2")
+    Iteration::Representation::Process.(iteration_3.uuid, 200, "", "ast 2", {})
     assert_equal 3, Iteration::Representation.count
     assert_equal 2, Exercise::Representation.count
   end
 
   test "handle ops error" do
     iteration = create :iteration
-    Iteration::Representation::Process.(iteration.uuid, 500, "", "ast")
+    Iteration::Representation::Process.(iteration.uuid, 500, "", "ast", {})
 
     assert iteration.reload.representation_exceptioned?
   end
@@ -70,7 +72,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
            action: :approve
 
     iteration = create :iteration, exercise: exercise
-    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast, {})
 
     assert iteration.reload.representation_approved?
   end
@@ -85,7 +87,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
            action: :disapprove
 
     iteration = create :iteration, exercise: exercise
-    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast, {})
 
     assert iteration.reload.representation_disapproved?
   end
@@ -105,7 +107,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
            feedback_markdown: feedback
 
     iteration = create :iteration, exercise: exercise
-    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast, {})
 
     assert iteration.reload.representation_disapproved?
     assert_equal 1, iteration.reload.discussion_posts.size
@@ -123,7 +125,7 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
            action: :pending
 
     iteration = create :iteration, exercise: exercise
-    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast, {})
 
     assert iteration.reload.representation_inconclusive?
   end
@@ -142,6 +144,6 @@ class Iteration::Representation::ProcessTest < ActiveSupport::TestCase
     IterationChannel.expects(:broadcast!).with(iteration)
     IterationsChannel.expects(:broadcast!).with(iteration.solution)
 
-    Iteration::Representation::Process.(iteration.uuid, 200, "", ast)
+    Iteration::Representation::Process.(iteration.uuid, 200, "", ast, {})
   end
 end

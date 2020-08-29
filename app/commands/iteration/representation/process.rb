@@ -3,11 +3,12 @@ class Iteration
     class Process
       include Mandate
 
-      def initialize(iteration_uuid, ops_status, ops_message, ast)
+      def initialize(iteration_uuid, ops_status, ops_message, ast, mapping)
         @iteration = Iteration.find_by!(uuid: iteration_uuid)
         @ops_status = ops_status.to_i
         @ops_message = ops_message
         @ast = ast
+        @mapping = mapping
       end
 
       def call
@@ -29,9 +30,9 @@ class Iteration
           exercise_version: exercise_version,
           ast_digest: iteration_representation.ast_digest
         ) do |rep|
-          # rep.source_iteration = iteration
+          rep.source_iteration = iteration
+          rep.mapping = mapping
           rep.ast = ast
-          # rep.mapping = mapping
         end
 
         # Then all of the submethods here should
@@ -51,7 +52,7 @@ class Iteration
 
         iteration.broadcast!
       end
-      attr_reader :iteration, :ops_status, :ops_message, :ast
+      attr_reader :iteration, :ops_status, :ops_message, :ast, :mapping
       attr_reader :iteration_representation, :exercise_representation
 
       private

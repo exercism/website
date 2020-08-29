@@ -66,7 +66,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       basics_iteration_1.uuid,
       200,
       'success',
-      'some ast'
+      'some ast',
+      { 'some' => 'mapping' }
     )
     assert basics_iteration_1.reload.representation_approved?
     assert_equal 1, basics_iteration_1.discussion_posts.size

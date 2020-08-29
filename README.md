@@ -40,7 +40,7 @@ You need the following installed:
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
 - [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
-- [S3Proxy](https://github.com/gaul/s3proxy)
+- [S3Mock](https://github.com/adobe/s3mock)
 
 Run DynamoDB on port 3040 locally:
 
@@ -51,7 +51,7 @@ docker run -dp 3040:8000 amazon/dynamodb-local
 Run S3Proxy on port 3041 locally:
 
 ```
-docker run -dp 3041:80 --env S3PROXY_AUTHORIZATION=none --env LOG_LEVEL=debug andrewgaul/s3proxy
+docker run -dp 3041:9090 adobe/s3mock
 ```
 
 #### Mac-Specific

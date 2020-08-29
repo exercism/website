@@ -33,9 +33,11 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
 
   create_table "exercise_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
+    t.bigint "source_iteration_id", null: false
     t.integer "exercise_version", limit: 2, null: false
     t.text "ast", null: false
     t.string "ast_digest", null: false
+    t.json "mapping", null: false
     t.text "feedback_markdown"
     t.text "feedback_html"
     t.bigint "feedback_author_id"
@@ -47,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
+    t.index ["source_iteration_id"], name: "index_exercise_representations_on_source_iteration_id"
   end
 
   create_table "exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -245,6 +248,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"
+  add_foreign_key "exercise_representations", "iterations", column: "source_iteration_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercises", "tracks"

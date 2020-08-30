@@ -1,7 +1,3 @@
-user = User.create!(handle: 'iHiD') unless User.find_by(handle: 'iHiD')
-
-#track = Track.create!(slug: 'ruby', title: 'Ruby', repo_url: "http://github.com/exercism/v3")
-#UserTrack.create!(user: user, track: track)
 
 # This is all temporary and horrible while we have a monorepo
 v3_url = "https://github.com/exercism/v3"
@@ -55,6 +51,13 @@ track_slugs.each do |track_slug|
     p "Error creating concept exercises for Track #{track_slug}: #{e}"
   end
 end
+
+
+p "Creating User iHiD"
+user = User.create!(handle: 'iHiD') unless User.find_by(handle: 'iHiD')
+UserTrack.create!(user: user, track: Track.find_by_slug!("ruby"))
+auth_token = user.auth_tokens.create!
+p "Run: exercism configure -a http://localhost:3020/api/v1 -t #{auth_token.token}"
 
 =begin
 concept_exercise = ConceptExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "numbers", prerequisites: [], title: "numbers")

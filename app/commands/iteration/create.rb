@@ -9,10 +9,9 @@ class Iteration
       @iteration_uuid = SecureRandom.compact_uuid
 
       # TODO: - Move this into another service
-      # and that service should also guard filesnames
+      # and that service should also guard filenames
       @files.each do |f|
-        f[:uuid] = SecureRandom.compact_uuid,
-                   f[:digest] = Digest::SHA1.hexdigest(f[:content])
+        f[:digest] = Digest::SHA1.hexdigest(f[:content])
       end
     end
 
@@ -25,19 +24,17 @@ class Iteration
 
       # These thread must *not* touch the DB or have any
       # db models passed to them.
-      threads = [
-        Thread.new { init_services },
-        Thread.new { Iteration::UploadForStorage.(iteration_uuid, files) }
-      ]
+      services_thread = Thread.new { init_services }
 
-      iteration = create_iteration!
+      create_iteration!
+      create_files!
       update_solution!
       schedule_jobs!
       iteration.broadcast!
 
       # Finally wait for everyting to finish before
       # we return the iteration
-      threads.each(&:join)
+      services_thread.join
 
       # End by returning the new iteration
       iteration
@@ -45,6 +42,7 @@ class Iteration
 
     private
     attr_reader :solution, :files, :iteration_uuid, :submitted_via
+    attr_reader :iteration
 
     def guard!
       last_iteration = solution.iterations.last
@@ -78,14 +76,20 @@ class Iteration
     end
 
     def create_iteration!
-      solution.iterations.create!(
+      @iteration = solution.iterations.create!(
         uuid: iteration_uuid,
         submitted_via: submitted_via
-      ).tap do |iteration|
-        files.each do |file|
-          iteration.files.create!(file.slice(:uuid, :filename, :digest))
+      )
+    end
+
+    def create_files!
+      files.map do |file|
+        ActiveRecord::Base.connection_pool.with_connection do
+          iteration.files.create!(
+            file.slice(:uuid, :filename, :digest, :content)
+          )
         end
-      end
+      end.join
     end
 
     def update_solution!

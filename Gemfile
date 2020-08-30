@@ -19,7 +19,7 @@ gem 'rest-client' # http
 gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.42.0'
+gem 'exercism-config', '>= 0.43.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -59,8 +59,9 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
+  gem 'minitest'
   gem 'mocha'
+  gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.17.0', require: false
+  gem 'webdrivers'
 end

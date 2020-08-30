@@ -1,4 +1,24 @@
 Rails.application.routes.draw do
+  # ### #
+  # API #
+  # ### #
+  namespace :api do
+    scope :v1 do
+      get "ping" => "ping#index"
+      get "validate_token" => "validate_token#index"
+
+      resources :tracks, only: [:show]
+      resources :solutions, only: %i[show update] do
+        collection do
+          get :latest
+        end
+
+        get 'files/*filepath', to: 'files#show', format: false, as: "file"
+      end
+    end
+  end
+  get "api/(*url)", to: 'api/errors#render_404'
+
   root to: "pages#index"
 
   mount ActionCable.server => '/cable'
@@ -14,6 +34,8 @@ Rails.application.routes.draw do
     resources :iterations, only: [:create]
     resources :tracks, only: [:create]
   end
+
+  resources :tracks, only: %i[index show]
 
   unless Rails.env.production?
     namespace :test do

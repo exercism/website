@@ -42,7 +42,7 @@ class Iteration
 
     def add_exercise_files
       exercise = track_repo.exercise(exercise_slug, git_sha)
-      exercise.filenames.each do |filepath|
+      exercise.filepaths.each do |filepath|
         next if filepath.match?(track_repo.ignore_regexp)
         next if files_to_upload[filepath]
 

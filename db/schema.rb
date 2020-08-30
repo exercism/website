@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_143333) do
+ActiveRecord::Schema.define(version: 2020_08_29_151831) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -89,9 +89,9 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
 
   create_table "iteration_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "iteration_id", null: false
-    t.string "uuid", null: false
     t.string "filename", null: false
     t.string "digest", null: false
+    t.string "uri", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["iteration_id"], name: "index_iteration_files_on_iteration_id"
@@ -177,9 +177,12 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
     t.bigint "user_id", null: false
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false
+    t.string "public_uuid", null: false
+    t.string "mentor_uuid", null: false
     t.integer "status", default: 0, null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
+    t.datetime "downloaded_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
@@ -202,6 +205,15 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
     t.string "repo_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_auth_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
 
   create_table "user_reputation_acquisitions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -229,6 +241,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
+    t.boolean "anonymous_during_mentoring", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
@@ -268,6 +281,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_143333) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "track_concepts", "tracks"
+  add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_reputation_acquisitions", "users"
   add_foreign_key "user_track_concepts", "track_concepts"
   add_foreign_key "user_track_concepts", "user_tracks"

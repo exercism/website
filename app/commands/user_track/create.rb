@@ -1,5 +1,5 @@
-class User
-  class JoinTrack
+class UserTrack
+  class Create
     include Mandate
 
     initialize_with :user, :track

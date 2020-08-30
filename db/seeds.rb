@@ -29,7 +29,7 @@ track_slugs.each do |track_slug|
   end
 
   p "Adding Track: #{track_slug}"
-  track = Track.create!(slug: track_slug, title: track_slug, repo_url: v3_url)
+  track = Track.create!(slug: track_slug, title: track_slug.titleize, repo_url: v3_url)
 
   begin
     #track.update(title: track.repo.config[:language])

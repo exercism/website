@@ -88,16 +88,19 @@ Naming/VariableNumber:
 Style/LambdaCall:
   EnforcedStyle: braces
 
-Rails/RefuteMethods:
-  EnforcedStyle: refute
-
-Rails/FilePath:
-  EnforcedStyle: arguments
-
-Rails/SkipsModelValidations:
-  Enabled: false
-
 Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"
     - "app/models/iteration/representation.rb"
+
+Rails/FilePath:
+  EnforcedStyle: arguments
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Rails/RefuteMethods:
+  EnforcedStyle: refute
+
+Rails/SkipsModelValidations:
+  Enabled: false

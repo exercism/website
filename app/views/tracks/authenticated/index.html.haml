@@ -1,0 +1,4 @@
+#page-tracks
+  - @tracks.each do |track|
+    = link_to track_path(track), class: "track track-#{track.slug}" do
+      = track.title

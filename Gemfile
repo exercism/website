@@ -22,11 +22,10 @@ gem 'mandate', '0.4.0.beta.1'
 gem 'exercism-config', '>= 0.43.0'
 # gem 'exercism-config', path: '../exercism_config'
 
-gem 'bootsnap', '>= 1.4.2', require: false
-
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'delayed_job_active_record', '~> 4.1.4'
+gem 'friendly_id', '~> 5.4.0'
 
 # View-level Dependencies
 gem 'webpacker', '~> 4.0'
@@ -45,16 +44,19 @@ group :development, :test do
   #  gem 'pry'
   #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
+  gem 'bootsnap', '>= 1.4.2', require: false
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
+  gem 'haml_lint', require: false
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'solargraph'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
+  gem "spring"
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do

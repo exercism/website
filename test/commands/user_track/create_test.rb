@@ -1,11 +1,11 @@
 require "test_helper"
 
-class User::JoinTrackTest < ActiveSupport::TestCase
+class UserTrack::CreateTest < ActiveSupport::TestCase
   test "creates user_track" do
     user = create :user
     track = create :track
 
-    User::JoinTrack.(user, track)
+    UserTrack::Create.(user, track)
 
     assert_equal 1, UserTrack.count
     ut = UserTrack.last
@@ -18,6 +18,6 @@ class User::JoinTrackTest < ActiveSupport::TestCase
     user = create :user
     track = create :track
 
-    assert_idempotent_command { User::JoinTrack.(user, track) }
+    assert_idempotent_command { UserTrack::Create.(user, track) }
   end
 end

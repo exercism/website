@@ -16,7 +16,7 @@
       "files": ["*.css"],
       "options": {
         "tabWidth": 4,
-        "trailingComma": ""
+        "trailingComma": "none"
       }
     }
   ]

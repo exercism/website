@@ -11,7 +11,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # User joins the track
     # Check its retrieved correctly.
-    ut = User::JoinTrack.(user, track)
+    ut = UserTrack::Create.(user, track)
     assert_equal ut, UserTrack.for!(user, track)
 
     # Check we only have basics to start with

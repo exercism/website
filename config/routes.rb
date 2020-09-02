@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   # ### #
   # API #
   # ### #
@@ -9,9 +11,7 @@ Rails.application.routes.draw do
 
       resources :tracks, only: [:show]
       resources :solutions, only: %i[show update] do
-        collection do
-          get :latest
-        end
+        get :latest, on: :collection
 
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
       end
@@ -19,23 +19,36 @@ Rails.application.routes.draw do
   end
   get "api/(*url)", to: 'api/errors#render_404'
 
-  root to: "pages#index"
-
-  mount ActionCable.server => '/cable'
+  # ### #
+  # SPI #
+  # ### #
   namespace :spi do
     resources :tooling_jobs, only: :update
   end
 
+  # ############ #
+  # Normal pages #
+  # ############ #
+
   namespace :maintaining do
     resources :iterations, only: [:index]
   end
+  resources :tracks, only: %i[index show] do
+    member do
+      post :join
+    end
+  end
+
+  root to: "pages#index"
+
+  # ########################### #
+  # Temporary and testing pages #
+  # ########################### #
 
   namespace :tmp do
     resources :iterations, only: [:create]
     resources :tracks, only: [:create]
   end
-
-  resources :tracks, only: %i[index show]
 
   unless Rails.env.production?
     namespace :test do

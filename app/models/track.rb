@@ -1,4 +1,8 @@
 class Track < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :slug, use: [:history]
+
   has_many :concepts, class_name: "Track::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
   # has_many :concept_exercises

@@ -1,0 +1,7 @@
+linters:
+  LineLength:
+    enabled: false
+    max: 100
+
+  ViewLength:
+    max: 200

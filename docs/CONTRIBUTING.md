@@ -68,6 +68,24 @@ For example `IterationFile#content` is currently a dangerous method, as calling 
 
 ## Commands
 
+Commands are the fundamental building blocks of the Domain Model whereas models represent the Data Models.
+In practice that means that Commands are responsible for completing some sort of action that might touch different areas of the project.
+For example, creating an iteration (`Iteration::Create.()`), creates multiple db records, writes to DynamoDB and S3, generates notifications and more.
+
+Each Command should have responsibility for doing one domain action (e.g. creating or updating something).
+It should then proxy other parts of that to other Commands (e.g. `Interation::Create` calls `Notification::Create`) or create records specifically under its ownership (e.g. `Iteration::Create.()` calling `Iteration.create()`.
+
+Commands should be highly readable.
+It should be extremely clear from reading the Command's `call` method what the Command does.
+
+Commands should use Mandate.
+
+Unless specified in their name, Commands should be agnostic to the source of the data.
+For example, `Iteration::Create` should not care whether the files have come from the CLI or the editor.
+
+Commands should follow naming pattern that follows: `#{DomainModel}::#{Action}`
+For example: `Iteration::Create` or `ToolingJob::Process`
+
 ## View Components
 
 We use view components to split the UI into stand-alone units that can be used and tested independently from the rest of the application.

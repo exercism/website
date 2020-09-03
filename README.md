@@ -10,9 +10,8 @@ This is the website component of Exercism. It is Ruby on Rails app, backed by My
 
 ## Local Setup
 
-The website can be run natively, through Docker, or as part of a wider Docker-compose with mysql, redis etc. All options have tradeoffs and the Core Team make use of all three approaches. The various options are outlined below.
-
 If you are looking to create a full Exercism setup locally, with tooling such as test-runners and other services, please check out our [development environment](https://github.com/exercism/development-environment) repo.
+This is our officially supported development setup.
 
 ### Running tests in the scope of Docker Compose
 
@@ -34,6 +33,7 @@ Assuming your docker-compose is already "up," you can run the following commands
 
 ### Local setup
 
+The website can be also be setup and run locally.
 You need the following installed:
 
 - MySQL
@@ -48,7 +48,7 @@ Run DynamoDB on port 3040 locally:
 docker run -dp 3040:8000 amazon/dynamodb-local
 ```
 
-Run S3Proxy on port 3041 locally:
+Run S3Mock on port 3041 locally:
 
 ```
 docker run -dp 3041:9090 adobe/s3mock

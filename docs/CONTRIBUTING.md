@@ -102,7 +102,16 @@ View Components are either functional and written in React, or non-functional an
 
 The tests should cover all functionality in the component, with unit tests being via JS, and tests that interact with Rails being tested through system tests.
 
-## Markdown files
+## Linting
+
+Pre-commit linting should happen automatically via our Husky hook.
+
+### Ruby files
+
+- Ruby files should adhere to the rules in `.rubocop.yml`
+- We do not use "FrozenStringLiteral" comments.
+
+### Markdown files
 
 We use markdown files for documentation.
 
@@ -110,6 +119,11 @@ We use markdown files for documentation.
 - Each sentence should be on its own line.
 - With the exception of files that have special meaning to GitHub (README.md, LICENCE.md, SECURITY.md), docs should be in the `docs/` folder.
 
-## CSS files
+### CSS files
 
 - CSS files should adhere to the rules in `.prettierrc.json`.
+
+### HAML files
+
+- Haml files should adhere to the rules in `.haml-lint.yml`
+- Note that haml-lint does not automatically fix problems.

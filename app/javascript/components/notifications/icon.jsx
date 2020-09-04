@@ -4,12 +4,12 @@ import consumer from '../../application/action_cable_consumer'
 function reducer(state, action) {
   switch (action.type) {
     case 'notification.created':
-      return { count: state.count + 1 }
+      return { count: state.count + 1, unread: true }
   }
 }
 
 export function NotificationIcon({ count }) {
-  const [state, dispatch] = useReducer(reducer, { count: count })
+  const [state, dispatch] = useReducer(reducer, { count: count, unread: false })
 
   useEffect(() => {
     const received = (data) => {
@@ -27,6 +27,8 @@ export function NotificationIcon({ count }) {
     <dl>
       <dt>Count</dt>
       <dd>{state.count}</dd>
+      <dt>Unread</dt>
+      <dd>{state.unread.toString()}</dd>
     </dl>
   )
 }

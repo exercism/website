@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Notifications::CreateTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   test "create db record" do
     user = create :user
     type = :mentor_started_discussion
@@ -15,5 +17,16 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     assert_equal 1, notification.version
     assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.anti_duplicate_key
     assert_equal params, notification.send(:params)
+  end
+
+  test "broadcasts message" do
+    user = create :user
+    type = :mentor_started_discussion
+    discussion = create(:solution_mentor_discussion)
+    params = { discussion: discussion }
+
+    assert_broadcast_on(NotificationsChannel.broadcasting_for(user), type: "notification.created") do
+      Notification::Create.(user, type, params)
+    end
   end
 end

@@ -59,6 +59,11 @@ Rails.application.routes.draw do
         namespace :example do
           get 'iterations_summary_table/:id', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
         end
+        namespace :notifications do
+          resource :icon, only: [:show] do
+            post :create_notification
+          end
+        end
       end
     end
   end

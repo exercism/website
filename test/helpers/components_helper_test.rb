@@ -7,7 +7,7 @@ class ComponentsHelperTest < ActionView::TestCase
     user = create(:user)
     create(:notification, user: user, read_at: nil)
 
-    assert_component_equal notification_icon(user), { id: "notification-icon", props: { count: 1 } }
+    assert_component_equal notification_icon(user), { id: "notification-icon", props: { count: 1, unread: true } }
   end
 
   private

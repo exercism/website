@@ -28,7 +28,9 @@ initReact({
   'maintaining-iterations-summary-table': (data) => (
     <MaintainingIterationsSummaryTable iterations={data.iterations} />
   ),
-  'notification-icon': (data) => <NotificationIcon count={data.count} />,
+  'notification-icon': (data) => (
+    <NotificationIcon count={data.count} unread={data.unread} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

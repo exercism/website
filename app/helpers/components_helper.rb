@@ -13,7 +13,7 @@ module ComponentsHelper
   end
 
   def notification_icon(user)
-    react_component("notification-icon", { count: user.notifications.count })
+    react_component("notification-icon", { count: user.notifications.count, unread: user.notifications.unread.any? })
   end
 
   private

@@ -8,8 +8,11 @@ function reducer(state, action) {
   }
 }
 
-export function NotificationIcon({ count }) {
-  const [state, dispatch] = useReducer(reducer, { count: count, unread: false })
+export function NotificationIcon({ count, unread }) {
+  const [state, dispatch] = useReducer(reducer, {
+    count: count,
+    unread: unread,
+  })
 
   useEffect(() => {
     const received = (data) => {

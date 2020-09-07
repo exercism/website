@@ -12,23 +12,15 @@ module Components
         assert_text "Unread\nfalse"
       end
 
-      test "increments number when a notification is created" do
+      test "shows number of unread notifications" do
         create(:user)
 
         visit test_components_notifications_icon_path
         wait_for_websockets
-        click_on "Create notification"
+        fill_in "Count", with: 2
+        click_on "Update"
 
-        assert_text "Count\n1"
-      end
-
-      test "shows unread state when a new notification is created" do
-        create(:user)
-
-        visit test_components_notifications_icon_path
-        wait_for_websockets
-        click_on "Create notification"
-
+        assert_text "Count\n2"
         assert_text "Unread\ntrue"
       end
     end

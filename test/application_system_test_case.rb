@@ -1,6 +1,8 @@
 require "test_helper"
+require_relative "./support/websockets_helpers"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include WebsocketsHelpers
   # Devise::Test::IntegrationHelpers
 
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]

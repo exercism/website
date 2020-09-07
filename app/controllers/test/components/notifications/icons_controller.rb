@@ -3,7 +3,10 @@ class Test::Components::Notifications::IconsController < ApplicationController
     @user = User.first
   end
 
-  def create_notification
-    NotificationsChannel.broadcast_to(User.first, { type: "notification.created" })
+  def update
+    NotificationsChannel.broadcast_to(
+      User.first,
+      { type: "notifications.changed", payload: { count: params[:count] } }
+    )
   end
 end

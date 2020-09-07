@@ -3,8 +3,8 @@ import consumer from '../../application/action_cable_consumer'
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'notification.created':
-      return { count: state.count + 1 }
+    case 'notifications.changed':
+      return { count: action.payload.count }
   }
 }
 

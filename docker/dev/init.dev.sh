@@ -3,6 +3,9 @@ while ! mysqladmin ping -h"$DB_HOST" --silent; do
     sleep 2
 done
 
+echo "Install dependencies"
+bundle install
+
 echo "Create and migrate DBs"
 # init.sql creates initial MySQL USER and databases
 mysql -u root -ppassword -h "$DB_HOST" < docker/dev/init.sql

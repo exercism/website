@@ -129,7 +129,7 @@ bundle exec rubocop -a
 The tests can be run using:
 
 ```
-brew exec rake test
+bundle exec rake test
 ```
 
 ### Git Repos

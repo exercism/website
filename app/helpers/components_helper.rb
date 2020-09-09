@@ -14,6 +14,9 @@ module ComponentsHelper
 
   def notification_icon(user)
     react_component("notification-icon", { count: user.notifications.count })
+
+  def mentor_conversations_list(mentor)
+    react_component("mentor-conversations-list", { conversations: mentor.conversations })
   end
 
   private

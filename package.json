@@ -9,6 +9,7 @@
     "@rails/webpacker": "4.2.2",
     "actioncable": "^5.2.4-3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "dayjs": "^1.8.35",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

@@ -10,10 +10,7 @@ function reducer(state, action) {
 
 export function NotificationIcon({ count }) {
   const [state, dispatch] = useReducer(reducer, { count: count })
-
-  function isUnread() {
-    return state.count > 0
-  }
+  const isUnread = state.count > 0
 
   useEffect(() => {
     const received = (data) => {
@@ -32,7 +29,7 @@ export function NotificationIcon({ count }) {
       <dt>Count</dt>
       <dd>{state.count}</dd>
       <dt>Unread</dt>
-      <dd>{isUnread().toString()}</dd>
+      <dd>{isUnread.toString()}</dd>
     </dl>
   )
 }

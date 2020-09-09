@@ -31,7 +31,7 @@ initReact({
   ),
   'notification-icon': (data) => <NotificationIcon count={data.count} />,
   'mentor-conversations-list': (data) => (
-    <MentorConversationsList conversations={data.conversations} />
+    <MentorConversationsList endpoint={data.endpoint} />
   ),
 })
 

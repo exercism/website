@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { usePaginatedQuery } from 'react-query'
 import dayjs from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
+import Pagination from './mentor_conversations_list/pagination'
 dayjs.extend(RelativeTime)
 
 function MentorConversationListRow({
@@ -42,25 +43,6 @@ function MentorConversationListRow({
       <td>{dayjs(updatedAt).fromNow()}</td>
       <td>{url}</td>
     </tr>
-  )
-}
-
-function Pagination({ current, total, setPage }) {
-  return (
-    <div>
-      {Array.from({ length: total }, (_, i) => i + 1).map((page) => {
-        return (
-          <button
-            key={page}
-            onClick={() => {
-              setPage(page)
-            }}
-          >
-            {page}
-          </button>
-        )
-      })}
-    </div>
   )
 }
 

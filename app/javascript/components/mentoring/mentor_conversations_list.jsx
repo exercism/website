@@ -3,6 +3,7 @@ import { usePaginatedQuery } from 'react-query'
 import dayjs from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
 import Pagination from './mentor_conversations_list/pagination'
+import { UrlParams } from '../../utils/url_params'
 dayjs.extend(RelativeTime)
 
 function MentorConversationListRow({
@@ -46,22 +47,28 @@ function MentorConversationListRow({
   )
 }
 
-async function fetchSolutions(key, url) {
+async function fetchSolutions(key, url, params) {
   const resp = await fetch(url)
 
   return resp.json()
 }
 
-export function MentorConversationsList({ endpoint }) {
+export function MentorConversationsList({ endpoint, ...props }) {
   const [page, setPage] = useState(1)
+  const urlParams = new UrlParams(
+    Object.assign({ page: page }, props.urlParams)
+  )
+  const retryParams = props.retryParams
   const { status, resolvedData, latestData } = usePaginatedQuery(
-    ['mentor-conversations-list', `${endpoint}?page=${page}`],
-    fetchSolutions
+    ['mentor-conversations-list', `${endpoint}?${urlParams.toString()}`],
+    fetchSolutions,
+    retryParams
   )
 
   return (
     <div>
       {status === 'loading' && <p>Loading</p>}
+      {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (
         <>
           <table>

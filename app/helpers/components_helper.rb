@@ -16,8 +16,12 @@ module ComponentsHelper
     react_component("notification-icon", { count: user.notifications.count })
   end
 
-  def mentor_conversations_list(endpoint)
-    react_component("mentor-conversations-list", { endpoint: endpoint })
+  def mentor_conversations_list(endpoint, url_params, retry_params)
+    react_component("mentor-conversations-list", {
+                      endpoint: endpoint,
+                      url_params: url_params,
+                      retry_params: retry_params
+                    })
   end
 
   private

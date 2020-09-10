@@ -35,6 +35,14 @@ module Components
           within("td:nth-child(4)") { assert_text "Tournament" }
         end
       end
+
+      test "handles API errors" do
+        visit test_components_mentoring_mentor_conversations_list_url
+        select "Error", from: "State"
+        click_on "Submit"
+
+        assert_text "Something went wrong"
+      end
     end
   end
 end

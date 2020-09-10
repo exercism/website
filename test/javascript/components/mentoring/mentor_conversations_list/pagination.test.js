@@ -1,6 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Pagination } from '../../../../../app/javascript/components/mentoring/mentor_conversations_list/pagination.jsx'
 
@@ -10,7 +9,7 @@ test('clicking on "First" sets page to 1', () => {
     <Pagination current={2} total={10} setPage={setPage} />
   )
 
-  userEvent.click(getByText('First'))
+  fireEvent.click(getByText('First'))
 
   expect(setPage.mock.calls).toEqual([[1]])
 })
@@ -55,7 +54,7 @@ test('clicking on "Last" sets page to last page', () => {
     <Pagination current={2} total={10} setPage={setPage} />
   )
 
-  userEvent.click(getByText('Last'))
+  fireEvent.click(getByText('Last'))
 
   expect(setPage.mock.calls).toEqual([[10]])
 })
@@ -100,7 +99,7 @@ test('clicking on page button sets page', () => {
     <Pagination current={2} total={10} setPage={setPage} />
   )
 
-  userEvent.click(getByText('3'))
+  fireEvent.click(getByText('3'))
 
   expect(setPage.mock.calls).toEqual([[3]])
 })

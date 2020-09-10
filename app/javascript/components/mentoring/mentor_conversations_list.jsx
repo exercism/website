@@ -29,7 +29,7 @@ function MentorConversationListRow({
       <td>{haveMentoredPreviously.toString()}</td>
       <td>{isNewIteration.toString()}</td>
       <td>{postsCount}</td>
-      <td>{dayjs(updatedAt).from(dayjs())}</td>
+      <td>{dayjs(updatedAt).fromNow()}</td>
       <td>{url}</td>
     </tr>
   )

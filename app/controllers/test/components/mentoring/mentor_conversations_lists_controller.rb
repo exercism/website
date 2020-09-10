@@ -15,7 +15,7 @@ class Test::Components::Mentoring::MentorConversationsListsController < Applicat
         haveMentoredPreviously: true,
         isNewIteration: true,
         postsCount: 15,
-        updatedAt: 1.year.ago,
+        updatedAt: 1.year.ago.iso8601,
         url: "https://exercism.io/conversations/1"
       }
     ]

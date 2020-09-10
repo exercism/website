@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { usePaginatedQuery } from 'react-query'
 import dayjs from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
-import Pagination from './mentor_conversations_list/pagination'
+import { Pagination } from './mentor_conversations_list/pagination'
 import { UrlParams } from '../../utils/url_params'
 dayjs.extend(RelativeTime)
 

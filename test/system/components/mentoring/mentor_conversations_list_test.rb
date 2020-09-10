@@ -31,9 +31,9 @@ module Components
         visit test_components_mentoring_mentor_conversations_list_url
         click_on "2"
 
-        within("tbody > tr:first-child") do
-          within("td:nth-child(4)") { assert_text "Tournament" }
-        end
+        row = { "Exercise title" => "Tournament" }
+
+        assert_table_row first("table"), row
       end
 
       test "handles API errors" do

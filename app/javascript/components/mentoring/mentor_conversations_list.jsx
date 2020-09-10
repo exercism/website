@@ -4,6 +4,7 @@ import RelativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(RelativeTime)
 
 function MentorConversationListRow({
+  trackTitle,
   trackIconUrl,
   menteeAvatarUrl,
   menteeHandle,
@@ -18,10 +19,18 @@ function MentorConversationListRow({
   return (
     <tr>
       <td>
-        <img style={{ width: 100 }} src={trackIconUrl} />
+        <img
+          style={{ width: 100 }}
+          src={trackIconUrl}
+          alt={`icon indicating ${trackTitle}`}
+        />
       </td>
       <td>
-        <img style={{ width: 100 }} src={menteeAvatarUrl} />
+        <img
+          style={{ width: 100 }}
+          src={menteeAvatarUrl}
+          alt={`avatar for ${menteeHandle}`}
+        />
       </td>
       <td>{menteeHandle}</td>
       <td>{exerciseTitle}</td>

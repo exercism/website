@@ -7,8 +7,10 @@ module Components
         visit test_components_mentoring_mentor_conversations_list_url
 
         within("tbody > tr:first-child") do
-          within("td:nth-child(1)") { assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png']" }
-          within("td:nth-child(2)") { assert_css "img[src='https://robohash.org/exercism']" }
+          within("td:nth-child(1)") do
+            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon indicating Ruby']"
+          end
+          within("td:nth-child(2)") { assert_css "img[src='https://robohash.org/exercism'][alt='avatar for mentee']" }
           within("td:nth-child(3)") { assert_text "mentee" }
           within("td:nth-child(4)") { assert_text "Series" }
           within("td:nth-child(5)") { assert_text "true" }

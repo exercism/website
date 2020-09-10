@@ -7,6 +7,7 @@ class Test::Components::Mentoring::MentorConversationsListsController < Applicat
   def conversations
     [
       {
+        trackTitle: "Ruby",
         trackIconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         menteeAvatarUrl: "https://robohash.org/exercism",
         menteeHandle: "mentee",

@@ -19,6 +19,8 @@ export function Pagination({ current, total, setPage, around = 3 }) {
           setPage(1)
         }}
         disabled={current === 1}
+        aria-label="Go to first page"
+        aria-current={current === 1 ? 'page' : null}
       >
         First
       </button>
@@ -30,6 +32,8 @@ export function Pagination({ current, total, setPage, around = 3 }) {
               setPage(page)
             }}
             disabled={page === current}
+            aria-label={`Go to page ${page}`}
+            aria-current={page === current ? 'page' : null}
           >
             {page}
           </button>
@@ -40,6 +44,8 @@ export function Pagination({ current, total, setPage, around = 3 }) {
           setPage(total)
         }}
         disabled={current === total}
+        aria-label="Go to last page"
+        aria-current={current === total ? 'page' : null}
       >
         Last
       </button>

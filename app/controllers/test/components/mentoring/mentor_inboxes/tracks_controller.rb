@@ -1,5 +1,7 @@
 class Test::Components::Mentoring::MentorInboxes::TracksController < ApplicationController
   def index
+    return head :internal_server_error if params[:state] == "Error" || params[:state] == "Loading"
+
     results = [
       {
         id: 1,

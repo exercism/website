@@ -38,7 +38,7 @@ module Components
 
       test "filters by track" do
         visit test_components_mentoring_mentor_inbox_url
-        select "Ruby", from: "Track"
+        select "Ruby", from: "Track", exact: true
 
         ruby_row = {
           "Track icon" => lambda {
@@ -55,20 +55,36 @@ module Components
         assert_table_row first("table"), go_row
       end
 
-      test "handles API errors" do
+      test "handles conversations endpoint API errors" do
         visit test_components_mentoring_mentor_inbox_url
-        select "Error", from: "State"
+        select "Error", from: "Conversations endpoint state"
         click_on "Submit"
 
         assert_text "Something went wrong"
       end
 
-      test "shows loading state" do
+      test "shows conversations endpoint API loading state" do
         visit test_components_mentoring_mentor_inbox_url
-        select "Loading", from: "State"
+        select "Loading", from: "Conversations endpoint state"
         click_on "Submit"
 
-        assert_text "Loading"
+        within(".conversations-list") { assert_text "Loading" }
+      end
+
+      test "handles tracks endpoint API errors" do
+        visit test_components_mentoring_mentor_inbox_url
+        select "Error", from: "Tracks endpoint state"
+        click_on "Submit"
+
+        assert_text "Something went wrong"
+      end
+
+      test "shows tracks endpoint API loading state" do
+        visit test_components_mentoring_mentor_inbox_url
+        select "Loading", from: "Tracks endpoint state"
+        click_on "Submit"
+
+        within(".track-filter") { assert_text "Loading" }
       end
 
       test "handles API errors" do

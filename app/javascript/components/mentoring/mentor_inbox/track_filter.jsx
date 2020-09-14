@@ -1,21 +1,17 @@
 import React from 'react'
-import { useQuery } from 'react-query'
+import { useRequestQuery } from '../../../hooks/request_query'
 
-async function fetchTracks(key, url) {
-  const resp = await fetch(url)
-
-  return resp.json()
-}
-
-export function TrackFilter({ endpoint, setTrack, value }) {
-  const { status, data } = useQuery(['track-filter', endpoint], fetchTracks)
+export function TrackFilter({ request, setTrack, value }) {
+  const { status, data } = useRequestQuery('track-filter', request)
 
   function handleChange(e) {
     setTrack(e.target.value)
   }
 
   return (
-    <div>
+    <div className="track-filter">
+      {status === 'loading' && <p>Loading</p>}
+      {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (
         <>
           <label htmlFor="track-filter-track">Track</label>

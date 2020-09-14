@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function Pagination({ current, total, setPage, around = 3 }) {
+export function Pagination({ current = 1, total, setPage, around = 3 }) {
   const range = new Range(
     Math.max(current - around, 1),
     Math.min(current + around, total)

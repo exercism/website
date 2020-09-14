@@ -5,21 +5,19 @@ import { TrackFilter } from './mentor_inbox/track_filter'
 export function reducer(state, action) {
   switch (action.type) {
     case 'page.changed':
-      return { ...state, page: action.payload.page }
+      return { ...state, query: { ...state.query, page: action.payload.page } }
     case 'track.changed':
-      return { ...state, track: action.payload.track, page: 1 }
+      return {
+        ...state,
+        query: { ...state.query, track: action.payload.track, page: 1 },
+      }
   }
 }
 
-export function MentorInbox({
-  conversationsEndpoint,
-  tracksEndpoint,
-  retryParams,
-  ...props
-}) {
-  const [query, dispatch] = useReducer(
+export function MentorInbox({ tracksRequest, ...props }) {
+  const [conversationsRequest, dispatch] = useReducer(
     reducer,
-    Object.assign({ page: 1 }, props.query)
+    props.conversationsRequest
   )
 
   function setPage(page) {
@@ -32,13 +30,8 @@ export function MentorInbox({
 
   return (
     <div>
-      <TrackFilter endpoint={tracksEndpoint} setTrack={setTrack} />
-      <ConversationList
-        endpoint={conversationsEndpoint}
-        query={query}
-        setPage={setPage}
-        retryParams={retryParams}
-      />
+      <TrackFilter request={tracksRequest} setTrack={setTrack} />
+      <ConversationList request={conversationsRequest} setPage={setPage} />
     </div>
   )
 }

@@ -5,6 +5,9 @@ import { reducer } from '../../../../app/javascript/components/mentoring/mentor_
 
 test('reducer resets page to 1 when switching tracks', () => {
   expect(
-    reducer({ page: 2 }, { type: 'track.changed', payload: { track: 2 } })
-  ).toEqual({ page: 1, track: 2 })
+    reducer(
+      { query: { page: 2 } },
+      { type: 'track.changed', payload: { track: 2 } }
+    )
+  ).toEqual({ query: { page: 1, track: 2 } })
 })

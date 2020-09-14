@@ -1,24 +1,16 @@
 import React from 'react'
-import { usePaginatedQuery } from 'react-query'
 import { Pagination } from './conversation_list/pagination'
 import { Conversation } from './conversation_list/conversation'
-import { UrlParams } from '../../../utils/url_params'
+import { usePaginatedRequestQuery } from '../../../hooks/request_query'
 
-async function fetchConversations(key, url, query) {
-  const resp = await fetch(`${url}?${new UrlParams(query).toString()}`)
-
-  return resp.json()
-}
-
-export function ConversationList({ endpoint, query, setPage, retryParams }) {
-  const { status, resolvedData, latestData } = usePaginatedQuery(
-    ['mentor-conversations-list', endpoint, query],
-    fetchConversations,
-    retryParams
+export function ConversationList({ request, setPage }) {
+  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
+    'mentor-conversations-list',
+    request
   )
 
   return (
-    <div>
+    <div className="conversations-list">
       {status === 'loading' && <p>Loading</p>}
       {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (
@@ -46,7 +38,7 @@ export function ConversationList({ endpoint, query, setPage, retryParams }) {
           </table>
           {latestData && (
             <Pagination
-              current={query.page}
+              current={request.query.page}
               total={latestData.meta.total}
               setPage={setPage}
             />

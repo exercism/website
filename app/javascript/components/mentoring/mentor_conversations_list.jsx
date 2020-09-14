@@ -47,7 +47,7 @@ function MentorConversationListRow({
   )
 }
 
-async function fetchSolutions(key, url, query) {
+async function fetchConversations(key, url, query) {
   const resp = await fetch(`${url}?${new UrlParams(query).toString()}`)
 
   return resp.json()
@@ -58,7 +58,7 @@ export function MentorConversationsList({ endpoint, ...props }) {
   const retryParams = props.retryParams
   const { status, resolvedData, latestData } = usePaginatedQuery(
     ['mentor-conversations-list', endpoint, query],
-    fetchSolutions,
+    fetchConversations,
     retryParams
   )
 

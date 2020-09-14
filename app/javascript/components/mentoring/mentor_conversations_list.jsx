@@ -3,6 +3,7 @@ import { usePaginatedQuery } from 'react-query'
 import dayjs from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
 import { Pagination } from './mentor_conversations_list/pagination'
+import { TrackFilter } from './mentor_conversations_list/track_filter'
 import { UrlParams } from '../../utils/url_params'
 dayjs.extend(RelativeTime)
 
@@ -53,11 +54,15 @@ async function fetchConversations(key, url, query) {
   return resp.json()
 }
 
-export function MentorConversationsList({ endpoint, ...props }) {
+export function MentorConversationsList({
+  conversationsEndpoint,
+  tracksEndpoint,
+  ...props
+}) {
   const [query, setQuery] = useState(Object.assign({ page: 1 }, props.query))
   const retryParams = props.retryParams
   const { status, resolvedData, latestData } = usePaginatedQuery(
-    ['mentor-conversations-list', endpoint, query],
+    ['mentor-conversations-list', conversationsEndpoint, query],
     fetchConversations,
     retryParams
   )
@@ -66,8 +71,13 @@ export function MentorConversationsList({ endpoint, ...props }) {
     setQuery({ ...query, page: page })
   }
 
+  function setTrack(track) {
+    setQuery({ ...query, track: track })
+  }
+
   return (
     <div>
+      <TrackFilter endpoint={tracksEndpoint} setTrack={setTrack} />
       {status === 'loading' && <p>Loading</p>}
       {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (

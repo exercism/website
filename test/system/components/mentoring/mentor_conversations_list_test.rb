@@ -36,6 +36,25 @@ module Components
         assert_table_row first("table"), row
       end
 
+      test "filters by track" do
+        visit test_components_mentoring_mentor_conversations_list_url
+        select "Ruby", from: "Track"
+
+        ruby_row = {
+          "Track icon" => lambda {
+            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon indicating Ruby']"
+          }
+        }
+        go_row = {
+          "Track icon" => lambda {
+            refute_css "img[src='https://assets.exercism.io/tracks/go-hex-white.png'][alt='icon indicating Go']"
+          }
+        }
+
+        assert_table_row first("table"), ruby_row
+        assert_table_row first("table"), go_row
+      end
+
       test "handles API errors" do
         visit test_components_mentoring_mentor_conversations_list_url
         select "Error", from: "State"

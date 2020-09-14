@@ -64,6 +64,7 @@ Rails.application.routes.draw do
         namespace :mentoring do
           resource :mentor_conversations_list, only: [:show] do
             resources :conversations, only: [:index], controller: "mentor_conversations_lists/conversations"
+            resources :tracks, only: [:index], controller: "mentor_conversations_lists/tracks"
           end
         end
       end

@@ -4,6 +4,7 @@ class Test::Components::Mentoring::MentorConversationsLists::ConversationsContro
 
     results = [
       {
+        trackId: 1,
         trackTitle: "Ruby",
         trackIconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         menteeAvatarUrl: "https://robohash.org/exercism",
@@ -17,6 +18,7 @@ class Test::Components::Mentoring::MentorConversationsLists::ConversationsContro
         url: "https://exercism.io/conversations/1"
       },
       {
+        trackId: 2,
         trackTitle: "Go",
         trackIconUrl: "https://assets.exercism.io/tracks/go-hex-white.png",
         menteeAvatarUrl: "https://robohash.org/exercism_2",
@@ -30,6 +32,9 @@ class Test::Components::Mentoring::MentorConversationsLists::ConversationsContro
         url: "https://exercism.io/conversations/2"
       }
     ]
+
+    results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
+
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i
 

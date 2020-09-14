@@ -47,23 +47,24 @@ function MentorConversationListRow({
   )
 }
 
-async function fetchSolutions(key, url, params) {
-  const resp = await fetch(url)
+async function fetchSolutions(key, url, query) {
+  const resp = await fetch(`${url}?${new UrlParams(query).toString()}`)
 
   return resp.json()
 }
 
 export function MentorConversationsList({ endpoint, ...props }) {
-  const [page, setPage] = useState(1)
-  const urlParams = new UrlParams(
-    Object.assign({ page: page }, props.urlParams)
-  )
+  const [query, setQuery] = useState(Object.assign({ page: 1 }, props.query))
   const retryParams = props.retryParams
   const { status, resolvedData, latestData } = usePaginatedQuery(
-    ['mentor-conversations-list', `${endpoint}?${urlParams.toString()}`],
+    ['mentor-conversations-list', endpoint, query],
     fetchSolutions,
     retryParams
   )
+
+  function setPage(page) {
+    setQuery({ ...query, page: page })
+  }
 
   return (
     <div>
@@ -94,7 +95,7 @@ export function MentorConversationsList({ endpoint, ...props }) {
           </table>
           {latestData && (
             <Pagination
-              current={page}
+              current={query.page}
               total={latestData.meta.total}
               setPage={setPage}
             />

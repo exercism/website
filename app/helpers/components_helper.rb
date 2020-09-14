@@ -19,7 +19,7 @@ module ComponentsHelper
   def mentor_conversations_list(endpoint, url_params, retry_params)
     react_component("mentor-conversations-list", {
                       endpoint: endpoint,
-                      url_params: url_params,
+                      query: query,
                       retry_params: retry_params
                     })
   end

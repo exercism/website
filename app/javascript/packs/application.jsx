@@ -33,7 +33,7 @@ initReact({
   'mentor-conversations-list': (data) => (
     <MentorConversationsList
       endpoint={data.endpoint}
-      urlParams={data.url_params}
+      query={data.query}
       retryParams={data.retry_params}
     />
   ),

@@ -1,6 +1,15 @@
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import { ConversationList } from './mentor_inbox/conversation_list'
 import { TrackFilter } from './mentor_inbox/track_filter'
+
+export function reducer(state, action) {
+  switch (action.type) {
+    case 'page.changed':
+      return { ...state, page: action.payload.page }
+    case 'track.changed':
+      return { ...state, track: action.payload.track, page: 1 }
+  }
+}
 
 export function MentorInbox({
   conversationsEndpoint,
@@ -8,14 +17,17 @@ export function MentorInbox({
   retryParams,
   ...props
 }) {
-  const [query, setQuery] = useState(Object.assign({ page: 1 }, props.query))
+  const [query, dispatch] = useReducer(
+    reducer,
+    Object.assign({ page: 1 }, props.query)
+  )
 
   function setPage(page) {
-    setQuery({ ...query, page: page })
+    dispatch({ type: 'page.changed', payload: { page: page } })
   }
 
   function setTrack(track) {
-    setQuery({ ...query, track: track })
+    dispatch({ type: 'track.changed', payload: { track: track } })
   }
 
   return (

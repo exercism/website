@@ -16,8 +16,8 @@ module ComponentsHelper
     react_component("notification-icon", { count: user.notifications.count })
   end
 
-  def mentor_conversations_list(conversations_endpoint, tracks_endpoint, query, retry_params)
-    react_component("mentor-conversations-list", {
+  def mentor_inbox(conversations_endpoint, tracks_endpoint, query, retry_params)
+    react_component("mentor-inbox", {
                       conversations_endpoint: conversations_endpoint,
                       tracks_endpoint: tracks_endpoint,
                       query: query,

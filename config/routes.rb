@@ -62,9 +62,9 @@ Rails.application.routes.draw do
         namespace :notifications do
           resource :icon, only: %i[show update]
         namespace :mentoring do
-          resource :mentor_conversations_list, only: [:show] do
-            resources :conversations, only: [:index], controller: "mentor_conversations_lists/conversations"
-            resources :tracks, only: [:index], controller: "mentor_conversations_lists/tracks"
+          resource :mentor_inbox, only: [:show] do
+            resources :conversations, only: [:index], controller: "mentor_inboxes/conversations"
+            resources :tracks, only: [:index], controller: "mentor_inboxes/tracks"
           end
         end
       end

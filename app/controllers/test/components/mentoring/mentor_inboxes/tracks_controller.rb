@@ -1,4 +1,4 @@
-class Test::Components::Mentoring::MentorConversationsLists::TracksController < ApplicationController
+class Test::Components::Mentoring::MentorInboxes::TracksController < ApplicationController
   def index
     results = [
       {

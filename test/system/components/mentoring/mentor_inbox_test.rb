@@ -3,11 +3,11 @@ require_relative "../../../support/table_matchers"
 
 module Components
   module Mentoring
-    class MentorConversationsListTest < ApplicationSystemTestCase
+    class MentorInboxTest < ApplicationSystemTestCase
       include TableMatchers
 
       test "shows correct information" do
-        visit test_components_mentoring_mentor_conversations_list_url
+        visit test_components_mentoring_mentor_inbox_url
 
         row = {
           "Track icon" => lambda {
@@ -28,7 +28,7 @@ module Components
       end
 
       test "paginates results" do
-        visit test_components_mentoring_mentor_conversations_list_url
+        visit test_components_mentoring_mentor_inbox_url
         click_on "2"
 
         row = { "Exercise title" => "Tournament" }
@@ -37,7 +37,7 @@ module Components
       end
 
       test "filters by track" do
-        visit test_components_mentoring_mentor_conversations_list_url
+        visit test_components_mentoring_mentor_inbox_url
         select "Ruby", from: "Track"
 
         ruby_row = {
@@ -56,7 +56,7 @@ module Components
       end
 
       test "handles API errors" do
-        visit test_components_mentoring_mentor_conversations_list_url
+        visit test_components_mentoring_mentor_inbox_url
         select "Error", from: "State"
         click_on "Submit"
 
@@ -64,7 +64,7 @@ module Components
       end
 
       test "shows loading state" do
-        visit test_components_mentoring_mentor_conversations_list_url
+        visit test_components_mentoring_mentor_inbox_url
         select "Loading", from: "State"
         click_on "Submit"
 

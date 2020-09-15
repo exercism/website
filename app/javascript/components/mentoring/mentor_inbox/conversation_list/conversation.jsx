@@ -22,7 +22,7 @@ export function Conversation({
         <img
           style={{ width: 100 }}
           src={trackIconUrl}
-          alt={`icon indicating ${trackTitle}`}
+          alt={`icon for ${trackTitle} track`}
         />
       </td>
       <td>

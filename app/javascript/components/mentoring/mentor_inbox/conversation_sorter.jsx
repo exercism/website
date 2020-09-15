@@ -1,8 +1,9 @@
 import React from 'react'
 
 const sortingOptions = [
-  { value: 'exerciseTitle', description: 'Sort by Exercise' },
-  { value: 'menteeHandle', description: 'Sort by Student' },
+  { value: 'recent', description: 'Sort by Most Recent' },
+  { value: 'exercise', description: 'Sort by Exercise' },
+  { value: 'student', description: 'Sort by Student' },
 ]
 
 export function ConversationSorter({ setSort, sort }) {

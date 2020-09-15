@@ -48,7 +48,7 @@ class Test::Components::Mentoring::MentorInboxes::ConversationsController < Appl
     ]
 
     results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
-    results = results.sort_by { |c| c[params[:sort].to_sym] } if params[:sort].present?
+    results = sort(results)
 
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i
@@ -57,5 +57,16 @@ class Test::Components::Mentoring::MentorInboxes::ConversationsController < Appl
       results: results[page - 1, per],
       meta: { current: page, total: results.size }
     }
+  end
+
+  def sort(results)
+    case params[:sort]
+    when 'exercise'
+      results.sort_by { |c| c[:exerciseTitle] }
+    when 'recent'
+      results.sort_by { |c| c[:updatedAt] }.reverse
+    else
+      results.sort_by { |c| c[:menteeHandle] }
+    end
   end
 end

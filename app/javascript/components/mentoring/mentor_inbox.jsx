@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useCallback } from 'react'
 import { ConversationList } from './mentor_inbox/conversation_list'
 import { TrackFilter } from './mentor_inbox/track_filter'
 
@@ -20,13 +20,19 @@ export function MentorInbox({ tracksRequest, ...props }) {
     props.conversationsRequest
   )
 
-  function setPage(page) {
-    dispatch({ type: 'page.changed', payload: { page: page } })
-  }
+  const setPage = useCallback(
+    (page) => {
+      dispatch({ type: 'page.changed', payload: { page: page } })
+    },
+    [dispatch]
+  )
 
-  function setTrack(track) {
-    dispatch({ type: 'track.changed', payload: { track: track } })
-  }
+  const setTrack = useCallback(
+    (track) => {
+      dispatch({ type: 'track.changed', payload: { track: track } })
+    },
+    [dispatch]
+  )
 
   return (
     <div>

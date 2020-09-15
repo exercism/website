@@ -15,7 +15,7 @@ export function usePaginatedRequestQuery(key, request) {
   )
 }
 
-export function useRequestQuery(key, request, fetch) {
+export function useRequestQuery(key, request) {
   return useQuery(
     [key, request.endpoint, request.query],
     handleFetch,

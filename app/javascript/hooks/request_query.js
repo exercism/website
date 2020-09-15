@@ -7,7 +7,7 @@ async function handleFetch(key, url, query) {
   return resp.json()
 }
 
-export function usePaginatedRequestQuery(key, request, fetch) {
+export function usePaginatedRequestQuery(key, request) {
   return usePaginatedQuery(
     [key, request.endpoint, request.query],
     handleFetch,

@@ -55,6 +55,17 @@ module Components
         assert_table_row first("table"), go_row
       end
 
+      test "filter by query" do
+        visit test_components_mentoring_mentor_inbox_url
+        fill_in "conversation-filter", with: "Tourn"
+
+        row = { "Exercise title" => "Tournament" }
+
+        assert_table_row first("table"), row
+
+        assert_selector('.conversations-list tbody tr', count: 1)
+      end
+
       test "sort by student" do
         visit test_components_mentoring_mentor_inbox_url
         select "Sort by Student", from: "Sort", exact: true

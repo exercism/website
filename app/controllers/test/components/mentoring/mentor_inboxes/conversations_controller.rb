@@ -8,7 +8,7 @@ class Test::Components::Mentoring::MentorInboxes::ConversationsController < Appl
         trackTitle: "Ruby",
         trackIconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         menteeAvatarUrl: "https://robohash.org/exercism",
-        menteeHandle: "mentee",
+        menteeHandle: "Mentee",
         exerciseTitle: "Series",
         isStarred: true,
         haveMentoredPreviously: true,
@@ -30,10 +30,25 @@ class Test::Components::Mentoring::MentorInboxes::ConversationsController < Appl
         postsCount: 22,
         updatedAt: 1.week.ago.iso8601,
         url: "https://exercism.io/conversations/2"
+      },
+      {
+        trackId: 3,
+        trackTitle: "C#",
+        trackIconUrl: "https://assets.exercism.io/tracks/csharp-hex-white.png",
+        menteeAvatarUrl: "https://robohash.org/exercism_3",
+        menteeHandle: "Frank",
+        exerciseTitle: "Zipper",
+        isStarred: false,
+        haveMentoredPreviously: false,
+        isNewIteration: false,
+        postsCount: 5,
+        updatedAt: 1.month.ago.iso8601,
+        url: "https://exercism.io/conversations/3"
       }
     ]
 
     results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
+    results = results.sort_by { |c| c[params[:sort].to_sym] } if params[:sort].present?
 
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i

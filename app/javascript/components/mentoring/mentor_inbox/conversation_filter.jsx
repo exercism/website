@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function ConversationFilter({ setFilter, filter }) {
+export function ConversationFilter({ setFilter, filter = '' }) {
   function handleChange(e) {
     setFilter(e.target.value)
   }

@@ -3,33 +3,33 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start();
-require("turbolinks").start();
-require("@rails/activestorage").start();
-require("channels");
+require('@rails/ujs').start()
+require('turbolinks').start()
+require('@rails/activestorage').start()
+require('channels')
 
-import "css/application.css";
+import 'css/application.css'
 
-import React from "react";
-import { initReact } from "./react_bootloader.jsx";
-import { ExampleIterationsSummaryTable } from "../components/example/iterations_summary_table.jsx";
-import { MaintainingIterationsSummaryTable } from "../components/maintaining/iterations_summary_table.jsx";
+import React from 'react'
+import { initReact } from './react_bootloader.jsx'
+import { ExampleIterationsSummaryTable } from '../components/example/iterations_summary_table.jsx'
+import { MaintainingIterationsSummaryTable } from '../components/maintaining/iterations_summary_table.jsx'
+import { NotificationIcon } from '../components/notifications/icon.jsx'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  "example-iterations-summary-table": data => (
+  'example-iterations-summary-table': (data) => (
     <ExampleIterationsSummaryTable
       solutionId={data.solution_id}
       iterations={data.iterations}
     />
   ),
-  "maintaining-iterations-summary-table": data => (
-    <MaintainingIterationsSummaryTable
-      iterations={data.iterations}
-    />
-  )
-});
+  'maintaining-iterations-summary-table': (data) => (
+    <MaintainingIterationsSummaryTable iterations={data.iterations} />
+  ),
+  'notification-icon': (data) => <NotificationIcon count={data.count} />,
+})
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)

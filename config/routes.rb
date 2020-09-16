@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         end
         namespace :notifications do
           resource :icon, only: %i[show update]
+        end
         namespace :mentoring do
           resource :mentor_inbox, only: [:show] do
             resources :conversations, only: [:index], controller: "mentor_inboxes/conversations"

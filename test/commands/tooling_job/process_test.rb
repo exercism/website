@@ -49,7 +49,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     upload_to_s3(
       Exercism.config.aws_tooling_jobs_bucket,
       representation_s3_key,
-      representation_contents
+      representation_contents.to_json
     )
     upload_to_s3(
       Exercism.config.aws_tooling_jobs_bucket,

@@ -2,7 +2,7 @@ import React, { useReducer, useCallback } from 'react'
 import { ConversationList } from './mentor_inbox/conversation_list'
 import { TrackFilter } from './mentor_inbox/track_filter'
 
-export function reducer(state, action) {
+function reducer(state, action) {
   switch (action.type) {
     case 'page.changed':
       return { ...state, query: { ...state.query, page: action.payload.page } }

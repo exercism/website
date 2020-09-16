@@ -25,7 +25,7 @@ function reducer(state, action) {
       }
     default:
       if (process.env.NODE_ENV === 'development') {
-        throw 'Unknown action type'
+        throw new Error(`Unknown action type: ${action.type}`)
       }
       return state
   }

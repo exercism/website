@@ -29,7 +29,7 @@ module ToolingJob
           attrs["iteration_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
-          download_file(attrs["output"]["representation.txt"]),
+          JSON.parse(download_file(attrs["output"]["representation.txt"])),
           JSON.parse(download_file(attrs["output"]["mapping.json"]))
         )
       when "analyzer"

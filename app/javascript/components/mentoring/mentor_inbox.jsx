@@ -22,7 +22,7 @@ export function reducer(state, action) {
 export function MentorInbox({ tracksRequest, ...props }) {
   const [conversationsRequest, dispatch] = useReducer(
     reducer,
-    props.conversationsRequest
+    Object.assign({ query: { page: 1 } }, props.conversationsRequest)
   )
 
   const setPage = useCallback(

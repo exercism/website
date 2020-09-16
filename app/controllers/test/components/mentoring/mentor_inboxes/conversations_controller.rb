@@ -48,6 +48,12 @@ class Test::Components::Mentoring::MentorInboxes::ConversationsController < Appl
     ]
 
     results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
+    if params[:filter].present?
+      results = results.select do |c|
+        c[:exerciseTitle].downcase.include?(params[:filter].downcase) ||
+          c[:menteeHandle].downcase.include?(params[:filter].downcase)
+      end
+    end
     results = sort(results)
 
     page = params.fetch(:page, 1).to_i

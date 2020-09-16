@@ -1,6 +1,6 @@
 export class UrlParams {
   constructor(object) {
-    this.object = object
+    this.object = object || {}
   }
 
   toString() {

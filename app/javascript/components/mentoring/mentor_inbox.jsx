@@ -11,6 +11,11 @@ export function reducer(state, action) {
         ...state,
         query: { ...state.query, track: action.payload.track, page: 1 },
       }
+    default:
+      if (process.env.NODE_ENV === 'development') {
+        throw 'Unknown action type'
+      }
+      return state
   }
 }
 

@@ -11,7 +11,7 @@ module Components
 
         row = {
           "Track icon" => lambda {
-            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon indicating Ruby']"
+            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
           },
           "Mentee avatar" => -> { assert_css "img[src='https://robohash.org/exercism'][alt='avatar for mentee']" },
           "Mentee handle" => "mentee",
@@ -42,12 +42,12 @@ module Components
 
         ruby_row = {
           "Track icon" => lambda {
-            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon indicating Ruby']"
+            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
           }
         }
         go_row = {
           "Track icon" => lambda {
-            refute_css "img[src='https://assets.exercism.io/tracks/go-hex-white.png'][alt='icon indicating Go']"
+            refute_css "img[src='https://assets.exercism.io/tracks/go-hex-white.png'][alt='icon for Go track']"
           }
         }
 

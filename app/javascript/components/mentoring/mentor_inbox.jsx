@@ -21,7 +21,7 @@ function reducer(state, action) {
     case 'filter.changed':
       return {
         ...state,
-        query: { ...state.query, filter: action.payload.filter },
+        query: { ...state.query, filter: action.payload.filter, page: 1 },
       }
     default:
       if (process.env.NODE_ENV === 'development') {

@@ -16,6 +16,7 @@ import { ExampleIterationsSummaryTable } from '../components/example/iterations_
 import { MaintainingIterationsSummaryTable } from '../components/maintaining/iterations_summary_table.jsx'
 import { NotificationIcon } from '../components/notifications/icon.jsx'
 import { MentorInbox } from '../components/mentoring/mentor_inbox.jsx'
+import { MentorSolutionsList } from '../components/mentoring/mentor_solutions_list.jsx'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -35,6 +36,9 @@ initReact({
       conversationsRequest={data.conversations_request}
       tracksRequest={data.tracks_request}
     />
+  ),
+  'mentor-solutions-list': (data) => (
+    <MentorSolutionsList solutions={data.solutions} />
   ),
 })
 

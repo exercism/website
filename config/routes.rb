@@ -53,6 +53,9 @@ Rails.application.routes.draw do
   unless Rails.env.production?
     namespace :test do
       namespace :components do
+        namespace :mentoring do
+          resource :mentor_solutions_list, only: [:show]
+        end
         namespace :maintaining do
           get 'iterations_summary_table', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
         end

@@ -26,6 +26,31 @@ module Components
 
         assert_table_row first("table"), row
       end
+
+      test "paginates results" do
+        visit test_components_mentoring_mentor_conversations_list_url
+        click_on "2"
+
+        row = { "Exercise title" => "Tournament" }
+
+        assert_table_row first("table"), row
+      end
+
+      test "handles API errors" do
+        visit test_components_mentoring_mentor_conversations_list_url
+        select "Error", from: "State"
+        click_on "Submit"
+
+        assert_text "Something went wrong"
+      end
+
+      test "shows loading state" do
+        visit test_components_mentoring_mentor_conversations_list_url
+        select "Loading", from: "State"
+        click_on "Submit"
+
+        assert_text "Loading"
+      end
     end
   end
 end

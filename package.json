@@ -14,11 +14,13 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-query": "^2.15.4",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
     "@prettier/plugin-ruby": "^0.18.2",
+    "@testing-library/dom": "^7.24.1",
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/react": "^10.4.3",
     "husky": "^4.2.5",

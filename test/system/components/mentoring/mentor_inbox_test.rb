@@ -13,8 +13,8 @@ module Components
           "Track icon" => lambda {
             assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
           },
-          "Mentee avatar" => -> { assert_css "img[src='https://robohash.org/exercism'][alt='avatar for mentee']" },
-          "Mentee handle" => "mentee",
+          "Mentee avatar" => -> { assert_css "img[src='https://robohash.org/exercism'][alt='avatar for Mentee']" },
+          "Mentee handle" => "Mentee",
           "Exercise title" => "Series",
           "Starred?" => "true",
           "Mentored previously?" => "true",
@@ -53,6 +53,15 @@ module Components
 
         assert_table_row first("table"), ruby_row
         assert_table_row first("table"), go_row
+      end
+
+      test "sort by student" do
+        visit test_components_mentoring_mentor_inbox_url
+        select "Sort by Student", from: "Sort", exact: true
+
+        row = { "Mentee handle" => "Frank" }
+
+        assert_table_row first("table"), row
       end
 
       test "handles conversations endpoint API errors" do

@@ -1,5 +1,6 @@
 import React, { useReducer, useCallback } from 'react'
 import { ConversationList } from './mentor_inbox/conversation_list'
+import { ConversationSorter } from './mentor_inbox/conversation_sorter'
 import { TrackFilter } from './mentor_inbox/track_filter'
 
 function reducer(state, action) {
@@ -10,6 +11,11 @@ function reducer(state, action) {
       return {
         ...state,
         query: { ...state.query, track: action.payload.track, page: 1 },
+      }
+    case 'sort.changed':
+      return {
+        ...state,
+        query: { ...state.query, sort: action.payload.sort },
       }
     default:
       if (process.env.NODE_ENV === 'development') {
@@ -39,9 +45,17 @@ export function MentorInbox({ tracksRequest, ...props }) {
     [dispatch]
   )
 
+  function setSort(sort) {
+    dispatch({ type: 'sort.changed', payload: { sort: sort } })
+  }
+
   return (
     <div>
       <TrackFilter request={tracksRequest} setTrack={setTrack} />
+      <ConversationSorter
+        sort={conversationsRequest.query.sort}
+        setSort={setSort}
+      />
       <ConversationList request={conversationsRequest} setPage={setPage} />
     </div>
   )

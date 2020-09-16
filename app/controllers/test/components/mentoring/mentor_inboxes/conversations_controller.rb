@@ -49,9 +49,11 @@ class Test::Components::Mentoring::MentorInboxes::ConversationsController < Appl
 
     results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
     if params[:filter].present?
+      parts = params[:filter].downcase.split(' ').map(&:strip)
       results = results.select do |c|
-        c[:exerciseTitle].downcase.include?(params[:filter].downcase) ||
-          c[:menteeHandle].downcase.include?(params[:filter].downcase)
+        parts.all? do |part|
+          c[:exerciseTitle].downcase.include?(part) || c[:menteeHandle].downcase.include?(part)
+        end
       end
     end
     results = sort(results)

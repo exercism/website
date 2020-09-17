@@ -104,4 +104,4 @@
         = button_tag "Add track"
   .info
     %h2 Iterations
-    = maintaining_iterations_summary_table(@iterations)
+    = MaintainingIterationsSummaryTable.new.render(@iterations)

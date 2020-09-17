@@ -3,4 +3,4 @@
   = f.label :count
   = f.number_field :count
   = f.submit "Update"
-= notification_icon(@user)
+= NotificationIcon.new.render(@user)

@@ -1,4 +1,4 @@
-import { UrlParams } from '../../../app/javascript/utils/url_params'
+import { UrlParams } from '../../../app/javascript/utils/url-params'
 
 test('toString() returns empty string when object is null', () => {
   expect(new UrlParams(null).toString()).toEqual('')

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRequestQuery } from '../../../hooks/request_query'
+import { useRequestQuery } from '../../../hooks/request-query'
 
 export function TrackFilter({ request, setTrack, value }) {
   const { status, data } = useRequestQuery('track-filter', request)

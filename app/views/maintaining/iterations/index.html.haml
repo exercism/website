@@ -76,7 +76,7 @@
     = form_with url: tmp_iterations_path do
       .field
         = label_tag(:track_slug, "Track slug:")
-        = select_tag(:track_slug, options_for_select(Track.all.sort_by{|t|t.title}.map{|t|[t.title, t.slug]}))
+        = select_tag(:track_slug, options_for_select(Track.all.sort_by(&:title).map { |t| [t.title, t.slug] }))
       .field
         = label_tag(:exercise_slug, "Exercise slug:")
         = text_field_tag(:exercise_slug, nil, placeholder: 'E.g. two-fer', required: true)

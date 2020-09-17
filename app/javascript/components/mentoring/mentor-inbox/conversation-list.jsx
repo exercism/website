@@ -1,7 +1,7 @@
 import React from 'react'
-import { Pagination } from './conversation_list/pagination'
-import { Conversation } from './conversation_list/conversation'
-import { usePaginatedRequestQuery } from '../../../hooks/request_query'
+import { Pagination } from './conversation-list/pagination'
+import { Conversation } from './conversation-list/conversation'
+import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 
 export function ConversationList({ request, setPage }) {
   const { status, resolvedData, latestData } = usePaginatedRequestQuery(

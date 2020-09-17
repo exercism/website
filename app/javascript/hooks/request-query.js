@@ -1,5 +1,5 @@
 import { usePaginatedQuery, useQuery } from 'react-query'
-import { UrlParams } from '../utils/url_params'
+import { UrlParams } from '../utils/url-params'
 import fetch from 'isomorphic-fetch'
 
 async function handleFetch(key, url, query) {

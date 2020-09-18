@@ -34,6 +34,7 @@ initReact({
     <MentorInbox
       conversationsRequest={data.conversations_request}
       tracksRequest={data.tracks_request}
+      sortOptions={data.sort_options}
     />
   ),
 })

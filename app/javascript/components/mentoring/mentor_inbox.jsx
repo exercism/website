@@ -25,7 +25,7 @@ function reducer(state, action) {
   }
 }
 
-export function MentorInbox({ tracksRequest, ...props }) {
+export function MentorInbox({ tracksRequest, sortOptions, ...props }) {
   const [conversationsRequest, dispatch] = useReducer(
     reducer,
     Object.assign({ query: { page: 1 } }, props.conversationsRequest)
@@ -53,8 +53,9 @@ export function MentorInbox({ tracksRequest, ...props }) {
     <div>
       <TrackFilter request={tracksRequest} setTrack={setTrack} />
       <ConversationSorter
-        sort={conversationsRequest.query.sort}
+        sortOptions={sortOptions}
         setSort={setSort}
+        sort={conversationsRequest.query.sort}
       />
       <ConversationList request={conversationsRequest} setPage={setPage} />
     </div>

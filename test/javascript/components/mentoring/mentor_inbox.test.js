@@ -35,6 +35,7 @@ test('page is set to 1 automatically', async () => {
     <MentorInbox
       tracksRequest={{ endpoint: 'https://exercism.test/tracks' }}
       conversationsRequest={{ endpoint: 'https://exercism.test/conversations' }}
+      sortOptions={[]}
     />
   )
 
@@ -49,6 +50,7 @@ test('page is reset to 1 when switching tracks', async () => {
         endpoint: 'https://exercism.test/conversations',
         query: { page: 2 },
       }}
+      sortOptions={[]}
     />
   )
 

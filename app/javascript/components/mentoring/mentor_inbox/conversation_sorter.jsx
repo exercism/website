@@ -16,7 +16,7 @@ export function ConversationSorter({ sortOptions, setSort, sort }) {
         {sortOptions.map((sortOption) => {
           return (
             <option key={sortOption.value} value={sortOption.value}>
-              {sortOption.text}
+              {sortOption.label}
             </option>
           )
         })}

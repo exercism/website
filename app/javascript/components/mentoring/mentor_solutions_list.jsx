@@ -1,6 +1,7 @@
 import React, { useReducer, useCallback } from 'react'
 import { SolutionList } from './mentor_solutions_list/solution_list'
 import { TextFilter } from './text_filter'
+import { Sorter } from './sorter'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -10,6 +11,11 @@ function reducer(state, action) {
       return {
         ...state,
         query: { ...state.query, filter: action.payload.filter, page: 1 },
+      }
+    case 'sort.changed':
+      return {
+        ...state,
+        query: { ...state.query, sort: action.payload.sort },
       }
     default:
       if (process.env.NODE_ENV === 'development') {
@@ -39,6 +45,13 @@ export function MentorSolutionsList(props) {
     [dispatch]
   )
 
+  const setSort = useCallback(
+    (sort) => {
+      dispatch({ type: 'sort.changed', payload: { sort: sort } })
+    },
+    [dispatch]
+  )
+
   return (
     <div className="mentor-solutions-list">
       <TextFilter
@@ -46,6 +59,11 @@ export function MentorSolutionsList(props) {
         setFilter={setFilter}
         id="mentor-conversations-list-student-name-filter"
         placeholder="Filter by student name"
+      />
+      <Sorter
+        sort={request.query.sort}
+        setSort={setSort}
+        id="mentor-conversations-list-sorter"
       />
       <SolutionList request={request} setPage={setPage} />
     </div>

@@ -61,6 +61,15 @@ module Components
 
         assert_selector('.mentor-solutions-list tbody tr', count: 1)
       end
+
+      test "sort by student" do
+        visit test_components_mentoring_mentor_solutions_list_url
+        select "Sort by Student", from: "Sort", exact: true
+
+        row = { "Mentee handle" => "Frank" }
+
+        assert_table_row first("table"), row
+      end
     end
   end
 end

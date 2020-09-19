@@ -3,33 +3,7 @@ import { ConversationList } from './mentor_inbox/conversation_list'
 import { TextFilter } from './text_filter'
 import { Sorter } from './sorter'
 import { TrackFilter } from './mentor_inbox/track_filter'
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'page.changed':
-      return { ...state, query: { ...state.query, page: action.payload.page } }
-    case 'track.changed':
-      return {
-        ...state,
-        query: { ...state.query, track: action.payload.track, page: 1 },
-      }
-    case 'sort.changed':
-      return {
-        ...state,
-        query: { ...state.query, sort: action.payload.sort },
-      }
-    case 'filter.changed':
-      return {
-        ...state,
-        query: { ...state.query, filter: action.payload.filter, page: 1 },
-      }
-    default:
-      if (process.env.NODE_ENV === 'development') {
-        throw new Error(`Unknown action type: ${action.type}`)
-      }
-      return state
-  }
-}
+import { useList } from '../../hooks/use_list'
 
 export function MentorInbox({ tracksRequest, sortOptions, ...props }) {
   const [conversationsRequest, dispatch] = useReducer(
@@ -37,33 +11,9 @@ export function MentorInbox({ tracksRequest, sortOptions, ...props }) {
     Object.assign({ query: { page: 1 } }, props.conversationsRequest)
   )
 
-  const setPage = useCallback(
-    (page) => {
-      dispatch({ type: 'page.changed', payload: { page: page } })
-    },
-    [dispatch]
-  )
-
-  const setTrack = useCallback(
-    (track) => {
-      dispatch({ type: 'track.changed', payload: { track: track } })
-    },
-    [dispatch]
-  )
-
-  const setSort = useCallback(
-    (sort) => {
-      dispatch({ type: 'sort.changed', payload: { sort: sort } })
-    },
-    [dispatch]
-  )
-
-  const setFilter = useCallback(
-    (filter) => {
-      dispatch({ type: 'filter.changed', payload: { filter: filter } })
-    },
-    [dispatch]
-  )
+  const setTrack = (track) => {
+    addQuery({ track: track, page: 1 })
+  }
 
   return (
     <div className="mentor-inbox">
@@ -75,6 +25,7 @@ export function MentorInbox({ tracksRequest, sortOptions, ...props }) {
         placeholder="Filter by student or exercism name"
       />
       <Sorter
+        sortOptions={sortOptions}
         sort={conversationsRequest.query.sort}
         setSort={setSort}
         id="conversation-sorter-sort"

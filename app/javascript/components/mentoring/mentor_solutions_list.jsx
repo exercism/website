@@ -1,12 +1,16 @@
 import React, { useReducer, useCallback } from 'react'
-import { Solution } from './mentor_solutions_list/solution'
-import { Pagination } from './pagination'
-import { usePaginatedRequestQuery } from '../../hooks/request_query'
+import { SolutionList } from './mentor_solutions_list/solution_list'
+import { TextFilter } from './text_filter'
 
 function reducer(state, action) {
   switch (action.type) {
     case 'page.changed':
       return { ...state, query: { ...state.query, page: action.payload.page } }
+    case 'filter.changed':
+      return {
+        ...state,
+        query: { ...state.query, filter: action.payload.filter, page: 1 },
+      }
     default:
       if (process.env.NODE_ENV === 'development') {
         throw new Error(`Unknown action type: ${action.type}`)
@@ -20,9 +24,12 @@ export function MentorSolutionsList(props) {
     reducer,
     Object.assign({ query: { page: 1 } }, props.request)
   )
-  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
-    'mentor-solutions-list',
-    request
+
+  const setFilter = useCallback(
+    (filter) => {
+      dispatch({ type: 'filter.changed', payload: { filter: filter } })
+    },
+    [dispatch]
   )
 
   const setPage = useCallback(
@@ -34,37 +41,13 @@ export function MentorSolutionsList(props) {
 
   return (
     <div className="mentor-solutions-list">
-      {status === 'loading' && <p>Loading</p>}
-      {status === 'error' && <p>Something went wrong</p>}
-      {status === 'success' && (
-        <table>
-          <thead>
-            <tr>
-              <th>Track icon</th>
-              <th>Mentee avatar</th>
-              <th>Mentee handle</th>
-              <th>Exercise title</th>
-              <th>Starred?</th>
-              <th>Mentored previously?</th>
-              <th>Status</th>
-              <th>Updated at</th>
-              <th>URL</th>
-            </tr>
-          </thead>
-          <tbody>
-            {resolvedData.results.map((solution, key) => (
-              <Solution key={key} {...solution} />
-            ))}
-          </tbody>
-        </table>
-      )}
-      {latestData && (
-        <Pagination
-          current={request.query.page}
-          total={latestData.meta.total}
-          setPage={setPage}
-        />
-      )}
+      <TextFilter
+        filter={request.query.filter}
+        setFilter={setFilter}
+        id="mentor-conversations-list-student-name-filter"
+        placeholder="Filter by student name"
+      />
+      <SolutionList request={request} setPage={setPage} />
     </div>
   )
 }

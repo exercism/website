@@ -33,6 +33,10 @@ class Test::Components::Mentoring::MentorSolutionsList::SolutionsController < Ap
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i
 
+    if params[:filter].present?
+      results = results.select { |result| result[:menteeHandle].downcase.include?(params[:filter].downcase) }
+    end
+
     render json: {
       results: results[page - 1, per],
       meta: { current: page, total: results.size }

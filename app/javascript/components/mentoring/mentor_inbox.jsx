@@ -51,13 +51,19 @@ export function MentorInbox({ tracksRequest, ...props }) {
     [dispatch]
   )
 
-  function setSort(sort) {
-    dispatch({ type: 'sort.changed', payload: { sort: sort } })
-  }
+  const setSort = useCallback(
+    (sort) => {
+      dispatch({ type: 'sort.changed', payload: { sort: sort } })
+    },
+    [dispatch]
+  )
 
-  function setFilter(filter) {
-    dispatch({ type: 'filter.changed', payload: { filter: filter } })
-  }
+  const setFilter = useCallback(
+    (filter) => {
+      dispatch({ type: 'filter.changed', payload: { filter: filter } })
+    },
+    [dispatch]
+  )
 
   return (
     <div>

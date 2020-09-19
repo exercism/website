@@ -50,6 +50,17 @@ module Components
 
         within(".mentor-solutions-list") { assert_text "Loading" }
       end
+
+      test "filter by query" do
+        visit test_components_mentoring_mentor_solutions_list_url
+        fill_in "Filter by student name", with: "Use"
+
+        row = { "Mentee handle" => "User 2" }
+
+        assert_table_row first("table"), row
+
+        assert_selector('.mentor-solutions-list tbody tr', count: 1)
+      end
     end
   end
 end

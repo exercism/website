@@ -34,6 +34,7 @@ export function MentorSolutionsList(props) {
 
   return (
     <div>
+      {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (
         <table>
           <thead>

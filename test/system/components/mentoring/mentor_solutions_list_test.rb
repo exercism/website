@@ -34,6 +34,14 @@ module Components
 
         assert_table_row first("table"), row
       end
+
+      test "shows error messages" do
+        visit test_components_mentoring_mentor_solutions_list_url
+        select "Error", from: "State"
+        click_on "Submit"
+
+        assert_text "Something went wrong"
+      end
     end
   end
 end

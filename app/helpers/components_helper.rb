@@ -24,6 +24,10 @@ module ComponentsHelper
                     })
   end
 
+  def mentor_solutions_list(request)
+    react_component("mentor-solutions-list", { request: request })
+  end
+
   private
   def react_component(id, data)
     tag :div, {

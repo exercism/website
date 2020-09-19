@@ -67,6 +67,9 @@ Rails.application.routes.draw do
             resources :conversations, only: [:index], controller: "mentor_inboxes/conversations"
             resources :tracks, only: [:index], controller: "mentor_inboxes/tracks"
           end
+          resource :mentor_solutions_list, only: [:show] do
+            resources :solutions, only: [:index], controller: "mentor_solutions_list/solutions"
+          end
         end
       end
     end

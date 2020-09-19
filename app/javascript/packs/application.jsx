@@ -36,7 +36,10 @@ initReact({
       tracksRequest={data.tracks_request}
       sortOptions={data.sort_options}
     />
-  )
+  ),
+  'mentor-solutions-list': (data) => (
+    <MentorSolutionsList request={data.request} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

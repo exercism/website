@@ -1,5 +1,7 @@
 class Test::Components::Mentoring::MentorSolutionsList::SolutionsController < ApplicationController
   def index
+    return head :internal_server_error if params[:state] == "Error"
+
     results = [
       {
         trackTitle: "Ruby",

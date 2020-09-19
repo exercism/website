@@ -66,7 +66,7 @@ export function MentorInbox({ tracksRequest, ...props }) {
   )
 
   return (
-    <div>
+    <div className="mentor-inbox">
       <TrackFilter request={tracksRequest} setTrack={setTrack} />
       <TextFilter
         filter={conversationsRequest.query.filter}

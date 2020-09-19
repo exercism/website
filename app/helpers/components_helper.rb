@@ -23,8 +23,8 @@ module ComponentsHelper
                     })
   end
 
-  def mentor_solutions_list(solutions)
-    react_component("mentor-solutions-list", { solutions: solutions })
+  def mentor_solutions_list(request)
+    react_component("mentor-solutions-list", { request: request })
   end
 
   private

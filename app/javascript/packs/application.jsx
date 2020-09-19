@@ -38,7 +38,7 @@ initReact({
     />
   ),
   'mentor-solutions-list': (data) => (
-    <MentorSolutionsList solutions={data.solutions} />
+    <MentorSolutionsList request={data.request} />
   ),
 })
 

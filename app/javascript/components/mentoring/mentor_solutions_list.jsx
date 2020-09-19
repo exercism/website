@@ -1,68 +1,68 @@
-import React from 'react'
-import dayjs from 'dayjs'
-import RelativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(RelativeTime)
+import React, { useReducer, useCallback } from 'react'
+import { Solution } from './mentor_solutions_list/solution'
+import { Pagination } from './pagination'
+import { usePaginatedRequestQuery } from '../../hooks/request_query'
 
-function MentorSolutionsListRow({
-  trackTitle,
-  trackIconUrl,
-  menteeAvatarUrl,
-  menteeHandle,
-  exerciseTitle,
-  isStarred,
-  haveMentoredPreviously,
-  status,
-  updatedAt,
-  url,
-}) {
-  return (
-    <tr>
-      <td>
-        <img
-          style={{ width: 100 }}
-          src={trackIconUrl}
-          alt={`icon indicating ${trackTitle}`}
-        />
-      </td>
-      <td>
-        <img
-          style={{ width: 100 }}
-          src={menteeAvatarUrl}
-          alt={`avatar for ${menteeHandle}`}
-        />
-      </td>
-      <td>{menteeHandle}</td>
-      <td>{exerciseTitle}</td>
-      <td>{isStarred.toString()}</td>
-      <td>{haveMentoredPreviously.toString()}</td>
-      <td>{status}</td>
-      <td>{dayjs(updatedAt).fromNow()}</td>
-      <td>{url}</td>
-    </tr>
-  )
+function reducer(state, action) {
+  switch (action.type) {
+    case 'page.changed':
+      return { ...state, query: { ...state.query, page: action.payload.page } }
+    default:
+      if (process.env.NODE_ENV === 'development') {
+        throw new Error(`Unknown action type: ${action.type}`)
+      }
+      return state
+  }
 }
 
-export function MentorSolutionsList({ solutions }) {
+export function MentorSolutionsList(props) {
+  const [request, dispatch] = useReducer(
+    reducer,
+    Object.assign({ query: { page: 1 } }, props.request)
+  )
+  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
+    'mentor-solutions-list',
+    request
+  )
+
+  const setPage = useCallback(
+    (page) => {
+      dispatch({ type: 'page.changed', payload: { page: page } })
+    },
+    [dispatch]
+  )
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Track icon</th>
-          <th>Mentee avatar</th>
-          <th>Mentee handle</th>
-          <th>Exercise title</th>
-          <th>Starred?</th>
-          <th>Mentored previously?</th>
-          <th>Status</th>
-          <th>Updated at</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {solutions.map((solution, key) => (
-          <MentorSolutionsListRow key={key} {...solution} />
-        ))}
-      </tbody>
-    </table>
+    <div>
+      {status === 'success' && (
+        <table>
+          <thead>
+            <tr>
+              <th>Track icon</th>
+              <th>Mentee avatar</th>
+              <th>Mentee handle</th>
+              <th>Exercise title</th>
+              <th>Starred?</th>
+              <th>Mentored previously?</th>
+              <th>Status</th>
+              <th>Updated at</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {resolvedData.results.map((solution, key) => (
+              <Solution key={key} {...solution} />
+            ))}
+          </tbody>
+        </table>
+      )}
+      {latestData && (
+        <Pagination
+          current={request.query.page}
+          total={latestData.meta.total}
+          setPage={setPage}
+        />
+      )}
+    </div>
   )
 }

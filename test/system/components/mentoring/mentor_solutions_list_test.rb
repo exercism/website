@@ -25,6 +25,15 @@ module Components
 
         assert_table_row first("table"), row
       end
+
+      test "paginates results" do
+        visit test_components_mentoring_mentor_solutions_list_url
+        click_on "2"
+
+        row = { "Exercise title" => "Tournament" }
+
+        assert_table_row first("table"), row
+      end
     end
   end
 end

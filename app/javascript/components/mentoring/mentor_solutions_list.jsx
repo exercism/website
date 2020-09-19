@@ -33,7 +33,8 @@ export function MentorSolutionsList(props) {
   )
 
   return (
-    <div>
+    <div className="mentor-solutions-list">
+      {status === 'loading' && <p>Loading</p>}
       {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (
         <table>

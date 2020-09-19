@@ -1,7 +1,7 @@
 import React, { useReducer, useCallback } from 'react'
 import { ConversationList } from './mentor_inbox/conversation_list'
-import { ConversationFilter } from './mentor_inbox/conversation_filter'
-import { ConversationSorter } from './mentor_inbox/conversation_sorter'
+import { TextFilter } from './text_filter'
+import { Sorter } from './sorter'
 import { TrackFilter } from './mentor_inbox/track_filter'
 
 function reducer(state, action) {
@@ -68,14 +68,16 @@ export function MentorInbox({ tracksRequest, sortOptions, ...props }) {
   return (
     <div>
       <TrackFilter request={tracksRequest} setTrack={setTrack} />
-      <ConversationFilter
+      <TextFilter
         filter={conversationsRequest.query.filter}
         setFilter={setFilter}
+        id="conversation-filter"
+        placeholder="Filter by student or exercism name"
       />
-      <ConversationSorter
-        sortOptions={sortOptions}
-        setSort={setSort}
+      <Sorter
         sort={conversationsRequest.query.sort}
+        setSort={setSort}
+        id="conversation-sorter-sort"
       />
       <ConversationList request={conversationsRequest} setPage={setPage} />
     </div>

@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class SolutionTest < ActiveSupport::TestCase
+  uuid_types = %i[uuid public_uuid mentor_uuid]
   %i[concept_solution practice_solution].each do |solution_type|
-    %i[uuid public_uuid mentor_uuid].each do |uuid_type|
+    uuid_types.each do |uuid_type|
       test "#{solution_type}: sets #{uuid_type}" do
         solution = build solution_type, uuid_type => nil
         assert_nil solution.send(uuid_type)

@@ -1,4 +1,4 @@
-# Pre-launchs TODO notes
+# Pre-launch TODO notes
 
 ## Security
 

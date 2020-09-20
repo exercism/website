@@ -10,7 +10,7 @@ This codebase aims to achieve the following goals:
 
 - Optimise for the principle of least surprise for developers
 - Aim to reduce churn and reduce the amount of different files touched during a change.
-- Reduce the likelyhood of bugs.
+- Reduce the likelihood of bugs.
 
 We achieve these with the following:
 
@@ -43,7 +43,7 @@ All other "normal" routes redirect or render HTML.
 
 Controllers should be "thin".
 Each action should do at most one thing, retrieve at most one thing, and render/redirect.
-To achieve this, controllers call out to Commands, which contain more complex functionality encapsualted in stand-alone procedures. This is know as the Command Pattern or the Interactor Pattern.
+To achieve this, controllers call out to Commands, which contain more complex functionality encapsualted in stand-alone procedures. This is known as the Command Pattern or the Interactor Pattern.
 
 ## Serializers
 
@@ -55,13 +55,13 @@ The HTML that renders the table as a React Component would use the serializer to
 
 Models are light-weight database wrappers.
 We treat models as highly-predictable, meaning that creating and updating models should not have side-effects.
-We therefore use `before_xxx` and `after-xxx` blocks sparsely.
+We therefore use `before_xxx` and `after-xxx` blocks sparingly.
 The only time that changing a model should change other data is if the model does not make sense without that other data.
 For example, users should **always** have authentication tokens.
 So `User.create` can resonably call `AuthToken.create` in its `after_create` block.
 However, although submitting iterations should create notifications, because it is not essential for the existance of the iteration to make sense, `Iteration.create` would **not** be responsible for calling `Notification.create`.
 
-Model's methods should not cause any side-effects that cannot be infered from the method name.
+Model's methods should not cause any side-effects that cannot be inferred from the method name.
 They should be fast and cheap (in terms of \$\$$).
 They should not interact with external services (such as s3) unless clear that they will do so from the method name.
 For example `IterationFile#content` is currently a dangerous method, as calling `IterationFile.all.map(&:content)` costs $4 to run, which is not clear from the method name.
@@ -78,7 +78,7 @@ It should then proxy other parts of that to other Commands (e.g. `Interation::Cr
 Commands should be highly readable.
 It should be extremely clear from reading the Command's `call` method what the Command does.
 
-Commands should use Mandate.
+Commands should use [Mandate](https://github.com/iHiD/mandate).
 
 Unless specified in their name, Commands should be agnostic to the source of the data.
 For example, `Iteration::Create` should not care whether the files have come from the CLI or the editor.

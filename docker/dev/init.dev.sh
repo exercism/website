@@ -4,7 +4,7 @@ while ! mysqladmin ping -h"$DB_HOST" --silent; do
 done
 
 echo "Install dependencies"
-bundle install
+bundle check || bundle install
 
 echo "Create and migrate DBs"
 # init.sql creates initial MySQL USER and databases

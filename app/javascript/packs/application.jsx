@@ -35,7 +35,7 @@ initReact({
       conversationsRequest={data.conversations_request}
       tracksRequest={data.tracks_request}
     />
-  ),
+  )
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

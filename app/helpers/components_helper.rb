@@ -12,6 +12,10 @@ module ComponentsHelper
                     })
   end
 
+  def notification_icon(user)
+    react_component("notification-icon", { count: user.notifications.unread.count })
+  end
+
   private
   def react_component(id, data)
     tag :div, {

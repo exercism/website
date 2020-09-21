@@ -1,0 +1,6 @@
+%h1 Notification icon
+= form_with method: :patch do |f|
+  = f.label :count
+  = f.number_field :count
+  = f.submit "Update"
+= notification_icon(@user)

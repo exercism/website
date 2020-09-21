@@ -7,14 +7,14 @@ module Example
       iteration = create :iteration, solution: solution
 
       visit test_components_example_iterations_summary_table_url(solution.id)
-      sleep(0.1) # Set the websocket connection
+      wait_for_websockets
 
       assert_text "#{iteration.id}: pending"
 
       iteration.tests_passed!
       iteration.broadcast!
 
-      sleep(0.1) # Wait for websocket to broadcast
+      wait_for_websockets
       assert_text "#{iteration.id}: passed"
     end
   end

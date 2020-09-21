@@ -25,11 +25,8 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     discussion = create(:solution_mentor_discussion)
     params = { discussion: discussion }
 
-    assert_broadcast_on(
-      NotificationsChannel.broadcasting_for(user),
-      { type: "notifications.changed", payload: { count: 1 } }
-    ) do
-      Notification::Create.(user, type, params)
-    end
+    NotificationsChannel.expects(:broadcast_changed).with(user)
+
+    Notification::Create.(user, type, params)
   end
 end

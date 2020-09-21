@@ -8,10 +8,7 @@ class Notification
       klass = "notifications/#{type}_notification".camelize.constantize
 
       klass.create!(user: user, params: params).tap do
-        NotificationsChannel.broadcast_to(user, {
-                                            type: "notifications.changed",
-                                            payload: { count: user.notifications.unread.count }
-                                          })
+        NotificationsChannel.broadcast_changed(user)
       end
     end
   end

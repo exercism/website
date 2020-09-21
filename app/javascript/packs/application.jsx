@@ -15,7 +15,7 @@ import { initReact } from './react_bootloader.jsx'
 import { ExampleIterationsSummaryTable } from '../components/example/iterations_summary_table.jsx'
 import { MaintainingIterationsSummaryTable } from '../components/maintaining/iterations_summary_table.jsx'
 import { NotificationIcon } from '../components/notifications/icon.jsx'
-import { MentorConversationsList } from '../components/mentoring/mentor_conversations_list.jsx'
+import { MentorInbox } from '../components/mentoring/mentor_inbox.jsx'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -30,13 +30,12 @@ initReact({
     <MaintainingIterationsSummaryTable iterations={data.iterations} />
   ),
   'notification-icon': (data) => <NotificationIcon count={data.count} />,
-  'mentor-conversations-list': (data) => (
-    <MentorConversationsList
-      endpoint={data.endpoint}
-      urlParams={data.url_params}
-      retryParams={data.retry_params}
+  'mentor-inbox': (data) => (
+    <MentorInbox
+      conversationsRequest={data.conversations_request}
+      tracksRequest={data.tracks_request}
     />
-  ),
+  )
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

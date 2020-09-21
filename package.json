@@ -11,6 +11,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "dayjs": "^1.8.35",
     "global": "^4.4.0",
+    "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -25,6 +26,7 @@
     "@testing-library/react": "^10.4.3",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "msw": "^0.21.2",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "webpack-dev-server": "^3.10.3"

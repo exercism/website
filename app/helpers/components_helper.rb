@@ -16,10 +16,11 @@ module ComponentsHelper
     react_component("notification-icon", { count: user.notifications.unread.count })
   end
 
-  def mentor_inbox(conversations_request, tracks_request)
+  def mentor_inbox(conversations_request, tracks_request, sort_options)
     react_component("mentor-inbox", {
                       conversations_request: conversations_request,
-                      tracks_request: tracks_request
+                      tracks_request: tracks_request,
+                      sort_options: sort_options
                     })
   end
 

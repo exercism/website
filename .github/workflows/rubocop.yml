@@ -20,7 +20,7 @@ jobs:
 
       - name: Install gems
         run: |
-          gem install rubocop
+          gem install rubocop -v 0.91.0
           gem install rubocop-minitest
           gem install rubocop-performance
           gem install rubocop-rails

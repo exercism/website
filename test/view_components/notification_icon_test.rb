@@ -5,6 +5,7 @@ class NotificationIconTest < ViewComponentTestCase
     user = create(:user)
     create(:notification, user: user, read_at: nil)
 
-    assert_component_equal NotificationIcon.new.render(user), { id: "notification-icon", props: { count: 1 } }
+    assert_component_equal ViewComponents::NotificationIcon.new(user).to_s,
+                           { id: "notification-icon", props: { count: 1 } }
   end
 end

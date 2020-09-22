@@ -1,9 +1,9 @@
 %h1 Mentor inbox
 = form_tag nil, method: :get do
   = label_tag :conversations_endpoint_state
-  = select_tag :conversations_endpoint_state, options_for_select(["Success", "Error", "Loading"], params[:conversations_endpoint_state])
+  = select_tag :conversations_endpoint_state, options_for_select(%w[Success Error Loading], params[:conversations_endpoint_state])
   = label_tag :tracks_endpoint_state
-  = select_tag :tracks_endpoint_state, options_for_select(["Success", "Error", "Loading"], params[:tracks_endpoint_state])
+  = select_tag :tracks_endpoint_state, options_for_select(%w[Success Error Loading], params[:tracks_endpoint_state])
   = submit_tag "Submit", name: nil
 %hr/
-= mentor_inbox({endpoint: test_components_mentoring_mentor_inbox_conversations_path, query: { state: params[:conversations_endpoint_state], sort: :exercise }, retry: { retry: params[:conversations_endpoint_state] == "Loading" }}, { endpoint: test_components_mentoring_mentor_inbox_tracks_path, query: { state: params[:tracks_endpoint_state] }, retry: { retry: params[:tracks_endpoint_state] === "Loading" }})
+= mentor_inbox({ endpoint: test_components_mentoring_mentor_inbox_conversations_path, query: { state: params[:conversations_endpoint_state], sort: :exercise }, retry: { retry: params[:conversations_endpoint_state] == "Loading" } }, { endpoint: test_components_mentoring_mentor_inbox_tracks_path, query: { state: params[:tracks_endpoint_state] }, retry: { retry: params[:tracks_endpoint_state] == "Loading" } }, @sort_options)

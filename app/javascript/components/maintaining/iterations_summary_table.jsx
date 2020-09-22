@@ -5,6 +5,8 @@ import consumer from '../../application/action_cable_consumer'
 
 function MaintainingIterationsSummaryTableRow({
   id,
+  track,
+  exercise,
   testsStatus,
   representationStatus,
   analysisStatus,
@@ -12,6 +14,8 @@ function MaintainingIterationsSummaryTableRow({
   return (
     <tr>
       <td>{id}</td>
+      <td>{track}</td>
+      <td>{exercise}</td>
       <td>{testsStatus}</td>
       <td>{representationStatus}</td>
       <td>{analysisStatus}</td>
@@ -50,6 +54,8 @@ export function MaintainingIterationsSummaryTable({ iterations }) {
       <thead>
         <tr>
           <th>ID</th>
+          <th>Track</th>
+          <th>Exercise</th>
           <th>Test status</th>
           <th>Representation status</th>
           <th>Analyses status</th>
@@ -60,6 +66,8 @@ export function MaintainingIterationsSummaryTable({ iterations }) {
           <MaintainingIterationsSummaryTableRow
             key={iteration.id}
             id={iteration.id}
+            track={iteration.track}
+            exercise={iteration.exercise}
             testsStatus={iteration.testsStatus}
             representationStatus={iteration.representationStatus}
             analysisStatus={iteration.analysisStatus}

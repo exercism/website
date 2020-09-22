@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { MentorInbox } from '../../../../app/javascript/components/mentoring/mentor-inbox'
+import { MentorInbox } from '../../../../app/javascript/components/mentoring/MentorInbox.jsx'
 
 const server = setupServer(
   rest.get('https://exercism.test/tracks', (req, res, ctx) => {

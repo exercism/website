@@ -6,7 +6,7 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
-import { MaintainingIterationsSummaryTable } from '../../../../app/javascript/components/maintaining/iterations-summary-table.jsx'
+import { MaintainingIterationsSummaryTable } from '../../../../app/javascript/components/maintaining/IterationsSummaryTable.jsx'
 
 test('renders component', () => {
   const { container, getByText } = render(

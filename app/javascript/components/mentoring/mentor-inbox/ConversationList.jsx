@@ -1,6 +1,6 @@
 import React from 'react'
-import { Pagination } from './conversation-list/pagination'
-import { Conversation } from './conversation-list/conversation'
+import { Pagination } from './conversation-list/Pagination'
+import { Conversation } from './conversation-list/Conversation'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 
 export function ConversationList({ request, setPage }) {

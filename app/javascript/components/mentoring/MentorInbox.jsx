@@ -1,8 +1,8 @@
 import React, { useReducer, useCallback } from 'react'
-import { ConversationList } from './mentor-inbox/conversation-list'
-import { ConversationFilter } from './mentor-inbox/conversation-filter'
-import { ConversationSorter } from './mentor-inbox/conversation-sorter'
-import { TrackFilter } from './mentor-inbox/track-filter'
+import { ConversationList } from './mentor-inbox/ConversationList'
+import { ConversationFilter } from './mentor-inbox/ConversationFilter'
+import { ConversationSorter } from './mentor-inbox/ConversationSorter'
+import { TrackFilter } from './mentor-inbox/TrackFilter'
 
 function reducer(state, action) {
   switch (action.type) {

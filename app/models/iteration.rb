@@ -35,6 +35,8 @@ class Iteration < ApplicationRecord
   def serialized
     {
       id: id,
+      track: track.title,
+      exercise: exercise.title,
       testsStatus: tests_status,
       representationStatus: representation_status,
       analysisStatus: analysis_status

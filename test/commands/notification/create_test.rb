@@ -24,7 +24,6 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     type = :mentor_started_discussion
     discussion = create(:solution_mentor_discussion)
     params = { discussion: discussion }
-
     NotificationsChannel.expects(:broadcast_changed).with(user)
 
     Notification::Create.(user, type, params)

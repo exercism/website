@@ -104,7 +104,7 @@ The tests should cover all functionality in the component, with unit tests being
 
 ## Linting
 
-Pre-commit linting should happen automatically via our Husky hook.
+Pre-commit linting should happen automatically via our [Husky hook](https://github.com/typicode/husky#husky).
 
 ### Ruby files
 

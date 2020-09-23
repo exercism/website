@@ -37,5 +37,14 @@ module Components
       assert_table_row first("table"), row
       assert_selector('.track-list tbody tr', count: 1)
     end
+
+    test "shows error state" do
+      visit test_components_track_list_url
+      select "Error", from: "State"
+      click_on "Submit"
+      fill_in "Search language tracks", with: "Go"
+
+      assert_text "Something went wrong"
+    end
   end
 end

@@ -16,29 +16,32 @@ export function TrackList(props) {
         id="track-list-filter"
         placeholder="Search language tracks"
       />
-      <table>
-        <thead>
-          <tr>
-            <th>Track icon</th>
-            <th>Track title</th>
-            <th>Exercise count</th>
-            <th>Concept exercise count</th>
-            <th>Practice exercise count</th>
-            <th>Student count</th>
-            <th>New?</th>
-            <th>Joined?</th>
-            <th>Tags</th>
-            <th>Completed exercise count</th>
-            <th>Progress %</th>
-            <th>URL</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((track) => {
-            return <Track key={track.id} {...track} />
-          })}
-        </tbody>
-      </table>
+      {status === 'error' && <p>Something went wrong</p>}
+      {status === 'success' && (
+        <table>
+          <thead>
+            <tr>
+              <th>Track icon</th>
+              <th>Track title</th>
+              <th>Exercise count</th>
+              <th>Concept exercise count</th>
+              <th>Practice exercise count</th>
+              <th>Student count</th>
+              <th>New?</th>
+              <th>Joined?</th>
+              <th>Tags</th>
+              <th>Completed exercise count</th>
+              <th>Progress %</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((track) => {
+              return <Track key={track.id} {...track} />
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   )
 }

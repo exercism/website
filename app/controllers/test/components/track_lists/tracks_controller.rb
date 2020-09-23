@@ -1,6 +1,6 @@
-class Test::Components::TrackListsController < ApplicationController
-  def show
-    @tracks = [
+class Test::Components::TrackLists::TracksController < ApplicationController
+  def index
+    results = [
       {
         id: 2,
         trackTitle: "Ruby",
@@ -14,7 +14,7 @@ class Test::Components::TrackListsController < ApplicationController
         tags: ["OOP", "Web Dev"],
         completedExerciseCount: 15,
         trackProgressPercentage: "66.67",
-        url: "https://exercism.io/tracks/1"
+        url: "https://exercism.io/tracks/2"
       },
       {
         id: 3,
@@ -32,5 +32,9 @@ class Test::Components::TrackListsController < ApplicationController
         url: "https://exercism.io/tracks/3"
       }
     ]
+
+    results = results.select { |track| track[:trackTitle].include?(params[:filter]) } if params[:filter].present?
+
+    render json: results
   end
 end

@@ -27,5 +27,15 @@ module Components
 
       assert_table_row first("table"), row
     end
+
+    test "filter by track title" do
+      visit test_components_track_list_url
+      fill_in "Search language tracks", with: "Go"
+
+      row = { "Track title" => "Go" }
+
+      assert_table_row first("table"), row
+      assert_selector('.track-list tbody tr', count: 1)
+    end
   end
 end

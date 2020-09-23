@@ -1,5 +1,6 @@
 import React from 'react'
 import { Track } from './TrackList/Track'
+import { TextFilter } from './TextFilter'
 import { useList } from '../hooks/use_list'
 import { useRequestQuery } from '../hooks/request_query'
 
@@ -8,7 +9,13 @@ export function TrackList(props) {
   const { status, data } = useRequestQuery('track-list', request)
 
   return (
-    <div>
+    <div className="track-list">
+      <TextFilter
+        filter={request.query.filter}
+        setFilter={setFilter}
+        id="track-list-filter"
+        placeholder="Search language tracks"
+      />
       <table>
         <thead>
           <tr>

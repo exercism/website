@@ -12,7 +12,7 @@ export function usePaginatedRequestQuery(key, request) {
   return usePaginatedQuery(
     [key, request.endpoint, request.query],
     handleFetch,
-    request.retry
+    request.options
   )
 }
 
@@ -20,6 +20,6 @@ export function useRequestQuery(key, request) {
   return useQuery(
     [key, request.endpoint, request.query],
     handleFetch,
-    request.retry
+    request.options
   )
 }

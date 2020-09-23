@@ -29,11 +29,9 @@ module ComponentsHelper
   end
 
   def track_list(tracks, request)
-    options = (request[:retry] || {}).merge(initialData: tracks)
+    options = (request[:options] || {}).merge(initialData: tracks)
 
-    react_component("track-list", {
-                      request: request.merge(retry: options)
-                    })
+    react_component("track-list", { request: request.merge(options: options) })
   end
 
   private

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { Pagination } from '../../../../../../app/javascript/components/mentoring/mentor_inbox/conversation_list/pagination.jsx'
+import { Pagination } from '../../../../../../app/javascript/components/mentoring/mentor-inbox/conversation-list/Pagination.jsx'
 
 test('clicking on "First" sets page to 1', () => {
   const setPage = jest.fn()

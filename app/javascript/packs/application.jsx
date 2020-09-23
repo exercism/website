@@ -11,11 +11,11 @@ require('channels')
 import 'css/application.css'
 
 import React from 'react'
-import { initReact } from './react_bootloader.jsx'
-import { ExampleIterationsSummaryTable } from '../components/example/iterations_summary_table.jsx'
-import { MaintainingIterationsSummaryTable } from '../components/maintaining/iterations_summary_table.jsx'
-import { NotificationIcon } from '../components/notifications/icon.jsx'
-import { MentorInbox } from '../components/mentoring/mentor_inbox.jsx'
+import { initReact } from './react-bootloader.jsx'
+import { ExampleIterationsSummaryTable } from '../components/example/IterationsSummaryTable.jsx'
+import { MaintainingIterationsSummaryTable } from '../components/maintaining/IterationsSummaryTable.jsx'
+import { NotificationIcon } from '../components/notifications/Icon.jsx'
+import { MentorInbox } from '../components/mentoring/MentorInbox.jsx'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -36,7 +36,7 @@ initReact({
       tracksRequest={data.tracks_request}
       sortOptions={data.sort_options}
     />
-  )
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import "actioncable";
+import React, { useState, useEffect } from 'react'
+import 'actioncable'
 
-import consumer from "../../application/action_cable_consumer";
+import consumer from '../../utils/action-cable-consumer'
 
 function ExampleIterationSummary({ id, testsStatus }) {
   return (
     <div>
       {id}: {testsStatus}
     </div>
-  );
+  )
 }
 
 export function ExampleIterationsSummaryTable({ solutionId, iterations }) {
-  const [stateIterations, setIterations] = useState(iterations);
+  const [stateIterations, setIterations] = useState(iterations)
 
   useEffect(() => {
-    const received = data => setIterations(data.iterations);
+    const received = (data) => setIterations(data.iterations)
 
     const subscription = consumer.subscriptions.create(
-      { channel: "IterationsChannel", solution_id: solutionId },
+      { channel: 'IterationsChannel', solution_id: solutionId },
       {
-        received
+        received,
       }
-    );
+    )
     //console.log(subscription.consumer)
-    return () => subscription.unsubscribe();
-  }, [solutionId]);
+    return () => subscription.unsubscribe()
+  }, [solutionId])
 
   return stateIterations.map((iteration, idx) => {
     return (
@@ -35,6 +35,6 @@ export function ExampleIterationsSummaryTable({ solutionId, iterations }) {
         testsStatus={iteration.testsStatus}
         idx={idx}
       />
-    );
-  });
+    )
+  })
 }

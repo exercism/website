@@ -46,5 +46,14 @@ module Components
 
       assert_text "Something went wrong"
     end
+
+    test "shows loading state" do
+      visit test_components_track_list_url
+      select "Loading", from: "State"
+      click_on "Submit"
+      fill_in "Search language tracks", with: "Go"
+
+      within(".track-list") { assert_text "Loading" }
+    end
   end
 end

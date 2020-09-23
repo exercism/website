@@ -5,4 +5,4 @@
   = submit_tag "Submit", name: nil
 %hr/
 
-= track_list(@tracks, { endpoint: test_components_track_list_tracks_path, query: { state: params[:state] }, options: { retry: false } })
+= track_list(@tracks, { endpoint: test_components_track_list_tracks_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" } })

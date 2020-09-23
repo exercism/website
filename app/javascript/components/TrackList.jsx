@@ -6,7 +6,7 @@ import { useRequestQuery } from '../hooks/request_query'
 
 export function TrackList(props) {
   const [request, setFilter, setSort, setPage] = useList(props.request)
-  const { status, data } = useRequestQuery('track-list', request)
+  const { status, data, isFetching } = useRequestQuery('track-list', request)
 
   return (
     <div className="track-list">
@@ -17,6 +17,7 @@ export function TrackList(props) {
         placeholder="Search language tracks"
       />
       {status === 'error' && <p>Something went wrong</p>}
+      {isFetching && <p>Loading</p>}
       {status === 'success' && (
         <table>
           <thead>

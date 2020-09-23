@@ -1,7 +1,7 @@
 require_relative "../view_component_test_case"
 
-class Notifications::IconTest < ViewComponentTestCase
-  test "#notification_icon passes the correct parameters" do
+class NotificationsIconTest < ViewComponentTestCase
+  test "notifications icon rendered correctly" do
     user = create(:user)
     create(:notification, user: user, read_at: nil)
 

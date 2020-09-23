@@ -1,7 +1,5 @@
 module ViewComponents
   class ExampleIterationsSummaryTable < ViewComponent
-    include Mandate
-
     initialize_with :solution
 
     def to_s

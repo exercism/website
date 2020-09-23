@@ -1,7 +1,5 @@
 module ViewComponents
   class NotificationIcon < ViewComponent
-    include Mandate
-
     initialize_with :user
 
     def to_s

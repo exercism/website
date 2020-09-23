@@ -1,7 +1,5 @@
 module ViewComponents
   class MaintainingIterationsSummaryTable < ViewComponent
-    include Mandate
-
     initialize_with :iterations
 
     def to_s

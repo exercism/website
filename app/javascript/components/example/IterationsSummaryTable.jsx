@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import 'actioncable'
 
-import consumer from '../../application/action-cable-consumer'
+import consumer from '../../utils/action-cable-consumer'
 
 function ExampleIterationSummary({ id, testsStatus }) {
   return (

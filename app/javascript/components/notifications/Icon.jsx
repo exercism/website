@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react'
-import consumer from '../../application/action-cable-consumer'
+import consumer from '../../utils/action-cable-consumer'
 
 function reducer(state, action) {
   switch (action.type) {

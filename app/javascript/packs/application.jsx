@@ -17,6 +17,7 @@ import { MaintainingIterationsSummaryTable } from '../components/maintaining/ite
 import { NotificationIcon } from '../components/notifications/icon.jsx'
 import { MentorInbox } from '../components/mentoring/mentor_inbox.jsx'
 import { MentorSolutionsList } from '../components/mentoring/mentor_solutions_list.jsx'
+import { TrackList } from '../components/TrackList.jsx'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -44,6 +45,7 @@ initReact({
       sortOptions={data.sort_options}
     />
   ),
+  'track-list': (data) => <TrackList request={data.request} />,
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

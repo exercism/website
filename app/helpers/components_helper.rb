@@ -28,6 +28,14 @@ module ComponentsHelper
     react_component("mentor-solutions-list", { request: request, sort_options: sort_options })
   end
 
+  def track_list(tracks, request)
+    options = (request[:retry] || {}).merge(initialData: tracks)
+
+    react_component("track-list", {
+                      request: request.merge(retry: options)
+                    })
+  end
+
   private
   def react_component(id, data)
     tag :div, {

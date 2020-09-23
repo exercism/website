@@ -24,8 +24,8 @@ module ComponentsHelper
                     })
   end
 
-  def mentor_solutions_list(request)
-    react_component("mentor-solutions-list", { request: request })
+  def mentor_solutions_list(request, sort_options)
+    react_component("mentor-solutions-list", { request: request, sort_options: sort_options })
   end
 
   private

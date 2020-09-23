@@ -4,7 +4,7 @@ import { TextFilter } from './text_filter'
 import { Sorter } from './sorter'
 import { useList } from '../../hooks/use_list'
 
-export function MentorSolutionsList(props) {
+export function MentorSolutionsList({ sortOptions, ...props }) {
   const [request, setFilter, setSort, setPage] = useList(props.request)
 
   return (
@@ -16,6 +16,7 @@ export function MentorSolutionsList(props) {
         placeholder="Filter by student name"
       />
       <Sorter
+        sortOptions={sortOptions}
         sort={request.query.sort}
         setSort={setSort}
         id="mentor-conversations-list-sorter"

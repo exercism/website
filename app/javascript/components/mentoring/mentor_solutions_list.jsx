@@ -1,6 +1,6 @@
 import React from 'react'
 import { SolutionList } from './mentor_solutions_list/solution_list'
-import { TextFilter } from './text_filter'
+import { TextFilter } from '../TextFilter'
 import { Sorter } from './sorter'
 import { useList } from '../../hooks/use_list'
 

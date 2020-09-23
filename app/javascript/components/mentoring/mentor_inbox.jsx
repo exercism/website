@@ -1,6 +1,6 @@
 import React from 'react'
 import { ConversationList } from './mentor_inbox/conversation_list'
-import { TextFilter } from './text_filter'
+import { TextFilter } from '../TextFilter'
 import { Sorter } from './sorter'
 import { TrackFilter } from './mentor_inbox/track_filter'
 import { useList } from '../../hooks/use_list'

@@ -10,6 +10,8 @@ class Track < ApplicationRecord
 
   delegate :head_sha, to: :repo, prefix: "git"
 
+  scope :active, -> { where(active: true) }
+
   def self.for!(param)
     return param if param.is_a?(Track)
     return find_by!(id: param) if param.is_a?(Numeric)

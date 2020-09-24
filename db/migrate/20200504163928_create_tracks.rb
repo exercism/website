@@ -6,6 +6,8 @@ class CreateTracks < ActiveRecord::Migration[6.0]
 
       t.string :repo_url, null: false
 
+      t.boolean :active, default: true, null: false
+
       t.timestamps
     end
   end

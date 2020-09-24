@@ -1,19 +1,27 @@
 require 'test_helper'
 
 class TrackTest < ActiveSupport::TestCase
-  test "#for! with model" do
+  test ".for! with model" do
     track = random_of_many(:track)
     assert_equal track, Track.for!(track)
   end
 
-  test "#for! with id" do
+  test ".for! with id" do
     track = random_of_many(:track)
     assert_equal track, Track.for!(track.id)
   end
 
-  test "#for! with slug" do
+  test ".for! with slug" do
     track = random_of_many(:track)
     assert_equal track, Track.for!(track.slug)
+  end
+
+  test ".active scope" do
+    # Create one active and one inactive track
+    track = create :track, active: true
+    create :track, active: false
+
+    assert_equal [track], Track.active
   end
 
   %w[head_sha].each do |delegate|

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: [:show]
+      resources :tracks, only: %i[index show]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection
 

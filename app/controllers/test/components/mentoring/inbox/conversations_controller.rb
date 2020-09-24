@@ -6,55 +6,55 @@ class Test::Components::Mentoring::Inbox::ConversationsController < ApplicationC
 
     results = [
       {
-        trackId: 1,
-        trackTitle: "Ruby",
-        trackIconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
-        menteeAvatarUrl: "https://robohash.org/exercism",
-        menteeHandle: "Mentee",
-        exerciseTitle: "Series",
-        isStarred: true,
-        haveMentoredPreviously: true,
-        isNewIteration: true,
-        postsCount: 15,
-        updatedAt: 1.year.ago.iso8601,
+        track_id: 1,
+        track_title: "Ruby",
+        track_icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+        mentee_avatar_url: "https://robohash.org/exercism",
+        mentee_handle: "Mentee",
+        exercise_title: "Series",
+        is_starred: true,
+        have_mentored_previously: true,
+        is_new_iteration: true,
+        posts_count: 15,
+        updated_at: 1.year.ago.iso8601,
         url: "https://exercism.io/conversations/1"
       },
       {
-        trackId: 2,
-        trackTitle: "Go",
-        trackIconUrl: "https://assets.exercism.io/tracks/go-hex-white.png",
-        menteeAvatarUrl: "https://robohash.org/exercism_2",
-        menteeHandle: "User 2",
-        exerciseTitle: "Tournament",
-        isStarred: false,
-        haveMentoredPreviously: true,
-        isNewIteration: false,
-        postsCount: 22,
-        updatedAt: 1.week.ago.iso8601,
+        track_id: 2,
+        track_title: "Go",
+        track_icon_url: "https://assets.exercism.io/tracks/go-hex-white.png",
+        mentee_avatar_url: "https://robohash.org/exercism_2",
+        mentee_handle: "User 2",
+        exercise_title: "Tournament",
+        is_starred: false,
+        have_mentored_previously: true,
+        is_new_iteration: false,
+        posts_count: 22,
+        updated_at: 1.week.ago.iso8601,
         url: "https://exercism.io/conversations/2"
       },
       {
-        trackId: 3,
-        trackTitle: "C#",
-        trackIconUrl: "https://assets.exercism.io/tracks/csharp-hex-white.png",
-        menteeAvatarUrl: "https://robohash.org/exercism_3",
-        menteeHandle: "Frank",
-        exerciseTitle: "Zipper",
-        isStarred: false,
-        haveMentoredPreviously: false,
-        isNewIteration: false,
-        postsCount: 5,
-        updatedAt: 1.month.ago.iso8601,
+        track_id: 3,
+        track_title: "C#",
+        track_icon_url: "https://assets.exercism.io/tracks/csharp-hex-white.png",
+        mentee_avatar_url: "https://robohash.org/exercism_3",
+        mentee_handle: "Frank",
+        exercise_title: "Zipper",
+        is_starred: false,
+        have_mentored_previously: false,
+        is_new_iteration: false,
+        posts_count: 5,
+        updated_at: 1.month.ago.iso8601,
         url: "https://exercism.io/conversations/3"
       }
     ]
 
-    results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
+    results = results.select { |c| c[:track_id] == params[:track].to_i } if params[:track].present?
     if params[:filter].present?
       parts = params[:filter].downcase.split(' ').map(&:strip)
       results = results.select do |c|
         parts.all? do |part|
-          c[:exerciseTitle].downcase.include?(part) || c[:menteeHandle].downcase.include?(part)
+          c[:exercise_title].downcase.include?(part) || c[:mentee_handle].downcase.include?(part)
         end
       end
     end
@@ -72,11 +72,11 @@ class Test::Components::Mentoring::Inbox::ConversationsController < ApplicationC
   def sort(results)
     case params[:sort]
     when 'exercise'
-      results.sort_by { |c| c[:exerciseTitle] }
+      results.sort_by { |c| c[:exercise_title] }
     when 'recent'
-      results.sort_by { |c| c[:updatedAt] }.reverse
+      results.sort_by { |c| c[:updated_at] }.reverse
     else
-      results.sort_by { |c| c[:menteeHandle] }
+      results.sort_by { |c| c[:mentee_handle] }
     end
   end
 end

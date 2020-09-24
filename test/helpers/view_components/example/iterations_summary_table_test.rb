@@ -7,16 +7,16 @@ class ExampleIterationsSummaryTableTest < ViewComponentTestCase
     create(:user_track, user: user, track: track)
     exercise = create(:concept_exercise, track: track, uuid: SecureRandom.uuid, slug: "numbers", prerequisites: [], title: "numbers")
     solution = create(:concept_solution, exercise: exercise, user: user, uuid: SecureRandom.uuid)
-    create(:iteration, solution: solution, submitted_via: "cli", analysis_status: :inconclusive)
-    create(:iteration, solution: solution, submitted_via: "cli", tests_status: :passed)
+    iteration_1 = create(:iteration, solution: solution, submitted_via: "cli", analysis_status: :inconclusive)
+    iteration_2 = create(:iteration, solution: solution, submitted_via: "cli", tests_status: :passed)
 
     assert_component_equal ViewComponents::Example::IterationsSummaryTable.new(solution).to_s,
-                           { id: "maintaining-iterations-summary-table",
+                           { id: "example-iterations-summary-table",
                              props: {
-                               solution_id: 1,
+                               solution_id: solution.id,
                                iterations: [
-                                 { "id": 1, "testsStatus": "pending" },
-                                 { "id": 2, "testsStatus": "passed" }
+                                 { "id": iteration_1.id, "testsStatus": "pending" },
+                                 { "id": iteration_2.id, "testsStatus": "passed" }
                                ]
                              } }
   end

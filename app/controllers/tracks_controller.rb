@@ -2,7 +2,16 @@ class TracksController < ApplicationController
   before_action :use_track, except: :index
 
   def authenticated_index
-    @tracks = Track.all
+    # TODO: This should cease to be an instance variable
+    # once the view is using the tracks_json to render
+    @tracks = Track::Search.(
+      criteria: params[:criteria],
+      tags: params[:tags],
+      status: params[:status],
+      user: current_user
+    )
+
+    @tracks_json = API::TracksSerializer.new(@tracks, current_user).to_json
   end
 
   def authenticated_show

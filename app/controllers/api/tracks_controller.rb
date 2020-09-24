@@ -1,5 +1,17 @@
 module API
   class TracksController < BaseController
+    def index
+      tracks = Track::Search.(
+        criteria: params[:criteria],
+        tags: params[:tags],
+        status: params[:status],
+        user: current_user
+      )
+
+      serializer = API::TracksSerializer.new(tracks, current_user)
+      render json: serializer.to_hash, status: :ok
+    end
+
     def show
       begin
         track = Track.find_by!(slug: params[:id])

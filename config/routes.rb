@@ -64,8 +64,10 @@ Rails.application.routes.draw do
         end
         namespace :mentoring do
           resource :inbox, controller: "inbox", only: [:show] do
-            resources :conversations, only: [:index], controller: "inbox/conversations"
-            resources :tracks, only: [:index], controller: "inbox/tracks"
+            member do
+              get 'tracks'
+              get 'conversations'
+            end
           end
         end
       end

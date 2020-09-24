@@ -1,8 +1,8 @@
 import React, { useReducer, useCallback } from 'react'
-import { ConversationList } from './mentor-inbox/ConversationList'
-import { ConversationFilter } from './mentor-inbox/ConversationFilter'
-import { ConversationSorter } from './mentor-inbox/ConversationSorter'
-import { TrackFilter } from './mentor-inbox/TrackFilter'
+import { ConversationList } from './inbox/ConversationList'
+import { ConversationFilter } from './inbox/ConversationFilter'
+import { ConversationSorter } from './inbox/ConversationSorter'
+import { TrackFilter } from './inbox/TrackFilter'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -31,7 +31,7 @@ function reducer(state, action) {
   }
 }
 
-export function MentorInbox({ tracksRequest, sortOptions, ...props }) {
+export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const [conversationsRequest, dispatch] = useReducer(
     reducer,
     Object.assign({ query: { page: 1 } }, props.conversationsRequest)

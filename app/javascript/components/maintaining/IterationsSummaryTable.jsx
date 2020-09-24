@@ -3,7 +3,7 @@ import 'actioncable'
 
 import consumer from '../../utils/action-cable-consumer'
 
-function MaintainingIterationsSummaryTableRow({
+function IterationsSummaryTableRow({
   id,
   track,
   exercise,
@@ -23,7 +23,7 @@ function MaintainingIterationsSummaryTableRow({
   )
 }
 
-export function MaintainingIterationsSummaryTable({ iterations }) {
+export function IterationsSummaryTable({ iterations }) {
   const [stateIterations, setIterations] = useState(iterations)
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export function MaintainingIterationsSummaryTable({ iterations }) {
       </thead>
       <tbody>
         {stateIterations.map((iteration, idx) => (
-          <MaintainingIterationsSummaryTableRow
+          <IterationsSummaryTableRow
             key={iteration.id}
             id={iteration.id}
             track={iteration.track}

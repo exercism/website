@@ -12,26 +12,26 @@ import 'css/application.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
-import { ExampleIterationsSummaryTable } from '../components/example/IterationsSummaryTable.jsx'
-import { MaintainingIterationsSummaryTable } from '../components/maintaining/IterationsSummaryTable.jsx'
-import { NotificationIcon } from '../components/notifications/Icon.jsx'
-import { MentorInbox } from '../components/mentoring/MentorInbox.jsx'
+import * as Example from '../components/example'
+import * as Maintaining from '../components/maintaining'
+import * as Notifications from '../components/notifications'
+import * as Mentoring from '../components/mentoring'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
   'example-iterations-summary-table': (data) => (
-    <ExampleIterationsSummaryTable
+    <Example.IterationsSummaryTable
       solutionId={data.solution_id}
       iterations={data.iterations}
     />
   ),
   'maintaining-iterations-summary-table': (data) => (
-    <MaintainingIterationsSummaryTable iterations={data.iterations} />
+    <Maintaining.IterationsSummaryTable iterations={data.iterations} />
   ),
-  'notification-icon': (data) => <NotificationIcon count={data.count} />,
-  'mentor-inbox': (data) => (
-    <MentorInbox
+  'notifications-icon': (data) => <Notifications.Icon count={data.count} />,
+  'mentoring-inbox': (data) => (
+    <Mentoring.Inbox
       conversationsRequest={data.conversations_request}
       tracksRequest={data.tracks_request}
       sortOptions={data.sort_options}

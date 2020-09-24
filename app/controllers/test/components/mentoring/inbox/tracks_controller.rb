@@ -6,12 +6,12 @@ class Test::Components::Mentoring::Inbox::TracksController < ApplicationControll
       {
         id: 1,
         title: "Ruby",
-        iconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png"
+        icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png"
       },
       {
         id: 2,
         title: "Go",
-        iconUrl: "https://assets.exercism.io/tracks/go-hex-white.png"
+        icon_url: "https://assets.exercism.io/tracks/go-hex-white.png"
       }
     ]
 

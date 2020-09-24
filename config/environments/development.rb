@@ -59,3 +59,7 @@ Rails.application.configure do
 
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
 end
+
+Rails.application.routes.default_url_options = {
+  host: "http://lvh.me:3020"
+}

@@ -89,3 +89,24 @@ class ActiveSupport::TestCase
     ).body.read
   end
 end
+
+class ActionDispatch::IntegrationTest
+  # TODO: Add this when adding devise
+  # include Devise::Test::IntegrationHelpers
+
+  # TODO: Add this implmentation back when devise
+  # is added.
+  def sign_in!(user = nil)
+    #  @current_user = user || create(:user, :onboarded)
+    #  @current_user.confirm
+    #  sign_in @current_user
+  end
+
+  def assert_correct_page(page)
+    assert_includes @response.body, "<div id='#{page}'>"
+  end
+end
+
+ActionDispatch::IntegrationTest.register_encoder :js,
+                                                 param_encoder: ->(params) { params },
+                                                 response_parser: ->(body) { body }

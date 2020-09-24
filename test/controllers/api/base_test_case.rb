@@ -2,8 +2,8 @@ require 'test_helper'
 
 module API
   class BaseTestCase < ActionDispatch::IntegrationTest
-    def setup_user
-      @current_user = create :user
+    def setup_user(user = nil)
+      @current_user = user || create(:user)
 
       # TODO: - Reenable once Devise is added
       # @current_user.confirm

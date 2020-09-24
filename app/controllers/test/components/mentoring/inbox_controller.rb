@@ -1,4 +1,4 @@
-class Test::Components::Mentoring::MentorInboxesController < ApplicationController
+class Test::Components::Mentoring::InboxController < ApplicationController
   def show
     @sort_options = [
       { value: 'recent', label: 'Sort by Most Recent' },

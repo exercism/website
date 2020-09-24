@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { MentorInbox } from '../../../../app/javascript/components/mentoring/MentorInbox.jsx'
+import { Inbox } from '../../../../app/javascript/components/mentoring/Inbox.jsx'
 
 const server = setupServer(
   rest.get('https://exercism.test/tracks', (req, res, ctx) => {
@@ -32,7 +32,7 @@ afterAll(() => server.close())
 
 test('page is set to 1 automatically', async () => {
   render(
-    <MentorInbox
+    <Inbox
       tracksRequest={{ endpoint: 'https://exercism.test/tracks' }}
       conversationsRequest={{ endpoint: 'https://exercism.test/conversations' }}
       sortOptions={[]}
@@ -44,7 +44,7 @@ test('page is set to 1 automatically', async () => {
 
 test('page is reset to 1 when switching tracks', async () => {
   render(
-    <MentorInbox
+    <Inbox
       tracksRequest={{ endpoint: 'https://exercism.test/tracks' }}
       conversationsRequest={{
         endpoint: 'https://exercism.test/conversations',

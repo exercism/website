@@ -60,12 +60,12 @@ Rails.application.routes.draw do
           get 'iterations_summary_table/:id', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
         end
         namespace :notifications do
-          resource :icon, only: %i[show update]
+          resource :icon, only: %i[show update], controller: "icon"
         end
         namespace :mentoring do
-          resource :mentor_inbox, only: [:show] do
-            resources :conversations, only: [:index], controller: "mentor_inboxes/conversations"
-            resources :tracks, only: [:index], controller: "mentor_inboxes/tracks"
+          resource :inbox, controller: "inbox", only: [:show] do
+            resources :conversations, only: [:index], controller: "inbox/conversations"
+            resources :tracks, only: [:index], controller: "inbox/tracks"
           end
         end
       end

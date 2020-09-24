@@ -1,4 +1,4 @@
-class Test::Components::Mentoring::MentorInboxes::TracksController < ApplicationController
+class Test::Components::Mentoring::Inbox::TracksController < ApplicationController
   def index
     return head :internal_server_error if params[:state] == "Error" || params[:state] == "Loading"
 

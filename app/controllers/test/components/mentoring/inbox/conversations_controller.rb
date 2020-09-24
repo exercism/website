@@ -1,4 +1,4 @@
-class Test::Components::Mentoring::MentorInboxes::ConversationsController < ApplicationController
+class Test::Components::Mentoring::Inbox::ConversationsController < ApplicationController
   def index
     # By passing a state param, we can mock our controller's response.
     # Useful for testing error states in our components.

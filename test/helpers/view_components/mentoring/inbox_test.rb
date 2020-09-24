@@ -13,7 +13,7 @@ class MentoringInboxTest < ViewComponentTestCase
     assert_component_equal ViewComponents::Mentoring::Inbox.new(
       conversations_request, tracks_request, sort_options
     ).to_s,
-                           { id: "mentor-inbox", props: {
+                           { id: "mentoring-inbox", props: {
                              conversations_request: { endpoint: "conversations-endpoint" },
                              tracks_request: { endpoint: "tracks-endpoint" },
                              sort_options: [

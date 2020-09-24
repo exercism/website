@@ -8,7 +8,7 @@ function reducer(state, action) {
   }
 }
 
-export function NotificationIcon({ count }) {
+export function Icon({ count }) {
   const [state, dispatch] = useReducer(reducer, { count: count })
   const isUnread = state.count > 0
 

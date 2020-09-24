@@ -3,11 +3,11 @@ require_relative "../../../support/table_matchers"
 
 module Components
   module Mentoring
-    class MentorInboxTest < ApplicationSystemTestCase
+    class InboxTest < ApplicationSystemTestCase
       include TableMatchers
 
       test "shows correct information" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
 
         row = {
           "Track icon" => lambda {
@@ -28,7 +28,7 @@ module Components
       end
 
       test "paginates results" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         click_on "2"
 
         row = { "Exercise title" => "Tournament" }
@@ -37,7 +37,7 @@ module Components
       end
 
       test "filters by track" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         select "Ruby", from: "Track", exact: true
 
         ruby_row = {
@@ -56,7 +56,7 @@ module Components
       end
 
       test "filter by query" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         fill_in "conversation-filter", with: "Tourn"
 
         row = { "Exercise title" => "Tournament" }
@@ -67,7 +67,7 @@ module Components
       end
 
       test "sort by student" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         select "Sort by Student", from: "Sort", exact: true
 
         row = { "Mentee handle" => "Frank" }
@@ -76,7 +76,7 @@ module Components
       end
 
       test "handles conversations endpoint API errors" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         select "Error", from: "Conversations endpoint state"
         click_on "Submit"
 
@@ -84,7 +84,7 @@ module Components
       end
 
       test "shows conversations endpoint API loading state" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         select "Loading", from: "Conversations endpoint state"
         click_on "Submit"
 
@@ -92,7 +92,7 @@ module Components
       end
 
       test "handles tracks endpoint API errors" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         select "Error", from: "Tracks endpoint state"
         click_on "Submit"
 
@@ -100,7 +100,7 @@ module Components
       end
 
       test "shows tracks endpoint API loading state" do
-        visit test_components_mentoring_mentor_inbox_url
+        visit test_components_mentoring_inbox_url
         select "Loading", from: "Tracks endpoint state"
         click_on "Submit"
 

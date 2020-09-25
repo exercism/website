@@ -16,7 +16,7 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal track, Track.for!(track.slug)
   end
 
-  test "#active scope" do
+  test ".active scope" do
     # Create one active and one inactive track
     track = create :track, active: true
     create :track, active: false

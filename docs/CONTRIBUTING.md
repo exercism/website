@@ -119,7 +119,7 @@ Each component has a view file for development usage and system testing.
 These reside in `/app/views/test/components/**/XXX.html.haml`
 
 Finally, each component has Rails system tests.
-These reside in `test/system/components/**/XXX.rb`
+These reside in `test/system/components/**/XXX_test.rb`
 
 ## Linting
 

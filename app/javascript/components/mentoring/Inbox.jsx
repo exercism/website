@@ -1,75 +1,33 @@
-import React, { useReducer, useCallback } from 'react'
+import React from 'react'
 import { ConversationList } from './inbox/ConversationList'
-import { ConversationFilter } from './inbox/ConversationFilter'
-import { ConversationSorter } from './inbox/ConversationSorter'
+import { TextFilter } from './TextFilter'
+import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'page.changed':
-      return { ...state, query: { ...state.query, page: action.payload.page } }
-    case 'track.changed':
-      return {
-        ...state,
-        query: { ...state.query, track: action.payload.track, page: 1 },
-      }
-    case 'sort.changed':
-      return {
-        ...state,
-        query: { ...state.query, sort: action.payload.sort },
-      }
-    case 'filter.changed':
-      return {
-        ...state,
-        query: { ...state.query, filter: action.payload.filter, page: 1 },
-      }
-    default:
-      if (process.env.NODE_ENV === 'development') {
-        throw new Error(`Unknown action type: ${action.type}`)
-      }
-      return state
-  }
-}
+import { useList } from '../../hooks/use-list'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
-  const [conversationsRequest, dispatch] = useReducer(
-    reducer,
-    Object.assign({ query: { page: 1 } }, props.conversationsRequest)
+  const [conversationsRequest, setFilter, setSort, setPage, setQuery] = useList(
+    props.conversationsRequest
   )
 
-  const setPage = useCallback(
-    (page) => {
-      dispatch({ type: 'page.changed', payload: { page: page } })
-    },
-    [dispatch]
-  )
-
-  const setTrack = useCallback(
-    (track) => {
-      dispatch({ type: 'track.changed', payload: { track: track } })
-    },
-    [dispatch]
-  )
-
-  function setSort(sort) {
-    dispatch({ type: 'sort.changed', payload: { sort: sort } })
-  }
-
-  function setFilter(filter) {
-    dispatch({ type: 'filter.changed', payload: { filter: filter } })
+  const setTrack = (track) => {
+    setQuery({ track: track, page: 1 })
   }
 
   return (
-    <div>
+    <div className="mentor-inbox">
       <TrackFilter request={tracksRequest} setTrack={setTrack} />
-      <ConversationFilter
+      <TextFilter
         filter={conversationsRequest.query.filter}
         setFilter={setFilter}
+        id="conversation-filter"
+        placeholder="Filter by student or exercise name"
       />
-      <ConversationSorter
+      <Sorter
         sortOptions={sortOptions}
-        setSort={setSort}
         sort={conversationsRequest.query.sort}
+        setSort={setSort}
+        id="conversation-sorter-sort"
       />
       <ConversationList request={conversationsRequest} setPage={setPage} />
     </div>

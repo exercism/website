@@ -63,6 +63,9 @@ Rails.application.routes.draw do
           resource :icon, only: %i[show update], controller: "icon"
         end
         namespace :mentoring do
+          resource :queue, controller: "queue", only: [:show] do
+            get 'solutions', on: :member
+          end
           resource :inbox, controller: "inbox", only: [:show] do
             resources :conversations, only: [:index], controller: "inbox/conversations"
             resources :tracks, only: [:index], controller: "inbox/tracks"

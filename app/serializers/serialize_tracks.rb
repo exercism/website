@@ -1,6 +1,5 @@
 class SerializeTracks
   include Mandate
-  include Rails.application.routes.url_helpers
 
   def initialize(tracks, user = nil)
     @tracks = tracks
@@ -24,7 +23,7 @@ class SerializeTracks
       title: track.title,
       num_concept_exercises: concept_exercise_counts[track.id].to_i,
       num_practice_exercises: practice_exercise_counts[track.id].to_i,
-      web_url: routes.track_url(track),
+      web_url: Exercism::Routes.track_url(track),
 
       # TODO: Set all three of these
       icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
@@ -41,11 +40,6 @@ class SerializeTracks
       num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
       num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
     }
-  end
-
-  memoize
-  def routes
-    Rails.application.routes.url_helpers
   end
 
   memoize

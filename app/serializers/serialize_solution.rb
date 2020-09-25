@@ -1,6 +1,5 @@
 class SerializeSolution
   include Mandate
-  include Rails.application.routes.url_helpers
 
   initialize_with :solution, :requester
 
@@ -78,10 +77,6 @@ class SerializeSolution
 
   def iteration
     @iteration ||= solution.iterations.last
-  end
-
-  def routes
-    @routes ||= Rails.application.routes.url_helpers
   end
 
   def track

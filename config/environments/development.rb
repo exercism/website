@@ -57,5 +57,6 @@ Rails.application.configure do
   # routes, locales, etc.
   config.file_watcher = ENV['EXERCISM_DOCKER'] ? ActiveSupport::FileUpdateChecker : ActiveSupport::EventedFileUpdateChecker
 
+  config.hosts << "lvh.me"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
 end

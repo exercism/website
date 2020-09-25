@@ -98,7 +98,7 @@ View Components are either functional and written in React, or non-functional an
 
 #### Server-side component class
 
-Each component has a class in `app/helpers/view_components/XXX.rb`
+Each component has a class in `app/helpers/view_components/**/XXX.rb`
 
 This component is responsible for rendering the component via its `to_s` method.
 Any server-side properties of the component (e.g. sort options) should be stored within this class.

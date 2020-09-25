@@ -37,6 +37,9 @@ initReact({
       sortOptions={data.sort_options}
     />
   ),
+  'mentoring-queue': (data) => (
+    <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

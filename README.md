@@ -8,12 +8,24 @@ This is the WIP website for Exercism v3. We are not currently accepting Pull Req
 
 This is the website component of Exercism. It is Ruby on Rails app, backed by MySQL. It also relies on Redis and AnyCable.
 
-## Local Setup
+## Full Local Setup
 
 If you are looking to create a full Exercism setup locally, with tooling such as test-runners and other services, please check out our [development environment](https://github.com/exercism/development-environment) repo.
 This is our officially supported development setup.
 
-### Running tests in the scope of Docker Compose
+### Setup database using Docker-based development environment
+
+Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to setup the database. All these are run "inside" the existing `website` container that needs to already have been started.
+
+```sh
+# seed the database
+./bin/script website seed-db
+
+# reset the database (drop -> migrate -> seed)
+./bin/script website reset-db
+```
+
+### Running tests using Docker-based development environment
 
 Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to run tests. All these are run "inside" the existing `website` container that needs to already have been started.
 

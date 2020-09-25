@@ -12,10 +12,10 @@ import 'css/application.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
-import * as Example from '../components/example'
-import * as Maintaining from '../components/maintaining'
-import * as Notifications from '../components/notifications'
-import * as Mentoring from '../components/mentoring'
+import * as Example from '../components/Example'
+import * as Maintaining from '../components/Maintaining'
+import * as Notifications from '../components/Notifications'
+import * as Mentoring from '../components/Mentoring'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components

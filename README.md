@@ -85,6 +85,16 @@ Tests are parallelized so you need a db per processor, so you need to do this fo
 GRANT ALL PRIVILEGES ON `exercism_v3_test-0`.* TO 'exercism_v3'@'localhost';
 ```
 
+#### Run the setup script
+
+Run the setup scripts:
+
+```
+bundle install
+EXERCISM_ENV=development bundle exec setup_exercism_config
+EXERCISM_ENV=development bundle exec setup_exercism_local_aws
+```
+
 #### Running the local servers
 
 We have a Procfile which executes the various commands need to run Exercism locally.

@@ -18,8 +18,8 @@ FileUtils.chdir APP_ROOT do
   system('bundle check') || system!('bundle install')
 
   puts "\n== Setup DynamoDB Locally =="
-  system! 'bundle exec bin/create_dynamodb_config'
-  system! 'bin/rails r "scripts/setup_dynamodb_locally.rb"'
+  system! 'EXERCISM_ENV=development bundle exec setup_exercism_config'
+  system! 'EXERCISM_ENV=development bundle exec setup_exercism_local_aws'
 
   # Install JavaScript dependencies
   # system('bin/yarn')

@@ -11,6 +11,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "dayjs": "^1.8.35",
     "global": "^4.4.0",
+    "humps": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

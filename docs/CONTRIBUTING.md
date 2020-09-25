@@ -47,9 +47,13 @@ To achieve this, controllers call out to Commands, which contain more complex fu
 
 ## Serializers
 
-To ensure that data is represented in common ways, we use serializers.
+To ensure that data is represented in common ways, we use serializer objects.
 For example, the data for the mentoring workspace would be represented via a serializer.
 The HTML that renders the table as a React Component would use the serializer to generate the JSON for the initial React Component, and the API endpoint would use the same Serializer when the table's data is filtered.
+
+- Serializers reside in `app/serializers`
+- Each serializer is a Mandate Command that should return a hash.
+- To directly retrieve the JSON for manual rendering `.to_json` can be called on the hash.
 
 ## Models
 

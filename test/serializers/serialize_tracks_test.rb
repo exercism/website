@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class API::TracksSerializerTest < ActiveSupport::TestCase
+class SerializeTracksTest < ActiveSupport::TestCase
   test "without user" do
     track = create :track
 
@@ -10,7 +10,6 @@ class API::TracksSerializerTest < ActiveSupport::TestCase
     num_concept_exercises.times { create :concept_exercise, track: track }
     num_practice_exercises.times { create :practice_exercise, track: track }
 
-    serializer = API::TracksSerializer.new([track])
     expected = {
       tracks: [
         {
@@ -28,15 +27,15 @@ class API::TracksSerializerTest < ActiveSupport::TestCase
       ]
     }
 
-    assert_equal expected, serializer.to_hash
+    assert_equal expected, SerializeTracks.([track])
   end
 
   test "with user not joined" do
     track = create :track
 
-    serializer = API::TracksSerializer.new([track], create(:user))
+    output = SerializeTracks.([track], create(:user))
 
-    track_data = serializer.to_hash[:tracks].first
+    track_data = output[:tracks].first
     refute track_data[:is_joined]
     assert_equal 0, track_data[:num_completed_concept_exercises]
     assert_equal 0, track_data[:num_completed_practice_exercises]
@@ -57,9 +56,9 @@ class API::TracksSerializerTest < ActiveSupport::TestCase
     create :practice_solution, exercise: pes[0], user: user
     create :practice_solution, exercise: pes[1], user: user
 
-    serializer = API::TracksSerializer.new([track], user)
+    output = SerializeTracks.([track], user)
 
-    track_data = serializer.to_hash[:tracks].first
+    track_data = output[:tracks].first
     assert track_data[:is_joined]
     assert_equal 1, track_data[:num_completed_concept_exercises]
     assert_equal 2, track_data[:num_completed_practice_exercises]

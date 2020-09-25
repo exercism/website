@@ -121,8 +121,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
     get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
     assert_response :success
-    serializer = API::SolutionSerializer.new(solution, @current_user)
-    assert_equal serializer.to_hash.to_json, response.body
+    serializer = SerializeSolution.(solution, @current_user)
+    assert_equal serializer.to_json, response.body
   end
 
   test "latest should set downloaded_at" do
@@ -206,8 +206,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
     get api_solution_path(solution.uuid), headers: @headers, as: :json
 
     assert_response :success
-    serializer = API::SolutionSerializer.new(solution, @current_user)
-    assert_equal serializer.to_hash.to_json, response.body
+    serializer = SerializeSolution.(solution, @current_user)
+    assert_equal serializer.to_json, response.body
   end
 
   test "show should set downloaded_at" do

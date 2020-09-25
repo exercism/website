@@ -1,10 +1,9 @@
 require 'test_helper'
 
-class API::SolutionSerializerTest < ActiveSupport::TestCase
+class SerializeSolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
-    serializer = API::SolutionSerializer.new(solution, solution.user)
     expected = {
       solution: {
         id: solution.uuid,
@@ -27,7 +26,7 @@ class API::SolutionSerializerTest < ActiveSupport::TestCase
       }
     }
 
-    assert_equal expected, serializer.to_hash
+    assert_equal expected, SerializeSolution.(solution, solution.user)
   end
 
   test "ignore iteration files that match ignore_regexp" do
@@ -40,8 +39,8 @@ class API::SolutionSerializerTest < ActiveSupport::TestCase
     Git::Exercise.for_solution(solution).filepaths.include?(filepath)
     assert filepath =~ solution.track.repo.ignore_regexp
 
-    serializer = API::SolutionSerializer.new(solution, solution.user)
-    refute_includes serializer.to_hash[:solution][:files], filepath
+    output = SerializeSolution.(solution, solution.user)
+    refute_includes output[:solution][:files], filepath
   end
 
   test "includes all solution files" do
@@ -59,9 +58,9 @@ class API::SolutionSerializerTest < ActiveSupport::TestCase
     refute valid_filepath =~ track.repo.ignore_regexp
     assert ignore_filepath =~ track.repo.ignore_regexp
 
-    serializer = API::SolutionSerializer.new(solution, solution.user)
-    assert_includes serializer.to_hash[:solution][:files], valid_filepath
-    assert_includes serializer.to_hash[:solution][:files], ignore_filepath
+    output = SerializeSolution.(solution, solution.user)
+    assert_includes output[:solution][:files], valid_filepath
+    assert_includes output[:solution][:files], ignore_filepath
   end
 
   test "to_hash with different requester" do
@@ -69,35 +68,36 @@ class API::SolutionSerializerTest < ActiveSupport::TestCase
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
 
-    serializer = API::SolutionSerializer.new(solution, user)
-    refute serializer.to_hash[:solution][:user][:is_requester]
+    output = SerializeSolution.(solution, user)
+    refute output[:solution][:user][:is_requester]
   end
 
   test "handle is alias when anonymous" do
     solution = create :concept_solution
     create :user_track, anonymous_during_mentoring: true, user: solution.user, track: solution.track
 
-    serializer = API::SolutionSerializer.new(solution, solution.user)
-    assert_equal solution.anonymised_user_handle, serializer.to_hash[:solution][:user][:handle]
+    output = SerializeSolution.(solution, solution.user)
+    assert_equal solution.anonymised_user_handle, output[:solution][:user][:handle]
   end
 
   test "iteration is represented correctly" do
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
-    serializer = API::SolutionSerializer.new(solution, solution.user)
 
     created_at = Time.current.getutc - 1.week
     create :iteration, solution: solution, created_at: created_at
-    assert_equal created_at.to_i, serializer.to_hash[:solution][:iteration][:submitted_at].to_i
+
+    output = SerializeSolution.(solution, solution.user)
+    assert_equal created_at.to_i, output[:solution][:iteration][:submitted_at].to_i
   end
 
   test "solution_url should be /mentoring/solutions if not user" do
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
     mentor = create :user
-    serializer = API::SolutionSerializer.new(solution, mentor)
+    output = SerializeSolution.(solution, mentor)
 
     assert_equal "https://test.exercism.io/mentoring/solutions/#{solution.mentor_uuid}",
-                 serializer.to_hash[:solution][:url]
+                 output[:solution][:url]
   end
 end

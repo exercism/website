@@ -18,6 +18,7 @@ module ViewComponents
         { value: "exercise", label: "Sort by Exercise" },
         { value: "student", label: "Sort by Student" }
       ].freeze
+      private_constant :SORT_OPTIONS
     end
   end
 end

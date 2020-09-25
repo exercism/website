@@ -16,7 +16,11 @@ class MentoringInboxTest < ViewComponentTestCase
         props: {
           conversations_request: { endpoint: "conversations-endpoint" },
           tracks_request: { endpoint: "tracks-endpoint" },
-          sort_options: ViewComponents::Mentoring::Inbox::SORT_OPTIONS
+          sort_options: [
+            { value: 'recent', label: 'Sort by Most Recent' },
+            { value: 'exercise', label: 'Sort by Exercise' },
+            { value: 'student', label: 'Sort by Student' }
+          ]
         }
       }
     )

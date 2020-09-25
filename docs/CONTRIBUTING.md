@@ -116,7 +116,7 @@ This should test the component's div and initial data are rendered correctly.
 These reside in `test/helpers/view_components/**/XXX_test.rb`
 
 Each component has a view file for development usage and system testing.
-These reside in `/app/views/test/components/**/XXX.html.haml`
+These reside in `app/views/test/components/**/XXX.html.haml`
 
 Finally, each component has Rails system tests.
 These reside in `test/system/components/**/XXX_test.rb`

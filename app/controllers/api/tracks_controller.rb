@@ -8,8 +8,8 @@ module API
         user: current_user
       )
 
-      serializer = API::TracksSerializer.new(tracks, current_user)
-      render json: serializer.to_hash, status: :ok
+      render json: SerializeTracks.(tracks, current_user),
+             status: :ok
     end
 
     def show

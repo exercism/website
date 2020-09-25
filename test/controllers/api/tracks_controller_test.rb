@@ -18,7 +18,7 @@ class API::TracksControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
     assert_response 200
 
-    expected = API::TracksSerializer.new([track_1], user).to_json
+    expected = SerializeTracks.([track_1], user).to_json
     assert_equal expected, response.body
   end
 

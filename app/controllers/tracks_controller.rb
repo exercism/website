@@ -11,7 +11,7 @@ class TracksController < ApplicationController
       user: current_user
     )
 
-    @tracks_json = API::TracksSerializer.new(@tracks, current_user).to_json
+    @tracks_json = SerializeTracks.(@tracks, current_user).to_json
   end
 
   def authenticated_show

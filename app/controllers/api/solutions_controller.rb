@@ -80,8 +80,7 @@ module API
     def respond_with_authored_solution(solution)
       solution.update_git_info!  unless solution.downloaded?
 
-      responder = API::SolutionSerializer.new(solution, current_user)
-      render json: responder.to_hash
+      render json: SerializeSolution.(solution, current_user)
 
       # Only set this if we've not 500'd
       solution.update(downloaded_at: Time.current)

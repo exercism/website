@@ -1,6 +1,7 @@
 require "test_helper"
+require 'graph_utils'
 
-class GraphUtilsTest < Minitest::Test
+class GraphUtilsTest < ActiveSupport::TestCase
   def test_detect_cycles
     assert GraphUtils.contains_cycle?([[1], [0]])
     assert GraphUtils.contains_cycle?([[1], [2], [0]])

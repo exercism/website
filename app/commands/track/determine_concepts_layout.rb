@@ -107,9 +107,9 @@ class Track
 
       memoize
       def nodes_keyed_by_concept
-        nodes.each_with_object({}) do |node, lookup|
-          node.concepts.each { |concept| lookup[concept] = node }
-        end.freeze
+        nodes.flat_map do |node|
+          node.concepts.map { |concept| [concept, node] }
+        end.to_h.freeze
       end
 
       memoize

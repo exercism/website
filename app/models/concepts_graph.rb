@@ -1,3 +1,5 @@
+require 'graph_utils'
+
 # ConceptGraph transforms a track configuration to a form compatible for manipulating for
 # displaying the progression of the track
 class ConceptsGraph
@@ -33,7 +35,7 @@ class ConceptsGraph
 
     blank_layout = Array.new(exercise_depths.max + 1) { [] }
     exercise_depths.each_with_index.each_with_object(blank_layout) do |(depth, index), layers|
-      layers[depth] << graph.node_lookup_by_index[index]
+      layers[depth] << node_lookup_by_index[index]
     end
   end
 

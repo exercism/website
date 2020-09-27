@@ -7,7 +7,6 @@ class Track
     include Mandate
 
     attr_reader(
-      :language,
       :nodes,
       :edges,
       :node_lookup_by_concept,
@@ -17,7 +16,6 @@ class Track
     )
 
     def initialize(track_config)
-      @language = track_config['language']
       @nodes = make_nodes(track_config['exercises'])
       @node_lookup_by_concept = make_concept_lookup
       @node_lookup_by_index = make_index_lookup

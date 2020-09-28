@@ -1,5 +1,6 @@
 import React from 'react'
 import { camelizeKeys } from 'humps'
+import { TrackIcon } from '../common/TrackIcon'
 
 export function TrackList(props) {
   const tracks = camelizeKeys(props.tracks)
@@ -25,11 +26,7 @@ export function TrackList(props) {
           return (
             <tr key={track.id}>
               <td>
-                <img
-                  style={{ width: 100 }}
-                  src={track.iconUrl}
-                  alt={`icon for ${track.title} track`}
-                />
+                <TrackIcon track={track} />
               </td>
               <td>{track.title}</td>
               <td>{track.numConceptExercises}</td>

@@ -44,7 +44,12 @@ initReact({
   'mentoring-queue': (data) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  'student-track-list': (data) => <Student.TrackList request={data.request} />,
+  'student-track-list': (data) => (
+    <Student.TrackList
+      request={data.request}
+      statusOptions={data.status_options}
+    />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

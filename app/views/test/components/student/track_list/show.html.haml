@@ -1,4 +1,4 @@
 %h1 Student
 %h2 Track list
 
-= ViewComponents::Student::TrackList.new(@data)
+= ViewComponents::Student::TrackList.new(@data, { endpoint: tracks_test_components_student_track_list_path })

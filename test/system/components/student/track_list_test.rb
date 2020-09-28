@@ -75,6 +75,14 @@ module Components
 
         assert_text "Loading"
       end
+
+      test "shows error state" do
+        visit test_components_student_track_list_url
+        select "Error", from: "State"
+        click_on "Submit"
+
+        assert_text "Something went wrong"
+      end
     end
   end
 end

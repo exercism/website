@@ -4,6 +4,8 @@ class Test::Components::Student::TrackListController < ApplicationController
   end
 
   def tracks
+    return head :internal_server_error if params[:state] == "Loading"
+
     tracks = Track::Search.(
       criteria: params[:criteria],
       tags: params[:tags],

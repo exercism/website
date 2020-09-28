@@ -67,6 +67,14 @@ module Components
 
         assert_text "No results found"
       end
+
+      test "shows loading state" do
+        visit test_components_student_track_list_url
+        select "Loading", from: "State"
+        click_on "Submit"
+
+        assert_text "Loading"
+      end
     end
   end
 end

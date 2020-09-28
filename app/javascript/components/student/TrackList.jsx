@@ -3,6 +3,7 @@ import { useRequestQuery } from '../../hooks/request-query'
 import { Search } from './TrackList/Search'
 import { StatusFilter } from './TrackList/StatusFilter'
 import { List } from './TrackList/List'
+import { Loading } from '../common/Loading'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -31,7 +32,7 @@ export function TrackList({ statusOptions, ...props }) {
       <Search dispatch={dispatch} />
       <StatusFilter dispatch={dispatch} options={statusOptions} />
       {isSuccess && <List data={data} />}
-      {isFetching && <p>Loading</p>}
+      {isFetching && <Loading />}
       {isError && <p>Something went wrong</p>}
     </div>
   )

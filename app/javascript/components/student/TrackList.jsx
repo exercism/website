@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
+import { useRequestQuery } from '../../hooks/request-query'
 import { Search } from './TrackList/Search'
 import { StatusFilter } from './TrackList/StatusFilter'
-import { Track } from './TrackList/Track'
-import { useRequestQuery } from '../../hooks/request-query'
+import { List } from './TrackList/List'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -27,29 +27,7 @@ export function TrackList({ statusOptions, ...props }) {
     <div className="student-track-list">
       <Search dispatch={dispatch} />
       <StatusFilter dispatch={dispatch} options={statusOptions} />
-      {isSuccess && (
-        <table>
-          <thead>
-            <tr>
-              <th>Icon</th>
-              <th>Title</th>
-              <th>Num concept exercises</th>
-              <th>Num practice exercises</th>
-              <th>URL</th>
-              <th>New?</th>
-              <th>Tags</th>
-              <th>Joined?</th>
-              <th>Num completed concept exercises</th>
-              <th>Num completed practice exercises</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.tracks.map((track) => {
-              return <Track key={track.id} track={track} />
-            })}
-          </tbody>
-        </table>
-      )}
+      {isSuccess && <List data={data} />}
     </div>
   )
 }

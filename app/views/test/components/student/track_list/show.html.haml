@@ -2,10 +2,10 @@
 %h2 Track list
 = form_tag nil, method: :get do
   = label_tag :state
-  = select_tag :state, options_for_select(%w[Success Loading], params[:state])
+  = select_tag :state, options_for_select(%w[Success Error Loading], params[:state])
   = submit_tag "Submit", name: nil
 %br
 Error / Loading states are only seen when filtering
 %hr/
 
-= ViewComponents::Student::TrackList.new(@data, { endpoint: tracks_test_components_student_track_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" }  })
+= ViewComponents::Student::TrackList.new(@data, { endpoint: tracks_test_components_student_track_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })

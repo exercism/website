@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react'
 import { TrackIcon } from '../common/TrackIcon'
 import { Search } from './TrackList/Search'
+import { StatusFilter } from './TrackList/StatusFilter'
 import { useRequestQuery } from '../../hooks/request-query'
 
 function reducer(state, action) {
@@ -10,16 +11,22 @@ function reducer(state, action) {
         ...state,
         query: { ...state.query, criteria: action.payload.criteria },
       }
+    case 'status.changed':
+      return {
+        ...state,
+        query: { ...state.query, status: action.payload.status },
+      }
   }
 }
 
-export function TrackList(props) {
+export function TrackList({ statusOptions, ...props }) {
   const [request, dispatch] = useReducer(reducer, props.request)
   const { data, isSuccess } = useRequestQuery('track-list', request)
 
   return (
     <div className="student-track-list">
       <Search dispatch={dispatch} />
+      <StatusFilter dispatch={dispatch} options={statusOptions} />
       {isSuccess && (
         <table>
           <thead>

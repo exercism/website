@@ -45,6 +45,20 @@ module Components
         assert_table_row first("table"), row
         assert_selector(".student-track-list tbody tr", count: 1)
       end
+
+      test "filter by status" do
+        user = create :user
+        create :track, title: "Ruby"
+        go = create :track, title: "Go"
+        create :user_track, track: go, user: user
+
+        visit test_components_student_track_list_url
+        select "Joined", from: "Status"
+
+        row = { "Title" => "Go" }
+        assert_table_row first("table"), row
+        assert_selector(".student-track-list tbody tr", count: 1)
+      end
     end
   end
 end

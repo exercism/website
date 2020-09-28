@@ -19,6 +19,7 @@ import * as Example from '../components/example'
 import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
+import * as Student from '../components/student'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -43,6 +44,7 @@ initReact({
   'mentoring-queue': (data) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
+  'student-track-list': (data) => <Student.TrackList tracks={data.tracks} />,
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

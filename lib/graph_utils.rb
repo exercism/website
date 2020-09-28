@@ -1,9 +1,9 @@
 # Collection of graph utilities for manipulating and traversing graphs
 module GraphUtils
   def self.calculate_levels(adjacencies)
-    node_indegrees = find_indegree(adjacencies)
-    source_nodes = find_sources(node_indegrees)
-    find_depths(source_nodes, adjacencies)
+    find_indegree(adjacencies).
+      then { |indegrees| find_sources(indegrees) }.
+      then { |sources| find_depths(sources, adjacencies) }
   end
 
   # Examines the graph structure (through an adjacencies list) looking

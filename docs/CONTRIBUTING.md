@@ -95,12 +95,31 @@ View Components are either functional and written in React, or non-functional an
 
 - The JS for each component lives in `app/javascript/components/**/XXX.js`
 - The CSS for each component lives in `app/css/components/**/XXX.css`
-- Each component has a method in `app/helpers/components_helper.rb`
-- Each component has a view file for development usage and system testing in `/app/views/test/components/**/XXX.html.haml`
-- Each component has Rails system test in `test/system/components/**/XXX.rb`
-- Each component has Jest test in `test/system/javascript/**/XXX.rb`
+
+#### Server-side component class
+
+Each component has a class in `app/helpers/view_components/**/XXX.rb`
+
+This component is responsible for rendering the component via its `to_s` method.
+Any server-side properties of the component (e.g. sort options) should be stored within this class.
+
+#### Testing components
 
 The tests should cover all functionality in the component, with unit tests being via JS, and tests that interact with Rails being tested through system tests.
+
+Each component should have a set of JavaScript tests.
+These are written in Jest.
+They reside in `test/javascript/**/XXX.test.js`
+
+Each component should have a test file for its server-side component class.
+This should test the component's div and initial data are rendered correctly.
+These reside in `test/helpers/view_components/**/XXX_test.rb`
+
+Each component has a view file for development usage and system testing.
+These reside in `app/views/test/components/**/XXX.html.haml`
+
+Finally, each component has Rails system tests.
+These reside in `test/system/components/**/XXX_test.rb`
 
 ## Linting
 

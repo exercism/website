@@ -2,6 +2,7 @@ import React from 'react'
 import { Pagination } from '../Pagination'
 import { Conversation } from './conversation-list/Conversation'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
+import { Loading } from '../../common/Loading'
 
 export function ConversationList({ request, setPage }) {
   const { status, resolvedData, latestData } = usePaginatedRequestQuery(
@@ -11,7 +12,7 @@ export function ConversationList({ request, setPage }) {
 
   return (
     <div className="conversations-list">
-      {status === 'loading' && <p>Loading</p>}
+      {status === 'loading' && <Loading />}
       {status === 'error' && <p>Something went wrong</p>}
       {status === 'success' && (
         <>

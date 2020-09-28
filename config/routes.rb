@@ -54,7 +54,11 @@ Rails.application.routes.draw do
     namespace :test do
       namespace :components do
         namespace :student do
-          resource :track_list, only: [:show], controller: "track_list"
+          resource :track_list, only: [:show], controller: "track_list" do
+            member do
+              get 'tracks'
+            end
+          end
         end
         namespace :maintaining do
           get 'iterations_summary_table', to: 'iterations_summary_table#index', as: 'iterations_summary_table'

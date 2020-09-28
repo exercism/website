@@ -4,6 +4,13 @@ class Test::Components::Student::TrackListController < ApplicationController
   end
 
   def tracks
-    render json: API::TracksSerializer.new(Track.all, User.first).to_json
+    tracks = Track::Search.(
+      criteria: params[:criteria],
+      tags: params[:tags],
+      status: params[:status],
+      user: User.first
+    )
+
+    render json: API::TracksSerializer.new(tracks, User.first).to_hash
   end
 end

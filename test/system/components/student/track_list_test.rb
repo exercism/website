@@ -32,6 +32,19 @@ module Components
         }
         assert_table_row first("table"), row
       end
+
+      test "filter by track title" do
+        create :user
+        create :track, title: "Ruby"
+        create :track, title: "Go"
+
+        visit test_components_student_track_list_url
+        fill_in "Search language tracks", with: "Go"
+
+        row = { "Title" => "Go" }
+        assert_table_row first("table"), row
+        assert_selector(".student-track-list tbody tr", count: 1)
+      end
     end
   end
 end

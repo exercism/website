@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import { TrackIcon } from '../common/TrackIcon'
+import { Search } from './TrackList/Search'
 import { useRequestQuery } from '../../hooks/request-query'
 
-export function TrackList({ request }) {
+function reducer(state, action) {
+  switch (action.type) {
+    case 'criteria.changed':
+      return {
+        ...state,
+        query: { ...state.query, criteria: action.payload.criteria },
+      }
+  }
+}
+
+export function TrackList(props) {
+  const [request, dispatch] = useReducer(reducer, props.request)
   const { data, isSuccess } = useRequestQuery('track-list', request)
 
   return (
-    <div>
+    <div className="student-track-list">
+      <Search dispatch={dispatch} />
       {isSuccess && (
         <table>
           <thead>

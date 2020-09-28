@@ -1,5 +1,6 @@
 import React from 'react'
 import { fromNow } from '../../../../utils/time'
+import { TrackIcon } from '../../../common/TrackIcon'
 
 export function Conversation({
   trackTitle,
@@ -17,11 +18,7 @@ export function Conversation({
   return (
     <tr>
       <td>
-        <img
-          style={{ width: 100 }}
-          src={trackIconUrl}
-          alt={`icon for ${trackTitle} track`}
-        />
+        <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
       </td>
       <td>
         <img

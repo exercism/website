@@ -15,8 +15,7 @@ class Track
     def call
       return [] if graph.empty?
 
-      # TODO: Add a proper exception
-      raise if graph.has_cycle?
+      raise TrackHasCyclicPrerequisiteError if graph.has_cycle?
 
       Array.new(graph.levels.max + 1) { [] }.tap do |layout|
         graph.levels.each.with_index do |level, idx|
@@ -36,9 +35,6 @@ class Track
 
       # Node for representing an exercise within a track
       Node = Struct.new(:index, :slug, :uuid, :concepts, :prerequisites, keyword_init: true)
-
-      # Add public readers
-      attr_reader :nodes, :edges
 
       def initialize(exercises)
         @exercises = exercises
@@ -70,7 +66,7 @@ class Track
       end
 
       private
-      attr_reader :exercises
+      attr_reader :nodes, :edges, :exercises
 
       # Creates adjacency list for a graph with directed edges
       memoize

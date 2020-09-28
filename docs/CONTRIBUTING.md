@@ -44,6 +44,7 @@ All other "normal" routes redirect or render HTML.
 Controllers should be "thin".
 Each action should do at most one thing, retrieve at most one thing, and render/redirect.
 To achieve this, controllers call out to Commands, which contain more complex functionality encapsualted in stand-alone procedures. This is known as the Command Pattern or the Interactor Pattern.
+If an action doesn't need any instance variables, we still prefer adding an empty controller action for it. This allows us to have visibility on what actions have been implemented on that controller.
 
 ## Serializers
 

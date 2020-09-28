@@ -1,11 +1,5 @@
 class Test::Components::Mentoring::QueueController < ApplicationController
-  def show
-    @sort_options = [
-      { value: "recent", label: "Sort by Most Recent" },
-      { value: "exercise", label: "Sort by Exercise" },
-      { value: "student", label: "Sort by Student" }
-    ]
-  end
+  def show; end
 
   def solutions
     return head :internal_server_error if params[:state] == "Error" || params[:state] == "Loading"

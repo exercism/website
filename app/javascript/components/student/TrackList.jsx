@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
-import { TrackIcon } from '../common/TrackIcon'
 import { Search } from './TrackList/Search'
 import { StatusFilter } from './TrackList/StatusFilter'
+import { Track } from './TrackList/Track'
 import { useRequestQuery } from '../../hooks/request-query'
 
 function reducer(state, action) {
@@ -45,22 +45,7 @@ export function TrackList({ statusOptions, ...props }) {
           </thead>
           <tbody>
             {data.tracks.map((track) => {
-              return (
-                <tr key={track.id}>
-                  <td>
-                    <TrackIcon track={track} />
-                  </td>
-                  <td>{track.title}</td>
-                  <td>{track.numConceptExercises}</td>
-                  <td>{track.numPracticeExercises}</td>
-                  <td>{track.webUrl}</td>
-                  <td>{track.isNew.toString()}</td>
-                  <td>{track.tags.join(', ')}</td>
-                  <td>{track.isJoined.toString()}</td>
-                  <td>{track.numCompletedConceptExercises}</td>
-                  <td>{track.numCompletedPracticeExercises}</td>
-                </tr>
-              )
+              return <Track key={track.id} track={track} />
             })}
           </tbody>
         </table>

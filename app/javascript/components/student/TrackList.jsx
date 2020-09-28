@@ -21,13 +21,14 @@ function reducer(state, action) {
 
 export function TrackList({ statusOptions, ...props }) {
   const [request, dispatch] = useReducer(reducer, props.request)
-  const { data, isSuccess } = useRequestQuery('track-list', request)
+  const { data, isSuccess, isFetching } = useRequestQuery('track-list', request)
 
   return (
     <div className="student-track-list">
       <Search dispatch={dispatch} />
       <StatusFilter dispatch={dispatch} options={statusOptions} />
       {isSuccess && <List data={data} />}
+      {isFetching && <p>Loading</p>}
     </div>
   )
 }

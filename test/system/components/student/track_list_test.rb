@@ -59,6 +59,14 @@ module Components
         assert_table_row first("table"), row
         assert_selector(".student-track-list tbody tr", count: 1)
       end
+
+      test "shows empty state" do
+        create :user
+
+        visit test_components_student_track_list_url
+
+        assert_text "No results found"
+      end
     end
   end
 end

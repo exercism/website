@@ -1,5 +1,5 @@
 import React from 'react'
-import { TrackIcon } from '../../common/TrackIcon'
+import { TrackIcon } from '../../../common/TrackIcon'
 
 export function Track({ track }) {
   return (

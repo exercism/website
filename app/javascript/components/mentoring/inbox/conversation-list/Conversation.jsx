@@ -1,7 +1,5 @@
 import React from 'react'
-import dayjs from 'dayjs'
-import RelativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(RelativeTime)
+import { fromNow } from '../../../../utils/time'
 
 export function Conversation({
   trackTitle,
@@ -38,7 +36,7 @@ export function Conversation({
       <td>{haveMentoredPreviously.toString()}</td>
       <td>{isNewIteration.toString()}</td>
       <td>{postsCount}</td>
-      <td>{dayjs(updatedAt).fromNow()}</td>
+      <td>{fromNow(updatedAt)}</td>
       <td>{url}</td>
     </tr>
   )

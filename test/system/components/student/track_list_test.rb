@@ -28,7 +28,9 @@ module Components
           "Tags" => "OOP, Web Dev",
           "Joined?" => "true",
           "Num completed concept exercises" => 5,
-          "Num completed practice exercises" => 5
+          "Num completed practice exercises" => 5,
+          "Progress" => "Completed concept exercises: 25%, Uncompleted concept exercises: 25%, "\
+                        "Completed practice exercises: 25%, Uncompleted practice exercises: 25%"
         }
         assert_table_row first("table"), row
       end

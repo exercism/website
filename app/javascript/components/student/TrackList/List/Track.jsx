@@ -1,5 +1,6 @@
 import React from 'react'
 import { TrackIcon } from '../../../common/TrackIcon'
+import { ProgressBar } from './Track/ProgressBar'
 
 export function Track({ track }) {
   return (
@@ -16,6 +17,16 @@ export function Track({ track }) {
       <td>{track.isJoined.toString()}</td>
       <td>{track.numCompletedConceptExercises}</td>
       <td>{track.numCompletedPracticeExercises}</td>
+      <td>
+        {track.isJoined && (
+          <ProgressBar
+            numConceptExercises={track.numConceptExercises}
+            numPracticeExercises={track.numPracticeExercises}
+            numCompletedConceptExercises={track.numCompletedConceptExercises}
+            numCompletedPracticeExercises={track.numCompletedPracticeExercises}
+          />
+        )}
+      </td>
     </tr>
   )
 }

@@ -20,4 +20,11 @@
 
 .hello {
     color: green;
+    & .world {
+        @apply inline-block;
+
+        @screen md {
+            @apply font-bold;
+        }
+    }
 }

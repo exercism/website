@@ -4,9 +4,6 @@ class Test::Components::Notifications::IconController < ApplicationController
   end
 
   def update
-    NotificationsChannel.broadcast_to(
-      User.first,
-      { type: "notifications.changed", payload: { count: params[:count] } }
-    )
+    NotificationsChannel.broadcast_changed(User.first, count: params[:count])
   end
 end

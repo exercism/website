@@ -13,9 +13,7 @@ export function usePaginatedRequestQuery(key, request) {
   return usePaginatedQuery(
     [key, request.endpoint, request.query],
     handleFetch,
-    Object.assign(request.options, {
-      initialData: camelizeKeys(request.options.initialData),
-    })
+    camelizeKeys(request.options)
   )
 }
 
@@ -23,8 +21,6 @@ export function useRequestQuery(key, request) {
   return useQuery(
     [key, request.endpoint, request.query],
     handleFetch,
-    Object.assign(request.options, {
-      initialData: camelizeKeys(request.options.initialData),
-    })
+    camelizeKeys(request.options)
   )
 }

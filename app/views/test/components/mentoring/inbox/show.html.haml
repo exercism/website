@@ -7,4 +7,4 @@
   = select_tag :tracks_endpoint_state, options_for_select(%w[Success Error Loading], params[:tracks_endpoint_state])
   = submit_tag "Submit", name: nil
 %hr/
-= ViewComponents::Mentoring::Inbox.new({ endpoint: conversations_test_components_mentoring_inbox_path, query: { state: params[:conversations_endpoint_state], sort: :exercise }, options: { retry: params[:conversations_endpoint_state] == "Loading" } }, { endpoint: tracks_test_components_mentoring_inbox_path, query: { state: params[:tracks_endpoint_state] }, retry: { retry: params[:tracks_endpoint_state] == "Loading" } })
+= ViewComponents::Mentoring::Inbox.new({ endpoint: conversations_test_components_mentoring_inbox_path, query: { state: params[:conversations_endpoint_state], sort: :exercise }, options: { retry: params[:conversations_endpoint_state] == "Loading" } }, { endpoint: tracks_test_components_mentoring_inbox_path, query: { state: params[:tracks_endpoint_state] }, options: { retry: params[:tracks_endpoint_state] == "Loading" } })

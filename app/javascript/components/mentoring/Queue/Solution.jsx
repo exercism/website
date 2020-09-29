@@ -1,7 +1,5 @@
 import React from 'react'
-import dayjs from 'dayjs'
-import RelativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(RelativeTime)
+import { fromNow } from '../../../utils/time'
 
 export function Solution({
   trackTitle,
@@ -36,7 +34,7 @@ export function Solution({
       <td>{isStarred.toString()}</td>
       <td>{haveMentoredPreviously.toString()}</td>
       <td>{status}</td>
-      <td>{dayjs(updatedAt).fromNow()}</td>
+      <td>{fromNow(updatedAt)}</td>
       <td>{url}</td>
     </tr>
   )

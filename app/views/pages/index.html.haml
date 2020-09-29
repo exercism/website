@@ -1,19 +1,19 @@
-.text-purple-700 Some purple text
-.hello 
-  Hello, 
-  .world World!
+.md-container
+  .text-purple-700 Some purple text
+  .hello 
+    Hello, 
+    .world World!
 
-.tw-text-green-400 
-  Hello
-  .tw-inline-block.md:tw-font-bold World!
+  .tw-text-green-400 
+    Hello
+    .tw-inline-block.md:tw-font-bold World!
 
-%input.tw-border-solid.tw-border-4.tw-border-green-500{placeholder: "foobar"}
+  %input.tw-border-solid.tw-border-4.tw-border-green-500{placeholder: "foobar"}
 
-
-%hr/
-%h2 Temporary useful buttons
-%ul
-  %li
-    = link_to "List Iterations", maintaining_iterations_path
-  %li
-    = link_to "Create Iteration", tmp_iterations_path, method: :post, remote: true
+  %hr/
+  %h2 Temporary useful buttons
+  %ul
+    %li
+      = link_to "List Iterations", maintaining_iterations_path
+    %li
+      = link_to "Create Iteration", tmp_iterations_path, method: :post, remote: true

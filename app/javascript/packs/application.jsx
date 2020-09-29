@@ -9,6 +9,9 @@ require('@rails/activestorage').start()
 require('channels')
 
 import 'css/application.css'
+import 'css/styles.css'
+import 'css/layout.css'
+import 'css/components/track.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'

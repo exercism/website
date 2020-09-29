@@ -20,6 +20,7 @@ export function List({ data }) {
           <th>Joined?</th>
           <th>Num completed concept exercises</th>
           <th>Num completed practice exercises</th>
+          <th>Progress</th>
         </tr>
       </thead>
       <tbody>

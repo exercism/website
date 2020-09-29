@@ -19,6 +19,5 @@
 @import "tailwindcss/utilities";
 
 body {
-    @apply font-body bg-bgGray;
-    -webkit-font-smoothing: antialiased;
+    @apply font-body bg-bgGray antialiased;
 }

@@ -1,1 +1,18 @@
-* @iHiD
+# JS files
+*.js      @iHiD @kntsoriano @erikschierboom
+
+# Ruby files
+*.rb      @iHiD
+*.ru      @iHiD
+Gemfile*  @iHiD
+config/   @iHiD
+db/       @iHiD
+lib/      @iHiD
+
+# Docker and deployment files
+docker/   @iHiD
+Procfile* @iHiD
+
+# Bin files
+bin/     @iHiD
+

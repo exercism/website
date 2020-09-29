@@ -1,0 +1,17 @@
+@import "../styles";
+
+.c-track {
+    @apply border-black p-24 bg-white shadow-1 rounded-8 flex;
+
+    & .c-track-icon {
+        width: 57px;
+        @apply mr-16;
+    }
+    & .title {
+        @apply text-h3-mono mb-8;
+    }
+
+    & .counts {
+        @apply flex font-medium text-16 gap-12 text-textLight;
+    }
+}

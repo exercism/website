@@ -18,6 +18,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+body {
+    @apply font-body bg-bgGray;
+    -webkit-font-smoothing: antialiased;
+}
 .hello {
     color: green;
     & .world {

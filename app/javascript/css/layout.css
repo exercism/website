@@ -1,0 +1,18 @@
+/**************/
+/* Containers */
+/**************/
+.md-container,
+.lg-container {
+    width: 100%;
+    @apply mx-auto;
+}
+
+.md-container {
+    max-width: 1248px;
+    padding: 0 32px;
+}
+
+.lg-container {
+    max-width: 1440px;
+    padding: 0 32px;
+}

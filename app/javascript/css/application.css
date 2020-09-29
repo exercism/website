@@ -14,4 +14,10 @@
  *= require_self
  */
 
-.hello { color: green; }
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.hello {
+    color: green;
+}

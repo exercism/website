@@ -1,6 +1,6 @@
 class Test::Components::Student::TrackListController < ApplicationController
   def show
-    @data = API::TracksSerializer.new(Track.all, User.first)
+    @data = SerializeTracks.(Track.all, User.first)
   end
 
   def tracks
@@ -13,6 +13,6 @@ class Test::Components::Student::TrackListController < ApplicationController
       user: User.first
     )
 
-    render json: API::TracksSerializer.new(tracks, User.first).to_hash
+    render json: SerializeTracks.(tracks, User.first)
   end
 end

@@ -8,6 +8,7 @@ Gemfile*  @iHiD
 config/   @iHiD
 db/       @iHiD
 lib/      @iHiD
+Rakefile  @iHiD
 
 # Docker and deployment files
 docker/   @iHiD
@@ -15,4 +16,3 @@ Procfile* @iHiD
 
 # Bin files
 bin/     @iHiD
-

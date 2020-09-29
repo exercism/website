@@ -151,3 +151,9 @@ We use markdown files for documentation.
 
 - Haml files should adhere to the rules in `.haml-lint.yml`
 - Note that haml-lint does not automatically fix problems.
+
+## Libraries Used
+
+This is a reference of the libraries we use:
+
+- **JS Keyboard shortcuts:** Mousetrap

@@ -28,3 +28,9 @@
         }
     }
 }
+
+input {
+    &::placeholder {
+        color: #123456;
+    }
+}

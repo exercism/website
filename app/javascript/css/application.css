@@ -22,19 +22,3 @@ body {
     @apply font-body bg-bgGray;
     -webkit-font-smoothing: antialiased;
 }
-.hello {
-    color: green;
-    & .world {
-        @apply inline-block;
-
-        @screen md {
-            @apply font-bold;
-        }
-    }
-}
-
-input {
-    &::placeholder {
-        color: #123456;
-    }
-}

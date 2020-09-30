@@ -1,4 +1,4 @@
-class Test::Components::Notifications::IconController < ApplicationController
+class Test::Components::Notifications::IconController < Test::BaseController
   def show
     @user = User.first
   end

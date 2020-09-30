@@ -1,4 +1,4 @@
-class Test::Components::Mentoring::QueueController < ApplicationController
+class Test::Components::Mentoring::QueueController < Test::BaseController
   def show; end
 
   def solutions

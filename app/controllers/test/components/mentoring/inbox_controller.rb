@@ -1,4 +1,4 @@
-class Test::Components::Mentoring::InboxController < ApplicationController
+class Test::Components::Mentoring::InboxController < Test::BaseController
   def show; end
 
   def tracks

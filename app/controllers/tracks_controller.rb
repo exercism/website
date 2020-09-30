@@ -23,6 +23,10 @@ class TracksController < ApplicationController
     redirect_to action: :show
   end
 
+  def concepts; end
+
+  def exercises; end
+
   private
   def use_track
     @track = Track.find(params[:id])

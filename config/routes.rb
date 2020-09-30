@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   end
   resources :tracks, only: %i[index show] do
     member do
+      get :concepts
+      get :exercises
       post :join
     end
   end

@@ -13,9 +13,6 @@ class Track
     # Layout computes the ordering of the exercises in a track by creating
     # a graph then traversing it to discover and memoize the progression
     def call
-      levels = determine_levels
-      connections = determine_connections(levels)
-
       {
         levels: levels,
         connections: connections
@@ -25,7 +22,8 @@ class Track
     private
     attr_reader :graph
 
-    def determine_levels
+    memoize
+    def levels
       return [] if graph.empty?
 
       raise TrackHasCyclicPrerequisiteError if graph.has_cycle?
@@ -40,7 +38,8 @@ class Track
       end
     end
 
-    def determine_connections(levels)
+    memoize
+    def connections
       levels.drop(1).with_index.reduce([]) do |memo_connections, (level, level_idx)|
         memo_connections << level.flat_map do |node|
           previous_level_lookup = levels[level_idx - 1].index_by(&:slug)
@@ -49,6 +48,7 @@ class Track
             map { |prerequisite| graph.node_for_concept(prerequisite) }.
             reject(&:nil?).
             map(&:slug).
+            uniq.
             select { |prerequisite| previous_level_lookup.has_key?(prerequisite) }.
             map { |prerequisite| {from: prerequisite, to: node.slug} }
         end

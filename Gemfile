@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '~> 2.6.0'
 
 # Service/framework dependencies
 gem 'rails', git: 'http://github.com/rails/rails.git', ref: "7101489293ece071013417aeed2da3aa1b0927c9"

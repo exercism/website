@@ -31,7 +31,7 @@ class Track
       Array.new(graph.levels.max + 1) { [] }.tap do |level|
         graph.levels.each_with_index do |level_idx, node_idx|
           node = graph.node_for_index(node_idx)
-          node.set_level(level_idx)
+          node.level = level_idx
 
           level[level_idx] << node
         end
@@ -40,17 +40,14 @@ class Track
 
     memoize
     def connections
-      levels.drop(1).with_index.reduce([]) do |memo_connections, (level, level_idx)|
-        memo_connections << level.flat_map do |node|
-          previous_level_lookup = levels[level_idx - 1].index_by(&:slug)
-
+      levels.drop(1).with_index.flat_map do |(level, level_idx)|
+        level.flat_map do |node|
           node.prerequisites.
             map { |prerequisite| graph.node_for_concept(prerequisite) }.
             reject(&:nil?).
-            map(&:slug).
             uniq.
-            select { |prerequisite| previous_level_lookup.has_key?(prerequisite) }.
-            map { |prerequisite| {from: prerequisite, to: node.slug} }
+            select { |prerequisite_node| prerequisite_node.level + 1 == level_idx }.
+            map { |prerequisite_node| { from: prerequisite_node.slug, to: node.slug } }
         end
       end
     end
@@ -62,7 +59,7 @@ class Track
       Edge = Struct.new(:from, :to, keyword_init: true)
 
       # Node for representing an exercise within a track
-      Node = Struct.new(:index, :slug, :uuid, :concepts, :prerequisites, keyword_init: true)
+      Node = Struct.new(:index, :slug, :uuid, :concepts, :prerequisites, :level, keyword_init: true)
 
       def initialize(exercises)
         @exercises = exercises

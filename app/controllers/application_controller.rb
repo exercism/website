@@ -21,10 +21,10 @@ class ApplicationController < ActionController::Base
       define_method action do
         if user_logged_in?
           send("authenticated_#{action}")
-          render action: "#{action}/authenticated"
+          render action: "#{action}/authenticated" unless performed?
         elsif !user_logged_in?
           send("external_#{action}")
-          render action: "#{action}/external"
+          render action: "#{action}/external" unless performed?
         end
       end
     end

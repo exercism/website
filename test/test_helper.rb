@@ -106,7 +106,9 @@ class ActionDispatch::IntegrationTest
   # TODO: Add this implmentation back when devise
   # is added.
   def sign_in!(user = nil)
-    #  @current_user = user || create(:user, :onboarded)
+    @current_user = user || create(:user)
+
+    # TODO: Renable when adding devise
     #  @current_user.confirm
     #  sign_in @current_user
   end

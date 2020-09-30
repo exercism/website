@@ -3,13 +3,13 @@ require "test_helper"
 class Track
   class DetermineConceptsLayoutTest < ActiveSupport::TestCase
     def test_layout_empty
-      assert_equal [], DetermineConceptsLayout.(TestData::CONFIG_EMPTY)
+      assert_equal [], DetermineConceptsLayout.(TestData::CONFIG_EMPTY)[:levels]
     end
 
     def test_layout_small
       assert_equal(
         [[2], [0, 1]],
-        DetermineConceptsLayout.(TestData::CONFIG_SMALL).
+        DetermineConceptsLayout.(TestData::CONFIG_SMALL)[:levels].
           map { |layer| layer.map(&:index) }
       )
     end
@@ -30,7 +30,7 @@ class Track
             'slug' => 'numbers',
             'uuid' => 'fee79e03-1496-476f-964f-e60632cb13dc',
             'concepts' => %w[integers floating-point-numbers],
-            'prerequisites' => %w[basics]
+            'prerequisites' => %w[basics booleans]
           },
           {
             'slug' => 'basics',

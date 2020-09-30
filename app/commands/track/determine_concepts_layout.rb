@@ -13,19 +13,47 @@ class Track
     # Layout computes the ordering of the exercises in a track by creating
     # a graph then traversing it to discover and memoize the progression
     def call
-      return [] if graph.empty?
+      levels = determine_levels
+      connections = determine_connections(levels)
 
-      raise TrackHasCyclicPrerequisiteError if graph.has_cycle?
-
-      Array.new(graph.levels.max + 1) { [] }.tap do |layout|
-        graph.levels.each.with_index do |level, idx|
-          layout[level] << graph.node_for_index(idx)
-        end
-      end
+      {
+        levels: levels,
+        connections: connections
+      }
     end
 
     private
     attr_reader :graph
+
+    def determine_levels
+      return [] if graph.empty?
+
+      raise TrackHasCyclicPrerequisiteError if graph.has_cycle?
+
+      Array.new(graph.levels.max + 1) { [] }.tap do |level|
+        graph.levels.each_with_index do |level_idx, node_idx|
+          node = graph.node_for_index(node_idx)
+          node.set_level(level_idx)
+
+          level[level_idx] << node
+        end
+      end
+    end
+
+    def determine_connections(levels)
+      levels.drop(1).with_index.reduce([]) do |memo_connections, (level, level_idx)|
+        memo_connections << level.flat_map do |node|
+          previous_level_lookup = levels[level_idx - 1].index_by(&:slug)
+
+          node.prerequisites.
+            map { |prerequisite| graph.node_for_concept(prerequisite) }.
+            reject(&:nil?).
+            map(&:slug).
+            select { |prerequisite| previous_level_lookup.has_key?(prerequisite) }.
+            map { |prerequisite| {from: prerequisite, to: node.slug} }
+        end
+      end
+    end
 
     class Graph
       include Mandate

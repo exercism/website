@@ -1,6 +1,8 @@
 class TracksController < ApplicationController
   before_action :use_track, except: :index
 
+  allow_unauthenticated! :index, :show
+
   def authenticated_index
     # TODO: This should cease to be an instance variable
     # once the view is using the tracks_json to render

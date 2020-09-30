@@ -46,6 +46,42 @@ Each action should do at most one thing, retrieve at most one thing, and render/
 To achieve this, controllers call out to Commands, which contain more complex functionality encapsualted in stand-alone procedures. This is known as the Command Pattern or the Interactor Pattern.
 Even if an action doesn't need any instance variables, add an empty controller action for it. This allows us to have visibility on what actions have been implemented on that controller.
 
+### Authentication
+
+By default, all controllers expect a user to be authenticated, and return a user to the log in page if they are not.
+This can be overriden using the `allow_unauthenticated!` method, which creates a pivot between `authenticated_#{action}` and `external_#{action}`, which in turn (automatically) render `app/views/#{controller}/#{action}/authenticated` and `app/views/#{controller}/#{action}/external`
+
+For example, in the tracks controller we allow the `index` and `show` pages to be visible to anyone:
+
+```
+class TracksController < ApplicationController
+  before_action :use_track, except: :index
+
+  allow_unauthenticated! :index, :show
+
+  def authenticated_index
+    ...
+    # Renders app/views/tracks/index/authenticated.html.haml
+  end
+
+  def external_index
+    ...
+    # Renders app/views/tracks/index/external.html.haml
+  end
+
+  def authenticated_show
+    ...
+    # Renders app/views/tracks/show/authenticated.html.haml
+  end
+
+  def external_show
+    ...
+    # Renders app/views/tracks/show/external.html.haml
+  end
+end
+
+```
+
 ## Serializers
 
 To ensure that data is represented in common ways, we use serializer objects.

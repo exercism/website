@@ -8,12 +8,11 @@ This is the WIP website for Exercism v3. We are not currently accepting Pull Req
 
 This is the website component of Exercism. It is Ruby on Rails app, backed by MySQL. It also relies on Redis and AnyCable.
 
-## Full Local Setup
+## Running within our development-environment
 
-If you are looking to create a full Exercism setup locally, with tooling such as test-runners and other services, please check out our [development environment](https://github.com/exercism/development-environment) repo.
-This is our officially supported development setup.
+Our supported development setup is via our [development environment](https://github.com/exercism/development-environment) repo. Please follow the instructions there. _You can also run locally without Docker, but this is unsupported - see the next section for details._
 
-### Setup database using Docker-based development environment
+### Setup database
 
 Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to setup the database. All these are run "inside" the existing `website` container that needs to already have been started.
 
@@ -25,7 +24,7 @@ Assuming your docker-compose is already "up," you can run the following commands
 ./bin/script website reset-db
 ```
 
-### Running tests using Docker-based development environment
+### Running tests
 
 Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to run tests. All these are run "inside" the existing `website` container that needs to already have been started.
 
@@ -45,9 +44,10 @@ Assuming your docker-compose is already "up," you can run the following commands
 
 ### Local setup
 
-The website can be also be setup and run locally.
+The website can be also be setup and run locally. This is unsupported.
 You need the following installed:
 
+- Ruby 2.6.6 (For other Ruby versions, change the version in the `Gemfile`)
 - MySQL
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)

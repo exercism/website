@@ -98,8 +98,9 @@ View Components are either functional and written in React, or non-functional an
 
 ### React components
 
-- The JS for each component lives in `app/javascript/components/**/XXX.js`
-- The CSS for each component lives in `app/css/components/**/XXX.css`
+- The JS for each component lives in `app/javascript/components/**/XXX.js`.
+- The CSS for each component lives in `app/css/components/**/XXX.css`.
+- All components must have have a css class prefixed with `c-`. No other classes may start with `c-`.
 
 #### Server-side component class
 

@@ -23,10 +23,35 @@ test('allow retry after loading error', async () => {
       request={{
         endpoint: 'https://exercism.test/conversations',
         query: { page: 2 },
+        options: { retry: false },
       }}
       setPage={setPage}
     />
   )
 
   await waitFor(() => expect(screen.getByText('Retry')).toBeInTheDocument())
+
+  server.use(
+    rest.get('https://exercism.test/conversations', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          results: [
+            {
+              trackTitle: 'Ruby',
+              exerciseTitle: 'Bob',
+              isStarred: false,
+              isNewIteration: false,
+              haveMentoredPreviously: false,
+            },
+          ],
+          meta: { total: 2 },
+        })
+      )
+    })
+  )
+
+  fireEvent.click(screen.getByText('Retry'))
+
+  await waitFor(() => expect(screen.getByText('Bob')).toBeInTheDocument())
+  expect(screen.queryByText('Retry')).not.toBeInTheDocument()
 })

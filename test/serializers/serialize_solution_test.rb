@@ -98,6 +98,6 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     output = SerializeSolution.(solution, mentor)
 
     assert_equal "https://test.exercism.io/mentoring/solutions/#{solution.mentor_uuid}",
-                 output[:solution][:url]
+      output[:solution][:url]
   end
 end

@@ -36,12 +36,12 @@ class Track::SearchTest < ActiveSupport::TestCase
     unjoined = create :track
 
     assert_equal [joined, unjoined],
-                 Track::Search.(status: :all, user: user)
+      Track::Search.(status: :all, user: user)
 
     assert_equal [joined],
-                 Track::Search.(status: :joined, user: user)
+      Track::Search.(status: :joined, user: user)
 
     assert_equal [unjoined],
-                 Track::Search.(status: :unjoined, user: user)
+      Track::Search.(status: :unjoined, user: user)
   end
 end

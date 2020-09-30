@@ -108,5 +108,5 @@ class ActionDispatch::IntegrationTest
 end
 
 ActionDispatch::IntegrationTest.register_encoder :js,
-                                                 param_encoder: ->(params) { params },
-                                                 response_parser: ->(body) { body }
+  param_encoder: ->(params) { params },
+  response_parser: ->(body) { body }

@@ -144,27 +144,27 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "latest updates git sha if exercise was not previously downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: nil
+      user: @current_user,
+      downloaded_at: nil
 
     create :user_track, user: @current_user, track: solution.track
 
     Solution.any_instance.expects(:update_git_info!)
     get latest_api_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
-        headers: @headers, as: :json
+      headers: @headers, as: :json
   end
 
   test "latest does not update git sha if exercise was downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: Time.current
+      user: @current_user,
+      downloaded_at: Time.current
 
     create :user_track, user: @current_user, track: solution.track
 
     Solution.any_instance.expects(:update_git_info!).never
     get latest_api_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
-        headers: @headers, as: :json
+      headers: @headers, as: :json
   end
 
   ###
@@ -229,8 +229,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "show updates git sha if exercise was not previously downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: nil
+      user: @current_user,
+      downloaded_at: nil
 
     create :user_track, user: @current_user, track: solution.track
 
@@ -241,8 +241,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "show does not update git sha if exercise was downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: Time.current
+      user: @current_user,
+      downloaded_at: Time.current
 
     create :user_track, user: @current_user, track: solution.track
 
@@ -288,9 +288,9 @@ class API::SolutionsControllerTest < API::BaseTestCase
     Iteration::Create.expects(:call).with(solution, files, :cli)
 
     patch api_solution_path(solution.uuid),
-          params: { files: http_files },
-          headers: @headers,
-          as: :json
+      params: { files: http_files },
+      headers: @headers,
+      as: :json
 
     assert_response :success
   end
@@ -303,9 +303,9 @@ class API::SolutionsControllerTest < API::BaseTestCase
     Iteration::Create.expects(:call).raises(DuplicateIterationError)
 
     patch api_solution_path(solution.uuid),
-          params: { files: [] },
-          headers: @headers,
-          as: :json
+      params: { files: [] },
+      headers: @headers,
+      as: :json
 
     assert_response 400
     expected = { error: {

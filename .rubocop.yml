@@ -21,6 +21,9 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
 Layout/DotPosition:
   EnforcedStyle: trailing
 

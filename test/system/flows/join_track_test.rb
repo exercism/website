@@ -3,13 +3,17 @@ require "application_system_test_case"
 module Flows
   class JoinTrackTestTest < ApplicationSystemTestCase
     test "joins track when authenticated" do
-      user = create :user
-      track = create :track, slug: "ruby", title: "Ruby"
+      # TODO: Unskip once this issue is resolved:
+      # https://github.com/exercism/v3-website/issues/143
+      skip
 
-      # TODO: Add when adding devise
-      # sign_in(user)
+      user = create :user
+      track = create :track, title: "Ruby"
+
+      sign_in!(user)
 
       visit tracks_url
+
       click_link "Ruby"
 
       click_on "Join Track"

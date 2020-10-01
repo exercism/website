@@ -3,20 +3,19 @@ module ViewComponents
     class TrackList < ViewComponent
       initialize_with :data, :request
 
-      def status_options
-        [
-          { value: "all", label: "All" },
-          { value: "joined", label: "Joined" },
-          { value: "unjoined", label: "Unjoined" }
-        ]
-      end
-
       def to_s
         react_component("student-track-list", {
                           request: request.deep_merge({ options: { initialData: data } }),
-                          status_options: status_options
+                          status_options: STATUS_OPTIONS
                         })
       end
+
+      STATUS_OPTIONS = [
+        { value: "all", label: "All" },
+        { value: "joined", label: "Joined" },
+        { value: "unjoined", label: "Unjoined" }
+      ].freeze
+      private_constant :STATUS_OPTIONS
     end
   end
 end

@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
 import { useRequestQuery } from '../../hooks/request-query'
-import { Search } from './TrackList/Search'
-import { StatusFilter } from './TrackList/StatusFilter'
-import { List } from './TrackList/List'
+import { Search } from './TracksList/Search'
+import { StatusFilter } from './TracksList/StatusFilter'
+import { List } from './TracksList/List'
 import { Loading } from '../common/Loading'
 
 function reducer(state, action) {
@@ -20,7 +20,7 @@ function reducer(state, action) {
   }
 }
 
-export function TrackList({ statusOptions, ...props }) {
+export function TracksList({ statusOptions, ...props }) {
   const [request, dispatch] = useReducer(reducer, props.request)
   const { data, isSuccess, isError, isFetching } = useRequestQuery(
     'track-list',

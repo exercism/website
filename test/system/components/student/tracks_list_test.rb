@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 module Components
   module Student
-    class TrackListTest < ApplicationSystemTestCase
+    class TracksListTest < ApplicationSystemTestCase
       include TableMatchers
 
       test "shows tracks" do
@@ -14,7 +14,7 @@ module Components
         concept_exercises.sample(5).map { |ex| create :concept_solution, user: user, exercise: ex }
         practice_exercises.sample(5).map { |ex| create :practice_solution, user: user, exercise: ex }
 
-        visit test_components_student_track_list_url
+        visit test_components_student_tracks_list_url
 
         row = {
           "Icon" => lambda {
@@ -40,7 +40,7 @@ module Components
         create :track, title: "Ruby"
         create :track, title: "Go"
 
-        visit test_components_student_track_list_url
+        visit test_components_student_tracks_list_url
         fill_in "Search language tracks", with: "Go"
 
         row = { "Title" => "Go" }
@@ -54,7 +54,7 @@ module Components
         go = create :track, title: "Go"
         create :user_track, track: go, user: user
 
-        visit test_components_student_track_list_url
+        visit test_components_student_tracks_list_url
         select "Joined", from: "Status"
 
         row = { "Title" => "Go" }
@@ -65,13 +65,13 @@ module Components
       test "shows empty state" do
         create :user
 
-        visit test_components_student_track_list_url
+        visit test_components_student_tracks_list_url
 
         assert_text "No results found"
       end
 
       test "shows loading state" do
-        visit test_components_student_track_list_url
+        visit test_components_student_tracks_list_url
         select "Loading", from: "State"
         click_on "Submit"
 
@@ -79,7 +79,7 @@ module Components
       end
 
       test "shows error state" do
-        visit test_components_student_track_list_url
+        visit test_components_student_tracks_list_url
         select "Error", from: "State"
         click_on "Submit"
 

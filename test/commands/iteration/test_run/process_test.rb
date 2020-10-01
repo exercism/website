@@ -79,6 +79,7 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
 
     IterationChannel.expects(:broadcast!).with(iteration)
     IterationsChannel.expects(:broadcast!).with(iteration.solution)
+    TestRunChannel.expects(:broadcast!).with { |test_run| test_run == iteration.test_runs.last }
 
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
   end

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function TrackIcon({ track, width = 100 }) {
+export function TrackIcon({ track }) {
   return (
     <img
-      style={{ width: width }}
+      className="c-track-icon"
       src={track.iconUrl}
       alt={`icon for ${track.title} track`}
     />

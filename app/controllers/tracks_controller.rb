@@ -4,16 +4,14 @@ class TracksController < ApplicationController
   allow_unauthenticated! :index, :show
 
   def authenticated_index
-    # TODO: This should cease to be an instance variable
-    # once the view is using the tracks_json to render
-    @tracks = Track::Search.(
+    tracks = Track::Search.(
       criteria: params[:criteria],
       tags: params[:tags],
       status: params[:status],
       user: current_user
     )
 
-    @tracks_json = SerializeTracks.(@tracks, current_user).to_json
+    @tracks_data = SerializeTracks.(tracks, current_user)
   end
 
   def authenticated_show

@@ -7,27 +7,10 @@ export function List({ data }) {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Icon</th>
-          <th>Title</th>
-          <th>Num concept exercises</th>
-          <th>Num practice exercises</th>
-          <th>URL</th>
-          <th>New?</th>
-          <th>Tags</th>
-          <th>Joined?</th>
-          <th>Num completed concept exercises</th>
-          <th>Num completed practice exercises</th>
-          <th>Progress</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.tracks.map((track) => {
-          return <Track key={track.id} track={track} />
-        })}
-      </tbody>
-    </table>
+    <section className="s-grid md:s-grid-cols-2 s-gap-16">
+      {data.tracks.map((track) => {
+        return <Track key={track.id} track={track} />
+      })}
+    </section>
   )
 }

@@ -28,7 +28,7 @@ class SerializeTracks
       # TODO: Set all three of these
       icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
       is_new: true,
-      tags: track.tags
+      tags: track.tags.to_a
     }
   end
 

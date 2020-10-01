@@ -64,4 +64,12 @@ class SerializeTracksTest < ActiveSupport::TestCase
     assert_equal 1, track_data[:num_completed_concept_exercises]
     assert_equal 2, track_data[:num_completed_practice_exercises]
   end
+
+  test "tags are always an array" do
+    track = create :track, tags: nil
+    output = SerializeTracks.([track])
+
+    track_data = output[:tracks].first
+    assert_equal [], track_data[:tags]
+  end
 end

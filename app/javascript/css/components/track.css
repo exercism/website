@@ -1,17 +1,36 @@
 @import "../styles";
 
 .c-track {
-    @apply border-black p-24 bg-white shadow-1 rounded-8 flex;
+    @apply flex items-start;
+    @apply border-black p-24 bg-white shadow-1 rounded-8;
 
     & .c-track-icon {
         width: 57px;
         @apply mr-16;
     }
-    & .title {
-        @apply text-h3-mono mb-8;
-    }
+    & .info {
+        @apply flex-grow;
 
-    & .counts {
-        @apply flex font-medium text-16 gap-12 text-textLight;
+        & .title {
+            @apply mb-8;
+            @apply text-h3-mono mb-8 text-black;
+        }
+
+        & .counts {
+            @apply flex gap-12 mb-12;
+            @apply font-medium text-16;
+        }
+
+        & .tags {
+            @apply flex gap-8;
+            @apply font-medium text-14 text-textLight leading-none whitespace-no-wrap;
+            & li {
+                @apply border-borderLight border-1 border-solid rounded-100;
+                @apply py-8 px-12;
+            }
+        }
+    }
+    & i {
+        @apply self-center;
     }
 }

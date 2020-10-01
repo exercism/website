@@ -8,6 +8,11 @@ module.exports = {
     borderRadius: {
       none: '0',
       '8': '8px',
+      '100': '100px',
+    },
+    borderWidth: {
+      none: '0',
+      '1': '1px',
     },
     boxShadow: {
       '1': '0px 4px 24px rgba(79, 114, 205, 0.15)',
@@ -16,7 +21,9 @@ module.exports = {
       transparent: 'transparent',
       current: 'currentColor',
       bgGray: '#FBFCFE',
-      textLight: '#343741',
+      textBase: '#343741',
+      textLight: '#6D6986',
+      borderLight: '#CBC9D9',
 
       black: '#000',
       white: '#fff',
@@ -26,6 +33,7 @@ module.exports = {
       mono: ['Source Code Pro', 'monospace'],
     },
     fontSize: {
+      '14': '14px',
       '16': '16px',
     },
     spacing: {

@@ -107,6 +107,8 @@ EXERCISM_ENV=development bundle exec setup_exercism_config
 EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 ```
 
+**Note: you will need to do this every time you reset dynamodb, which happens when Docker is restarted.**
+
 #### Running the local servers
 
 We have a Procfile which executes the various commands need to run Exercism locally.

@@ -5,16 +5,19 @@ import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
 
 export function SolutionList({ request, setPage }) {
-  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
-    'mentor-solutions-list',
-    request
-  )
+  const {
+    isSuccess,
+    isError,
+    isFetching,
+    resolvedData,
+    latestData,
+  } = usePaginatedRequestQuery('mentor-solutions-list', request)
 
   return (
     <div>
-      {status === 'loading' && <Loading />}
-      {status === 'error' && <p>Something went wrong</p>}
-      {status === 'success' && (
+      {isFetching && <Loading />}
+      {isError && <p>Something went wrong</p>}
+      {isSuccess && (
         <table>
           <thead>
             <tr>

@@ -5,14 +5,20 @@ module Components
     class TracksListTest < ApplicationSystemTestCase
       include TableMatchers
 
+      def setup
+        super
+
+        # This component uses the API, which requires authentication
+        sign_in!
+      end
+
       test "shows tracks" do
         track = create :track, title: "Ruby"
-        user = create :user
         concept_exercises = Array.new(10).map { create :concept_exercise, track: track }
         practice_exercises = Array.new(10).map { create :practice_exercise, track: track }
-        create :user_track, track: track, user: user
-        concept_exercises.sample(5).map { |ex| create :concept_solution, user: user, exercise: ex }
-        practice_exercises.sample(5).map { |ex| create :practice_solution, user: user, exercise: ex }
+        create :user_track, track: track, user: @current_user
+        concept_exercises.sample(5).map { |ex| create :concept_solution, user: @current_user, exercise: ex }
+        practice_exercises.sample(5).map { |ex| create :practice_solution, user: @current_user, exercise: ex }
 
         visit test_components_student_tracks_list_url
 
@@ -36,7 +42,6 @@ module Components
       end
 
       test "filter by track title" do
-        create :user
         create :track, title: "Ruby"
         create :track, title: "Go"
 
@@ -49,10 +54,9 @@ module Components
       end
 
       test "filter by status" do
-        user = create :user
         create :track, title: "Ruby"
         go = create :track, title: "Go"
-        create :user_track, track: go, user: user
+        create :user_track, track: go, user: @current_user
 
         visit test_components_student_tracks_list_url
         select "Joined", from: "Status"
@@ -63,8 +67,6 @@ module Components
       end
 
       test "shows empty state" do
-        create :user
-
         visit test_components_student_tracks_list_url
 
         assert_text "No results found"

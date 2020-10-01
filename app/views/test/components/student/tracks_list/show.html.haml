@@ -1,5 +1,5 @@
 %h1 Student
-%h2 Track list
+%h2 Tracks list
 = form_tag nil, method: :get do
   = label_tag :state
   = select_tag :state, options_for_select(%w[Success Error Loading], params[:state])
@@ -8,4 +8,4 @@
 Error / Loading states are only seen when filtering
 %hr/
 
-= ViewComponents::Student::TrackList.new(@data, { endpoint: tracks_test_components_student_track_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })
+= ViewComponents::Student::TracksList.new(@data, { endpoint: tracks_test_components_student_tracks_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })

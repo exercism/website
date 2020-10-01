@@ -1,4 +1,4 @@
-class Test::Components::Student::TrackListController < ApplicationController
+class Test::Components::Student::TracksListController < ApplicationController
   def show
     @data = SerializeTracks.(Track.all, User.first)
   end

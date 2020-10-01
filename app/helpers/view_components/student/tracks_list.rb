@@ -1,10 +1,10 @@
 module ViewComponents
   module Student
-    class TrackList < ViewComponent
+    class TracksList < ViewComponent
       initialize_with :data, :request
 
       def to_s
-        react_component("student-track-list", {
+        react_component("student-tracks-list", {
                           request: request.deep_merge({ options: { initialData: data } }),
                           status_options: STATUS_OPTIONS
                         })

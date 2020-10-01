@@ -2,7 +2,8 @@ require 'test_helper'
 
 class SerializeTracksTest < ActiveSupport::TestCase
   test "without user" do
-    track = create :track
+    tags = ["Foo: Bar", "Abc: Xyz"]
+    track = create :track, tags: tags
 
     num_concept_exercises = 3
     num_practice_exercises = 7
@@ -22,7 +23,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
           # TODO: Set all three of these
           icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
           is_new: true,
-          tags: ["OOP", "Web Dev"]
+          tags: tags
         }
       ]
     }

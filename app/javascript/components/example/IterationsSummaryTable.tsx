@@ -39,7 +39,6 @@ export function IterationsSummaryTable({
         received,
       }
     );
-    //console.log(subscription.consumer)
     return () => subscription.unsubscribe();
   }, [solutionId]);
 

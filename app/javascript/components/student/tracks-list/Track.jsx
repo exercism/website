@@ -13,25 +13,6 @@ export function Track({ track }) {
           <li>{track.numPracticeExercises} exercises</li>
         </ul>
       </div>
-      <div style={{ display: 'none' }}>
-        <div>{track.isNew.toString()}</div>
-        <div>{track.tags.join(', ')}</div>
-        <div>{track.isJoined.toString()}</div>
-        <div>{track.numCompletedConceptExercises}</div>
-        <div>{track.numCompletedPracticeExercises}</div>
-        <div>
-          {track.isJoined && (
-            <ProgressBar
-              numConceptExercises={track.numConceptExercises}
-              numPracticeExercises={track.numPracticeExercises}
-              numCompletedConceptExercises={track.numCompletedConceptExercises}
-              numCompletedPracticeExercises={
-                track.numCompletedPracticeExercises
-              }
-            />
-          )}
-        </div>
-      </div>
     </a>
   )
 }

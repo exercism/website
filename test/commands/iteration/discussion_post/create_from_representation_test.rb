@@ -8,8 +8,8 @@ class Iteration::DiscussionPost::CreateFromRepresentationTest < ActiveSupport::T
     feedback_markdown = "foobar"
     feedback_author = create :user
     exercise_representation = create :exercise_representation,
-                                     feedback_markdown: feedback_markdown,
-                                     feedback_author: feedback_author
+      feedback_markdown: feedback_markdown,
+      feedback_author: feedback_author
 
     discussion_post = Iteration::DiscussionPost::CreateFromRepresentation.(
       iteration,

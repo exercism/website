@@ -11,13 +11,13 @@ class ExampleIterationsSummaryTableTest < ViewComponentTestCase
     iteration_2 = create(:iteration, solution: solution, submitted_via: "cli", tests_status: :passed)
 
     assert_component_equal ViewComponents::Example::IterationsSummaryTable.new(solution).to_s,
-                           { id: "example-iterations-summary-table",
-                             props: {
-                               solution_id: solution.id,
-                               iterations: [
-                                 { "id": iteration_1.id, "testsStatus": "pending" },
-                                 { "id": iteration_2.id, "testsStatus": "passed" }
-                               ]
-                             } }
+      { id: "example-iterations-summary-table",
+        props: {
+          solution_id: solution.id,
+          iterations: [
+            { "id": iteration_1.id, "testsStatus": "pending" },
+            { "id": iteration_2.id, "testsStatus": "passed" }
+          ]
+        } }
   end
 end

@@ -2,7 +2,10 @@ import React from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
 
 export function TrackFilter({ request, setTrack, value }) {
-  const { status, data } = useRequestQuery('track-filter', request)
+  const { isLoading, isError, isSuccess, data } = useRequestQuery(
+    'track-filter',
+    request
+  )
 
   function handleChange(e) {
     setTrack(e.target.value)
@@ -10,9 +13,9 @@ export function TrackFilter({ request, setTrack, value }) {
 
   return (
     <div className="track-filter">
-      {status === 'loading' && <p>Loading</p>}
-      {status === 'error' && <p>Something went wrong</p>}
-      {status === 'success' && (
+      {isLoading && <p>Loading</p>}
+      {isError && <p>Something went wrong</p>}
+      {isSuccess && (
         <>
           <label htmlFor="track-filter-track">Track</label>
           <select id="track-filter-track" onChange={handleChange}>

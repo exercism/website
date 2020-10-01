@@ -6,9 +6,9 @@ import { Loading } from '../../common/Loading'
 
 export function ConversationList({ request, setPage }) {
   const {
-    isSuccess,
+    isLoading,
     isError,
-    isFetching,
+    isSuccess,
     resolvedData,
     latestData,
     refetch,
@@ -16,7 +16,7 @@ export function ConversationList({ request, setPage }) {
 
   return (
     <div className="conversations-list">
-      {isFetching && <Loading />}
+      {isLoading && <Loading />}
       {isError && (
         <>
           <p>Something went wrong</p>

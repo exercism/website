@@ -11,9 +11,11 @@ module Components
       end
 
       test "shows tracks" do
-        track = create :track, title: "Ruby"
-        concept_exercises = Array.new(2).map { create :concept_exercise, track: track }
-        practice_exercises = Array.new(3).map { create :practice_exercise, track: track }
+        track = create :track,
+          title: "Ruby",
+          tags: ["Foo:Bar", "Abc:Xyz"]
+        concept_exercises = Array.new(3).map { create :concept_exercise, track: track }
+        practice_exercises = Array.new(4).map { create :practice_exercise, track: track }
         create :user_track, track: track, user: @current_user
         concept_exercises.sample(1).map { |ex| create :concept_solution, user: @current_user, exercise: ex }
         practice_exercises.sample(2).map { |ex| create :practice_solution, user: @current_user, exercise: ex }
@@ -28,10 +30,15 @@ module Components
             <div class="info">
               <h3 class="title">Ruby</h3>
               <ul class="counts">
-                <li>2 concepts</li>
-                <li>3 exercises</li>
+                <li>1/3 concepts</li>
+                <li>2/4 exercises</li>
+              </ul>
+              <ul class="tags">
+                <li>Bar</li>
+                <li>Xyz</li>
               </ul>
             </div>
+            <i>›</i>
           </a>
         ', within: ".student-track-list"
       end

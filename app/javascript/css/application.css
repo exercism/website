@@ -19,5 +19,5 @@
 @import "tailwindcss/utilities";
 
 body {
-    @apply font-body bg-bgGray antialiased;
+    @apply font-body bg-bgGray text-textBase antialiased;
 }

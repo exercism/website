@@ -16,6 +16,7 @@ class Track
       filter_criteria
       filter_tags
       filter_status
+      set_order
       @tracks
     end
 
@@ -31,9 +32,14 @@ class Track
       )
     end
 
-    # TODO: Decide how to model tags filter
-    # and add it here.
-    def filter_tags; end
+    def filter_tags
+      return if tags.blank?
+
+      tags.each do |tag|
+        # JSON_CONTAONS
+        @tracks = @tracks.where("JSON_CONTAINS(tags, ?, '$')", %("#{tag}"))
+      end
+    end
 
     def filter_status
       return if status.blank?
@@ -46,6 +52,10 @@ class Track
                 else
                   tracks.where.not(id: user.tracks)
                 end
+    end
+
+    def set_order
+      @tracks = @tracks.order(title: :asc)
     end
   end
 end

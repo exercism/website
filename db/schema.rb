@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "repo_url", null: false
+    t.json "tags"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -16,6 +16,55 @@ module Git
   end
 end
 
+tags = [
+  [
+    "Compiles to:Binary",
+    "Compiles to:Bytecode",
+    "Compiles to:JavaScript",
+  ],
+  [
+    "Runtime:Android",
+    "Runtime:Browser",
+    "Runtime:BEAM (Erlang)",
+    "Runtime:Common Language Runtime (.NET)",
+    "Runtime:iOS",
+    "Runtime:JVM (Java)",
+    "Runtime:V8 (NodeJS)",
+  ],
+  [
+    "Paradigm:Declarative",
+    "Paradigm:Functional",
+    "Paradigm:Imperative",
+    "Paradigm:Logic",
+    "Paradigm:Object-oriented",
+    "Paradigm:Procedural",
+  ],
+  [
+    "Typing:Static",
+    "Typing:Dynamic",
+  ],
+  [
+    "Family:C-like",
+    "Family:Lisp",
+    "Family:ML",
+    "Family:Java",
+    "Family:JavaScript",
+    "Family:SASL",
+    "Family:sh",
+  ],
+  [
+    "Domain:Cross-platform",
+    "Domain:Embedded systems",
+    "Domain:Games",
+    "Domain:GUIs",
+    "Domain:Logic",
+    "Domain:Maths",
+    "Domain:Mobile",
+    "Domain:Scripting",
+    "Domain:Web development",
+  ]
+]
+
 track_slugs = []
 tree = repo.send(:repo).read_tree(repo.send(:repo).head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
@@ -29,7 +78,14 @@ track_slugs.each do |track_slug|
   end
 
   puts "Adding Track: #{track_slug}"
-  track = Track.create!(slug: track_slug, title: track_slug.titleize, repo_url: v3_url)
+  track = Track.create!(
+    slug: track_slug, 
+    title: track_slug.titleize, 
+    repo_url: v3_url,
+
+    # Randomly selects 1-5 tags from different categories
+    tags: tags.sample(1 + rand(5)).map {|category|category.sample}
+  )
 
   begin
     #track.update(title: track.repo.config[:language])

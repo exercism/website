@@ -1,11 +1,8 @@
 require 'test_helper'
 
 class ToolingJob::CancelTest < ActiveSupport::TestCase
-  test "cancels iteration" do
+  test "cancels analysis job" do
     iteration = create_iteration
-
-    RestClient.expects(:post).with("#{Exercism.config.tooling_orchestrator_url}/iterations/cancel",
-                                   iteration_uuid: iteration.uuid)
 
     ToolingJob::Cancel.(iteration.uuid)
   end
@@ -13,7 +10,7 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
   test "set analysis status to cancelled" do
     iteration = create_iteration
 
-    ToolingJob::Cancel.(iteration.uuid)
+    ToolingJob::Cancel.(iteration.uuid, :analysis)
 
     assert iteration.reload.analysis_cancelled?
   end

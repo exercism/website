@@ -64,7 +64,10 @@ class Submission
       end
 
       def cancel_other_services!
-        ToolingJob::Cancel.(submission.uuid)
+        iteration.analysis_cancelled!
+        iteration.representation_cancelled!
+        ToolingJob::Cancel.(submission.uuid, :analyzer)
+        ToolingJob::Cancel.(submission.uuid, :representer)
       end
     end
   end

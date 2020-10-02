@@ -6,20 +6,36 @@ module ToolingJob
 
     def call
       iteration = Iteration.find_by!(uuid: iteration_uuid)
-
-      RestClient.post "#{orchestrator_url}/iterations/cancel", {
-        iteration_uuid: iteration_uuid
-      }
-
       iteration.analysis_cancelled!
       iteration.representation_cancelled!
+      cancel_job(:analyzer)
+      cancel_job(:representer)
     end
 
     private
-    attr_reader :iteration_uuid
+    attr_reader :iteration_uuid, :type
 
-    def orchestrator_url
-      Exercism.config.tooling_orchestrator_url
+    def client
+      ExercismConfig::SetupDynamoDBClient.()
+    end
+
+    def cancel_job(type)
+      client.update_item(
+        table_name: Exercism.config.dynamodb_tooling_jobs_table,
+        key: {
+          type: type,
+          iteration_uuid: iteration_uuid
+        },
+        expression_attribute_names: {
+          "#JS": "job_status",
+          "#LU": "locked_until"
+        },
+        expression_attribute_values: {
+          ":js": "cancelled",
+          ":lu": nil
+        },
+        update_expression: "SET #JS = :js, #LU = :lu"
+      )
     end
   end
 end

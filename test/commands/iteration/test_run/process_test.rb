@@ -44,11 +44,14 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
 
     # Cancel representation and analysis
-    ToolingJob::Cancel.expects(:call).with(iteration.uuid)
+    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :representer)
+    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :analyzer)
 
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
 
     assert iteration.reload.tests_failed?
+    assert iteration.reload.analysis_cancelled?
+    assert iteration.reload.representation_cancelled?
   end
 
   test "handle tests error" do
@@ -56,11 +59,14 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     results = { 'status' => 'error', 'message' => "", 'tests' => [] }
 
     # Cancel representation and analysis
-    ToolingJob::Cancel.expects(:call).with(iteration.uuid)
+    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :representer)
+    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :analyzer)
 
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
 
     assert iteration.reload.tests_errored?
+    assert iteration.reload.analysis_cancelled?
+    assert iteration.reload.representation_cancelled?
   end
 
   test "handle bad status" do

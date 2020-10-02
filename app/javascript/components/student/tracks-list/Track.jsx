@@ -20,7 +20,7 @@ export function Track({ track }) {
         </ul>
         <ul className="tags">
           {track.tags.slice(0, 3).map((tag) => {
-            return <li>{tag.split(':')[1]}</li>
+            return <li key={tag}>{tag.split(':')[1]}</li>
           })}
         </ul>
       </div>

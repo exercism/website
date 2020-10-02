@@ -36,7 +36,8 @@ class Track
       return if tags.blank?
 
       tags.each do |tag|
-        # JSON_CONTAONS
+        # The correct SQL for this is:
+        # JSON_CONTAINS(tags, '"tag"', '$')
         @tracks = @tracks.where("JSON_CONTAINS(tags, ?, '$')", %("#{tag}"))
       end
     end

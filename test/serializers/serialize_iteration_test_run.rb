@@ -8,9 +8,9 @@ class SerializeIterationTestRunTest < ActiveSupport::TestCase
       'output' => 'foobar'
     }
     test_run = create :iteration_test_run,
-                      ops_status: 200,
-                      status: "pass",
-                      tests: [test]
+      ops_status: 200,
+      status: "pass",
+      tests: [test]
 
     actual = SerializeIterationTestRun.(test_run)
 
@@ -25,8 +25,8 @@ class SerializeIterationTestRunTest < ActiveSupport::TestCase
 
   test "status: proxies fail" do
     test_run = create :iteration_test_run,
-                      ops_status: 200,
-                      status: 'fail'
+      ops_status: 200,
+      status: 'fail'
 
     output = SerializeIterationTestRun.(test_run)
 
@@ -35,8 +35,8 @@ class SerializeIterationTestRunTest < ActiveSupport::TestCase
 
   test "status: proxies error" do
     test_run = create :iteration_test_run,
-                      ops_status: 200,
-                      status: 'error'
+      ops_status: 200,
+      status: 'error'
 
     output = SerializeIterationTestRun.(test_run)
 
@@ -45,8 +45,8 @@ class SerializeIterationTestRunTest < ActiveSupport::TestCase
 
   test "status: returns error if unexpected" do
     test_run = create :iteration_test_run,
-                      ops_status: 200,
-                      status: 'foobar'
+      ops_status: 200,
+      status: 'foobar'
 
     output = SerializeIterationTestRun.(test_run)
 
@@ -64,8 +64,8 @@ class SerializeIterationTestRunTest < ActiveSupport::TestCase
 
   test "message: returns nil if there is no message" do
     test_run = create :iteration_test_run,
-                      ops_status: 200,
-                      raw_results: { message: nil }
+      ops_status: 200,
+      raw_results: { message: nil }
 
     output = SerializeIterationTestRun.(test_run)
 
@@ -74,8 +74,8 @@ class SerializeIterationTestRunTest < ActiveSupport::TestCase
 
   test "ops_error returns status and message" do
     test_run = create :iteration_test_run,
-                      ops_status: 403,
-                      raw_results: { message: nil } # Override the factory
+      ops_status: 403,
+      raw_results: { message: nil } # Override the factory
 
     output = SerializeIterationTestRun.(test_run)
 

@@ -8,7 +8,7 @@ class IterationsChannelTest < ActionCable::Channel::TestCase
 
     assert_broadcast_on(
       IterationsChannel.broadcasting_for(solution),
-      iterations: [{ id: iteration_1.id, testsStatus: "pending" }, { id: iteration_2.id, testsStatus: "passed"}]
+      iterations: [{ id: iteration_1.id, testsStatus: "pending" }, { id: iteration_2.id, testsStatus: "passed" }]
     ) do
       IterationsChannel.broadcast!(solution)
     end

@@ -28,12 +28,19 @@ export function TracksList({ statusOptions, ...props }) {
   )
 
   return (
-    <div className="student-track-list">
-      <Search dispatch={dispatch} />
-      <StatusFilter dispatch={dispatch} options={statusOptions} />
-      {isLoading && <Loading />}
-      {isError && <p>Something went wrong</p>}
-      {isSuccess && <List data={data} />}
+    <div className="c-tracks-list">
+      <div className="search-bar">
+        <div className="md-container">
+          <Search dispatch={dispatch} />
+        </div>
+      </div>
+      <div class="md-container">
+        <StatusFilter dispatch={dispatch} options={statusOptions} />
+
+        {isLoading && <Loading />}
+        {isError && <p>Something went wrong</p>}
+        {isSuccess && <List data={data} />}
+      </div>
     </div>
   )
 }

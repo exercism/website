@@ -9,12 +9,10 @@ export function Search({ dispatch }) {
   }
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search language tracks"
-        onChange={handleChange}
-      />
-    </div>
+    <input
+      type="text"
+      placeholder="Search language tracks"
+      onChange={handleChange}
+    />
   )
 }

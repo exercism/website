@@ -1,5 +1,5 @@
 import React from 'react'
-import { Track } from './List/Track'
+import { Track } from './Track'
 
 export function List({ data }) {
   if (data.tracks.length == 0) {

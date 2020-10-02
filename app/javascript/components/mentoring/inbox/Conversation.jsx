@@ -1,6 +1,6 @@
 import React from 'react'
-import { fromNow } from '../../../../utils/time'
-import { TrackIcon } from '../../../common/TrackIcon'
+import { fromNow } from '../../../utils/time'
+import { TrackIcon } from '../../common/TrackIcon'
 
 export function Conversation({
   trackTitle,

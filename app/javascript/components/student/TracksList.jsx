@@ -22,7 +22,7 @@ function reducer(state, action) {
 
 export function TracksList({ statusOptions, ...props }) {
   const [request, dispatch] = useReducer(reducer, props.request)
-  const { data, isSuccess, isError, isFetching } = useRequestQuery(
+  const { data, isSuccess, isError, isLoading } = useRequestQuery(
     'track-list',
     request
   )
@@ -31,9 +31,9 @@ export function TracksList({ statusOptions, ...props }) {
     <div className="student-track-list">
       <Search dispatch={dispatch} />
       <StatusFilter dispatch={dispatch} options={statusOptions} />
-      {isSuccess && <List data={data} />}
-      {isFetching && <Loading />}
+      {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
+      {isSuccess && <List data={data} />}
     </div>
   )
 }

@@ -6,16 +6,16 @@ import { Loading } from '../../common/Loading'
 
 export function SolutionList({ request, setPage }) {
   const {
-    isSuccess,
+    isLoading,
     isError,
-    isFetching,
+    isSuccess,
     resolvedData,
     latestData,
   } = usePaginatedRequestQuery('mentor-solutions-list', request)
 
   return (
     <div>
-      {isFetching && <Loading />}
+      {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
       {isSuccess && (
         <table>

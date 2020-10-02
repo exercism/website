@@ -1,5 +1,5 @@
 import React from 'react'
-import { SolutionList } from './Queue/SolutionList'
+import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'

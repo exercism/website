@@ -71,6 +71,15 @@ class ActiveSupport::TestCase
     )
   end
 
+  def read_from_dynamodb(table_name, key, attributes)
+    client = ExercismConfig::SetupDynamoDBClient.()
+    client.get_item(
+      table_name: table_name,
+      key: key,
+      attributes_to_get: attributes
+    ).item
+  end
+
   def upload_to_s3(bucket, key, body)
     client = ExercismConfig::SetupS3Client.()
     client.put_object(

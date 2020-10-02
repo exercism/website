@@ -14,11 +14,11 @@ module Components
 
       test "shows tracks" do
         track = create :track, title: "Ruby"
-        concept_exercises = Array.new(10).map { create :concept_exercise, track: track }
-        practice_exercises = Array.new(10).map { create :practice_exercise, track: track }
+        concept_exercises = Array.new(2).map { create :concept_exercise, track: track }
+        practice_exercises = Array.new(3).map { create :practice_exercise, track: track }
         create :user_track, track: track, user: @current_user
-        concept_exercises.sample(5).map { |ex| create :concept_solution, user: @current_user, exercise: ex }
-        practice_exercises.sample(5).map { |ex| create :practice_solution, user: @current_user, exercise: ex }
+        concept_exercises.sample(1).map { |ex| create :concept_solution, user: @current_user, exercise: ex }
+        practice_exercises.sample(2).map { |ex| create :practice_solution, user: @current_user, exercise: ex }
 
         visit test_components_student_tracks_list_url
 
@@ -27,16 +27,16 @@ module Components
             assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
           },
           "Title" => "Ruby",
-          "Num concept exercises" => 10,
-          "Num practice exercises" => 10,
+          "Num concept exercises" => 2,
+          "Num practice exercises" => 3,
           "URL" => "https://test.exercism.io/tracks/ruby",
           "New?" => "true",
           "Tags" => "OOP, Web Dev",
           "Joined?" => "true",
-          "Num completed concept exercises" => 5,
-          "Num completed practice exercises" => 5,
-          "Progress" => "Completed concept exercises: 25%, Uncompleted concept exercises: 25%, "\
-                        "Completed practice exercises: 25%, Uncompleted practice exercises: 25%"
+          "Num completed concept exercises" => 1,
+          "Num completed practice exercises" => 1,
+          "Progress" => "Completed concept exercises: 20%, Uncompleted concept exercises: 20%, "\
+                        "Completed practice exercises: 40%, Uncompleted practice exercises: 20%"
         }
         assert_table_row first("table"), row
       end

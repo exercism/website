@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
+import { Loading } from '../../common/Loading'
 
 export function TrackFilter({ request, setTrack, value }) {
   const { isLoading, isError, isSuccess, data } = useRequestQuery(
@@ -13,7 +14,7 @@ export function TrackFilter({ request, setTrack, value }) {
 
   return (
     <div className="track-filter">
-      {isLoading && <p>Loading</p>}
+      {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
       {isSuccess && (
         <>

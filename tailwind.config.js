@@ -28,6 +28,12 @@ module.exports = {
       textLight: '#6D6986',
       borderLight: '#CBC9D9',
 
+      darkBlue: '#6A93FF',
+      lightBlue: 'rgba(106, 147, 255, 0.5)',
+
+      darkGreen: '#43B593',
+      lightGreen: '#ABDBCC',
+
       black: '#000',
       white: '#fff',
     },
@@ -44,6 +50,7 @@ module.exports = {
       '12': '12px',
       '16': '16px',
       '24': '24px',
+      '28': '28px',
       '32': '32px',
     },
   },

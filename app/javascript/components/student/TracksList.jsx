@@ -34,7 +34,7 @@ export function TracksList({ statusOptions, ...props }) {
           <Search dispatch={dispatch} />
         </div>
       </div>
-      <div class="md-container">
+      <div className="md-container">
         <StatusFilter dispatch={dispatch} options={statusOptions} />
 
         {isLoading && <Loading />}

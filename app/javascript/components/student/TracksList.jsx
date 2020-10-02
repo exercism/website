@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
 import { useRequestQuery } from '../../hooks/request-query'
-import { Search } from './TracksList/Search'
-import { StatusFilter } from './TracksList/StatusFilter'
-import { List } from './TracksList/List'
+import { Search } from './tracks-list/Search'
+import { StatusFilter } from './tracks-list/StatusFilter'
+import { List } from './tracks-list/List'
 import { Loading } from '../common/Loading'
 
 function reducer(state, action) {

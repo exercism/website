@@ -40,6 +40,10 @@ class Iteration::TestRun < ApplicationRecord
     end
   end
 
+  def broadcast!
+    TestRunChannel.broadcast!(self)
+  end
+
   private
   # TODO: Memoize
   def raw_results

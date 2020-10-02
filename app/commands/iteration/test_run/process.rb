@@ -39,6 +39,7 @@ class Iteration
         end
 
         iteration.broadcast!
+        test_run.broadcast!
       end
 
       private

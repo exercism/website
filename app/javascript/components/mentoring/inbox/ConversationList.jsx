@@ -11,12 +11,20 @@ export function ConversationList({ request, setPage }) {
     isFetching,
     resolvedData,
     latestData,
+    refetch,
   } = usePaginatedRequestQuery('mentor-conversations-list', request)
 
   return (
     <div className="conversations-list">
       {isFetching && <Loading />}
-      {isError && <p>Something went wrong</p>}
+      {isError && (
+        <>
+          <p>Something went wrong</p>
+          <button onClick={() => refetch()} aria-label="Retry">
+            Retry
+          </button>
+        </>
+      )}
       {isSuccess && (
         <>
           <table>

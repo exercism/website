@@ -8,6 +8,7 @@ export function Track({ track }) {
       <TrackIcon track={track} />
       <div className="info">
         <h3 className="title">{track.title}</h3>
+        {track.isJoined && <div className="joined">Joined</div>}
         <ul className="counts">
           <li>
             {track.numCompletedConceptExercises}/{track.numConceptExercises}{' '}

@@ -5,12 +5,16 @@ import { Track } from '../../../../../app/javascript/components/student/tracks-l
 
 test('hides progress bar if track is unjoined', () => {
   const { queryByTestId } = render(
-    <table>
-      <tbody>
-        <Track track={{ isJoined: false, isNew: false, tags: [] }} />
-      </tbody>
-    </table>
+    <Track track={{ isJoined: false, isNew: false, tags: [] }} />
   )
 
   expect(queryByTestId('track-progress-bar')).not.toBeInTheDocument()
+})
+
+test('hides joined status if track is unjoined', () => {
+  const { queryByText } = render(
+    <Track track={{ isJoined: false, isNew: false, tags: [] }} />
+  )
+
+  expect(queryByText('Joined')).not.toBeInTheDocument()
 })

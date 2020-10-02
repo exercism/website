@@ -29,6 +29,7 @@ module Components
                  alt="icon for Ruby track">
             <div class="info">
               <h3 class="title">Ruby</h3>
+              <div class="joined">Joined</div>
               <ul class="counts">
                 <li>1/3 concepts</li>
                 <li>2/4 exercises</li>

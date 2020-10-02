@@ -45,7 +45,6 @@ module Components
       end
 
       test "filter by track title" do
-        create :user
         create :track, title: "Ruby"
         create :track, title: "Go"
 
@@ -69,8 +68,6 @@ module Components
       end
 
       test "shows empty state" do
-        create :user
-
         visit test_components_student_tracks_list_url
 
         assert_text "No results found"

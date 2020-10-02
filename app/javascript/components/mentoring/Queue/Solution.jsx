@@ -24,12 +24,8 @@ export function Solution({
     <>
       <tr
         ref={setReferenceElement}
-        onMouseEnter={() => {
-          setShowPopper(true)
-        }}
-        onMouseLeave={() => {
-          setShowPopper(false)
-        }}
+        onMouseEnter={() => setShowPopper(true)}
+        onMouseLeave={() => setShowPopper(false)}
       >
         <td>
           <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />

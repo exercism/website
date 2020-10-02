@@ -2,7 +2,7 @@ import React from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
 
-export function TrackFilter({ request, setTrack, value }) {
+export function TrackFilter({ request, setTrack }) {
   const { isLoading, isError, isSuccess, data } = useRequestQuery(
     'track-filter',
     request

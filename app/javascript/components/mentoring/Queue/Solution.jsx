@@ -29,11 +29,6 @@ export function Solution({
       >
         <td>
           <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
-          <img
-            style={{ width: 100 }}
-            src={trackIconUrl}
-            alt={`icon indicating ${trackTitle}`}
-          />
         </td>
         <td>
           <img

@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.10.1",
+    "@popperjs/core": "^2.5.2",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -17,6 +18,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-popper": "^2.2.3",
     "react-query": "^2.15.4",
     "tailwindcss": "^1.8.10",
     "turbolinks": "^5.2.0"

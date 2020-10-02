@@ -45,14 +45,12 @@ module ToolingJob
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         key: { id: id },
         expression_attribute_names: {
-          "#JS": "job_status",
-          "#LU": "locked_until"
+          "#JS": "job_status"
         },
         expression_attribute_values: {
-          ":js": "processed",
-          ":lu": nil
+          ":js": "processed"
         },
-        update_expression: "SET #JS = :js, #LU = :lu"
+        update_expression: "SET #JS = :js"
       )
     end
 

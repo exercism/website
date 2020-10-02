@@ -8,7 +8,7 @@ class SerializeTracks
 
   def call
     {
-      tracks: tracks.map do |track|
+      tracks: sorted_tracks.map do |track|
         data_for_track(track).merge(user_data_for_track(track))
       end
     }
@@ -16,6 +16,12 @@ class SerializeTracks
 
   private
   attr_reader :tracks, :user
+
+  def sorted_tracks
+    tracks.sort_by do |track|
+      "#{joined?(track) ? 0 : 1} | #{track.title.downcase}"
+    end
+  end
 
   def data_for_track(track)
     {
@@ -36,7 +42,7 @@ class SerializeTracks
     return {} unless user
 
     {
-      is_joined: joined_track_ids.include?(track.id),
+      is_joined: joined?(track),
       num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
       num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
     }
@@ -88,5 +94,9 @@ class SerializeTracks
       where('exercises.track_id': tracks).
       group('exercises.track_id').
       count
+  end
+
+  def joined?(track)
+    joined_track_ids.include?(track.id)
   end
 end

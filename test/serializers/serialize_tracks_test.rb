@@ -72,4 +72,34 @@ class SerializeTracksTest < ActiveSupport::TestCase
     track_data = output[:tracks].first
     assert_equal [], track_data[:tags]
   end
+
+  test "sorts by name" do
+    ruby = create :track, title: "Ruby"
+    javascript = create :track, title: "Javascript"
+    assembly = create :track, title: "Assembly"
+    rust = create :track, title: "Rust"
+
+    expected = %w[Assembly Javascript Ruby Rust]
+    actual = SerializeTracks.(
+      [ruby, javascript, assembly, rust]
+    )[:tracks].map { |t| t[:title] }
+    assert_equal expected, actual
+  end
+
+  test "sorts by joined then name" do
+    ruby = create :track, title: "Ruby"
+    javascript = create :track, title: "Javascript"
+    assembly = create :track, title: "Assembly"
+    rust = create :track, title: "Rust"
+
+    user = create :user
+    create :user_track, user: user, track: rust
+
+    expected = %w[Rust Assembly Javascript Ruby]
+    actual = SerializeTracks.(
+      [ruby, javascript, assembly, rust],
+      user
+    )[:tracks].map { |t| t[:title] }
+    assert_equal expected, actual
+  end
 end

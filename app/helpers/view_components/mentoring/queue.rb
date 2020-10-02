@@ -1,7 +1,10 @@
 module ViewComponents
   module Mentoring
     class Queue < ViewComponent
-      initialize_with :request
+      attr_reader :request
+      def initialize(request = default_request)
+        @request = request
+      end
 
       def to_s
         react_component(
@@ -19,6 +22,11 @@ module ViewComponents
         { value: "student", label: "Sort by Student" }
       ].freeze
       private_constant :SORT_OPTIONS
+
+      private
+      def default_request
+        { endpoint: Exercism::Routes.solutions_test_components_mentoring_queue_path }
+      end
     end
   end
 end

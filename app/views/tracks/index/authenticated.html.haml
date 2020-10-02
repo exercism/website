@@ -1,3 +1,2 @@
 #page-tracks
-  .md-container
-    = ViewComponents::Student::TracksList.new(@tracks_data, { endpoint: tracks_test_components_student_tracks_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })
+  = ViewComponents::Student::TracksList.new(@tracks_data, { endpoint: tracks_test_components_student_tracks_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })

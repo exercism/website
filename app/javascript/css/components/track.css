@@ -22,11 +22,18 @@
         }
 
         & .tags {
-            @apply flex gap-8;
-            @apply font-medium text-14 text-textLight leading-none whitespace-no-wrap;
+            /* This flex behaviour and max-height combo causes 
+             * the tags to wrap but to be hidden if they overflow 
+             * one line. This means we only see whole tags on 
+             * the cards but we only ever see one row. */
+            @apply flex flex-wrap overflow-hidden gap-8;
+            max-height: 32px;
+
             & li {
                 @apply border-borderLight border-1 border-solid rounded-100;
+                @apply font-medium text-14 text-textLight leading-none;
                 @apply py-8 px-12;
+                @apply whitespace-no-wrap;
             }
         }
     }

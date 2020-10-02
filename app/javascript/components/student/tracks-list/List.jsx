@@ -7,10 +7,10 @@ export function List({ data }) {
   }
 
   return (
-    <section className="s-grid md:s-grid-cols-2 s-gap-16">
+    <div className="tracks">
       {data.tracks.map((track) => {
         return <Track key={track.id} track={track} />
       })}
-    </section>
+    </div>
   )
 }

@@ -50,6 +50,8 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
 
     assert iteration.reload.tests_failed?
+    assert iteration.reload.analysis_cancelled?
+    assert iteration.reload.representation_cancelled?
   end
 
   test "handle tests error" do
@@ -63,6 +65,8 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
 
     assert iteration.reload.tests_errored?
+    assert iteration.reload.analysis_cancelled?
+    assert iteration.reload.representation_cancelled?
   end
 
   test "handle bad status" do

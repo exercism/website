@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { Track } from '../../../../../../app/javascript/components/student/TracksList/List/Track'
+import { Track } from '../../../../../app/javascript/components/student/TracksList/Track'
 
 test('hides progress bar if track is unjoined', () => {
   const { queryByTestId } = render(

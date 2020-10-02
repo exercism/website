@@ -1,6 +1,6 @@
 import React from 'react'
-import { TrackIcon } from '../../../common/TrackIcon'
-import { ProgressBar } from './Track/ProgressBar'
+import { TrackIcon } from '../../common/TrackIcon'
+import { ProgressBar } from './ProgressBar'
 
 export function Track({ track }) {
   return (

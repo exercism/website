@@ -63,12 +63,4 @@ class Track::SearchTest < ActiveSupport::TestCase
     assert_equal [unjoined],
       Track::Search.(status: :unjoined, user: user)
   end
-
-  test "order" do
-    ruby = create :track, title: "Ruby"
-    javascript = create :track, title: "Javascript"
-    assembly = create :track, title: "Assembly"
-
-    assert_equal [assembly, javascript, ruby], Track::Search.()
-  end
 end

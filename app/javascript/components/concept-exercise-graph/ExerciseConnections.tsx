@@ -4,8 +4,6 @@ import { useWebpageSize } from "./hooks/useWebpageSize";
 import { slugToId } from "./Exercise";
 import { ExerciseState, ExerciseConnection } from "./exercise-types";
 
-import "./ExerciseConnections.css";
-
 enum ExercisePathState {
   Unavailable = "unavailable",
   Available = "available",
@@ -116,7 +114,10 @@ export const ExerciseConnections = ({
   }, [activeExercise, connections, webpageHeight, webpageWidth]);
 
   return (
-    <canvas ref={canvasEl} className="exercise-connections-canvas"></canvas>
+    <canvas
+      ref={canvasEl}
+      className="c-exercise-graph-connections-canvas"
+    ></canvas>
   );
 };
 

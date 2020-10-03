@@ -1,9 +1,7 @@
-import React from 'react'
-import { ExerciseCompleteIcon } from './ExerciseCompleteIcon'
+import React from "react";
+import { ExerciseCompleteIcon } from "./ExerciseCompleteIcon";
 
-import { Exercise as IExercise, ExerciseState } from './exercise-types'
-
-import './Exercise.css'
+import { Exercise as IExercise, ExerciseState } from "./exercise-types";
 
 export const Exercise = ({
   index,
@@ -15,11 +13,11 @@ export const Exercise = ({
   handleEnter,
   handleLeave,
 }: IExercise & { isActive: boolean }) => {
-  const name = deslugify(slug)
+  const name = deslugify(slug);
 
-  let classes = 'exercise-card'
-  classes += ` exercise-card-${status}`
-  classes += isActive ? ' exercise-card-active' : ''
+  let classes = "c-exercise-card";
+  classes += ` c-exercise-card-${status}`;
+  classes += isActive ? " c-exercise-card-active" : "";
 
   return (
     <section
@@ -30,21 +28,21 @@ export const Exercise = ({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-      <div className="exercise-display">
-        <div className="exercise-display-name">{name}</div>
+      <div className="c-exercise-graph display">
+        <div className="c-exercise-display-name">{name}</div>
         <ExerciseCompleteIcon show={ExerciseState.Completed === status} />
       </div>
     </section>
-  )
-}
+  );
+};
 
 function deslugify(slug: string): string {
   return slug
-    .split('-')
+    .split("-")
     .map((part) => part[0].toUpperCase() + part.substr(1))
-    .join(' ')
+    .join(" ");
 }
 
 export function slugToId(slug: string): string {
-  return `concept-exercise-${slug}`
+  return `concept-exercise-${slug}`;
 }

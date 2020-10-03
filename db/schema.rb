@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
 
   create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
+    t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false

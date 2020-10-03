@@ -32,6 +32,18 @@ class User < ApplicationRecord
     q.sum(:amount)
   end
 
+  def user_track_for(track)
+    user_tracks.where(track: track).exists?
+  end
+
+  # If we're calling this we're nearly always going
+  # to then go and get the user track. Rather than
+  # do a lookup for exists then a full select, just
+  # do the one lookup and check whether it was successful.
+  def joined_track?(track)
+    !!user_track_for(track)
+  end
+
   def has_badge?(slug)
     type = Badge.slug_to_type(slug)
     badges.where(type: type).exists?

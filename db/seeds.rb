@@ -100,7 +100,13 @@ track_slugs.each do |track_slug|
       #  ce.concepts << Track::Concept.find_or_create_by!(uuid: SecureRandom.uuid, name: concept, track: track)
       #end
       exercise_config[:prerequisites].each do |concept|
-        ce.prerequisites << Track::Concept.find_or_create_by!(uuid: SecureRandom.uuid, name: concept, track: track)
+        ce.prerequisites << Track::Concept.find_or_create_by!(
+          slug: concept, 
+          track: track
+        ) do |c|
+          c.uuid = SecureRandom.uuid
+          c.name = concept.titleize
+        end
       end
     end
   rescue => e

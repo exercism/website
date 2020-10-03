@@ -1,6 +1,6 @@
-class CreateUserTrackConcepts < ActiveRecord::Migration[6.0]
+class CreateUserTrackLearntConcepts < ActiveRecord::Migration[6.0]
   def change
-    create_table :user_track_concepts do |t|
+    create_table :user_track_learnt_concepts do |t|
       t.belongs_to :user_track, foreign_key: true, null: false
       t.belongs_to :track_concept, foreign_key: true, null: false
 

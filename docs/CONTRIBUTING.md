@@ -136,7 +136,12 @@ View Components are either functional and written in React, or non-functional an
 
 - The JS for each component lives in `app/javascript/components/**/XXX.js`.
 - The CSS for each component lives in `app/css/components/**/XXX.css`.
-- All components must have have a css class prefixed with `c-`. No other classes may start with `c-`.
+
+#### CSS
+
+- All top-level components (those intended to be rendered directly from a view) should have a className set to `c-#{component-name}`, e.g. `c-track-list`, where `c-` indicates a component.
+- All CSS for the components must be nested within that component using CSS 3 nesting.
+- Tags should be semantic.
 
 #### Server-side component class
 

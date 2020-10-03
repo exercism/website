@@ -1,15 +1,15 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import { Exercise } from "./Exercise"
-import { ExerciseConnections } from "./ExerciseConnections"
+import { Exercise } from './Exercise'
+import { ExerciseConnections } from './ExerciseConnections'
 
 import {
   Exercise as ExerciseType,
   ExerciseGraph as ExerciseGraphInterface,
   ExerciseLayer,
-} from "./exercise-types"
+} from './exercise-types'
 
-import "./ExerciseGraph.css"
+import './ExerciseGraph.css'
 
 export const ExerciseGraph = ({
   exercises,
@@ -26,16 +26,16 @@ export const ExerciseGraph = ({
   }, new Map<string, ExerciseType>())
 
   return (
-    <figure className="c-exercise-graph">
+    <figure className='c-exercise-graph'>
       <ExerciseConnections connections={connections} activeExercise={active} />
-      <div className="track">
+      <div className='track'>
         {layout.map((layer: ExerciseLayer, i: number) => (
-          <div key={`layer-${i}`} className="layer">
+          <div key={`layer-${i}`} className='layer'>
             {layer.map((exerciseSlug) => {
               const exercise = exercisesBySlug.get(exerciseSlug)
 
               // TODO: fix this error typescript error since it _may_ return undefined
-              if (!exercise) return "no exercise"
+              if (!exercise) return 'no exercise'
 
               return (
                 <Exercise

@@ -13,7 +13,7 @@
 
 .c-exercise-graph {
     & .track {
-        @apply pointer-events-none block
+        @apply pointer-events-none block;
 
         &:hover {
             & .card {
@@ -26,10 +26,10 @@
         }
 
         & .layer {
-            @apply flex justify-evenly flex wrap
+            @apply flex justify-evenly flex wrap;
 
             & .card {
-                @apply box-border p-20 my-24 mx-12 rounded-lg pointer-events-auto
+                @apply box-border p-20 my-24 mx-12 rounded-lg pointer-events-auto;
 
                 background-color: var(--c-concept-graph-card-background);
                 color: var(--c-concept-graph-text-locked);
@@ -37,7 +37,7 @@
                 transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
 
                 & .display {
-                    @apply flex items-center justify-between
+                    @apply flex items-center justify-between;
 
                     & .name {
                         @apply text-20 font-semibold;
@@ -58,7 +58,7 @@
 
         & .connections {
             & .canvas {
-                @apply absolute m-0 p-0 -z-1 top-0 left-0
+                @apply absolute m-0 p-0 -z-1 top-0 left-0;
                 touch-action: none;
                 border: 0;
             }

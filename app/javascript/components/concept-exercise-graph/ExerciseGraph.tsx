@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 
-import { Exercise } from "./Exercise";
-import { ExerciseConnections } from "./ExerciseConnections";
+import { Exercise } from "./Exercise"
+import { ExerciseConnections } from "./ExerciseConnections"
 
 import {
   Exercise as ExerciseType,
   ExerciseGraph as ExerciseGraphInterface,
   ExerciseLayer,
-} from "./exercise-types";
+} from "./exercise-types"
 
-import "./ExerciseGraph.css";
+import "./ExerciseGraph.css"
 
 export const ExerciseGraph = ({
   exercises,
   layout,
   connections,
 }: ExerciseGraphInterface) => {
-  console.log({ exercises, layout, connections });
+  console.log({ exercises, layout, connections })
 
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<string | null>(null)
 
   const exercisesBySlug = exercises.reduce((memo, exercise) => {
-    memo.set(exercise.slug, exercise);
-    return memo;
-  }, new Map<string, ExerciseType>());
+    memo.set(exercise.slug, exercise)
+    return memo
+  }, new Map<string, ExerciseType>())
 
   return (
     <figure className="c-exercise-graph">
@@ -32,10 +32,10 @@ export const ExerciseGraph = ({
         {layout.map((layer: ExerciseLayer, i: number) => (
           <div key={`layer-${i}`} className="layer">
             {layer.map((exerciseSlug) => {
-              const exercise = exercisesBySlug.get(exerciseSlug);
+              const exercise = exercisesBySlug.get(exerciseSlug)
 
               // TODO: fix this error typescript error since it _may_ return undefined
-              if (!exercise) return "no exercise";
+              if (!exercise) return "no exercise"
 
               return (
                 <Exercise
@@ -50,11 +50,11 @@ export const ExerciseGraph = ({
                   handleEnter={() => setActive(exercise.slug)}
                   handleLeave={() => setActive(null)}
                 />
-              );
+              )
             })}
           </div>
         ))}
       </div>
     </figure>
-  );
-};
+  )
+}

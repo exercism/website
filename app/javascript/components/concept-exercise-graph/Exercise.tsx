@@ -1,7 +1,7 @@
-import React from "react";
-import { ExerciseCompleteIcon } from "./ExerciseCompleteIcon";
+import React from "react"
+import { ExerciseCompleteIcon } from "./ExerciseCompleteIcon"
 
-import { Exercise as IExercise, ExerciseState } from "./exercise-types";
+import { Exercise as IExercise, ExerciseState } from "./exercise-types"
 
 export const Exercise = ({
   index,
@@ -13,11 +13,11 @@ export const Exercise = ({
   handleEnter,
   handleLeave,
 }: IExercise & { isActive: boolean }) => {
-  const name = deslugify(slug);
+  const name = deslugify(slug)
 
-  let classes = "card";
-  classes += ` card-${status}`;
-  classes += isActive ? " card-active" : "";
+  let classes = "card"
+  classes += ` card-${status}`
+  classes += isActive ? " card-active" : ""
 
   return (
     <section
@@ -33,16 +33,16 @@ export const Exercise = ({
         <ExerciseCompleteIcon show={ExerciseState.Completed === status} />
       </div>
     </section>
-  );
-};
+  )
+}
 
 function deslugify(slug: string): string {
   return slug
     .split("-")
     .map((part) => part[0].toUpperCase() + part.substr(1))
-    .join(" ");
+    .join(" ")
 }
 
 export function slugToId(slug: string): string {
-  return `concept-exercise-${slug}`;
+  return `concept-exercise-${slug}`
 }

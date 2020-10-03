@@ -1,13 +1,13 @@
-import React from "react";
+import React from "react"
 
 export const ExerciseCompleteIcon = ({ show }: { show: boolean }) => {
-  if (!show) return null;
+  if (!show) return null
 
-  const rootStyle = getComputedStyle(document.documentElement);
-  const fillColor = rootStyle.getPropertyValue("--c-concept-graph-check-green");
-  const checkColor = "#000000";
-  const height = "1.2rem";
-  const width = "1.2rem";
+  const rootStyle = getComputedStyle(document.documentElement)
+  const fillColor = rootStyle.getPropertyValue("--c-concept-graph-check-green")
+  const checkColor = "#000000"
+  const height = "1.2rem"
+  const width = "1.2rem"
 
   return (
     <svg
@@ -26,5 +26,5 @@ export const ExerciseCompleteIcon = ({ show }: { show: boolean }) => {
         fill={checkColor}
       />
     </svg>
-  );
-};
+  )
+}

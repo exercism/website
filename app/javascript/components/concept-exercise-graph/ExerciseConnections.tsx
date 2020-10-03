@@ -289,7 +289,7 @@ function applyLineStyle(
   // Use :root defined CSS variable values to style the path
   const rootStyle = getComputedStyle(document.documentElement);
   const lineWidth = Number(
-    rootStyle.getPropertyValue("--concept-graph-line-width")
+    rootStyle.getPropertyValue("--c-concept-graph-line-width")
   );
   const dashedLine = [5, 7];
   const solidLine = [1, 0];
@@ -297,7 +297,7 @@ function applyLineStyle(
   switch (pathState) {
     case ExercisePathState.Available:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        "--concept-graph-line-available"
+        "--c-concept-graph-line-available"
       );
       ctx.setLineDash(dashedLine);
       ctx.lineWidth = lineWidth;
@@ -305,7 +305,7 @@ function applyLineStyle(
 
     case ExercisePathState.Completed:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        "--concept-graph-line-complete"
+        "--c-concept-graph-line-complete"
       );
       ctx.setLineDash(solidLine);
       ctx.lineWidth = lineWidth;
@@ -314,7 +314,7 @@ function applyLineStyle(
     // ExercisePathState.Locked
     default:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        "--concept-graph-line-locked"
+        "--c-concept-graph-line-locked"
       );
       ctx.setLineDash(dashedLine);
       ctx.lineWidth = lineWidth;
@@ -331,7 +331,7 @@ function defineCircle(
   // Use :root defined CSS variable values to style the path
   const rootStyle = getComputedStyle(document.documentElement);
   const radius = Number(
-    rootStyle.getPropertyValue("--concept-graph-circle-radius")
+    rootStyle.getPropertyValue("--c-concept-graph-circle-radius")
   );
 
   ctx.arc(pos.x, pos.y, radius, 0, 2 * Math.PI);
@@ -345,15 +345,15 @@ function applyCircleStyle(
   // Use :root defined CSS variable values to style the path
   const rootStyle = getComputedStyle(document.documentElement);
   const lineWidth = Number(
-    rootStyle.getPropertyValue("--concept-graph-line-width")
+    rootStyle.getPropertyValue("--c-concept-graph-line-width")
   );
-  const fillColor = rootStyle.getPropertyValue("--concept-graph-background");
+  const fillColor = rootStyle.getPropertyValue("--c-concept-graph-background");
   const solidLine = [1, 0];
 
   switch (pathState) {
     case ExercisePathState.Available:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        "--concept-graph-line-available"
+        "--c-concept-graph-line-available"
       );
       ctx.setLineDash(solidLine);
       ctx.fillStyle = fillColor;
@@ -362,7 +362,7 @@ function applyCircleStyle(
 
     case ExercisePathState.Completed:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        "--concept-graph-line-complete"
+        "--c-concept-graph-line-complete"
       );
       ctx.setLineDash(solidLine);
       ctx.fillStyle = fillColor;
@@ -372,7 +372,7 @@ function applyCircleStyle(
     // ExercisePathState.Locked
     default:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        "--concept-graph-line-locked"
+        "--c-concept-graph-line-locked"
       );
       ctx.setLineDash(solidLine);
       ctx.fillStyle = fillColor;

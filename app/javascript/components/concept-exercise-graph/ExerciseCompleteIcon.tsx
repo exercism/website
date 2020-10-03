@@ -4,7 +4,7 @@ export const ExerciseCompleteIcon = ({ show }: { show: boolean }) => {
   if (!show) return null;
 
   const rootStyle = getComputedStyle(document.documentElement);
-  const fillColor = rootStyle.getPropertyValue("--concept-graph-check-green");
+  const fillColor = rootStyle.getPropertyValue("--c-concept-graph-check-green");
   const checkColor = "#000000";
   const height = "1.2rem";
   const width = "1.2rem";

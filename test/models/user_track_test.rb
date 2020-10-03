@@ -30,10 +30,10 @@ class UserTrackTest < ActiveSupport::TestCase
 
     refute user_track.exercise_available?(exercise)
 
-    create :user_track_concept, track_concept: prereq_1, user_track: user_track
+    create :user_track_learnt_concept, track_concept: prereq_1, user_track: user_track
     refute user_track.reload.exercise_available?(exercise)
 
-    create :user_track_concept, track_concept: prereq_2, user_track: user_track
+    create :user_track_learnt_concept, track_concept: prereq_2, user_track: user_track
     assert user_track.reload.exercise_available?(exercise)
   end
 
@@ -66,7 +66,7 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_1], user_track.available_concept_exercises
     assert_equal [practice_exercise_1], user_track.available_practice_exercises
 
-    create :user_track_concept, track_concept: prereq_1, user_track: user_track
+    create :user_track_learnt_concept, track_concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
       practice_exercise_1,
@@ -77,7 +77,7 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
 
-    create :user_track_concept, track_concept: prereq_2, user_track: user_track
+    create :user_track_learnt_concept, track_concept: prereq_2, user_track: user_track
     assert_equal [
       concept_exercise_1, practice_exercise_1,
       concept_exercise_2, concept_exercise_3, concept_exercise_4,

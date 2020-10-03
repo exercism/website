@@ -27,6 +27,7 @@ class SerializeTracks
     {
       id: track.id,
       title: track.title,
+      num_concepts: track.concepts.count,
       num_concept_exercises: concept_exercise_counts[track.id].to_i,
       num_practice_exercises: practice_exercise_counts[track.id].to_i,
       web_url: Exercism::Routes.track_url(track),
@@ -43,6 +44,7 @@ class SerializeTracks
 
     {
       is_joined: joined?(track),
+      num_learnt_concepts: learnt_concepts_counts[track.id].to_i,
       num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
       num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
     }
@@ -70,6 +72,16 @@ class SerializeTracks
       where(user: user).
       where(track: tracks).
       map(&:track_id)
+  end
+
+  memoize
+  def learnt_concepts_counts
+    UserTrack::LearntConcept.
+      joins(:user_track).
+      where('user_tracks.user_id': user.id).
+      where('user_tracks.track_id': tracks).
+      group('user_tracks.track_id').
+      count
   end
 
   memoize

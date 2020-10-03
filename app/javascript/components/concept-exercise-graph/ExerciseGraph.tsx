@@ -26,11 +26,11 @@ export const ExerciseGraph = ({
   }, new Map<string, ExerciseType>());
 
   return (
-    <>
+    <figure className="c-exercise-graph">
       <ExerciseConnections connections={connections} activeExercise={active} />
-      <div className="c-exercise-track">
+      <div className="track">
         {layout.map((layer: ExerciseLayer, i: number) => (
-          <div key={`layer-${i}`} className="c-exercise-graph-layer">
+          <div key={`layer-${i}`} className="layer">
             {layer.map((exerciseSlug) => {
               const exercise = exercisesBySlug.get(exerciseSlug);
 
@@ -55,6 +55,6 @@ export const ExerciseGraph = ({
           </div>
         ))}
       </div>
-    </>
+    </figure>
   );
 };

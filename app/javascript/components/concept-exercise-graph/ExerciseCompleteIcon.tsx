@@ -15,7 +15,7 @@ export const ExerciseCompleteIcon = ({ show }: { show: boolean }) => {
       height={height}
       width={width}
       xmlns="http://www.w3.org/2000/svg"
-      className="c-exercise-graph-complete-icon"
+      className="complete-icon"
     >
       <path
         d="m256 0c-141.164062 0-256 114.835938-256 256s114.835938 256 256 256 256-114.835938 256-256-114.835938-256-256-256zm0 0"

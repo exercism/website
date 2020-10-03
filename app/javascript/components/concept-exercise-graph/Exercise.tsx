@@ -15,9 +15,9 @@ export const Exercise = ({
 }: IExercise & { isActive: boolean }) => {
   const name = deslugify(slug);
 
-  let classes = "c-exercise-card";
-  classes += ` c-exercise-card-${status}`;
-  classes += isActive ? " c-exercise-card-active" : "";
+  let classes = "card";
+  classes += ` card-${status}`;
+  classes += isActive ? " card-active" : "";
 
   return (
     <section
@@ -28,8 +28,8 @@ export const Exercise = ({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-      <div className="c-exercise-graph display">
-        <div className="c-exercise-display-name">{name}</div>
+      <div className="display">
+        <div className="name">{name}</div>
         <ExerciseCompleteIcon show={ExerciseState.Completed === status} />
       </div>
     </section>

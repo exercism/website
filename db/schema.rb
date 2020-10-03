@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.bigint "track_concept_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "track_concept_id"], name: "index_exercise_prerequisites_on_exercise_id_and_track_concept_id", unique: true
+    t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
     t.index ["exercise_id"], name: "index_exercise_prerequisites_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_prerequisites_on_track_concept_id"
   end
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
     t.index ["source_iteration_id"], name: "index_exercise_representations_on_source_iteration_id"
+  end
+
+  create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "track_concept_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
+    t.index ["exercise_id"], name: "index_exercise_taught_concepts_on_exercise_id"
+    t.index ["track_concept_id"], name: "index_exercise_taught_concepts_on_track_concept_id"
   end
 
   create_table "exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -205,6 +215,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
   create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "uuid", null: false
+    t.string "slug", null: false
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -278,6 +289,8 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
   add_foreign_key "exercise_representations", "iterations", column: "source_iteration_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
+  add_foreign_key "exercise_taught_concepts", "exercises"
+  add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "iteration_analyses", "iterations"
   add_foreign_key "iteration_discussion_posts", "iterations"

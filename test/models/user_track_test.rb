@@ -24,16 +24,16 @@ class UserTrackTest < ActiveSupport::TestCase
 
   test "exercise_available? with prerequisites" do
     exercise = create :concept_exercise
-    prereq_1 = create(:exercise_prerequisite, exercise: exercise).track_concept
-    prereq_2 = create(:exercise_prerequisite, exercise: exercise).track_concept
+    prereq_1 = create(:exercise_prerequisite, exercise: exercise).concept
+    prereq_2 = create(:exercise_prerequisite, exercise: exercise).concept
     user_track = create :user_track
 
     refute user_track.exercise_available?(exercise)
 
-    create :user_track_learnt_concept, track_concept: prereq_1, user_track: user_track
+    create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     refute user_track.reload.exercise_available?(exercise)
 
-    create :user_track_learnt_concept, track_concept: prereq_2, user_track: user_track
+    create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert user_track.reload.exercise_available?(exercise)
   end
 
@@ -52,21 +52,21 @@ class UserTrackTest < ActiveSupport::TestCase
     prereq_1 = create :track_concept, track: track
     prereq_2 = create :track_concept, track: track
 
-    create(:exercise_prerequisite, exercise: concept_exercise_2, track_concept: prereq_1)
-    create(:exercise_prerequisite, exercise: practice_exercise_2, track_concept: prereq_1)
-    create(:exercise_prerequisite, exercise: concept_exercise_3, track_concept: prereq_1)
-    create(:exercise_prerequisite, exercise: practice_exercise_3, track_concept: prereq_1)
-    create(:exercise_prerequisite, exercise: concept_exercise_3, track_concept: prereq_2)
-    create(:exercise_prerequisite, exercise: practice_exercise_3, track_concept: prereq_2)
-    create(:exercise_prerequisite, exercise: concept_exercise_4, track_concept: prereq_2)
-    create(:exercise_prerequisite, exercise: practice_exercise_4, track_concept: prereq_2)
+    create(:exercise_prerequisite, exercise: concept_exercise_2, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: practice_exercise_2, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: concept_exercise_3, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: concept_exercise_3, concept: prereq_2)
+    create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_2)
+    create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
+    create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
     user_track = create :user_track, track: track
 
     assert_equal [concept_exercise_1, practice_exercise_1], user_track.available_exercises
     assert_equal [concept_exercise_1], user_track.available_concept_exercises
     assert_equal [practice_exercise_1], user_track.available_practice_exercises
 
-    create :user_track_learnt_concept, track_concept: prereq_1, user_track: user_track
+    create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
       practice_exercise_1,
@@ -77,7 +77,7 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
 
-    create :user_track_learnt_concept, track_concept: prereq_2, user_track: user_track
+    create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [
       concept_exercise_1, practice_exercise_1,
       concept_exercise_2, concept_exercise_3, concept_exercise_4,

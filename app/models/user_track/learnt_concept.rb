@@ -1,4 +1,6 @@
 class UserTrack::LearntConcept < ApplicationRecord
   belongs_to :user_track
-  belongs_to :track_concept, class_name: "Track::Concept"
+  belongs_to :concept,  # rubocop:disable Rails/InverseOf
+    class_name: "Track::Concept",
+    foreign_key: "track_concept_id"
 end

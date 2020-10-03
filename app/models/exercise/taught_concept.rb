@@ -1,4 +1,4 @@
-class Exercise::Prerequisite < ApplicationRecord
+class Exercise::TaughtConcept < ApplicationRecord
   belongs_to :exercise
   belongs_to :concept, # rubocop:disable Rails/InverseOf
     class_name: "Track::Concept",

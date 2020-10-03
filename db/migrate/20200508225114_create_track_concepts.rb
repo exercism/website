@@ -5,6 +5,7 @@ class CreateTrackConcepts < ActiveRecord::Migration[6.0]
 
       t.string :uuid, null: false
 
+      t.string :slug, null: false
       t.string :name, null: false
 
       t.timestamps

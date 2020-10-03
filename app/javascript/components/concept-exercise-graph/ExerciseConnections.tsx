@@ -113,7 +113,7 @@ export const ExerciseConnections = ({
     )
   }, [activeExercise, connections, webpageHeight, webpageWidth])
 
-  return <canvas ref={canvasEl} className='canvas'></canvas>
+  return <canvas ref={canvasEl} className="canvas"></canvas>
 }
 
 function determinePathTypes(

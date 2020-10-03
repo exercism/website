@@ -28,8 +28,8 @@ export const Exercise = ({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-      <div className='display'>
-        <div className='name'>{name}</div>
+      <div className="display">
+        <div className="name">{name}</div>
         <ExerciseCompleteIcon show={ExerciseState.Completed === status} />
       </div>
     </section>

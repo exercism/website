@@ -1,7 +1,10 @@
 module ViewComponents
   module Student
     class TracksList < ViewComponent
-      initialize_with :data, :request
+      def initialize(data, request = default_request)
+        @data = data
+        @request = request
+      end
 
       def to_s
         react_component("student-tracks-list", {
@@ -16,6 +19,14 @@ module ViewComponents
         { value: "unjoined", label: "Unjoined" }
       ].freeze
       private_constant :STATUS_OPTIONS
+
+      private
+      attr_reader :data, :request
+
+      def default_request
+        # TODO: Change this to the actual endpoint, not the test endpoint
+        { endpoint: Exercism::Routes.tracks_test_components_student_tracks_list_path }
+      end
     end
   end
 end

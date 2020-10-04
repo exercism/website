@@ -108,3 +108,7 @@ Rails/RefuteMethods:
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+Rails/HelperInstanceVariable:
+  Exclude:
+    - "app/helpers/view_components/**/*"

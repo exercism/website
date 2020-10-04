@@ -25,6 +25,7 @@ module ViewComponents
 
       private
       def default_request
+        # TODO: Change this to the actual endpoint, not the test endpoint
         { endpoint: Exercism::Routes.solutions_test_components_mentoring_queue_path }
       end
     end

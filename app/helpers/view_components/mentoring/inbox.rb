@@ -1,8 +1,6 @@
 module ViewComponents
   module Mentoring
     class Inbox < ViewComponent
-      attr_reader :conversations_request, :tracks_request
-
       def initialize(conversations_request = default_conversations_request, tracks_request = default_tracks_request)
         @conversations_request = conversations_request
         @tracks_request = tracks_request
@@ -27,6 +25,8 @@ module ViewComponents
       private_constant :SORT_OPTIONS
 
       private
+      attr_reader :conversations_request, :tracks_request
+
       def default_conversations_request
         # TODO: Change this to the actual endpoint, not the test endpoint
         { endpoint: Exercism::Routes.conversations_test_components_mentoring_inbox_path }

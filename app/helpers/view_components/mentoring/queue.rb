@@ -2,6 +2,7 @@ module ViewComponents
   module Mentoring
     class Queue < ViewComponent
       attr_reader :request
+
       def initialize(request = default_request)
         @request = request
       end

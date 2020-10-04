@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ExerciseCompleteIcon = ({ show }: { show: boolean }) => {
+export const CompleteIcon = ({ show }: { show: boolean }) => {
   if (!show) return null
 
   const rootStyle = getComputedStyle(document.documentElement)

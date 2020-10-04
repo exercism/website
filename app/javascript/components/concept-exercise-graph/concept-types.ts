@@ -1,32 +1,32 @@
 import { MouseEventHandler } from 'react'
 
-export enum ExerciseState {
+export enum ConceptState {
   Locked = 'locked',
   Unlocked = 'unlocked',
   Completed = 'completed',
   InProgress = 'in_progress',
 }
 
-export type Exercise = {
+export interface IConcept {
   index: number
   slug: string
   uuid: string
-  concepts: string[]
+  conceptExercise: string
   prerequisites: string[]
-  status: ExerciseState
+  status: ConceptState
   handleEnter?: MouseEventHandler
   handleLeave?: MouseEventHandler
 }
 
-export type ExerciseLayer = string[]
+export type ConceptLayer = string[]
 
-export type ExerciseConnection = {
+export type ConceptConnection = {
   from: string
   to: string
 }
 
-export interface ExerciseGraph {
-  exercises: Exercise[]
-  layout: ExerciseLayer[]
-  connections: ExerciseConnection[]
+export interface IConceptGraph {
+  concepts: IConcept[]
+  layout: ConceptLayer[]
+  connections: ConceptConnection[]
 }

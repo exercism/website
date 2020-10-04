@@ -11,7 +11,7 @@
     --c-concept-graph-circle-radius: 4;
 }
 
-.c-exercise-graph {
+.c-concept-graph {
     & .track {
         @apply pointer-events-none block;
 
@@ -26,10 +26,11 @@
         }
 
         & .layer {
-            @apply flex justify-evenly flex wrap;
+            @apply flex justify-evenly flex-wrap;
 
             & .card {
-                @apply box-border p-20 my-24 mx-12 rounded-lg pointer-events-auto;
+                @apply rounded-md;
+                @apply box-border p-20 my-24 mx-12 pointer-events-auto;
 
                 background-color: var(--c-concept-graph-card-background);
                 color: var(--c-concept-graph-text-locked);
@@ -55,13 +56,12 @@
                 }
             }
         }
+    }
 
-        & .connections {
-            & .canvas {
-                @apply absolute m-0 p-0 -z-1 top-0 left-0;
-                touch-action: none;
-                border: 0;
-            }
-        }
+    & .canvas {
+        @apply absolute m-0 p-0 -z-1 top-0 left-0;
+        touch-action: none;
+        border: 0;
+        /* border: 1px dashed; */
     }
 }

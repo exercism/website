@@ -8,4 +8,10 @@ class ConceptExercise < Exercise
   has_many :taught_concepts,
     through: :exercise_taught_concepts,
     source: :concept
+
+  def self.that_teaches!(concept)
+    TaughtConcept.
+      find_by!(concept: concept).
+      exercise
+  end
 end

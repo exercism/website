@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   def current_user
     @__current_user__ ||= User.first # rubocop:disable Naming/MemoizedInstanceVariableName
   end
+  helper_method :current_user
 
   def user_logged_in?
     !!current_user

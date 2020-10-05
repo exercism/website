@@ -14,6 +14,12 @@ module API
     layout false
 
     def authenticate_user!
+      # TODO: Remove this once API session support is set up
+      if params[:auth_token].present?
+        @current_user = User::AuthToken.find_by(token: params[:auth_token]).user
+        return if @current_user
+      end
+
       authenticate_with_http_token do |token, _options|
         break if token.blank?
 

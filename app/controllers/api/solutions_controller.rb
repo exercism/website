@@ -67,12 +67,16 @@ module API
 
       begin
         major = params.fetch(:major, true)
-        Submission::Create.(solution, files, submitted_via, major)
+        submission = Submission::Create.(solution, files, submitted_via, major)
       rescue DuplicateSubmissionError
         return render_error(400, :duplicate_submission)
       end
 
-      render json: {}, status: :created
+      render json: {
+        submission: {
+          uuid: submission.uuid
+        }
+      }, status: :created
     end
 
     private

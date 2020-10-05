@@ -129,8 +129,10 @@ For example: `Iteration::Create` or `ToolingJob::Process`
 
 ## View Components
 
-We use view components to split the UI into stand-alone units that can be used and tested independently from the rest of the application.
+We use View Components to split the UI into stand-alone units that can be used and tested independently from the rest of the application.
 View Components are either functional and written in React, or non-functional and rendered as HAML templates.
+
+Each View Component has a class in Rails which is used to render it in a consistent manner, and through which any initial data or configuration can be passed.
 
 ### React components
 
@@ -145,28 +147,34 @@ View Components are either functional and written in React, or non-functional an
 
 #### Server-side component class
 
-Each component has a class in `app/helpers/view_components/**/XXX.rb`
+Each View Component has a corrosponding Rails class, which lives in `app/helpers/view_components/**/XXX.rb`.
 
-This component is responsible for rendering the component via its `to_s` method.
-Any server-side properties of the component (e.g. sort options) should be stored within this class.
+This class should defined a `#to_s` method, which is responsible for rendering HTML with relevant attributes. 
+This is generally achieved by calling the `react_component` on the (parent) `ViewComponents::ViewComponent` class (located in `app/helpers/view_components/view_component.rb`), which generates a `div` with a data attribute for the view component's name (e.g. `data-react-tracks-list` for the `tracks-list` component) and a `data-react-data` containing any data that the Component needs to initialize.
+
+The View Component should also encapsulate any server-side properties should be stored within this class, such as sort options.
 
 #### Testing components
 
 The tests should cover all functionality in the component, with unit tests being via JS, and tests that interact with Rails being tested through system tests.
 
-Each component should have a set of JavaScript tests.
+Each Component should have a set of JavaScript tests.
 These are written in Jest.
 They reside in `test/javascript/**/XXX.test.js`
 
-Each component should have a test file for its server-side component class.
+Each Component should have a test file for its server-side View Component class.
 This should test the component's div and initial data are rendered correctly.
-These reside in `test/helpers/view_components/**/XXX_test.rb`
+These reside in `test/helpers/view_components/**/XXX_test.rb`.
+See `test/helpers/view_components/mentoring/inbox_test.rb` for an idiomatic example.
 
-Each component has a view file for development usage and system testing.
-These reside in `app/views/test/components/**/XXX.html.haml`
+Each Component has a route and view to enable it be rendered both for development usage and system testing.
+The routes live in the `test` namespace of the `config.routes`
+The views live in `app/views/test/components/**/XXX.html.haml`.
+The Component can be then accessed through `http://localhost:3020//test/components/...`
 
-Finally, each component has Rails system tests.
-These reside in `test/system/components/**/XXX_test.rb`
+Finally, each Component has Rails system tests, which test the correct HTML is rendered.
+These reside in `test/system/components/**/XXX_test.rb`. 
+See `test/system/components/student/tracks_list_test.rb` for an idiomatic example.
 
 ## Linting
 

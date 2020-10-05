@@ -32,28 +32,30 @@ export const ConceptGraph = ({
       <div className="track">
         {layout.map((layer: ConceptLayer, i: number) => (
           <div key={`layer-${i}`} className="layer">
-            {layer.map((conceptSlug) => {
-              const concept = conceptsBySlug.get(conceptSlug)
-              const isDimmed =
-                active !== null &&
-                active !== concept?.slug &&
-                !adjacentConceptsToActive.has(concept?.slug)
+            {layer
+              .map((conceptSlug) => conceptsBySlug.get(conceptSlug))
+              .filter((concept) => concept !== undefined)
+              .map((concept) => {
+                const isDimmed =
+                  active !== null &&
+                  active !== concept?.slug &&
+                  !adjacentConceptsToActive.has(concept?.slug)
 
-              // TODO: fix this error typescript error since it _may_ return undefined
-              return !concept ? null : (
-                <Concept
-                  index={concept.index}
-                  slug={concept.slug}
-                  web_url={concept.web_url}
-                  status={concept.status}
-                  handleEnter={() => setActive(concept.slug)}
-                  handleLeave={() => setActive(null)}
-                  isActive={active === concept.slug}
-                  isDimmed={isDimmed}
-                  adjacentConcepts={adjacentBySlug.get(concept.slug) ?? []}
-                />
-              )
-            })}
+                // TODO: fix this error typescript error since it _may_ return undefined
+                return (
+                  <Concept
+                    index={concept.index}
+                    slug={concept.slug}
+                    web_url={concept.web_url}
+                    status={concept.status}
+                    handleEnter={() => setActive(concept.slug)}
+                    handleLeave={() => setActive(null)}
+                    isActive={active === concept.slug}
+                    isDimmed={isDimmed}
+                    adjacentConcepts={adjacentBySlug.get(concept.slug) ?? []}
+                  />
+                )
+              })}
           </div>
         ))}
       </div>

@@ -3,9 +3,8 @@ module ToolingJob
     include Mandate
 
     initialize_with :iteration_uuid, :type
-    
+
     def call
-      config = ExercismConfig::SetupDynamoDBClient.()
       client.update_item(
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         key: {
@@ -22,6 +21,11 @@ module ToolingJob
         },
         update_expression: "SET #JS = :js, #LU = :lu"
       )
+    end
+
+    memoize
+    def client
+      ExercismConfig::SetupDynamoDBClient.()
     end
   end
 end

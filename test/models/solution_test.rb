@@ -49,4 +49,12 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal solution.track.git_head_sha, solution.git_sha
     assert_equal solution.exercise.slug, solution.git_slug
   end
+
+  test "completed and uncompleted" do
+    completed = create :concept_solution, completed_at: Time.current
+    not_completed = create :concept_solution, completed_at: nil
+
+    assert_equal [completed], Solution.completed
+    assert_equal [not_completed], Solution.not_completed
+  end
 end

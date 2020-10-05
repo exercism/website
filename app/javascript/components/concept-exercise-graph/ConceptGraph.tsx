@@ -41,9 +41,9 @@ export const ConceptGraph = ({
                   active !== concept?.slug &&
                   !adjacentConceptsToActive.has(concept?.slug)
 
-                // TODO: fix this error typescript error since it _may_ return undefined
                 return (
                   <Concept
+                    key={concept.slug}
                     index={concept.index}
                     slug={concept.slug}
                     web_url={concept.web_url}

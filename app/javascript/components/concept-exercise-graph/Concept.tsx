@@ -6,7 +6,6 @@ import { IConcept, ConceptState } from './concept-types'
 export const Concept = ({
   index,
   slug,
-  conceptExercise,
   web_url,
   status,
   handleEnter,
@@ -38,7 +37,6 @@ export const Concept = ({
       id={conceptSlugToId(slug)}
       className={classes.join(' ')}
       data-concept-slug={slug}
-      data-concept-exercise={conceptExercise}
       data-concept-status={status}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}

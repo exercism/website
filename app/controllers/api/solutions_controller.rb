@@ -54,13 +54,20 @@ module API
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       begin
-        files = CLI::PrepareUploadedFiles.(params[:files])
+        if params[:files].is_a?(Array)
+          files = Iteration::PrepareHttpFiles.(params[:files])
+          submitted_via = :cli
+        elsif params[:files].is_a?(ActionController::Parameters)
+          files = Iteration::PrepareMappedFiles.(params[:files].permit!.to_h)
+          submitted_via = :api
+        end
       rescue IterationFileTooLargeError
         return render_error(400, :file_too_large, "#{file.original_filename} is too large")
       end
 
       begin
-        Iteration::Create.(solution, files, :cli, true)
+        major = params.fetch(:major, true)
+        Iteration::Create.(solution, files, submitted_via, major)
       rescue DuplicateIterationError
         return render_error(400, :duplicate_iteration)
       end

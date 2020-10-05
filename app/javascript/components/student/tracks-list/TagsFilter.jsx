@@ -29,12 +29,21 @@ export function TagsFilter({ options, dispatch }) {
       </button>
       <button onClick={resetFilters}>Reset filters</button>
       {!hidden && (
-        <TagOptionList
-          value={value}
-          options={options}
-          setValue={setValue}
-          onSubmit={handleSubmit}
-        />
+        <div>
+          <TagOptionList
+            value={value}
+            options={options}
+            setValue={setValue}
+            onSubmit={handleSubmit}
+          />
+          <button
+            onClick={() => {
+              setHidden(true)
+            }}
+          >
+            Close
+          </button>
+        </div>
       )}
     </div>
   )

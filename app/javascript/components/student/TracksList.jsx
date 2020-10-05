@@ -11,11 +11,13 @@ function reducer(state, action) {
       return {
         ...state,
         query: { ...state.query, criteria: action.payload.criteria },
+        options: { ...state.options, initialData: undefined },
       }
     case 'status.changed':
       return {
         ...state,
         query: { ...state.query, status: action.payload.status },
+        options: { ...state.options, initialData: undefined },
       }
   }
 }

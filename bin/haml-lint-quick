@@ -1,5 +1,5 @@
 #!/bin/bash
 
-git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.haml$' | xargs bundle exec haml-lint app/views/layouts/application.html.haml
+git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.haml$' | xargs bundle exec haml-lint app/views/layouts/application.html.haml && \
 git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.haml$' | xargs git add
 

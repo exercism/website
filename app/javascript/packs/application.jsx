@@ -48,6 +48,7 @@ initReact({
     <Student.TracksList
       request={data.request}
       statusOptions={data.status_options}
+      tagOptions={data.tag_options}
     />
   ),
 })

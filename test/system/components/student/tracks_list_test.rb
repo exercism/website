@@ -67,6 +67,20 @@ module Components
         assert_text "Go", within: ".c-track"
       end
 
+      test "filter by tag" do
+        create :track, title: "Ruby", tags: ["Paradigm:Object-oriented", "Typing:Dynamic"]
+        create :track, title: "Go", tags: ["Paradigm:Object-oriented", "Typing:Static"]
+
+        visit test_components_student_tracks_list_url
+        click_on "Filter by"
+        check "Object-oriented"
+        check "Dynamic"
+        click_on "Apply"
+
+        assert_selector(".student-track-list .c-track", count: 1)
+        assert_text "Ruby", within: ".c-track"
+      end
+
       test "shows empty state" do
         visit test_components_student_tracks_list_url
 

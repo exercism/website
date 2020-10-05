@@ -21,18 +21,23 @@ export const Concept = ({
 }) => {
   const name = slugToTitlecase(slug)
 
-  let classes = 'card'
-  classes += ` card-${status}`
-  classes += isActive ? ' card-active' : ''
-  classes += isDimmed ? ' dim' : ''
+  // Build the classlist
+  let classes = ['card']
+  classes.push(`card-${status}`)
+  if (isActive) {
+    classes.push('card-active')
+  }
+  if (isDimmed) {
+    classes.push('dim')
+  }
   adjacentConcepts.forEach((adjacentConcept: string): void => {
-    classes += ` adjacent-to-${adjacentConcept}`
+    classes.push(`adjacent-to-${adjacentConcept}`)
   })
 
   return (
     <section
       id={conceptSlugToId(slug)}
-      className={classes}
+      className={classes.join(' ')}
       data-concept-slug={slug}
       data-concept-exercise={conceptExercise}
       data-concept-status={status}

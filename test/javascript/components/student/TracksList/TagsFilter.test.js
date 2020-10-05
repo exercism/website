@@ -5,7 +5,11 @@ import { TagsFilter } from '../../../../../app/javascript/components/student/tra
 
 test('hides option list when clicking "Close"', () => {
   const { getByText, queryByText } = render(
-    <TagsFilter options={[{ value: 'oop', label: 'OOP' }]} />
+    <TagsFilter
+      options={[
+        { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
+      ]}
+    />
   )
 
   fireEvent.click(getByText('Filter by'))

@@ -14,13 +14,20 @@ export function TagOptionList({ options, onSubmit, value, setValue }) {
     <form onSubmit={onSubmit}>
       {options.map((option) => {
         return (
-          <TagOption
-            key={option.value}
-            onChange={handleChange}
-            checked={value.indexOf(option.value) >= 0}
-            label={option.label}
-            value={option.value}
-          />
+          <div key={option.category}>
+            <p>{option.category}</p>
+            {option.options.map((option) => {
+              return (
+                <TagOption
+                  key={option.value}
+                  onChange={handleChange}
+                  checked={value.indexOf(option.value) >= 0}
+                  label={option.label}
+                  value={option.value}
+                />
+              )
+            })}
+          </div>
         )
       })}
       <button>Apply</button>

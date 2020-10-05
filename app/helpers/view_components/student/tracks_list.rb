@@ -22,9 +22,14 @@ module ViewComponents
       private_constant :STATUS_OPTIONS
 
       TAG_OPTIONS = [
-        { value: "Paradigm:Object-oriented", label: "Object-oriented" },
-        { value: "Typing:Static", label: "Static" },
-        { value: "Typing:Dynamic", label: "Dynamic" }
+        {
+          category: "Paradigm",
+          options: [{ value: "Paradigm:Object-oriented", label: "Object-oriented" }]
+        },
+        {
+          category: "Typing",
+          options: [{ value: "Typing:Static", label: "Static" }, { value: "Typing:Dynamic", label: "Dynamic" }]
+        }
       ].freeze
       private_constant :TAG_OPTIONS
 

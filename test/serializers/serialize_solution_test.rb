@@ -97,7 +97,6 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     mentor = create :user
     output = SerializeSolution.(solution, mentor)
 
-    assert_equal "https://test.exercism.io/mentoring/solutions/#{solution.mentor_uuid}",
-      output[:solution][:url]
+    assert_nil output[:solution][:url]
   end
 end

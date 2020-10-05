@@ -47,6 +47,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     track = create :track
     create :user_track, user: user, track: track
     concept = create :track_concept, track: track
+    create(:concept_exercise, track: track).tap { |ce| ce.taught_concepts << concept }
 
     sign_in!(user)
 
@@ -57,6 +58,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "show: renders correctly for unjoined" do
     track = create :track
     concept = create :track_concept, track: track
+    create(:concept_exercise, track: track).tap { |ce| ce.taught_concepts << concept }
 
     sign_in!
 
@@ -74,13 +76,13 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    post start_track_concept_url(track, concept)
+    patch start_track_concept_url(track, concept)
 
     solution = Solution.last
     assert solution
     assert ce, solution.exercise
     assert user, solution.user
 
-    assert_redirected_to edit_solution_path(solution)
+    assert_redirected_to edit_solution_path(solution.uuid)
   end
 end

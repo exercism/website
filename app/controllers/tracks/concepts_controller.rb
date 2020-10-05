@@ -1,7 +1,7 @@
 class Tracks::ConceptsController < ApplicationController
   before_action :use_track
   before_action :use_concepts, only: :index
-  before_action :use_concept, only: %i[show start]
+  before_action :use_concept, only: %i[show start complete]
 
   allow_unauthenticated! :index, :show
 
@@ -17,6 +17,8 @@ class Tracks::ConceptsController < ApplicationController
 
   def authenticated_show
     if current_user.joined_track?(@track)
+      @solution = Solution.for(current_user, @exercise)
+
       render action: "show/joined"
     else
       render action: "show/unjoined"
@@ -26,10 +28,15 @@ class Tracks::ConceptsController < ApplicationController
   def external_show; end
 
   def start
-    exercise = ConceptExercise.that_teaches!(@concept)
-    solution = Solution::Create.(@user_track, exercise)
+    solution = Solution::Create.(@user_track, @exercise)
+    redirect_to edit_solution_path(solution.uuid)
+  end
 
-    redirect_to edit_solution_path(solution)
+  def complete
+    ConceptExercise::Complete.(@exercise)
+    solution = Solution.for(current_user, @exercise)
+    solution.complete!
+    redirect_to action: :show
   end
 
   private
@@ -44,5 +51,6 @@ class Tracks::ConceptsController < ApplicationController
 
   def use_concept
     @concept = @track.concepts.find(params[:id])
+    @exercise = ConceptExercise.that_teaches!(@concept)
   end
 end

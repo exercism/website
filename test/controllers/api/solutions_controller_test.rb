@@ -285,7 +285,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
     CLI::PrepareUploadedFiles.expects(:call).with(http_files).returns(files)
-    Iteration::Create.expects(:call).with(solution, files, :cli)
+    Iteration::Create.expects(:call).with(solution, files, :cli, true)
 
     patch api_solution_path(solution.uuid),
       params: { files: http_files },

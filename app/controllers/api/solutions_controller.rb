@@ -60,7 +60,7 @@ module API
       end
 
       begin
-        Iteration::Create.(solution, files, :cli)
+        Iteration::Create.(solution, files, :cli, true)
       rescue DuplicateIterationError
         return render_error(400, :duplicate_iteration)
       end

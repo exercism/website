@@ -44,8 +44,7 @@ export const ConceptGraph = ({
                 <Concept
                   index={concept.index}
                   slug={concept.slug}
-                  conceptExercise={concept.conceptExercise}
-                  uuidOfExercise={concept.uuidOfExercise}
+                  web_url={concept.web_url}
                   status={concept.status}
                   handleEnter={() => setActive(concept.slug)}
                   handleLeave={() => setActive(null)}

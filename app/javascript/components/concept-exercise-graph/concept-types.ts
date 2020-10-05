@@ -7,12 +7,18 @@ export enum ConceptState {
   InProgress = 'in_progress',
 }
 
+export interface IExercise {
+  slug: string
+  uuid: string
+  prerequisiteConcepts: string[]
+  unlocksConcepts: string[]
+}
+
 export interface IConcept {
   index: number
   slug: string
-  uuid: string
   conceptExercise: string
-  prerequisites: string[]
+  uuidOfExercise: string
   status: ConceptState
   handleEnter?: MouseEventHandler
   handleLeave?: MouseEventHandler

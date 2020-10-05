@@ -7,17 +7,27 @@ export const Concept = ({
   index,
   slug,
   conceptExercise,
-  prerequisites,
+  uuidOfExercise,
   status,
-  isActive,
   handleEnter,
   handleLeave,
-}: IConcept & { isActive: boolean }) => {
+  isActive,
+  isDimmed,
+  adjacentConcepts,
+}: IConcept & {
+  isActive: boolean
+  isDimmed: boolean
+  adjacentConcepts: string[]
+}) => {
   const name = slugToTitlecase(slug)
 
   let classes = 'card'
   classes += ` card-${status}`
   classes += isActive ? ' card-active' : ''
+  classes += isDimmed ? ' dim' : ''
+  adjacentConcepts.forEach((adjacentConcept: string): void => {
+    classes += ` adjacent-to-${adjacentConcept}`
+  })
 
   return (
     <section

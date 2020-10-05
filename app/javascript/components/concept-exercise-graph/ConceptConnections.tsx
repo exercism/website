@@ -231,7 +231,11 @@ function drawPath(
   const adjust = 6
 
   if (options.dim) {
-    ctx.globalAlpha = 0.5
+    ctx.globalAlpha = Number(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        '--c-concept-graph-hover-opacity'
+      )
+    )
   }
 
   // Draw Line

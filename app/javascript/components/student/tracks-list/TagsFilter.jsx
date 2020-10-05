@@ -3,9 +3,19 @@ import { TagOptionList } from './TagOptionList'
 
 export function TagsFilter({ options, dispatch }) {
   const [hidden, setHidden] = useState(true)
+  const [value, setValue] = useState([])
 
-  function handleSubmit(value) {
+  function handleSubmit(e) {
+    e.preventDefault()
+
     dispatch({ type: 'tags.changed', payload: { tags: value } })
+  }
+
+  function resetFilters(e) {
+    e.preventDefault()
+
+    setValue([])
+    dispatch({ type: 'tags.changed', payload: { tags: [] } })
   }
 
   return (
@@ -17,7 +27,15 @@ export function TagsFilter({ options, dispatch }) {
       >
         Filter by
       </button>
-      {!hidden && <TagOptionList options={options} onSubmit={handleSubmit} />}
+      <button onClick={resetFilters}>Reset filters</button>
+      {!hidden && (
+        <TagOptionList
+          value={value}
+          options={options}
+          setValue={setValue}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   )
 }

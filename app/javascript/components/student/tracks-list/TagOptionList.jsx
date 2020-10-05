@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { TagOption } from './TagOption'
 
-export function TagOptionList({ options, onSubmit }) {
-  const [value, setValue] = useState([])
-
+export function TagOptionList({ options, onSubmit, value, setValue }) {
   function handleChange(e, optionValue) {
     if (event.target.checked) {
       setValue(value.concat(optionValue))
@@ -12,14 +10,8 @@ export function TagOptionList({ options, onSubmit }) {
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
-
-    onSubmit(value)
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       {options.map((option) => {
         return (
           <TagOption

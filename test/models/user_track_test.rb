@@ -66,6 +66,9 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_1], user_track.available_concept_exercises
     assert_equal [practice_exercise_1], user_track.available_practice_exercises
 
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
+
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
@@ -76,6 +79,9 @@ class UserTrackTest < ActiveSupport::TestCase
 
     assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
+
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [

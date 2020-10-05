@@ -1,4 +1,6 @@
 class UserTrack < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :user
   belongs_to :track
   has_many :user_track_learnt_concepts, class_name: "UserTrack::LearntConcept", dependent: :destroy
@@ -19,7 +21,7 @@ class UserTrack < ApplicationRecord
     available_exercises.select { |e| e.is_a?(PracticeExercise) }
   end
 
-  # TODO: Memoize this
+  memoize
   def available_exercises
     without_prereqs = track.exercises.without_prerequisites
 

@@ -2,24 +2,10 @@ module ToolingJob
   class Cancel
     include Mandate
 
-    initialize_with :iteration_uuid
-
+    initialize_with :iteration_uuid, :type
+    
     def call
-      iteration = Iteration.find_by!(uuid: iteration_uuid)
-      iteration.analysis_cancelled!
-      iteration.representation_cancelled!
-      cancel_job(:analyzer)
-      cancel_job(:representer)
-    end
-
-    private
-    attr_reader :iteration_uuid, :type
-
-    def client
-      ExercismConfig::SetupDynamoDBClient.()
-    end
-
-    def cancel_job(type)
+      config = ExercismConfig::SetupDynamoDBClient.()
       client.update_item(
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         key: {

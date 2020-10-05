@@ -63,4 +63,24 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     get track_concept_url(track, concept)
     assert_template "tracks/concepts/show/unjoined"
   end
+
+  test "start creates solution and redirects" do
+    user = create :user
+    track = create :track
+    create :user_track, user: user, track: track
+
+    concept = create :track_concept, track: track, slug: "bools"
+    ce = create(:concept_exercise, track: track).tap { |e| e.taught_concepts << concept }
+
+    sign_in!(user)
+
+    post start_track_concept_url(track, concept)
+
+    solution = Solution.last
+    assert solution
+    assert ce, solution.exercise
+    assert user, solution.user
+
+    assert_redirected_to edit_solution_path(solution)
+  end
 end

@@ -1,12 +1,15 @@
 .md-container
-  .tw-text-green-400 
+  .tw-text-green-400
     Hello
     .tw-inline-block.md:tw-font-bold World!
 
   %hr/
 
   %h2 Temporary useful buttons
+
   %ul
+    %li
+      = link_to "Tracks", tracks_path
     %li
       = link_to "List Submissions", maintaining_submissions_path
     %li

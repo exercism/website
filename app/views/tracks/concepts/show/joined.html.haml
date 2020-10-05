@@ -1,2 +1,4 @@
 .md-container
   %h2 #{@track.title}: #{@concept.name}
+
+  = button_to "Start exercise", start_track_concept_url(@track, @concept), method: true

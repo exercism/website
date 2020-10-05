@@ -277,6 +277,26 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "update should return serialized submission" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    patch api_solution_path(solution.uuid),
+      params: {
+        files: { "foo" => "bar" },
+        major: false
+      },
+      headers: @headers,
+      as: :json
+
+    assert_response :success
+    expected = { submission: {
+      uuid: Submission.last.uuid
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   test "update should create submission for cli files" do
     setup_user
     exercise = create :concept_exercise
@@ -285,7 +305,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
     Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :cli, true)
+    Submission::Create.expects(:call).with(solution, files, :cli, true).returns(mock(uuid: "foobar"))
 
     patch api_solution_path(solution.uuid),
       params: { files: http_files },
@@ -302,7 +322,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     params_files = { "foo" => "bar", "bar" => "foo" }
     files = mock
     Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :api, true)
+    Submission::Create.expects(:call).with(solution, files, :api, true).returns(mock(uuid: "foobar"))
 
     patch api_solution_path(solution.uuid),
       params: { files: params_files },
@@ -317,7 +337,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
 
     Submission::PrepareMappedFiles.expects(:call)
-    Submission::Create.expects(:call).with(solution, nil, :api, false)
+    Submission::Create.expects(:call).with(solution, nil, :api, false).returns(mock(uuid: "foobar"))
 
     patch api_solution_path(solution.uuid),
       params: {

@@ -1,6 +1,7 @@
 import React from 'react'
 
-export function StatusFilter({ options, dispatch }) {
+export function StatusFilter({ options, dispatch, ...props }) {
+  const value = props.value || options[0].value
   function handleChange(e, value) {
     dispatch({ type: 'status.changed', payload: { status: value } })
   }
@@ -11,6 +12,7 @@ export function StatusFilter({ options, dispatch }) {
         return (
           <button
             key={option.value}
+            disabled={option.value === value}
             onClick={(e) => {
               handleChange(e, option.value)
             }}

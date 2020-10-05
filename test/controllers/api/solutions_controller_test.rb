@@ -277,14 +277,14 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "update should create iteration" do
+  test "update should create iteration for cli files" do
     setup_user
     exercise = create :concept_exercise
     solution = create :concept_solution, user: @current_user, exercise: exercise
 
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
-    CLI::PrepareUploadedFiles.expects(:call).with(http_files).returns(files)
+    Iteration::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
     Iteration::Create.expects(:call).with(solution, files, :cli, true)
 
     patch api_solution_path(solution.uuid),
@@ -295,10 +295,44 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
   end
 
+  test "update should create iteration for files passed as params" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    params_files = { "foo" => "bar", "bar" => "foo" }
+    files = mock
+    Iteration::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
+    Iteration::Create.expects(:call).with(solution, files, :api, true)
+
+    patch api_solution_path(solution.uuid),
+      params: { files: params_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :success
+  end
+
+  test "update should respect major param" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    Iteration::PrepareMappedFiles.expects(:call)
+    Iteration::Create.expects(:call).with(solution, nil, :api, false)
+
+    patch api_solution_path(solution.uuid),
+      params: {
+        files: { "foo" => "bar" },
+        major: false
+      },
+      headers: @headers,
+      as: :json
+
+    assert_response :success
+  end
+
   test "update should catch duplicate iteration" do
     setup_user
-    exercise = create :concept_exercise
-    solution = create :concept_solution, user: @current_user, exercise: exercise
+    solution = create :concept_solution, user: @current_user
 
     Iteration::Create.expects(:call).raises(DuplicateIterationError)
 

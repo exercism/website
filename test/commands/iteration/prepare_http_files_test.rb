@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class CLI::PrepareUploadedFilesTest < ActiveSupport::TestCase
-  test "creates iteration correctly" do
+class Iteration::PrepareHttpFilesTest < ActiveSupport::TestCase
+  test "extracts contents correctly" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
     headers_1 = "Content-Disposition: form-data; name=\"files[]\"; filename=\"#{filename_1}\"\r\nContent-Type: application/octet-stream\r\n" # rubocop:disable Layout/LineLength
@@ -12,7 +12,7 @@ class CLI::PrepareUploadedFilesTest < ActiveSupport::TestCase
     headers_2 = "Content-Disposition: form-data; name=\"files[]\"; filename=\"#{filename_2}\"\r\nContent-Type: application/octet-stream\r\n" # rubocop:disable Layout/LineLength
     file_2 = mock(read: content_2, headers: headers_2)
 
-    files = CLI::PrepareUploadedFiles.([file_1, file_2])
+    files = Iteration::PrepareHttpFiles.([file_1, file_2])
 
     assert_equal 2, files.count
 
@@ -32,7 +32,7 @@ class CLI::PrepareUploadedFilesTest < ActiveSupport::TestCase
     file = mock(read: content, headers: headers)
 
     assert_raises IterationFileTooLargeError do
-      CLI::PrepareUploadedFiles.([file])
+      Iteration::PrepareHttpFiles.([file])
     end
   end
 end

@@ -1,5 +1,5 @@
-module CLI
-  class PrepareUploadedFiles
+class Iteration
+  class PrepareHttpFiles
     include Mandate
 
     initialize_with :http_files

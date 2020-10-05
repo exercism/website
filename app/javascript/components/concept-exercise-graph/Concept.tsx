@@ -7,7 +7,7 @@ export const Concept = ({
   index,
   slug,
   conceptExercise,
-  uuidOfExercise,
+  web_url,
   status,
   handleEnter,
   handleLeave,
@@ -19,9 +19,7 @@ export const Concept = ({
   isDimmed: boolean
   adjacentConcepts: string[]
 }) => {
-  const name = slugToTitlecase(slug)
-
-  // Build the classlist
+  // Build the class list
   let classes = ['card']
   classes.push(`card-${status}`)
   if (isActive) {
@@ -35,7 +33,8 @@ export const Concept = ({
   })
 
   return (
-    <section
+    <a
+      href={web_url}
       id={conceptSlugToId(slug)}
       className={classes.join(' ')}
       data-concept-slug={slug}
@@ -45,10 +44,10 @@ export const Concept = ({
       onMouseLeave={handleLeave}
     >
       <div className="display">
-        <div className="name">{name}</div>
+        <div className="name">{slugToTitlecase(slug)}</div>
         <CompleteIcon show={ConceptState.Completed === status} />
       </div>
-    </section>
+    </a>
   )
 }
 

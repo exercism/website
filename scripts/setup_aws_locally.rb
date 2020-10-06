@@ -118,4 +118,42 @@ end
       }
     ]
   )
+
+  ExercismConfig::SetupDynamoDBClient.().update_table(
+    table_name: table_name,
+    attribute_definitions: [
+      {
+        attribute_name: "iteration_uuid",
+        attribute_type: "S"
+      },
+      {
+        attribute_name: "type",
+        attribute_type: "S"
+      }
+    ],
+    global_secondary_index_updates: [
+      {
+        create: {
+          index_name: "iteration_type", # required
+          key_schema: [ # required
+            {
+              attribute_name: "iteration_uuid", # required
+              key_type: "HASH" # required, accepts HASH, RANGE
+            },
+            {
+              attribute_name: "type", # required
+              key_type: "RANGE" # required, accepts HASH, RANGE
+            }
+          ],
+          projection: { # required
+            projection_type: "KEYS_ONLY"
+          },
+          provisioned_throughput: {
+            read_capacity_units: 1, # required
+            write_capacity_units: 1 # required
+          }
+        }
+      }
+    ]
+  )
 end

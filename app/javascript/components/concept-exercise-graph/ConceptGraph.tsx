@@ -3,13 +3,9 @@ import React, { useState } from 'react'
 import { Concept } from './Concept'
 import { ConceptConnections } from './ConceptConnections'
 
-import {
-  IConcept,
-  IConceptGraph,
-  ConceptLayer,
-  ConceptConnection,
-  isIConcept,
-} from './concept-types'
+import { IConceptGraph, ConceptLayer } from './concept-graph-types'
+import { ConceptConnection } from './concept-connection-types'
+import { IConcept, isIConcept } from './concept-types'
 
 export const ConceptGraph = ({
   concepts,

@@ -7,7 +7,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.2.1",
+    "@rails/webpacker": "4.2.2",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "actioncable": "^5.2.4-3",

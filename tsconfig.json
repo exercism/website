@@ -10,7 +10,7 @@
     "sourceMap": true,
     "target": "es5",
     "jsx": "react",
-    "strict": true,
+    "strict": false,
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],

@@ -40,6 +40,9 @@ platforms :mingw, :mswin, :x64_mingw, :jruby do
   gem 'tzinfo-data'
 end
 
+# To avoid polling for changes on Windows MRI, it needs this opt-in gem
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+
 group :development, :test do
   #  gem 'pry'
   #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

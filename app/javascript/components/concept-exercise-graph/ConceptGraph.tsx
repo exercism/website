@@ -36,19 +36,24 @@ export const ConceptGraph = ({
               .map((conceptSlug) => conceptsBySlug.get(conceptSlug))
               .filter((concept) => concept !== undefined)
               .map((concept) => {
+                // Typescript complains that concept may be undefined despite filtering them above
+                // so this line is just to cast it as 'IConcept' rather than 'IConcept & undefined'
+                concept = concept as IConcept
+
                 const isDimmed =
                   active !== null &&
                   active !== concept.slug &&
                   !adjacentConceptsToActive.has(concept.slug)
 
+                const slug = concept.slug
                 return (
                   <Concept
                     key={concept.slug}
                     index={concept.index}
-                    slug={concept.slug}
+                    slug={slug}
                     web_url={concept.web_url}
                     status={concept.status}
-                    handleEnter={() => setActive(concept.slug)}
+                    handleEnter={() => setActive(slug)}
                     handleLeave={() => setActive(null)}
                     isActive={active === concept.slug}
                     isDimmed={isDimmed}

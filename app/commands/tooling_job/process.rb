@@ -10,7 +10,7 @@ module ToolingJob
         key: { id: id },
         attributes_to_get: %i[
           type
-          iteration_uuid
+          submission_uuid
           execution_status
           output
         ]
@@ -18,23 +18,23 @@ module ToolingJob
 
       case attrs['type']
       when "test_runner"
-        Iteration::TestRun::Process.(
-          attrs["iteration_uuid"],
+        Submission::TestRun::Process.(
+          attrs["submission_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
           JSON.parse(download_file(attrs["output"]["results.json"]))
         )
       when "representer"
-        Iteration::Representation::Process.(
-          attrs["iteration_uuid"],
+        Submission::Representation::Process.(
+          attrs["submission_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
           download_file(attrs["output"]["representation.txt"]),
           JSON.parse(download_file(attrs["output"]["mapping.json"]))
         )
       when "analyzer"
-        Iteration::Analysis::Process.(
-          attrs["iteration_uuid"],
+        Submission::Analysis::Process.(
+          attrs["submission_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
           JSON.parse(download_file(attrs["output"]["analysis.json"]))

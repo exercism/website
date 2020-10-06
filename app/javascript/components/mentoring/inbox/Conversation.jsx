@@ -10,7 +10,7 @@ export function Conversation({
   exerciseTitle,
   isStarred,
   haveMentoredPreviously,
-  isNewIteration,
+  isNewSubmission,
   postsCount,
   updatedAt,
   url,
@@ -31,7 +31,7 @@ export function Conversation({
       <td>{exerciseTitle}</td>
       <td>{isStarred.toString()}</td>
       <td>{haveMentoredPreviously.toString()}</td>
-      <td>{isNewIteration.toString()}</td>
+      <td>{isNewSubmission.toString()}</td>
       <td>{postsCount}</td>
       <td>{fromNow(updatedAt)}</td>
       <td>{url}</td>

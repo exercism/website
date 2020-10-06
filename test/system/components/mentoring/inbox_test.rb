@@ -18,7 +18,7 @@ module Components
           "Exercise title" => "Series",
           "Starred?" => "true",
           "Mentored previously?" => "true",
-          "New iteration?" => "true",
+          "New submission?" => "true",
           "Posts count" => "15",
           "Updated at" => "a year ago",
           "URL" => "https://exercism.io/conversations/1"

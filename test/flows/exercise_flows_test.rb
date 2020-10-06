@@ -20,11 +20,11 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # Start the exercise and get a solution
     basics_solution = Solution::Create.(ut, concept_exercise_basics)
 
-    # Submit an iteration
-    Iteration::UploadWithExercise.stubs(:call)
+    # Submit an submission
+    Submission::UploadWithExercise.stubs(:call)
     ToolingJob::Create.stubs(:call)
-    basics_iteration_1 =
-      Iteration::Create.(
+    basics_submission_1 =
+      Submission::Create.(
         basics_solution,
         [{ filename: 'basics.rb', content: 'my code' }],
         :cli,
@@ -33,45 +33,45 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # Simulate a test run being returned
     # It should pass
-    Iteration::TestRun::Process.(
-      basics_iteration_1.uuid,
+    Submission::TestRun::Process.(
+      basics_submission_1.uuid,
       200,
       'success',
       {
         status: :pass, message: nil, tests: [{ name: 'test1', status: 'pass' }]
       }
     )
-    assert basics_iteration_1.reload.tests_passed?
+    assert basics_submission_1.reload.tests_passed?
 
     # Simulate an analysis being returned
     # It should be inconclusive
-    Iteration::Analysis::Process.(
-      basics_iteration_1.uuid,
+    Submission::Analysis::Process.(
+      basics_submission_1.uuid,
       200,
       'success',
       { status: :refer_to_mentor, comments: [] }
     )
-    assert basics_iteration_1.reload.analysis_inconclusive?
+    assert basics_submission_1.reload.analysis_inconclusive?
 
     # Create a representation with feedback that should be given
     # It should approve with comment
     create :exercise_representation,
       exercise: concept_exercise_basics,
       exercise_version: 15,
-      ast_digest: Iteration::Representation.digest_ast('some ast'),
+      ast_digest: Submission::Representation.digest_ast('some ast'),
       action: :approve,
       feedback_markdown: "Fantastic Work!!",
       feedback_author: mentor
-    Iteration::Representation::Process.(
-      basics_iteration_1.uuid,
+    Submission::Representation::Process.(
+      basics_submission_1.uuid,
       200,
       'success',
       'some ast',
       { 'some' => 'mapping' }
     )
-    assert basics_iteration_1.reload.representation_approved?
-    assert_equal 1, basics_iteration_1.discussion_posts.size
-    assert_equal mentor, basics_iteration_1.discussion_posts.first.user
-    assert_equal "Fantastic Work!!", basics_iteration_1.discussion_posts.first.content_markdown
+    assert basics_submission_1.reload.representation_approved?
+    assert_equal 1, basics_submission_1.discussion_posts.size
+    assert_equal mentor, basics_submission_1.discussion_posts.first.user
+    assert_equal "Fantastic Work!!", basics_submission_1.discussion_posts.first.content_markdown
   end
 end

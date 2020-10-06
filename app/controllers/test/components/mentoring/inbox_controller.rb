@@ -37,7 +37,7 @@ class Test::Components::Mentoring::InboxController < Test::BaseController
         exerciseTitle: "Series",
         isStarred: true,
         haveMentoredPreviously: true,
-        isNewIteration: true,
+        isNewSubmission: true,
         postsCount: 15,
         updatedAt: 1.year.ago.iso8601,
         url: "https://exercism.io/conversations/1"
@@ -51,7 +51,7 @@ class Test::Components::Mentoring::InboxController < Test::BaseController
         exerciseTitle: "Tournament",
         isStarred: false,
         haveMentoredPreviously: true,
-        isNewIteration: false,
+        isNewSubmission: false,
         postsCount: 22,
         updatedAt: 1.week.ago.iso8601,
         url: "https://exercism.io/conversations/2"
@@ -65,7 +65,7 @@ class Test::Components::Mentoring::InboxController < Test::BaseController
         exerciseTitle: "Zipper",
         isStarred: false,
         haveMentoredPreviously: false,
-        isNewIteration: false,
+        isNewSubmission: false,
         postsCount: 5,
         updatedAt: 1.month.ago.iso8601,
         url: "https://exercism.io/conversations/3"

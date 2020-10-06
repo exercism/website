@@ -9,8 +9,8 @@ module API
 
       return render_403(:solution_not_accessible) unless current_user.may_view_solution?(solution)
 
-      if solution.iterations.last
-        file = solution.iterations.last.files.where(filename: params[:filepath]).first
+      if solution.submissions.last
+        file = solution.submissions.last.files.where(filename: params[:filepath]).first
         content = file&.content
       end
 

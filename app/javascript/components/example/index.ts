@@ -1,1 +1,1 @@
-export { IterationsSummaryTable } from "./IterationsSummaryTable";
+export { SubmissionsSummaryTable } from "./SubmissionsSummaryTable";

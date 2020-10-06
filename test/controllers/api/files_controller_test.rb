@@ -44,9 +44,9 @@ class API::FilesControllerTest < API::BaseTestCase
   test "show should return solution file" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
     content = "foobar!!"
-    file = create :iteration_file, iteration: iteration, content: content
+    file = create :submission_file, submission: submission, content: content
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
     assert_response 200

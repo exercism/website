@@ -55,21 +55,21 @@ module API
 
       begin
         if params[:files].is_a?(Array)
-          files = Iteration::PrepareHttpFiles.(params[:files])
+          files = Submission::PrepareHttpFiles.(params[:files])
           submitted_via = :cli
         elsif params[:files].is_a?(ActionController::Parameters)
-          files = Iteration::PrepareMappedFiles.(params[:files].permit!.to_h)
+          files = Submission::PrepareMappedFiles.(params[:files].permit!.to_h)
           submitted_via = :api
         end
-      rescue IterationFileTooLargeError
+      rescue SubmissionFileTooLargeError
         return render_error(400, :file_too_large, "#{file.original_filename} is too large")
       end
 
       begin
         major = params.fetch(:major, true)
-        Iteration::Create.(solution, files, submitted_via, major)
-      rescue DuplicateIterationError
-        return render_error(400, :duplicate_iteration)
+        Submission::Create.(solution, files, submitted_via, major)
+      rescue DuplicateSubmissionError
+        return render_error(400, :duplicate_submission)
       end
 
       render json: {}, status: :created

@@ -16,7 +16,7 @@ const server = setupServer(
           {
             trackTitle: 'Ruby',
             isStarred: false,
-            isNewIteration: false,
+            isNewSubmission: false,
             haveMentoredPreviously: false,
           },
         ],

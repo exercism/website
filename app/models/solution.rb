@@ -2,7 +2,7 @@ class Solution < ApplicationRecord
   belongs_to :user
   belongs_to :exercise
   has_one :track, through: :exercise
-  has_many :iterations, dependent: :destroy
+  has_many :submissions, dependent: :destroy
 
   has_many :mentor_requests, class_name: "Solution::MentorRequest", dependent: :destroy
   has_many :mentor_discussions, class_name: "Solution::MentorDiscussion", dependent: :destroy
@@ -25,8 +25,8 @@ class Solution < ApplicationRecord
   end
 
   # TODO: - Use an actual serializer
-  def serialized_iterations
-    iterations.map do |i|
+  def serialized_submissions
+    submissions.map do |i|
       {
         id: i.id,
         testsStatus: i.tests_status

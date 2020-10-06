@@ -277,15 +277,15 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "update should create iteration for cli files" do
+  test "update should create submission for cli files" do
     setup_user
     exercise = create :concept_exercise
     solution = create :concept_solution, user: @current_user, exercise: exercise
 
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
-    Iteration::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
-    Iteration::Create.expects(:call).with(solution, files, :cli, true)
+    Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
+    Submission::Create.expects(:call).with(solution, files, :cli, true)
 
     patch api_solution_path(solution.uuid),
       params: { files: http_files },
@@ -295,14 +295,14 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
   end
 
-  test "update should create iteration for files passed as params" do
+  test "update should create submission for files passed as params" do
     setup_user
     solution = create :concept_solution, user: @current_user
 
     params_files = { "foo" => "bar", "bar" => "foo" }
     files = mock
-    Iteration::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
-    Iteration::Create.expects(:call).with(solution, files, :api, true)
+    Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
+    Submission::Create.expects(:call).with(solution, files, :api, true)
 
     patch api_solution_path(solution.uuid),
       params: { files: params_files },
@@ -316,8 +316,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution, user: @current_user
 
-    Iteration::PrepareMappedFiles.expects(:call)
-    Iteration::Create.expects(:call).with(solution, nil, :api, false)
+    Submission::PrepareMappedFiles.expects(:call)
+    Submission::Create.expects(:call).with(solution, nil, :api, false)
 
     patch api_solution_path(solution.uuid),
       params: {
@@ -330,11 +330,11 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
   end
 
-  test "update should catch duplicate iteration" do
+  test "update should catch duplicate submission" do
     setup_user
     solution = create :concept_solution, user: @current_user
 
-    Iteration::Create.expects(:call).raises(DuplicateIterationError)
+    Submission::Create.expects(:call).raises(DuplicateSubmissionError)
 
     patch api_solution_path(solution.uuid),
       params: { files: [] },
@@ -343,8 +343,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 400
     expected = { error: {
-      type: "duplicate_iteration",
-      message: I18n.t('api.errors.duplicate_iteration')
+      type: "duplicate_submission",
+      message: I18n.t('api.errors.duplicate_submission')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual

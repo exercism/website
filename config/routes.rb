@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     namespace :test do
       namespace :components do
         namespace :student do
+          resource :concepts_map, only: [:show], controller: 'concepts_map'
           resource :tracks_list, only: [:show], controller: "tracks_list" do
             member do
               get 'tracks'

@@ -121,6 +121,7 @@ module Components
         check "Dynamic"
         click_on "Apply"
 
+        assert_text "Showing 1 track"
         assert_selector(".c-tracks-list .c-track", count: 1)
         assert_text "Ruby", within: ".c-track"
       end
@@ -136,6 +137,7 @@ module Components
         click_on "Apply"
         click_on "Reset filters"
 
+        assert_text "Exercism's Language Tracks"
         assert_text "Ruby"
         assert_text "Go"
       end

@@ -4,6 +4,7 @@ import { Search } from './tracks-list/Search'
 import { StatusFilter } from './tracks-list/StatusFilter'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
+import { Header } from './tracks-list/Header'
 import { Loading } from '../common/Loading'
 
 function reducer(state, action) {
@@ -43,6 +44,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
         </div>
       </div>
       <div className="md-container">
+        {isSuccess && <Header data={data} query={request.query} />}
         <StatusFilter dispatch={dispatch} options={statusOptions} />
         <TagsFilter dispatch={dispatch} options={tagOptions} />
 

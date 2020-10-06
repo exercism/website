@@ -107,7 +107,8 @@ end
             }
           ],
           projection: { # required
-            projection_type: "KEYS_ONLY"
+            projection_type: "INCLUDE",
+            non_key_attributes: ["id", "job_status"]
           },
           provisioned_throughput: {
             read_capacity_units: 1, # required

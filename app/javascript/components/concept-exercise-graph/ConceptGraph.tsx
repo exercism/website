@@ -8,6 +8,7 @@ import {
   IConceptGraph,
   ConceptLayer,
   ConceptConnection,
+  isIConcept,
 } from './concept-types'
 
 export const ConceptGraph = ({
@@ -34,12 +35,8 @@ export const ConceptGraph = ({
           <div key={`layer-${i}`} className="layer">
             {layer
               .map((conceptSlug) => conceptsBySlug.get(conceptSlug))
-              .filter((concept) => concept !== undefined)
+              .filter(isIConcept)
               .map((concept) => {
-                // Typescript complains that concept may be undefined despite filtering them above
-                // so this line is just to cast it as 'IConcept' rather than 'IConcept & undefined'
-                concept = concept as IConcept
-
                 const isDimmed =
                   active !== null &&
                   active !== concept.slug &&

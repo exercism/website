@@ -35,3 +35,7 @@ export interface IConceptGraph {
   layout: ConceptLayer[]
   connections: ConceptConnection[]
 }
+
+export function isIConcept(concept: IConcept | undefined): concept is IConcept {
+  return concept !== undefined
+}

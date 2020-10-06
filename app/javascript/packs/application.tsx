@@ -37,22 +37,22 @@ initReact({
   'notifications-icon': (data: any) => (
     <Notifications.Icon count={data.count} />
   ),
-  // "mentoring-inbox": (data: any) => (
-  //   <Mentoring.Inbox
-  //     conversationsRequest={data.conversations_request}
-  //     tracksRequest={data.tracks_request}
-  //     sortOptions={data.sort_options}
-  //   />
-  // ),
+  'mentoring-inbox': (data: any) => (
+    <Mentoring.Inbox
+      conversationsRequest={data.conversations_request}
+      tracksRequest={data.tracks_request}
+      sortOptions={data.sort_options}
+    />
+  ),
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  // "student-tracks-list": (data) => (
-  //   <Student.TracksList
-  //     request={data.request}
-  //     statusOptions={data.status_options}
-  //   />
-  // ),
+  'student-tracks-list': (data) => (
+    <Student.TracksList
+      request={data.request}
+      statusOptions={data.status_options}
+    />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

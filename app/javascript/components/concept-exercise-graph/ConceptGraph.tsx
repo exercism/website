@@ -38,8 +38,8 @@ export const ConceptGraph = ({
               .map((concept) => {
                 const isDimmed =
                   active !== null &&
-                  active !== concept?.slug &&
-                  !adjacentConceptsToActive.has(concept?.slug)
+                  active !== concept.slug &&
+                  !adjacentConceptsToActive.has(concept.slug)
 
                 return (
                   <Concept

@@ -8,11 +8,7 @@ type Iteration = {
   testsStatus: unknown;
 };
 
-function IterationSummary({
-  id,
-  testsStatus,
-  idx,
-}: Iteration & { idx: number }) {
+function IterationSummary({ id, testsStatus }: Iteration) {
   return (
     <div>
       {id}: {testsStatus}
@@ -44,13 +40,12 @@ export function IterationsSummaryTable({
 
   return (
     <Fragment>
-      {stateIterations.map((iteration, idx) => {
+      {stateIterations.map((iteration) => {
         return (
           <IterationSummary
             key={iteration.id}
             id={iteration.id}
             testsStatus={iteration.testsStatus}
-            idx={idx}
           />
         );
       })}

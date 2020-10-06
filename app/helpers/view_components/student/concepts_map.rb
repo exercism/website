@@ -10,6 +10,9 @@ module ViewComponents
                           data: data
                         })
       end
+
+      private
+      attr_reader :data
     end
   end
 end

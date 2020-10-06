@@ -18,11 +18,10 @@ export const ConceptGraph = ({
   const adjacentBySlug = indexAdjacentBySlug(connections)
 
   const adjacentConceptsToActive = new Set(
-    Array.from(document.getElementsByClassName(`adjacent-to-${active}`)).map(
-      (element) => (element as HTMLElement).dataset.conceptSlug
-    )
+    Array.from(
+      document.querySelectorAll<HTMLElement>(`.adjacent-to-${active}`)
+    ).map((element) => element.dataset.conceptSlug)
   )
-
   return (
     <figure className="c-concept-graph">
       <ConceptConnections connections={connections} activeConcept={active} />

@@ -21,6 +21,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import { ConceptGraph } from '../components/concept-graph/ConceptGraph'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -52,6 +53,13 @@ initReact({
       request={data.request}
       statusOptions={data.status_options}
       tagOptions={data.tag_options}
+    />
+  ),
+  'concepts-map': (data: any) => (
+    <ConceptGraph
+      concepts={data.concepts}
+      layout={data.layout}
+      connections={data.connections}
     />
   ),
 })

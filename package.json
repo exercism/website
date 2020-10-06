@@ -28,10 +28,13 @@
   "version": "0.1.0",
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-typescript": "^7.10.4",
     "@prettier/plugin-ruby": "^0.18.2",
     "@testing-library/dom": "^7.24.1",
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/react": "^10.4.3",
+    "babel-jest": "^26.5.0",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",

@@ -58,10 +58,5 @@ module ToolingJob
     def client
       ExercismConfig::SetupDynamoDBClient.()
     end
-
-    memoize
-    def client
-      ExercismConfig::SetupDynamoDBClient.()
-    end
   end
 end

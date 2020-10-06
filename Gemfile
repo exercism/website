@@ -3,7 +3,9 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Service/framework dependencies
-gem 'rails', git: 'http://github.com/rails/rails.git', ref: "7101489293ece071013417aeed2da3aa1b0927c9"
+gem 'rails',
+  git: 'http://github.com/rails/rails.git',
+  ref: '7101489293ece071013417aeed2da3aa1b0927c9'
 # gem 'rails', '~> 6.1.0.alpha'
 gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.1'
@@ -40,14 +42,14 @@ platforms :mingw, :mswin, :x64_mingw, :jruby do
   gem 'tzinfo-data'
 end
 
-# To avoid polling for changes on Windows MRI, it needs this opt-in gem
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-
 group :development, :test do
   #  gem 'pry'
   #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
   gem 'bootsnap', '>= 1.4.2', require: false
+
+  # To avoid polling for changes on Windows MRI, it needs this opt-in gem
+  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end
 
 group :development do
@@ -58,7 +60,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
-  gem "spring"
+  gem 'spring'
   gem 'web-console', '>= 3.3.0'
 end
 

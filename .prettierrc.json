@@ -2,7 +2,7 @@
   "tabWidth": 2,
   "overrides": [
     {
-      "files": ["*.js", "*.jsx"],
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
       "options": {
         "trailingComma": "es5",
         "tabWidth": 2,

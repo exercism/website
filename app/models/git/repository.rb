@@ -77,7 +77,10 @@ module Git
             # If we're in dev or test mode we want to just fetch
             # every time to get up to date. In production
             # we schedule this based of webhooks instead
+
             r.fetch('origin') unless Rails.env.production?
+          rescue Rugged::NetworkError
+            # Don't block development offline
           end
         else
           Rugged::Repository.clone_at(url, repo_dir, bare: true)

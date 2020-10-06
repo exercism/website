@@ -21,6 +21,9 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
 Layout/DotPosition:
   EnforcedStyle: trailing
 
@@ -37,7 +40,6 @@ Layout/LineLength:
   Exclude:
     - "config/**/*"
     - "test/models/notifications/*"
-    - "test/commands/cli/prepare_uploaded_files_test.rb"
     - "test/helpers/view_components/example/iterations_summary_table_test.rb"
     - "test/helpers/view_components/maintaining/iterations_summary_table_test.rb"
 
@@ -106,3 +108,7 @@ Rails/RefuteMethods:
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+Rails/HelperInstanceVariable:
+  Exclude:
+    - "app/helpers/view_components/**/*"

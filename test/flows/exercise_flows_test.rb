@@ -27,7 +27,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       Iteration::Create.(
         basics_solution,
         [{ filename: 'basics.rb', content: 'my code' }],
-        :cli
+        :cli,
+        true
       )
 
     # Simulate a test run being returned
@@ -55,12 +56,12 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # Create a representation with feedback that should be given
     # It should approve with comment
     create :exercise_representation,
-           exercise: concept_exercise_basics,
-           exercise_version: 15,
-           ast_digest: Iteration::Representation.digest_ast('some ast'),
-           action: :approve,
-           feedback_markdown: "Fantastic Work!!",
-           feedback_author: mentor
+      exercise: concept_exercise_basics,
+      exercise_version: 15,
+      ast_digest: Iteration::Representation.digest_ast('some ast'),
+      action: :approve,
+      feedback_markdown: "Fantastic Work!!",
+      feedback_author: mentor
     Iteration::Representation::Process.(
       basics_iteration_1.uuid,
       200,

@@ -1,8 +1,8 @@
 class UserTrack < ApplicationRecord
   belongs_to :user
   belongs_to :track
-  has_many :user_track_concepts, class_name: "UserTrack::Concept", dependent: :destroy
-  has_many :learnt_concepts, through: :user_track_concepts, source: :track_concept
+  has_many :user_track_learnt_concepts, class_name: "UserTrack::LearntConcept", dependent: :destroy
+  has_many :learnt_concepts, through: :user_track_learnt_concepts, source: :concept
 
   def self.for!(user_param, track_param)
     UserTrack.find_by!(
@@ -54,7 +54,7 @@ class UserTrack < ApplicationRecord
         FROM
           (
             SELECT prereqs.exercise_id, COUNT(*) AS num_concepts
-            FROM user_track_concepts utc
+            FROM user_track_learnt_concepts utc
             INNER JOIN exercise_prerequisites prereqs
               ON utc.track_concept_id = prereqs.track_concept_id
             INNER JOIN exercises on exercises.id = prereqs.exercise_id

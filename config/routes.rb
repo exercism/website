@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     resources :iterations, only: [:index]
   end
   resources :tracks, only: %i[index show] do
+    resources :concepts, only: %i[index show], controller: "tracks/concepts"
+    resources :exercises, only: %i[index show], controller: "tracks/exercises"
+
     member do
       post :join
     end
@@ -53,6 +56,13 @@ Rails.application.routes.draw do
   unless Rails.env.production?
     namespace :test do
       namespace :components do
+        namespace :student do
+          resource :tracks_list, only: [:show], controller: "tracks_list" do
+            member do
+              get 'tracks'
+            end
+          end
+        end
         namespace :maintaining do
           get 'iterations_summary_table', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
         end

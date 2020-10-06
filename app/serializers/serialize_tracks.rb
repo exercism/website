@@ -8,7 +8,7 @@ class SerializeTracks
 
   def call
     {
-      tracks: tracks.map do |track|
+      tracks: sorted_tracks.map do |track|
         data_for_track(track).merge(user_data_for_track(track))
       end
     }
@@ -17,10 +17,17 @@ class SerializeTracks
   private
   attr_reader :tracks, :user
 
+  def sorted_tracks
+    tracks.sort_by do |track|
+      "#{joined?(track) ? 0 : 1} | #{track.title.downcase}"
+    end
+  end
+
   def data_for_track(track)
     {
       id: track.id,
       title: track.title,
+      num_concepts: track.concepts.count,
       num_concept_exercises: concept_exercise_counts[track.id].to_i,
       num_practice_exercises: practice_exercise_counts[track.id].to_i,
       web_url: Exercism::Routes.track_url(track),
@@ -28,7 +35,7 @@ class SerializeTracks
       # TODO: Set all three of these
       icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
       is_new: true,
-      tags: ["OOP", "Web Dev"]
+      tags: track.tags.to_a
     }
   end
 
@@ -36,7 +43,8 @@ class SerializeTracks
     return {} unless user
 
     {
-      is_joined: joined_track_ids.include?(track.id),
+      is_joined: joined?(track),
+      num_learnt_concepts: learnt_concepts_counts[track.id].to_i,
       num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
       num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
     }
@@ -67,6 +75,16 @@ class SerializeTracks
   end
 
   memoize
+  def learnt_concepts_counts
+    UserTrack::LearntConcept.
+      joins(:user_track).
+      where('user_tracks.user_id': user.id).
+      where('user_tracks.track_id': tracks).
+      group('user_tracks.track_id').
+      count
+  end
+
+  memoize
   def completed_concept_exercise_counts
     # TODO: This is currently exercises started. Once we've added
     # the completed flags to the db we should change it to completed
@@ -88,5 +106,9 @@ class SerializeTracks
       where('exercises.track_id': tracks).
       group('exercises.track_id').
       count
+  end
+
+  def joined?(track)
+    joined_track_ids.include?(track.id)
   end
 end

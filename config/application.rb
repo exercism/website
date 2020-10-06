@@ -1,6 +1,7 @@
 require_relative 'boot'
 
 require "rails"
+
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -27,5 +28,10 @@ module Website
 
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc
+
+    config.generators do |g|
+      g.assets false
+      g.helper false
+    end
   end
 end

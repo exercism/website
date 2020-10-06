@@ -1,4 +1,6 @@
 class Exercise::Prerequisite < ApplicationRecord
   belongs_to :exercise
-  belongs_to :track_concept, class_name: "Track::Concept"
+  belongs_to :concept, # rubocop:disable Rails/InverseOf
+    class_name: "Track::Concept",
+    foreign_key: :track_concept_id
 end

@@ -31,9 +31,15 @@ class Track
       )
     end
 
-    # TODO: Decide how to model tags filter
-    # and add it here.
-    def filter_tags; end
+    def filter_tags
+      return if tags.blank?
+
+      tags.each do |tag|
+        # The correct SQL for this is:
+        # JSON_CONTAINS(tags, '"tag"', '$')
+        @tracks = @tracks.where("JSON_CONTAINS(tags, ?, '$')", %("#{tag}"))
+      end
+    end
 
     def filter_status
       return if status.blank?

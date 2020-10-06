@@ -7,6 +7,7 @@
 module SPI
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
+    skip_before_action :authenticate_user!
 
     layout false
   end

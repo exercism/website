@@ -69,4 +69,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.17.0', require: false
   gem 'webdrivers'
+
+  # Adds assert_template
+  gem 'rails-controller-testing'
 end

@@ -15,10 +15,10 @@ class MaintainingIterationsSummaryTableTest < ViewComponentTestCase
     iterations = [iteration_1, iteration_2, iteration_3]
 
     assert_component_equal ViewComponents::Maintaining::IterationsSummaryTable.new(iterations).to_s,
-                           { id: "maintaining-iterations-summary-table", props: { iterations: [
-                             { "id": iteration_1.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "pending", "representationStatus": "pending", "analysisStatus": "inconclusive" },
-                             { "id": iteration_2.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "passed", "representationStatus": "pending", "analysisStatus": "pending" },
-                             { "id": iteration_3.id, "track": "Ruby", "exercise": "bob", "testsStatus": "pending", "representationStatus": "disapproved", "analysisStatus": "pending" }
-                           ] } }
+      { id: "maintaining-iterations-summary-table", props: { iterations: [
+        { "id": iteration_1.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "pending", "representationStatus": "pending", "analysisStatus": "inconclusive" },
+        { "id": iteration_2.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "passed", "representationStatus": "pending", "analysisStatus": "pending" },
+        { "id": iteration_3.id, "track": "Ruby", "exercise": "bob", "testsStatus": "pending", "representationStatus": "disapproved", "analysisStatus": "pending" }
+      ] } }
   end
 end

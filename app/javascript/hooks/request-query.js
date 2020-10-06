@@ -3,7 +3,7 @@ import { UrlParams } from '../utils/url-params'
 import fetch from 'isomorphic-fetch'
 import { camelizeKeys } from 'humps'
 
-async function handleFetch(key, url, query) {
+function handleFetch(key, url, query) {
   return fetch(`${url}?${new UrlParams(query).toString()}`)
     .then((response) => response.json())
     .then((json) => camelizeKeys(json))
@@ -13,7 +13,7 @@ export function usePaginatedRequestQuery(key, request) {
   return usePaginatedQuery(
     [key, request.endpoint, request.query],
     handleFetch,
-    request.retry
+    camelizeKeys(request.options)
   )
 }
 
@@ -21,6 +21,6 @@ export function useRequestQuery(key, request) {
   return useQuery(
     [key, request.endpoint, request.query],
     handleFetch,
-    request.retry
+    camelizeKeys(request.options)
   )
 }

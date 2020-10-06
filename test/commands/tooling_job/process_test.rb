@@ -114,4 +114,38 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
 
     ToolingJob::Process.(id)
   end
+
+  test "sets dynamodb job status to processed" do
+    id = SecureRandom.uuid
+    type = "analyzer"
+    iteration = create :iteration
+    execution_status = "job-status"
+    analysis = { 'some' => 'result' }
+    s3_key = "#{id}/analysis.json"
+
+    upload_to_s3(
+      Exercism.config.aws_tooling_jobs_bucket,
+      s3_key,
+      analysis.to_json
+    )
+    write_to_dynamodb(
+      Exercism.config.dynamodb_tooling_jobs_table,
+      {
+        "id" => id,
+        "type" => type,
+        "iteration_uuid" => iteration.uuid,
+        "execution_status" => execution_status,
+        "output" => { "analysis.json" => s3_key }
+      }
+    )
+
+    ToolingJob::Process.(id)
+
+    attrs = read_from_dynamodb(
+      Exercism.config.dynamodb_tooling_jobs_table,
+      { id: id },
+      %i[job_status]
+    )
+    assert_equal "processed", attrs["job_status"]
+  end
 end

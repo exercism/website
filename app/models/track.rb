@@ -5,8 +5,9 @@ class Track < ApplicationRecord
 
   has_many :concepts, class_name: "Track::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
-  # has_many :concept_exercises
-  # has_many :practice_exercises
+
+  has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
 
   delegate :head_sha, to: :repo, prefix: "git"
 

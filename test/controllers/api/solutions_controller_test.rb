@@ -144,27 +144,27 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "latest updates git sha if exercise was not previously downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: nil
+      user: @current_user,
+      downloaded_at: nil
 
     create :user_track, user: @current_user, track: solution.track
 
     Solution.any_instance.expects(:update_git_info!)
     get latest_api_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
-        headers: @headers, as: :json
+      headers: @headers, as: :json
   end
 
   test "latest does not update git sha if exercise was downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: Time.current
+      user: @current_user,
+      downloaded_at: Time.current
 
     create :user_track, user: @current_user, track: solution.track
 
     Solution.any_instance.expects(:update_git_info!).never
     get latest_api_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
-        headers: @headers, as: :json
+      headers: @headers, as: :json
   end
 
   ###
@@ -229,8 +229,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "show updates git sha if exercise was not previously downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: nil
+      user: @current_user,
+      downloaded_at: nil
 
     create :user_track, user: @current_user, track: solution.track
 
@@ -241,8 +241,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "show does not update git sha if exercise was downloaded" do
     setup_user
     solution = create :concept_solution,
-                      user: @current_user,
-                      downloaded_at: Time.current
+      user: @current_user,
+      downloaded_at: Time.current
 
     create :user_track, user: @current_user, track: solution.track
 
@@ -277,35 +277,69 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "update should create iteration" do
+  test "update should create iteration for cli files" do
     setup_user
     exercise = create :concept_exercise
     solution = create :concept_solution, user: @current_user, exercise: exercise
 
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
-    CLI::PrepareUploadedFiles.expects(:call).with(http_files).returns(files)
-    Iteration::Create.expects(:call).with(solution, files, :cli)
+    Iteration::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
+    Iteration::Create.expects(:call).with(solution, files, :cli, true)
 
     patch api_solution_path(solution.uuid),
-          params: { files: http_files },
-          headers: @headers,
-          as: :json
+      params: { files: http_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :success
+  end
+
+  test "update should create iteration for files passed as params" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    params_files = { "foo" => "bar", "bar" => "foo" }
+    files = mock
+    Iteration::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
+    Iteration::Create.expects(:call).with(solution, files, :api, true)
+
+    patch api_solution_path(solution.uuid),
+      params: { files: params_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :success
+  end
+
+  test "update should respect major param" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    Iteration::PrepareMappedFiles.expects(:call)
+    Iteration::Create.expects(:call).with(solution, nil, :api, false)
+
+    patch api_solution_path(solution.uuid),
+      params: {
+        files: { "foo" => "bar" },
+        major: false
+      },
+      headers: @headers,
+      as: :json
 
     assert_response :success
   end
 
   test "update should catch duplicate iteration" do
     setup_user
-    exercise = create :concept_exercise
-    solution = create :concept_solution, user: @current_user, exercise: exercise
+    solution = create :concept_solution, user: @current_user
 
     Iteration::Create.expects(:call).raises(DuplicateIterationError)
 
     patch api_solution_path(solution.uuid),
-          params: { files: [] },
-          headers: @headers,
-          as: :json
+      params: { files: [] },
+      headers: @headers,
+      as: :json
 
     assert_response 400
     expected = { error: {

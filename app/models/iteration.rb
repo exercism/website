@@ -9,13 +9,13 @@ class Iteration < ApplicationRecord
   has_many :representations, class_name: "Iteration::Representation", dependent: :destroy
   has_many :discussion_posts, class_name: "Iteration::DiscussionPost", dependent: :destroy
 
-  enum tests_status: { pending: 0, passed: 1, failed: 2, errored: 3, exceptioned: 4 },
+  enum tests_status: { pending: 0, passed: 1, failed: 2, errored: 3, exceptioned: 4, cancelled: 5 }, # rubocop:disable Layout/LineLength
        _prefix: "tests"
 
-  enum representation_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4 },
+  enum representation_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4, cancelled: 5 }, # rubocop:disable Layout/LineLength
        _prefix: "representation"
 
-  enum analysis_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4 },
+  enum analysis_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4, cancelled: 5 }, # rubocop:disable Layout/LineLength
        _prefix: "analysis"
 
   before_create do

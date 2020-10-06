@@ -46,6 +46,42 @@ Each action should do at most one thing, retrieve at most one thing, and render/
 To achieve this, controllers call out to Commands, which contain more complex functionality encapsualted in stand-alone procedures. This is known as the Command Pattern or the Interactor Pattern.
 Even if an action doesn't need any instance variables, add an empty controller action for it. This allows us to have visibility on what actions have been implemented on that controller.
 
+### Authentication
+
+By default, all controllers expect a user to be authenticated, and return a user to the log in page if they are not.
+This can be overriden using the `allow_unauthenticated!` method, which creates a pivot between `authenticated_#{action}` and `external_#{action}`, which in turn (automatically) render `app/views/#{controller}/#{action}/authenticated` and `app/views/#{controller}/#{action}/external`
+
+For example, in the tracks controller we allow the `index` and `show` pages to be visible to anyone:
+
+```
+class TracksController < ApplicationController
+  before_action :use_track, except: :index
+
+  allow_unauthenticated! :index, :show
+
+  def authenticated_index
+    ...
+    # Renders app/views/tracks/index/authenticated.html.haml
+  end
+
+  def external_index
+    ...
+    # Renders app/views/tracks/index/external.html.haml
+  end
+
+  def authenticated_show
+    ...
+    # Renders app/views/tracks/show/authenticated.html.haml
+  end
+
+  def external_show
+    ...
+    # Renders app/views/tracks/show/external.html.haml
+  end
+end
+
+```
+
 ## Serializers
 
 To ensure that data is represented in common ways, we use serializer objects.
@@ -100,7 +136,12 @@ View Components are either functional and written in React, or non-functional an
 
 - The JS for each component lives in `app/javascript/components/**/XXX.js`.
 - The CSS for each component lives in `app/css/components/**/XXX.css`.
-- All components must have have a css class prefixed with `c-`. No other classes may start with `c-`.
+
+#### CSS
+
+- All top-level components (those intended to be rendered directly from a view) should have a className set to `c-#{component-name}`, e.g. `c-track-list`, where `c-` indicates a component.
+- All CSS for the components must be nested within that component using CSS 3 nesting.
+- Tags should be semantic.
 
 #### Server-side component class
 

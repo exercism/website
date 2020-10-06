@@ -11,14 +11,16 @@ require("channels");
 import "css/application.css";
 import "css/styles.css";
 import "css/layout.css";
+import "css/components/tracks-list.css";
 import "css/components/track.css";
 
-import * as React from "react";
-import { initReact } from "./react-bootloader";
+import React from "react";
+import { initReact } from "./react-bootloader.jsx";
 import * as Example from "../components/example";
 import * as Maintaining from "../components/maintaining";
 import * as Notifications from "../components/notifications";
 import * as Mentoring from "../components/mentoring";
+import * as Student from "../components/student";
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -44,6 +46,12 @@ initReact({
   ),
   "mentoring-queue": (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
+  ),
+  "student-tracks-list": (data) => (
+    <Student.TracksList
+      request={data.request}
+      statusOptions={data.status_options}
+    />
   ),
 });
 

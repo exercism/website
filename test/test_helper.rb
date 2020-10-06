@@ -71,6 +71,15 @@ class ActiveSupport::TestCase
     )
   end
 
+  def read_from_dynamodb(table_name, key, attributes)
+    client = ExercismConfig::SetupDynamoDBClient.()
+    client.get_item(
+      table_name: table_name,
+      key: key,
+      attributes_to_get: attributes
+    ).item
+  end
+
   def upload_to_s3(bucket, key, body)
     client = ExercismConfig::SetupS3Client.()
     client.put_object(
@@ -97,7 +106,9 @@ class ActionDispatch::IntegrationTest
   # TODO: Add this implmentation back when devise
   # is added.
   def sign_in!(user = nil)
-    #  @current_user = user || create(:user, :onboarded)
+    @current_user = user || create(:user)
+
+    # TODO: Renable when adding devise
     #  @current_user.confirm
     #  sign_in @current_user
   end
@@ -108,5 +119,5 @@ class ActionDispatch::IntegrationTest
 end
 
 ActionDispatch::IntegrationTest.register_encoder :js,
-                                                 param_encoder: ->(params) { params },
-                                                 response_parser: ->(body) { body }
+  param_encoder: ->(params) { params },
+  response_parser: ->(body) { body }

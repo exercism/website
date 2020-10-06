@@ -1,5 +1,11 @@
 class ConceptExercise < Exercise
-  # TODO: Add these
-  #  has_many :exercise_concepts, class_name: "Exercise::Prerequisite", dependent: :destroy
-  #  has_many :concepts, through: :exercise_concepts, source: :track_concept
+  has_many :exercise_taught_concepts,
+    class_name: "Exercise::TaughtConcept",
+    foreign_key: :exercise_id,
+    inverse_of: :exercise,
+    dependent: :destroy
+
+  has_many :taught_concepts,
+    through: :exercise_taught_concepts,
+    source: :concept
 end

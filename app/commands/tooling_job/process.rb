@@ -40,6 +40,18 @@ module ToolingJob
           JSON.parse(download_file(attrs["output"]["analysis.json"]))
         )
       end
+
+      client.update_item(
+        table_name: Exercism.config.dynamodb_tooling_jobs_table,
+        key: { id: id },
+        expression_attribute_names: {
+          "#JS": "job_status"
+        },
+        expression_attribute_values: {
+          ":js": "processed"
+        },
+        update_expression: "SET #JS = :js"
+      )
     end
 
     memoize

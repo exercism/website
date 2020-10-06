@@ -19,32 +19,32 @@ class Iteration::RepresentationTest < ActiveSupport::TestCase
     ast_digest = Iteration::Representation.digest_ast(ast)
 
     representation = create :iteration_representation,
-                            iteration: create(:iteration, exercise: exercise),
-                            ast: ast
+      iteration: create(:iteration, exercise: exercise),
+      ast: ast
 
     # Wrong exercise version
     create :exercise_representation,
-           exercise: exercise,
-           exercise_version: 2,
-           ast_digest: ast_digest
+      exercise: exercise,
+      exercise_version: 2,
+      ast_digest: ast_digest
     assert_raises do
       representation.exercise_representation
     end
 
     # Wrong exercise
     create :exercise_representation,
-           exercise: create(:concept_exercise),
-           exercise_version: 15,
-           ast_digest: Iteration::Representation.digest_ast(ast)
+      exercise: create(:concept_exercise),
+      exercise_version: 15,
+      ast_digest: Iteration::Representation.digest_ast(ast)
     assert_raises do
       representation.exercise_representation
     end
 
     # Wrong ast
     create :exercise_representation,
-           exercise: exercise,
-           exercise_version: 15,
-           ast_digest: "something"
+      exercise: exercise,
+      exercise_version: 15,
+      ast_digest: "something"
 
     assert_raises do
       representation.exercise_representation
@@ -52,9 +52,9 @@ class Iteration::RepresentationTest < ActiveSupport::TestCase
 
     # Correct everything!
     exercise_representation = create :exercise_representation,
-                                     exercise: exercise,
-                                     exercise_version: 15,
-                                     ast_digest: ast_digest
+      exercise: exercise,
+      exercise_version: 15,
+      ast_digest: ast_digest
     assert_equal exercise_representation, representation.exercise_representation
   end
 end

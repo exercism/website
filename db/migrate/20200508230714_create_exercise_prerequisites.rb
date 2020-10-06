@@ -6,7 +6,7 @@ class CreateExercisePrerequisites < ActiveRecord::Migration[6.0]
 
       t.timestamps
 
-      t.index %i[exercise_id track_concept_id], unique: true
+      t.index %i[exercise_id track_concept_id], unique: true, name: 'uniq'
     end
   end
 end

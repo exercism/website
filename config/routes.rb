@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   # ############ #
 
   namespace :maintaining do
-    resources :iterations, only: [:index]
+    resources :submissions, only: [:index]
   end
   resources :tracks, only: %i[index show] do
     resources :concepts, only: %i[index show], controller: "tracks/concepts"
@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   # ########################### #
 
   namespace :tmp do
-    resources :iterations, only: [:create]
+    resources :submissions, only: [:create]
     resources :tracks, only: [:create]
   end
 
@@ -64,10 +64,10 @@ Rails.application.routes.draw do
           end
         end
         namespace :maintaining do
-          get 'iterations_summary_table', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+          get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
         namespace :example do
-          get 'iterations_summary_table/:id', to: 'iterations_summary_table#index', as: 'iterations_summary_table'
+          get 'submissions_summary_table/:id', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
         namespace :notifications do
           resource :icon, only: %i[show update], controller: "icon"

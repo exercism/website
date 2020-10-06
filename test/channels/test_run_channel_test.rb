@@ -2,7 +2,7 @@ require "test_helper"
 
 class TestRunChannelTest < ActionCable::Channel::TestCase
   test ".broadcast! broadcasts test run" do
-    test_run = create :iteration_test_run,
+    test_run = create :submission_test_run,
       ops_status: 403,
       raw_results: { message: nil }
 

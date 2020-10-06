@@ -3,7 +3,7 @@ require 'test_helper'
 class Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSupport::TestCase
   test "anti_duplicate_key" do
     user = create :user
-    discussion_post = create(:iteration_discussion_post)
+    discussion_post = create(:submission_discussion_post)
 
     notification = Notifications::StudentRepliedToDiscussionNotification.create!(
       user: user,
@@ -19,9 +19,9 @@ class Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSupport:
     track = create :track
     exercise = create :practice_exercise, track: track
     solution = create :practice_solution, exercise: exercise
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
     mentor = create(:user)
-    discussion_post = create(:iteration_discussion_post, iteration: iteration, user: mentor)
+    discussion_post = create(:submission_discussion_post, submission: submission, user: mentor)
 
     notification = Notifications::StudentRepliedToDiscussionNotification.create!(
       user: mentor,

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def index
     # solution = Solution.first
-    # IterationsChannel.broadcast!(solution)
+    # SubmissionsChannel.broadcast!(solution)
   end
 end

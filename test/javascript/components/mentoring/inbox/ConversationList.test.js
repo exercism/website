@@ -40,7 +40,7 @@ test('allow retry after loading error', async () => {
               trackTitle: 'Ruby',
               exerciseTitle: 'Bob',
               isStarred: false,
-              isNewIteration: false,
+              isNewSubmission: false,
               haveMentoredPreviously: false,
             },
           ],

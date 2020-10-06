@@ -25,14 +25,14 @@ import * as Student from "../components/student";
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  "example-iterations-summary-table": (data: any) => (
-    <Example.IterationsSummaryTable
+  "example-submissions-summary-table": (data: any) => (
+    <Example.SubmissionsSummaryTable
       solutionId={data.solution_id}
-      iterations={data.iterations}
+      submissions={data.submissions}
     />
   ),
-  "maintaining-iterations-summary-table": (data: any) => (
-    <Maintaining.IterationsSummaryTable iterations={data.iterations} />
+  'maintaining-submissions-summary-table': (data: any) => (
+    <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),
   "notifications-icon": (data: any) => (
     <Notifications.Icon count={data.count} />

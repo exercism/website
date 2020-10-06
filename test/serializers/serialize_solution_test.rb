@@ -22,14 +22,14 @@ class SerializeSolutionTest < ActiveSupport::TestCase
         },
         file_download_base_url: "https://api.exercism.io/v1/solutions/#{solution.uuid}/files/",
         files: Set.new([".meta/config.json", "README.md", "bob.rb", "bob_test.rb", "subdir/more_bob.rb"]),
-        iteration: nil
+        submission: nil
       }
     }
 
     assert_equal expected, SerializeSolution.(solution, solution.user)
   end
 
-  test "ignore iteration files that match ignore_regexp" do
+  test "ignore submission files that match ignore_regexp" do
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
 
@@ -48,11 +48,11 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     track = solution.track
     create :user_track, user: solution.user, track: track
 
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
     valid_filepath = "foobar.js"
     ignore_filepath = "ignore.rb"
-    create :iteration_file, iteration: iteration, filename: valid_filepath
-    create :iteration_file, iteration: iteration, filename: ignore_filepath
+    create :submission_file, submission: submission, filename: valid_filepath
+    create :submission_file, submission: submission, filename: ignore_filepath
 
     # Ensure that changing our fixture doesn't break this test
     refute valid_filepath =~ track.repo.ignore_regexp
@@ -80,15 +80,15 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     assert_equal solution.anonymised_user_handle, output[:solution][:user][:handle]
   end
 
-  test "iteration is represented correctly" do
+  test "submission is represented correctly" do
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
 
     created_at = Time.current.getutc - 1.week
-    create :iteration, solution: solution, created_at: created_at
+    create :submission, solution: solution, created_at: created_at
 
     output = SerializeSolution.(solution, solution.user)
-    assert_equal created_at.to_i, output[:solution][:iteration][:submitted_at].to_i
+    assert_equal created_at.to_i, output[:solution][:submission][:submitted_at].to_i
   end
 
   test "solution_url should be /mentoring/solutions if not user" do

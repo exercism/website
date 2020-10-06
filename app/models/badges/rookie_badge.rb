@@ -5,7 +5,7 @@ module Badges
     end
 
     def should_award?
-      user.iterations.exists?
+      user.submissions.exists?
     end
   end
 end

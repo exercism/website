@@ -1,7 +1,7 @@
 en:
   api:
     errors:
-      duplicate_iteration: "No files you submitted have changed since your last iteration"
+      duplicate_submission: "No files you submitted have changed since your last submission"
       exercise_not_found: "The exercise you specified could not be found"
       invalid_auth_token: "The auth token provided is invalid"
       resource_not_found: "This URL was not recognised"

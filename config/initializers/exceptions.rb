@@ -1,8 +1,8 @@
 class BadgeCriteriaNotFulfilledError < RuntimeError; end
-class DuplicateIterationError < RuntimeError; end
+class DuplicateSubmissionError < RuntimeError; end
 class ExerciseUnavailableError < RuntimeError; end
-class IterationFileTooLargeError < RuntimeError; end
+class SubmissionFileTooLargeError < RuntimeError; end
 class SolutionLockedByAnotherMentorError < RuntimeError; end
-class TooManyIterationsError < RuntimeError; end
+class TooManySubmissionsError < RuntimeError; end
 class TrackSearchStatusWithoutUserError < RuntimeError; end
 class TrackSearchInvalidStatusError < RuntimeError; end

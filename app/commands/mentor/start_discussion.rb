@@ -2,7 +2,7 @@ module Mentor
   class StartDiscussion
     include Mandate
 
-    initialize_with :mentor, :request, :iteration, :content_markdown
+    initialize_with :mentor, :request, :submission, :content_markdown
 
     def call
       ActiveRecord::Base.transaction do
@@ -21,8 +21,8 @@ module Mentor
           request: request
         )
 
-        discussion_post = Iteration::DiscussionPost.create!(
-          iteration: iteration,
+        discussion_post = Submission::DiscussionPost.create!(
+          submission: submission,
           source: discussion,
           user: mentor,
           content_markdown: content_markdown

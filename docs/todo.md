@@ -10,7 +10,7 @@
 
 ### Overloading our tooling
 
-- Guard against max iterations per minute
+- Guard against max submissions per minute
 
 ## Other notes
 

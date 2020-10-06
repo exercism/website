@@ -40,8 +40,8 @@ Layout/LineLength:
   Exclude:
     - "config/**/*"
     - "test/models/notifications/*"
-    - "test/helpers/view_components/example/iterations_summary_table_test.rb"
-    - "test/helpers/view_components/maintaining/iterations_summary_table_test.rb"
+    - "test/helpers/view_components/example/submissions_summary_table_test.rb"
+    - "test/helpers/view_components/maintaining/submissions_summary_table_test.rb"
 
 Lint/SuppressedException:
   Exclude:
@@ -95,7 +95,7 @@ Style/LambdaCall:
 Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"
-    - "app/models/iteration/representation.rb"
+    - "app/models/submission/representation.rb"
 
 Rails/FilePath:
   EnforcedStyle: arguments

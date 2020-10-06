@@ -13,12 +13,12 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     # No solutions
     refute badge.().should_award?
 
-    # Solution but no iterations
+    # Solution but no submissions
     solution = create :practice_solution, user: user
     refute badge.().should_award?
 
     # Iteartions
-    create :iteration, solution: solution
+    create :submission, solution: solution
     assert badge.().should_award?
   end
 end

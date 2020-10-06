@@ -105,7 +105,7 @@ GEM
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-dynamodb (1.52.0)
+    aws-sdk-dynamodb (1.53.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.37.0)
@@ -147,7 +147,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism-config (0.43.0)
+    exercism-config (0.44.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk
@@ -386,7 +386,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   delayed_job_active_record (~> 4.1.4)
-  exercism-config (>= 0.43.0)
+  exercism-config (>= 0.44.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml-rails (~> 2.0)

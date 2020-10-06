@@ -13,6 +13,12 @@ class UserTrack < ApplicationRecord
     )
   end
 
+  def self.for(user_param, track_param)
+    for!(user_param, track_param)
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
   def available_concept_exercises
     available_exercises.select { |e| e.is_a?(ConceptExercise) }
   end

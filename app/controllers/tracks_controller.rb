@@ -15,7 +15,7 @@ class TracksController < ApplicationController
   end
 
   def authenticated_show
-    @user_track = current_user.user_track_for(@track)
+    @user_track = UserTrack.for(current_user, @track)
   end
 
   def join

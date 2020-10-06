@@ -4,7 +4,6 @@ import { CompleteIcon } from './CompleteIcon'
 import { IConcept, ConceptState } from './concept-types'
 
 export const Concept = ({
-  index,
   slug,
   web_url,
   status,

@@ -170,7 +170,7 @@ See `test/helpers/view_components/mentoring/inbox_test.rb` for an idiomatic exam
 Each Component has a route and view to enable it be rendered both for development usage and system testing.
 The routes live in the `test` namespace of the `config.routes`
 The views live in `app/views/test/components/**/XXX.html.haml`.
-The Component can be then accessed through `http://localhost:3020//test/components/...`
+The Component can be then accessed through `http://localhost:3020/test/components/...`
 
 Finally, each Component has Rails system tests, which test the correct HTML is rendered.
 These reside in `test/system/components/**/XXX_test.rb`. 

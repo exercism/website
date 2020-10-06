@@ -16,7 +16,6 @@ class Track
       filter_criteria
       filter_tags
       filter_status
-      set_order
       @tracks
     end
 
@@ -53,10 +52,6 @@ class Track
                 else
                   tracks.where.not(id: user.tracks)
                 end
-    end
-
-    def set_order
-      @tracks = @tracks.order(title: :asc)
     end
   end
 end

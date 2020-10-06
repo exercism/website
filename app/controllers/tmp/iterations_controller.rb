@@ -18,7 +18,7 @@ class Tmp::IterationsController < ApplicationController
       }
     ]
 
-    Iteration::Create.(solution, files, submitted_via: "script")
+    Iteration::Create.(solution, files, "script", true)
 
     head 200
   end

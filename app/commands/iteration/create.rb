@@ -2,11 +2,13 @@ class Iteration
   class Create
     include Mandate
 
-    def initialize(solution, files, submitted_via)
+    def initialize(solution, files, submitted_via, major)
+      @iteration_uuid = SecureRandom.compact_uuid
+
       @solution = solution
       @files = files
       @submitted_via = submitted_via
-      @iteration_uuid = SecureRandom.compact_uuid
+      @major = major
 
       # TODO: - Move this into another service
       # and that service should also guard filenames
@@ -32,7 +34,7 @@ class Iteration
       schedule_jobs!
       iteration.broadcast!
 
-      # Finally wait for everyting to finish before
+      # Finally wait for everyhting to finish before
       # we return the iteration
       services_thread.join
 
@@ -41,7 +43,7 @@ class Iteration
     end
 
     private
-    attr_reader :solution, :files, :iteration_uuid, :submitted_via
+    attr_reader :solution, :files, :iteration_uuid, :submitted_via, :major
     attr_reader :iteration
 
     def guard!
@@ -62,24 +64,41 @@ class Iteration
       # all the services we want to run this,
       s3_uri = Iteration::UploadWithExercise.(iteration_uuid, git_slug, git_sha, track_repo, files)
 
-      [
+      jobs = []
+      jobs << [
         Thread.new do
           Iteration::TestRun::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-        end,
-        Thread.new do
-          Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-        end,
-        Thread.new do
-          Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
         end
-      ].each(&:join)
+      ]
+      if major
+        jobs += [
+          Thread.new do
+            Iteration::Analysis::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+          end,
+          Thread.new do
+            Iteration::Representation::Init.(iteration_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+          end
+        ]
+      end
+
+      jobs.each(&:join)
     end
 
     def create_iteration!
-      @iteration = solution.iterations.create!(
+      attrs = {
         uuid: iteration_uuid,
-        submitted_via: submitted_via
-      )
+        submitted_via: submitted_via,
+        major: major
+      }
+
+      # If we've not run the analysers or representer
+      # then set the attributes to cancelled
+      unless major
+        attrs[:analysis_status] = :cancelled
+        attrs[:representation_status] = :cancelled
+      end
+
+      @iteration = solution.iterations.create!(attrs)
     end
 
     def create_files!

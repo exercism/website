@@ -41,7 +41,8 @@ loop do
     Iteration::Create.(
       solution,
       files,
-      submitted_via: "script"
+      "script",
+      true
     )
     puts "Done"
   rescue StandardError => e

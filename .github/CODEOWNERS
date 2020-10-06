@@ -1,5 +1,6 @@
 # JS files
-*.js, *.jsx      @erikschierboom @iHiD @kntsoriano 
+*.js       @erikschierboom @iHiD @kntsoriano 
+*.jsx      @erikschierboom @iHiD @kntsoriano 
 
 # Ruby files
 *.rb      @iHiD

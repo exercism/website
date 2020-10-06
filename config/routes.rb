@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     resources :iterations, only: [:index]
   end
   resources :tracks, only: %i[index show] do
+    resources :concepts, only: %i[index show], controller: "tracks/concepts"
+    resources :exercises, only: %i[index show], controller: "tracks/exercises"
+
     member do
       post :join
     end

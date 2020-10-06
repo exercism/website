@@ -57,4 +57,22 @@ class UserTest < ActiveSupport::TestCase
     solution = create :concept_solution
     refute user.may_view_solution?(solution)
   end
+
+  test "user_track_for" do
+    user = create :user
+    user_track = create :user_track, user: user
+    track = create :track
+
+    assert_equal user_track, user.user_track_for(user_track.track)
+    assert_nil user.user_track_for(track)
+  end
+
+  test "joined_track?" do
+    user = create :user
+    user_track = create :user_track, user: user
+    track = create :track
+
+    assert user.user_track_for(user_track.track)
+    refute user.user_track_for(track)
+  end
 end

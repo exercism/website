@@ -7,17 +7,26 @@ export function ProgressBar({
   numCompletedPracticeExercises,
 }) {
   const total = numConceptExercises + numPracticeExercises
+  const numUncompletedPracticeExercises =
+    numPracticeExercises - numCompletedPracticeExercises
+  const numUncompletedConceptExercises =
+    numConceptExercises - numCompletedConceptExercises
+
+  const completedConceptPercentage =
+    (numCompletedConceptExercises / total) * 100 + '%'
+  const uncompletedConceptPercentage =
+    (numUncompletedConceptExercises / total) * 100 + '%'
+  const completedPracticePercentage =
+    (numCompletedPracticeExercises / total) * 100 + '%'
+  const uncompletedPracticePercentage =
+    (numUncompletedPracticeExercises / total) * 100 + '%'
 
   return (
-    <p data-testid="track-progress-bar">
-      Completed concept exercises:{' '}
-      {(numCompletedConceptExercises / total) * 100}%, Uncompleted concept
-      exercises:{' '}
-      {((numConceptExercises - numCompletedConceptExercises) / total) * 100}%,
-      Completed practice exercises:{' '}
-      {(numCompletedPracticeExercises / total) * 100}%, Uncompleted practice
-      exercises:{' '}
-      {((numPracticeExercises - numCompletedPracticeExercises) / total) * 100}%
-    </p>
+    <div className="progress-bar">
+      <div className="cp" style={{ width: completedConceptPercentage }} />
+      <div className="ucp" style={{ width: uncompletedConceptPercentage }} />
+      <div className="ce" style={{ width: completedPracticePercentage }} />
+      <div className="uce" style={{ width: uncompletedPracticePercentage }} />
+    </div>
   )
 }

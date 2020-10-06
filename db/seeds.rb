@@ -96,14 +96,31 @@ track_slugs.each do |track_slug|
         slug: exercise_config[:slug],
         title: exercise_config[:slug].titleize,
       )
-      #exercise_config[:concepts].each do |concept|
-      #  ce.concepts << Track::Concept.find_or_create_by!(uuid: SecureRandom.uuid, name: concept, track: track)
-      #end
-      exercise_config[:prerequisites].each do |concept|
-        ce.prerequisites << Track::Concept.find_or_create_by!(uuid: SecureRandom.uuid, name: concept, track: track)
+      
+      exercise_config[:prerequisites].each do |slug|
+        ce.prerequisites << Track::Concept.find_or_create_by!(
+          slug: slug, 
+          track: track
+        ) do |c|
+          c.uuid = SecureRandom.uuid
+          c.name = slug.titleize
+        end
       end
+      
+      exercise_config[:concepts].each do |slug|
+        ce.taught_concepts << Track::Concept.find_or_create_by!(
+          slug: slug, 
+          track: track
+        ) do |c|
+          c.uuid = SecureRandom.uuid
+          c.name = slug.titleize
+        end
+      end
+
     end
   rescue => e
+    #puts e.message
+    #puts e.backtrace
     puts "Error creating concept exercises for Track #{track_slug}: #{e}"
   end
 end

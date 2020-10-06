@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     borderRadius: {
       none: '0',
+      '5': '5px',
       '8': '8px',
       '100': '100px',
     },
@@ -16,14 +17,22 @@ module.exports = {
     },
     boxShadow: {
       '1': '0px 4px 24px rgba(79, 114, 205, 0.15)',
+      headerBottom: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
     },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
       bgGray: '#FBFCFE',
+      lightGray: '#EAECF3',
       textBase: '#343741',
       textLight: '#6D6986',
       borderLight: '#CBC9D9',
+
+      darkBlue: '#6A93FF',
+      lightBlue: 'rgba(106, 147, 255, 0.5)',
+
+      darkGreen: '#43B593',
+      lightGreen: '#ABDBCC',
 
       black: '#000',
       white: '#fff',
@@ -41,6 +50,8 @@ module.exports = {
       '12': '12px',
       '16': '16px',
       '24': '24px',
+      '28': '28px',
+      '32': '32px',
     },
   },
   variants: {},

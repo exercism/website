@@ -10,7 +10,40 @@ module Components
         sign_in!
       end
 
-      test "shows tracks" do
+      test "renders correctly for unjoined track" do
+        create :track,
+          title: "Ruby",
+          tags: ["Foo:Bar", "Abc:Xyz"]
+
+        visit test_components_student_tracks_list_url
+
+        assert_html '
+          <a class="c-track" href="https://test.exercism.io/tracks/ruby">
+            <div class="content">
+              <img class="c-track-icon"
+                   src="https://assets.exercism.io/tracks/ruby-hex-white.png"
+                   alt="icon for Ruby track">
+                <div class="info">
+                  <div class="s-flex s-items-center s-mb-8">
+                    <h3 class="title">Ruby</h3>
+                  </div>
+                  <ul class="counts">
+                    <li>0/0 concepts</li>
+                    <li>0/0 exercises</li>
+                  </ul>
+                  <ul class="tags">
+                    <li>Bar</li>
+                    <li>Xyz</li>
+                  </ul>
+                </div>
+                <i>›</i>
+              </img>
+            </div>
+          </a>
+        ', within: ".c-tracks-list"
+      end
+
+      test "renders correctly for joined track" do
         track = create :track,
           title: "Ruby",
           tags: ["Foo:Bar", "Abc:Xyz"]
@@ -24,24 +57,35 @@ module Components
 
         assert_html '
           <a class="c-track" href="https://test.exercism.io/tracks/ruby">
-            <img class="c-track-icon"
-                 src="https://assets.exercism.io/tracks/ruby-hex-white.png"
-                 alt="icon for Ruby track">
-            <div class="info">
-              <h3 class="title">Ruby</h3>
-              <div class="joined">Joined</div>
-              <ul class="counts">
-                <li>1/3 concepts</li>
-                <li>2/4 exercises</li>
-              </ul>
-              <ul class="tags">
-                <li>Bar</li>
-                <li>Xyz</li>
-              </ul>
+            <div class="content">
+              <img class="c-track-icon"
+                   src="https://assets.exercism.io/tracks/ruby-hex-white.png"
+                   alt="icon for Ruby track">
+                <div class="info">
+                  <div class="s-flex s-items-center s-mb-8">
+                    <h3 class="title">Ruby</h3>
+                    <div class="joined">Joined</div>
+                  </div>
+                  <ul class="counts">
+                    <li>1/3 concepts</li>
+                    <li>2/4 exercises</li>
+                  </ul>
+                  <ul class="tags">
+                    <li>Bar</li>
+                    <li>Xyz</li>
+                  </ul>
+                </div>
+                <i>›</i>
+              </img>
+              <div class="progress-bar">
+                <div class="cp" style="width: 14.2857%;"></div>
+                <div class="ucp" style="width: 28.5714%;"></div>
+                <div class="ce" style="width: 28.5714%;"></div>
+                <div class="uce" style="width: 28.5714%;"></div>
+              </div>
             </div>
-            <i>›</i>
           </a>
-        ', within: ".student-track-list"
+        ', within: ".c-tracks-list"
       end
 
       test "filter by track title" do
@@ -51,7 +95,7 @@ module Components
         visit test_components_student_tracks_list_url
         fill_in "Search language tracks", with: "Go"
 
-        assert_selector(".student-track-list .c-track", count: 1)
+        assert_selector(".c-tracks-list .c-track", count: 1)
         assert_text "Go", within: ".c-track"
       end
 
@@ -63,7 +107,7 @@ module Components
         visit test_components_student_tracks_list_url
         select "Joined", from: "Status"
 
-        assert_selector(".student-track-list .c-track", count: 1)
+        assert_selector(".c-tracks-list .c-track", count: 1)
         assert_text "Go", within: ".c-track"
       end
 
@@ -77,7 +121,7 @@ module Components
         check "Dynamic"
         click_on "Apply"
 
-        assert_selector(".student-track-list .c-track", count: 1)
+        assert_selector(".c-tracks-list .c-track", count: 1)
         assert_text "Ruby", within: ".c-track"
       end
 

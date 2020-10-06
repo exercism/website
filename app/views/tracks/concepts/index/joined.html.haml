@@ -1,0 +1,5 @@
+.md-container
+  %h2 Concepts for #{@track.title}
+  %ul
+    - @concepts.each do |concept|
+      %li= link_to concept.name, track_concept_path(@track, concept)

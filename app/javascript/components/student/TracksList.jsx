@@ -12,11 +12,13 @@ function reducer(state, action) {
       return {
         ...state,
         query: { ...state.query, criteria: action.payload.criteria },
+        options: { ...state.options, initialData: undefined },
       }
     case 'status.changed':
       return {
         ...state,
         query: { ...state.query, status: action.payload.status },
+        options: { ...state.options, initialData: undefined },
       }
     case 'tags.changed':
       return {
@@ -34,13 +36,20 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
   )
 
   return (
-    <div className="student-track-list">
-      <Search dispatch={dispatch} />
-      <StatusFilter dispatch={dispatch} options={statusOptions} />
-      <TagsFilter dispatch={dispatch} options={tagOptions} />
-      {isLoading && <Loading />}
-      {isError && <p>Something went wrong</p>}
-      {isSuccess && <List data={data} />}
+    <div className="c-tracks-list">
+      <div className="search-bar">
+        <div className="md-container">
+          <Search dispatch={dispatch} />
+        </div>
+      </div>
+      <div className="md-container">
+        <StatusFilter dispatch={dispatch} options={statusOptions} />
+        <TagsFilter dispatch={dispatch} options={tagOptions} />
+
+        {isLoading && <Loading />}
+        {isError && <p>Something went wrong</p>}
+        {isSuccess && <List data={data} />}
+      </div>
     </div>
   )
 }

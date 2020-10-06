@@ -46,10 +46,6 @@ export const ConceptConnections = ({
   const canvasEl = useRef(null)
 
   useEffect(() => {
-    console.log({ webpageWidth, webpageHeight })
-
-    // eslint-disable-next-line
-    // const dpi = window.devicePixelRatio
     const canvas = canvasEl.current as HTMLCanvasElement | null
     const ctx = canvas?.getContext('2d')
 
@@ -199,16 +195,15 @@ function getPathEndFromElement(el: HTMLElement): ConceptPathCoordinate {
 
 // Derive the path state from the concept state
 function getPathState(conceptStatus: ConceptState): ConceptPathState {
-  if (
-    conceptStatus === ConceptState.Unlocked ||
-    conceptStatus === ConceptState.InProgress
-  ) {
-    return ConceptPathState.Available
-  } else if (conceptStatus === ConceptState.Completed) {
-    return ConceptPathState.Completed
+  switch (conceptStatus) {
+    case ConceptState.Unlocked:
+    case ConceptState.InProgress:
+      return ConceptPathState.Available
+    case ConceptState.Completed:
+      return ConceptPathState.Completed
+    default:
+      return ConceptPathState.Unavailable
   }
-
-  return ConceptPathState.Unavailable
 }
 
 // Factory function for DrawPathOptions

@@ -150,7 +150,7 @@ Each View Component has a class in Rails which is used to render it in a consist
 Each View Component has a corrosponding Rails class, which lives in `app/helpers/view_components/**/XXX.rb`.
 
 This class should defined a `#to_s` method, which is responsible for rendering HTML with relevant attributes. 
-This is generally achieved by calling the `react_component` on the (parent) `ViewComponents::ViewComponent` class (located in `app/helpers/view_components/view_component.rb`), which generates a `div` with a data attribute for the view component's name (e.g. `data-react-tracks-list` for the `tracks-list` component) and a `data-react-data` containing any data that the Component needs to initialize.
+This is generally achieved by calling the `react_component` method on the (parent) `ViewComponents::ViewComponent` class (located in `app/helpers/view_components/view_component.rb`), which generates a `div` with a data attribute for the view component's name (e.g. `data-react-tracks-list` for the `tracks-list` component) and a `data-react-data` containing any data that the Component needs to initialize.
 
 The View Component should also encapsulate any server-side properties should be stored within this class, such as sort options.
 

@@ -6,11 +6,9 @@ class Test::Components::Student::TracksListController < ApplicationController
   def tracks
     return head :internal_server_error if params[:state] == "Loading" || params[:state] == "Error"
 
-    tags = params[:tags].to_s.split(",")
-
     tracks = Track::Search.(
       criteria: params[:criteria],
-      tags: tags,
+      tags: params[:tags],
       status: params[:status],
       user: User.first
     )

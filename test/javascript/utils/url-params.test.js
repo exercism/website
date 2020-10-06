@@ -7,3 +7,9 @@ test('toString() returns empty string when object is null', () => {
 test('toString() returns empty string when object is undefined', () => {
   expect(new UrlParams(undefined).toString()).toEqual('')
 })
+
+test('toString() converts arrays correctly', () => {
+  const object = { tags: ['oop', 'static'] }
+
+  expect(new UrlParams(object).toString()).toEqual('tags[]=oop&tags[]=static')
+})

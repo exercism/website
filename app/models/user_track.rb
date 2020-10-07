@@ -19,12 +19,35 @@ class UserTrack < ApplicationRecord
     nil
   end
 
+  def learnt_concept?(concept)
+    learnt_concepts.include?(concept)
+  end
+
+  def concept_available?(concept)
+    available_concepts.include?(concept)
+  end
+
+  memoize
   def available_concept_exercises
     available_exercises.select { |e| e.is_a?(ConceptExercise) }
   end
 
+  memoize
   def available_practice_exercises
     available_exercises.select { |e| e.is_a?(PracticeExercise) }
+  end
+
+  def exercise_available?(exercise)
+    (exercise.prerequisites - learnt_concepts).empty?
+  end
+
+  memoize
+  def available_concepts
+    available_exercise_ids = available_exercises.map(&:id)
+    concept_ids = Exercise::TaughtConcept.where(exercise_id: available_exercise_ids).
+      select(:track_concept_id)
+
+    track.concepts.not_taught + Track::Concept.where(id: concept_ids)
   end
 
   memoize
@@ -37,12 +60,8 @@ class UserTrack < ApplicationRecord
     without_prereqs + Exercise.where(id: ids)
   end
 
-  def exercise_available?(exercise)
-    (exercise.prerequisites - learnt_concepts).empty?
-  end
-
   ###
-  # Inline helper for available concept Exercises
+  # Inline helper for available exercises
   ###
   class DetermineAvailableExercisesIds
     include Mandate
@@ -50,8 +69,8 @@ class UserTrack < ApplicationRecord
     initialize_with :user_track_id
 
     # Get two datasets.
-    # The first is the exercises with their counts of MATCHING prereq concepts
-    # The second is the execises with the count of all their prereq concepts
+    # The second is the exercises with the count of all their prereq concepts
+    # The second is the exercises with the count of all their prereq concepts
     # If the number is the same in both, then we have a match.
     #
     # Taken from https://stackoverflow.com/questions/48290118/sql-join-on-a-table-that-matches-multiple-rows-and-put-into-multiple-columns

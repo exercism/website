@@ -47,7 +47,7 @@ initReact({
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  'student-tracks-list': (data) => (
+  'student-tracks-list': (data: any) => (
     <Student.TracksList
       request={data.request}
       statusOptions={data.status_options}

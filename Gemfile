@@ -31,7 +31,7 @@ gem 'delayed_job_active_record', '~> 4.1.4'
 gem 'friendly_id', '~> 5.4.0'
 
 # View-level Dependencies
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.x'
 gem 'turbolinks', '~> 5'
 gem 'haml-rails', '~> 2.0'
 gem 'commonmarker'

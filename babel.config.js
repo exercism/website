@@ -44,7 +44,7 @@ module.exports = function (api) {
           useBuiltIns: true,
         },
       ],
-      '@babel/preset-typescript',
+      ['@babel/preset-typescript', { allExtensions: true, isTSX: true }],
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',

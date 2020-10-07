@@ -2,11 +2,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 const environment = require('./environment')
 
-/**
- * The default installation only transpiles your TypeScript code using Babel. If
- * you would like to enable type checking as part of the Webpack compilation
- * process (i.e. fail the build if there are TS errors), we need the following:
- */
+// Enable type checking as part of the Webpack compilation process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const path = require('path')
 

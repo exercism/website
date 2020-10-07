@@ -38,7 +38,7 @@ module ViewComponents
 
       def default_request
         # TODO: Change this to the actual endpoint, not the test endpoint
-        { endpoint: Exercism::Routes.tracks_test_components_student_tracks_list_path }
+        { endpoint: Exercism::Routes.tracks_test_components_student_tracks_list_path, query: {} }
       end
     end
   end

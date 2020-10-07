@@ -46,7 +46,11 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       </div>
       <div className="md-container">
         {isSuccess && <Header data={data} query={request.query} />}
-        <StatusFilter dispatch={dispatch} options={statusOptions} />
+        <StatusFilter
+          value={request.query.status}
+          dispatch={dispatch}
+          options={statusOptions}
+        />
         <TagsFilter dispatch={dispatch} options={tagOptions} />
 
         {isLoading && <Loading />}

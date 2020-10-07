@@ -105,7 +105,7 @@ module Components
         create :user_track, track: go, user: @current_user
 
         visit test_components_student_tracks_list_url
-        select "Joined", from: "Status"
+        click_on "Joined", exact: true
 
         assert_selector(".c-tracks-list .c-track", count: 1)
         assert_text "Go", within: ".c-track"

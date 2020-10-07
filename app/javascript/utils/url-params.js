@@ -15,7 +15,7 @@ export class UrlParams {
             })
             .join('&')
         } else {
-          return key + '=' + value
+          return key + '=' + encodeURIComponent(value)
         }
       })
       .join('&')

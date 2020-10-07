@@ -21,6 +21,7 @@ describe('<ConceptGraph />', () => {
     expect(graph).not.toBeNull()
   })
 
+  // TODO: Fix once webpacker 5 fix merged, fails on type error
   test('renders single concept', () => {
     const { container } = renderGraph([concept('test')], [['test']], [])
     const conceptEl = getByTestId(container, 'concept-test')

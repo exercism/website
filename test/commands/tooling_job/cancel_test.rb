@@ -2,85 +2,63 @@ require 'test_helper'
 
 class ToolingJob::CancelTest < ActiveSupport::TestCase
   test "cancels test runner job" do
-    iteration = create_iteration
+    submission = create_submission
+    id = write_submission_to_dynamodb(submission, :test_runner)
 
-    id = SecureRandom.uuid
-    type = "test_runner"
-    iteration_uuid = iteration.uuid
-    execution_status = "job-status"
-    s3_key = "#{id}/results.json"
-
-    write_to_dynamodb(
-      Exercism.config.dynamodb_tooling_jobs_table,
-      {
-        "id" => id,
-        "type" => type,
-        "iteration_uuid" => iteration_uuid,
-        "execution_status" => execution_status,
-        "job_status" => "pending",
-        "output" => { "results.json" => s3_key }
-      }
-    )
-
-    ToolingJob::Cancel.(iteration.uuid, :test_runner)
+    ToolingJob::Cancel.(submission.uuid, :test_runner)
 
     assert_equal "cancelled", dynamodb_job_status(id)
   end
 
   test "set tests status to cancelled" do
-    # TODO: Fix this test
-    skip
+    submission = create_submission
+    write_submission_to_dynamodb(submission, :test_runner)
 
-    iteration = create_iteration
+    ToolingJob::Cancel.(submission.uuid, :test_runner)
 
-    ToolingJob::Cancel.(iteration.uuid, :test_runner)
-
-    assert iteration.reload.tests_cancelled?
+    assert submission.reload.tests_cancelled?
   end
 
   test "cancels analysis job" do
-    skip
-    iteration = create_iteration
+    submission = create_submission
+    id = write_submission_to_dynamodb(submission, :analyzer)
 
-    # TODO: Check job has updated in dynamodb
-    ToolingJob::Cancel.(iteration.uuid, :analysis)
+    ToolingJob::Cancel.(submission.uuid, :analyzer)
+
+    assert_equal "cancelled", dynamodb_job_status(id)
   end
 
   test "set analysis status to cancelled" do
-    # TODO: Fix this test
-    skip
+    submission = create_submission
+    write_submission_to_dynamodb(submission, :analyzer)
 
-    iteration = create_iteration
+    ToolingJob::Cancel.(submission.uuid, :analyzer)
 
-    ToolingJob::Cancel.(iteration.uuid, :analysis)
-
-    assert iteration.reload.analysis_cancelled?
+    assert submission.reload.analysis_cancelled?
   end
 
   test "cancels representation job" do
-    skip
-    iteration = create_iteration
+    submission = create_submission
+    id = write_submission_to_dynamodb(submission, :representer)
 
-    # TODO: Check job has updated in dynamodb
-    ToolingJob::Cancel.(iteration.uuid, :analysis)
+    ToolingJob::Cancel.(submission.uuid, :representer)
+
+    assert_equal "cancelled", dynamodb_job_status(id)
   end
 
   test "set representation status to cancelled" do
-    # TODO: Fix this test
-    skip
+    submission = create_submission
+    write_submission_to_dynamodb(submission, :representer)
 
-    iteration = create_iteration
+    ToolingJob::Cancel.(submission.uuid, :representer)
 
-    ToolingJob::Cancel.(iteration.uuid, :representation)
-
-    assert iteration.reload.representation_cancelled?
+    assert submission.reload.representation_cancelled?
   end
 
   private
-  def create_iteration
-    files = []
+  def create_submission
     solution = create :concept_solution
-    Iteration::Create.(solution, files, :cli)
+    create :submission, solution: solution
   end
 
   def dynamodb_job_status(id)
@@ -90,5 +68,21 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
       %i[job_status]
     )
     attrs["job_status"]
+  end
+
+  def write_submission_to_dynamodb(submission, type)
+    SecureRandom.uuid.tap do |id|
+      write_to_dynamodb(
+        Exercism.config.dynamodb_tooling_jobs_table,
+        {
+          "id" => id,
+          "type" => type,
+          "submission_uuid" => submission.uuid,
+          "execution_status" => "job-status",
+          "job_status" => "pending",
+          "output" => { "results.json" => "#{submission.id}/results.json" }
+        }
+      )
+    end
   end
 end

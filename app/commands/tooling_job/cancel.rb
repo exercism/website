@@ -8,7 +8,7 @@ module ToolingJob
       return unless dynamodb_job
 
       update_dynamodb
-      update_iteration
+      update_submission
     end
 
     private

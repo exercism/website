@@ -1,4 +1,5 @@
 import React from 'react'
+import { setConsole } from 'react-query'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -10,6 +11,13 @@ const server = setupServer(
     return res(ctx.status(500, 'Internal server error'))
   })
 )
+
+// Don't output logging from react-query
+setConsole({
+  log: () => {},
+  warn: () => {},
+  error: () => {},
+})
 
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())

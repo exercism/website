@@ -11,7 +11,7 @@ export class UrlParams {
         if (Array.isArray(value)) {
           return value
             .map((item) => {
-              return key + '[]=' + item
+              return key + '[]=' + encodeURIComponent(item)
             })
             .join('&')
         } else {

@@ -25,7 +25,7 @@ import * as Student from '../components/student'
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  "example-submissions-summary-table": (data: any) => (
+  'example-submissions-summary-table': (data: any) => (
     <Example.SubmissionsSummaryTable
       solutionId={data.solution_id}
       submissions={data.submissions}
@@ -47,7 +47,7 @@ initReact({
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  'student-tracks-list': (data) => (
+  'student-tracks-list': (data: any) => (
     <Student.TracksList
       request={data.request}
       statusOptions={data.status_options}

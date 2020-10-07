@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -10,7 +9,7 @@
     "sourceMap": true,
     "target": "es5",
     "jsx": "react",
-    "strict": false,
+    "noEmit": true,
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],

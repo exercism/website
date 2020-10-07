@@ -37,9 +37,7 @@ export function TagsFilter({ options, dispatch }) {
             onSubmit={handleSubmit}
           />
           <button
-            onClick={() => {
-              setHidden(true)
-            }}
+            onClick={() => setHidden(true)}
           >
             Close
           </button>

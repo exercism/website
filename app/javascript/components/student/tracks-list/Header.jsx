@@ -1,7 +1,7 @@
 import React from 'react'
 
 export function Header({ data, query = {} }) {
-  const isFiltering = query.criteria || (query.tags && query.tags.length !== 0)
+  const isFiltering = query.criteria || (query.tags && query.tags.length > 0)
 
   if (!isFiltering) {
     return <p>Exercism's Language Tracks</p>

@@ -5,7 +5,7 @@ module ToolingJob
     initialize_with :submission_uuid, :type
 
     def call
-      return unless dynamodb_job
+      return unless pending_dynamodb_job
 
       update_dynamodb
       update_submission
@@ -34,7 +34,7 @@ module ToolingJob
       client.update_item(
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         key: {
-          id: dynamodb_job["id"]
+          id: pending_dynamodb_job["id"]
         },
         expression_attribute_names: {
           "#JS": "job_status"
@@ -47,7 +47,7 @@ module ToolingJob
     end
 
     memoize
-    def dynamodb_job
+    def pending_dynamodb_job
       items = client.query(
         {
           table_name: Exercism.config.dynamodb_tooling_jobs_table,

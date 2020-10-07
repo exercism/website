@@ -21,7 +21,7 @@ export function TagOptionList({ options, onSubmit, value, setValue }) {
                 <TagOption
                   key={option.value}
                   onChange={handleChange}
-                  checked={value.indexOf(option.value) >= 0}
+                  checked={value.includes(option.value)}
                   label={option.label}
                   value={option.value}
                 />

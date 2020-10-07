@@ -10,13 +10,13 @@ export class UrlParams {
 
         // &foo=value
         if (!Array.isArray(value)) {
-          return key + '=' + value
+          return `${key}=${encodeURIComponent(value)}`
         }
 
         // &foo[]=value1&foo[]=value2
         return value
           .map((item) => {
-            return key + '[]=' + item
+            return `${key}[]=${encodeURIComponent(item)}`
           })
           .join('&')
       })

@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import { TagOption } from './TagOption'
 
-export function TagOptionList({ options, onSubmit, value, setValue }) {
+export function TagOptionList({
+  options,
+  onSubmit,
+  selectedTags,
+  setSelectedTags,
+}) {
   function handleChange(e, optionValue) {
     if (event.target.checked) {
-      setValue(value.concat(optionValue))
+      setSelectedTags(selectedTags.concat(optionValue))
     } else {
-      setValue(value.filter((v) => v !== optionValue))
+      setSelectedTags(selectedTags.filter((v) => v !== optionValue))
     }
   }
 
@@ -21,7 +26,7 @@ export function TagOptionList({ options, onSubmit, value, setValue }) {
                 <TagOption
                   key={option.value}
                   onChange={handleChange}
-                  checked={value.includes(option.value)}
+                  checked={selectedTags.includes(option.value)}
                   label={option.label}
                   value={option.value}
                 />

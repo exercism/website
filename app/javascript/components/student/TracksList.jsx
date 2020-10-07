@@ -25,6 +25,7 @@ function reducer(state, action) {
       return {
         ...state,
         query: { ...state.query, tags: action.payload.tags },
+        options: { ...state.options, initialData: undefined },
       }
   }
 }

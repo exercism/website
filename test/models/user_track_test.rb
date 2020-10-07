@@ -58,7 +58,60 @@ class UserTrackTest < ActiveSupport::TestCase
     assert user_track.reload.exercise_available?(exercise)
   end
 
-  test "available exercises" do
+  test "available concepts" do
+    track = create :track
+    basics = create :track_concept, track: track
+    enums = create :track_concept, track: track
+    strings = create :track_concept, track: track
+
+    # Nothing teaches recursion
+    recursion = create :track_concept, track: track
+
+    basics_exercise = create :concept_exercise, track: track
+    basics_exercise.taught_concepts << basics
+
+    enums_exercise = create :concept_exercise, track: track
+    enums_exercise.prerequisites << basics
+    enums_exercise.taught_concepts << enums
+
+    strings_exercise = create :concept_exercise, track: track
+    strings_exercise.prerequisites << enums
+    strings_exercise.prerequisites << basics
+    strings_exercise.taught_concepts << strings
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    assert_equal [recursion, basics], user_track.available_concepts
+    assert user_track.concept_available?(recursion)
+    assert user_track.concept_available?(basics)
+    refute user_track.concept_available?(enums)
+    refute user_track.concept_available?(strings)
+
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
+
+    create :user_track_learnt_concept, user_track: user_track, concept: basics
+
+    assert_equal [recursion, basics, enums], user_track.available_concepts
+    assert user_track.concept_available?(recursion)
+    assert user_track.concept_available?(basics)
+    assert user_track.concept_available?(enums)
+    refute user_track.concept_available?(strings)
+
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
+
+    create :user_track_learnt_concept, user_track: user_track, concept: enums
+
+    assert_equal [recursion, basics, enums, strings], user_track.available_concepts
+    assert user_track.concept_available?(recursion)
+    assert user_track.concept_available?(basics)
+    assert user_track.concept_available?(enums)
+    assert user_track.concept_available?(strings)
+  end
+
+  test "available exercises and concepts" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, track: track
     concept_exercise_2 = create :concept_exercise, track: track

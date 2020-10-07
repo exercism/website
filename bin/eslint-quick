@@ -1,0 +1,4 @@
+#!/bin/bash
+
+git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.(jsx?|tsx?)$' | xargs npx eslint && \
+git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.(jsx?|tsx?)$' | xargs git add

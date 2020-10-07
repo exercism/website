@@ -3,7 +3,7 @@ import { TagOptionList } from './TagOptionList'
 
 export function TagsFilter({ options, dispatch }) {
   const [hidden, setHidden] = useState(true)
-  const [value, setValue] = useState([])
+  const [selectedTags, setSelectedTags] = useState([])
 
   function handleSubmit(e) {
     e.preventDefault()

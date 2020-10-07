@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TagOption } from './TagOption'
 
-export function TagOptionList({ options, onSubmit, value, setValue }) {
+export function TagOptionList({ options, onSubmit, selectedTags, setSelectedTags }) {
   function handleChange(e, optionValue) {
     if (event.target.checked) {
       setValue(value.concat(optionValue))

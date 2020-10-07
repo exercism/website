@@ -5,7 +5,7 @@ FROM ruby:2.6.6 as builder
 
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y cmake;
+    apt-get install -y cmake ruby-dev;
 
 # We can do this work early and then copy a binary to the slim build later
 # overmind

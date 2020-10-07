@@ -64,8 +64,8 @@ class Submission
       end
 
       def cancel_other_services!
-        Submission::Analysis::Cancel.(submission.uuid)
-        Submission::Representation::Cancel.(submission.uuid)
+        ToolingJob::Cancel.(submission.uuid, :analyzer)
+        ToolingJob::Cancel.(submission.uuid, :representer)
       end
     end
   end

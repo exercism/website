@@ -76,7 +76,9 @@ class ActiveSupport::TestCase
     client.get_item(
       table_name: table_name,
       key: key,
-      attributes_to_get: attributes
+      attributes_to_get: attributes,
+      # Required for attribute queries to return the correct value immediately after updating
+      consistent_read: true
     ).item
   end
 

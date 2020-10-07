@@ -27,7 +27,7 @@ class SerializeTracks
     {
       id: track.id,
       title: track.title,
-      num_concepts: track.concepts.count,
+      num_concepts: concept_counts[track.id].to_i,
       num_concept_exercises: concept_exercise_counts[track.id].to_i,
       num_practice_exercises: practice_exercise_counts[track.id].to_i,
       web_url: Exercism::Routes.track_url(track),
@@ -48,6 +48,14 @@ class SerializeTracks
       num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
       num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
     }
+  end
+
+  memoize
+  def concept_counts
+    Track::Concept.
+      where(track: tracks).
+      group(:track_id).
+      count
   end
 
   memoize

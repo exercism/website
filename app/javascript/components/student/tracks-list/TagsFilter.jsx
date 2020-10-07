@@ -9,6 +9,13 @@ export function TagsFilter({ options, dispatch }) {
     e.preventDefault()
 
     dispatch({ type: 'tags.changed', payload: { tags: selectedTags } })
+    setHidden(true)
+  }
+
+  function handleClose(e) {
+    e.preventDefault()
+
+    setHidden(true)
   }
 
   function resetFilters(e) {
@@ -19,20 +26,26 @@ export function TagsFilter({ options, dispatch }) {
   }
 
   return (
-    <div>
-      <button onClick={() => setHidden(!hidden)}>Filter by</button>
-      <button onClick={resetFilters}>Reset filters</button>
+    <>
+      <button onClick={() => setHidden(!hidden)} className="filter-btn">
+        Filter by
+      </button>
+      <button onClick={resetFilters} className="reset-btn">
+        Reset filters
+      </button>
       {!hidden && (
-        <div>
-          <TagOptionList
-            selectedTags={selectedTags}
-            options={options}
-            setSelectedTags={setSelectedTags}
-            onSubmit={handleSubmit}
-          />
-          <button onClick={() => setHidden(true)}>Close</button>
+        <div className="tag-option-list">
+          <div className="md-container">
+            <TagOptionList
+              selectedTags={selectedTags}
+              options={options}
+              setSelectedTags={setSelectedTags}
+              onSubmit={handleSubmit}
+              onClose={handleClose}
+            />
+          </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

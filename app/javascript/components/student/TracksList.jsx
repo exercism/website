@@ -42,6 +42,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       <div className="search-bar">
         <div className="md-container">
           <Search dispatch={dispatch} />
+          <TagsFilter dispatch={dispatch} options={tagOptions} />
         </div>
       </div>
       <div className="md-container">
@@ -51,7 +52,6 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
           dispatch={dispatch}
           options={statusOptions}
         />
-        <TagsFilter dispatch={dispatch} options={tagOptions} />
 
         {isLoading && <Loading />}
         {isError && <p>Something went wrong</p>}

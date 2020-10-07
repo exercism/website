@@ -4,6 +4,7 @@ import { TagOption } from './TagOption'
 export function TagOptionList({
   options,
   onSubmit,
+  onClose,
   selectedTags,
   setSelectedTags,
 }) {
@@ -17,25 +18,32 @@ export function TagOptionList({
 
   return (
     <form onSubmit={onSubmit}>
-      {options.map((option) => {
-        return (
-          <div key={option.category}>
-            <p>{option.category}</p>
-            {option.options.map((option) => {
-              return (
-                <TagOption
-                  key={option.value}
-                  onChange={handleChange}
-                  checked={selectedTags.includes(option.value)}
-                  label={option.label}
-                  value={option.value}
-                />
-              )
-            })}
-          </div>
-        )
-      })}
-      <button>Apply</button>
+      <div className="categories">
+        {options.map((option) => {
+          return (
+            <div key={option.category} className="category">
+              <h4>{option.category}</h4>
+              {option.options.map((option) => {
+                return (
+                  <TagOption
+                    key={option.value}
+                    onChange={handleChange}
+                    checked={selectedTags.includes(option.value)}
+                    label={option.label}
+                    value={option.value}
+                  />
+                )
+              })}
+            </div>
+          )
+        })}
+      </div>
+      <div className="buttons">
+        <button className="apply-btn">Apply</button>
+        <button className="close-btn" onClick={onClose}>
+          Close
+        </button>
+      </div>
     </form>
   )
 }

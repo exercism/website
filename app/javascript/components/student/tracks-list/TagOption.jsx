@@ -1,6 +1,7 @@
 import React from 'react'
 
 export function TagOption({ value, label, checked, onChange }) {
+  // TODO: ids shouldn't have : in them so parse it out
   const id = `tag-option-${value}`
   return (
     <div className="option">

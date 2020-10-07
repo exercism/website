@@ -8,15 +8,17 @@ export class UrlParams {
       .map((key) => {
         const value = this.object[key]
 
-        if (Array.isArray(value)) {
-          return value
-            .map((item) => {
-              return key + '[]=' + item
-            })
-            .join('&')
-        } else {
+        // &foo=value
+        if (!Array.isArray(value)) {
           return key + '=' + value
         }
+
+        // &foo[]=value1&foo[]=value2
+        return value
+          .map((item) => {
+            return key + '[]=' + item
+          })
+          .join('&')
       })
       .join('&')
   }

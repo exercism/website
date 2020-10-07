@@ -11,17 +11,20 @@ export function StatusFilter({ options, dispatch, ...props }) {
       {options.map((option) => {
         // TODO: Populate .count once these
         // filters are moved client side
+        const count = 20
+
         return (
           <button
             key={option.value}
             className={option.value === value ? 'selected' : ''}
             disabled={option.value === value}
+            aria-label={option.aria_label}
             onClick={(e) => {
               handleChange(e, option.value)
             }}
           >
             {option.label}
-            <span className="count">20</span>
+            <span className="count">{count}</span>
           </button>
         )
       })}

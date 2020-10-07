@@ -15,9 +15,9 @@ module ViewComponents
       end
 
       STATUS_OPTIONS = [
-        { value: "all", label: "All" },
-        { value: "joined", label: "Joined" },
-        { value: "unjoined", label: "Unjoined" }
+        { value: "all", label: "All", aria_label: "Click to see all of Exercism's tracks" },
+        { value: "joined", label: "Joined", aria_label: "Click to see the tracks you have joined" },
+        { value: "unjoined", label: "Unjoined", aria_label: "Click to see the tracks you have not joined" }
       ].freeze
       private_constant :STATUS_OPTIONS
 

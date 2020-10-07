@@ -21,9 +21,7 @@ export function TagsFilter({ options, dispatch }) {
   return (
     <div>
       <button
-        onClick={() => {
-          setHidden(!hidden)
-        }}
+        onClick={() => setHidden(!hidden)}
       >
         Filter by
       </button>

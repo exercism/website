@@ -34,7 +34,7 @@ class Tracks::ExercisesController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:track_id])
-    @user_track = current_user&.user_track_for(@track)
+    @user_track = UserTrack.for(current_user, @track)
   end
 
   def use_practice_exercises

@@ -5,10 +5,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     mentor = create :user
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
     content_markdown = "Some interesting info"
 
-    Mentor::StartDiscussion.(mentor, request, iteration, content_markdown)
+    Mentor::StartDiscussion.(mentor, request, submission, content_markdown)
 
     assert_equal 1, Solution::MentorDiscussion.count
 
@@ -24,9 +24,9 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
 
   test "creates notification" do
     request = create :solution_mentor_request
-    iteration = create :iteration, solution: request.solution
+    submission = create :submission, solution: request.solution
     user = request.solution.user
-    Mentor::StartDiscussion.(create(:user), request, iteration, "foobar")
+    Mentor::StartDiscussion.(create(:user), request, submission, "foobar")
 
     assert_equal 1, user.notifications.size
     assert_equal Notifications::MentorStartedDiscussionNotification, user.notifications.first.class
@@ -35,22 +35,22 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
   test "fulfils request" do
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
 
     assert_equal :pending, request.status
-    Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
+    Mentor::StartDiscussion.(create(:user), request, submission, "foo")
     assert_equal :fulfilled, request.reload.status
   end
 
   test "discussion not created if request fails" do
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
 
     request.expects(:fulfilled!).raises(RuntimeError)
 
     begin
-      Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
+      Mentor::StartDiscussion.(create(:user), request, submission, "foo")
     rescue RuntimeError
     end
 
@@ -61,12 +61,12 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
   test "request not fullfiled if discussion fails" do
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
 
     Solution::MentorDiscussion.expects(:create!).raises(RuntimeError)
 
     begin
-      Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
+      Mentor::StartDiscussion.(create(:user), request, submission, "foo")
     rescue RuntimeError
     end
 
@@ -77,10 +77,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
   test "request not fullfiled if content is blank" do
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
 
     begin
-      Mentor::StartDiscussion.(create(:user), request, iteration, " \n ")
+      Mentor::StartDiscussion.(create(:user), request, submission, " \n ")
     rescue ActiveRecord::RecordInvalid
     end
 
@@ -93,10 +93,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
     request.expects(:lockable_by?).with(mentor).returns(false)
-    iteration = create :iteration, solution: solution
+    submission = create :submission, solution: solution
 
     assert_raises SolutionLockedByAnotherMentorError do
-      Mentor::StartDiscussion.(mentor, request, iteration, "foobar")
+      Mentor::StartDiscussion.(mentor, request, submission, "foobar")
     end
 
     assert_equal :pending, request.reload.status

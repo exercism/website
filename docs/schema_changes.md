@@ -2,7 +2,7 @@
 
 These are deliberate schema changes that need to be handled during ETL.
 
-## Iteration Files
+## Submission Files
 
 - Need `uuid` generating. Consider pregenerating a whole load and going through to make this quicker.
 - Rename `file_contents_digest` to `digest`

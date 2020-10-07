@@ -36,7 +36,7 @@ export function ConversationList({ request, setPage }) {
                 <th>Exercise title</th>
                 <th>Starred?</th>
                 <th>Mentored previously?</th>
-                <th>New iteration?</th>
+                <th>New submission?</th>
                 <th>Posts count</th>
                 <th>Updated at</th>
                 <th>URL</th>

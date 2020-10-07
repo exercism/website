@@ -1,7 +1,8 @@
 module ViewComponents
   class ViewComponent
     include ActionView::Helpers::TagHelper
-    include Mandate
+    extend Mandate::Memoize
+    extend Mandate::InitializerInjector
 
     def react_component(id, data)
       tag :div, {

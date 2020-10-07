@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
 
   create_table "exercise_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
-    t.bigint "source_iteration_id", null: false
+    t.bigint "source_submission_id", null: false
     t.integer "exercise_version", limit: 2, null: false
     t.text "ast", null: false
     t.string "ast_digest", null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["source_iteration_id"], name: "index_exercise_representations_on_source_iteration_id"
+    t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
   end
 
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -82,79 +82,6 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
-  end
-
-  create_table "iteration_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
-    t.json "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["iteration_id"], name: "index_iteration_analyses_on_iteration_id"
-  end
-
-  create_table "iteration_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.bigint "user_id", null: false
-    t.string "source_type"
-    t.bigint "source_id"
-    t.text "content_markdown", null: false
-    t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["iteration_id"], name: "index_iteration_discussion_posts_on_iteration_id"
-    t.index ["source_type", "source_id"], name: "discussion_post_source_idx"
-    t.index ["user_id"], name: "index_iteration_discussion_posts_on_user_id"
-  end
-
-  create_table "iteration_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.string "filename", null: false
-    t.string "digest", null: false
-    t.string "uri", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["iteration_id"], name: "index_iteration_files_on_iteration_id"
-  end
-
-  create_table "iteration_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
-    t.text "ast"
-    t.string "ast_digest", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["iteration_id"], name: "index_iteration_representations_on_iteration_id"
-  end
-
-  create_table "iteration_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.string "status", null: false
-    t.text "message"
-    t.json "tests"
-    t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
-    t.json "raw_results", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["iteration_id"], name: "index_iteration_test_runs_on_iteration_id"
-  end
-
-  create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "solution_id", null: false
-    t.string "uuid", null: false
-    t.boolean "major", null: false
-    t.integer "tests_status", default: 0, null: false
-    t.integer "representation_status", default: 0, null: false
-    t.integer "analysis_status", default: 0, null: false
-    t.string "submitted_via", null: false
-    t.string "git_slug", null: false
-    t.string "git_sha", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["solution_id"], name: "index_iterations_on_solution_id"
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -210,6 +137,79 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
+  end
+
+  create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.integer "ops_status", limit: 2, null: false
+    t.text "ops_message"
+    t.json "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
+  end
+
+  create_table "submission_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.bigint "user_id", null: false
+    t.string "source_type"
+    t.bigint "source_id"
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["source_type", "source_id"], name: "discussion_post_source_idx"
+    t.index ["submission_id"], name: "index_submission_discussion_posts_on_submission_id"
+    t.index ["user_id"], name: "index_submission_discussion_posts_on_user_id"
+  end
+
+  create_table "submission_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.string "filename", null: false
+    t.string "digest", null: false
+    t.string "uri", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["submission_id"], name: "index_submission_files_on_submission_id"
+  end
+
+  create_table "submission_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.integer "ops_status", limit: 2, null: false
+    t.text "ops_message"
+    t.text "ast"
+    t.string "ast_digest", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
+  end
+
+  create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.string "status", null: false
+    t.text "message"
+    t.json "tests"
+    t.integer "ops_status", limit: 2, null: false
+    t.text "ops_message"
+    t.json "raw_results", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
+  end
+
+  create_table "submissions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "solution_id", null: false
+    t.string "uuid", null: false
+    t.boolean "major", null: false
+    t.integer "tests_status", default: 0, null: false
+    t.integer "representation_status", default: 0, null: false
+    t.integer "analysis_status", default: 0, null: false
+    t.string "submitted_via", null: false
+    t.string "git_slug", null: false
+    t.string "git_sha", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["solution_id"], name: "index_submissions_on_solution_id"
   end
 
   create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -286,19 +286,12 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"
-  add_foreign_key "exercise_representations", "iterations", column: "source_iteration_id"
+  add_foreign_key "exercise_representations", "submissions", column: "source_submission_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
-  add_foreign_key "iteration_analyses", "iterations"
-  add_foreign_key "iteration_discussion_posts", "iterations"
-  add_foreign_key "iteration_discussion_posts", "users"
-  add_foreign_key "iteration_files", "iterations"
-  add_foreign_key "iteration_representations", "iterations"
-  add_foreign_key "iteration_test_runs", "iterations"
-  add_foreign_key "iterations", "solutions"
   add_foreign_key "notifications", "users"
   add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
   add_foreign_key "solution_mentor_discussions", "solutions"
@@ -307,6 +300,13 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
   add_foreign_key "solution_mentor_requests", "users", column: "locked_by_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
+  add_foreign_key "submission_analyses", "submissions"
+  add_foreign_key "submission_discussion_posts", "submissions"
+  add_foreign_key "submission_discussion_posts", "users"
+  add_foreign_key "submission_files", "submissions"
+  add_foreign_key "submission_representations", "submissions"
+  add_foreign_key "submission_test_runs", "submissions"
+  add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concepts", "tracks"
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_reputation_acquisitions", "users"

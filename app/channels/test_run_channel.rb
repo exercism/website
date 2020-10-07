@@ -8,7 +8,7 @@ class TestRunChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(test_run)
-    ActionCable.server.broadcast CHANNEL_NAME, test_run: SerializeIterationTestRun.(test_run)
+    ActionCable.server.broadcast CHANNEL_NAME, test_run: SerializeSubmissionTestRun.(test_run)
   end
 
   CHANNEL_NAME = "test_run".freeze

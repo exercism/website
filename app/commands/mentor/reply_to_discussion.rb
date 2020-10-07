@@ -2,11 +2,11 @@ module Mentor
   class ReplyToDiscussion
     include Mandate
 
-    initialize_with :discussion, :iteration, :content_markdown
+    initialize_with :discussion, :submission, :content_markdown
 
     def call
-      discussion_post = Iteration::DiscussionPost.create!(
-        iteration: iteration,
+      discussion_post = Submission::DiscussionPost.create!(
+        submission: submission,
         source: discussion,
         content_markdown: content_markdown,
         user: discussion.mentor
@@ -24,7 +24,7 @@ module Mentor
     private
     memoize
     def solution
-      iteration.solution
+      submission.solution
     end
   end
 end

@@ -4,7 +4,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to test run" do
     id = SecureRandom.uuid
     type = "test_runner"
-    iteration_uuid = "iteration-uuid"
+    submission_uuid = "submission-uuid"
     execution_status = "job-status"
     results = { 'some' => 'result' }
     s3_key = "#{id}/results.json"
@@ -19,14 +19,14 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       {
         "id" => id,
         "type" => type,
-        "iteration_uuid" => iteration_uuid,
+        "submission_uuid" => submission_uuid,
         "execution_status" => execution_status,
         "output" => { "results.json" => s3_key }
       }
     )
 
-    Iteration::TestRun::Process.expects(:call).with(
-      iteration_uuid,
+    Submission::TestRun::Process.expects(:call).with(
+      submission_uuid,
       execution_status,
       "Nothing to report",
       results
@@ -38,7 +38,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to representer" do
     id = SecureRandom.uuid
     type = "representer"
-    iteration_uuid = "iteration-uuid"
+    submission_uuid = "submission-uuid"
     execution_status = "job-status"
     representation_contents = "some\nrepresentation"
     representation_s3_key = "#{id}/representation.txt"
@@ -61,7 +61,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       {
         "id" => id,
         "type" => type,
-        "iteration_uuid" => iteration_uuid,
+        "submission_uuid" => submission_uuid,
         "execution_status" => execution_status,
         "output" => {
           "representation.txt" => representation_s3_key,
@@ -70,8 +70,8 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       }
     )
 
-    Iteration::Representation::Process.expects(:call).with(
-      iteration_uuid,
+    Submission::Representation::Process.expects(:call).with(
+      submission_uuid,
       execution_status,
       "Nothing to report",
       representation_contents,
@@ -84,7 +84,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to analyzer" do
     id = SecureRandom.uuid
     type = "analyzer"
-    iteration_uuid = "iteration-uuid"
+    submission_uuid = "submission-uuid"
     execution_status = "job-status"
     analysis = { 'some' => 'result' }
     s3_key = "#{id}/analysis.json"
@@ -99,14 +99,14 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       {
         "id" => id,
         "type" => type,
-        "iteration_uuid" => iteration_uuid,
+        "submission_uuid" => submission_uuid,
         "execution_status" => execution_status,
         "output" => { "analysis.json" => s3_key }
       }
     )
 
-    Iteration::Analysis::Process.expects(:call).with(
-      iteration_uuid,
+    Submission::Analysis::Process.expects(:call).with(
+      submission_uuid,
       execution_status,
       "Nothing to report",
       analysis
@@ -118,7 +118,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "sets dynamodb job status to processed" do
     id = SecureRandom.uuid
     type = "analyzer"
-    iteration = create :iteration
+    submission = create :submission
     execution_status = "job-status"
     analysis = { 'some' => 'result' }
     s3_key = "#{id}/analysis.json"
@@ -133,7 +133,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       {
         "id" => id,
         "type" => type,
-        "iteration_uuid" => iteration.uuid,
+        "submission_uuid" => submission.uuid,
         "execution_status" => execution_status,
         "output" => { "analysis.json" => s3_key }
       }

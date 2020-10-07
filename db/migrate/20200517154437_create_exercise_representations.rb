@@ -2,7 +2,7 @@ class CreateExerciseRepresentations < ActiveRecord::Migration[6.0]
   def change
     create_table :exercise_representations do |t|
       t.belongs_to :exercise, foreign_key: true, null: false
-      t.belongs_to :source_iteration, foreign_key: {to_table: :iterations }, null: false
+      t.belongs_to :source_submission, foreign_key: {to_table: :submissions }, null: false
       t.integer :exercise_version, null: false, limit: 2
       t.text :ast, null: false
       t.string :ast_digest, null: false

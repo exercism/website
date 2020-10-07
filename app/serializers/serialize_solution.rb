@@ -22,7 +22,7 @@ class SerializeSolution
         },
         file_download_base_url: file_download_base_url,
         files: files,
-        iteration: iteration_hash
+        submission: submission_hash
       }
     }
   end
@@ -65,18 +65,18 @@ class SerializeSolution
     git_exercise.filepaths.each do |filepath|
       fs.add(filepath) unless filepath&.match?(track.repo.ignore_regexp)
     end
-    fs += iteration.files.pluck(:filename) if iteration
+    fs += submission.files.pluck(:filename) if submission
     fs
   end
 
-  def iteration_hash
-    return nil unless iteration
+  def submission_hash
+    return nil unless submission
 
-    { submitted_at: iteration.created_at }
+    { submitted_at: submission.created_at }
   end
 
-  def iteration
-    @iteration ||= solution.iterations.last
+  def submission
+    @submission ||= solution.submissions.last
   end
 
   def track

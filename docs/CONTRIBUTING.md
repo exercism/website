@@ -100,21 +100,21 @@ We therefore use `before_xxx` and `after-xxx` blocks sparingly.
 The only time that changing a model should change other data is if the model does not make sense without that other data.
 For example, users should **always** have authentication tokens.
 So `User.create` can resonably call `AuthToken.create` in its `after_create` block.
-However, although submitting iterations should create notifications, because it is not essential for the existance of the iteration to make sense, `Iteration.create` would **not** be responsible for calling `Notification.create`.
+However, although submitting submissions should create notifications, because it is not essential for the existance of the submission to make sense, `Submission.create` would **not** be responsible for calling `Notification.create`.
 
 Model's methods should not cause any side-effects that cannot be inferred from the method name.
 They should be fast and cheap (in terms of \$\$$).
 They should not interact with external services (such as s3) unless clear that they will do so from the method name.
-For example `IterationFile#content` is currently a dangerous method, as calling `IterationFile.all.map(&:content)` costs $4 to run, which is not clear from the method name.
+For example `SubmissionFile#content` is currently a dangerous method, as calling `SubmissionFile.all.map(&:content)` costs $4 to run, which is not clear from the method name.
 
 ## Commands
 
 Commands are the fundamental building blocks of the Domain Model whereas models represent the Data Models.
 In practice that means that Commands are responsible for completing some sort of action that might touch different areas of the project.
-For example, creating an iteration (`Iteration::Create.()`), creates multiple db records, writes to DynamoDB and S3, generates notifications and more.
+For example, creating an submission (`Submission::Create.()`), creates multiple db records, writes to DynamoDB and S3, generates notifications and more.
 
 Each Command should have responsibility for doing one domain action (e.g. creating or updating something).
-It should then proxy other parts of that to other Commands (e.g. `Interation::Create` calls `Notification::Create`) or create records specifically under its ownership (e.g. `Iteration::Create.()` calling `Iteration.create()`.
+It should then proxy other parts of that to other Commands (e.g. `Interation::Create` calls `Notification::Create`) or create records specifically under its ownership (e.g. `Submission::Create.()` calling `Submission.create()`.
 
 Commands should be highly readable.
 It should be extremely clear from reading the Command's `call` method what the Command does.
@@ -122,10 +122,10 @@ It should be extremely clear from reading the Command's `call` method what the C
 Commands should use [Mandate](https://github.com/iHiD/mandate).
 
 Unless specified in their name, Commands should be agnostic to the source of the data.
-For example, `Iteration::Create` should not care whether the files have come from the CLI or the editor.
+For example, `Submission::Create` should not care whether the files have come from the CLI or the editor.
 
 Commands should follow naming pattern that follows: `#{DomainModel}::#{Action}`
-For example: `Iteration::Create` or `ToolingJob::Process`
+For example: `Submission::Create` or `ToolingJob::Process`
 
 ## View Components
 

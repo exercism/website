@@ -142,7 +142,7 @@ practice_exercise = PracticeExercise.create!(track: track, uuid: SecureRandom.uu
 concept_solution = ConceptSolution.create!(exercise: concept_exercise, user: user, uuid: SecureRandom.uuid)
 practice_solution = PracticeSolution.create!(exercise: practice_exercise, user: user, uuid: SecureRandom.uuid)
 
-Iteration.create!(
+Submission.create!(
   solution: concept_solution,
   uuid: SecureRandom.uuid,
   submitted_via: "cli"

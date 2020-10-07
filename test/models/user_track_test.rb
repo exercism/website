@@ -1,19 +1,40 @@
 require "test_helper"
 
 class UserTrackTest < ActiveSupport::TestCase
-  test "#for! with models" do
+  test ".for! with models" do
     ut = random_of_many(:user_track)
     assert_equal ut, UserTrack.for!(ut.user, ut.track)
   end
 
-  test "#for! with id and slug" do
+  test ".for! with id and slug" do
     ut = random_of_many(:user_track)
     assert_equal ut, UserTrack.for!(ut.user.id, ut.track.slug)
   end
 
-  test "#for! with handle and slug" do
+  test ".for! with handle and slug" do
     ut = random_of_many(:user_track)
     assert_equal ut, UserTrack.for!(ut.user.handle, ut.track.slug)
+  end
+
+  test ".for proxies to for!" do
+    user = mock
+    track = mock
+    UserTrack.expects(:for!).with(user, track)
+    UserTrack.for(user, track)
+  end
+
+  test ".for works" do
+    ut = create :user_track
+    assert_equal ut, UserTrack.for(ut.user, ut.track)
+  end
+
+  test ".for returns nil with invalid data" do
+    ut = create :user_track
+    assert_nil UserTrack.for(create(:user), ut.track)
+    assert_nil UserTrack.for(ut.user, create(:track))
+    assert_nil UserTrack.for(ut.user, nil)
+    assert_nil UserTrack.for(nil, ut.track)
+    assert_nil UserTrack.for(nil, nil)
   end
 
   test "exercise_available? with no prerequisites" do
@@ -66,6 +87,9 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_1], user_track.available_concept_exercises
     assert_equal [practice_exercise_1], user_track.available_practice_exercises
 
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
+
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
@@ -76,6 +100,9 @@ class UserTrackTest < ActiveSupport::TestCase
 
     assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
+
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy
-  has_many :iterations, through: :solutions, dependent: :destroy
+  has_many :submissions, through: :solutions, dependent: :destroy
 
   has_many :notifications, dependent: :destroy
 
@@ -32,16 +32,8 @@ class User < ApplicationRecord
     q.sum(:amount)
   end
 
-  def user_track_for(track)
-    user_tracks.find_by(track: track)
-  end
-
-  # If we're calling this we're nearly always going
-  # to then go and get the user track. Rather than
-  # do a lookup for exists then a full select, just
-  # do the one lookup and check whether it was successful.
   def joined_track?(track)
-    !!user_track_for(track)
+    !!UserTrack.for(self, track)
   end
 
   def has_badge?(slug)

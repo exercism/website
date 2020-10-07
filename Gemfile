@@ -3,8 +3,11 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Service/framework dependencies
-gem 'rails', git: 'http://github.com/rails/rails.git', ref: "7101489293ece071013417aeed2da3aa1b0927c9"
+gem 'rails',
+  git: 'http://github.com/rails/rails.git',
+  ref: '207f116234374d6414593246240b05261a96fa3a'
 # gem 'rails', '~> 6.1.0.alpha'
+
 gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.1'
 gem 'redis', '~> 4.0'
@@ -19,7 +22,7 @@ gem 'rest-client' # http
 gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.43.0'
+gem 'exercism-config', '>= 0.44.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
@@ -45,6 +48,9 @@ group :development, :test do
   #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
   gem 'bootsnap', '>= 1.4.2', require: false
+
+  # To avoid polling for changes on Windows MRI, it needs this opt-in gem
+  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end
 
 group :development do
@@ -55,7 +61,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
-  gem "spring"
+  gem 'spring'
   gem 'web-console', '>= 3.3.0'
 end
 

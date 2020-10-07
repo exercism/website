@@ -5,6 +5,7 @@ done
 
 echo "Install dependencies"
 bundle check || bundle install
+yarn install
 
 echo "Create and migrate DBs"
 # init.sql creates initial MySQL USER and databases

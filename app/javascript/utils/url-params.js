@@ -5,7 +5,21 @@ export class UrlParams {
 
   toString() {
     return Object.keys(this.object)
-      .map((key) => key + '=' + this.object[key])
+      .map((key) => {
+        const value = this.object[key]
+
+        // &foo=value
+        if (!Array.isArray(value)) {
+          return `${key}=${encodeURIComponent(value)}`
+        }
+
+        // &foo[]=value1&foo[]=value2
+        return value
+          .map((item) => {
+            return `${key}[]=${encodeURIComponent(item)}`
+          })
+          .join('&')
+      })
       .join('&')
   }
 }

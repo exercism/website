@@ -9,7 +9,8 @@ module ViewComponents
       def to_s
         react_component("student-tracks-list", {
                           request: request.deep_merge({ options: { initialData: data } }),
-                          status_options: STATUS_OPTIONS
+                          status_options: STATUS_OPTIONS,
+                          tag_options: TAG_OPTIONS
                         })
       end
 
@@ -19,6 +20,18 @@ module ViewComponents
         { value: "unjoined", label: "Unjoined" }
       ].freeze
       private_constant :STATUS_OPTIONS
+
+      TAG_OPTIONS = [
+        {
+          category: "Paradigm",
+          options: [{ value: "Paradigm:Object-oriented", label: "Object-oriented" }]
+        },
+        {
+          category: "Typing",
+          options: [{ value: "Typing:Static", label: "Static" }, { value: "Typing:Dynamic", label: "Dynamic" }]
+        }
+      ].freeze
+      private_constant :TAG_OPTIONS
 
       private
       attr_reader :data, :request

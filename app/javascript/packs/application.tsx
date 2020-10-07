@@ -25,7 +25,7 @@ import * as Student from '../components/student'
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  "example-submissions-summary-table": (data: any) => (
+  'example-submissions-summary-table': (data: any) => (
     <Example.SubmissionsSummaryTable
       solutionId={data.solution_id}
       submissions={data.submissions}
@@ -51,6 +51,7 @@ initReact({
     <Student.TracksList
       request={data.request}
       statusOptions={data.status_options}
+      tagOptions={data.tag_options}
     />
   ),
 })

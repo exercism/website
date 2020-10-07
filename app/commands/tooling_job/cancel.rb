@@ -2,26 +2,26 @@ module ToolingJob
   class Cancel
     include Mandate
 
-    initialize_with :iteration_uuid, :type
+    initialize_with :submission_uuid, :type
 
     def call
-      iteration = Iteration.find_by!(uuid: iteration_uuid)
+      submission = Submission.find_by!(uuid: submission_uuid)
 
       items = client.query({
                              table_name: Exercism.config.dynamodb_tooling_jobs_table,
-                             index_name: "iteration_type",
+                             index_name: "submission_type",
                              expression_attribute_values: {
-                               ":IU" => iteration_uuid,
+                               ":SU" => submission_uuid,
                                ":TP" => type,
                                ":JS" => :pending
                              },
                              expression_attribute_names: {
-                               "#IU": "iteration_uuid",
+                               "#SU": "submission_uuid",
                                "#TP": "type",
                                "#ID": "id",
                                "#JS": "job_status"
                              },
-                             key_condition_expression: "#IU = :IU AND #TP = :TP",
+                             key_condition_expression: "#SU = :SU AND #TP = :TP",
                              filter_expression: "#JS = :JS",
                              projection_expression: "#ID"
                            }).items
@@ -46,11 +46,11 @@ module ToolingJob
 
       case type
       when :test_runner
-        iteration.tests_cancelled!
+        submission.tests_cancelled!
       when :representer
-        iteration.representation_cancelled!
+        submission.representation_cancelled!
       when :analyzer
-        iteration.analysis_cancelled!
+        submission.analysis_cancelled!
       end
     end
 

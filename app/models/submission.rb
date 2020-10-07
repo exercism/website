@@ -9,11 +9,7 @@ class Submission < ApplicationRecord
   has_many :representations, class_name: "Submission::Representation", dependent: :destroy
   has_many :discussion_posts, class_name: "Submission::DiscussionPost", dependent: :destroy
 
-<<<<<<< HEAD:app/models/submission.rb
   enum tests_status: { pending: 0, passed: 1, failed: 2, errored: 3, exceptioned: 4, cancelled: 5 }, # rubocop:disable Layout/LineLength
-=======
-  enum tests_status: { pending: 0, passed: 1, failed: 2, errored: 3, exceptioned: 4, cancelled: 5 },
->>>>>>> Add cancelled status to tests status:app/models/iteration.rb
        _prefix: "tests"
 
   enum representation_status: { pending: 0, approved: 1, disapproved: 2, inconclusive: 3, exceptioned: 4, cancelled: 5 }, # rubocop:disable Layout/LineLength

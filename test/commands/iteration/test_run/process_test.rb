@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
+class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "creates test_run record" do
-    iteration = create :iteration
+    submission = create :submission
     ops_status = 201
     ops_message = "some ops message"
     status = "foobar"
@@ -10,10 +10,10 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
     tests = [{ 'foo' => 'bar' }]
     results = { 'status' => status, 'message' => message, 'tests' => tests }
 
-    Iteration::TestRun::Process.(iteration.uuid, ops_status, ops_message, results)
+    Submission::TestRun::Process.(submission.uuid, ops_status, ops_message, results)
 
-    assert_equal 1, iteration.reload.test_runs.size
-    tr = iteration.reload.test_runs.first
+    assert_equal 1, submission.reload.test_runs.size
+    tr = submission.reload.test_runs.first
 
     assert_equal ops_status, tr.ops_status
     assert_equal ops_message, tr.ops_message
@@ -24,65 +24,65 @@ class Iteration::TestRun::ProcessTest < ActiveSupport::TestCase
   end
 
   test "handle ops error" do
-    iteration = create :iteration
+    submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    Iteration::TestRun::Process.(iteration.uuid, 500, "", results)
+    Submission::TestRun::Process.(submission.uuid, 500, "", results)
 
-    assert iteration.reload.tests_exceptioned?
+    assert submission.reload.tests_exceptioned?
   end
 
   test "handle tests pass" do
-    iteration = create :iteration
+    submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, "", results)
 
-    assert iteration.reload.tests_passed?
+    assert submission.reload.tests_passed?
   end
 
   test "handle tests fail" do
-    iteration = create :iteration
+    submission = create :submission
     results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
 
     # Cancel representation and analysis
-    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :representer)
-    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :analyzer)
+    ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
+    ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
-    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, "", results)
 
-    assert iteration.reload.tests_failed?
+    assert submission.reload.tests_failed?
   end
 
   test "handle tests error" do
-    iteration = create :iteration
+    submission = create :submission
     results = { 'status' => 'error', 'message' => "", 'tests' => [] }
 
     # Cancel representation and analysis
-    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :representer)
-    ToolingJob::Cancel.expects(:call).with(iteration.uuid, :analyzer)
+    ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
+    ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
-    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, "", results)
 
-    assert iteration.reload.tests_errored?
+    assert submission.reload.tests_errored?
   end
 
   test "handle bad status" do
-    iteration = create :iteration
+    submission = create :submission
     results = { 'status' => 'oops', 'message' => "", 'tests' => [] }
-    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, "", results)
 
-    assert iteration.reload.tests_exceptioned?
+    assert submission.reload.tests_exceptioned?
   end
 
   test "broadcast" do
-    iteration = create :iteration
+    submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
 
-    IterationChannel.expects(:broadcast!).with(iteration)
-    IterationsChannel.expects(:broadcast!).with(iteration.solution)
-    TestRunChannel.expects(:broadcast!).with(kind_of(Iteration::TestRun))
+    SubmissionChannel.expects(:broadcast!).with(submission)
+    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
+    TestRunChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
 
-    Iteration::TestRun::Process.(iteration.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, "", results)
 
-    assert_equal iteration.test_runs.size, 1
+    assert_equal submission.test_runs.size, 1
   end
 end

@@ -84,7 +84,7 @@ end
     table_name: table_name,
     attribute_definitions: [
       {
-        attribute_name: "iteration_uuid",
+        attribute_name: "submission_uuid",
         attribute_type: "S"
       },
       {
@@ -95,10 +95,10 @@ end
     global_secondary_index_updates: [
       {
         create: {
-          index_name: "iteration_type", # required
+          index_name: "submission_type", # required
           key_schema: [ # required
             {
-              attribute_name: "iteration_uuid", # required
+              attribute_name: "submission_uuid", # required
               key_type: "HASH" # required, accepts HASH, RANGE
             },
             {

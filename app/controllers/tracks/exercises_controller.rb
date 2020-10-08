@@ -1,5 +1,6 @@
 class Tracks::ExercisesController < ApplicationController
   before_action :use_track
+  before_action :use_exercise, only: %i[show start complete]
 
   allow_unauthenticated! :index, :show
 
@@ -19,6 +20,7 @@ class Tracks::ExercisesController < ApplicationController
 
   def authenticated_show
     use_exercise
+    @solution = Solution.for(current_user, @exercise)
 
     if current_user.joined_track?(@track)
       render action: "show/joined"
@@ -29,6 +31,16 @@ class Tracks::ExercisesController < ApplicationController
 
   def external_show
     use_exercise
+  end
+
+  def start
+    solution = Solution::Create.(current_user, @exercise)
+    redirect_to edit_solution_path(solution.uuid)
+  end
+
+  def complete
+    ConceptExercise::Complete.(current_user, @exercise)
+    redirect_to action: :show
   end
 
   private

@@ -14,4 +14,10 @@ class ConceptExercise < Exercise
       find_by!(concept: concept).
       exercise
   end
+
+  def self.that_teaches(concept)
+    that_teaches!(concept)
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
 end

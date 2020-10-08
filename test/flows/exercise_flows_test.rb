@@ -18,7 +18,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_basics], ut.available_concept_exercises
 
     # Start the exercise and get a solution
-    basics_solution = Solution::Create.(ut, concept_exercise_basics)
+    basics_solution = Solution::Create.(user, concept_exercise_basics)
 
     # Submit an submission
     Submission::UploadWithExercise.stubs(:call)

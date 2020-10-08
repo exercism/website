@@ -15,5 +15,5 @@ test('hides option list when clicking "Close"', () => {
   fireEvent.click(getByText('Filter by'))
   fireEvent.click(getByText('Close'))
 
-  expect(queryByText('OOP')).not.toBeInTheDocument()
+  expect(queryByText('OOP')).not.toBeVisible()
 })

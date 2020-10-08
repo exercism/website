@@ -4,14 +4,26 @@ import '@testing-library/jest-dom/extend-expect'
 import { TracksList } from '../../../../app/javascript/components/student/TracksList'
 
 test('disables the selected status filter', () => {
-  const options = [
+  const statusOptions = [
     { label: 'All', value: 'all' },
     { label: 'Joined', value: 'joined' },
     { label: 'Unjoined', value: 'unjoined' },
   ]
+  const tagOptions = [
+    {
+      category: 'Style',
+      options: [
+        {
+          value: 'oop',
+          label: 'OOP',
+        },
+      ],
+    },
+  ]
   const { getByText } = render(
     <TracksList
-      statusOptions={options}
+      statusOptions={statusOptions}
+      tagOptions={[]}
       request={{ query: { status: 'all' } }}
     />
   )

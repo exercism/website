@@ -1,10 +1,10 @@
 import React from 'react'
 
 export function TagOption({ value, label, checked, onChange }) {
+  // TODO: ids shouldn't have : in them so parse it out
   const id = `tag-option-${value}`
   return (
-    <>
-      <label htmlFor={id}>{label}</label>
+    <div className="option">
       <input
         id={id}
         type="checkbox"
@@ -12,6 +12,7 @@ export function TagOption({ value, label, checked, onChange }) {
         checked={checked}
         onChange={(e) => onChange(e, value)}
       />
-    </>
+      <label htmlFor={id}>{label}</label>
+    </div>
   )
 }

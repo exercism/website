@@ -13,10 +13,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)
+    @current_user.auth_tokens.create! if @current_user.auth_tokens.blank?
 
     # TODO: Renable when adding devise
     # @current_user.confirm
     # sign_in @current_user
+  end
+
+  # As we only use #page- prefix on ids for pages
+  # this is a safe way of checking we've been positioned
+  # on the right page during tests
+  def assert_correct_page(page)
+    assert_css "#page-#{page}"
   end
 
   # This adds the within option to assert_text

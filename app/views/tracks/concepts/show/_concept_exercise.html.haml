@@ -1,6 +1,6 @@
-.md-container
-  %h2 #{@track.title}: #{@concept.name}
+=link_to "Concept Exercise: #{exercise.title}", track_exercise_path(track, exercise)
 
+-#
   - if @solution
     - if @solution.completed?
       Exercise Completed
@@ -11,3 +11,4 @@
   - else
     Exercise not started
     = button_to "Start exercise", start_track_concept_url(@track, @concept), method: :patch
+

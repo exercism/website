@@ -16,28 +16,22 @@ class Tracks::ConceptsController < ApplicationController
   def external_index; end
 
   def authenticated_show
-    if current_user.joined_track?(@track)
-      @solution = Solution.for(current_user, @exercise)
+    # TODO: We don't want this here really.
+    # Move it onto the concept eventually
+    @concept_exercise = ConceptExercise.that_teaches(@concept)
 
-      render action: "show/joined"
-    else
+    if !current_user.joined_track?(@track)
       render action: "show/unjoined"
+    elsif @user_track.learnt_concept?(@concept)
+      render action: "show/learnt"
+    elsif @user_track.concept_available?(@concept)
+      render action: "show/available"
+    else
+      render action: "show/locked"
     end
   end
 
   def external_show; end
-
-  def start
-    solution = Solution::Create.(@user_track, @exercise)
-    redirect_to edit_solution_path(solution.uuid)
-  end
-
-  def complete
-    ConceptExercise::Complete.(@exercise)
-    solution = Solution.for(current_user, @exercise)
-    solution.complete!
-    redirect_to action: :show
-  end
 
   private
   def use_track
@@ -51,6 +45,5 @@ class Tracks::ConceptsController < ApplicationController
 
   def use_concept
     @concept = @track.concepts.find(params[:id])
-    @exercise = ConceptExercise.that_teaches!(@concept)
   end
 end

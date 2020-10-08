@@ -5,36 +5,50 @@
         @apply p-12 mb-32;
         @apply bg-white shadow-headerBottom;
 
+        & > .md-container {
+            @apply flex;
+        }
+
         & input.search {
             max-width: 550px;
             width: 100%;
 
-            @apply mr-24 rounded-5 bg-lightGray p-12;
+            @apply mr-24 rounded-5 bg-lightGray px-12 border-2 border-transparent h-48;
             &::placeholder {
                 @apply text-textLight;
+            }
+            &:focus {
+                @apply border-darkBlue outline-none;
             }
         }
         & .filter-btn,
         & .reset-btn {
-            @apply py-12;
-            @apply text-16 font-semibold;
-            @apply border-2;
-            line-height: 20px;
+            @apply px-12 h-48;
+            @apply text-16 font-semibold border-2;
         }
 
         & .filter-btn {
             @apply mr-40;
             @apply border-darkGray rounded-5;
             @apply px-24;
+            &:focus {
+                @apply bg-black text-white outline-none border-black;
+            }
         }
         & .reset-btn {
             @apply border-transparent;
         }
         & .tag-option-list {
-            @apply absolute left-0 right-0 mt-12;
+            @apply absolute left-0 right-0;
             @apply bg-white;
 
-            box-shadow: 0px 4px 24px rgba(79, 114, 205, 0.15);
+            top: 60px;
+
+            box-shadow: 0px 18px 24px rgba(79, 114, 205, 0.15);
+
+            &:focus {
+                @apply outline-none;
+            }
 
             & .md-container {
                 @apply py-24;
@@ -62,9 +76,8 @@
 
                 & .apply-btn,
                 & .close-btn {
-                    @apply py-12 px-24 rounded-5 border-2;
+                    @apply px-24 py-12 rounded-5 border-2 leading-none;
                     @apply font-semibold;
-                    line-height: 18px;
                 }
 
                 & .apply-btn {

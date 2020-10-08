@@ -54,6 +54,9 @@ module.exports = {
       '14': '14px',
       '16': '16px',
     },
+    height: {
+      '48': '48px',
+    },
     spacing: {
       '8': '8px',
       '12': '12px',

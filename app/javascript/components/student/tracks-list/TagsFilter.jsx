@@ -1,21 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TagOptionList } from './TagOptionList'
 
 export function TagsFilter({ options, dispatch }) {
-  const [hidden, setHidden] = useState(true)
+  const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState([])
+
+  const dialogRef = useRef(null)
+  const filterButtonRef = useRef(null)
+
+  useEffect(() => {
+    const elemToFocus = expanded ? dialogRef : filterButtonRef
+    elemToFocus.current.focus()
+  }, [expanded])
 
   function handleSubmit(e) {
     e.preventDefault()
 
     dispatch({ type: 'tags.changed', payload: { tags: selectedTags } })
-    setHidden(true)
+    setExpanded(false)
   }
 
   function handleClose(e) {
     e.preventDefault()
 
-    setHidden(true)
+    setExpanded(false)
   }
 
   function resetFilters(e) {
@@ -27,25 +35,36 @@ export function TagsFilter({ options, dispatch }) {
 
   return (
     <>
-      <button onClick={() => setHidden(!hidden)} className="filter-btn">
+      <button
+        ref={filterButtonRef}
+        onClick={() => setExpanded(true)}
+        className="filter-btn"
+        aria-haspopup="true"
+        aria-expanded={expanded}
+      >
         Filter by
       </button>
+      <div
+        ref={dialogRef}
+        tabIndex="-1"
+        role="dialog"
+        aria-label="A series of checkboxes to filter Exercism tracks"
+        className="tag-option-list"
+        {...(expanded ? {} : { hidden: true })}
+      >
+        <div className="md-container">
+          <TagOptionList
+            selectedTags={selectedTags}
+            options={options}
+            setSelectedTags={setSelectedTags}
+            onSubmit={handleSubmit}
+            onClose={handleClose}
+          />
+        </div>
+      </div>
       <button onClick={resetFilters} className="reset-btn">
         Reset filters
       </button>
-      {!hidden && (
-        <div className="tag-option-list">
-          <div className="md-container">
-            <TagOptionList
-              selectedTags={selectedTags}
-              options={options}
-              setSelectedTags={setSelectedTags}
-              onSubmit={handleSubmit}
-              onClose={handleClose}
-            />
-          </div>
-        </div>
-      )}
     </>
   )
 }

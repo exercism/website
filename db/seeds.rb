@@ -83,6 +83,17 @@ track_slugs.each do |track_slug|
     title: track_slug.titleize, 
     repo_url: v3_url,
 
+    # TODO: Pull these from the actual correct places
+    blurb: "C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.",
+    code_sample: %Q{
+    class HelloWorld
+    {
+        string Hello()
+        {
+            return "Hello, World!";
+        }
+    }}.gsub(/^    /, ''),
+
     # Randomly selects 1-5 tags from different categories
     tags: tags.sample(1 + rand(5)).map {|category|category.sample}
   )

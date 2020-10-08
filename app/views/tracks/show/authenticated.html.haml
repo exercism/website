@@ -1,7 +1,19 @@
-%h1= @track.title
-- if @user_track
-  You have joined this track
-- else
-  = button_to "Join Track", join_track_path(@track), method: :post
+%header
+  .md-container
+    %h1= @track.title
+    %p= @track.blurb
+    - if @user_track
+      You have joined this track
+    - else
+      = button_to "Join the #{@track.title} Track", join_track_path(@track), method: :post
+      = link_to "Explore #{@track.title}'s Concepts", track_concepts_path(@track)
 
-= link_to "Concepts", track_concepts_path(@track)
+%section
+  .md-container
+    %h2 About #{@track.title}
+    .s-flex.s-gap-40
+      %div{style:"width:50%"}
+        =@track.about
+      %div{style:"width:50%"}
+        %pre
+          =@track.code_sample

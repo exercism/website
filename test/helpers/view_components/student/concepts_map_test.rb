@@ -10,7 +10,7 @@ module Student
       }
       component = ViewComponents::Student::ConceptsMap.new(data).to_s
 
-      assert_component_equal component, "concepts-map", { graph: data }
+      assert_component component, "concepts-map", { graph: data }
     end
   end
 end

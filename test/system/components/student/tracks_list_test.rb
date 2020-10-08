@@ -137,7 +137,7 @@ module Components
         click_on "Apply"
         click_on "Reset filters"
 
-        assert_text "Exercism's language tracks"
+        assert_text "Exercism's Language Tracks"
         assert_text "Ruby"
         assert_text "Go"
       end

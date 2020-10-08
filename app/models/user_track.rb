@@ -50,8 +50,8 @@ class UserTrack < ApplicationRecord
     initialize_with :user_track_id
 
     # Get two datasets.
-    # The first is the exercises with their counts of MATCHING preqreq concepts
-    # The second is the execises with the count of all their preqreq concepts
+    # The first is the exercises with their counts of MATCHING prereq concepts
+    # The second is the execises with the count of all their prereq concepts
     # If the number is the same in both, then we have a match.
     #
     # Taken from https://stackoverflow.com/questions/48290118/sql-join-on-a-table-that-matches-multiple-rows-and-put-into-multiple-columns

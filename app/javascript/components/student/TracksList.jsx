@@ -39,13 +39,13 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
 
   return (
     <div className="c-tracks-list">
-      <div className="search-bar">
+      <section className="search-bar">
         <div className="md-container">
           <Search dispatch={dispatch} />
           <TagsFilter dispatch={dispatch} options={tagOptions} />
         </div>
-      </div>
-      <div className="md-container">
+      </section>
+      <section className="md-container">
         {isSuccess && <Header data={data} query={request.query} />}
         <StatusFilter
           value={request.query.status}
@@ -56,7 +56,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
         {isLoading && <Loading />}
         {isError && <p>Something went wrong</p>}
         {isSuccess && <List data={data} />}
-      </div>
+      </section>
     </div>
   )
 }

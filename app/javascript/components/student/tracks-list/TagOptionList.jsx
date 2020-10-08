@@ -23,27 +23,25 @@ export function TagOptionList({
           return (
             <div key={option.category} className="category">
               <h4>{option.category}</h4>
-              {option.options.map((option) => {
-                return (
-                  <TagOption
-                    key={option.value}
-                    onChange={handleChange}
-                    checked={selectedTags.includes(option.value)}
-                    label={option.label}
-                    value={option.value}
-                  />
-                )
-              })}
+              {option.options.map((option) => (
+                <TagOption
+                  key={option.value}
+                  onChange={handleChange}
+                  checked={selectedTags.includes(option.value)}
+                  label={option.label}
+                  value={option.value}
+                />
+              ))}
             </div>
           )
         })}
       </div>
-      <div className="buttons">
+      <footer className="buttons">
         <button className="apply-btn">Apply</button>
         <button className="close-btn" onClick={onClose}>
           Close
         </button>
-      </div>
+      </footer>
     </form>
   )
 }

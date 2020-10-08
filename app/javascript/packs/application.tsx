@@ -13,6 +13,7 @@ import 'css/styles.css'
 import 'css/layout.css'
 import 'css/components/tracks-list.css'
 import 'css/components/track.css'
+import 'components/concept-graph/ConceptGraph.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
@@ -56,11 +57,14 @@ initReact({
     />
   ),
   'concepts-map': (data: any) => (
-    <ConceptGraph
-      concepts={data.concepts}
-      layout={data.layout}
-      connections={data.connections}
-    />
+    console.log(data),
+    (
+      <ConceptGraph
+        concepts={data.graph.concepts}
+        layout={data.graph.layout}
+        connections={data.graph.connections}
+      />
+    )
   ),
 })
 

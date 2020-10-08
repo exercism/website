@@ -7,7 +7,7 @@ module ViewComponents
         react_component(
           "concepts-map",
           {
-            data: data
+            graph: data
           }
         )
       end

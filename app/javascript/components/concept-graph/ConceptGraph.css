@@ -20,7 +20,7 @@
             @apply flex justify-evenly flex-wrap;
 
             & .card {
-                @apply rounded-md;
+                @apply rounded-8;
                 @apply box-border p-20 my-24 mx-12 pointer-events-auto;
 
                 background-color: var(--c-concept-graph-card-background);
@@ -32,11 +32,15 @@
                     opacity: var(--c-concept-graph-hover-opacity);
                 }
 
+                &.card-completed {
+                    @apply text-textBase;
+                }
+
                 & .display {
                     @apply flex items-center justify-between;
 
                     & .name {
-                        @apply text-20 font-semibold;
+                        @apply text-16 font-medium;
                     }
 
                     & .stats {
@@ -54,8 +58,8 @@
     }
 
     & .canvas {
-        @apply absolute m-0 p-0 -z-1 top-0 left-0;
+        @apply absolute -z-1 top-0 left-0;
         touch-action: none;
-        border: 1px dashed;
+        /* border: 1px dashed; */
     }
 }

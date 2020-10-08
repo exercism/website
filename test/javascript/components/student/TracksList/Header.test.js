@@ -5,7 +5,10 @@ import { Header } from '../../../../../app/javascript/components/student/tracks-
 
 test('pluralizes tracks when filtered', () => {
   const { queryByText } = render(
-    <Header data={{ tracks: ['ruby', 'go'] }} query={{ criteria: 'test' }} />
+    <Header
+      latestData={{ tracks: ['ruby', 'go'] }}
+      query={{ criteria: 'test' }}
+    />
   )
 
   expect(queryByText('Showing 2 tracks')).toBeInTheDocument()
@@ -13,7 +16,7 @@ test('pluralizes tracks when filtered', () => {
 
 test('shows message when criteria is passed in', () => {
   const { queryByText } = render(
-    <Header data={{ tracks: ['ruby'] }} query={{ criteria: 'test' }} />
+    <Header latestData={{ tracks: ['ruby'] }} query={{ criteria: 'test' }} />
   )
 
   expect(queryByText('Showing 1 track')).toBeInTheDocument()
@@ -21,14 +24,20 @@ test('shows message when criteria is passed in', () => {
 
 test('shows message when tags are passed in', () => {
   const { queryByText } = render(
-    <Header data={{ tracks: ['ruby'] }} query={{ tags: ['oop'] }} />
+    <Header latestData={{ tracks: ['ruby'] }} query={{ tags: ['oop'] }} />
   )
 
   expect(queryByText('Showing 1 track')).toBeInTheDocument()
 })
 
 test('shows default message for no query', () => {
-  const { queryByText } = render(<Header data={{ tracks: ['ruby'] }} />)
+  const { queryByText } = render(<Header latestData={{ tracks: ['ruby'] }} />)
 
   expect(queryByText("Exercism's Language Tracks")).toBeInTheDocument()
+})
+
+test('shows loading spinner', () => {
+  const { queryByText } = render(<Header latestData={undefined} />)
+
+  expect(queryByText('Loading')).toBeInTheDocument()
 })

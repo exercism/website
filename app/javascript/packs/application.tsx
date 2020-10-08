@@ -57,7 +57,6 @@ initReact({
     />
   ),
   'concepts-map': (data: any) => (
-    console.log(data),
     (
       <ConceptGraph
         concepts={data.graph.concepts}

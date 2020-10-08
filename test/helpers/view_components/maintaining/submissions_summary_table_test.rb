@@ -14,11 +14,14 @@ class MaintainingSubmissionsSummaryTableTest < ViewComponentTestCase
     submission_3 = create(:submission, solution: practice_solution, submitted_via: "script", representation_status: :disapproved)
     submissions = [submission_1, submission_2, submission_3]
 
-    assert_component_equal ViewComponents::Maintaining::SubmissionsSummaryTable.new(submissions).to_s,
-      { id: "maintaining-submissions-summary-table", props: { submissions: [
-        { "id": submission_1.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "pending", "representationStatus": "pending", "analysisStatus": "inconclusive" },
-        { "id": submission_2.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "passed", "representationStatus": "pending", "analysisStatus": "pending" },
-        { "id": submission_3.id, "track": "Ruby", "exercise": "bob", "testsStatus": "pending", "representationStatus": "disapproved", "analysisStatus": "pending" }
-      ] } }
+    assert_component ViewComponents::Maintaining::SubmissionsSummaryTable.new(submissions).to_s,
+      "maintaining-submissions-summary-table",
+      {
+        submissions: [
+          { "id": submission_1.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "pending", "representationStatus": "pending", "analysisStatus": "inconclusive" },
+          { "id": submission_2.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "passed", "representationStatus": "pending", "analysisStatus": "pending" },
+          { "id": submission_3.id, "track": "Ruby", "exercise": "bob", "testsStatus": "pending", "representationStatus": "disapproved", "analysisStatus": "pending" }
+        ]
+      }
   end
 end

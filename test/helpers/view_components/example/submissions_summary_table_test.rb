@@ -10,14 +10,14 @@ class ExampleSubmissionsSummaryTableTest < ViewComponentTestCase
     submission_1 = create(:submission, solution: solution, submitted_via: "cli", analysis_status: :inconclusive)
     submission_2 = create(:submission, solution: solution, submitted_via: "cli", tests_status: :passed)
 
-    assert_component_equal ViewComponents::Example::SubmissionsSummaryTable.new(solution).to_s,
-      { id: "example-submissions-summary-table",
-        props: {
-          solution_id: solution.id,
-          submissions: [
-            { "id": submission_1.id, "testsStatus": "pending" },
-            { "id": submission_2.id, "testsStatus": "passed" }
-          ]
-        } }
+    assert_component ViewComponents::Example::SubmissionsSummaryTable.new(solution).to_s,
+      "example-submissions-summary-table",
+      {
+        solution_id: solution.id,
+        submissions: [
+          { "id": submission_1.id, "testsStatus": "pending" },
+          { "id": submission_2.id, "testsStatus": "passed" }
+        ]
+      }
   end
 end

@@ -9,20 +9,16 @@ class MentoringInboxTest < ViewComponentTestCase
       conversations_request, tracks_request
     ).to_s
 
-    assert_component_equal(
-      component,
+    assert_component component,
+      "mentoring-inbox",
       {
-        id: "mentoring-inbox",
-        props: {
-          conversations_request: { endpoint: "conversations-endpoint" },
-          tracks_request: { endpoint: "tracks-endpoint" },
-          sort_options: [
-            { value: 'recent', label: 'Sort by Most Recent' },
-            { value: 'exercise', label: 'Sort by Exercise' },
-            { value: 'student', label: 'Sort by Student' }
-          ]
-        }
+        conversations_request: { endpoint: "conversations-endpoint" },
+        tracks_request: { endpoint: "tracks-endpoint" },
+        sort_options: [
+          { value: 'recent', label: 'Sort by Most Recent' },
+          { value: 'exercise', label: 'Sort by Exercise' },
+          { value: 'student', label: 'Sort by Student' }
+        ]
       }
-    )
   end
 end

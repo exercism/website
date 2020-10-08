@@ -14,7 +14,7 @@ class MaintainingSubmissionsSummaryTableTest < ViewComponentTestCase
     submission_3 = create(:submission, solution: practice_solution, submitted_via: "script", representation_status: :disapproved)
     submissions = [submission_1, submission_2, submission_3]
 
-    assert_component ViewComponents::Maintaining::SubmissionsSummaryTable.new(submissions).to_s,
+    assert_component ViewComponents::Maintaining::SubmissionsSummaryTable.new(submissions),
       "maintaining-submissions-summary-table",
       {
         submissions: [

@@ -9,7 +9,7 @@ class ViewComponentTestCase < ActionView::TestCase
          data-react-data="#{ERB::Util.unwrapped_html_escape(data.to_json)}"
         />
       ).strip,
-      component
+      component.to_s
     )
   end
 end

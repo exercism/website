@@ -7,7 +7,7 @@ class MentoringInboxTest < ViewComponentTestCase
 
     component = ViewComponents::Mentoring::Inbox.new(
       conversations_request, tracks_request
-    ).to_s
+    )
 
     assert_component component,
       "mentoring-inbox",

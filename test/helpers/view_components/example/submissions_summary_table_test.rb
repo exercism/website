@@ -10,7 +10,7 @@ class ExampleSubmissionsSummaryTableTest < ViewComponentTestCase
     submission_1 = create(:submission, solution: solution, submitted_via: "cli", analysis_status: :inconclusive)
     submission_2 = create(:submission, solution: solution, submitted_via: "cli", tests_status: :passed)
 
-    assert_component ViewComponents::Example::SubmissionsSummaryTable.new(solution).to_s,
+    assert_component ViewComponents::Example::SubmissionsSummaryTable.new(solution),
       "example-submissions-summary-table",
       {
         solution_id: solution.id,

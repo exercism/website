@@ -13,6 +13,25 @@ export function TagsFilter({ options, dispatch }) {
     elemToFocus.current.focus()
   }, [expanded])
 
+  useEffect(() => {
+    if (!expanded) {
+      return
+    }
+
+    const handleEscape = (e) => {
+      if (e.key !== 'Escape') {
+        return
+      }
+
+      e.stopPropagation()
+      setExpanded(false)
+    }
+    document.addEventListener('keyup', handleEscape)
+    return () => {
+      document.removeEventListener('keyup', handleEscape)
+    }
+  }, [expanded])
+
   function handleSubmit(e) {
     e.preventDefault()
 

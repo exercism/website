@@ -47,7 +47,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
         </div>
       </section>
       <section className="md-container">
-        <Header latestData={latestData} query={request.query} />
+        <Header data={latestData} query={request.query} />
         <StatusFilter
           value={request.query.status}
           dispatch={dispatch}

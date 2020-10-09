@@ -2,7 +2,12 @@
 import React from 'react'
 
 // Test deps
-import { getByTestId, render } from '@testing-library/react'
+import {
+  getByTestId,
+  getByText,
+  getByTitle,
+  render,
+} from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
@@ -21,10 +26,9 @@ describe('<ConceptsMap />', () => {
     expect(map).not.toBeNull()
   })
 
-  // TODO: Fix once webpacker 5 fix merged, fails on type error
   test('renders single concept', () => {
     const { container } = renderMap([concept('test')], [['test']], [])
-    const conceptEl = getByTestId(container, 'concept-test')
+    const conceptEl = getByText(container, 'Test')
     expect(conceptEl).not.toBeNull()
   })
 })

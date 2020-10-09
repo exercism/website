@@ -6,6 +6,7 @@ import {
   getByTestId,
   getByText,
   getByTitle,
+  queryByTitle,
   render,
 } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -26,18 +27,32 @@ describe('<ConceptsMap />', () => {
     expect(map).not.toBeNull()
   })
 
-  test('renders single concept', () => {
-    const { container } = renderMap([concept('test')], [['test']], [])
+  test('renders single incomplete concept', () => {
+    const testConcept = concept('test')
+    const { container } = renderMap([testConcept], [[testConcept.slug]], [])
     const conceptEl = getByText(container, 'Test')
-    expect(conceptEl).not.toBeNull()
+    const completeIconEl = queryByTitle(container, 'completed')
+    expect(completeIconEl).toBeNull()
+  })
+
+  test('renders single completed concept', () => {
+    const testConcept = concept('test', { state: ConceptState.Completed })
+    const { container } = renderMap([testConcept], [[testConcept.slug]], [])
+    const conceptEl = getByText(container, 'Test')
+    const completeIconEl = getByTitle(container, 'completed')
   })
 })
 
 const concept = (
   conceptName: string,
-  index: number = 0,
-  state: ConceptState = ConceptState.Locked
+  options: {
+    index?: number
+    state?: ConceptState
+  } = {}
 ): Concept => {
+  const index = options.index ?? 0
+  const state = options.state ?? ConceptState.Locked
+
   return {
     index: index,
     slug: conceptName,

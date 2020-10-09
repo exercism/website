@@ -6,24 +6,24 @@ import { getByTestId, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
-import { ConceptGraph } from '../../../../app/javascript/components/concept-graph/ConceptGraph'
+import { ConceptsMap } from '../../../../app/javascript/components/concepts-map/ConceptsMap'
 import {
   ConceptState,
   IConcept as Concept,
-} from '../../../../app/javascript/components/concept-graph/concept-types'
-import { ConceptConnection } from '../../../../app/javascript/components/concept-graph/concept-connection-types'
-import { ConceptLayer } from '../../../../app/javascript/components/concept-graph/concept-graph-types'
+} from '../../../../app/javascript/components/concepts-map/concept-types'
+import { ConceptConnection } from '../../../../app/javascript/components/concepts-map/concept-connection-types'
+import { ConceptLayer } from '../../../../app/javascript/components/concepts-map/concepts-map-types'
 
-describe('<ConceptGraph />', () => {
+describe('<ConceptsMap />', () => {
   test('renders empty component', () => {
-    const { container } = renderGraph([], [], [])
-    const graph = container.querySelector('.c-concept-graph')
-    expect(graph).not.toBeNull()
+    const { container } = renderMap([], [], [])
+    const map = container.querySelector('.c-concepts-map')
+    expect(map).not.toBeNull()
   })
 
   // TODO: Fix once webpacker 5 fix merged, fails on type error
   test('renders single concept', () => {
-    const { container } = renderGraph([concept('test')], [['test']], [])
+    const { container } = renderMap([concept('test')], [['test']], [])
     const conceptEl = getByTestId(container, 'concept-test')
     expect(conceptEl).not.toBeNull()
   })
@@ -42,13 +42,13 @@ const concept = (
   }
 }
 
-const renderGraph = (
+const renderMap = (
   concepts: Concept[],
   layout: ConceptLayer[],
   connections: ConceptConnection[]
 ) => {
   return render(
-    <ConceptGraph
+    <ConceptsMap
       concepts={concepts}
       layout={layout}
       connections={connections}

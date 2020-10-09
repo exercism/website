@@ -33,7 +33,7 @@ export function drawPath(
   if (options.dim) {
     ctx.globalAlpha = Number(
       getComputedStyle(document.documentElement).getPropertyValue(
-        '--c-concept-graph-hover-opacity'
+        '--c-concepts-map-hover-opacity'
       )
     )
   }
@@ -79,7 +79,7 @@ function applyLineStyle(
   // Use :root defined CSS variable values to style the path
   const rootStyle = getComputedStyle(document.documentElement)
   const lineWidth = Number(
-    rootStyle.getPropertyValue('--c-concept-graph-line-width')
+    rootStyle.getPropertyValue('--c-concepts-map-line-width')
   )
   const dashedLine = [5, 7].map((v) => v * scale)
   const solidLine = [1, 0].map((v) => v * scale)
@@ -87,7 +87,7 @@ function applyLineStyle(
   switch (pathState) {
     case ConceptPathState.Available:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        '--c-concept-graph-line-available'
+        '--c-concepts-map-line-available'
       )
       ctx.setLineDash(dashedLine)
       ctx.lineWidth = lineWidth * scale
@@ -95,7 +95,7 @@ function applyLineStyle(
 
     case ConceptPathState.Completed:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        '--c-concept-graph-line-complete'
+        '--c-concepts-map-line-complete'
       )
       ctx.setLineDash(solidLine)
       ctx.lineWidth = lineWidth * scale
@@ -104,7 +104,7 @@ function applyLineStyle(
     // ConceptPathState.Locked
     default:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        '--c-concept-graph-line-locked'
+        '--c-concepts-map-line-locked'
       )
       ctx.setLineDash(dashedLine)
       ctx.lineWidth = lineWidth * scale
@@ -122,7 +122,7 @@ function defineCircle(
   // Use :root defined CSS variable values to style the path
   const rootStyle = getComputedStyle(document.documentElement)
   const radius = Number(
-    rootStyle.getPropertyValue('--c-concept-graph-circle-radius')
+    rootStyle.getPropertyValue('--c-concepts-map-circle-radius')
   )
 
   ctx.arc(pos.x, pos.y, radius * scale, 0, 2 * Math.PI)
@@ -137,14 +137,14 @@ function applyCircleStyle(
   // Use :root defined CSS variable values to style the path
   const rootStyle = getComputedStyle(document.documentElement)
   const lineWidth =
-    Number(rootStyle.getPropertyValue('--c-concept-graph-line-width')) * scale
-  const fillColor = rootStyle.getPropertyValue('--c-concept-graph-background')
+    Number(rootStyle.getPropertyValue('--c-concepts-map-line-width')) * scale
+  const fillColor = rootStyle.getPropertyValue('--c-concepts-map-background')
   const solidLine = [1, 0].map((v) => v * scale)
 
   switch (pathState) {
     case ConceptPathState.Available:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        '--c-concept-graph-line-available'
+        '--c-concepts-map-line-available'
       )
       ctx.setLineDash(solidLine)
       ctx.fillStyle = fillColor
@@ -153,7 +153,7 @@ function applyCircleStyle(
 
     case ConceptPathState.Completed:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        '--c-concept-graph-line-complete'
+        '--c-concepts-map-line-complete'
       )
       ctx.setLineDash(solidLine)
       ctx.fillStyle = fillColor
@@ -163,7 +163,7 @@ function applyCircleStyle(
     // ConceptPathState.Locked
     default:
       ctx.strokeStyle = rootStyle.getPropertyValue(
-        '--c-concept-graph-line-locked'
+        '--c-concepts-map-line-locked'
       )
       ctx.setLineDash(solidLine)
       ctx.fillStyle = fillColor

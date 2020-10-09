@@ -1,18 +1,18 @@
 :root {
-    --c-concept-graph-background: #ffffff;
-    --c-concept-graph-card-background: #ffffff;
-    --c-concept-graph-check-green: #82e7c1;
-    --c-concept-graph-line-complete: #64b294;
-    --c-concept-graph-line-available: #7194f7;
-    --c-concept-graph-line-locked: #c9c8d7;
-    --c-concept-graph-text-unlocked: #26282d;
-    --c-concept-graph-text-locked: #83819e;
-    --c-concept-graph-line-width: 2;
-    --c-concept-graph-circle-radius: 4;
-    --c-concept-graph-hover-opacity: 0.3;
+    --c-concepts-map-background: #ffffff;
+    --c-concepts-map-card-background: #ffffff;
+    --c-concepts-map-check-green: #82e7c1;
+    --c-concepts-map-line-complete: #64b294;
+    --c-concepts-map-line-available: #7194f7;
+    --c-concepts-map-line-locked: #c9c8d7;
+    --c-concepts-map-text-unlocked: #26282d;
+    --c-concepts-map-text-locked: #83819e;
+    --c-concepts-map-line-width: 2;
+    --c-concepts-map-circle-radius: 4;
+    --c-concepts-map-hover-opacity: 0.3;
 }
 
-.c-concept-graph {
+.c-concepts-map {
     & .track {
         @apply pointer-events-none block;
 
@@ -23,13 +23,13 @@
                 @apply rounded-8;
                 @apply box-border p-20 my-24 mx-12 pointer-events-auto;
 
-                background-color: var(--c-concept-graph-card-background);
-                color: var(--c-concept-graph-text-locked);
+                background-color: var(--c-concepts-map-card-background);
+                color: var(--c-concepts-map-text-locked);
                 box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.25);
                 transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
 
                 &.dim {
-                    opacity: var(--c-concept-graph-hover-opacity);
+                    opacity: var(--c-concepts-map-hover-opacity);
                 }
 
                 &.card-completed {

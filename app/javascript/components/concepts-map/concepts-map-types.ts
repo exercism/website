@@ -1,7 +1,7 @@
 import { IConcept } from './concept-types'
 import { ConceptConnection } from './concept-connection-types'
 
-export interface IConceptGraph {
+export interface IConceptMap {
   concepts: IConcept[]
   layout: ConceptLayer[]
   connections: ConceptConnection[]

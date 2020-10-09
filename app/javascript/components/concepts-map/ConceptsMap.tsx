@@ -3,15 +3,11 @@ import React, { useState } from 'react'
 import { Concept } from './Concept'
 import { ConceptConnections } from './ConceptConnections'
 
-import { IConceptGraph, ConceptLayer } from './concept-graph-types'
+import { IConceptMap, ConceptLayer } from './concepts-map-types'
 import { ConceptConnection } from './concept-connection-types'
 import { IConcept, isIConcept } from './concept-types'
 
-export const ConceptGraph = ({
-  concepts,
-  layout,
-  connections,
-}: IConceptGraph) => {
+export const ConceptsMap = ({ concepts, layout, connections }: IConceptMap) => {
   const [active, setActive] = useState<string | null>(null)
 
   const conceptsBySlug = indexConceptsBySlug(concepts)
@@ -23,7 +19,7 @@ export const ConceptGraph = ({
     ).map((element) => element.dataset.conceptSlug)
   )
   return (
-    <figure className="c-concept-graph">
+    <figure className="c-concepts-map">
       <ConceptConnections connections={connections} activeConcept={active} />
       <div className="track">
         {layout.map((layer: ConceptLayer, i: number) => (

@@ -27,6 +27,23 @@ export const ConceptConnections = ({
 
     if (!canvas || !ctx) return
 
+    const width =
+      webpageWidth -
+      Number(canvas.style.borderLeftWidth) -
+      Number(canvas.style.borderRightWidth) -
+      2 // to account for vertical scroll bar
+
+    const height =
+      webpageHeight -
+      Number(canvas.style.borderTopWidth) -
+      Number(canvas.style.borderBottomWidth)
+
+    canvas.width = width * devicePixelRatio
+    canvas.height = height * devicePixelRatio
+
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+
     const {
       unavailable: inactiveUnavailablePaths,
       available: inactiveAvailablePaths,
@@ -53,23 +70,9 @@ export const ConceptConnections = ({
       activeCompletedPaths,
     ]
 
-    if (!canvas || !ctx) return
-
-    canvas.height =
-      webpageHeight -
-      Number(canvas.style.borderTopWidth) -
-      Number(canvas.style.borderBottomWidth)
-
-    // Not sure why it needs two more pixel in chrome to account
-    // for the width of the vertical scroll bar
-    canvas.width =
-      webpageWidth -
-      Number(canvas.style.borderLeftWidth) -
-      Number(canvas.style.borderRightWidth) -
-      2 // See above
-
     const drawOptions = defaultDrawPathOptions()
 
+    drawOptions.scale = devicePixelRatio
     drawOptions.dim = Boolean(
       activeUnavailablePaths.length ||
         activeAvailablePaths.length ||

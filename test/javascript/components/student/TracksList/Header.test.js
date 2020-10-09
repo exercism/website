@@ -32,3 +32,9 @@ test('shows default message for no query', () => {
 
   expect(queryByText("Exercism's Language Tracks")).toBeInTheDocument()
 })
+
+test('shows loading spinner', () => {
+  const { queryByText } = render(<Header data={undefined} />)
+
+  expect(queryByText('Loading')).toBeInTheDocument()
+})

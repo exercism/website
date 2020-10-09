@@ -1,0 +1,9 @@
+#page-editor
+  .md-container
+    Really sexy editor for #{@track.title}: #{@exercise.title}
+
+    = form_with url: api_solution_path(@solution.uuid), method: :patch do
+      = hidden_field_tag :auth_token, current_user.auth_tokens.first.token
+      = hidden_field_tag :major, false
+      = text_area_tag "files[foobar.rb]", "class Code\nend", style: 'border:2px solid black;padding:20px;'
+      = button_tag "Submit"

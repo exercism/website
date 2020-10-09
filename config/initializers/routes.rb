@@ -7,7 +7,7 @@ class Exercism::Routes
     routes.respond_to?(name, include_all)
   end
 
-  def self.personal_solution_url(solution)
+  def self.private_solution_url(solution)
     [
       host,
       "tracks",
@@ -17,14 +17,15 @@ class Exercism::Routes
     ].join("/")
   end
 
-  # TODO: Just ping this back to the routes file
-  # once mentoring is added
-  def self.mentor_solution_url(solution)
+  def self.published_solution_url(solution)
     [
       host,
-      "mentoring",
+      "tracks",
+      solution.track.slug,
+      "exercises",
+      solution.exercise.slug,
       "solutions",
-      solution.mentor_uuid
+      solution.user.handle
     ].join("/")
   end
 

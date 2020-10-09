@@ -1,0 +1,8 @@
+.md-container
+  %h2 #{@track.title}: #{@concept.name}
+
+  Concept Available
+
+  - if @concept_exercise
+    Learn this:
+    = render "tracks/concepts/show/concept_exercise", track: @track, exercise: @concept_exercise

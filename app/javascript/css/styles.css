@@ -3,3 +3,9 @@
     line-height: 1.25;
     @apply font-mono font-bold text-black;
 }
+
+.text-h2 {
+    font-size: 31px;
+    line-height: 1.25;
+    @apply font-semibold text-black;
+}

@@ -35,14 +35,29 @@ Rails.application.routes.draw do
   end
   resources :tracks, only: %i[index show] do
     resources :concepts, only: %i[index show], controller: "tracks/concepts"
-    resources :exercises, only: %i[index show], controller: "tracks/exercises"
+
+    resources :exercises, only: %i[index show], controller: "tracks/exercises" do
+      member do
+        patch :start
+        patch :complete
+      end
+    end
 
     member do
       post :join
     end
   end
 
+  resources :solutions, only: %i[edit]
+
   root to: "pages#index"
+
+  # ###############
+  # Legacy routes #
+  # ###############
+  get "solutions/:uuid" => "legacy#solution"
+  get "my/solutions/:uuid" => "legacy#solution"
+  get "mentor/solutions/:uuid" => "legacy#solution"
 
   # ########################### #
   # Temporary and testing pages #

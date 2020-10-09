@@ -39,20 +39,18 @@ class SerializeSolution
   end
 
   def solution_url
-    if solution.user == requester
-      Exercism::Routes.personal_solution_url(solution)
-    else
-      # TODO: Don't let someone download a personal_uuid and
-      # end up with the mentor_uuid here.
-      #
-      # TODO: How is this actually used within the CLI and could
-      # we just have it as nil if the user isn't the requestor?
-      Exercism::Routes.mentor_solution_url(solution)
-    end
+    # TODO: Don't let someone download a personal_uuid and
+    # end up with the mentor_uuid here. Actively guard this.
+    #
+    # TODO: How is this actually used within the CLI and could
+    # we just have it as nil if the user isn't the requestor?
+    return nil unless solution.user == requester
+
+    Exercism::Routes.private_solution_url(solution)
   end
 
   def instructions_url
-    Exercism::Routes.personal_solution_url(solution)
+    Exercism::Routes.private_solution_url(solution)
   end
 
   def file_download_base_url

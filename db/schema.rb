@@ -126,12 +126,12 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.bigint "user_id", null: false
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false
-    t.string "public_uuid", null: false
-    t.string "mentor_uuid", null: false
     t.integer "status", default: 0, null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
     t.datetime "downloaded_at"
+    t.datetime "completed_at"
+    t.datetime "published_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"

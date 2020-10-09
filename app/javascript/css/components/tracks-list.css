@@ -1,15 +1,118 @@
+@import "../styles";
+
 .c-tracks-list {
     & .search-bar {
         @apply p-12 mb-32;
         @apply bg-white shadow-headerBottom;
 
-        & input {
+        & > .md-container {
+            @apply flex;
+        }
+
+        & input.search {
             max-width: 550px;
             width: 100%;
 
-            @apply rounded-5 bg-lightGray p-12;
+            @apply mr-24 rounded-5 bg-lightGray px-12 border-2 border-transparent h-48;
             &::placeholder {
                 @apply text-textLight;
+            }
+            &:focus {
+                @apply border-darkBlue outline-none;
+            }
+        }
+        & .filter-btn,
+        & .reset-btn {
+            @apply px-12 h-48;
+            @apply text-16 font-semibold border-2;
+        }
+
+        & .filter-btn {
+            @apply mr-40;
+            @apply border-darkGray rounded-5;
+            @apply px-24;
+            &:focus {
+                @apply bg-black text-white outline-none border-black;
+            }
+        }
+        & .reset-btn {
+            @apply border-transparent;
+        }
+        & .tag-option-list {
+            @apply absolute left-0 right-0;
+            @apply bg-white;
+
+            top: 60px;
+
+            box-shadow: 0px 18px 24px rgba(79, 114, 205, 0.15);
+
+            &:focus {
+                @apply outline-none;
+            }
+
+            & .md-container {
+                @apply py-24;
+            }
+
+            & .categories {
+                @apply flex flex-row gap-spacedColumns;
+            }
+
+            & .category {
+                @apply flex flex-col gap-8;
+
+                & h4 {
+                    @apply text-14 font-semibold font-mono;
+                    @apply mb-12;
+                }
+                & .option {
+                    & input {
+                        @apply mr-8;
+                    }
+                }
+            }
+            & .buttons {
+                @apply flex gap-16 mt-spacedColumns;
+
+                & .apply-btn,
+                & .close-btn {
+                    @apply px-24 py-12 rounded-5 border-2 leading-none;
+                    @apply font-semibold;
+                }
+
+                & .apply-btn {
+                    @apply text-white bg-purple border-purple;
+                }
+
+                & .close-btn {
+                    @apply border-darkGray;
+                }
+            }
+        }
+    }
+    & h2 {
+        @apply text-h2;
+        @apply mb-16;
+    }
+    & .status-filters {
+        @apply mb-24;
+
+        & button {
+            @apply py-8 px-16 rounded-100 mr-12;
+            @apply text-16 font-medium;
+
+            & .count {
+                @apply ml-8 px-8 rounded-100 border-1 border-gray;
+                @apply text-13;
+                line-height: 170%;
+            }
+
+            &.selected {
+                @apply bg-veryLightBlue;
+
+                & .count {
+                    @apply text-purple border-lightPurple;
+                }
             }
         }
     }

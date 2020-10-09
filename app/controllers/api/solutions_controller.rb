@@ -38,7 +38,7 @@ module API
       rescue ActiveRecord::RecordNotFound
         return render_403(:solution_not_unlocked) unless user_track.exercise_available?(exercise)
 
-        solution = Solution::Create.(user_track, exercise)
+        solution = Solution::Create.(current_user, exercise)
       end
 
       respond_with_authored_solution(solution)
@@ -67,12 +67,16 @@ module API
 
       begin
         major = params.fetch(:major, true)
-        Submission::Create.(solution, files, submitted_via, major)
+        submission = Submission::Create.(solution, files, submitted_via, major)
       rescue DuplicateSubmissionError
         return render_error(400, :duplicate_submission)
       end
 
-      render json: {}, status: :created
+      render json: {
+        submission: {
+          uuid: submission.uuid
+        }
+      }, status: :created
     end
 
     private

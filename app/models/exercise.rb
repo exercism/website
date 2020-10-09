@@ -1,4 +1,8 @@
 class Exercise < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :slug, use: [:history]
+
   belongs_to :track
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",

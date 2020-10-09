@@ -3,7 +3,7 @@ import pluralize from 'pluralize'
 import { Loading } from '../../common/Loading'
 
 export function Header({ latestData, query = {} }) {
-  const [text, setText] = useState()
+  const [text, setText] = useState("Exercism's Language Tracks")
   const isFiltering = query.criteria || (query.tags && query.tags.length > 0)
   const isLoading = latestData === undefined
 

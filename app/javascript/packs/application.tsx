@@ -13,6 +13,7 @@ import 'css/styles.css'
 import 'css/layout.css'
 import 'css/components/tracks-list.css'
 import 'css/components/track.css'
+import 'components/concepts-map/ConceptsMap.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
@@ -21,6 +22,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import { ConceptsMap } from '../components/concepts-map/ConceptsMap'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -52,6 +54,13 @@ initReact({
       request={data.request}
       statusOptions={data.status_options}
       tagOptions={data.tag_options}
+    />
+  ),
+  'concepts-map': (data: any) => (
+    <ConceptsMap
+      concepts={data.graph.concepts}
+      layout={data.graph.layout}
+      connections={data.graph.connections}
     />
   ),
 })

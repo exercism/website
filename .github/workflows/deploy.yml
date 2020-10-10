@@ -7,6 +7,8 @@ env:
   service_name: webservers
   cluster_name: webservers
 
+  ecr_repository_puma: "webserver-puma"
+
 on:
   push:
     branches:
@@ -41,12 +43,13 @@ jobs:
         id: build_image
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ecr_repository }}
+          ECR_REPOSITORY: ${{ env.ecr_repository_puma }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build a docker container and push it to ECR
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
           # Retag this as the latest
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
@@ -59,13 +62,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Login to Amazon ECR
+        id: login_to_ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: update_definition_for_puma
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ env.task_definition }}
           container-name: ${{ env.container_name }}
-          image: ${{ jobs.push_puma.steps.build_image.outputs.image }}
+          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_puma }}:${{ github.sha }}"
+
 
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: update_definition_for_nginx

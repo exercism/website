@@ -201,6 +201,9 @@ jobs:
         id: login_to_ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      # We get the exiting task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
       - name: Download task definition
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.task_definition_name }} --query taskDefinition > task-definition.json
@@ -219,7 +222,7 @@ jobs:
         id: update_definition_for_anycable_ruby
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: ${{ steps.update_definition_for_puma.outputs.task-definition }}
           container-name: anycable_ruby
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
 
@@ -228,8 +231,7 @@ jobs:
         id: update_definition_for_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          # TODO: Check this is whatever comes directly before
-          task-definition: ${{ steps.update_definition_for_rails.outputs.task-definition }}
+          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
           container-name: nginx
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
 
@@ -238,11 +240,11 @@ jobs:
         id: update_definition_for_anycable_go
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          # TODO: Check this is whatever comes directly before
           task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
           container-name: anycable_go
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
 
+      # Push the 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:

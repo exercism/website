@@ -184,8 +184,7 @@ jobs:
 
   deploy:
     name: Deploy to ECS
-    # TODO: Check this has all steps
-    #needs: [push_rails, push_nginx, push_anycable_go]
+    needs: [push_rails, push_nginx, push_anycable_go]
 
     runs-on: ubuntu-latest
 

@@ -2,7 +2,7 @@ name: Deploy to Amazon ECS
 
 env:
   aws_region: eu-west-2
-  task_definition: .github/config/ecs-task-def.json
+  task_definition: ../config/ecs-task-def.json
   container_name: webserver
   service_name: webservers
   cluster_name: webservers
@@ -110,6 +110,7 @@ jobs:
         with:
           key: docker-layer-caching-deploy-nginx-{hash}
           restore-keys: docker-layer-caching-deploy-nginx-
+          concurrency: 10
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -184,7 +185,7 @@ jobs:
   deploy:
     name: Deploy to ECS
     # TODO: Check this has all steps
-    needs: [push_rails, push_nginx, push_anycable_go]
+    #needs: [push_rails, push_nginx, push_anycable_go]
 
     runs-on: ubuntu-latest
 
@@ -199,6 +200,10 @@ jobs:
       - name: Login to Amazon ECR
         id: login_to_ecr
         uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.cluster_name }} --query taskDefinition > task-definition.json
 
       - name: Upload the definition for rails
         id: update_definition_for_rails

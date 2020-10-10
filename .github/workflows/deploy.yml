@@ -8,7 +8,7 @@ env:
   cluster_name: webservers
 
   ecr_repository_puma: "webserver-puma"
-  dockerfile_puma: "docker/puma.Docker"
+  dockerfile_puma: "docker/puma.Dockerfile"
 
 on:
   push:

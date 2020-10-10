@@ -18,10 +18,10 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . ./
-RUN docker/compile_assets
+RUN docker/compile_assets.sh
 
 RUN ls
 RUN ls public
 RUN ls public/packs
 
-ENTRYPOINT docker/webserver
+ENTRYPOINT docker/webserver.sh

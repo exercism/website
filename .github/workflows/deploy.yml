@@ -71,6 +71,9 @@ jobs:
           # Retag this as the latest
           docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Retag it as website below because the : hurts us otherwise
+          docker tag $IMAGE_NAME website
           echo "::set-output name=image::$IMAGE_NAME"
 
       - name: Copy assets from Dockerfile
@@ -78,7 +81,7 @@ jobs:
         env:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
-          docker cp $IMAGE_NAME:/opt/exercism/website/current/public/packs packs
+          docker cp website:/opt/exercism/website/current/public/packs assets
           ls assets
 
       - name: Upload assets to s3

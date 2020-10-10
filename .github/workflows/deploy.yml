@@ -11,6 +11,8 @@ on:
   push:
     branches:
       - master
+
+  # TODO: Remove befor merging
   pull_request:
     branches:
       - master
@@ -31,6 +33,7 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ env.aws_region }}
           ecr_repository: "webservers-puma"
+
     # steps:
     #   - name: Checkout
     #     uses: actions/checkout@v2

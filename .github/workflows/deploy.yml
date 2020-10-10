@@ -205,32 +205,43 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.task_definition_name }} --query taskDefinition > task-definition.json
 
-      - name: Update the definition for rails
-        id: update_definition_for_rails
+      # Set puma to rails
+      - name: Update the definition for puma
+        id: update_definition_for_puma
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.container_name }}
+          container-name: puma
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
 
+      # Set anycable_ruby to rails
+      - name: Update the definition for anycable_ruby
+        id: update_definition_for_anycable_ruby
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: anycable_ruby
+          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
+
+      # Set nginx to nginx
       - name: Update the definition for nginx
         id: update_definition_for_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           # TODO: Check this is whatever comes directly before
           task-definition: ${{ steps.update_definition_for_rails.outputs.task-definition }}
-          container-name: ${{ env.container_name }}
+          container-name: nginx
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
 
+      # Set anycable_go to anycable_go
       - name: Update the definition for anycable_go
         id: update_definition_for_anycable_go
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           # TODO: Check this is whatever comes directly before
           task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
-          container-name: ${{ env.container_name }}
+          container-name: anycable_go
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
-
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

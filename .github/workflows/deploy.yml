@@ -72,11 +72,13 @@ jobs:
       - name: Compile and upload assets to S3
         id: upload_assets
         env:
-          DOCKERFILE: ${{ env.dockerfile_nginx }}
+          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
+          IMAGE_TAG: ${{ github.sha }}
+          DOCKERFILE: ${{ env.dockerfile_rails }}
         run: |
-          docker build -t website -f $DOCKERFILE .
-          docker run --entrypoint bin/compile_assets website
-          docker cp website://opt/exercism/website/current/public/packs packs
+          docker run --entrypoint bin/compile_assets $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker cp $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG://opt/exercism/website/current/public/packs packs
           ls packs
 
   push_nginx:

@@ -2,8 +2,8 @@ name: Deploy to Amazon ECS
 
 env:
   aws_region: eu-west-2
-  task_definition: ../config/ecs-task-def.json
   container_name: webserver
+  task_definition_name: webservers
   service_name: webservers
   cluster_name: webservers
 
@@ -203,7 +203,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.cluster_name }} --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.task_definition_name }} --query taskDefinition > task-definition.json
 
       - name: Upload the definition for rails
         id: update_definition_for_rails

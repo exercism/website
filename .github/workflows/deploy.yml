@@ -205,15 +205,15 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.task_definition_name }} --query taskDefinition > task-definition.json
 
-      - name: Upload the definition for rails
+      - name: Update the definition for rails
         id: update_definition_for_rails
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ env.task_definition }}
+          task-definition: task-definition.json
           container-name: ${{ env.container_name }}
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
 
-      - name: Upload the definition for nginx
+      - name: Update the definition for nginx
         id: update_definition_for_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -221,6 +221,16 @@ jobs:
           task-definition: ${{ steps.update_definition_for_rails.outputs.task-definition }}
           container-name: ${{ env.container_name }}
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
+
+      - name: Update the definition for anycable_go
+        id: update_definition_for_anycable_go
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          # TODO: Check this is whatever comes directly before
+          task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
+          container-name: ${{ env.container_name }}
+          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
+
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

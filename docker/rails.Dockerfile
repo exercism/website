@@ -18,6 +18,10 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . ./
-RUN bin/compile_assets
+RUN docker/compile_assets
 
-ENTRYPOINT bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000
+RUN ls
+RUN ls public
+RUN ls public/packs
+
+ENTRYPOINT docker/webserver

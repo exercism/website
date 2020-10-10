@@ -244,12 +244,12 @@ jobs:
           container-name: anycable_go
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
 
-      # Push the 
+      # Push the new defintion up to ECS and deploy a new sevice from it.
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          # TODO: Check this is the latest to run
-          task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
+          # Ensure this is the final step in the daisy-chain above
+          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
           service: ${{ env.service_name }}
           cluster: ${{ env.cluster_name }}
           wait-for-service-stability: true

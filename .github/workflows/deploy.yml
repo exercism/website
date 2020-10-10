@@ -35,7 +35,7 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          key: docker-layer-caching-{hash}
+          key: docker-layer-caching-deploy-{hash}
           restore-keys: docker-layer-caching-deploy-
 
       - name: Configure AWS credentials
@@ -77,7 +77,7 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          key: docker-layer-caching-{hash}
+          key: docker-layer-caching-deploy-{hash}
           restore-keys: docker-layer-caching-deploy-
 
       - name: Configure AWS credentials
@@ -121,7 +121,7 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          key: docker-layer-caching-{hash}
+          key: docker-layer-caching-deploy-{hash}
           restore-keys: docker-layer-caching-deploy-
 
       - name: Build the image (should use the cache from push_puma)

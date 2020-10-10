@@ -81,7 +81,8 @@ jobs:
         env:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
-          docker cp website:/opt/exercism/website/current/public/packs assets
+          container_id=$(docker create website)
+          docker cp ${container_id}:/opt/exercism/website/current/public/packs assets
           ls assets
 
       - name: Upload assets to s3

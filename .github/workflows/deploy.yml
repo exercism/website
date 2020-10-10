@@ -14,7 +14,7 @@ env:
   dockerfile_nginx: "docker/nginx.Dockerfile"
 
   ecr_repository_anycable_go: "webserver-anycable_go"
-  dockerfile_anycable_go: "docker/anycable_go.Dockerfile"
+  dockerfile_anycable_go: "docker/anycable-go.Dockerfile"
 
 on:
   push:

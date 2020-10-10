@@ -14,9 +14,6 @@ WORKDIR /opt/exercism/website/current
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-COPY package.json yarn.lock ./
-RUN yarn install
-
 COPY . ./
 
 ENTRYPOINT bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000

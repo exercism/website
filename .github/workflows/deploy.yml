@@ -1,3 +1,5 @@
+name: Deploy to Amazon ECS
+
 env:
   aws_region: eu-west-2
   task_definition: .github/config/ecs-task-def.json
@@ -12,8 +14,6 @@ on:
   pull_request:
     branches:
       - master
-
-#name: Deploy to Amazon ECS
 
 jobs:
   deploy:

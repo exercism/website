@@ -38,8 +38,8 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          key: docker-layer-caching-deploy-{hash}
-          restore-keys: docker-layer-caching-deploy-
+          key: docker-layer-caching-deploy-rails-{hash}
+          restore-keys: docker-layer-caching-deploy-rails-
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -90,8 +90,8 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          key: docker-layer-caching-deploy-{hash}
-          restore-keys: docker-layer-caching-deploy-
+          key: docker-layer-caching-deploy-nginx-{hash}
+          restore-keys: docker-layer-caching-deploy-nginx-
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -132,8 +132,8 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          key: docker-layer-caching-deploy-{hash}
-          restore-keys: docker-layer-caching-deploy-
+          key: docker-layer-caching-deploy-anycable_go-{hash}
+          restore-keys: docker-layer-caching-deploy-anycable_go-
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

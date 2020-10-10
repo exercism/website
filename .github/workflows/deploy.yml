@@ -16,6 +16,9 @@ env:
   ecr_repository_anycable_go: "webserver-anycable-go"
   dockerfile_anycable_go: "docker/anycable-go.Dockerfile"
 
+  # TODO: Move this to be a secret
+  s3_bucket: "exercism-assets-staging"
+
 on:
   push:
     branches:
@@ -28,7 +31,7 @@ on:
 
 jobs:
   push_rails:
-    name: Push rails to ECR
+    name: Push rails to ECR and upload assets
     runs-on: ubuntu-latest
 
     steps:
@@ -70,14 +73,25 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "::set-output name=image::$IMAGE_NAME"
 
-      - name: Compile and upload assets to S3
-        id: upload_assets
+      - name: Copy assets from Dockerfile
+        id: copy_assets
         env:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
-          docker run --entrypoint bin/compile_assets $IMAGE_NAME
-          docker cp $IMAGE_NAME://opt/exercism/website/current/public/packs packs
-          ls packs
+          docker cp $IMAGE_NAME:/opt/exercism/website/current/public/packs packs
+          ls assets
+
+      - name: Upload assets to s3
+        id: upload_assets
+        uses: jakejarvis/s3-sync-action@7ed8b112447abb09f1da74f3466e4194fc7a6311
+        with:
+          args: --acl public-read
+        env:
+          AWS_S3_BUCKET: ${{ env.s3_bucket }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.aws_region }}
+          SOURCE_DIR: "assets"
 
   push_nginx:
     name: Push nginx to ECR

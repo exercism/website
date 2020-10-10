@@ -87,15 +87,17 @@ jobs:
 
       - name: Upload assets to s3
         id: upload_assets
-        uses: jakejarvis/s3-sync-action@7ed8b112447abb09f1da74f3466e4194fc7a6311
-        with:
-          args: --acl public-read
-        env:
-          AWS_S3_BUCKET: ${{ env.s3_bucket }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ env.aws_region }}
-          SOURCE_DIR: "assets"
+        run: |
+          aws s3 sync assets s3://${{ env.s3_bucket }}/ --acl public-read --no-progress
+        # uses: jakejarvis/s3-sync-action@7ed8b112447abb09f1da74f3466e4194fc7a6311
+        # with:
+        #   args: --acl public-read
+        # env:
+        #   AWS_S3_BUCKET: ${{ env.s3_bucket }}
+        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        #   AWS_REGION: ${{ env.aws_region }}
+        #   SOURCE_DIR: "assets"
 
   push_nginx:
     name: Push nginx to ECR

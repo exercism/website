@@ -18,6 +18,5 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . ./
-RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
 
 ENTRYPOINT bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000

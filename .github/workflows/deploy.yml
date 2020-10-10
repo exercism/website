@@ -105,9 +105,30 @@ jobs:
 
   upload_assets:
     name: Upload assets to S3
-    needs: [upload_assets]
+    needs: [push_puma]
 
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: satackey/action-docker-layer-caching@v0.0.5
+        continue-on-error: true
+
+      - name: Build the image (should use the cache from push_puma)
+        id: build_image
+        env:
+          DOCKERFILE: ${{ env.dockerfile_nginx }}
+        run: |
+          docker build -t website -f $DOCKERFILE .
+          docker run -entrypoint bin/compile_assets website
+          docker cp website://opt/exercism/website/current/public/packs packs
+          ls packs
+
+      - name: Login to Amazon ECR
+        id: login_to_ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
   deploy:
     name: Deploy to ECS

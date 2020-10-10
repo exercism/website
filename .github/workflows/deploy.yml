@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Push puma
-        uses: exercism/gha-push-to-ecr
+        uses: exercism/gha-push-to-ecr@6fc7040cdf2f5dd6b3638b97d3c51f1f07835404
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

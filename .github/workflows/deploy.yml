@@ -10,7 +10,7 @@ env:
   ecr_repository_puma: "webserver-puma"
   dockerfile_puma: "docker/puma.Dockerfile"
 
-  ecr_repository_puma: "webserver-nginx"
+  ecr_repository_nginx: "webserver-nginx"
   dockerfile_nginx: "docker/nginx.Dockerfile"
 
 on:

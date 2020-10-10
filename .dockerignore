@@ -1,5 +1,8 @@
+.cache/
+.git/
 .github/
 log/
 node_modules/
+public/
 storage/
 tmp/

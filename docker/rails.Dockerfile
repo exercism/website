@@ -19,11 +19,25 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 # Copy any files that might require an asset compilation changing.
-# These are anything in the apex (such as babel.config.js); and 
-# the contents on app/javascript
-# Otherwise we can cache this layer.
-COPY * ./
+# These are:
+# - Anything in the apex (such as babel.config.js); and 
+# - The bin directory that contains the requisit scripts
+# - The config directory which controls webpacker settings
+# - The contents on app/javascript
+# These are deliberately permissive in case we want to add
+# future apex files or future config files, so we don't have
+# to worry about adding them here.
+COPY *.js *.json ./
+RUN ls
+COPY bin ./bin
+RUN ls
+COPY config ./config
+RUN ls
 COPY app/javascript ./app/javascript
+RUN ls app
 RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
+
+# Copy everything over now
+COPY . ./
 
 ENTRYPOINT RAILS_ENV=production DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec bin/rails db:migrate:reset db:seed && bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000

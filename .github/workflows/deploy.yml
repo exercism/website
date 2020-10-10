@@ -8,6 +8,7 @@ env:
   cluster_name: webservers
 
   ecr_repository_puma: "webserver-puma"
+  dockerfile_puma: "docker/puma.Docker"
 
 on:
   push:
@@ -45,9 +46,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_puma }}
           IMAGE_TAG: ${{ github.sha }}
+          DOCKERFILE: ${{ env.dockerfile_puma }}
         run: |
           # Build a docker container and push it to ECR
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f $DOCKERFILE .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
           # Retag this as the latest

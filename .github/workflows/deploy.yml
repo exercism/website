@@ -1,6 +1,5 @@
 env:
   aws_region: eu-west-2
-  ecr_repository: webservers
   task_definition: .github/config/ecs-task-def.json
   container_name: webserver
   service_name: webservers

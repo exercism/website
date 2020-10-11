@@ -46,9 +46,10 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
+          # Change these to rest teh cache
           key: docker-layer-caching-deploy-rails-{hash}
           restore-keys: docker-layer-caching-deploy-rails-
-          concurrency: 20
+          concurrency: 30
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -67,7 +68,6 @@ jobs:
       #########################
       #########################
       - name: Build, tag, and push image to Amazon ECR
-        id: build_rails
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
@@ -93,16 +93,13 @@ jobs:
       ##################################
       ##################################
       - name: Copy assets from Dockerfile
-        id: extract_assets
         env:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
           container_id=$(docker create website)
           docker cp ${container_id}:/opt/exercism/website/current/public/packs packs
-          ls assets
 
       - name: Upload assets to s3
-        id: upload_assets
         run: |
           aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress
 
@@ -112,7 +109,6 @@ jobs:
       #########################
       #########################
       - name: Build, tag, and push image to Amazon ECR
-        id: build_nginx
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}

@@ -39,6 +39,10 @@ RUN ls app
 # Set this as a global env var
 ENV RAILS_ENV=production
 
+# This compiles the assets into public/packs
+# During deployment the assets are copied from this image and 
+# uploaded into s3. The assets left on the machine are not actually
+# used leave the assets on here.
 RUN RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
 
 # Copy everything over now

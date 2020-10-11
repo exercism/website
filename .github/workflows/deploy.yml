@@ -34,10 +34,12 @@ jobs:
     name: Upload images to ECR, assets to S3, and defintion to ECS
     runs-on: ubuntu-latest
     steps:
-      #push_rails:
-      #   name: Push rails to ECR and upload assets
-      #   runs-on: ubuntu-latest
-      #   steps:
+
+      ###############
+      ###############
+      # Setup Steps #
+      ###############
+      ###############
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -59,8 +61,13 @@ jobs:
         id: login_to_ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      #########################
+      #########################
+      # Build the Rails image #
+      #########################
+      #########################
       - name: Build, tag, and push image to Amazon ECR
-        id: build_image
+        id: build_rails
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
@@ -80,8 +87,13 @@ jobs:
           docker tag $IMAGE_NAME website
           echo "::set-output name=image::$IMAGE_NAME"
 
+      ##################################
+      ##################################
+      # Extact and upload assets to s3 #
+      ##################################
+      ##################################
       - name: Copy assets from Dockerfile
-        id: copy_assets
+        id: extract_assets
         env:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
@@ -94,33 +106,13 @@ jobs:
         run: |
           aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress
 
-      # push_nginx:
-      #   name: Push nginx to ECR
-      #   runs-on: ubuntu-latest
-
-      #   steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - uses: satackey/action-docker-layer-caching@v0.0.5
-        continue-on-error: true
-        with:
-          key: docker-layer-caching-deploy-nginx-{hash}
-          restore-keys: docker-layer-caching-deploy-nginx-
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.aws_region }}
-
-      - name: Login to Amazon ECR
-        id: login_to_ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
+      #########################
+      #########################
+      # Build the Nginx image #
+      #########################
+      #########################
       - name: Build, tag, and push image to Amazon ECR
-        id: build_image
+        id: build_nginx
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}
@@ -136,33 +128,13 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      # push_anycable_go:
-      #   name: Push anycable_go to ECR
-      #   runs-on: ubuntu-latest
-      #
-      #steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - uses: satackey/action-docker-layer-caching@v0.0.5
-        continue-on-error: true
-        with:
-          key: docker-layer-caching-deploy-anycable_go-{hash}
-          restore-keys: docker-layer-caching-deploy-anycable_go-
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.aws_region }}
-
-      - name: Login to Amazon ECR
-        id: login_to_ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
+      ############################
+      ############################
+      # Build the AnyCable image #
+      ############################
+      ############################
       - name: Build, tag, and push image to Amazon ECR
-        id: build_image
+        id: build_anycable_go
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_anycable_go }}
@@ -178,24 +150,13 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-      # deploy:
-      #   name: Deploy to ECS
-      #   needs: [push_rails, push_nginx, push_anycable_go]
-      #   runs-on: ubuntu-latest
-      #
-      #steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.aws_region }}
+      ##############################
+      ##############################
+      # Update the task definition #
+      ##############################
+      ##############################
 
-      - name: Login to Amazon ECR
-        id: login_to_ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      # We get the exiting task definition to update
+      # We get the existing task definition to update
       # Note that this is passed into the first update action
       # but then chained from action to action for the others.
       - name: Download task definition
@@ -237,6 +198,12 @@ jobs:
           task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
           container-name: anycable_go
           image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
+
+      ##############################
+      ##############################
+      # Deploy the task definition #
+      ##############################
+      ##############################
 
       # Push the new defintion up to ECS and deploy a new sevice from it.
       - name: Deploy Amazon ECS task definition

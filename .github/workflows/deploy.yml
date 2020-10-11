@@ -86,13 +86,13 @@ jobs:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
           container_id=$(docker create website)
-          docker cp ${container_id}:/opt/exercism/website/current/public/packs assets
+          docker cp ${container_id}:/opt/exercism/website/current/public/packs packs
           ls assets
 
       - name: Upload assets to s3
         id: upload_assets
         run: |
-          aws s3 sync assets s3://${{ env.s3_bucket }}/ --acl public-read --no-progress
+          aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress
 
       # push_nginx:
       #   name: Push nginx to ECR

@@ -35,9 +35,15 @@ COPY config ./config
 RUN ls
 COPY app/javascript ./app/javascript
 RUN ls app
-RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
+
+ENV RAILS_ENV=production
+ENV RACK_ENV=production
+ENV NODE_ENV=production
+
+RUN bundle exec bin/webpack
 
 # Copy everything over now
 COPY . ./
 
-ENTRYPOINT RAILS_ENV=production DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec bin/rails db:migrate:reset db:seed && bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000
+ENV DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+ENTRYPOINT bundle exec bin/rails db:migrate:reset db:seed && bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000

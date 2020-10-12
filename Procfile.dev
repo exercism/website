@@ -1,4 +1,4 @@
 server: bin/rails server
-assets: bin/webpack-dev-server
+assets: WEBPACK_DEV_SERVER_PORT=3035 bin/webpack-dev-server
 anycable: RAILS_ENV=development bundle exec anycable --server-command "anycable-go --host=localhost --port 3334"
 js-tests: yarn test-watch

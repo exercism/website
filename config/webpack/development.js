@@ -23,7 +23,7 @@ if (isWebpackDevServer) {
     'ReactRefreshWebpackPlugin',
     new ReactRefreshWebpackPlugin({
       overlay: {
-        sockPort: 3035,
+        sockPort: process.env.WEBPACK_DEV_SERVER_PORT,
       },
     })
   )

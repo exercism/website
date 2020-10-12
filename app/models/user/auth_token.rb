@@ -6,4 +6,8 @@ class User::AuthToken < ApplicationRecord
   before_create do
     self.token ||= SecureRandom.uuid
   end
+
+  def to_s
+    token
+  end
 end

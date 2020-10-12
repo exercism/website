@@ -48,4 +48,4 @@ RUN RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
 # Copy everything over now
 COPY . ./
 
-ENTRYPOINT DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec bin/rails db:migrate:reset db:seed && bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000
+ENTRYPOINT bin/start_webserver

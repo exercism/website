@@ -67,7 +67,7 @@ jobs:
       # Build the Rails image #
       #########################
       #########################
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build and Push Rails Docker
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
@@ -108,7 +108,7 @@ jobs:
       # Build the Nginx image #
       #########################
       #########################
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build and Push Nginx Docker
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}
@@ -129,7 +129,7 @@ jobs:
       # Build the AnyCable image #
       ############################
       ############################
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build and Push Puma Docker
         id: build_anycable_go
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}

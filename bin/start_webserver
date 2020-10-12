@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+
+# Path to the application root.
+APP_ROOT = File.expand_path('..', __dir__)
+
+# We want to guard against failures at each stage of this
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+FileUtils.chdir APP_ROOT do
+  # TODO: We're going to want to remove this evenutally!!
+  # Recreates the database on each deployment.
+  system! "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec bin/rails db:migrate:reset db:seed"
+
+  # Firstly we're going to run the migrations.
+  # We do this via this helper script to sleep and retry on conurrent failures
+  system! "bundle exec bin/rails runner lib/run_migrations_with_concurrent_guard.rb"
+
+  # Finally we get the actual server running
+  system! "bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000"
+end

@@ -1,6 +1,7 @@
 module ViewComponents
   module Student
     class TracksList < ViewComponent
+      TODO: Remove `user` and its usage here once API supports session requests
       def initialize(user, data, request = default_request)
         @user = user
         @data = data

@@ -7,6 +7,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
 
 WORKDIR /opt/exercism/website/current
 
+# Set this as a global env var
+ENV RAILS_ENV=production
+
 # Only Gemfile and Gemfile.lock changs require a new bundle install
 RUN gem install bundler
 RUN bundle config set deployment 'true'
@@ -27,17 +30,13 @@ RUN yarn install
 # These are deliberately permissive in case we want to add
 # future apex files or future config files, so we don't have
 # to worry about adding them here.
-COPY *.js *.json ./
-RUN ls
-COPY bin ./bin
-RUN ls
-COPY config ./config
-RUN ls
-COPY app/javascript ./app/javascript
-RUN ls app
 
-# Set this as a global env var
-ENV RAILS_ENV=production
+# TODO: If these can be merged into one that would save
+# a lot of cache space
+COPY *.js *.json ./
+COPY bin ./bin
+COPY config ./config
+COPY app/javascript ./app/javascript
 
 # This compiles the assets into public/packs
 # During deployment the assets are copied from this image and 

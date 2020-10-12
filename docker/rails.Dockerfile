@@ -11,11 +11,11 @@ WORKDIR /opt/exercism/website/current
 ENV RAILS_ENV=production
 
 # Only Gemfile and Gemfile.lock changs require a new bundle install
-RUN gem install bundler
-RUN bundle config set deployment 'true'
-RUN bundle config set without 'development test'
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+RUN gem install bundler && \
+    bundle config set deployment 'true' && \
+    bundle config set without 'development test' && \
+    bundle install
 
 # Only package.json and yarn.lock require a new yarn install
 COPY package.json yarn.lock ./

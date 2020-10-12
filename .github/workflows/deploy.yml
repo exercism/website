@@ -34,7 +34,6 @@ jobs:
     name: Upload images to ECR, assets to S3, and defintion to ECS
     runs-on: ubuntu-latest
     steps:
-
       ###############
       ###############
       # Setup Steps #
@@ -47,8 +46,8 @@ jobs:
         continue-on-error: true
         with:
           # Change these to rest teh cache
-          key: docker-layer-caching-deploy-rails-{hash}
-          restore-keys: docker-layer-caching-deploy-rails-
+          key: docker-layer-caching-deploy-{hash}
+          restore-keys: docker-layer-caching-deploy-
           concurrency: 30
 
       - name: Configure AWS credentials

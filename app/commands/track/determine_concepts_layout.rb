@@ -29,7 +29,7 @@ class Track
       raise TrackHasCyclicPrerequisiteError if graph.has_cycle?
 
       Array.new(graph.levels.max + 1) { [] }.tap do |level|
-        graph.levels.each_with_index do |level_idx, node_idx|
+        graph.levels.each.with_index do |level_idx, node_idx|
           node = graph.node_for_index(node_idx)
           node.level = level_idx
 
@@ -40,13 +40,13 @@ class Track
 
     memoize
     def connections
-      levels.drop(1).with_index.flat_map do |(level, level_idx)|
+      levels.drop(1).each.with_index.flat_map do |level, level_idx|
         level.flat_map do |node|
           node.prerequisites.
             map { |prerequisite| graph.node_for_concept(prerequisite) }.
-            reject(&:nil?).
+            compact.
             uniq.
-            select { |prerequisite_node| prerequisite_node.level + 1 == level_idx }.
+            select { |prerequisite_node| prerequisite_node.level == level_idx }.
             map { |prerequisite_node| { from: prerequisite_node.slug, to: node.slug } }
         end
       end

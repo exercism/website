@@ -1,0 +1,8 @@
+%h1 Editor
+= form_tag stub_result_test_components_editor_path, remote: true do
+  = label_tag :test_status
+  = select_tag :test_status, options_for_select(%w[Pass])
+  = submit_tag "Stub result"
+%hr
+
+= ViewComponents::Editor.new(create_submission_test_components_editor_path)

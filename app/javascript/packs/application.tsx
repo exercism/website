@@ -17,6 +17,7 @@ import 'components/concepts-map/ConceptsMap.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
+import { Editor } from '../components/common/Editor'
 import * as Example from '../components/example'
 import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
@@ -63,6 +64,7 @@ initReact({
       connections={data.graph.connections}
     />
   ),
+  editor: (data: any) => <Editor endpoint={data.endpoint} />,
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

@@ -71,6 +71,10 @@ Rails.application.routes.draw do
   unless Rails.env.production?
     namespace :test do
       namespace :components do
+        resource :editor, only: [:show], controller: "editor" do
+          post :create_submission
+          post :stub_result
+        end
         namespace :student do
           resource :concepts_map, only: [:show], controller: 'concepts_map'
           resource :tracks_list, only: [:show], controller: "tracks_list" do

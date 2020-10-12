@@ -6,16 +6,16 @@ class Track
   class DetermineConceptsLayout
     include Mandate
 
-    def initialize(track_config)
-      @graph = Graph.new(track_config['exercises'])
+    def initialize(track)
+      @graph = Graph.new(track)
     end
 
     # Layout computes the ordering of the exercises in a track by creating
     # a graph then traversing it to discover and memoize the progression
     def call
       {
-        levels: levels,
-        connections: connections
+        exercise_levels: exercise_levels,
+        exercise_connections: exercise_connections
       }
     end
 
@@ -23,13 +23,13 @@ class Track
     attr_reader :graph
 
     memoize
-    def levels
+    def exercise_levels
       return [] if graph.empty?
 
       raise TrackHasCyclicPrerequisiteError if graph.has_cycle?
 
-      Array.new(graph.levels.max + 1) { [] }.tap do |level|
-        graph.levels.each.with_index do |level_idx, node_idx|
+      Array.new(graph.exercise_levels.max + 1) { [] }.tap do |level|
+        graph.exercise_levels.each.with_index do |level_idx, node_idx|
           node = graph.node_for_index(node_idx)
           node.level = level_idx
 
@@ -39,8 +39,8 @@ class Track
     end
 
     memoize
-    def connections
-      levels.drop(1).each.with_index.flat_map do |level, level_idx|
+    def exercise_connections
+      exercise_levels.drop(1).each.with_index.flat_map do |level, level_idx|
         level.flat_map do |node|
           node.prerequisites.
             map { |prerequisite| graph.node_for_concept(prerequisite) }.
@@ -59,10 +59,10 @@ class Track
       Edge = Struct.new(:from, :to, keyword_init: true)
 
       # Node for representing an exercise within a track
-      Node = Struct.new(:index, :slug, :uuid, :concepts, :prerequisites, :level, keyword_init: true)
+      Node = Struct.new(:index, :slug, :taught_concepts, :prerequisites, :level, keyword_init: true)
 
-      def initialize(exercises)
-        @exercises = exercises
+      def initialize(track)
+        @track = track
         @nodes = determine_nodes
         @edges = determine_edges
       end
@@ -86,12 +86,12 @@ class Track
       end
 
       memoize
-      def levels
+      def exercise_levels
         GraphUtils.calculate_levels(adjacencies)
       end
 
       private
-      attr_reader :nodes, :edges, :exercises
+      attr_reader :nodes, :edges, :track
 
       # Creates adjacency list for a graph with directed edges
       memoize
@@ -106,13 +106,12 @@ class Track
       end
 
       def determine_nodes
-        exercises.map.with_index do |exercise, idx|
+        track.exercises.map.with_index do |exercise, idx|
           Node.new(
             index: idx,
-            slug: exercise['slug'],
-            uuid: exercise['uuid'],
-            concepts: exercise['concepts'],
-            prerequisites: exercise['prerequisites']
+            slug: exercise.slug,
+            taught_concepts: exercise.taught_concepts,
+            prerequisites: exercise.prerequisites
           )
         end.freeze
       end
@@ -129,7 +128,7 @@ class Track
       memoize
       def nodes_keyed_by_concept
         nodes.flat_map do |node|
-          node.concepts.map { |concept| [concept, node] }
+          node.taught_concepts.map { |concept| [concept, node] }
         end.to_h.freeze
       end
 

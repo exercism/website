@@ -70,9 +70,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
-          IMAGE_TAG: ${{ github.sha }}
-          DOCKERFILE: ${{ env.dockerfile_rails }}
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
+          DOCKERFILE: ${{ env.dockerfile_rails }}
         run: |
           # Build a docker container and push it to ECR
           docker build -t $IMAGE_NAME -f $DOCKERFILE .
@@ -113,19 +112,19 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
           DOCKERFILE: ${{ env.dockerfile_nginx }}
         run: |
           # Build a docker container and push it to ECR
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f $DOCKERFILE .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker push $IMAGE_NAME
 
           # Retag this as the latest
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
           # Save the output for writing to the task definiton
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=image::$IMAGE_NAME"
 
       ############################
       ############################
@@ -137,19 +136,19 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_anycable_go }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
           DOCKERFILE: ${{ env.dockerfile_anycable_go }}
         run: |
           # Build a docker container and push it to ECR
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f $DOCKERFILE .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker push $IMAGE_NAME
 
           # Retag this as the latest
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
           # Save the output for writing to the task definiton
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=image::$IMAGE_NAME"
 
       ##############################
       ##############################

@@ -76,8 +76,10 @@ jobs:
           docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
-          # Retag it as website below because the : hurts us otherwise
+          # Retag it as website below because the `:` hurts us otherwise
           docker tag $IMAGE_NAME website
+
+          # Save the output for writing to the task definiton
           echo "::set-output name=image::$IMAGE_NAME"
 
       ##################################
@@ -86,8 +88,6 @@ jobs:
       ##################################
       ##################################
       - name: Copy assets from Dockerfile
-        env:
-          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
         run: |
           container_id=$(docker create website)
           docker cp ${container_id}:/opt/exercism/website/current/public/packs packs
@@ -115,6 +115,8 @@ jobs:
           # Retag this as the latest
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Save the output for writing to the task definiton
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       ############################
@@ -137,6 +139,8 @@ jobs:
           # Retag this as the latest
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Save the output for writing to the task definiton
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       ##############################

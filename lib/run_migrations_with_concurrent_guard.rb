@@ -4,6 +4,7 @@
 begin
   migrations = ActiveRecord::Migration.new.migration_context.migrations
   ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration).migrate
+
   Rails.logger.info "Migrations ran cleanly"
 rescue ActiveRecord::ConcurrentMigrationError
   # If another service is running the migrations, then

@@ -1,68 +1,211 @@
-#env:
-#  aws_region: eu-west-2
-#  ecr_repository: webservers
-#  task_definition: .github/config/ecs-task-def.json
-#  container_name: webserver
-#  service_name: webservers
-#  cluster_name: webservers
+name: Deploy to Amazon ECS
 
-#on:
-#  push:
-#    branches:
-#      - master
+env:
+  aws_region: eu-west-2
+  task_definition_name: webservers
+  service_name: webservers
+  cluster_name: webservers
 
-#name: Deploy to Amazon ECS
+  ecr_repository_rails: "webserver-rails"
+  dockerfile_rails: "docker/rails.Dockerfile"
 
-#jobs:
-#  deploy:
-#    name: Deploy
-#    runs-on: ubuntu-latest
+  ecr_repository_nginx: "webserver-nginx"
+  dockerfile_nginx: "docker/nginx.Dockerfile"
 
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
+  ecr_repository_anycable_go: "webserver-anycable-go"
+  dockerfile_anycable_go: "docker/anycable-go.Dockerfile"
 
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-region: ${{ env.aws_region }}
+  # TODO: Move this to be a secret
+  s3_bucket: "exercism-assets-staging"
 
-#      - name: Login to Amazon ECR
-#        id: login-ecr
-#        uses: aws-actions/amazon-ecr-login@v1
+on:
+  push:
+    branches:
+      - master
 
-#      - name: Build, tag, and push image to Amazon ECR
-#        id: build-image
-#        env:
-#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          ECR_REPOSITORY: ${{ env.ecr_repository }}
-#          IMAGE_TAG: ${{ github.sha }}
-#        run: |
-#          # Build a docker container and
-#          # push it to ECR so that it can
-#          # be deployed to ECS.
-#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+jobs:
+  deploy:
+    name: Upload images to ECR, assets to S3, and defintion to ECS
+    runs-on: ubuntu-latest
+    steps:
+      ###############
+      ###############
+      # Setup Steps #
+      ###############
+      ###############
+      - name: Checkout
+        uses: actions/checkout@v2
 
-#          # Retag this as the latest
-#          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
-#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-#          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+      - uses: satackey/action-docker-layer-caching@v0.0.5
+        continue-on-error: true
+        with:
+          # Change these to rest the cache
+          key: docker-layer-caching-deploy-{hash}
+          restore-keys: docker-layer-caching-deploy-
+          concurrency: 30
 
-#      #- name: Fill in the new image ID in the Amazon ECS task definition
-#      #  id: task-def
-#      #  uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      #  with:
-#      #    task-definition: ${{ env.task_definition }}
-#      #    container-name: ${{ env.container_name }}
-#      #    image: ${{ steps.build-image.outputs.image }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_DEPLOY_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_DEPLOY_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.aws_region }}
 
-#      #- name: Deploy Amazon ECS task definition
-#      #  uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      #  with:
-#      #    task-definition: ${{ steps.task-def.outputs.task-definition }}
-#      #    service: ${{ env.service_name }}
-#      #    cluster: ${{ env.cluster_name }}
-#      #    wait-for-service-stability: true
+      - name: Login to Amazon ECR
+        id: login_to_ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      #########################
+      #########################
+      # Build the Rails image #
+      #########################
+      #########################
+      - name: Build and Push Rails Docker
+        id: build_rails
+        env:
+          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
+          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
+          DOCKERFILE: ${{ env.dockerfile_rails }}
+        run: |
+          # Build a docker container and push it to ECR
+          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker push $IMAGE_NAME
+
+          # Retag this as the latest
+          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Retag it as website below because the `:` hurts us otherwise
+          docker tag $IMAGE_NAME website
+
+          # Save the output for writing to the task definiton
+          echo "::set-output name=image::$IMAGE_NAME"
+
+      ##################################
+      ##################################
+      # Extact and upload assets to s3 #
+      ##################################
+      ##################################
+      - name: Copy assets from Dockerfile
+        run: |
+          container_id=$(docker create website)
+          docker cp ${container_id}:/opt/exercism/website/current/public/packs packs
+          docker rm ${container_id}
+
+      - name: Upload assets to s3
+        run: |
+          aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress
+
+      #########################
+      #########################
+      # Build the Nginx image #
+      #########################
+      #########################
+      - name: Build and Push Nginx Docker
+        id: build_nginx
+        env:
+          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}
+          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
+          DOCKERFILE: ${{ env.dockerfile_nginx }}
+        run: |
+          # Build a docker container and push it to ECR
+          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker push $IMAGE_NAME
+
+          # Retag this as the latest
+          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Save the output for writing to the task definiton
+          echo "::set-output name=image::$IMAGE_NAME"
+
+      ############################
+      ############################
+      # Build the AnyCable image #
+      ############################
+      ############################
+      - name: Build and Push Anycable Go Docker
+        id: build_anycable_go
+        env:
+          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ecr_repository_anycable_go }}
+          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
+          DOCKERFILE: ${{ env.dockerfile_anycable_go }}
+        run: |
+          # Build a docker container and push it to ECR
+          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker push $IMAGE_NAME
+
+          # Retag this as the latest
+          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Save the output for writing to the task definiton
+          echo "::set-output name=image::$IMAGE_NAME"
+
+      ##############################
+      ##############################
+      # Update the task definition #
+      ##############################
+      ##############################
+
+      # We get the existing task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.task_definition_name }} --query taskDefinition > task-definition.json
+
+      # Set puma to rails
+      - name: Update the definition for puma
+        id: update_definition_for_puma
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: puma
+          image: "${{ steps.build_rails.outputs.image }}"
+
+      # Set anycable_ruby to rails
+      - name: Update the definition for anycable_ruby
+        id: update_definition_for_anycable_ruby
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_puma.outputs.task-definition }}
+          container-name: anycable_ruby
+          image: "${{ steps.build_rails.outputs.image }}"
+
+      # Set nginx to nginx
+      - name: Update the definition for nginx
+        id: update_definition_for_nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
+          container-name: nginx
+          image: "${{ steps.build_nginx.outputs.image }}"
+
+      # Set anycable_go to anycable_go
+      - name: Update the definition for anycable_go
+        id: update_definition_for_anycable_go
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
+          container-name: anycable_go
+          image: "${{ steps.build_anycable_go.outputs.image }}"
+
+      ##############################
+      ##############################
+      # Deploy the task definition #
+      ##############################
+      ##############################
+
+      # Push the new defintion up to ECS and deploy a new sevice from it.
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          # Ensure this is the final step in the daisy-chain above
+          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
+          service: ${{ env.service_name }}
+          cluster: ${{ env.cluster_name }}
+          wait-for-service-stability: true

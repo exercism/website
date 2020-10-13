@@ -14,6 +14,9 @@ gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'anycable-rails', '~> 0.6' # , "~> 1.0.0.rc1"
 
+# Helper gems for Rails
+gem 'bootsnap', '>= 1.4.2', require: false
+
 # Interaction gems
 gem 'rugged' # Git
 gem 'rest-client' # http
@@ -47,7 +50,6 @@ group :development, :test do
   #  gem 'pry'
   #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
-  gem 'bootsnap', '>= 1.4.2', require: false
 
   # To avoid polling for changes on Windows MRI, it needs this opt-in gem
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?

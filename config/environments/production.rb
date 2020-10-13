@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
-    config.action_cable.url = ActionCable.server.config.url = "ws://staging.exercism.io:3334/cable"
+    config.action_cable.url = ActionCable.server.config.url = "ws://exercism.lol:3334/cable"
     # config.action_cable.allowed_request_origins = %r{http://localhost.*} # May need this
   end
   # Settings specified here will take precedence over those in config/application.rb.
@@ -64,7 +64,7 @@ Rails.application.configure do
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
+  config.i18n.fallbacks = [I18n.default_locale]
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
@@ -100,4 +100,10 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  config.action_controller.asset_host = "exercism-assets-staging.s3.eu-west-2.amazonaws.com"
 end
+
+Rails.application.routes.default_url_options = {
+  host: "http://exercism.lol"
+}

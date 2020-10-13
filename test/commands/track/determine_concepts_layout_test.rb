@@ -26,7 +26,6 @@ class Track
         {
           concepts: [
             {
-              index: 0,
               slug: 'basics',
               name: 'Basics',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
@@ -56,13 +55,11 @@ class Track
         {
           concepts: [
             {
-              index: 0,
               slug: 'basics',
               name: 'Basics',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
             },
             {
-              index: 1,
               slug: 'booleans',
               name: 'Booleans',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
@@ -97,19 +94,16 @@ class Track
         {
           concepts: [
             {
-              index: 0,
               slug: 'basics',
               name: 'Basics',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
             },
             {
-              index: 1,
               slug: 'booleans',
               name: 'Booleans',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
             },
             {
-              index: 2,
               slug: 'atoms',
               name: 'Atoms',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms'
@@ -145,19 +139,16 @@ class Track
         {
           concepts: [
             {
-              index: 0,
               slug: 'basics',
               name: 'Basics',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
             },
             {
-              index: 1,
               slug: 'booleans',
               name: 'Booleans',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
             },
             {
-              index: 2,
               slug: 'atoms',
               name: 'Atoms',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms'
@@ -195,25 +186,21 @@ class Track
         {
           concepts: [
             {
-              index: 0,
               slug: 'basics',
               name: 'Basics',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
             },
             {
-              index: 1,
               slug: 'booleans',
               name: 'Booleans',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
             },
             {
-              index: 2,
               slug: 'atoms',
               name: 'Atoms',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms'
             },
             {
-              index: 3,
               slug: 'cond',
               name: 'Cond',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/cond'

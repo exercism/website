@@ -37,8 +37,8 @@ export const ConceptsMap = ({ concepts, layout, connections }: IConceptMap) => {
                 return (
                   <Concept
                     key={concept.slug}
-                    index={concept.index}
                     slug={slug}
+                    name={concept.name}
                     web_url={concept.web_url}
                     status={concept.status}
                     handleEnter={() => setActive(slug)}

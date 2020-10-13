@@ -5,6 +5,7 @@ import { IConcept, ConceptState } from './concept-types'
 
 export const Concept = ({
   slug,
+  name,
   web_url,
   status,
   handleEnter,
@@ -41,18 +42,11 @@ export const Concept = ({
       onMouseLeave={handleLeave}
     >
       <div className="display">
-        <div className="name">{slugToTitlecase(slug)}</div>
+        <div className="name">{name}</div>
         <CompleteIcon show={ConceptState.Completed === status} />
       </div>
     </a>
   )
-}
-
-function slugToTitlecase(slug: string): string {
-  return slug
-    .split('-')
-    .map((part) => part[0].toUpperCase() + part.substr(1))
-    .join(' ')
 }
 
 export function conceptExerciseSlugToId(slug: string): string {

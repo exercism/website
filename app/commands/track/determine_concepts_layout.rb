@@ -26,13 +26,9 @@ class Track
 
     memoize
     def concepts
-      counter = 0 # TODO: remove this if the component doesn't actually need an 'index'
       graph.nodes.flat_map do |exercise|
         exercise.taught_concepts.map do |concept|
-          index = counter
-          counter += 1
           {
-            index: index,
             slug: concept.slug,
             name: concept.name,
             web_url: Exercism::Routes.track_concept_url(track, concept)

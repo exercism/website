@@ -23,6 +23,11 @@ on:
     branches:
       - master
 
+  # TODO: Remove befor merging
+  pull_request:
+    branches:
+      - master
+
 jobs:
   deploy:
     name: Upload images to ECR, assets to S3, and defintion to ECS
@@ -163,7 +168,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: puma
-          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
+          image: "${{ steps.build_puma.outputs.image }}"
 
       # Set anycable_ruby to rails
       - name: Update the definition for anycable_ruby
@@ -172,7 +177,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_puma.outputs.task-definition }}
           container-name: anycable_ruby
-          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
+          image: "${{ steps.build_anycable_ruby.outputs.image }}"
 
       # Set nginx to nginx
       - name: Update the definition for nginx
@@ -181,7 +186,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
           container-name: nginx
-          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
+          image: "${{ steps.build_nginx.outputs.image }}"
 
       # Set anycable_go to anycable_go
       - name: Update the definition for anycable_go
@@ -190,7 +195,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
           container-name: anycable_go
-          image: "${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
+          image: "${{ steps.build_anycable_go.outputs.image }}"
 
       ##############################
       ##############################

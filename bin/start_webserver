@@ -10,7 +10,7 @@ def system!(*args)
 end
 
 FileUtils.chdir APP_ROOT do
-  # TODO: We're going to want to remove this evenutally!!
+  # TODO: We're going to want to remove this eventually!!
   # Recreates the database on each deployment.
   system! 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec bin/rails db:migrate:reset db:seed'
 

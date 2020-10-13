@@ -44,7 +44,7 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
         with:
-          # Change these to rest teh cache
+          # Change these to rest the cache
           key: docker-layer-caching-deploy-{hash}
           restore-keys: docker-layer-caching-deploy-
           concurrency: 30
@@ -66,6 +66,7 @@ jobs:
       #########################
       #########################
       - name: Build and Push Rails Docker
+        id: build_rails
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
@@ -96,6 +97,7 @@ jobs:
         run: |
           container_id=$(docker create website)
           docker cp ${container_id}:/opt/exercism/website/current/public/packs packs
+          docker rm ${container_id}
 
       - name: Upload assets to s3
         run: |
@@ -107,6 +109,7 @@ jobs:
       #########################
       #########################
       - name: Build and Push Nginx Docker
+        id: build_nginx
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}
@@ -129,7 +132,7 @@ jobs:
       # Build the AnyCable image #
       ############################
       ############################
-      - name: Build and Push Puma Docker
+      - name: Build and Push Anycable Go Docker
         id: build_anycable_go
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
@@ -168,7 +171,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: puma
-          image: "${{ steps.build_puma.outputs.image }}"
+          image: "${{ steps.build_rails.outputs.image }}"
 
       # Set anycable_ruby to rails
       - name: Update the definition for anycable_ruby
@@ -177,7 +180,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_puma.outputs.task-definition }}
           container-name: anycable_ruby
-          image: "${{ steps.build_anycable_ruby.outputs.image }}"
+          image: "${{ steps.build_rails.outputs.image }}"
 
       # Set nginx to nginx
       - name: Update the definition for nginx

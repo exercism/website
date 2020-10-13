@@ -215,7 +215,7 @@ class Track
             {
               index: 3,
               slug: 'cond',
-              name: 'cond',
+              name: 'Cond',
               web_url: 'https://test.exercism.io/tracks/ruby/concepts/cond'
             }
           ],

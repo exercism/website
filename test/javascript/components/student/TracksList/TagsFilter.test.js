@@ -17,3 +17,44 @@ test('hides option list when clicking "Close"', () => {
 
   expect(queryByText('OOP')).not.toBeVisible()
 })
+
+test('focuses on dialog when expanded', () => {
+  const { getByText, getByRole } = render(
+    <TagsFilter
+      options={[
+        { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
+      ]}
+    />
+  )
+
+  fireEvent.click(getByText('Filter by'))
+
+  expect(getByRole('dialog')).toHaveFocus()
+})
+
+test('focuses on filter only after expanding and closing', () => {
+  const { getByText, getByRole } = render(
+    <TagsFilter
+      options={[
+        { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
+      ]}
+    />
+  )
+
+  fireEvent.click(getByText('Filter by'))
+  fireEvent.click(getByText('Close'))
+
+  expect(getByText('Filter by')).toHaveFocus()
+})
+
+test('does not focus on filter by default', () => {
+  const { getByText, getByRole } = render(
+    <TagsFilter
+      options={[
+        { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
+      ]}
+    />
+  )
+
+  expect(getByText('Filter by')).not.toHaveFocus()
+})

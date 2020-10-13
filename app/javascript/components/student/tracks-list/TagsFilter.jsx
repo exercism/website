@@ -4,13 +4,18 @@ import { TagOptionList } from './TagOptionList'
 export function TagsFilter({ options, dispatch }) {
   const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState([])
+  const [hasExpandedEver, markAsExpanded] = useState(false)
 
   const dialogRef = useRef(null)
   const filterButtonRef = useRef(null)
 
   useEffect(() => {
-    const elemToFocus = expanded ? dialogRef : filterButtonRef
-    elemToFocus.current.focus()
+    if (expanded) {
+      dialogRef.current.focus()
+      markAsExpanded(true)
+    } else if (hasExpandedEver) {
+      filterButtonRef.current.focus()
+    }
   }, [expanded])
 
   useEffect(() => {

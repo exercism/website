@@ -131,7 +131,7 @@ class Track
       memoize
       def adjacencies
         Array.new(nodes.length) { [] }.tap do |adjacencies|
-          edges.compact.each do |edge| # FIXME: Bug, compact is necessary here, why?
+          edges.each do |edge|
             from = edge.from.index
             to = edge.to.index
             adjacencies[from] << to
@@ -154,9 +154,9 @@ class Track
         nodes.flat_map do |node|
           node.prerequisites.map do |prereq|
             prereq_node = node_for_concept(prereq)
-            Edge.new(from: prereq_node, to: node) unless prereq_node.nil?
+            prereq_node ? Edge.new(from: prereq_node, to: node) : nil
           end
-        end.freeze
+        end.compact.freeze
       end
 
       memoize

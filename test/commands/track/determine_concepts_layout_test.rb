@@ -1,45 +1,234 @@
-require "test_helper"
+require 'test_helper'
 
 class Track
   class DetermineConceptsLayoutTest < ActiveSupport::TestCase
-    def test_layout_empty
-      assert_equal [], DetermineConceptsLayout.(TestData::CONFIG_EMPTY)[:levels]
-    end
-
-    def test_layout_small
+    def test_layout_empty_level
+      track = create :track
       assert_equal(
-        [[2], [0, 1]],
-        DetermineConceptsLayout.(TestData::CONFIG_SMALL)[:levels].
-          map { |layer| layer.map(&:index) }
+        {
+          concepts: [],
+          levels: [],
+          connections: []
+        },
+        Track::DetermineConceptsLayout.(track)
       )
     end
 
-    module TestData
-      CONFIG_EMPTY = { 'language' => 'test', 'exercises' => [] }.freeze
+    def test_layout_with_one_level
+      track = create :track
 
-      CONFIG_SMALL = {
-        'language' => 'elixir',
-        'exercises' => [
-          {
-            'slug' => 'booleans',
-            'uuid' => '5e743355-1ef3-4b5d-b59d-03bbc9697e6c',
-            'concepts' => %w[booleans],
-            'prerequisites' => %w[basics]
-          },
-          {
-            'slug' => 'numbers',
-            'uuid' => 'fee79e03-1496-476f-964f-e60632cb13dc',
-            'concepts' => %w[integers floating-point-numbers],
-            'prerequisites' => %w[basics booleans]
-          },
-          {
-            'slug' => 'basics',
-            'uuid' => 'c29c6092-9d44-4f21-8138-b873384fd90b',
-            'concepts' => %w[basics],
-            'prerequisites' => []
-          }
-        ]
-      }.freeze
+      basics = create :track_concept, slug: 'basics', track: track
+
+      lasagna = create :concept_exercise, track: track
+      lasagna.taught_concepts << basics
+
+      assert_equal(
+        {
+          concepts: [
+            {
+              index: 0,
+              slug: 'basics',
+              name: 'Basics',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
+            }
+          ],
+          levels: [['basics']],
+          connections: []
+        },
+        Track::DetermineConceptsLayout.(track)
+      )
+    end
+
+    def test_layout_with_two_levels
+      track = create :track
+
+      basics = create :track_concept, slug: 'basics', track: track
+      booleans = create :track_concept, slug: 'booleans', track: track
+
+      lasagna = create :concept_exercise, track: track
+      lasagna.taught_concepts << basics
+
+      pacman = create :concept_exercise, track: track
+      pacman.taught_concepts << booleans
+      pacman.prerequisites << basics
+
+      assert_equal(
+        {
+          concepts: [
+            {
+              index: 0,
+              slug: 'basics',
+              name: 'Basics',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
+            },
+            {
+              index: 1,
+              slug: 'booleans',
+              name: 'Booleans',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
+            }
+          ],
+          levels: [['basics'], ['booleans']],
+          connections: [{ from: 'basics', to: 'booleans' }]
+        },
+        Track::DetermineConceptsLayout.(track)
+      )
+    end
+
+    def test_layout_with_three_level
+      track = create :track
+
+      basics = create :track_concept, slug: 'basics', track: track
+      booleans = create :track_concept, slug: 'booleans', track: track
+      atoms = create :track_concept, slug: 'atoms', track: track
+
+      lasagna = create :concept_exercise, track: track
+      lasagna.taught_concepts << basics
+
+      pacman = create :concept_exercise, track: track
+      pacman.taught_concepts << booleans
+      pacman.prerequisites << basics
+
+      logger = create :concept_exercise, track: track
+      logger.taught_concepts << atoms
+      logger.prerequisites << booleans
+
+      assert_equal(
+        {
+          concepts: [
+            {
+              index: 0,
+              slug: 'basics',
+              name: 'Basics',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
+            },
+            {
+              index: 1,
+              slug: 'booleans',
+              name: 'Booleans',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
+            },
+            {
+              index: 2,
+              slug: 'atoms',
+              name: 'Atoms',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms'
+            }
+          ],
+          levels: [['basics'], ['booleans'], ['atoms']],
+          connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
+        },
+        Track::DetermineConceptsLayout.(track)
+      )
+    end
+
+    def test_layout_with_three_level_multiple_prereq
+      track = create :track
+
+      basics = create :track_concept, slug: 'basics', track: track
+      booleans = create :track_concept, slug: 'booleans', track: track
+      atoms = create :track_concept, slug: 'atoms', track: track
+
+      lasagna = create :concept_exercise, track: track
+      lasagna.taught_concepts << basics
+
+      pacman = create :concept_exercise, track: track
+      pacman.taught_concepts << booleans
+      pacman.prerequisites << basics
+
+      logger = create :concept_exercise, track: track
+      logger.taught_concepts << atoms
+      logger.prerequisites << basics # while this is a prereq, it should not generate edge
+      logger.prerequisites << booleans
+
+      assert_equal(
+        {
+          concepts: [
+            {
+              index: 0,
+              slug: 'basics',
+              name: 'Basics',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
+            },
+            {
+              index: 1,
+              slug: 'booleans',
+              name: 'Booleans',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
+            },
+            {
+              index: 2,
+              slug: 'atoms',
+              name: 'Atoms',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms'
+            }
+          ],
+          levels: [['basics'], ['booleans'], ['atoms']],
+          connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
+        },
+        Track::DetermineConceptsLayout.(track)
+      )
+    end
+
+    def test_layout_with_three_level_multiple_prereq_and_taught
+      track = create :track
+
+      basics = create :track_concept, slug: 'basics', track: track
+      booleans = create :track_concept, slug: 'booleans', track: track
+      atoms = create :track_concept, slug: 'atoms', track: track
+      cond = create :track_concept, slug: 'cond', track: track
+
+      lasagna = create :concept_exercise, track: track
+      lasagna.taught_concepts << basics
+
+      pacman = create :concept_exercise, track: track
+      pacman.taught_concepts << booleans
+      pacman.taught_concepts << atoms
+      pacman.prerequisites << basics
+
+      logger = create :concept_exercise, track: track
+      logger.taught_concepts << cond
+      logger.prerequisites << booleans
+      logger.prerequisites << atoms
+
+      assert_equal(
+        {
+          concepts: [
+            {
+              index: 0,
+              slug: 'basics',
+              name: 'Basics',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics'
+            },
+            {
+              index: 1,
+              slug: 'booleans',
+              name: 'Booleans',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans'
+            },
+            {
+              index: 2,
+              slug: 'atoms',
+              name: 'Atoms',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms'
+            },
+            {
+              index: 3,
+              slug: 'cond',
+              name: 'cond',
+              web_url: 'https://test.exercism.io/tracks/ruby/concepts/cond'
+            }
+          ],
+          levels: [%w[basics], %w[booleans atoms], %w[cond]],
+          connections: [
+            { from: 'basics', to: 'booleans' },
+            { from: 'basics', to: 'atoms' },
+            { from: 'booleans', to: 'cond' },
+            { from: 'atoms', to: 'cond' }
+          ]
+        },
+        Track::DetermineConceptsLayout.(track)
+      )
     end
   end
 end

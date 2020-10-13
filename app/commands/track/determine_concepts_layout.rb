@@ -7,6 +7,7 @@ class Track
     include Mandate
 
     def initialize(track)
+      @track = track
       @graph = Graph.new(track)
     end
 
@@ -14,13 +15,48 @@ class Track
     # a graph then traversing it to discover and memoize the progression
     def call
       {
-        exercise_levels: exercise_levels,
-        exercise_connections: exercise_connections
+        concepts: concepts,
+        levels: concept_levels,
+        connections: concept_connections
       }
     end
 
     private
-    attr_reader :graph
+    attr_reader :graph, :track
+
+    memoize
+    def concepts
+      counter = 0 # TODO: remove this if the component doesn't actually need an 'index'
+      graph.nodes.flat_map do |exercise|
+        exercise.taught_concepts.map do |concept|
+          index = counter
+          counter += 1
+          {
+            index: index,
+            slug: concept.slug,
+            name: concept.name,
+            web_url: Exercism::Routes.track_concept_url(track, concept)
+          }
+        end
+      end
+    end
+
+    memoize
+    def concept_levels
+      exercise_levels.map { |level| level.flat_map(&:taught_concepts).map(&:slug) }
+    end
+
+    memoize
+    def concept_connections
+      exercise_connections.flat_map do |connection|
+        from_concepts = connection[:from].taught_concepts
+        to_concepts = connection[:to].taught_concepts
+
+        from_concepts.product(to_concepts).map do |(from, to)|
+          { from: from.slug, to: to.slug }
+        end
+      end
+    end
 
     memoize
     def exercise_levels
@@ -47,13 +83,15 @@ class Track
             compact.
             uniq.
             select { |prerequisite_node| prerequisite_node.level == level_idx }.
-            map { |prerequisite_node| { from: prerequisite_node.slug, to: node.slug } }
+            map { |prerequisite_node| { from: prerequisite_node, to: node } }
         end
       end
     end
 
     class Graph
       include Mandate
+
+      attr_reader :nodes
 
       # Edge representing a directed edge
       Edge = Struct.new(:from, :to, keyword_init: true)
@@ -91,7 +129,7 @@ class Track
       end
 
       private
-      attr_reader :nodes, :edges, :track
+      attr_reader :edges, :track
 
       # Creates adjacency list for a graph with directed edges
       memoize
@@ -106,12 +144,12 @@ class Track
       end
 
       def determine_nodes
-        track.exercises.map.with_index do |exercise, idx|
+        track.exercises.includes(:taught_concepts, :prerequisites).map.with_index do |exercise, idx|
           Node.new(
             index: idx,
             slug: exercise.slug,
-            taught_concepts: exercise.taught_concepts,
-            prerequisites: exercise.prerequisites
+            taught_concepts: exercise.taught_concepts.to_a,
+            prerequisites: exercise.prerequisites.to_a
           )
         end.freeze
       end

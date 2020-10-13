@@ -1,14 +1,19 @@
 module ViewComponents
   module Student
     class TracksList < ViewComponent
-      def initialize(data, request = default_request)
+      # TODO: Remove `user` and its usage here once API supports session requests
+      def initialize(user, data, request = default_request)
+        @user = user
         @data = data
         @request = request
       end
 
       def to_s
         react_component("student-tracks-list", {
-                          request: request.deep_merge({ options: { initialData: data } }),
+                          request: request.deep_merge({
+                                                        options: { initialData: data },
+                                                        query: { auth_token: user.auth_tokens.first.to_s }
+                                                      }),
                           status_options: STATUS_OPTIONS,
                           tag_options: TAG_OPTIONS
                         })
@@ -34,11 +39,10 @@ module ViewComponents
       private_constant :TAG_OPTIONS
 
       private
-      attr_reader :data, :request
+      attr_reader :user, :data, :request
 
       def default_request
-        # TODO: Change this to the actual endpoint, not the test endpoint
-        { endpoint: Exercism::Routes.tracks_test_components_student_tracks_list_path, query: {} }
+        { endpoint: Exercism::Routes.api_tracks_path }
       end
     end
   end

@@ -1,6 +1,7 @@
 class Test::Components::Student::TracksListController < ApplicationController
   def show
-    @data = SerializeTracks.(Track.all, User.first)
+    @user = User.first
+    @data = SerializeTracks.(Track.all, @user)
   end
 
   def tracks

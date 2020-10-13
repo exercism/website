@@ -3,7 +3,7 @@ import { ConceptConnection } from './concept-connection-types'
 
 export interface IConceptMap {
   concepts: IConcept[]
-  layout: ConceptLayer[]
+  levels: ConceptLayer[]
   connections: ConceptConnection[]
 }
 

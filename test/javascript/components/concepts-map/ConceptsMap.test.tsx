@@ -54,8 +54,8 @@ const concept = (
   const state = options.state ?? ConceptState.Locked
 
   return {
-    index: index,
     slug: conceptName,
+    name: slugToTitlecase(conceptName),
     web_url: `link-for-${conceptName}`,
     status: state,
   }
@@ -63,14 +63,21 @@ const concept = (
 
 const renderMap = (
   concepts: Concept[],
-  layout: ConceptLayer[],
+  levels: ConceptLayer[],
   connections: ConceptConnection[]
 ) => {
   return render(
     <ConceptsMap
       concepts={concepts}
-      layout={layout}
+      levels={levels}
       connections={connections}
     />
   )
+}
+
+function slugToTitlecase(slug: string): string {
+  return slug
+    .split('-')
+    .map((part) => part[0].toUpperCase() + part.substr(1))
+    .join(' ')
 }

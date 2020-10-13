@@ -5,7 +5,7 @@ module Student
     test "component with empty concepts map rendered correctly" do
       data = {
         concepts: [],
-        layout: [],
+        levels: [],
         connections: []
       }
       component = ViewComponents::Student::ConceptsMap.new(data).to_s

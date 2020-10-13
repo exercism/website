@@ -8,9 +8,9 @@ export enum ConceptState {
 }
 
 export interface IConcept {
-  index: number
   slug: string
   web_url: string
+  name: string
   status: ConceptState
   handleEnter?: MouseEventHandler
   handleLeave?: MouseEventHandler

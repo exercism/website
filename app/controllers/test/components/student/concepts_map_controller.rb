@@ -45,7 +45,7 @@ class Test::Components::Student::ConceptsMapController < ApplicationController #
           status: "unlocked"
         }
       ],
-      layout: [
+      levels: [
         ["basics"],
         %w[
           booleans

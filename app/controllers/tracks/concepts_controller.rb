@@ -7,6 +7,7 @@ class Tracks::ConceptsController < ApplicationController
 
   def authenticated_index
     if current_user.joined_track?(@track)
+      @layout_data = Track::DetermineConceptsLayout.(@track)
       render action: "index/joined"
     else
       render action: "index/unjoined"

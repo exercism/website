@@ -59,7 +59,7 @@ initReact({
   'concepts-map': (data: any) => (
     <ConceptsMap
       concepts={data.graph.concepts}
-      layout={data.graph.layout}
+      levels={data.graph.levels}
       connections={data.graph.connections}
     />
   ),

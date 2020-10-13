@@ -131,7 +131,7 @@ class Track
       memoize
       def adjacencies
         Array.new(nodes.length) { [] }.tap do |adjacencies|
-          edges.each do |edge|
+          edges.compact.each do |edge| # FIXME: Bug, compact is necessary here, why?
             from = edge.from.index
             to = edge.to.index
             adjacencies[from] << to

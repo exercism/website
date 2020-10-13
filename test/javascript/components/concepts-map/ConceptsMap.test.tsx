@@ -63,13 +63,13 @@ const concept = (
 
 const renderMap = (
   concepts: Concept[],
-  layout: ConceptLayer[],
+  levels: ConceptLayer[],
   connections: ConceptConnection[]
 ) => {
   return render(
     <ConceptsMap
       concepts={concepts}
-      layout={layout}
+      levels={levels}
       connections={connections}
     />
   )

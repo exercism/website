@@ -28,6 +28,11 @@ class Test::Components::EditorController < Test::BaseController
                     { name: :test_no_name_given, status: :fail }
                   ]
                 }
+              when "Error"
+                {
+                  tests_status: "error",
+                  message: "Undefined local variable"
+                }
               end
 
     Test::Submissions::TestRunsChannel.broadcast_to(Submission.last, message)

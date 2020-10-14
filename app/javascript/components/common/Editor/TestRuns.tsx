@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { Submission } from '../Editor'
+import { Submission, SubmissionTestsStatus } from '../Editor'
 import consumer from '../../../utils/action-cable-consumer'
 
-export function TestRuns({ submission }: { submission: Submission }) {
-  const [testsStatus, setTestsStatus] = useState(submission.testsStatus)
-  const [testRuns, setTestRuns] = useState(submission.testRuns)
+export function TestRuns(props: { submission: Submission }) {
+  const [submission, setSubmission] = useState(props.submission)
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(
       { channel: 'Test::Submissions::TestRunsChannel', id: submission.id },
       {
-        received: (submission: any) => {
-          setTestsStatus(submission.tests_status)
-          setTestRuns(submission.test_runs)
+        received: (json: any) => {
+          setSubmission({
+            id: submission.id,
+            testsStatus: json.tests_status,
+            testRuns: json.test_runs,
+            message: json.message,
+          })
         },
       }
     )
@@ -22,14 +25,32 @@ export function TestRuns({ submission }: { submission: Submission }) {
     }
   }, [submission.id])
 
-  return (
-    <div>
-      <p>Status: {testsStatus}</p>
-      {testRuns.map((run) => (
+  let content
+
+  switch (submission.testsStatus) {
+    case SubmissionTestsStatus.PASS: {
+      content = submission.testRuns.map((run) => (
         <p key={run.name}>
           name: {run.name}, status: {run.status}, output: {run.output}
         </p>
-      ))}
+      ))
+    }
+    case SubmissionTestsStatus.FAIL: {
+      content = submission.testRuns.map((run) => (
+        <p key={run.name}>
+          name: {run.name}, status: {run.status}, output: {run.output}
+        </p>
+      ))
+    }
+    case SubmissionTestsStatus.ERROR: {
+      content = <p>{submission.message}</p>
+    }
+  }
+
+  return (
+    <div>
+      <p>Status: {submission.testsStatus}</p>
+      {content}
     </div>
   )
 }

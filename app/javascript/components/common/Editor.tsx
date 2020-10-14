@@ -7,10 +7,14 @@ export type Submission = {
   id: number
   testsStatus: SubmissionTestsStatus
   testRuns: TestRun[]
+  message: string
 }
 
-enum SubmissionTestsStatus {
+export enum SubmissionTestsStatus {
   PASS = 'pass',
+  FAIL = 'fail',
+  ERROR = 'error',
+  PENDING = 'pending',
 }
 
 type TestRun = {
@@ -39,7 +43,8 @@ export function Editor({ endpoint }: { endpoint: string }) {
         setSubmission({
           id: json.id,
           testsStatus: json.tests_status,
-          testRuns: json.test_runs || [],
+          testRuns: json.test_runs,
+          message: json.message,
         })
       )
   }

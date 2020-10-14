@@ -72,9 +72,7 @@ module API
       end
 
       render json: {
-        submission: {
-          uuid: submission.uuid
-        }
+        submission: SerializeSubmission.(submission)
       }, status: :created
     end
 

@@ -25,10 +25,7 @@ export function drawPath(
   path = scalePath(path, options.scale)
   const { start, end } = path
 
-  const pageWidth = document.documentElement.clientWidth
-  const normalize =
-    ((end.y - start.y) * Math.abs(start.x - end.x)) / (pageWidth / 2)
-  const adjust = 6
+  const halfDeltaY = (end.y - start.y) / 2
 
   if (options.dim) {
     ctx.globalAlpha = Number(
@@ -44,9 +41,9 @@ export function drawPath(
   ctx.moveTo(start.x, start.y)
   ctx.bezierCurveTo(
     start.x,
-    start.y + normalize + adjust,
+    start.y + halfDeltaY,
     end.x,
-    end.y - normalize - adjust,
+    end.y - halfDeltaY,
     end.x,
     end.y
   )

@@ -11,9 +11,9 @@ class SubmissionChannelTest < ActionCable::Channel::TestCase
         id: submission.id,
         track: "Ruby",
         exercise: "Bob",
-        testsStatus: "pending",
-        representationStatus: "pending",
-        analysisStatus: "pending"
+        testsStatus: "not_queued",
+        representationStatus: "not_queued",
+        analysisStatus: "not_queued"
       }
     ) do
       SubmissionChannel.broadcast!(submission)

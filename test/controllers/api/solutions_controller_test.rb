@@ -283,8 +283,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     patch api_solution_path(solution.uuid),
       params: {
-        files: { "foo" => "bar" },
-        major: false
+        files: { "foo" => "bar" }
       },
       headers: @headers,
       as: :json
@@ -305,7 +304,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
     Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :cli, true).returns(mock(uuid: "foobar"))
+    Submission::Create.expects(:call).with(solution, files, :cli).returns(mock(uuid: "foobar"))
 
     patch api_solution_path(solution.uuid),
       params: { files: http_files },
@@ -322,28 +321,10 @@ class API::SolutionsControllerTest < API::BaseTestCase
     params_files = { "foo" => "bar", "bar" => "foo" }
     files = mock
     Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :api, true).returns(mock(uuid: "foobar"))
+    Submission::Create.expects(:call).with(solution, files, :api).returns(mock(uuid: "foobar"))
 
     patch api_solution_path(solution.uuid),
       params: { files: params_files },
-      headers: @headers,
-      as: :json
-
-    assert_response :success
-  end
-
-  test "update should respect major param" do
-    setup_user
-    solution = create :concept_solution, user: @current_user
-
-    Submission::PrepareMappedFiles.expects(:call)
-    Submission::Create.expects(:call).with(solution, nil, :api, false).returns(mock(uuid: "foobar"))
-
-    patch api_solution_path(solution.uuid),
-      params: {
-        files: { "foo" => "bar" },
-        major: false
-      },
       headers: @headers,
       as: :json
 

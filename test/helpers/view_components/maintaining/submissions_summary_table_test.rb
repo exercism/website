@@ -18,9 +18,9 @@ class MaintainingSubmissionsSummaryTableTest < ViewComponentTestCase
       "maintaining-submissions-summary-table",
       {
         submissions: [
-          { "id": submission_1.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "pending", "representationStatus": "pending", "analysisStatus": "inconclusive" },
-          { "id": submission_2.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "passed", "representationStatus": "pending", "analysisStatus": "pending" },
-          { "id": submission_3.id, "track": "Ruby", "exercise": "bob", "testsStatus": "pending", "representationStatus": "disapproved", "analysisStatus": "pending" }
+          { "id": submission_1.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "not_queued", "representationStatus": "not_queued", "analysisStatus": "inconclusive" },
+          { "id": submission_2.id, "track": "Ruby", "exercise": "numbers", "testsStatus": "passed", "representationStatus": "not_queued", "analysisStatus": "not_queued" },
+          { "id": submission_3.id, "track": "Ruby", "exercise": "bob", "testsStatus": "not_queued", "representationStatus": "disapproved", "analysisStatus": "not_queued" }
         ]
       }
   end

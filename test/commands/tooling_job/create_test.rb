@@ -16,7 +16,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
           id: uuid,
           created_at: Time.current.utc.to_i,
           type: type,
-          job_status: :pending,
+          job_status: :queued,
           foo: :bar
         }
       )

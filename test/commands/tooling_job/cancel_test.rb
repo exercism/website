@@ -79,7 +79,7 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
           "type" => type,
           "submission_uuid" => submission.uuid,
           "execution_status" => "job-status",
-          "job_status" => "pending",
+          "job_status" => "queued",
           "output" => { "results.json" => "#{submission.id}/results.json" }
         }
       )

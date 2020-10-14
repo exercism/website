@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         get :latest, on: :collection
 
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
+        resources :submissions, only: %i[create]
       end
     end
   end

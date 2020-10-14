@@ -66,8 +66,7 @@ module API
       end
 
       begin
-        major = params.fetch(:major, true)
-        submission = Submission::Create.(solution, files, submitted_via, major)
+        submission = Submission::Create.(solution, files, submitted_via)
       rescue DuplicateSubmissionError
         return render_error(400, :duplicate_submission)
       end

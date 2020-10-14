@@ -9,7 +9,7 @@ module Example
       visit test_components_example_submissions_summary_table_url(solution.id)
       wait_for_websockets
 
-      assert_text "#{submission.id}: pending"
+      assert_text "#{submission.id}: not_queued"
 
       submission.tests_passed!
       submission.broadcast!

@@ -3,9 +3,9 @@ require 'test_helper'
 class SubmissionTest < ActiveSupport::TestCase
   test "statuses start at pending" do
     submission = create :submission
-    assert submission.tests_pending?
-    assert submission.representation_pending?
-    assert submission.analysis_pending?
+    assert submission.tests_not_queued?
+    assert submission.representation_not_queued?
+    assert submission.analysis_not_queued?
   end
 
   test "submissions get their solution's git data" do

@@ -15,7 +15,7 @@ test('renders component', () => {
         {
           id: 1,
           testsStatus: 'passed',
-          representationStatus: 'pending',
+          representationStatus: 'queued',
           analysisStatus: 'approved',
         },
       ]}
@@ -23,6 +23,6 @@ test('renders component', () => {
   )
 
   expect(getByText('passed')).toBeInTheDocument()
-  expect(getByText('pending')).toBeInTheDocument()
+  expect(getByText('queued')).toBeInTheDocument()
   expect(getByText('approved')).toBeInTheDocument()
 })

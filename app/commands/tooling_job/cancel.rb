@@ -5,7 +5,7 @@ module ToolingJob
     initialize_with :submission_uuid, :type
 
     def call
-      return unless pending_dynamodb_job
+      return unless queued_dynamodb_job
 
       update_dynamodb
       update_submission
@@ -13,7 +13,7 @@ module ToolingJob
 
     private
     memoize
-    def pending_dynamodb_job
+    def queued_dynamodb_job
       client.query(
         {
           table_name: Exercism.config.dynamodb_tooling_jobs_table,
@@ -21,7 +21,7 @@ module ToolingJob
           expression_attribute_values: {
             ":SU" => submission_uuid,
             ":TP" => type,
-            ":JS" => :pending
+            ":JS" => :queued
           },
           expression_attribute_names: {
             "#SU": "submission_uuid",
@@ -40,7 +40,7 @@ module ToolingJob
       client.update_item(
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         key: {
-          id: pending_dynamodb_job["id"]
+          id: queued_dynamodb_job["id"]
         },
         expression_attribute_names: {
           "#JS": "job_status"

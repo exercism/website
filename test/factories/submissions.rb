@@ -3,6 +3,6 @@ FactoryBot.define do
     uuid { SecureRandom.compact_uuid }
     solution { create :concept_solution }
     submitted_via { "cli" }
-    major { true }
+    tests_status { :not_queued }
   end
 end

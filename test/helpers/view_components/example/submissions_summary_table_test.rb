@@ -15,7 +15,7 @@ class ExampleSubmissionsSummaryTableTest < ViewComponentTestCase
       {
         solution_id: solution.id,
         submissions: [
-          { "id": submission_1.id, "testsStatus": "pending" },
+          { "id": submission_1.id, "testsStatus": "not_queued" },
           { "id": submission_2.id, "testsStatus": "passed" }
         ]
       }

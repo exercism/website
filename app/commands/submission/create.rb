@@ -2,13 +2,12 @@ class Submission
   class Create
     include Mandate
 
-    def initialize(solution, files, submitted_via, major)
+    def initialize(solution, files, submitted_via)
       @submission_uuid = SecureRandom.compact_uuid
 
       @solution = solution
       @files = files
       @submitted_via = submitted_via
-      @major = major
 
       # TODO: - Move this into another service
       # and that service should also guard filenames
@@ -43,7 +42,7 @@ class Submission
     end
 
     private
-    attr_reader :solution, :files, :submission_uuid, :submitted_via, :major
+    attr_reader :solution, :files, :submission_uuid, :submitted_via
     attr_reader :submission
 
     def guard!
@@ -55,6 +54,8 @@ class Submission
       raise DuplicateSubmissionError if prev_files.sort == new_files.sort
     end
 
+    # TODO: Simply this once the analyse code has
+    # moved to iterations service.
     def init_services
       git_slug = solution.git_slug
       git_sha = solution.git_sha
@@ -70,35 +71,25 @@ class Submission
           Submission::TestRun::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
         end
       ]
-      if major
-        jobs += [
-          Thread.new do
-            Submission::Analysis::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-          end,
-          Thread.new do
-            Submission::Representation::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-          end
-        ]
-      end
+      # TODO: Move to iteration create
+      # jobs += [
+      #   Thread.new do
+      #     Submission::Analysis::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+      #   end,
+      #   Thread.new do
+      #     Submission::Representation::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+      #   end
+      # ]
 
       jobs.each(&:join)
     end
 
     def create_submission!
-      attrs = {
+      @submission = solution.submissions.create!(
         uuid: submission_uuid,
         submitted_via: submitted_via,
-        major: major
-      }
-
-      # If we've not run the analysers or representer
-      # then set the attributes to cancelled
-      unless major
-        attrs[:analysis_status] = :cancelled
-        attrs[:representation_status] = :cancelled
-      end
-
-      @submission = solution.submissions.create!(attrs)
+        tests_status: :queued
+      )
     end
 
     def create_files!

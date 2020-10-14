@@ -200,7 +200,6 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
   create_table "submissions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.string "uuid", null: false
-    t.boolean "major", null: false
     t.integer "tests_status", default: 0, null: false
     t.integer "representation_status", default: 0, null: false
     t.integer "analysis_status", default: 0, null: false

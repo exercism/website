@@ -1,14 +1,6 @@
 require_relative './base_test_case'
 
 class API::SolutionsControllerTest < API::BaseTestCase
-  def setup
-    # mock_exercise mock_exercise
-    # @mock_repo = stub(exercise: @mock_exercise,
-    #                  ignore_regexp: /somethingtoignore/,
-    #                  head: "4567")
-    # Git::ExercismRepo.stubs(new: @mock_repo)
-  end
-
   ###
   # LATEST
   ###

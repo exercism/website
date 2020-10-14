@@ -13,11 +13,23 @@ class Test::Components::EditorController < Test::BaseController
   end
 
   def stub_result
-    Test::Submissions::TestRunsChannel.broadcast_to(Submission.last, {
-                                                      tests_status: "pass",
-                                                      test_runs: [
-                                                        { name: :test_a_name_given, status: :pass, output: "Hello" }
-                                                      ]
-                                                    })
+    message = case params[:test_status]
+              when "Pass"
+                {
+                  tests_status: "pass",
+                  test_runs: [
+                    { name: :test_a_name_given, status: :pass, output: "Hello" }
+                  ]
+                }
+              when "Fail"
+                {
+                  tests_status: "fail",
+                  test_runs: [
+                    { name: :test_no_name_given, status: :fail }
+                  ]
+                }
+              end
+
+    Test::Submissions::TestRunsChannel.broadcast_to(Submission.last, message)
   end
 end

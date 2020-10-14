@@ -26,7 +26,7 @@ export function TestRuns({ submission }: { submission: Submission }) {
     <div>
       <p>Status: {testsStatus}</p>
       {testRuns.map((run) => (
-        <p>
+        <p key={run.name}>
           name: {run.name}, status: {run.status}, output: {run.output}
         </p>
       ))}

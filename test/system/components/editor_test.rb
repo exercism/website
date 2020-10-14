@@ -14,5 +14,19 @@ module Components
       assert_text "Status: pass"
       assert_text "name: test_a_name_given, status: pass, output: Hello"
     end
+
+    test "user submits code and tests fail" do
+      create(:concept_solution)
+
+      visit test_components_editor_path
+      fill_in "Code", with: "Test"
+      select "Fail", from: "Test status"
+      click_on "Submit"
+      2.times { wait_for_websockets }
+      click_on "Stub result"
+
+      assert_text "Status: fail"
+      assert_text "name: test_no_name_given, status: fail"
+    end
   end
 end

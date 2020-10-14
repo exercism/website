@@ -41,7 +41,8 @@ class API::SubmissionsControllerTest < API::BaseTestCase
 
     assert_response :success
     expected = { submission: {
-      uuid: Submission.last.uuid
+      uuid: Submission.last.uuid,
+      tests_status: 'queued'
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -54,7 +55,7 @@ class API::SubmissionsControllerTest < API::BaseTestCase
     params_files = { "foo" => "bar", "bar" => "foo" }
     files = mock
     Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :api).returns(mock(uuid: "foobar"))
+    Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
 
     post api_solution_submissions_path(solution.uuid),
       params: { files: params_files },

@@ -282,7 +282,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response :success
     expected = { submission: {
-      uuid: Submission.last.uuid
+      uuid: Submission.last.uuid,
+      tests_status: 'queued'
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -296,7 +297,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
     Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :cli).returns(mock(uuid: "foobar"))
+    Submission::Create.expects(:call).with(solution, files, :cli).returns(create(:submission))
 
     patch api_solution_path(solution.uuid),
       params: { files: http_files },
@@ -313,7 +314,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     params_files = { "foo" => "bar", "bar" => "foo" }
     files = mock
     Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :api).returns(mock(uuid: "foobar"))
+    Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
 
     patch api_solution_path(solution.uuid),
       params: { files: params_files },

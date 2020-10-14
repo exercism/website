@@ -10,6 +10,7 @@ module API
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       begin
+        # TODO: Change this to be a guard to render an error if files are not present.
         files = if params[:files].present?
                   Submission::PrepareMappedFiles.(params[:files].permit!.to_h)
                 else
@@ -26,9 +27,7 @@ module API
       end
 
       render json: {
-        submission: {
-          uuid: submission.uuid
-        }
+        submission: SerializeSubmission.(submission)
       }, status: :created
     end
   end

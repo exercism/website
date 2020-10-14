@@ -15,6 +15,7 @@ export enum SubmissionTestsStatus {
   FAIL = 'fail',
   ERROR = 'error',
   PENDING = 'pending',
+  OPS_ERROR = 'ops_error',
 }
 
 type TestRun = {

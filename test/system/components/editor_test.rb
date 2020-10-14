@@ -42,5 +42,19 @@ module Components
       assert_text "Status: error"
       assert_text "Undefined local variable"
     end
+
+    test "user submits code and an ops error happens" do
+      create(:concept_solution)
+
+      visit test_components_editor_path
+      fill_in "Code", with: "Test"
+      select "Ops error", from: "Test status"
+      click_on "Submit"
+      2.times { wait_for_websockets }
+      click_on "Stub result"
+
+      assert_text "Status: ops_error"
+      assert_text "Can't run the tests"
+    end
   end
 end

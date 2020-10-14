@@ -33,6 +33,11 @@ class Test::Components::EditorController < Test::BaseController
                   tests_status: "error",
                   message: "Undefined local variable"
                 }
+              when "Ops error"
+                {
+                  tests_status: "ops_error",
+                  message: "Can't run the tests"
+                }
               end
 
     Test::Submissions::TestRunsChannel.broadcast_to(Submission.last, message)

@@ -2,6 +2,27 @@ import React, { useState, useEffect } from 'react'
 import { Submission, SubmissionTestsStatus } from '../Editor'
 import consumer from '../../../utils/action-cable-consumer'
 
+function Content({ submission }: { submission: Submission }) {
+  switch (submission.testsStatus) {
+    case SubmissionTestsStatus.PASS:
+    case SubmissionTestsStatus.FAIL:
+      return (
+        <>
+          {submission.testRuns.map((run) => (
+            <p key={run.name}>
+              name: {run.name}, status: {run.status}, output: {run.output}
+            </p>
+          ))}
+        </>
+      )
+    case SubmissionTestsStatus.ERROR:
+    case SubmissionTestsStatus.OPS_ERROR:
+      return <p>{submission.message}</p>
+    default:
+      return <></>
+  }
+}
+
 export function TestRuns(props: { submission: Submission }) {
   const [submission, setSubmission] = useState(props.submission)
 
@@ -27,30 +48,10 @@ export function TestRuns(props: { submission: Submission }) {
 
   let content
 
-  switch (submission.testsStatus) {
-    case SubmissionTestsStatus.PASS: {
-      content = submission.testRuns.map((run) => (
-        <p key={run.name}>
-          name: {run.name}, status: {run.status}, output: {run.output}
-        </p>
-      ))
-    }
-    case SubmissionTestsStatus.FAIL: {
-      content = submission.testRuns.map((run) => (
-        <p key={run.name}>
-          name: {run.name}, status: {run.status}, output: {run.output}
-        </p>
-      ))
-    }
-    case SubmissionTestsStatus.ERROR: {
-      content = <p>{submission.message}</p>
-    }
-  }
-
   return (
     <div>
       <p>Status: {submission.testsStatus}</p>
-      {content}
+      <Content submission={submission} />
     </div>
   )
 }

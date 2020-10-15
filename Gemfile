@@ -5,7 +5,7 @@ ruby '2.6.6'
 # Service/framework dependencies
 gem 'rails',
   git: 'http://github.com/rails/rails.git',
-  ref: '207f116234374d6414593246240b05261a96fa3a'
+  ref: '64b1c815323c17d3259e823c53d6a547152e61e3'
 # gem 'rails', '~> 6.1.0.alpha'
 
 gem 'mysql2', '>= 0.4.4'

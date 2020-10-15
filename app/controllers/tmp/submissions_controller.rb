@@ -18,7 +18,7 @@ class Tmp::SubmissionsController < ApplicationController
       }
     ]
 
-    Submission::Create.(solution, files, "script", true)
+    Submission::Create.(solution, files, "script")
 
     head 200
   end

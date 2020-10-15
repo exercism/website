@@ -79,7 +79,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     SubmissionChannel.expects(:broadcast!).with(submission)
     SubmissionsChannel.expects(:broadcast!).with(submission.solution)
-    TestRunChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
+    Submission::TestRunsChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
 
     Submission::TestRun::Process.(submission.uuid, 200, "", results)
 

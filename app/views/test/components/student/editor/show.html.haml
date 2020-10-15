@@ -1,0 +1,9 @@
+%h1 Student
+%h2 Editor
+= form_tag stub_test_run_status_test_components_student_editor_path, remote: true do
+  = label_tag :test_run_status
+  = select_tag :test_run_status, options_for_select(["Pass", "Fail", "Error", "Ops error"])
+  = submit_tag "Stub test run status"
+%hr
+
+= ViewComponents::Student::Editor.new(create_submission_test_components_student_editor_path)

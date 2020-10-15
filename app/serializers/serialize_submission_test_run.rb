@@ -6,6 +6,7 @@ class SerializeSubmissionTestRun
   def call
     {
       id: test_run.id,
+      submission_uuid: test_run.submission.uuid,
       status: status,
       message: message,
       tests: tests

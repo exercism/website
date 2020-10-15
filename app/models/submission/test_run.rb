@@ -41,7 +41,7 @@ class Submission::TestRun < ApplicationRecord
   end
 
   def broadcast!
-    TestRunChannel.broadcast!(self)
+    Submission::TestRunsChannel.broadcast!(self)
   end
 
   private

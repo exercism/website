@@ -30,14 +30,17 @@ export function TestRunSummary({ submission }: { submission: Submission }) {
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(
-      { channel: 'Test::Submission::TestRunsChannel', uuid: submission.uuid },
       {
-        received: (json: any) => {
+        channel: 'Submission::TestRunsChannel',
+        submission_uuid: submission.uuid,
+      },
+      {
+        received: ({ test_run: testRun }: any) => {
           setTestRun({
-            submissionUuid: json.submission_uuid,
-            status: json.status,
-            message: json.message,
-            tests: json.tests,
+            submissionUuid: testRun.submission_uuid,
+            status: testRun.status,
+            message: testRun.message,
+            tests: testRun.tests,
           })
         },
       }

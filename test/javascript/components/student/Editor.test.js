@@ -8,7 +8,14 @@ import { Editor } from '../../../../app/javascript/components/student/Editor'
 const server = setupServer(
   rest.post('https://exercism.test/submissions', (req, res, ctx) => {
     return res(
-      ctx.json({ id: 2, tests_status: 'pending', test_runs: [], message: '' })
+      ctx.json({
+        submission: {
+          id: 2,
+          tests_status: 'pending',
+          test_runs: [],
+          message: '',
+        },
+      })
     )
   })
 )

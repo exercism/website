@@ -1,6 +1,6 @@
 class Submission::TestRunsChannel < ApplicationCable::Channel
   def subscribed
-    submission = current_user.solutions.find_by!(uuid: params[:submission_uuid])
+    submission = current_user.submissions.find_by!(uuid: params[:submission_uuid])
     stream_for submission
   end
 

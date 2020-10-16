@@ -74,10 +74,7 @@ Rails.application.routes.draw do
       namespace :components do
         namespace :student do
           resource :concepts_map, only: [:show], controller: 'concepts_map'
-          resource :editor, only: [:show], controller: "editor" do
-            post :create_submission
-            post :stub_test_run_status
-          end
+          resource :editor, only: [:show], controller: "editor"
           resource :tracks_list, only: [:show], controller: "tracks_list" do
             member do
               get 'tracks'

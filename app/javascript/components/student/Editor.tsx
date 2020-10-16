@@ -16,7 +16,13 @@ export enum TestRunStatus {
   OPS_ERROR = 'ops_error',
 }
 
-export function Editor({ endpoint }: { endpoint: string }) {
+export function Editor({
+  endpoint,
+  timeout = 60000,
+}: {
+  endpoint: string
+  timeout?: number
+}) {
   const [submission, setSubmission] = useState<Submission>()
 
   function submit(code: string) {
@@ -39,7 +45,9 @@ export function Editor({ endpoint }: { endpoint: string }) {
   return (
     <div>
       <CodeEditor onSubmit={submit} />
-      {submission && <TestRunSummary submission={submission} />}
+      {submission && (
+        <TestRunSummary submission={submission} timeout={timeout} />
+      )}
     </div>
   )
 }

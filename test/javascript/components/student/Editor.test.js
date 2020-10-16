@@ -17,6 +17,13 @@ const server = setupServer(
         },
       })
     )
+  }),
+  rest.post('https://exercism.test/submissions/pass', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        submission: { id: 2, tests_status: 'pass', test_runs: [], message: '' },
+      })
+    )
   })
 )
 
@@ -40,5 +47,31 @@ test('clears current submission when resubmitting', async () => {
   )
   await waitFor(() =>
     expect(queryByText('Status: pending')).toBeInTheDocument()
+  )
+})
+
+test('shows message when test times out', async () => {
+  const { getByText, queryByText } = render(
+    <Editor endpoint="https://exercism.test/submissions" timeout={0} />
+  )
+
+  fireEvent.click(getByText('Submit'))
+  await waitFor(() =>
+    expect(queryByText('Status: pending')).toBeInTheDocument()
+  )
+  await waitFor(() =>
+    expect(queryByText('Status: timeout')).toBeInTheDocument()
+  )
+})
+
+test('does not time out when tests have resolved', async () => {
+  const { getByText, queryByText } = render(
+    <Editor endpoint="https://exercism.test/submissions/pass" timeout={0} />
+  )
+
+  fireEvent.click(getByText('Submit'))
+  await waitFor(() => expect(queryByText('Status: pass')).toBeInTheDocument())
+  await waitFor(() =>
+    expect(queryByText('Status: timeout')).not.toBeInTheDocument()
   )
 })

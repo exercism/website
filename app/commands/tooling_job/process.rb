@@ -22,6 +22,7 @@ module ToolingJob
           attrs["submission_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
+          # TODO: Gracefully deal with this key or file not existing
           JSON.parse(download_file(attrs["output"]["results.json"]))
         )
       when "representer"
@@ -29,7 +30,9 @@ module ToolingJob
           attrs["submission_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
+          # TODO: Gracefully deal with this key or file not existing
           download_file(attrs["output"]["representation.txt"]),
+          # TODO: Gracefully deal with this key or file not existing
           JSON.parse(download_file(attrs["output"]["mapping.json"]))
         )
       when "analyzer"
@@ -37,6 +40,7 @@ module ToolingJob
           attrs["submission_uuid"],
           attrs["execution_status"],
           "Nothing to report", # TODO
+          # TODO: Gracefully deal with this key or file not existing
           JSON.parse(download_file(attrs["output"]["analysis.json"]))
         )
       end

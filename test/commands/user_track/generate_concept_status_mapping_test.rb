@@ -1,12 +1,12 @@
 require "test_helper"
 
-class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
+class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
   test "generates concepts for empty track" do
     _, user_track = setup_user_track
 
     assert_equal(
       {},
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
@@ -16,7 +16,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
 
     assert_equal(
       { 'basics' => :unlocked },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
@@ -40,7 +40,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :locked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
@@ -66,7 +66,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
@@ -90,7 +90,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
@@ -117,7 +117,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
@@ -145,7 +145,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :complete,
         'atoms' => :unlocked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 

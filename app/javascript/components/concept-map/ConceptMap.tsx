@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import { Concept } from './Concept'
 import { ConceptConnections } from './ConceptConnections'
 
-import { IConceptMap, ConceptLayer } from './concepts-map-types'
+import { IConceptMap, ConceptLayer } from './concept-map-types'
 import { ConceptConnection } from './concept-connection-types'
 import { IConcept, isIConcept } from './concept-types'
 
-export const ConceptsMap = ({ concepts, levels, connections }: IConceptMap) => {
+export const ConceptMap = ({ concepts, levels, connections }: IConceptMap) => {
   const [active, setActive] = useState<string | null>(null)
 
   const conceptsBySlug = indexConceptsBySlug(concepts)

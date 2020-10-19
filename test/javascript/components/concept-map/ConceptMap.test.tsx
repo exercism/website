@@ -12,15 +12,15 @@ import {
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
-import { ConceptsMap } from '../../../../app/javascript/components/concepts-map/ConceptsMap'
+import { ConceptMap } from '../../../../app/javascript/components/concept-map/ConceptMap'
 import {
   ConceptState,
   IConcept as Concept,
-} from '../../../../app/javascript/components/concepts-map/concept-types'
-import { ConceptConnection } from '../../../../app/javascript/components/concepts-map/concept-connection-types'
-import { ConceptLayer } from '../../../../app/javascript/components/concepts-map/concepts-map-types'
+} from '../../../../app/javascript/components/concept-map/concept-types'
+import { ConceptConnection } from '../../../../app/javascript/components/concept-map/concept-connection-types'
+import { ConceptLayer } from '../../../../app/javascript/components/concept-map/concept-map-types'
 
-describe('<ConceptsMap />', () => {
+describe('<ConceptMap />', () => {
   test('renders empty component', () => {
     const { container } = renderMap([], [], [])
     const map = container.querySelector('.c-concepts-map')
@@ -67,11 +67,7 @@ const renderMap = (
   connections: ConceptConnection[]
 ) => {
   return render(
-    <ConceptsMap
-      concepts={concepts}
-      levels={levels}
-      connections={connections}
-    />
+    <ConceptMap concepts={concepts} levels={levels} connections={connections} />
   )
 }
 

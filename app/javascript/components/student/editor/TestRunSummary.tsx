@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import consumer from '../../../utils/action-cable-consumer'
 
@@ -20,13 +20,35 @@ enum TestStatus {
   FAIL = 'fail',
 }
 
-export function TestRunSummary({ submission }: { submission: Submission }) {
-  const [testRun, setTestRun] = useState<TestRun>({
+function reducer(state: any, action: any) {
+  switch (action.type) {
+    case 'testRun.received':
+      return action.payload
+    case 'testRun.timeout':
+      return { ...state, status: 'timeout' }
+  }
+}
+
+export function TestRunSummary({
+  submission,
+  timeout,
+}: {
+  submission: Submission
+  timeout: number
+}) {
+  const RESOLVED_TEST_STATUSES = [
+    TestRunStatus.PASS,
+    TestRunStatus.FAIL,
+    TestRunStatus.ERROR,
+    TestRunStatus.OPS_ERROR,
+  ]
+  const [testRun, dispatch] = useReducer(reducer, {
     submissionUuid: submission.uuid,
     status: submission.testsStatus,
     message: '',
     tests: [],
   })
+  const haveTestsResolved = RESOLVED_TEST_STATUSES.includes(testRun.status)
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(
@@ -36,11 +58,14 @@ export function TestRunSummary({ submission }: { submission: Submission }) {
       },
       {
         received: ({ test_run: testRun }: any) => {
-          setTestRun({
-            submissionUuid: testRun.submission_uuid,
-            status: testRun.status,
-            message: testRun.message,
-            tests: testRun.tests,
+          dispatch({
+            type: 'testRun.received',
+            payload: {
+              submissionUuid: testRun.submission_uuid,
+              status: testRun.status,
+              message: testRun.message,
+              tests: testRun.tests,
+            },
           })
         },
       }
@@ -51,11 +76,19 @@ export function TestRunSummary({ submission }: { submission: Submission }) {
     }
   }, [submission.uuid])
 
+  useEffect(() => {
+    if (haveTestsResolved) {
+      return
+    }
+
+    setTimeout(() => dispatch({ type: 'testRun.timeout' }), timeout)
+  }, [testRun.status])
+
   let content
   switch (testRun.status) {
     case TestRunStatus.PASS:
     case TestRunStatus.FAIL:
-      content = testRun.tests.map((test) => (
+      content = testRun.tests.map((test: Test) => (
         <p key={test.name}>
           name: {test.name}, status: {test.status}, output: {test.output}
         </p>

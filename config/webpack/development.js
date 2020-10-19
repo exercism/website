@@ -21,11 +21,7 @@ const isWebpackDevServer = process.env.WEBPACK_DEV_SERVER
 if (isWebpackDevServer) {
   environment.plugins.append(
     'ReactRefreshWebpackPlugin',
-    new ReactRefreshWebpackPlugin({
-      overlay: {
-        sockPort: process.env.WEBPACK_DEV_SERVER_PORT,
-      },
-    })
+    new ReactRefreshWebpackPlugin({ overlay: false })
   )
 }
 

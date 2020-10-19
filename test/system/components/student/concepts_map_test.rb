@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 module Components
   module Student
-    class ConceptsMapTest < ApplicationSystemTestCase
+    class ConceptMapTest < ApplicationSystemTestCase
       def setup
         super
 

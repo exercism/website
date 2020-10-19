@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Track
-  class DetermineConceptsLayoutTest < ActiveSupport::TestCase
+  class DetermineConceptMapLayoutTest < ActiveSupport::TestCase
     def test_layout_empty_level
       track = create :track
       assert_equal(
@@ -10,7 +10,7 @@ class Track
           levels: [],
           connections: []
         },
-        Track::DetermineConceptsLayout.(track)
+        Track::DetermineConceptMapLayout.(track)
       )
     end
 
@@ -34,7 +34,7 @@ class Track
           levels: [['basics']],
           connections: []
         },
-        Track::DetermineConceptsLayout.(track)
+        Track::DetermineConceptMapLayout.(track)
       )
     end
 
@@ -68,7 +68,7 @@ class Track
           levels: [['basics'], ['booleans']],
           connections: [{ from: 'basics', to: 'booleans' }]
         },
-        Track::DetermineConceptsLayout.(track)
+        Track::DetermineConceptMapLayout.(track)
       )
     end
 
@@ -112,7 +112,7 @@ class Track
           levels: [['basics'], ['booleans'], ['atoms']],
           connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
         },
-        Track::DetermineConceptsLayout.(track)
+        Track::DetermineConceptMapLayout.(track)
       )
     end
 
@@ -157,7 +157,7 @@ class Track
           levels: [['basics'], ['booleans'], ['atoms']],
           connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
         },
-        Track::DetermineConceptsLayout.(track)
+        Track::DetermineConceptMapLayout.(track)
       )
     end
 
@@ -214,7 +214,7 @@ class Track
             { from: 'atoms', to: 'cond' }
           ]
         },
-        Track::DetermineConceptsLayout.(track)
+        Track::DetermineConceptMapLayout.(track)
       )
     end
   end

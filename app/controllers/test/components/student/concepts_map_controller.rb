@@ -1,4 +1,4 @@
-class Test::Components::Student::ConceptsMapController < ApplicationController # rubocop:disable Layout/LineLength
+class Test::Components::Student::ConceptMapController < ApplicationController # rubocop:disable Layout/LineLength
   def show
     @data = {
       concepts: [

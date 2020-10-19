@@ -6,7 +6,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
 
     assert_equal(
       {},
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -16,7 +16,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
 
     assert_equal(
       { 'basics' => :unlocked },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -40,7 +40,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :locked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -49,7 +49,6 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
-    # Set up exercises
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -58,7 +57,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.taught_concepts << atoms
     logger.prerequisites << booleans
 
-    # Simulate learning the pre-req
+    # Simulate learning concepts
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal(
@@ -67,7 +66,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -76,6 +75,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
+    # Set up exercises
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -90,7 +90,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -108,7 +108,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.prerequisites << basics
     logger.prerequisites << booleans
 
-    # Simulate learning only one pre-req
+    # Simulate learning concepts
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal(
@@ -117,7 +117,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -135,7 +135,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.prerequisites << basics
     logger.prerequisites << booleans
 
-    # Simulate learning pre-req exercises
+    # Simulate learning concepts
     create :user_track_learnt_concept, user_track: user_track, concept: basics
     create :user_track_learnt_concept, user_track: user_track, concept: booleans
 
@@ -145,14 +145,14 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :complete,
         'atoms' => :unlocked
       },
-      UserTrack::GenerateConceptsStatus.(user_track)
+      ::UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
   private
   def setup_user_track
     track = create :track
-    user_track = create :user_track
+    user_track = create :user_track, track: track
 
     [track, user_track]
   end

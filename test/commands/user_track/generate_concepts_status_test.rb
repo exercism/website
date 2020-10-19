@@ -1,31 +1,12 @@
 require "test_helper"
 
 class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
-  def setup_user_track
-    track = create :track
-    user_track = create :user_track, track: track
-
-    [track, user_track]
-  end
-
-  def setup_from_factory(track, type, slugs)
-    slugs.map { |slug| create type, slug: slug, track: track }
-  end
-
-  def setup_concepts(track, *slugs)
-    setup_from_factory(track, :track_concept, slugs)
-  end
-
-  def setup_concept_exercises(track, *slugs)
-    setup_from_factory(track, :concept_exercise, slugs)
-  end
-
   test "generates concepts for empty track" do
     _, user_track = setup_user_track
 
     assert_equal(
       {},
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -35,7 +16,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
 
     assert_equal(
       { 'basics' => :unlocked },
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -44,6 +25,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
+    # Set up exercises
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -58,7 +40,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :locked,
         'atoms' => :locked
       },
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -67,6 +49,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
+    # Set up exercises
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -75,8 +58,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.taught_concepts << atoms
     logger.prerequisites << booleans
 
-    # learn concepts
-
+    # Simulate learning the pre-req
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal(
@@ -85,7 +67,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -94,8 +76,6 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
-    # Set up exercises
-
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -103,8 +83,6 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.taught_concepts << atoms
     logger.prerequisites << basics
     logger.prerequisites << booleans
-
-    # Before any are completed
 
     assert_equal(
       {
@@ -112,17 +90,16 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
-  test "concepts with two prereqs are :locked unless both are complete" do
+  test "concepts with two pre-reqs are :locked unless both are complete" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
     # Set up exercises
-
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -131,8 +108,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.prerequisites << basics
     logger.prerequisites << booleans
 
-    # One parent is completed
-
+    # Simulate learning only one pre-req
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal(
@@ -141,7 +117,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :unlocked,
         'atoms' => :locked
       },
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
   end
 
@@ -151,7 +127,6 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
 
     # Set up exercises
-
     lasagna.taught_concepts << basics
 
     pacman.taught_concepts << booleans
@@ -160,8 +135,7 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
     logger.prerequisites << basics
     logger.prerequisites << booleans
 
-    # Complete pre-req exercises
-
+    # Simulate learning pre-req exercises
     create :user_track_learnt_concept, user_track: user_track, concept: basics
     create :user_track_learnt_concept, user_track: user_track, concept: booleans
 
@@ -171,7 +145,27 @@ class UserTrack::GenerateConceptsStatusTest < ActiveSupport::TestCase
         'booleans' => :complete,
         'atoms' => :unlocked
       },
-      ::UserTrack::GenerateConceptsStatus.(user_track)
+      UserTrack::GenerateConceptsStatus.(user_track)
     )
+  end
+
+  private
+  def setup_user_track
+    track = create :track
+    user_track = create :user_track
+
+    [track, user_track]
+  end
+
+  def setup_concepts(track, *slugs)
+    setup_from_factory(track, :track_concept, slugs)
+  end
+
+  def setup_concept_exercises(track, *slugs)
+    setup_from_factory(track, :concept_exercise, slugs)
+  end
+
+  def setup_from_factory(track, type, slugs)
+    slugs.map { |slug| create type, slug: slug, track: track }
   end
 end

@@ -29,7 +29,10 @@ export function Editor({
 
     fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify({ files: { file: code } }),
     })
       .then((response) => response.json())

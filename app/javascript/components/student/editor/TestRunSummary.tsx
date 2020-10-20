@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
-import consumer from '../../../utils/action-cable-consumer'
+import { TestRunChannel } from '../../../channels/testRunChannel'
 
 export type TestRun = {
   submissionUuid: string
@@ -72,28 +72,12 @@ export function TestRunSummary({
   const haveTestsResolved = RESOLVED_TEST_STATUSES.includes(testRun.status)
 
   useEffect(() => {
-    const subscription = consumer.subscriptions.create(
-      {
-        channel: 'Submission::TestRunsChannel',
-        submission_uuid: submission.uuid,
-      },
-      {
-        received: ({ test_run: testRun }: any) => {
-          dispatch({
-            type: 'testRun.received',
-            payload: {
-              submissionUuid: testRun.submission_uuid,
-              status: testRun.status,
-              message: testRun.message,
-              tests: testRun.tests,
-            },
-          })
-        },
-      }
-    )
+    const channel = new TestRunChannel(submission, (testRun: TestRun) => {
+      dispatch({ type: 'testRun.received', payload: testRun })
+    })
 
     return () => {
-      subscription.unsubscribe()
+      channel.disconnect()
     }
   }, [submission.uuid])
 

@@ -36,8 +36,15 @@
     "@testing-library/react": "^10.4.3",
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
     "babel-jest": "^26.5.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-react": "^7.21.3",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
@@ -60,7 +67,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && bin/rubocop-quick && bin/haml-lint-quick"
+      "pre-commit": "pretty-quick --staged && bin/rubocop-quick && bin/haml-lint-quick && bin/eslint-quick"
     }
   }
 }

@@ -29,6 +29,27 @@ function reducer(state: any, action: any) {
   }
 }
 
+function Content({ testRun }: { testRun: TestRun }) {
+  switch (testRun.status) {
+    case TestRunStatus.PASS:
+    case TestRunStatus.FAIL:
+      return (
+        <>
+          {testRun.tests.map((test: Test) => (
+            <p key={test.name}>
+              name: {test.name}, status: {test.status}, output: {test.output}
+            </p>
+          ))}
+        </>
+      )
+    case TestRunStatus.ERROR:
+    case TestRunStatus.OPS_ERROR:
+      return <p>{testRun.message}</p>
+    default:
+      return <></>
+  }
+}
+
 export function TestRunSummary({
   submission,
   timeout,
@@ -84,26 +105,10 @@ export function TestRunSummary({
     setTimeout(() => dispatch({ type: 'testRun.timeout' }), timeout)
   }, [testRun.status])
 
-  let content
-  switch (testRun.status) {
-    case TestRunStatus.PASS:
-    case TestRunStatus.FAIL:
-      content = testRun.tests.map((test: Test) => (
-        <p key={test.name}>
-          name: {test.name}, status: {test.status}, output: {test.output}
-        </p>
-      ))
-      break
-    case TestRunStatus.ERROR:
-    case TestRunStatus.OPS_ERROR:
-      content = <p>{testRun.message}</p>
-      break
-  }
-
   return (
     <div>
       <p>Status: {testRun.status}</p>
-      {content}
+      <Content testRun={testRun} />
     </div>
   )
 }

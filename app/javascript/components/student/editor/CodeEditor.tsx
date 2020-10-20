@@ -1,25 +1,22 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 
 export function CodeEditor({ onSubmit }: { onSubmit: (code: string) => void }) {
-  const [code, setCode] = useState('')
+  const editor = useRef<HTMLTextAreaElement>(null)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    onSubmit(code)
-  }
+    if (editor.current === null) {
+      return
+    }
 
-  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setCode(e.target.value)
+    onSubmit(editor.current.value)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="student-code-editor-code">Code</label>
-      <textarea
-        onChange={handleChange}
-        id="student-code-editor-code"
-      ></textarea>
+      <textarea ref={editor} id="student-code-editor-code"></textarea>
       <button>Submit</button>
     </form>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { CodeEditor } from './editor/CodeEditor'
 import { TestRunSummary } from './editor/TestRunSummary'
 import { fetchJSON } from '../../utils/fetch-json'
@@ -25,12 +25,22 @@ export function Editor({
   timeout?: number
 }) {
   const [submission, setSubmission] = useState<Submission>()
+  const controllerRef = useRef(new AbortController())
+
+  useEffect(() => {
+    return () => {
+      controllerRef.current.abort()
+    }
+  }, [])
 
   function submit(code: string) {
+    controllerRef.current.abort()
+    controllerRef.current = new AbortController()
     setSubmission(undefined)
 
     fetchJSON(endpoint, {
       method: 'POST',
+      signal: controllerRef.current.signal,
       body: JSON.stringify({ files: { file: code } }),
     }).then((json: any) => {
       setSubmission(typecheck<Submission>(json, 'submission'))

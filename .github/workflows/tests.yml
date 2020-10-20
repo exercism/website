@@ -107,6 +107,8 @@ jobs:
           S3_PORT: ${{ job.services.s3.ports['9090'] }}
           CAPTURE_CODE_COVERAGE: true
         run: |
+          bundle exec rails test:zeitwerk
+
           bundle exec rails test
           ./cc-test-reporter format-coverage -t simplecov -o codeclimate.backend.json coverage/backend/.resultset.json
 

@@ -31,9 +31,9 @@ class SerializeTracks
       num_concept_exercises: concept_exercise_counts[track.id].to_i,
       num_practice_exercises: practice_exercise_counts[track.id].to_i,
       web_url: Exercism::Routes.track_url(track),
+      icon_url: track.icon_url,
 
       # TODO: Set all three of these
-      icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
       is_new: true,
       tags: track.tags.to_a
     }

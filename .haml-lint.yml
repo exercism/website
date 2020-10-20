@@ -1,4 +1,7 @@
 linters:
+  InlineStyles:
+    enabled: false
+
   LineLength:
     enabled: false
     max: 100

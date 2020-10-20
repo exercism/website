@@ -1,9 +1,8 @@
 class TracksController < ApplicationController
   before_action :use_track, except: :index
+  skip_before_action :authenticate_user!
 
-  allow_unauthenticated! :index, :show
-
-  def authenticated_index
+  def index
     tracks = Track::Search.(
       criteria: params[:criteria],
       tags: params[:tags],
@@ -14,8 +13,13 @@ class TracksController < ApplicationController
     @tracks_data = SerializeTracks.(tracks, current_user)
   end
 
-  def authenticated_show
+  def show
     @user_track = UserTrack.for(current_user, @track)
+    if @user_track
+      render "tracks/show/joined"
+    else
+      render "tracks/show/unjoined"
+    end
   end
 
   def join

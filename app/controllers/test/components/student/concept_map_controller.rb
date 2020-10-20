@@ -5,44 +5,37 @@ class Test::Components::Student::ConceptMapController < ApplicationController # 
         {
           web_url: "basics-url",
           slug: "basics",
-          name: "Basics",
-          status: "completed"
+          name: "Basics"
         },
         {
           web_url: "booleans-url",
           slug: "booleans",
-          name: "Booleans",
-          status: "unlocked"
+          name: "Booleans"
         },
         {
           web_url: "numbers-url",
           slug: "floating-point-numbers",
-          name: "Floating Point Numbers",
-          status: "completed"
+          name: "Floating Point Numbers"
         },
         {
           web_url: "numbers-url",
           slug: "integers",
-          name: "Integer Numbers",
-          status: "completed"
+          name: "Integer Numbers"
         },
         {
           web_url: "anonymous-fns-url",
           slug: "bit-manipulation",
-          name: "Bit Manipulation",
-          status: "unlocked"
+          name: "Bit Manipulation"
         },
         {
           web_url: "anonymous-fns-url",
           slug: "closures",
-          name: "Closures",
-          status: "unlocked"
+          name: "Closures"
         },
         {
           web_url: "anonymous-fns-url",
           slug: "anonymous-functions",
-          name: "Anonymous Functions",
-          status: "unlocked"
+          name: "Anonymous Functions"
         }
       ],
       levels: [
@@ -52,9 +45,9 @@ class Test::Components::Student::ConceptMapController < ApplicationController # 
           integers
           floating-point-numbers
           anonymous-functions
-          closures
           bit-manipulation
-        ]
+        ],
+        ['closures']
       ],
       connections: [
         {
@@ -74,14 +67,23 @@ class Test::Components::Student::ConceptMapController < ApplicationController # 
           to: "anonymous-functions"
         },
         {
-          from: "basics",
+          from: "integers",
           to: "closures"
         },
         {
           from: "basics",
           to: "bit-manipulation"
         }
-      ]
+      ],
+      status: {
+        "basics" => :completed,
+        "booleans" => :completed,
+        "floating-point-numbers" => :unlocked,
+        "integers" => :unlocked,
+        "bit-manipulation" => :unlocked,
+        "closures" => :locked,
+        "anonymous-functions" => :unlocked
+      }
     }
   end
 end

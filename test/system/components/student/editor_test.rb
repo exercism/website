@@ -6,9 +6,9 @@ module Components
       test "user submits code and tests pass" do
         user = create :user
         create :user_auth_token, user: user
-        create :concept_solution, user: user
+        solution = create :concept_solution, user: user
 
-        visit test_components_student_editor_path
+        visit test_components_student_editor_path(solution_id: solution.id)
         fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
@@ -27,9 +27,9 @@ module Components
       test "user submits code and tests fail" do
         user = create :user
         create :user_auth_token, user: user
-        create :concept_solution, user: user
+        solution = create :concept_solution, user: user
 
-        visit test_components_student_editor_path
+        visit test_components_student_editor_path(solution_id: solution.id)
         fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
@@ -48,9 +48,9 @@ module Components
       test "user submits code and errors" do
         user = create :user
         create :user_auth_token, user: user
-        create :concept_solution, user: user
+        solution = create :concept_solution, user: user
 
-        visit test_components_student_editor_path
+        visit test_components_student_editor_path(solution_id: solution.id)
         fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
@@ -70,9 +70,9 @@ module Components
       test "user submits code and an ops error happens" do
         user = create :user
         create :user_auth_token, user: user
-        create :concept_solution, user: user
+        solution = create :concept_solution, user: user
 
-        visit test_components_student_editor_path
+        visit test_components_student_editor_path(solution_id: solution.id)
         fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission

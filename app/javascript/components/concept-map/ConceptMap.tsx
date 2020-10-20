@@ -13,7 +13,6 @@ export const ConceptMap = ({
   connections,
   status,
 }: IConceptMap) => {
-  console.info({ status })
   const [active, setActive] = useState<string | null>(null)
 
   const conceptsBySlug = indexConceptsBySlug(concepts)

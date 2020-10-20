@@ -55,6 +55,9 @@
   "jest": {
     "roots": [
       "test/javascript"
+    ],
+    "setupFiles": [
+      "./test/javascript/test_helper.js"
     ]
   },
   "husky": {

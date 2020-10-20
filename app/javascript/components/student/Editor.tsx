@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { CodeEditor } from './editor/CodeEditor'
 import { TestRunSummary } from './editor/TestRunSummary'
-import fetch from 'isomorphic-fetch'
 
 export type Submission = {
   testsStatus: TestRunStatus

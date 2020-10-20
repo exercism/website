@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { CodeEditor } from './editor/CodeEditor'
 import { TestRunSummary } from './editor/TestRunSummary'
+import { fetchJSON } from '../../utils/fetch-json'
+import { typecheck } from '../../utils/typecheck'
 
 export type Submission = {
   testsStatus: TestRunStatus
@@ -27,21 +29,12 @@ export function Editor({
   function submit(code: string) {
     setSubmission(undefined)
 
-    fetch(endpoint, {
+    fetchJSON(endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
       body: JSON.stringify({ files: { file: code } }),
+    }).then((json: any) => {
+      setSubmission(typecheck<Submission>(json, 'submission'))
     })
-      .then((response) => response.json())
-      .then(({ submission }: any) => {
-        setSubmission({
-          testsStatus: submission.tests_status,
-          uuid: submission.uuid,
-        })
-      })
   }
 
   return (

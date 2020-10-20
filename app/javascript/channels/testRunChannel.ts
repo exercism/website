@@ -2,6 +2,7 @@ import consumer from '../utils/action-cable-consumer'
 import { camelizeKeys } from 'humps'
 import { Submission } from '../components/student/Editor'
 import { TestRun } from '../components/student/editor/TestRunSummary'
+import { typecheck } from '../utils/typecheck'
 
 export class TestRunChannel {
   subscription: ActionCable.Channel
@@ -13,12 +14,10 @@ export class TestRunChannel {
         submission_uuid: submission.uuid,
       },
       {
-        received: (response: { test_run: any }) => {
-          const formattedResponse = camelizeKeys(response) as {
-            testRun: TestRun
-          }
+        received: (response: any) => {
+          const formattedResponse = camelizeKeys(response)
 
-          received(formattedResponse.testRun)
+          received(typecheck<TestRun>(formattedResponse, 'testRun'))
         },
       }
     )

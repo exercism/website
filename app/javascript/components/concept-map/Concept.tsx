@@ -7,13 +7,14 @@ export const Concept = ({
   slug,
   name,
   web_url,
-  status,
   handleEnter,
   handleLeave,
+  status,
   isActive,
   isDimmed,
   adjacentConcepts,
 }: IConcept & {
+  status: ConceptState
   isActive: boolean
   isDimmed: boolean
   adjacentConcepts: string[]

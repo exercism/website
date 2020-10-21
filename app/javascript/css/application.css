@@ -20,4 +20,6 @@
 
 body {
     @apply font-body bg-bgGray text-textBase antialiased;
+    line-height: 1;
+    font-size: 14px;
 }

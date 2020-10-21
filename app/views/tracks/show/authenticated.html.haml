@@ -1,7 +1,0 @@
-%h1= @track.title
-- if @user_track
-  You have joined this track
-- else
-  = button_to "Join Track", join_track_path(@track), method: :post
-
-= link_to "Concepts", track_concepts_path(@track)

@@ -1,0 +1,155 @@
+@import "../styles";
+
+#page-track-dashboard {
+    & .track-nav {
+        --nav-height: 40px;
+
+        @apply bg-white py-12;
+        & .container {
+            @apply flex;
+        }
+
+        & .back {
+            @apply block mr-24;
+            line-height: var(--nav-height);
+        }
+
+        & .c-track-icon {
+            height: var(--nav-height);
+            width: calc(var(--c-track-icon-width-ratio) * var(--nav-height));
+            @apply mr-20;
+        }
+
+        & .title {
+            @apply mr-64;
+            @apply text-16 font-semibold font-mono;
+            line-height: var(--nav-height);
+        }
+        & .tabs {
+            @apply flex;
+
+            & a {
+                line-height: var(--nav-height);
+                @apply block px-16 rounded-100;
+                @apply text-16 text-textBase font-normal;
+
+                &.selected {
+                    @apply bg-veryLightBlue text-black font-semibold;
+                }
+            }
+        }
+    }
+    & .track-header {
+        & .container {
+            @apply flex items-center py-32;
+            height: 190px;
+        }
+        background: linear-gradient(
+            180deg,
+            #e1ebff 0%,
+            rgba(225, 235, 255, 0) 100%
+        );
+        & .c-track-icon {
+            @apply mr-48;
+
+            height: 125px;
+            width: calc(var(--c-track-icon-width-ratio) * 125px);
+        }
+        & h1 {
+            @apply text-h1 mb-8;
+        }
+        & .joined {
+            @apply text-16;
+        }
+    }
+    & article {
+        & .container {
+            @apply flex;
+        }
+
+        & .lhs {
+            @apply flex-grow;
+        }
+        & .rhs {
+            width: 33%;
+            @apply ml-32;
+        }
+    }
+    & section.contributors {
+        @apply bg-white rounded-8 pt-24 pb-32 px-32 mb-32 shadow-lg;
+
+        & header {
+            @apply flex items-center mb-16;
+            & h2 {
+                @apply text-h4 mr-12;
+            }
+            & .count {
+                @apply rounded-100 px-12;
+                @apply text-textLight text-14 font-medium;
+                @apply border-textLight border-1;
+                line-height: 28px;
+            }
+        }
+
+        & .showcase {
+            @apply flex flex-col gap-8 mb-24;
+
+            & a {
+                @apply flex items-center;
+                @apply border-1 border-borderLight rounded-8;
+                @apply px-16 py-8;
+
+                & .img {
+                    height: 48px;
+                    width: 48px;
+                    @apply bg-center bg-cover rounded-circle;
+                    @apply mr-16 flex-shrink-0;
+                }
+                & .name {
+                    @apply mr-12;
+                    @apply font-semibold text-16 truncate;
+                }
+                & .reputation {
+                    @apply flex px-12 gap-4 items-center;
+                    @apply border-1 border-lightGray rounded-100 shadow-sm;
+                    @apply text-13 text-unnamed16;
+                    line-height: 28px;
+
+                    & svg {
+                        height: 24px;
+                    }
+                }
+            }
+        }
+        & .faces {
+            @apply flex flex-wrap items-center gap-16 mb-24;
+
+            & a {
+                width: 48px;
+            }
+            & a.face {
+                @apply block flex-grow-0 flex-shrink-0;
+                @apply bg-center bg-cover rounded-circle;
+                height: 48px;
+            }
+            & a.all {
+                @apply block flex-grow-0 flex-shrink-0;
+                @apply font-semibold text-lightBlue;
+            }
+        }
+
+        & .cta {
+            @apply bg-unnamed15 rounded-8 py-16 px-24;
+
+            & h3 {
+                @apply text-16 font-semibold mb-8;
+            }
+            & p {
+                @apply text-14 leading-paragraph mb-8;
+            }
+            & a {
+                @apply block text-14 text-lightBlue font-semibold;
+            }
+        }
+    }
+}

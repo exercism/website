@@ -26,4 +26,9 @@ class Track < ApplicationRecord
     # once we're out of the monorepo
     Git::Track.new(repo_url, slug)
   end
+
+  # TODO: Set this properly
+  def icon_url
+    "https://assets.exercism.io/tracks/ruby-hex-white.png"
+  end
 end

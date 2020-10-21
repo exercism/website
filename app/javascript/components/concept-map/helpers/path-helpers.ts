@@ -6,7 +6,7 @@ import {
   isConceptPath,
 } from '../concept-connection-types'
 
-import { ConceptState } from '../concept-types'
+import { ConceptStatus } from '../concept-types'
 
 import { conceptSlugToId } from '../Concept'
 
@@ -27,7 +27,8 @@ export function mapToPaths(connections: ConceptConnection[]): ConceptPath[] {
         return
       }
 
-      const conceptStatus = pathEndElement.dataset.conceptStatus as ConceptState
+      const conceptStatus = pathEndElement.dataset
+        .conceptStatus as ConceptStatus
 
       return {
         start: getPathStartFromElement(pathStartElement),
@@ -56,12 +57,12 @@ function getPathEndFromElement(el: HTMLElement): ConceptPathCoordinate {
 }
 
 // Derive the path state from the concept state
-function getPathState(conceptStatus: ConceptState): ConceptPathState {
+function getPathState(conceptStatus: ConceptStatus): ConceptPathState {
   switch (conceptStatus) {
-    case ConceptState.Unlocked:
-    case ConceptState.InProgress:
+    case ConceptStatus.Unlocked:
+    case ConceptStatus.InProgress:
       return ConceptPathState.Available
-    case ConceptState.Completed:
+    case ConceptStatus.Completed:
       return ConceptPathState.Completed
     default:
       return ConceptPathState.Unavailable

@@ -14,7 +14,7 @@ import '@testing-library/jest-dom/extend-expect'
 // Component
 import { ConceptMap } from '../../../../app/javascript/components/concept-map/ConceptMap'
 import {
-  ConceptState,
+  ConceptStatus,
   IConcept as Concept,
 } from '../../../../app/javascript/components/concept-map/concept-types'
 import { ConceptConnection } from '../../../../app/javascript/components/concept-map/concept-connection-types'
@@ -30,7 +30,7 @@ describe('<ConceptMap />', () => {
   test('renders single incomplete concept', () => {
     const testConcept = concept('test')
     const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: ConceptState.Unlocked,
+      test: ConceptStatus.Unlocked,
     })
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = queryByTitle(container, 'completed')
@@ -38,9 +38,9 @@ describe('<ConceptMap />', () => {
   })
 
   test('renders single completed concept', () => {
-    const testConcept = concept('test', { state: ConceptState.Completed })
+    const testConcept = concept('test', { state: ConceptStatus.Completed })
     const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: ConceptState.Completed,
+      test: ConceptStatus.Completed,
     })
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = getByTitle(container, 'completed')
@@ -51,7 +51,7 @@ const concept = (
   conceptName: string,
   options: {
     index?: number
-    state?: ConceptState
+    state?: ConceptStatus
   } = {}
 ): Concept => {
   const index = options.index ?? 0
@@ -67,7 +67,7 @@ const renderMap = (
   concepts: Concept[],
   levels: ConceptLayer[],
   connections: ConceptConnection[],
-  status: { [key: string]: ConceptState }
+  status: { [key: string]: ConceptStatus }
 ) => {
   return render(
     <ConceptMap

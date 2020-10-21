@@ -1,11 +1,11 @@
-import { ConceptState, IConcept } from './concept-types'
+import { ConceptStatus, IConcept } from './concept-types'
 import { ConceptConnection } from './concept-connection-types'
 
 export interface IConceptMap {
   concepts: IConcept[]
   levels: ConceptLayer[]
   connections: ConceptConnection[]
-  status: { [key: string]: ConceptState }
+  status: { [key: string]: ConceptStatus }
 }
 
 export type ConceptLayer = string[]

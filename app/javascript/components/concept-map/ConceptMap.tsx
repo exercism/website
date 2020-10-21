@@ -5,7 +5,7 @@ import { ConceptConnections } from './ConceptConnections'
 
 import { IConceptMap, ConceptLayer } from './concept-map-types'
 import { ConceptConnection } from './concept-connection-types'
-import { ConceptState, IConcept, isIConcept } from './concept-types'
+import { ConceptStatus, IConcept, isIConcept } from './concept-types'
 
 type AdjacentIndex = Map<string, Set<string>>
 type RelationReducer = (connection: ConceptConnection) => [string, string]
@@ -61,7 +61,7 @@ export const ConceptMap = ({
                     web_url={concept.web_url}
                     handleEnter={() => setActiveSlug(slug)}
                     handleLeave={() => setActiveSlug(null)}
-                    status={status[slug] ?? ConceptState.Locked}
+                    status={status[slug] ?? ConceptStatus.Locked}
                     isActive={isActive}
                     isInactive={isInactive}
                   />

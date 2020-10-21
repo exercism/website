@@ -1,7 +1,7 @@
 import React from 'react'
 import { CompleteIcon } from './CompleteIcon'
 
-import { IConcept, ConceptState } from './concept-types'
+import { IConcept, ConceptStatus } from './concept-types'
 
 export const Concept = ({
   slug,
@@ -13,7 +13,7 @@ export const Concept = ({
   isActive,
   isInactive,
 }: IConcept & {
-  status: ConceptState
+  status: ConceptStatus
   isActive: boolean
   isInactive: boolean
 }) => {
@@ -39,7 +39,7 @@ export const Concept = ({
     >
       <div className="display">
         <div className="name">{name}</div>
-        <CompleteIcon show={ConceptState.Completed === status} />
+        <CompleteIcon show={ConceptStatus.Completed === status} />
       </div>
     </a>
   )

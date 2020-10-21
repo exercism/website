@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react'
 
-export enum ConceptState {
+export enum ConceptStatus {
   Locked = 'locked',
   Unlocked = 'unlocked',
   Completed = 'completed',

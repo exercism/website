@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
 
@@ -70,6 +70,7 @@ export function TestRunSummary({
     tests: [],
   })
   const haveTestsResolved = RESOLVED_TEST_STATUSES.includes(testRun.status)
+  const timer = useRef<number>()
 
   useEffect(() => {
     const channel = new TestRunChannel(submission, (testRun: TestRun) => {
@@ -86,8 +87,17 @@ export function TestRunSummary({
       return
     }
 
-    setTimeout(() => dispatch({ type: 'testRun.timeout' }), timeout)
+    timer.current = window.setTimeout(
+      () => dispatch({ type: 'testRun.timeout' }),
+      timeout
+    )
   }, [testRun.status])
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [])
 
   return (
     <div>

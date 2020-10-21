@@ -2,8 +2,8 @@ import { camelizeKeys } from 'humps'
 
 export async function fetchJSON(endpoint: string, options: any) {
   const headers = {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    'content-type': 'application/json',
+    accept: 'application/json',
   }
   const response = await fetch(
     endpoint,

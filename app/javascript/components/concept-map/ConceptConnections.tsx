@@ -24,9 +24,6 @@ export const ConceptConnections = ({
     connections.map((connection) => [connectionToKey(connection), useRef(null)])
   )
 
-  console.info(paths.length === connections.length)
-  console.info({ paths, connections })
-
   useEffect(() => {
     connections.forEach((connection, i) => {
       const canvasRef = pathCanvases.get(connectionToKey(connection))

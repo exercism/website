@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { useWebpageSize } from './hooks/useWebpageSize'
 
@@ -13,10 +13,10 @@ import { determinePathTypes } from './helpers/path-helpers'
  */
 export const ConceptConnections = ({
   connections,
-  activeConcept,
+  activeConcepts,
 }: {
   connections: ConceptConnection[]
-  activeConcept: string | null
+  activeConcepts: Set<string>
 }) => {
   const { width: webpageWidth, height: webpageHeight } = useWebpageSize()
   const canvasEl = useRef(null)
@@ -48,13 +48,13 @@ export const ConceptConnections = ({
       unavailable: inactiveUnavailablePaths,
       available: inactiveAvailablePaths,
       completed: inactiveCompletedPaths,
-    } = determinePathTypes(connections, activeConcept, false)
+    } = determinePathTypes(connections, activeConcepts, false)
 
     const {
       unavailable: activeUnavailablePaths,
       available: activeAvailablePaths,
       completed: activeCompletedPaths,
-    } = determinePathTypes(connections, activeConcept, true)
+    } = determinePathTypes(connections, activeConcepts, true)
 
     // Determine the order drawn since canvas is drawn in bitmap
     // mode which means, things drawn first are covered up by
@@ -86,7 +86,11 @@ export const ConceptConnections = ({
     activeDrawOrder.forEach((pathGroup) =>
       pathGroup.forEach((path) => drawPath(path, ctx, drawOptions))
     )
-  }, [activeConcept, connections, webpageHeight, webpageWidth])
+  }, [activeConcepts, connections, webpageHeight, webpageWidth])
 
-  return <canvas ref={canvasEl} className="canvas"></canvas>
+  return (
+    <>
+      <canvas ref={canvasEl} className="canvas"></canvas>
+    </>
+  )
 }

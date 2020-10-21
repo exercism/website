@@ -7,25 +7,41 @@ import { IConceptMap, ConceptLayer } from './concept-map-types'
 import { ConceptConnection } from './concept-connection-types'
 import { ConceptState, IConcept, isIConcept } from './concept-types'
 
+type AdjacentIndex = Map<string, Set<string>>
+type RelationReducer = (connection: ConceptConnection) => [string, string]
+
+interface IndexAdjacentBySlug {
+  (
+    connections: ConceptConnection[],
+    relationReducer: RelationReducer,
+    index?: AdjacentIndex
+  ): AdjacentIndex
+}
+
 export const ConceptMap = ({
   concepts,
   levels,
   connections,
   status,
 }: IConceptMap) => {
-  const [active, setActive] = useState<string | null>(null)
+  const [activeSlug, setActiveSlug] = useState<string | null>(null)
 
   const conceptsBySlug = indexConceptsBySlug(concepts)
-  const adjacentBySlug = indexAdjacentBySlug(connections)
+  const descendantsBySlug = indexDescendantsBySlug(connections)
+  const parentsBySlug = indexParentsBySlug(connections)
 
-  const adjacentConceptsToActive = new Set(
-    Array.from(
-      document.querySelectorAll<HTMLElement>(`.adjacent-to-${active}`)
-    ).map((element) => element.dataset.conceptSlug)
+  const activeSlugs = findAllActiveSlugs(
+    parentsBySlug,
+    descendantsBySlug,
+    activeSlug
   )
+
   return (
     <figure className="c-concepts-map">
-      <ConceptConnections connections={connections} activeConcept={active} />
+      <ConceptConnections
+        connections={connections}
+        activeConcepts={activeSlugs}
+      />
       <div className="track">
         {levels.map((layer: ConceptLayer, i: number) => (
           <div key={`layer-${i}`} className="layer">
@@ -33,24 +49,20 @@ export const ConceptMap = ({
               .map((conceptSlug) => conceptsBySlug.get(conceptSlug))
               .filter(isIConcept)
               .map((concept) => {
-                const isDimmed =
-                  active !== null &&
-                  active !== concept.slug &&
-                  !adjacentConceptsToActive.has(concept.slug)
-
                 const slug = concept.slug
+                const isDimmed = activeSlug !== null && !activeSlugs.has(slug)
+
                 return (
                   <Concept
                     key={concept.slug}
-                    slug={slug}
+                    slug={concept.slug}
                     name={concept.name}
                     web_url={concept.web_url}
-                    handleEnter={() => setActive(slug)}
-                    handleLeave={() => setActive(null)}
+                    handleEnter={() => setActiveSlug(slug)}
+                    handleLeave={() => setActiveSlug(null)}
                     status={status[concept.slug] ?? ConceptState.Locked}
-                    isActive={active === concept.slug}
+                    isActive={activeSlug === concept.slug}
                     isDimmed={isDimmed}
-                    adjacentConcepts={adjacentBySlug.get(concept.slug) ?? []}
                   />
                 )
               })}
@@ -68,18 +80,65 @@ function indexConceptsBySlug(concepts: IConcept[]): Map<string, IConcept> {
   }, new Map<string, IConcept>())
 }
 
-type AdjacentIndex = Map<string, string[]>
-
-function indexAdjacentBySlug(connections: ConceptConnection[]): AdjacentIndex {
+const indexAdjacentBySlug: IndexAdjacentBySlug = function (
+  connections,
+  relationReducer,
+  index = new Map()
+) {
   const addToIndex = (index: AdjacentIndex, from: string, to: string): void => {
-    const list = index.get(from) ?? []
-    list.push(to)
-    index.set(from, list)
+    const adjacent = index.get(from) ?? new Set()
+    adjacent.add(to)
+    index.set(from, adjacent)
   }
 
   return connections.reduce((relatives, connection) => {
-    addToIndex(relatives, connection.from, connection.to)
-    addToIndex(relatives, connection.to, connection.from)
+    const [from, to] = relationReducer(connection)
+    addToIndex(relatives, from, to)
     return relatives
-  }, new Map<string, string[]>())
+  }, index)
+}
+
+const indexParentsBySlug = function (
+  connections: ConceptConnection[]
+): AdjacentIndex {
+  const parentReducer: RelationReducer = (connection) => [
+    connection.to,
+    connection.from,
+  ]
+  return indexAdjacentBySlug(connections, parentReducer)
+}
+
+const indexDescendantsBySlug = function (
+  connections: ConceptConnection[]
+): AdjacentIndex {
+  const descendantReducer: RelationReducer = (connection) => [
+    connection.from,
+    connection.to,
+  ]
+  return indexAdjacentBySlug(connections, descendantReducer)
+}
+
+const findAllActiveSlugs = function (
+  parentsBySlug: AdjacentIndex,
+  descendantsBySlug: AdjacentIndex,
+  activeSlug: string | null
+): Set<string> {
+  if (activeSlug === null) {
+    return new Set()
+  }
+
+  const ancestorSlugs = [activeSlug]
+  const queue = [activeSlug]
+
+  while (queue.length > 0) {
+    const slug = queue.pop()
+    const parentSlugs = slug ? Array.from(parentsBySlug.get(slug) ?? []) : []
+    queue.push(...parentSlugs)
+    ancestorSlugs.push(...parentSlugs)
+  }
+
+  return new Set([
+    ...ancestorSlugs,
+    ...Array.from(descendantsBySlug.get(activeSlug) ?? []),
+  ])
 }

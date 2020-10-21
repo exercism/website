@@ -17,7 +17,7 @@ type CategorizedConceptPaths = {
 
 export function determinePathTypes(
   connections: ConceptConnection[],
-  activeConcept: string | null = null,
+  activeConcept: Set<string>,
   matchActive: boolean | null = null
 ): CategorizedConceptPaths {
   const paths: CategorizedConceptPaths = {
@@ -31,8 +31,7 @@ export function determinePathTypes(
     // don't connect to the active Concept, then skip
     if (
       matchActive === true &&
-      to !== activeConcept &&
-      from !== activeConcept
+      (!activeConcept.has(from) || !activeConcept.has(to))
     ) {
       return
     }
@@ -41,7 +40,8 @@ export function determinePathTypes(
     // connect to the active Concept, then skip
     if (
       matchActive === false &&
-      (to === activeConcept || from === activeConcept)
+      activeConcept.has(from) &&
+      activeConcept.has(to)
     ) {
       return
     }

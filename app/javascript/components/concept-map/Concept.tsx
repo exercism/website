@@ -12,12 +12,10 @@ export const Concept = ({
   status,
   isActive,
   isDimmed,
-  adjacentConcepts,
 }: IConcept & {
   status: ConceptState
   isActive: boolean
   isDimmed: boolean
-  adjacentConcepts: string[]
 }) => {
   // Build the class list
   let classes = ['card']
@@ -28,9 +26,6 @@ export const Concept = ({
   if (isDimmed) {
     classes.push('dim')
   }
-  adjacentConcepts.forEach((adjacentConcept: string): void => {
-    classes.push(`adjacent-to-${adjacentConcept}`)
-  })
 
   return (
     <a

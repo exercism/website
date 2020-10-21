@@ -1,0 +1,44 @@
+@import "../styles";
+#page-track-show-unjoined {
+    & .track-header {
+        background: rgba(225, 235, 255, 0.3);
+
+        & .container {
+            @apply flex pt-32 pb-40;
+        }
+
+        & .c-track-icon {
+            @apply mr-48;
+
+            height: 125px;
+            width: calc(var(--c-track-icon-width-ratio) * 125px);
+        }
+        & h1 {
+            @apply text-h1 mb-8;
+        }
+        & p {
+            @apply leading-paragraph text-18 mb-24;
+            max-width: 680px;
+        }
+        & .join-btn {
+            @apply btn-large-cta;
+        }
+    }
+    & .about-section {
+        @apply pt-64;
+        & h2 {
+            @apply text-h2;
+        }
+
+        & .info {
+            & p {
+                @apply text-18 leading-paragraph mt-24;
+            }
+        }
+        & code {
+            @apply flex-shrink-0 w-1/2 ml-spacedColumns;
+            @apply bg-white rounded-8 py-24 px-36;
+            @apply shadow-base;
+        }
+    }
+}

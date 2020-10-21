@@ -6,12 +6,13 @@ class Tracks::ConceptsController < ApplicationController
   allow_unauthenticated! :index, :show
 
   def authenticated_index
+    @concept_map_data = Track::DetermineConceptMapLayout.(@track)
+
     if current_user.joined_track?(@track)
-      @concept_map_data = Track::DetermineConceptMapLayout.(@track).merge(
-        status: UserTrack::GenerateConceptStatusMapping.(@user_track)
-      )
+      @concept_map_data[:status] = UserTrack::GenerateConceptStatusMapping.(@user_track)
       render action: "index/joined"
     else
+      @concept_map_data[:status] = {}
       render action: "index/unjoined"
     end
   end

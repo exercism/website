@@ -1,2 +1,6 @@
-.md-container
-  %h2 Concepts for #{@track.title} (UNJOINED)
+#page-track-show-unjoined
+  = ViewComponents::Student::TrackNav.new(@track, :concepts)
+
+  .md-container
+    %h2 Concepts for #{@track.title}
+    = ViewComponents::Student::ConceptMap.new(@concept_map_data)

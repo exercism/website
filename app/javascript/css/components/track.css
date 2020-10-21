@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-track {
-    @apply border-black bg-white shadow-1 rounded-8;
+    @apply border-black bg-white shadow-base rounded-8;
     & .content {
         @apply flex items-start p-24;
 

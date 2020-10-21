@@ -18,11 +18,6 @@ module.exports = {
       '2': '2px',
     },
     boxShadow: {
-      // TODO: Remove these two and replace
-      // with ones below
-      '1': '0px 4px 24px rgba(79, 114, 205, 0.15)',
-      headerBottom: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
-
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
       lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',

@@ -6,7 +6,8 @@ module Student
       data = {
         concepts: [],
         levels: [],
-        connections: []
+        connections: [],
+        status: []
       }
       component = ViewComponents::Student::ConceptMap.new(data).to_s
 

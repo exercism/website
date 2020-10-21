@@ -61,6 +61,7 @@ initReact({
       concepts={data.graph.concepts}
       levels={data.graph.levels}
       connections={data.graph.connections}
+      status={data.graph.status}
     />
   ),
 })

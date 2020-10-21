@@ -5,9 +5,14 @@ import { ConceptConnections } from './ConceptConnections'
 
 import { IConceptMap, ConceptLayer } from './concept-map-types'
 import { ConceptConnection } from './concept-connection-types'
-import { IConcept, isIConcept } from './concept-types'
+import { ConceptState, IConcept, isIConcept } from './concept-types'
 
-export const ConceptMap = ({ concepts, levels, connections }: IConceptMap) => {
+export const ConceptMap = ({
+  concepts,
+  levels,
+  connections,
+  status,
+}: IConceptMap) => {
   const [active, setActive] = useState<string | null>(null)
 
   const conceptsBySlug = indexConceptsBySlug(concepts)
@@ -40,9 +45,9 @@ export const ConceptMap = ({ concepts, levels, connections }: IConceptMap) => {
                     slug={slug}
                     name={concept.name}
                     web_url={concept.web_url}
-                    status={concept.status}
                     handleEnter={() => setActive(slug)}
                     handleLeave={() => setActive(null)}
+                    status={status[concept.slug] ?? ConceptState.Locked}
                     isActive={active === concept.slug}
                     isDimmed={isDimmed}
                     adjacentConcepts={adjacentBySlug.get(concept.slug) ?? []}

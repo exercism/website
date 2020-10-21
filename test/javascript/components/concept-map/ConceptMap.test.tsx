@@ -22,14 +22,16 @@ import { ConceptLayer } from '../../../../app/javascript/components/concept-map/
 
 describe('<ConceptMap />', () => {
   test('renders empty component', () => {
-    const { container } = renderMap([], [], [])
+    const { container } = renderMap([], [], [], {})
     const map = container.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
 
   test('renders single incomplete concept', () => {
     const testConcept = concept('test')
-    const { container } = renderMap([testConcept], [[testConcept.slug]], [])
+    const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
+      test: ConceptState.Unlocked,
+    })
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = queryByTitle(container, 'completed')
     expect(completeIconEl).toBeNull()
@@ -37,7 +39,9 @@ describe('<ConceptMap />', () => {
 
   test('renders single completed concept', () => {
     const testConcept = concept('test', { state: ConceptState.Completed })
-    const { container } = renderMap([testConcept], [[testConcept.slug]], [])
+    const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
+      test: ConceptState.Completed,
+    })
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = getByTitle(container, 'completed')
   })
@@ -51,23 +55,27 @@ const concept = (
   } = {}
 ): Concept => {
   const index = options.index ?? 0
-  const state = options.state ?? ConceptState.Locked
 
   return {
     slug: conceptName,
     name: slugToTitlecase(conceptName),
     web_url: `link-for-${conceptName}`,
-    status: state,
   }
 }
 
 const renderMap = (
   concepts: Concept[],
   levels: ConceptLayer[],
-  connections: ConceptConnection[]
+  connections: ConceptConnection[],
+  status: { [key: string]: ConceptState }
 ) => {
   return render(
-    <ConceptMap concepts={concepts} levels={levels} connections={connections} />
+    <ConceptMap
+      concepts={concepts}
+      levels={levels}
+      connections={connections}
+      status={status}
+    />
   )
 }
 

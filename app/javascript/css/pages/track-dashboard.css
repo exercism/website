@@ -1,44 +1,6 @@
 @import "../styles";
 
 #page-track-dashboard {
-    & .track-nav {
-        --nav-height: 40px;
-
-        @apply bg-white py-12;
-        & .container {
-            @apply flex;
-        }
-
-        & .back {
-            @apply block mr-24;
-            line-height: var(--nav-height);
-        }
-
-        & .c-track-icon {
-            height: var(--nav-height);
-            width: calc(var(--c-track-icon-width-ratio) * var(--nav-height));
-            @apply mr-20;
-        }
-
-        & .title {
-            @apply mr-64;
-            @apply text-16 font-semibold font-mono;
-            line-height: var(--nav-height);
-        }
-        & .tabs {
-            @apply flex;
-
-            & a {
-                line-height: var(--nav-height);
-                @apply block px-16 rounded-100;
-                @apply text-16 text-textBase font-normal;
-
-                &.selected {
-                    @apply bg-veryLightBlue text-black font-semibold;
-                }
-            }
-        }
-    }
     & .track-header {
         & .container {
             @apply flex items-center py-32;

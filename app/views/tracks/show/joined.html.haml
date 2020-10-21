@@ -1,18 +1,5 @@
 #page-track-dashboard
-  %nav.track-nav
-    .lg-container.container
-      = link_to "<-", tracks_path, class: "back", 'aria-label': "Back to all tracks"
-      = image_tag(@track.icon_url, class: 'c-track-icon')
-      .title= @track.title
-      .tabs
-        = link_to "#", class: 'selected' do
-          Overview
-
-        = link_to track_concepts_path(@track) do
-          Concepts
-
-        = link_to "#" do
-          Exercises
+  = ViewComponents::Student::TrackNav.new(@track, :overview)
 
   %header.track-header
     .lg-container.container

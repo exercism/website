@@ -5,7 +5,7 @@ import { useWebpageSize } from './hooks/useWebpageSize'
 import { ConceptConnection } from './concept-connection-types'
 
 import { defaultDrawPathOptions, drawPath } from './helpers/draw-helpers'
-import { determinePathTypes } from './helpers/path-helpers'
+import { mapToPaths } from './helpers/path-helpers'
 
 /**
  * ConceptConnections
@@ -19,78 +19,81 @@ export const ConceptConnections = ({
   activeConcepts: Set<string>
 }) => {
   const { width: webpageWidth, height: webpageHeight } = useWebpageSize()
-  const canvasEl = useRef(null)
+  const paths = mapToPaths(connections)
+  const pathCanvases = new Map(
+    connections.map((connection) => [connectionToKey(connection), useRef(null)])
+  )
+
+  console.info(paths.length === connections.length)
+  console.info({ paths, connections })
 
   useEffect(() => {
-    const canvas = canvasEl.current as HTMLCanvasElement | null
-    const ctx = canvas?.getContext('2d')
+    connections.forEach((connection, i) => {
+      const canvasRef = pathCanvases.get(connectionToKey(connection))
 
-    if (!canvas || !ctx) return
+      if (!canvasRef) {
+        return
+      }
 
-    const width =
-      webpageWidth -
-      Number(canvas.style.borderLeftWidth) -
-      Number(canvas.style.borderRightWidth) -
-      2 // to account for vertical scroll bar
+      const canvas = canvasRef.current as HTMLCanvasElement | null
+      const ctx = canvas?.getContext('2d')
 
-    const height =
-      webpageHeight -
-      Number(canvas.style.borderTopWidth) -
-      Number(canvas.style.borderBottomWidth)
+      if (!canvas || !ctx) return
 
-    canvas.width = width * devicePixelRatio
-    canvas.height = height * devicePixelRatio
+      const width =
+        webpageWidth -
+        Number(canvas.style.borderLeftWidth) -
+        Number(canvas.style.borderRightWidth) -
+        2 // to account for vertical scroll bar
 
-    canvas.style.width = `${width}px`
-    canvas.style.height = `${height}px`
+      const height =
+        webpageHeight -
+        Number(canvas.style.borderTopWidth) -
+        Number(canvas.style.borderBottomWidth)
 
-    const {
-      unavailable: inactiveUnavailablePaths,
-      available: inactiveAvailablePaths,
-      completed: inactiveCompletedPaths,
-    } = determinePathTypes(connections, activeConcepts, false)
+      canvas.width = width * devicePixelRatio
+      canvas.height = height * devicePixelRatio
 
-    const {
-      unavailable: activeUnavailablePaths,
-      available: activeAvailablePaths,
-      completed: activeCompletedPaths,
-    } = determinePathTypes(connections, activeConcepts, true)
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
 
-    // Determine the order drawn since canvas is drawn in bitmap
-    // mode which means, things drawn first are covered up by
-    // things drawn second if they overlap
-    const inactiveDrawOrder = [
-      inactiveUnavailablePaths,
-      inactiveAvailablePaths,
-      inactiveCompletedPaths,
-    ]
-    const activeDrawOrder = [
-      activeUnavailablePaths,
-      activeAvailablePaths,
-      activeCompletedPaths,
-    ]
+      const paths = mapToPaths(connections)
 
-    const drawOptions = defaultDrawPathOptions()
+      const drawOptions = defaultDrawPathOptions()
 
-    drawOptions.scale = devicePixelRatio
-    drawOptions.dim = Boolean(
-      activeUnavailablePaths.length ||
-        activeAvailablePaths.length ||
-        activeCompletedPaths.length
-    )
-    inactiveDrawOrder.forEach((pathGroup) =>
-      pathGroup.forEach((path) => drawPath(path, ctx, drawOptions))
-    )
+      drawOptions.scale = devicePixelRatio
+      drawPath(paths[i], ctx, drawOptions)
+    })
+  }, [connections, webpageHeight, webpageWidth])
 
-    drawOptions.dim = false
-    activeDrawOrder.forEach((pathGroup) =>
-      pathGroup.forEach((path) => drawPath(path, ctx, drawOptions))
-    )
-  }, [activeConcepts, connections, webpageHeight, webpageWidth])
-
+  const hasActivePaths = activeConcepts.size > 0
   return (
     <>
-      <canvas ref={canvasEl} className="canvas"></canvas>
+      {connections.map((connection, i) => {
+        const key = connectionToKey(connection)
+        const isInactive =
+          hasActivePaths &&
+          !(
+            activeConcepts.has(connection.from) &&
+            activeConcepts.has(connection.to)
+          )
+        const classNames = ['canvas']
+        if (isInactive) {
+          classNames.push('inactive')
+        }
+
+        return (
+          <canvas
+            key={key}
+            ref={pathCanvases.get(key)}
+            className={classNames.join(' ')}
+          />
+        )
+      })}
     </>
   )
+}
+
+function connectionToKey({ from, to }: ConceptConnection): string {
+  return `path-${from}-${to}`
 }

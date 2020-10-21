@@ -19,3 +19,9 @@ export type ConceptPath = {
   end: ConceptPathCoordinate
   state: ConceptPathState
 }
+
+export function isConceptPath(
+  conceptPath: ConceptPath | undefined
+): conceptPath is ConceptPath {
+  return conceptPath !== undefined
+}

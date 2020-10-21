@@ -3,6 +3,7 @@ import {
   ConceptConnection,
   ConceptPathCoordinate,
   ConceptPathState,
+  isConceptPath,
 } from '../concept-connection-types'
 
 import { ConceptState } from '../concept-types'
@@ -15,68 +16,26 @@ type CategorizedConceptPaths = {
   completed: ConceptPath[]
 }
 
-export function determinePathTypes(
-  connections: ConceptConnection[],
-  activeConcept: Set<string>,
-  matchActive: boolean | null = null
-): CategorizedConceptPaths {
-  const paths: CategorizedConceptPaths = {
-    unavailable: [],
-    available: [],
-    completed: [],
-  }
+export function mapToPaths(connections: ConceptConnection[]): ConceptPath[] {
+  return connections
+    .map(({ from, to }) => {
+      const pathEndElement = document.getElementById(conceptSlugToId(to))
+      const pathStartElement = document.getElementById(conceptSlugToId(from))
 
-  connections.forEach(({ from, to }) => {
-    // If looking to match only active paths, and if both ends of the path
-    // don't connect to the active Concept, then skip
-    if (
-      matchActive === true &&
-      (!activeConcept.has(from) || !activeConcept.has(to))
-    ) {
-      return
-    }
+      // If the start or end concept doesn't exist for some reason, skip
+      if (!pathEndElement || !pathStartElement) {
+        return
+      }
 
-    // If looking to match only inactive edges, and if either end of the path
-    // connect to the active Concept, then skip
-    if (
-      matchActive === false &&
-      activeConcept.has(from) &&
-      activeConcept.has(to)
-    ) {
-      return
-    }
+      const conceptStatus = pathEndElement.dataset.conceptStatus as ConceptState
 
-    // If the start or end concept doesn't exist for some reason, skip
-    const pathEndElement = document.getElementById(conceptSlugToId(to))
-    if (!pathEndElement) {
-      return
-    }
-    const pathStartElement = document.getElementById(conceptSlugToId(from))
-    if (!pathStartElement) {
-      return
-    }
-
-    const conceptStatus = pathEndElement.dataset.conceptStatus as ConceptState
-    const conceptPath = {
-      start: getPathStartFromElement(pathStartElement),
-      end: getPathEndFromElement(pathEndElement),
-      state: getPathState(conceptStatus),
-    }
-
-    switch (conceptPath.state) {
-      case ConceptPathState.Available:
-        paths.available.push(conceptPath)
-        break
-      case ConceptPathState.Completed:
-        paths.completed.push(conceptPath)
-        break
-      default:
-        paths.unavailable.push(conceptPath)
-        break
-    }
-  })
-
-  return paths
+      return {
+        start: getPathStartFromElement(pathStartElement),
+        end: getPathEndFromElement(pathEndElement),
+        state: getPathState(conceptStatus),
+      }
+    })
+    .filter(isConceptPath)
 }
 
 // calculate the start position of the path

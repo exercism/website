@@ -10,12 +10,13 @@ module ViewComponents
 
         tag.nav(class: 'c-track-nav') do
           tag.div(class: 'lg-container container') do
-            safe_join([
-                        link_to("<-", Exercism::Routes.tracks_path, class: "back", 'aria-label': "Back to all tracks"),
-                        image_tag(@track.icon_url, class: 'c-track-icon'),
-                        tag.div(@track.title, class: 'title'),
-                        tag.div(safe_join(tabs), class: 'tabs')
-                      ])
+            parts = [
+              link_to("<-", Exercism::Routes.tracks_path, class: "back", 'aria-label': "Back to all tracks"),
+              image_tag(@track.icon_url, class: 'c-track-icon'),
+              tag.div(@track.title, class: 'title'),
+              tag.div(safe_join(tabs), class: 'tabs')
+            ]
+            safe_join(parts)
           end
         end
       end
@@ -27,18 +28,18 @@ module ViewComponents
             Exercism::Routes.track_path(@track),
             class: tab_class(:overview)
           ) do
-            "Overview"
+            icon(:dashboard, "Track Overview") + "Overview"
           end,
 
           link_to(
             Exercism::Routes.track_concepts_path(@track),
             class: tab_class(:concepts)
           ) do
-            "Concepts"
+            icon(:concepts, "Concepts") + "Concepts"
           end,
 
-          link_to("#", class: tab_class(:exerises)) do
-            "Exercises"
+          link_to("#", class: tab_class(:exercises)) do
+            icon(:exercises, "Exercises") + "Exercises"
           end
         ]
       end

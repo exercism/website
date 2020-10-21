@@ -40,6 +40,7 @@ module.exports = {
 
       purple: 'rgba(103, 93, 172, 1)',
       lightPurple: '#B0A8E3',
+      anotherPurple: '#604FCD',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',

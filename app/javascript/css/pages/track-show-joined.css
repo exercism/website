@@ -1,6 +1,6 @@
 @import "../styles";
 
-#page-track-dashboard {
+#page-track-show-joined {
     & .track-header {
         & .container {
             @apply flex items-center py-32;
@@ -43,7 +43,12 @@
         & header {
             @apply flex items-center mb-16;
             & h2 {
-                @apply text-h4 mr-12;
+                @apply flex items-center text-h4 mr-12;
+                & svg {
+                    height: 24px;
+                    width: 24px;
+                    @apply mr-16;
+                }
             }
             & .count {
                 @apply rounded-100 px-12;
@@ -72,13 +77,15 @@
                     @apply font-semibold text-16 truncate;
                 }
                 & .reputation {
-                    @apply flex px-12 gap-4 items-center;
+                    @apply flex px-8 items-center;
                     @apply border-1 border-lightGray rounded-100 shadow-sm;
                     @apply text-13 text-unnamed16;
                     line-height: 28px;
 
                     & svg {
                         height: 24px;
+                        width: 24px;
+                        @apply text-unnamed16 mr-6;
                     }
                 }
             }

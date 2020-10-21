@@ -1,3 +1,41 @@
-= button_to "Join Track", join_track_path(@track), method: :post
+#page-track-show-unjoined
+  = ViewComponents::Student::TrackNav.new(@track, :overview)
 
-= link_to "Concepts", track_concepts_path(@track)
+  %header.track-header
+    .lg-container.container
+      = image_tag(@track.icon_url, class: 'c-track-icon')
+      .info
+        %h1= @track.title
+        %p
+          / TODO: Add real data
+          C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.
+        .btns.s-flex.s-gap-24
+          = button_to join_track_path(@track), method: :post, class: "btn-large-cta" do
+            = graphical_icon(:plus)
+            Join The #{@track.title} Track
+
+          = link_to "#concepts", class: "btn-large-secondary" do
+            See Concepts
+
+  %section.about-section
+    .md-container.container
+      %h2 About #{@track.title}
+      .s-flex.s-items-start
+        .info
+          %p C# is a multi-paradigm, statically-typed programming language with object-oriented, declarative, functional, generic, lazy, integrated querying features and type inference.
+          %p Statically-typed means that identifiers have a type set at compile time--like those in Java, C++ or Haskell--instead of holding data of any type like those in Python, Ruby or JavaScript.
+        %code
+          %pre
+            :preserve
+              class Card
+              {
+                  static string NewYear(int year = 2020, string sender = "me")
+                  {
+                      return $"Happy {year} from {sender}!";
+                  }
+              }
+
+              Card.NewYear();  // => "Happy 2020 from me!"
+              Card.Card(1999); // => "Happy 1999 from me!"
+              Card.Card(sender: "mom"); // => "Happy 2020 from mom!"
+

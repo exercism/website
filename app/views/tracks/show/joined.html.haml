@@ -1,4 +1,4 @@
-#page-track-dashboard
+#page-track-show-joined
   = ViewComponents::Student::TrackNav.new(@track, :overview)
 
   %header.track-header
@@ -18,20 +18,22 @@
       .rhs
         %section.contributors
           %header
-            %h2 Contributors
+            %h2
+              = graphical_icon(:contributors)
+              Contributors
             .count 123
           .showcase
             = link_to "#" do
               .img{ style: "background-image:url(https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4)" }
               .name Erik Schierboom
               .reputation
-                = reputation_icon(color: "#8480A0")
+                = icon(:reputation, "Reputation")
                 123
             = link_to "#" do
               .img{ style: "background-image:url(https://avatars2.githubusercontent.com/u/17816791?s=460&u=75b8876b2ec4d897e946888493a7fc7b7d97ec55&v=4)" }
               .name Rob Keim
               .reputation
-                = reputation_icon(color: "#8480A0")
+                = icon(:reputation, "Reputation")
                 456
           .faces
             = link_to "", "#", class: 'face', style: "background-image:url(https://avatars3.githubusercontent.com/u/2716614?s=460&u=7403dc7f80ccfd983705a1637fac1b12d2dcbad2&v=4)"

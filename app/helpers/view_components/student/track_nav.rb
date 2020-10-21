@@ -11,7 +11,12 @@ module ViewComponents
         tag.nav(class: 'c-track-nav') do
           tag.div(class: 'lg-container container') do
             parts = [
-              link_to("<-", Exercism::Routes.tracks_path, class: "back", 'aria-label': "Back to all tracks"),
+              link_to(
+                graphical_icon("arrow-left"),
+                Exercism::Routes.tracks_path,
+                class: "back",
+                'aria-label': "Back to all tracks"
+              ),
               image_tag(@track.icon_url, class: 'c-track-icon'),
               tag.div(@track.title, class: 'title'),
               tag.div(safe_join(tabs), class: 'tabs')

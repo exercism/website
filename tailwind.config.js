@@ -16,6 +16,7 @@ module.exports = {
       none: '0',
       '1': '1px',
       '2': '2px',
+      '3': '3px',
     },
     boxShadow: {
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
@@ -59,6 +60,7 @@ module.exports = {
       '13': '13px',
       '14': '14px',
       '16': '16px',
+      '18': '18px',
       '20': '20px',
     },
     height: {
@@ -67,9 +69,11 @@ module.exports = {
     lineHeight: {
       none: '1',
       paragraph: '150%',
+      code: '160%',
     },
     spacing: {
       '4': '4px',
+      '6': '6px',
       '8': '8px',
       '12': '12px',
       '16': '16px',

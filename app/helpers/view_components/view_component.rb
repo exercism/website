@@ -1,6 +1,12 @@
 module ViewComponents
   class ViewComponent
     include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::UrlHelper
+
+    # TODO: This can probably be removed
+    include ActionView::Helpers::AssetTagHelper
+    include ActionView::Context
+
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
 

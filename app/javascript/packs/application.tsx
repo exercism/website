@@ -13,6 +13,8 @@ import 'css/styles.css'
 import 'css/layout.css'
 import 'css/components/tracks-list.css'
 import 'css/components/track.css'
+import 'css/components/track-nav.css'
+
 import 'css/pages/track-dashboard.css'
 import 'components/concept-map/ConceptMap.css'
 import 'components/common/TrackIcon.css'

@@ -59,7 +59,7 @@
             @apply bg-darkBlue;
         }
         & .ucp {
-            @apply bg-lightBlue;
+            background: rgba(106, 147, 255, 0.5);
         }
         & .ce {
             @apply bg-darkGreen;

@@ -3,7 +3,8 @@
 .c-track-nav {
     --nav-height: 40px;
 
-    @apply bg-white py-12;
+    @apply bg-white py-12 shadow-base;
+
     & .container {
         @apply flex;
     }

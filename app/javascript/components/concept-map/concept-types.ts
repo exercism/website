@@ -11,7 +11,6 @@ export interface IConcept {
   slug: string
   web_url: string
   name: string
-  status: ConceptState
   handleEnter?: MouseEventHandler
   handleLeave?: MouseEventHandler
 }

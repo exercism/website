@@ -3,7 +3,7 @@ require 'graph_utils'
 # ConceptGraph transforms a track configuration to a form compatible for manipulating for
 # displaying the progression of the track
 class Track
-  class DetermineConceptsLayout
+  class DetermineConceptMapLayout
     include Mandate
 
     def initialize(track)

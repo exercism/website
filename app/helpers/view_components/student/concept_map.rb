@@ -1,11 +1,11 @@
 module ViewComponents
   module Student
-    class ConceptsMap < ViewComponent
+    class ConceptMap < ViewComponent
       initialize_with :data
 
       def to_s
         react_component(
-          "concepts-map",
+          "concept-map",
           {
             graph: data
           }

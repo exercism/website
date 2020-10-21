@@ -50,19 +50,20 @@ export const ConceptMap = ({
               .filter(isIConcept)
               .map((concept) => {
                 const slug = concept.slug
-                const isDimmed = activeSlug !== null && !activeSlugs.has(slug)
+                const isActive = activeSlug !== null && activeSlugs.has(slug)
+                const isInactive = activeSlug !== null && !isActive
 
                 return (
                   <Concept
-                    key={concept.slug}
-                    slug={concept.slug}
+                    key={slug}
+                    slug={slug}
                     name={concept.name}
                     web_url={concept.web_url}
                     handleEnter={() => setActiveSlug(slug)}
                     handleLeave={() => setActiveSlug(null)}
-                    status={status[concept.slug] ?? ConceptState.Locked}
-                    isActive={activeSlug === concept.slug}
-                    isDimmed={isDimmed}
+                    status={status[slug] ?? ConceptState.Locked}
+                    isActive={isActive}
+                    isInactive={isInactive}
                   />
                 )
               })}

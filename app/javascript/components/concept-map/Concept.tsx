@@ -11,11 +11,11 @@ export const Concept = ({
   handleLeave,
   status,
   isActive,
-  isDimmed,
+  isInactive,
 }: IConcept & {
   status: ConceptState
   isActive: boolean
-  isDimmed: boolean
+  isInactive: boolean
 }) => {
   // Build the class list
   let classes = ['card']
@@ -23,8 +23,8 @@ export const Concept = ({
   if (isActive) {
     classes.push('card-active')
   }
-  if (isDimmed) {
-    classes.push('dim')
+  if (isInactive) {
+    classes.push('card-inactive')
   }
 
   return (

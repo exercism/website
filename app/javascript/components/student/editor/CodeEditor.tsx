@@ -1,6 +1,11 @@
 import React, { useRef } from 'react'
+import { Action } from '../Editor'
 
-export function CodeEditor({ onSubmit }: { onSubmit: (code: string) => void }) {
+export function CodeEditor({
+  dispatch,
+}: {
+  dispatch: (action: Action) => void
+}) {
   const editor = useRef<HTMLTextAreaElement>(null)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -10,7 +15,7 @@ export function CodeEditor({ onSubmit }: { onSubmit: (code: string) => void }) {
       return
     }
 
-    onSubmit(editor.current.value)
+    dispatch({ type: 'submitting', payload: { code: editor.current.value } })
   }
 
   return (

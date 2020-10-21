@@ -5,23 +5,28 @@ export async function fetchJSON(endpoint: string, options: any) {
     'content-type': 'application/json',
     accept: 'application/json',
   }
-  const response = await fetch(
-    endpoint,
-    Object.assign(options, { headers: headers })
-  )
 
-  if (!response.ok) {
-    throw response
+  try {
+    const response = await fetch(
+      endpoint,
+      Object.assign(options, { headers: headers })
+    )
+
+    if (!response.ok) {
+      throw response
+    }
+
+    const contentType = response.headers.get('Content-Type')
+    if (
+      !contentType ||
+      (!contentType.includes('+json') &&
+        !contentType.includes('application/json'))
+    ) {
+      throw response
+    }
+
+    return camelizeKeys(await response.json())
+  } catch (responseOrError) {
+    return Promise.reject(responseOrError)
   }
-
-  const contentType = response.headers.get('Content-Type')
-  if (
-    !contentType ||
-    (!contentType.includes('+json') &&
-      !contentType.includes('application/json'))
-  ) {
-    throw response
-  }
-
-  return camelizeKeys(await response.json())
 }

@@ -22,13 +22,17 @@ test('clears current submission when resubmitting', async () => {
   )
   server.listen()
 
-  const { getByText, queryByText } = render(
+  const { getByText, getByLabelText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" />
   )
+  fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
   fireEvent.click(getByText('Submit'))
   await waitFor(() =>
     expect(queryByText('Status: pending')).toBeInTheDocument()
   )
+  fireEvent.change(getByLabelText('Code'), {
+    target: { value: 'Changed code' },
+  })
   fireEvent.click(getByText('Submit'))
 
   await waitFor(() =>
@@ -58,9 +62,10 @@ test('shows message when test times out', async () => {
   )
   server.listen()
 
-  const { getByText, queryByText } = render(
+  const { getByText, getByLabelText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" timeout={0} />
   )
+  fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
   fireEvent.click(getByText('Submit'))
   await waitFor(() =>
     expect(queryByText('Status: pending')).toBeInTheDocument()
@@ -90,14 +95,37 @@ test('does not time out when tests have resolved', async () => {
   )
   server.listen()
 
-  const { getByText, queryByText } = render(
+  const { getByText, getByLabelText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" timeout={0} />
   )
+  fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
   fireEvent.click(getByText('Submit'))
   await waitFor(() => expect(queryByText('Status: pass')).toBeInTheDocument())
 
   await waitFor(() =>
     expect(queryByText('Status: timeout')).not.toBeInTheDocument()
+  )
+
+  server.close()
+})
+
+test('cancels a pending submission', async () => {
+  const server = setupServer(
+    rest.post('https://exercism.test/submissions', (req, res, ctx) => {
+      return res(ctx.delay(1000))
+    })
+  )
+  server.listen()
+
+  const { getByText, getByLabelText, queryByText } = render(
+    <Editor endpoint="https://exercism.test/submissions" />
+  )
+  fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
+  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Cancel'))
+
+  await waitFor(() =>
+    expect(queryByText('Submitting...')).not.toBeInTheDocument()
   )
 
   server.close()

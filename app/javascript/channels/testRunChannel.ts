@@ -7,7 +7,7 @@ import { typecheck } from '../utils/typecheck'
 export class TestRunChannel {
   subscription: ActionCable.Channel
 
-  constructor(submission: Submission, received: (testRun: TestRun) => void) {
+  constructor(submission: Submission, onReceive: (testRun: TestRun) => void) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'Submission::TestRunsChannel',
@@ -17,7 +17,7 @@ export class TestRunChannel {
         received: (response: any) => {
           const formattedResponse = camelizeKeys(response)
 
-          received(typecheck<TestRun>(formattedResponse, 'testRun'))
+          onReceive(typecheck<TestRun>(formattedResponse, 'testRun'))
         },
       }
     )

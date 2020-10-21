@@ -30,11 +30,28 @@
 
         & a {
             line-height: var(--nav-height);
-            @apply block px-16 rounded-100;
+            @apply flex items-center;
+            @apply px-16 rounded-100;
             @apply text-16 text-textBase font-normal;
+
+            /* TODO: If we have normal font here - everything 
+             * jumps around when you change tab. We will need
+             * to hardcode some actual widths when we're
+             * happy with the final layout to avoid this, then
+             * we can remove this */
+            @apply font-semibold;
+
+            & svg {
+                height: 24px;
+                width: 24px;
+                @apply mr-12 text-textLight;
+            }
 
             &.selected {
                 @apply bg-veryLightBlue text-black font-semibold;
+                & svg {
+                    @apply mr-12 text-anotherPurple;
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ export const emitConceptElement = (
 ): void => {
   if (!element) {
     delete CONCEPT_BOX[slug]
-    DRAW_HANDLER_BOX[slug].forEach(([handler, ,]) => handler(null, null))
+    DRAW_HANDLER_BOX[slug]?.forEach(([handler, ,]) => handler(null, null))
     return
   }
 

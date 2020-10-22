@@ -1,21 +1,29 @@
 import React, { useReducer, useRef, useEffect, useCallback } from 'react'
 import { CodeEditor } from './editor/CodeEditor'
 import { TestRunSummary } from './editor/TestRunSummary'
-import { Submitting } from './editor/Submitting'
+import { EditorStatusSummary } from './editor/EditorStatusSummary'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 
 export type Submission = {
   testsStatus: TestRunStatus
   uuid: string
+  links: SubmissionLinks
+}
+
+type SubmissionLinks = {
+  cancel: string
 }
 
 export enum TestRunStatus {
   PASS = 'pass',
   FAIL = 'fail',
   ERROR = 'error',
-  PENDING = 'pending',
+  QUEUED = 'queued',
   OPS_ERROR = 'ops_error',
+  CANCELLING = 'cancelling',
+  CANCELLED = 'cancelled',
+  TIMEOUT = 'timeout',
 }
 
 export enum EditorStatus {
@@ -118,7 +126,7 @@ export function Editor({
   return (
     <div>
       <CodeEditor dispatch={dispatch} />
-      {status === EditorStatus.SUBMITTING && <Submitting dispatch={dispatch} />}
+      <EditorStatusSummary status={status} dispatch={dispatch} />
       {submission && (
         <TestRunSummary submission={submission} timeout={timeout} />
       )}

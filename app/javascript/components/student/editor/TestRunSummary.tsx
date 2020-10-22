@@ -1,6 +1,7 @@
-import React, { useReducer, useEffect, useRef } from 'react'
-import { Submission, TestRunStatus } from '../Editor'
+import React, { useState, useEffect, useRef } from 'react'
+import { Submission, TestRunStatus, Action } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
+import { fetchJSON } from '../../../utils/fetch-json'
 
 export type TestRun = {
   submissionUuid: string
@@ -18,15 +19,6 @@ type Test = {
 enum TestStatus {
   PASS = 'pass',
   FAIL = 'fail',
-}
-
-function reducer(state: any, action: any) {
-  switch (action.type) {
-    case 'testRun.received':
-      return action.payload
-    case 'testRun.timeout':
-      return { ...state, status: 'timeout' }
-  }
 }
 
 function Content({ testRun }: { testRun: TestRun }) {
@@ -57,40 +49,51 @@ export function TestRunSummary({
   submission: Submission
   timeout: number
 }) {
-  const RESOLVED_TEST_STATUSES = [
-    TestRunStatus.PASS,
-    TestRunStatus.FAIL,
-    TestRunStatus.ERROR,
-    TestRunStatus.OPS_ERROR,
-  ]
-  const [testRun, dispatch] = useReducer(reducer, {
+  const [testRun, setTestRun] = useState<TestRun>({
     submissionUuid: submission.uuid,
     status: submission.testsStatus,
     message: '',
     tests: [],
   })
-  const haveTestsResolved = RESOLVED_TEST_STATUSES.includes(testRun.status)
   const timer = useRef<number>()
+  const channel = useRef<TestRunChannel>()
 
   useEffect(() => {
-    const channel = new TestRunChannel(submission, (testRun: TestRun) => {
-      dispatch({ type: 'testRun.received', payload: testRun })
+    channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
+      setTestRun(testRun)
     })
 
     return () => {
-      channel.disconnect()
+      if (channel.current) {
+        channel.current.disconnect()
+      }
     }
   }, [submission.uuid])
 
   useEffect(() => {
-    if (haveTestsResolved) {
-      return
-    }
+    switch (testRun.status) {
+      case TestRunStatus.QUEUED:
+        timer.current = window.setTimeout(
+          () => setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT }),
+          timeout
+        )
 
-    timer.current = window.setTimeout(
-      () => dispatch({ type: 'testRun.timeout' }),
-      timeout
-    )
+        break
+      case TestRunStatus.CANCELLING:
+        fetchJSON(submission.links.cancel, {
+          method: 'POST',
+        }).then(() => {
+          setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+        })
+
+        break
+      case TestRunStatus.CANCELLED:
+        if (channel.current) {
+          channel.current.disconnect()
+        }
+
+        break
+    }
   }, [testRun.status])
 
   useEffect(() => {
@@ -102,6 +105,15 @@ export function TestRunSummary({
   return (
     <div>
       <p>Status: {testRun.status}</p>
+      {status === TestRunStatus.QUEUED && (
+        <button
+          onClick={() => {
+            setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+          }}
+        >
+          Cancel
+        </button>
+      )}
       <Content testRun={testRun} />
     </div>
   )

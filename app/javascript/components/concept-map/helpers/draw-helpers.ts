@@ -27,14 +27,6 @@ export function drawPath(
 
   const halfDeltaY = (end.y - start.y) / 2
 
-  if (options.dim) {
-    ctx.globalAlpha = Number(
-      getComputedStyle(document.documentElement).getPropertyValue(
-        '--c-concept-map-hover-opacity'
-      )
-    )
-  }
-
   // Draw Line
   ctx.beginPath()
   applyLineStyle(ctx, path.state, options)
@@ -62,8 +54,6 @@ export function drawPath(
   applyCircleStyle(ctx, path.state, options)
   ctx.fill()
   ctx.stroke()
-
-  ctx.globalAlpha = 1
 }
 
 function applyLineStyle(

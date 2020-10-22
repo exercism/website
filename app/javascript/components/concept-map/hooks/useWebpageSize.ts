@@ -25,8 +25,5 @@ export function useWebpageSize() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  return {
-    width: webpageSize.width ?? 0,
-    height: webpageSize.height ?? 0,
-  }
+  return webpageSize
 }

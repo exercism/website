@@ -66,5 +66,9 @@
         &.inactive {
             opacity: var(--c-concept-map-hover-opacity);
         }
+
+        &.hidden {
+            opacity: 0;
+        }
     }
 }

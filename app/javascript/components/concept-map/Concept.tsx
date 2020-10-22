@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { CompleteIcon } from './CompleteIcon'
 
 import { IConcept, ConceptStatus } from './concept-types'
+
+import { emitConceptElement } from './helpers/concept-element-handler'
 
 export const Concept = ({
   slug,
@@ -10,25 +12,31 @@ export const Concept = ({
   handleEnter,
   handleLeave,
   status,
-  isActive,
   isInactive,
 }: IConcept & {
   status: ConceptStatus
-  isActive: boolean
   isInactive: boolean
 }) => {
+  const conceptRef = useRef(null)
+
+  useEffect(() => {
+    const current = conceptRef.current
+    emitConceptElement(slug, current)
+    return () => {
+      emitConceptElement(slug)
+    }
+  }, [slug, conceptRef])
+
   // Build the class list
   let classes = ['card']
   classes.push(`card-${status}`)
-  if (isActive) {
-    classes.push('card-active')
-  }
   if (isInactive) {
     classes.push('card-inactive')
   }
 
   return (
     <a
+      ref={conceptRef}
       href={web_url}
       id={conceptSlugToId(slug)}
       className={classes.join(' ')}

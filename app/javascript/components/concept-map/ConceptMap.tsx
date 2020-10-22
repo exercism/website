@@ -38,10 +38,6 @@ export const ConceptMap = ({
 
   return (
     <figure className="c-concepts-map">
-      <ConceptConnections
-        connections={connections}
-        activeConcepts={activeSlugs}
-      />
       <div className="track">
         {levels.map((layer: ConceptLayer, i: number) => (
           <div key={`layer-${i}`} className="layer">
@@ -50,8 +46,7 @@ export const ConceptMap = ({
               .filter(isIConcept)
               .map((concept) => {
                 const slug = concept.slug
-                const isActive = activeSlug !== null && activeSlugs.has(slug)
-                const isInactive = activeSlug !== null && !isActive
+                const isInactive = activeSlug !== null && !activeSlugs.has(slug)
 
                 return (
                   <Concept
@@ -62,7 +57,6 @@ export const ConceptMap = ({
                     handleEnter={() => setActiveSlug(slug)}
                     handleLeave={() => setActiveSlug(null)}
                     status={status[slug] ?? ConceptStatus.Locked}
-                    isActive={isActive}
                     isInactive={isInactive}
                   />
                 )
@@ -70,6 +64,10 @@ export const ConceptMap = ({
           </div>
         ))}
       </div>
+      <ConceptConnections
+        connections={connections}
+        activeConcepts={activeSlugs}
+      />
     </figure>
   )
 }
@@ -129,13 +127,18 @@ const findAllActiveSlugs = function (
   }
 
   const ancestorSlugs = [activeSlug]
+  const processedSlugs = new Set<string>()
   const queue = [activeSlug]
 
   while (queue.length > 0) {
     const slug = queue.pop()
     const parentSlugs = slug ? Array.from(parentsBySlug.get(slug) ?? []) : []
-    queue.push(...parentSlugs)
-    ancestorSlugs.push(...parentSlugs)
+    const unprocessedParentSlugs = parentSlugs.filter(
+      (slug) => !processedSlugs.has(slug)
+    )
+    unprocessedParentSlugs.forEach((slug) => processedSlugs.add(slug))
+    queue.push(...unprocessedParentSlugs)
+    ancestorSlugs.push(...unprocessedParentSlugs)
   }
 
   return new Set([

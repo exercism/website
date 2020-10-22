@@ -1,42 +1,51 @@
 import {
   ConceptPath,
-  ConceptConnection,
   ConceptPathCoordinate,
   ConceptPathState,
-  isConceptPath,
 } from '../concept-connection-types'
 
 import { ConceptStatus } from '../concept-types'
 
-import { conceptSlugToId } from '../Concept'
+export function determinePath(
+  pathStartElement: HTMLElement,
+  pathEndElement: HTMLElement
+): ConceptPath {
+  const conceptStatus = pathEndElement.dataset.conceptStatus as ConceptStatus
 
-type CategorizedConceptPaths = {
-  unavailable: ConceptPath[]
-  available: ConceptPath[]
-  completed: ConceptPath[]
+  return {
+    start: getPathStartFromElement(pathStartElement),
+    end: getPathEndFromElement(pathEndElement),
+    state: getPathState(conceptStatus),
+  }
 }
 
-export function mapToPaths(connections: ConceptConnection[]): ConceptPath[] {
-  return connections
-    .map(({ from, to }) => {
-      const pathEndElement = document.getElementById(conceptSlugToId(to))
-      const pathStartElement = document.getElementById(conceptSlugToId(from))
+export function normalizePathToCanvasSize(
+  path: ConceptPath,
+  width: number,
+  height: number
+): ConceptPath {
+  // Use :root defined CSS variable values to style the path
+  const rootStyle = getComputedStyle(document.documentElement)
+  const radius = Number(
+    rootStyle.getPropertyValue('--c-concept-map-circle-radius')
+  )
+  const lineWidth = Number(
+    rootStyle.getPropertyValue('--c-concept-map-line-width')
+  )
 
-      // If the start or end concept doesn't exist for some reason, skip
-      if (!pathEndElement || !pathStartElement) {
-        return
-      }
+  const leftToRight = path.start.x <= path.end.x
 
-      const conceptStatus = pathEndElement.dataset
-        .conceptStatus as ConceptStatus
-
-      return {
-        start: getPathStartFromElement(pathStartElement),
-        end: getPathEndFromElement(pathEndElement),
-        state: getPathState(conceptStatus),
-      }
-    })
-    .filter(isConceptPath)
+  return {
+    start: {
+      x: leftToRight ? radius + lineWidth : width - radius - lineWidth,
+      y: radius + lineWidth,
+    },
+    end: {
+      x: leftToRight ? width - radius - lineWidth : radius + lineWidth,
+      y: height - radius - lineWidth,
+    },
+    state: path.state,
+  }
 }
 
 // calculate the start position of the path

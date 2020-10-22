@@ -1,5 +1,5 @@
 import React from 'react'
-import { Action } from '../Editor'
+import { Action, EditorStatus } from '../Editor'
 
 export function Submitting({
   dispatch,
@@ -11,7 +11,7 @@ export function Submitting({
       <p>Submitting...</p>
       <button
         onClick={() => {
-          dispatch({ type: 'submissionCancelled' })
+          dispatch({ type: EditorStatus.SUBMISSION_CANCELLED })
         }}
       >
         Cancel

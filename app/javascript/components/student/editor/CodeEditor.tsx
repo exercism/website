@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Action } from '../Editor'
+import { Action, EditorStatus } from '../Editor'
 
 export function CodeEditor({
   dispatch,
@@ -15,7 +15,10 @@ export function CodeEditor({
       return
     }
 
-    dispatch({ type: 'submitting', payload: { code: editor.current.value } })
+    dispatch({
+      type: EditorStatus.SUBMITTING,
+      payload: { code: editor.current.value },
+    })
   }
 
   return (

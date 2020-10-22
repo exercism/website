@@ -18,35 +18,42 @@ export enum TestRunStatus {
   OPS_ERROR = 'ops_error',
 }
 
+export enum EditorStatus {
+  SUBMITTING = 'submitting',
+  SUBMITTED = 'submitted',
+  SUBMISSION_CANCELLED = 'submissionCancelled',
+}
+
 type State = {
   submission?: Submission
-  isSubmitting: boolean
   code: string
+  status?: EditorStatus
 }
 
 export type Action =
-  | { type: 'submitting'; payload: { code: string } }
-  | { type: 'submitted'; payload: { submission: Submission } }
-  | { type: 'submissionCancelled' }
+  | { type: EditorStatus.SUBMITTING; payload: { code: string } }
+  | { type: EditorStatus.SUBMITTED; payload: { submission: Submission } }
+  | { type: EditorStatus.SUBMISSION_CANCELLED }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'submitting':
+    case EditorStatus.SUBMITTING:
       return {
+        ...state,
+        status: EditorStatus.SUBMITTING,
         submission: undefined,
         code: action.payload.code,
-        isSubmitting: true,
       }
-    case 'submitted':
+    case EditorStatus.SUBMITTED:
       return {
         ...state,
+        status: EditorStatus.SUBMITTED,
         submission: action.payload.submission,
-        isSubmitting: false,
       }
-    case 'submissionCancelled':
+    case EditorStatus.SUBMISSION_CANCELLED:
       return {
         ...state,
-        isSubmitting: false,
+        status: EditorStatus.SUBMISSION_CANCELLED,
       }
     default:
       return state
@@ -60,9 +67,9 @@ export function Editor({
   endpoint: string
   timeout?: number
 }) {
-  const [{ submission, isSubmitting, code }, dispatch] = useReducer(reducer, {
+  const [{ submission, code, status }, dispatch] = useReducer(reducer, {
+    status: undefined,
     submission: undefined,
-    isSubmitting: false,
     code: '',
   })
   const controllerRef = useRef(new AbortController())
@@ -78,44 +85,40 @@ export function Editor({
   }, [])
 
   useEffect(() => {
-    if (isSubmitting) {
-      return
-    }
+    switch (status) {
+      case EditorStatus.SUBMITTED:
+      case EditorStatus.SUBMISSION_CANCELLED:
+        abortFetch()
+        break
+      case EditorStatus.SUBMITTING:
+        abortFetch()
 
-    abortFetch()
-  }, [isSubmitting])
-
-  useEffect(() => {
-    if (code === '') {
-      return
-    }
-
-    if (isSubmitting) {
-      abortFetch()
-    }
-
-    fetchJSON(endpoint, {
-      method: 'POST',
-      signal: controllerRef.current.signal,
-      body: JSON.stringify({ files: { file: code } }),
-    })
-      .then((json: any) => {
-        dispatch({
-          type: 'submitted',
-          payload: { submission: typecheck<Submission>(json, 'submission') },
+        fetchJSON(endpoint, {
+          method: 'POST',
+          signal: controllerRef.current.signal,
+          body: JSON.stringify({ files: { file: code } }),
         })
-      })
-      .catch((responseOrError) => {
-        if (responseOrError.name === 'AbortError') {
-          console.log('Fetch cancelled')
-        }
-      })
-  }, [code])
+          .then((json: any) => {
+            dispatch({
+              type: EditorStatus.SUBMITTED,
+              payload: {
+                submission: typecheck<Submission>(json, 'submission'),
+              },
+            })
+          })
+          .catch((responseOrError) => {
+            if (responseOrError.name === 'AbortError') {
+              console.log('Fetch cancelled')
+            }
+          })
+        break
+    }
+  })
 
   return (
     <div>
       <CodeEditor dispatch={dispatch} />
-      {isSubmitting && <Submitting dispatch={dispatch} />}
+      {status === EditorStatus.SUBMITTING && <Submitting dispatch={dispatch} />}
       {submission && (
         <TestRunSummary submission={submission} timeout={timeout} />
       )}

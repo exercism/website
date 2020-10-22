@@ -11,7 +11,7 @@ export function Submitting({
       <p>Submitting...</p>
       <button
         onClick={() => {
-          dispatch({ type: 'cancelled' })
+          dispatch({ type: 'submissionCancelled' })
         }}
       >
         Cancel

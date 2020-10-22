@@ -27,7 +27,7 @@ type State = {
 export type Action =
   | { type: 'submitting'; payload: { code: string } }
   | { type: 'submitted'; payload: { submission: Submission } }
-  | { type: 'cancelled' }
+  | { type: 'submissionCancelled' }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -43,7 +43,7 @@ function reducer(state: State, action: Action): State {
         submission: action.payload.submission,
         isSubmitting: false,
       }
-    case 'cancelled':
+    case 'submissionCancelled':
       return {
         ...state,
         isSubmitting: false,

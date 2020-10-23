@@ -36,6 +36,10 @@
                     @apply text-textBase;
                 }
 
+                &.hidden {
+                    visibility: hidden;
+                }
+
                 & .display {
                     @apply flex items-center justify-between;
 

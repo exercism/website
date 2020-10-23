@@ -1,9 +1,14 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CompleteIcon } from './CompleteIcon'
 
 import { IConcept, ConceptStatus } from './concept-types'
 
 import { emitConceptElement } from './helpers/concept-element-handler'
+import {
+  addVisibilityListener,
+  removeVisibilityListener,
+  Visibility,
+} from './helpers/concept-visibility-handler'
 
 export const Concept = ({
   slug,
@@ -17,13 +22,16 @@ export const Concept = ({
   status: ConceptStatus
   isInactive: boolean
 }) => {
+  const [visibility, setVisibility] = useState<Visibility>('hidden')
   const conceptRef = useRef(null)
 
   useEffect(() => {
     const current = conceptRef.current
     emitConceptElement(slug, current)
+    addVisibilityListener(setVisibility)
     return () => {
       emitConceptElement(slug)
+      removeVisibilityListener(setVisibility)
     }
   }, [slug, conceptRef])
 
@@ -32,6 +40,9 @@ export const Concept = ({
   classes.push(`card-${status}`)
   if (isInactive) {
     classes.push('card-inactive')
+  }
+  if (visibility === 'hidden') {
+    classes.push('hidden')
   }
 
   return (

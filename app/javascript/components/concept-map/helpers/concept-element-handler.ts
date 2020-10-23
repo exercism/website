@@ -1,3 +1,5 @@
+import { triggerVisibility } from './concept-visibility-handler'
+
 export interface IDrawHandler {
   (
     pathStartElement: HTMLElement | null,
@@ -27,10 +29,12 @@ export const emitConceptElement = (
   DRAW_HANDLER_BOX[slug]?.forEach(([handler, from, to]) => {
     if (CONCEPT_BOX[from] && CONCEPT_BOX[to]) {
       handler(CONCEPT_BOX[from], CONCEPT_BOX[to])
+      triggerVisibility()
     }
   })
 }
 
+// function to allow Path to add a callback to invoke its draw function
 export const addDrawHandler = (
   handler: IDrawHandler,
   fromConceptSlug: string,
@@ -46,9 +50,11 @@ export const addDrawHandler = (
 
   if (CONCEPT_BOX[fromConceptSlug] && CONCEPT_BOX[toConceptSlug]) {
     handler(CONCEPT_BOX[fromConceptSlug], CONCEPT_BOX[toConceptSlug])
+    triggerVisibility()
   }
 }
 
+// function to allow Path to remove a callback to invoke its draw function
 export const removeDrawHandler = (
   handler: IDrawHandler,
   fromConceptSlug: string,
@@ -59,10 +65,7 @@ export const removeDrawHandler = (
     ([fromHandler, ,]) => fromHandler === handler
   )
   if (fromHandlerIndex > -1) {
-    DRAW_HANDLER_BOX[fromConceptSlug] = fromDrawHandlers.splice(
-      fromHandlerIndex,
-      1
-    )
+    fromDrawHandlers.splice(fromHandlerIndex, 1)
   }
 
   const toDrawHandlers = DRAW_HANDLER_BOX[toConceptSlug] ?? []
@@ -70,6 +73,6 @@ export const removeDrawHandler = (
     ([toHandler, ,]) => toHandler === handler
   )
   if (toHandlerIndex > -1) {
-    DRAW_HANDLER_BOX[toConceptSlug] = toDrawHandlers.splice(toHandlerIndex, 1)
+    toDrawHandlers.splice(toHandlerIndex, 1)
   }
 }

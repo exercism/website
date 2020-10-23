@@ -1,6 +1,5 @@
 import { usePaginatedQuery, useQuery } from 'react-query'
 import { UrlParams } from '../utils/url-params'
-import fetch from 'isomorphic-fetch'
 import { camelizeKeys } from 'humps'
 
 function handleFetch(key, url, query) {

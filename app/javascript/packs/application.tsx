@@ -70,6 +70,7 @@ initReact({
       status={data.graph.status}
     />
   ),
+  'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

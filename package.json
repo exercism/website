@@ -6,12 +6,13 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
+    "@types/actioncable": "^5.2.3",
+    "@types/humps": "^2.0.0",
     "actioncable": "^5.2.4-3",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.35",
     "global": "^4.4.0",
     "humps": "^2.0.1",
-    "isomorphic-fetch": "^2.2.1",
     "pluralize": "^8.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -48,6 +49,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^4.2.5",
+    "isomorphic-fetch": "^3.0.0",
     "jest": "^26.1.0",
     "msw": "^0.21.2",
     "postcss-preset-env": "^6.7.0",
@@ -64,6 +66,9 @@
   "jest": {
     "roots": [
       "test/javascript"
+    ],
+    "setupFiles": [
+      "./test/javascript/test_helper.js"
     ]
   },
   "husky": {

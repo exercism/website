@@ -7,8 +7,8 @@ type WebpageSize = {
 
 export function useWebpageSize() {
   const [webpageSize, setWebpageSize] = useState({
-    width: undefined,
-    height: undefined,
+    width: document.documentElement.clientWidth,
+    height: document.body.scrollHeight,
   } as WebpageSize)
 
   useEffect(() => {
@@ -20,7 +20,6 @@ export function useWebpageSize() {
     }
 
     window.addEventListener('resize', handleResize)
-    handleResize()
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])

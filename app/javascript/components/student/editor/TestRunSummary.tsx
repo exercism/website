@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
+import { useTimeout } from '../../../utils/use-timeout'
 
 export type TestRun = {
   submissionUuid: string
@@ -71,6 +72,18 @@ export function TestRunSummary({
   })
   const haveTestsResolved = RESOLVED_TEST_STATUSES.includes(testRun.status)
 
+  useTimeout(
+    () => {
+      if (haveTestsResolved) {
+        return
+      }
+
+      dispatch({ type: 'testRun.timeout' })
+    },
+    timeout,
+    [testRun.status]
+  )
+
   useEffect(() => {
     const channel = new TestRunChannel(submission, (testRun: TestRun) => {
       dispatch({ type: 'testRun.received', payload: testRun })
@@ -80,14 +93,6 @@ export function TestRunSummary({
       channel.disconnect()
     }
   }, [submission.uuid])
-
-  useEffect(() => {
-    if (haveTestsResolved) {
-      return
-    }
-
-    setTimeout(() => dispatch({ type: 'testRun.timeout' }), timeout)
-  }, [testRun.status])
 
   return (
     <div>

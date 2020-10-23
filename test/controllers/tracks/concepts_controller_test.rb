@@ -36,7 +36,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :track_concept, track: track
 
     get track_concept_url(track, concept)
-    assert_template "tracks/concepts/show/external"
+    assert_template "tracks/concepts/show"
   end
 
   test "show: renders correctly for available" do
@@ -49,7 +49,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(ut.user)
 
     get track_concept_url(ut.track, concept)
-    assert_template "tracks/concepts/show/available"
+    assert_template "tracks/concepts/show"
   end
 
   test "show: renders correctly for learnt" do
@@ -62,7 +62,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(ut.user)
 
     get track_concept_url(ut.track, concept)
-    assert_template "tracks/concepts/show/learnt"
+    assert_template "tracks/concepts/show"
   end
 
   test "show: renders correctly for locked" do
@@ -75,7 +75,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(ut.user)
 
     get track_concept_url(ut.track, concept)
-    assert_template "tracks/concepts/show/locked"
+    assert_template "tracks/concepts/show"
   end
 
   test "start creates solution and redirects" do

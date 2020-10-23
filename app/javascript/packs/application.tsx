@@ -8,18 +8,24 @@ require('turbolinks').start()
 require('@rails/activestorage').start()
 require('channels')
 
-import 'css/application.css'
-import 'css/styles.css'
-import 'css/layout.css'
-import 'css/components/tracks-list.css'
-import 'css/components/track.css'
-import 'css/components/track-nav.css'
+// TODO: Let's get all of these loading automatically
+// without needing to be specified individually here.
+import '../../css/application.css'
+import '../../css/layout.css'
+//import '../../css/styles.css'
 
-import 'css/pages/track-show-joined.css'
-import 'css/pages/track-show-unjoined.css'
+import '../../css/components/tracks-list.css'
+import '../../css/components/track.css'
+
+import '../../css/components/track/generic-nav.css'
+import '../../css/components/track/top-level-nav.css'
+import '../../css/components/track/concepts-nav.css'
+import '../../css/components/track/icon.css'
+
+import '../../css/pages/track-show-joined.css'
+import '../../css/pages/track-show-unjoined.css'
 
 import 'components/concept-map/ConceptMap.css'
-import 'components/common/TrackIcon.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'

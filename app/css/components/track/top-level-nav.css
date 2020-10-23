@@ -1,34 +1,8 @@
-@import "../styles";
+@import "./generic-nav.css";
 
-.c-track-nav {
-    --nav-height: 40px;
+.c-track-top-level-nav {
+    @apply c-track-generic-nav;
 
-    @apply bg-white py-12 shadow-base;
-
-    & .container {
-        @apply flex items-center;
-    }
-
-    & .back {
-        @apply block mr-24;
-        line-height: var(--nav-height);
-        & svg {
-            height: 21px;
-            width: 21px;
-        }
-    }
-
-    & .c-track-icon {
-        height: var(--nav-height);
-        width: calc(var(--c-track-icon-width-ratio) * var(--nav-height));
-        @apply mr-20;
-    }
-
-    & .title {
-        @apply mr-64;
-        @apply text-16 font-semibold font-mono;
-        line-height: var(--nav-height);
-    }
     & .tabs {
         @apply flex;
 

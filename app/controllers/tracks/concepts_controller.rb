@@ -3,12 +3,12 @@ class Tracks::ConceptsController < ApplicationController
   before_action :use_concepts, only: :index
   before_action :use_concept, only: %i[show start complete]
 
-  allow_unauthenticated! :index, :show
+  skip_before_action :authenticate_user!, only: %i[index show]
 
-  def authenticated_index
+  def index
     @concept_map_data = Track::DetermineConceptMapLayout.(@track)
 
-    if current_user.joined_track?(@track)
+    if current_user&.joined_track?(@track)
       @concept_map_data[:status] = UserTrack::GenerateConceptStatusMapping.(@user_track)
       render action: "index/joined"
     else
@@ -17,25 +17,21 @@ class Tracks::ConceptsController < ApplicationController
     end
   end
 
-  def external_index; end
-
-  def authenticated_show
+  def show
     # TODO: We don't want this here really.
     # Move it onto the concept eventually
     @concept_exercise = ConceptExercise.that_teaches(@concept)
 
-    if !current_user.joined_track?(@track)
-      render action: "show/unjoined"
-    elsif @user_track.learnt_concept?(@concept)
-      render action: "show/learnt"
-    elsif @user_track.concept_available?(@concept)
-      render action: "show/available"
-    else
-      render action: "show/locked"
-    end
+    # if !current_user.joined_track?(@track)
+    #   render action: "show/unjoined"
+    # elsif @user_track.learnt_concept?(@concept)
+    #   render action: "show/learnt"
+    # elsif @user_track.concept_available?(@concept)
+    #   render action: "show/available"
+    # else
+    #   render action: "show/locked"
+    # end
   end
-
-  def external_show; end
 
   private
   def use_track

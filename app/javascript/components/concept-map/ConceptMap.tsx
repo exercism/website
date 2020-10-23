@@ -3,9 +3,13 @@ import React, { useState } from 'react'
 import { Concept } from './Concept'
 import { ConceptConnections } from './ConceptConnections'
 
-import { IConceptMap, ConceptLayer } from './concept-map-types'
-import { ConceptConnection } from './concept-connection-types'
-import { ConceptStatus, IConcept, isIConcept } from './concept-types'
+import {
+  IConceptMap,
+  ConceptLayer,
+  IConcept,
+  isIConcept,
+  ConceptConnection,
+} from './concept-map-types'
 
 type AdjacentIndex = Map<string, Set<string>>
 type RelationReducer = (connection: ConceptConnection) => [string, string]
@@ -56,7 +60,7 @@ export const ConceptMap = ({
                     web_url={concept.web_url}
                     handleEnter={() => setActiveSlug(slug)}
                     handleLeave={() => setActiveSlug(null)}
-                    status={status[slug] ?? ConceptStatus.Locked}
+                    status={status[slug] ?? 'locked'}
                     isInactive={isInactive}
                   />
                 )

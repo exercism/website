@@ -1,10 +1,9 @@
 import {
   ConceptPath,
   ConceptPathCoordinate,
-  ConceptPathState,
-} from '../concept-connection-types'
-
-import { ConceptStatus } from '../concept-types'
+  ConceptPathStatus,
+  ConceptStatus,
+} from '../concept-map-types'
 
 export function determinePath(
   pathStartElement: HTMLElement,
@@ -15,7 +14,7 @@ export function determinePath(
   return {
     start: getPathStartFromElement(pathStartElement),
     end: getPathEndFromElement(pathEndElement),
-    state: getPathState(conceptStatus),
+    status: getPathState(conceptStatus),
   }
 }
 
@@ -44,7 +43,7 @@ export function normalizePathToCanvasSize(
       x: leftToRight ? width - radius - lineWidth : radius + lineWidth,
       y: height - radius - lineWidth,
     },
-    state: path.state,
+    status: path.status,
   }
 }
 
@@ -66,14 +65,14 @@ function getPathEndFromElement(el: HTMLElement): ConceptPathCoordinate {
 }
 
 // Derive the path state from the concept state
-function getPathState(conceptStatus: ConceptStatus): ConceptPathState {
+function getPathState(conceptStatus: ConceptStatus): ConceptPathStatus {
   switch (conceptStatus) {
-    case ConceptStatus.Unlocked:
-    case ConceptStatus.InProgress:
-      return ConceptPathState.Available
-    case ConceptStatus.Completed:
-      return ConceptPathState.Completed
+    case 'unlocked':
+    case 'in_progress':
+      return 'available'
+    case 'completed':
+      return 'complete'
     default:
-      return ConceptPathState.Unavailable
+      return 'locked'
   }
 }

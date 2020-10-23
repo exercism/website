@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CompleteIcon } from './CompleteIcon'
 
-import { IConcept, ConceptStatus } from './concept-types'
+import { IConcept, ConceptStatus } from './concept-map-types'
 
-import { emitConceptElement } from './helpers/concept-element-handler'
+import { emitConceptElement } from './helpers/concept-element-svg-handler'
 import {
   addVisibilityListener,
   removeVisibilityListener,
@@ -58,7 +58,7 @@ export const Concept = ({
     >
       <div className="display">
         <div className="name">{name}</div>
-        <CompleteIcon show={ConceptStatus.Completed === status} />
+        <CompleteIcon show={'completed' === status} />
       </div>
     </a>
   )

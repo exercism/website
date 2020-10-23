@@ -1,5 +1,6 @@
 #page-track-concepts
-  = ViewComponents::Student::TrackNav.new(@track, :concepts)
+  = ViewComponents::Track::TopLevelNav.new(@track, :concepts)
+
   .md-container
     %h2 Concepts for #{@track.title}
     = ViewComponents::Student::ConceptMap.new(@concept_map_data)

@@ -1,0 +1,5 @@
+@import "./generic-nav.css";
+
+.c-track-concepts-nav {
+    @apply c-track-generic-nav;
+}

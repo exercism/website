@@ -16,9 +16,9 @@ import { ConceptMap } from '../../../../app/javascript/components/concept-map/Co
 import {
   ConceptStatus,
   IConcept as Concept,
-} from '../../../../app/javascript/components/concept-map/concept-types'
-import { ConceptConnection } from '../../../../app/javascript/components/concept-map/concept-connection-types'
-import { ConceptLayer } from '../../../../app/javascript/components/concept-map/concept-map-types'
+  ConceptConnection,
+  ConceptLayer,
+} from '../../../../app/javascript/components/concept-map/concept-map-types'
 
 describe('<ConceptMap />', () => {
   test('renders empty component', () => {
@@ -30,7 +30,7 @@ describe('<ConceptMap />', () => {
   test('renders single incomplete concept', () => {
     const testConcept = concept('test')
     const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: ConceptStatus.Unlocked,
+      test: 'locked',
     })
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = queryByTitle(container, 'completed')
@@ -38,9 +38,9 @@ describe('<ConceptMap />', () => {
   })
 
   test('renders single completed concept', () => {
-    const testConcept = concept('test', { state: ConceptStatus.Completed })
+    const testConcept = concept('test', { state: 'completed' })
     const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: ConceptStatus.Completed,
+      test: 'completed',
     })
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = getByTitle(container, 'completed')

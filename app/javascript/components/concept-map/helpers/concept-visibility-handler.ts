@@ -2,7 +2,7 @@ export type Visibility = 'visible' | 'hidden'
 type VisibilityListener = (next: Visibility) => void
 
 let conceptVisibility: Visibility = 'hidden'
-let visibilityListeners: VisibilityListener[] = []
+const visibilityListeners: VisibilityListener[] = []
 
 export const addVisibilityListener = (listener: VisibilityListener): void => {
   visibilityListeners.push(listener)

@@ -5,6 +5,8 @@ import {
   ConceptStatus,
 } from '../concept-map-types'
 
+import { getLineWidth, getCircleRadius } from './style-helpers'
+
 export function determinePath(
   pathStartElement: HTMLElement,
   pathEndElement: HTMLElement
@@ -23,14 +25,8 @@ export function normalizePathToCanvasSize(
   width: number,
   height: number
 ): ConceptPath {
-  // Use :root defined CSS variable values to style the path
-  const rootStyle = getComputedStyle(document.documentElement)
-  const radius = Number(
-    rootStyle.getPropertyValue('--c-concept-map-circle-radius')
-  )
-  const lineWidth = Number(
-    rootStyle.getPropertyValue('--c-concept-map-line-width')
-  )
+  const radius = getCircleRadius()
+  const lineWidth = getLineWidth()
 
   const leftToRight = path.start.x <= path.end.x
 

@@ -3,9 +3,6 @@ import React from 'react'
 import { ConceptConnection } from './concept-map-types'
 import { ConnectionPathSVG } from './ConnectionPathSVG'
 
-/**
- * ConceptConnections
- */
 export const ConceptConnections = ({
   connections,
   activeConcepts,

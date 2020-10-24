@@ -5,7 +5,6 @@ import { ConceptConnections } from './ConceptConnections'
 
 import {
   IConceptMap,
-  ConceptLayer,
   IConcept,
   isIConcept,
   ConceptConnection,
@@ -43,7 +42,7 @@ export const ConceptMap = ({
   return (
     <figure className="c-concepts-map">
       <div className="track">
-        {levels.map((layer: ConceptLayer, i: number) => (
+        {levels.map((layer, i: number) => (
           <div key={`layer-${i}`} className="layer">
             {layer
               .map((conceptSlug) => conceptsBySlug.get(conceptSlug))

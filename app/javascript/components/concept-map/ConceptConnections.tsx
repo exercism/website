@@ -9,10 +9,10 @@ export const ConceptConnections = ({
 }: {
   connections: ConceptConnection[]
   activeConcepts: Set<string>
-}) => {
+}): JSX.Element => {
   return (
     <>
-      {connections.map((connection, i) => {
+      {connections.map((connection) => {
         const key = connectionToKey(connection)
         return (
           <ConnectionPathSVG

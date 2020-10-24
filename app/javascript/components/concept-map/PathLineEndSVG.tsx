@@ -9,7 +9,7 @@ export const PathLineEndSVG = ({
   coordinate: ConceptPathCoordinate
   radius: number
   status: ConceptPathStatus
-}) => {
+}): JSX.Element => {
   return (
     <circle
       cx={coordinate.x}

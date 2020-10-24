@@ -26,7 +26,7 @@ export const ConceptMap = ({
   levels,
   connections,
   status,
-}: IConceptMap) => {
+}: IConceptMap): JSX.Element => {
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
 
   const conceptsBySlug = indexConceptsBySlug(concepts)

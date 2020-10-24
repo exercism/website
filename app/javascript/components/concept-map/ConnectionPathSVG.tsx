@@ -26,7 +26,7 @@ export const ConnectionPathSVG = ({
 }: {
   activeConcepts: Set<string>
   connection: ConceptConnection
-}) => {
+}): JSX.Element | null => {
   const webpageSize = useWebpageSize()
   const [{ startElementRef, endElementRef }, dispatchRef] = useReducer(
     elementReducer,

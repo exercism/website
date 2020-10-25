@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
 
@@ -18,15 +18,6 @@ type Test = {
 enum TestStatus {
   PASS = 'pass',
   FAIL = 'fail',
-}
-
-function reducer(state: any, action: any) {
-  switch (action.type) {
-    case 'testRun.received':
-      return action.payload
-    case 'testRun.timeout':
-      return { ...state, status: 'timeout' }
-  }
 }
 
 function Content({ testRun }: { testRun: TestRun }) {
@@ -57,37 +48,59 @@ export function TestRunSummary({
   submission: Submission
   timeout: number
 }) {
-  const RESOLVED_TEST_STATUSES = [
-    TestRunStatus.PASS,
-    TestRunStatus.FAIL,
-    TestRunStatus.ERROR,
-    TestRunStatus.OPS_ERROR,
-  ]
-  const [testRun, dispatch] = useReducer(reducer, {
+  const [testRun, setTestRun] = useState<TestRun>({
     submissionUuid: submission.uuid,
     status: submission.testsStatus,
     message: '',
     tests: [],
   })
-  const haveTestsResolved = RESOLVED_TEST_STATUSES.includes(testRun.status)
+  const channel = useRef<TestRunChannel | undefined>()
+  const timer = useRef<number | undefined>()
+  const handleQueued = useCallback(() => {
+    timer.current = window.setTimeout(() => {
+      setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
+      timer.current = undefined
+    }, timeout)
+  }, [timer])
+  const handleTimeout = useCallback(() => {
+    channel.current?.disconnect()
+  }, [channel])
 
   useEffect(() => {
-    const channel = new TestRunChannel(submission, (testRun: TestRun) => {
-      dispatch({ type: 'testRun.received', payload: testRun })
+    switch (testRun.status) {
+      case TestRunStatus.QUEUED:
+        handleQueued()
+        break
+      case TestRunStatus.TIMEOUT:
+        handleTimeout()
+        break
+      default:
+        clearTimeout(timer.current)
+        break
+    }
+  }, [testRun.status, handleQueued, handleTimeout, timer])
+
+  useEffect(() => {
+    channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
+      setTestRun(testRun)
     })
 
     return () => {
-      channel.disconnect()
+      channel.current?.disconnect()
     }
   }, [submission.uuid])
 
   useEffect(() => {
-    if (haveTestsResolved) {
-      return
+    return () => {
+      channel.current?.disconnect()
     }
+  }, [channel])
 
-    setTimeout(() => dispatch({ type: 'testRun.timeout' }), timeout)
-  }, [testRun.status])
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [timer])
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
 
@@ -56,17 +56,23 @@ export function TestRunSummary({
   })
   const channel = useRef<TestRunChannel | undefined>()
   const timer = useRef<number | undefined>()
+  const handleQueued = useCallback(() => {
+    timer.current = window.setTimeout(() => {
+      setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
+      timer.current = undefined
+    }, timeout)
+  }, [timer])
+  const handleTimeout = useCallback(() => {
+    channel.current?.disconnect()
+  }, [channel])
 
   useEffect(() => {
     switch (testRun.status) {
       case TestRunStatus.QUEUED:
-        timer.current = window.setTimeout(() => {
-          setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
-          timer.current = undefined
-        }, timeout)
+        handleQueued()
         break
       case TestRunStatus.TIMEOUT:
-        channel.current?.disconnect()
+        handleTimeout()
         break
       default:
         clearTimeout(timer.current)

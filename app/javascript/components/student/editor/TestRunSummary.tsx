@@ -78,7 +78,7 @@ export function TestRunSummary({
         clearTimeout(timer.current)
         break
     }
-  }, [testRun.status])
+  }, [testRun.status, handleQueued, handleTimeout, timer])
 
   useEffect(() => {
     channel.current = new TestRunChannel(submission, (testRun: TestRun) => {

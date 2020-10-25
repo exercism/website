@@ -3,7 +3,6 @@ import React, { useCallback } from 'react'
 export function Submitting({ onCancel }: { onCancel: () => void }) {
   const handleCancel = useCallback(
     (e) => {
-      e.preventDefault()
       onCancel()
     },
     [onCancel]
@@ -12,7 +11,9 @@ export function Submitting({ onCancel }: { onCancel: () => void }) {
   return (
     <div>
       <p>Submitting...</p>
-      <button onClick={handleCancel}>Cancel</button>
+      <button type="button" onClick={handleCancel}>
+        Cancel
+      </button>
     </div>
   )
 }

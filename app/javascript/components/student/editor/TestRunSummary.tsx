@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
-import { useTimeout } from '../../../utils/use-timeout'
 
 export type TestRun = {
   submissionUuid: string
@@ -56,26 +55,24 @@ export function TestRunSummary({
     tests: [],
   })
   const channel = useRef<TestRunChannel | undefined>()
+  const timer = useRef<number | undefined>()
 
   useEffect(() => {
     switch (testRun.status) {
+      case TestRunStatus.QUEUED:
+        timer.current = window.setTimeout(() => {
+          setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
+          timer.current = undefined
+        }, timeout)
+        break
       case TestRunStatus.TIMEOUT:
         channel.current?.disconnect()
         break
+      default:
+        clearTimeout(timer.current)
+        break
     }
   }, [testRun.status])
-
-  useTimeout(
-    () => {
-      if (testRun.status !== TestRunStatus.QUEUED) {
-        return
-      }
-
-      setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
-    },
-    timeout,
-    [testRun.status]
-  )
 
   useEffect(() => {
     channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
@@ -86,6 +83,12 @@ export function TestRunSummary({
       channel.current?.disconnect()
     }
   }, [submission.uuid])
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [timer])
 
   return (
     <div>

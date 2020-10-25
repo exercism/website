@@ -5,6 +5,7 @@ export async function fetchJSON(endpoint: string, options: any) {
     'content-type': 'application/json',
     accept: 'application/json',
   }
+
   const response = await fetch(
     endpoint,
     Object.assign(options, { headers: headers })

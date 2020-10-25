@@ -108,3 +108,25 @@ test('does not time out when tests have resolved', async () => {
 
   server.close()
 })
+
+test('cancels a pending submission', async () => {
+  const server = setupServer(
+    rest.post('https://exercism.test/submissions', (req, res, ctx) => {
+      return res(ctx.delay(1000))
+    })
+  )
+  server.listen()
+
+  const { getByText, getByLabelText, queryByText } = render(
+    <Editor endpoint="https://exercism.test/submissions" />
+  )
+  fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
+  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Cancel'))
+
+  await waitFor(() =>
+    expect(queryByText('Submitting...')).not.toBeInTheDocument()
+  )
+
+  server.close()
+})

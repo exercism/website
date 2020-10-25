@@ -7,9 +7,9 @@ export type ElementReducer = (
   next: ElementRefPair
 ) => ElementRefPair
 
-const CONCEPT_BOX: { [key: string]: HTMLElement } = {}
+const CONCEPTS_BY_SLUG: { [key: string]: HTMLElement } = {}
 
-const ELEMENT_DISPATCHER_BOX: {
+const ELEMENT_DISPATCHERS_BY_SLUG: {
   [key: string]: [React.Dispatch<ElementRefPair>, string, string][]
 } = {}
 
@@ -19,20 +19,20 @@ export const emitConceptElement = (
   element?: HTMLElement | null
 ): void => {
   if (!element) {
-    delete CONCEPT_BOX[slug]
-    ELEMENT_DISPATCHER_BOX[slug]?.forEach(([dispatcher, ,]) =>
+    delete CONCEPTS_BY_SLUG[slug]
+    ELEMENT_DISPATCHERS_BY_SLUG[slug]?.forEach(([dispatcher, ,]) =>
       dispatcher({ startElementRef: null, endElementRef: null })
     )
     return
   }
 
-  CONCEPT_BOX[slug] = element
+  CONCEPTS_BY_SLUG[slug] = element
 
-  ELEMENT_DISPATCHER_BOX[slug]?.forEach(([dispatcher, start, end]) => {
-    if (CONCEPT_BOX[start] && CONCEPT_BOX[end]) {
+  ELEMENT_DISPATCHERS_BY_SLUG[slug]?.forEach(([dispatcher, start, end]) => {
+    if (CONCEPTS_BY_SLUG[start] && CONCEPTS_BY_SLUG[end]) {
       dispatcher({
-        startElementRef: CONCEPT_BOX[start],
-        endElementRef: CONCEPT_BOX[end],
+        startElementRef: CONCEPTS_BY_SLUG[start],
+        endElementRef: CONCEPTS_BY_SLUG[end],
       })
       triggerVisibility()
     }
@@ -45,18 +45,20 @@ export const addElementDispatcher = (
   startConceptSlug: string,
   endConceptSlug: string
 ) => {
-  const startElementDispatchers = ELEMENT_DISPATCHER_BOX[startConceptSlug] ?? []
+  const startElementDispatchers =
+    ELEMENT_DISPATCHERS_BY_SLUG[startConceptSlug] ?? []
   startElementDispatchers.push([dispatcher, startConceptSlug, endConceptSlug])
-  ELEMENT_DISPATCHER_BOX[startConceptSlug] = startElementDispatchers
+  ELEMENT_DISPATCHERS_BY_SLUG[startConceptSlug] = startElementDispatchers
 
-  const endElementDispatchers = ELEMENT_DISPATCHER_BOX[endConceptSlug] ?? []
+  const endElementDispatchers =
+    ELEMENT_DISPATCHERS_BY_SLUG[endConceptSlug] ?? []
   endElementDispatchers.push([dispatcher, startConceptSlug, endConceptSlug])
-  ELEMENT_DISPATCHER_BOX[endConceptSlug] = endElementDispatchers
+  ELEMENT_DISPATCHERS_BY_SLUG[endConceptSlug] = endElementDispatchers
 
-  if (CONCEPT_BOX[startConceptSlug] && CONCEPT_BOX[endConceptSlug]) {
+  if (CONCEPTS_BY_SLUG[startConceptSlug] && CONCEPTS_BY_SLUG[endConceptSlug]) {
     dispatcher({
-      startElementRef: CONCEPT_BOX[startConceptSlug],
-      endElementRef: CONCEPT_BOX[endConceptSlug],
+      startElementRef: CONCEPTS_BY_SLUG[startConceptSlug],
+      endElementRef: CONCEPTS_BY_SLUG[endConceptSlug],
     })
     triggerVisibility()
   }
@@ -68,7 +70,8 @@ export const removeElementDispatcher = (
   startConceptSlug: string,
   endConceptSlug: string
 ) => {
-  const startElementDispatchers = ELEMENT_DISPATCHER_BOX[startConceptSlug] ?? []
+  const startElementDispatchers =
+    ELEMENT_DISPATCHERS_BY_SLUG[startConceptSlug] ?? []
   const startDispatcherIndex = startElementDispatchers.findIndex(
     ([startDispatcher, ,]) => startDispatcher === dispatcher
   )
@@ -76,7 +79,8 @@ export const removeElementDispatcher = (
     startElementDispatchers.splice(startDispatcherIndex, 1)
   }
 
-  const endElementDispatchers = ELEMENT_DISPATCHER_BOX[endConceptSlug] ?? []
+  const endElementDispatchers =
+    ELEMENT_DISPATCHERS_BY_SLUG[endConceptSlug] ?? []
   const endDispatcherIndex = endElementDispatchers.findIndex(
     ([endHandler, ,]) => endHandler === dispatcher
   )

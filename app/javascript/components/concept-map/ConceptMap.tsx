@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
-import { Concept } from './Concept'
+import { PureConcept } from './Concept'
 import { ConceptConnections } from './ConceptConnections'
 
 import {
@@ -31,15 +31,22 @@ export const ConceptMap = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fontLoaded = useFontLoaded('Poppins')
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
+  const unsetActiveSlug = useCallback(() => setActiveSlug(null), [
+    setActiveSlug,
+  ])
 
-  const conceptsBySlug = indexConceptsBySlug(concepts)
-  const descendantsBySlug = indexDescendantsBySlug(connections)
-  const parentsBySlug = indexParentsBySlug(connections)
-
-  const activeSlugs = findAllActiveSlugs(
-    parentsBySlug,
-    descendantsBySlug,
-    activeSlug
+  const conceptsBySlug = useMemo(() => indexConceptsBySlug(concepts), [
+    concepts,
+  ])
+  const descendantsBySlug = useMemo(() => indexDescendantsBySlug(connections), [
+    connections,
+  ])
+  const parentsBySlug = useMemo(() => indexParentsBySlug(connections), [
+    connections,
+  ])
+  const activeSlugs = useMemo(
+    () => findAllActiveSlugs(parentsBySlug, descendantsBySlug, activeSlug),
+    [parentsBySlug, descendantsBySlug, activeSlug]
   )
 
   return (
@@ -52,18 +59,18 @@ export const ConceptMap = ({
               .filter(isIConcept)
               .map((concept) => {
                 const slug = concept.slug
-                const isInactive = activeSlug !== null && !activeSlugs.has(slug)
+                const isActive = activeSlug === null || activeSlugs.has(slug)
 
                 return (
-                  <Concept
+                  <PureConcept
                     key={slug}
                     slug={slug}
                     name={concept.name}
                     web_url={concept.web_url}
                     handleEnter={() => setActiveSlug(slug)}
-                    handleLeave={() => setActiveSlug(null)}
+                    handleLeave={unsetActiveSlug}
                     status={status[slug] ?? 'locked'}
-                    isInactive={isInactive}
+                    isActive={isActive}
                   />
                 )
               })}

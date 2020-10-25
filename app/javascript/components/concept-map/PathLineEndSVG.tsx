@@ -1,21 +1,25 @@
 import React from 'react'
-import { ConceptPathCoordinate, ConceptPathStatus } from './concept-map-types'
+import { ConceptPathStatus } from './concept-map-types'
 
 export const PathLineEndSVG = ({
-  coordinate,
+  cx,
+  cy,
   radius,
   status,
 }: {
-  coordinate: ConceptPathCoordinate
+  cx: number
+  cy: number
   radius: number
   status: ConceptPathStatus
 }): JSX.Element => {
   return (
     <circle
-      cx={coordinate.x}
-      cy={coordinate.y}
+      cx={cx}
+      cy={cy}
       r={radius}
       className={`line-width-2 end-cap ${status}`}
     />
   )
 }
+
+export const PurePathLineEndSVG = React.memo(PathLineEndSVG)

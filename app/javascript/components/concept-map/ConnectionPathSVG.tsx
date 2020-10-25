@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer } from 'react'
 import { useWebpageSize } from './hooks/useWebpageSize'
 
-import { PathLineSVG } from './PathLineSVG'
-import { PathLineEndSVG } from './PathLineEndSVG'
+import { PurePathLineSVG } from './PathLineSVG'
+import { PurePathLineEndSVG } from './PathLineEndSVG'
 
-import { ConceptConnection } from './concept-map-types'
+import { ConceptConnection, ConceptPath } from './concept-map-types'
 
 import {
   addElementDispatcher,
@@ -43,9 +43,13 @@ export const ConnectionPathSVG = ({
     }
   }, [connection, dispatchRef, webpageSize])
 
-  if (startElementRef === null || endElementRef === null) return null
+  const path: ConceptPath | null =
+    startElementRef !== null && endElementRef !== null
+      ? determinePath(startElementRef, endElementRef)
+      : null
 
-  const path = determinePath(startElementRef, endElementRef)
+  if (path === null) return null
+
   const radius = getCircleRadius()
   const lineWidth = getLineWidth()
 
@@ -64,13 +68,13 @@ export const ConnectionPathSVG = ({
 
   // Compute ClassNames
   const existsActivePaths = activeConcepts.size > 0
-  const isInactive =
-    existsActivePaths &&
-    !(activeConcepts.has(connection.from) && activeConcepts.has(connection.to))
+  const isActive =
+    !existsActivePaths ||
+    (activeConcepts.has(connection.from) && activeConcepts.has(connection.to))
 
   const classNames = ['canvas', normalizedPath.status]
-  if (isInactive) {
-    classNames.push('inactive')
+  if (isActive) {
+    classNames.push('active')
   }
 
   return (
@@ -86,14 +90,16 @@ export const ConnectionPathSVG = ({
       data-to={connection.to}
     >
       <g>
-        <PathLineSVG path={normalizedPath} />
-        <PathLineEndSVG
-          coordinate={normalizedPath.start}
+        <PurePathLineSVG path={normalizedPath} />
+        <PurePathLineEndSVG
+          cx={normalizedPath.start.x}
+          cy={normalizedPath.start.y}
           radius={radius}
           status={normalizedPath.status}
         />
-        <PathLineEndSVG
-          coordinate={normalizedPath.end}
+        <PurePathLineEndSVG
+          cx={normalizedPath.end.x}
+          cy={normalizedPath.end.y}
           radius={radius}
           status={normalizedPath.status}
         />

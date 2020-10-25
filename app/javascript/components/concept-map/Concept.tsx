@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { CompleteIcon } from './CompleteIcon'
 
 import { IConcept, ConceptStatus } from './concept-map-types'
@@ -9,6 +9,7 @@ import {
   removeVisibilityListener,
   Visibility,
 } from './helpers/concept-visibility-handler'
+import { wrapAnimationFrame } from './helpers/animation-helpers'
 
 export const Concept = ({
   slug,
@@ -17,10 +18,12 @@ export const Concept = ({
   handleEnter,
   handleLeave,
   status,
-  isInactive,
+  isActive,
 }: IConcept & {
+  handleEnter: MouseEventHandler
+  handleLeave: MouseEventHandler
   status: ConceptStatus
-  isInactive: boolean
+  isActive: boolean
 }) => {
   const [visibility, setVisibility] = useState<Visibility>('hidden')
   const conceptRef = useRef(null)
@@ -38,8 +41,8 @@ export const Concept = ({
   // Build the class list
   let classes = ['card']
   classes.push(`card-${status}`)
-  if (isInactive) {
-    classes.push('card-inactive')
+  if (isActive) {
+    classes.push('card-active')
   }
   if (visibility === 'hidden') {
     classes.push('hidden')
@@ -53,8 +56,8 @@ export const Concept = ({
       className={classes.join(' ')}
       data-concept-slug={slug}
       data-concept-status={status}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      onMouseEnter={wrapAnimationFrame(handleEnter)}
+      onMouseLeave={wrapAnimationFrame(handleLeave)}
     >
       <div className="display">
         <div className="name">{name}</div>
@@ -63,6 +66,8 @@ export const Concept = ({
     </a>
   )
 }
+
+export const PureConcept = React.memo(Concept)
 
 export function conceptExerciseSlugToId(slug: string): string {
   return `concept-exercise-${slug}`

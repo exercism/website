@@ -89,6 +89,20 @@ module Components
         assert_text "Can't run the tests"
       end
 
+      test "user submits code and cancels" do
+        user = create :user
+        create :user_auth_token, user: user
+        solution = create :concept_solution, user: user
+
+        visit test_components_student_editor_path(solution_id: solution.id)
+        fill_in "Code", with: "Test"
+        click_on "Submit"
+        wait_for_submission
+        click_on "Cancel"
+
+        assert_text "Status: cancelled"
+      end
+
       private
       def wait_for_submission
         assert_text "Status: queued", wait: 2

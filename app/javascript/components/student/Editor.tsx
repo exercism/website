@@ -8,6 +8,11 @@ import { typecheck } from '../../utils/typecheck'
 export type Submission = {
   testsStatus: TestRunStatus
   uuid: string
+  links: SubmissionLinks
+}
+
+type SubmissionLinks = {
+  cancel: string
 }
 
 export enum TestRunStatus {
@@ -17,6 +22,8 @@ export enum TestRunStatus {
   QUEUED = 'queued',
   OPS_ERROR = 'ops_error',
   TIMEOUT = 'timeout',
+  CANCELLING = 'cancelling',
+  CANCELLED = 'cancelled'
 }
 
 enum EditorStatus {

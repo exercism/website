@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
+import { TestRunSummaryContent } from './TestRunSummaryContent'
 import { fetchJSON } from '../../../utils/fetch-json'
 
 export type TestRun = {
@@ -10,7 +11,7 @@ export type TestRun = {
   tests: Test[]
 }
 
-type Test = {
+export type Test = {
   name: string
   status: TestStatus
   output: string
@@ -19,27 +20,6 @@ type Test = {
 enum TestStatus {
   PASS = 'pass',
   FAIL = 'fail',
-}
-
-function Content({ testRun }: { testRun: TestRun }) {
-  switch (testRun.status) {
-    case TestRunStatus.PASS:
-    case TestRunStatus.FAIL:
-      return (
-        <>
-          {testRun.tests.map((test: Test) => (
-            <p key={test.name}>
-              name: {test.name}, status: {test.status}, output: {test.output}
-            </p>
-          ))}
-        </>
-      )
-    case TestRunStatus.ERROR:
-    case TestRunStatus.OPS_ERROR:
-      return <p>{testRun.message}</p>
-    default:
-      return <></>
-  }
 }
 
 export function TestRunSummary({
@@ -80,6 +60,9 @@ export function TestRunSummary({
 
     channel.current?.disconnect()
   }, [channel, timer])
+  const cancel = useCallback(() => {
+    setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+  }, [])
 
   useEffect(() => {
     switch (testRun.status) {
@@ -133,16 +116,7 @@ export function TestRunSummary({
   return (
     <div>
       <p>Status: {testRun.status}</p>
-      {testRun.status === TestRunStatus.QUEUED && (
-        <button
-          onClick={() => {
-            setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-          }}
-        >
-          Cancel
-        </button>
-      )}
-      <Content testRun={testRun} />
+      <TestRunSummaryContent testRun={testRun} onCancel={cancel} />
     </div>
   )
 }

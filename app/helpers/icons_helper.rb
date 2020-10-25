@@ -12,4 +12,9 @@ module IconsHelper
       safe_join(parts)
     end
   end
+
+  def track_icon(track)
+    # TODO: Change to use icon
+    image_tag(track.icon_url, alt: track.title, class: 'c-track-icon')
+  end
 end

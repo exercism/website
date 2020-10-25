@@ -1,0 +1,7 @@
+.c-bg-img {
+    @apply bg-center bg-cover;
+}
+
+.c-rounded-bg-img {
+    @apply c-bg-img rounded-circle flex-shrink-0;
+}

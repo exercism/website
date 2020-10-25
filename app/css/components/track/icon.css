@@ -1,5 +1,12 @@
 :root {
     --c-track-icon-width-ratio: 92.5%;
 }
+
 .c-track-icon {
 }
+
+/* TODO: Add postcss-mixins */
+/*@define-mixin track-icon $height {
+    height: $height;
+    width: calc(var(--c-track-icon-width-ratio) * height);
+}*/

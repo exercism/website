@@ -8,15 +8,21 @@
     line-height: 1.25;
     @apply font-semibold text-black;
 }
-.text-h3-mono {
+.text-h3 {
+    @apply text-black font-semibold;
     font-size: 25px;
     line-height: 1.25;
-    @apply font-mono font-bold text-black;
+}
+.text-h3-mono {
+    @apply text-h3 font-mono font-bold;
 }
 .text-h4 {
     font-size: 20px;
     line-height: 1.25;
     @apply font-semibold text-black;
+}
+.text-prose {
+    @apply text-18 leading-paragraph;
 }
 .btn-large {
     @apply flex items-center px-32 border-3;

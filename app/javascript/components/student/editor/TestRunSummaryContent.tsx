@@ -15,8 +15,20 @@ export function TestRunSummaryContent({
     case TestRunStatus.FAIL:
       return <TestsList tests={testRun.tests} />
     case TestRunStatus.ERROR:
+      return (
+        <div>
+          <p>An error occurred</p>
+          <p>We got the following error message when we ran your code:</p>
+          <p>{testRun.message}</p>
+        </div>
+      )
     case TestRunStatus.OPS_ERROR:
-      return <p>{testRun.message}</p>
+      return (
+        <div>
+          <p>An error occurred</p>
+          <p>{testRun.message}</p>
+        </div>
+      )
     case TestRunStatus.QUEUED:
       const handleCancel = useCallback(
         (e) => {

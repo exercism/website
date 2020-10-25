@@ -25,7 +25,8 @@ export function TestsList({ tests }: { tests: Test[] }) {
     (test) =>
       test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
   )
-  const testsToShow = tests.slice(0, firstFailedTestIdx + 1)
+  const testsToShow =
+    firstFailedTestIdx === -1 ? tests : tests.slice(0, firstFailedTestIdx + 1)
 
   return (
     <div>

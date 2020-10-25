@@ -47,3 +47,21 @@ test('only shows until first failed test', async () => {
   expect(queryByText('Failed: second test')).toBeInTheDocument()
   expect(queryByText('Failed: third test')).not.toBeInTheDocument()
 })
+
+test('shows passed tests', async () => {
+  const tests = [
+    {
+      name: 'first test',
+      status: TestStatus.PASS,
+    },
+    {
+      name: 'second test',
+      status: TestStatus.PASS,
+    },
+  ]
+
+  const { queryByText } = render(<TestsList tests={tests} />)
+
+  expect(queryByText('Passed: first test')).toBeInTheDocument()
+  expect(queryByText('Passed: second test')).toBeInTheDocument()
+})

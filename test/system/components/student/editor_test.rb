@@ -21,7 +21,7 @@ module Components
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "Status: pass"
-        assert_text "name: test_a_name_given, status: pass, output: Hello"
+        assert_text "Passed: test_a_name_given"
       end
 
       test "user submits code and tests fail" do
@@ -42,7 +42,7 @@ module Components
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "Status: fail"
-        assert_text "name: test_no_name_given, status: fail"
+        assert_text "Failed: test_no_name_given"
       end
 
       test "user submits code and errors" do

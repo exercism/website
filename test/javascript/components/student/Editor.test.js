@@ -12,7 +12,7 @@ test('clears current submission when resubmitting', async () => {
         ctx.json({
           submission: {
             id: 2,
-            tests_status: 'pending',
+            tests_status: 'queued',
             test_runs: [],
             message: '',
           },
@@ -27,20 +27,16 @@ test('clears current submission when resubmitting', async () => {
   )
   fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
   fireEvent.click(getByText('Submit'))
-  await waitFor(() =>
-    expect(queryByText('Status: pending')).toBeInTheDocument()
-  )
+  await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
   fireEvent.change(getByLabelText('Code'), {
     target: { value: 'Changed code' },
   })
   fireEvent.click(getByText('Submit'))
 
   await waitFor(() =>
-    expect(queryByText('Status: pending')).not.toBeInTheDocument()
+    expect(queryByText('Status: queued')).not.toBeInTheDocument()
   )
-  await waitFor(() =>
-    expect(queryByText('Status: pending')).toBeInTheDocument()
-  )
+  await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
 
   server.close()
 })
@@ -52,7 +48,7 @@ test('shows message when test times out', async () => {
         ctx.json({
           submission: {
             id: 2,
-            tests_status: 'pending',
+            tests_status: 'queued',
             test_runs: [],
             message: '',
           },
@@ -67,9 +63,7 @@ test('shows message when test times out', async () => {
   )
   fireEvent.change(getByLabelText('Code'), { target: { value: 'Code' } })
   fireEvent.click(getByText('Submit'))
-  await waitFor(() =>
-    expect(queryByText('Status: pending')).toBeInTheDocument()
-  )
+  await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
 
   await waitFor(() =>
     expect(queryByText('Status: timeout')).toBeInTheDocument()

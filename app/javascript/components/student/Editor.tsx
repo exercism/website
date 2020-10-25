@@ -14,8 +14,9 @@ export enum TestRunStatus {
   PASS = 'pass',
   FAIL = 'fail',
   ERROR = 'error',
-  PENDING = 'pending',
+  QUEUED = 'queued',
   OPS_ERROR = 'ops_error',
+  TIMEOUT = 'timeout',
 }
 
 enum EditorStatus {

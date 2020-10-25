@@ -86,6 +86,12 @@ export function TestRunSummary({
 
   useEffect(() => {
     return () => {
+      channel.current?.disconnect()
+    }
+  }, [channel])
+
+  useEffect(() => {
+    return () => {
       clearTimeout(timer.current)
     }
   }, [timer])

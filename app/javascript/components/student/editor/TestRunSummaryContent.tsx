@@ -30,18 +30,16 @@ export function TestRunSummaryContent({
         </div>
       )
     case TestRunStatus.QUEUED:
-      const handleCancel = useCallback(
-        (e) => {
-          e.preventDefault()
-          onCancel()
-        },
-        [onCancel]
-      )
+      const handleCancel = useCallback(() => {
+        onCancel()
+      }, [onCancel])
 
       return (
         <div>
           <p>We've queued your code and will run it shortly.</p>
-          <button onClick={handleCancel}>Cancel</button>
+          <button type="button" onClick={handleCancel}>
+            Cancel
+          </button>
         </div>
       )
     default:

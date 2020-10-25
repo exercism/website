@@ -14,12 +14,14 @@ export type TestRun = {
 export type Test = {
   name: string
   status: TestStatus
+  message: string
   output: string
 }
 
-enum TestStatus {
+export enum TestStatus {
   PASS = 'pass',
   FAIL = 'fail',
+  ERROR = 'error',
 }
 
 export function TestRunSummary({

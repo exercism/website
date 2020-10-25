@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { TestRunStatus } from '../Editor'
 import { TestRun, Test } from './TestRunSummary'
+import { TestsList } from './TestsList'
 
 export function TestRunSummaryContent({
   testRun,
@@ -12,15 +13,7 @@ export function TestRunSummaryContent({
   switch (testRun.status) {
     case TestRunStatus.PASS:
     case TestRunStatus.FAIL:
-      return (
-        <div>
-          {testRun.tests.map((test: Test) => (
-            <p key={test.name}>
-              name: {test.name}, status: {test.status}, output: {test.output}
-            </p>
-          ))}
-        </div>
-      )
+      return <TestsList tests={testRun.tests} />
     case TestRunStatus.ERROR:
     case TestRunStatus.OPS_ERROR:
       return <p>{testRun.message}</p>

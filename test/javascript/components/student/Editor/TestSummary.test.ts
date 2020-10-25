@@ -9,12 +9,14 @@ test('shows test details', async () => {
     name: 'first test',
     status: TestStatus.PASS,
     output: 'debug',
+    message: 'message',
   }
 
   const { queryByText } = render(<TestSummary test={test} />)
 
   expect(queryByText('Passed: first test')).toBeInTheDocument()
   expect(queryByText('Output: debug')).toBeInTheDocument()
+  expect(queryByText('Message: message')).toBeInTheDocument()
 })
 
 test('hides output', async () => {
@@ -27,4 +29,17 @@ test('hides output', async () => {
   const { queryByText } = render(<TestSummary test={test} />)
 
   expect(queryByText('Output:')).not.toBeInTheDocument()
+})
+
+test('hides message', async () => {
+  const test = {
+    name: 'first test',
+    status: TestStatus.PASS,
+    output: '',
+    message: '',
+  }
+
+  const { queryByText } = render(<TestSummary test={test} />)
+
+  expect(queryByText('Message:')).not.toBeInTheDocument()
 })

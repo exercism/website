@@ -9,12 +9,14 @@ export function TestSummary({ test }: { test: Test }) {
   }
 
   return (
-    <div>
-      <p>
+    <details
+      open={test.status === TestStatus.FAIL || test.status === TestStatus.ERROR}
+    >
+      <summary>
         {statusLabels[test.status]}: {test.name}
-      </p>
+      </summary>
       {test.message && <p>Message: {test.message}</p>}
       {test.output && <p>Output: {test.output}</p>}
-    </div>
+    </details>
   )
 }

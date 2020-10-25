@@ -17,7 +17,7 @@
             @apply text-h1 mb-8;
         }
         & p {
-            @apply leading-paragraph text-18 mb-24;
+            @apply text-prose mb-24;
             max-width: 680px;
         }
         & .join-btn {
@@ -32,11 +32,11 @@
 
         & .info {
             & p {
-                @apply text-18 leading-paragraph mt-24;
+                @apply text-prose mt-24;
             }
         }
         & code {
-            @apply flex-shrink-0 w-1/2 ml-spacedColumns;
+            @apply flex-shrink-0 w-1-2 ml-spacedColumns;
             @apply bg-white rounded-8 py-24 px-36;
             @apply shadow-base;
         }

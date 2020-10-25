@@ -87,6 +87,10 @@ module.exports = {
       '64': '64px',
       spacedColumns: '70px',
     },
+    width: {
+      '1-3': '33%',
+      '1-2': '50%',
+    },
     zIndex: {
       '-1': '-1',
       '-2': '-2',
@@ -100,5 +104,5 @@ module.exports = {
     container: false,
   },
   // s- for style
-  prefix: 's-',
+  prefix: 'tw-',
 }

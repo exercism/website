@@ -1,0 +1,73 @@
+@import "../styles";
+
+#page-concept-show {
+    & .concept-header {
+        @apply mb-40;
+
+        & .container {
+            @apply flex items-center py-32;
+            height: 190px;
+        }
+        background: linear-gradient(
+            180deg,
+            #e1ebff 0%,
+            rgba(225, 235, 255, 0) 100%
+        );
+        & .icon {
+            @apply mr-48;
+            width: 96px;
+            height: 96px;
+            border: 2px solid black;
+        }
+        & h1 {
+            @apply flex items-center text-h1 mb-8;
+            & small {
+                @apply text-18 ml-16 mr-12 text-textBase font-normal;
+            }
+            & img {
+                /* TODO: Switch these */
+                /*@mixin track-icon 48px;*/
+                height: 48px;
+            }
+        }
+        & .exercises {
+            @apply flex items-center text-18;
+            & svg {
+                @apply mr-8;
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+    & .about {
+        @apply mb-32;
+
+        & h2 {
+            @apply text-h2 mb-8;
+        }
+        & p {
+            @apply text-prose;
+        }
+    }
+    & .links {
+        & h3 {
+            @apply text-h3 mb-16;
+        }
+        & ul {
+            @apply flex gap-20;
+        }
+        & a {
+            @apply flex items-center;
+            @apply shadow-base py-6 px-16 rounded-100;
+            & .c-bg-img {
+                @apply mr-12;
+                height: 16px;
+                width: 16px;
+            }
+            & svg {
+                height: 13px;
+                width: 13px;
+            }
+        }
+    }
+}

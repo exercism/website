@@ -9,9 +9,7 @@ class Tracks::ConceptsController < ApplicationController
     @concept_map_data = Track::DetermineConceptMapLayout.(@track)
 
     if current_user.joined_track?(@track)
-      @concept_map_data = Track::DetermineConceptMapLayout.(@track).merge(
-        status: UserTrack::GenerateConceptStatusMapping.(@user_track)
-      )
+      @concept_map_data[:status] = UserTrack::GenerateConceptStatusMapping.(@user_track)
       render action: "index/joined"
     else
       @concept_map_data[:status] = {}

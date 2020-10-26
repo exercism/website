@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
+import { TestRunSummaryContent } from './TestRunSummaryContent'
 import { fetchJSON } from '../../../utils/fetch-json'
 
 export type TestRun = {
@@ -10,36 +11,17 @@ export type TestRun = {
   tests: Test[]
 }
 
-type Test = {
+export type Test = {
   name: string
   status: TestStatus
+  message: string
   output: string
 }
 
-enum TestStatus {
+export enum TestStatus {
   PASS = 'pass',
   FAIL = 'fail',
-}
-
-function Content({ testRun }: { testRun: TestRun }) {
-  switch (testRun.status) {
-    case TestRunStatus.PASS:
-    case TestRunStatus.FAIL:
-      return (
-        <>
-          {testRun.tests.map((test: Test) => (
-            <p key={test.name}>
-              name: {test.name}, status: {test.status}, output: {test.output}
-            </p>
-          ))}
-        </>
-      )
-    case TestRunStatus.ERROR:
-    case TestRunStatus.OPS_ERROR:
-      return <p>{testRun.message}</p>
-    default:
-      return <></>
-  }
+  ERROR = 'error',
 }
 
 export function TestRunSummary({
@@ -80,6 +62,9 @@ export function TestRunSummary({
 
     channel.current?.disconnect()
   }, [channel, timer])
+  const cancel = useCallback(() => {
+    setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+  }, [])
 
   useEffect(() => {
     switch (testRun.status) {
@@ -109,20 +94,6 @@ export function TestRunSummary({
   ])
 
   useEffect(() => {
-    switch (testRun.status) {
-      case TestRunStatus.QUEUED:
-        handleQueued()
-        break
-      case TestRunStatus.TIMEOUT:
-        handleTimeout()
-        break
-      default:
-        clearTimeout(timer.current)
-        break
-    }
-  }, [testRun.status, handleQueued, handleTimeout, timer])
-
-  useEffect(() => {
     channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
       setTestRun(testRun)
     })
@@ -147,16 +118,7 @@ export function TestRunSummary({
   return (
     <div>
       <p>Status: {testRun.status}</p>
-      {testRun.status === TestRunStatus.QUEUED && (
-        <button
-          onClick={() => {
-            setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-          }}
-        >
-          Cancel
-        </button>
-      )}
-      <Content testRun={testRun} />
+      <TestRunSummaryContent testRun={testRun} onCancel={cancel} />
     </div>
   )
 }

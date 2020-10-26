@@ -23,4 +23,13 @@
         %p The unit of measure is 100 meters but can be ignored in these tasks.
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-spacedColumns
-      here.
+      - if @solution
+        - if @solution.completed?
+          Exercise Completed
+        - else
+          Exercise Started
+          = link_to "Continue", edit_solution_path(@solution.uuid)
+          = link_to "Complete", complete_track_exercise_path(@track, @exercise), method: :patch
+      - else
+        Exercise not started
+        = button_to "Start exercise", start_track_exercise_path(@track, @exercise), method: :patch

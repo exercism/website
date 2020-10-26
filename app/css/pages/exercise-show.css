@@ -1,0 +1,48 @@
+@import "../styles";
+
+#page-exercise-show {
+    & .exercise-header {
+        & .container {
+            @apply flex items-center py-32;
+            height: 190px;
+        }
+        background: linear-gradient(
+            180deg,
+            #e1ebff 0%,
+            rgba(225, 235, 255, 0) 100%
+        );
+        & .exercise-icon {
+            @apply mr-32;
+            width: 96px;
+            height: 96px;
+            @apply bg-purple rounded-circle;
+        }
+        & h1 {
+            @apply flex items-center text-h1 mb-12;
+        }
+        & .concepts {
+            @apply flex items-center;
+            & .concept {
+                @apply flex items-center;
+                @apply py-6 px-12 mr-8 bg-white rounded-8 shadow-base;
+                @apply text-14 font-semibold;
+                & .icon {
+                    @apply mr-8;
+                    width: 24px;
+                    height: 24px;
+                    @apply border-1 border-black;
+                }
+            }
+        }
+    }
+    & .instructions {
+        @apply mb-32 px-32 py-24 bg-white rounded-8 shadow-base;
+
+        & h2 {
+            @apply text-h3 mb-8;
+        }
+        & p {
+            @apply text-prose mb-16;
+        }
+    }
+}

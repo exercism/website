@@ -16,4 +16,12 @@ class Exercise < ApplicationRecord
   scope :without_prerequisites, lambda {
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
+
+  def concept_exercise?
+    is_a?(ConceptExercise)
+  end
+
+  def practice_exercise?
+    is_a?(PracticeExercise)
+  end
 end

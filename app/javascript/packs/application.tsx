@@ -22,9 +22,11 @@ import '../../css/components/track.css'
 import '../../css/components/track/generic-nav.css'
 import '../../css/components/track/top-level-nav.css'
 import '../../css/components/track/concepts-nav.css'
+import '../../css/components/track/exercises-nav.css'
 import '../../css/components/track/icon.css'
 
 import '../../css/pages/concept-show.css'
+import '../../css/pages/exercise-show.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
 

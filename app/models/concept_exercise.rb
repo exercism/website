@@ -9,15 +9,8 @@ class ConceptExercise < Exercise
     through: :exercise_taught_concepts,
     source: :concept
 
-  def self.that_teaches!(concept)
-    TaughtConcept.
-      find_by!(concept: concept).
-      exercise
-  end
-
-  def self.that_teaches(concept)
-    that_teaches!(concept)
-  rescue ActiveRecord::RecordNotFound
-    nil
+  def self.that_teach(concept)
+    joins(:taught_concepts).
+      where('exercise_taught_concepts.track_concept_id': concept)
   end
 end

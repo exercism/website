@@ -11,7 +11,7 @@ class ConceptExerciseTest < ActiveSupport::TestCase
     assert_equal [concept], exercise.reload.taught_concepts
   end
 
-  test "for! returns correct concept" do
+  test "that_teach returns correct exercise" do
     ruby = create :track, slug: "ruby"
     js = create :track
 
@@ -23,13 +23,6 @@ class ConceptExerciseTest < ActiveSupport::TestCase
     create(:concept_exercise, track: ruby).tap { |e| e.taught_concepts << ruby_strings }
     create(:concept_exercise, track: js).tap { |e| e.taught_concepts << js_bools }
 
-    assert_equal ce, ConceptExercise.that_teaches!(ruby_bools)
-  end
-
-  test "that_teaches! raises when no exercise teaches it" do
-    concept = create :track_concept
-    assert_raises ActiveRecord::RecordNotFound do
-      ConceptExercise.that_teaches!(concept)
-    end
+    assert_equal [ce], ConceptExercise.that_teach(ruby_bools)
   end
 end

@@ -5,7 +5,7 @@ ruby '2.6.6'
 # Service/framework dependencies
 gem 'rails',
   git: 'http://github.com/rails/rails.git',
-  ref: '64b1c815323c17d3259e823c53d6a547152e61e3'
+  ref: '1fddc8023ec1e7f65e9b0c299ade1084dc7a3bf4'
 # gem 'rails', '~> 6.1.0.alpha'
 
 gem 'mysql2', '>= 0.4.4'
@@ -25,7 +25,7 @@ gem 'rest-client' # http
 gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.45.0'
+gem 'exercism-config', '>= 0.47.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies

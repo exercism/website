@@ -1,6 +1,6 @@
 @import "./generic-nav.css";
 
-.c-track-concepts-nav {
+.c-track-concept-nav {
     @apply c-track-generic-nav;
 
     & .title {

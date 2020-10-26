@@ -24,6 +24,27 @@
 .text-prose {
     @apply text-18 leading-paragraph;
 }
+.text-label-code-caps {
+    @apply font-mono text-14 leading-regular uppercase text-darkGray font-bold;
+}
+.btn--cta {
+    @apply bg-anotherPurple text-white border-anotherPurple;
+}
+.btn {
+    line-height: 48px;
+    @apply flex items-center px-20 border-1 rounded-5;
+    @apply text-16 font-semibold justify-center w-100;
+
+    & svg {
+        @apply mr-12;
+        height: 18px;
+        width: 18px;
+    }
+}
+.btn-cta {
+    @apply btn btn--cta;
+}
+
 .btn-large {
     @apply flex items-center px-32 border-3;
     @apply text-18 font-semibold rounded-5;
@@ -36,8 +57,7 @@
     }
 }
 .btn-large-cta {
-    @apply btn-large;
-    @apply bg-anotherPurple text-white border-anotherPurple;
+    @apply btn-large btn--cta;
 }
 .btn-large-secondary {
     @apply btn-large;

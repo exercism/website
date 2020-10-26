@@ -9,7 +9,10 @@ class ParseMarkdown
   end
 
   def initialize(text, nofollow_links: false)
-    @text = text.to_s
+    # TODO: We almost certainly don't want to do this!
+    # but for now let's reduce the heading level of all
+    # headings, as they're too high in the actual docs atm
+    @text = text.to_s.gsub(/^##/, '###')
     @nofollow_links = nofollow_links
   end
 
@@ -22,25 +25,25 @@ class ParseMarkdown
   private
   attr_reader :text, :nofollow_links
 
+  memoize
   def sanitized_html
-    @sanitized_html ||= Loofah.fragment(raw_html).scrub!(:escape).to_s
+    Loofah.fragment(raw_html).scrub!(:escape).to_s
   end
 
+  memoize
   def raw_html
-    @raw_html ||= begin
-      renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
-      html = CommonMarker.render_doc(
-        preprocessed_text,
-        :DEFAULT,
-        %i[table tagfilter strikethrough]
-      )
-      renderer.render(html)
-    end
+    renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
+    html = CommonMarker.render_doc(
+      preprocessed_text,
+      :DEFAULT,
+      %i[table tagfilter strikethrough]
+    )
+    renderer.render(html)
   end
 
+  memoize
   def preprocessed_text
-    @preprocessed_text ||=
-      text.gsub(/^`{3,}(.*?)`{3,}\s*$/m) { "\n#{$&}\n" }
+    text.gsub(/^`{3,}(.*?)`{3,}\s*$/m) { "\n#{$&}\n" }
   end
 
   class Renderer < CommonMarker::HtmlRenderer

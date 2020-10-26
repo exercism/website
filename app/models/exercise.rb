@@ -24,4 +24,25 @@ class Exercise < ApplicationRecord
   def practice_exercise?
     is_a?(PracticeExercise)
   end
+
+  def head_instructions
+    instructions(slug, :HEAD)
+  end
+
+  def instructions(git_slug, git_sha)
+    git_data(git_slug, git_sha).instructions
+  end
+
+  private
+  def git_data(git_slug, git_sha)
+    iv_key = "@git_data_#{git_slug}_#{git_sha}"
+    return instance_variable_get(iv_key) if instance_variable_defined?(iv_key)
+
+    data = Exercise::RetrieveGitData.(
+      track.slug,
+      git_slug,
+      git_sha
+    )
+    instance_variable_set(iv_key, data)
+  end
 end

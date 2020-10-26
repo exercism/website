@@ -45,6 +45,8 @@ Rails.application.routes.draw do
         patch :start
         patch :complete
       end
+
+      resources :iterations, only: [:index], controller: "tracks/iterations"
     end
 
     member do

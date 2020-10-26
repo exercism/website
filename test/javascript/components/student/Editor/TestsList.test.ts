@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestsList } from '../../../../../app/javascript/components/student/Editor/TestsList'
-import { TestStatus } from '../../../../../app/javascript/components/student/Editor/TestRunSummary'
+import { TestsList } from '../../../../../app/javascript/components/student/editor/TestsList'
+import { TestStatus } from '../../../../../app/javascript/components/student/editor/TestRunSummary'
 
 test('shows overview', async () => {
   const tests = [

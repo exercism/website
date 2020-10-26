@@ -1,7 +1,7 @@
 GIT
   remote: http://github.com/rails/rails.git
-  revision: 64b1c815323c17d3259e823c53d6a547152e61e3
-  ref: 64b1c815323c17d3259e823c53d6a547152e61e3
+  revision: 1fddc8023ec1e7f65e9b0c299ade1084dc7a3bf4
+  ref: 1fddc8023ec1e7f65e9b0c299ade1084dc7a3bf4
   specs:
     actioncable (6.1.0.alpha)
       actionpack (= 6.1.0.alpha)
@@ -100,7 +100,7 @@ GEM
       ruby-next-core (>= 0.8.0)
     ast (2.4.1)
     aws-eventstream (1.1.0)
-    aws-partitions (1.384.0)
+    aws-partitions (1.385.0)
     aws-sdk-core (3.109.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -148,7 +148,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism-config (0.46.0)
+    exercism-config (0.47.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk
@@ -287,7 +287,7 @@ GEM
       rubocop-ast (>= 0.6.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (0.8.0)
+    rubocop-ast (1.0.1)
       parser (>= 2.7.1.5)
     rubocop-minitest (0.10.1)
       rubocop (>= 0.87)
@@ -350,7 +350,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.2)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2020.3)
+    tzinfo-data (1.2020.4)
       tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
@@ -391,7 +391,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   delayed_job_active_record (~> 4.1.4)
-  exercism-config (>= 0.45.0)
+  exercism-config (>= 0.47.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml-rails (~> 2.0)

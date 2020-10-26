@@ -1,5 +1,5 @@
 #page-exercise-show
-  = ViewComponents::Track::ExercisesNav.new(@track)
+  = ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :about)
 
   %header.exercise-header
     .lg-container.container
@@ -10,26 +10,45 @@
           - if @exercise.concept_exercise?
             - @exercise.taught_concepts.each.each do |concept|
               .concept
-                .icon
+                .icon= concept.name[0, 2]
                 = concept.name
 
   %section.lg-container.tw-flex
     %div
       .instructions
         %h2 Instructions
-        %p You have been tasked by the claims department of Isaacs Asteroid Exploration Co. to improve the performance of their land claim system.
-        %p Every time a new asteroid is ready for exploitation speculators are invited to stake their claim to a plot of land. The asteroid's land is divided into 4 sided plots. Speculators claim the land by specifying its dimensions.
-        %p Your goal is to develop a performant system to handle the land rush that has in the past caused the website to crash.
-        %p The unit of measure is 100 meters but can be ignored in these tasks.
+        = raw ParseMarkdown.(@exercise.instructions("basics", "ea8898137ec9ae768cadb983e5e9ba1f9a9f3c5b"))
 
-    .tw-w-1-3.tw-flex-shrink-0.tw-ml-spacedColumns
-      - if @solution
-        - if @solution.completed?
-          Exercise Completed
+    .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
+      .action-box
+        - if @solution
+          - if @solution.completed?
+            %h3 You’ve completed this exercise.
+          - else
+            %h3 Continue #{@exercise.title}
+            %p You have submitted #{5 * 1} iterations for this exercise. Either continue improving your solution or mark the exercise as completed to proceed.
+
+            %h4 Via Exercism Editor
+            = link_to edit_solution_path(@solution.uuid), class: "editor-btn btn-cta" do
+              = graphical_icon :editor
+              Open Editor
+
+            %h4 Work locally (via CLI)
+            = link_to "exercism download --exercise=pattern", "#", class: "cli-btn btn"
+            = link_to "#", class: "learn-more-cli" do
+              Learn more about solving exercises locally
+              = graphical_icon("arrow-right")
+
+            .complete
+              %h3 Done with the exercise?
+              = button_to complete_track_exercise_path(@track, @exercise), method: :patch, class: "btn" do
+                = graphical_icon("check-circle")
+                Mark as complete
+
+              .explanation By marking #{'Structs' * 1} as complete, you’ll unlock the concepts #{'Agent and Errors' * 1}.
+
         - else
-          Exercise Started
-          = link_to "Continue", edit_solution_path(@solution.uuid)
-          = link_to "Complete", complete_track_exercise_path(@track, @exercise), method: :patch
-      - else
-        Exercise not started
-        = button_to "Start exercise", start_track_exercise_path(@track, @exercise), method: :patch
+          %h3 Start #{@exercise.title}
+          %p You have yet to submit any iterations for this. Start writing your solution either via the browser-based Exercism Editor or locally via CLI.
+
+          = button_to "Start exercise", start_track_exercise_path(@track, @exercise), method: :patch

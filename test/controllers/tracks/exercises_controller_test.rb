@@ -19,7 +19,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get track_exercises_url(track)
-    assert_template "tracks/exercises/index/joined"
+    assert_template "tracks/exercises/index"
   end
 
   test "index: renders correctly for unjoined" do
@@ -28,7 +28,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     sign_in!
 
     get track_exercises_url(track)
-    assert_template "tracks/exercises/index/unjoined"
+    assert_template "tracks/exercises/index"
   end
 
   test "show: renders correctly for external" do
@@ -39,7 +39,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     exercise = create :practice_exercise, track: track
 
     get track_exercise_url(track, exercise)
-    assert_template "tracks/exercises/show/external"
+    assert_template "tracks/exercises/show"
   end
 
   test "show: renders correctly for joined" do
@@ -51,7 +51,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get track_exercise_url(track, exercise)
-    assert_template "tracks/exercises/show/joined"
+    assert_template "tracks/exercises/show"
   end
 
   test "show: renders correctly for unjoined" do
@@ -61,6 +61,6 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     sign_in!
 
     get track_exercise_url(track, exercise)
-    assert_template "tracks/exercises/show/unjoined"
+    assert_template "tracks/exercises/show"
   end
 end

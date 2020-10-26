@@ -1,0 +1,37 @@
+/* This component requires you to set a line-height */
+.c-tab {
+    @apply flex items-center;
+    @apply px-16 rounded-100;
+    @apply text-16 text-textBase font-medium;
+
+    & svg {
+        height: 24px;
+        width: 24px;
+        @apply mr-12 text-textLight;
+    }
+
+    &.selected {
+        @apply bg-veryLightBlue text-black font-semibold;
+        & svg {
+            @apply mr-12 text-anotherPurple;
+        }
+    }
+    /* This functionality stops the tab resizing when the
+     * font-size changes in .selected */
+    & span {
+        @apply inline-flex flex-col items-center justify-between;
+        &:after {
+            content: attr(data-text);
+            content: attr(data-text) / "";
+            height: 0;
+            user-select: none;
+            pointer-events: none;
+            @apply font-semibold invisible overflow-hidden;
+
+            /* TODO: Does @media nesting work like this with Postcss */
+            @media speech {
+                display: none;
+            }
+        }
+    }
+}

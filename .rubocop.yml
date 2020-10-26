@@ -106,6 +106,9 @@ Rails/LexicallyScopedActionFilter:
 Rails/RefuteMethods:
   EnforcedStyle: refute
 
+Rails/OutputSafety:
+  Enabled: false
+
 Rails/SkipsModelValidations:
   Enabled: false
 

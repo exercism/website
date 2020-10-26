@@ -14,7 +14,7 @@ module ViewComponents
               #   'aria-label': "Back to all tracks"
               # ),
               image_tag(track.icon_url, class: 'c-track-icon'),
-              tag.div(track.title, class: 'title')
+              link_to(track.title, Exercism::Routes.track_path(track), class: 'title')
             ] + elements)
           end
         end

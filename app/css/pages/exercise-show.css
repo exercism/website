@@ -15,7 +15,7 @@
             @apply mr-32;
             width: 96px;
             height: 96px;
-            @apply bg-purple rounded-circle;
+            @apply bg-anotherPurple rounded-circle;
         }
         & h1 {
             @apply flex items-center text-h1 mb-12;
@@ -30,19 +30,86 @@
                     @apply mr-8;
                     width: 24px;
                     height: 24px;
+
                     @apply border-1 border-black;
+                    font-size: 11px;
+                    vertical-align: bottom;
+                    line-height: 29px;
+                    padding-left: 3px;
                 }
             }
         }
     }
     & .instructions {
-        @apply mb-32 px-32 py-24 bg-white rounded-8 shadow-base;
+        @apply mb-32 px-32 py-24 bg-white rounded-8 shadow-lg;
 
         & h2 {
             @apply text-h3 mb-8;
         }
+        & h3 {
+            @apply text-h4 mb-8;
+        }
         & p {
             @apply text-prose mb-16;
+
+            & code {
+                @apply shadow-lg p-4;
+            }
+        }
+        & pre {
+            @apply shadow-lg mb-24 py-16 px-24 rounded-8;
+            @apply text-16;
+        }
+        & * + h3 {
+            @apply mt-48;
+        }
+    }
+    & .action-box {
+        @apply shadow-lg py-24 px-32 rounded-8;
+
+        & h3 {
+            @apply text-h4 mb-12;
+        }
+        & p {
+            @apply text-16 leading-paragraph mb-24;
+        }
+        & h4 {
+            @apply text-label-code-caps mb-12;
+        }
+
+        & .editor-btn {
+            @apply btn-cta mb-16;
+        }
+
+        & .editor-btn {
+            @apply mb-16;
+        }
+
+        & .cli-btn {
+            @apply font-mono font-normal text-14 mb-16;
+        }
+
+        & .learn-more-cli {
+            @apply flex items-center;
+            @apply text-lightBlue font-semibold text-16 leading-paragraph;
+
+            & svg {
+                @apply ml-12;
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        & .complete {
+            @apply mt-20 pt-20 border-t-1 border-borderLight;
+
+            & button {
+                @apply mb-12;
+            }
+
+            & .explanation {
+                @apply text-14 leading-paragraph;
+            }
         }
     }
 }

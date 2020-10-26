@@ -68,6 +68,7 @@ module.exports = {
     },
     lineHeight: {
       none: '1',
+      regular: '138%',
       paragraph: '150%',
       code: '160%',
     },
@@ -90,6 +91,7 @@ module.exports = {
     width: {
       '1-3': '33%',
       '1-2': '50%',
+      '100': '100%',
     },
     zIndex: {
       '-1': '-1',

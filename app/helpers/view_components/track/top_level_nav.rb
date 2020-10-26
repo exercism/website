@@ -22,24 +22,30 @@ module ViewComponents
             Exercism::Routes.track_path(track),
             class: tab_class(:overview)
           ) do
-            icon(:dashboard, "Track Overview") + "Overview"
+            graphical_icon(:dashboard) +
+              tag.span("Overview", "data-text": "Overview")
           end,
 
           link_to(
             Exercism::Routes.track_concepts_path(track),
             class: tab_class(:concepts)
           ) do
-            icon(:concepts, "Concepts") + "Concepts"
+            graphical_icon(:concepts) +
+              tag.span("Concepts", "data-text": "Concepts")
           end,
 
-          link_to("#", class: tab_class(:exercises)) do
-            icon(:exercises, "Exercises") + "Exercises"
+          link_to(
+            "#",
+            class: tab_class(:exercises)
+          ) do
+            graphical_icon(:exercises) +
+              tag.span("Exercises", "data-text": "Exercises")
           end
         ]
       end
 
       def tab_class(tab)
-        tab == selected_tab ? "selected" : ""
+        "c-tab #{'selected' if tab == selected_tab}"
       end
 
       def guard!

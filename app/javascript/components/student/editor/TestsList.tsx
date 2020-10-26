@@ -3,7 +3,7 @@ import { TestSummary } from './TestSummary'
 import { TestStatus, Test } from './TestRunSummary'
 
 function Overview({ tests }: { tests: Test[] }) {
-  const passed = tests.reduce(function (total, test) {
+  const passed = tests.reduce((total, test) => {
     if (test.status === TestStatus.PASS) {
       total += 1
     }

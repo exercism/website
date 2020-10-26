@@ -72,7 +72,7 @@ COPY Gemfile Gemfile.lock ./
 COPY --from=gembuilder /usr/local/bundle /usr/local/bundle
 
 COPY package.json yarn.lock ./
-RUN yarn install && yarn cache clean;
+RUN yarn install && yarn cache clean
 
 WORKDIR /usr/src/app
 COPY . .

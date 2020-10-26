@@ -37,6 +37,7 @@ COPY *.js *.json ./
 COPY bin ./bin
 COPY config ./config
 COPY app/javascript ./app/javascript
+COPY app/css ./app/css
 
 # This compiles the assets into public/packs
 # During deployment the assets are copied from this image and 

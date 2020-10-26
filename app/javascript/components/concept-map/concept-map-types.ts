@@ -22,16 +22,21 @@ export type ConceptPathCoordinate = {
   y: number
 }
 
-export type ConceptPath = {
-  start: ConceptPathCoordinate
-  end: ConceptPathCoordinate
+export type ConceptPathProperties = {
+  width: number
+  height: number
+  radius: number
+  translateX: number
+  translateY: number
+  pathStart: ConceptPathCoordinate
+  pathEnd: ConceptPathCoordinate
   status: ConceptPathStatus
 }
 
-export function isConceptPath(
-  conceptPath: ConceptPath | undefined
-): conceptPath is ConceptPath {
-  return conceptPath !== undefined
+export function isConceptPathProperties(
+  props: ConceptPathProperties | undefined
+): props is ConceptPathProperties {
+  return props !== undefined
 }
 
 export interface IConceptMap {

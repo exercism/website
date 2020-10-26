@@ -1,21 +1,26 @@
 import React from 'react'
 
-import { ConceptPath } from './concept-map-types'
+import { ConceptPathCoordinate } from './concept-map-types'
 
-export const PathLineSVG = ({ path }: { path: ConceptPath }): JSX.Element => {
+export const PathLineSVG = ({
+  pathStart,
+  pathEnd,
+}: {
+  pathStart: ConceptPathCoordinate
+  pathEnd: ConceptPathCoordinate
+}): JSX.Element => {
   const computedBezier = React.useMemo(() => {
-    const { start, end } = path
-    const halfDeltaY = (end.y - start.y) / 2
-    const dx1 = start.x
-    const dy1 = start.y + halfDeltaY
-    const dx2 = end.x
-    const dy2 = end.y - halfDeltaY
+    const halfDeltaY = (pathEnd.y - pathStart.y) / 2
+    const dx1 = pathStart.x
+    const dy1 = pathStart.y + halfDeltaY
+    const dx2 = pathEnd.x
+    const dy2 = pathEnd.y - halfDeltaY
 
-    return `M ${start.x}, ${start.y} C ${dx1}, ${dy1} ${dx2}, ${dy2} ${end.x}, ${end.y}`
+    return `M ${pathStart.x}, ${pathStart.y} C ${dx1}, ${dy1} ${dx2}, ${dy2} ${pathEnd.x}, ${pathEnd.y}`
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path.start.x, path.start.y, path.end.x, path.end.y])
+  }, [pathStart.x, pathStart.y, pathEnd.x, pathEnd.y])
 
-  return <path d={computedBezier} className={`line-width-2 ${path.status}`} />
+  return <path d={computedBezier} />
 }
 
 export const PurePathLineSVG = React.memo(PathLineSVG)

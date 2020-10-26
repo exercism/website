@@ -66,11 +66,13 @@
         }
     }
 
-    & .canvas {
+    & .connection {
         @apply absolute -z-1 top-0 left-0;
         transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
         touch-action: none;
         opacity: var(--c-concept-map-hover-opacity);
+        stroke-width: 2px;
+        fill: none;
 
         &.active {
             opacity: 1;
@@ -82,40 +84,25 @@
 
         &.locked {
             @apply -z-4;
-        }
-        &.available {
-            @apply -z-3;
-        }
-        &.complete {
-            @apply -z-2;
-        }
-
-        & path {
-            fill: none;
-        }
-
-        & .locked {
             stroke: var(--c-concept-map-line-locked);
             stroke-dasharray: var(--c-concept-map-line-dasharray-dashed);
         }
 
-        & .available {
+        &.available {
+            @apply -z-3;
             stroke: var(--c-concept-map-line-available);
             stroke-dasharray: var(--c-concept-map-line-dasharray-dashed);
         }
 
-        & .complete {
+        &.complete {
+            @apply -z-2;
             stroke: var(--c-concept-map-line-complete);
             stroke-dasharray: var(--c-concept-map-line-dasharray-solid);
         }
 
-        & .end-cap {
+        & circle {
             fill: var(--c-concept-map-card-background);
             stroke-dasharray: var(--c-concept-map-line-dasharray-solid);
-        }
-
-        & .line-width-2 {
-            stroke-width: 2px;
         }
     }
 }

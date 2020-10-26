@@ -1,50 +1,50 @@
 import {
-  ConceptPath,
+  ConceptPathProperties,
   ConceptPathCoordinate,
   ConceptPathStatus,
   ConceptStatus,
 } from '../concept-map-types'
+import { getCircleRadius, getLineWidth } from './style-helpers'
 
-import { getLineWidth, getCircleRadius } from './style-helpers'
-
-export function determinePath(
+export function computePathProperties(
   pathStartElement: HTMLElement,
   pathEndElement: HTMLElement
-): ConceptPath {
-  const conceptStatus = pathEndElement.dataset.conceptStatus as ConceptStatus
-
-  return {
-    start: getPathStartFromElement(pathStartElement),
-    end: getPathEndFromElement(pathEndElement),
-    status: getPathState(conceptStatus),
-  }
-}
-
-export function normalizePathToCanvasSize(
-  path: ConceptPath,
-  width: number,
-  height: number
-): ConceptPath {
+): ConceptPathProperties {
+  const startCoordinate = getPathStartFromElement(pathStartElement)
+  const endCoordinate = getPathEndFromElement(pathEndElement)
   const radius = getCircleRadius()
   const lineWidth = getLineWidth()
 
-  const leftToRight = path.start.x <= path.end.x
+  // calculate minimum dimensions for view-box
+  const width =
+    Math.abs(endCoordinate.x - startCoordinate.x) + 2 * radius + 2 * lineWidth
+  const height =
+    Math.abs(endCoordinate.y - startCoordinate.y) + 2 * radius + 2 * lineWidth
+
+  const isLeftToRight = startCoordinate.x <= endCoordinate.x
 
   return {
-    start: {
-      x: leftToRight ? radius + lineWidth : width - radius - lineWidth,
+    width,
+    height,
+    radius,
+    pathStart: {
+      x: isLeftToRight ? radius + lineWidth : width - radius - lineWidth,
       y: radius + lineWidth,
     },
-    end: {
-      x: leftToRight ? width - radius - lineWidth : radius + lineWidth,
+    pathEnd: {
+      x: isLeftToRight ? width - radius - lineWidth : radius + lineWidth,
       y: height - radius - lineWidth,
     },
-    status: path.status,
+    status: getPathStatus(pathEndElement),
+    translateX:
+      (isLeftToRight ? startCoordinate.x : endCoordinate.x) -
+      radius -
+      lineWidth,
+    translateY: startCoordinate.y - radius - lineWidth,
   }
 }
 
 // calculate the start position of the path
-
 function getPathStartFromElement(el: HTMLElement): ConceptPathCoordinate {
   const x = Math.floor(el.offsetLeft + el.offsetWidth / 2) + 0.5
   const y = Math.ceil(el.offsetTop + el.offsetHeight)
@@ -61,7 +61,9 @@ function getPathEndFromElement(el: HTMLElement): ConceptPathCoordinate {
 }
 
 // Derive the path state from the concept state
-function getPathState(conceptStatus: ConceptStatus): ConceptPathStatus {
+function getPathStatus(el: HTMLElement): ConceptPathStatus {
+  const conceptStatus = el.dataset.conceptStatus as ConceptStatus
+
   switch (conceptStatus) {
     case 'unlocked':
     case 'in_progress':

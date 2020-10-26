@@ -3,6 +3,10 @@
 .c-track-top-level-nav {
     @apply c-track-generic-nav;
 
+    & .title {
+        @apply mr-64;
+    }
+
     & .tabs {
         @apply flex;
 

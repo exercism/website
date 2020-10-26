@@ -1,0 +1,26 @@
+#page-exercise-show
+  = ViewComponents::Track::ExercisesNav.new(@track)
+
+  %header.exercise-header
+    .lg-container.container
+      .exercise-icon
+      .info
+        %h1= @exercise.title
+        .concepts
+          - if @exercise.concept_exercise?
+            - @exercise.taught_concepts.each.each do |concept|
+              .concept
+                .icon
+                = concept.name
+
+  %section.lg-container.tw-flex
+    %div
+      .instructions
+        %h2 Instructions
+        %p You have been tasked by the claims department of Isaacs Asteroid Exploration Co. to improve the performance of their land claim system.
+        %p Every time a new asteroid is ready for exploitation speculators are invited to stake their claim to a plot of land. The asteroid's land is divided into 4 sided plots. Speculators claim the land by specifying its dimensions.
+        %p Your goal is to develop a performant system to handle the land rush that has in the past caused the website to crash.
+        %p The unit of measure is 100 meters but can be ignored in these tasks.
+
+    .tw-w-1-3.tw-flex-shrink-0.tw-ml-spacedColumns
+      here.

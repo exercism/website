@@ -20,17 +20,8 @@ class Tracks::ConceptsController < ApplicationController
   def show
     # TODO: We don't want this here really.
     # Move it onto the concept eventually
-    @concept_exercise = ConceptExercise.that_teaches(@concept)
-
-    # if !current_user.joined_track?(@track)
-    #   render action: "show/unjoined"
-    # elsif @user_track.learnt_concept?(@concept)
-    #   render action: "show/learnt"
-    # elsif @user_track.concept_available?(@concept)
-    #   render action: "show/available"
-    # else
-    #   render action: "show/locked"
-    # end
+    @concept_exercises = ConceptExercise.that_teach(@concept)
+    @practice_exercises = PracticeExercise.that_practice(@concept)
   end
 
   private

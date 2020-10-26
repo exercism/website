@@ -70,4 +70,15 @@
             }
         }
     }
+    & .learn,
+    & .practice {
+        & h3 {
+            @apply flex items-center text-h3 mb-16;
+            & svg {
+                @apply mr-16;
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
 }

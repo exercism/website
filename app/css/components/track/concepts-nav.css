@@ -2,4 +2,14 @@
 
 .c-track-concepts-nav {
     @apply c-track-generic-nav;
+
+    & .title {
+        @apply mr-12;
+    }
+    & .divider {
+        @apply text-textLight text-16 mr-12;
+    }
+    & .item {
+        @apply font-mono text-16;
+    }
 }

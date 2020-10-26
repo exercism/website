@@ -1,0 +1,5 @@
+@import "./concepts-nav.css";
+
+.c-track-exercises-nav {
+    @apply c-track-concepts-nav;
+}

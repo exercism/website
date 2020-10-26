@@ -1,86 +1,50 @@
 import {
-  ConceptPath,
-  ConceptConnection,
+  ConceptPathProperties,
   ConceptPathCoordinate,
-  ConceptPathState,
-} from '../concept-connection-types'
+  ConceptPathStatus,
+  ConceptStatus,
+} from '../concept-map-types'
+import { getCircleRadius, getLineWidth } from './style-helpers'
 
-import { ConceptState } from '../concept-types'
+export function computePathProperties(
+  pathStartElement: HTMLElement,
+  pathEndElement: HTMLElement
+): ConceptPathProperties {
+  const startCoordinate = getPathStartFromElement(pathStartElement)
+  const endCoordinate = getPathEndFromElement(pathEndElement)
+  const radius = getCircleRadius()
+  const lineWidth = getLineWidth()
 
-import { conceptSlugToId } from '../Concept'
+  // calculate minimum dimensions for view-box
+  const width =
+    Math.abs(endCoordinate.x - startCoordinate.x) + 2 * radius + 2 * lineWidth
+  const height =
+    Math.abs(endCoordinate.y - startCoordinate.y) + 2 * radius + 2 * lineWidth
 
-type CategorizedConceptPaths = {
-  unavailable: ConceptPath[]
-  available: ConceptPath[]
-  completed: ConceptPath[]
-}
+  const isLeftToRight = startCoordinate.x <= endCoordinate.x
 
-export function determinePathTypes(
-  connections: ConceptConnection[],
-  activeConcept: string | null = null,
-  matchActive: boolean | null = null
-): CategorizedConceptPaths {
-  const paths: CategorizedConceptPaths = {
-    unavailable: [],
-    available: [],
-    completed: [],
+  return {
+    width,
+    height,
+    radius,
+    pathStart: {
+      x: isLeftToRight ? radius + lineWidth : width - radius - lineWidth,
+      y: radius + lineWidth,
+    },
+    pathEnd: {
+      x: isLeftToRight ? width - radius - lineWidth : radius + lineWidth,
+      y: height - radius - lineWidth,
+    },
+    status: getPathStatus(pathEndElement),
+    translateX:
+      (isLeftToRight ? startCoordinate.x : endCoordinate.x) -
+      radius -
+      lineWidth,
+    translateY: startCoordinate.y - radius - lineWidth,
   }
-
-  connections.forEach(({ from, to }) => {
-    // If looking to match only active paths, and if both ends of the path
-    // don't connect to the active Concept, then skip
-    if (
-      matchActive === true &&
-      to !== activeConcept &&
-      from !== activeConcept
-    ) {
-      return
-    }
-
-    // If looking to match only inactive edges, and if either end of the path
-    // connect to the active Concept, then skip
-    if (
-      matchActive === false &&
-      (to === activeConcept || from === activeConcept)
-    ) {
-      return
-    }
-
-    // If the start or end concept doesn't exist for some reason, skip
-    const pathEndElement = document.getElementById(conceptSlugToId(to))
-    if (!pathEndElement) {
-      return
-    }
-    const pathStartElement = document.getElementById(conceptSlugToId(from))
-    if (!pathStartElement) {
-      return
-    }
-
-    const conceptStatus = pathEndElement.dataset.conceptStatus as ConceptState
-    const conceptPath = {
-      start: getPathStartFromElement(pathStartElement),
-      end: getPathEndFromElement(pathEndElement),
-      state: getPathState(conceptStatus),
-    }
-
-    switch (conceptPath.state) {
-      case ConceptPathState.Available:
-        paths.available.push(conceptPath)
-        break
-      case ConceptPathState.Completed:
-        paths.completed.push(conceptPath)
-        break
-      default:
-        paths.unavailable.push(conceptPath)
-        break
-    }
-  })
-
-  return paths
 }
 
 // calculate the start position of the path
-
 function getPathStartFromElement(el: HTMLElement): ConceptPathCoordinate {
   const x = Math.floor(el.offsetLeft + el.offsetWidth / 2) + 0.5
   const y = Math.ceil(el.offsetTop + el.offsetHeight)
@@ -97,14 +61,16 @@ function getPathEndFromElement(el: HTMLElement): ConceptPathCoordinate {
 }
 
 // Derive the path state from the concept state
-function getPathState(conceptStatus: ConceptState): ConceptPathState {
+function getPathStatus(el: HTMLElement): ConceptPathStatus {
+  const conceptStatus = el.dataset.conceptStatus as ConceptStatus
+
   switch (conceptStatus) {
-    case ConceptState.Unlocked:
-    case ConceptState.InProgress:
-      return ConceptPathState.Available
-    case ConceptState.Completed:
-      return ConceptPathState.Completed
+    case 'unlocked':
+    case 'in_progress':
+      return 'available'
+    case 'completed':
+      return 'complete'
     default:
-      return ConceptPathState.Unavailable
+      return 'locked'
   }
 }

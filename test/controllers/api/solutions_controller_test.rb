@@ -281,10 +281,18 @@ class API::SolutionsControllerTest < API::BaseTestCase
       as: :json
 
     assert_response :success
-    expected = { submission: {
-      uuid: Submission.last.uuid,
-      tests_status: 'queued'
-    } }
+    expected = {
+      submission: {
+        uuid: Submission.last.uuid,
+        tests_status: 'queued',
+        links: {
+          cancel: Exercism::Routes.api_submission_cancellations_url(
+            Submission.last,
+            auth_token: @current_user.auth_tokens.first.to_s
+          )
+        }
+      }
+    }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
   end

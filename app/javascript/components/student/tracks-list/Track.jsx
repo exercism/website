@@ -8,7 +8,7 @@ export function Track({ track }) {
       <div className="content">
         <TrackIcon track={track} />
         <div className="info">
-          <div className="s-flex s-items-center s-mb-8">
+          <div className="heading">
             <h3 className="title">{track.title}</h3>
             {track.isJoined && <div className="joined">Joined</div>}
           </div>

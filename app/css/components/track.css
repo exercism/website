@@ -12,6 +12,10 @@
         & .info {
             @apply flex-grow;
 
+            & .heading {
+                @apply flex items-center mb-8;
+            }
+
             & .title {
                 @apply mr-16;
                 @apply text-h3-mono text-black;

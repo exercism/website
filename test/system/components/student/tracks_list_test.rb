@@ -24,7 +24,7 @@ module Components
                    src="https://assets.exercism.io/tracks/ruby-hex-white.png"
                    alt="icon for Ruby track">
                 <div class="info">
-                  <div class="s-flex s-items-center s-mb-8">
+                  <div class="heading">
                     <h3 class="title">Ruby</h3>
                   </div>
                   <ul class="counts">
@@ -62,7 +62,7 @@ module Components
                    src="https://assets.exercism.io/tracks/ruby-hex-white.png"
                    alt="icon for Ruby track">
                 <div class="info">
-                  <div class="s-flex s-items-center s-mb-8">
+                  <div class="heading">
                     <h3 class="title">Ruby</h3>
                     <div class="joined">Joined</div>
                   </div>

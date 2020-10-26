@@ -1,10 +1,10 @@
 module IconsHelper
   def graphical_icon(icon)
-    icon(icon, nil)
+    icon(icon, nil, role: :presentation)
   end
 
-  def icon(icon, alt)
-    tag.svg(role: "img") do
+  def icon(icon, alt, role: 'img')
+    tag.svg(role: role) do
       parts = [
         (alt ? tag.title(alt) : nil),
         tag(:use, "xlink:href": "##{icon}")

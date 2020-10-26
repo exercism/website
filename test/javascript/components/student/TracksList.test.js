@@ -46,7 +46,9 @@ test('shows stale data while fetching', async () => {
       request={{
         endpoint: 'https://exercism.test/tracks',
         query: {},
-        options: { initialData: { tracks: [{ title: 'Ruby', tags: [] }] } },
+        options: {
+          initialData: { tracks: [{ id: 2, title: 'Ruby', tags: [] }] },
+        },
       }}
       tagOptions={[]}
       statusOptions={statusOptions}

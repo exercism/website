@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Submission, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
+import { fetchJSON } from '../../../utils/fetch-json'
 
 export type TestRun = {
   submissionUuid: string
@@ -65,6 +66,47 @@ export function TestRunSummary({
   const handleTimeout = useCallback(() => {
     channel.current?.disconnect()
   }, [channel])
+  const handleCancelling = useCallback(() => {
+    clearTimeout(timer.current)
+
+    fetchJSON(submission.links.cancel, {
+      method: 'POST',
+    }).then(() => {
+      setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+    })
+  }, [timer])
+  const handleCancelled = useCallback(() => {
+    clearTimeout(timer.current)
+
+    channel.current?.disconnect()
+  }, [channel, timer])
+
+  useEffect(() => {
+    switch (testRun.status) {
+      case TestRunStatus.QUEUED:
+        handleQueued()
+        break
+      case TestRunStatus.TIMEOUT:
+        handleTimeout()
+        break
+      case TestRunStatus.CANCELLING:
+        handleCancelling()
+        break
+      case TestRunStatus.CANCELLED:
+        handleCancelled()
+        break
+      default:
+        clearTimeout(timer.current)
+        break
+    }
+  }, [
+    testRun.status,
+    handleQueued,
+    handleTimeout,
+    handleCancelling,
+    handleCancelled,
+    timer,
+  ])
 
   useEffect(() => {
     switch (testRun.status) {
@@ -105,6 +147,15 @@ export function TestRunSummary({
   return (
     <div>
       <p>Status: {testRun.status}</p>
+      {testRun.status === TestRunStatus.QUEUED && (
+        <button
+          onClick={() => {
+            setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+          }}
+        >
+          Cancel
+        </button>
+      )}
       <Content testRun={testRun} />
     </div>
   )

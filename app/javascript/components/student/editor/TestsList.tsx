@@ -3,13 +3,7 @@ import { TestSummary } from './TestSummary'
 import { TestStatus, Test } from './TestRunSummary'
 
 function Overview({ tests }: { tests: Test[] }) {
-  const passed = tests.reduce((total, test) => {
-    if (test.status === TestStatus.PASS) {
-      total += 1
-    }
-
-    return total
-  }, 0)
+  const passed = tests.filter((test) => test.status === TestStatus.PASS).length
   const failed = passed === tests.length ? 0 : 1
   const skipped = tests.length - (passed + failed)
 

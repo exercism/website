@@ -43,6 +43,6 @@ export function TestRunSummaryContent({
         </div>
       )
     default:
-      return <></>
+      return null
   }
 }

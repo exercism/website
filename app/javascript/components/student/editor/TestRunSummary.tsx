@@ -109,6 +109,20 @@ export function TestRunSummary({
   ])
 
   useEffect(() => {
+    switch (testRun.status) {
+      case TestRunStatus.QUEUED:
+        handleQueued()
+        break
+      case TestRunStatus.TIMEOUT:
+        handleTimeout()
+        break
+      default:
+        clearTimeout(timer.current)
+        break
+    }
+  }, [testRun.status, handleQueued, handleTimeout, timer])
+
+  useEffect(() => {
     channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
       setTestRun(testRun)
     })

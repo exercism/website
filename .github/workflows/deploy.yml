@@ -40,8 +40,8 @@ jobs:
         continue-on-error: true
         with:
           # Change these to rest the cache
-          key: docker-layer-caching-deploy-{hash}
-          restore-keys: docker-layer-caching-deploy-
+          key: docker-layer-caching-deploy-2-{hash}
+          restore-keys: docker-layer-caching-deploy-2-
           concurrency: 30
 
       - name: Configure AWS credentials

@@ -36,8 +36,13 @@ RUN yarn install
 COPY *.js *.json ./
 COPY bin ./bin
 COPY config ./config
+
+# Any of these files may contain CSS and all files
+# need to be here to avoid purging used styles
 COPY app/javascript ./app/javascript
 COPY app/css ./app/css
+COPY app/views ./app/views
+COPY app/helpers ./app/helpers
 
 # This compiles the assets into public/packs
 # During deployment the assets are copied from this image and 

@@ -14,6 +14,11 @@ jobs:
 
       - uses: satackey/action-docker-layer-caching@v0.0.5
         continue-on-error: true
+        with:
+          # Change these to rest the cache
+          key: docker-layer-caching-dockerhub-{hash}
+          restore-keys: docker-layer-caching-dockerhub-
+          concurrency: 30
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v1.1.0

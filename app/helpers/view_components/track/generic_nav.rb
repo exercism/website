@@ -7,6 +7,10 @@ module ViewComponents
         tag.nav(class: klass) do
           tag.div(class: 'lg-container container') do
             safe_join([
+              # TODO: We're probably getting rid of the back arrow
+              # but I'm leaving this here in case we decide to keep
+              # it. If it's still liek this at launch, remove it .
+              #
               # link_to(
               #   graphical_icon("arrow-left"),
               #   Exercism::Routes.tracks_path,

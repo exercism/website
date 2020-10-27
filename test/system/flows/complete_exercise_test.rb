@@ -14,9 +14,9 @@ module Flows
 
       visit track_exercise_url(track, exercise)
 
-      click_on "Complete"
+      click_on "Mark as complete"
 
-      assert_text "Completed"
+      assert_text "You’ve completed this exercise"
 
       assert solution.reload.completed?
     end

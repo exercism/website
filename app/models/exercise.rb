@@ -1,5 +1,6 @@
 class Exercise < ApplicationRecord
   extend FriendlyId
+  extend Mandate::Memoize
 
   friendly_id :slug, use: [:history]
 
@@ -25,20 +26,12 @@ class Exercise < ApplicationRecord
     is_a?(PracticeExercise)
   end
 
-  def head_instructions
-    instructions(slug, :HEAD)
-  end
-
-  def instructions(git_slug, git_sha)
-    git_data(git_slug, git_sha).instructions
-  end
-
-  private
-  def git_data(git_slug, git_sha)
-    iv_key = "@git_data_#{git_slug}_#{git_sha}"
-    return instance_variable_get(iv_key) if instance_variable_defined?(iv_key)
-
-    data = Git::Exercise.new(track.slug, git_slug, git_sha).data
-    instance_variable_set(iv_key, data)
+  memoize
+  def instructions
+    # TOOD: Change to "HEAD" when supported downstream
+    # instructions(slug, :HEAD)
+    # ex = Git::Exercise.new(track.slug, slug, :HEAD)
+    ex = Git::Exercise.new(track.slug, slug, "ea8898137ec9ae768cadb983e5e9ba1f9a9f3c5b")
+    ex.data.instructions
   end
 end

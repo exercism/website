@@ -3,7 +3,7 @@ module Git
     def self.for_solution(solution)
       new(
         solution.track.slug,
-        solution.exercise.slug,
+        solution.git_slug,
         solution.git_sha
       )
     end
@@ -24,6 +24,10 @@ module Git
       resp = RestClient.get(url_for(:file, { filename: filename }))
       data = JSON.parse(resp.body)
       data['content']
+
+      # TODO: Rescue 404 here
+      # rescue
+      #  nil
     end
 
     def code_filepaths

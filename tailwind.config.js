@@ -3,7 +3,12 @@ module.exports = {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
-  purge: ['./app/views/**/*.haml', './app/javascript/**/*'],
+  purge: [
+    './app/views/**/*.haml',
+    './app/helpers/**/*.rb',
+    './app/javascript/**/*',
+    './app/css/**/*',
+  ],
   theme: {
     borderRadius: {
       none: '0',

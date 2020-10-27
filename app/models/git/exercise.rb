@@ -1,5 +1,8 @@
 module Git
   class Exercise
+    extend Mandate::Memoize
+    extend Mandate::InitializerInjector
+
     def self.for_solution(solution)
       new(
         solution.track.slug,
@@ -8,12 +11,9 @@ module Git
       )
     end
 
-    def initialize(track_slug, exercise_slug, git_sha)
-      @track_slug = track_slug
-      @exercise_slug = exercise_slug
-      @git_sha = git_sha
-    end
+    initialize_with :track_slug, :exercise_slug, :git_sha
 
+    memoize
     def data
       resp = RestClient.get(url_for(:data))
       data = JSON.parse(resp.body)
@@ -30,12 +30,14 @@ module Git
       #  nil
     end
 
+    memoize
     def code_filepaths
       resp = RestClient.get(url_for(:code_filepaths))
       data = JSON.parse(resp.body)
       OpenStruct.new(data['filepaths'])
     end
 
+    memoize
     def code_files
       resp = RestClient.get(url_for(:code_files))
       data = JSON.parse(resp.body)
@@ -43,8 +45,6 @@ module Git
     end
 
     private
-    attr_reader :track_slug, :exercise_slug, :git_sha
-
     def url_for(endpoint, query_parts = {})
       base = [
         Exercism.config.git_server_url,

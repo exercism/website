@@ -16,8 +16,7 @@ module API
 
       unless content
         begin
-          exercise_repo = Git::Exercise.for_solution(solution)
-          content = exercise_repo.read_file_blob(params[:filepath])
+          content = Git::Exercise.for_solution(solution).file(params[:filepath])
         rescue StandardError
           return render_file_not_found
         end

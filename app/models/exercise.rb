@@ -38,11 +38,7 @@ class Exercise < ApplicationRecord
     iv_key = "@git_data_#{git_slug}_#{git_sha}"
     return instance_variable_get(iv_key) if instance_variable_defined?(iv_key)
 
-    data = Exercise::RetrieveGitData.(
-      track.slug,
-      git_slug,
-      git_sha
-    )
+    data = Git::Exercise.new(track.slug, git_slug, git_sha).data
     instance_variable_set(iv_key, data)
   end
 end

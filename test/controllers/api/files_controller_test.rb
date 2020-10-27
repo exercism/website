@@ -34,6 +34,8 @@ class API::FilesControllerTest < API::BaseTestCase
   end
 
   test "show should return exercise file" do
+    Git::Exercise.any_instance.expects(:file).with("bob.rb").returns("some content")
+
     setup_user
     solution = create :concept_solution, user: @current_user
 

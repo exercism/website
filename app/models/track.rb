@@ -9,8 +9,6 @@ class Track < ApplicationRecord
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
 
-  delegate :head_sha, to: :repo, prefix: "git"
-
   scope :active, -> { where(active: true) }
 
   def self.for!(param)
@@ -18,6 +16,14 @@ class Track < ApplicationRecord
     return find_by!(id: param) if param.is_a?(Numeric)
 
     find_by!(slug: param)
+  end
+
+  def test_regexp
+    Regexp.new(test_pattern.presence || "[tT]est")
+  end
+
+  def ignore_regexp
+    Regexp.new(ignore_pattern.presence || "[iI]gnore")
   end
 
   # TODO: Memoize

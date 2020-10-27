@@ -9,7 +9,6 @@ module Components
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -30,7 +29,6 @@ module Components
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -51,7 +49,6 @@ module Components
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -73,7 +70,6 @@ module Components
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -95,7 +91,6 @@ module Components
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        fill_in "Code", with: "Test"
         click_on "Submit"
         wait_for_submission
         click_on "Cancel"

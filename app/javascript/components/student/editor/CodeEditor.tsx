@@ -1,23 +1,35 @@
 import React, { useRef } from 'react'
+import MonacoEditor from 'react-monaco-editor'
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 
 export function CodeEditor({ onSubmit }: { onSubmit: (code: string) => void }) {
-  const editor = useRef<HTMLTextAreaElement>(null)
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
 
-    if (editor.current === null) {
-      return
-    }
+    onSubmit(editorRef.current?.getValue() || '')
+  }
 
-    onSubmit(editor.current.value)
+  function editorDidMount(
+    editor: monacoEditor.editor.IStandaloneCodeEditor,
+    monaco: typeof monacoEditor
+  ) {
+    editorRef.current = editor
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="student-code-editor-code">Code</label>
-      <textarea ref={editor} id="student-code-editor-code"></textarea>
-      <button>Submit</button>
-    </form>
+    <div>
+      <MonacoEditor
+        width="800"
+        height="600"
+        language="ruby"
+        editorDidMount={editorDidMount}
+        value="Code"
+      />
+      <button type="button" onClick={handleSubmit}>
+        Submit
+      </button>
+    </div>
   )
 }

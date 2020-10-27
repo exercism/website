@@ -23,7 +23,7 @@ export enum TestRunStatus {
   OPS_ERROR = 'ops_error',
   TIMEOUT = 'timeout',
   CANCELLING = 'cancelling',
-  CANCELLED = 'cancelled'
+  CANCELLED = 'cancelled',
 }
 
 enum EditorStatus {
@@ -86,6 +86,10 @@ export function Editor({
   }, [controllerRef])
   const submit = useCallback(
     (code: string) => {
+      if (code.trim().length === 0) {
+        return
+      }
+
       abort()
       controllerRef.current = new AbortController()
 

@@ -5,9 +5,11 @@ module.exports = {
   },
   purge: [
     './app/views/**/*.haml',
+    './app/helpers/*.rb',
     './app/helpers/**/*.rb',
     './app/javascript/**/*',
-    './app/css/**/*',
+    './app/css/*.css',
+    './app/css/**/*.css',
   ],
   theme: {
     borderRadius: {

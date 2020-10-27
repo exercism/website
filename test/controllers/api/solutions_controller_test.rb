@@ -269,63 +269,21 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "update should return serialized submission" do
-    setup_user
-    solution = create :concept_solution, user: @current_user
-
-    patch api_solution_path(solution.uuid),
-      params: {
-        files: { "foo" => "bar" }
-      },
-      headers: @headers,
-      as: :json
-
-    assert_response :success
-    expected = {
-      submission: {
-        uuid: Submission.last.uuid,
-        tests_status: 'queued',
-        links: {
-          cancel: Exercism::Routes.api_submission_cancellations_url(
-            Submission.last,
-            auth_token: @current_user.auth_tokens.first.to_s
-          )
-        }
-      }
-    }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
-  test "update should create submission for cli files" do
+  test "update should create submission and iteration" do
     setup_user
     exercise = create :concept_exercise
     solution = create :concept_solution, user: @current_user, exercise: exercise
 
+    created_submission = create(:submission)
+
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
     Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :cli).returns(create(:submission))
+    Submission::Create.expects(:call).with(solution, files, :cli).returns(created_submission)
+    Iteration::Create.expects(:call).with(solution, created_submission)
 
     patch api_solution_path(solution.uuid),
       params: { files: http_files },
-      headers: @headers,
-      as: :json
-
-    assert_response :success
-  end
-
-  test "update should create submission for files passed as params" do
-    setup_user
-    solution = create :concept_solution, user: @current_user
-
-    params_files = { "foo" => "bar", "bar" => "foo" }
-    files = mock
-    Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
-    Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
-
-    patch api_solution_path(solution.uuid),
-      params: { files: params_files },
       headers: @headers,
       as: :json
 

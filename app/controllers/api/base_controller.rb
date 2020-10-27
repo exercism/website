@@ -51,6 +51,10 @@ module API
       render_404(:solution_not_found)
     end
 
+    def render_submission_not_found
+      render_404(:submission_not_found)
+    end
+
     def render_solution_not_accessible
       render_403(:solution_not_accessible)
     end

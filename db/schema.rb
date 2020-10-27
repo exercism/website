@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_30_161328) do
+ActiveRecord::Schema.define(version: 2020_10_27_144915) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -82,6 +82,16 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "solution_id", null: false
+    t.bigint "submission_id", null: false
+    t.integer "idx", limit: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["solution_id"], name: "index_iterations_on_solution_id"
+    t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -294,6 +304,8 @@ ActiveRecord::Schema.define(version: 2020_08_30_161328) do
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
+  add_foreign_key "iterations", "solutions"
+  add_foreign_key "iterations", "submissions"
   add_foreign_key "notifications", "users"
   add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
   add_foreign_key "solution_mentor_discussions", "solutions"

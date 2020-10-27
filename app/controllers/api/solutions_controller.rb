@@ -44,6 +44,8 @@ module API
       respond_with_authored_solution(solution)
     end
 
+    # This is a private CLI-only method. The "normal" path should
+    # be through POST /submissions and # POST /iterations
     def update
       begin
         solution = Solution.find_by!(uuid: params[:id])
@@ -54,26 +56,19 @@ module API
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       begin
-        if params[:files].is_a?(Array)
-          files = Submission::PrepareHttpFiles.(params[:files])
-          submitted_via = :cli
-        elsif params[:files].is_a?(ActionController::Parameters)
-          files = Submission::PrepareMappedFiles.(params[:files].permit!.to_h)
-          submitted_via = :api
-        end
+        files = Submission::PrepareHttpFiles.(params[:files])
       rescue SubmissionFileTooLargeError
         return render_error(400, :file_too_large, "#{file.original_filename} is too large")
       end
 
       begin
-        submission = Submission::Create.(solution, files, submitted_via)
+        submission = Submission::Create.(solution, files, :cli)
+        Iteration::Create.(solution, submission)
       rescue DuplicateSubmissionError
         return render_error(400, :duplicate_submission)
       end
 
-      render json: {
-        submission: SerializeSubmission.(submission)
-      }, status: :created
+      render json: {}, status: :created
     end
 
     private

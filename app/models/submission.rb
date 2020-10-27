@@ -25,6 +25,10 @@ class Submission < ApplicationRecord
     self.git_sha = solution.git_sha
   end
 
+  def to_param
+    uuid
+  end
+
   def broadcast!
     SubmissionsChannel.broadcast!(solution)
     SubmissionChannel.broadcast!(self)

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
         resources :submissions, only: %i[create]
+        resources :iterations, only: %i[create]
       end
       resources :submission, only: [] do
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"

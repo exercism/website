@@ -1,4 +1,6 @@
 class Solution < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :user
   belongs_to :exercise
   has_one :track, through: :exercise
@@ -18,8 +20,8 @@ class Solution < ApplicationRecord
     # meaning.
     self.uuid = SecureRandom.compact_uuid unless self.uuid
 
-    self.git_slug = exercise.slug
-    self.git_sha = track.git_head_sha
+    self.git_slug = exercise.slug unless self.git_slug
+    self.git_sha = track.git_head_sha unless self.git_sha
   end
 
   def self.for(user, exercise)
@@ -40,6 +42,11 @@ class Solution < ApplicationRecord
 
   def published?
     !!published_at
+  end
+
+  memoize
+  def instructions
+    Git::Exercise.for_solution(self).data.instructions
   end
 
   # TODO: - Use an actual serializer

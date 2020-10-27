@@ -85,4 +85,18 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal solution_2.anonymised_user_handle,
       "anonymous-#{Digest::SHA1.hexdigest("#{solution_2.id}-#{solution_2.uuid}")}"
   end
+
+  test "instructions is correct" do
+    Git::Exercise.any_instance.unstub(:data)
+
+    track = create :track, slug: "ruby"
+    solution = create :concept_solution, git_slug: "bob", git_sha: "foobar", track: track
+    instructions = "INSTRUCT ME"
+
+    url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=foobar"
+    stub_request(:get, url).
+      to_return(body: { exercise: { instructions: instructions } }.to_json)
+
+    assert_equal instructions, solution.instructions
+  end
 end

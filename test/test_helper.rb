@@ -10,6 +10,7 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'mocha/minitest'
 require 'minitest/pride'
+require 'webmock/minitest'
 
 # Configure mocach to be safe
 Mocha.configure do |c|
@@ -33,21 +34,16 @@ module TestHelpers
   end
 end
 
-class Git::Exercise
-  def code_files
-    {}
-  end
-
-  def code_filepaths
-    {}
-  end
-end
-
 class ActiveSupport::TimeWithZone
   def ==(other)
     to_i == other.to_i
   end
 end
+
+WebMock.disable_net_connect!(allow: [
+                               "localhost:3040",
+                               "localhost:3041"
+                             ])
 
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
@@ -58,6 +54,11 @@ class ActiveSupport::TestCase
 
   def setup
     RestClient.stubs(:post)
+
+    Git::Exercise.any_instance.stubs(data: OpenStruct.new(instructions: "Some instructions"))
+    Git::Exercise.any_instance.stubs(file: "Some file contents")
+    Git::Exercise.any_instance.stubs(code_files: {})
+    Git::Exercise.any_instance.stubs(code_filepaths: [])
   end
 
   # Create a few models and return a random one.

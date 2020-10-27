@@ -17,7 +17,8 @@
     %div
       .instructions
         %h2 Instructions
-        = raw ParseMarkdown.(@exercise.instructions("basics", "ea8898137ec9ae768cadb983e5e9ba1f9a9f3c5b"))
+        - instructions = @solution ? @solution.instructions : @exercise.instructions
+        = raw ParseMarkdown.(instructions)
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
       .action-box

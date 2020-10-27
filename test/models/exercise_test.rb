@@ -21,4 +21,19 @@ class ExerciseTest < ActiveSupport::TestCase
     create :exercise_prerequisite, exercise: exercise_1
     assert_equal [exercise_2], Exercise.without_prerequisites
   end
+
+  test "instructions is correct" do
+    Git::Exercise.any_instance.unstub(:data)
+
+    track = create :track, slug: "ruby"
+    exercise = create :concept_exercise, slug: "bob", track: track
+    instructions = "INSTRUCT ME"
+
+    # TODO: Change to HEAD when downsteam supports it
+    url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=ea8898137ec9ae768cadb983e5e9ba1f9a9f3c5b"
+    stub_request(:get, url).
+      to_return(body: { exercise: { instructions: instructions } }.to_json)
+
+    assert_equal instructions, exercise.instructions
+  end
 end

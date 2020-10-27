@@ -19,6 +19,8 @@ class API::FilesControllerTest < API::BaseTestCase
   end
 
   test "show should return 404 when file is missing" do
+    Git::Exercise.any_instance.stubs(file: nil)
+
     setup_user
     solution = create :concept_solution, user: @current_user
 

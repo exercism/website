@@ -40,10 +40,28 @@ class ActiveSupport::TimeWithZone
   end
 end
 
-WebMock.disable_net_connect!(allow: [
-                               "localhost:3040",
-                               "localhost:3041"
-                             ])
+if ENV["EXERCISM_CI"]
+  WebMock.disable_net_connect!(
+    allow: [
+      # It would be nice not to need this but Chrome
+      # uses lots of ports on localhost for thesystem tests
+      "127.0.0.1",
+      "chromedriver.storage.googleapis.com",
+      "127.0.0.1:#{ENV['DYNAMODB_PORT']}",
+      "127.0.0.1:#{ENV['S3_PORT']}"
+    ]
+  )
+else
+  WebMock.disable_net_connect!(
+    allow: [
+      # It would be nice not to need this but Chrome
+      # uses lots of ports on localhost for thesystem tests
+      "127.0.0.1",
+      "localhost:3040", "dynamodb",
+      "localhost:3041", "s3"
+    ]
+  )
+end
 
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods

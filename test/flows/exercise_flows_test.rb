@@ -23,12 +23,11 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # Submit an submission
     Submission::UploadWithExercise.stubs(:call)
     ToolingJob::Create.stubs(:call)
-    basics_submission_1 =
-      Submission::Create.(
-        basics_solution,
-        [{ filename: 'basics.rb', content: 'my code' }],
-        :cli
-      )
+    basics_submission_1 = Submission::Create.(
+      basics_solution,
+      [{ filename: 'basics.rb', content: 'my code' }],
+      :cli
+    )
 
     # Simulate a test run being returned
     # It should pass

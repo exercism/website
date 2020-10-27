@@ -3,12 +3,11 @@ class Submission
     include Mandate
 
     # This class must NOT access the database
-    def initialize(submission_uuid, exercise_slug, git_sha, track_repo, submission_files)
+    def initialize(submission_uuid, submission_files, exercise_files, test_regexp)
       @submission_uuid = submission_uuid
-      @exercise_slug = exercise_slug
-      @git_sha = git_sha
-      @track_repo = track_repo
       @submission_files = submission_files
+      @exercise_files = exercise_files
+      @test_regexp = test_regexp
       @files_to_upload = {}
     end
 
@@ -25,14 +24,14 @@ class Submission
     end
 
     private
-    attr_reader :submission_uuid, :exercise_slug, :git_sha, :track_repo, :submission_files, :files_to_upload
+    attr_reader :submission_uuid, :submission_files, :exercise_files, :test_regexp, :files_to_upload
 
     def add_submission_files
       # TODO: Skip files that have non alphanumeric chars
       submission_files.each do |file|
         filename = file[:filename]
 
-        next if filename.match?(track_repo.test_regexp)
+        next if filename.match?(test_regexp)
         next if filename.starts_with?(".meta")
         next if files_to_upload[filename]
 
@@ -41,12 +40,10 @@ class Submission
     end
 
     def add_exercise_files
-      exercise = track_repo.exercise(exercise_slug, git_sha)
-      exercise.filepaths.each do |filepath|
-        next if filepath.match?(track_repo.ignore_regexp)
+      exercise_files.each do |filepath, contents|
         next if files_to_upload[filepath]
 
-        files_to_upload[filepath] = exercise.read_file_blob(filepath)
+        files_to_upload[filepath] = contents
       end
     end
 

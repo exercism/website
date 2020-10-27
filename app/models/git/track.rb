@@ -21,14 +21,6 @@ module Git
       Regexp.new(pattern.presence || "[iI]gnore")
     end
 
-    def exercise(slug, sha)
-      commit = repo.lookup_commit(sha)
-      Git::Exercise.new(
-        repo, slug, commit,
-        config(commit: commit)
-      )
-    end
-
     def config(commit: repo.head_commit)
       repo.read_json_blob(commit, "languages/#{slug}/config.json")
     end

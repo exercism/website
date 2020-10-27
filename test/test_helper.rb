@@ -26,19 +26,20 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
-# TODO: Decide if there's a more elegant way to stub this.
-class Exercise::RetrieveGitData
-  def call
-    OpenStruct.new(
-      instructions: "Some instructions"
-    )
-  end
-end
-
 # TODO: Remove this as part of the git extraction
 module TestHelpers
   def self.git_repo_url(slug)
     "file://#{(Rails.root / 'test' / 'repos' / slug.to_s)}"
+  end
+end
+
+class Git::Exercise
+  def code_files
+    {}
+  end
+
+  def code_filepaths
+    {}
   end
 end
 

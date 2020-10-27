@@ -31,7 +31,9 @@ class Submission < ApplicationRecord
   end
 
   def exercise_version
-    track.repo.exercise(git_slug, git_sha).version
+    # TODO: Read this back from git
+    '15.8.12'
+    # track.repo.exercise(git_slug, git_sha).version
   end
 
   def serialized

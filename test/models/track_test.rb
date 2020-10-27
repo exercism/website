@@ -24,13 +24,23 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal [track], Track.active
   end
 
-  %w[head_sha].each do |delegate|
-    test "delegates git_#{delegate}" do
-      slug = SecureRandom.uuid
-      url = TestHelpers.git_repo_url("track-with-exercises")
-      git_track = Git::Track.new(url, slug)
-      track = create :track, repo_url: url, slug: slug
-      assert_equal git_track.send(delegate), track.send("git_#{delegate}")
-    end
+  test "Retrieves test_regexp" do
+    track = create :track, test_pattern: "test"
+    assert_equal(/test/, track.test_regexp)
+  end
+
+  test "Has correct default test_regexp" do
+    track = create :track, test_pattern: ""
+    assert_equal(/[tT]est/, track.test_regexp)
+  end
+
+  test "Retrieves ignore_regexp" do
+    track = create :track, ignore_pattern: "[iI]gno"
+    assert_equal(/[iI]gno/, track.ignore_regexp)
+  end
+
+  test "Has correct default ignore_regexp" do
+    track = create :track, ignore_pattern: ""
+    assert_equal(/[iI]gnore/, track.ignore_regexp)
   end
 end

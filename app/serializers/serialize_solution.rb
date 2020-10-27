@@ -59,9 +59,8 @@ class SerializeSolution
 
   def files
     fs = Set.new
-    git_exercise = Git::Exercise.for_solution(solution)
-    git_exercise.filepaths.each do |filepath|
-      fs.add(filepath) unless filepath&.match?(track.repo.ignore_regexp)
+    Git::Exercise.for_solution(solution).code_filepaths.each do |filepath|
+      fs.add(filepath)
     end
     fs += submission.files.pluck(:filename) if submission
     fs

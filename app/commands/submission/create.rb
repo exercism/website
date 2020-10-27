@@ -6,12 +6,12 @@ class Submission
       @submission_uuid = SecureRandom.compact_uuid
 
       @solution = solution
-      @files = files
+      @submitted_files = files
       @submitted_via = submitted_via
 
       # TODO: - Move this into another service
       # and that service should also guard filenames
-      @files.each do |f|
+      @submitted_files.each do |f|
         f[:digest] = Digest::SHA1.hexdigest(f[:content])
       end
     end
@@ -42,7 +42,7 @@ class Submission
     end
 
     private
-    attr_reader :solution, :files, :submission_uuid, :submitted_via
+    attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via
     attr_reader :submission
 
     def guard!
@@ -50,20 +50,21 @@ class Submission
       return unless last_submission
 
       prev_files = last_submission.files.map { |f| "#{f.filename}|#{f.digest}" }
-      new_files = files.map { |f| "#{f[:filename]}|#{f[:digest]}" }
+      new_files = submitted_files.map { |f| "#{f[:filename]}|#{f[:digest]}" }
       raise DuplicateSubmissionError if prev_files.sort == new_files.sort
     end
 
     # TODO: Simply this once the analyse code has
     # moved to iterations service.
     def init_services
-      git_slug = solution.git_slug
-      git_sha = solution.git_sha
-      track_repo = solution.track.repo
-
       # Let's get it up first, then we'll fan out to
       # all the services we want to run this,
-      s3_uri = Submission::UploadWithExercise.(submission_uuid, git_slug, git_sha, track_repo, files)
+      s3_uri = Submission::UploadWithExercise.(
+        submission_uuid,
+        submitted_files,
+        exercise_files,
+        solution.track.test_regexp
+      )
 
       jobs = []
       jobs << [
@@ -93,7 +94,7 @@ class Submission
     end
 
     def create_files!
-      files.map do |file|
+      submitted_files.map do |file|
         ActiveRecord::Base.connection_pool.with_connection do
           submission.files.create!(
             file.slice(:uuid, :filename, :digest, :content)
@@ -109,6 +110,11 @@ class Submission
 
     def schedule_jobs!
       AwardBadgeJob.perform_later(solution.user, :rookie)
+    end
+
+    memoize
+    def exercise_files
+      Git::Exercise.for_solution(solution).code_files
     end
   end
 end

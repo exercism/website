@@ -1,64 +1,62 @@
 module Git
   class Exercise
     def self.for_solution(solution)
-      repo = solution.track.repo
-      repo.exercise(
+      new(
+        solution.track.slug,
         solution.exercise.slug,
         solution.git_sha
       )
     end
 
-    def initialize(repo, slug, commit, track_config)
-      @repo = repo
-      @slug = slug
-      @commit = commit
-      @track_config = track_config
+    def initialize(track_slug, exercise_slug, git_sha)
+      @track_slug = track_slug
+      @exercise_slug = exercise_slug
+      @git_sha = git_sha
     end
 
-    def filepaths
-      files.map { |defn| defn[:full] }
+    def data
+      resp = RestClient.get(url_for(:data))
+      data = JSON.parse(resp.body)
+      OpenStruct.new(data['exercise'])
     end
 
-    def read_file_blob(path)
-      mapped = files.map { |f| [f[:full], f[:oid]] }.to_h
-      mapped[path] ? repo.read_blob(mapped[path]) : nil
+    def file(filename)
+      resp = RestClient.get(url_for(:file, { filename: filename }))
+      data = JSON.parse(resp.body)
+      data['content']
     end
 
-    def version
-      config[:version]
+    def code_filepaths
+      resp = RestClient.get(url_for(:code_filepaths))
+      data = JSON.parse(resp.body)
+      OpenStruct.new(data['filepaths'])
+    end
+
+    def code_files
+      resp = RestClient.get(url_for(:code_files))
+      data = JSON.parse(resp.body)
+      OpenStruct.new(data['files'])
     end
 
     private
-    attr_reader :repo, :slug, :commit, :track_config
+    attr_reader :track_slug, :exercise_slug, :git_sha
 
-    # TODO: Memoize
-    def files
-      @files ||= begin
-        tree.walk(:preorder).map do |root, entry|
-          next if entry[:type] == :tree
+    def url_for(endpoint, query_parts = {})
+      base = [
+        Exercism.config.git_server_url,
+        "exercises",
+        track_slug,
+        exercise_slug,
+        endpoint
+      ].join("/")
 
-          entry[:full] = "#{root}#{entry[:name]}"
-          entry
-        end.compact
-      end
-    end
+      query = {
+        "git_sha": git_sha
+      }.merge(query_parts).
+        map { |k, v| "#{k}=#{v}" }.
+        join("&")
 
-    # TODO: Memoize
-    def tree
-      @tree ||= begin
-        # TODO: When things are exploded back into repos, do this
-        # repo.read_tree(commit, "exercises")
-        repo.read_tree(commit, "languages/#{track_config[:slug]}/exercises/concept/#{slug}")
-      end
-    end
-
-    # TODO: memoize
-    def config
-      @config ||= begin
-        HashWithIndifferentAccess.new(
-          JSON.parse(read_file_blob('.meta/config.json'))
-        )
-      end
+      [base, query].join("?")
     end
   end
 end

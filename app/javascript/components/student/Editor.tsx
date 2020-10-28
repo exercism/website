@@ -14,6 +14,7 @@ export type Submission = {
 
 type SubmissionLinks = {
   cancel: string
+  submit: string
 }
 
 export enum TestRunStatus {
@@ -30,6 +31,8 @@ export enum TestRunStatus {
 enum EditorStatus {
   CREATING_SUBMISSION = 'creatingSubmission',
   SUBMISSION_CREATED = 'submissionCreated',
+  ITERATION_CREATED = 'iterationCreated',
+  CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
 }
 
@@ -45,6 +48,8 @@ type Action =
       payload: { submission: Submission }
     }
   | { type: EditorStatus.SUBMISSION_CANCELLED }
+  | { type: EditorStatus.ITERATION_CREATED }
+  | { type: EditorStatus.CREATING_ITERATION }
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
@@ -64,6 +69,16 @@ function reducer(state: State, action: Action) {
       return {
         ...state,
         status: EditorStatus.SUBMISSION_CANCELLED,
+      }
+    case EditorStatus.ITERATION_CREATED:
+      return {
+        ...state,
+        status: EditorStatus.ITERATION_CREATED,
+      }
+    case EditorStatus.CREATING_ITERATION:
+      return {
+        ...state,
+        status: EditorStatus.CREATING_ITERATION,
       }
     default:
       return state
@@ -128,6 +143,22 @@ export function Editor({
     },
     [abort, controllerRef]
   )
+  const submit = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!submission) {
+        return
+      }
+
+      dispatch({ type: EditorStatus.CREATING_ITERATION })
+
+      fetchJSON(submission.links.submit, { method: 'POST' }).then(
+        (json: any) => {
+          dispatch({ type: EditorStatus.ITERATION_CREATED })
+        }
+      )
+    },
+    [submission]
+  )
   const cancel = useCallback(() => {
     abort()
     dispatch({ type: EditorStatus.SUBMISSION_CANCELLED })
@@ -155,9 +186,14 @@ export function Editor({
       <button type="button" onClick={runTests}>
         Run tests
       </button>
+      <button type="button" onClick={submit}>
+        Submit
+      </button>
       {status === EditorStatus.CREATING_SUBMISSION && (
         <Submitting onCancel={cancel} />
       )}
+      {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
+      {status === EditorStatus.ITERATION_CREATED && <p>Iteration submitted</p>}
       {submission && (
         <TestRunSummary submission={submission} timeout={timeout} />
       )}

@@ -31,14 +31,17 @@ module Components
           user = create :user
           create :user_auth_token, user: user
           solution = create :concept_solution, user: user
-          submission = create :submission, solution: solution
-          create :submission_test_run,
-            submission: submission,
+
+          visit edit_solution_path(solution.uuid)
+          click_on "Run tests"
+          wait_for_submission
+          2.times { wait_for_websockets }
+          test_run = create :submission_test_run,
+            submission: Submission.last,
             status: "pass",
             ops_status: 200,
             tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
-
-          visit edit_solution_path(solution.uuid)
+          Submission::TestRunsChannel.broadcast!(test_run)
           click_on "Submit"
 
           assert_text "Iteration submitted"

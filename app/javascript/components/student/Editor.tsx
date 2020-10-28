@@ -6,10 +6,74 @@ import { typecheck } from '../../utils/typecheck'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 
-export type Submission = {
-  testsStatus: TestRunStatus
-  uuid: string
-  links: SubmissionLinks
+export type Submission =
+  | {
+      testsStatus: TestRunStatus.PASS
+      uuid: string
+      links: SubmissionLinks
+      testRun: TestRun
+    }
+  | {
+      testsStatus: TestRunStatus.FAIL
+      uuid: string
+      links: SubmissionLinks
+      testRun: TestRun
+    }
+  | {
+      testsStatus: TestRunStatus.ERROR
+      uuid: string
+      links: SubmissionLinks
+      testRun: TestRun
+    }
+  | {
+      testsStatus: TestRunStatus.OPS_ERROR
+      uuid: string
+      links: SubmissionLinks
+      testRun: TestRun
+    }
+  | {
+      testsStatus: TestRunStatus.QUEUED
+      uuid: string
+      links: SubmissionLinks
+      testRun: never
+    }
+  | {
+      testsStatus: TestRunStatus.TIMEOUT
+      uuid: string
+      links: SubmissionLinks
+      testRun: never
+    }
+  | {
+      testsStatus: TestRunStatus.CANCELLING
+      uuid: string
+      links: SubmissionLinks
+      testRun: never
+    }
+  | {
+      testsStatus: TestRunStatus.CANCELLED
+      uuid: string
+      links: SubmissionLinks
+      testRun: never
+    }
+
+export type TestRun = {
+  submissionUuid: string
+  status: TestRunStatus
+  message: string
+  tests: Test[]
+}
+
+export type Test = {
+  name: string
+  status: TestStatus
+  message: string
+  output: string
+}
+
+export enum TestStatus {
+  PASS = 'pass',
+  FAIL = 'fail',
+  ERROR = 'error',
 }
 
 type SubmissionLinks = {
@@ -21,8 +85,8 @@ export enum TestRunStatus {
   PASS = 'pass',
   FAIL = 'fail',
   ERROR = 'error',
-  QUEUED = 'queued',
   OPS_ERROR = 'ops_error',
+  QUEUED = 'queued',
   TIMEOUT = 'timeout',
   CANCELLING = 'cancelling',
   CANCELLED = 'cancelled',
@@ -41,44 +105,62 @@ type State = {
   status?: EditorStatus
 }
 
+enum ActionType {
+  CREATING_SUBMISSION = 'creatingSubmission',
+  SUBMISSION_CREATED = 'submissionCreated',
+  ITERATION_CREATED = 'iterationCreated',
+  CREATING_ITERATION = 'creatingIteration',
+  SUBMISSION_CANCELLED = 'submissionCancelled',
+  SUBMISSION_CHANGED = 'submissionChanged',
+}
+
 type Action =
-  | { type: EditorStatus.CREATING_SUBMISSION }
+  | { type: ActionType.CREATING_SUBMISSION }
   | {
-      type: EditorStatus.SUBMISSION_CREATED
+      type: ActionType.SUBMISSION_CREATED
       payload: { submission: Submission }
     }
-  | { type: EditorStatus.SUBMISSION_CANCELLED }
-  | { type: EditorStatus.ITERATION_CREATED }
-  | { type: EditorStatus.CREATING_ITERATION }
+  | { type: ActionType.SUBMISSION_CANCELLED }
+  | { type: ActionType.ITERATION_CREATED }
+  | { type: ActionType.CREATING_ITERATION }
+  | {
+      type: ActionType.SUBMISSION_CHANGED
+      payload: { submission: Submission }
+    }
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case EditorStatus.CREATING_SUBMISSION:
+    case ActionType.CREATING_SUBMISSION:
       return {
         ...state,
         submission: undefined,
         status: EditorStatus.CREATING_SUBMISSION,
       }
-    case EditorStatus.SUBMISSION_CREATED:
+    case ActionType.SUBMISSION_CREATED:
       return {
         ...state,
         status: EditorStatus.SUBMISSION_CREATED,
         submission: action.payload.submission,
       }
-    case EditorStatus.SUBMISSION_CANCELLED:
+    case ActionType.SUBMISSION_CANCELLED:
       return {
         ...state,
         status: EditorStatus.SUBMISSION_CANCELLED,
       }
-    case EditorStatus.ITERATION_CREATED:
+    case ActionType.ITERATION_CREATED:
       return {
         ...state,
         status: EditorStatus.ITERATION_CREATED,
       }
-    case EditorStatus.CREATING_ITERATION:
+    case ActionType.CREATING_ITERATION:
       return {
         ...state,
         status: EditorStatus.CREATING_ITERATION,
+      }
+    case ActionType.SUBMISSION_CHANGED:
+      return {
+        ...state,
+        submission: action.payload.submission,
       }
     default:
       return state
@@ -117,7 +199,7 @@ export function Editor({
       abort()
       controllerRef.current = new AbortController()
 
-      dispatch({ type: EditorStatus.CREATING_SUBMISSION })
+      dispatch({ type: ActionType.CREATING_SUBMISSION })
 
       fetchJSON(endpoint, {
         method: 'POST',
@@ -126,7 +208,7 @@ export function Editor({
       })
         .then((json: any) => {
           dispatch({
-            type: EditorStatus.SUBMISSION_CREATED,
+            type: ActionType.SUBMISSION_CREATED,
             payload: { submission: typecheck<Submission>(json, 'submission') },
           })
         })
@@ -135,7 +217,7 @@ export function Editor({
             return
           }
 
-          dispatch({ type: EditorStatus.SUBMISSION_CANCELLED })
+          dispatch({ type: ActionType.SUBMISSION_CANCELLED })
         })
         .finally(() => {
           controllerRef.current = undefined
@@ -149,11 +231,11 @@ export function Editor({
         return
       }
 
-      dispatch({ type: EditorStatus.CREATING_ITERATION })
+      dispatch({ type: ActionType.CREATING_ITERATION })
 
       fetchJSON(submission.links.submit, { method: 'POST' }).then(
         (json: any) => {
-          dispatch({ type: EditorStatus.ITERATION_CREATED })
+          dispatch({ type: ActionType.ITERATION_CREATED })
         }
       )
     },
@@ -161,13 +243,22 @@ export function Editor({
   )
   const cancel = useCallback(() => {
     abort()
-    dispatch({ type: EditorStatus.SUBMISSION_CANCELLED })
+    dispatch({ type: ActionType.SUBMISSION_CANCELLED })
   }, [dispatch, abort])
   const editorDidMount = useCallback(
     (editor) => {
       editorRef.current = editor
     },
     [editorRef]
+  )
+  const updateSubmission = useCallback(
+    (submission) => {
+      dispatch({
+        type: ActionType.SUBMISSION_CHANGED,
+        payload: { submission: submission },
+      })
+    },
+    [dispatch]
   )
 
   useEffect(() => {
@@ -186,7 +277,11 @@ export function Editor({
       <button type="button" onClick={runTests}>
         Run tests
       </button>
-      <button type="button" onClick={submit}>
+      <button
+        type="button"
+        onClick={submit}
+        disabled={submission && submission.testsStatus !== TestRunStatus.PASS}
+      >
         Submit
       </button>
       {status === EditorStatus.CREATING_SUBMISSION && (
@@ -195,7 +290,11 @@ export function Editor({
       {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
       {status === EditorStatus.ITERATION_CREATED && <p>Iteration submitted</p>}
       {submission && (
-        <TestRunSummary submission={submission} timeout={timeout} />
+        <TestRunSummary
+          submission={submission}
+          timeout={timeout}
+          onUpdate={updateSubmission}
+        />
       )}
     </div>
   )

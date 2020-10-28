@@ -54,7 +54,8 @@ class API::SubmissionsControllerTest < API::BaseTestCase
             submission_id: Submission.last.uuid,
             auth_token: @current_user.auth_tokens.first.to_s
           )
-        }
+        },
+        test_run: nil
       }
     }
     actual = JSON.parse(response.body, symbolize_names: true)

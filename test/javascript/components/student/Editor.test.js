@@ -12,9 +12,14 @@ test('clears current submission when resubmitting', async () => {
         ctx.json({
           submission: {
             id: 2,
+            uuid: '123',
             tests_status: 'queued',
-            test_runs: [],
-            message: '',
+            test_run: {
+              submission_uuid: '123',
+              status: 'queued',
+              message: '',
+              tests: [],
+            },
           },
         })
       )
@@ -44,9 +49,14 @@ test('shows message when test times out', async () => {
         ctx.json({
           submission: {
             id: 2,
+            uuid: '123',
             tests_status: 'queued',
-            test_runs: [],
-            message: '',
+            test_run: {
+              submission_uuid: '123',
+              status: 'queued',
+              message: '',
+              tests: [],
+            },
           },
         })
       )
@@ -74,9 +84,14 @@ test('does not time out when tests have resolved', async () => {
         ctx.json({
           submission: {
             id: 2,
+            uuid: '123',
             tests_status: 'pass',
-            test_runs: [],
-            message: '',
+            test_run: {
+              submission_uuid: '123',
+              status: 'pass',
+              message: '',
+              tests: [],
+            },
           },
         })
       )
@@ -116,4 +131,24 @@ test('cancels a pending submission', async () => {
   )
 
   server.close()
+})
+
+test('disables submit button unless tests passed', async () => {
+  const { getByText } = render(
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      initialSubmission={{
+        uuid: '123',
+        testsStatus: 'queued',
+        testRun: {
+          status: 'queued',
+          submissionUuid: '123',
+          tests: [],
+          message: '',
+        },
+      }}
+    />
+  )
+
+  expect(getByText('Submit')).toBeDisabled()
 })

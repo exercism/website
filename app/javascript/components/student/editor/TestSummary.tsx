@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { TestStatus, Test } from './TestRunSummary'
+import { TestStatus, Test } from '../Editor'
 
 export function TestSummary({ test }: { test: Test }) {
   const statusLabels = {

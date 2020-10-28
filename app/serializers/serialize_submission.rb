@@ -16,7 +16,8 @@ class SerializeSubmission
           submission_id: submission.uuid,
           auth_token: user.auth_tokens.first.to_s
         )
-      }
+      },
+      test_run: SerializeSubmissionTestRun.(submission.test_runs.last)
     }
   end
 

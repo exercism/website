@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
-export default function MonacoEditor({ value, editorDidMount }) {
+export default function MonacoEditor({ defaultValue, editorDidMount }) {
   const editor = {
     getValue: () => {
-      return value
+      return defaultValue
     },
   }
 

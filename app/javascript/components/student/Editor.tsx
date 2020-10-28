@@ -145,7 +145,7 @@ export function Editor({
         height="600"
         language="ruby"
         editorDidMount={editorDidMount}
-        value="Code"
+        defaultValue="Code"
       />
       <button type="button" onClick={runTests}>
         Run tests

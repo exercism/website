@@ -15,7 +15,8 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         have_mentored_previously: true,
         status: "First timer",
         updated_at: 1.year.ago.iso8601,
-        url: "https://exercism.io/solutions/1"
+        url: "https://exercism.io/solutions/1",
+        tooltip_url: student_test_components_tooltips_tooltip_path(1)
       },
       {
         trackId: 2,
@@ -28,7 +29,8 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         have_mentored_previously: true,
         status: "First timer",
         updated_at: 1.week.ago.iso8601,
-        url: "https://exercism.io/solutions/2"
+        url: "https://exercism.io/solutions/2",
+        tooltip_url: Exercism::Routes.student_test_components_tooltips_tooltip_path(2)
       },
       {
         trackId: 3,
@@ -41,12 +43,13 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         have_mentored_previously: true,
         status: "First timer",
         updated_at: 1.week.ago.iso8601,
-        url: "https://exercism.io/solutions/3"
+        url: "https://exercism.io/solutions/3",
+        tooltip_url: Exercism::Routes.student_test_components_tooltips_tooltip_path(3)
       }
     ]
 
     page = params.fetch(:page, 1).to_i
-    per = params.fetch(:per, 1).to_i
+    per = params.fetch(:per, 2).to_i
 
     if params[:filter].present?
       results = results.select { |result| result[:mentee_handle].downcase.include?(params[:filter].downcase) }

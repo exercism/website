@@ -21,7 +21,11 @@ export function Queue({ sortOptions, ...props }) {
         setSort={setSort}
         id="mentoring-queue-sorter"
       />
-      <SolutionList request={request} setPage={setPage} />
+      <SolutionList
+        request={request}
+        studentTooltipRequest={props.studentTooltipRequest}
+        setPage={setPage}
+      />
     </div>
   )
 }

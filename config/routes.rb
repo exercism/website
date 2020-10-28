@@ -107,6 +107,11 @@ Rails.application.routes.draw do
             end
           end
         end
+        namespace :tooltips do
+          resource :tooltip, controller: "tooltip", only: [:show] do
+            get 'student/:id', to: 'tooltip#student', as: 'student'
+          end
+        end
       end
     end
   end

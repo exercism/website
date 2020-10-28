@@ -43,6 +43,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import * as Tooltips from '../components/tooltips'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 
 // Add all react components here.
@@ -86,6 +87,9 @@ initReact({
     />
   ),
   'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
+  'student-tooltip': (data: any) => (
+    <Tooltips.Student endpoint={data.endpoint} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

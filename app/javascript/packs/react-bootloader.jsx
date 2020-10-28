@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom'
+import { createPopper } from '@popperjs/core'
 
 const render = (elem, component) => {
   ReactDOM.render(component, elem)
@@ -20,5 +21,33 @@ export const initReact = (mappings) => {
         render(elem, generator(data))
       })
     }
+
+    document
+      .querySelectorAll('[data-tooltip-type][data-tooltip-url]')
+      .forEach((elem) => {
+        const name = elem.dataset['tooltipType'] + '-tooltip'
+        const generator = mappings[name]
+
+        const componentData = { endpoint: elem.dataset['tooltipUrl'] }
+        const component = generator(componentData)
+
+        // Create an element render the React component in
+        const tooltipElem = document.createElement('div')
+        elem.insertAdjacentElement('afterend', tooltipElem)
+
+        // Link the tooltip element with the reference element
+        const popperOptions = {
+          placement: elem.dataset['placement'] || 'auto',
+        }
+        createPopper(elem, tooltipElem, popperOptions)
+
+        elem.addEventListener('mouseenter', () =>
+          render(tooltipElem, component)
+        )
+
+        elem.addEventListener('mouseleave', () =>
+          ReactDOM.unmountComponentAtNode(tooltipElem)
+        )
+      })
   })
 }

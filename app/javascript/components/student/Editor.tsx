@@ -1,9 +1,10 @@
 import React, { useReducer, useRef, useEffect, useCallback } from 'react'
-import { CodeEditor } from './editor/CodeEditor'
 import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
+import MonacoEditor from 'react-monaco-editor'
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 
 export type Submission = {
   testsStatus: TestRunStatus
@@ -77,6 +78,7 @@ export function Editor({
     status: undefined,
     submission: undefined,
   })
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
@@ -84,8 +86,10 @@ export function Editor({
     controllerRef.current?.abort()
     controllerRef.current = undefined
   }, [controllerRef])
-  const submit = useCallback(
-    (code: string) => {
+  const runTests = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const code = editorRef.current?.getValue() || ''
+
       if (code.trim().length === 0) {
         return
       }
@@ -123,6 +127,12 @@ export function Editor({
     abort()
     dispatch({ type: EditorStatus.SUBMISSION_CANCELLED })
   }, [dispatch, abort])
+  const editorDidMount = useCallback(
+    (editor) => {
+      editorRef.current = editor
+    },
+    [editorRef]
+  )
 
   useEffect(() => {
     return abort
@@ -130,7 +140,16 @@ export function Editor({
 
   return (
     <div>
-      <CodeEditor onSubmit={submit} />
+      <MonacoEditor
+        width="800"
+        height="600"
+        language="ruby"
+        editorDidMount={editorDidMount}
+        value="Code"
+      />
+      <button type="button" onClick={runTests}>
+        Run tests
+      </button>
       {status === EditorStatus.SUBMITTING && <Submitting onCancel={cancel} />}
       {submission && (
         <TestRunSummary submission={submission} timeout={timeout} />

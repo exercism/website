@@ -4,6 +4,12 @@
     @apply px-16 rounded-100;
     @apply text-16 text-textBase font-medium;
 
+    & .count {
+        @apply ml-8 px-8;
+        @apply border-1 border-borderLight rounded-100;
+        @apply text-14 font-medium;
+        line-height: 20px;
+    }
     & svg {
         height: 24px;
         width: 24px;
@@ -12,6 +18,9 @@
 
     &.selected {
         @apply bg-veryLightBlue text-black font-semibold;
+        & .count {
+            @apply text-anotherPurple border-lightPurple;
+        }
         & svg {
             @apply mr-12 text-anotherPurple;
         }

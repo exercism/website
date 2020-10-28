@@ -15,6 +15,7 @@ import '../../css/layout.css'
 //import '../../css/styles.css'
 
 import '../../css/components/bg-img.css'
+import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/tracks-list.css'

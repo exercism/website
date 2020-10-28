@@ -24,11 +24,7 @@ module ViewComponents
             class: tab_class(:about)
           ),
 
-          link_to(
-            tag.span("Your iterations", "data-text": "Your iterations"),
-            Exercism::Routes.track_exercise_iterations_path(track, exercise),
-            class: tab_class(:iterations)
-          ),
+          iterations_tab,
 
           link_to(
             tag.span("Approaches", "data-text": "Approaches"),
@@ -36,6 +32,18 @@ module ViewComponents
             class: tab_class(:approaches)
           )
         ]
+      end
+
+      def iterations_tab
+        parts = []
+        parts << tag.span("Your iterations", "data-text": "Your iterations")
+        parts << tag.span(solution.iterations.size, class: "count") if solution.iterations.present?
+
+        link_to(
+          safe_join(parts),
+          Exercism::Routes.track_exercise_iterations_path(track, exercise),
+          class: tab_class(:iterations)
+        )
       end
 
       def tab_class(tab)

@@ -30,7 +30,7 @@ class ExerciseTest < ActiveSupport::TestCase
     instructions = "INSTRUCT ME"
 
     # TODO: Change to HEAD when downsteam supports it
-    url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=ea8898137ec9ae768cadb983e5e9ba1f9a9f3c5b"
+    url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=HEAD"
     stub_request(:get, url).
       to_return(body: { exercise: { instructions: instructions } }.to_json)
 

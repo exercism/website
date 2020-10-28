@@ -2,5 +2,116 @@
 
 #page-iterations-index {
     & .c-track-exercise-nav {
+        @apply mb-32;
+    }
+    & .iterations {
+    }
+    & .iteration {
+        @apply mb-24 shadow-lg rounded-8;
+        & .header {
+            @apply flex items-center py-12 px-24;
+            @apply border-b-1 border-borderLight border-opacity-50;
+
+            & .upload-method-icon {
+                height: 24px;
+                width: 24px;
+                @apply text-textLight mr-24;
+            }
+            & .info {
+                @apply flex-grow;
+            }
+
+            & .idx {
+                @apply flex items-center mb-6;
+
+                & h3 {
+                    @apply font-mono font-semibold text-16 leading-paragraph;
+                    @apply mr-16;
+                }
+                & .dot {
+                    @apply mr-16 rounded-circle bg-lightBlue;
+                    height: 8px;
+                    width: 8px;
+                }
+                & .latest {
+                    @apply text-textLight font-medium;
+                    @apply border-1 border-borderLight rounded-5 px-8;
+                    font-size: 12px;
+                    line-height: 20px;
+                }
+            }
+            & .details {
+                @apply text-label-timestamp;
+            }
+            & .tests,
+            & .analyzer {
+                @apply flex items-center;
+
+                & .dot {
+                    @apply rounded-circle;
+                    height: 8px;
+                    width: 8px;
+                }
+                & .icon {
+                    height: 16px;
+                    width: 16px;
+                }
+                & .dot,
+                & .icon {
+                    @apply mr-16;
+                }
+                & .status {
+                    @apply font-mono font-bold;
+                }
+            }
+            & .tests {
+                @apply mr-32 text-darkGreen;
+                & .dot {
+                    @apply rounded-circle bg-darkGreen;
+                }
+            }
+            & .analyzer {
+                /*@apply mr-48;*/
+                @apply text-orange;
+            }
+        }
+        & .content {
+            @apply flex items-stretch;
+
+            & .files {
+                @apply flex-grow px-24 py-12;
+            }
+            & .analysis {
+                @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
+                @apply border-l-1 border-borderLight;
+
+                & .comment {
+                    @apply text-15 leading-paragraph;
+                    & p {
+                        @apply mb-12;
+                    }
+
+                    & + .comment {
+                        @apply border-t-1 border-lightGray mt-16 pt-16;
+                    }
+                }
+                & .byline {
+                    @apply flex items-center;
+                    @apply text-textLight;
+
+                    & .c-rounded-bg-img {
+                        height: 32px;
+                        width: 32px;
+                        @apply mr-12;
+                    }
+                    & span a {
+                        @apply border-b-1 border-textLight border-opacity-50;
+                    }
+                    & .c-reputation {
+                        @apply ml-12;
+                    }
+                }
+            }
+        }
     }
 }

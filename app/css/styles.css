@@ -27,6 +27,10 @@
 .text-label-code-caps {
     @apply font-mono text-14 leading-regular uppercase text-darkGray font-bold;
 }
+.text-label-timestamp {
+    @apply font-mono font-medium text-13 text-textLight;
+}
+
 .btn--cta {
     @apply bg-anotherPurple text-white border-anotherPurple;
 }

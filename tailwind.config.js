@@ -54,6 +54,8 @@ module.exports = {
       darkGreen: '#43B593',
       lightGreen: '#ABDBCC',
 
+      orange: '#F69605',
+
       black: '#000',
       white: '#fff',
     },
@@ -64,6 +66,7 @@ module.exports = {
     fontSize: {
       '13': '13px',
       '14': '14px',
+      '15': '15px',
       '16': '16px',
       '18': '18px',
       '20': '20px',

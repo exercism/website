@@ -5,6 +5,7 @@ class Solution < ApplicationRecord
   belongs_to :exercise
   has_one :track, through: :exercise
   has_many :submissions, dependent: :destroy
+  has_many :iterations, dependent: :destroy
 
   has_many :mentor_requests, class_name: "Solution::MentorRequest", dependent: :destroy
   has_many :mentor_discussions, class_name: "Solution::MentorDiscussion", dependent: :destroy

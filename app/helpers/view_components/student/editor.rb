@@ -10,7 +10,8 @@ module ViewComponents
             endpoint: Exercism::Routes.api_solution_submissions_path(
               solution.uuid,
               auth_token: solution.user.auth_tokens.first.to_s
-            )
+            ),
+            submission: SerializeSubmission.(solution.submissions.last)
           }
         )
       end

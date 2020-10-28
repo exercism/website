@@ -73,13 +73,15 @@ function reducer(state: State, action: Action) {
 export function Editor({
   endpoint,
   timeout = 60000,
+  initialSubmission,
 }: {
   endpoint: string
   timeout?: number
+  initialSubmission?: Submission
 }) {
   const [{ submission, status }, dispatch] = useReducer(reducer, {
     status: undefined,
-    submission: undefined,
+    submission: initialSubmission,
   })
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
   const controllerRef = useRef<AbortController | undefined>(

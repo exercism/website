@@ -54,8 +54,8 @@ export function SolutionList({ request, setPage }) {
                 <Solution
                   key={key}
                   {...solution}
-                  onMouseEnter={(referenceElement) =>
-                    showTooltip(referenceElement, solution.tooltipUrl)
+                  onMouseEnter={(e) =>
+                    showTooltip(e.target, solution.tooltipUrl)
                   }
                   onMouseLeave={() => hideTooltip()}
                 />

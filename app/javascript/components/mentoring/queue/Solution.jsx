@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
 
@@ -16,14 +16,8 @@ export function Solution({
   onMouseEnter,
   onMouseLeave,
 }) {
-  const [referenceElement, setReferenceElement] = useState(null)
-
   return (
-    <tr
-      ref={setReferenceElement}
-      onMouseEnter={() => onMouseEnter(referenceElement)}
-      onMouseLeave={() => onMouseLeave(referenceElement)}
-    >
+    <tr onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <td>
         <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
       </td>

@@ -28,8 +28,8 @@ export enum TestRunStatus {
 }
 
 enum EditorStatus {
-  SUBMITTING = 'submitting',
-  SUBMITTED = 'submitted',
+  CREATING_SUBMISSION = 'creatingSubmission',
+  SUBMISSION_CREATED = 'submissionCreated',
   SUBMISSION_CANCELLED = 'submissionCancelled',
 }
 
@@ -39,22 +39,25 @@ type State = {
 }
 
 type Action =
-  | { type: EditorStatus.SUBMITTING }
-  | { type: EditorStatus.SUBMITTED; payload: { submission: Submission } }
+  | { type: EditorStatus.CREATING_SUBMISSION }
+  | {
+      type: EditorStatus.SUBMISSION_CREATED
+      payload: { submission: Submission }
+    }
   | { type: EditorStatus.SUBMISSION_CANCELLED }
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case EditorStatus.SUBMITTING:
+    case EditorStatus.CREATING_SUBMISSION:
       return {
         ...state,
         submission: undefined,
-        status: EditorStatus.SUBMITTING,
+        status: EditorStatus.CREATING_SUBMISSION,
       }
-    case EditorStatus.SUBMITTED:
+    case EditorStatus.SUBMISSION_CREATED:
       return {
         ...state,
-        status: EditorStatus.SUBMITTED,
+        status: EditorStatus.SUBMISSION_CREATED,
         submission: action.payload.submission,
       }
     case EditorStatus.SUBMISSION_CANCELLED:
@@ -97,7 +100,7 @@ export function Editor({
       abort()
       controllerRef.current = new AbortController()
 
-      dispatch({ type: EditorStatus.SUBMITTING })
+      dispatch({ type: EditorStatus.CREATING_SUBMISSION })
 
       fetchJSON(endpoint, {
         method: 'POST',
@@ -106,7 +109,7 @@ export function Editor({
       })
         .then((json: any) => {
           dispatch({
-            type: EditorStatus.SUBMITTED,
+            type: EditorStatus.SUBMISSION_CREATED,
             payload: { submission: typecheck<Submission>(json, 'submission') },
           })
         })
@@ -150,7 +153,9 @@ export function Editor({
       <button type="button" onClick={runTests}>
         Run tests
       </button>
-      {status === EditorStatus.SUBMITTING && <Submitting onCancel={cancel} />}
+      {status === EditorStatus.CREATING_SUBMISSION && (
+        <Submitting onCancel={cancel} />
+      )}
       {submission && (
         <TestRunSummary submission={submission} timeout={timeout} />
       )}

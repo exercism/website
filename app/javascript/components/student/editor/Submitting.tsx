@@ -10,7 +10,7 @@ export function Submitting({ onCancel }: { onCancel: () => void }) {
 
   return (
     <div>
-      <p>Submitting...</p>
+      <p>Running tests...</p>
       <button type="button" onClick={handleCancel}>
         Cancel
       </button>

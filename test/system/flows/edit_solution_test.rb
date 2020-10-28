@@ -3,13 +3,13 @@ require "application_system_test_case"
 module Components
   module Student
     class EditorTest < ApplicationSystemTestCase
-      test "user submits code and tests pass" do
+      test "user runs tests and tests pass" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         visit edit_solution_path(solution.uuid)
-        click_on "Submit"
+        click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,

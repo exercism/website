@@ -28,7 +28,7 @@ export function CodeEditor({ onSubmit }: { onSubmit: (code: string) => void }) {
         value="Code"
       />
       <button type="button" onClick={handleSubmit}>
-        Submit
+        Run tests
       </button>
     </div>
   )

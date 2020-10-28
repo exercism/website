@@ -3,13 +3,13 @@ require "application_system_test_case"
 module Components
   module Student
     class EditorTest < ApplicationSystemTestCase
-      test "user submits code and tests pass" do
+      test "user runs tests and tests pass" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        click_on "Submit"
+        click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
@@ -23,13 +23,13 @@ module Components
         assert_text "Passed: test_a_name_given"
       end
 
-      test "user submits code and tests fail" do
+      test "user runs tests and tests fail" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        click_on "Submit"
+        click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
@@ -43,13 +43,13 @@ module Components
         assert_text "Failed: test_no_name_given"
       end
 
-      test "user submits code and errors" do
+      test "user runs tests and errors" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        click_on "Submit"
+        click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
@@ -64,13 +64,13 @@ module Components
         assert_text "Undefined local variable"
       end
 
-      test "user submits code and an ops error happens" do
+      test "user runs tests and an ops error happens" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        click_on "Submit"
+        click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
@@ -85,13 +85,13 @@ module Components
         assert_text "Can't run the tests"
       end
 
-      test "user submits code and cancels" do
+      test "user runs tests and cancels" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         visit test_components_student_editor_path(solution_id: solution.id)
-        click_on "Submit"
+        click_on "Run tests"
         wait_for_submission
         click_on "Cancel"
 

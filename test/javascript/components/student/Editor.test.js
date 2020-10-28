@@ -25,9 +25,9 @@ test('clears current submission when resubmitting', async () => {
   const { getByText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" />
   )
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Run tests'))
   await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Run tests'))
 
   await waitFor(() =>
     expect(queryByText('Status: queued')).not.toBeInTheDocument()
@@ -57,7 +57,7 @@ test('shows message when test times out', async () => {
   const { getByText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" timeout={0} />
   )
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Run tests'))
   await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
 
   await waitFor(() =>
@@ -87,7 +87,7 @@ test('does not time out when tests have resolved', async () => {
   const { getByText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" timeout={0} />
   )
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Run tests'))
   await waitFor(() => expect(queryByText('Status: pass')).toBeInTheDocument())
 
   await waitFor(() =>
@@ -108,11 +108,11 @@ test('cancels a pending submission', async () => {
   const { getByText, queryByText } = render(
     <Editor endpoint="https://exercism.test/submissions" />
   )
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Run tests'))
   fireEvent.click(getByText('Cancel'))
 
   await waitFor(() =>
-    expect(queryByText('Submitting...')).not.toBeInTheDocument()
+    expect(queryByText('Running tests...')).not.toBeInTheDocument()
   )
 
   server.close()

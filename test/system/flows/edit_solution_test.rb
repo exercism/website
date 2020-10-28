@@ -3,7 +3,7 @@ require "application_system_test_case"
 module Components
   module Student
     class EditorTest < ApplicationSystemTestCase
-      test "user runs tests and tests pass" do
+      test "user runs tests" do
         user = create :user
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user

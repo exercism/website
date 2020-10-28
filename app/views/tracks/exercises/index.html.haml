@@ -2,4 +2,4 @@
   %h2 Exercises for #{@track.title}
   %ul
     - @exercises.each do |exercise|
-      %li= link_to exercise.name, track_exercise_path(@track, exercise)
+      %li= link_to exercise.title, track_exercise_path(@track, exercise)

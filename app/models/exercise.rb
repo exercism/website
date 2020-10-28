@@ -28,10 +28,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def instructions
-    # TOOD: Change to "HEAD" when supported downstream
-    # instructions(slug, :HEAD)
-    # ex = Git::Exercise.new(track.slug, slug, :HEAD)
-    ex = Git::Exercise.new(track.slug, slug, "ea8898137ec9ae768cadb983e5e9ba1f9a9f3c5b")
-    ex.data.instructions
+    Git::Exercise.new(track.slug, slug, :HEAD).data.instructions
   end
 end

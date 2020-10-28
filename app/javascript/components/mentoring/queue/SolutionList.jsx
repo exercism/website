@@ -14,19 +14,19 @@ export function SolutionList({ request, setPage }) {
     resolvedData,
     latestData,
   } = usePaginatedRequestQuery('mentor-solutions-list', request)
-  const [referencedElement, setReferencedElement] = useState(null)
+  const [tooltipTriggerElement, setTooltipTriggerElement] = useState(null)
   const [tooltipElement, setTooltipElement] = useState(null)
   const [tooltipEndpoint, setTooltipEndpoint] = useState(null)
-  const { styles } = usePopper(referencedElement, tooltipElement)
+  const { styles } = usePopper(tooltipTriggerElement, tooltipElement)
 
   const showTooltip = (referenceElement, tooltipUrl) => {
-    setReferencedElement(referenceElement)
+    setTooltipTriggerElement(referenceElement)
     setTooltipEndpoint(tooltipUrl)
   }
 
   const hideTooltip = () => {
     setTooltipEndpoint(null)
-    setReferencedElement(null)
+    setTooltipTriggerElement(null)
   }
 
   return (

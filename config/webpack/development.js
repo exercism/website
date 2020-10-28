@@ -16,13 +16,4 @@ environment.plugins.append(
   })
 )
 
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-const isWebpackDevServer = process.env.WEBPACK_DEV_SERVER
-if (isWebpackDevServer) {
-  environment.plugins.append(
-    'ReactRefreshWebpackPlugin',
-    new ReactRefreshWebpackPlugin({ overlay: false })
-  )
-}
-
 module.exports = environment.toWebpackConfig()

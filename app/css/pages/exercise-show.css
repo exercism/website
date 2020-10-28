@@ -13,9 +13,8 @@
         );
         & .exercise-icon {
             @apply mr-32;
-            width: 96px;
-            height: 96px;
-            @apply bg-anotherPurple rounded-circle;
+            width: 118px;
+            height: 118px;
         }
         & h1 {
             @apply flex items-center text-h1 mb-12;

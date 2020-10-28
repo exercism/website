@@ -37,7 +37,7 @@ module ViewComponents
       def iterations_tab
         parts = []
         parts << tag.span("Your iterations", "data-text": "Your iterations")
-        parts << tag.span(solution.iterations.size, class: "count") if solution.iterations.present?
+        parts << tag.span(solution.iterations.size, class: "count") if solution&.iterations.present?
 
         link_to(
           safe_join(parts),

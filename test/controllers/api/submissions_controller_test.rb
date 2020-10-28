@@ -48,6 +48,11 @@ class API::SubmissionsControllerTest < API::BaseTestCase
           cancel: Exercism::Routes.api_submission_cancellations_url(
             Submission.last,
             auth_token: @current_user.auth_tokens.first.to_s
+          ),
+          submit: Exercism::Routes.api_solution_iterations_url(
+            Submission.last.solution.uuid,
+            submission_id: Submission.last.uuid,
+            auth_token: @current_user.auth_tokens.first.to_s
           )
         }
       }

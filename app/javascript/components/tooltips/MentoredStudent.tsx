@@ -22,7 +22,7 @@ export function MentoredStudent({
   const request = { endpoint: endpoint, options: {} }
   const { isLoading, isError, isSuccess, data } = useRequestQuery<
     MentoredStudentData
-  >('student-tooltip', request)
+  >('mentored-student-tooltip', request)
 
   return (
     <div className="c-tooltip c-mentored-student-tooltip" style={styles}>

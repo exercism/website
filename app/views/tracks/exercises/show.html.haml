@@ -48,8 +48,39 @@
 
               .explanation By marking #{'Structs' * 1} as complete, you’ll unlock the concepts #{'Agent and Errors' * 1}.
 
-        - else
-          %h3 Start #{@exercise.title}
-          %p You have yet to submit any iterations for this. Start writing your solution either via the browser-based Exercism Editor or locally via CLI.
+        - elsif @user_track
+          - if @user_track.exercise_available?(@exercise)
+            %h3 Start #{@exercise.title}
+            %p
+              %strong You can start this exercise.
+              Solve it via Exercism's in-browser editor or locally in your own environment, using our CLI to download and submit.
 
-          = button_to "Start exercise", start_track_exercise_path(@track, @exercise), method: :patch
+            %h4 Via Exercism Editor
+            = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn-cta" do
+              = graphical_icon :editor
+              Start in Editor
+
+            %h4 Work locally (via CLI)
+            = link_to "exercism download --exercise=pattern", "#", class: "cli-btn btn"
+            = link_to "#", class: "learn-more-cli" do
+              Learn more about solving exercises locally
+              = graphical_icon("arrow-right")
+
+          - else
+            %h3
+              = icon :lock, "This exercise is locked"
+              Unlock #{@exercise.title}
+            %p
+              This exercise is currently unavailable for you to start. Complete one of these exercises to unlock it.
+              %strong #{@exercise.title}.
+
+            .prereqs
+              - @exercise.prerequisite_exercises.each do |prereq|
+                / TODO: Decorate this properly
+                = link_to track_exercise_path(@track, prereq), class: "prereq-exercise" do
+                  = graphical_icon 'sample-exercise'
+                  = prereq.title
+
+        - else
+          / TODO: External state
+          External State

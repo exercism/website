@@ -30,4 +30,8 @@ class Exercise < ApplicationRecord
   def instructions
     Git::Exercise.new(track.slug, slug, :HEAD).data.instructions
   end
+
+  def prerequisite_exercises
+    ConceptExercise.that_teach(prerequisites).distinct
+  end
 end

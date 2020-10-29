@@ -42,6 +42,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import * as Track from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 
 // Add all react components here.
@@ -85,6 +86,9 @@ initReact({
     />
   ),
   'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
+  'track-iteration-summary': (data: any) => (
+    <Track.IterationSummary {...data.iteration} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

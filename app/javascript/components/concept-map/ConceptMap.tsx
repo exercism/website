@@ -67,6 +67,8 @@ export const ConceptMap = ({
                     slug={slug}
                     name={concept.name}
                     web_url={concept.web_url}
+                    exercises={concept.exercises ?? 5}
+                    completedExercises={concept.completedExercises ?? 0}
                     handleEnter={() => setActiveSlug(slug)}
                     handleLeave={unsetActiveSlug}
                     status={status[slug] ?? 'locked'}

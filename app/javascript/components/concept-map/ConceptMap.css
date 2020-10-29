@@ -1,10 +1,14 @@
 :root {
     --c-concept-map-background: #ffffff;
     --c-concept-map-card-background: #ffffff;
+
     --c-concept-map-check-green: #82e7c1;
+
     --c-concept-map-line-complete: #64b294;
     --c-concept-map-line-available: #7194f7;
     --c-concept-map-line-locked: #c9c8d7;
+    --c-concept-map-line-faded: #eff2f8;
+
     --c-concept-map-line-dasharray-dashed: 5, 7;
     --c-concept-map-line-dasharray-solid: 1, 0;
     --c-concept-map-text-unlocked: #26282d;
@@ -12,6 +16,9 @@
     --c-concept-map-line-width: 2;
     --c-concept-map-circle-radius: 4;
     --c-concept-map-hover-opacity: 0.3;
+
+    --c-concept-map-progress-green: #59d2ae;
+    --c-concept-map-progress-blue: #2e57e8;
 }
 
 .c-concepts-map {
@@ -24,20 +31,35 @@
             @apply flex justify-evenly flex-wrap;
 
             & .card {
-                @apply rounded-8;
-                @apply box-border p-20 my-24 mx-12 pointer-events-auto;
+                @apply rounded-t-8;
+                @apply box-border pointer-events-auto;
+                @apply flex flex-col;
+                justify-content: space-between;
+                margin: 42px;
 
-                opacity: var(--c-concept-map-hover-opacity);
+                @apply rounded-b-8;
+                overflow: hidden;
+
                 background-color: var(--c-concept-map-card-background);
+                opacity: var(--c-concept-map-hover-opacity);
                 color: var(--c-concept-map-text-locked);
                 box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.25);
                 transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
 
-                &.card-active {
+                &.unavailable,
+                &.not-started {
+                    @apply rounded-b-8;
+                }
+
+                &.not-started {
+                    box-shadow: 0px 0px 25px -5px rgba(0, 0, 255, 0.25);
+                }
+
+                &.active {
                     opacity: 1;
                 }
 
-                &.card-completed {
+                &.completed {
                     @apply text-textBase;
                 }
 
@@ -46,10 +68,10 @@
                 }
 
                 & .display {
-                    @apply flex items-center justify-between;
+                    @apply pt-12 pb-8 px-24 flex items-center justify-between;
 
                     & .name {
-                        @apply text-16 font-medium;
+                        @apply text-16 font-medium leading-code;
                     }
 
                     & .stats {
@@ -60,6 +82,34 @@
 
                     & .complete-icon {
                         @apply ml-8;
+                    }
+                }
+
+                & progress {
+                    -webkit-appearance: none;
+                    appearance: none;
+
+                    width: 100%;
+                    height: 4px;
+
+                    &.hidden {
+                        visibility: hidden;
+                    }
+                }
+
+                & progress::-webkit-progress-bar {
+                    background-color: #fff;
+                }
+
+                & progress[value] {
+                    border-radius: 0px;
+
+                    &::-webkit-progress-value {
+                        background-color: var(--c-concept-map-progress-blue);
+                    }
+
+                    &.complete::-webkit-progress-value {
+                        background-color: var(--c-concept-map-progress-green);
                     }
                 }
             }
@@ -82,21 +132,15 @@
             opacity: 0;
         }
 
-        &.locked {
-            @apply -z-4;
-            stroke: var(--c-concept-map-line-locked);
-            stroke-dasharray: var(--c-concept-map-line-dasharray-dashed);
+        &.unavailable {
+            @apply -z-3;
+            stroke: var(--c-concept-map-line-faded);
+            stroke-dasharray: var(--c-concept-map-line-dasharray-solid);
         }
 
         &.available {
-            @apply -z-3;
-            stroke: var(--c-concept-map-line-available);
-            stroke-dasharray: var(--c-concept-map-line-dasharray-dashed);
-        }
-
-        &.complete {
             @apply -z-2;
-            stroke: var(--c-concept-map-line-complete);
+            stroke: var(--c-concept-map-line-faded);
             stroke-dasharray: var(--c-concept-map-line-dasharray-solid);
         }
 

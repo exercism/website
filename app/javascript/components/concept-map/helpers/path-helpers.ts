@@ -65,12 +65,9 @@ function getPathStatus(el: HTMLElement): ConceptPathStatus {
   const conceptStatus = el.dataset.conceptStatus as ConceptStatus
 
   switch (conceptStatus) {
-    case 'unlocked':
-    case 'in_progress':
+    case 'available':
       return 'available'
-    case 'completed':
-      return 'complete'
     default:
-      return 'locked'
+      return 'unavailable'
   }
 }

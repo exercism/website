@@ -1,9 +1,11 @@
-export type ConceptStatus = 'locked' | 'unlocked' | 'completed' | 'in_progress'
+export type ConceptStatus = 'available' | 'unavailable'
 
 export interface IConcept {
   slug: string
   web_url: string
   name: string
+  exercises?: number
+  completedExercises?: number
 }
 
 export function isIConcept(concept: IConcept | undefined): concept is IConcept {
@@ -15,7 +17,7 @@ export type ConceptConnection = {
   to: string
 }
 
-export type ConceptPathStatus = 'locked' | 'available' | 'complete'
+export type ConceptPathStatus = 'available' | 'unavailable'
 
 export type ConceptPathCoordinate = {
   x: number

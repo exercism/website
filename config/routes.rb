@@ -73,6 +73,7 @@ Rails.application.routes.draw do
   namespace :tmp do
     resources :submissions, only: [:create]
     resources :tracks, only: [:create]
+    post "git/pull" => "git#pull", as: "pull_git"
   end
 
   unless Rails.env.production?

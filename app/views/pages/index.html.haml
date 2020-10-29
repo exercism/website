@@ -14,3 +14,5 @@
       = link_to "List Submissions", maintaining_submissions_path
     %li
       = link_to "Create Submission", tmp_submissions_path, method: :post, remote: true
+    %li
+      = link_to "Pull latest v3 repo", tmp_pull_git_url, method: :post, remote: true

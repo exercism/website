@@ -1,7 +1,7 @@
 class Test::Components::Tooltips::TooltipController < Test::BaseController
   def show; end
 
-  def student
+  def mentored_student
     return head :internal_server_error if params[:state] == "Error" || params[:state] == "Loading"
 
     students = [

@@ -16,7 +16,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         status: "First timer",
         updated_at: 1.year.ago.iso8601,
         url: "https://exercism.io/solutions/1",
-        tooltip_url: student_test_components_tooltips_tooltip_path(1)
+        tooltip_url: mentored_student_test_components_tooltips_tooltip_path(1)
       },
       {
         trackId: 2,
@@ -30,7 +30,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         status: "First timer",
         updated_at: 1.week.ago.iso8601,
         url: "https://exercism.io/solutions/2",
-        tooltip_url: Exercism::Routes.student_test_components_tooltips_tooltip_path(2)
+        tooltip_url: mentored_student_test_components_tooltips_tooltip_path(2)
       },
       {
         trackId: 3,
@@ -44,7 +44,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         status: "First timer",
         updated_at: 1.week.ago.iso8601,
         url: "https://exercism.io/solutions/3",
-        tooltip_url: Exercism::Routes.student_test_components_tooltips_tooltip_path(3)
+        tooltip_url: mentored_student_test_components_tooltips_tooltip_path(3)
       }
     ]
 

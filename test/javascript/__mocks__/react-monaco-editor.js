@@ -11,5 +11,5 @@ export default function MonacoEditor({ defaultValue, editorDidMount }) {
     editorDidMount(editor, null)
   }, [])
 
-  return <div />
+  return <p>{defaultValue}</p>
 }

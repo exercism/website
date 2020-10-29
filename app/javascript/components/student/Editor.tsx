@@ -1,10 +1,9 @@
 import React, { useReducer, useRef, useEffect, useCallback } from 'react'
 import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
+import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
-import MonacoEditor from 'react-monaco-editor'
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 
 export type Submission =
   | {
@@ -167,34 +166,39 @@ function reducer(state: State, action: Action) {
   }
 }
 
+export type File = {
+  name: string
+  contents: string
+}
+
 export function Editor({
   endpoint,
   timeout = 60000,
   initialSubmission,
+  files,
 }: {
   endpoint: string
   timeout?: number
   initialSubmission?: Submission
+  files: File[]
 }) {
   const [{ submission, status }, dispatch] = useReducer(reducer, {
     status: undefined,
     submission: initialSubmission,
   })
-  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
+  const editorsRef = useRef<FileEditorHandle[]>([])
   const abort = useCallback(() => {
     controllerRef.current?.abort()
     controllerRef.current = undefined
   }, [controllerRef])
   const runTests = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      const code = editorRef.current?.getValue() || ''
-
-      if (code.trim().length === 0) {
-        return
-      }
+      const files = editorsRef.current.map((editor) => {
+        return editor.getFile()
+      })
 
       abort()
       controllerRef.current = new AbortController()
@@ -204,7 +208,7 @@ export function Editor({
       fetchJSON(endpoint, {
         method: 'POST',
         signal: controllerRef.current.signal,
-        body: JSON.stringify({ files: { file: code } }),
+        body: JSON.stringify({ files: files }),
       })
         .then((json: any) => {
           dispatch({
@@ -245,12 +249,6 @@ export function Editor({
     abort()
     dispatch({ type: ActionType.SUBMISSION_CANCELLED })
   }, [dispatch, abort])
-  const editorDidMount = useCallback(
-    (editor) => {
-      editorRef.current = editor
-    },
-    [editorRef]
-  )
   const updateSubmission = useCallback(
     (submission) => {
       dispatch({
@@ -267,13 +265,17 @@ export function Editor({
 
   return (
     <div>
-      <MonacoEditor
-        width="800"
-        height="600"
-        language="ruby"
-        editorDidMount={editorDidMount}
-        defaultValue="Code"
-      />
+      {files.map((file) => (
+        <FileEditor
+          key={file.name}
+          file={file}
+          ref={(ref) => {
+            if (ref) {
+              editorsRef.current.push(ref)
+            }
+          }}
+        />
+      ))}
       <button type="button" onClick={runTests}>
         Run tests
       </button>

@@ -42,7 +42,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
-import { Submission } from '../components/student/Editor'
+import { Submission, File } from '../components/student/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { camelizeKeys } from 'humps'
 
@@ -92,6 +92,7 @@ initReact({
       initialSubmission={
         (camelizeKeys(data.submission) as unknown) as Submission
       }
+      files={data.files}
     />
   ),
 })

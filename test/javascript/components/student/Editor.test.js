@@ -28,7 +28,10 @@ test('clears current submission when resubmitting', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <Editor endpoint="https://exercism.test/submissions" />
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+    />
   )
   fireEvent.click(getByText('Run tests'))
   await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
@@ -65,7 +68,11 @@ test('shows message when test times out', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <Editor endpoint="https://exercism.test/submissions" timeout={0} />
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      timeout={0}
+    />
   )
   fireEvent.click(getByText('Run tests'))
   await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
@@ -100,7 +107,11 @@ test('does not time out when tests have resolved', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <Editor endpoint="https://exercism.test/submissions" timeout={0} />
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      timeout={0}
+    />
   )
   fireEvent.click(getByText('Run tests'))
   await waitFor(() => expect(queryByText('Status: pass')).toBeInTheDocument())
@@ -121,7 +132,10 @@ test('cancels a pending submission', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <Editor endpoint="https://exercism.test/submissions" />
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+    />
   )
   fireEvent.click(getByText('Run tests'))
   fireEvent.click(getByText('Cancel'))
@@ -137,6 +151,7 @@ test('disables submit button unless tests passed', async () => {
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
       initialSubmission={{
         uuid: '123',
         testsStatus: 'queued',
@@ -151,4 +166,46 @@ test('disables submit button unless tests passed', async () => {
   )
 
   expect(getByText('Submit')).toBeDisabled()
+})
+
+test('disables submit button unless tests passed', async () => {
+  const { getByText } = render(
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      initialSubmission={{
+        uuid: '123',
+        testsStatus: 'queued',
+        testRun: {
+          status: 'queued',
+          submissionUuid: '123',
+          tests: [],
+          message: '',
+        },
+      }}
+    />
+  )
+
+  expect(getByText('Submit')).toBeDisabled()
+})
+
+test('populates files', async () => {
+  const { getByText } = render(
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      initialSubmission={{
+        uuid: '123',
+        testsStatus: 'queued',
+        testRun: {
+          status: 'queued',
+          submissionUuid: '123',
+          tests: [],
+          message: '',
+        },
+      }}
+    />
+  )
+
+  expect(getByText('class Lasagna')).toBeInTheDocument()
 })

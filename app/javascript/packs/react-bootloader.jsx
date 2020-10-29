@@ -41,13 +41,14 @@ export const initReact = (mappings) => {
         }
         createPopper(elem, tooltipElem, popperOptions)
 
-        elem.addEventListener('mouseenter', () =>
-          render(tooltipElem, component)
-        )
+        const showTooltip = () => render(tooltipElem, component)
+        const hideTooltip = () => ReactDOM.unmountComponentAtNode(tooltipElem)
 
-        elem.addEventListener('mouseleave', () =>
-          ReactDOM.unmountComponentAtNode(tooltipElem)
-        )
+        elem.addEventListener('mouseenter', () => showTooltip())
+        elem.addEventListener('onfocus', () => showTooltip())
+
+        elem.addEventListener('mouseleave', () => hideTooltip())
+        elem.addEventListener('onblur', () => hideTooltip())
       })
   })
 }

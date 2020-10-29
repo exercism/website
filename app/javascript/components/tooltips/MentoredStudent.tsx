@@ -50,8 +50,6 @@ function MentoredStudentSummary({
         alt={`avatar for ${handle}`}
       />
       <div>{handle}</div>
-      <div>{isStarred}</div>
-      <div>{handle}</div>
       <div>{isStarred.toString()}</div>
       <div>{haveMentoredPreviously.toString()}</div>
       <div>{status}</div>

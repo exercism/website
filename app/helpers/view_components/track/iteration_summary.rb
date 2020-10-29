@@ -4,7 +4,7 @@ module ViewComponents
       initialize_with :iteration
 
       def to_s
-        react_component("track-iteration-summary", { iteration: iteration })
+        react_component("track-iteration-summary", { iteration: SerializeIteration.(iteration) })
       end
     end
   end

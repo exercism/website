@@ -6,12 +6,14 @@ import { IterationSummary } from '../../../../app/javascript/components/track/It
 test('shows details', async () => {
   const { getByText, getByTitle, getByRole } = render(
     <IterationSummary
-      idx={2}
-      submissionMethod="cli"
-      createdAt={Date.now() - 1}
-      testsStatus="queued"
-      representerStatus="approved"
-      analyzerStatus="approved"
+      iteration={{
+        idx: 2,
+        submissionMethod: 'cli',
+        createdAt: Date.now() - 1,
+        testsStatus: 'queued',
+        representationStatus: 'approved',
+        analysisStatus: 'approved',
+      }}
     />
   )
 

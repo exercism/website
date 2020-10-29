@@ -44,6 +44,8 @@ import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
+import { camelizeKeys } from 'humps'
+import { Iteration } from '../components/track/IterationSummary'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -87,7 +89,9 @@ initReact({
   ),
   'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
   'track-iteration-summary': (data: any) => (
-    <Track.IterationSummary {...data.iteration} />
+    <Track.IterationSummary
+      iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
+    />
   ),
 })
 

@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { TestRunStatus } from '../student/Editor'
 import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { TestsStatusSummary } from './iteration-summary/TestsStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
+import { IterationsChannel } from '../../channels/iterationsChannel'
 
-type Iteration = {
+export type Iteration = {
+  id: number
   idx: number
   submissionMethod: SubmissionMethod
   createdAt: Date
@@ -39,30 +41,48 @@ export enum AnalysisStatus {
   CANCELLED = 'cancelled',
 }
 
-export function IterationSummary(props: Iteration) {
+export function IterationSummary(props: { iteration: Iteration }) {
+  const [iteration, setIteration] = useState(props.iteration)
   const submissionMethodLabels = {
     [SubmissionMethod.CLI]: 'CLI',
     [SubmissionMethod.API]: 'API',
   }
+  const channel = useRef<IterationsChannel | undefined>()
+
+  useEffect(() => {
+    channel.current = new IterationsChannel(iteration, (iteration) => {
+      setIteration(iteration)
+    })
+
+    return () => {
+      channel.current?.disconnect()
+    }
+  }, [iteration])
+
+  useEffect(() => {
+    return () => {
+      channel.current?.disconnect()
+    }
+  }, [channel])
 
   return (
     <div className="header">
-      <SubmissionMethodIcon submissionMethod={props.submissionMethod} />
+      <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
       <div className="info">
         <div className="idx">
-          <h3>Iteration {props.idx}</h3>
+          <h3>Iteration {iteration.idx}</h3>
           <div className="dot"></div>
           <div className="latest">Latest</div>
         </div>
         <div className="details" role="details">
-          Submitted via {submissionMethodLabels[props.submissionMethod]},{' '}
-          {fromNow(props.createdAt)}
+          Submitted via {submissionMethodLabels[iteration.submissionMethod]},{' '}
+          {fromNow(iteration.createdAt)}
         </div>
       </div>
-      <TestsStatusSummary testsStatus={props.testsStatus} />
+      <TestsStatusSummary testsStatus={iteration.testsStatus} />
       <AnalysisStatusSummary
-        analysisStatus={props.analysisStatus}
-        representationStatus={props.representationStatus}
+        analysisStatus={iteration.analysisStatus}
+        representationStatus={iteration.representationStatus}
       />
     </div>
   )

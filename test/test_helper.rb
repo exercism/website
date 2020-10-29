@@ -58,8 +58,7 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "localhost:3040", "dynamodb",
-      "localhost:3041", "s3",
-      "localhost:3022", "git-server"
+      "localhost:3041", "s3"
     ]
   )
 end

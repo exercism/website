@@ -58,7 +58,8 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "localhost:3040", "dynamodb",
-      "localhost:3041", "s3"
+      "localhost:3041", "s3",
+      "localhost:3022", "git-server"
     ]
   )
 end
@@ -78,7 +79,7 @@ class ActiveSupport::TestCase
     Git::Exercise.any_instance.stubs(code_files: {})
     Git::Exercise.any_instance.stubs(code_filepaths: [])
 
-    Git::Exercise.any_instance.stubs(data: OpenStruct.new(
+    Git::Concept.any_instance.stubs(data: OpenStruct.new(
       about: "Some concept description",
       links: [{ url: "http://test.com/concept", description: "concept description" }]
     ))

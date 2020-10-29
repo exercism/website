@@ -3,7 +3,7 @@
 
   %header.concept-header
     .lg-container.container
-      .icon
+      .concept-icon
       .info
         %h1
           = @concept.name
@@ -15,24 +15,19 @@
 
   %section.lg-container.tw-flex
     %div
-      .about
+      .about.c-textual-content
         %h2 About #{@concept.name}
-        %p C# structs are closely related to classes. They have state and behavior. They have constructors that take arguments, instances can be assigned, tested for equality and stored in collections.
+        = raw ParseMarkdown.(@concept.about)
 
       .links
         %h3 Learn More
         %ul
-          %li
-            = link_to "#" do
-              = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
-              Structs in C#
-              = icon(:external_link, "(external link)")
-
-          %li
-            = link_to "#" do
-              = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
-              Using Methods in C#
-              = icon(:external_link, "(external link)")
+          - @concept.links.each do |link|
+            %li
+              = link_to link.url do
+                = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
+                = link.description
+                = icon(:external_link, "(external link)")
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-spacedColumns
 

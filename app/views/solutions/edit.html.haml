@@ -2,4 +2,6 @@
   .md-container
     Really sexy editor for #{@track.title}: #{@exercise.title}
 
+    = @solution.editor_solution_files
+
     = ViewComponents::Student::Editor.new(@solution)

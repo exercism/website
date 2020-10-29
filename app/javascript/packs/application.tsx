@@ -21,6 +21,8 @@ import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/track.css'
+import '../../css/components/tooltips/tooltip.css'
+import '../../css/components/tooltips/user-summary.css'
 
 import '../../css/components/track/generic-nav.css'
 import '../../css/components/track/top-level-nav.css'

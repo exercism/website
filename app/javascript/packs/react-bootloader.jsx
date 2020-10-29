@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom'
+import { createPopper } from '@popperjs/core'
 
 const render = (elem, component) => {
   ReactDOM.render(component, elem)
@@ -20,5 +21,37 @@ export const initReact = (mappings) => {
         render(elem, generator(data))
       })
     }
+
+    document
+      .querySelectorAll('[data-tooltip-type][data-tooltip-url]')
+      .forEach((elem) => {
+        const name = elem.dataset['tooltipType'] + '-tooltip'
+        const generator = mappings[name]
+
+        const componentData = { endpoint: elem.dataset['tooltipUrl'] }
+        const component = generator(componentData)
+
+        // Create an element render the React component in
+        const tooltipElem = document.createElement('div')
+        elem.insertAdjacentElement('afterend', tooltipElem)
+
+        // Link the tooltip element with the reference element
+        const popperOptions = {
+          placement: elem.dataset['placement'] || 'auto',
+
+          // TODO Set the default skidding to 50% and the default
+          // offset to 20px (https://popper.js.org/docs/v2/modifiers/offset/)
+        }
+        createPopper(elem, tooltipElem, popperOptions)
+
+        const showTooltip = () => render(tooltipElem, component)
+        const hideTooltip = () => ReactDOM.unmountComponentAtNode(tooltipElem)
+
+        elem.addEventListener('mouseenter', () => showTooltip())
+        elem.addEventListener('onfocus', () => showTooltip())
+
+        elem.addEventListener('mouseleave', () => hideTooltip())
+        elem.addEventListener('onblur', () => hideTooltip())
+      })
   })
 }

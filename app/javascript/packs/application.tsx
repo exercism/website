@@ -21,6 +21,8 @@ import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/track.css'
+import '../../css/components/tooltips/tooltip.css'
+import '../../css/components/tooltips/user-summary.css'
 
 import '../../css/components/track/generic-nav.css'
 import '../../css/components/track/top-level-nav.css'
@@ -43,6 +45,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import * as Tooltips from '../components/tooltips'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 
 // Add all react components here.
@@ -86,6 +89,12 @@ initReact({
     />
   ),
   'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
+  'mentored-student-tooltip': (data: any) => (
+    <Tooltips.MentoredStudent endpoint={data.endpoint} />
+  ),
+  'user-summary-tooltip': (data: any) => (
+    <Tooltips.UserSummary endpoint={data.endpoint} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

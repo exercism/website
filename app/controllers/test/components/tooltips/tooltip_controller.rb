@@ -35,6 +35,8 @@ class Test::Components::Tooltips::TooltipController < Test::BaseController
     ]
 
     student = students.detect { |s| s[:id] == params[:id].to_i }
+
+    expires_in 1.minute
     render json: student
   end
 end

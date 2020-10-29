@@ -11,10 +11,7 @@ export function Student({
   endpoint: string
   styles?: React.CSSProperties
 }) {
-  const request = {
-    endpoint: endpoint,
-    options: { staleTime: 1000 * 60 },
-  }
+  const request = { endpoint: endpoint }
   const { isLoading, isError, isSuccess, data } = useRequestQuery(
     'student-tooltip',
     request

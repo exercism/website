@@ -57,6 +57,7 @@ else
       # It would be nice not to need this but Chrome
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
+      "chromedriver.storage.googleapis.com",
       "localhost:3040", "dynamodb",
       "localhost:3041", "s3"
     ]

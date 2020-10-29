@@ -13,7 +13,7 @@
             #e1ebff 0%,
             rgba(225, 235, 255, 0) 100%
         );
-        & .icon {
+        & .concept-icon {
             @apply mr-48;
             width: 96px;
             height: 96px;
@@ -54,7 +54,7 @@
             @apply text-h3 mb-16;
         }
         & ul {
-            @apply flex gap-20;
+            @apply flex flex-wrap gap-12;
         }
         & a {
             @apply flex items-center;

@@ -63,15 +63,8 @@
         & .prereqs {
             @apply flex;
 
-            & .prereq-exercise {
-                @apply flex items-center shadow-base rounded-8 py-6 px-12;
-                @apply text-16 font-medium;
-
-                & .icon {
-                    height: 30px;
-                    width: 30px;
-                    @apply mr-8;
-                }
+            & .c-exercise-widget {
+                @apply gap-8;
             }
         }
         & h4 {

@@ -9,12 +9,12 @@
         .concepts
           - if @exercise.concept_exercise?
             - @exercise.taught_concepts.each.each do |concept|
-              .concept
+              = link_to track_concept_path(@track, concept), class: 'concept' do
                 .icon= concept.name[0, 2]
                 = concept.name
 
   %section.lg-container.tw-flex
-    %div
+    .tw-w-arbitary.tw-flex-grow
       .instructions.c-textual-content
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions
@@ -71,15 +71,12 @@
               = icon :lock, "This exercise is locked"
               Unlock #{@exercise.title}
             %p
-              This exercise is currently unavailable for you to start. Complete one of these exercises to unlock it.
+              This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
               %strong #{@exercise.title}.
 
             .prereqs
               - @exercise.prerequisite_exercises.each do |prereq|
-                / TODO: Decorate this properly
-                = link_to track_exercise_path(@track, prereq), class: "prereq-exercise" do
-                  = graphical_icon 'sample-exercise'
-                  = prereq.title
+                = ViewComponents::Widgets::Exercise.new(prereq, large: false)
 
         - else
           / TODO: External state

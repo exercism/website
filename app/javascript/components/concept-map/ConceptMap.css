@@ -37,9 +37,6 @@
                 justify-content: space-between;
                 margin: 42px;
 
-                @apply rounded-b-8;
-                overflow: hidden;
-
                 background-color: var(--c-concept-map-card-background);
                 opacity: var(--c-concept-map-hover-opacity);
                 color: var(--c-concept-map-text-locked);

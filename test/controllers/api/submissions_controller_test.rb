@@ -34,7 +34,7 @@ class API::SubmissionsControllerTest < API::BaseTestCase
 
     post api_solution_submissions_path(solution.uuid),
       params: {
-        files: { "foo" => "bar" }
+        files: [{ name: "foo", contents: "bar" }]
       },
       headers: @headers,
       as: :json
@@ -66,9 +66,12 @@ class API::SubmissionsControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution, user: @current_user
 
-    params_files = { "foo" => "bar", "bar" => "foo" }
+    params_files = [
+      { name: "foo", contents: "bar" },
+      { name: "bar", contents: "foo" }
+    ]
     files = mock
-    Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
+    Submission::PrepareMappedFiles.expects(:call).with({ "foo" => "bar", "bar" => "foo" }).returns(files)
     Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
 
     post api_solution_submissions_path(solution.uuid),

@@ -9,10 +9,14 @@ module API
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
+      formatted_files = submission_params[:files].each_with_object({}) do |file, files|
+        files[file[:name]] = file[:contents]
+      end
+
       begin
         # TODO: Change this to be a guard to render an error if files are not present.
-        files = if params[:files].present?
-                  Submission::PrepareMappedFiles.(params[:files].permit!.to_h)
+        files = if formatted_files.present?
+                  Submission::PrepareMappedFiles.(formatted_files.to_h)
                 else
                   []
                 end
@@ -29,6 +33,11 @@ module API
       render json: {
         submission: SerializeSubmission.(submission)
       }, status: :created
+    end
+
+    private
+    def submission_params
+      params.permit(files: %i[name contents])
     end
   end
 end

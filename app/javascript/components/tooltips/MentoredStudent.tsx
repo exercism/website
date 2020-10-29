@@ -29,31 +29,20 @@ export function MentoredStudent({
       {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
       {isSuccess &&
-        (data === undefined ? null : <MentoredStudentSummary {...data} />)}
-    </div>
-  )
-}
-
-function MentoredStudentSummary({
-  avatarUrl,
-  handle,
-  isStarred,
-  haveMentoredPreviously,
-  status,
-  updatedAt,
-}: MentoredStudentData) {
-  return (
-    <div>
-      <img
-        style={{ width: 100 }}
-        src={avatarUrl}
-        alt={`avatar for ${handle}`}
-      />
-      <div>{handle}</div>
-      <div>{isStarred.toString()}</div>
-      <div>{haveMentoredPreviously.toString()}</div>
-      <div>{status}</div>
-      <div>{fromNow(updatedAt)}</div>
+        (data === undefined ? null : (
+          <div>
+            <img
+              style={{ width: 100 }}
+              src={data.avatarUrl}
+              alt={`avatar for ${data.handle}`}
+            />
+            <div>{data.handle}</div>
+            <div>{data.isStarred.toString()}</div>
+            <div>{data.haveMentoredPreviously.toString()}</div>
+            <div>{data.status}</div>
+            <div>{fromNow(data.updatedAt)}</div>
+          </div>
+        ))}
     </div>
   )
 }

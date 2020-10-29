@@ -62,7 +62,7 @@ export function SolutionList({ request, setPage }) {
           </table>
           <div ref={setTooltipElement}>
             {tooltipTrigger ? (
-              <Tooltips.Student
+              <Tooltips.MentoredStudent
                 endpoint={tooltipTrigger.endpoint}
                 styles={styles.popper}
               />

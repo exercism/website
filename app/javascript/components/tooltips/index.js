@@ -1,1 +1,1 @@
-export { Student } from './Student'
+export { MentoredStudent } from './MentoredStudent'

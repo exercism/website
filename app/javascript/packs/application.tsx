@@ -87,8 +87,8 @@ initReact({
     />
   ),
   'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
-  'student-tooltip': (data: any) => (
-    <Tooltips.Student endpoint={data.endpoint} />
+  'mentored-student-tooltip': (data: any) => (
+    <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
 })
 

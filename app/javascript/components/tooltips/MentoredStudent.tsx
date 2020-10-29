@@ -3,7 +3,7 @@ import { useRequestQuery } from '../../hooks/request-query'
 import { fromNow } from '../../utils/time'
 import { Loading } from '../common/Loading'
 
-type StudentData = {
+type MentoredStudentData = {
   avatarUrl: string
   handle: string
   isStarred: boolean
@@ -12,7 +12,7 @@ type StudentData = {
   updatedAt: string
 }
 
-export function Student({
+export function MentoredStudent({
   endpoint,
   styles,
 }: {
@@ -20,28 +20,28 @@ export function Student({
   styles?: React.CSSProperties
 }) {
   const request = { endpoint: endpoint, options: {} }
-  const { isLoading, isError, isSuccess, data } = useRequestQuery<StudentData>(
-    'student-tooltip',
-    request
-  )
+  const { isLoading, isError, isSuccess, data } = useRequestQuery<
+    MentoredStudentData
+  >('student-tooltip', request)
 
   return (
-    <div className="c-tooltip c-tooltip-student" style={styles}>
+    <div className="c-tooltip c-mentored-student-tooltip" style={styles}>
       {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
-      {isSuccess && (data === undefined ? null : <StudentSummary {...data} />)}
+      {isSuccess &&
+        (data === undefined ? null : <MentoredStudentSummary {...data} />)}
     </div>
   )
 }
 
-function StudentSummary({
+function MentoredStudentSummary({
   avatarUrl,
   handle,
   isStarred,
   haveMentoredPreviously,
   status,
   updatedAt,
-}: StudentData) {
+}: MentoredStudentData) {
   return (
     <div>
       <img

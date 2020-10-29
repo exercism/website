@@ -9,7 +9,9 @@ module Git
     def data
       resp = RestClient.get(url_for(:data))
       data = JSON.parse(resp.body)
-      OpenStruct.new(data['concept'])
+      OpenStruct.new(data['concept']).tap do |concept|
+        concept[:links].map! { |link| OpenStruct.new(link) }
+      end
     end
 
     private

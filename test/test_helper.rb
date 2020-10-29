@@ -80,7 +80,12 @@ class ActiveSupport::TestCase
 
     Git::Concept.any_instance.stubs(data: OpenStruct.new(
       about: "Some concept description",
-      links: [{ url: "http://test.com/concept", description: "concept description" }]
+      links: [
+        OpenStruct.new(
+          url: "http://test.com/concept",
+          description: "concept description"
+        )
+      ]
     ))
   end
 

@@ -93,7 +93,9 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution, git_slug: "bob", git_sha: "foobar", track: track
     instructions = "INSTRUCT ME"
 
-    url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=foobar"
+    # TOOD: Switch these once auto-updating is done
+    url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=HEAD"
+    # url = "#{Exercism.config.git_server_url}/exercises/ruby/bob/data?git_sha=foobar"
     stub_request(:get, url).
       to_return(body: { exercise: { instructions: instructions } }.to_json)
 

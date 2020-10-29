@@ -63,12 +63,12 @@ export function SolutionList({ request, setPage }) {
             </tbody>
           </table>
           <div ref={setTooltipElement}>
-            {tooltipEndpoint && (
+            {tooltipEndpoint ? (
               <Tooltips.Student
                 endpoint={tooltipEndpoint}
                 styles={styles.popper}
               />
-            )}
+            ) : null}
           </div>
         </>
       )}

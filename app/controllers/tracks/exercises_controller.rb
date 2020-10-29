@@ -9,6 +9,9 @@ class Tracks::ExercisesController < ApplicationController
     @exercises = @track.exercises
   end
 
+  # TODO: There is lots of logic in this view
+  # that should be extracted into a view model
+  # to allow for pre-caching of solution data
   def show; end
 
   def start

@@ -52,10 +52,10 @@ export function SolutionList({ request, setPage }) {
                 <Solution
                   key={key}
                   {...solution}
-                  onMouseEnter={(e) =>
+                  showMoreInformation={(e) =>
                     showTooltip(e.target, solution.tooltipUrl)
                   }
-                  onMouseLeave={() => hideTooltip()}
+                  hideMoreInformation={() => hideTooltip()}
                 />
               ))}
             </tbody>

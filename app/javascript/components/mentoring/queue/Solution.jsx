@@ -13,11 +13,16 @@ export function Solution({
   status,
   updatedAt,
   url,
-  onMouseEnter,
-  onMouseLeave,
+  showMoreInformation,
+  hideMoreInformation,
 }) {
   return (
-    <tr onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <tr
+      onMouseEnter={showMoreInformation}
+      onMouseLeave={hideMoreInformation}
+      onFocus={showMoreInformation}
+      onBlur={hideMoreInformation}
+    >
       <td>
         <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
       </td>

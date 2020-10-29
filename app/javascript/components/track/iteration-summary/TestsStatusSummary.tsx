@@ -46,7 +46,11 @@ function Content({ testsStatus }: { testsStatus: TestRunStatus }) {
   }
 }
 
-export function TestsStatus({ testsStatus }: { testsStatus: TestRunStatus }) {
+export function TestsStatusSummary({
+  testsStatus,
+}: {
+  testsStatus: TestRunStatus
+}) {
   return (
     <div className="tests">
       <Content testsStatus={testsStatus} />

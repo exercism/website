@@ -2,16 +2,16 @@ import React from 'react'
 import { TestRunStatus } from '../student/Editor'
 import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
-import { TestsStatus } from './iteration-summary/TestsStatus'
-import { AnalysisStatus } from './iteration-summary/AnalysisStatus'
+import { TestsStatusSummary } from './iteration-summary/TestsStatusSummary'
+import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 
 type Iteration = {
   idx: number
   submissionMethod: SubmissionMethod
   createdAt: Date
   testsStatus: TestRunStatus
-  representerStatus: RepresenterStatus
-  analyzerStatus: AnalyzerStatus
+  representationStatus: RepresentationStatus
+  analysisStatus: AnalysisStatus
 }
 
 export enum SubmissionMethod {
@@ -19,7 +19,7 @@ export enum SubmissionMethod {
   API = 'api',
 }
 
-export enum RepresenterStatus {
+export enum RepresentationStatus {
   NOT_QUEUED = 'not_queued',
   QUEUED = 'queued',
   APPROVED = 'approved',
@@ -29,7 +29,7 @@ export enum RepresenterStatus {
   CANCELLED = 'cancelled',
 }
 
-export enum AnalyzerStatus {
+export enum AnalysisStatus {
   NOT_QUEUED = 'not_queued',
   QUEUED = 'queued',
   APPROVED = 'approved',
@@ -59,10 +59,10 @@ export function IterationSummary(props: Iteration) {
           {fromNow(props.createdAt)}
         </div>
       </div>
-      <TestsStatus testsStatus={props.testsStatus} />
-      <AnalysisStatus
-        analyzerStatus={props.analyzerStatus}
-        representerStatus={props.representerStatus}
+      <TestsStatusSummary testsStatus={props.testsStatus} />
+      <AnalysisStatusSummary
+        analysisStatus={props.analysisStatus}
+        representationStatus={props.representationStatus}
       />
     </div>
   )

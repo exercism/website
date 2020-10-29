@@ -17,8 +17,7 @@
     %div
       .about
         %h2 About #{@concept.name}
-        %p
-          = @concept.about
+        = raw ParseMarkdown.(@concept.about)
 
       .links
         %h3 Learn More

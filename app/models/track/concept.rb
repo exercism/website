@@ -10,9 +10,7 @@ class Track::Concept < ApplicationRecord
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }
 
-  delegate :about, to: :data
-
-  delegate :links, to: :data
+  delegate :about, :links, to: :data
 
   private
   memoize

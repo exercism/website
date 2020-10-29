@@ -1,0 +1,24 @@
+@import "../styles";
+
+.c-textual-content {
+    & h2 {
+        @apply text-h3 mb-8;
+    }
+    & h3 {
+        @apply text-h4 mb-8;
+    }
+    & p {
+        @apply text-prose mb-16;
+
+        & code {
+            @apply shadow-lg p-4;
+        }
+    }
+    & pre {
+        @apply shadow-lg mb-24 py-16 px-24 rounded-8;
+        @apply text-16;
+    }
+    & * + h3 {
+        @apply mt-48;
+    }
+}

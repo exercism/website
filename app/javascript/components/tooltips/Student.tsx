@@ -1,8 +1,16 @@
 import React from 'react'
 import { useRequestQuery } from '../../hooks/request-query'
-import { QueryResult } from 'react-query'
 import { fromNow } from '../../utils/time'
 import { Loading } from '../common/Loading'
+
+type StudentData = {
+  avatarUrl: string
+  handle: string
+  isStarred: boolean
+  haveMentoredPreviously: boolean
+  status: string
+  updatedAt: string
+}
 
 export function Student({
   endpoint,
@@ -11,17 +19,17 @@ export function Student({
   endpoint: string
   styles?: React.CSSProperties
 }) {
-  const request = { endpoint: endpoint }
-  const { isLoading, isError, isSuccess, data } = useRequestQuery(
+  const request = { endpoint: endpoint, options: {} }
+  const { isLoading, isError, isSuccess, data } = useRequestQuery<StudentData>(
     'student-tooltip',
     request
-  ) as QueryResult<any>
+  )
 
   return (
     <div className="c-tooltip c-tooltip-student" style={styles}>
       {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
-      {isSuccess && <StudentSummary {...data} />}
+      {isSuccess && (data === undefined ? null : <StudentSummary {...data} />)}
     </div>
   )
 }
@@ -33,14 +41,7 @@ function StudentSummary({
   haveMentoredPreviously,
   status,
   updatedAt,
-}: {
-  avatarUrl: string
-  handle: string
-  isStarred: boolean
-  haveMentoredPreviously: boolean
-  status: string
-  updatedAt: string
-}) {
+}: StudentData) {
   return (
     <div>
       <img

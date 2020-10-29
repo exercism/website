@@ -90,6 +90,9 @@ initReact({
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
+  'user-summary-tooltip': (data: any) => (
+    <Tooltips.UserSummary endpoint={data.endpoint} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

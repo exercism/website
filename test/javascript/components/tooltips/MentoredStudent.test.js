@@ -5,7 +5,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentoredStudent } from '../../../../app/javascript/components/tooltips/MentoredStudent'
 
-test('mentored student data is displayed', async () => {
+test('correct information is displayed', async () => {
   const server = setupServer(
     rest.get(
       'https://exercism.test/tooltips/mentored_student/1',

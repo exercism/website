@@ -1,5 +1,5 @@
-# This helper is for us to be able to correctly produce links that point to our 
-# capybara server. This is needed when testing the creation of iteration as to 
+# This helper is for us to be able to correctly produce links that point to our
+# capybara server. This is needed when testing the creation of iteration as to
 # do it is produced dynamically within the serializer.
 module CapybaraHelpers
   def use_capybara_host

@@ -31,7 +31,7 @@
         @apply pointer-events-none block;
 
         & .layer {
-            @apply flex justify-evenly flex-wrap;
+            @apply flex justify-evenly items-center flex-wrap;
 
             & .card {
                 @apply rounded-t-8;

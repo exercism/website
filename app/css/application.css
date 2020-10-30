@@ -26,3 +26,8 @@ body {
 code {
     @apply leading-code;
 }
+
+[data-react-data] {
+    width: 100%;
+    height: 100%;
+}

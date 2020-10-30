@@ -15,6 +15,7 @@ import '../../css/layout.css'
 import '../../css/site-header.css'
 
 import '../../css/components/bg-img.css'
+import '../../css/components/iteration-summary.css'
 import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
 import '../../css/components/textual-content.css'

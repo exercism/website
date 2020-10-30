@@ -8,72 +8,10 @@
     }
     & .iteration {
         @apply mb-24 shadow-lg rounded-8;
+
         & .header {
             @apply flex items-center py-12 px-24;
             @apply border-b-1 border-borderLight border-opacity-50;
-
-            & .upload-method-icon {
-                height: 24px;
-                width: 24px;
-                @apply text-textLight mr-24;
-            }
-            & .info {
-                @apply flex-grow;
-            }
-
-            & .idx {
-                @apply flex items-center mb-6;
-
-                & h3 {
-                    @apply font-mono font-semibold text-16 leading-paragraph;
-                    @apply mr-16;
-                }
-                & .dot {
-                    @apply mr-16 rounded-circle bg-lightBlue;
-                    height: 8px;
-                    width: 8px;
-                }
-                & .latest {
-                    @apply text-textLight font-medium;
-                    @apply border-1 border-borderLight rounded-5 px-8;
-                    font-size: 12px;
-                    line-height: 20px;
-                }
-            }
-            & .details {
-                @apply text-label-timestamp;
-            }
-            & .tests,
-            & .analyzer {
-                @apply flex items-center;
-
-                & .dot {
-                    @apply rounded-circle;
-                    height: 8px;
-                    width: 8px;
-                }
-                & .icon {
-                    height: 16px;
-                    width: 16px;
-                }
-                & .dot,
-                & .icon {
-                    @apply mr-16;
-                }
-                & .status {
-                    @apply font-mono font-bold;
-                }
-            }
-            & .tests {
-                @apply mr-32 text-darkGreen;
-                & .dot {
-                    @apply rounded-circle bg-darkGreen;
-                }
-            }
-            & .analyzer {
-                /*@apply mr-48;*/
-                @apply text-orange;
-            }
         }
         & .content {
             @apply flex items-stretch;

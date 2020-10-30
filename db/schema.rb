@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_144915) do
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "submission_id", null: false
+    t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

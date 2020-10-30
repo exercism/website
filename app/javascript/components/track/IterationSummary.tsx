@@ -7,7 +7,7 @@ import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary
 import { IterationChannel } from '../../channels/iterationChannel'
 
 export type Iteration = {
-  id: number
+  uuid: string
   idx: number
   submissionMethod: SubmissionMethod
   createdAt: Date

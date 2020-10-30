@@ -5,7 +5,8 @@ class SerializeIteration
 
   def call
     {
-      id: iteration.id,
+      uuid: iteration.uuid,
+      submission_uuid: iteration.submission.uuid,
       idx: iteration.idx,
       submission_method: iteration.submission.submitted_via,
       created_at: iteration.created_at.iso8601,

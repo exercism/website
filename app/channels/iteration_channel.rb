@@ -1,6 +1,6 @@
 class IterationChannel < ApplicationCable::Channel
   def subscribed
-    iteration = current_user.iterations.find(params[:id])
+    iteration = current_user.iterations.find_by!(uuid: params[:uuid])
 
     stream_for iteration
   end

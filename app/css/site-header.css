@@ -15,8 +15,10 @@
         }
     }
 
-    & .primary-links {
-        @apply flex items-center;
+    & nav {
+        & ul {
+            @apply flex items-center;
+        }
 
         & li {
             @apply mr-48;

@@ -20,6 +20,10 @@ Rails.application.routes.draw do
       resources :submission, only: [] do
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
       end
+
+      resources :profiles, only: [] do
+        get :summary, on: :member
+      end
     end
   end
   get "api/(*url)", to: 'api/errors#render_404'

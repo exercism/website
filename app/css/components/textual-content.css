@@ -23,10 +23,10 @@
         }
     }
     & pre {
-        @apply shadow-lg mb-24 py-16 px-24 rounded-8;
+        @apply shadow-lg mb-24 py-16 px-24 rounded-8 overflow-auto;
         @apply text-16;
     }
     & * + h3 {
-        @apply mt-48;
+        @apply mt-28;
     }
 }

@@ -24,6 +24,8 @@ import '../../css/components/track.css'
 import '../../css/components/tooltips/tooltip.css'
 import '../../css/components/tooltips/user-summary.css'
 
+import '../../css/components/widgets/exercise.css'
+
 import '../../css/components/track/generic-nav.css'
 import '../../css/components/track/top-level-nav.css'
 import '../../css/components/track/concept-nav.css'

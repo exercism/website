@@ -2,8 +2,6 @@
 
 #page-concept-show {
     & .concept-header {
-        @apply mb-40;
-
         & .container {
             @apply flex items-center py-32;
             height: 190px;
@@ -24,9 +22,10 @@
             & small {
                 @apply text-18 ml-16 mr-12 text-textBase font-normal;
             }
-            & img {
+            & .c-track-icon {
                 /* TODO: Switch these */
                 /*@mixin track-icon 48px;*/
+                width: 48px;
                 height: 48px;
             }
         }
@@ -79,6 +78,9 @@
                 height: 24px;
                 width: 24px;
             }
+        }
+        & .exercises {
+            @apply flex;
         }
     }
 }

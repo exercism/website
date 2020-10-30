@@ -1,0 +1,82 @@
+.c-exercise-widget {
+    @apply flex items-center shadow-base rounded-8;
+
+    & .icon {
+        @apply flex-shrink-0;
+    }
+
+    &.--large {
+        @apply py-20 pl-20 pr-40 w-100;
+
+        & .--exercise-icon {
+            height: 64px;
+            width: 64px;
+            @apply mr-20;
+        }
+
+        & .--info {
+            @apply flex-grow;
+            margin-right: 5%;
+        }
+        & .--title {
+            @apply text-20 font-semibold leading-paragraph;
+        }
+        & .--desc {
+            @apply text-16 leading-paragraph overflow-hidden;
+
+            /* https://css-tricks.com/almanac/properties/l/line-clamp/ */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            max-height: 50px; /* Fallback for max 2 lines */
+        }
+
+        & .--lock-icon,
+        & .--chevron-icon {
+            height: 24px;
+            width: 24px;
+        }
+        & .--lock-icon {
+            @apply text-textLight;
+        }
+        & .--chevron-icon {
+            @apply text-textLight;
+        }
+    }
+
+    &.--small {
+        @apply py-6 px-12;
+
+        & .--title {
+            @apply text-16 font-medium leading-paragraph;
+        }
+
+        & .--exercise-icon {
+            height: 26px;
+            width: 26px;
+            @apply mr-12;
+        }
+
+        &.--locked {
+            @apply cursor-default;
+
+            & .--exercise-icon {
+                opacity: 0.8;
+                filter: grayscale(1);
+            }
+            & .--info {
+                @apply mr-12;
+            }
+            & .--title {
+                @apply text-textLight;
+            }
+            & .--lock-icon {
+                height: 16px;
+                width: 16px;
+                @apply text-textLight;
+            }
+        }
+    }
+}

@@ -19,6 +19,10 @@ class UserTrack < ApplicationRecord
     nil
   end
 
+  def solutions
+    user.solutions.joins(:exercise).where("exercises.track_id": track)
+  end
+
   def learnt_concept?(concept)
     learnt_concepts.include?(concept)
   end

@@ -34,6 +34,7 @@ import '../../css/components/track/icon.css'
 
 import '../../css/pages/concept-show.css'
 import '../../css/pages/exercise-show.css'
+import '../../css/pages/exercises-index.css'
 import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'

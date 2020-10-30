@@ -5,6 +5,30 @@
         @apply flex-shrink-0;
     }
 
+    & .--title {
+        @apply flex items-center;
+        & .icon {
+            height: 24px;
+            width: 24px;
+            @apply ml-12;
+        }
+    }
+
+    &.--locked {
+        @apply cursor-default shadow-sm;
+        opacity: 0.8;
+        & .--title {
+            @apply text-textLight;
+        }
+        & .--desc {
+            @apply text-textLight;
+        }
+        & .--exercise-icon {
+            opacity: 0.8;
+            filter: grayscale(1);
+        }
+    }
+
     &.--large {
         @apply py-20 pl-20 pr-40 w-100;
 
@@ -22,7 +46,7 @@
             @apply text-20 font-semibold leading-paragraph;
         }
         & .--desc {
-            @apply text-16 leading-paragraph overflow-hidden;
+            @apply text-16 leading-paragraph overflow-hidden mt-4;
 
             /* https://css-tricks.com/almanac/properties/l/line-clamp/ */
             display: -webkit-box;
@@ -60,17 +84,8 @@
         }
 
         &.--locked {
-            @apply cursor-default;
-
-            & .--exercise-icon {
-                opacity: 0.8;
-                filter: grayscale(1);
-            }
             & .--info {
                 @apply mr-12;
-            }
-            & .--title {
-                @apply text-textLight;
             }
             & .--lock-icon {
                 height: 16px;

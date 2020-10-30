@@ -1,5 +1,20 @@
-.md-container
-  %h2 Exercises for #{@track.title}
-  %ul
-    - @exercises.each do |exercise|
-      %li= link_to exercise.title, track_exercise_path(@track, exercise)
+#page-concepts-index
+  = ViewComponents::Track::TopLevelNav.new(@track, :exercises)
+
+  .page-header
+    .lg-container.container
+      = graphical_icon("laptop-man-1", css_class: 'graphic')
+      .info
+        %h1
+          All the
+          = track_icon(@track)
+          exercises on Exercism
+        %p Unlock more exercises as you progress. They’re great practice and fun to do!
+        %progress.progress-bar{ value: @num_completed, max: @exercises.size }
+        .progress-text #{pluralize(@num_completed, 'exercise')} completed
+
+  .exercises
+    .lg-container.container
+      - @exercises.each do |exercise|
+        = ViewComponents::Widgets::Exercise.new(exercise)
+

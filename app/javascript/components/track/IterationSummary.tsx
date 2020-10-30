@@ -4,7 +4,7 @@ import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { TestsStatusSummary } from './iteration-summary/TestsStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
-import { IterationsChannel } from '../../channels/iterationsChannel'
+import { IterationChannel } from '../../channels/iterationChannel'
 
 export type Iteration = {
   id: number
@@ -47,10 +47,10 @@ export function IterationSummary(props: { iteration: Iteration }) {
     [SubmissionMethod.CLI]: 'CLI',
     [SubmissionMethod.API]: 'API',
   }
-  const channel = useRef<IterationsChannel | undefined>()
+  const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
-    channel.current = new IterationsChannel(iteration, (iteration) => {
+    channel.current = new IterationChannel(iteration, (iteration) => {
       setIteration(iteration)
     })
 

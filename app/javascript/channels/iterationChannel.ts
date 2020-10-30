@@ -3,13 +3,13 @@ import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { typecheck } from '../utils/typecheck'
 
-export class IterationsChannel {
+export class IterationChannel {
   subscription: ActionCable.Channel
 
   constructor(iteration: Iteration, onReceive: (iteration: Iteration) => void) {
     this.subscription = consumer.subscriptions.create(
       {
-        channel: 'IterationsChannel',
+        channel: 'IterationChannel',
         id: iteration.id,
       },
       {

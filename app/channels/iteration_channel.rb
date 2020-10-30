@@ -1,4 +1,4 @@
-class IterationsChannel < ApplicationCable::Channel
+class IterationChannel < ApplicationCable::Channel
   def subscribed
     iteration = current_user.iterations.find(params[:id])
 

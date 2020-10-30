@@ -12,10 +12,10 @@ module ViewComponents
               auth_token: solution.user.auth_tokens.first.to_s
             ),
             submission: SerializeSubmission.(solution.submissions.last),
-            files: solution.editor_solution_files.map do |name, contents|
+            files: solution.editor_solution_files.map do |filename, content|
               {
-                name: name,
-                contents: contents
+                filename: filename,
+                content: content
               }
             end
           }

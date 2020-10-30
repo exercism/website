@@ -10,7 +10,7 @@ module API
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       formatted_files = submission_params[:files].each_with_object({}) do |file, files|
-        files[file[:name]] = file[:contents]
+        files[file[:filename]] = file[:content]
       end
 
       begin
@@ -37,7 +37,7 @@ module API
 
     private
     def submission_params
-      params.permit(files: %i[name contents])
+      params.permit(files: %i[filename content])
     end
   end
 end

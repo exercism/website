@@ -29,20 +29,20 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
     useImperativeHandle(ref, () => ({
       getFile() {
         return {
-          name: file.name,
-          contents: editorRef.current?.getValue() || '',
+          filename: file.filename,
+          content: editorRef.current?.getValue() || '',
         }
       },
     }))
 
     return (
       <MonacoEditor
-        key={file.name}
+        key={file.filename}
         width="800"
         height="600"
         language="ruby"
         editorDidMount={editorDidMount}
-        defaultValue={file.contents}
+        defaultValue={file.content}
       />
     )
   }

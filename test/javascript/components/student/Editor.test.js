@@ -30,7 +30,7 @@ test('clears current submission when resubmitting', async () => {
   const { getByText, queryByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
     />
   )
   fireEvent.click(getByText('Run tests'))
@@ -70,7 +70,7 @@ test('shows message when test times out', async () => {
   const { getByText, queryByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       timeout={0}
     />
   )
@@ -109,7 +109,7 @@ test('does not time out when tests have resolved', async () => {
   const { getByText, queryByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       timeout={0}
     />
   )
@@ -134,7 +134,7 @@ test('cancels a pending submission', async () => {
   const { getByText, queryByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
     />
   )
   fireEvent.click(getByText('Run tests'))
@@ -151,7 +151,7 @@ test('disables submit button unless tests passed', async () => {
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       initialSubmission={{
         uuid: '123',
         testsStatus: 'queued',
@@ -172,7 +172,7 @@ test('disables submit button unless tests passed', async () => {
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       initialSubmission={{
         uuid: '123',
         testsStatus: 'queued',
@@ -193,7 +193,7 @@ test('populates files', async () => {
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
-      files={[{ name: 'lasagna.rb', contents: 'class Lasagna' }]}
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       initialSubmission={{
         uuid: '123',
         testsStatus: 'queued',

@@ -167,8 +167,8 @@ function reducer(state: State, action: Action) {
 }
 
 export type File = {
-  name: string
-  contents: string
+  filename: string
+  content: string
 }
 
 export function Editor({
@@ -267,7 +267,7 @@ export function Editor({
     <div>
       {files.map((file) => (
         <FileEditor
-          key={file.name}
+          key={file.filename}
           file={file}
           ref={(ref) => {
             if (ref) {

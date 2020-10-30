@@ -41,6 +41,9 @@ export const Concept = ({
     }
   }, [slug, conceptRef])
 
+  const hasExercises = exercises > 0
+  const isStarted = completedExercises > 0
+
   // Build the class list
   const classes = ['card']
   classes.push(`${status}`)
@@ -50,7 +53,10 @@ export const Concept = ({
   if (visibility === 'hidden') {
     classes.push('hidden')
   }
-  if (completedExercises === 0) {
+
+  if (!hasExercises) {
+    classes.push('no-exercises')
+  } else if (!isStarted) {
     classes.push('not-started')
   }
 
@@ -67,12 +73,12 @@ export const Concept = ({
     >
       <div className="display">
         <div className="name">{name}</div>
-        <CompleteIcon show={exercises === completedExercises} />
+        <CompleteIcon show={hasExercises && exercises === completedExercises} />
       </div>
       <PureExerciseProgressBar
         completed={completedExercises}
         exercises={exercises}
-        hidden={!completedExercises}
+        hidden={!hasExercises || !isStarted}
       />
     </a>
   )

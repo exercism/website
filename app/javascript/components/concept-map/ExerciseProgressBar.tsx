@@ -14,13 +14,16 @@ export const ExerciseProgressBar = ({
   if (hidden) {
     classNames.push('hidden')
   }
-  if (completed >= exercises) {
+
+  if (exercises === 0) {
+    classNames.push('no-exercises')
+  } else if (completed === exercises) {
     classNames.push('complete')
   }
 
   return (
     <progress
-      className={classNames.join('')}
+      className={classNames.join(' ')}
       value={completed}
       max={exercises}
       aria-label={`${completed} of ${exercises} exercises complete`}

@@ -53,7 +53,7 @@ function drawTopDown(start: ConceptPathCoordinate, end: ConceptPathCoordinate) {
 function drawLeft(start: ConceptPathCoordinate, end: ConceptPathCoordinate) {
   const deltaX = start.x - end.x
   const deltaY = end.y - start.y
-  const dx1 = start.x - deltaX * 0.7
+  const dx1 = start.x - deltaX * 0.5
   const dy1 = start.y
   const dx2 = end.x
   const dy2 = end.y - deltaY * 0.5
@@ -64,7 +64,7 @@ function drawLeft(start: ConceptPathCoordinate, end: ConceptPathCoordinate) {
 function drawRight(start: ConceptPathCoordinate, end: ConceptPathCoordinate) {
   const deltaX = end.x - start.x
   const deltaY = end.y - start.y
-  const dx1 = start.x + deltaX * 0.7
+  const dx1 = start.x + deltaX * 0.5
   const dy1 = start.y
   const dx2 = end.x
   const dy2 = end.y - deltaY * 0.5
@@ -78,7 +78,7 @@ function drawCenterRight(
 ) {
   const deltaX = Math.abs(start.x - end.x)
   const halfDeltaY = (end.y - start.y) / 2
-  const dx1 = start.x + deltaX + 30
+  const dx1 = start.x + deltaX * 0.5
   const dy1 = start.y
   const dx2 = end.x
   const dy2 = end.y - halfDeltaY
@@ -92,7 +92,7 @@ function drawCenterLeft(
 ) {
   const deltaX = Math.abs(start.x - end.x)
   const halfDeltaY = (end.y - start.y) / 2
-  const dx1 = start.x - deltaX - 30
+  const dx1 = start.x - deltaX * 0.5
   const dy1 = start.y
   const dx2 = end.x
   const dy2 = end.y - halfDeltaY

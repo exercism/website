@@ -47,6 +47,7 @@
                 transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
 
                 &.unavailable,
+                &.no-exercises,
                 &.not-started {
                     @apply rounded-b-8;
                 }
@@ -98,7 +99,7 @@
                 }
 
                 & progress::-webkit-progress-bar {
-                    background-color: s-white;
+                    background-color: white;
                 }
 
                 & progress[value] {

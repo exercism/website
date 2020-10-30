@@ -54,6 +54,9 @@ export interface IConceptMap {
   levels: ConceptLayer[]
   connections: ConceptConnection[]
   status: { [key: string]: ConceptStatus }
+  exerciseCounts: {
+    [key: string]: { exercises: number; completedExercises: number }
+  }
 }
 
 export type ConceptLayer = string[]

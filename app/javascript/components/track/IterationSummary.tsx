@@ -41,12 +41,12 @@ export enum AnalysisStatus {
   CANCELLED = 'cancelled',
 }
 
+const SUBMISSION_METHOD_LABELS = {
+  [SubmissionMethod.CLI]: 'CLI',
+  [SubmissionMethod.API]: 'API',
+}
 export function IterationSummary(props: { iteration: Iteration }) {
   const [iteration, setIteration] = useState(props.iteration)
-  const submissionMethodLabels = {
-    [SubmissionMethod.CLI]: 'CLI',
-    [SubmissionMethod.API]: 'API',
-  }
   const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export function IterationSummary(props: { iteration: Iteration }) {
           <div className="latest">Latest</div>
         </div>
         <div className="details" role="details">
-          Submitted via {submissionMethodLabels[iteration.submissionMethod]},{' '}
+          Submitted via {SUBMISSION_METHOD_LABELS[iteration.submissionMethod]},{' '}
           {fromNow(iteration.createdAt)}
         </div>
       </div>

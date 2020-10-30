@@ -1,5 +1,5 @@
 .c-exercise-widget {
-    @apply flex items-center shadow-base rounded-8;
+    @apply flex items-center shadow-base rounded-8 bg-white;
 
     & .icon {
         @apply flex-shrink-0;
@@ -15,7 +15,7 @@
     }
 
     &.--locked {
-        @apply cursor-default shadow-sm;
+        @apply cursor-default shadow-sm bg-bgGray;
         opacity: 0.8;
         & .--title {
             @apply text-textLight;

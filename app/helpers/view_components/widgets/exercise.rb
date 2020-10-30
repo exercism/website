@@ -50,7 +50,7 @@ module ViewComponents
         #
         # TODO: This will break once devise is added
         user_track = UserTrack.for(User.first, exercise.track)
-        user_track.exercise_available?(exercise)
+        user_track&.exercise_available?(exercise)
       end
 
       def completed?
@@ -76,7 +76,7 @@ module ViewComponents
       end
 
       def desc_tag
-        text = "Atoms are internally represented by an integer in a lookup table, which are set automatically. It is not possible to change this internal value. It is generally considered to be an anti-pattern to dynamically create atoms from user supplied input; the runtime only has space for a limited number of atoms, generating new atoms at runtime could fail if the atom table is full." # rubocop:disable Layout/LineLength
+        text = "Atoms are internally represented" # rubocop:disable Layout/LineLength
         tag.div(text, class: "--desc")
       end
     end

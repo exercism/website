@@ -39,9 +39,20 @@ describe('<ConceptMap />', () => {
 
   test('renders single completed concept', () => {
     const testConcept = concept('test', { state: 'completed' })
-    const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: 'completed',
-    })
+    const { container } = renderMap(
+      [testConcept],
+      [[testConcept.slug]],
+      [],
+      {
+        test: 'completed',
+      },
+      {
+        test: {
+          exercises: 1,
+          exercises_completed: 1,
+        },
+      }
+    )
     const conceptEl = getByText(container, 'Test')
     const completeIconEl = getByTitle(container, 'completed')
   })
@@ -67,7 +78,10 @@ const renderMap = (
   concepts: Concept[],
   levels: ConceptLayer[],
   connections: ConceptConnection[],
-  status: { [key: string]: ConceptStatus }
+  status: { [key: string]: ConceptStatus },
+  exercise_counts: {
+    [key: string]: { exercises: number; exercises_completed: number }
+  }
 ) => {
   return render(
     <ConceptMap
@@ -75,6 +89,7 @@ const renderMap = (
       levels={levels}
       connections={connections}
       status={status}
+      exercise_counts={exercise_counts}
     />
   )
 }

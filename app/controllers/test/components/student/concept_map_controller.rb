@@ -78,11 +78,41 @@ class Test::Components::Student::ConceptMapController < ApplicationController # 
       status: {
         "basics" => :completed,
         "booleans" => :completed,
-        "floating-point-numbers" => :unlocked,
-        "integers" => :unlocked,
-        "bit-manipulation" => :unlocked,
-        "closures" => :locked,
-        "anonymous-functions" => :unlocked
+        "floating-point-numbers" => :available,
+        "integers" => :available,
+        "bit-manipulation" => :available,
+        "closures" => :unavailable,
+        "anonymous-functions" => :available
+      },
+      exercise_counts: {
+        "basics" => {
+          exercises: 5,
+          exercises_completed: 5
+        },
+        "booleans" => {
+          exercises: 3,
+          exercises_completed: 2
+        },
+        "floating-point-numbers" => {
+          exercises: 3,
+          exercises_completed: 0
+        },
+        "integers" => {
+          exercises: 3,
+          exercises_completed: 1
+        },
+        "bit-manipulation" => {
+          exercises: 3,
+          exercises_completed: 0
+        },
+        "closures" => {
+          exercises: 7,
+          exercises_completed: 0
+        },
+        "anonymous-functions" => {
+          exercises: 3,
+          exercises_completed: 2
+        }
       }
     }
   end

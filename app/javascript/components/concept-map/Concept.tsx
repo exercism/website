@@ -21,7 +21,7 @@ export const Concept = ({
   status,
   isActive,
   exercises = 0,
-  completedExercises = 0,
+  exercisesCompleted = 0,
 }: IConcept & {
   handleEnter: MouseEventHandler
   handleLeave: MouseEventHandler
@@ -42,11 +42,11 @@ export const Concept = ({
   }, [slug, conceptRef])
 
   const hasExercises = exercises > 0
-  const isStarted = completedExercises > 0
+  const isStarted = exercisesCompleted > 0
 
   // Build the class list
-  const classes = ['card']
-  classes.push(`${status}`)
+  const classes: string[] = ['card']
+  classes.push(status)
   if (isActive) {
     classes.push('active')
   }
@@ -58,6 +58,20 @@ export const Concept = ({
     classes.push('no-exercises')
   } else if (!isStarted) {
     classes.push('not-started')
+  }
+
+  if (slug === 'basics') {
+    console.log({
+      slug,
+      name,
+      web_url,
+      handleEnter,
+      handleLeave,
+      status,
+      isActive,
+      exercises,
+      exercisesCompleted,
+    })
   }
 
   return (
@@ -73,10 +87,10 @@ export const Concept = ({
     >
       <div className="display">
         <div className="name">{name}</div>
-        <CompleteIcon show={hasExercises && exercises === completedExercises} />
+        <CompleteIcon show={hasExercises && exercises === exercisesCompleted} />
       </div>
       <PureExerciseProgressBar
-        completed={completedExercises}
+        completed={exercisesCompleted}
         exercises={exercises}
         hidden={!hasExercises || !isStarted}
       />

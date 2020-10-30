@@ -1,11 +1,11 @@
-export type ConceptStatus = 'available' | 'unavailable'
+export type ConceptStatus = 'available' | 'unavailable' | 'completed'
 
 export interface IConcept {
   slug: string
   web_url: string
   name: string
   exercises?: number
-  completedExercises?: number
+  exercisesCompleted?: number
 }
 
 export function isIConcept(concept: IConcept | undefined): concept is IConcept {
@@ -54,8 +54,8 @@ export interface IConceptMap {
   levels: ConceptLayer[]
   connections: ConceptConnection[]
   status: { [key: string]: ConceptStatus }
-  exerciseCounts: {
-    [key: string]: { exercises: number; completedExercises: number }
+  exercise_counts: {
+    [key: string]: { exercises: number; exercises_completed: number }
   }
 }
 

@@ -89,7 +89,7 @@ initReact({
       levels={data.graph.levels}
       connections={data.graph.connections}
       status={data.graph.status}
-      exerciseCounts={data.graph.exercises}
+      exercise_counts={data.graph.exercise_counts}
     />
   ),
   'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,

@@ -27,7 +27,7 @@ export const ConceptMap = ({
   levels,
   connections,
   status,
-  exerciseCounts = {},
+  exercise_counts = {},
 }: IConceptMap): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fontLoaded = useFontLoaded('Poppins')
@@ -68,13 +68,13 @@ export const ConceptMap = ({
                     slug={slug}
                     name={concept.name}
                     web_url={concept.web_url}
-                    exercises={exerciseCounts[slug]?.exercises ?? 0}
-                    completedExercises={
-                      exerciseCounts[slug]?.completedExercises ?? 0
+                    exercises={exercise_counts[slug]?.exercises ?? 0}
+                    exercisesCompleted={
+                      exercise_counts[slug]?.exercises_completed ?? 0
                     }
                     handleEnter={() => setActiveSlug(slug)}
                     handleLeave={unsetActiveSlug}
-                    status={status[slug] ?? 'locked'}
+                    status={status[slug] ?? 'unavailable'}
                     isActive={isActive}
                   />
                 )

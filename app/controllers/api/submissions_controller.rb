@@ -11,7 +11,7 @@ module API
 
       files = submission_params[:files].map(&:to_h).map(&:symbolize_keys)
 
-      # TODO: Move this check into a guard service along with the CLI, which raises and 
+      # TODO: Move this check into a guard service along with the CLI, which raises and
       # rescues SubmissionFileTooLargeError exceptions
       return render_error(400, :file_too_large) if files.any? { |file| file[:content].size > 1.megabyte }
 

@@ -62,7 +62,7 @@ export function IterationSummary(props: { iteration: Iteration }) {
   }, [channel, iteration, setIteration])
 
   return (
-    <div className="header">
+    <div className="c-iteration-summary">
       <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
       <div className="info">
         <div className="idx">

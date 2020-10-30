@@ -33,7 +33,10 @@ describe('<ConceptMap />', () => {
       test: 'locked',
     })
     const conceptEl = getByText(container, 'Test')
-    const completeIconEl = queryByTitle(container, 'completed')
+    const completeIconEl = queryByTitle(
+      container,
+      'You have mastered this concept'
+    )
     expect(completeIconEl).toBeNull()
   })
 
@@ -54,7 +57,10 @@ describe('<ConceptMap />', () => {
       }
     )
     const conceptEl = getByText(container, 'Test')
-    const completeIconEl = getByTitle(container, 'completed')
+    const completeIconEl = getByTitle(
+      container,
+      'You have mastered this concept'
+    )
   })
 })
 

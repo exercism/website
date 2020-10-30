@@ -12,8 +12,8 @@ class UserTrack
       {}.tap do |output|
         set_status = ->(slugs, status) { slugs.each { |slug| output[slug] = status } }
 
-        set_status.(all_concepts, :locked)
-        set_status.(available_concepts, :unlocked)
+        set_status.(all_concepts, :unavailable)
+        set_status.(available_concepts, :available)
         set_status.(learnt_concepts, :complete)
       end
     end

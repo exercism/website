@@ -49,7 +49,7 @@ function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
 export function TestsStatusSummary({
   testsStatus,
 }: {
-  testsStatus: TestRunStatus
+  testsStatus: SubmissionTestsStatus
 }) {
   return (
     <div className="tests">

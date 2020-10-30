@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { TestRunStatus } from '../student/Editor'
+import { SubmissionTestsStatus } from '../student/Editor'
 import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { TestsStatusSummary } from './iteration-summary/TestsStatusSummary'
@@ -11,7 +11,7 @@ export type Iteration = {
   idx: number
   submissionMethod: SubmissionMethod
   createdAt: Date
-  testsStatus: TestRunStatus
+  testsStatus: SubmissionTestsStatus
   representationStatus: RepresentationStatus
   analysisStatus: AnalysisStatus
 }

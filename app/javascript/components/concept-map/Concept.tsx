@@ -10,6 +10,7 @@ import {
   Visibility,
 } from './helpers/concept-visibility-handler'
 import { wrapAnimationFrame } from './helpers/animation-helpers'
+import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 export const Concept = ({
   slug,
@@ -19,12 +20,14 @@ export const Concept = ({
   handleLeave,
   status,
   isActive,
+  exercises = 0,
+  exercisesCompleted = 0,
 }: IConcept & {
   handleEnter: MouseEventHandler
   handleLeave: MouseEventHandler
   status: ConceptStatus
   isActive: boolean
-}) => {
+}): JSX.Element => {
   const [visibility, setVisibility] = useState<Visibility>('hidden')
   const conceptRef = useRef(null)
 
@@ -38,14 +41,37 @@ export const Concept = ({
     }
   }, [slug, conceptRef])
 
+  const hasExercises = exercises > 0
+  const isStarted = exercisesCompleted > 0
+
   // Build the class list
-  let classes = ['card']
-  classes.push(`card-${status}`)
+  const classes: string[] = ['card']
+  classes.push(status)
   if (isActive) {
-    classes.push('card-active')
+    classes.push('active')
   }
   if (visibility === 'hidden') {
     classes.push('hidden')
+  }
+
+  if (!hasExercises) {
+    classes.push('no-exercises')
+  } else if (!isStarted) {
+    classes.push('not-started')
+  }
+
+  if (slug === 'basics') {
+    console.log({
+      slug,
+      name,
+      web_url,
+      handleEnter,
+      handleLeave,
+      status,
+      isActive,
+      exercises,
+      exercisesCompleted,
+    })
   }
 
   return (
@@ -61,8 +87,13 @@ export const Concept = ({
     >
       <div className="display">
         <div className="name">{name}</div>
-        <CompleteIcon show={'completed' === status} />
+        <CompleteIcon show={hasExercises && exercises === exercisesCompleted} />
       </div>
+      <PureExerciseProgressBar
+        completed={exercisesCompleted}
+        exercises={exercises}
+        hidden={!hasExercises || !isStarted}
+      />
     </a>
   )
 }

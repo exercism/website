@@ -1,13 +1,17 @@
 import React from 'react'
 
-export const CompleteIcon = ({ show }: { show: boolean }) => {
+export const CompleteIcon = ({
+  show,
+}: {
+  show: boolean
+}): JSX.Element | null => {
   if (!show) return null
 
   const rootStyle = getComputedStyle(document.documentElement)
   const fillColor = rootStyle.getPropertyValue('--c-concept-map-check-green')
   const checkColor = '#000000'
-  const height = '1.2rem'
-  const width = '1.2rem'
+  const height = '1rem'
+  const width = '1rem'
 
   return (
     <svg

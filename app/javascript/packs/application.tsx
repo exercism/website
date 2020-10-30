@@ -95,6 +95,7 @@ initReact({
       levels={data.graph.levels}
       connections={data.graph.connections}
       status={data.graph.status}
+      exercise_counts={data.graph.exercise_counts}
     />
   ),
   'track-iteration-summary': (data: any) => (

@@ -1,9 +1,11 @@
-export type ConceptStatus = 'locked' | 'unlocked' | 'completed' | 'in_progress'
+export type ConceptStatus = 'available' | 'unavailable' | 'completed'
 
 export interface IConcept {
   slug: string
   web_url: string
   name: string
+  exercises?: number
+  exercisesCompleted?: number
 }
 
 export function isIConcept(concept: IConcept | undefined): concept is IConcept {
@@ -15,12 +17,19 @@ export type ConceptConnection = {
   to: string
 }
 
-export type ConceptPathStatus = 'locked' | 'available' | 'complete'
+export type ConceptPathStatus = 'available' | 'unavailable'
 
 export type ConceptPathCoordinate = {
   x: number
   y: number
 }
+
+export type PathCourse =
+  | 'left'
+  | 'center-left'
+  | 'center'
+  | 'center-right'
+  | 'right'
 
 export type ConceptPathProperties = {
   width: number
@@ -31,6 +40,7 @@ export type ConceptPathProperties = {
   pathStart: ConceptPathCoordinate
   pathEnd: ConceptPathCoordinate
   status: ConceptPathStatus
+  pathCourse: PathCourse
 }
 
 export function isConceptPathProperties(
@@ -44,6 +54,9 @@ export interface IConceptMap {
   levels: ConceptLayer[]
   connections: ConceptConnection[]
   status: { [key: string]: ConceptStatus }
+  exercise_counts: {
+    [key: string]: { exercises: number; exercises_completed: number }
+  }
 }
 
 export type ConceptLayer = string[]

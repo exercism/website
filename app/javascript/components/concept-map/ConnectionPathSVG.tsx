@@ -55,6 +55,7 @@ export const ConnectionPathSVG = ({
     pathEnd,
     translateX,
     translateY,
+    pathCourse,
   } = pathProperties
 
   // Compute ClassNames
@@ -81,7 +82,11 @@ export const ConnectionPathSVG = ({
       data-to={connection.to}
     >
       <g>
-        <PurePathLineSVG pathStart={pathStart} pathEnd={pathEnd} />
+        <PurePathLineSVG
+          pathStart={pathStart}
+          pathEnd={pathEnd}
+          course={pathCourse}
+        />
         <PurePathLineEndSVG cx={pathStart.x} cy={pathStart.y} radius={radius} />
         <PurePathLineEndSVG cx={pathEnd.x} cy={pathEnd.y} radius={radius} />
       </g>

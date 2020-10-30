@@ -10,17 +10,17 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     )
   end
 
-  test "concepts without prerequisite are :unlocked" do
+  test "concepts without prerequisite are :available" do
     track, user_track = setup_user_track
     setup_concepts(track, 'basics')
 
     assert_equal(
-      { 'basics' => :unlocked },
+      { 'basics' => :available },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concepts following incomplete concepts are :locked" do
+  test "concepts following incomplete concepts are :unavailable" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -36,15 +36,15 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
     assert_equal(
       {
-        'basics' => :unlocked,
-        'booleans' => :locked,
-        'atoms' => :locked
+        'basics' => :available,
+        'booleans' => :unavailable,
+        'atoms' => :unavailable
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concepts following complete concepts are :unlocked" do
+  test "concepts following complete concepts are :available" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -63,14 +63,14 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     assert_equal(
       {
         'basics' => :complete,
-        'booleans' => :unlocked,
-        'atoms' => :locked
+        'booleans' => :available,
+        'atoms' => :unavailable
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concepts with multiple first-level pre-reqs are locked" do
+  test "concepts with multiple first-level pre-reqs are unavailable" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -86,15 +86,15 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
     assert_equal(
       {
-        'basics' => :unlocked,
-        'booleans' => :unlocked,
-        'atoms' => :locked
+        'basics' => :available,
+        'booleans' => :available,
+        'atoms' => :unavailable
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concepts with two pre-reqs are :locked unless both are complete" do
+  test "concepts with two pre-reqs are :unavailable unless both are complete" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -114,14 +114,14 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     assert_equal(
       {
         'basics' => :complete,
-        'booleans' => :unlocked,
-        'atoms' => :locked
+        'booleans' => :available,
+        'atoms' => :unavailable
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concept with two pre-reqs is unlocked when all pre-reqs complete" do
+  test "concept with two pre-reqs is available when all pre-reqs complete" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -143,7 +143,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
       {
         'basics' => :complete,
         'booleans' => :complete,
-        'atoms' => :unlocked
+        'atoms' => :available
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )

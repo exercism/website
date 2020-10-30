@@ -19,7 +19,7 @@ module Flows
       assert_text "Iteration 2"
       assert_text "Queued"
 
-      submission.update!(tests_status: :pass)
+      submission.update!(tests_status: :passed)
       IterationsChannel.broadcast!(iteration)
       assert_text "Passed"
     end

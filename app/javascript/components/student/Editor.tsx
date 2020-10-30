@@ -5,57 +5,25 @@ import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 
-export type Submission =
-  | {
-      testsStatus: TestRunStatus.PASS
-      uuid: string
-      links: SubmissionLinks
-      testRun: TestRun
-    }
-  | {
-      testsStatus: TestRunStatus.FAIL
-      uuid: string
-      links: SubmissionLinks
-      testRun: TestRun
-    }
-  | {
-      testsStatus: TestRunStatus.ERROR
-      uuid: string
-      links: SubmissionLinks
-      testRun: TestRun
-    }
-  | {
-      testsStatus: TestRunStatus.OPS_ERROR
-      uuid: string
-      links: SubmissionLinks
-      testRun: TestRun
-    }
-  | {
-      testsStatus: TestRunStatus.QUEUED
-      uuid: string
-      links: SubmissionLinks
-      testRun: never
-    }
-  | {
-      testsStatus: TestRunStatus.TIMEOUT
-      uuid: string
-      links: SubmissionLinks
-      testRun: never
-    }
-  | {
-      testsStatus: TestRunStatus.CANCELLING
-      uuid: string
-      links: SubmissionLinks
-      testRun: never
-    }
-  | {
-      testsStatus: TestRunStatus.CANCELLED
-      uuid: string
-      links: SubmissionLinks
-      testRun: never
-    }
+export type Submission = {
+  testsStatus: SubmissionTestsStatus
+  uuid: string
+  links: SubmissionLinks
+  testRun: TestRun
+}
+
+export enum SubmissionTestsStatus {
+  NOT_QUEUED = 'not_queued',
+  QUEUED = 'queued',
+  PASSED = 'passed',
+  FAILED = 'failed',
+  ERRORED = 'errored',
+  EXCEPTIONED = 'exceptioned',
+  CANCELLED = 'cancelled',
+}
 
 export type TestRun = {
+  id: number | null
   submissionUuid: string
   status: TestRunStatus
   message: string
@@ -124,10 +92,10 @@ type Action =
   | { type: ActionType.CREATING_ITERATION }
   | {
       type: ActionType.SUBMISSION_CHANGED
-      payload: { submission: Submission }
+      payload: { testRun: TestRun }
     }
 
-function reducer(state: State, action: Action) {
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case ActionType.CREATING_SUBMISSION:
       return {
@@ -139,7 +107,16 @@ function reducer(state: State, action: Action) {
       return {
         ...state,
         status: EditorStatus.SUBMISSION_CREATED,
-        submission: action.payload.submission,
+        submission: {
+          ...action.payload.submission,
+          testRun: {
+            id: null,
+            submissionUuid: action.payload.submission.uuid,
+            status: TestRunStatus.QUEUED,
+            tests: [],
+            message: '',
+          },
+        },
       }
     case ActionType.SUBMISSION_CANCELLED:
       return {
@@ -159,7 +136,10 @@ function reducer(state: State, action: Action) {
     case ActionType.SUBMISSION_CHANGED:
       return {
         ...state,
-        submission: action.payload.submission,
+        submission: {
+          ...(state.submission as Submission),
+          testRun: action.payload.testRun,
+        },
       }
     default:
       return state
@@ -250,10 +230,10 @@ export function Editor({
     dispatch({ type: ActionType.SUBMISSION_CANCELLED })
   }, [dispatch, abort])
   const updateSubmission = useCallback(
-    (submission) => {
+    (testRun: TestRun) => {
       dispatch({
         type: ActionType.SUBMISSION_CHANGED,
-        payload: { submission: submission },
+        payload: { testRun: testRun },
       })
     },
     [dispatch]
@@ -282,7 +262,7 @@ export function Editor({
       <button
         type="button"
         onClick={submit}
-        disabled={submission && submission.testsStatus !== TestRunStatus.PASS}
+        disabled={submission?.testRun?.status !== TestRunStatus.PASS}
       >
         Submit
       </button>
@@ -293,7 +273,8 @@ export function Editor({
       {status === EditorStatus.ITERATION_CREATED && <p>Iteration submitted</p>}
       {submission && (
         <TestRunSummary
-          submission={submission}
+          cancelLink={submission.links.cancel}
+          testRun={submission.testRun}
           timeout={timeout}
           onUpdate={updateSubmission}
         />

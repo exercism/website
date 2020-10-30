@@ -1,9 +1,9 @@
 import React from 'react'
-import { TestRunStatus } from '../../student/Editor'
+import { SubmissionTestsStatus } from '../../student/Editor'
 
-function Content({ testsStatus }: { testsStatus: TestRunStatus }) {
+function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
   switch (testsStatus) {
-    case TestRunStatus.QUEUED:
+    case SubmissionTestsStatus.QUEUED:
       return (
         <>
           <svg role="presentation" className="icon">
@@ -12,29 +12,29 @@ function Content({ testsStatus }: { testsStatus: TestRunStatus }) {
           <div className="status">Queued</div>
         </>
       )
-    case TestRunStatus.PASS:
+    case SubmissionTestsStatus.PASSED:
       return (
         <>
           <div className="dot"></div>
           <div className="status">Passed</div>
         </>
       )
-    case TestRunStatus.FAIL:
+    case SubmissionTestsStatus.FAILED:
       return (
         <>
           <div className="dot"></div>
           <div className="status">Failed</div>
         </>
       )
-    case TestRunStatus.OPS_ERROR:
-    case TestRunStatus.ERROR:
+    case SubmissionTestsStatus.ERRORED:
+    case SubmissionTestsStatus.EXCEPTIONED:
       return (
         <>
           <div className="dot"></div>
           <div className="status">Errored</div>
         </>
       )
-    case TestRunStatus.CANCELLED:
+    case SubmissionTestsStatus.CANCELLED:
       return (
         <>
           <div className="dot"></div>

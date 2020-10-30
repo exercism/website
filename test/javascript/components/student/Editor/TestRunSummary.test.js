@@ -6,12 +6,7 @@ import { TestRunStatus } from '../../../../../app/javascript/components/student/
 
 test('hides cancel button if test run has resolved', async () => {
   const { queryByText } = render(
-    <TestRunSummary
-      submission={{
-        testsStatus: TestRunStatus.PASS,
-        testRun: { status: TestRunStatus.PASS, tests: [] },
-      }}
-    />
+    <TestRunSummary testRun={{ status: TestRunStatus.PASS, tests: [] }} />
   )
 
   expect(queryByText('Cancel')).not.toBeInTheDocument()

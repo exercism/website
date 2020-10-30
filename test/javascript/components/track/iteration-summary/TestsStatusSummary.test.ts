@@ -10,25 +10,25 @@ test('shows Queued status when testsStatus is queued', async () => {
 })
 
 test('shows Passed status when testsStatus is passed', async () => {
-  const { getByText } = render(<TestsStatusSummary testsStatus="pass" />)
+  const { getByText } = render(<TestsStatusSummary testsStatus="passed" />)
 
   expect(getByText('Passed')).toBeInTheDocument()
 })
 
 test('shows Fail status when testsStatus is failed', async () => {
-  const { getByText } = render(<TestsStatusSummary testsStatus="fail" />)
+  const { getByText } = render(<TestsStatusSummary testsStatus="failed" />)
 
   expect(getByText('Failed')).toBeInTheDocument()
 })
 
 test('shows Errored status when testsStatus is error', async () => {
-  const { getByText } = render(<TestsStatusSummary testsStatus="error" />)
+  const { getByText } = render(<TestsStatusSummary testsStatus="errored" />)
 
   expect(getByText('Errored')).toBeInTheDocument()
 })
 
-test('shows Errored status when testsStatus is ops error', async () => {
-  const { getByText } = render(<TestsStatusSummary testsStatus="ops_error" />)
+test('shows Errored status when testsStatus is exceptioned', async () => {
+  const { getByText } = render(<TestsStatusSummary testsStatus="exceptioned" />)
 
   expect(getByText('Errored')).toBeInTheDocument()
 })

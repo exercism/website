@@ -1,31 +1,31 @@
 import React, { useCallback } from 'react'
-import { TestRunStatus, Submission, Test } from '../Editor'
+import { TestRunStatus, TestRun, Test } from '../Editor'
 import { TestsList } from './TestsList'
 
 export function TestRunSummaryContent({
-  submission,
+  testRun,
   onCancel,
 }: {
-  submission: Submission
+  testRun: TestRun
   onCancel: () => void
 }) {
-  switch (submission.testsStatus) {
+  switch (testRun.status) {
     case TestRunStatus.PASS:
     case TestRunStatus.FAIL:
-      return <TestsList tests={submission.testRun.tests} />
+      return <TestsList tests={testRun.tests} />
     case TestRunStatus.ERROR:
       return (
         <div>
           <p>An error occurred</p>
           <p>We got the following error message when we ran your code:</p>
-          <p>{submission.testRun.message}</p>
+          <p>{testRun.message}</p>
         </div>
       )
     case TestRunStatus.OPS_ERROR:
       return (
         <div>
           <p>An error occurred</p>
-          <p>{submission.testRun.message}</p>
+          <p>{testRun.message}</p>
         </div>
       )
     case TestRunStatus.QUEUED:

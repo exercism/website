@@ -1,0 +1,28 @@
+%header#site-header
+  .lg-container.container
+    = link_to root_path, class: "exercism-link" do
+      = icon "exercism-with-logo-black", "Exercism"
+
+    %nav
+      %ul
+        %li
+          = link_to "#" do
+            = graphical_icon(:dashboard)
+            Dashboard
+
+        %li.selected{ "aria-current": "page" }
+          = link_to tracks_path do
+            = icon('bubbly-background', "Selected", css_class: 'selected')
+            = graphical_icon(:tracks)
+            Tracks
+
+        %li
+          = link_to "#" do
+            = graphical_icon(:mentoring)
+            Mentoring
+
+        %li
+          = link_to "#" do
+            = graphical_icon(:logo)
+            Contribute
+

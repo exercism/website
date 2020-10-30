@@ -12,7 +12,7 @@ require('channels')
 // without needing to be specified individually here.
 import '../../css/application.css'
 import '../../css/layout.css'
-//import '../../css/styles.css'
+import '../../css/site-header.css'
 
 import '../../css/components/bg-img.css'
 import '../../css/components/reputation.css'

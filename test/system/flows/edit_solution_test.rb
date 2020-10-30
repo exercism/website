@@ -27,6 +27,7 @@ module Components
       end
 
       test "user submits code" do
+        Submission::File.any_instance.stubs(:content)
         use_capybara_host do
           user = create :user
           create :user_auth_token, user: user
@@ -41,10 +42,11 @@ module Components
             status: "pass",
             ops_status: 200,
             tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+          create :submission_file, submission: Submission.last
           Submission::TestRunsChannel.broadcast!(test_run)
           click_on "Submit"
 
-          assert_text "Iteration submitted"
+          assert_text "Iteration 1", wait: 5
         end
       end
 

@@ -60,9 +60,7 @@ class API::IterationsControllerTest < API::BaseTestCase
 
     assert_response :success
     expected = {
-      iteration: {
-        idx: 1
-      }
+      iteration: SerializeIteration.(Iteration.last)
     }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual

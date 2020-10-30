@@ -10,7 +10,7 @@ export class IterationChannel {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'IterationChannel',
-        id: iteration.id,
+        uuid: iteration.uuid,
       },
       {
         received: (response: any) => {

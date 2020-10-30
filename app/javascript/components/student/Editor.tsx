@@ -4,6 +4,7 @@ import { Submitting } from './editor/Submitting'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
+import { Iteration } from '../track/IterationSummary'
 
 export type Submission = {
   testsStatus: SubmissionTestsStatus
@@ -62,7 +63,6 @@ export enum TestRunStatus {
 enum EditorStatus {
   CREATING_SUBMISSION = 'creatingSubmission',
   SUBMISSION_CREATED = 'submissionCreated',
-  ITERATION_CREATED = 'iterationCreated',
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
 }
@@ -75,7 +75,6 @@ type State = {
 enum ActionType {
   CREATING_SUBMISSION = 'creatingSubmission',
   SUBMISSION_CREATED = 'submissionCreated',
-  ITERATION_CREATED = 'iterationCreated',
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
@@ -88,7 +87,6 @@ type Action =
       payload: { submission: Submission }
     }
   | { type: ActionType.SUBMISSION_CANCELLED }
-  | { type: ActionType.ITERATION_CREATED }
   | { type: ActionType.CREATING_ITERATION }
   | {
       type: ActionType.SUBMISSION_CHANGED
@@ -122,11 +120,6 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         status: EditorStatus.SUBMISSION_CANCELLED,
-      }
-    case ActionType.ITERATION_CREATED:
-      return {
-        ...state,
-        status: EditorStatus.ITERATION_CREATED,
       }
     case ActionType.CREATING_ITERATION:
       return {
@@ -217,11 +210,13 @@ export function Editor({
 
       dispatch({ type: ActionType.CREATING_ITERATION })
 
-      fetchJSON(submission.links.submit, { method: 'POST' }).then(
-        (json: any) => {
-          dispatch({ type: ActionType.ITERATION_CREATED })
-        }
-      )
+      fetchJSON(submission.links.submit, {
+        method: 'POST',
+        body: JSON.stringify({}),
+      }).then((json: any) => {
+        const iteration = typecheck<Iteration>(json, 'iteration')
+        location.replace(iteration.links.self)
+      })
     },
     [submission]
   )
@@ -270,7 +265,6 @@ export function Editor({
         <Submitting onCancel={cancel} />
       )}
       {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
-      {status === EditorStatus.ITERATION_CREATED && <p>Iteration submitted</p>}
       {submission && (
         <TestRunSummary
           cancelLink={submission.links.cancel}

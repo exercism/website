@@ -14,6 +14,11 @@ export type Iteration = {
   testsStatus: SubmissionTestsStatus
   representationStatus: RepresentationStatus
   analysisStatus: AnalysisStatus
+  links: IterationLinks
+}
+
+type IterationLinks = {
+  self: string
 }
 
 export enum SubmissionMethod {

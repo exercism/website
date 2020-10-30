@@ -18,9 +18,7 @@ module API
       iteration = Iteration::Create.(solution, submission)
 
       render json: {
-        iteration: {
-          idx: iteration.idx
-        }
+        iteration: SerializeIteration.(iteration)
       }, status: :created
     end
   end

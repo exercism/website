@@ -58,7 +58,9 @@ module ViewComponents
       end
 
       def exercise_icon
-        graphical_icon('sample-exercise', css_class: "--exercise-icon")
+        # TODO: use the real icon
+        suffix = @exercise.title[0].ord < 78 ? "butterflies" : "rocket"
+        graphical_icon("sample-exercise-#{suffix}", css_class: "--exercise-icon")
       end
 
       def info_tag

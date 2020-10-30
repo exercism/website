@@ -24,6 +24,13 @@ export type ConceptPathCoordinate = {
   y: number
 }
 
+export type PathCourse =
+  | 'left'
+  | 'center-left'
+  | 'center'
+  | 'center-right'
+  | 'right'
+
 export type ConceptPathProperties = {
   width: number
   height: number
@@ -33,6 +40,7 @@ export type ConceptPathProperties = {
   pathStart: ConceptPathCoordinate
   pathEnd: ConceptPathCoordinate
   status: ConceptPathStatus
+  pathCourse: PathCourse
 }
 
 export function isConceptPathProperties(

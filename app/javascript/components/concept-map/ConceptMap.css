@@ -13,9 +13,12 @@
     --c-concept-map-line-dasharray-solid: 1, 0;
     --c-concept-map-text-unlocked: #26282d;
     --c-concept-map-text-locked: #83819e;
+
+    --c-concept-map-hover-opacity: 0.3;
+
     --c-concept-map-line-width: 2;
     --c-concept-map-circle-radius: 4;
-    --c-concept-map-hover-opacity: 0.3;
+    --c-concept-map-drawing-margin: 50;
 
     --c-concept-map-progress-green: #59d2ae;
     --c-concept-map-progress-blue: #2e57e8;
@@ -95,7 +98,7 @@
                 }
 
                 & progress::-webkit-progress-bar {
-                    background-color: #fff;
+                    background-color: s-white;
                 }
 
                 & progress[value] {

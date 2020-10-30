@@ -23,7 +23,7 @@
                 & .icon {
                     height: 54px;
                     width: 54px;
-                    @apply mx-8;
+                    @apply mx-16;
                 }
             }
             & p {

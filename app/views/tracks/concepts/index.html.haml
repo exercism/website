@@ -8,7 +8,7 @@
         %h1
           Your journey through
           = track_icon(@track)
-        %p Learn and master concepts to forge to become fluent in #{@track.title}.
+        %p Learn and master concepts to acheve fluency in #{@track.title}.
         %progress.progress-bar{ value: @num_completed, max: @num_concepts }
         .progress-text #{pluralize(@num_completed, 'concepts')} learnt
 

@@ -4,6 +4,8 @@ class SerializeSubmissionTestRun
   initialize_with :test_run
 
   def call
+    return unless test_run
+
     {
       id: test_run.id,
       submission_uuid: test_run.submission.uuid,

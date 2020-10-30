@@ -48,8 +48,10 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import { Submission, File } from '../components/student/Editor'
 import * as Tooltips from '../components/tooltips'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
+import { camelizeKeys } from 'humps'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -91,7 +93,15 @@ initReact({
       status={data.graph.status}
     />
   ),
-  'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
+  'student-editor': (data: any) => (
+    <Student.Editor
+      endpoint={data.endpoint}
+      initialSubmission={
+        (camelizeKeys(data.submission) as unknown) as Submission
+      }
+      files={data.files}
+    />
+  ),
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),

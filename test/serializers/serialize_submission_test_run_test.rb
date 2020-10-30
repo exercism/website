@@ -83,4 +83,8 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     assert_equal "ops_error", output[:status]
     assert_equal "Some error occurred", output[:message]
   end
+
+  test "returns nil if nil is passed in" do
+    assert_nil SerializeSubmissionTestRun.(nil)
+  end
 end

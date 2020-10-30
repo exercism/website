@@ -14,3 +14,5 @@ en:
       track_not_found: "The track you specified does not exist"
       track_not_joined: "You have not joined this track"
       file_not_found: "The file was not found"
+      # TODO: Add max size to this
+      file_too_large: "The submitted file was too large"

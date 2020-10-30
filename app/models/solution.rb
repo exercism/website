@@ -50,6 +50,19 @@ class Solution < ApplicationRecord
     Git::Exercise.for_solution(self).data.instructions
   end
 
+  def editor_solution_files
+    files = Git::Exercise.for_solution(self).editor_solution_files
+
+    submission = submissions.last
+    if submission # rubocop:disable Style/SafeNavigation
+      submission.files.each do |file|
+        files[file.filename] = file.content
+      end
+    end
+
+    files
+  end
+
   # TODO: - Use an actual serializer
   def serialized_submissions
     submissions.map do |i|

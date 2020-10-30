@@ -1,0 +1,32 @@
+@import "../styles";
+
+.c-textual-content {
+    & * {
+        @apply text-prose mb-16;
+    }
+
+    & h2 {
+        @apply text-h3 mb-8;
+    }
+    & h3 {
+        @apply text-h4 mb-8;
+    }
+    & p {
+        & code {
+            @apply shadow-lg p-4;
+        }
+    }
+    & ul {
+        @apply ml-24;
+        & li {
+            @apply mb-8 list-disc;
+        }
+    }
+    & pre {
+        @apply shadow-lg mb-24 py-16 px-24 rounded-8 overflow-auto;
+        @apply text-16;
+    }
+    & * + h3 {
+        @apply mt-28;
+    }
+}

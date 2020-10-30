@@ -62,7 +62,9 @@ module Git
       ].join("/")
 
       query = {
-        "git_sha": git_sha
+        # TOOD: Switch these once auto-updating is done
+        # "git_sha": git_sha
+        "git_sha": "HEAD"
       }.merge(query_parts).
         map { |k, v| "#{k}=#{v}" }.
         join("&")

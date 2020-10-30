@@ -3,7 +3,7 @@
 
   %header.concept-header
     .lg-container.container
-      .icon
+      .concept-icon
       .info
         %h1
           = @concept.name
@@ -14,27 +14,26 @@
           5 exercises
 
   %section.lg-container.tw-flex
-    %div
-      .about
+    .tw-flex-grow.tw-w-arbitary
+      .about.c-textual-content
         %h2 About #{@concept.name}
-        %p C# structs are closely related to classes. They have state and behavior. They have constructors that take arguments, instances can be assigned, tested for equality and stored in collections.
+        = raw ParseMarkdown.(@concept.about)
 
       .links
         %h3 Learn More
-        %ul
-          %li
-            = link_to "#" do
-              = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
-              Structs in C#
-              = icon(:external_link, "(external link)")
+        - if @concept.links.present?
+          %ul
+            - @concept.links.each do |link|
+              %li
+                = link_to link.url do
+                  = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
+                  = link.description
+                  = icon(:external_link, "(external link)")
+        - else
+          / TODO: Remove this from launch
+          TODO: Add some links.
 
-          %li
-            = link_to "#" do
-              = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
-              Using Methods in C#
-              = icon(:external_link, "(external link)")
-
-    .tw-w-1-3.tw-flex-shrink-0.tw-ml-spacedColumns
+    .tw-w-5-7.tw-flex-shrink-0.tw-ml-spacedColumns
 
       - if @concept_exercises.present?
         .learn
@@ -42,11 +41,14 @@
             = graphical_icon(:concepts)
             Learn #{@concept.name}
 
-          - @concept_exercises.each do |concept_exercise|
-            = render "tracks/concepts/show/concept_exercise", track: @track, exercise: concept_exercise
+          .exercises
+            - @concept_exercises.each do |concept_exercise|
+              = ViewComponents::Widgets::Exercise.new(concept_exercise)
 
       - if @practice_exercises.present?
         .practice
           Practice this:
-          - @practice_exercises.each do |practice_exercise|
-            = render "tracks/concepts/show/practice_exercise", track: @track, exercise: practice_exercise
+
+          .exercises
+            - @practice_exercises.each do |practice_exercise|
+              = ViewComponents::Widgets::Exercise.new(practice_exercise)

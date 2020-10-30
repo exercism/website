@@ -41,36 +41,31 @@
     }
     & .instructions {
         @apply mb-32 px-32 py-24 bg-white rounded-8 shadow-lg;
-
-        & h2 {
-            @apply text-h3 mb-8;
-        }
-        & h3 {
-            @apply text-h4 mb-8;
-        }
-        & p {
-            @apply text-prose mb-16;
-
-            & code {
-                @apply shadow-lg p-4;
-            }
-        }
-        & pre {
-            @apply shadow-lg mb-24 py-16 px-24 rounded-8;
-            @apply text-16;
-        }
-        & * + h3 {
-            @apply mt-48;
-        }
     }
     & .action-box {
         @apply shadow-lg py-24 px-32 rounded-8;
 
         & h3 {
-            @apply text-h4 mb-12;
+            @apply flex items-center text-h4 mb-12;
+            & .icon {
+                height: 24px;
+                width: 24px;
+                @apply mr-16;
+            }
         }
         & p {
             @apply text-16 leading-paragraph mb-24;
+
+            & strong {
+                @apply font-semibold;
+            }
+        }
+        & .prereqs {
+            @apply flex;
+
+            & .c-exercise-widget {
+                @apply gap-8;
+            }
         }
         & h4 {
             @apply text-label-code-caps mb-12;

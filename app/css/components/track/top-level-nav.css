@@ -12,6 +12,7 @@
 
         & .c-tab {
             line-height: var(--nav-height);
+            @apply mr-8;
         }
     }
 }

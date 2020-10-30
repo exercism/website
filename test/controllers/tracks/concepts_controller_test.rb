@@ -19,7 +19,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get track_concepts_url(track)
-    assert_template "tracks/concepts/index/joined"
+    assert_template "tracks/concepts/index"
   end
 
   test "index: renders correctly for unjoined" do
@@ -28,7 +28,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     sign_in!
 
     get track_concepts_url(track)
-    assert_template "tracks/concepts/index/unjoined"
+    assert_template "tracks/concepts/index"
   end
 
   test "show: renders correctly for external" do

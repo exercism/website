@@ -36,4 +36,25 @@ class ExerciseTest < ActiveSupport::TestCase
 
     assert_equal instructions, exercise.instructions
   end
+
+  test "prerequisite_exercises" do
+    strings = create :track_concept
+    bools = create :track_concept
+    conditionals = create :track_concept
+
+    exercise = create :practice_exercise
+    exercise.prerequisites << strings
+    exercise.prerequisites << bools
+
+    pre_ex_1 = create(:concept_exercise)
+    pre_ex_1.taught_concepts << strings
+
+    pre_ex_2 = create(:concept_exercise)
+    pre_ex_2.taught_concepts << bools
+
+    pre_ex_3 = create(:concept_exercise)
+    pre_ex_3.taught_concepts << conditionals
+
+    assert_equal [pre_ex_1, pre_ex_2], exercise.prerequisite_exercises
+  end
 end

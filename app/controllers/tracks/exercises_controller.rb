@@ -7,8 +7,12 @@ class Tracks::ExercisesController < ApplicationController
 
   def index
     @exercises = @track.exercises
+    @num_completed = @user_track ? @user_track.solutions.completed.count : 0
   end
 
+  # TODO: There is lots of logic in this view
+  # that should be extracted into a view model
+  # to allow for pre-caching of solution data
   def show; end
 
   def start

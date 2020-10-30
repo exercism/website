@@ -265,7 +265,7 @@ export function Editor({
         <Submitting onCancel={cancel} />
       )}
       {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
-      {submission && (
+      {submission && submission.testRun && (
         <TestRunSummary
           cancelLink={submission.links.cancel}
           testRun={submission.testRun}

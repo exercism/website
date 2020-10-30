@@ -50,20 +50,16 @@ export function IterationSummary(props: { iteration: Iteration }) {
   const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
-    channel.current = new IterationChannel(iteration, (iteration) => {
+    const iterationChannel = new IterationChannel(iteration, (iteration) => {
       setIteration(iteration)
     })
 
-    return () => {
-      channel.current?.disconnect()
-    }
-  }, [iteration])
+    channel.current = iterationChannel
 
-  useEffect(() => {
     return () => {
-      channel.current?.disconnect()
+      iterationChannel.disconnect()
     }
-  }, [channel])
+  }, [channel, iteration, setIteration])
 
   return (
     <div className="header">

@@ -53,6 +53,10 @@ module ViewComponents
         user_track.exercise_available?(exercise)
       end
 
+      def completed?
+        solution&.completed?
+      end
+
       def exercise_icon
         graphical_icon('sample-exercise', css_class: "--exercise-icon")
       end
@@ -64,7 +68,9 @@ module ViewComponents
       end
 
       def title_tag
-        tag.div(exercise.title, class: "--title")
+        parts = [exercise.title]
+        parts << icon("completed-check-circle", "Exercises is completed") if completed?
+        tag.div safe_join(parts), class: "--title"
       end
 
       def desc_tag

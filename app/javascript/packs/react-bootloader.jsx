@@ -15,7 +15,6 @@ export const initReact = (mappings) => {
   document.addEventListener('turbolinks:load', () => {
     for (const [name, generator] of Object.entries(mappings)) {
       const selector = '[data-react-' + name + ']'
-      console.log(selector)
       document.querySelectorAll(selector).forEach((elem) => {
         const data = JSON.parse(elem.dataset.reactData)
         render(elem, generator(data))

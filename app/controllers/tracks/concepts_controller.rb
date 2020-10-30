@@ -13,6 +13,8 @@ class Tracks::ConceptsController < ApplicationController
                                  else
                                    {}
                                  end
+    @num_concepts = @track.concepts.count
+    @num_completed = @user_track ? @user_track.learnt_concepts.count : 0
   end
 
   def show

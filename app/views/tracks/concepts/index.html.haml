@@ -1,6 +1,16 @@
-#page-track-concepts
+#page-concepts-index
   = ViewComponents::Track::TopLevelNav.new(@track, :concepts)
 
-  .md-container
-    %h2 Concepts for #{@track.title}
+  .page-header
+    .lg-container.container
+      = graphical_icon("graphic-forest", css_class: 'graphic')
+      .info
+        %h1
+          Your journey through
+          = track_icon(@track)
+        %p Learn and master concepts to forge to become fluent in #{@track.title}.
+        %progress.progress-bar{ value: @num_completed, max: @num_concepts }
+        .progress-text #{pluralize(@num_completed, 'concepts')} learnt
+
+  .lg-container.container
     = ViewComponents::Student::ConceptMap.new(@concept_map_data)

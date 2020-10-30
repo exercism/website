@@ -9,20 +9,9 @@ module API
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
-      formatted_files = submission_params[:files].each_with_object({}) do |file, files|
-        files[file[:filename]] = file[:content]
-      end
+      files = submission_params[:files].map(&:to_h).map(&:symbolize_keys)
 
-      begin
-        # TODO: Change this to be a guard to render an error if files are not present.
-        files = if formatted_files.present?
-                  Submission::PrepareMappedFiles.(formatted_files.to_h)
-                else
-                  []
-                end
-      rescue SubmissionFileTooLargeError
-        return render_error(400, :file_too_large, "#{file.original_filename} is too large")
-      end
+      return render_error(400, :file_too_large) if files.any? { |file| file[:content].size > 1.megabyte }
 
       begin
         submission = Submission::Create.(solution, files, :api)

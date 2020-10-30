@@ -66,20 +66,39 @@ class API::SubmissionsControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution, user: @current_user
 
-    params_files = [
+    files = [
       { filename: "foo", content: "bar" },
       { filename: "bar", content: "foo" }
     ]
-    files = mock
-    Submission::PrepareMappedFiles.expects(:call).with({ "foo" => "bar", "bar" => "foo" }).returns(files)
     Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
 
     post api_solution_submissions_path(solution.uuid),
-      params: { files: params_files },
+      params: { files: files },
       headers: @headers,
       as: :json
 
     assert_response :success
+  end
+
+  test "returns error if submission is too large" do
+    filename = "subdir/foobar.rb"
+    content = "a" * (1.megabyte + 1)
+
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    post api_solution_submissions_path(solution.uuid),
+      params: { files: [{ filename: filename, content: content }] },
+      headers: @headers,
+      as: :json
+
+    assert_response 400
+    expected = { error: {
+      type: "file_too_large",
+      message: I18n.t("api.errors.file_too_large")
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 
   test "create should catch duplicate submission" do

@@ -2,8 +2,6 @@
 
 #page-concept-show {
     & .concept-header {
-        @apply mb-40;
-
         & .container {
             @apply flex items-center py-32;
             height: 190px;
@@ -13,7 +11,7 @@
             #e1ebff 0%,
             rgba(225, 235, 255, 0) 100%
         );
-        & .icon {
+        & .concept-icon {
             @apply mr-48;
             width: 96px;
             height: 96px;
@@ -24,9 +22,10 @@
             & small {
                 @apply text-18 ml-16 mr-12 text-textBase font-normal;
             }
-            & img {
+            & .c-track-icon {
                 /* TODO: Switch these */
                 /*@mixin track-icon 48px;*/
+                width: 48px;
                 height: 48px;
             }
         }
@@ -54,7 +53,7 @@
             @apply text-h3 mb-16;
         }
         & ul {
-            @apply flex gap-20;
+            @apply flex flex-wrap gap-12;
         }
         & a {
             @apply flex items-center;
@@ -79,6 +78,9 @@
                 height: 24px;
                 width: 24px;
             }
+        }
+        & .exercises {
+            @apply flex;
         }
     }
 }

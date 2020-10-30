@@ -6,15 +6,26 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
     auth_token = create :user_auth_token, user: user
     solution = create :concept_solution, user: user
     submission = create :submission, tests_status: :failed, solution: solution
+    test_run = create :submission_test_run, submission: submission
 
     expected = {
       uuid: submission.uuid,
       tests_status: 'failed',
       links: {
-        cancel: Exercism::Routes.api_submission_cancellations_url(submission, auth_token: auth_token.to_s)
-      }
+        cancel: Exercism::Routes.api_submission_cancellations_url(submission, auth_token: auth_token.to_s),
+        submit: Exercism::Routes.api_solution_iterations_url(
+          submission.solution.uuid,
+          submission_id: submission.uuid,
+          auth_token: auth_token.to_s
+        )
+      },
+      test_run: SerializeSubmissionTestRun.(test_run)
     }
     actual = SerializeSubmission.(submission)
     assert_equal expected, actual
+  end
+
+  test "returns nil if nil is passed in" do
+    assert_nil SerializeSubmission.(nil)
   end
 end

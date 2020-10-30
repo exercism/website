@@ -1,6 +1,6 @@
 module.exports = {
   future: {
-    // removeDeprecatedGapUtilities: true,
+    removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
   purge: [
@@ -97,7 +97,11 @@ module.exports = {
       spacedColumns: '70px',
     },
     width: {
-      '1-3': '33%',
+      // Sometimes, elements need to have *some* width set
+      // to then respond to flex-grow. This is used for that.
+      arbitary: '1px',
+      '5-7': '41.6%',
+      '1-3': '33.3%',
       '1-2': '50%',
       '100': '100%',
     },

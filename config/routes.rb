@@ -20,6 +20,10 @@ Rails.application.routes.draw do
       resources :submission, only: [] do
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
       end
+
+      resources :profiles, only: [] do
+        get :summary, on: :member
+      end
     end
   end
   get "api/(*url)", to: 'api/errors#render_404'
@@ -73,6 +77,7 @@ Rails.application.routes.draw do
   namespace :tmp do
     resources :submissions, only: [:create]
     resources :tracks, only: [:create]
+    post "git/pull" => "git#pull", as: "pull_git"
   end
 
   unless Rails.env.production?
@@ -105,6 +110,12 @@ Rails.application.routes.draw do
               get 'tracks'
               get 'conversations'
             end
+          end
+        end
+        namespace :tooltips do
+          resource :tooltip, controller: "tooltip", only: [:show] do
+            get 'mentored_student/:id', to: 'tooltip#mentored_student', as: 'mentored_student'
+            get 'user_summary/:id', to: 'tooltip#user_summary', as: 'user_summary'
           end
         end
       end

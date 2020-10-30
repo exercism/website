@@ -35,7 +35,7 @@ module ViewComponents
           end,
 
           link_to(
-            "#",
+            Exercism::Routes.track_exercises_path(track),
             class: tab_class(:exercises)
           ) do
             graphical_icon(:exercises) +

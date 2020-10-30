@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { TestSummary } from '../../../../../app/javascript/components/student/editor/TestSummary'
-import { TestStatus } from '../../../../../app/javascript/components/student/editor/TestRunSummary'
+import { TestStatus } from '../../../../../app/javascript/components/student/Editor'
 
 test('shows test details', async () => {
   const test = {

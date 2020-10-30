@@ -1,0 +1,39 @@
+.c-tooltip {
+    max-width: 460px;
+
+    @apply shadow-lg rounded-8 py-20 px-24 bg-white;
+
+    & header {
+        @apply flex items-center mb-12;
+
+        & .c-rounded-bg-img {
+            width: 48px;
+            height: 48px;
+
+            @apply mr-16;
+        }
+        & .identifier {
+            @apply flex-grow;
+
+            & h4 {
+                @apply text-16 text-darkGray font-semibold leading-paragraph;
+            }
+            & .handle {
+                @apply text-15 text-textLight font-medium leading-paragraph;
+            }
+        }
+    }
+
+    & .bio {
+        @apply text-15 leading-paragraph mb-8;
+    }
+
+    & .location {
+        @apply flex items-center text-14 leading-paragraph font-medium;
+        & .icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+        }
+    }
+}

@@ -57,6 +57,7 @@ else
       # It would be nice not to need this but Chrome
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
+      "chromedriver.storage.googleapis.com",
       "localhost:3040", "dynamodb",
       "localhost:3041", "s3"
     ]
@@ -77,6 +78,16 @@ class ActiveSupport::TestCase
     Git::Exercise.any_instance.stubs(file: "Some file contents")
     Git::Exercise.any_instance.stubs(code_files: {})
     Git::Exercise.any_instance.stubs(code_filepaths: [])
+    Git::Exercise.any_instance.stubs(editor_solution_files: {})
+    Git::Concept.any_instance.stubs(data: OpenStruct.new(
+      about: "Some concept description",
+      links: [
+        OpenStruct.new(
+          url: "http://test.com/concept",
+          description: "concept description"
+        )
+      ]
+    ))
   end
 
   # Create a few models and return a random one.

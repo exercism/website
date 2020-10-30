@@ -14,7 +14,7 @@ module IconsHelper
   end
 
   def track_icon(track)
-    # TODO: Change to use icon
-    image_tag(track.icon_url, alt: track.title, class: 'c-track-icon')
+    # TODO: Change to real icons
+    icon("sample-track", track.title, css_class: 'c-track-icon')
   end
 end

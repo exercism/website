@@ -42,7 +42,7 @@ export function UserSummary({
               <div
                 className="c-rounded-bg-img"
                 style={{ backgroundImage: `url(${data.avatarUrl})` }}
-                aria-title={`avatar for ${data.handle}`}
+                aria-label={`avatar for ${data.handle}`}
               />
               <div className="identifier">
                 <h4>{data.name}</h4>

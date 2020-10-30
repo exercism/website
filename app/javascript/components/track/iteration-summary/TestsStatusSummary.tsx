@@ -6,39 +6,39 @@ function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
     case SubmissionTestsStatus.QUEUED:
       return (
         <>
-          <svg role="presentation" className="icon">
+          <svg role="presentation" className="--icon">
             <use xlinkHref="#loading" />
           </svg>
-          <div className="status">Queued</div>
+          <div className="--status">Queued</div>
         </>
       )
     case SubmissionTestsStatus.PASSED:
       return (
         <>
-          <div className="dot"></div>
-          <div className="status">Passed</div>
+          <div className="--dot"></div>
+          <div className="--status">Passed</div>
         </>
       )
     case SubmissionTestsStatus.FAILED:
       return (
         <>
-          <div className="dot"></div>
-          <div className="status">Failed</div>
+          <div className="--dot"></div>
+          <div className="--status">Failed</div>
         </>
       )
     case SubmissionTestsStatus.ERRORED:
     case SubmissionTestsStatus.EXCEPTIONED:
       return (
         <>
-          <div className="dot"></div>
-          <div className="status">Errored</div>
+          <div className="--dot"></div>
+          <div className="--status">Errored</div>
         </>
       )
     case SubmissionTestsStatus.CANCELLED:
       return (
         <>
-          <div className="dot"></div>
-          <div className="status">Cancelled</div>
+          <div className="--dot"></div>
+          <div className="--status">Cancelled</div>
         </>
       )
     default:
@@ -52,7 +52,7 @@ export function TestsStatusSummary({
   testsStatus: SubmissionTestsStatus
 }) {
   return (
-    <div className="tests">
+    <div className={`--tests --${testsStatus}`}>
       <Content testsStatus={testsStatus} />
     </div>
   )

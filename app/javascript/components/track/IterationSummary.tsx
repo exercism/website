@@ -64,13 +64,13 @@ export function IterationSummary(props: { iteration: Iteration }) {
   return (
     <div className="c-iteration-summary">
       <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
-      <div className="info">
-        <div className="idx">
+      <div className="--info">
+        <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
-          <div className="dot"></div>
-          <div className="latest">Latest</div>
+          <div className="--dot"></div>
+          <div className="--latest">Latest</div>
         </div>
-        <div className="details" role="details">
+        <div className="--details" role="details">
           Submitted via {SUBMISSION_METHOD_LABELS[iteration.submissionMethod]},{' '}
           {fromNow(iteration.createdAt)}
         </div>

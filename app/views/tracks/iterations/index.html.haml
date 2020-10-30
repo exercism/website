@@ -6,7 +6,8 @@
       .iterations
         - @solution.iterations.each do |iteration|
           .iteration
-            = ViewComponents::Track::IterationSummary.new(iteration)
+            .header
+              = ViewComponents::Track::IterationSummary.new(iteration)
             .content
               .files
                 %pre

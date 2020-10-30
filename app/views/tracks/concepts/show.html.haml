@@ -3,7 +3,7 @@
 
   %header.concept-header
     .lg-container.container
-      .concept-icon
+      .concept-icon= @concept.name[0, 2]
       .info
         %h1
           = @concept.name

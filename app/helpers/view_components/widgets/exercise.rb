@@ -15,13 +15,13 @@ module ViewComponents
         if available?
           route = Exercism::Routes.track_exercise_path(exercise.track, exercise)
           link_to(route, class: css_class) do
-            parts = [exercise_icon, info_tag]
+            parts = [ex_icon, info_tag]
             parts << graphical_icon('chevron-right', css_class: "--chevron-icon") if large
             safe_join(parts)
           end
         else
           tag.div(class: "#{css_class} --locked") do
-            parts = [exercise_icon + info_tag]
+            parts = [ex_icon + info_tag]
             parts << icon('lock', "Exercise locked", css_class: "--lock-icon")
             safe_join(parts)
           end
@@ -57,10 +57,8 @@ module ViewComponents
         solution&.completed?
       end
 
-      def exercise_icon
-        # TODO: use the real icon
-        suffix = @exercise.title[0].ord < 78 ? "butterflies" : "rocket"
-        graphical_icon("sample-exercise-#{suffix}", css_class: "--exercise-icon")
+      def ex_icon
+        exercise_icon(@exercise, css_class: "--exercise-icon")
       end
 
       def info_tag

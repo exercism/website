@@ -1,0 +1,142 @@
+@import "../styles";
+
+.c-iteration-summary {
+    @apply flex items-center flex-grow;
+
+    & .--upload-method-icon {
+        height: 24px;
+        width: 24px;
+        @apply text-textLight mr-24;
+    }
+    & .--info {
+        @apply flex-grow;
+    }
+
+    & .--idx {
+        @apply flex items-center mb-6;
+
+        & h3 {
+            @apply font-mono font-semibold text-16 leading-paragraph;
+            @apply mr-16;
+        }
+        & .--dot {
+            @apply mr-16 rounded-circle bg-lightBlue;
+            height: 8px;
+            width: 8px;
+        }
+        & .--latest {
+            @apply text-textLight font-medium;
+            @apply border-1 border-borderLight rounded-5 px-8;
+            font-size: 12px;
+            line-height: 20px;
+        }
+    }
+    & .--details {
+        @apply text-label-timestamp;
+    }
+    & .--tests,
+    & .--analyzer {
+        @apply flex items-center;
+
+        & .--dot {
+            @apply rounded-circle;
+            height: 8px;
+            width: 8px;
+        }
+        & .--icon {
+            height: 16px;
+            width: 16px;
+        }
+        & .--dot,
+        & .--icon {
+            @apply mr-16;
+        }
+        & .--status {
+            @apply font-mono font-bold;
+        }
+    }
+    & .--tests {
+        @apply mr-32 text-darkGreen;
+
+        &.--queued {
+            @apply text-orange;
+        }
+        &.--passed {
+            @apply text-darkGreen;
+            & .--dot {
+                @apply bg-darkGreen;
+            }
+        }
+        &.--failed {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--errored {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--exceptioned {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--cancelled {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--not_queued {
+            @apply text-orange;
+            & .--dot {
+                @apply bg-orange;
+            }
+        }
+    }
+    & .--analyzer {
+        &.--queued {
+            @apply text-orange;
+        }
+        &.--approved {
+            @apply text-darkGreen;
+            & .--dot {
+                @apply bg-darkGreen;
+            }
+        }
+        &.--inconclusive {
+            @apply text-darkGreen;
+            & .--dot {
+                @apply bg-darkGreen;
+            }
+        }
+        &.--disapproved {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--cancelled {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--exceptioned {
+            @apply text-red;
+            & .--dot {
+                @apply bg-red;
+            }
+        }
+        &.--not_queued {
+            @apply text-orange;
+            & .--dot {
+                @apply bg-orange;
+            }
+        }
+    }
+}

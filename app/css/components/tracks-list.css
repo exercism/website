@@ -2,7 +2,7 @@
 
 .c-tracks-list {
     & .search-bar {
-        @apply p-12 mb-32;
+        @apply py-12 mb-32;
         @apply bg-white shadow-base;
 
         & > .md-container {

@@ -22,7 +22,7 @@ module ViewComponents
             Exercism::Routes.track_path(track),
             class: tab_class(:overview)
           ) do
-            graphical_icon(:dashboard) +
+            graphical_icon(:overview) +
               tag.span("Overview", "data-text": "Overview")
           end,
 

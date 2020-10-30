@@ -2,17 +2,17 @@
     --c-concept-map-background: #ffffff;
     --c-concept-map-card-background: #ffffff;
 
-    --c-concept-map-check-green: #82e7c1;
+    --c-concept-map-check-green: #59d2ae;
 
     --c-concept-map-line-complete: #64b294;
-    --c-concept-map-line-available: #7194f7;
+    --c-concept-map-line-available: #dce3ef;
     --c-concept-map-line-locked: #c9c8d7;
     --c-concept-map-line-faded: #eff2f8;
 
     --c-concept-map-line-dasharray-dashed: 5, 7;
     --c-concept-map-line-dasharray-solid: 1, 0;
     --c-concept-map-text-unlocked: #26282d;
-    --c-concept-map-text-locked: #83819e;
+    --c-concept-map-text-locked: #6d6986;
 
     --c-concept-map-hover-opacity: 0.3;
 
@@ -35,15 +35,11 @@
 
             & .card {
                 @apply rounded-t-8;
-                @apply box-border pointer-events-auto;
-                @apply flex flex-col;
-                justify-content: space-between;
-                margin: 42px;
+                @apply box-border pointer-events-auto shadow-base;
+                @apply flex flex-col justify-between m-40;
 
                 background-color: var(--c-concept-map-card-background);
                 opacity: var(--c-concept-map-hover-opacity);
-                color: var(--c-concept-map-text-locked);
-                box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.25);
                 transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
 
                 &.unavailable,
@@ -52,8 +48,12 @@
                     @apply rounded-b-8;
                 }
 
+                &.unavailable {
+                    @apply bg-bgGray;
+                    color: var(--c-concept-map-text-locked);
+                }
                 &.not-started:not(.unavailable) {
-                    box-shadow: 0px 0px 25px -5px rgba(0, 0, 255, 0.25);
+                    box-shadow: 0px 4px 24px rgba(100, 143, 255, 0.4);
                 }
 
                 &.active {
@@ -69,32 +69,25 @@
                 }
 
                 & .display {
-                    @apply pt-12 pb-8 px-24 flex items-center justify-between;
+                    @apply py-12 px-24 flex items-center justify-between;
 
                     & .name {
                         @apply text-16 font-medium leading-code;
                     }
 
-                    & .stats {
-                    }
-
-                    & .status {
-                    }
-
                     & .complete-icon {
-                        @apply ml-8;
+                        @apply ml-12;
+                        width: 16px;
+                        height: 16px;
                     }
                 }
 
                 & progress {
-                    -webkit-appearance: none;
-                    appearance: none;
-
-                    width: 100%;
+                    @apply appearance-none w-100;
                     height: 4px;
 
                     &.hidden {
-                        visibility: hidden;
+                        @apply hidden;
                     }
                 }
 
@@ -141,7 +134,7 @@
 
         &.available {
             @apply -z-2;
-            stroke: var(--c-concept-map-line-faded);
+            stroke: var(--c-concept-map-line-available);
             stroke-dasharray: var(--c-concept-map-line-dasharray-solid);
         }
 

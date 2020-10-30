@@ -1,0 +1,27 @@
+import React from 'react'
+import { render } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+import { IterationSummary } from '../../../../app/javascript/components/track/IterationSummary'
+
+test('shows details', async () => {
+  const { getByText, getByTitle, getByRole } = render(
+    <IterationSummary
+      iteration={{
+        idx: 2,
+        submissionMethod: 'cli',
+        createdAt: Date.now() - 1,
+        testsStatus: 'queued',
+        representationStatus: 'approved',
+        analysisStatus: 'approved',
+      }}
+    />
+  )
+
+  expect(getByText('Iteration 2')).toBeInTheDocument()
+  expect(getByTitle('Submitted via CLI')).toBeInTheDocument()
+  expect(getByRole('details')).toHaveTextContent(
+    'Submitted via CLI, a few seconds ago'
+  )
+  expect(getByText('Queued')).toBeInTheDocument()
+  expect(getByText('Analysed')).toBeInTheDocument()
+})

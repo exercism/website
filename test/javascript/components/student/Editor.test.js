@@ -20,6 +20,9 @@ test('clears current submission when resubmitting', async () => {
               message: '',
               tests: [],
             },
+            links: {
+              cancel: 'https://exercism.test/cancel',
+            },
           },
         })
       )
@@ -60,6 +63,9 @@ test('shows message when test times out', async () => {
               message: '',
               tests: [],
             },
+            links: {
+              cancel: 'https://exercism.test/cancel',
+            },
           },
         })
       )
@@ -79,45 +85,6 @@ test('shows message when test times out', async () => {
 
   await waitFor(() =>
     expect(queryByText('Status: timeout')).toBeInTheDocument()
-  )
-
-  server.close()
-})
-
-test('does not time out when tests have resolved', async () => {
-  const server = setupServer(
-    rest.post('https://exercism.test/submissions', (req, res, ctx) => {
-      return res(
-        ctx.json({
-          submission: {
-            id: 2,
-            uuid: '123',
-            tests_status: 'pass',
-            test_run: {
-              submission_uuid: '123',
-              status: 'pass',
-              message: '',
-              tests: [],
-            },
-          },
-        })
-      )
-    })
-  )
-  server.listen()
-
-  const { getByText, queryByText } = render(
-    <Editor
-      endpoint="https://exercism.test/submissions"
-      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      timeout={0}
-    />
-  )
-  fireEvent.click(getByText('Run tests'))
-  await waitFor(() => expect(queryByText('Status: pass')).toBeInTheDocument())
-
-  await waitFor(() =>
-    expect(queryByText('Status: timeout')).not.toBeInTheDocument()
   )
 
   server.close()
@@ -161,6 +128,9 @@ test('disables submit button unless tests passed', async () => {
           tests: [],
           message: '',
         },
+        links: {
+          cancel: 'https://exercism.test/cancel',
+        },
       }}
     />
   )
@@ -182,6 +152,9 @@ test('disables submit button unless tests passed', async () => {
           tests: [],
           message: '',
         },
+        links: {
+          cancel: 'https://exercism.test/cancel',
+        },
       }}
     />
   )
@@ -202,6 +175,9 @@ test('populates files', async () => {
           submissionUuid: '123',
           tests: [],
           message: '',
+        },
+        links: {
+          cancel: 'https://exercism.test/cancel',
         },
       }}
     />

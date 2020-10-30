@@ -1,22 +1,22 @@
 import consumer from '../utils/action-cable-consumer'
 import { camelizeKeys } from 'humps'
-import { TestRun } from '../components/student/Editor'
+import { Iteration } from '../components/track/IterationSummary'
 import { typecheck } from '../utils/typecheck'
 
-export class TestRunChannel {
+export class IterationChannel {
   subscription: ActionCable.Channel
 
-  constructor(testRun: TestRun, onReceive: (testRun: TestRun) => void) {
+  constructor(iteration: Iteration, onReceive: (iteration: Iteration) => void) {
     this.subscription = consumer.subscriptions.create(
       {
-        channel: 'Submission::TestRunsChannel',
-        submission_uuid: testRun.submissionUuid,
+        channel: 'IterationChannel',
+        id: iteration.id,
       },
       {
         received: (response: any) => {
           const formattedResponse = camelizeKeys(response)
 
-          onReceive(typecheck<TestRun>(formattedResponse, 'testRun'))
+          onReceive(typecheck<Iteration>(formattedResponse, 'iteration'))
         },
       }
     )

@@ -48,10 +48,12 @@ import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
-import { Submission, File } from '../components/student/Editor'
-import * as Tooltips from '../components/tooltips'
+import * as Track from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { camelizeKeys } from 'humps'
+import { Iteration } from '../components/track/IterationSummary'
+import { Submission, File } from '../components/student/Editor'
+import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -91,6 +93,11 @@ initReact({
       levels={data.graph.levels}
       connections={data.graph.connections}
       status={data.graph.status}
+    />
+  ),
+  'track-iteration-summary': (data: any) => (
+    <Track.IterationSummary
+      iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
     />
   ),
   'student-editor': (data: any) => (

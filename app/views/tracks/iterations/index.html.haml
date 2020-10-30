@@ -6,20 +6,7 @@
       .iterations
         - @solution.iterations.each do |iteration|
           .iteration
-            .header
-              = graphical_icon :cli, css_class: "upload-method-icon"
-              .info
-                .idx
-                  %h3 Iteration #{iteration.idx}
-                  .dot
-                  .latest Latest
-                .details Submitted via CLI, 2 mins ago
-              .tests
-                .dot
-                .status Passed
-              .analyzer
-                = graphical_icon :loading
-                .status Analysing
+            = ViewComponents::Track::IterationSummary.new(iteration)
             .content
               .files
                 %pre

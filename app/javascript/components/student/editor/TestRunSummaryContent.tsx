@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
-import { TestRunStatus } from '../Editor'
-import { TestRun, Test } from './TestRunSummary'
+import { TestRunStatus, TestRun, Test } from '../Editor'
 import { TestsList } from './TestsList'
 
 export function TestRunSummaryContent({

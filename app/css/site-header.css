@@ -1,0 +1,54 @@
+#site-header {
+    @apply bg-white border-b-1 border-lightGray;
+
+    & .container {
+        /* Should be py-12 when other components have been added */
+        @apply flex items-center py-20;
+    }
+
+    & .exercism-link {
+        margin-right: 96px;
+
+        & .icon {
+            height: 24px;
+            width: 132px;
+        }
+    }
+
+    & nav {
+        & ul {
+            @apply flex items-center;
+        }
+
+        & li {
+            @apply mr-48;
+
+            &.selected {
+                & a {
+                    @apply font-semibold text-black;
+                }
+                & .icon {
+                    @apply text-white;
+                    @apply mr-20;
+                }
+            }
+        }
+        & a {
+            @apply flex items-center relative;
+            @apply text-16 font-medium;
+        }
+        & .icon {
+            height: 24px;
+            width: 24px;
+            @apply mr-12 relative;
+
+            &.selected {
+                @apply absolute;
+                height: 62px;
+                width: 62px;
+                left: -19px;
+                top: -17px;
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TestSummary } from './TestSummary'
-import { TestStatus, Test } from './TestRunSummary'
+import { TestStatus, Test } from '../Editor'
 
 function Overview({ tests }: { tests: Test[] }) {
   const passed = tests.filter((test) => test.status === TestStatus.PASS).length

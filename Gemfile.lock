@@ -100,7 +100,7 @@ GEM
       ruby-next-core (>= 0.8.0)
     ast (2.4.1)
     aws-eventstream (1.1.0)
-    aws-partitions (1.385.0)
+    aws-partitions (1.387.0)
     aws-sdk-core (3.109.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -150,7 +150,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     erubis (2.7.0)
-    exercism-config (0.47.0)
+    exercism-config (0.48.0)
       aws-sdk-dynamodb (~> 1.0)
       mandate
       zeitwerk

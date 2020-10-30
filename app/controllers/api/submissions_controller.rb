@@ -9,16 +9,11 @@ module API
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
-      begin
-        # TODO: Change this to be a guard to render an error if files are not present.
-        files = if params[:files].present?
-                  Submission::PrepareMappedFiles.(params[:files].permit!.to_h)
-                else
-                  []
-                end
-      rescue SubmissionFileTooLargeError
-        return render_error(400, :file_too_large, "#{file.original_filename} is too large")
-      end
+      files = submission_params[:files].map(&:to_h).map(&:symbolize_keys)
+
+      # TODO: Move this check into a guard service along with the CLI, which raises and
+      # rescues SubmissionFileTooLargeError exceptions
+      return render_error(400, :file_too_large) if files.any? { |file| file[:content].size > 1.megabyte }
 
       begin
         submission = Submission::Create.(solution, files, :api)
@@ -29,6 +24,11 @@ module API
       render json: {
         submission: SerializeSubmission.(submission)
       }, status: :created
+    end
+
+    private
+    def submission_params
+      params.permit(files: %i[filename content])
     end
   end
 end

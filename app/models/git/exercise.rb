@@ -31,6 +31,13 @@ module Git
     end
 
     memoize
+    def editor_solution_files
+      resp = RestClient.get(url_for(:editor_files))
+      data = JSON.parse(resp.body)
+      data['solution_files']
+    end
+
+    memoize
     def code_filepaths
       resp = RestClient.get(url_for(:code_filepaths))
       data = JSON.parse(resp.body)
@@ -41,7 +48,7 @@ module Git
     def code_files
       resp = RestClient.get(url_for(:code_files))
       data = JSON.parse(resp.body)
-      OpenStruct.new(data['files'])
+      data['files']
     end
 
     private

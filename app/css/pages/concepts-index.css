@@ -1,0 +1,51 @@
+@import "../styles";
+
+#page-exercises-index {
+    & .page-header {
+        background: linear-gradient(
+            180deg,
+            #e1ebff 0%,
+            rgba(225, 235, 255, 0) 100%
+        );
+
+        & .container {
+            @apply flex items-center justify-center py-48 mb-8;
+        }
+
+        & .graphic {
+            height: 140px;
+            width: 140px;
+            @apply mr-48;
+        }
+        & .info {
+            & h1 {
+                @apply text-h1 flex items-center mb-8;
+                & .icon {
+                    height: 54px;
+                    width: 54px;
+                    @apply mx-16;
+                }
+            }
+            & p {
+                @apply mb-24;
+                @apply text-18 leading-paragraph;
+            }
+            & progress {
+                @apply appearance-none w-100 rounded-8 overflow-hidden mb-12;
+                height: 8px;
+
+                &::-webkit-progress-bar {
+                    @apply bg-veryLightBlue;
+                }
+                &[value] {
+                    &::-webkit-progress-value {
+                        @apply bg-lightBlue;
+                    }
+                }
+            }
+            & .progress-text {
+                @apply text-lightBlue font-medium;
+            }
+        }
+    }
+}

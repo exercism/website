@@ -78,7 +78,7 @@ class ActiveSupport::TestCase
     Git::Exercise.any_instance.stubs(file: "Some file contents")
     Git::Exercise.any_instance.stubs(code_files: {})
     Git::Exercise.any_instance.stubs(code_filepaths: [])
-
+    Git::Exercise.any_instance.stubs(editor_solution_files: {})
     Git::Concept.any_instance.stubs(data: OpenStruct.new(
       about: "Some concept description",
       links: [

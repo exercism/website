@@ -34,7 +34,7 @@ class API::SubmissionsControllerTest < API::BaseTestCase
 
     post api_solution_submissions_path(solution.uuid),
       params: {
-        files: { "foo" => "bar" }
+        files: [{ filename: "foo", content: "bar" }]
       },
       headers: @headers,
       as: :json
@@ -48,8 +48,14 @@ class API::SubmissionsControllerTest < API::BaseTestCase
           cancel: Exercism::Routes.api_submission_cancellations_url(
             Submission.last,
             auth_token: @current_user.auth_tokens.first.to_s
+          ),
+          submit: Exercism::Routes.api_solution_iterations_url(
+            Submission.last.solution.uuid,
+            submission_id: Submission.last.uuid,
+            auth_token: @current_user.auth_tokens.first.to_s
           )
-        }
+        },
+        test_run: nil
       }
     }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -60,17 +66,39 @@ class API::SubmissionsControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution, user: @current_user
 
-    params_files = { "foo" => "bar", "bar" => "foo" }
-    files = mock
-    Submission::PrepareMappedFiles.expects(:call).with(params_files).returns(files)
+    files = [
+      { filename: "foo", content: "bar" },
+      { filename: "bar", content: "foo" }
+    ]
     Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
 
     post api_solution_submissions_path(solution.uuid),
-      params: { files: params_files },
+      params: { files: files },
       headers: @headers,
       as: :json
 
     assert_response :success
+  end
+
+  test "returns error if submission is too large" do
+    filename = "subdir/foobar.rb"
+    content = "a" * (1.megabyte + 1)
+
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    post api_solution_submissions_path(solution.uuid),
+      params: { files: [{ filename: filename, content: content }] },
+      headers: @headers,
+      as: :json
+
+    assert_response 400
+    expected = { error: {
+      type: "file_too_large",
+      message: I18n.t("api.errors.file_too_large")
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 
   test "create should catch duplicate submission" do

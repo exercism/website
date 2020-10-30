@@ -1,42 +1,26 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Submission, TestRunStatus } from '../Editor'
+import { Submission, TestRun, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
 import { TestRunSummaryContent } from './TestRunSummaryContent'
 import { fetchJSON } from '../../../utils/fetch-json'
 
-export type TestRun = {
-  submissionUuid: string
-  status: TestRunStatus
-  message: string
-  tests: Test[]
-}
-
-export type Test = {
-  name: string
-  status: TestStatus
-  message: string
-  output: string
-}
-
-export enum TestStatus {
-  PASS = 'pass',
-  FAIL = 'fail',
-  ERROR = 'error',
-}
-
 export function TestRunSummary({
-  submission,
+  testRun,
   timeout,
+  cancelLink,
+  onUpdate,
 }: {
-  submission: Submission
+  testRun: TestRun
   timeout: number
+  cancelLink: string
+  onUpdate: (testRun: TestRun) => void
 }) {
-  const [testRun, setTestRun] = useState<TestRun>({
-    submissionUuid: submission.uuid,
-    status: submission.testsStatus,
-    message: '',
-    tests: [],
-  })
+  const setTestRun = useCallback(
+    (testRun) => {
+      onUpdate(testRun)
+    },
+    [onUpdate]
+  )
   const channel = useRef<TestRunChannel | undefined>()
   const timer = useRef<number | undefined>()
   const handleQueued = useCallback(() => {
@@ -51,7 +35,7 @@ export function TestRunSummary({
   const handleCancelling = useCallback(() => {
     clearTimeout(timer.current)
 
-    fetchJSON(submission.links.cancel, {
+    fetchJSON(cancelLink, {
       method: 'POST',
     }).then(() => {
       setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
@@ -94,14 +78,14 @@ export function TestRunSummary({
   ])
 
   useEffect(() => {
-    channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
+    channel.current = new TestRunChannel(testRun, (testRun: TestRun) => {
       setTestRun(testRun)
     })
 
     return () => {
       channel.current?.disconnect()
     }
-  }, [submission.uuid])
+  }, [testRun.submissionUuid])
 
   useEffect(() => {
     return () => {

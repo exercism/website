@@ -12,7 +12,7 @@ require('channels')
 // without needing to be specified individually here.
 import '../../css/application.css'
 import '../../css/layout.css'
-//import '../../css/styles.css'
+import '../../css/site-header.css'
 
 import '../../css/components/bg-img.css'
 import '../../css/components/reputation.css'
@@ -43,13 +43,18 @@ import 'components/concept-map/ConceptMap.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
+import * as Common from '../components/common'
 import * as Example from '../components/example'
 import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
-import * as Tooltips from '../components/tooltips'
+import * as Track from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
+import { camelizeKeys } from 'humps'
+import { Iteration } from '../components/track/IterationSummary'
+import { Submission, File } from '../components/student/Editor'
+import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -92,12 +97,28 @@ initReact({
       exercise_counts={data.graph.exercise_counts}
     />
   ),
-  'student-editor': (data: any) => <Student.Editor endpoint={data.endpoint} />,
+  'track-iteration-summary': (data: any) => (
+    <Track.IterationSummary
+      iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
+    />
+  ),
+  'student-editor': (data: any) => (
+    <Student.Editor
+      endpoint={data.endpoint}
+      initialSubmission={
+        (camelizeKeys(data.submission) as unknown) as Submission
+      }
+      files={data.files}
+    />
+  ),
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
   'user-summary-tooltip': (data: any) => (
     <Tooltips.UserSummary endpoint={data.endpoint} />
+  ),
+  'common-copy-to-clipboard-button': (data: any) => (
+    <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
 })
 

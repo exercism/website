@@ -118,6 +118,9 @@ Rails.application.routes.draw do
             get 'user_summary/:id', to: 'tooltip#user_summary', as: 'user_summary'
           end
         end
+        namespace :common do
+          resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
+        end
       end
     end
   end

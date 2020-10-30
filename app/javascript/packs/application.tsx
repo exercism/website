@@ -43,6 +43,7 @@ import 'components/concept-map/ConceptMap.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
+import * as Common from '../components/common'
 import * as Example from '../components/example'
 import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
@@ -114,6 +115,9 @@ initReact({
   ),
   'user-summary-tooltip': (data: any) => (
     <Tooltips.UserSummary endpoint={data.endpoint} />
+  ),
+  'common-copy-to-clipboard-button': (data: any) => (
+    <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
 })
 

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
+  if (navigator.clipboard === undefined) {
+    return null
+  }
+
   const [justCopied, setJustCopied] = useState(false)
 
   const onClick = async () => {

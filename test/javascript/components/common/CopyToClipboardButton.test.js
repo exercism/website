@@ -33,3 +33,13 @@ test('changes text to copied temporarily', async () => {
     timeout: 2500,
   })
 })
+
+test('hides component if clipboard API is unavailable', async () => {
+  navigator.clipboard = undefined
+
+  const { queryByText } = render(
+    <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
+  )
+
+  expect(queryByText('Copy')).not.toBeInTheDocument()
+})

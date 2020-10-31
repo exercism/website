@@ -26,6 +26,18 @@ module Components
         assert_text "Passed: test_a_name_given"
       end
 
+      test "user sees errors" do
+        user = create :user
+        create :user_auth_token, user: user
+        solution = create :concept_solution, user: user
+        create :submission, solution: solution
+
+        visit edit_solution_path(solution.uuid)
+        click_on "Run tests"
+
+        assert_text "No files you submitted have changed since your last submission"
+      end
+
       test "user submits code" do
         Submission::File.any_instance.stubs(:content)
         use_capybara_host do

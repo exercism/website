@@ -19,6 +19,11 @@ export type Submission = {
   testRun: TestRun
 }
 
+type APIError = {
+  type: string
+  message: string
+}
+
 export enum SubmissionTestsStatus {
   NOT_QUEUED = 'not_queued',
   QUEUED = 'queued',
@@ -76,6 +81,7 @@ enum EditorStatus {
 type State = {
   submission?: Submission
   status?: EditorStatus
+  apiError?: APIError
 }
 
 enum ActionType {
@@ -92,7 +98,7 @@ type Action =
       type: ActionType.SUBMISSION_CREATED
       payload: { submission: Submission }
     }
-  | { type: ActionType.SUBMISSION_CANCELLED }
+  | { type: ActionType.SUBMISSION_CANCELLED; payload?: { apiError?: APIError } }
   | { type: ActionType.CREATING_ITERATION }
   | {
       type: ActionType.SUBMISSION_CHANGED
@@ -104,6 +110,7 @@ function reducer(state: State, action: Action): State {
     case ActionType.CREATING_SUBMISSION:
       return {
         ...state,
+        apiError: undefined,
         submission: undefined,
         status: EditorStatus.CREATING_SUBMISSION,
       }
@@ -125,6 +132,7 @@ function reducer(state: State, action: Action): State {
     case ActionType.SUBMISSION_CANCELLED:
       return {
         ...state,
+        apiError: action.payload?.apiError,
         status: EditorStatus.SUBMISSION_CANCELLED,
       }
     case ActionType.CREATING_ITERATION:
@@ -166,7 +174,7 @@ export function Editor({
   initialSubmission?: Submission
   files: File[]
 }) {
-  const [{ submission, status }, dispatch] = useReducer(reducer, {
+  const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
     submission: initialSubmission,
   })
@@ -205,11 +213,21 @@ export function Editor({
           })
         })
         .catch((err) => {
-          if (err.name === 'AbortError' && controllerRef.current) {
-            return
+          if (err instanceof Error) {
+            if (err.name === 'AbortError' && controllerRef.current) {
+              return
+            }
+            dispatch({ type: ActionType.SUBMISSION_CANCELLED })
           }
 
-          dispatch({ type: ActionType.SUBMISSION_CANCELLED })
+          if (err instanceof Response) {
+            err.json().then((res: any) =>
+              dispatch({
+                type: ActionType.SUBMISSION_CANCELLED,
+                payload: { apiError: res.error },
+              })
+            )
+          }
         })
         .finally(() => {
           controllerRef.current = undefined
@@ -276,6 +294,7 @@ export function Editor({
         <Submitting onCancel={cancel} />
       )}
       {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
+      {apiError && <p>{apiError.message}</p>}
       {submission && submission.testRun && (
         <TestRunSummary
           cancelLink={submission.links.cancel}

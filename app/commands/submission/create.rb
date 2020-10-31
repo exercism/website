@@ -51,6 +51,7 @@ class Submission
 
       prev_files = last_submission.files.map { |f| "#{f.filename}|#{f.digest}" }
       new_files = submitted_files.map { |f| "#{f[:filename]}|#{f[:digest]}" }
+
       raise DuplicateSubmissionError if prev_files.sort == new_files.sort
     end
 

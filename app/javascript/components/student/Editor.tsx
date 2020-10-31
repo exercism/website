@@ -1,4 +1,10 @@
-import React, { useReducer, useRef, useEffect, useCallback } from 'react'
+import React, {
+  useReducer,
+  useRef,
+  useEffect,
+  useCallback,
+  createRef,
+} from 'react'
 import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
@@ -139,6 +145,11 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+type EditorRef = {
+  file: File
+  ref: React.RefObject<FileEditorHandle>
+}
+
 export type File = {
   filename: string
   content: string
@@ -162,7 +173,11 @@ export function Editor({
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
-  const editorsRef = useRef<FileEditorHandle[]>([])
+  const editorsRef = useRef<EditorRef[]>(
+    files.map((file) => {
+      return { file: file, ref: createRef<FileEditorHandle>() } as EditorRef
+    })
+  )
   const abort = useCallback(() => {
     controllerRef.current?.abort()
     controllerRef.current = undefined
@@ -170,7 +185,7 @@ export function Editor({
   const runTests = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const files = editorsRef.current.map((editor) => {
-        return editor.getFile()
+        return editor.ref.current?.getFile()
       })
 
       abort()
@@ -240,15 +255,11 @@ export function Editor({
 
   return (
     <div>
-      {files.map((file) => (
+      {editorsRef.current.map((editor) => (
         <FileEditor
-          key={file.filename}
-          file={file}
-          ref={(ref) => {
-            if (ref) {
-              editorsRef.current.push(ref)
-            }
-          }}
+          key={editor.file.filename}
+          file={editor.file}
+          ref={editor.ref}
         />
       ))}
       <button type="button" onClick={runTests}>

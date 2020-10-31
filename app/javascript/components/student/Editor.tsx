@@ -215,7 +215,7 @@ export function Editor({
         body: JSON.stringify({}),
       }).then((json: any) => {
         const iteration = typecheck<Iteration>(json, 'iteration')
-        location.replace(iteration.links.self)
+        location.assign(iteration.links.self)
       })
     },
     [submission]

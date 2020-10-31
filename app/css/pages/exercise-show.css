@@ -16,6 +16,9 @@
             width: 118px;
             height: 118px;
         }
+        & .info {
+            @apply flex-grow;
+        }
         & h1 {
             @apply flex items-center text-h1 mb-12;
         }
@@ -35,6 +38,40 @@
                     vertical-align: bottom;
                     line-height: 29px;
                     padding-left: 3px;
+                }
+            }
+        }
+        & .makers {
+            @apply flex items-center;
+
+            & .faces {
+                @apply relative;
+                height: 32px;
+            }
+            & .c-rounded-bg-img {
+                height: 32px;
+                width: 32px;
+                @apply absolute;
+                &:nth-child(1) {
+                    z-index: 1;
+                    right: 32px;
+                }
+                &:nth-child(2) {
+                    z-index: 2;
+                    right: 16px;
+                }
+                &:nth-child(3) {
+                    z-index: 3;
+                    right: 0;
+                }
+            }
+            & .stats {
+                @apply ml-16;
+                & .authors {
+                    @apply font-semibold mb-8;
+                }
+                & .contributors {
+                    @apply font-medium;
                 }
             }
         }

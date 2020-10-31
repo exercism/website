@@ -12,6 +12,12 @@
         .exercises
           = graphical_icon(:exercises)
           5 exercises
+      .progress.tw-w-5-7
+        %progress
+        .progress-text
+          0 of
+          = pluralize(@practice_exercises.size + @concept_exercises.size, "exercise")
+          complete
 
   %section.lg-container.tw-flex
     .tw-flex-grow.tw-w-arbitary

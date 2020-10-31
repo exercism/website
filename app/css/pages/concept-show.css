@@ -20,6 +20,9 @@
             @apply font-bold flex items-end p-8;
             font-size: 42px;
         }
+        & .info {
+            @apply flex-grow;
+        }
         & h1 {
             @apply flex items-center text-h1 mb-8;
             & small {
@@ -38,6 +41,26 @@
                 @apply mr-8;
                 height: 24px;
                 width: 24px;
+            }
+        }
+        & .progress {
+            @apply flex-shrink-0;
+
+            & progress {
+                @apply appearance-none w-100 rounded-8 overflow-hidden mb-12;
+                height: 8px;
+
+                &::-webkit-progress-bar {
+                    @apply bg-veryLightBlue;
+                }
+                &[value] {
+                    &::-webkit-progress-value {
+                        @apply bg-lightBlue;
+                    }
+                }
+            }
+            & .progress-text {
+                @apply text-darkGray font-medium;
             }
         }
     }

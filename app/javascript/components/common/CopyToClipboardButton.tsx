@@ -27,6 +27,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       type="button"
       onClick={onClick}
       className={`c-copy-to-clipboard-button ${justCopied ? 'copied' : ''}`}
+      aria-label={`Copy ${textToCopy} to the cliboard`}
     >
       {justCopied ? 'Copied' : 'Copy'}
     </button>

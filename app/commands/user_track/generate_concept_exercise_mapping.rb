@@ -22,15 +22,17 @@ class UserTrack
       prereq_counts.default = 0
 
       solved_taught_counts =
-        Exercise::TaughtConcept.where(exercise_id:
-          Solution.where(exercise_id: user_track.track.concept_exercises).completed.select(:exercise_id)).
+        Exercise::TaughtConcept.
+          where(exercise_id:
+            Solution.where(exercise_id: user_track.track.concept_exercises).completed.select(:exercise_id)).
           group(:track_concept_id).
           count
       solved_taught_counts.default = 0
 
       solved_prereq_counts =
-        Exercise::Prerequisite.where(exercise_id:
-          Solution.where(exercise_id: user_track.track.practice_exercises).completed.select(:exercise_id)).
+        Exercise::Prerequisite.
+          where(exercise_id:
+            Solution.where(exercise_id: user_track.track.practice_exercises).completed.select(:exercise_id)).
           group(:track_concept_id).
           count
       solved_prereq_counts.default = 0

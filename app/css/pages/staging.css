@@ -1,7 +1,7 @@
 @import "../styles";
 
 #page-staging {
-    @apply py-12;
+    @apply py-24;
 
     & h1 {
         @apply text-h1 mb-24;

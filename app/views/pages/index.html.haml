@@ -1,5 +1,5 @@
 #page-staging
-  .md-container.tw-pt-18
+  .lg-container
     %h1 Welcome to Exercism v3
     .c-textual-content
       %p
@@ -43,16 +43,16 @@
 
       %p P.S. You'll want to be starting #{link_to 'here', tracks_path}.
 
-    %hr/
+      %hr/
 
-    %h2 Temporary useful buttons
+      %h2 Temporary useful buttons
 
-    %ul
-      %li
-        = link_to "Tracks", tracks_path
-      %li
-        = link_to "List Submissions", maintaining_submissions_path
-      %li
-        = link_to "Create Submission", tmp_submissions_path, method: :post, remote: true
-      %li
-        = link_to "Pull latest v3 repo", tmp_pull_git_url, method: :post, remote: true
+      %ul
+        %li
+          = link_to "Tracks", tracks_path
+        %li
+          = link_to "List Submissions", maintaining_submissions_path
+        %li
+          = link_to "Create Submission", tmp_submissions_path, method: :post, remote: true
+        %li
+          = link_to "Pull latest v3 repo", tmp_pull_git_url, method: :post, remote: true

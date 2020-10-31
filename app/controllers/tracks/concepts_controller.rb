@@ -9,18 +9,10 @@ class Tracks::ConceptsController < ApplicationController
     @concept_map_data = Track::DetermineConceptMapLayout.(@track)
 
     @concept_map_data[:status] =
-      if current_user&.joined_track?(@track)
-        UserTrack::GenerateConceptStatusMapping.(@user_track)
-      else
-        {}
-      end
+      UserTrack::GenerateConceptStatusMapping.(@user_track)
 
     @concept_map_data[:exercise_counts] =
-      if current_user&.joined_track?(@track)
-        UserTrack::GenerateConceptExerciseMapping.(@user_track)
-      else
-        {}
-      end
+      UserTrack::GenerateConceptExerciseMapping.(@user_track)
 
     @num_concepts = @track.concepts.count
     @num_completed = @user_track ? @user_track.learnt_concepts.count : 0

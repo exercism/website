@@ -78,14 +78,12 @@ class UserTrack::GenerateConceptExerciseMappingTest < ActiveSupport::TestCase
     lasagna, = setup_concept_exercises(track, 'lasagna')
     lasagna.taught_concepts << basics
 
-    lasagna_solution = create :concept_solution, user: user_track.user, exercise: lasagna
-    lasagna_solution.update!(completed_at: Date.current)
+    create :concept_solution, user: user_track.user, exercise: lasagna, completed_at: Time.current
 
     vegetarian_lasagna, = setup_practice_exercises(track, 'vegetarian_lasagna')
     vegetarian_lasagna.prerequisites << basics
 
-    vegetarian_lasagna_solution = create :practice_solution, user: user_track.user, exercise: vegetarian_lasagna
-    vegetarian_lasagna_solution.update!(completed_at: Date.current)
+    create :practice_solution, user: user_track.user, exercise: vegetarian_lasagna, completed_at: Time.current
 
     assert_equal(
       { 'basics' => { exercises: 2, exercises_completed: 2 } },

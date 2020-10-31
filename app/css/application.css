@@ -25,7 +25,7 @@ body {
 
     /* This stops the page jumping around on Windows
        when the scrollbar appears or disappears. */
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;

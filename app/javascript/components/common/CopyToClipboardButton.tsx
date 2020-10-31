@@ -24,6 +24,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
 
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`c-copy-to-clipboard-button ${justCopied ? 'copied' : ''}`}
     >

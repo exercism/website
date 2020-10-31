@@ -92,7 +92,7 @@ track_slugs.each do |track_slug|
     track.repo.config[:exercises][:concept].each do |exercise_config|
       ce = ConceptExercise.create!(
         track: track,
-        uuid: exercise_config[:uuid], 
+        uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
         slug: exercise_config[:slug],
         title: exercise_config[:slug].titleize,
       )

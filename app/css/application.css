@@ -23,9 +23,13 @@ body {
     line-height: 1;
     font-size: 14px;
 
-    /* This stops the page jumping around on Windows */
-    overflow-y: scroll;
+    /* This stops the page jumping around on Windows
+       when the scrollbar appears or disappears. */
+    overflow-y: auto;
     overflow-x: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 code {
     @apply leading-code;

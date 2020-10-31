@@ -8,17 +8,18 @@
         %strong You should presume everything is broken.
         This is the expected state.
         The styling will not be responsive.
+        In fact, every single bit of styling is unpolished.
+        Even on pages that have lots of content, there are lots of UI elements that are missing, which will add balance.
         Pages will 500.
-        There is no login - what you do affects everyone.
+        %strong There is no login - what you do affects everyone!
         Every time we deploy, the whole database is removed and recreated.
       %p
         There is a button below to sync the site to the HEAD of master of the v3 git repo.
         Note that this will not create new exercises or change the slugs of old ones.
         So if you rename things, you will need to wait for the next arbitary deploy/db-recreation.
-      %p With that in mind, please consider installing the #{link_to 'development environment', 'https://github.com/exercism/development-environment'} so that you can check things more easily locally.
+      %p That said, please consider installing the #{link_to 'development environment', 'https://github.com/exercism/development-environment'} so that you can check things more easily locally.
 
-      %p
-        With all that in mind. There are two rules:
+      %p With all that in mind. There are two rules:
       %ol
         %li
           If something doesn't work for
@@ -48,8 +49,6 @@
       %h2 Temporary useful buttons
 
       %ul
-        %li
-          = link_to "Tracks", tracks_path
         %li
           = link_to "List Submissions", maintaining_submissions_path
         %li

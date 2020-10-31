@@ -1,0 +1,12 @@
+@import "../styles";
+
+#page-staging {
+    @apply py-12;
+
+    & h1 {
+        @apply text-h1 mb-24;
+    }
+    & .c-textual-content {
+        max-width: 800px;
+    }
+}

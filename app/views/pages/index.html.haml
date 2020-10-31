@@ -1,18 +1,58 @@
-.md-container
-  .tw-text-green-400
-    Hello
-    .tw-inline-block.md:tw-font-bold World!
+#page-staging
+  .md-container.tw-pt-18
+    %h1 Welcome to Exercism v3
+    .c-textual-content
+      %p
+        First things first!
+        This is a work in progress.
+        %strong You should presume everything is broken.
+        This is the expected state.
+        The styling will not be responsive.
+        Pages will 500.
+        There is no login - what you do affects everyone.
+        Every time we deploy, the whole database is removed and recreated.
+      %p
+        There is a button below to sync the site to the HEAD of master of the v3 git repo.
+        Note that this will not create new exercises or change the slugs of old ones.
+        So if you rename things, you will need to wait for the next arbitary deploy/db-recreation.
+      %p With that in mind, please consider installing the #{link_to 'development environment', 'https://github.com/exercism/development-environment'} so that you can check things more easily locally.
 
-  %hr/
+      %p
+        With all that in mind. There are two rules:
+      %ol
+        %li
+          If something doesn't work for
+          %strong your track
+          but does work elsewhere, please tell us, and we will help you fix it.
+          %strong This is the purpose of this site.
+        %li
+          %strong
+            PLEASE DO NOT SEND @iHiD BUG REPORTS ABOUT ANYTHING ELSE AT THIS STAGE ELSE HE WILL HAVE A BREAKDOWN 😬
+      %p There will come a time, hopefully within the few weeks, where things work to an extent that those bug reports become incredibly valuable, but right now they will just add noise.
+      %p
+        The key reason we've put this staging site up so that we can work together to bring Exercism v3 into fruition.
+        It exists so that we can all see how the work of the UX,
+        the test runners, analyzers and representers, the functionality, and most importantly the content are all
+        coming together. It acts as a place where we can track progress and we can feel
+        proud of what we are achieving together.
+      %p Please don't share this site with people outside of the community creating v3. It's for our eyes only.
+      %p
+        Thank you for helping. Thank you for making Exercism what it is, and more importantly what it has the potential to become. You are Exercism - it does not exist without you, and I am infinitely grateful that you volunteer your time to help it. Thank you.
+        %br
+        Jeremy
 
-  %h2 Temporary useful buttons
+      %p P.S. You'll want to be starting #{link_to 'here', tracks_path}.
 
-  %ul
-    %li
-      = link_to "Tracks", tracks_path
-    %li
-      = link_to "List Submissions", maintaining_submissions_path
-    %li
-      = link_to "Create Submission", tmp_submissions_path, method: :post, remote: true
-    %li
-      = link_to "Pull latest v3 repo", tmp_pull_git_url, method: :post, remote: true
+    %hr/
+
+    %h2 Temporary useful buttons
+
+    %ul
+      %li
+        = link_to "Tracks", tracks_path
+      %li
+        = link_to "List Submissions", maintaining_submissions_path
+      %li
+        = link_to "Create Submission", tmp_submissions_path, method: :post, remote: true
+      %li
+        = link_to "Pull latest v3 repo", tmp_pull_git_url, method: :post, remote: true

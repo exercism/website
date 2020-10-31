@@ -22,11 +22,20 @@
             @apply mb-8 list-disc;
         }
     }
+    & ol {
+        @apply ml-24;
+        & li {
+            @apply mb-8 list-decimal;
+        }
+    }
     & pre {
         @apply shadow-lg mb-24 py-16 px-24 rounded-8 overflow-auto;
         @apply text-16;
     }
     & * + h3 {
         @apply mt-28;
+    }
+    & a {
+        @apply font-semibold border-textLight border-b-1;
     }
 }

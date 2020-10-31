@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
   if (navigator.clipboard === undefined) {
@@ -7,10 +7,10 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
 
   const [justCopied, setJustCopied] = useState(false)
 
-  const onClick = async () => {
+  const onClick = useCallback(async () => {
     await navigator.clipboard.writeText(textToCopy)
     setJustCopied(true)
-  }
+  }, [textToCopy, setJustCopied])
 
   useEffect(() => {
     if (!justCopied) {

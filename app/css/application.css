@@ -22,6 +22,10 @@ body {
     @apply font-body bg-bgGray text-textBase antialiased;
     line-height: 1;
     font-size: 14px;
+
+    /* This stops the page jumping around on Windows */
+    overflow-y: scroll;
+    overflow-x: auto;
 }
 code {
     @apply leading-code;

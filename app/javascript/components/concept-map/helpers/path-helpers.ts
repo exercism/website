@@ -7,8 +7,8 @@ import {
 } from '../concept-map-types'
 import {
   getCircleRadius,
-  getDrawingMargin,
   getLineWidth,
+  getDrawingMargin,
 } from './style-helpers'
 
 export function computePathProperties(
@@ -137,11 +137,13 @@ function getPathCourse(
   const parentOffsetRight = parentEl.offsetLeft + parentEl.offsetWidth
   const parentOffsetLeft = parentEl.offsetLeft
 
+  const margin = 20
+
   if (childOffsetRight <= parentOffsetLeft) {
     return 'left'
   }
 
-  if (childOffsetCenter <= parentOffsetLeft) {
+  if (childOffsetCenter + margin <= parentOffsetLeft) {
     return 'center-left'
   }
 
@@ -149,7 +151,7 @@ function getPathCourse(
     return 'right'
   }
 
-  if (childOffsetCenter >= parentOffsetRight) {
+  if (childOffsetCenter - margin >= parentOffsetRight) {
     return 'center-right'
   }
 

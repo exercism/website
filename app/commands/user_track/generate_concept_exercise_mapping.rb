@@ -5,30 +5,39 @@ class UserTrack
     initialize_with :user_track
 
     def call
-      concept_exercise_mapping =
-        user_track.
-          track.
-          exercises.
-          # includes(:taught_concepts, :prerequisites). <-- How to optimize? raises error d/t practice exercise
-          each_with_object({}) do |exercise, hash|
-            concepts = exercise.practice_exercise? ? exercise.prerequisites : exercise.taught_concepts
+      return {} unless user_track
 
-            concepts.to_a.each do |concept|
-              slug = concept.slug
-              hash[slug] ||= { exercises: 0, exercises_completed: 0 }
-              hash[slug][:exercises] += 1
-            end
-          end
+      taught_counts =
+        Exercise::TaughtConcept.
+          where(exercise_id: user_track.track.concept_exercises).
+          group(:track_concept_id).
+          count
 
-      concept_exercise_mapping.tap do |hash|
-        user_track.solutions.completed.each do |solution|
-          exercise = solution.exercise
-          concepts = exercise.practice_exercise? ? exercise.prerequisites : exercise.taught_concepts
-          concepts.to_a.each do |concept|
-            slug = concept.slug
-            hash[slug][:exercises_completed] += 1
-          end
-        end
+      prereq_counts =
+        Exercise::Prerequisite.
+          where(exercise_id: user_track.track.practice_exercises).
+          group(:track_concept_id).
+          count
+
+      solved_taught_counts =
+        Exercise::TaughtConcept.
+          where(exercise_id:
+            Solution.where(exercise_id: user_track.track.concept_exercises).completed.select(:exercise_id)).
+          group(:track_concept_id).
+          count
+
+      solved_prereq_counts =
+        Exercise::Prerequisite.
+          where(exercise_id:
+            Solution.where(exercise_id: user_track.track.practice_exercises).completed.select(:exercise_id)).
+          group(:track_concept_id).
+          count
+
+      user_track.track.concepts.each_with_object({}) do |concept, hash|
+        hash[concept.slug] = {
+          exercises: prereq_counts[concept.id].to_i + taught_counts[concept.id].to_i,
+          exercises_completed: solved_prereq_counts[concept.id].to_i + solved_taught_counts[concept.id].to_i
+        }
       end
     end
   end

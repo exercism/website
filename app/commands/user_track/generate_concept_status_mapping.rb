@@ -5,6 +5,8 @@ class UserTrack
     initialize_with :user_track
 
     def call
+      return {} unless user_track
+
       all_concepts = user_track.track.concepts.map(&:slug)
       available_concepts = user_track.available_concepts.map(&:slug)
       learnt_concepts = user_track.learnt_concepts.map(&:slug)

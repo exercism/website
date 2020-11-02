@@ -1,16 +1,16 @@
 import consumer from '../utils/action-cable-consumer'
 import { camelizeKeys } from 'humps'
-import { TestRun } from '../components/student/Editor'
+import { Submission, TestRun } from '../components/student/Editor'
 import { typecheck } from '../utils/typecheck'
 
 export class TestRunChannel {
   subscription: ActionCable.Channel
 
-  constructor(testRun: TestRun, onReceive: (testRun: TestRun) => void) {
+  constructor(submission: Submission, onReceive: (testRun: TestRun) => void) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'Submission::TestRunsChannel',
-        submission_uuid: testRun.submissionUuid,
+        submission_uuid: submission.uuid,
       },
       {
         received: (response: any) => {

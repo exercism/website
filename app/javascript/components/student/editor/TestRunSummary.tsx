@@ -3,16 +3,16 @@ import { Submission, TestRun, TestRunStatus } from '../Editor'
 import { TestRunChannel } from '../../../channels/testRunChannel'
 import { TestRunSummaryContent } from './TestRunSummaryContent'
 import { fetchJSON } from '../../../utils/fetch-json'
+import { typecheck } from '../../../utils/typecheck'
+import { camelizeKeys } from 'humps'
 
 export function TestRunSummary({
-  testRun,
+  submission,
   timeout,
-  cancelLink,
   onUpdate,
 }: {
-  testRun: TestRun
+  submission: Submission
   timeout: number
-  cancelLink: string
   onUpdate: (testRun: TestRun) => void
 }) {
   const setTestRun = useCallback(
@@ -25,7 +25,7 @@ export function TestRunSummary({
   const timer = useRef<number | undefined>()
   const handleQueued = useCallback(() => {
     timer.current = window.setTimeout(() => {
-      setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
+      setTestRun({ ...submission.testRun, status: TestRunStatus.TIMEOUT })
       timer.current = undefined
     }, timeout)
   }, [timer])
@@ -35,10 +35,10 @@ export function TestRunSummary({
   const handleCancelling = useCallback(() => {
     clearTimeout(timer.current)
 
-    fetchJSON(cancelLink, {
+    fetchJSON(submission.links.cancel, {
       method: 'POST',
     }).then(() => {
-      setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+      setTestRun({ ...submission.testRun, status: TestRunStatus.CANCELLED })
     })
   }, [timer])
   const handleCancelled = useCallback(() => {
@@ -47,11 +47,15 @@ export function TestRunSummary({
     channel.current?.disconnect()
   }, [channel, timer])
   const cancel = useCallback(() => {
-    setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
+    setTestRun({ ...submission.testRun, status: TestRunStatus.CANCELLED })
   }, [])
 
   useEffect(() => {
-    switch (testRun.status) {
+    if (!submission.testRun) {
+      return
+    }
+
+    switch (submission.testRun.status) {
       case TestRunStatus.QUEUED:
         handleQueued()
         break
@@ -69,7 +73,7 @@ export function TestRunSummary({
         break
     }
   }, [
-    testRun.status,
+    submission,
     handleQueued,
     handleTimeout,
     handleCancelling,
@@ -78,14 +82,22 @@ export function TestRunSummary({
   ])
 
   useEffect(() => {
-    channel.current = new TestRunChannel(testRun, (testRun: TestRun) => {
+    fetchJSON(submission.links.testRun, {
+      method: 'GET',
+    }).then((json: any) => {
+      setTestRun(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+    })
+  }, [submission.uuid])
+
+  useEffect(() => {
+    channel.current = new TestRunChannel(submission, (testRun: TestRun) => {
       setTestRun(testRun)
     })
 
     return () => {
       channel.current?.disconnect()
     }
-  }, [testRun.submissionUuid])
+  }, [submission.uuid])
 
   useEffect(() => {
     return () => {
@@ -99,10 +111,14 @@ export function TestRunSummary({
     }
   }, [timer])
 
+  if (!submission.testRun) {
+    return null
+  }
+
   return (
     <div>
-      <p>Status: {testRun.status}</p>
-      <TestRunSummaryContent testRun={testRun} onCancel={cancel} />
+      <p>Status: {submission.testRun.status}</p>
+      <TestRunSummaryContent testRun={submission.testRun} onCancel={cancel} />
     </div>
   )
 }

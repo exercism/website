@@ -53,9 +53,12 @@ class API::SubmissionsControllerTest < API::BaseTestCase
             Submission.last.solution.uuid,
             submission_id: Submission.last.uuid,
             auth_token: @current_user.auth_tokens.first.to_s
+          ),
+          test_run: Exercism::Routes.api_submission_test_run_url(
+            Submission.last.uuid,
+            auth_token: @current_user.auth_tokens.first.to_s
           )
-        },
-        test_run: nil
+        }
       }
     }
     actual = JSON.parse(response.body, symbolize_names: true)

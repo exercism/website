@@ -6,7 +6,6 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
     auth_token = create :user_auth_token, user: user
     solution = create :concept_solution, user: user
     submission = create :submission, tests_status: :failed, solution: solution
-    test_run = create :submission_test_run, submission: submission
 
     expected = {
       uuid: submission.uuid,
@@ -17,9 +16,12 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
           submission.solution.uuid,
           submission_id: submission.uuid,
           auth_token: auth_token.to_s
+        ),
+        test_run: Exercism::Routes.api_submission_test_run_url(
+          submission.uuid,
+          auth_token: auth_token.to_s
         )
-      },
-      test_run: SerializeSubmissionTestRun.(test_run)
+      }
     }
     actual = SerializeSubmission.(submission)
     assert_equal expected, actual

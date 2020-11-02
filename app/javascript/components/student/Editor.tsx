@@ -17,7 +17,7 @@ export type Submission = {
   testsStatus: SubmissionTestsStatus
   uuid: string
   links: SubmissionLinks
-  testRun: TestRun
+  testRun?: TestRun
 }
 
 type APIError = {
@@ -59,6 +59,7 @@ export enum TestStatus {
 type SubmissionLinks = {
   cancel: string
   submit: string
+  testRun: string
 }
 
 export enum TestRunStatus {
@@ -118,17 +119,8 @@ function reducer(state: State, action: Action): State {
     case ActionType.SUBMISSION_CREATED:
       return {
         ...state,
+        submission: action.payload.submission,
         status: EditorStatus.SUBMISSION_CREATED,
-        submission: {
-          ...action.payload.submission,
-          testRun: {
-            id: null,
-            submissionUuid: action.payload.submission.uuid,
-            status: TestRunStatus.QUEUED,
-            tests: [],
-            message: '',
-          },
-        },
       }
     case ActionType.SUBMISSION_CANCELLED:
       return {
@@ -175,6 +167,7 @@ export function Editor({
   initialSubmission?: Submission
   files: File[]
 }) {
+  const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
     submission: initialSubmission,
@@ -276,12 +269,16 @@ export function Editor({
   }, [dispatch, abort])
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
+      if (!isMountedRef.current) {
+        return
+      }
+
       dispatch({
         type: ActionType.SUBMISSION_CHANGED,
         payload: { testRun: testRun },
       })
     },
-    [dispatch]
+    [dispatch, isMountedRef]
   )
 
   useEffect(() => {
@@ -312,10 +309,9 @@ export function Editor({
       )}
       {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
       {apiError && <p>{apiError.message}</p>}
-      {submission && submission.testRun && (
+      {submission && (
         <TestRunSummary
-          cancelLink={submission.links.cancel}
-          testRun={submission.testRun}
+          submission={submission}
           timeout={timeout}
           onUpdate={updateSubmission}
         />

@@ -122,6 +122,10 @@ initReact({
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
+  'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
+  'common-graphical-icon': (data: any) => (
+    <Common.GraphicalIcon icon={data.icon} />
+  ),
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

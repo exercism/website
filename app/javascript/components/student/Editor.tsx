@@ -12,6 +12,7 @@ import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 import { Iteration } from '../track/IterationSummary'
 import { useIsMounted } from 'use-is-mounted'
+import { camelizeKeys } from 'humps'
 
 export type Submission = {
   testsStatus: SubmissionTestsStatus
@@ -119,7 +120,16 @@ function reducer(state: State, action: Action): State {
     case ActionType.SUBMISSION_CREATED:
       return {
         ...state,
-        submission: action.payload.submission,
+        submission: {
+          ...action.payload.submission,
+          testRun: {
+            id: null,
+            submissionUuid: action.payload.submission.uuid,
+            status: TestRunStatus.QUEUED,
+            tests: [],
+            message: '',
+          },
+        },
         status: EditorStatus.SUBMISSION_CREATED,
       }
     case ActionType.SUBMISSION_CANCELLED:
@@ -285,6 +295,18 @@ export function Editor({
     return abort
   }, [abort])
 
+  useEffect(() => {
+    if (!submission) {
+      return
+    }
+
+    fetchJSON(submission.links.testRun, {
+      method: 'GET',
+    }).then((json: any) => {
+      updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+    })
+  }, [])
+
   return (
     <div>
       {editorsRef.current.map((editor) => (
@@ -309,9 +331,10 @@ export function Editor({
       )}
       {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
       {apiError && <p>{apiError.message}</p>}
-      {submission && (
+      {submission && submission.testRun && (
         <TestRunSummary
-          submission={submission}
+          testRun={submission.testRun}
+          cancelLink={submission.links.cancel}
           timeout={timeout}
           onUpdate={updateSubmission}
         />

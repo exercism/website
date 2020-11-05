@@ -15,14 +15,14 @@ function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
     case SubmissionTestsStatus.PASSED:
       return (
         <>
-          <div className="--dot"></div>
+          <div role="presentation" className="--dot"></div>
           <div className="--status">Passed</div>
         </>
       )
     case SubmissionTestsStatus.FAILED:
       return (
         <>
-          <div className="--dot"></div>
+          <div role="presentation" className="--dot"></div>
           <div className="--status">Failed</div>
         </>
       )
@@ -30,14 +30,14 @@ function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
     case SubmissionTestsStatus.EXCEPTIONED:
       return (
         <>
-          <div className="--dot"></div>
+          <div role="presentation" className="--dot"></div>
           <div className="--status">Errored</div>
         </>
       )
     case SubmissionTestsStatus.CANCELLED:
       return (
         <>
-          <div className="--dot"></div>
+          <div role="presentation" className="--dot"></div>
           <div className="--status">Cancelled</div>
         </>
       )
@@ -52,7 +52,11 @@ export function TestsStatusSummary({
   testsStatus: SubmissionTestsStatus
 }) {
   return (
-    <div className={`--tests --${testsStatus}`}>
+    <div
+      className={`--tests --${testsStatus}`}
+      role="status"
+      aria-label="Test run status"
+    >
       <Content testsStatus={testsStatus} />
     </div>
   )

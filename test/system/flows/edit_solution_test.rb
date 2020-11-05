@@ -11,19 +11,40 @@ module Components
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
-        visit edit_solution_path(solution.uuid)
-        click_on "Run tests"
-        wait_for_submission
-        2.times { wait_for_websockets }
-        test_run = create :submission_test_run,
-          submission: Submission.last,
+        use_capybara_host do
+          visit edit_solution_path(solution.uuid)
+          click_on "Run tests"
+          wait_for_submission
+          2.times { wait_for_websockets }
+          test_run = create :submission_test_run,
+            submission: Submission.last,
+            status: "pass",
+            ops_status: 200,
+            tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+          Submission::TestRunsChannel.broadcast!(test_run)
+
+          assert_text "Status: pass"
+          assert_text "Passed: test_a_name_given"
+        end
+      end
+
+      test "user sees previous test results" do
+        user = create :user
+        create :user_auth_token, user: user
+        solution = create :concept_solution, user: user
+        submission = create :submission, solution: solution
+        create :submission_test_run,
+          submission: submission,
           status: "pass",
           ops_status: 200,
           tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
-        Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_text "Status: pass"
-        assert_text "Passed: test_a_name_given"
+        use_capybara_host do
+          visit edit_solution_path(solution.uuid)
+
+          assert_text "Status: pass"
+          assert_text "Passed: test_a_name_given"
+        end
       end
 
       test "user sees errors" do
@@ -32,10 +53,12 @@ module Components
         solution = create :concept_solution, user: user
         create :submission, solution: solution
 
-        visit edit_solution_path(solution.uuid)
-        click_on "Run tests"
+        use_capybara_host do
+          visit edit_solution_path(solution.uuid)
+          click_on "Run tests"
 
-        assert_text "No files you submitted have changed since your last submission"
+          assert_text "No files you submitted have changed since your last submission"
+        end
       end
 
       test "user submits code" do

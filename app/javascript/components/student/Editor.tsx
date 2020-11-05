@@ -12,12 +12,13 @@ import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 import { Iteration } from '../track/IterationSummary'
 import { useIsMounted } from 'use-is-mounted'
+import { camelizeKeys } from 'humps'
 
 export type Submission = {
   testsStatus: SubmissionTestsStatus
   uuid: string
   links: SubmissionLinks
-  testRun: TestRun
+  testRun?: TestRun
 }
 
 type APIError = {
@@ -59,6 +60,7 @@ export enum TestStatus {
 type SubmissionLinks = {
   cancel: string
   submit: string
+  testRun: string
 }
 
 export enum TestRunStatus {
@@ -118,7 +120,6 @@ function reducer(state: State, action: Action): State {
     case ActionType.SUBMISSION_CREATED:
       return {
         ...state,
-        status: EditorStatus.SUBMISSION_CREATED,
         submission: {
           ...action.payload.submission,
           testRun: {
@@ -129,6 +130,7 @@ function reducer(state: State, action: Action): State {
             message: '',
           },
         },
+        status: EditorStatus.SUBMISSION_CREATED,
       }
     case ActionType.SUBMISSION_CANCELLED:
       return {
@@ -175,11 +177,11 @@ export function Editor({
   initialSubmission?: Submission
   files: File[]
 }) {
+  const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
     submission: initialSubmission,
   })
-  const isMountedRef = useIsMounted()
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
@@ -259,14 +261,29 @@ export function Editor({
         method: 'POST',
         body: JSON.stringify({}),
         signal: controllerRef.current.signal,
-      }).then((json: any) => {
-        if (!isMountedRef.current) {
-          return
-        }
-
-        const iteration = typecheck<Iteration>(json, 'iteration')
-        location.assign(iteration.links.self)
       })
+        .then((json: any) => {
+          if (!isMountedRef.current) {
+            return
+          }
+
+          const iteration = typecheck<Iteration>(json, 'iteration')
+          location.assign(iteration.links.self)
+        })
+        .catch((err) => {
+          if (!isMountedRef.current) {
+            return
+          }
+
+          if (err instanceof Error) {
+            if (err.name === 'AbortError' && controllerRef.current) {
+              return
+            }
+          }
+        })
+        .finally(() => {
+          controllerRef.current = undefined
+        })
     },
     [controllerRef, isMountedRef, submission]
   )
@@ -276,17 +293,54 @@ export function Editor({
   }, [dispatch, abort])
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
+      if (!isMountedRef.current) {
+        return
+      }
+
       dispatch({
         type: ActionType.SUBMISSION_CHANGED,
         payload: { testRun: testRun },
       })
     },
-    [dispatch]
+    [dispatch, isMountedRef]
   )
 
   useEffect(() => {
     return abort
   }, [abort])
+
+  useEffect(() => {
+    if (!submission) {
+      return
+    }
+
+    controllerRef.current = new AbortController()
+
+    fetchJSON(submission.links.testRun, {
+      method: 'GET',
+      signal: controllerRef.current.signal,
+    })
+      .then((json: any) => {
+        if (!isMountedRef.current) {
+          return
+        }
+        updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+      })
+      .catch((err) => {
+        if (!isMountedRef.current) {
+          return
+        }
+
+        if (err instanceof Error) {
+          if (err.name === 'AbortError' && controllerRef.current) {
+            return
+          }
+        }
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [])
 
   return (
     <div>
@@ -314,8 +368,8 @@ export function Editor({
       {apiError && <p>{apiError.message}</p>}
       {submission && submission.testRun && (
         <TestRunSummary
-          cancelLink={submission.links.cancel}
           testRun={submission.testRun}
+          cancelLink={submission.links.cancel}
           timeout={timeout}
           onUpdate={updateSubmission}
         />

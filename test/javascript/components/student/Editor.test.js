@@ -14,15 +14,23 @@ test('clears current submission when resubmitting', async () => {
             id: 2,
             uuid: '123',
             tests_status: 'queued',
-            test_run: {
-              submission_uuid: '123',
-              status: 'queued',
-              message: '',
-              tests: [],
-            },
             links: {
               cancel: 'https://exercism.test/cancel',
+              testRun: 'https://exercism.test/test_run',
             },
+          },
+        })
+      )
+    }),
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            id: null,
+            submission_uuid: '123',
+            status: 'queued',
+            message: '',
+            tests: [],
           },
         })
       )
@@ -57,15 +65,22 @@ test('shows message when test times out', async () => {
             id: 2,
             uuid: '123',
             tests_status: 'queued',
-            test_run: {
-              submission_uuid: '123',
-              status: 'queued',
-              message: '',
-              tests: [],
-            },
             links: {
               cancel: 'https://exercism.test/cancel',
+              testRun: 'https://exercism.test/test_run',
             },
+          },
+        })
+      )
+    }),
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            submission_uuid: '123',
+            status: 'queued',
+            message: '',
+            tests: [],
           },
         })
       )
@@ -115,30 +130,23 @@ test('cancels a pending submission', async () => {
 })
 
 test('disables submit button unless tests passed', async () => {
-  const { getByText } = render(
-    <Editor
-      endpoint="https://exercism.test/submissions"
-      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      initialSubmission={{
-        uuid: '123',
-        testsStatus: 'queued',
-        testRun: {
-          status: 'queued',
-          submissionUuid: '123',
-          tests: [],
-          message: '',
-        },
-        links: {
-          cancel: 'https://exercism.test/cancel',
-        },
-      }}
-    />
+  const server = setupServer(
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            id: null,
+            submission_uuid: '123',
+            status: 'queued',
+            message: '',
+            tests: [],
+          },
+        })
+      )
+    })
   )
+  server.listen()
 
-  expect(getByText('Submit')).toBeDisabled()
-})
-
-test('disables submit button unless tests passed', async () => {
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
@@ -146,14 +154,9 @@ test('disables submit button unless tests passed', async () => {
       initialSubmission={{
         uuid: '123',
         testsStatus: 'queued',
-        testRun: {
-          status: 'queued',
-          submissionUuid: '123',
-          tests: [],
-          message: '',
-        },
         links: {
           cancel: 'https://exercism.test/cancel',
+          testRun: 'https://exercism.test/test_run',
         },
       }}
     />
@@ -163,6 +166,23 @@ test('disables submit button unless tests passed', async () => {
 })
 
 test('populates files', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            id: null,
+            submission_uuid: '123',
+            status: 'queued',
+            message: '',
+            tests: [],
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
@@ -170,18 +190,15 @@ test('populates files', async () => {
       initialSubmission={{
         uuid: '123',
         testsStatus: 'queued',
-        testRun: {
-          status: 'queued',
-          submissionUuid: '123',
-          tests: [],
-          message: '',
-        },
         links: {
           cancel: 'https://exercism.test/cancel',
+          testRun: 'https://exercism.test/test_run',
         },
       }}
     />
   )
 
   expect(getByText('class Lasagna')).toBeInTheDocument()
+
+  server.close()
 })

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         resources :iterations, only: %i[create]
       end
       resources :submission, only: [] do
+        resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
       end
 

@@ -15,9 +15,12 @@ class SerializeSubmission
           submission.solution.uuid,
           submission_id: submission.uuid,
           auth_token: user.auth_tokens.first.to_s
+        ),
+        test_run: Exercism::Routes.api_submission_test_run_url(
+          submission.uuid,
+          auth_token: user.auth_tokens.first.to_s
         )
-      },
-      test_run: SerializeSubmissionTestRun.(submission.test_runs.last)
+      }
     }
   end
 

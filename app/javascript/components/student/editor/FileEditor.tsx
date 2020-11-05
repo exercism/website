@@ -17,10 +17,11 @@ export type FileEditorHandle = {
 type FileEditorProps = {
   file: File
   syntaxHighlighter: string
+  onRunTests: () => void
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file, syntaxHighlighter }, ref) => {
+  ({ file, syntaxHighlighter, onRunTests }, ref) => {
     const [theme, setTheme] = useState('vs')
     const [options, setOptions] = useState({
       minimap: { enabled: false },
@@ -33,6 +34,12 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
     const editorDidMount = useCallback(
       (editor) => {
+        editor.addAction({
+          id: 'runTests',
+          label: 'Run tests',
+          keybindings: [monaco.KeyCode.F2],
+          run: onRunTests,
+        })
         editorRef.current = editor
       },
       [editorRef]

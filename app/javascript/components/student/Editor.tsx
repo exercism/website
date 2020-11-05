@@ -192,58 +192,55 @@ export function Editor({
     controllerRef.current?.abort()
     controllerRef.current = undefined
   }, [controllerRef])
-  const runTests = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const files = editorsRef.current.map((editor) => {
-        return editor.ref.current?.getFile()
+  const runTests = useCallback(() => {
+    const files = editorsRef.current.map((editor) => {
+      return editor.ref.current?.getFile()
+    })
+
+    abort()
+    controllerRef.current = new AbortController()
+
+    dispatch({ type: ActionType.CREATING_SUBMISSION })
+
+    fetchJSON(endpoint, {
+      method: 'POST',
+      signal: controllerRef.current.signal,
+      body: JSON.stringify({ files: files }),
+    })
+      .then((json: any) => {
+        dispatch({
+          type: ActionType.SUBMISSION_CREATED,
+          payload: { submission: typecheck<Submission>(json, 'submission') },
+        })
+
+        editorsRef.current = files.map((file) => {
+          return {
+            file: file,
+            ref: createRef<FileEditorHandle>(),
+          } as EditorRef
+        })
       })
+      .catch((err) => {
+        if (err instanceof Error) {
+          if (err.name === 'AbortError' && controllerRef.current) {
+            return
+          }
+          dispatch({ type: ActionType.SUBMISSION_CANCELLED })
+        }
 
-      abort()
-      controllerRef.current = new AbortController()
-
-      dispatch({ type: ActionType.CREATING_SUBMISSION })
-
-      fetchJSON(endpoint, {
-        method: 'POST',
-        signal: controllerRef.current.signal,
-        body: JSON.stringify({ files: files }),
+        if (err instanceof Response) {
+          err.json().then((res: any) =>
+            dispatch({
+              type: ActionType.SUBMISSION_CANCELLED,
+              payload: { apiError: res.error },
+            })
+          )
+        }
       })
-        .then((json: any) => {
-          dispatch({
-            type: ActionType.SUBMISSION_CREATED,
-            payload: { submission: typecheck<Submission>(json, 'submission') },
-          })
-
-          editorsRef.current = files.map((file) => {
-            return {
-              file: file,
-              ref: createRef<FileEditorHandle>(),
-            } as EditorRef
-          })
-        })
-        .catch((err) => {
-          if (err instanceof Error) {
-            if (err.name === 'AbortError' && controllerRef.current) {
-              return
-            }
-            dispatch({ type: ActionType.SUBMISSION_CANCELLED })
-          }
-
-          if (err instanceof Response) {
-            err.json().then((res: any) =>
-              dispatch({
-                type: ActionType.SUBMISSION_CANCELLED,
-                payload: { apiError: res.error },
-              })
-            )
-          }
-        })
-        .finally(() => {
-          controllerRef.current = undefined
-        })
-    },
-    [abort, controllerRef]
-  )
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [abort, controllerRef])
   const submit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       if (!submission) {
@@ -288,9 +285,15 @@ export function Editor({
           file={editor.file}
           ref={editor.ref}
           syntaxHighlighter={syntaxHighlighter}
+          onRunTests={runTests}
         />
       ))}
-      <button type="button" onClick={runTests}>
+      <button
+        type="button"
+        onClick={() => {
+          runTests()
+        }}
+      >
         Run tests
       </button>
       <button

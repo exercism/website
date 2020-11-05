@@ -14,10 +14,11 @@ export type FileEditorHandle = {
 
 type FileEditorProps = {
   file: File
+  syntaxHighlighter: string
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file }, ref) => {
+  ({ file, syntaxHighlighter }, ref) => {
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
     const editorDidMount = useCallback(
       (editor) => {
@@ -40,7 +41,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         key={file.filename}
         width="800"
         height="600"
-        language="ruby"
+        language={syntaxHighlighter}
         editorDidMount={editorDidMount}
         options={{ minimap: { enabled: false } }}
         defaultValue={file.content}

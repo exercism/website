@@ -17,7 +17,8 @@ module ViewComponents
                 filename: filename,
                 content: content
               }
-            end
+            end,
+            syntax_highlighter: solution.editor_syntax_highlighter
           }
         )
       end

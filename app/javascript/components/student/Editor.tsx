@@ -168,11 +168,13 @@ export function Editor({
   timeout = 60000,
   initialSubmission,
   files,
+  syntaxHighlighter,
 }: {
   endpoint: string
   timeout?: number
   initialSubmission?: Submission
   files: File[]
+  syntaxHighlighter: string
 }) {
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
@@ -278,6 +280,7 @@ export function Editor({
           key={editor.file.filename}
           file={editor.file}
           ref={editor.ref}
+          syntaxHighlighter={syntaxHighlighter}
         />
       ))}
       <button type="button" onClick={runTests}>

@@ -42,6 +42,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         height="600"
         language="ruby"
         editorDidMount={editorDidMount}
+        options={{ minimap: { enabled: false } }}
         defaultValue={file.content}
       />
     )

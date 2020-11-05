@@ -24,7 +24,8 @@
     "react-query": "^2.15.4",
     "regenerator-runtime": "^0.13.7",
     "tailwindcss": "^1.8.10",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "use-is-mounted": "^1.0.0"
   },
   "version": "0.1.0",
   "devDependencies": {

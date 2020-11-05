@@ -120,6 +120,7 @@ Rails.application.routes.draw do
         end
         namespace :common do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
+          resource :icons, controller: "icons", only: [:show]
         end
       end
     end

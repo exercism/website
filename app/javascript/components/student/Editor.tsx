@@ -182,7 +182,6 @@ export function Editor({
     status: undefined,
     submission: initialSubmission,
   })
-  const isMountedRef = useIsMounted()
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
@@ -262,14 +261,29 @@ export function Editor({
         method: 'POST',
         body: JSON.stringify({}),
         signal: controllerRef.current.signal,
-      }).then((json: any) => {
-        if (!isMountedRef.current) {
-          return
-        }
-
-        const iteration = typecheck<Iteration>(json, 'iteration')
-        location.assign(iteration.links.self)
       })
+        .then((json: any) => {
+          if (!isMountedRef.current) {
+            return
+          }
+
+          const iteration = typecheck<Iteration>(json, 'iteration')
+          location.assign(iteration.links.self)
+        })
+        .catch((err) => {
+          if (!isMountedRef.current) {
+            return
+          }
+
+          if (err instanceof Error) {
+            if (err.name === 'AbortError' && controllerRef.current) {
+              return
+            }
+          }
+        })
+        .finally(() => {
+          controllerRef.current = undefined
+        })
     },
     [controllerRef, isMountedRef, submission]
   )
@@ -300,11 +314,32 @@ export function Editor({
       return
     }
 
+    controllerRef.current = new AbortController()
+
     fetchJSON(submission.links.testRun, {
       method: 'GET',
-    }).then((json: any) => {
-      updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+      signal: controllerRef.current.signal,
     })
+      .then((json: any) => {
+        if (!isMountedRef.current) {
+          return
+        }
+        updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+      })
+      .catch((err) => {
+        if (!isMountedRef.current) {
+          return
+        }
+
+        if (err instanceof Error) {
+          if (err.name === 'AbortError' && controllerRef.current) {
+            return
+          }
+        }
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
   }, [])
 
   return (

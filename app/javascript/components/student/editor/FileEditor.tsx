@@ -3,6 +3,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useCallback,
+  useState,
 } from 'react'
 import { File } from '../Editor'
 import MonacoEditor from 'react-monaco-editor'
@@ -19,6 +20,10 @@ type FileEditorProps = {
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
   ({ file, syntaxHighlighter }, ref) => {
+    const [options, setOptions] = useState({
+      minimap: { enabled: false },
+      wordWrap: 'on',
+    })
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
     const editorDidMount = useCallback(
       (editor) => {
@@ -26,6 +31,9 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       },
       [editorRef]
     )
+    const handleWrapChange = useCallback((e) => {
+      setOptions({ ...options, wordWrap: e.target.value })
+    })
 
     useImperativeHandle(ref, () => ({
       getFile() {
@@ -37,15 +45,22 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
     }))
 
     return (
-      <MonacoEditor
-        key={file.filename}
-        width="800"
-        height="600"
-        language={syntaxHighlighter}
-        editorDidMount={editorDidMount}
-        options={{ minimap: { enabled: false } }}
-        defaultValue={file.content}
-      />
+      <div>
+        <label>Wrap</label>
+        <select value={options.wordWrap} onChange={handleWrapChange}>
+          <option value="off">Off</option>
+          <option value="on">On</option>
+        </select>
+        <MonacoEditor
+          key={file.filename}
+          width="800"
+          height="600"
+          language={syntaxHighlighter}
+          editorDidMount={editorDidMount}
+          options={options}
+          defaultValue={file.content}
+        />
+      </div>
     )
   }
 )

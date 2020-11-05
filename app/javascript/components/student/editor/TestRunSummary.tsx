@@ -78,8 +78,8 @@ export function TestRunSummary({
   ])
 
   useEffect(() => {
-    channel.current = new TestRunChannel(testRun, (testRun: TestRun) => {
-      setTestRun(testRun)
+    channel.current = new TestRunChannel(testRun, (updatedTestRun: TestRun) => {
+      setTestRun(updatedTestRun)
     })
 
     return () => {

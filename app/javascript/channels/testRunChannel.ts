@@ -6,7 +6,7 @@ import { typecheck } from '../utils/typecheck'
 export class TestRunChannel {
   subscription: ActionCable.Channel
 
-  constructor(testRun: TestRun, onReceive: (testRun: TestRun) => void) {
+  constructor(testRun: TestRun, onReceive: (updatedTestRun: TestRun) => void) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'Submission::TestRunsChannel',

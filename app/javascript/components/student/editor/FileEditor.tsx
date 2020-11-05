@@ -16,12 +16,12 @@ export type FileEditorHandle = {
 
 type FileEditorProps = {
   file: File
-  syntaxHighlighter: string
+  language: string
   onRunTests: () => void
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file, syntaxHighlighter, onRunTests }, ref) => {
+  ({ file, language, onRunTests }, ref) => {
     const [theme, setTheme] = useState('vs')
     const [options, setOptions] = useState({
       minimap: { enabled: false },
@@ -108,7 +108,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           key={file.filename}
           width="800"
           height="600"
-          language={syntaxHighlighter}
+          language={language}
           editorDidMount={editorDidMount}
           onChange={editorChanged}
           options={options}

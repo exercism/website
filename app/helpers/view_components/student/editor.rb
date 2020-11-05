@@ -18,7 +18,7 @@ module ViewComponents
                 content: content
               }
             end,
-            syntax_highlighter: solution.editor_syntax_highlighter
+            language: solution.editor_language
           }
         )
       end

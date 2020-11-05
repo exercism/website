@@ -111,7 +111,7 @@ initReact({
         (camelizeKeys(data.submission) as unknown) as Submission
       }
       files={data.files}
-      syntaxHighlighter={data.syntax_highlighter}
+      language={data.language}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

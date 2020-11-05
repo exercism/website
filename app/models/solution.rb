@@ -50,7 +50,7 @@ class Solution < ApplicationRecord
     Git::Exercise.for_solution(self).data.instructions
   end
 
-  def editor_syntax_highlighter
+  def editor_language
     track.slug
   end
 

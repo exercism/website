@@ -168,13 +168,13 @@ export function Editor({
   timeout = 60000,
   initialSubmission,
   files,
-  syntaxHighlighter,
+  language,
 }: {
   endpoint: string
   timeout?: number
   initialSubmission?: Submission
   files: File[]
-  syntaxHighlighter: string
+  language: string
 }) {
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
@@ -284,7 +284,7 @@ export function Editor({
           key={editor.file.filename}
           file={editor.file}
           ref={editor.ref}
-          syntaxHighlighter={syntaxHighlighter}
+          language={language}
           onRunTests={runTests}
         />
       ))}

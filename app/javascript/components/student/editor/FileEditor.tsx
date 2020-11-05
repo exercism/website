@@ -50,13 +50,22 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
 
     return (
       <div>
-        <label>Wrap</label>
-        <select value={options.wordWrap} onChange={handleWrapChange}>
+        <label htmlFor={`${file.name}-editor-wrap`}>Wrap</label>
+        <select
+          id={`${file.name}-editor-wrap`}
+          value={options.wordWrap}
+          onChange={handleWrapChange}
+        >
           <option value="off">Off</option>
           <option value="on">On</option>
         </select>
         <label>Theme</label>
-        <select value={theme} onChange={handleThemeChange}>
+        <label htmlFor={`${file.name}-editor-theme`}>Theme</label>
+        <select
+          id={`${file.name}-editor-theme`}
+          value={theme}
+          onChange={handleThemeChange}
+        >
           <option value="vs">Light</option>
           <option value="vs-dark">Dark</option>
         </select>

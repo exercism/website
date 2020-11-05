@@ -236,9 +236,6 @@ ActiveRecord::Schema.define(version: 2020_10_27_144915) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "repo_url", null: false
-    t.string "test_pattern"
-    t.string "ignore_pattern"
-    t.string "git_head_sha", default: "HEAD", null: false
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false

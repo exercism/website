@@ -10,7 +10,7 @@ WORKDIR /opt/exercism/website/current
 # Set this as a global env var
 ENV RAILS_ENV=production
 
-# Only Gemfile and Gemfile.lock changs require a new bundle install
+# Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
 RUN gem install bundler && \
     bundle config set deployment 'true' && \

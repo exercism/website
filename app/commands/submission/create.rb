@@ -34,7 +34,7 @@ class Submission
       submission.broadcast!
 
       # Finally wait for everyhting to finish before
-      # we return the submission
+      # we return the submission.
       services_thread.join
 
       # End by returning the new submission
@@ -95,13 +95,11 @@ class Submission
     end
 
     def create_files!
-      submitted_files.map do |file|
-        ActiveRecord::Base.connection_pool.with_connection do
-          submission.files.create!(
-            file.slice(:uuid, :filename, :digest, :content)
-          )
-        end
-      end.join
+      submitted_files.each do |file|
+        submission.files.create!(
+          file.slice(:uuid, :filename, :digest, :content)
+        )
+      end
     end
 
     def update_solution!
@@ -115,7 +113,7 @@ class Submission
 
     memoize
     def exercise_files
-      Git::Exercise.for_solution(solution).code_files
+      Git::Exercise.for_solution(solution).non_ignored_files
     end
   end
 end

@@ -1,5 +1,6 @@
 class Track < ApplicationRecord
   extend FriendlyId
+  extend Mandate::Memoize
 
   friendly_id :slug, use: [:history]
 
@@ -11,6 +12,12 @@ class Track < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  delegate :test_regexp,
+    :ignore_regexp,
+    to: :git
+
+  delegate :head_sha, to: :git, prefix: :git
+
   def self.for!(param)
     return param if param.is_a?(Track)
     return find_by!(id: param) if param.is_a?(Numeric)
@@ -18,19 +25,11 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
-  def test_regexp
-    Regexp.new(test_pattern.presence || "[tT]est")
-  end
-
-  def ignore_regexp
-    Regexp.new(ignore_pattern.presence || "[iI]gnore")
-  end
-
-  # TODO: Memoize
-  def repo
+  memoize
+  def git
     # TODO: Slug can be removed from this
     # once we're out of the monorepo
-    Git::Track.new(repo_url, slug)
+    Git::Track.new(slug, repo_url: repo_url)
   end
 
   # TODO: Set this properly

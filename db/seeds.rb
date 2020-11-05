@@ -1,7 +1,7 @@
 
 # This is all temporary and horrible while we have a monorepo
 v3_url = "https://github.com/exercism/v3"
-repo = Git::Track.new(v3_url, :ruby)
+repo = Git::Track.new(:ruby, repo_url: v3_url)
 
 # This updates it once before we stub it below
 repo.send(:repo).send(:rugged_repo)
@@ -66,7 +66,8 @@ tags = [
 ]
 
 track_slugs = []
-tree = repo.send(:repo).read_tree(repo.send(:repo).head_commit, "languages/")
+repo = Git::Repository.new(:v3, repo_url:"https://github.com/exercism/v3")
+tree = repo.send(:read_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
 puts track_slugs
@@ -89,7 +90,7 @@ track_slugs.each do |track_slug|
 
   begin
     #track.update(title: track.repo.config[:language])
-    track.repo.config[:exercises][:concept].each do |exercise_config|
+    track.send(:git).config[:exercises][:concept].each do |exercise_config|
       ce = ConceptExercise.create!(
         track: track,
         uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),

@@ -10,11 +10,12 @@ class Track::Concept < ApplicationRecord
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }
 
-  delegate :about, :links, to: :data
+  delegate :about,
+    :links,
+    to: :git
 
-  private
   memoize
-  def data
-    Git::Concept.new(track.slug, slug, :HEAD).data
+  def git
+    Git::Concept.new(track.slug, slug, "HEAD")
   end
 end

@@ -39,7 +39,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "locked" do
-    comp = ViewComponents::Widgets::Exercise.new(locked_exericse)
+    comp = ViewComponents::Widgets::Exercise.new(locked_exercise)
     expected = %(
       <div class="c-exercise-widget --large --locked">
         #{exercise_icon}
@@ -51,7 +51,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "locked no-desc" do
-    comp = ViewComponents::Widgets::Exercise.new(locked_exericse, desc: false)
+    comp = ViewComponents::Widgets::Exercise.new(locked_exercise, desc: false)
     expected = %(
       <div class="c-exercise-widget --large --locked">
         #{exercise_icon}
@@ -63,7 +63,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "locked small" do
-    comp = ViewComponents::Widgets::Exercise.new(locked_exericse, large: false)
+    comp = ViewComponents::Widgets::Exercise.new(locked_exercise, large: false)
     expected = %(
       <div class="c-exercise-widget --small --locked">
         #{exercise_icon}
@@ -178,36 +178,33 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   def external_exercise
-    create :concept_exercise, title: "Bob"
+    create :practice_exercise
   end
 
-  def locked_exericse
-    track = create :track
-    create :user_track, track: track # TODO: Will break with devise added
-    create(:concept_exercise, title: "Bob", track: track).tap do |exercise|
+  def locked_exercise
+    create(:practice_exercise).tap do |exercise|
       create :exercise_prerequisite, exercise: exercise
+      create :user_track, track: exercise.track # TODO: Will break with devise added
     end
   end
 
   def available_exercise
-    track = create :track
-    create :user_track, track: track # TODO: Will break with devise added
-    create :concept_exercise, title: "Bob", track: track
+    create(:practice_exercise).tap do |exercise|
+      create :user_track, track: exercise.track # TODO: Will break with devise added
+    end
   end
 
   def in_progress_exercise
-    track = create :track
-    user_track = create :user_track, track: track # TODO: Will break with devise added
-    create(:concept_exercise, title: "Bob", track: track).tap do |exercise|
-      create :concept_solution, user: user_track.user, exercise: exercise
+    create(:practice_exercise).tap do |exercise|
+      user_track = create :user_track, track: exercise.track # TODO: Will break with devise added
+      create :practice_solution, user: user_track.user, exercise: exercise
     end
   end
 
   def completed_exercise
-    track = create :track
-    user_track = create :user_track, track: track # TODO: Will break with devise added
-    create(:concept_exercise, title: "Bob", track: track).tap do |exercise|
-      create :concept_solution, user: user_track.user, exercise: exercise, completed_at: Time.current
+    create(:practice_exercise).tap do |exercise|
+      user_track = create :user_track, track: exercise.track # TODO: Will break with devise added
+      create :practice_solution, user: user_track.user, exercise: exercise, completed_at: Time.current
     end
   end
 

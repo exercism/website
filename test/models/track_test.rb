@@ -24,23 +24,23 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal [track], Track.active
   end
 
-  test "Retrieves test_regexp" do
-    track = create :track, test_pattern: "test"
+  test "Retrieves test_regexp for csharp" do
+    track = create :track, slug: 'csharp'
+    assert_equal(/.+test[.]rb$/, track.test_regexp)
+  end
+
+  test "Retrieves test_regexp for ruby" do
+    track = create :track, slug: 'ruby'
     assert_equal(/test/, track.test_regexp)
   end
 
-  test "Has correct default test_regexp" do
-    track = create :track, test_pattern: ""
-    assert_equal(/[tT]est/, track.test_regexp)
-  end
-
-  test "Retrieves ignore_regexp" do
-    track = create :track, ignore_pattern: "[iI]gno"
-    assert_equal(/[iI]gno/, track.ignore_regexp)
-  end
-
-  test "Has correct default ignore_regexp" do
-    track = create :track, ignore_pattern: ""
+  test "Retrieves ignore_regexp for csharp" do
+    track = create :track, slug: 'csharp'
     assert_equal(/[iI]gnore/, track.ignore_regexp)
+  end
+
+  test "Retrieves ignore_regexp for ruby" do
+    track = create :track, slug: 'ruby'
+    assert_equal(/[iI]gno/, track.ignore_regexp)
   end
 end

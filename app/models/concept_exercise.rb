@@ -9,6 +9,8 @@ class ConceptExercise < Exercise
     through: :exercise_taught_concepts,
     source: :concept
 
+  delegate :instructions, to: :git
+
   def self.that_teach(concepts)
     joins(:taught_concepts).
       where('exercise_taught_concepts.track_concept_id': concepts)

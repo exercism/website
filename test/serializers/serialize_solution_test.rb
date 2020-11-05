@@ -2,10 +2,7 @@ require 'test_helper'
 
 class SerializeSolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
-    files = [".meta/config.json", "README.md", "bob.rb", "bob_test.rb", "subdir/more_bob.rb"]
-    Git::Exercise.any_instance.stubs(code_filepaths: files)
-
-    solution = create :concept_solution
+    solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
     expected = {
       solution: {
@@ -37,7 +34,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   # But I'm leaving it here for now in case I was wrong.
 
   # test "ignore submission files that match ignore_regexp" do
-  #   solution = create :concept_solution
+  #   solution = create :practice_solution
   #   create :user_track, user: solution.user, track: solution.track
 
   #   # Create an ignore file, check it matches the pattern
@@ -51,7 +48,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   # end
 
   # test "includes all solution files" do
-  #   solution = create :concept_solution
+  #   solution = create :practice_solution
   #   track = solution.track
   #   create :user_track, user: solution.user, track: track
 
@@ -72,7 +69,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
 
   test "to_hash with different requester" do
     user = create :user
-    solution = create :concept_solution
+    solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
 
     output = SerializeSolution.(solution, user)
@@ -80,7 +77,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   end
 
   test "handle is alias when anonymous" do
-    solution = create :concept_solution
+    solution = create :practice_solution
     create :user_track, anonymous_during_mentoring: true, user: solution.user, track: solution.track
 
     output = SerializeSolution.(solution, solution.user)
@@ -88,7 +85,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   end
 
   test "submission is represented correctly" do
-    solution = create :concept_solution
+    solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
 
     created_at = Time.current.getutc - 1.week
@@ -99,7 +96,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   end
 
   test "solution_url should be /mentoring/solutions if not user" do
-    solution = create :concept_solution
+    solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
     mentor = create :user
     output = SerializeSolution.(solution, mentor)

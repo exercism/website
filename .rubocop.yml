@@ -37,6 +37,8 @@ Layout/EmptyLinesAroundAccessModifier:
   EnforcedStyle: only_before
 
 Layout/LineLength:
+  Max: 125
+  AutoCorrect: true
   Exclude:
     - "config/**/*"
     - "test/models/notifications/*"

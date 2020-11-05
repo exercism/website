@@ -32,12 +32,18 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       },
       [editorRef]
     )
-    const handleWrapChange = useCallback((e) => {
-      setOptions({ ...options, wordWrap: e.target.value })
-    })
-    const handleThemeChange = useCallback((e) => {
-      setTheme(e.target.value)
-    })
+    const handleWrapChange = useCallback(
+      (e) => {
+        setOptions({ ...options, wordWrap: e.target.value })
+      },
+      [setOptions]
+    )
+    const handleThemeChange = useCallback(
+      (e) => {
+        setTheme(e.target.value)
+      },
+      [setTheme]
+    )
 
     useImperativeHandle(ref, () => ({
       getFile() {

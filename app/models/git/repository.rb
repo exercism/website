@@ -16,7 +16,7 @@ module Git
                     "https://github.com/exercism/v3"
                   end
 
-      update! if Rails.env.test?
+      update! if keep_up_to_date?
     end
 
     def head_commit
@@ -84,7 +84,7 @@ module Git
     end
 
     def update!
-      `cd #{repo_dir} && git fetch`
+      system("cd #{repo_dir} && git fetch", out: File::NULL, err: File::NULL)
     rescue Rugged::NetworkError
       # Don't block development offline
     end
@@ -128,7 +128,13 @@ module Git
     # every time to get up to date. In production
     # we schedule this based of webhooks instead
     def keep_up_to_date?
-      !!ENV["ALWAYS_FETCH_ORIGIN"]
+      # TODO: Add a test for this env var
+      Rails.env.test? || !!ENV["ALWAYS_FETCH_ORIGIN"]
+    end
+
+    def branch_ref
+      # TODO: Add a test for this.
+      ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
     end
 
     MAIN_BRANCH_REF = "master".freeze

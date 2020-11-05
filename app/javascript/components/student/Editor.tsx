@@ -213,6 +213,13 @@ export function Editor({
             type: ActionType.SUBMISSION_CREATED,
             payload: { submission: typecheck<Submission>(json, 'submission') },
           })
+
+          editorsRef.current = files.map((file) => {
+            return {
+              file: file,
+              ref: createRef<FileEditorHandle>(),
+            } as EditorRef
+          })
         })
         .catch((err) => {
           if (err instanceof Error) {

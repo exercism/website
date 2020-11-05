@@ -30,3 +30,43 @@ test('apply correct syntax highlighting', async () => {
 
   expect(queryByText('Language: go')).toBeInTheDocument()
 })
+
+test('loads data from localstorage', async () => {
+  localStorage.setItem('file-editor-content', 'class')
+  const { queryByText } = render(
+    <FileEditor file={{ name: 'file', content: '' }} syntaxHighlighter="go" />
+  )
+
+  expect(queryByText('Value: class')).toBeInTheDocument()
+
+  localStorage.clear()
+})
+
+test('save data to when data changed', async () => {
+  const { getByTestId } = render(
+    <FileEditor file={{ name: 'file', content: '' }} syntaxHighlighter="go" />
+  )
+
+  fireEvent.change(getByTestId('editor-value'), { target: { value: 'code' } })
+
+  expect(localStorage.getItem('file-editor-content')).toEqual('code')
+
+  localStorage.clear()
+})
+
+test('revert to last submission', async () => {
+  localStorage.setItem('file-editor-content', 'class')
+  const { queryByText } = render(
+    <FileEditor
+      file={{ name: 'file', content: 'file' }}
+      syntaxHighlighter="go"
+    />
+  )
+
+  fireEvent.click(queryByText('Revert to last run code'))
+
+  expect(queryByText('Value: file')).toBeInTheDocument()
+  expect(queryByText('Revert to last run code')).not.toBeInTheDocument()
+
+  localStorage.clear()
+})

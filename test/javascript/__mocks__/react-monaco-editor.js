@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react'
 
 export default function MonacoEditor({
-  defaultValue,
+  value,
   editorDidMount,
   theme,
   options,
   language,
+  onChange,
 }) {
   const editor = {
     getValue: () => {
-      return defaultValue
+      return value
     },
+  }
+
+  const handleChange = (e) => {
+    onChange(e.target.value, e)
   }
 
   useEffect(() => {
@@ -22,7 +27,12 @@ export default function MonacoEditor({
       <p>Theme: {theme}</p>
       <p>Language: {language}</p>
       <p>Wrap: {options.wordWrap}</p>
-      <p>{defaultValue}</p>
+      <p>Value: {value}</p>
+      <textarea
+        data-testid="editor-value"
+        onChange={handleChange}
+        value={value}
+      ></textarea>
     </div>
   )
 }

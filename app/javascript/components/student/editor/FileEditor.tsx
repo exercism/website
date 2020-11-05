@@ -8,6 +8,7 @@ import React, {
 import { File } from '../Editor'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
+import { useLocalStorage } from '../../../utils/use-local-storage'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -25,12 +26,22 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       minimap: { enabled: false },
       wordWrap: 'on',
     })
+    const [content, setContent] = useLocalStorage(
+      `${file.name}-editor-content`,
+      file.content
+    )
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
     const editorDidMount = useCallback(
       (editor) => {
         editorRef.current = editor
       },
       [editorRef]
+    )
+    const editorChanged = useCallback(
+      (newValue, e) => {
+        setContent(newValue)
+      },
+      [setContent]
     )
     const handleWrapChange = useCallback(
       (e) => {
@@ -43,6 +54,12 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         setTheme(e.target.value)
       },
       [setTheme]
+    )
+    const revertContent = useCallback(
+      (e) => {
+        setContent(file.content)
+      },
+      [setContent, file]
     )
 
     useImperativeHandle(ref, () => ({
@@ -75,14 +92,20 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           <option value="vs">Light</option>
           <option value="vs-dark">Dark</option>
         </select>
+        {content !== file.content && (
+          <button onClick={revertContent} type="button">
+            Revert to last run code
+          </button>
+        )}
         <MonacoEditor
           key={file.filename}
           width="800"
           height="600"
           language={syntaxHighlighter}
           editorDidMount={editorDidMount}
+          onChange={editorChanged}
           options={options}
-          defaultValue={file.content}
+          value={content}
           theme={theme}
         />
       </div>

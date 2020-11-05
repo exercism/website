@@ -11,6 +11,7 @@ import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 import { Iteration } from '../track/IterationSummary'
+import { useIsMounted } from 'use-is-mounted'
 
 export type Submission = {
   testsStatus: SubmissionTestsStatus
@@ -178,6 +179,7 @@ export function Editor({
     status: undefined,
     submission: initialSubmission,
   })
+  const isMountedRef = useIsMounted()
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
@@ -207,12 +209,20 @@ export function Editor({
         body: JSON.stringify({ files: files }),
       })
         .then((json: any) => {
+          if (!isMountedRef.current) {
+            return
+          }
+
           dispatch({
             type: ActionType.SUBMISSION_CREATED,
             payload: { submission: typecheck<Submission>(json, 'submission') },
           })
         })
         .catch((err) => {
+          if (!isMountedRef.current) {
+            return
+          }
+
           if (err instanceof Error) {
             if (err.name === 'AbortError' && controllerRef.current) {
               return
@@ -233,7 +243,7 @@ export function Editor({
           controllerRef.current = undefined
         })
     },
-    [abort, controllerRef]
+    [abort, controllerRef, isMountedRef]
   )
   const submit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -241,17 +251,24 @@ export function Editor({
         return
       }
 
+      controllerRef.current = new AbortController()
+
       dispatch({ type: ActionType.CREATING_ITERATION })
 
       fetchJSON(submission.links.submit, {
         method: 'POST',
         body: JSON.stringify({}),
+        signal: controllerRef.current.signal,
       }).then((json: any) => {
+        if (!isMountedRef.current) {
+          return
+        }
+
         const iteration = typecheck<Iteration>(json, 'iteration')
         location.assign(iteration.links.self)
       })
     },
-    [submission]
+    [controllerRef, isMountedRef, submission]
   )
   const cancel = useCallback(() => {
     abort()

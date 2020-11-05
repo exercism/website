@@ -20,6 +20,7 @@ type FileEditorProps = {
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
   ({ file, syntaxHighlighter }, ref) => {
+    const [theme, setTheme] = useState('vs')
     const [options, setOptions] = useState({
       minimap: { enabled: false },
       wordWrap: 'on',
@@ -33,6 +34,9 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
     )
     const handleWrapChange = useCallback((e) => {
       setOptions({ ...options, wordWrap: e.target.value })
+    })
+    const handleThemeChange = useCallback((e) => {
+      setTheme(e.target.value)
     })
 
     useImperativeHandle(ref, () => ({
@@ -51,6 +55,11 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           <option value="off">Off</option>
           <option value="on">On</option>
         </select>
+        <label>Theme</label>
+        <select value={theme} onChange={handleThemeChange}>
+          <option value="vs">Light</option>
+          <option value="vs-dark">Dark</option>
+        </select>
         <MonacoEditor
           key={file.filename}
           width="800"
@@ -59,6 +68,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           editorDidMount={editorDidMount}
           options={options}
           defaultValue={file.content}
+          theme={theme}
         />
       </div>
     )

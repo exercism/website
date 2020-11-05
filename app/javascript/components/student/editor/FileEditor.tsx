@@ -28,7 +28,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       wordWrap: 'on',
     })
     const [content, setContent] = useLocalStorage(
-      `${file.name}-editor-content`,
+      `${file.filename}-editor-content`,
       file.content
     )
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
@@ -80,9 +80,9 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
 
     return (
       <div>
-        <label htmlFor={`${file.name}-editor-wrap`}>Wrap</label>
+        <label htmlFor={`${file.filename}-editor-wrap`}>Wrap</label>
         <select
-          id={`${file.name}-editor-wrap`}
+          id={`${file.filename}-editor-wrap`}
           value={options.wordWrap}
           onChange={handleWrapChange}
         >
@@ -90,9 +90,9 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           <option value="on">On</option>
         </select>
         <label>Theme</label>
-        <label htmlFor={`${file.name}-editor-theme`}>Theme</label>
+        <label htmlFor={`${file.filename}-editor-theme`}>Theme</label>
         <select
-          id={`${file.name}-editor-theme`}
+          id={`${file.filename}-editor-theme`}
           value={theme}
           onChange={handleThemeChange}
         >

@@ -34,7 +34,7 @@ test('apply correct syntax highlighting', async () => {
 test('loads data from localstorage', async () => {
   localStorage.setItem('file-editor-content', 'class')
   const { queryByText } = render(
-    <FileEditor file={{ name: 'file', content: '' }} language="go" />
+    <FileEditor file={{ filename: 'file', content: '' }} language="go" />
   )
 
   expect(queryByText('Value: class')).toBeInTheDocument()
@@ -44,7 +44,7 @@ test('loads data from localstorage', async () => {
 
 test('save data to when data changed', async () => {
   const { getByTestId } = render(
-    <FileEditor file={{ name: 'file', content: '' }} language="go" />
+    <FileEditor file={{ filename: 'file', content: '' }} language="go" />
   )
 
   fireEvent.change(getByTestId('editor-value'), { target: { value: 'code' } })
@@ -57,7 +57,7 @@ test('save data to when data changed', async () => {
 test('revert to last submission', async () => {
   localStorage.setItem('file-editor-content', 'class')
   const { queryByText } = render(
-    <FileEditor file={{ name: 'file', content: 'file' }} language="go" />
+    <FileEditor file={{ filename: 'file', content: 'file' }} language="go" />
   )
 
   fireEvent.click(queryByText('Revert to last run code'))

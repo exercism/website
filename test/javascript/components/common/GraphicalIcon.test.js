@@ -6,5 +6,5 @@ import { GraphicalIcon } from '../../../../app/javascript/components/common/Grap
 test('icon renders correctly', async () => {
   const { queryByRole } = render(<GraphicalIcon icon="reputation" />)
 
-  await waitFor(() => expect(queryByRole('img')).toBeInTheDocument())
+  await waitFor(() => expect(queryByRole('presentation')).toBeInTheDocument())
 })

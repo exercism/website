@@ -67,7 +67,7 @@ tags = [
 
 track_slugs = []
 repo = Git::Repository.new(:v3, repo_url:"https://github.com/exercism/v3")
-tree = repo.send(:read_tree, repo.head_commit, "languages/")
+tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
 puts track_slugs

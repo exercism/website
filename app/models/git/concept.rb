@@ -42,8 +42,8 @@ module Git
     memoize
     def tree
       # TODO: When things are exploded back into repos, do this
-      # repo.read_tree(commit, "concepts/#{slug}")
-      repo.read_tree(commit, "languages/#{track_slug}/concepts/#{concept_slug}")
+      # repo.fetch_tree(commit, "concepts/#{slug}")
+      repo.fetch_tree(commit, "languages/#{track_slug}/concepts/#{concept_slug}")
     end
 
     memoize

@@ -80,8 +80,8 @@ module Git
     memoize
     def tree
       # TODO: When things are exploded back into repos, do this
-      # repo.read_tree(commit, "exercises/#{exercise_type}/#{slug}")
-      repo.read_tree(commit, "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}")
+      # repo.fetch_tree(commit, "exercises/#{exercise_type}/#{slug}")
+      repo.fetch_tree(commit, "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}")
     end
 
     memoize

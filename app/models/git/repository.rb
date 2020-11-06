@@ -24,7 +24,7 @@ module Git
     end
 
     def read_json_blob(commit, path)
-      oid = find_blob_oid(commit, path)
+      oid = find_file_oid(commit, path)
       raw = read_blob(oid, "{}")
       JSON.parse(raw, symbolize_names: true)
     end
@@ -47,36 +47,18 @@ module Git
       lookup_commit(oid, update_on_failure: false)
     end
 
-    def lookup_tree(oid)
-      lookup(oid).tap do |object|
-        raise 'wrong-type' if object.type != :tree
-      end
-    rescue Rugged::OdbError
-      raise 'not-found'
+    def find_file_oid(commit, path)
+      entry = commit.tree.path(path)
+      raise "Not a blob" if entry[:type] != :blob
+
+      entry[:oid]
     end
 
-    def find_blob_oid(commit, path)
-      parts = path.split('/')
-      target_filename = parts.pop
-      dir = "#{parts.join('/')}/"
+    def fetch_tree(commit, path)
+      entry = commit.tree.path(path)
+      raise "Not a tree" if entry[:type] != :tree
 
-      commit.tree.walk_blobs do |obj_dir, obj|
-        return obj[:oid] if obj[:name] == target_filename && obj_dir == dir
-      end
-
-      raise "No blob found: #{target_filename}"
-    end
-
-    def read_tree(commit, path)
-      parts = path.split("/")
-      dir_name = parts.pop
-      root_path = parts.present? ? "#{parts.join('/')}/" : ""
-
-      commit.tree.walk_trees do |obj_dir, obj|
-        return lookup(obj[:oid]) if obj_dir == root_path && obj[:name] == dir_name
-      end
-
-      raise "No blob found: #{path}"
+      lookup(entry[:oid])
     end
 
     def lookup(*args)

@@ -120,7 +120,7 @@ module Git
     memoize
     def keep_up_to_date?
       # TODO: Add a test for this env var
-      Rails.env.test? || !!ENV["ALWAYS_FETCH_ORIGIN"]
+      Rails.env.test? || !!ENV["GIT_ALWAYS_FETCH_ORIGIN"]
     end
 
     memoize

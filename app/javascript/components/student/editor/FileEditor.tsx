@@ -37,7 +37,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         editor.addAction({
           id: 'runTests',
           label: 'Run tests',
-          keybindings: [monaco.KeyCode.F2],
+          keybindings: [monacoEditor.KeyCode.F2],
           run: onRunTests,
         })
         editorRef.current = editor

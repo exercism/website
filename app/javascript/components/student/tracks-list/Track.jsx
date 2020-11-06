@@ -1,5 +1,6 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ProgressBar } from './ProgressBar'
 
 export function Track({ track }) {
@@ -28,7 +29,7 @@ export function Track({ track }) {
             })}
           </ul>
         </div>
-        <i>›</i>
+        <GraphicalIcon icon="chevron-right" />
       </div>
 
       {track.isJoined && (

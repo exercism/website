@@ -209,15 +209,15 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   def exercise_icon
-    %(<svg role="presentation" class="icon --exercise-icon"><use xlink:href="#sample-exercise-butterflies" /></svg>)
+    %(<svg role="presentation" class="c-icon --exercise-icon"><use xlink:href="#sample-exercise-butterflies" /></svg>)
   end
 
   def lock_icon
-    %(<svg role="img" class="icon --lock-icon"><title>Exercise locked</title><use xlink:href="#lock" /></svg>)
+    %(<svg role="img" class="c-icon --lock-icon"><title>Exercise locked</title><use xlink:href="#lock" /></svg>)
   end
 
   def chevron_icon
-    %(<svg role=\"presentation\" class=\"icon --chevron-icon\"><use xlink:href=\"#chevron-right\" /></svg>)
+    %(<svg role="presentation" class="c-icon --chevron-icon"><use xlink:href="#chevron-right" /></svg>)
   end
 
   def info_div(desc: true, completed: false)
@@ -225,7 +225,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
       <div class="--info">
         <div class="--title">
           Bob
-          #{%(<svg role=\"img\" class=\"icon \"><title>Exercises is completed</title><use xlink:href=\"#completed-check-circle\" /></svg>) if completed}
+          #{%(<svg role="img" class="c-icon "><title>Exercises is completed</title><use xlink:href="#completed-check-circle" /></svg>) if completed}
         </div>
         #{%(<div class="--desc">Atoms are internally represented</div>) if desc}
       </div>

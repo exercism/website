@@ -10,7 +10,7 @@
           - if @exercise.concept_exercise?
             - @exercise.taught_concepts.each.each do |concept|
               = link_to track_concept_path(@track, concept), class: 'concept' do
-                .icon= concept.name[0, 2]
+                .concept-icon= concept.name[0, 2]
                 = concept.name
       .makers
         .faces

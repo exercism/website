@@ -172,6 +172,11 @@
             & i {
                 @apply self-center;
             }
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply text-textLight self-center;
+            }
         }
 
         & .--progress-bar {

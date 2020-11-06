@@ -30,7 +30,7 @@
 
     & .location {
         @apply flex items-center text-14 leading-paragraph font-medium;
-        & .icon {
+        & .c-icon {
             height: 16px;
             width: 16px;
             @apply mr-12;

@@ -1,13 +1,13 @@
 .c-exercise-widget {
     @apply flex items-center shadow-base rounded-8 bg-white;
 
-    & .icon {
+    & .c-icon {
         @apply flex-shrink-0;
     }
 
     & .--title {
         @apply flex items-center;
-        & .icon {
+        & .c-icon {
             height: 24px;
             width: 24px;
             @apply ml-12;

@@ -7,7 +7,7 @@ export function List({ data }) {
   }
 
   return (
-    <div className="tracks">
+    <div className="--tracks">
       {data.tracks.map((track) => {
         return <Track key={track.id} track={track} />
       })}

@@ -7,7 +7,7 @@ export function StatusFilter({ options, dispatch, ...props }) {
   }
 
   return (
-    <div className="status-filters">
+    <div className="--status-filters">
       {options.map((option) => {
         // TODO: Populate .count once these
         // filters are moved client side
@@ -16,7 +16,7 @@ export function StatusFilter({ options, dispatch, ...props }) {
         return (
           <button
             key={option.value}
-            className={option.value === value ? 'selected' : ''}
+            className={option.value === value ? '--selected' : ''}
             disabled={option.value === value}
             aria-label={option.aria_label}
             onClick={(e) => {
@@ -24,7 +24,7 @@ export function StatusFilter({ options, dispatch, ...props }) {
             }}
           >
             {option.label}
-            <span className="count">{count}</span>
+            <span className="--count">{count}</span>
           </button>
         )
       })}

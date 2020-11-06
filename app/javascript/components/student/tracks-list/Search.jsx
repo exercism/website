@@ -12,7 +12,7 @@ export function Search({ dispatch }) {
     <input
       type="text"
       placeholder="Search language tracks"
-      className="search"
+      className="--search"
       onChange={handleChange}
     />
   )

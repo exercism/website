@@ -4,7 +4,7 @@ export function TagOption({ value, label, checked, onChange }) {
   // TODO: ids shouldn't have : in them so parse it out
   const id = `tag-option-${value}`
   return (
-    <div className="option">
+    <div className="--option">
       <input
         id={id}
         type="checkbox"

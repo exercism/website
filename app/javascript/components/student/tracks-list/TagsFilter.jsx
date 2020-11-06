@@ -62,7 +62,7 @@ export function TagsFilter({ options, dispatch }) {
       <button
         ref={filterButtonRef}
         onClick={() => setExpanded(true)}
-        className="filter-btn"
+        className="--filter-btn"
         aria-haspopup="true"
         aria-expanded={expanded}
       >
@@ -73,7 +73,7 @@ export function TagsFilter({ options, dispatch }) {
         tabIndex="-1"
         role="dialog"
         aria-label="A series of checkboxes to filter Exercism tracks"
-        className="tag-option-list"
+        className="--tag-option-list"
         {...(expanded ? {} : { hidden: true })}
       >
         <div className="md-container">
@@ -86,7 +86,7 @@ export function TagsFilter({ options, dispatch }) {
           />
         </div>
       </div>
-      <button onClick={resetFilters} className="reset-btn">
+      <button onClick={resetFilters} className="--reset-btn">
         Reset filters
       </button>
     </>

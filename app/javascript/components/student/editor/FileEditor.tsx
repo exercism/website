@@ -8,7 +8,7 @@ import React, {
 import { File } from '../Editor'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
-import { useLocalStorage } from '../../../utils/use-local-storage'
+import { useStorage } from '../../../utils/use-storage'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -27,7 +27,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       minimap: { enabled: false },
       wordWrap: 'on',
     })
-    const [content, setContent] = useLocalStorage(
+    const [content, setContent] = useStorage(
       `${file.filename}-editor-content`,
       file.content
     )

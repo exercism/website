@@ -2,6 +2,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
+  useEffect,
   useCallback,
   useState,
 } from 'react'
@@ -19,6 +20,8 @@ type FileEditorProps = {
   language: string
   onRunTests: () => void
 }
+
+const SAVE_INTERVAL = 500
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
   ({ file, language, onRunTests }, ref) => {
@@ -45,12 +48,6 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         editorRef.current = editor
       },
       [editorRef]
-    )
-    const editorChanged = useCallback(
-      (newValue, e) => {
-        setContent(newValue)
-      },
-      [setContent]
     )
     const handleWrapChange = useCallback(
       (e) => {
@@ -79,6 +76,14 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         }
       },
     }))
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setContent(editorRef.current?.getValue())
+      }, SAVE_INTERVAL)
+
+      return () => clearInterval(interval)
+    }, [])
 
     return (
       <div>
@@ -111,7 +116,6 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           height="600"
           language={language}
           editorDidMount={editorDidMount}
-          onChange={editorChanged}
           options={options}
           value={content}
           theme={theme}

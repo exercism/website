@@ -3,7 +3,6 @@ import { StoredMemoryValue, useMutableMemoryValue } from 'use-memory-value'
 
 export function useStorage(key, initialValue) {
   const memoryValue = new StoredMemoryValue(key, true, initialValue)
-  const [value, setValue] = useMutableMemoryValue(memoryValue)
 
-  return [value, setValue]
+  return useMutableMemoryValue(memoryValue)
 }

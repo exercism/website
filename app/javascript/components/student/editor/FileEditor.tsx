@@ -23,7 +23,9 @@ type FileEditorProps = {
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
   ({ file, language, onRunTests }, ref) => {
     const [theme, setTheme] = useState('vs')
-    const [options, setOptions] = useState({
+    const [options, setOptions] = useState<
+      monacoEditor.editor.IStandaloneEditorConstructionOptions
+    >({
       minimap: { enabled: false },
       wordWrap: 'on',
     })
@@ -89,7 +91,6 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           <option value="off">Off</option>
           <option value="on">On</option>
         </select>
-        <label>Theme</label>
         <label htmlFor={`${file.filename}-editor-theme`}>Theme</label>
         <select
           id={`${file.filename}-editor-theme`}

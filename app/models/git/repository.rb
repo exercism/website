@@ -5,22 +5,25 @@ module Git
     def initialize(repo_name, repo_url: nil)
       @repo_name = repo_name
 
-      @repo_url = if repo_url
-                    repo_url
-                  elsif Rails.env.test?
-                    # TODO; Switch when we move back out of monorepo
-                    "file://#{(Rails.root / 'test' / 'repos' / 'v3-monorepo')}"
-                  else
-                    # TODO; Switch when we move back out of monorepo
-                    # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
-                    ENV["GIT_CONTENT_REPO"].presence || "https://github.com/exercism/v3"
-                  end
+      @repo_url =
+        if ENV["GIT_CONTENT_REPO"].present?
+          ENV["GIT_CONTENT_REPO"]
+        elsif repo_url
+          repo_url
+        elsif Rails.env.test?
+          # TODO; Switch when we move back out of monorepo
+          "file://#{(Rails.root / 'test' / 'repos' / 'v3-monorepo')}"
+        else
+          # TODO; Switch when we move back out of monorepo
+          # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
+          "https://github.com/exercism/v3"
+        end
 
       update! if keep_up_to_date?
     end
 
     def head_commit
-      main_branch.target
+      active_branch.target
     end
 
     def read_json_blob(commit, path)
@@ -74,8 +77,8 @@ module Git
     private
     attr_reader :repo_name, :repo_url
 
-    def main_branch
-      rugged_repo.branches[MAIN_BRANCH_REF]
+    def active_branch
+      rugged_repo.branches[branch_ref]
     end
 
     def repo_dir

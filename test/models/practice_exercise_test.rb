@@ -16,4 +16,9 @@ class PracticeExerciseTest < ActiveSupport::TestCase
 
     assert_equal [ce], PracticeExercise.that_practice(ruby_bools)
   end
+
+  test "instructions is correct" do
+    exercise = create :practice_exercise
+    assert exercise.instructions.starts_with?("Bob is a lackadaisical teenager")
+  end
 end

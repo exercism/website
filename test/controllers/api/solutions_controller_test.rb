@@ -82,24 +82,22 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
   test "latest should return 200 if solution is unlocked" do
     setup_user
-    track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create :concept_exercise
     create :concept_solution, user: @current_user, exercise: exercise
-    create :user_track, user: @current_user, track: track
+    create :user_track, user: @current_user, track: exercise.track
 
-    get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
+    get latest_api_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success
   end
 
   test "latest should return 200 if solution is unlockable" do
     setup_user
-    track = create :track
-    exercise = create :concept_exercise, track: track
-    create :user_track, user: @current_user, track: track
+    exercise = create :concept_exercise
+    create :user_track, user: @current_user, track: exercise.track
 
     UserTrack.any_instance.stubs(exercise_available?: true)
 
-    get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
+    get latest_api_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success
   end
 

@@ -1,9 +1,9 @@
 module Git
   class Track
-    # TODO: Slug can be removed from this
-    # once we're out of the monorepo
-    def initialize(url, slug)
-      @repo = Git::Repository.new(url)
+    def initialize(slug, repo_url: nil, repo: nil)
+      raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
+
+      @repo = repo || Repository.new(slug, repo_url: repo_url)
       @slug = slug
     end
 

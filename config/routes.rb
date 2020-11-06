@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         resources :iterations, only: %i[create]
       end
       resources :submission, only: [] do
+        resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
       end
 
@@ -120,6 +121,7 @@ Rails.application.routes.draw do
         end
         namespace :common do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
+          resource :icons, controller: "icons", only: [:show]
         end
       end
     end

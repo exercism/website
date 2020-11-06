@@ -15,7 +15,6 @@ class Submission::CreateTest < ActiveSupport::TestCase
       { filename: filename_2, content: content_2 }
     ]
 
-    Git::Exercise.any_instance.expects(:code_files).returns({})
     Submission::UploadWithExercise.expects(:call)
     Submission::TestRun::Init.expects(:call)
 

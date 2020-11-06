@@ -1,7 +1,22 @@
 module Git
   class Repository
-    def initialize(url)
-      @url = url
+    extend Mandate::Memoize
+
+    def initialize(repo_name, repo_url: nil)
+      @repo_name = repo_name
+
+      @repo_url = if repo_url
+                    repo_url
+                  elsif Rails.env.test?
+                    # TODO; Switch when we move back out of monorepo
+                    "file://#{(Rails.root / 'test' / 'repos' / 'v3-monorepo')}"
+                  else
+                    # TODO; Switch when we move back out of monorepo
+                    # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
+                    ENV["GIT_CONTENT_REPO"].presence || "https://github.com/exercism/v3"
+                  end
+
+      update! if keep_up_to_date?
     end
 
     def head_commit
@@ -9,7 +24,7 @@ module Git
     end
 
     def read_json_blob(commit, path)
-      oid = find_blob_oid(commit, path)
+      oid = find_file_oid(commit, path)
       raw = read_blob(oid, "{}")
       JSON.parse(raw, symbolize_names: true)
     end
@@ -19,80 +34,102 @@ module Git
       blob.present? ? blob.text : default
     end
 
-    %i[commit tree].each do |type|
-      define_method "lookup_#{type}" do |oid|
-        lookup(oid).tap do |object|
-          raise 'wrong-type' if object.type != type
-        end
-      rescue Rugged::OdbError
-        raise 'not-found'
+    def lookup_commit(oid, update_on_failure: true)
+      return head_commit if oid == "HEAD"
+
+      lookup(oid).tap do |object|
+        raise 'wrong-type' if object.type != :commit
       end
+    rescue Rugged::OdbError
+      raise 'not-found' unless update_on_failure
+
+      update!
+      lookup_commit(oid, update_on_failure: false)
     end
 
-    def find_blob_oid(commit, path)
-      parts = path.split('/')
-      target_filename = parts.pop
-      dir = "#{parts.join('/')}/"
+    def find_file_oid(commit, path)
+      entry = commit.tree.path(path)
+      raise "Not a blob" if entry[:type] != :blob
 
-      commit.tree.walk_blobs do |obj_dir, obj|
-        return obj[:oid] if obj[:name] == target_filename && obj_dir == dir
-      end
-
-      raise "No blob found: #{target_filename}"
+      entry[:oid]
     end
 
-    def read_tree(commit, path)
-      parts = path.split("/")
-      dir_name = parts.pop
-      root_path = parts.present? ? "#{parts.join('/')}/" : ""
+    def fetch_tree(commit, path)
+      entry = commit.tree.path(path)
+      raise "Not a tree" if entry[:type] != :tree
 
-      commit.tree.walk_trees do |obj_dir, obj|
-        return lookup(obj[:oid]) if obj_dir == root_path && obj[:name] == dir_name
-      end
-
-      raise "No blob found: #{path}"
+      lookup(entry[:oid])
     end
 
-    delegate :lookup, to: :rugged_repo
+    def lookup(*args)
+      rugged_repo.lookup(*args)
+    end
+
+    def update!
+      system("cd #{repo_dir} && git fetch", out: File::NULL, err: File::NULL)
+    rescue Rugged::NetworkError
+      # Don't block development offline
+    end
 
     private
-    attr_reader :url
+    attr_reader :repo_name, :repo_url
 
     def main_branch
       rugged_repo.branches[MAIN_BRANCH_REF]
     end
 
     def repo_dir
-      url_hash = Digest::SHA1.hexdigest(url)
-      local_name = url.split("/").last
-      base_dir = Rails.application.config_for(:git)[:base_dir]
-      "#{base_dir}/#{url_hash}-#{local_name}"
+      # TODO: Change when breaking out of monorepo
+      "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_url.split('/').last}"
+      # "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_name}"
     end
 
-    # TODO: Memoize
-    def rugged_repo
-      @rugged_repo ||= begin
-        if File.directory?(repo_dir)
-          Rugged::Repository.new(repo_dir).tap do |r|
-            # If we're in dev or test mode we want to just fetch
-            # every time to get up to date. In production
-            # we schedule this based of webhooks instead
+    memoize
+    def repos_dir
+      return "./test/tmp/git_repo_cache" if Exercism.env.test?
+      return "./tmp/git_repo_cache" if Exercism.env.development?
 
-            r.fetch('origin') unless Rails.env.production?
-          rescue Rugged::NetworkError
-            # Don't block development offline
-          end
-        else
-          Rugged::Repository.clone_at(url, repo_dir, bare: true)
-        end
+      "/mnt/repos"
+    end
+
+    memoize
+    def rugged_repo
+      unless File.directory?(repo_dir)
+        cmd = [
+          "git clone",
+          "--bare",
+          ("--single-branch" if branch_ref == MAIN_BRANCH_REF),
+          repo_url,
+          repo_dir
+        ].join(" ")
+        system(cmd)
+
+        update!
       end
+
+      Rugged::Repository.new(repo_dir)
     rescue StandardError => e
-      Rails.logger.error "Failed to clone repo #{url}"
+      Rails.logger.error "Failed to clone repo #{repo_url}"
       Rails.logger.error e.message
       raise
     end
 
-    MAIN_BRANCH_REF = "origin/master".freeze
+    # If we're in dev or test mode we want to just fetch
+    # every time to get up to date. In production
+    # we schedule this based of webhooks instead
+    memoize
+    def keep_up_to_date?
+      # TODO: Add a test for this env var
+      Rails.env.test? || !!ENV["GIT_ALWAYS_FETCH_ORIGIN"]
+    end
+
+    memoize
+    def branch_ref
+      # TODO: Add a test for this.
+      ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
+    end
+
+    MAIN_BRANCH_REF = "master".freeze
     private_constant :MAIN_BRANCH_REF
   end
 end

@@ -10586,6 +10586,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-is-mounted@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-is-mounted/-/use-is-mounted-1.0.0.tgz#9b92038aa43d5f9b429fec5bcb337f090da686b2"
+  integrity sha512-hageAWvDBwxHxOgmMzVyT3xkJsj8jv3AUCEm0E1SAmPZ0rnTYal2CNhxVXvlV+orZ62NitsR5/va2djaP/iCLw==
+
 use-memory-value@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-memory-value/-/use-memory-value-1.2.0.tgz#81fa1899fb2f0b687e24a00eb7b7fea00e2f5047"

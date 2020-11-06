@@ -7,13 +7,13 @@ import { fetchJSON } from '../../../utils/fetch-json'
 export function TestRunSummary({
   testRun,
   timeout,
-  cancelLink,
   onUpdate,
+  cancelLink,
 }: {
   testRun: TestRun
   timeout: number
-  cancelLink: string
   onUpdate: (testRun: TestRun) => void
+  cancelLink: string
 }) {
   const setTestRun = useCallback(
     (testRun) => {
@@ -69,7 +69,7 @@ export function TestRunSummary({
         break
     }
   }, [
-    testRun.status,
+    testRun,
     handleQueued,
     handleTimeout,
     handleCancelling,
@@ -78,8 +78,8 @@ export function TestRunSummary({
   ])
 
   useEffect(() => {
-    channel.current = new TestRunChannel(testRun, (testRun: TestRun) => {
-      setTestRun(testRun)
+    channel.current = new TestRunChannel(testRun, (updatedTestRun: TestRun) => {
+      setTestRun(updatedTestRun)
     })
 
     return () => {

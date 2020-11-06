@@ -1,5 +1,0 @@
-#!/bin/sh
-
-### lolcommits hook (begin) ###
-LANG="en_GB.UTF-8" && PATH="$PATH:/Users/iHiD/.rubies/ruby-2.6.3/bin:/usr/local/bin" && if [ ! -d "$GIT_DIR/rebase-merge" ] && [ "$LOLCOMMITS_CAPTURE_DISABLED" != "true" ]; then lolcommits --capture ; fi
-###  lolcommits hook (end)  ###

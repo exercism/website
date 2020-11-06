@@ -23,8 +23,8 @@ module Components
         user_summaries[0].hover
         within(".c-user-summary-tooltip") { assert_text "Erik Schierboom" }
 
-        user_summaries[1].hover
-        within(".c-user-summary-tooltip") { assert_text "Rob Keim" }
+        # user_summaries[1].hover
+        # within(".c-user-summary-tooltip") { assert_text "Rob Keim" }
       end
     end
   end

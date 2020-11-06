@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :concept_exercise do
-    track
+    track { create :track, slug: 'csharp' }
     uuid { SecureRandom.uuid }
-    slug { :bob }
-    title { "Bob" }
+    slug { 'datetime' }
+    title { slug.titleize }
   end
 end

@@ -19,8 +19,6 @@ class API::FilesControllerTest < API::BaseTestCase
   end
 
   test "show should return 404 when file is missing" do
-    Git::Exercise.any_instance.stubs(file: nil)
-
     setup_user
     solution = create :concept_solution, user: @current_user
 
@@ -36,10 +34,8 @@ class API::FilesControllerTest < API::BaseTestCase
   end
 
   test "show should return exercise file" do
-    Git::Exercise.any_instance.expects(:file).with("bob.rb").returns("some content")
-
     setup_user
-    solution = create :concept_solution, user: @current_user
+    solution = create :practice_solution, user: @current_user
 
     get api_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
     assert_response :success

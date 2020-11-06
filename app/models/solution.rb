@@ -29,6 +29,10 @@ class Solution < ApplicationRecord
     Solution.find_by(exercise: exercise, user: user)
   end
 
+  def git_type
+    self.class.name.sub("Solution", "").downcase
+  end
+
   def to_param
     raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
   end
@@ -47,7 +51,7 @@ class Solution < ApplicationRecord
 
   memoize
   def instructions
-    Git::Exercise.for_solution(self).data.instructions
+    Git::Exercise.for_solution(self).instructions
   end
 
   def editor_language

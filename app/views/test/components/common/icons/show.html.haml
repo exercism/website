@@ -1,3 +1,13 @@
-= ReactComponents::Common::Icon.new("reputation", "Reputation")
+%nav
+  %ul
+    %li.haml
+      = icon('reputation', "Reputation")
 
-= ReactComponents::Common::GraphicalIcon.new("contributors")
+    %li.view-component
+      = ReactComponents::Common::Icon.new("reputation", "Reputation")
+
+    %li.haml
+      = graphical_icon(:contributors)
+
+    %li.view-component
+      = ReactComponents::Common::GraphicalIcon.new("contributors")

@@ -1,0 +1,1 @@
+export const Bootloader: any = {}

@@ -3,4 +3,3 @@ class Tmp::GitController < ApplicationController
     Git::Repository.new(:v3).update!
   end
 end
-

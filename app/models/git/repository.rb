@@ -13,7 +13,7 @@ module Git
                   else
                     # TODO; Switch when we move back out of monorepo
                     # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
-                    "https://github.com/exercism/v3"
+                    ENV["GIT_CONTENT_REPO"].presence || "https://github.com/exercism/v3"
                   end
 
       update! if keep_up_to_date?
@@ -95,7 +95,15 @@ module Git
     memoize
     def rugged_repo
       unless File.directory?(repo_dir)
-        `git clone --bare #{repo_url} #{repo_dir}`
+        cmd = [
+          "git clone",
+          "--bare",
+          ("--single-branch" if branch_ref == MAIN_BRANCH_REF),
+          repo_url,
+          repo_dir
+        ].join(" ")
+        system(cmd)
+
         update!
       end
 
@@ -109,11 +117,13 @@ module Git
     # If we're in dev or test mode we want to just fetch
     # every time to get up to date. In production
     # we schedule this based of webhooks instead
+    memoize
     def keep_up_to_date?
       # TODO: Add a test for this env var
       Rails.env.test? || !!ENV["ALWAYS_FETCH_ORIGIN"]
     end
 
+    memoize
     def branch_ref
       # TODO: Add a test for this.
       ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF

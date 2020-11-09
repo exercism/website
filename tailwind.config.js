@@ -95,6 +95,7 @@ module.exports = {
       '40': '40px',
       '48': '48px',
       '64': '64px',
+      '80': '80px',
       spacedColumns: '70px',
     },
     width: {

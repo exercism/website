@@ -18,10 +18,10 @@ export function TagOptionList({
 
   return (
     <form onSubmit={onSubmit}>
-      <div className="categories">
+      <div className="--categories">
         {options.map((option) => {
           return (
-            <div key={option.category} className="category">
+            <div key={option.category} className="--category">
               <h4>{option.category}</h4>
               {option.options.map((option) => (
                 <TagOption
@@ -36,9 +36,9 @@ export function TagOptionList({
           )
         })}
       </div>
-      <footer className="buttons">
-        <button className="apply-btn">Apply</button>
-        <button className="close-btn" onClick={onClose}>
+      <footer className="--buttons">
+        <button className="--apply-btn">Apply</button>
+        <button className="--close-btn" onClick={onClose}>
           Close
         </button>
       </footer>

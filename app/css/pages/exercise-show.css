@@ -28,7 +28,7 @@
                 @apply flex items-center;
                 @apply py-6 px-12 mr-8 bg-white rounded-8 shadow-base;
                 @apply text-14 font-semibold;
-                & .icon {
+                & .concept-icon {
                     @apply mr-8;
                     width: 24px;
                     height: 24px;
@@ -84,7 +84,7 @@
 
         & h3 {
             @apply flex items-center text-h4 mb-12;
-            & .icon {
+            & .c-icon {
                 height: 24px;
                 width: 24px;
                 @apply mr-16;

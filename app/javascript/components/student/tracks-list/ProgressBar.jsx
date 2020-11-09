@@ -22,11 +22,11 @@ export function ProgressBar({
     (numUncompletedPracticeExercises / total) * 100 + '%'
 
   return (
-    <div className="progress-bar">
-      <div className="cp" style={{ width: completedConceptPercentage }} />
-      <div className="ucp" style={{ width: uncompletedConceptPercentage }} />
-      <div className="ce" style={{ width: completedPracticePercentage }} />
-      <div className="uce" style={{ width: uncompletedPracticePercentage }} />
+    <div className="--progress-bar">
+      <div className="--cp" style={{ width: completedConceptPercentage }} />
+      <div className="--ucp" style={{ width: uncompletedConceptPercentage }} />
+      <div className="--ce" style={{ width: completedPracticePercentage }} />
+      <div className="--uce" style={{ width: uncompletedPracticePercentage }} />
     </div>
   )
 }

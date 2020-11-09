@@ -9,7 +9,7 @@
     & .exercism-link {
         margin-right: 96px;
 
-        & .icon {
+        & .c-icon {
             height: 24px;
             width: 132px;
         }
@@ -27,7 +27,7 @@
                 & a {
                     @apply font-semibold text-black;
                 }
-                & .icon {
+                & .c-icon {
                     @apply text-white;
                     @apply mr-20;
                 }
@@ -37,7 +37,7 @@
             @apply flex items-center relative;
             @apply text-16 font-medium;
         }
-        & .icon {
+        & .c-icon {
             height: 24px;
             width: 24px;
             @apply mr-12 relative;

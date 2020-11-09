@@ -4,7 +4,7 @@ module IconsHelper
   end
 
   def icon(icon, alt, role: 'img', css_class: nil)
-    tag.svg(role: role, class: "icon #{css_class}") do
+    tag.svg(role: role, class: "c-icon #{css_class}") do
       parts = [
         (alt ? tag.title(alt) : nil),
         tag(:use, "xlink:href": "##{icon}")

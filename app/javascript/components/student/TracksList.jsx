@@ -40,7 +40,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
 
   return (
     <div className="c-tracks-list">
-      <section className="search-bar">
+      <section className="--search-bar">
         <div className="lg-container">
           <Search dispatch={dispatch} />
           <TagsFilter dispatch={dispatch} options={tagOptions} />

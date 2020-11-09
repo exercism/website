@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-tracks-list {
-    & .search-bar {
+    & .--search-bar {
         @apply py-12 mb-32;
         @apply bg-white shadow-base;
 
@@ -9,7 +9,7 @@
             @apply flex;
         }
 
-        & input.search {
+        & input.--search {
             max-width: 550px;
             width: 100%;
 
@@ -21,13 +21,13 @@
                 @apply border-darkBlue outline-none;
             }
         }
-        & .filter-btn,
-        & .reset-btn {
+        & .--filter-btn,
+        & .--reset-btn {
             @apply px-12 h-48;
             @apply text-16 font-semibold border-2;
         }
 
-        & .filter-btn {
+        & .--filter-btn {
             @apply mr-40;
             @apply border-darkGray rounded-5;
             @apply px-24;
@@ -35,10 +35,10 @@
                 @apply bg-black text-white outline-none border-black;
             }
         }
-        & .reset-btn {
+        & .--reset-btn {
             @apply border-transparent;
         }
-        & .tag-option-list {
+        & .--tag-option-list {
             @apply absolute left-0 right-0;
             @apply bg-white;
 
@@ -54,37 +54,37 @@
                 @apply py-24;
             }
 
-            & .categories {
+            & .--categories {
                 @apply flex flex-row gap-spacedColumns;
             }
 
-            & .category {
+            & .--category {
                 @apply flex flex-col gap-8;
 
                 & h4 {
                     @apply text-14 font-semibold font-mono;
                     @apply mb-12;
                 }
-                & .option {
+                & .--option {
                     & input {
                         @apply mr-8;
                     }
                 }
             }
-            & .buttons {
+            & .--buttons {
                 @apply flex gap-16 mt-spacedColumns;
 
-                & .apply-btn,
-                & .close-btn {
+                & .--apply-btn,
+                & .--close-btn {
                     @apply px-24 py-12 rounded-5 border-2 leading-none;
                     @apply font-semibold;
                 }
 
-                & .apply-btn {
+                & .--apply-btn {
                     @apply text-white bg-purple border-purple;
                 }
 
-                & .close-btn {
+                & .--close-btn {
                     @apply border-darkGray;
                 }
             }
@@ -94,32 +94,111 @@
         @apply text-h2;
         @apply mb-16;
     }
-    & .status-filters {
+    & .--status-filters {
         @apply mb-24;
 
         & button {
             @apply py-8 px-16 rounded-100 mr-12;
             @apply text-16 font-medium;
 
-            & .count {
+            & .--count {
                 @apply ml-8 px-8 rounded-100 border-1 border-gray;
                 @apply text-13;
                 line-height: 170%;
             }
 
-            &.selected {
+            &.--selected {
                 @apply bg-veryLightBlue;
 
-                & .count {
+                & .--count {
                     @apply text-purple border-lightPurple;
                 }
             }
         }
     }
-    & .tracks {
+    & .--tracks {
         @apply grid gap-16;
         @screen md {
             @apply grid-cols-2;
+        }
+    }
+
+    & .--track {
+        @apply border-black bg-white shadow-base rounded-8;
+        & .--content {
+            @apply flex items-start p-24;
+
+            & .c-track-icon {
+                width: 57px;
+                @apply mr-28;
+            }
+            & .--info {
+                @apply flex-grow;
+
+                & .--heading {
+                    @apply flex items-center mb-8;
+                }
+
+                & .--title {
+                    @apply mr-16;
+                    @apply text-h3-mono text-black;
+                }
+
+                & .--joined {
+                    @apply text-14 font-medium text-textLight;
+                }
+
+                & .--counts {
+                    @apply flex gap-12 mb-12;
+                    @apply font-medium text-16;
+                }
+
+                & .--tags {
+                    /* This flex behaviour and max-height combo causes 
+                     * the tags to wrap but to be hidden if they overflow 
+                     * one line. This means we only see whole tags on 
+                     * the cards but we only ever see one row. */
+                    @apply flex flex-wrap overflow-hidden gap-8;
+                    max-height: 32px;
+
+                    & li {
+                        @apply border-borderLight border-1 border-solid rounded-100;
+                        @apply font-medium text-14 text-textLight leading-none;
+                        @apply py-8 px-12;
+                        @apply whitespace-no-wrap;
+                    }
+                }
+            }
+            & i {
+                @apply self-center;
+            }
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply text-textLight self-center;
+            }
+        }
+
+        & .--progress-bar {
+            height: 6px;
+            @apply flex flex-row;
+
+            & > * {
+                height: 100%;
+            }
+
+            & .--cp {
+                @apply bg-darkBlue;
+            }
+            & .--ucp {
+                background: rgba(106, 147, 255, 0.5);
+            }
+            & .--ce {
+                @apply bg-darkGreen;
+            }
+            & .--uce {
+                @apply bg-lightGreen;
+            }
         }
     }
 }

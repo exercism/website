@@ -42,7 +42,6 @@ Layout/LineLength:
   Exclude:
     - "config/**/*"
     - "test/models/notifications/*"
-    - "test/helpers/view_components/example/submissions_summary_table_test.rb"
     - "test/helpers/view_components/maintaining/submissions_summary_table_test.rb"
 
 Lint/SuppressedException:

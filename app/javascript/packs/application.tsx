@@ -44,7 +44,6 @@ import 'components/concept-map/ConceptMap.css'
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
-import * as Example from '../components/example'
 import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
@@ -59,12 +58,6 @@ import * as Tooltips from '../components/tooltips'
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  'example-submissions-summary-table': (data: any) => (
-    <Example.SubmissionsSummaryTable
-      solutionId={data.solution_id}
-      submissions={data.submissions}
-    />
-  ),
   'maintaining-submissions-summary-table': (data: any) => (
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),

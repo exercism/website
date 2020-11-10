@@ -1,30 +1,24 @@
-class Notification < ApplicationRecord
-  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
-
+class User::Activity < ApplicationRecord
   belongs_to :user
-
-  scope :read, -> { where.not(read_at: nil) }
-  scope :unread, -> { where(read_at: nil) }
+  belongs_to :track, optional: true
 
   before_create do
     self.version = latest_i18n_version
-    self.uniqueness_key = "#{user_id}-#{type_key}-#{guard_params}"
-  end
-
-  def read?
-    read_at.present?
-  end
-
-  def read!
-    update_column(:read_at, Time.current)
+    self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
+    self.grouping_key = "#{user_id}|#{grouping_params}"
+    self.occurred_at = Time.current unless self.occurred_at
   end
 
   def text
-    I18n.t("notifications.#{i18n_key}.#{version}", i18n_params).strip
+    I18n.t("user_activities.#{i18n_key}.#{version}", i18n_params).strip
+  end
+
+  def widget
+    nil
   end
 
   def type_key
-    type.split("::").last.underscore.split("_notification").first.to_sym
+    type.split("::").last.underscore.split("_activity").first.to_sym
   end
 
   # This maps
@@ -54,12 +48,12 @@ class Notification < ApplicationRecord
 
   def latest_i18n_version
     I18n.backend.send(:init_translations)
-    I18n.backend.send(:translations)[:en][:notifications][i18n_key].keys.first
+    I18n.backend.send(:translations)[:en][:user_activities][i18n_key].keys.first
   rescue StandardError
-    raise "Missing i18n key for this notification"
+    raise "Missing i18n key for #{i18n_key}"
   end
 
   def i18n_key
-    self.class.name.underscore.split('/').last.gsub(/_notification$/, '').to_sym
+    self.class.name.underscore.split('/').last.gsub(/_activity$/, '').to_sym
   end
 end

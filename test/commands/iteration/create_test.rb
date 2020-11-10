@@ -27,4 +27,19 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     second = Iteration::Create.(solution, submission)
     assert_equal first, second
   end
+
+  test "creates activity" do
+    user = create :user
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise, user: user
+    submission = create :submission, solution: solution
+
+    iteration = Iteration::Create.(solution, submission)
+
+    activity = User::Activities::SubmittedIterationActivity.last
+    assert_equal user, activity.user
+    assert_equal exercise.track, activity.track
+    assert_equal exercise, activity.exercise
+    assert_equal iteration, activity.iteration
+  end
 end

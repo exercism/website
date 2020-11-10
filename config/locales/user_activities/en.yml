@@ -1,0 +1,11 @@
+en:
+  user_activities:
+    # Mentoring
+    started_exercise:
+      1: >
+        You started a new exercise
+
+    # Mentoring
+    submitted_iteration:
+      1: >
+        You submitted an iteration to

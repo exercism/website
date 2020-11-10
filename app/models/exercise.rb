@@ -35,6 +35,12 @@ class Exercise < ApplicationRecord
     is_a?(PracticeExercise)
   end
 
+  # TODO: Implement this properly
+  def icon_name
+    suffix = title[0].ord < 78 ? "butterflies" : "rocket"
+    "sample-exercise-#{suffix}"
+  end
+
   def prerequisite_exercises
     ConceptExercise.that_teach(prerequisites).distinct
   end

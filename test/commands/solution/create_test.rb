@@ -41,4 +41,17 @@ class Solution::CreateTest < ActiveSupport::TestCase
 
     assert_idempotent_command { Solution::Create.(ut.user, ex) }
   end
+
+  test "creates activity" do
+    user = create :user
+    exercise = create :concept_exercise
+    ut = create :user_track, user: user, track: exercise.track
+
+    Solution::Create.(ut.user, exercise)
+
+    activity = User::Activities::StartedExerciseActivity.last
+    assert_equal user, activity.user
+    assert_equal exercise.track, activity.track
+    assert_equal exercise, activity.exercise
+  end
 end

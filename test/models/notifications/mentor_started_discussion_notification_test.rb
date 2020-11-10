@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::TestCase
-  test "anti_duplicate_key" do
+  test "uniqueness_key" do
     user = create :user
     discussion = create(:solution_mentor_discussion)
     discussion_post = create(:submission_discussion_post)
@@ -14,7 +14,7 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
       }
     )
     key = "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}"
-    assert_equal key, notification.anti_duplicate_key
+    assert_equal key, notification.uniqueness_key
   end
 
   test "text is valid" do

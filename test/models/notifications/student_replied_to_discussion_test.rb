@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSupport::TestCase
-  test "anti_duplicate_key" do
+  test "uniqueness_key" do
     user = create :user
     discussion_post = create(:submission_discussion_post)
 
@@ -12,7 +12,7 @@ class Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSupport:
       }
     )
     key = "#{user.id}-student_replied_to_discussion-DiscussionPost##{discussion_post.id}"
-    assert_equal key, notification.anti_duplicate_key
+    assert_equal key, notification.uniqueness_key
   end
 
   test "text is valid" do

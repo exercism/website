@@ -13,7 +13,9 @@ class Tracks::ExercisesController < ApplicationController
   # TODO: There is lots of logic in this view
   # that should be extracted into a view model
   # to allow for pre-caching of solution data
-  def show; end
+  def show
+    @iteration = @solution.iterations.last if @solution
+  end
 
   def start
     solution = Solution::Create.(current_user, @exercise)

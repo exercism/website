@@ -7,6 +7,10 @@ class Exercism::Routes
     routes.respond_to?(name, include_all)
   end
 
+  def self.track_exercise_iteration_path(track, exercise, iteration)
+    Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: iteration.idx)
+  end
+
   def self.private_solution_url(solution)
     [
       host,

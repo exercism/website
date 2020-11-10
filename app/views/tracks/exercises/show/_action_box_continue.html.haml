@@ -1,0 +1,15 @@
+.action-box
+  %h3 Continue #{exercise.title}
+  %p You have submitted #{5 * 1} iterations for this exercise. Either continue improving your solution or mark the exercise as completed to proceed.
+
+  = render "tracks/exercises/show/action_box_buttons"
+
+  .complete
+    %h3 Done with the exercise?
+    = button_to complete_track_exercise_path(track, exercise), method: :patch, class: "btn" do
+      = graphical_icon("check-circle")
+      Mark as complete
+
+    .explanation By marking #{'Structs' * 1} as complete, you’ll unlock the concepts #{'Agent and Errors' * 1}.
+
+

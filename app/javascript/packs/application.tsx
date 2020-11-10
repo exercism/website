@@ -16,13 +16,14 @@ import '../../css/site-header.css'
 
 import '../../css/components/bg-img.css'
 import '../../css/components/iteration-summary.css'
+import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
 import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/tooltips/tooltip.css'
 import '../../css/components/tooltips/user-summary.css'
-import '../../css/components/user/activity.css'
+import '../../css/components/user_activity.css'
 
 import '../../css/components/widgets/exercise.css'
 

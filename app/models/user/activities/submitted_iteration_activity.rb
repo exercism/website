@@ -3,7 +3,7 @@ module User::Activities
     params :exercise, :iteration
 
     def url
-      Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: iteration.idx)
+      Exercism::Routes.track_exercise_iteration_path(track, exercise, iteration)
     end
 
     def rendering_data

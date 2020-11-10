@@ -1,8 +1,14 @@
 import React from 'react'
 
-export function GraphicalIcon({ icon }: { icon: string }) {
+export function GraphicalIcon({
+  icon,
+  className,
+}: {
+  icon: string
+  className?: string
+}) {
   return (
-    <svg className="c-icon" role="presentation">
+    <svg className={`c-icon ${className ? className : ''}`} role="presentation">
       <use xlinkHref={`#${icon}`} />
     </svg>
   )

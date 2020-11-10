@@ -7,7 +7,7 @@ class SubmissionsChannelTest < ActionCable::Channel::TestCase
     submission_2 = create :submission, solution: solution, tests_status: :passed
 
     assert_broadcast_on(
-      SubmissionsChannel.broadcasting_for(solution),
+      SubmissionsChannel.broadcasting_for(solution.id),
       submissions: [{ id: submission_1.id, testsStatus: "queued" }, { id: submission_2.id, testsStatus: "passed" }]
     ) do
       SubmissionsChannel.broadcast!(solution)

@@ -26,12 +26,12 @@ function Content({
     analysisStatus === AnalysisStatus.NOT_QUEUED &&
     representationStatus === RepresentationStatus.NOT_QUEUED
   ) {
-    return <></>
+    return null
   }
 
   return (
     <>
-      <div className="--dot"></div>
+      <div role="presentation" className="--dot"></div>
       <div className="--status">Analysed</div>
     </>
   )
@@ -45,7 +45,11 @@ export function AnalysisStatusSummary({
   representationStatus: RepresentationStatus
 }) {
   return (
-    <div className={`--analyzer --${analysisStatus}`}>
+    <div
+      className={`--analyzer --${analysisStatus}`}
+      role="status"
+      aria-label="Analysis status"
+    >
       <Content
         analysisStatus={analysisStatus}
         representationStatus={representationStatus}

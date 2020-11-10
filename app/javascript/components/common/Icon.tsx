@@ -9,8 +9,13 @@ export function Icon({
   alt: string
   className?: string
 }) {
+  let classNames = ['c-icon']
+  if (className !== undefined) {
+    classNames.push(className)
+  }
+
   return (
-    <svg className={`c-icon ${className ? className : ''}`} role="img">
+    <svg className={classNames.join(' ')} role="img">
       <title>{alt}</title>
       <use xlinkHref={`#${icon}`} />
     </svg>

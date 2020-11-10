@@ -7,8 +7,13 @@ export function GraphicalIcon({
   icon: string
   className?: string
 }) {
+  let classNames = ['c-icon']
+  if (className !== undefined) {
+    classNames.push(className)
+  }
+
   return (
-    <svg className={`c-icon ${className ? className : ''}`} role="presentation">
+    <svg className={classNames.join(' ')} role="presentation">
       <use xlinkHref={`#${icon}`} />
     </svg>
   )

@@ -34,7 +34,7 @@
             @apply flex-grow;
         }
         & .rhs {
-            @apply w-1-3 ml-32;
+            @apply w-1-3 ml-32 flex-shrink-0;
         }
     }
     & section.contributors {
@@ -108,59 +108,68 @@
             }
         }
     }
-    & section {
-        & .activity {
-            @apply shadow-lg py-16 px-24 bg-white rounded-8;
-            @apply flex flex-row;
+    & section.activities {
+        & .start-track-cta,
+        & .placeholder-activity {
+            @apply shadow-lg bg-white rounded-8;
+            @apply flex;
+        }
 
-            & .descriptive-icon {
+        & .start-track-cta {
+            @apply py-24 px-32;
+
+            & h3 {
+                @apply text-h4 mb-8;
+            }
+
+            & p {
+                @apply text-16 leading-paragraph mb-24;
+            }
+
+            & .info {
+                @apply text-14 leading-paragraph text-textLight;
+            }
+
+            & .c-icon {
+                height: 48px;
+                width: 48px;
+                @apply mr-24;
+            }
+            & .actions {
+                @apply flex items-center;
+
+                & .btn-cta {
+                    @apply mr-32;
+                    width: 160px;
+                }
+                & .info {
+                    @apply flex-shrink;
+                    max-width: 300px;
+                }
+            }
+        }
+        & .placeholder-activity {
+            @apply py-16 px-24 items-center;
+
+            & .c-icon {
                 height: 24px;
                 width: 24px;
                 @apply mr-24;
             }
-
-            & .info {
-                @apply flex-grow;
-                & .description {
-                    @apply text-18 leading-paragraph mb-8 flex flex-wrap;
-
-                    & .exercise {
-                        @apply flex font-medium;
-
-                        & .c-icon {
-                            height: 24px;
-                            width: 24px;
-                            @apply ml-12 mr-12;
-                        }
-                    }
-                }
-                & time {
-                    @apply text-label-timestamp;
-                }
-                & .iteration {
-                    @apply mt-12 rounded-8 shadow-sm border-1 border-borderLight;
-                    @apply py-12 px-24 mb-12 flex;
-
-                    & .c-iteration-summary {
-                        @apply flex-grow;
-                    }
-                }
+            & p {
+                @apply text-18 leading-paragraph text-textLight;
             }
-
-            & .action-icon {
-                height: 16px;
-                width: 16px;
-                @apply ml-24 self-center;
-            }
-            & + .activity {
-                @apply mt-12 relative;
+        }
+        & > * {
+            & + * {
+                @apply mt-16 relative;
                 &:before {
                     content: "";
                     @apply absolute bg-borderLight;
 
                     width: 2px;
-                    height: 12px;
-                    top: -12px;
+                    height: 16px;
+                    top: -16px;
                     left: 36px;
                 }
             }

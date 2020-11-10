@@ -22,6 +22,7 @@ import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/tooltips/tooltip.css'
 import '../../css/components/tooltips/user-summary.css'
+import '../../css/components/user/activity.css'
 
 import '../../css/components/widgets/exercise.css'
 

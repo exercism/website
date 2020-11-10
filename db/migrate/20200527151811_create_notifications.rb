@@ -7,7 +7,7 @@ class CreateNotifications < ActiveRecord::Migration[6.0]
       t.json :params, null: false
       t.integer :email_status, null: false, default: 0, limit: 1
 
-      t.string :anti_duplicate_key, null: false, unique: true
+      t.string :uniqueness_key, null: false, unique: true
 
       t.datetime :read_at, null: true
 

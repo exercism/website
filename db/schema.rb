@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_27_144915) do
+ActiveRecord::Schema.define(version: 2020_11_09_170425) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_144915) do
     t.integer "version", null: false
     t.json "params", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
-    t.string "anti_duplicate_key", null: false
+    t.string "uniqueness_key", null: false
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -240,6 +240,21 @@ ActiveRecord::Schema.define(version: 2020_10_27_144915) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "track_id"
+    t.string "type", null: false
+    t.integer "version", null: false
+    t.json "params", null: false
+    t.datetime "occurred_at", null: false
+    t.string "uniqueness_key", null: false
+    t.string "grouping_key", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["track_id"], name: "index_user_activities_on_track_id"
+    t.index ["user_id"], name: "index_user_activities_on_user_id"
   end
 
   create_table "user_auth_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

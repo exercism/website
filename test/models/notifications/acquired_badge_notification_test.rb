@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Notifications::AcquiredBadgeNotificationTest < ActiveSupport::TestCase
-  test "anti_duplicate_key" do
+  test "uniqueness_key" do
     user = create :user
     badge = create(:badge)
 
@@ -12,7 +12,7 @@ class Notifications::AcquiredBadgeNotificationTest < ActiveSupport::TestCase
       }
     )
     key = "#{user.id}-acquired_badge-Badge##{badge.id}"
-    assert_equal key, notification.anti_duplicate_key
+    assert_equal key, notification.uniqueness_key
   end
 
   test "text is valid" do

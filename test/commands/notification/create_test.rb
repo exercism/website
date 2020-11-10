@@ -15,7 +15,7 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     assert_equal user, notification.user
     assert_equal Notifications::MentorStartedDiscussionNotification, notification.class
     assert_equal 1, notification.version
-    assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.anti_duplicate_key
+    assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.uniqueness_key
     assert_equal params, notification.send(:params)
   end
 

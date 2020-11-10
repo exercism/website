@@ -1,7 +1,10 @@
 class Submission::TestRunsChannel < ApplicationCable::Channel
   def subscribed
+    # Assert that the user owns this submission
     submission = current_user.submissions.find_by!(uuid: params[:submission_uuid])
-    stream_for submission
+
+    # Don't use persisted objects for stream_for
+    stream_for submission.id
   end
 
   def unsubscribed
@@ -9,7 +12,7 @@ class Submission::TestRunsChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(test_run)
-    broadcast_to test_run.submission,
+    broadcast_to test_run.submission_id,
       test_run: SerializeSubmissionTestRun.(test_run)
   end
 end

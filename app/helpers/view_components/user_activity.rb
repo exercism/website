@@ -5,7 +5,9 @@ module ViewComponents
     def to_s
       template = activity.class.name.split("::").last.underscore.gsub(/_activity$/, "")
       ApplicationController.render "components/user_activities/#{template}",
-        locals: { activity: activity },
+        locals: {
+          activity: activity.rendering_data
+        },
         layout: false
     end
   end

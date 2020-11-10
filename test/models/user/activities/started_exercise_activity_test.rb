@@ -17,7 +17,7 @@ class User::Activities::StartedExerciseActivityTest < ActiveSupport::TestCase
       activity.grouping_key
   end
 
-  test "text is valid" do
+  test "rendering_data is valid" do
     user = create :user
     exercise = create(:concept_exercise)
 
@@ -26,6 +26,10 @@ class User::Activities::StartedExerciseActivityTest < ActiveSupport::TestCase
       track: exercise.track,
       params: { exercise: exercise }
     )
-    assert_equal "You started a new exercise", activity.text
+    assert_equal exercise.title, activity.rendering_data.exercise_title
+    assert_equal exercise.icon_name, activity.rendering_data.exercise_icon_name
+    assert_equal "/tracks/csharp/exercises/datetime", activity.rendering_data.url
+    assert_equal "You started a new exercise", activity.rendering_data.text
+    assert_equal Time.current, activity.rendering_data.occurred_at
   end
 end

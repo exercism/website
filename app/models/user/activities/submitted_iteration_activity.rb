@@ -1,11 +1,22 @@
 module User::Activities
   class SubmittedIterationActivity < User::Activity
+    params :exercise, :iteration
+
     def url
       Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: iteration.idx)
     end
 
-    def i18n_params
-      {}
+    def rendering_data
+      super.tap do |data|
+        data.iteration = iteration
+      end
+    end
+
+    def cachable_rendering_data
+      super.merge(
+        exercise_title: exercise.title,
+        exercise_icon_name: exercise.icon_name
+      )
     end
 
     def guard_params
@@ -14,14 +25,6 @@ module User::Activities
 
     def grouping_params
       "Exercise##{exercise.id}"
-    end
-
-    def exercise
-      params[:exercise]
-    end
-
-    def iteration
-      params[:iteration]
     end
   end
 end

@@ -4,8 +4,8 @@
     .--description
       = activity.text
       .--exercise
-        = exercise_icon(activity.exercise)
-      .--exercise-name= activity.exercise.title
+        = graphical_icon(activity.exercise_icon_name)
+        .--exercise-name= activity.exercise_title
 
     .--iteration
       = ViewComponents::Track::IterationSummary.new(activity.iteration)

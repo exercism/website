@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :started_exercise_user_activity, class: "User::Activities::StartedExerciseActivity" do
     user
+    track
+
     params do
       {
         exercise: create(:concept_exercise)
@@ -10,6 +12,8 @@ FactoryBot.define do
 
   factory :submitted_iteration_user_activity, class: "User::Activities::SubmittedIterationActivity" do
     user
+    track
+
     params do
       {
         exercise: create(:concept_exercise),

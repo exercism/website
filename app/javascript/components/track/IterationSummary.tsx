@@ -79,7 +79,10 @@ export function IterationSummary(props: { iteration: Iteration }) {
         </div>
         <div className="--details" data-testid="details">
           Submitted via {SUBMISSION_METHOD_LABELS[iteration.submissionMethod]},{' '}
-          <time dateTime={iteration.createdAt} title={iteration.createdAt}>
+          <time
+            dateTime={iteration.createdAt.toString()}
+            title={iteration.createdAt.toString()}
+          >
             {fromNow(iteration.createdAt)}
           </time>
         </div>

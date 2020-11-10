@@ -62,6 +62,7 @@ import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { Submission, File } from '../components/student/Editor'
 import * as Tooltips from '../components/tooltips'
+import { Bootloader } from '../utils/bootloader'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -123,7 +124,7 @@ initReact({
   ),
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
-    <Common.GraphicalIcon icon={data.icon} />
+    <Bootloader.GraphicalIcon icon={data.icon} />
   ),
 })
 

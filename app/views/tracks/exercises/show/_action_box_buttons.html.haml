@@ -1,0 +1,10 @@
+%h4 Via Exercism Editor
+= link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn-cta" do
+  = graphical_icon :editor
+  Start in Editor
+
+%h4 Work locally (via CLI)
+= link_to "exercism download --exercise=pattern", "#", class: "cli-btn btn"
+= link_to "#", class: "learn-more-cli" do
+  Learn more about solving exercises locally
+  = graphical_icon("arrow-right")

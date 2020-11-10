@@ -1,4 +1,4 @@
-@import "../../styles";
+@import "../styles";
 
 .c-user-activity {
     @apply shadow-lg py-16 px-24 bg-white rounded-8;

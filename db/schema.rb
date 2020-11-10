@@ -243,14 +243,15 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   end
 
   create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "type", null: false
     t.bigint "user_id", null: false
     t.bigint "track_id"
-    t.string "type", null: false
-    t.integer "version", null: false
     t.json "params", null: false
     t.datetime "occurred_at", null: false
     t.string "uniqueness_key", null: false
     t.string "grouping_key", null: false
+    t.integer "version", null: false
+    t.json "rendering_data_cache", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_user_activities_on_track_id"

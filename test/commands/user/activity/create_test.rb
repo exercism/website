@@ -12,15 +12,16 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
       exercise: exercise
     }
 
-    activity = User::Activity::Create.(type, user, params)
+    User::Activity::Create.(type, user, params)
 
-    assert_equal 1, User::Activity.count
+    # Reload it fresh from the db to avoid caching
+    activity = User::Activity.last
     assert_equal user, activity.user
+    assert_equal exercise, activity.exercise
     assert_equal exercise.track, activity.track
     assert_equal User::Activities::StartedExerciseActivity, activity.class
     assert_equal 1, activity.version
     assert_equal "#{user.id}|started_exercise|Exercise##{exercise.id}", activity.uniqueness_key
-    assert_equal params, activity.send(:params)
   end
 
   test "broadcasts message" do

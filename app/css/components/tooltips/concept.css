@@ -33,4 +33,24 @@
     & .blurb {
         @apply text-15 leading-paragraph;
     }
+
+    & .mastered {
+        @apply mt-16;
+        & .summary {
+            @apply flex font-semibold mb-8 text-darkGreen;
+
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-12;
+            }
+        }
+        & .c-concept-progress-bar {
+            @apply mb-12;
+            height: 6px;
+        }
+        & .info {
+            @apply text-darkGray leading-paragraph font-medium;
+        }
+    }
 }

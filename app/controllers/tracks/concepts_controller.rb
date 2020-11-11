@@ -26,6 +26,7 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
+    @concept_summary = @user_track.summary.concept(@concept.slug)
     render layout: false
   end
 

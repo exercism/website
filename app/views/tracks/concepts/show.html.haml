@@ -3,7 +3,7 @@
 
   %header.concept-header
     .lg-container.container
-      .concept-icon= @concept.name[0, 2]
+      = render ViewComponents::ConceptIcon.new(@concept, :huge)
       .info
         %h1
           = @concept.name

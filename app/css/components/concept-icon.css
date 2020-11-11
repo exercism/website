@@ -2,23 +2,33 @@
     width: 24px;
     height: 24px;
 
+    @apply flex items-end;
     @apply border-1 border-black;
     vertical-align: bottom;
+    line-height: 0.9;
 
     &.c--small {
         width: 24px;
         height: 24px;
+        padding: 3px;
+
         font-size: 11px;
-        line-height: 29px;
-        padding-left: 3px;
     }
 
     &.c--medium {
         width: 32px;
         height: 32px;
-        line-height: 38px;
-        padding-left: 3px;
+        padding: 4px;
 
         @apply text-14 font-semibold;
+    }
+
+    &.c--huge {
+        width: 96px;
+        height: 96px;
+        padding-left: 3px;
+        border: 4px solid black;
+        font-size: 42px;
+        @apply font-bold flex items-end p-8;
     }
 }

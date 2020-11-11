@@ -46,7 +46,7 @@
           .concepts
             - @exercise.taught_concepts.each.each do |concept|
               = link_to track_concept_path(@track, concept), class: 'concept' do
-                .concept-icon= concept.name[0, 2]
+                = render ViewComponents::ConceptIcon.new(concept, :small)
                 = concept.name
 
       %section.instructions.c-textual-content

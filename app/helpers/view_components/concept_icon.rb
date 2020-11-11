@@ -1,6 +1,6 @@
 module ViewComponents
   class ConceptIcon < ViewComponent
-    SIZES = %i[small medium].freeze
+    SIZES = %i[small medium huge].freeze
 
     initialize_with :concept, :size
 

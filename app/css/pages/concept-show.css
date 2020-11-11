@@ -11,14 +11,8 @@
             #e1ebff 0%,
             rgba(225, 235, 255, 0) 100%
         );
-        & .concept-icon {
+        & .c-concept-icon {
             @apply mr-48;
-            width: 96px;
-            height: 96px;
-            border: 4px solid black;
-
-            @apply font-bold flex items-end p-8;
-            font-size: 42px;
         }
         & .info {
             @apply flex-grow;

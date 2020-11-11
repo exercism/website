@@ -109,6 +109,8 @@
         }
     }
     & section.activities {
+        @apply mb-64;
+
         & .start-track-cta,
         & .placeholder-activity {
             @apply shadow-lg bg-white rounded-8;
@@ -171,6 +173,71 @@
                     height: 16px;
                     top: -16px;
                     left: 36px;
+                }
+            }
+        }
+    }
+    & section.concepts {
+        @apply mb-64;
+
+        & .header {
+            @apply flex items-center mb-28;
+
+            & .c-icon {
+                width: 32px;
+                height: 32px;
+                @apply mr-16;
+            }
+            & h2 {
+                @apply text-h3;
+                @apply mr-16;
+            }
+            & .progress {
+                @apply py-8 px-12 text-textLight font-medium;
+                @apply border-1 border-textLight rounded-100;
+            }
+        }
+
+        & .concepts {
+            @apply grid gap-12;
+            grid-template-columns: repeat(1, auto);
+
+            & .concept {
+                @apply flex items-center py-24 px-32;
+                @apply bg-white rounded-8 shadow-lg;
+
+                & .c-concept-icon {
+                    @apply mr-24;
+                }
+                & .info {
+                    @apply flex-grow;
+
+                    & .name {
+                        @apply text-h5 mb-6;
+                    }
+                    & .completion {
+                        @apply text-textLight font-medium;
+                    }
+                }
+                & progress {
+                    max-width: 320px;
+                    @apply ml-64 flex-grow;
+                    @apply appearance-none w-100 rounded-8 overflow-hidden mb-12;
+                    height: 6px;
+
+                    &::-webkit-progress-bar {
+                        @apply bg-veryLightBlue;
+                    }
+                    &[value] {
+                        &::-webkit-progress-value {
+                            @apply bg-lightBlue;
+                        }
+                    }
+                }
+                & .action-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply ml-64;
                 }
             }
         }

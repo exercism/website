@@ -8,7 +8,7 @@ class CreateUserActivities < ActiveRecord::Migration[6.1]
 
       t.json :params, null: false
       t.datetime :occurred_at, null: false
-      t.string :uniqueness_key, null: false
+      t.string :uniqueness_key, null: false, unique: true
       t.string :grouping_key, null: false
 
       t.integer :version, null: false

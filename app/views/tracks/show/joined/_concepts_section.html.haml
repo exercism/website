@@ -1,0 +1,19 @@
+%section.concepts
+  .header
+    = graphical_icon :concepts
+    %h2 Concept Mastery
+    .progress
+      #{user_track.num_concepts_mastered}/#{track.concepts.size}
+      mastered
+
+  .concepts
+    - track.concepts[0, 6].each do |concept|
+      = link_to track_concept_path(concept), class: 'concept' do
+        = ViewComponents::ConceptIcon.new(concept, :medium)
+        .info
+          .name= concept.name
+          .completion 1/3 exercises completed
+
+        %progress{ value: 1, max: 3 }
+        = graphical_icon 'chevron-right', css_class: 'action-icon'
+

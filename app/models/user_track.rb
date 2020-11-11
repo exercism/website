@@ -23,6 +23,11 @@ class UserTrack < ApplicationRecord
     user.solutions.joins(:exercise).where("exercises.track_id": track)
   end
 
+  # TODO: Cache this in the db?
+  def num_concepts_mastered
+    2
+  end
+
   def learnt_concept?(concept)
     learnt_concepts.include?(concept)
   end
@@ -98,7 +103,7 @@ class UserTrack < ApplicationRecord
             FROM exercise_prerequisites
             GROUP BY exercise_id
           ) b ON a.exercise_id = b.exercise_id AND a.num_concepts = b.num_concepts
-     })
+      })
     end
   end
   private_constant :DetermineAvailableExercisesIds

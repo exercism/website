@@ -21,6 +21,10 @@
     line-height: 1.25;
     @apply font-semibold text-black;
 }
+.text-h5 {
+    line-height: 1.38;
+    @apply text-18 font-semibold text-black;
+}
 .text-prose {
     @apply text-18 leading-paragraph;
 }

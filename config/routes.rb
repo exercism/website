@@ -44,7 +44,9 @@ Rails.application.routes.draw do
     resources :submissions, only: [:index]
   end
   resources :tracks, only: %i[index show] do
-    resources :concepts, only: %i[index show], controller: "tracks/concepts"
+    resources :concepts, only: %i[index show], controller: "tracks/concepts" do
+      get :tooltip, on: :member
+    end
 
     resources :exercises, only: %i[index show], controller: "tracks/exercises" do
       member do

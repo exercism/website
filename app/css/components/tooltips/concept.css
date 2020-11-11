@@ -1,0 +1,36 @@
+@import "../../styles";
+
+.c-concept-tooltip {
+    max-width: 460px;
+
+    @apply shadow-lg rounded-8 py-20 px-24 bg-white;
+
+    & .c-concept-icon {
+        @apply mr-16;
+    }
+
+    & .heading {
+        @apply flex mb-12;
+
+        & .title {
+            @apply flex items-center;
+
+            & .name {
+                @apply text-h5 mr-8;
+            }
+            & .in {
+                @apply mr-8;
+            }
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+            }
+        }
+        & .num-exercises {
+            @apply text-15 font-medium text-textLight;
+        }
+    }
+    & .blurb {
+        @apply text-15 leading-paragraph;
+    }
+}

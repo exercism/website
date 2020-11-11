@@ -24,7 +24,7 @@ import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
 import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
-import '../../css/components/tooltips/tooltip.css'
+import '../../css/components/tooltips/concept.css'
 import '../../css/components/tooltips/user-summary.css'
 import '../../css/components/user_activity.css'
 

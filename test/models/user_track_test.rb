@@ -178,4 +178,18 @@ class UserTrackTest < ActiveSupport::TestCase
       practice_exercise_4
     ], user_track.available_practice_exercises
   end
+
+  test "summary proxies correctly" do
+    track = create :track
+    concept = create :track_concept, track: track
+    ut = create :user_track, track: track
+
+    assert_equal concept.slug, ut.summary.concept(concept.slug).slug
+  end
+
+  test "summary is memoized" do
+    ut = create :user_track
+    UserTrack::Summary.expects(:new).with(ut).returns(mock).once
+    2.times { ut.summary }
+  end
 end

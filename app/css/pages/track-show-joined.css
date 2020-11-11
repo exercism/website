@@ -213,31 +213,33 @@
                     @apply flex-grow;
 
                     & .name {
-                        @apply text-h5 mb-6;
+                        @apply flex items-center text-h5 mb-6;
+
+                        & .c-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply ml-12;
+                        }
                     }
                     & .completion {
                         @apply text-textLight font-medium;
                     }
                 }
-                & progress {
+                & .c-concept-progress-bar {
                     max-width: 320px;
-                    @apply ml-64 flex-grow;
-                    @apply appearance-none w-100 rounded-8 overflow-hidden mb-12;
+                    @apply flex-grow ml-64 mb-12;
                     height: 6px;
-
-                    &::-webkit-progress-bar {
-                        @apply bg-veryLightBlue;
-                    }
-                    &[value] {
-                        &::-webkit-progress-value {
-                            @apply bg-lightBlue;
-                        }
-                    }
                 }
                 & .action-icon {
                     height: 16px;
                     width: 16px;
                     @apply ml-64;
+                }
+
+                &.completed {
+                    & .info .completion {
+                        @apply text-darkGreen;
+                    }
                 }
             }
         }

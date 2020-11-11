@@ -40,21 +40,26 @@
         & .progress {
             @apply flex-shrink-0;
 
-            & progress {
-                @apply appearance-none w-100 rounded-8 overflow-hidden mb-12;
+            & .c-concept-progress-bar {
                 height: 8px;
-
-                &::-webkit-progress-bar {
-                    @apply bg-veryLightBlue;
-                }
-                &[value] {
-                    &::-webkit-progress-value {
-                        @apply bg-lightBlue;
-                    }
-                }
+                @apply mb-8;
             }
             & .progress-text {
-                @apply text-darkGray font-medium;
+                @apply flex items-center;
+                @apply text-16 font-medium text-darkGray font-medium;
+
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply hidden mr-12;
+                }
+
+                &.completed {
+                    @apply text-darkGreen font-semibold;
+                    & .c-icon {
+                        @apply block;
+                    }
+                }
             }
         }
     }

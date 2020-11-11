@@ -13,11 +13,14 @@
           = graphical_icon(:exercises)
           5 exercises
       .progress.tw-w-5-7
-        %progress
-        .progress-text
-          0 of
-          = pluralize(@practice_exercises.size + @concept_exercises.size, "exercise")
-          complete
+
+        = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+        .progress-text{ class: @concept_summary.mastered? ? 'completed' : '' }
+          = graphical_icon "completed-check-circle"
+          #{@concept_summary.num_completed_exercises}/#{@concept_summary.num_exercises}
+          = 'exercise'.pluralize(@concept_summary.num_exercises)
+          completed
+
 
   %section.lg-container.tw-flex
     .tw-flex-grow.tw-w-arbitary

@@ -17,9 +17,14 @@ class Track::Concept < ApplicationRecord
     "C# structs are closely related to classes. They have state and behavior. They have constructors that take arguments, instances can be assigned, tested for equality and stored in collections." # rubocop:disable Layout/LineLength
   end
 
-  # Cache this
-  def num_exercises
-    3
+  memoize
+  def concept_exercises
+    ConceptExercise.that_teach(self)
+  end
+
+  memoize
+  def practice_exercises
+    PracticeExercise.that_practice(self)
   end
 
   memoize

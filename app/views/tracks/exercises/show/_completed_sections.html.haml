@@ -9,7 +9,7 @@
     .concepts
       - exercise.taught_concepts.each do |concept|
         = link_to track_concept_path(track, concept), class: 'concept' do
-          .concept-icon= concept.name[0, 2]
+          = ViewComponents::ConceptIcon.new(concept, :small)
           = concept.name
 
     = ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track))

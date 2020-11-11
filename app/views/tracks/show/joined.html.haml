@@ -15,22 +15,8 @@
   %article
     .lg-container.container
       .lhs
-        %section.activities
-          - if @activities.present?
-            - @activities.each do |activity|
-              = ViewComponents::UserActivity.new(activity)
-          - else
-            .start-track-cta
-              = graphical_icon "exercism-face"
-              .content
-                %h3 Start the track with "Hello, World!"
-                %p Complete the "Hello, World!" tutorial to submit your first bit of code on the track and familiarise yourself with how Exercism works.
-                .actions
-                  .btn-cta Start in editor
-                  .info Completing this will unlock more exercises for you on the track.
-            .placeholder-activity
-              = graphical_icon :pulse
-              %p This is where your activity and progress on the track is displayed once you begin completing execises.
+        = render "tracks/show/joined/activities_section", activities: @activities
+        = render "tracks/show/joined/concepts_section", track: @track, user_track: @user_track
       .rhs
         %section.contributors
           %header

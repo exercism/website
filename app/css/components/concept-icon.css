@@ -1,0 +1,24 @@
+.c-concept-icon {
+    width: 24px;
+    height: 24px;
+
+    @apply border-1 border-black;
+    vertical-align: bottom;
+
+    &.c--small {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+        line-height: 29px;
+        padding-left: 3px;
+    }
+
+    &.c--medium {
+        width: 32px;
+        height: 32px;
+        line-height: 38px;
+        padding-left: 3px;
+
+        @apply text-14 font-semibold;
+    }
+}

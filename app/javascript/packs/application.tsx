@@ -15,6 +15,7 @@ import '../../css/layout.css'
 import '../../css/site-header.css'
 
 import '../../css/components/bg-img.css'
+import '../../css/components/concept-icon.css'
 import '../../css/components/iteration-summary.css'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'

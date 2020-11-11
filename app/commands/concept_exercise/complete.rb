@@ -1,6 +1,7 @@
 class ConceptExercise
   class Complete
     include Mandate
+
     initialize_with :user, :exercise
 
     def call
@@ -10,8 +11,10 @@ class ConceptExercise
         mark_concepts_as_learnt!
         mark_solution_as_complete!
       end
+      record_activity!
     end
 
+    private
     def mark_solution_as_complete!
       solution.update!(completed_at: Date.current)
     end
@@ -22,7 +25,18 @@ class ConceptExercise
       end
     end
 
-    private
+    def record_activity!
+      User::Activity::Create.(
+        :completed_exercise,
+        user,
+        track: exercise.track,
+        exercise: exercise
+      )
+    rescue StandardError => e
+      Rails.logger.error "Failed to create activity"
+      Rails.logger.error e.message
+    end
+
     def guard!
       raise SolutionNotFoundError unless solution
       raise UserTrackNotFoundError unless user_track

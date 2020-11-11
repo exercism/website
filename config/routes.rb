@@ -9,7 +9,10 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show]
+      resources :tracks, only: %i[index show] do
+        resources :concepts, only: %i[show]
+      end
+
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection
 
@@ -17,6 +20,7 @@ Rails.application.routes.draw do
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
       end
+
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"

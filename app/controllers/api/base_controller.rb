@@ -14,6 +14,12 @@ module API
     layout false
 
     def authenticate_user!
+      authenticate_user
+
+      render_401 unless current_user
+    end
+
+    def authenticate_user
       # TODO: Remove this once API session support is set up
       if params[:auth_token].present?
         @current_user = User::AuthToken.find_by(token: params[:auth_token]).user
@@ -31,8 +37,6 @@ module API
         @current_user = user
         return
       end
-
-      render_401
     end
 
     def render_401

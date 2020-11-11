@@ -1,7 +1,7 @@
 %section.activities
   - if activities.present?
     - activities.each do |activity|
-      = ViewComponents::UserActivity.new(activity)
+      = render ViewComponents::UserActivity.new(activity)
   - else
     .start-track-cta
       = graphical_icon "exercism-face"

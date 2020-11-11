@@ -1,6 +1,6 @@
-module ViewComponents
+module ReactComponents
   module Student
-    class TracksList < ViewComponent
+    class TracksList < ReactComponent
       # TODO: Remove `user` and its usage here once API supports session requests
       def initialize(user, data, request = default_request)
         @user = user
@@ -9,14 +9,18 @@ module ViewComponents
       end
 
       def to_s
-        react_component("student-tracks-list", {
-                          request: request.deep_merge({
-                                                        options: { initialData: data },
-                                                        query: { auth_token: user.auth_tokens.first.to_s }
-                                                      }),
-                          status_options: STATUS_OPTIONS,
-                          tag_options: TAG_OPTIONS
-                        })
+        super(
+          "student-tracks-list", {
+            request: request.deep_merge(
+              {
+                options: { initialData: data },
+                query: { auth_token: user.auth_tokens.first.to_s }
+              }
+            ),
+            status_options: STATUS_OPTIONS,
+            tag_options: TAG_OPTIONS
+          }
+        )
       end
 
       STATUS_OPTIONS = [

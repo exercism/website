@@ -8,4 +8,4 @@
 Error / Loading states are only seen when filtering
 %hr/
 
-= ViewComponents::Student::TracksList.new(@user, @data, { endpoint: tracks_test_components_student_tracks_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })
+= ReactComponents::Student::TracksList.new(@user, @data, { endpoint: tracks_test_components_student_tracks_list_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading", initialStale: true } })

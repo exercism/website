@@ -147,12 +147,12 @@ Each View Component has a class in Rails which is used to render it in a consist
 
 #### Server-side component class
 
-Each View Component has a corrosponding Rails class, which lives in `app/helpers/view_components/**/XXX.rb`.
+Each React Component has a corrosponding Rails class, which lives in `app/helpers/react_components/**/XXX.rb`.
 
-This class should defined a `#to_s` method, which is responsible for rendering HTML with relevant attributes. 
-This is generally achieved by calling the `react_component` method on the (parent) `ViewComponents::ViewComponent` class (located in `app/helpers/view_components/view_component.rb`), which generates a `div` with a data attribute for the view component's name (e.g. `data-react-tracks-list` for the `tracks-list` component) and a `data-react-data` containing any data that the Component needs to initialize.
+This class should defined a `#to_s` method, which is responsible for rendering HTML with relevant attributes.
+This is generally achieved by calling the `super` method on the (parent) `ReactComponents::ReactComponent` class (located in `app/helpers/react_components/react_component.rb`), which generates a `div` with a data attribute for the react component's name (e.g. `data-react-tracks-list` for the `tracks-list` component) and a `data-react-data` containing any data that the Component needs to initialize.
 
-The View Component should also encapsulate any server-side properties should be stored within this class, such as sort options.
+The React Component should also encapsulate any server-side properties should be stored within this class, such as sort options.
 
 #### Testing components
 
@@ -173,7 +173,7 @@ The views live in `app/views/test/components/**/XXX.html.haml`.
 The Component can be then accessed through `http://localhost:3020/test/components/...`
 
 Finally, each Component has Rails system tests, which test the correct HTML is rendered.
-These reside in `test/system/components/**/XXX_test.rb`. 
+These reside in `test/system/components/**/XXX_test.rb`.
 See `test/system/components/student/tracks_list_test.rb` for an idiomatic example.
 
 ## Linting

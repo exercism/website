@@ -42,7 +42,7 @@ Layout/LineLength:
   Exclude:
     - "config/**/*"
     - "test/models/notifications/*"
-    - "test/helpers/view_components/maintaining/submissions_summary_table_test.rb"
+    - "test/helpers/react_components/maintaining/submissions_summary_table_test.rb"
 
 Lint/SuppressedException:
   Exclude:
@@ -116,3 +116,4 @@ Rails/SkipsModelValidations:
 Rails/HelperInstanceVariable:
   Exclude:
     - "app/helpers/view_components/**/*"
+    - "app/helpers/react_components/**/*"

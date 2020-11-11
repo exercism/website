@@ -1,11 +1,11 @@
-require_relative "../view_component_test_case"
+require_relative "../react_component_test_case"
 
-class NotificationsIconTest < ViewComponentTestCase
+class NotificationsIconTest < ReactComponentTestCase
   test "notifications icon rendered correctly" do
     user = create(:user)
     create(:notification, user: user, read_at: nil)
 
-    assert_component ViewComponents::Notifications::Icon.new(user),
+    assert_component ReactComponents::Notifications::Icon.new(user),
       "notifications-icon",
       { count: 1 }
   end

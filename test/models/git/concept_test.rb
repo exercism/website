@@ -3,7 +3,7 @@ require 'test_helper'
 module Git
   class ConceptTest < Minitest::Test
     def test_about
-      concept = Concept.new(
+      concept = Git::Concept.new(
         :csharp,
         :datetimes,
         "a9ce558b702ada6c5503888dc324668ac8aafc52",
@@ -14,7 +14,7 @@ module Git
     end
 
     def test_links
-      concept = Concept.new(
+      concept = Git::Concept.new(
         :csharp,
         :datetimes,
         "a9ce558b702ada6c5503888dc324668ac8aafc52",

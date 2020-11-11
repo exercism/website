@@ -9,13 +9,32 @@ module ViewComponents
         guard!
 
         GenericNav.new(
+          view_context,
           track,
           "c-track-top-level-nav",
-          [tag.div(safe_join(tabs), class: 'tabs')]
+          [
+            tag.div(safe_join(tabs), class: 'tabs'),
+            join_button
+          ]
         ).to_s
       end
 
       private
+      def join_button
+        if current_user
+          if current_user.joined_track?(track)
+            "Joined"
+          else
+            url = Exercism::Routes.join_track_path(track)
+            view_context.button_to(url, method: :post, class: "btn-cta") do
+              graphical_icon(:plus) + "Join #{@track.title}"
+            end
+          end
+        else
+          "Join"
+        end
+      end
+
       def tabs
         [
           link_to(

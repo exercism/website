@@ -1,5 +1,5 @@
 #page-iterations-index
-  = ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :iterations)
+  = render ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :iterations)
 
   - if @solution&.iterations.present?
     .lg-container.container
@@ -7,7 +7,7 @@
         - @solution.iterations.each do |iteration|
           .iteration
             .header
-              = ViewComponents::Track::IterationSummary.new(iteration)
+              = ReactComponents::Track::IterationSummary.new(iteration)
             .content
               .files
                 %pre

@@ -1,10 +1,10 @@
-module ViewComponents
+module ReactComponents
   module Student
-    class Editor < ViewComponent
+    class Editor < ReactComponent
       initialize_with :solution
 
       def to_s
-        react_component(
+        super(
           "student-editor",
           {
             endpoint: Exercism::Routes.api_solution_submissions_path(

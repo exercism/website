@@ -14,7 +14,7 @@ progress.c-concept-progress-bar {
     &.--completed {
         &[value] {
             &::-webkit-progress-value {
-                @apply bg-darkGreen;
+                @apply bg-tooManyGreens;
             }
         }
     }

@@ -9,3 +9,14 @@
       .num-exercises= pluralize(@concept.num_exercises, "exercise")
 
   .blurb= @concept.blurb
+
+  - if @concept_summary.mastered?
+    - num_exercises = @concept_summary.num_exercises
+    .mastered
+      .summary
+        = graphical_icon "completed-check-circle"
+        #{num_exercises}/#{num_exercises}
+        = pluralize(num_exercises, "exercise")
+        completed
+      = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+      .info You’ve mastered #{@concept.name}. Well done!

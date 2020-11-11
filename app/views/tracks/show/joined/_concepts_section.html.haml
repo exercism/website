@@ -11,7 +11,7 @@
       - concept_summary = user_track.summary.concept(concept.slug)
 
       - completed_class = concept_summary.mastered? ? 'completed' : ''
-      = link_to track_concept_path(concept), class: "concept #{completed_class}" do
+      = link_to track_concept_path(track, concept), class: "concept #{completed_class}" do
         = render ViewComponents::ConceptIcon.new(concept, :medium)
         .info
           .name

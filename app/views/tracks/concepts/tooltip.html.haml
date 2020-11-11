@@ -6,7 +6,7 @@
         .name= @concept.name
         .in in
         = track_icon(@track)
-      .num-exercises= pluralize(@concept.num_exercises, "exercise")
+      .num-exercises= pluralize(@concept_summary.num_exercises, "exercise")
 
   .blurb= @concept.blurb
 
@@ -15,8 +15,7 @@
     .mastered
       .summary
         = graphical_icon "completed-check-circle"
-        #{num_exercises}/#{num_exercises}
-        = pluralize(num_exercises, "exercise")
+        #{num_exercises}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
         completed
       = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
       .info You’ve mastered #{@concept.name}. Well done!

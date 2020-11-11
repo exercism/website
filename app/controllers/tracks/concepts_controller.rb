@@ -18,15 +18,9 @@ class Tracks::ConceptsController < ApplicationController
     @num_completed = @user_track ? @user_track.learnt_concepts.count : 0
   end
 
-  def show
-    # TODO: We don't want this here really.
-    # Move it onto the concept eventually
-    @concept_exercises = ConceptExercise.that_teach(@concept)
-    @practice_exercises = PracticeExercise.that_practice(@concept)
-  end
+  def show; end
 
   def tooltip
-    @concept_summary = @user_track.summary.concept(@concept.slug)
     render layout: false
   end
 
@@ -42,5 +36,6 @@ class Tracks::ConceptsController < ApplicationController
 
   def use_concept
     @concept = @track.concepts.find(params[:id])
+    @concept_summary = @user_track.summary.concept(@concept.slug)
   end
 end

@@ -1,13 +1,13 @@
-module ViewComponents
+module ReactComponents
   module Mentoring
-    class Inbox < ViewComponent
+    class Inbox < ReactComponent
       def initialize(conversations_request = default_conversations_request, tracks_request = default_tracks_request)
         @conversations_request = conversations_request
         @tracks_request = tracks_request
       end
 
       def to_s
-        react_component(
+        super(
           "mentoring-inbox",
           {
             conversations_request: conversations_request,

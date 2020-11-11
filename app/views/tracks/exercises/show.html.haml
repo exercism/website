@@ -1,5 +1,5 @@
 #page-exercise-show
-  = ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :about)
+  = render ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :about)
 
   %header.exercise-header
     .lg-container.container
@@ -32,10 +32,10 @@
           %p We'll automatically analyze your solution and suggest potential improvements.
 
           = link_to Exercism::Routes.track_exercise_iteration_path(@track, @exercise, @iteration), class: "iteration" do
-            = ViewComponents::Track::IterationSummary.new(@iteration)
+            = ReactComponents::Track::IterationSummary.new(@iteration)
             = graphical_icon 'chevron-right', css_class: 'action-icon'
 
-          = ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(@track))
+          = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(@track))
 
 
       - if @exercise.concept_exercise? && !@solution&.completed?
@@ -74,7 +74,7 @@
 
           .prereqs
             - @exercise.prerequisite_exercises.each do |prereq|
-              = ViewComponents::Widgets::Exercise.new(prereq, large: false)
+              = render ViewComponents::Widgets::Exercise.new(prereq, large: false)
 
       - else
         / TODO: External state

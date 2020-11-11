@@ -1,6 +1,6 @@
-require_relative "../view_component_test_case"
+require_relative "../react_component_test_case"
 
-class MaintainingSubmissionsSummaryTableTest < ViewComponentTestCase
+class MaintainingSubmissionsSummaryTableTest < ReactComponentTestCase
   test "maintaining submissions summary table rendered correctly" do
     user = create(:user)
     track = create(:track, slug: "ruby", title: "Ruby", repo_url: "https://github.com/exercism/v3")
@@ -14,7 +14,7 @@ class MaintainingSubmissionsSummaryTableTest < ViewComponentTestCase
     submission_3 = create(:submission, solution: practice_solution, submitted_via: "script", representation_status: :disapproved)
     submissions = [submission_1, submission_2, submission_3]
 
-    assert_component ViewComponents::Maintaining::SubmissionsSummaryTable.new(submissions),
+    assert_component ReactComponents::Maintaining::SubmissionsSummaryTable.new(submissions),
       "maintaining-submissions-summary-table",
       {
         submissions: [

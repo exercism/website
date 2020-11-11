@@ -1,5 +1,5 @@
 #page-concepts-index
-  = ViewComponents::Track::TopLevelNav.new(@track, :exercises)
+  = render ViewComponents::Track::TopLevelNav.new(@track, :exercises)
 
   .page-header
     .lg-container.container
@@ -16,5 +16,5 @@
   .exercises
     .lg-container.container
       - @exercises.each do |exercise|
-        = ViewComponents::Widgets::Exercise.new(exercise)
+        = render ViewComponents::Widgets::Exercise.new(exercise)
 

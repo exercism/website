@@ -1,5 +1,5 @@
 #page-concept-show
-  = ViewComponents::Track::ConceptNav.new(@track)
+  = render ViewComponents::Track::ConceptNav.new(@track)
 
   %header.concept-header
     .lg-container.container
@@ -49,7 +49,7 @@
 
           .exercises
             - @concept_exercises.each do |concept_exercise|
-              = ViewComponents::Widgets::Exercise.new(concept_exercise)
+              = render ViewComponents::Widgets::Exercise.new(concept_exercise)
 
       - if @practice_exercises.present?
         .practice
@@ -57,4 +57,4 @@
 
           .exercises
             - @practice_exercises.each do |practice_exercise|
-              = ViewComponents::Widgets::Exercise.new(practice_exercise)
+              = render ViewComponents::Widgets::Exercise.new(practice_exercise)

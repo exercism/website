@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ViewComponentTestCase < ActionView::TestCase
+class ReactComponentTestCase < ActionView::TestCase
   def assert_component(component, id, data)
     assert_dom_equal(
       %(

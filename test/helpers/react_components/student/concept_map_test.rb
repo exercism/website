@@ -1,7 +1,7 @@
-require_relative "../view_component_test_case"
+require_relative "../react_component_test_case"
 
 module Student
-  class ConceptMapTest < ViewComponentTestCase
+  class ConceptMapTest < ReactComponentTestCase
     test "component with empty concepts map rendered correctly" do
       data = {
         concepts: [],
@@ -9,7 +9,7 @@ module Student
         connections: [],
         status: []
       }
-      component = ViewComponents::Student::ConceptMap.new(data).to_s
+      component = ReactComponents::Student::ConceptMap.new(data).to_s
 
       assert_component component, "concept-map", { graph: data }
     end

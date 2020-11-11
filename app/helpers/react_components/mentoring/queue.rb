@@ -1,12 +1,12 @@
-module ViewComponents
+module ReactComponents
   module Mentoring
-    class Queue < ViewComponent
+    class Queue < ReactComponent
       def initialize(request = default_request)
         @request = request
       end
 
       def to_s
-        react_component(
+        super(
           "mentoring-queue",
           {
             request: request,

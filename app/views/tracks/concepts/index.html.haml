@@ -1,5 +1,5 @@
 #page-concepts-index
-  = ViewComponents::Track::TopLevelNav.new(@track, :concepts)
+  = render ViewComponents::Track::TopLevelNav.new(@track, :concepts)
 
   .page-header
     .lg-container.container
@@ -13,4 +13,4 @@
         .progress-text #{pluralize(@num_completed, 'concepts')} learnt
 
   .lg-container.container
-    = ViewComponents::Student::ConceptMap.new(@concept_map_data)
+    = ReactComponents::Student::ConceptMap.new(@concept_map_data)

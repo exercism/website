@@ -19,6 +19,10 @@ class UserTrack < ApplicationRecord
     nil
   end
 
+  def summary
+    @summary ||= UserTrack::Summary.new(self)
+  end
+
   def solutions
     user.solutions.joins(:exercise).where("exercises.track_id": track)
   end

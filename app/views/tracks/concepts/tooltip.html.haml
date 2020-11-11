@@ -1,0 +1,11 @@
+.c-concept-tooltip
+  .heading
+    = render ViewComponents::ConceptIcon.new(@concept, :large)
+    .summary
+      .title
+        .name= @concept.name
+        .in in
+        = track_icon(@track)
+      .num-exercises= pluralize(@concept.num_exercises, "exercise")
+
+  .blurb= @concept.blurb

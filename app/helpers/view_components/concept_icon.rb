@@ -1,6 +1,6 @@
 module ViewComponents
   class ConceptIcon < ViewComponent
-    SIZES = %i[small medium huge].freeze
+    SIZES = %i[small medium large huge].freeze
 
     def initialize(concept, size, view_context: nil)
       raise "Invalid concept icon size #{size}" unless SIZES.include?(size.to_sym)

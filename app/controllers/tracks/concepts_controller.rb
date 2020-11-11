@@ -1,7 +1,7 @@
 class Tracks::ConceptsController < ApplicationController
   before_action :use_track
   before_action :use_concepts, only: :index
-  before_action :use_concept, only: %i[show start complete]
+  before_action :use_concept, only: %i[show tooltip start complete]
 
   skip_before_action :authenticate_user!, only: %i[index show]
 
@@ -23,6 +23,10 @@ class Tracks::ConceptsController < ApplicationController
     # Move it onto the concept eventually
     @concept_exercises = ConceptExercise.that_teach(@concept)
     @practice_exercises = PracticeExercise.that_practice(@concept)
+  end
+
+  def tooltip
+    render layout: false
   end
 
   private

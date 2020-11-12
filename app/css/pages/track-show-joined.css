@@ -227,7 +227,7 @@
                 }
                 & .c-concept-progress-bar {
                     max-width: 320px;
-                    @apply flex-grow ml-64 mb-12;
+                    @apply flex-grow ml-64;
                     height: 6px;
                 }
                 & .action-icon {

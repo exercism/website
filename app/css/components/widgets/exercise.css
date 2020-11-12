@@ -71,7 +71,7 @@
     }
 
     &.--small {
-        @apply py-6 px-12;
+        @apply py-8 px-12;
 
         & .--title {
             @apply text-16 font-medium leading-paragraph;

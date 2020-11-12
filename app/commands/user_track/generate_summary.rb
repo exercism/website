@@ -163,6 +163,10 @@ class UserTrack
         available
       end
 
+      def learnt?
+        num_concept_exercises.positive? && num_concept_exercises == num_completed_concept_exercises
+      end
+
       def mastered?
         num_exercises.positive? && num_exercises == num_completed_exercises
       end

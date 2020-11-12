@@ -50,6 +50,10 @@ class UserTrack
       false
     end
 
+    def concept_learnt?(_)
+      false
+    end
+
     def concept_mastered?(_)
       false
     end

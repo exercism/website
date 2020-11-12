@@ -13,6 +13,7 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     assert_equal [], ut.available_exercise_ids
 
     refute ut.concept_available?(mock)
+    refute ut.concept_learnt?(mock)
     refute ut.concept_mastered?(mock)
     assert_equal 0, ut.num_completed_exercises_for_concept(mock)
 

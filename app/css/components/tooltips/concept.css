@@ -34,21 +34,59 @@
         @apply text-15 leading-paragraph;
     }
 
-    & .mastered {
-        @apply mt-16;
-        & .summary {
-            @apply flex font-semibold mb-8 text-darkGreen;
+    & .progress {
+        @apply flex font-semibold mb-8 text-darkGray leading-paragraph;
+    }
 
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-                @apply mr-12;
+    & .c-concept-progress-bar {
+        @apply mb-12;
+        height: 6px;
+    }
+
+    & .available {
+        @apply mt-16;
+
+        & .info {
+            @apply leading-paragraph;
+            & strong {
+                @apply font-medium;
             }
         }
         & .c-concept-progress-bar {
-            @apply mb-12;
-            height: 6px;
+            @apply mb-20;
         }
+
+        & .learn-heading {
+            @apply flex items-center mb-8 text-h6;
+
+            & .c-icon {
+                width: 16px;
+                height: 16px;
+                @apply mr-12;
+            }
+        }
+        & .c-exercise-widget {
+            @apply mb-12 inline-flex;
+        }
+    }
+
+    & .mastered {
+        @apply mt-16;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+        }
+
+        & .progress {
+            @apply text-darkGreen;
+        }
+
+        & .c-concept-progress-bar {
+            @apply mb-12;
+        }
+
         & .info {
             @apply text-darkGray leading-paragraph font-medium;
         }

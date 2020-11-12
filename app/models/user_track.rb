@@ -37,13 +37,8 @@ class UserTrack < ApplicationRecord
     :num_completed_exercises,
     :num_concepts, :num_concepts_mastered,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,
-    :concept_available?, :concept_mastered?,
+    :concept_available?, :concept_learnt?, :concept_mastered?,
     to: :summary
-
-  # TODO: Move this to the summary
-  def learnt_concept?(concept)
-    learnt_concepts.include?(concept)
-  end
 
   memoize
   def available_concept_exercises

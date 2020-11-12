@@ -1,4 +1,5 @@
 - num_exercises = @user_track.num_exercises_for_concept(@concept)
+- num_exercises_completed = @user_track.num_completed_exercises_for_concept(@concept)
 
 .heading
   = render ViewComponents::ConceptIcon.new(@concept, :large)
@@ -13,9 +14,30 @@
 
 - if @user_track.concept_mastered?(@concept)
   .mastered
-    .summary
+    .progress
       = graphical_icon "completed-check-circle"
-      #{num_exercises}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
+      #{num_exercises_completed}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
       completed
     = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
     .info You’ve mastered #{@concept.name}. Well done!
+
+- elsif @user_track.concept_learnt?(@concept)
+  / TODO: Add this once we have practice exercises in
+
+- elsif @user_track.concept_available?(@concept)
+  - exercise = @concept.concept_exercises.first
+  .available
+    .progress
+      #{num_exercises_completed}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
+      completed
+    = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+    .learn-heading
+      = graphical_icon :concepts
+      Learn #{@concept.name}
+    = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, large: false)
+
+    .info
+      Completing
+      %strong= exercise.title
+      will unlock more exercises for you to master #{@concept.name}.
+

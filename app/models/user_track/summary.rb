@@ -36,6 +36,10 @@ class UserTrack
       concept(obj).available?
     end
 
+    def concept_learnt?(obj)
+      concept(obj).learnt?
+    end
+
     def concept_mastered?(obj)
       concept(obj).mastered?
     end

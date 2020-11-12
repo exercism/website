@@ -43,7 +43,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :track_concept, :with_git_data
     ut = create :user_track, track: concept.track
 
-    UserTrack.any_instance.stubs(learnt_concept?: false)
+    UserTrack.any_instance.stubs(concept_learnt?: false)
     UserTrack.any_instance.stubs(concept_available?: true)
 
     sign_in!(ut.user)
@@ -56,7 +56,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :track_concept, :with_git_data
     ut = create :user_track, track: concept.track
 
-    UserTrack.any_instance.stubs(learnt_concept?: true)
+    UserTrack.any_instance.stubs(concept_learnt?: true)
     UserTrack.any_instance.stubs(concept_available?: true)
 
     sign_in!(ut.user)
@@ -69,7 +69,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :track_concept, :with_git_data
     ut = create :user_track, track: concept.track
 
-    UserTrack.any_instance.stubs(learnt_concept?: false)
+    UserTrack.any_instance.stubs(concept_learnt?: false)
     UserTrack.any_instance.stubs(concept_available?: false)
 
     sign_in!(ut.user)

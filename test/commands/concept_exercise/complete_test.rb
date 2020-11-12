@@ -30,6 +30,6 @@ class ConceptExercise::CompleteTest < ActiveSupport::TestCase
 
     ConceptExercise::Complete.(user, exercise)
 
-    assert ut.learnt_concept?(concept)
+    assert ut.concept_learnt?(concept)
   end
 end

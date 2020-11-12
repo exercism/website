@@ -14,11 +14,12 @@
     .explanation
       To master the concepts, you can try completing more exercises for them. Or, you can continue to broaden your knowledge and #{link_to 'explore new concepts', track_concepts_path(track)}.
 
-%section.latest-iteration
-  %h2 Your latest iteration
+- if iteration
+  %section.latest-iteration
+    %h2 Your latest iteration
 
-  = link_to Exercism::Routes.track_exercise_iteration_path(track, exercise, iteration), class: "iteration" do
-    = ReactComponents::Track::IterationSummary.new(iteration)
-    = graphical_icon 'chevron-right', css_class: 'action-icon'
+    = link_to Exercism::Routes.track_exercise_iteration_path(track, exercise, iteration), class: "iteration" do
+      = ReactComponents::Track::IterationSummary.new(iteration)
+      = graphical_icon 'chevron-right', css_class: 'action-icon'
 
-  = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(track))
+    = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(track))

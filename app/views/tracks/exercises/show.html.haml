@@ -23,7 +23,7 @@
   .lg-container.tw-flex
     .tw-w-arbitary.tw-flex-grow
       - if @solution&.completed?
-        = render "tracks/exercises/show/completed_sections", track: @track, exercise: @exercise, iteration: @iteration
+        = render "tracks/exercises/show/completed_sections", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
 
       - elsif @iteration
 

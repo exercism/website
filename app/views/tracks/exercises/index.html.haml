@@ -1,20 +1,35 @@
-#page-concepts-index
+#page-exercises-index
   = render ViewComponents::Track::TopLevelNav.new(@track, :exercises)
 
-  .page-header
-    .lg-container.container
-      = graphical_icon("graphic-laptop-man-1", css_class: 'graphic')
-      .info
-        %h1
-          All the
+  %article.content
+    - if @user_track.external?
+      .md-container.container
+        %section.external-cta
           = track_icon(@track)
-          exercises on Exercism
-        %p Unlock more exercises as you progress. They’re great practice and fun to do!
-        %progress.progress-bar{ value: @num_completed, max: @exercises.size }
-        .progress-text #{pluralize(@num_completed, 'exercise')} completed
+          .info
+            %h2 Practice #{@track.exercises.count} exercises in #{@track.title}
+            %p
+              Learn and practice #{@track.title} by completing #{@track.exercises.count} exercises
+              that explore different concepts and ideas.
 
-  .exercises
-    .lg-container.container
-      - @exercises.each do |exercise|
-        = render ViewComponents::Widgets::Exercise.new(exercise, @user_track)
+          = button_to join_track_path(@track), method: :post, class: "btn-cta" do
+            = graphical_icon(:plus)
+            Join The #{@track.title} Track
+
+    %header.page-header
+      .lg-container.container
+        = graphical_icon("graphic-laptop-man-1", css_class: 'graphic')
+        .info
+          %h1
+            All the
+            = track_icon(@track)
+            exercises on Exercism
+          %p Unlock more exercises as you progress. They’re great practice and fun to do!
+          %progress.progress-bar{ value: @num_completed, max: @exercises.size }
+          .progress-text #{pluralize(@num_completed, 'exercise')} completed
+
+    %section.exercises
+      .lg-container.container
+        - @exercises.each do |exercise|
+          = render ViewComponents::Widgets::Exercise.new(exercise, @user_track)
 

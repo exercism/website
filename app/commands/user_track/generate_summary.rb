@@ -4,24 +4,7 @@ class UserTrack
 
     initialize_with :track, :user_track
 
-    # We want to ensure we only do this once, but we
-    # provide two access vectors, this and the
-    # user_track.summary. This slightly hacky method
-    # checks whether we've already done this work and
-    # if so returns what we already have. Otherwise
-    # it does the work and then sets it.
-    #
-    # If we don't have a user_track, then we just generate
-    # the data and don't worry about this bit.
     def call
-      return generate! unless user_track
-
-      return user_track.summary if user_track.summary_generated?
-
-      user_track.summary = generate!
-    end
-
-    def generate!
       t = Time.now.to_f
       Rails.logger.info "[BM] Starting generating user summary"
 
@@ -174,6 +157,10 @@ class UserTrack
 
       def num_completed_exercises
         num_completed_concept_exercises + num_completed_practice_exercises
+      end
+
+      def available?
+        available
       end
 
       def mastered?

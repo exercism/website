@@ -16,5 +16,5 @@
   .exercises
     .lg-container.container
       - @exercises.each do |exercise|
-        = render ViewComponents::Widgets::Exercise.new(exercise, @user_track_summary)
+        = render ViewComponents::Widgets::Exercise.new(exercise, @user_track)
 

@@ -74,7 +74,7 @@
 
           .prereqs
             - @exercise.prerequisite_exercises.each do |prereq|
-              = render ViewComponents::Widgets::Exercise.new(prereq, @user_track_summary, large: false)
+              = render ViewComponents::Widgets::Exercise.new(prereq, @user_track, large: false)
 
       - else
         / TODO: External state

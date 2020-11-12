@@ -17,9 +17,7 @@ class TracksController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
 
     if @user_track
-      @user_track_summary = UserTrack::GenerateSummary.(@track, @user_track)
       @activities = UserTrack::RetrieveActivities.(@user_track)
-
       render "tracks/show/joined"
     else
       render "tracks/show/unjoined"

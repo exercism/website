@@ -36,6 +36,7 @@ import '../../css/components/track/top-level-nav.css'
 import '../../css/components/track/concept-nav.css'
 import '../../css/components/track/exercise-nav.css'
 import '../../css/components/track/icon.css'
+import '../../css/components/track/concept-map.css'
 
 import '../../css/pages/staging.css'
 import '../../css/pages/track-shared-index.css'
@@ -46,8 +47,6 @@ import '../../css/pages/exercises-index.css'
 import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
-
-import 'components/concept-map/ConceptMap.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'

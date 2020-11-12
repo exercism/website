@@ -1,11 +1,11 @@
 import React from 'react'
 
-type Track = {
+type TrackIconProps = {
   iconUrl: string
   title: string
 }
 
-export function TrackIcon({ track }: { track: Track }) {
+export function TrackIcon({ track }: { track: TrackIconProps }) {
   return (
     <img
       className="c-track-icon"

@@ -76,6 +76,9 @@ Style/Documentation:
 Style/DocumentationMethod:
   Enabled: false
 
+Style/DoubleNegation:
+  Enabled: false
+
 Style/RedundantSelf:
   Enabled: false
 

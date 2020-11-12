@@ -3,8 +3,9 @@ module ViewComponents
     class Exercise < ViewComponent
       extend Mandate::Memoize
 
-      def initialize(exercise, large: true, desc: true)
+      def initialize(exercise, user_track_summary, large: true, desc: true)
         @exercise = exercise
+        @user_track_summary = user_track_summary
         @large = large
         @desc = desc
       end
@@ -28,33 +29,15 @@ module ViewComponents
         end
       end
 
-      # TODO: We want to have a solutions list that
-      # pre-fetches all the relevant solutions for a
-      # user, which we then pass into this. This whole
-      # method should then be replaces and the solution
-      # should be passed in directly.
-      memoize
-      def solution
-        # TODO: This will break once devise is added
-        Solution.for(User.first, exercise)
-      end
-
       private
-      attr_reader :exercise, :large, :desc
+      attr_reader :exercise, :user_track_summary, :large, :desc
 
       def available?
-        return true if solution
-
-        # TODO: This is another example of something that should
-        # be precached somewhere. What's the right way of doing this?!
-        #
-        # TODO: This will break once devise is added
-        user_track = UserTrack.for(User.first, exercise.track)
-        user_track&.exercise_available?(exercise)
+        user_track_summary.exercise_available?(exercise)
       end
 
       def completed?
-        solution&.completed?
+        user_track_summary.exercise_completed?(exercise)
       end
 
       def ex_icon

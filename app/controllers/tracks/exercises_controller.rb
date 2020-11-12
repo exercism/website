@@ -31,6 +31,7 @@ class Tracks::ExercisesController < ApplicationController
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)
+    @user_track_summary = UserTrack::GenerateSummary.(@track, @user_track)
   end
 
   def use_exercise

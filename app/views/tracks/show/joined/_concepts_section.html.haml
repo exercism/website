@@ -3,12 +3,12 @@
     = graphical_icon :concepts
     %h2 Concept Mastery
     .progress
-      #{user_track.num_concepts_mastered}/#{track.concepts.size}
+      #{user_track_summary.num_concepts_mastered}/#{track.concepts.size}
       mastered
 
   .concepts
     - track.concepts[0, 6].each do |concept|
-      - concept_summary = user_track.summary.concept(concept.slug)
+      - concept_summary = user_track_summary.concept(concept.slug)
 
       - completed_class = concept_summary.mastered? ? 'completed' : ''
       = link_to track_concept_path(track, concept), class: "concept #{completed_class}" do
@@ -20,6 +20,6 @@
               = icon "completed-check-circle", "Concept Completed"
           .completion #{concept_summary.num_completed_exercises}/#{concept_summary.num_exercises} exercises completed
 
-        = render ViewComponents::ConceptProgressBar.new(concept, user_track)
+        = render ViewComponents::ConceptProgressBar.new(concept, user_track_summary)
         = graphical_icon 'chevron-right', css_class: 'action-icon'
 

@@ -7,7 +7,6 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.belongs_to :exercise, foreign_key: true, null: false
 
       t.string :uuid, null: false, unique: true
-      t.integer :status, null: false, default: 0
 
       t.string :git_slug, null: false
       t.string :git_sha, null: false

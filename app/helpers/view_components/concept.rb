@@ -3,11 +3,11 @@ module ViewComponents
     extend Mandate::Memoize
     SIZES = %i[small medium].freeze
 
-    def initialize(concept, user_track, size)
+    def initialize(concept, user_track_summary, size)
       raise "Invalid concept icon size #{size}" unless SIZES.include?(size.to_sym)
 
       @concept = concept
-      @user_track = user_track
+      @user_track_summary = user_track_summary
       @size = size
     end
 
@@ -25,11 +25,11 @@ module ViewComponents
     end
 
     private
-    attr_reader :concept, :user_track, :size
+    attr_reader :concept, :user_track_summary, :size
 
     memoize
     def concept_summary
-      user_track.summary.concept(concept.slug)
+      user_track_summary.concept(concept.slug)
     end
   end
 end

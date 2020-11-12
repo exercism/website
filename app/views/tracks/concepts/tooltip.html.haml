@@ -17,5 +17,5 @@
         = graphical_icon "completed-check-circle"
         #{num_exercises}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
         completed
-      = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+      = render ViewComponents::ConceptProgressBar.new(@concept, @user_track_summary)
       .info You’ve mastered #{@concept.name}. Well done!

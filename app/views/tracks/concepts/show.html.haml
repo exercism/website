@@ -14,13 +14,12 @@
           5 exercises
       .progress.tw-w-5-7
 
-        = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+        = render ViewComponents::ConceptProgressBar.new(@concept, @user_track_summary)
         .progress-text{ class: @concept_summary.mastered? ? 'completed' : '' }
           = graphical_icon "completed-check-circle"
           #{@concept_summary.num_completed_exercises}/#{@concept_summary.num_exercises}
           = 'exercise'.pluralize(@concept_summary.num_exercises)
           completed
-
 
   %section.lg-container.tw-flex
     .tw-flex-grow.tw-w-arbitary
@@ -52,7 +51,7 @@
 
           .exercises
             - @concept_exercises.each do |concept_exercise|
-              = render ViewComponents::Widgets::Exercise.new(concept_exercise)
+              = render ViewComponents::Widgets::Exercise.new(concept_exercise, @user_track_summary)
 
       - if @practice_exercises.present?
         .practice
@@ -60,4 +59,4 @@
 
           .exercises
             - @practice_exercises.each do |practice_exercise|
-              = render ViewComponents::Widgets::Exercise.new(practice_exercise)
+              = render ViewComponents::Widgets::Exercise.new(practice_exercise, @user_track_summary)

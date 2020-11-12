@@ -13,38 +13,36 @@ class UserTrack < ApplicationRecord
     )
   end
 
-  def self.for(user_param, track_param)
+  def self.for(user_param, track_param, external_if_missing: false)
     for!(user_param, track_param)
   rescue ActiveRecord::RecordNotFound
-    nil
+    return nil unless external_if_missing
+
+    begin
+      External.new(Track.for!(track_param))
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+  end
+
+  def external?
+    false
   end
 
   def solutions
     user.solutions.joins(:exercise).where("exercises.track_id": track)
   end
 
-  # A track's summary is a effeciently created summary of all
-  # of a user_track's data. It's cached across requests, allowing
-  # us to quickly retrieve data without requiring lots of complex
-  # SQL queries. There is a little bit of a dance here, which is
-  # documented in the UserTrack::GenerateSummary class.
-  attr_writer :summary
-  def summary
-    @summary ||= UserTrack::GenerateSummary.(track, self)
-  end
+  delegate :exercise_available?, :exercise_completed?,
+    :num_completed_exercises,
+    :num_concepts, :num_concepts_mastered,
+    :num_exercises_for_concept, :num_completed_exercises_for_concept,
+    :concept_available?, :concept_mastered?,
+    to: :summary
 
-  def summary_generated?
-    !!@summary
-  end
-
-  delegate :exercise_available?, :concept_available?, to: :summary
-
+  # TODO: Move this to the summary
   def learnt_concept?(concept)
     learnt_concepts.include?(concept)
-  end
-
-  def concept_available?(concept)
-    available_concepts.include?(concept)
   end
 
   memoize
@@ -65,5 +63,14 @@ class UserTrack < ApplicationRecord
   memoize
   def available_exercises
     Exercise.where(id: summary.available_exercise_ids)
+  end
+
+  private
+  # A track's summary is a effeciently created summary of all
+  # of a user_track's data. It's cached across requests, allowing
+  # us to quickly retrieve data without requiring lots of complex
+  # SQL queries.
+  def summary
+    @summary ||= UserTrack::GenerateSummary.(track, self)
   end
 end

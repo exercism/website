@@ -3,9 +3,9 @@ module ViewComponents
     class Exercise < ViewComponent
       extend Mandate::Memoize
 
-      def initialize(exercise, user_track_summary, large: true, desc: true)
+      def initialize(exercise, user_track, large: true, desc: true)
         @exercise = exercise
-        @user_track_summary = user_track_summary
+        @user_track = user_track
         @large = large
         @desc = desc
       end
@@ -30,14 +30,14 @@ module ViewComponents
       end
 
       private
-      attr_reader :exercise, :user_track_summary, :large, :desc
+      attr_reader :exercise, :user_track, :large, :desc
 
       def available?
-        user_track_summary.exercise_available?(exercise)
+        user_track.exercise_available?(exercise)
       end
 
       def completed?
-        user_track_summary.exercise_completed?(exercise)
+        user_track.exercise_completed?(exercise)
       end
 
       def ex_icon

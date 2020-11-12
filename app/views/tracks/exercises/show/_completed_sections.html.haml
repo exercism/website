@@ -8,7 +8,7 @@
     %h3 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
     .concepts
       - exercise.taught_concepts.each do |concept|
-        = render ViewComponents::Concept.new(concept, user_track_summary, :small)
+        = render ViewComponents::Concept.new(concept, user_track, :small)
 
     = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track))
     .explanation

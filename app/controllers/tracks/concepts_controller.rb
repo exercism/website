@@ -30,8 +30,7 @@ class Tracks::ConceptsController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track)
-    @user_track_summary = UserTrack::GenerateSummary.(@track, @user_track)
+    @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
   end
 
   def use_concepts
@@ -40,6 +39,5 @@ class Tracks::ConceptsController < ApplicationController
 
   def use_concept
     @concept = @track.concepts.find(params[:id])
-    @concept_summary = @user_track_summary.concept(@concept.slug)
   end
 end

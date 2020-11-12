@@ -28,13 +28,22 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal ut, UserTrack.for(ut.user, ut.track)
   end
 
-  test ".for returns nil with invalid data" do
-    ut = create :user_track
-    assert_nil UserTrack.for(create(:user), ut.track)
-    assert_nil UserTrack.for(ut.user, create(:track))
-    assert_nil UserTrack.for(ut.user, nil)
-    assert_nil UserTrack.for(nil, ut.track)
+  test ".for handles bad data" do
+    track = create :track
+    ut = create :user_track, track: track
+    assert_nil UserTrack.for(create(:user), nil)
     assert_nil UserTrack.for(nil, nil)
+    assert_nil UserTrack.for(create(:user), track)
+    assert_nil UserTrack.for(ut.user, create(:track))
+    assert_nil UserTrack.for(nil, track)
+    assert_nil UserTrack.for(nil, track.slug)
+
+    assert_nil UserTrack.for(create(:user), nil, external_if_missing: true)
+    assert_nil UserTrack.for(nil, nil, external_if_missing: true)
+    assert UserTrack.for(create(:user), track, external_if_missing: true).is_a?(UserTrack::External)
+    assert UserTrack.for(ut.user, create(:track), external_if_missing: true).is_a?(UserTrack::External)
+    assert UserTrack.for(nil, track, external_if_missing: true).is_a?(UserTrack::External)
+    assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
   end
 
   test "exercise_available? with no prerequisites" do
@@ -188,12 +197,12 @@ class UserTrackTest < ActiveSupport::TestCase
     concept = create :track_concept, track: track
     ut = create :user_track, track: track
 
-    assert_equal concept.slug, ut.summary.concept(concept.slug).slug
+    assert_equal concept.slug, ut.send(:summary).concept(concept.slug).slug
   end
 
   test "summary is memoized" do
     ut = create :user_track
     UserTrack::GenerateSummary.expects(:call).with(ut.track, ut).returns(mock).once
-    2.times { ut.summary }
+    2.times { ut.send(:summary) }
   end
 end

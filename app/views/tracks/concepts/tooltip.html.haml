@@ -1,22 +1,21 @@
 - num_exercises = @user_track.num_exercises_for_concept(@concept)
 
-.c-concept-tooltip
-  .heading
-    = render ViewComponents::ConceptIcon.new(@concept, :large)
+.heading
+  = render ViewComponents::ConceptIcon.new(@concept, :large)
+  .summary
+    .title
+      .name= @concept.name
+      .in in
+      = track_icon(@track)
+    .num-exercises= pluralize(num_exercises, "exercise")
+
+.blurb= @concept.blurb
+
+- if @user_track.concept_mastered?(@concept)
+  .mastered
     .summary
-      .title
-        .name= @concept.name
-        .in in
-        = track_icon(@track)
-      .num-exercises= pluralize(num_exercises, "exercise")
-
-  .blurb= @concept.blurb
-
-  - if @user_track.concept_mastered?(@concept)
-    .mastered
-      .summary
-        = graphical_icon "completed-check-circle"
-        #{num_exercises}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
-        completed
-      = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
-      .info You’ve mastered #{@concept.name}. Well done!
+      = graphical_icon "completed-check-circle"
+      #{num_exercises}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
+      completed
+    = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+    .info You’ve mastered #{@concept.name}. Well done!

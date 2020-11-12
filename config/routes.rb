@@ -123,6 +123,9 @@ Rails.application.routes.draw do
           resource :icons, controller: "icons", only: [:show]
         end
       end
+      namespace :templates do
+        resource :concept_tooltip, only: "show"
+      end
     end
   end
 end

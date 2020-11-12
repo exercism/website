@@ -4,49 +4,74 @@
     & .c-track-exercise-nav {
         @apply mb-32;
     }
-    & .iterations {
-    }
-    & .iteration {
-        @apply mb-24 shadow-lg rounded-8;
+    & section.zero-state {
+        @apply flex flex-col items-center mt-56;
 
-        & .header {
-            @apply flex items-center py-12 px-24;
-            @apply border-b-1 border-borderLight border-opacity-50;
+        & h2 {
+            @apply text-h3 mb-16 text-center;
         }
-        & .content {
-            @apply flex items-stretch;
-
-            & .files {
-                @apply flex-grow px-24 py-12;
+        & p {
+            @apply text-16 leading-paragraph text-center mb-32;
+            max-width: 640px;
+        }
+        & .box {
+            @apply flex;
+            @apply border-2 border-purple rounded-12 bg-randomBlue;
+            @apply py-24 px-32 mb-24;
+            & h4 {
+                @apply text-label-code-caps mb-12;
             }
-            & .analysis {
-                @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
-                @apply border-l-1 border-borderLight;
+            & .editor {
+                @apply mr-48;
+            }
+            .c-copy-text-to-clipboard {
+                width: 370px;
+            }
+        }
+    }
+    & section.iterations {
+        & .iteration {
+            @apply mb-24 shadow-lg rounded-8;
 
-                & .comment {
-                    @apply text-15 leading-paragraph;
-                    & p {
-                        @apply mb-12;
-                    }
+            & .header {
+                @apply flex items-center py-12 px-24;
+                @apply border-b-1 border-borderLight border-opacity-50;
+            }
+            & .content {
+                @apply flex items-stretch;
 
-                    & + .comment {
-                        @apply border-t-1 border-lightGray mt-16 pt-16;
-                    }
+                & .files {
+                    @apply flex-grow px-24 py-12;
                 }
-                & .byline {
-                    @apply flex items-center;
-                    @apply text-textLight;
+                & .analysis {
+                    @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
+                    @apply border-l-1 border-borderLight;
 
-                    & .c-rounded-bg-img {
-                        height: 32px;
-                        width: 32px;
-                        @apply mr-12;
+                    & .comment {
+                        @apply text-15 leading-paragraph;
+                        & p {
+                            @apply mb-12;
+                        }
+
+                        & + .comment {
+                            @apply border-t-1 border-lightGray mt-16 pt-16;
+                        }
                     }
-                    & span a {
-                        @apply border-b-1 border-textLight border-opacity-50;
-                    }
-                    & .c-reputation {
-                        @apply ml-12;
+                    & .byline {
+                        @apply flex items-center;
+                        @apply text-textLight;
+
+                        & .c-rounded-bg-img {
+                            height: 32px;
+                            width: 32px;
+                            @apply mr-12;
+                        }
+                        & span a {
+                            @apply border-b-1 border-textLight border-opacity-50;
+                        }
+                        & .c-reputation {
+                            @apply ml-12;
+                        }
                     }
                 }
             }

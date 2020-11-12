@@ -4,7 +4,10 @@
   Start in Editor
 
 %h4 Work locally (via CLI)
-= link_to "exercism download --exercise=pattern", "#", class: "cli-btn btn"
-= link_to "#", class: "learn-more-cli" do
-  Learn more about solving exercises locally
-  = graphical_icon("arrow-right")
+%button.c-copy-text-to-clipboard
+  .text exercism download --exercise=pattern
+  = icon :clipboard, "Copy to clipboard"
+/= ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
+
+
+= render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")

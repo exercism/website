@@ -109,7 +109,7 @@
         @apply bg-white py-16 px-32 shadow-lg rounded-8 mb-32;
 
         & h3 {
-            @apply text-18 font-medium mb-8;
+            @apply text-18 font-medium mb-8 leading-paragraph;
             & strong {
                 @apply font-semibold;
             }
@@ -215,16 +215,8 @@
         & .cli-btn {
             @apply font-mono font-normal text-14 mb-16;
         }
-
-        & .learn-more-cli {
-            @apply flex items-center;
-            @apply text-lightBlue font-semibold text-16 leading-paragraph;
-
-            & svg {
-                @apply ml-12;
-                width: 16px;
-                height: 16px;
-            }
+        & .c-prominent-link {
+            @apply mt-16;
         }
 
         & .complete {

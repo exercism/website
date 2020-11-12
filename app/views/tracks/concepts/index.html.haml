@@ -1,16 +1,31 @@
 #page-concepts-index
   = render ViewComponents::Track::TopLevelNav.new(@track, :concepts)
 
-  .page-header
-    .lg-container.container
-      = graphical_icon("graphic-forest", css_class: 'graphic')
-      .info
-        %h1
-          Your journey through
+  %article.content
+    - if @user_track.external?
+      .md-container.container
+        %section.external-cta
           = track_icon(@track)
-        %p Learn and master concepts to acheve fluency in #{@track.title}.
-        %progress.progress-bar{ value: @num_completed, max: @num_concepts }
-        .progress-text #{pluralize(@num_completed, 'concepts')} learnt
+          .info
+            %h2 Master #{@track.concepts.count} key concepts in #{@track.title}
+            %p
+              All the concepts covered are explained in the context of language-specific paradigms and conventions.
 
-  .lg-container.container
-    = ReactComponents::Student::ConceptMap.new(@concept_map_data)
+          = button_to join_track_path(@track), method: :post, class: "btn-cta" do
+            = graphical_icon(:plus)
+            Join The #{@track.title} Track
+
+    %header.page-header
+      .lg-container.container
+        = graphical_icon("graphic-forest", css_class: 'graphic')
+        .info
+          %h1
+            Your journey through
+            = track_icon(@track)
+          %p Learn and master concepts to acheve fluency in #{@track.title}.
+          %progress.progress-bar{ value: @num_completed, max: @num_concepts }
+          .progress-text #{pluralize(@num_completed, 'concepts')} learnt
+
+    %section.concepts
+      .lg-container.container
+        = ReactComponents::Student::ConceptMap.new(@concept_map_data)

@@ -37,6 +37,8 @@ import '../../css/components/track/exercise-nav.css'
 import '../../css/components/track/icon.css'
 
 import '../../css/pages/staging.css'
+import '../../css/pages/track-shared-index.css'
+import '../../css/pages/concepts-index.css'
 import '../../css/pages/concept-show.css'
 import '../../css/pages/exercise-show.css'
 import '../../css/pages/exercises-index.css'

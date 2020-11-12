@@ -3,7 +3,7 @@ class LegacyController < ApplicationController
 
   def solution
     solution = Solution.find_by!(uuid: params[:uuid])
-    if user_logged_in? && solution.user_id == current_user.id
+    if user_signed_in? && solution.user_id == current_user.id
       redirect_to Exercism::Routes.private_solution_url(solution)
     elsif solution.published?
       redirect_to Exercism::Routes.published_solution_url(solution)

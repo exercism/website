@@ -118,6 +118,12 @@ jobs:
       - name: Run JS tests
         run: yarn test
 
+      - name: Run asset tests
+        env:
+          EXERCISM_ENV: test
+          EXERCISM_CI: true
+        run: bundle exec bin/webpack
+
       ###
       # Publish the coverage to CodeClimate
       - name: Publish code coverage

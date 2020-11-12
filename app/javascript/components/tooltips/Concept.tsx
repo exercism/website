@@ -14,14 +14,9 @@ export const Concept = ({
   endpoint: string
   styles?: React.CSSProperties
 }): JSX.Element => {
-  // const request = { endpoint: endpoint, options: {} }
-  // const { isLoading, isError, isSuccess, data } = useRequestQuery<
-  //   ConceptTooltipData
-  // >('concept-tooltip', request)
-
   const { isLoading, isError, data } = useQuery('concept-tooltip', () =>
-    fetch(endpoint)
-  )
+    fetch(endpoint).then((res) => res.text())
+  ) as { isLoading: boolean; isError: boolean; data: string }
 
   styles = { ...styles, position: 'absolute', zIndex: 10, top: 100 }
 
@@ -40,7 +35,7 @@ export const Concept = ({
     <div
       className="c-tooltip c-concept-tooltip"
       style={styles}
-      // dangerouslySetInnerHTML={{ __html: data }}
+      dangerouslySetInnerHTML={{ __html: data }}
     ></div>
   )
 }

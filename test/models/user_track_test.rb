@@ -39,42 +39,47 @@ class UserTrackTest < ActiveSupport::TestCase
 
   test "exercise_available? with no prerequisites" do
     exercise = create :concept_exercise
-    user_track = create :user_track
+    user_track = create :user_track, track: exercise.track
     assert user_track.exercise_available?(exercise)
   end
 
   test "exercise_available? with prerequisites" do
-    exercise = create :concept_exercise
-    prereq_1 = create(:exercise_prerequisite, exercise: exercise).concept
-    prereq_2 = create(:exercise_prerequisite, exercise: exercise).concept
-    user_track = create :user_track
+    track = create :track
+    exercise = create :concept_exercise, :random_slug, track: track
 
+    prereq_1 = create :track_concept, track: track
+    create(:exercise_prerequisite, exercise: exercise, concept: prereq_1)
+
+    prereq_2 = create :track_concept, track: track
+    create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
+
+    user_track = create :user_track, track: track
     refute user_track.exercise_available?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    refute user_track.reload.exercise_available?(exercise)
+    refute UserTrack.find(user_track.id).exercise_available?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
-    assert user_track.reload.exercise_available?(exercise)
+    assert UserTrack.find(user_track.id).exercise_available?(exercise)
   end
 
   test "available concepts" do
     track = create :track
-    basics = create :track_concept, track: track
-    enums = create :track_concept, track: track
-    strings = create :track_concept, track: track
+    basics = create :track_concept, track: track, slug: "co_basics"
+    enums = create :track_concept, track: track, slug: "co_enums"
+    strings = create :track_concept, track: track, slug: "co_strings"
 
     # Nothing teaches recursion
-    recursion = create :track_concept, track: track
+    recursion = create :track_concept, track: track, slug: "co_recursion"
 
-    basics_exercise = create :concept_exercise, track: track
+    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
     basics_exercise.taught_concepts << basics
 
-    enums_exercise = create :concept_exercise, track: track
+    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
     enums_exercise.prerequisites << basics
     enums_exercise.taught_concepts << enums
 
-    strings_exercise = create :concept_exercise, track: track
+    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
     strings_exercise.prerequisites << enums
     strings_exercise.prerequisites << basics
     strings_exercise.taught_concepts << strings
@@ -82,7 +87,7 @@ class UserTrackTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, track: track, user: user
 
-    assert_equal [recursion, basics], user_track.available_concepts
+    assert_equal [basics, recursion], user_track.available_concepts
     assert user_track.concept_available?(recursion)
     assert user_track.concept_available?(basics)
     refute user_track.concept_available?(enums)
@@ -93,7 +98,7 @@ class UserTrackTest < ActiveSupport::TestCase
 
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
-    assert_equal [recursion, basics, enums], user_track.available_concepts
+    assert_equal [basics, enums, recursion], user_track.available_concepts
     assert user_track.concept_available?(recursion)
     assert user_track.concept_available?(basics)
     assert user_track.concept_available?(enums)
@@ -104,24 +109,24 @@ class UserTrackTest < ActiveSupport::TestCase
 
     create :user_track_learnt_concept, user_track: user_track, concept: enums
 
-    assert_equal [recursion, basics, enums, strings], user_track.available_concepts
+    assert_equal [basics, enums, strings, recursion], user_track.available_concepts
     assert user_track.concept_available?(recursion)
     assert user_track.concept_available?(basics)
     assert user_track.concept_available?(enums)
     assert user_track.concept_available?(strings)
   end
 
-  test "available exercises and concepts" do
+  test "available exercises" do
     track = create :track
-    concept_exercise_1 = create :concept_exercise, track: track
-    concept_exercise_2 = create :concept_exercise, track: track
-    concept_exercise_3 = create :concept_exercise, track: track
-    concept_exercise_4 = create :concept_exercise, track: track
+    concept_exercise_1 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_2 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_3 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_4 = create :concept_exercise, :random_slug, track: track
 
-    practice_exercise_1 = create :practice_exercise, track: track
-    practice_exercise_2 = create :practice_exercise, track: track
-    practice_exercise_3 = create :practice_exercise, track: track
-    practice_exercise_4 = create :practice_exercise, track: track
+    practice_exercise_1 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_2 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_3 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_4 = create :practice_exercise, :random_slug, track: track
 
     prereq_1 = create :track_concept, track: track
     prereq_2 = create :track_concept, track: track
@@ -146,10 +151,10 @@ class UserTrackTest < ActiveSupport::TestCase
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
-      practice_exercise_1,
       concept_exercise_2,
+      practice_exercise_1,
       practice_exercise_2
-    ], user_track.reload.available_exercises
+    ], user_track.available_exercises
 
     assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
@@ -159,10 +164,9 @@ class UserTrackTest < ActiveSupport::TestCase
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [
-      concept_exercise_1, practice_exercise_1,
-      concept_exercise_2, concept_exercise_3, concept_exercise_4,
-      practice_exercise_2, practice_exercise_3, practice_exercise_4
-    ], user_track.reload.available_exercises
+      concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
+      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4
+    ], user_track.available_exercises
 
     assert_equal [
       concept_exercise_1,
@@ -189,7 +193,7 @@ class UserTrackTest < ActiveSupport::TestCase
 
   test "summary is memoized" do
     ut = create :user_track
-    UserTrack::Summary.expects(:new).with(ut).returns(mock).once
+    UserTrack::GenerateSummary.expects(:call).with(ut.track, ut).returns(mock).once
     2.times { ut.summary }
   end
 end

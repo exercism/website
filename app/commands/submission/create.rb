@@ -29,7 +29,6 @@ class Submission
 
       create_submission!
       create_files!
-      update_solution!
       schedule_jobs!
       submission.broadcast!
 
@@ -100,11 +99,6 @@ class Submission
           file.slice(:uuid, :filename, :digest, :content)
         )
       end
-    end
-
-    def update_solution!
-      solution.status = :submitted if solution.pending?
-      solution.save!
     end
 
     def schedule_jobs!

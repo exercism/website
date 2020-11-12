@@ -18,7 +18,10 @@ class Tracks::ConceptsController < ApplicationController
     @num_completed = @user_track ? @user_track.learnt_concepts.count : 0
   end
 
-  def show; end
+  def show
+    @concept_exercises = @concept.concept_exercises
+    @practice_exercises = @concept.practice_exercises
+  end
 
   def tooltip
     render layout: false
@@ -28,6 +31,7 @@ class Tracks::ConceptsController < ApplicationController
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)
+    @user_track_summary = UserTrack::GenerateSummary.(@track, @user_track)
   end
 
   def use_concepts
@@ -36,6 +40,6 @@ class Tracks::ConceptsController < ApplicationController
 
   def use_concept
     @concept = @track.concepts.find(params[:id])
-    @concept_summary = @user_track.summary.concept(@concept.slug)
+    @concept_summary = @user_track_summary.concept(@concept.slug)
   end
 end

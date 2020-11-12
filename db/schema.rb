@@ -137,7 +137,6 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.bigint "user_id", null: false
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false
-    t.integer "status", default: 0, null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
     t.datetime "downloaded_at"

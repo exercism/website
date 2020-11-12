@@ -2,6 +2,21 @@ import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
 
+type SolutionProps = {
+  trackTitle: string
+  trackIconUrl: string
+  menteeAvatarUrl: string
+  menteeHandle: string
+  exerciseTitle: string
+  isStarred: boolean
+  haveMentoredPreviously: boolean
+  status: string
+  updatedAt: string
+  url: string
+  showMoreInformation: (e: React.MouseEvent | React.FocusEvent) => void
+  hideMoreInformation: () => void
+}
+
 export function Solution({
   trackTitle,
   trackIconUrl,
@@ -15,7 +30,7 @@ export function Solution({
   url,
   showMoreInformation,
   hideMoreInformation,
-}) {
+}: SolutionProps) {
   return (
     <tr
       onMouseEnter={showMoreInformation}

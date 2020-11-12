@@ -65,16 +65,17 @@
           = render "tracks/exercises/show/action_box_start", exercise: @exercise
 
         - else
-          %h3
-            = icon :lock, "This exercise is locked"
-            Unlock #{@exercise.title}
-          %p
-            This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
-            %strong #{@exercise.title}.
+          .action-box
+            %h3
+              = icon :lock, "This exercise is locked"
+              Unlock #{@exercise.title}
+            %p
+              This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
+              %strong #{@exercise.title}.
 
-          .prereqs
-            - @exercise.prerequisite_exercises.each do |prereq|
-              = render ViewComponents::Widgets::Exercise.new(prereq, @user_track, large: false)
+            .prereqs
+              - @exercise.prerequisite_exercises.each do |prereq|
+                = render ViewComponents::Widgets::Exercise.new(prereq, @user_track, large: false)
 
       - else
         / TODO: External state

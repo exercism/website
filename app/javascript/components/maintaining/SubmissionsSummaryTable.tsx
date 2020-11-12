@@ -3,6 +3,19 @@ import 'actioncable'
 
 import consumer from '../../utils/action-cable-consumer'
 
+type Submission = {
+  id: string
+  track: string
+  exercise: string
+  testsStatus: string
+  representationStatus: string
+  analysisStatus: string
+}
+
+type SubmissionFromChannel = {
+  submission: Submission
+}
+
 function SubmissionsSummaryTableRow({
   id,
   track,
@@ -10,7 +23,7 @@ function SubmissionsSummaryTableRow({
   testsStatus,
   representationStatus,
   analysisStatus,
-}) {
+}: Submission) {
   return (
     <tr>
       <td>{id}</td>
@@ -23,11 +36,15 @@ function SubmissionsSummaryTableRow({
   )
 }
 
-export function SubmissionsSummaryTable({ submissions }) {
+export function SubmissionsSummaryTable({
+  submissions,
+}: {
+  submissions: Submission[]
+}) {
   const [stateSubmissions, setSubmissions] = useState(submissions)
 
   useEffect(() => {
-    const received = (data) => {
+    const received = (data: SubmissionFromChannel) => {
       const existingSubmissions = [...stateSubmissions]
       const existingIndex = existingSubmissions.findIndex(
         (submission) => submission.id === data.submission.id
@@ -62,7 +79,7 @@ export function SubmissionsSummaryTable({ submissions }) {
         </tr>
       </thead>
       <tbody>
-        {stateSubmissions.map((submission, idx) => (
+        {stateSubmissions.map((submission) => (
           <SubmissionsSummaryTableRow
             key={submission.id}
             id={submission.id}
@@ -71,7 +88,6 @@ export function SubmissionsSummaryTable({ submissions }) {
             testsStatus={submission.testsStatus}
             representationStatus={submission.representationStatus}
             analysisStatus={submission.analysisStatus}
-            idx={idx}
           />
         ))}
       </tbody>

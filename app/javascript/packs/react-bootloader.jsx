@@ -1,8 +1,9 @@
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { createPopper } from '@popperjs/core'
 
 const render = (elem, component) => {
-  ReactDOM.render(component, elem)
+  ReactDOM.render(<React.StrictMode>{component}</React.StrictMode>, elem)
 
   const unloadOnce = () => {
     ReactDOM.unmountComponentAtNode(elem)

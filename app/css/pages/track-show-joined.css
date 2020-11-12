@@ -108,6 +108,56 @@
             }
         }
     }
+    & section.updates {
+        @apply bg-white rounded-8 py-24 px-32 shadow-lg;
+        & h2 {
+            @apply flex items-center text-h4 mb-16;
+
+            & .c-icon {
+                width: 24px;
+                height: 24px;
+                @apply mr-16;
+            }
+        }
+
+        & .updates {
+            & .update {
+                @apply grid gap-20 mb-12;
+                grid-template-columns: 32px auto 72px;
+
+                & .icon {
+                    & .c-icon {
+                        height: 32px;
+                        width: 32px;
+                    }
+                }
+
+                & .info {
+                    & .desc {
+                        @apply text-16 leading-paragraph;
+                        & strong {
+                            @apply font-medium;
+                        }
+                    }
+
+                    & time {
+                        @apply text-label-timestamp;
+                    }
+                }
+
+                & .faces {
+                    & .c-rounded-bg-img {
+                        height: 32px;
+                        width: 32px;
+                    }
+                }
+            }
+        }
+        & .c-prominent-link {
+            @apply mt-24;
+        }
+    }
+
     & section.activities {
         @apply mb-64;
 

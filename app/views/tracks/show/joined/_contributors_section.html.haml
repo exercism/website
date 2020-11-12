@@ -1,0 +1,43 @@
+%section.contributors
+  %header
+    %h2
+      = graphical_icon(:contributors)
+      Contributors
+    .count{ 'aria-label': "#{123 * 1} Contributors" } 123
+
+  %ol.showcase{ "aria-label": "Top contributors" }
+    %li{ "data-tooltip-type": "user-summary", "data-tooltip-url": summary_api_profile_path(1) }
+      = link_to "#", "aria-label": "View profile of Erik Schierboom" do
+        = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+        .name Erik Schierboom
+        .c-reputation{ 'aria-label': "#{123 * 1} reputation" }
+          = icon(:reputation, "Reputation")
+          123
+    %li
+      = link_to "#", "aria-label": "View profile of Rob Keim" do
+        = rounded_bg_img("https://avatars2.githubusercontent.com/u/17816791?s=460&u=75b8876b2ec4d897e946888493a7fc7b7d97ec55&v=4", "Erik SchierBOOM's uploaded avatar")
+        .name Rob Keim
+        .c-reputation{ 'aria-label': "#{456 * 1} reputation" }
+          = icon(:reputation, "Reputation")
+          456
+
+  %ol.faces{ "aria-label": "Other significant contributors" }
+    %li= rounded_bg_link("https://avatars3.githubusercontent.com/u/2716614?s=460&u=7403dc7f80ccfd983705a1637fac1b12d2dcbad2&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars1.githubusercontent.com/u/20866761?s=400&u=9444c34f830fe94f2b68995646ed405a65911a91&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars3.githubusercontent.com/u/6624571?s=400&u=ca3801c9d18d8aa124738c8e8db470cbe5fd5814&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars2.githubusercontent.com/u/7852553?s=400&u=6227e3aeff0e649cce5483fca11deb3cc6481319&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars2.githubusercontent.com/u/281700?s=400&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars0.githubusercontent.com/u/6251883?s=400&u=1111c5251e1c1bbf6b45790b6ffa4a919c502bd6&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars2.githubusercontent.com/u/1964376?s=400&u=591370994dd91ec3d5f2a345252a653406858be0&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= rounded_bg_link("https://avatars2.githubusercontent.com/u/365425?s=400&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+    %li= link_to "See all", "#", class: "all", "aria-label": "See all contributors for this track"
+
+  .cta
+    %h3
+      We
+      %span{ 'aria-label': "love" } 💙
+      our contributors
+    %p Exercism relies on open-source contributors to build our language tracks and mentor students.
+    = link_to "Contribute to the #{track.title} track ->", "#"
+
+

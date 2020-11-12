@@ -82,6 +82,7 @@ module.exports = {
       regular: '138%',
       paragraph: '150%',
       code: '160%',
+      huge: '170%',
     },
     spacing: {
       '4': '4px',

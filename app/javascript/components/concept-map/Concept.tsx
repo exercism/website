@@ -22,6 +22,7 @@ export const Concept = ({
   handleLeave,
   status,
   isActive,
+  isActiveHover,
   exercises = 0,
   exercisesCompleted = 0,
 }: IConcept & {
@@ -29,6 +30,7 @@ export const Concept = ({
   handleLeave: MouseEventHandler
   status: ConceptStatus
   isActive: boolean
+  isActiveHover: boolean
 }): JSX.Element => {
   const [visibility, setVisibility] = useState<Visibility>('hidden')
   const conceptRef = useRef(null)
@@ -51,6 +53,9 @@ export const Concept = ({
   classes.push(status)
   if (isActive) {
     classes.push('active')
+  }
+  if (isActiveHover) {
+    classes.push('hover')
   }
   if (visibility === 'hidden') {
     classes.push('hidden')
@@ -86,7 +91,11 @@ export const Concept = ({
           hidden={!hasExercises || !isStarted}
         />
       </a>
-      <Tooltips.Concept endpoint={tooltip_url} />
+      <Tooltips.Concept
+        endpoint={tooltip_url}
+        parent={conceptRef.current}
+        triggerShow={isActiveHover}
+      />
     </>
   )
 }

@@ -77,6 +77,7 @@ export const ConceptMap = ({
                     handleLeave={unsetActiveSlug}
                     status={status[slug] ?? 'unavailable'}
                     isActive={isActive}
+                    isActiveHover={activeSlug === slug}
                   />
                 )
               })}

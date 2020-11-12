@@ -2,6 +2,20 @@ import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
 
+type ConversationProps = {
+  trackTitle: string
+  trackIconUrl: string
+  menteeAvatarUrl: string
+  menteeHandle: string
+  exerciseTitle: string
+  isStarred: boolean
+  haveMentoredPreviously: boolean
+  isNewSubmission: boolean
+  postsCount: number
+  updatedAt: string
+  url: string
+}
+
 export function Conversation({
   trackTitle,
   trackIconUrl,
@@ -14,7 +28,7 @@ export function Conversation({
   postsCount,
   updatedAt,
   url,
-}) {
+}: ConversationProps) {
   return (
     <tr>
       <td>

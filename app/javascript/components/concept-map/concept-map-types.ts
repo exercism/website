@@ -3,6 +3,7 @@ export type ConceptStatus = 'available' | 'unavailable' | 'completed'
 export interface IConcept {
   slug: string
   web_url: string
+  tooltip_url: string
   name: string
   exercises?: number
   exercisesCompleted?: number

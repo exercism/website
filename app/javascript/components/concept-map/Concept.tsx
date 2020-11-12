@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { CompleteIcon } from './CompleteIcon'
+import * as Tooltips from '../tooltips'
+import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 import { IConcept, ConceptStatus } from './concept-map-types'
 
@@ -10,12 +12,12 @@ import {
   Visibility,
 } from './helpers/concept-visibility-handler'
 import { wrapAnimationFrame } from './helpers/animation-helpers'
-import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 export const Concept = ({
   slug,
   name,
   web_url,
+  tooltip_url,
   handleEnter,
   handleLeave,
   status,
@@ -60,41 +62,32 @@ export const Concept = ({
     classes.push('not-started')
   }
 
-  if (slug === 'basics') {
-    console.log({
-      slug,
-      name,
-      web_url,
-      handleEnter,
-      handleLeave,
-      status,
-      isActive,
-      exercises,
-      exercisesCompleted,
-    })
-  }
-
   return (
-    <a
-      ref={conceptRef}
-      href={web_url}
-      id={conceptSlugToId(slug)}
-      className={classes.join(' ')}
-      data-concept-slug={slug}
-      data-concept-status={status}
-      onMouseEnter={wrapAnimationFrame(handleEnter)}
-      onMouseLeave={wrapAnimationFrame(handleLeave)}
-    >
-      <div className="display">
-        <div className="name">{name}</div>
-        <CompleteIcon show={hasExercises && exercises === exercisesCompleted} />
-      </div>
-      <PureExerciseProgressBar
-        completed={exercisesCompleted}
-        exercises={exercises}
-        hidden={!hasExercises || !isStarted}
-      />
-    </a>
+    <>
+      <a
+        ref={conceptRef}
+        href={web_url}
+        id={conceptSlugToId(slug)}
+        className={classes.join(' ')}
+        data-concept-slug={slug}
+        data-concept-status={status}
+        onMouseEnter={wrapAnimationFrame(handleEnter)}
+        onMouseLeave={wrapAnimationFrame(handleLeave)}
+      >
+        <div className="display">
+          <div className="name">{name}</div>
+          <CompleteIcon
+            show={hasExercises && exercises === exercisesCompleted}
+          />
+        </div>
+        <PureExerciseProgressBar
+          completed={exercisesCompleted}
+          exercises={exercises}
+          hidden={!hasExercises || !isStarted}
+        />
+      </a>
+      <Tooltips.Concept endpoint={tooltip_url} />
+    </>
   )
 }
 

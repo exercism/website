@@ -5,6 +5,8 @@
 
     @apply shadow-lg rounded-8 py-20 px-24 bg-white;
 
+    transition: opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
+
     & .c-concept-icon {
         @apply mr-16;
     }

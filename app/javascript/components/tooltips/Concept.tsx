@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { usePopper } from 'react-popper'
 import { useQuery } from 'react-query'
 import { Loading } from '../common/Loading'
@@ -6,58 +6,37 @@ import { Loading } from '../common/Loading'
 export const Concept = ({
   endpoint,
   parent,
-  triggerShow,
+  requestToShow,
 }: {
   endpoint: string
   parent: HTMLElement | null
-  triggerShow: boolean
+  requestToShow: boolean
 }): JSX.Element => {
   const { isLoading, isError, data: html_content } = useQuery(
     'concept-tooltip',
     () => fetch(endpoint).then((res) => res.text())
   ) as { isLoading: boolean; isError: boolean; data: string }
 
+  const [show, setShow] = useState(false)
   const tooltipRef = useRef(null)
 
   const popper = usePopper(parent, tooltipRef.current, {
-    modifiers: [{ name: 'offset', options: { offset: [null, 8] } }],
+    placement: 'bottom',
+    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
   })
 
-  const [isHover, setIsHover] = useState<boolean>(false)
-  const [show, setShow] = useState<boolean>(false)
-  const [hideTimeout, setHideTimeout] = useState<undefined | number>(undefined)
-
-  const hideTooltip = useCallback(() => {
-    if (hideTimeout) {
-      clearTimeout(hideTimeout)
-    }
-
-    setHideTimeout(
-      setTimeout(() => {
-        setShow(false)
-      }, 200)
-    )
-  }, [hideTimeout])
-
-  const showTooltip = useCallback(() => {
-    if (hideTimeout) {
-      clearTimeout(hideTimeout)
-      setHideTimeout(hideTimeout)
-    }
-    setShow(true)
-  }, [hideTimeout])
-
   useEffect(() => {
-    console.log({ hideTooltip, showTooltip, triggerShow })
-    if (triggerShow) {
-      showTooltip()
+    if (requestToShow && popper?.update) {
+      popper.update()
+      setShow(true)
       return
     }
 
-    hideTooltip()
-
-    return () => {}
-  }, [hideTooltip, showTooltip, triggerShow])
+    setShow(false)
+  }, [requestToShow]) // eslint-disable-line react-hooks/exhaustive-deps
+  // If I ignore the exhaustive deps and only have requestToShow, it works.  If I have
+  // the exhaustive deps added (popper) it causes inf loop due to popper reference changing
+  // on every render.
 
   const styles = { ...popper.styles.popper, zIndex: 10 }
   const classNames = `c-tooltip c-concept-tooltip ${
@@ -89,8 +68,6 @@ export const Concept = ({
       {...popper.attributes.popper}
       role="tooltip"
       dangerouslySetInnerHTML={{ __html: html_content }}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
     ></div>
   )
 }

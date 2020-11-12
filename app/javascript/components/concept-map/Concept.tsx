@@ -34,6 +34,9 @@ export const Concept = ({
 }): JSX.Element => {
   const [visibility, setVisibility] = useState<Visibility>('hidden')
   const conceptRef = useRef(null)
+  const [hasFocus, setHasFocus] = useState<boolean>(
+    document.activeElement === conceptRef.current
+  )
 
   useEffect(() => {
     const current = conceptRef.current
@@ -68,7 +71,7 @@ export const Concept = ({
   }
 
   return (
-    <>
+    <div onFocus={() => setHasFocus(true)} onBlur={() => setHasFocus(false)}>
       <a
         ref={conceptRef}
         href={web_url}
@@ -94,11 +97,16 @@ export const Concept = ({
       <Tooltips.Concept
         endpoint={tooltip_url}
         parent={conceptRef.current}
-        triggerShow={isActiveHover}
+        requestToShow={isActiveHover || hasFocus}
       />
-    </>
+    </div>
   )
 }
+
+// focus on concept / focus-blur
+// focus on tooltip / focus-blur
+// focus inside tooltip
+// no focus
 
 export const PureConcept = React.memo(Concept)
 

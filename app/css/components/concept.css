@@ -1,0 +1,15 @@
+.c-concept {
+    @apply flex flex-col;
+    @apply bg-white rounded-8 shadow-base;
+    @apply text-14 font-semibold;
+
+    & .info {
+        @apply flex items-center py-8 px-16;
+    }
+    & .c-concept-icon {
+        @apply mr-8;
+    }
+    .c-concept-progress-bar {
+        height: 6px;
+    }
+}

@@ -17,11 +17,6 @@ class SolutionTest < ActiveSupport::TestCase
       assert_equal uuid, solution.uuid
     end
 
-    test "#{solution_type}: status defaults to 0" do
-      solution = create solution_type
-      assert_equal 'pending', solution.status
-    end
-
     test "#{solution_type}: git_slug and git_sha are set correctly" do
       solution = create solution_type
       assert_equal solution.track.git_head_sha, solution.git_sha

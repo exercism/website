@@ -1,0 +1,48 @@
+@import "../styles";
+
+.c-user-activity {
+    @apply shadow-lg py-16 px-24 bg-white rounded-8;
+    @apply flex flex-row;
+
+    & .--descriptive-icon {
+        height: 24px;
+        width: 24px;
+        @apply mr-24;
+    }
+
+    & .--info {
+        @apply flex-grow;
+        & .--description {
+            @apply text-18 leading-paragraph mb-8 flex flex-wrap;
+
+            & .--exercise {
+                @apply flex font-medium;
+
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply ml-12 mr-12;
+                }
+            }
+        }
+        & time {
+            @apply text-label-timestamp;
+        }
+    }
+
+    & .--action-icon {
+        height: 16px;
+        width: 16px;
+        @apply ml-24 self-center;
+    }
+}
+.c-user-activity-submitted-iteration {
+    & .--iteration {
+        @apply mt-12 rounded-8 shadow-sm border-1 border-borderLight;
+        @apply py-12 px-24 mb-12 flex;
+
+        & .c-iteration-summary {
+            @apply flex-grow;
+        }
+    }
+}

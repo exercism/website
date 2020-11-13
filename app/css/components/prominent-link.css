@@ -1,0 +1,10 @@
+.c-prominent-link {
+    @apply flex items-center;
+    @apply text-16 leading-paragraph text-lightBlue font-semibold;
+
+    & .c-icon {
+        height: 16px;
+        width: 16px;
+        @apply ml-12;
+    }
+}

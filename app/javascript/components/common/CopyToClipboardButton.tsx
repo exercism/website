@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
+import { Icon } from './Icon'
 
 const KEY_NAMES = Object.freeze({
   SPACE: ' ',
@@ -74,10 +75,11 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       onClick={onClick}
       onFocus={onFocus}
       onBlur={onBlur}
-      className={`c-copy-to-clipboard-button ${justCopied ? 'copied' : ''}`}
+      className={`c-copy-text-to-clipboard ${justCopied ? 'copied' : ''}`}
       aria-label={`Copy ${textToCopy} to the cliboard`}
     >
-      {justCopied ? 'Copied' : 'Copy'}
+      <div className="text">exercism download --exercise=pattern</div>
+      <Icon icon="clipboard" alt="Copy to clipboard" />
     </button>
   )
 }

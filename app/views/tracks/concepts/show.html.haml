@@ -1,9 +1,9 @@
 #page-concept-show
-  = ViewComponents::Track::ConceptNav.new(@track)
+  = render ViewComponents::Track::ConceptNav.new(@track)
 
   %header.concept-header
     .lg-container.container
-      .concept-icon= @concept.name[0, 2]
+      = render ViewComponents::ConceptIcon.new(@concept, :huge)
       .info
         %h1
           = @concept.name
@@ -13,11 +13,12 @@
           = graphical_icon(:exercises)
           5 exercises
       .progress.tw-w-5-7
-        %progress
-        .progress-text
-          0 of
-          = pluralize(@practice_exercises.size + @concept_exercises.size, "exercise")
-          complete
+        = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
+        .progress-text{ class: @user_track.concept_mastered?(@concept) ? 'completed' : '' }
+          = graphical_icon "completed-check-circle"
+          #{@user_track.num_completed_exercises_for_concept(@concept)}/#{@user_track.num_exercises_for_concept(@concept)}
+          = 'exercise'.pluralize(@user_track.num_exercises_for_concept(@concept))
+          completed
 
   %section.lg-container.tw-flex
     .tw-flex-grow.tw-w-arbitary
@@ -49,7 +50,7 @@
 
           .exercises
             - @concept_exercises.each do |concept_exercise|
-              = ViewComponents::Widgets::Exercise.new(concept_exercise)
+              = render ViewComponents::Widgets::Exercise.new(concept_exercise, @user_track)
 
       - if @practice_exercises.present?
         .practice
@@ -57,4 +58,4 @@
 
           .exercises
             - @practice_exercises.each do |practice_exercise|
-              = ViewComponents::Widgets::Exercise.new(practice_exercise)
+              = render ViewComponents::Widgets::Exercise.new(practice_exercise, @user_track)

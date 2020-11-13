@@ -1,107 +1,37 @@
 :css
-  body {
-    font-family: sans-serif;
+  #maintaining-submissions {
+    padding:25px 5%;
     font-size: 16px;
-    padding: 5%;
-  }
-  .field {
-    margin-bottom: 15px;
-  }
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-weight: normal;
-  }
-  input,
-  textarea {
-    border: 1px solid #aaa;
-    padding: 10px;
-    border-radius: 3px;
-  }
-  select {
-    border: 1px solid #aaa;
-    padding: 7px;
-    border-radius: 3px;
-  }
-  table {
-    border-collapse: collapse;
   }
   h2 {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
   }
   th {
     border: 1px solid #ddd;
     border-bottom: 1px solid #888;
     padding: 10px;
+    text-align:left;
+    font-weight:600px;
   }
   td {
     border: 1px solid #ddd;
     border-bottom: 1px solid #aaa;
     padding: 10px;
+    white-space: pre;
+    font:monospace;
   }
-  hr {
-    margin: 20px 0;
-  }
-  button {
-    background: #009cab;
-    color: #fff;
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-  }
+  td:nth-child(1) { width:50px; }
+  td:nth-child(2) { width:50px; }
+  td:nth-child(3) { width:50px; }
+  td:nth-child(4) { width:auto; font-family: monospace;}
+  td:nth-child(5) { width:50px; }
+  td:nth-child(6) { width:50px; }
 
-  .page {
-    display: grid;
-    grid-template-columns: 50% 5% 45%;
-  }
-  .forms {
-    grid-row-start: 1;
-    grid-column-start: 3;
-    border-left: 1px solid #ddd;
-    padding-left: 5%;
-  }
-  .info {
-    grid-row-start: 1;
-    grid-column-start: 1;
-  }
-  hr {
-    border: 1px solid #ddd;
-  }
-.page
-  .forms
-    %h2 Create New Submission
-    = form_with url: tmp_submissions_path do
-      .field
-        = label_tag(:track_slug, "Track slug:")
-        = select_tag(:track_slug, options_for_select(Track.all.sort_by(&:title).map { |t| [t.title, t.slug] }))
-      .field
-        = label_tag(:exercise_slug, "Exercise slug:")
-        = text_field_tag(:exercise_slug, nil, placeholder: 'E.g. two-fer', required: true)
-      .field
-        = label_tag(:exercise_filename, "Exercise filename:")
-        = text_field_tag(:exercise_filename, nil, placeholder: 'E.g. two_fer.rb', required: true)
-      .field
-        = label_tag(:exercise_implementation, "Exercise implementation:")
-        = text_area_tag(:exercise_implementation, nil, size: "40x15", placeholder: "E.g.\n\nclass TwoFer\n  def self.two_fer(name = 'you')\n    \"One for #\{name\}, one for me.\"\n  end\nend", required: true)
-      .field
-        = button_tag "Submit submission"
-    %hr/
-    %h2 Create Track
-    = form_with url: tmp_tracks_path, remote: false do
-      .field
-        = label_tag(:track_slug, "Track slug:")
-        = text_field_tag(:track_slug, nil, placeholder: 'E.g. csharp', required: true)
-      .field
-        = label_tag(:track_title, "Track title:")
-        = text_field_tag(:track_title, nil, placeholder: 'E.g. C#', required: true)
-      .field
-        = label_tag(:repo_url, "GitHub Repo:")
-        = text_field_tag(:repo_url, nil, placeholder: 'https://github.com/exercism/csharp', required: true)
-      .field
-        = button_tag "Add track"
-  .info
-    %h2 Submissions
-    = ViewComponents::Maintaining::SubmissionsSummaryTable.new(@submissions)
+#maintaining-submissions
+  %h2.text-h3 Submissions
+  = ReactComponents::Maintaining::SubmissionsSummaryTable.new(@submissions)

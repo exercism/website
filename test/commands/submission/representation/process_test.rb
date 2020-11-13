@@ -4,16 +4,14 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
   test "creates submission representation record" do
     submission = create :submission
     ops_status = 200
-    ops_message = "some ops message"
     ast = "here(lives(an(ast)))"
 
-    Submission::Representation::Process.(submission.uuid, ops_status, ops_message, ast, {})
+    Submission::Representation::Process.(submission.uuid, ops_status, ast, {})
 
     assert_equal 1, submission.reload.representations.size
     representation = submission.reload.representations.first
 
     assert_equal ops_status, representation.ops_status
-    assert_equal ops_message, representation.ops_message
     assert_equal ast, representation.ast
   end
 
@@ -23,7 +21,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     mapping = { 'foo' => 'bar' }
 
-    Submission::Representation::Process.(submission.uuid, 200, "", ast, mapping)
+    Submission::Representation::Process.(submission.uuid, 200, ast, mapping)
 
     assert_equal 1, Exercise::Representation.count
     representation = Exercise::Representation.first
@@ -44,20 +42,20 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission_2 = create :submission, solution: solution
     submission_3 = create :submission, solution: solution
 
-    Submission::Representation::Process.(submission_1.uuid, 200, "", "ast 1", {})
-    Submission::Representation::Process.(submission_2.uuid, 200, "", "ast 1", {})
+    Submission::Representation::Process.(submission_1.uuid, 200, "ast 1", {})
+    Submission::Representation::Process.(submission_2.uuid, 200, "ast 1", {})
 
     assert_equal 2, Submission::Representation.count
     assert_equal 1, Exercise::Representation.count
 
-    Submission::Representation::Process.(submission_3.uuid, 200, "", "ast 2", {})
+    Submission::Representation::Process.(submission_3.uuid, 200, "ast 2", {})
     assert_equal 3, Submission::Representation.count
     assert_equal 2, Exercise::Representation.count
   end
 
   test "handle ops error" do
     submission = create :submission
-    Submission::Representation::Process.(submission.uuid, 500, "", "ast", {})
+    Submission::Representation::Process.(submission.uuid, 500, "ast", {})
 
     assert submission.reload.representation_exceptioned?
   end
@@ -72,7 +70,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
       action: :approve
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, "", ast, {})
+    Submission::Representation::Process.(submission.uuid, 200, ast, {})
 
     assert submission.reload.representation_approved?
   end
@@ -87,7 +85,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
       action: :disapprove
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, "", ast, {})
+    Submission::Representation::Process.(submission.uuid, 200, ast, {})
 
     assert submission.reload.representation_disapproved?
   end
@@ -107,7 +105,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
       feedback_markdown: feedback
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, "", ast, {})
+    Submission::Representation::Process.(submission.uuid, 200, ast, {})
 
     assert submission.reload.representation_disapproved?
     assert_equal 1, submission.reload.discussion_posts.size
@@ -125,7 +123,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
       action: :pending
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, "", ast, {})
+    Submission::Representation::Process.(submission.uuid, 200, ast, {})
 
     assert submission.reload.representation_inconclusive?
   end
@@ -144,6 +142,6 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     SubmissionChannel.expects(:broadcast!).with(submission)
     SubmissionsChannel.expects(:broadcast!).with(submission.solution)
 
-    Submission::Representation::Process.(submission.uuid, 200, "", ast, {})
+    Submission::Representation::Process.(submission.uuid, 200, ast, {})
   end
 end

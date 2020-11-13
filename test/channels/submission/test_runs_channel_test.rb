@@ -9,7 +9,7 @@ class Submission::TestRunsChannelTest < ActionCable::Channel::TestCase
       raw_results: { message: nil }
 
     assert_broadcast_on(
-      submission,
+      submission.id,
       test_run: {
         id: test_run.id,
         submission_uuid: test_run.submission.uuid,

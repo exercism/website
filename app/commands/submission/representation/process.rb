@@ -3,10 +3,9 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(submission_uuid, ops_status, ops_message, ast, mapping)
+      def initialize(submission_uuid, ops_status, ast, mapping)
         @submission = Submission.find_by!(uuid: submission_uuid)
         @ops_status = ops_status.to_i
-        @ops_message = ops_message
         @ast = ast
         @mapping = mapping
       end
@@ -17,7 +16,6 @@ class Submission
         @submission_representation = Submission::Representation.create!(
           submission: submission,
           ops_status: ops_status,
-          ops_message: ops_message,
           ast: ast
         )
 
@@ -52,7 +50,7 @@ class Submission
 
         submission.broadcast!
       end
-      attr_reader :submission, :ops_status, :ops_message, :ast, :mapping
+      attr_reader :submission, :ops_status, :ast, :mapping
       attr_reader :submission_representation, :exercise_representation
 
       private

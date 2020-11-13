@@ -14,6 +14,7 @@ module.exports = {
       none: '0',
       '5': '5px',
       '8': '8px',
+      '12': '12px',
       '100': '100px',
       circle: '100%',
     },
@@ -31,6 +32,7 @@ module.exports = {
     colors: {
       unnamed15: '#F0F3F9',
       unnamed16: '#8480A0',
+      randomBlue: '#F9F8FF',
 
       transparent: 'transparent',
       current: 'currentColor',
@@ -52,7 +54,9 @@ module.exports = {
       darkGray: '#26282D',
 
       darkGreen: '#43B593',
+      mediumGreen: '#B8EADB',
       lightGreen: '#ABDBCC',
+      tooManyGreens: '#59D2AE',
 
       orange: '#F69605',
       red: '#EB5757',
@@ -80,6 +84,7 @@ module.exports = {
       regular: '138%',
       paragraph: '150%',
       code: '160%',
+      huge: '170%',
     },
     spacing: {
       '4': '4px',
@@ -94,7 +99,9 @@ module.exports = {
       '36': '36px',
       '40': '40px',
       '48': '48px',
+      '56': '56px',
       '64': '64px',
+      '80': '80px',
       spacedColumns: '70px',
     },
     width: {

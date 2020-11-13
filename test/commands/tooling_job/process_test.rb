@@ -2,37 +2,18 @@ require 'test_helper'
 
 class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to test run" do
-    id = SecureRandom.uuid
-    type = "test_runner"
-    submission_uuid = "submission-uuid"
+    submission = create :submission
     execution_status = "job-status"
     results = { 'some' => 'result' }
-    s3_key = "#{id}/results.json"
-
-    upload_to_s3(
-      Exercism.config.aws_tooling_jobs_bucket,
-      s3_key,
-      results.to_json
-    )
-    write_to_dynamodb(
-      Exercism.config.dynamodb_tooling_jobs_table,
-      {
-        "id" => id,
-        "type" => type,
-        "submission_uuid" => submission_uuid,
-        "execution_status" => execution_status,
-        "output" => { "results.json" => s3_key }
-      }
+    job = create_test_runner_job!(
+      submission,
+      execution_status: execution_status,
+      results: results
     )
 
-    Submission::TestRun::Process.expects(:call).with(
-      submission_uuid,
-      execution_status,
-      "Nothing to report",
-      results
-    )
+    Submission::TestRun::Process.expects(:call).with(job)
 
-    ToolingJob::Process.(id)
+    ToolingJob::Process.(job.id)
   end
 
   test "proxies to representer" do
@@ -41,21 +22,8 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     submission_uuid = "submission-uuid"
     execution_status = "job-status"
     representation_contents = "some\nrepresentation"
-    representation_s3_key = "#{id}/representation.txt"
-
     mapping_contents = { 'foo' => 'bar' }
-    mapping_s3_key = "#{id}/mapping.json"
 
-    upload_to_s3(
-      Exercism.config.aws_tooling_jobs_bucket,
-      representation_s3_key,
-      representation_contents
-    )
-    upload_to_s3(
-      Exercism.config.aws_tooling_jobs_bucket,
-      mapping_s3_key,
-      mapping_contents.to_json
-    )
     write_to_dynamodb(
       Exercism.config.dynamodb_tooling_jobs_table,
       {
@@ -63,9 +31,9 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
         "type" => type,
         "submission_uuid" => submission_uuid,
         "execution_status" => execution_status,
-        "output" => {
-          "representation.txt" => representation_s3_key,
-          "mapping.json" => mapping_s3_key
+        "execution_output" => {
+          "representation.txt" => representation_contents,
+          "mapping.json" => mapping_contents.to_json
         }
       }
     )
@@ -73,7 +41,6 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     Submission::Representation::Process.expects(:call).with(
       submission_uuid,
       execution_status,
-      "Nothing to report",
       representation_contents,
       mapping_contents
     )
@@ -87,13 +54,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     submission_uuid = "submission-uuid"
     execution_status = "job-status"
     analysis = { 'some' => 'result' }
-    s3_key = "#{id}/analysis.json"
 
-    upload_to_s3(
-      Exercism.config.aws_tooling_jobs_bucket,
-      s3_key,
-      analysis.to_json
-    )
     write_to_dynamodb(
       Exercism.config.dynamodb_tooling_jobs_table,
       {
@@ -101,14 +62,13 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
         "type" => type,
         "submission_uuid" => submission_uuid,
         "execution_status" => execution_status,
-        "output" => { "analysis.json" => s3_key }
+        "execution_output" => { "analysis.json" => analysis.to_json }
       }
     )
 
     Submission::Analysis::Process.expects(:call).with(
       submission_uuid,
       execution_status,
-      "Nothing to report",
       analysis
     )
 
@@ -121,13 +81,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     execution_status = "job-status"
     analysis = { 'some' => 'result' }
-    s3_key = "#{id}/analysis.json"
 
-    upload_to_s3(
-      Exercism.config.aws_tooling_jobs_bucket,
-      s3_key,
-      analysis.to_json
-    )
     write_to_dynamodb(
       Exercism.config.dynamodb_tooling_jobs_table,
       {
@@ -135,17 +89,12 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
         "type" => type,
         "submission_uuid" => submission.uuid,
         "execution_status" => execution_status,
-        "output" => { "analysis.json" => s3_key }
+        "execution_output" => { "analysis.json" => analysis.to_json }
       }
     )
 
     ToolingJob::Process.(id)
 
-    attrs = read_from_dynamodb(
-      Exercism.config.dynamodb_tooling_jobs_table,
-      { id: id },
-      %i[job_status]
-    )
-    assert_equal "processed", attrs["job_status"]
+    assert_equal "processed", ToolingJob.find(id).job_status
   end
 end

@@ -78,19 +78,6 @@ class Submission::CreateTest < ActiveSupport::TestCase
     Submission::Create.(solution, files, :cli)
   end
 
-  test "updates solution status" do
-    files = [{ filename: 'foo.bar', content: "foobar" }]
-
-    solution = create :concept_solution
-    assert_equal 'pending', solution.status
-    assert solution.pending?
-
-    Submission::UploadWithExercise.stubs(:call)
-    ToolingJob::Create.stubs(:call)
-    Submission::Create.(solution, [files.first], :cli)
-    assert_equal 'submitted', solution.reload.status
-  end
-
   test "award rookie badge job is enqueued" do
     # Generic setup
     files = [{ filename: 'foo.bar', content: "foobar" }]

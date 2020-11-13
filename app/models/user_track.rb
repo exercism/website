@@ -13,23 +13,32 @@ class UserTrack < ApplicationRecord
     )
   end
 
-  def self.for(user_param, track_param)
+  def self.for(user_param, track_param, external_if_missing: false)
     for!(user_param, track_param)
   rescue ActiveRecord::RecordNotFound
-    nil
+    return nil unless external_if_missing
+
+    begin
+      External.new(Track.for!(track_param))
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+  end
+
+  def external?
+    false
   end
 
   def solutions
     user.solutions.joins(:exercise).where("exercises.track_id": track)
   end
 
-  def learnt_concept?(concept)
-    learnt_concepts.include?(concept)
-  end
-
-  def concept_available?(concept)
-    available_concepts.include?(concept)
-  end
+  delegate :exercise_available?, :exercise_completed?,
+    :num_completed_exercises,
+    :num_concepts, :num_concepts_mastered,
+    :num_exercises_for_concept, :num_completed_exercises_for_concept,
+    :concept_available?, :concept_learnt?, :concept_mastered?,
+    to: :summary
 
   memoize
   def available_concept_exercises
@@ -41,65 +50,22 @@ class UserTrack < ApplicationRecord
     available_exercises.select { |e| e.is_a?(PracticeExercise) }
   end
 
-  def exercise_available?(exercise)
-    (exercise.prerequisites - learnt_concepts).empty?
-  end
-
   memoize
   def available_concepts
-    available_exercise_ids = available_exercises.map(&:id)
-    concept_ids = Exercise::TaughtConcept.where(exercise_id: available_exercise_ids).
-      select(:track_concept_id)
-
-    track.concepts.not_taught + Track::Concept.where(id: concept_ids)
+    Track::Concept.where(id: summary.available_concept_ids)
   end
 
   memoize
   def available_exercises
-    without_prereqs = track.exercises.without_prerequisites
-
-    return without_prereqs if learnt_concepts.blank?
-
-    ids = DetermineAvailableExercisesIds.(id)
-    without_prereqs + Exercise.where(id: ids)
+    Exercise.where(id: summary.available_exercise_ids)
   end
 
-  ###
-  # Inline helper for available exercises
-  ###
-  class DetermineAvailableExercisesIds
-    include Mandate
-
-    initialize_with :user_track_id
-
-    # Get two datasets.
-    # The second is the exercises with the count of all their prereq concepts
-    # The second is the exercises with the count of all their prereq concepts
-    # If the number is the same in both, then we have a match.
-    #
-    # Taken from https://stackoverflow.com/questions/48290118/sql-join-on-a-table-that-matches-multiple-rows-and-put-into-multiple-columns
-    def call
-      ActiveRecord::Base.connection.select_values(%{
-        SELECT
-          a.exercise_id
-        FROM
-          (
-            SELECT prereqs.exercise_id, COUNT(*) AS num_concepts
-            FROM user_track_learnt_concepts utc
-            INNER JOIN exercise_prerequisites prereqs
-              ON utc.track_concept_id = prereqs.track_concept_id
-            INNER JOIN exercises on exercises.id = prereqs.exercise_id
-            WHERE utc.user_track_id = #{user_track_id}
-            GROUP BY prereqs.exercise_id
-          ) a
-        INNER JOIN
-          (
-            SELECT exercise_id, COUNT(*) AS num_concepts
-            FROM exercise_prerequisites
-            GROUP BY exercise_id
-          ) b ON a.exercise_id = b.exercise_id AND a.num_concepts = b.num_concepts
-     })
-    end
+  private
+  # A track's summary is a effeciently created summary of all
+  # of a user_track's data. It's cached across requests, allowing
+  # us to quickly retrieve data without requiring lots of complex
+  # SQL queries.
+  def summary
+    @summary ||= UserTrack::GenerateSummary.(track, self)
   end
-  private_constant :DetermineAvailableExercisesIds
 end

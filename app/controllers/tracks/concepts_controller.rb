@@ -1,7 +1,7 @@
 class Tracks::ConceptsController < ApplicationController
   before_action :use_track
   before_action :use_concepts, only: :index
-  before_action :use_concept, only: %i[show start complete]
+  before_action :use_concept, only: %i[show tooltip start complete]
 
   skip_before_action :authenticate_user!, only: %i[index show]
 
@@ -19,16 +19,18 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def show
-    # TODO: We don't want this here really.
-    # Move it onto the concept eventually
-    @concept_exercises = ConceptExercise.that_teach(@concept)
-    @practice_exercises = PracticeExercise.that_practice(@concept)
+    @concept_exercises = @concept.concept_exercises
+    @practice_exercises = @concept.practice_exercises
+  end
+
+  def tooltip
+    render layout: false
   end
 
   private
   def use_track
     @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track)
+    @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
   end
 
   def use_concepts

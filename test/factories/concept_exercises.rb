@@ -4,5 +4,9 @@ FactoryBot.define do
     uuid { SecureRandom.uuid }
     slug { 'datetime' }
     title { slug.titleize }
+
+    trait :random_slug do
+      slug { SecureRandom.hex }
+    end
   end
 end

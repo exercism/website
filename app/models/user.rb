@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :submissions, through: :solutions, dependent: :destroy
   has_many :iterations, through: :solutions
 
+  has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
 
   has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition", dependent: :destroy

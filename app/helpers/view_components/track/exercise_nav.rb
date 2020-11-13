@@ -5,6 +5,7 @@ module ViewComponents
 
       def to_s
         GenericNav.new(
+          view_context,
           track,
           "c-track-exercise-nav",
           [

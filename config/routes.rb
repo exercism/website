@@ -44,7 +44,9 @@ Rails.application.routes.draw do
     resources :submissions, only: [:index]
   end
   resources :tracks, only: %i[index show] do
-    resources :concepts, only: %i[index show], controller: "tracks/concepts"
+    resources :concepts, only: %i[index show], controller: "tracks/concepts" do
+      get :tooltip, on: :member
+    end
 
     resources :exercises, only: %i[index show], controller: "tracks/exercises" do
       member do
@@ -96,9 +98,6 @@ Rails.application.routes.draw do
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
-        namespace :example do
-          get 'submissions_summary_table/:id', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
-        end
         namespace :notifications do
           resource :icon, only: %i[show update], controller: "icon"
         end
@@ -123,6 +122,9 @@ Rails.application.routes.draw do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
           resource :icons, controller: "icons", only: [:show]
         end
+      end
+      namespace :templates do
+        resource :concept_tooltip, only: "show"
       end
     end
   end

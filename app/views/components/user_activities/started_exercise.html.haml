@@ -1,0 +1,10 @@
+= link_to activity.url, class: 'c-user-activity c-user-activity-started-exercise' do
+  = graphical_icon :"check-circle", css_class: "--descriptive-icon"
+  .--info
+    .--description
+      = activity.text
+      .--exercise
+        = graphical_icon(activity.exercise_icon_name)
+        .--exercise-name= activity.exercise_title
+    %time{ datetime: activity.occurred_at } #{time_ago_in_words(activity.occurred_at)} ago
+  = graphical_icon :"chevron-right", css_class: "--action-icon"

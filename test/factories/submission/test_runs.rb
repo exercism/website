@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :submission_test_run, class: 'Submission::TestRun' do
     submission
+    tooling_job_id { SecureRandom.uuid }
+
     ops_status { 200 }
-    ops_message { "success" }
     raw_results do
       {
         status: "pass",

@@ -1,0 +1,20 @@
+@import "../styles";
+
+.c-copy-text-to-clipboard {
+    @apply border-1 border-textLight rounded-5;
+    @apply py-16 px-20 bg-white text-left;
+    @apply font-mono font-normal text-14;
+
+    @apply flex items-center;
+
+    & .text {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    & .c-icon {
+        height: 24px;
+        width: 24px;
+        @apply ml-16;
+    }
+}

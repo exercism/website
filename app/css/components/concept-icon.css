@@ -1,0 +1,42 @@
+.c-concept-icon {
+    width: 24px;
+    height: 24px;
+
+    @apply flex items-end;
+    @apply border-1 border-black;
+    vertical-align: bottom;
+    line-height: 0.9;
+
+    &.c--small {
+        width: 24px;
+        height: 24px;
+        padding: 3px;
+
+        font-size: 11px;
+    }
+
+    &.c--medium {
+        width: 32px;
+        height: 32px;
+        padding: 4px;
+
+        @apply text-14 font-semibold;
+    }
+
+    &.c--large {
+        width: 48px;
+        height: 48px;
+        padding: 6px;
+
+        border: 2px solid black;
+        @apply text-16 font-semibold;
+    }
+
+    &.c--huge {
+        width: 96px;
+        height: 96px;
+        border: 4px solid black;
+        font-size: 42px;
+        @apply font-bold flex p-8;
+    }
+}

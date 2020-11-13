@@ -24,11 +24,15 @@
             @apply btn-large-cta;
         }
     }
-    & .about-section {
-        @apply pt-64;
+    & .about-section,
+    & .features-section {
         & h2 {
             @apply text-h2;
         }
+    }
+
+    & .about-section {
+        @apply pt-64 mb-80;
 
         & .info {
             & p {
@@ -39,6 +43,39 @@
             @apply flex-shrink-0 w-1-2 ml-spacedColumns;
             @apply bg-white rounded-8 py-24 px-36;
             @apply shadow-base;
+
+            & pre {
+                @apply whitespace-pre-wrap;
+            }
+        }
+    }
+    & .features-section {
+        & h2 {
+            @apply mb-40;
+        }
+
+        & .features {
+            @apply grid gap-20;
+            grid-template-columns: repeat(3, auto);
+        }
+
+        & .feature {
+            @apply py-32 px-40 rounded-8 shadow-lg bg-white;
+        }
+
+        & .c-icon {
+            width: 60px;
+            height: 60px;
+            @apply mb-28;
+        }
+
+        & h3 {
+            @apply text-20 leading-paragraph font-semibold;
+            @apply mb-8;
+        }
+
+        & p {
+            @apply text-16 leading-paragraph;
         }
     }
 }

@@ -15,15 +15,19 @@ import '../../css/layout.css'
 import '../../css/site-header.css'
 
 import '../../css/components/bg-img.css'
+import '../../css/components/concept.css'
+import '../../css/components/concept-icon.css'
+import '../../css/components/concept-progress-bar.css'
+import '../../css/components/copy-text-to-clipboard.css'
 import '../../css/components/iteration-summary.css'
+import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
 import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
-import '../../css/components/tracks-list.css'
-import '../../css/components/track.css'
-import '../../css/components/tooltips/tooltip.css'
+import '../../css/components/tooltips/concept.css'
 import '../../css/components/tooltips/user-summary.css'
+import '../../css/components/user_activity.css'
 
 import '../../css/components/widgets/exercise.css'
 
@@ -34,6 +38,8 @@ import '../../css/components/track/exercise-nav.css'
 import '../../css/components/track/icon.css'
 
 import '../../css/pages/staging.css'
+import '../../css/pages/track-shared-index.css'
+import '../../css/pages/concepts-index.css'
 import '../../css/pages/concept-show.css'
 import '../../css/pages/exercise-show.css'
 import '../../css/pages/exercises-index.css'
@@ -46,7 +52,6 @@ import 'components/concept-map/ConceptMap.css'
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
-import * as Example from '../components/example'
 import * as Maintaining from '../components/maintaining'
 import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
@@ -61,12 +66,6 @@ import * as Tooltips from '../components/tooltips'
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  'example-submissions-summary-table': (data: any) => (
-    <Example.SubmissionsSummaryTable
-      solutionId={data.solution_id}
-      submissions={data.submissions}
-    />
-  ),
   'maintaining-submissions-summary-table': (data: any) => (
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),

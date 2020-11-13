@@ -7,13 +7,15 @@ class Tracks::ExercisesController < ApplicationController
 
   def index
     @exercises = @track.exercises
-    @num_completed = @user_track ? @user_track.solutions.completed.count : 0
+    @num_completed = @user_track.num_completed_exercises
   end
 
   # TODO: There is lots of logic in this view
   # that should be extracted into a view model
   # to allow for pre-caching of solution data
-  def show; end
+  def show
+    @iteration = @solution.iterations.last if @solution
+  end
 
   def start
     solution = Solution::Create.(current_user, @exercise)
@@ -28,7 +30,7 @@ class Tracks::ExercisesController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track)
+    @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
   end
 
   def use_exercise

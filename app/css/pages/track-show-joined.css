@@ -34,7 +34,7 @@
             @apply flex-grow;
         }
         & .rhs {
-            @apply w-1-3 ml-32;
+            @apply w-1-3 ml-32 flex-shrink-0;
         }
     }
     & section.contributors {
@@ -105,6 +105,192 @@
             }
             & a {
                 @apply block text-14 text-lightBlue font-semibold;
+            }
+        }
+    }
+    & section.updates {
+        @apply bg-white rounded-8 py-24 px-32 shadow-lg;
+        & h2 {
+            @apply flex items-center text-h4 mb-16;
+
+            & .c-icon {
+                width: 24px;
+                height: 24px;
+                @apply mr-16;
+            }
+        }
+
+        & .updates {
+            & .update {
+                @apply grid gap-20 mb-12;
+                grid-template-columns: 32px auto 72px;
+
+                & .icon {
+                    & .c-icon {
+                        height: 32px;
+                        width: 32px;
+                    }
+                }
+
+                & .info {
+                    & .desc {
+                        @apply text-16 leading-paragraph;
+                        & strong {
+                            @apply font-medium;
+                        }
+                    }
+
+                    & time {
+                        @apply text-label-timestamp;
+                    }
+                }
+
+                & .faces {
+                    & .c-rounded-bg-img {
+                        height: 32px;
+                        width: 32px;
+                    }
+                }
+            }
+        }
+        & .c-prominent-link {
+            @apply mt-24;
+        }
+    }
+
+    & section.activities {
+        @apply mb-64;
+
+        & .start-track-cta,
+        & .placeholder-activity {
+            @apply shadow-lg bg-white rounded-8;
+            @apply flex;
+        }
+
+        & .start-track-cta {
+            @apply py-24 px-32;
+
+            & h3 {
+                @apply text-h4 mb-8;
+            }
+
+            & p {
+                @apply text-16 leading-paragraph mb-24;
+            }
+
+            & .info {
+                @apply text-14 leading-paragraph text-textLight;
+            }
+
+            & .c-icon {
+                height: 48px;
+                width: 48px;
+                @apply mr-24;
+            }
+            & .actions {
+                @apply flex items-center;
+
+                & .btn-cta {
+                    @apply mr-32;
+                    width: 160px;
+                }
+                & .info {
+                    @apply flex-shrink;
+                    max-width: 300px;
+                }
+            }
+        }
+        & .placeholder-activity {
+            @apply py-16 px-24 items-center;
+
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                @apply mr-24;
+            }
+            & p {
+                @apply text-18 leading-paragraph text-textLight;
+            }
+        }
+        & > * {
+            & + * {
+                @apply mt-16 relative;
+                &:before {
+                    content: "";
+                    @apply absolute bg-borderLight;
+
+                    width: 2px;
+                    height: 16px;
+                    top: -16px;
+                    left: 36px;
+                }
+            }
+        }
+    }
+    & section.concepts {
+        @apply mb-64;
+
+        & .header {
+            @apply flex items-center mb-28;
+
+            & .c-icon {
+                width: 32px;
+                height: 32px;
+                @apply mr-16;
+            }
+            & h2 {
+                @apply text-h3;
+                @apply mr-16;
+            }
+            & .progress {
+                @apply py-8 px-12 text-textLight font-medium;
+                @apply border-1 border-textLight rounded-100;
+            }
+        }
+
+        & .concepts {
+            @apply grid gap-12;
+            grid-template-columns: repeat(1, auto);
+
+            & .concept {
+                @apply flex items-center py-24 px-32;
+                @apply bg-white rounded-8 shadow-lg;
+
+                & .c-concept-icon {
+                    @apply mr-24;
+                }
+                & .info {
+                    @apply flex-grow;
+
+                    & .name {
+                        @apply flex items-center text-h5 mb-6;
+
+                        & .c-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply ml-12;
+                        }
+                    }
+                    & .completion {
+                        @apply text-textLight font-medium;
+                    }
+                }
+                & .c-concept-progress-bar {
+                    max-width: 320px;
+                    @apply flex-grow ml-64;
+                    height: 6px;
+                }
+                & .action-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply ml-64;
+                }
+
+                &.completed {
+                    & .info .completion {
+                        @apply text-darkGreen;
+                    }
+                }
             }
         }
     }

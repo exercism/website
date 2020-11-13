@@ -1,0 +1,13 @@
+en:
+  user_activities:
+    started_exercise:
+      1: >
+        You started a new exercise
+
+    submitted_iteration:
+      1: >
+        You submitted an iteration to
+
+    completed_exercise:
+      1: >
+        You completed an exercise

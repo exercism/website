@@ -1,17 +1,16 @@
 #page-exercise-show
-  = ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :about)
+  = render ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :about)
 
   %header.exercise-header
     .lg-container.container
       = exercise_icon @exercise, css_class: "exercise-icon"
       .info
-        %h1= @exercise.title
-        .concepts
-          - if @exercise.concept_exercise?
-            - @exercise.taught_concepts.each.each do |concept|
-              = link_to track_concept_path(@track, concept), class: 'concept' do
-                .icon= concept.name[0, 2]
-                = concept.name
+        %h1
+          = @exercise.title
+          - if @solution&.completed?
+            = icon 'completed-check-circle', "Exercise is completed"
+        .difficulty Easy
+
       .makers
         .faces
           = rounded_bg_img("https://avatars2.githubusercontent.com/u/8953691?s=460&u=593aaf70d7708aa3a98eb0b49a212a45263bc065&v=4", "Erik SchierBOOM's uploaded avatar")
@@ -21,60 +20,52 @@
           .authors 2 authors
           .contributors 4 contributors
 
-  %section.lg-container.tw-flex
+  .lg-container.tw-flex
     .tw-w-arbitary.tw-flex-grow
-      .instructions.c-textual-content
+      - if @solution&.completed?
+        = render "tracks/exercises/show/completed_sections", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
+
+      - elsif @iteration
+
+        %section.latest-iteration
+          %h2 You’ve submitted an iteration.
+          %p We'll automatically analyze your solution and suggest potential improvements.
+
+          = link_to Exercism::Routes.track_exercise_iteration_path(@track, @exercise, @iteration), class: "iteration" do
+            = ReactComponents::Track::IterationSummary.new(@iteration)
+            = graphical_icon 'chevron-right', css_class: 'action-icon'
+
+          = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(@track))
+
+
+      - if @exercise.concept_exercise? && !@solution&.completed?
+        %section.taught-concepts
+          %h3
+            Completing #{@track.title} teaches
+            %strong= pluralize @exercise.taught_concepts.size, 'concept'
+          .concepts
+            - @exercise.taught_concepts.each.each do |concept|
+              = link_to track_concept_path(@track, concept), class: 'concept' do
+                = render ViewComponents::ConceptIcon.new(concept, :small)
+                = concept.name
+
+      %section.instructions.c-textual-content
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw ParseMarkdown.(instructions)
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
-      .action-box
-        - if @solution
-          - if @solution.completed?
-            %h3 You’ve completed this exercise.
-          - else
-            %h3 Continue #{@exercise.title}
-            %p You have submitted #{5 * 1} iterations for this exercise. Either continue improving your solution or mark the exercise as completed to proceed.
+      - if @solution
+        - if @solution.completed?
+          = render "tracks/exercises/show/action_box_completed"
+        - else
+          = render "tracks/exercises/show/action_box_continue", track: @track, exercise: @exercise
+      - elsif @user_track
+        - if @user_track.exercise_available?(@exercise)
+          = render "tracks/exercises/show/action_box_start", exercise: @exercise
 
-            %h4 Via Exercism Editor
-            = link_to edit_solution_path(@solution.uuid), class: "editor-btn btn-cta" do
-              = graphical_icon :editor
-              Open Editor
-
-            %h4 Work locally (via CLI)
-            = link_to "exercism download --exercise=pattern", "#", class: "cli-btn btn"
-            = link_to "#", class: "learn-more-cli" do
-              Learn more about solving exercises locally
-              = graphical_icon("arrow-right")
-
-            .complete
-              %h3 Done with the exercise?
-              = button_to complete_track_exercise_path(@track, @exercise), method: :patch, class: "btn" do
-                = graphical_icon("check-circle")
-                Mark as complete
-
-              .explanation By marking #{'Structs' * 1} as complete, you’ll unlock the concepts #{'Agent and Errors' * 1}.
-
-        - elsif @user_track
-          - if @user_track.exercise_available?(@exercise)
-            %h3 Start #{@exercise.title}
-            %p
-              %strong You can start this exercise.
-              Solve it via Exercism's in-browser editor or locally in your own environment, using our CLI to download and submit.
-
-            %h4 Via Exercism Editor
-            = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn-cta" do
-              = graphical_icon :editor
-              Start in Editor
-
-            %h4 Work locally (via CLI)
-            = link_to "exercism download --exercise=pattern", "#", class: "cli-btn btn"
-            = link_to "#", class: "learn-more-cli" do
-              Learn more about solving exercises locally
-              = graphical_icon("arrow-right")
-
-          - else
+        - else
+          .action-box
             %h3
               = icon :lock, "This exercise is locked"
               Unlock #{@exercise.title}
@@ -84,8 +75,8 @@
 
             .prereqs
               - @exercise.prerequisite_exercises.each do |prereq|
-                = ViewComponents::Widgets::Exercise.new(prereq, large: false)
+                = render ViewComponents::Widgets::Exercise.new(prereq, @user_track, large: false)
 
-        - else
-          / TODO: External state
-          External State
+      - else
+        / TODO: External state
+        External State

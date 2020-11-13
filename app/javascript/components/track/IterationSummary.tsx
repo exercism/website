@@ -72,12 +72,19 @@ export function IterationSummary(props: { iteration: Iteration }) {
       <div className="--info">
         <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
-          <div className="--dot"></div>
-          <div className="--latest">Latest</div>
+          <div className="--dot" role="presentation"></div>
+          <div className="--latest" aria-label="Latest iteration">
+            Latest
+          </div>
         </div>
-        <div className="--details" role="details">
+        <div className="--details" data-testid="details">
           Submitted via {SUBMISSION_METHOD_LABELS[iteration.submissionMethod]},{' '}
-          {fromNow(iteration.createdAt)}
+          <time
+            dateTime={iteration.createdAt.toString()}
+            title={iteration.createdAt.toString()}
+          >
+            {fromNow(iteration.createdAt)}
+          </time>
         </div>
       </div>
       <TestsStatusSummary testsStatus={iteration.testsStatus} />

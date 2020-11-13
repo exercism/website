@@ -1,0 +1,21 @@
+progress.c-concept-progress-bar {
+    @apply appearance-none w-100 rounded-8 overflow-hidden;
+    height: 6px;
+
+    &::-webkit-progress-bar {
+        @apply bg-veryLightBlue;
+    }
+    &[value] {
+        &::-webkit-progress-value {
+            @apply bg-lightBlue;
+        }
+    }
+
+    &.--completed {
+        &[value] {
+            &::-webkit-progress-value {
+                @apply bg-tooManyGreens;
+            }
+        }
+    }
+}

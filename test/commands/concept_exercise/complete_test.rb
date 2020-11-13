@@ -20,16 +20,17 @@ class ConceptExercise::CompleteTest < ActiveSupport::TestCase
   end
 
   test "sets concepts as learnt" do
-    concept = create :track_concept
-    exercise = create :concept_exercise
+    track = create :track
+    concept = create :track_concept, track: track
+    exercise = create :concept_exercise, track: track
     exercise.taught_concepts << concept
 
     user = create :user
-    ut = create :user_track, user: user, track: exercise.track
+    ut = create :user_track, user: user, track: track
     create :concept_solution, user: user, exercise: exercise
 
     ConceptExercise::Complete.(user, exercise)
 
-    assert ut.learnt_concept?(concept)
+    assert ut.concept_learnt?(concept)
   end
 end

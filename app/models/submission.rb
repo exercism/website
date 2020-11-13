@@ -41,11 +41,17 @@ class Submission < ApplicationRecord
   end
 
   def serialized
+    tests_data = tests_status
+    if tests_exceptioned?
+      job = ToolingJob.find(test_runs.last.tooling_job_id, full: true)
+      tests_data += "\n\n#{JSON.pretty_generate(job.execution_metadata)}"
+    end
+
     {
       id: id,
       track: track.title,
       exercise: exercise.title,
-      testsStatus: tests_status,
+      testsStatus: tests_data,
       representationStatus: representation_status,
       analysisStatus: analysis_status
     }

@@ -1,7 +1,7 @@
 module ViewComponents
   module Track
     class GenericNav < ViewComponent
-      initialize_with :track, :klass, :elements
+      initialize_with :view_context, :track, :klass, :elements
 
       def to_s
         tag.nav(class: klass) do

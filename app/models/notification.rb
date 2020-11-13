@@ -8,7 +8,7 @@ class Notification < ApplicationRecord
 
   before_create do
     self.version = latest_i18n_version
-    self.anti_duplicate_key = "#{user_id}-#{type_key}-#{guard_params}"
+    self.uniqueness_key = "#{user_id}-#{type_key}-#{guard_params}"
   end
 
   def read?
@@ -56,7 +56,7 @@ class Notification < ApplicationRecord
     I18n.backend.send(:init_translations)
     I18n.backend.send(:translations)[:en][:notifications][i18n_key].keys.first
   rescue StandardError
-    raise "Missing key for this notification"
+    raise "Missing i18n key for this notification"
   end
 
   def i18n_key

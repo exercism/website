@@ -3,16 +3,16 @@ require 'test_helper'
 class ToolingJob::CancelTest < ActiveSupport::TestCase
   test "cancels test runner job" do
     submission = create_submission
-    id = write_submission_to_dynamodb(submission, :test_runner)
+    job = create_test_runner_job!(submission)
 
     ToolingJob::Cancel.(submission.uuid, :test_runner)
 
-    assert_equal "cancelled", dynamodb_job_status(id)
+    assert_equal "cancelled", dynamodb_job_status(job.id)
   end
 
   test "set tests status to cancelled" do
     submission = create_submission
-    write_submission_to_dynamodb(submission, :test_runner)
+    create_test_runner_job!(submission)
 
     ToolingJob::Cancel.(submission.uuid, :test_runner)
 
@@ -21,16 +21,16 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
 
   test "cancels analysis job" do
     submission = create_submission
-    id = write_submission_to_dynamodb(submission, :analyzer)
+    job = create_tooling_job!(submission, :analyzer)
 
     ToolingJob::Cancel.(submission.uuid, :analyzer)
 
-    assert_equal "cancelled", dynamodb_job_status(id)
+    assert_equal "cancelled", dynamodb_job_status(job.id)
   end
 
   test "set analysis status to cancelled" do
     submission = create_submission
-    write_submission_to_dynamodb(submission, :analyzer)
+    create_tooling_job!(submission, :analyzer)
 
     ToolingJob::Cancel.(submission.uuid, :analyzer)
 
@@ -39,16 +39,16 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
 
   test "cancels representation job" do
     submission = create_submission
-    id = write_submission_to_dynamodb(submission, :representer)
+    job = create_tooling_job!(submission, :representer)
 
     ToolingJob::Cancel.(submission.uuid, :representer)
 
-    assert_equal "cancelled", dynamodb_job_status(id)
+    assert_equal "cancelled", dynamodb_job_status(job.id)
   end
 
   test "set representation status to cancelled" do
     submission = create_submission
-    write_submission_to_dynamodb(submission, :representer)
+    create_tooling_job!(submission, :representer)
 
     ToolingJob::Cancel.(submission.uuid, :representer)
 
@@ -68,21 +68,5 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
       %i[job_status]
     )
     attrs["job_status"]
-  end
-
-  def write_submission_to_dynamodb(submission, type)
-    SecureRandom.uuid.tap do |id|
-      write_to_dynamodb(
-        Exercism.config.dynamodb_tooling_jobs_table,
-        {
-          "id" => id,
-          "type" => type,
-          "submission_uuid" => submission.uuid,
-          "execution_status" => "job-status",
-          "job_status" => "queued",
-          "output" => { "results.json" => "#{submission.id}/results.json" }
-        }
-      )
-    end
   end
 end

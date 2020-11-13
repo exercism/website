@@ -1,3 +1,7 @@
+jest.mock(
+  '../../../../../app/javascript/components/student/editor/ExercismMonacoEditor'
+)
+
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -50,11 +54,15 @@ test('loads data from storage', async () => {
 })
 
 test('saves data to storage when data changed', async () => {
+  jest.useFakeTimers()
   const { getByTestId } = render(
     <FileEditor file={{ filename: 'file', content: '' }} language="go" />
   )
 
   fireEvent.change(getByTestId('editor-value'), { target: { value: 'code' } })
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
 
   expect(await localForage.getItem('file-editor-content')).toEqual('code')
 

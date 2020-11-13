@@ -1,3 +1,7 @@
+jest.mock(
+  '../../../../app/javascript/components/student/editor/ExercismMonacoEditor'
+)
+
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
@@ -162,27 +166,12 @@ test('disables submit button unless tests passed', async () => {
     />
   )
 
-  expect(getByText('Submit')).toBeDisabled()
+  await waitFor(() => {
+    expect(getByText('Submit')).toBeDisabled()
+  })
 })
 
 test('populates files', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
-      return res(
-        ctx.json({
-          test_run: {
-            id: null,
-            submission_uuid: '123',
-            status: 'queued',
-            message: '',
-            tests: [],
-          },
-        })
-      )
-    })
-  )
-  server.listen()
-
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
@@ -198,7 +187,7 @@ test('populates files', async () => {
     />
   )
 
-  expect(getByText('class Lasagna')).toBeInTheDocument()
-
-  server.close()
+  await waitFor(() => {
+    expect(getByText('class Lasagna')).toBeInTheDocument()
+  })
 })

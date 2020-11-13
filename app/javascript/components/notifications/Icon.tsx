@@ -5,10 +5,8 @@ type IconProps = {
   count: number
 }
 
-type IconActionType = 'notifications.changed'
-
 type IconAction = {
-  type: IconActionType
+  type: 'notifications.changed'
   payload: IconProps
 }
 

@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
-export default function MonacoEditor({
-  value,
-  editorDidMount,
-  theme,
-  options,
+export function ExercismMonacoEditor({
+  width,
+  height,
   language,
-  onChange,
+  editorDidMount,
+  onRunTests,
+  options,
+  value,
+  theme,
 }) {
+  const textareaRef = useRef<HTMLTextArea | undefined>()
   const editor = {
     getValue: () => {
-      return value
+      return textareaRef.current?.value
     },
-  }
-
-  const handleChange = (e) => {
-    onChange(e.target.value, e)
   }
 
   useEffect(() => {
@@ -29,9 +28,9 @@ export default function MonacoEditor({
       <p>Wrap: {options.wordWrap}</p>
       <p>Value: {value}</p>
       <textarea
+        ref={textareaRef}
         data-testid="editor-value"
-        onChange={handleChange}
-        value={value}
+        defaultValue={value}
       ></textarea>
     </div>
   )

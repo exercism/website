@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react'
 import { File } from '../Editor'
-import MonacoEditor from 'react-monaco-editor'
+import { ExercismMonacoEditor } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { useStorage } from '../../../utils/use-storage'
 
@@ -31,20 +31,16 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
     >({
       minimap: { enabled: false },
       wordWrap: 'on',
+      glyphMargin: true,
+      lightbulb: { enabled: true },
     })
-    const [content, setContent] = useStorage(
+    const [content, setContent] = useStorage<string>(
       `${file.filename}-editor-content`,
       file.content
     )
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
     const editorDidMount = useCallback(
       (editor) => {
-        editor.addAction({
-          id: 'runTests',
-          label: 'Run tests',
-          keybindings: [monacoEditor.KeyCode.F2],
-          run: onRunTests,
-        })
         editorRef.current = editor
       },
       [editorRef]
@@ -110,12 +106,13 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
             Revert to last run code
           </button>
         )}
-        <MonacoEditor
+        <ExercismMonacoEditor
           key={file.filename}
           width="800"
           height="600"
           language={language}
           editorDidMount={editorDidMount}
+          onRunTests={onRunTests}
           options={options}
           value={content}
           theme={theme}

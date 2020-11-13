@@ -28,6 +28,8 @@ class ToolingJob
 
     def job
       ToolingJob.find_queued(submission_uuid, type)
+    rescue StandardError
+      nil
     end
   end
 end

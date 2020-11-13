@@ -17,7 +17,8 @@ module ReactComponents
                 filename: filename,
                 content: content
               }
-            end
+            end,
+            language: solution.editor_language
           }
         )
       end

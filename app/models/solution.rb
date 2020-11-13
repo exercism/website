@@ -54,6 +54,10 @@ class Solution < ApplicationRecord
     Git::Exercise.for_solution(self).instructions
   end
 
+  def editor_language
+    track.slug
+  end
+
   def editor_solution_files
     files = Git::Exercise.for_solution(self).editor_solution_files
 

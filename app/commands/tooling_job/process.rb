@@ -11,13 +11,10 @@ class ToolingJob
 
     private
     def process_test_runner_job!
-      Submission::TestRun::Process.(
-        job.submission_uuid,
-        job.execution_status,
-        safe_json_parse("results.json")
-      )
+      Submission::TestRun::Process.(job)
     end
 
+    # TODO: Refactor this to be like test runner
     def process_representer_job!
       Submission::Representation::Process.(
         job.submission_uuid,
@@ -27,6 +24,7 @@ class ToolingJob
       )
     end
 
+    # TODO: Refactor this to be like test runner
     def process_analyzer_job!
       Submission::Analysis::Process.(
         job.submission_uuid,

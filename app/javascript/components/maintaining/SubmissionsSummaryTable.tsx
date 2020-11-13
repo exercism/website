@@ -12,7 +12,7 @@ type Submission = {
   analysisStatus: string
 }
 
-type SubmissionFromChannel = {
+type SubmissionEvent = {
   submission: Submission
 }
 
@@ -44,16 +44,16 @@ export function SubmissionsSummaryTable({
   const [stateSubmissions, setSubmissions] = useState(submissions)
 
   useEffect(() => {
-    const received = (data: SubmissionFromChannel) => {
+    const received = (event: SubmissionEvent) => {
       const existingSubmissions = [...stateSubmissions]
       const existingIndex = existingSubmissions.findIndex(
-        (submission) => submission.id === data.submission.id
+        (submission) => submission.id === event.submission.id
       )
 
       if (existingIndex !== -1) {
-        existingSubmissions[existingIndex] = data.submission
+        existingSubmissions[existingIndex] = event.submission
       } else {
-        existingSubmissions.unshift(data.submission)
+        existingSubmissions.unshift(event.submission)
       }
 
       setSubmissions(existingSubmissions)

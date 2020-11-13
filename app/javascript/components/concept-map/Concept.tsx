@@ -68,11 +68,7 @@ export const Concept = ({
   }
 
   return (
-    <div
-      onFocus={() => setHasFocus(true)}
-      onBlur={() => setHasFocus(false)}
-      role="presentation"
-    >
+    <div role="presentation">
       <a
         ref={conceptRef}
         href={web_url}
@@ -80,6 +76,8 @@ export const Concept = ({
         className={classes.join(' ')}
         data-concept-slug={slug}
         data-concept-status={status}
+        onFocus={() => setHasFocus(true)}
+        onBlur={() => setHasFocus(false)}
         onMouseEnter={wrapAnimationFrame(handleEnter)}
         onMouseLeave={wrapAnimationFrame(handleLeave)}
       >
@@ -96,9 +94,11 @@ export const Concept = ({
         />
       </a>
       <Tooltips.Concept
+        parentSlug={slug}
         endpoint={tooltip_url}
         parent={conceptRef.current}
-        requestToShow={isActiveHover || hasFocus}
+        hoverRequestToShow={isActiveHover}
+        focusRequestToShow={hasFocus}
       />
     </div>
   )

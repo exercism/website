@@ -3,7 +3,7 @@
 .c-concept-tooltip {
     max-width: 460px;
 
-    @apply pointer-events-auto shadow-lg rounded-8 py-20 px-24 bg-white;
+    @apply shadow-lg rounded-8 py-20 px-24 bg-white;
 
     /* TODO: add fade in transition for opacity */
 

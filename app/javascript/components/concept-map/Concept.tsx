@@ -57,9 +57,6 @@ export const Concept = ({
   if (isActive) {
     classes.push('active')
   }
-  if (isActiveHover) {
-    classes.push('hover')
-  }
   if (visibility === 'hidden') {
     classes.push('hidden')
   }
@@ -71,7 +68,11 @@ export const Concept = ({
   }
 
   return (
-    <div onFocus={() => setHasFocus(true)} onBlur={() => setHasFocus(false)}>
+    <div
+      onFocus={() => setHasFocus(true)}
+      onBlur={() => setHasFocus(false)}
+      role="presentation"
+    >
       <a
         ref={conceptRef}
         href={web_url}
@@ -102,11 +103,6 @@ export const Concept = ({
     </div>
   )
 }
-
-// focus on concept / focus-blur
-// focus on tooltip / focus-blur
-// focus inside tooltip
-// no focus
 
 export const PureConcept = React.memo(Concept)
 

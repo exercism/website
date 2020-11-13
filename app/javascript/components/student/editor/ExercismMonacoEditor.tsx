@@ -40,10 +40,12 @@ export function ExercismMonacoEditor({
   editorDidMount: (editor: monacoEditor.editor.IStandaloneCodeEditor) => void
   onRunTests: () => void
   options: monacoEditor.editor.IStandaloneEditorConstructionOptions
-  value: string
+  value: string | null | undefined
   theme: string
 }) {
-  const handleEditorDidMount = (editor) => {
+  const handleEditorDidMount = (
+    editor: monacoEditor.editor.IStandaloneCodeEditor
+  ) => {
     editor.addAction({
       id: 'runTests',
       label: 'Run tests',

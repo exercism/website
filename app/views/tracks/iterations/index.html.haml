@@ -17,9 +17,6 @@
 
           .cli
             %h4 Work locally (via CLI)
-            %button.c-copy-text-to-clipboard
-              .text exercism download --exercise=pattern
-              = icon :clipboard, "Copy to clipboard"
-            /= ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
+            = ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
 
         = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")

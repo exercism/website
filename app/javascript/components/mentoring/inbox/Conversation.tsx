@@ -2,7 +2,21 @@ import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
 
-export function Solution({
+type ConversationProps = {
+  trackTitle: string
+  trackIconUrl: string
+  menteeAvatarUrl: string
+  menteeHandle: string
+  exerciseTitle: string
+  isStarred: boolean
+  haveMentoredPreviously: boolean
+  isNewSubmission: boolean
+  postsCount: number
+  updatedAt: string
+  url: string
+}
+
+export function Conversation({
   trackTitle,
   trackIconUrl,
   menteeAvatarUrl,
@@ -10,21 +24,15 @@ export function Solution({
   exerciseTitle,
   isStarred,
   haveMentoredPreviously,
-  status,
+  isNewSubmission,
+  postsCount,
   updatedAt,
   url,
-  showMoreInformation,
-  hideMoreInformation,
-}) {
+}: ConversationProps) {
   return (
-    <tr
-      onMouseEnter={showMoreInformation}
-      onMouseLeave={hideMoreInformation}
-      onFocus={showMoreInformation}
-      onBlur={hideMoreInformation}
-    >
+    <tr>
       <td>
-        <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
+        <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
       </td>
       <td>
         <img
@@ -37,7 +45,8 @@ export function Solution({
       <td>{exerciseTitle}</td>
       <td>{isStarred.toString()}</td>
       <td>{haveMentoredPreviously.toString()}</td>
-      <td>{status}</td>
+      <td>{isNewSubmission.toString()}</td>
+      <td>{postsCount}</td>
       <td>{fromNow(updatedAt)}</td>
       <td>{url}</td>
     </tr>

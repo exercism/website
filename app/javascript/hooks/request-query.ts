@@ -1,26 +1,27 @@
 import {
   PaginatedQueryConfig,
   QueryConfig,
-  QueryFunction,
   usePaginatedQuery,
   useQuery,
 } from 'react-query'
 import { UrlParams } from '../utils/url-params'
 import { camelizeKeys } from 'humps'
 
+type RequestQuery = ConstructorParameters<typeof UrlParams>[0]
+
 type Request = {
   endpoint: string
-  query?: string
+  query?: RequestQuery
   options: QueryConfig<any>
 }
 
 type PaginatedRequest = {
   endpoint: string
-  query?: string
+  query?: RequestQuery
   options: PaginatedQueryConfig<any>
 }
 
-function handleFetch<TResult>(key: string, url: string, query: string) {
+function handleFetch<TResult>(key: string, url: string, query: RequestQuery) {
   return fetch(`${url}?${new UrlParams(query).toString()}`)
     .then((response) => response.json())
     .then((json) => (camelizeKeys(json) as unknown) as TResult)

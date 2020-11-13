@@ -7,7 +7,7 @@ export function Track({ track }) {
   return (
     <a className="--track" href={track.webUrl}>
       <div className="--content">
-        <TrackIcon track={track} />
+        <TrackIcon iconUrl={track.iconUrl} title={track.title} />
         <div className="--info">
           <div className="--heading">
             <h3 className="--title">{track.title}</h3>

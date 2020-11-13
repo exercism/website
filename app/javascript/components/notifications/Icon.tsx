@@ -1,19 +1,28 @@
 import React, { useReducer, useEffect } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 
-function reducer(state, action) {
+type IconProps = {
+  count: number
+}
+
+type IconAction = {
+  type: 'notifications.changed'
+  payload: IconProps
+}
+
+function reducer(state: IconProps, action: IconAction) {
   switch (action.type) {
     case 'notifications.changed':
       return { count: action.payload.count }
   }
 }
 
-export function Icon({ count }) {
+export function Icon({ count }: IconProps) {
   const [state, dispatch] = useReducer(reducer, { count: count })
   const isUnread = state.count > 0
 
   useEffect(() => {
-    const received = (data) => {
+    const received = (data: IconAction) => {
       dispatch(data)
     }
 

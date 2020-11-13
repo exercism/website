@@ -1,14 +1,26 @@
 import React from 'react'
 
-export function Pagination({ current = 1, total, setPage, around = 3 }) {
-  const range = new Range(
+type PaginationProps = {
+  current: number
+  total: number
+  around: number
+  setPage: (page: number) => void
+}
+
+export function Pagination({
+  current = 1,
+  total,
+  setPage,
+  around = 3,
+}: PaginationProps) {
+  const range = createRange(
     Math.max(current - around, 1),
     Math.min(current + around, total)
   )
 
-  function Range(start, end) {
+  function createRange(start: number, end: number) {
     return Array(end - start + 1)
-      .fill()
+      .fill(0)
       .map((_, i) => start + i)
   }
 
@@ -20,7 +32,7 @@ export function Pagination({ current = 1, total, setPage, around = 3 }) {
         }}
         disabled={current === 1}
         aria-label="Go to first page"
-        aria-current={current === 1 ? 'page' : null}
+        aria-current={current === 1 ? 'page' : undefined}
       >
         First
       </button>
@@ -33,7 +45,7 @@ export function Pagination({ current = 1, total, setPage, around = 3 }) {
             }}
             disabled={page === current}
             aria-label={`Go to page ${page}`}
-            aria-current={page === current ? 'page' : null}
+            aria-current={page === current ? 'page' : undefined}
           >
             {page}
           </button>
@@ -45,7 +57,7 @@ export function Pagination({ current = 1, total, setPage, around = 3 }) {
         }}
         disabled={current === total}
         aria-label="Go to last page"
-        aria-current={current === total ? 'page' : null}
+        aria-current={current === total ? 'page' : undefined}
       >
         Last
       </button>

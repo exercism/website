@@ -1,11 +1,10 @@
-type Params = {
-  [key: string]: any
-}
+type UrlParamValue = string | number | boolean
+type UrlParam = Record<string, UrlParamValue | UrlParamValue[]>
 
 export class UrlParams {
-  private readonly params: Params
+  private readonly params: UrlParam
 
-  constructor(params: Params | undefined | null) {
+  constructor(params: UrlParam | undefined | null) {
     this.params = params || {}
   }
 

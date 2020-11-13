@@ -39,7 +39,7 @@ function SubmissionsSummaryTableRow({
 export function SubmissionsSummaryTable({
   submissions,
 }: {
-  submissions: Submission[]
+  submissions: readonly Submission[]
 }) {
   const [stateSubmissions, setSubmissions] = useState(submissions)
 

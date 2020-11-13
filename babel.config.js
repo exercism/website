@@ -16,6 +16,7 @@ module.exports = function (api) {
   }
 
   return {
+    sourceType: 'unambiguous',
     presets: [
       isTestEnv && [
         '@babel/preset-env',

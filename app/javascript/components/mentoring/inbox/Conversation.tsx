@@ -32,7 +32,7 @@ export function Conversation({
   return (
     <tr>
       <td>
-        <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
+        <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
       </td>
       <td>
         <img

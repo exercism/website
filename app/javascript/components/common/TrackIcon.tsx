@@ -5,12 +5,12 @@ type TrackIconProps = {
   title: string
 }
 
-export function TrackIcon({ track }: { track: TrackIconProps }) {
+export function TrackIcon({ iconUrl, title }: TrackIconProps) {
   return (
     <img
       className="c-track-icon"
-      src={track.iconUrl}
-      alt={`icon for ${track.title} track`}
+      src={iconUrl}
+      alt={`icon for ${title} track`}
     />
   )
 }

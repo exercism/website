@@ -39,7 +39,7 @@ export function Solution({
       onBlur={hideMoreInformation}
     >
       <td>
-        <TrackIcon track={{ title: trackTitle, iconUrl: trackIconUrl }} />
+        <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
       </td>
       <td>
         <img

@@ -2,30 +2,18 @@ require 'test_helper'
 
 class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to test run" do
-    id = SecureRandom.uuid
-    type = "test_runner"
-    submission_uuid = "submission-uuid"
+    submission = create :submission
     execution_status = "job-status"
     results = { 'some' => 'result' }
-
-    write_to_dynamodb(
-      Exercism.config.dynamodb_tooling_jobs_table,
-      {
-        "id" => id,
-        "type" => type,
-        "submission_uuid" => submission_uuid,
-        "execution_status" => execution_status,
-        "execution_output" => { "results.json" => results.to_json }
-      }
+    job = create_test_runner_job!(
+      submission,
+      execution_status: execution_status,
+      results: results
     )
 
-    Submission::TestRun::Process.expects(:call).with(
-      submission_uuid,
-      execution_status,
-      results
-    )
+    Submission::TestRun::Process.expects(:call).with(job)
 
-    ToolingJob::Process.(id)
+    ToolingJob::Process.(job.id)
   end
 
   test "proxies to representer" do

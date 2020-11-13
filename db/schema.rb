@@ -152,7 +152,6 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
     t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -186,7 +185,6 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   create_table "submission_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
     t.text "ast"
     t.string "ast_digest", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -196,11 +194,11 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
 
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
+    t.string "tooling_job_id", null: false
     t.string "status", null: false
     t.text "message"
     t.json "tests"
     t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
     t.json "raw_results", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

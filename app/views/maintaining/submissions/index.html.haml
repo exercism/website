@@ -7,6 +7,10 @@
     font-size: 20px;
     margin-bottom: 16px;
   }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
   th {
     border: 1px solid #ddd;
     border-bottom: 1px solid #888;
@@ -18,7 +22,15 @@
     border: 1px solid #ddd;
     border-bottom: 1px solid #aaa;
     padding: 10px;
+    white-space: pre;
+    font:monospace;
   }
+  td:nth-child(1) { width:50px; }
+  td:nth-child(2) { width:50px; }
+  td:nth-child(3) { width:50px; }
+  td:nth-child(4) { width:auto; font-family: monospace;}
+  td:nth-child(5) { width:50px; }
+  td:nth-child(6) { width:50px; }
 
 #maintaining-submissions
   %h2.text-h3 Submissions

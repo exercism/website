@@ -3,17 +3,16 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(submission_uuid, ops_status, results)
-        @submission = Submission.find_by!(uuid: submission_uuid)
-        @ops_status = ops_status.to_i
-        @results = results.is_a?(Hash) ? results.symbolize_keys : {}
+      def initialize(tooling_job)
+        @tooling_job = tooling_job
       end
 
       def call
         # This goes in its own transaction. We want
         # to record this whatever happens.
         test_run = submission.test_runs.create!(
-          ops_status: ops_status,
+          tooling_job_id: tooling_job.id,
+          ops_status: tooling_job.execution_status.to_i,
           raw_results: results
         )
 
@@ -41,7 +40,7 @@ class Submission
       end
 
       private
-      attr_reader :submission, :ops_status, :results
+      attr_reader :tooling_job
 
       def handle_ops_error!
         submission.tests_exceptioned!
@@ -64,6 +63,19 @@ class Submission
       def cancel_other_services!
         ToolingJob::Cancel.(submission.uuid, :analyzer)
         ToolingJob::Cancel.(submission.uuid, :representer)
+      end
+
+      memoize
+      def submission
+        Submission.find_by!(uuid: tooling_job.submission_uuid)
+      end
+
+      memoize
+      def results
+        res = JSON.parse(tooling_job.execution_output['results.json'])
+        res.is_a?(Hash) ? res.symbolize_keys : {}
+      rescue StandardError
+        {}
       end
     end
   end

@@ -89,6 +89,33 @@ class ActiveSupport::TestCase
     assert_equal obj_1, obj_2
   end
 
+  ####################
+  # DynamoDB Helpers #
+  ####################
+  def create_test_runner_job!(submission, execution_status: nil, results: nil)
+    execution_output = results ? { "results.json" => results.to_json } : nil
+    create_tooling_job!(
+      submission,
+      :test_runner,
+      execution_status: execution_status,
+      execution_output: execution_output
+    )
+  end
+
+  def create_tooling_job!(submission, type, params = {})
+    id = SecureRandom.uuid
+    write_to_dynamodb(
+      Exercism.config.dynamodb_tooling_jobs_table,
+      {
+        "id" => id,
+        "type" => type,
+        "submission_uuid" => submission.uuid,
+        "job_status" => "queued"
+      }.merge(params)
+    )
+    ToolingJob.find(id, full: true)
+  end
+
   def write_to_dynamodb(table_name, item)
     client = ExercismConfig::SetupDynamoDBClient.()
     client.put_item(

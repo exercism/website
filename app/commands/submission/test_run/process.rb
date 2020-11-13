@@ -3,10 +3,9 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(submission_uuid, ops_status, ops_message, results)
+      def initialize(submission_uuid, ops_status, results)
         @submission = Submission.find_by!(uuid: submission_uuid)
         @ops_status = ops_status.to_i
-        @ops_message = ops_message
         @results = results.is_a?(Hash) ? results.symbolize_keys : {}
       end
 
@@ -15,7 +14,6 @@ class Submission
         # to record this whatever happens.
         test_run = submission.test_runs.create!(
           ops_status: ops_status,
-          ops_message: ops_message,
           raw_results: results
         )
 
@@ -43,7 +41,7 @@ class Submission
       end
 
       private
-      attr_reader :submission, :ops_status, :ops_message, :results
+      attr_reader :submission, :ops_status, :results
 
       def handle_ops_error!
         submission.tests_exceptioned!

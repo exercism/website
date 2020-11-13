@@ -1,4 +1,4 @@
-module ToolingJob
+class ToolingJob
   class Create
     include Mandate
 

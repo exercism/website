@@ -34,7 +34,6 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     Submission::TestRun::Process.(
       basics_submission_1.uuid,
       200,
-      'success',
       {
         status: :pass, message: nil, tests: [{ name: 'test1', status: 'pass' }]
       }
@@ -46,7 +45,6 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     Submission::Analysis::Process.(
       basics_submission_1.uuid,
       200,
-      'success',
       { status: :refer_to_mentor, comments: [] }
     )
     assert basics_submission_1.reload.analysis_inconclusive?
@@ -63,7 +61,6 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     Submission::Representation::Process.(
       basics_submission_1.uuid,
       200,
-      'success',
       'some ast',
       { 'some' => 'mapping' }
     )

@@ -41,6 +41,36 @@ class Submission < ApplicationRecord
   end
 
   def serialized
+    # tests_data = tests_status
+    # if tests_exceptioned?
+    #   client = ExercismConfig::SetupDynamoDBClient.()
+    #   tests_data += client.query(
+    #     table_name: Exercism.config.dynamodb_tooling_jobs_table,
+    #     index_name: "submission_type",
+    #     expression_attribute_values: {
+    #       ":SU" => submission_uuid,
+    #       ":TP" => type,
+    #       ":JS" => :exceptioned
+    #     },
+    #     expression_attribute_names: {
+    #       "#SU": "submission_uuid",
+    #       "#TP": "type",
+    #       "#ID": "id",
+    #       "#JS": "job_status"
+    #     },
+    #     key_condition_expression: "#SU = :SU AND #TP = :TP",
+    #     filter_expression: "#JS = :JS",
+    #     projection_expression: "#ID"
+    #     key: {
+    #       submission_uuid: uuid,
+    #       type: :test_runner
+    #     },
+    #     attributes_to_get: %i[
+    #       execution_metadata
+    #     ]
+    #   ).item['execution_metadata']
+    # end
+
     {
       id: id,
       track: track.title,

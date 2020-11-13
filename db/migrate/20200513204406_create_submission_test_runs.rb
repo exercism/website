@@ -8,7 +8,6 @@ class CreateSubmissionTestRuns < ActiveRecord::Migration[6.0]
       t.json :tests, null: true
 
       t.integer :ops_status, limit: 2, null: false
-      t.text :ops_message
 
       t.json :raw_results, null: false
 

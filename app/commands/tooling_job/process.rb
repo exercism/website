@@ -1,75 +1,47 @@
-module ToolingJob
+class ToolingJob
   class Process
     include Mandate
 
     initialize_with :id
 
     def call
-      attrs = client.get_item(
-        table_name: Exercism.config.dynamodb_tooling_jobs_table,
-        key: { id: id },
-        attributes_to_get: %i[
-          type
-          submission_uuid
-          execution_status
-          output
-        ]
-      ).item
+      send("process_#{job.type}_job!")
+      job.processed!
+    end
 
-      case attrs['type']
-      when "test_runner"
-        Submission::TestRun::Process.(
-          attrs["submission_uuid"],
-          attrs["execution_status"],
-          "Nothing to report", # TODO
-          # TODO: Gracefully deal with this key or file not existing
-          JSON.parse(download_file(attrs["output"]["results.json"]))
-        )
-      when "representer"
-        Submission::Representation::Process.(
-          attrs["submission_uuid"],
-          attrs["execution_status"],
-          "Nothing to report", # TODO
-          # TODO: Gracefully deal with this key or file not existing
-          download_file(attrs["output"]["representation.txt"]),
-          # TODO: Gracefully deal with this key or file not existing
-          JSON.parse(download_file(attrs["output"]["mapping.json"]))
-        )
-      when "analyzer"
-        Submission::Analysis::Process.(
-          attrs["submission_uuid"],
-          attrs["execution_status"],
-          "Nothing to report", # TODO
-          # TODO: Gracefully deal with this key or file not existing
-          JSON.parse(download_file(attrs["output"]["analysis.json"]))
-        )
-      end
-
-      client.update_item(
-        table_name: Exercism.config.dynamodb_tooling_jobs_table,
-        key: { id: id },
-        expression_attribute_names: {
-          "#JS": "job_status"
-        },
-        expression_attribute_values: {
-          ":js": "processed"
-        },
-        update_expression: "SET #JS = :js"
+    private
+    def process_test_runner_job!
+      Submission::TestRun::Process.(
+        job.submission_uuid,
+        job.execution_status,
+        safe_json_parse("results.json")
       )
+    end
+
+    def process_representer_job!
+      Submission::Representation::Process.(
+        job.submission_uuid,
+        job.execution_status,
+        job.execution_output["representation.txt"],
+        safe_json_parse("mapping.json")
+      )
+    end
+
+    def process_analyzer_job!
+      Submission::Analysis::Process.(
+        job.submission_uuid,
+        job.execution_status,
+        safe_json_parse("analysis.json")
+      )
+    end
+
+    def safe_json_parse(filename)
+      JSON.parse(job.execution_output[filename])
     end
 
     memoize
-    def client
-      ExercismConfig::SetupDynamoDBClient.()
-    end
-
-    def download_file(key)
-      s3_client = ExercismConfig::SetupS3Client.()
-      s3_obj = s3_client.get_object(
-        bucket: Exercism.config.aws_tooling_jobs_bucket,
-        key: key
-      )
-      s3_obj.body.read
+    def job
+      ToolingJob.find(id, full: true)
     end
   end
 end

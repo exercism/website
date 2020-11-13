@@ -4,19 +4,17 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "creates test_run record" do
     submission = create :submission
     ops_status = 201
-    ops_message = "some ops message"
     status = "foobar"
     message = "some barfoo message"
     tests = [{ 'foo' => 'bar' }]
     results = { 'status' => status, 'message' => message, 'tests' => tests }
 
-    Submission::TestRun::Process.(submission.uuid, ops_status, ops_message, results)
+    Submission::TestRun::Process.(submission.uuid, ops_status, results)
 
     assert_equal 1, submission.reload.test_runs.size
     tr = submission.reload.test_runs.first
 
     assert_equal ops_status, tr.ops_status
-    assert_equal ops_message, tr.ops_message
     assert_equal status.to_sym, tr.status
     assert_equal message, tr.message
     assert_equal tests, tr.tests
@@ -26,7 +24,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    Submission::TestRun::Process.(submission.uuid, 500, "", results)
+    Submission::TestRun::Process.(submission.uuid, 500, results)
 
     assert submission.reload.tests_exceptioned?
   end
@@ -34,7 +32,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle tests pass" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    Submission::TestRun::Process.(submission.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, results)
 
     assert submission.reload.tests_passed?
   end
@@ -47,7 +45,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
 
-    Submission::TestRun::Process.(submission.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, results)
 
     assert submission.reload.tests_failed?
   end
@@ -60,7 +58,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
 
-    Submission::TestRun::Process.(submission.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, results)
 
     assert submission.reload.tests_errored?
   end
@@ -68,7 +66,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle bad status" do
     submission = create :submission
     results = { 'status' => 'oops', 'message' => "", 'tests' => [] }
-    Submission::TestRun::Process.(submission.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, results)
 
     assert submission.reload.tests_exceptioned?
   end
@@ -81,7 +79,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     SubmissionsChannel.expects(:broadcast!).with(submission.solution)
     Submission::TestRunsChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
 
-    Submission::TestRun::Process.(submission.uuid, 200, "", results)
+    Submission::TestRun::Process.(submission.uuid, 200, results)
 
     assert_equal submission.test_runs.size, 1
   end

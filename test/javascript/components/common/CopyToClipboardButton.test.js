@@ -12,11 +12,11 @@ const mockClipboardApi = () => {
 test('copies text to clipboard when clicking', async () => {
   mockClipboardApi()
 
-  const { getByText } = render(
+  const { getByRole } = render(
     <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
   )
 
-  fireEvent.click(getByText('Copy'))
+  fireEvent.click(getByRole('img'))
 
   await waitFor(() =>
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
@@ -25,7 +25,7 @@ test('copies text to clipboard when clicking', async () => {
   )
 })
 
-test('copies text to clipboard when clicking', async () => {
+test('copies text to clipboard when pressing Ctrl+C', async () => {
   mockClipboardApi()
 
   const { queryByRole } = render(
@@ -44,18 +44,19 @@ test('copies text to clipboard when clicking', async () => {
   )
 })
 
-test('changes text to copied temporarily', async () => {
-  const { getByText, queryByText } = render(
-    <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
-  )
+// TODO: re-enable one there is a visual indication that text was just copied
+// test('changes text to copied temporarily', async () => {
+//   const { getByText, queryByText } = render(
+//     <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
+//   )
 
-  fireEvent.click(getByText('Copy'))
+//   fireEvent.click(getByText('Copy'))
 
-  await waitFor(() => expect(queryByText('Copied')).toBeInTheDocument())
-  await waitFor(() => expect(queryByText('Copy')).toBeInTheDocument(), {
-    timeout: 2500,
-  })
-})
+//   await waitFor(() => expect(queryByText('Copied')).toBeInTheDocument())
+//   await waitFor(() => expect(queryByText('Copy')).toBeInTheDocument(), {
+//     timeout: 2500,
+//   })
+// })
 
 test('hides component if clipboard API is unavailable', async () => {
   navigator.clipboard = undefined

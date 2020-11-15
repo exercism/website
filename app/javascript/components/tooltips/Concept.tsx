@@ -54,9 +54,13 @@ const removeOpenTooltip = (id: string) => {
 }
 
 const closeOtherOpenTooltips = (id: string) => {
-  openTooltips.forEach(([openId, openDispatcher]) => {
+  openTooltips.forEach(([openId, openDispatch]) => {
     if (openId !== id) {
-      dispatch(openId, openDispatcher, 'force-close')
+      openDispatch({
+        id: openId,
+        dispatch: openDispatch,
+        source: 'force-close',
+      })
     }
   })
 }
@@ -68,33 +72,38 @@ const closeOtherOpenTooltips = (id: string) => {
  */
 function showReducer(
   state: ShowState,
-  [id = '', dispatch, source, action]: [
-    string,
-    React.Dispatch<unknown>,
-    ShowActionSource,
-    ShowActionValue
-  ]
+  {
+    id = '',
+    dispatch,
+    source,
+    action,
+  }: {
+    id: string
+    dispatch: React.Dispatch<unknown>
+    source: ShowActionSource
+    action?: ShowActionValue
+  }
 ) {
   const nextState: ShowState = { ...state }
-  const parsedAction = action === 'show'
+  const shouldShow = action === 'show'
   const nextShow = (state: ShowState): boolean =>
     state.requestHover || state.requestFocus || state.hover || state.focus
 
   switch (source) {
     case 'request-hover':
-      nextState.requestHover = parsedAction && !hasOpenTooltip(id)
+      nextState.requestHover = shouldShow && !hasOpenTooltip(id)
       nextState.show = nextShow(nextState)
       break
     case 'request-focus':
-      nextState.requestFocus = parsedAction
+      nextState.requestFocus = shouldShow
       nextState.show = nextShow(nextState)
       break
     case 'hover':
-      nextState.hover = parsedAction && !hasOpenTooltip(id)
+      nextState.hover = shouldShow && !hasOpenTooltip(id)
       nextState.show = nextShow(nextState)
       break
     case 'focus':
-      nextState.focus = parsedAction
+      nextState.focus = shouldShow
       nextState.show = nextShow(nextState)
       break
     case 'force-close':
@@ -123,38 +132,30 @@ function showReducer(
   return nextState
 }
 
-function dispatch(
-  id = '',
-  dispatcher: React.Dispatch<any>, // eslint-disable-line @typescript-eslint/no-explicit-any
-  source: ShowActionSource,
-  action?: ShowActionValue
-): void {
-  dispatcher([id, dispatcher, source, action])
-}
-
 export const Concept = ({
-  endpoint,
-  parent,
+  contentEndpoint,
   hoverRequestToShow,
   focusRequestToShow,
-  parentSlug = '',
+  referenceElement,
+  referenceConceptSlug = '',
 }: {
-  endpoint: string
-  parent: HTMLElement | null
+  contentEndpoint: string
   hoverRequestToShow: boolean
   focusRequestToShow: boolean
-  parentSlug?: string
+  referenceElement: HTMLElement | null
+  referenceConceptSlug?: string
 }): JSX.Element => {
   const tooltipId = `concept-tooltip${
-    parentSlug ? `-${parentSlug}` : parentSlug
+    referenceConceptSlug ? `-${referenceConceptSlug}` : referenceConceptSlug
   }`
-  // Retrieve the HTML contents from the endpoint
-  const { isLoading, isError, data: html_content } = useQuery(tooltipId, () =>
-    fetch(endpoint).then((res) => res.text())
-  ) as { isLoading: boolean; isError: boolean; data: string }
+  // Retrieve the HTML contents from the contentEndpoint
+  const { isLoading, isError, data: html_content } = useQuery<string>(
+    tooltipId,
+    () => fetch(contentEndpoint).then((res) => res.text())
+  )
 
   const tooltipRef = useRef(null)
-  const [{ show }, showDispatcher] = useReducer(showReducer, {
+  const [{ show }, dispatch] = useReducer(showReducer, {
     requestHover: false,
     requestFocus: false,
     hover: false,
@@ -162,7 +163,7 @@ export const Concept = ({
     show: false,
   })
 
-  const popper = usePopper(parent, tooltipRef.current, {
+  const popper = usePopper(referenceElement, tooltipRef.current, {
     placement: 'bottom',
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
   })
@@ -175,24 +176,49 @@ export const Concept = ({
   useEffect(() => {
     if (hoverRequestToShow && popper?.update) {
       popper.update()
-      dispatch(tooltipId, showDispatcher, 'request-hover', 'show')
+      dispatch({
+        id: tooltipId,
+        dispatch: dispatch as React.Dispatch<unknown>,
+        source: 'request-hover',
+        action: 'show',
+      })
       return
     }
 
-    setTimeout(
-      () => dispatch(tooltipId, showDispatcher, 'request-hover', 'hide'),
+    const timeoutRef = setTimeout(
+      () =>
+        dispatch({
+          id: tooltipId,
+          dispatch: dispatch as React.Dispatch<unknown>,
+          source: 'request-hover',
+          action: 'hide',
+        }),
       150
     )
+
+    return () => {
+      clearTimeout(timeoutRef)
+    }
   }, [hoverRequestToShow]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (focusRequestToShow && popper?.update) {
       popper.update()
-      dispatch(tooltipId, showDispatcher, 'request-focus', 'show')
+      dispatch({
+        id: tooltipId,
+        dispatch: dispatch as React.Dispatch<unknown>,
+        source: 'request-focus',
+        action: 'show',
+      })
       return
     }
 
-    dispatch(tooltipId, showDispatcher, 'request-focus', 'hide')
+    dispatch({
+      id: tooltipId,
+      dispatch: dispatch as React.Dispatch<unknown>,
+      source: 'request-focus',
+      action: 'hide',
+    })
   }, [focusRequestToShow]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Get styles and classes to apply
@@ -207,7 +233,7 @@ export const Concept = ({
 
   // Separate render exists because happy path needs to render
   // 'dangerouslySetInnerHTML' and this does not.
-  if (isLoading || isError) {
+  if (isLoading || isError || html_content === undefined) {
     return (
       <div
         ref={tooltipRef}
@@ -217,7 +243,7 @@ export const Concept = ({
         role="tooltip"
       >
         {isLoading && <Loading />}
-        {isError && <p>Something went wrong</p>}
+        {(isError || html_content === undefined) && <p>Something went wrong</p>}
       </div>
     )
   }
@@ -231,13 +257,37 @@ export const Concept = ({
       role="tooltip"
       tabIndex={show ? undefined : -1}
       onFocus={() => {
-        dispatch(tooltipId, showDispatcher, 'focus', 'show')
+        dispatch({
+          id: tooltipId,
+          dispatch: dispatch as React.Dispatch<unknown>,
+          source: 'focus',
+          action: 'show',
+        })
       }}
       onBlur={() => {
-        dispatch(tooltipId, showDispatcher, 'focus', 'hide')
+        dispatch({
+          id: tooltipId,
+          dispatch: dispatch as React.Dispatch<unknown>,
+          source: 'focus',
+          action: 'hide',
+        })
       }}
-      onMouseEnter={() => dispatch(tooltipId, showDispatcher, 'hover', 'show')}
-      onMouseLeave={() => dispatch(tooltipId, showDispatcher, 'hover', 'hide')}
+      onMouseEnter={() =>
+        dispatch({
+          id: tooltipId,
+          dispatch: dispatch as React.Dispatch<unknown>,
+          source: 'hover',
+          action: 'show',
+        })
+      }
+      onMouseLeave={() =>
+        dispatch({
+          id: tooltipId,
+          dispatch: dispatch as React.Dispatch<unknown>,
+          source: 'hover',
+          action: 'hide',
+        })
+      }
       dangerouslySetInnerHTML={{ __html: html_content }}
     ></div>
   )

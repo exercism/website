@@ -94,11 +94,11 @@ export const Concept = ({
         />
       </a>
       <Tooltips.Concept
-        parentSlug={slug}
-        endpoint={tooltip_url}
-        parent={conceptRef.current}
+        contentEndpoint={tooltip_url}
         hoverRequestToShow={isActiveHover}
         focusRequestToShow={hasFocus}
+        referenceElement={conceptRef.current}
+        referenceConceptSlug={slug}
       />
     </div>
   )

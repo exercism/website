@@ -3,7 +3,7 @@ import { usePopper } from 'react-popper'
 import { useQuery } from 'react-query'
 import { Loading } from '../common/Loading'
 
-type ShowState = {
+type TooltipState = {
   requestHover: boolean
   requestFocus: boolean
   hover: boolean
@@ -11,22 +11,50 @@ type ShowState = {
   show: boolean
 }
 
-type ShowActionSource =
-  | 'force-close'
-  | 'request-hover'
-  | 'request-focus'
-  | 'hover'
-  | 'focus'
+type HideOrShow = 'hide' | 'show'
 
-type ShowActionValue = 'show' | 'hide'
+type ShowAction =
+  | ForceCloseAction
+  | RequestShowFromRefHoverAction
+  | RequestShowFromRefFocusAction
+  | ShowFromHoverAction
+  | ShowFromFocusAction
+
+type ForceCloseAction = {
+  type: 'force-close'
+  value: null
+}
+
+type RequestShowFromRefHoverAction = {
+  type: 'request-show-from-ref-hover'
+  value: HideOrShow
+}
+
+type RequestShowFromRefFocusAction = {
+  type: 'request-show-from-ref-focus'
+  value: HideOrShow
+}
+
+type ShowFromHoverAction = {
+  type: 'show-hover'
+  value: HideOrShow
+}
+
+type ShowFromFocusAction = {
+  type: 'show-focus'
+  value: HideOrShow
+}
+
+type DispatchAction = {
+  id: string
+  dispatch: React.Dispatch<unknown>
+  action: ShowAction
+}
 
 type OpenTooltip = [string, React.Dispatch<unknown>]
 
 interface ShowReducer {
-  id: string
-  dispatch: React.Dispatch<unknown>
-  source: ShowActionSource
-  action?: ShowActionValue
+  (state: TooltipState, payload: DispatchAction): TooltipState
 }
 
 interface ConceptProps {
@@ -81,33 +109,36 @@ const closeOtherOpenTooltips = (id: string) => {
 }
 
 /**
- * showReducer
+ * tooltipReducer
  * This serves as a state reducer for the Concept (tooltip) Component for use with
  * the useReducer hook.
  */
-function showReducer(
-  state: ShowState,
-  { id, dispatch, source, action }: ShowReducer
-) {
-  const nextState: ShowState = { ...state }
-  const shouldShow = action === 'show'
-  const nextShow = (state: ShowState): boolean =>
-    state.requestHover || state.requestFocus || state.hover || state.focus
+const tooltipReducer: ShowReducer = function (state, action) {
+  const {
+    id,
+    dispatch,
+    action: { type, value = null },
+  } = action
 
-  switch (source) {
-    case 'request-hover':
+  const nextState: TooltipState = { ...state }
+  const nextShow = (state: TooltipState): boolean =>
+    state.requestHover || state.requestFocus || state.hover || state.focus
+  const shouldShow = value === 'show'
+
+  switch (type) {
+    case 'request-show-from-ref-hover':
       nextState.requestHover = shouldShow && !hasOpenTooltip(id)
       nextState.show = nextShow(nextState)
       break
-    case 'request-focus':
+    case 'request-show-from-ref-focus':
       nextState.requestFocus = shouldShow
       nextState.show = nextShow(nextState)
       break
-    case 'hover':
+    case 'show-hover':
       nextState.hover = shouldShow && !hasOpenTooltip(id)
       nextState.show = nextShow(nextState)
       break
-    case 'focus':
+    case 'show-focus':
       nextState.focus = shouldShow
       nextState.show = nextShow(nextState)
       break
@@ -127,7 +158,7 @@ function showReducer(
   // request-focus and focus actions take precedence over mouse events
   // so it can close any other for accessibility purposes
   if (
-    (source === 'request-focus' || source === 'focus') &&
+    (type === 'request-show-from-ref-focus' || type === 'show-focus') &&
     nextState.show &&
     hasOpenTooltip(id)
   ) {
@@ -154,7 +185,7 @@ export const Concept = ({
   )
 
   const tooltipRef = useRef(null)
-  const [{ show }, dispatch] = useReducer(showReducer, {
+  const [{ show }, dispatch] = useReducer(tooltipReducer, {
     requestHover: false,
     requestFocus: false,
     hover: false,
@@ -178,8 +209,10 @@ export const Concept = ({
       dispatch({
         id: tooltipId,
         dispatch: dispatch as React.Dispatch<unknown>,
-        source: 'request-hover',
-        action: 'show',
+        action: {
+          type: 'request-show-from-ref-hover',
+          value: 'show',
+        },
       })
       return
     }
@@ -189,8 +222,10 @@ export const Concept = ({
         dispatch({
           id: tooltipId,
           dispatch: dispatch as React.Dispatch<unknown>,
-          source: 'request-hover',
-          action: 'hide',
+          action: {
+            type: 'request-show-from-ref-hover',
+            value: 'hide',
+          },
         }),
       150
     )
@@ -206,8 +241,10 @@ export const Concept = ({
       dispatch({
         id: tooltipId,
         dispatch: dispatch as React.Dispatch<unknown>,
-        source: 'request-focus',
-        action: 'show',
+        action: {
+          type: 'request-show-from-ref-focus',
+          value: 'show',
+        },
       })
       return
     }
@@ -215,8 +252,10 @@ export const Concept = ({
     dispatch({
       id: tooltipId,
       dispatch: dispatch as React.Dispatch<unknown>,
-      source: 'request-focus',
-      action: 'hide',
+      action: {
+        type: 'request-show-from-ref-focus',
+        value: 'hide',
+      },
     })
   }, [focusRequestToShow]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -259,32 +298,40 @@ export const Concept = ({
         dispatch({
           id: tooltipId,
           dispatch: dispatch as React.Dispatch<unknown>,
-          source: 'focus',
-          action: 'show',
+          action: {
+            type: 'show-focus',
+            value: 'show',
+          },
         })
       }}
       onBlur={() => {
         dispatch({
           id: tooltipId,
           dispatch: dispatch as React.Dispatch<unknown>,
-          source: 'focus',
-          action: 'hide',
+          action: {
+            type: 'show-focus',
+            value: 'hide',
+          },
         })
       }}
       onMouseEnter={() =>
         dispatch({
           id: tooltipId,
           dispatch: dispatch as React.Dispatch<unknown>,
-          source: 'hover',
-          action: 'show',
+          action: {
+            type: 'show-hover',
+            value: 'show',
+          },
         })
       }
       onMouseLeave={() =>
         dispatch({
           id: tooltipId,
           dispatch: dispatch as React.Dispatch<unknown>,
-          source: 'hover',
-          action: 'hide',
+          action: {
+            type: 'show-hover',
+            value: 'hide',
+          },
         })
       }
       dangerouslySetInnerHTML={{ __html: html_content }}

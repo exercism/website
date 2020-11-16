@@ -23,7 +23,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: 50 18 * * *
+    - cron: 50 4 * * *
 
 jobs:
   deploy:

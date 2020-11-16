@@ -22,6 +22,21 @@ type ShowActionValue = 'show' | 'hide'
 
 type OpenTooltip = [string, React.Dispatch<unknown>]
 
+interface ShowReducer {
+  id: string
+  dispatch: React.Dispatch<unknown>
+  source: ShowActionSource
+  action?: ShowActionValue
+}
+
+interface ConceptProps {
+  contentEndpoint: string
+  hoverRequestToShow: boolean
+  focusRequestToShow: boolean
+  referenceElement: HTMLElement | null
+  referenceConceptSlug: string
+}
+
 /**
  * OpenTooltips maintains an array of open tooltips
  * Only 1 should be active at once, but given the chance of race conditions
@@ -72,17 +87,7 @@ const closeOtherOpenTooltips = (id: string) => {
  */
 function showReducer(
   state: ShowState,
-  {
-    id = '',
-    dispatch,
-    source,
-    action,
-  }: {
-    id: string
-    dispatch: React.Dispatch<unknown>
-    source: ShowActionSource
-    action?: ShowActionValue
-  }
+  { id, dispatch, source, action }: ShowReducer
 ) {
   const nextState: ShowState = { ...state }
   const shouldShow = action === 'show'
@@ -137,14 +142,8 @@ export const Concept = ({
   hoverRequestToShow,
   focusRequestToShow,
   referenceElement,
-  referenceConceptSlug = '',
-}: {
-  contentEndpoint: string
-  hoverRequestToShow: boolean
-  focusRequestToShow: boolean
-  referenceElement: HTMLElement | null
-  referenceConceptSlug?: string
-}): JSX.Element => {
+  referenceConceptSlug,
+}: ConceptProps): JSX.Element => {
   const tooltipId = `concept-tooltip${
     referenceConceptSlug ? `-${referenceConceptSlug}` : referenceConceptSlug
   }`

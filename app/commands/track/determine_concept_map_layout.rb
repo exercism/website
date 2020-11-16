@@ -32,7 +32,7 @@ class Track
             slug: concept.slug,
             name: concept.name,
             web_url: Exercism::Routes.track_concept_url(track, concept),
-            tooltip_url: Exercism::Routes.tooltip_track_concept_path(track, concept)
+            tooltip_url: Exercism::Routes.tooltip_track_concept_url(track, concept)
           }
         end
       end

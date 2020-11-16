@@ -58,6 +58,8 @@ class ToolingJob
 
     memoize
     def folder
+      return "/mnt/tooling_jobs/#{job_id}" if Rails.env.production?
+
       "/tmp/exercism-tooling-jobs-efs/#{job_id}"
     end
   end

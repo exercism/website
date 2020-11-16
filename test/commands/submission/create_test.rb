@@ -15,7 +15,7 @@ class Submission::CreateTest < ActiveSupport::TestCase
       { filename: filename_2, content: content_2 }
     ]
 
-    Submission::UploadWithExercise.expects(:call)
+    ToolingJob::UploadFiles.expects(:call)
     Submission::TestRun::Init.expects(:call)
 
     # TODO: Move to iteration::create
@@ -59,10 +59,6 @@ class Submission::CreateTest < ActiveSupport::TestCase
       { filename: filename_2, content: content_2 }
     ]
 
-    # We'll call upload so stub it
-    Submission::UploadWithExercise.stubs(:call)
-    ToolingJob::Create.stubs(:call)
-
     # Do it once successfully
     Submission::Create.(solution, files, :cli)
 
@@ -81,8 +77,6 @@ class Submission::CreateTest < ActiveSupport::TestCase
   test "award rookie badge job is enqueued" do
     # Generic setup
     files = [{ filename: 'foo.bar', content: "foobar" }]
-    Submission::UploadWithExercise.stubs(:call)
-    ToolingJob::Create.stubs(:call)
 
     # Create user and solution
     user = create :user

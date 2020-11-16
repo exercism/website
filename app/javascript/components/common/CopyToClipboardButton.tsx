@@ -10,7 +10,7 @@ const KEY_NAMES_LEGACY = Object.freeze({
 })
 
 export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
-  if (navigator.clipboard === undefined) {
+  if (window.navigator.clipboard === undefined) {
     return null
   }
 
@@ -18,7 +18,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
   const [justCopied, setJustCopied] = useState(false)
 
   const copyTextToClipboard = async () => {
-    await navigator.clipboard.writeText(textToCopy)
+    await window.navigator.clipboard.writeText(textToCopy)
     setJustCopied(true)
   }
 

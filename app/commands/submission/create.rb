@@ -57,32 +57,24 @@ class Submission
     # TODO: Simply this once the analyse code has
     # moved to iterations service.
     def init_services
-      # Let's get it up first, then we'll fan out to
-      # all the services we want to run this,
-      s3_uri = Submission::UploadWithExercise.(
-        submission_uuid,
+      job_id = SecureRandom.uuid
+      ToolingJob::UploadFiles.(
+        job_id,
         submitted_files,
         exercise_files,
         solution.track.test_regexp
       )
+      Submission::TestRun::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
 
-      jobs = []
-      jobs << [
-        Thread.new do
-          Submission::TestRun::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
-        end
-      ]
       # TODO: Move to iteration create
       # jobs += [
       #   Thread.new do
-      #     Submission::Analysis::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+      #     Submission::Analysis::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
       #   end,
       #   Thread.new do
-      #     Submission::Representation::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+      #     Submission::Representation::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
       #   end
       # ]
-
-      jobs.each(&:join)
     end
 
     def create_submission!

@@ -1,10 +1,7 @@
 require 'test_helper'
 
-class Submission::UploadWithExerciseTest < ActiveSupport::TestCase
+class ToolingJob::UploadFilesTest < ActiveSupport::TestCase
   test "uploads correct files" do
-    submission_uuid = SecureRandom.compact_uuid
-    s3_client = mock
-
     exercise_files = {
       "bob.rb" => "stub content\n",
       "bob_test.rb" => "test content\n",
@@ -19,6 +16,9 @@ class Submission::UploadWithExerciseTest < ActiveSupport::TestCase
       # ".meta/config.json" => "Overriden config" # Don't override tests
     }.map { |k, v| { filename: k, content: v } }
 
+    job_id = "foobar"
+    folder = "/tmp/exercism-tooling-jobs-efs/#{job_id}"
+
     {
       "bob.rb": "stub content\n",
       "bob_test.rb": "test content\n",
@@ -27,20 +27,11 @@ class Submission::UploadWithExerciseTest < ActiveSupport::TestCase
       "subdir/new_file.rb": "New file contents"
       # ".meta/config.json": "{\n  \"version\": \"15.8.12\"\n}\n"
     }.each do |filename, content|
-      s3_client.expects(:put_object).with(
-        bucket: Exercism.config.aws_submissions_bucket,
-        key: "test/combined/#{submission_uuid}/#{filename}",
-        acl: 'private',
-        body: content
-      )
+      File.expects(:write).with("#{folder}/#{filename}", content)
     end
 
-    ExercismConfig::SetupS3Client.stubs(call: s3_client)
-    actual_s3_uri = Submission::UploadWithExercise.(
-      submission_uuid, submission_files, exercise_files, /test/
+    ToolingJob::UploadFiles.(
+      job_id, submission_files, exercise_files, /test/
     )
-
-    expected_s3_uri = "s3://#{Exercism.config.aws_submissions_bucket}/test/combined/#{submission_uuid}"
-    assert_equal expected_s3_uri, actual_s3_uri
   end
 end

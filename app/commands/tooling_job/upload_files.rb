@@ -1,10 +1,10 @@
-class Submission
-  class UploadWithExercise
+class ToolingJob
+  class UploadFiles
     include Mandate
 
     # This class must NOT access the database
-    def initialize(submission_uuid, submission_files, exercise_files, test_regexp)
-      @submission_uuid = submission_uuid
+    def initialize(job_id, submission_files, exercise_files, test_regexp)
+      @job_id = job_id
       @submission_files = submission_files
       @exercise_files = exercise_files
       @test_regexp = test_regexp
@@ -18,13 +18,10 @@ class Submission
 
       # Then upload them all in parallel
       upload_files
-
-      # Return the s3_uri
-      "s3://#{submissions_bucket}/#{s3_path}"
     end
 
     private
-    attr_reader :submission_uuid, :submission_files, :exercise_files, :test_regexp, :files_to_upload
+    attr_reader :job_id, :submission_files, :exercise_files, :test_regexp, :files_to_upload
 
     def add_submission_files
       # TODO: Skip files that have non alphanumeric chars
@@ -54,21 +51,14 @@ class Submission
     end
 
     def upload_file(filename, code)
-      s3_client = ExercismConfig::SetupS3Client.()
-      s3_client.put_object(body: code,
-                           bucket: submissions_bucket,
-                           key: "#{s3_path}/#{filename}",
-                           acl: 'private')
+      filepath = "#{folder}/#{filename}"
+      FileUtils.mkdir_p(filepath.split("/").tap(&:pop).join("/"))
+      File.write(filepath, code)
     end
 
     memoize
-    def submissions_bucket
-      Exercism.config.aws_submissions_bucket
-    end
-
-    memoize
-    def s3_path
-      "#{Rails.env}/combined/#{submission_uuid}"
+    def folder
+      "/tmp/exercism-tooling-jobs-efs/#{job_id}"
     end
   end
 end

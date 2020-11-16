@@ -4,15 +4,20 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
   test "calls to publish_message" do
     solution = create :concept_solution
     submission_uuid = SecureRandom.compact_uuid
-    s3_uri = "s3://..."
+    job_id = SecureRandom.uuid
 
     ToolingJob::Create.expects(:call).with(
+      job_id,
       :analyzer,
       submission_uuid: submission_uuid,
       language: solution.track.slug,
-      exercise: solution.exercise.slug,
-      s3_uri: s3_uri
+      exercise: solution.exercise.slug
     )
-    Submission::Analysis::Init.(submission_uuid, solution.track.slug, solution.exercise.slug, s3_uri)
+    Submission::Analysis::Init.(
+      job_id,
+      submission_uuid,
+      solution.track.slug,
+      solution.exercise.slug
+    )
   end
 end

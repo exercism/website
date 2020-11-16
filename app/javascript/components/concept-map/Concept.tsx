@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { CompleteIcon } from './CompleteIcon'
-import * as Tooltips from '../tooltips'
+import { Concept as ConceptTooltip } from '../tooltips'
 import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 import { IConcept, ConceptStatus } from './concept-map-types'
@@ -93,7 +93,7 @@ export const Concept = ({
           hidden={!hasExercises || !isStarted}
         />
       </a>
-      <Tooltips.Concept
+      <ConceptTooltip
         contentEndpoint={tooltip_url}
         hoverRequestToShow={isActiveHover}
         focusRequestToShow={hasFocus}

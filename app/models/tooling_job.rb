@@ -42,7 +42,6 @@ class ToolingJob
   attr_reader :id, :submission_uuid, :type, :job_status, :created_at
   attr_reader :language, :exercise, :locked_until
   attr_reader :execution_status, :execution_metadata, :execution_output
-  attr_reader :s3_uri
 
   def initialize(params)
     params.each { |key, value| send("#{key}=", value) }

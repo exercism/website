@@ -21,7 +21,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
         }
       )
 
-      ToolingJob::Create.(type, { foo: :bar })
+      ToolingJob::Create.(SecureRandom.uuid, type, { foo: :bar })
     end
   end
 end

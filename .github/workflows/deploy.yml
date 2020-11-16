@@ -22,6 +22,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: 50 18 * * *
 
 jobs:
   deploy:

@@ -4,6 +4,7 @@ v3_url = "https://github.com/exercism/v3"
 repo = Git::Track.new(:ruby, repo_url: v3_url)
 
 # This updates it once before we stub it below
+repo.send(:repo).update!
 repo.send(:repo).send(:rugged_repo)
 
 # Adding this is many OOM faster. It's horrible and temporary

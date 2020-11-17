@@ -267,6 +267,8 @@ export const Concept = ({
       return
     }
 
+    // setTimeout used to fire this dispatch AFTER the tooltip
+    // self-hever has time to fire
     const timeoutRef = setTimeout(() => {
       dispatch({
         id: tooltipId,
@@ -274,7 +276,7 @@ export const Concept = ({
           type: 'request-hide-from-ref-hover',
         },
       })
-    }, 150)
+    }, 0)
 
     return () => {
       clearTimeout(timeoutRef)

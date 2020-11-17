@@ -69,9 +69,10 @@ module Git
     end
 
     def update!
-      system("cd #{repo_dir} && git fetch", out: File::NULL, err: File::NULL)
-    rescue Rugged::NetworkError
+      system("cd #{repo_dir} && git fetch origin master:master", out: File::NULL, err: File::NULL)
+    rescue Rugged::NetworkError => e
       # Don't block development offline
+      Rails.logger.info e.message
     end
 
     private
@@ -83,7 +84,7 @@ module Git
 
     def repo_dir
       # TODO: Change when breaking out of monorepo
-      "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_url.split('/').last}"
+      "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-v3"
       # "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_name}"
     end
 

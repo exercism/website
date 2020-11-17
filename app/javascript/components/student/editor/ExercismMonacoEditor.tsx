@@ -11,6 +11,7 @@ import {
 } from 'monaco-languageclient'
 import normalizeUrl from 'normalize-url'
 import ReconnectingWebsocket from 'reconnecting-websocket'
+import { v4 as uuidv4 } from 'uuid'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -54,7 +55,7 @@ export function ExercismMonacoEditor({
     })
 
     MonacoServices.install(editor)
-    const url = normalizeUrl(`ws://localhost:3000/${language}`)
+    const url = normalizeUrl(`${process.env.LANGUAGE_SERVER_HOST}/${language}/${uuidv4()}`)
     const webSocket = new ReconnectingWebsocket(url, [], {
       maxReconnectionDelay: 10000,
       minReconnectionDelay: 1000,

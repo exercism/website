@@ -55,7 +55,7 @@ export function ExercismMonacoEditor({
 
     MonacoServices.install(editor)
     const url = normalizeUrl(
-      `ws://${process.env.LANGUAGE_SERVER_HOST}/${language}/12345`
+      `${process.env.LANGUAGE_SERVER_HOST}/${language}/12345`
     )
     const webSocket = new ReconnectingWebsocket(url, [], {
       maxReconnectionDelay: 10000,

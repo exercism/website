@@ -236,7 +236,7 @@ export const Concept = ({
   }`
 
   // Retrieve the HTML contents from the contentEndpoint
-  const { isLoading, isError, data: html_content } = useQuery<string>(
+  const { isLoading, isError, data: htmlContent } = useQuery<string>(
     tooltipId,
     () => fetch(contentEndpoint).then((res) => res.text())
   )
@@ -363,7 +363,7 @@ export const Concept = ({
   }, [showState, tooltipId, isLoading, isError])
 
   // short-circuit return null if not ready to display the tooltip
-  if ((showState !== 'visible' && showState !== 'invisible') || !html_content) {
+  if ((showState !== 'visible' && showState !== 'invisible') || !htmlContent) {
     return null
   }
 
@@ -417,7 +417,7 @@ export const Concept = ({
           },
         })
       }
-      dangerouslySetInnerHTML={{ __html: html_content }}
+      dangerouslySetInnerHTML={{ __html: htmlContent }}
     ></div>
   )
 }

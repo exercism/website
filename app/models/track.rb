@@ -16,7 +16,7 @@ class Track < ApplicationRecord
     :ignore_regexp,
     to: :git
 
-  delegate :head_sha, to: :git, prefix: :git
+  delegate :head_sha, to: :git, prefix: true
 
   def self.for!(param)
     return param if param.is_a?(Track)

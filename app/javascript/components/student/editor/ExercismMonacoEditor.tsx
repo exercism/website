@@ -54,8 +54,10 @@ export function ExercismMonacoEditor({
       run: onRunTests,
     })
 
-    MonacoServices.install(editor)
-    const url = normalizeUrl(`${process.env.LANGUAGE_SERVER_HOST}/${language}/${uuidv4()}`)
+    MonacoServices.install(editor, { rootUri: '/' })
+    const url = normalizeUrl(
+      `${process.env.LANGUAGE_SERVER_HOST}/${language}/${uuidv4()}`
+    )
     const webSocket = new ReconnectingWebsocket(url, [], {
       maxReconnectionDelay: 10000,
       minReconnectionDelay: 1000,

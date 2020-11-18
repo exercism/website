@@ -7,13 +7,14 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
 
     solution = create :practice_solution, user: user
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     request = User::RequestMentor.(solution, :code_review, "")
 
     Mentor::LockRequest.(mentor, request)
     assert request.reload.locked?
 
-    Mentor::StartDiscussion.(mentor, request, submission, "This is great!! Why do you even need a mentor?")
+    Mentor::StartDiscussion.(mentor, request, iteration, "This is great!! Why do you even need a mentor?")
     assert_equal 1, solution.mentor_discussions.size
     assert_equal 1, solution.mentor_discussions.first.posts.size
   end

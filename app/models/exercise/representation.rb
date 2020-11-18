@@ -7,10 +7,9 @@ class Exercise::Representation < ApplicationRecord
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
 
-  has_many :submission_representations, class_name: "Submission::Representation",
+  has_many :submission_representations, class_name: "Submission::Representation", # rubocop:disable Rails/InverseOf
                                         foreign_key: :ast_digest,
-                                        primary_key: :ast_digest,
-                                        inverse_of: :exercise_representations
+                                        primary_key: :ast_digest
 
   scope :order_by_frequency, lambda {
     left_joins(:submission_representations).

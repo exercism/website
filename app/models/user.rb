@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :mentor_discussion_posts, as: :author, dependent: :destroy
 
   has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition", dependent: :destroy
 

@@ -40,7 +40,9 @@ class Iteration
         Thread.new do
           job_id = SecureRandom.uuid
           ToolingJob::UploadFiles.(job_id, submission_files, [], test_regexp)
-          Submission::Analysis::Init.(job_id, submission_uuid, track_slug, exercise_slug)
+
+          # TODO: Readd this to reenable analyses
+          # Submission::Analysis::Init.(job_id, submission_uuid, track_slug, exercise_slug)
         end
       ].each(&:join)
     end

@@ -1,12 +1,21 @@
 class Submission::Representation < ApplicationRecord
+  extend Mandate::Memoize
+
+  def self.digest_ast(ast)
+    return nil if ast.blank?
+
+    Digest::SHA1.hexdigest(ast)
+  end
+
   belongs_to :submission
-  has_many :exercise_representations, class_name: "Submission::Representation",
-                                      foreign_key: :ast_digest,
-                                      primary_key: :ast_digest,
-                                      inverse_of: :submission_representations
 
   before_create do
-    self.ast_digest = self.class.digest_ast(ast)
+    self.ast_digest = self.class.digest_ast(ast) unless self.ast_digest
+  end
+
+  def has_feedback?
+    Rails.logger.warn "Calling has_feedback? on a submission_representation may cause n+1s"
+    exercise_representation.has_feedback?
   end
 
   def ops_success?
@@ -17,16 +26,11 @@ class Submission::Representation < ApplicationRecord
     !ops_success?
   end
 
-  # TOOD: Memoize
+  memoize
   def exercise_representation
     Exercise::Representation.find_by!(
       exercise: submission.exercise,
-      exercise_version: submission.exercise_version,
       ast_digest: ast_digest
     )
-  end
-
-  def self.digest_ast(ast)
-    Digest::SHA1.hexdigest(ast)
   end
 end

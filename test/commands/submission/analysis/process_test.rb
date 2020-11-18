@@ -10,8 +10,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
     Submission::Analysis::Process.(submission.uuid, ops_status, data)
 
-    assert_equal 1, submission.reload.analyses.size
-    analysis = submission.reload.analyses.first
+    analysis = submission.reload.analysis
 
     assert_equal ops_status, analysis.ops_status
     assert_equal status.to_sym, analysis.status

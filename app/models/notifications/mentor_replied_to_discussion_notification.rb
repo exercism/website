@@ -26,7 +26,7 @@ module Notifications
     end
 
     def mentor
-      discussion_post.user
+      discussion_post.author
     end
 
     def discussion_post

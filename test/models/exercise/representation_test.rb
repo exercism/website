@@ -33,35 +33,34 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
   test "num_times_used" do
     ast = SecureRandom.uuid
+    ast_digest = Submission::Representation.digest_ast(ast)
     exercise_representation = create(:exercise_representation,
       ast: ast,
-      ast_digest: Submission::Representation.digest_ast(ast))
+      ast_digest: ast_digest)
     assert_equal 0, exercise_representation.num_times_used
 
     create :submission_representation
     assert_equal 0, exercise_representation.num_times_used
 
-    create :submission_representation, ast: ast
+    create :submission_representation, ast_digest: ast_digest
     assert_equal 1, exercise_representation.num_times_used
 
-    create :submission_representation, ast: ast
+    create :submission_representation, ast_digest: ast_digest
     assert_equal 2, exercise_representation.num_times_used
   end
 
   test "self.order_by_frequency" do
-    rare_ast = SecureRandom.uuid
-    medium_ast = SecureRandom.uuid
-    frequent_ast = SecureRandom.uuid
-    exercise_representation_medium = create(:exercise_representation,
-      ast_digest: Submission::Representation.digest_ast(medium_ast))
-    exercise_representation_rare = create(:exercise_representation,
-      ast_digest: Submission::Representation.digest_ast(rare_ast))
-    exercise_representation_frequent = create(:exercise_representation,
-      ast_digest: Submission::Representation.digest_ast(frequent_ast))
+    rare_ast_digest = SecureRandom.uuid
+    medium_ast_digest = SecureRandom.uuid
+    frequent_ast_digest = SecureRandom.uuid
 
-    2.times { create :submission_representation, ast: medium_ast }
-    1.times { create :submission_representation, ast: rare_ast }
-    3.times { create :submission_representation, ast: frequent_ast }
+    exercise_representation_medium = create(:exercise_representation, ast_digest: medium_ast_digest)
+    exercise_representation_rare = create(:exercise_representation, ast_digest: rare_ast_digest)
+    exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest)
+
+    2.times { create :submission_representation, ast_digest: medium_ast_digest }
+    1.times { create :submission_representation, ast_digest: rare_ast_digest }
+    3.times { create :submission_representation, ast_digest: frequent_ast_digest }
 
     expected = [
       exercise_representation_frequent,

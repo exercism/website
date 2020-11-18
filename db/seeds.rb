@@ -67,7 +67,8 @@ tags = [
 ]
 
 track_slugs = []
-repo = Git::Repository.new(:v3, repo_url:"https://github.com/exercism/v3")
+repo_url = "https://github.com/exercism/v3"
+repo = Git::Repository.new(:v3, repo_url: repo_url)
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
@@ -76,6 +77,8 @@ track_slugs.each do |track_slug|
     puts "Track already added: #{track_slug}"
     next
   end
+
+  git_track = Git::Track.new(track_slug, repo_url: repo_url)
 
   puts "Adding Track: #{track_slug}"
 
@@ -93,6 +96,7 @@ track_slugs.each do |track_slug|
     title: title,
     blurb: blurb,
     repo_url: v3_url,
+    git_sha: git_track.head_sha,
 
     # Randomly selects 1-5 tags from different categories
     tags: tags.sample(1 + rand(5)).map {|category|category.sample}
@@ -106,6 +110,7 @@ track_slugs.each do |track_slug|
         uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
         slug: exercise_config[:slug],
         title: exercise_config[:slug].titleize,
+        git_sha: git_track.head_sha
       )
       
       exercise_config[:prerequisites].each do |slug|

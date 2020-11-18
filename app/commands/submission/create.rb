@@ -65,16 +65,6 @@ class Submission
         solution.track.test_regexp
       )
       Submission::TestRun::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
-
-      # TODO: Move to iteration create
-      # jobs += [
-      #   Thread.new do
-      #     Submission::Analysis::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
-      #   end,
-      #   Thread.new do
-      #     Submission::Representation::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
-      #   end
-      # ]
     end
 
     def create_submission!

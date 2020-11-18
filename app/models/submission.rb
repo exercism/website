@@ -1,13 +1,14 @@
 class Submission < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :solution
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
 
   has_many :files, class_name: "Submission::File", dependent: :destroy
-  has_many :test_runs, class_name: "Submission::TestRun", dependent: :destroy
-  has_many :analyses, class_name: "Submission::Analysis", dependent: :destroy
-  has_many :representations, class_name: "Submission::Representation", dependent: :destroy
-  has_many :discussion_posts, class_name: "Submission::DiscussionPost", dependent: :destroy
+  has_one :test_run, class_name: "Submission::TestRun", dependent: :destroy
+  has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
+  has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
 
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, # rubocop:disable Layout/LineLength
        _prefix: "tests"
@@ -34,16 +35,10 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
-  def exercise_version
-    # TODO: Read this back from git
-    '15.8.12'
-    # track.repo.exercise(git_slug, git_sha).version
-  end
-
   def serialized
     tests_data = tests_status
     if tests_exceptioned?
-      job = ToolingJob.find(test_runs.last.tooling_job_id, full: true)
+      job = ToolingJob.find(test_run.tooling_job_id, full: true)
       tests_data += "\n\n#{JSON.pretty_generate(job.execution_metadata)}"
     end
 
@@ -55,5 +50,23 @@ class Submission < ApplicationRecord
       representationStatus: representation_status,
       analysisStatus: analysis_status
     }
+  end
+
+  memoize
+  def exercise_representation
+    Rails.logger.warn "Calling exercise_representation on a submission may cause n+1s"
+    submission_representation.exercise_representation
+  end
+
+  memoize
+  def has_automated_feedback?
+    Rails.logger.warn "Calling has_automated_feedback? on a submission may cause n+1s"
+    exercise_representation.has_feedback?
+  end
+
+  memoize
+  def automated_feedback
+    feedback = []
+    feedback << exercise_representation if has_automated_feedback?
   end
 end

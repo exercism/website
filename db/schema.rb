@@ -34,10 +34,9 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   create_table "exercise_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "source_submission_id", null: false
-    t.integer "exercise_version", limit: 2, null: false
     t.text "ast", null: false
     t.string "ast_digest", null: false
-    t.json "mapping", null: false
+    t.json "mapping"
     t.text "feedback_markdown"
     t.text "feedback_html"
     t.bigint "feedback_author_id"
@@ -45,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.integer "action", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "exercise_version", "ast_digest"], name: "exercise_representations_unique", unique: true
+    t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
@@ -108,6 +107,19 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "solution_mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "discussion_id", null: false
+    t.bigint "iteration_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discussion_id"], name: "index_solution_mentor_discussion_posts_on_discussion_id"
+    t.index ["iteration_id"], name: "index_solution_mentor_discussion_posts_on_iteration_id"
+    t.index ["user_id"], name: "index_solution_mentor_discussion_posts_on_user_id"
+  end
+
   create_table "solution_mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
@@ -156,20 +168,6 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
-  end
-
-  create_table "submission_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "submission_id", null: false
-    t.bigint "user_id", null: false
-    t.string "source_type"
-    t.bigint "source_id"
-    t.text "content_markdown", null: false
-    t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["source_type", "source_id"], name: "discussion_post_source_idx"
-    t.index ["submission_id"], name: "index_submission_discussion_posts_on_submission_id"
-    t.index ["user_id"], name: "index_submission_discussion_posts_on_user_id"
   end
 
   create_table "submission_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -318,6 +316,9 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"
   add_foreign_key "notifications", "users"
+  add_foreign_key "solution_mentor_discussion_posts", "iterations"
+  add_foreign_key "solution_mentor_discussion_posts", "solution_mentor_discussions", column: "discussion_id"
+  add_foreign_key "solution_mentor_discussion_posts", "users"
   add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
   add_foreign_key "solution_mentor_discussions", "solutions"
   add_foreign_key "solution_mentor_discussions", "users", column: "mentor_id"
@@ -326,8 +327,6 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"
-  add_foreign_key "submission_discussion_posts", "submissions"
-  add_foreign_key "submission_discussion_posts", "users"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
   add_foreign_key "submission_test_runs", "submissions"

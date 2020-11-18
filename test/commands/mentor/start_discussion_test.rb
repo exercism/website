@@ -6,9 +6,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
     content_markdown = "Some interesting info"
 
-    Mentor::StartDiscussion.(mentor, request, submission, content_markdown)
+    Mentor::StartDiscussion.(mentor, request, iteration, content_markdown)
 
     assert_equal 1, Solution::MentorDiscussion.count
 
@@ -19,14 +20,15 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
 
     assert_equal 1, discussion.posts.count
     assert_equal content_markdown, discussion.posts.first.content_markdown
-    assert_equal mentor, discussion.posts.first.user
+    assert_equal mentor, discussion.posts.first.author
   end
 
   test "creates notification" do
     request = create :solution_mentor_request
     submission = create :submission, solution: request.solution
+    iteration = create :iteration, submission: submission
     user = request.solution.user
-    Mentor::StartDiscussion.(create(:user), request, submission, "foobar")
+    Mentor::StartDiscussion.(create(:user), request, iteration, "foobar")
 
     assert_equal 1, user.notifications.size
     assert_equal Notifications::MentorStartedDiscussionNotification, user.notifications.first.class
@@ -36,9 +38,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     assert_equal :pending, request.status
-    Mentor::StartDiscussion.(create(:user), request, submission, "foo")
+    Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
     assert_equal :fulfilled, request.reload.status
   end
 
@@ -46,11 +49,12 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     request.expects(:fulfilled!).raises(RuntimeError)
 
     begin
-      Mentor::StartDiscussion.(create(:user), request, submission, "foo")
+      Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
     rescue RuntimeError
     end
 
@@ -62,11 +66,12 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     Solution::MentorDiscussion.expects(:create!).raises(RuntimeError)
 
     begin
-      Mentor::StartDiscussion.(create(:user), request, submission, "foo")
+      Mentor::StartDiscussion.(create(:user), request, iteration, "foo")
     rescue RuntimeError
     end
 
@@ -78,9 +83,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     begin
-      Mentor::StartDiscussion.(create(:user), request, submission, " \n ")
+      Mentor::StartDiscussion.(create(:user), request, iteration, " \n ")
     rescue ActiveRecord::RecordInvalid
     end
 
@@ -94,9 +100,10 @@ class Mentor::StartDiscussionTest < ActiveSupport::TestCase
     request = create :solution_mentor_request, solution: solution
     request.expects(:lockable_by?).with(mentor).returns(false)
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     assert_raises SolutionLockedByAnotherMentorError do
-      Mentor::StartDiscussion.(mentor, request, submission, "foobar")
+      Mentor::StartDiscussion.(mentor, request, iteration, "foobar")
     end
 
     assert_equal :pending, request.reload.status

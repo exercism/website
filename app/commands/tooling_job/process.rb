@@ -16,12 +16,7 @@ class ToolingJob
 
     # TODO: Refactor this to be like test runner
     def process_representer_job!
-      Submission::Representation::Process.(
-        job.submission_uuid,
-        job.execution_status,
-        job.execution_output["representation.txt"],
-        safe_json_parse("mapping.json")
-      )
+      Submission::Representation::Process.(job)
     end
 
     # TODO: Refactor this to be like test runner

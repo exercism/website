@@ -5,23 +5,25 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     ops_status = 200
     ast = "here(lives(an(ast)))"
+    ast_digest = Submission::Representation.digest_ast(ast)
 
-    Submission::Representation::Process.(submission.uuid, ops_status, ast, {})
+    job = create_representer_job!(submission, execution_status: ops_status, ast: ast)
+    Submission::Representation::Process.(job)
 
-    assert_equal 1, submission.reload.representations.size
-    representation = submission.reload.representations.first
+    representation = submission.reload.submission_representation
 
     assert_equal ops_status, representation.ops_status
-    assert_equal ast, representation.ast
+    assert_equal ast_digest, representation.ast_digest
   end
 
   test "creates exercise representation" do
     ast = "my ast"
-    ast_digest = Digest::SHA1.hexdigest(ast)
+    ast_digest = Submission::Representation.digest_ast(ast)
     submission = create :submission
     mapping = { 'foo' => 'bar' }
 
-    Submission::Representation::Process.(submission.uuid, 200, ast, mapping)
+    job = create_representer_job!(submission, execution_status: 200, ast: ast, mapping: mapping)
+    Submission::Representation::Process.(job)
 
     assert_equal 1, Exercise::Representation.count
     representation = Exercise::Representation.first
@@ -30,10 +32,6 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     assert_equal ast, representation.ast
     assert_equal ast_digest, representation.ast_digest
     assert_equal mapping, representation.mapping
-
-    # TODO: Check the exercise version properly here.
-    # Add it to the git repo and check it retrieves correctly
-    assert_equal 15, representation.exercise_version
   end
 
   test "test exercise representations are reused" do
@@ -42,20 +40,26 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission_2 = create :submission, solution: solution
     submission_3 = create :submission, solution: solution
 
-    Submission::Representation::Process.(submission_1.uuid, 200, "ast 1", {})
-    Submission::Representation::Process.(submission_2.uuid, 200, "ast 1", {})
+    job_1 = create_representer_job!(submission_1, execution_status: 200, ast: "ast 1")
+    job_2 = create_representer_job!(submission_2, execution_status: 200, ast: "ast 1")
+
+    Submission::Representation::Process.(job_1)
+    Submission::Representation::Process.(job_2)
 
     assert_equal 2, Submission::Representation.count
     assert_equal 1, Exercise::Representation.count
 
-    Submission::Representation::Process.(submission_3.uuid, 200, "ast 2", {})
+    job_3 = create_representer_job!(submission_3, execution_status: 200, ast: "ast 2")
+    Submission::Representation::Process.(job_3)
     assert_equal 3, Submission::Representation.count
     assert_equal 2, Exercise::Representation.count
   end
 
   test "handle ops error" do
     submission = create :submission
-    Submission::Representation::Process.(submission.uuid, 500, "ast", {})
+
+    job = create_representer_job!(submission, execution_status: 500, ast: "ast 2")
+    Submission::Representation::Process.(job)
 
     assert submission.reload.representation_exceptioned?
   end
@@ -65,12 +69,13 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast(ast),
       action: :approve
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, ast, {})
+
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    Submission::Representation::Process.(job)
 
     assert submission.reload.representation_approved?
   end
@@ -80,12 +85,13 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast(ast),
       action: :disapprove
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, ast, {})
+
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    Submission::Representation::Process.(job)
 
     assert submission.reload.representation_disapproved?
   end
@@ -98,19 +104,16 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast(ast),
       action: :disapprove,
       feedback_author: mentor,
       feedback_markdown: feedback
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, ast, {})
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    Submission::Representation::Process.(job)
 
-    assert submission.reload.representation_disapproved?
-    assert_equal 1, submission.reload.discussion_posts.size
-    assert_equal mentor, submission.reload.discussion_posts.first.user
-    assert_equal feedback, submission.reload.discussion_posts.first.content_markdown
+    assert submission.has_automated_feedback?
   end
 
   test "handle inconclusive" do
@@ -118,14 +121,34 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast(ast),
       action: :pending
 
     submission = create :submission, exercise: exercise
-    Submission::Representation::Process.(submission.uuid, 200, ast, {})
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    Submission::Representation::Process.(job)
 
     assert submission.reload.representation_inconclusive?
+  end
+
+  test "handle exceptions during processing" do
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    create :exercise_representation,
+      exercise: exercise,
+      ast_digest: Submission::Representation.digest_ast(ast),
+      action: :disapprove,
+      feedback_author: create(:user),
+      feedback_markdown: "foobar"
+
+    submission = create :submission, exercise: exercise
+
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    cmd = Submission::Representation::Process.new(job)
+    cmd.expects(:handle_disapprove!).raises
+    cmd.()
+
+    assert submission.reload.representation_exceptioned?
   end
 
   test "broadcast" do
@@ -133,7 +156,6 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast(ast),
       action: :approve
 
@@ -142,6 +164,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     SubmissionChannel.expects(:broadcast!).with(submission)
     SubmissionsChannel.expects(:broadcast!).with(submission.solution)
 
-    Submission::Representation::Process.(submission.uuid, 200, ast, {})
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    Submission::Representation::Process.(job)
   end
 end

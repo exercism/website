@@ -12,7 +12,7 @@ class Submission
       def call
         # Firstly create a record for debugging and to give
         # us some basis of the next set of decisions etc.
-        analysis = submission.analyses.create!(
+        analysis = submission.create_analysis!(
           ops_status: ops_status,
           data: data
         )

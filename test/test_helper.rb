@@ -102,6 +102,19 @@ class ActiveSupport::TestCase
     )
   end
 
+  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil)
+    execution_output = {
+      "representation.txt" => ast,
+      "mapping.json" => mapping&.to_json
+    }
+    create_tooling_job!(
+      submission,
+      :representer,
+      execution_status: execution_status,
+      execution_output: execution_output
+    )
+  end
+
   def create_tooling_job!(submission, type, params = {})
     id = SecureRandom.uuid
     write_to_dynamodb(

@@ -53,20 +53,21 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # It should approve with comment
     create :exercise_representation,
       exercise: concept_exercise_basics,
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast('some ast'),
       action: :approve,
       feedback_markdown: "Fantastic Work!!",
       feedback_author: mentor
-    Submission::Representation::Process.(
-      basics_submission_1.uuid,
-      200,
-      'some ast',
-      { 'some' => 'mapping' }
+
+    job = create_representer_job!(
+      basics_submission_1,
+      execution_status: 200,
+      ast: 'some ast',
+      mapping: { 'some' => 'mapping' }
     )
+    Submission::Representation::Process.(job)
     assert basics_submission_1.reload.representation_approved?
-    assert_equal 1, basics_submission_1.discussion_posts.size
-    assert_equal mentor, basics_submission_1.discussion_posts.first.user
-    assert_equal "Fantastic Work!!", basics_submission_1.discussion_posts.first.content_markdown
+    assert_equal 1, basics_submission_1.automated_feedback.size
+    assert_equal mentor, basics_submission_1.automated_feedback.first.feedback_author
+    assert_equal "Fantastic Work!!", basics_submission_1.automated_feedback.first.feedback_markdown
   end
 end

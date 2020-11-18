@@ -3,7 +3,7 @@ require 'test_helper'
 class Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSupport::TestCase
   test "uniqueness_key" do
     user = create :user
-    discussion_post = create(:submission_discussion_post)
+    discussion_post = create(:solution_mentor_discussion_post)
 
     notification = Notifications::MentorRepliedToDiscussionNotification.create!(
       user: user,
@@ -17,9 +17,9 @@ class Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSupport::
     track = create :track
     exercise = create :practice_exercise, track: track
     solution = create :practice_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    iteration = create :iteration, solution: solution
     mentor = create(:user)
-    discussion_post = create(:submission_discussion_post, submission: submission, user: mentor)
+    discussion_post = create(:solution_mentor_discussion_post, iteration: iteration, author: mentor)
 
     notification = Notifications::MentorRepliedToDiscussionNotification.create!(
       user: create(:user),

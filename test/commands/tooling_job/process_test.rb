@@ -19,7 +19,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to representer" do
     id = SecureRandom.uuid
     type = "representer"
-    submission_uuid = "submission-uuid"
+    submission = create :submission
     execution_status = "job-status"
     representation_contents = "some\nrepresentation"
     mapping_contents = { 'foo' => 'bar' }
@@ -29,7 +29,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       {
         "id" => id,
         "type" => type,
-        "submission_uuid" => submission_uuid,
+        "submission_uuid" => submission.uuid,
         "execution_status" => execution_status,
         "execution_output" => {
           "representation.txt" => representation_contents,
@@ -38,14 +38,15 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       }
     )
 
-    Submission::Representation::Process.expects(:call).with(
-      submission_uuid,
-      execution_status,
-      representation_contents,
-      mapping_contents
+    job = create_representer_job!(
+      submission,
+      execution_status: execution_status,
+      ast: representation_contents,
+      mapping: mapping_contents
     )
 
-    ToolingJob::Process.(id)
+    Submission::Representation::Process.expects(:call).with(job)
+    ToolingJob::Process.(job.id)
   end
 
   test "proxies to analyzer" do

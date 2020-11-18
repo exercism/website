@@ -68,7 +68,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       solution.exercise.slug)
 
     ToolingJob::UploadFiles.expects(:call).with(job_id, files, [], solution.track.test_regexp)
-    Submission::Analysis::Init.expects(:call).with(job_id, submission.uuid, solution.track.slug, solution.exercise.slug)
+    # TODO: Readd this when analyses are reenabled
+    # Submission::Analysis::Init.expects(:call).with(job_id, submission.uuid, solution.track.slug, solution.exercise.slug)
 
     Iteration::Create.(solution, submission)
 

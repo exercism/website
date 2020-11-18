@@ -37,17 +37,17 @@ module Git
       blob.present? ? blob.text : default
     end
 
-    def lookup_commit(oid, update_on_failure: true)
-      return head_commit if oid == "HEAD"
+    def lookup_commit(sha, update_on_failure: true)
+      return head_commit if sha == "HEAD"
 
-      lookup(oid).tap do |object|
+      lookup(sha).tap do |object|
         raise 'wrong-type' if object.type != :commit
       end
     rescue Rugged::OdbError
       raise 'not-found' unless update_on_failure
 
       update!
-      lookup_commit(oid, update_on_failure: false)
+      lookup_commit(sha, update_on_failure: false)
     end
 
     def find_file_oid(commit, path)

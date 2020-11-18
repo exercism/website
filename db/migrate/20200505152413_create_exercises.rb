@@ -9,6 +9,8 @@ class CreateExercises < ActiveRecord::Migration[6.0]
       t.string :slug, null: false
       t.string :title, null: false
 
+      t.string :git_sha, null: false
+
       t.timestamps
     end
   end

@@ -4,6 +4,7 @@ FactoryBot.define do
     uuid { SecureRandom.uuid }
     slug { 'bob' }
     title { slug.titleize }
+    git_sha { "HEAD" }
 
     trait :random_slug do
       slug { SecureRandom.hex }

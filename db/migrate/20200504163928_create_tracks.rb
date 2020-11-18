@@ -7,6 +7,8 @@ class CreateTracks < ActiveRecord::Migration[6.0]
 
       t.string :repo_url, null: false
 
+      t.string :git_sha, null: false
+
       t.json :tags, null: true
 
       t.boolean :active, default: true, null: false

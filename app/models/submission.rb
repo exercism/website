@@ -55,18 +55,20 @@ class Submission < ApplicationRecord
   memoize
   def exercise_representation
     Rails.logger.warn "Calling exercise_representation on a submission may cause n+1s"
-    submission_representation.exercise_representation
+
+    submission_representation&.exercise_representation
   end
 
   memoize
   def has_automated_feedback?
     Rails.logger.warn "Calling has_automated_feedback? on a submission may cause n+1s"
-    exercise_representation.has_feedback?
+    exercise_representation&.has_feedback?
   end
 
   memoize
   def automated_feedback
     feedback = []
     feedback << exercise_representation if has_automated_feedback?
+    feedback
   end
 end

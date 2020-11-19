@@ -63,10 +63,6 @@ module Git
       file_entries.map { |defn| defn[:full] }
     end
 
-    # def version
-    #   config[:version]
-    # end
-
     memoize
     def file_entries
       tree.walk(:preorder).map do |root, entry|

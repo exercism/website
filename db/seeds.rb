@@ -71,8 +71,6 @@ repo = Git::Repository.new(:v3, repo_url:"https://github.com/exercism/v3")
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
-puts track_slugs
-
 track_slugs.each do |track_slug|
   if Track.find_by(slug: track_slug)
     puts "Track already added: #{track_slug}"
@@ -118,7 +116,6 @@ track_slugs.each do |track_slug|
           c.name = slug.titleize
         end
       end
-
     end
   rescue => e
     #puts e.message

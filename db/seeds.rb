@@ -83,33 +83,23 @@ track_slugs.each do |track_slug|
     next
   end
 
-  git_track = Git::Track.new(track_slug, repo_url: repo_url)
-
-  puts "Adding Track: #{track_slug}"
-
   begin
-    git_track = Git::Track.new(track_slug, repo_url:"https://github.com/exercism/v3")
-    title = git_track.config[:language]
-    blurb = git_track.config[:blurb]
-  rescue StandardError
-    title = track_slug.titleize
-    blurb = 'C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.'
-  end
+    git_track = Git::Track.new(track_slug, repo_url: repo_url)
 
-  track = Track.create!(
-    slug: track_slug, 
-    title: title,
-    blurb: blurb,
-    repo_url: v3_url,
-    git_sha: git_track.head_sha,
+    puts "Adding Track: #{track_slug}"
+    track = Track.create!(
+      slug: track_slug, 
+      title: git_track.config[:language],
+      blurb: git_track.config[:blurb],
+      repo_url: v3_url,
+      git_sha: git_track.head_sha,
 
-    # Randomly selects 1-5 tags from different categories
-    tags: tags.sample(1 + rand(5)).map {|category|category.sample}
-  )
+      # Randomly selects 1-5 tags from different categories
+      tags: tags.sample(1 + rand(5)).map {|category|category.sample}
+    )
 
-  begin
     #track.update(title: track.repo.config[:language])
-    track.send(:git).config[:exercises][:concept].each do |exercise_config|
+    git_track.config[:exercises][:concept].each do |exercise_config|
       ce = ConceptExercise.create!(
         track: track,
         uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
@@ -148,7 +138,7 @@ track_slugs.each do |track_slug|
   rescue => e
     #puts e.message
     #puts e.backtrace
-    puts "Error creating concept exercises for Track #{track_slug}: #{e}"
+    puts "Error seeding Track #{track_slug}: #{e}"
   end
 end
 

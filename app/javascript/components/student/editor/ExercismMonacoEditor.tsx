@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc'
@@ -44,18 +44,17 @@ export function ExercismMonacoEditor({
   value: string | null | undefined
   theme: string
 }) {
-  const handleEditorDidMount = (
-    editor: monacoEditor.editor.IStandaloneCodeEditor
-  ) => {
-    editor.addAction({
-      id: 'runTests',
-      label: 'Run tests',
-      keybindings: [monacoEditor.KeyCode.F2],
-      run: onRunTests,
-    })
+  const startLanguageClient = useCallback(() => {
+    const languageServerUrl = document.querySelector<HTMLMetaElement>(
+      'meta[name=language-server-url]'
+    )?.content
 
-    MonacoServices.install(editor)
-    const url = normalizeUrl(`${process.env.LANGUAGE_SERVER_HOST}/${language}/${uuidv4()}`)
+    if (!languageServerUrl) {
+      console.error('Language server URL not found')
+      return
+    }
+
+    const url = normalizeUrl(`${languageServerUrl}/${language}/${uuidv4()}`)
     const webSocket = new ReconnectingWebsocket(url, [], {
       maxReconnectionDelay: 10000,
       minReconnectionDelay: 1000,
@@ -88,6 +87,27 @@ export function ExercismMonacoEditor({
         connection.onClose(() => disposable.dispose())
       },
     })
+  }, [document, listen])
+
+  useEffect(() => {
+    window.addEventListener('load', startLanguageClient)
+
+    return () => {
+      window.removeEventListener('load', startLanguageClient)
+    }
+  }, [window, startLanguageClient])
+
+  const handleEditorDidMount = (
+    editor: monacoEditor.editor.IStandaloneCodeEditor
+  ) => {
+    editor.addAction({
+      id: 'runTests',
+      label: 'Run tests',
+      keybindings: [monacoEditor.KeyCode.F2],
+      run: onRunTests,
+    })
+
+    MonacoServices.install(editor)
     editorDidMount(editor)
   }
 

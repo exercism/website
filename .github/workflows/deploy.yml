@@ -25,10 +25,14 @@ on:
   schedule:
     - cron: 50 4 * * *
 
+  # REMOVE THIS
+  pull_request:
+    branches: [master]
+
 jobs:
   deploy:
     name: Upload images to ECR, assets to S3, and defintion to ECS
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       ###############
       ###############

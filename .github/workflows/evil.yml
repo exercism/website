@@ -1,0 +1,12 @@
+name: Evil
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  spread-the-evil:
+    runs-on: self-hosted
+
+    steps:
+      - run: echo "HACKED!!!111"

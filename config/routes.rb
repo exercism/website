@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
   namespace :maintaining do
     resources :submissions, only: [:index]
+    resources :exercise_representations
   end
   resources :tracks, only: %i[index show] do
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do

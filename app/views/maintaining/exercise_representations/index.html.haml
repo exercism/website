@@ -1,0 +1,43 @@
+:css
+  #maintaining-exercise-representations {
+    padding:25px 5%;
+    font-size: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #888;
+    padding: 10px;
+    text-align:left;
+    font-weight:600px;
+  }
+  td {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #aaa;
+    padding: 10px;
+    white-space: pre;
+    font:monospace;
+  }
+
+#maintaining-exercise-representations
+  %h2.text-h3 Represenations
+  %table
+    %tr
+      %th Track
+      %th Exercise
+      %th Feedback
+      %th Options
+    - @representations.each do |representation|
+      %tr
+        %td= representation.exercise.track.title
+        %td= representation.exercise.title
+        %td= raw representation.feedback_markdown
+        %td= link_to "Edit", edit_maintaining_exercise_representation_path(representation)
+

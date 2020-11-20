@@ -5,7 +5,7 @@ module Git
 
     def call
       lookup_head_and_current_commit
-      update_track! if track_files_modified?
+      update_track! if track_config_modified?
     end
 
     private
@@ -18,7 +18,7 @@ module Git
       @head_commit = track.git.send(:repo).head_commit
     end
 
-    def track_files_modified?
+    def track_config_modified?
       return false if current_commit.oid == head_commit.oid
 
       diff = head_commit.diff(current_commit)

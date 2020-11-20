@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "git_sha", null: false
+    t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_exercises_on_track_id"

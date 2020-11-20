@@ -14,8 +14,8 @@ module Git
     def lookup_head_and_current_commit
       track.git.update!
 
-      @current_commit = track.git.send(:repo).lookup_commit(track.synced_to_git_sha)
-      @head_commit = track.git.send(:repo).head_commit
+      @current_commit = track.git.lookup_commit(track.synced_to_git_sha)
+      @head_commit = track.git.head_commit
     end
 
     def track_synced_to_head?

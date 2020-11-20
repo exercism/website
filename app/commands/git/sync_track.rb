@@ -5,7 +5,7 @@ module Git
 
     def call
       lookup_head_and_current_commit
-      update_track! if track_config_modified?
+      update_track!
     end
 
     private
@@ -14,7 +14,7 @@ module Git
     def lookup_head_and_current_commit
       track.git.send(:repo).update!
 
-      @current_commit = track.git.send(:repo).lookup_commit(track.git_sha)
+      @current_commit = track.git.send(:repo).lookup_commit(track.synced_to_git_sha)
       @head_commit = track.git.send(:repo).head_commit
     end
 
@@ -39,7 +39,7 @@ module Git
 
       # TODO: validate track to prevent invalid track data
 
-      track.git_sha = head_commit.oid if track.changed?
+      track.synced_to_git_sha = head_commit.oid
       track.save
     end
   end

@@ -87,7 +87,7 @@ track_slugs.each do |track_slug|
       title: git_track.config[:language],
       blurb: git_track.config[:blurb],
       repo_url: v3_url,
-      git_sha: git_track.head_sha,
+      synced_to_git_sha: git_track.head_sha,
 
       # Randomly selects 1-5 tags from different categories
       tags: tags.sample(1 + rand(5)).map {|category|category.sample}
@@ -100,7 +100,8 @@ track_slugs.each do |track_slug|
         uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
         slug: exercise_config[:slug],
         title: exercise_config[:slug].titleize,
-        git_sha: git_track.head_sha
+        git_sha: git_track.head_sha,
+        synced_to_git_sha: git_track.head_sha,
       )
       
       exercise_config[:prerequisites].each do |slug|

@@ -8,8 +8,9 @@ class CreateExercises < ActiveRecord::Migration[6.0]
 
       t.string :slug, null: false
       t.string :title, null: false
-
+      
       t.string :git_sha, null: false
+      t.string :synced_to_git_sha, null: false
 
       t.boolean :deprecated, default: false, null: false
 

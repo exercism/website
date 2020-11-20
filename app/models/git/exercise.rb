@@ -3,6 +3,8 @@ module Git
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
 
+    delegate :update!, :lookup_commit, :head_commit, to: :repo
+
     def self.for_solution(solution)
       new(
         solution.track.slug,
@@ -19,6 +21,10 @@ module Git
       @exercise_slug = exercise_slug
       @exercise_type = exercise_type
       @git_sha = git_sha
+    end
+
+    def head_sha
+      repo.head_commit.oid
     end
 
     def instructions

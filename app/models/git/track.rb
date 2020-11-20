@@ -22,7 +22,11 @@ module Git
     end
 
     def config(commit: repo.head_commit)
-      repo.read_json_blob(commit, "languages/#{slug}/config.json")
+      repo.read_json_blob(commit, config_file)
+    end
+
+    def config_file
+      "languages/#{slug}/config.json"
     end
 
     private

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useCallback, useMemo } from 'react'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc'
@@ -44,19 +44,20 @@ export function ExercismMonacoEditor({
   value: string | null | undefined
   theme: string
 }) {
-  const handleEditorDidMount = (
-    editor: monacoEditor.editor.IStandaloneCodeEditor
-  ) => {
-    editor.addAction({
-      id: 'runTests',
-      label: 'Run tests',
-      keybindings: [monacoEditor.KeyCode.F2],
-      run: onRunTests,
-    })
+  const languageServerUrl: string = useMemo(() => {
+    const languageServerHost = document.querySelector<HTMLMetaElement>(
+      'meta[name="language-server-url"]'
+    )?.content
 
-    MonacoServices.install(editor)
-    const url = normalizeUrl(`ws://localhost:3000/${language}/${uuidv4()}`)
-    const webSocket = new ReconnectingWebsocket(url, [], {
+    if (!languageServerHost) {
+      throw 'Language server host not found'
+    }
+
+    return normalizeUrl(`${languageServerHost}/${language}/${uuidv4()}`)
+  }, [document, language, uuidv4])
+
+  useEffect(() => {
+    const webSocket = new ReconnectingWebsocket(languageServerUrl, [], {
       maxReconnectionDelay: 10000,
       minReconnectionDelay: 1000,
       reconnectionDelayGrowFactor: 1.3,
@@ -64,6 +65,7 @@ export function ExercismMonacoEditor({
       maxRetries: Infinity,
       debug: false,
     })
+
     listen({
       webSocket,
       onConnection: (connection) => {
@@ -88,6 +90,23 @@ export function ExercismMonacoEditor({
         connection.onClose(() => disposable.dispose())
       },
     })
+
+    return () => {
+      webSocket.close()
+    }
+  }, [languageServerUrl])
+
+  const handleEditorDidMount = (
+    editor: monacoEditor.editor.IStandaloneCodeEditor
+  ) => {
+    editor.addAction({
+      id: 'runTests',
+      label: 'Run tests',
+      keybindings: [monacoEditor.KeyCode.F2],
+      run: onRunTests,
+    })
+
+    MonacoServices.install(editor)
     editorDidMount(editor)
   }
 

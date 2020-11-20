@@ -11,6 +11,8 @@ class CreateExercises < ActiveRecord::Migration[6.0]
 
       t.string :git_sha, null: false
 
+      t.boolean :deprecated, default: false, null: false
+
       t.timestamps
     end
   end

@@ -50,7 +50,7 @@ export function ExercismMonacoEditor({
     )?.content
 
     if (!languageServerUrl) {
-      console.error('Language server URL not found')
+      throw 'Language server URL not found'
       return
     }
 

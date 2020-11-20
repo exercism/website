@@ -14,7 +14,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal "ce86438e03f3a2697749ec1f2170331f9638e9de", track.synced_to_git_sha
+    assert_equal track.git.head_sha, track.synced_to_git_sha
   end
 
   test "git sync SHA changes to HEAD SHA when there are changes" do
@@ -22,7 +22,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal "ce86438e03f3a2697749ec1f2170331f9638e9de", track.synced_to_git_sha
+    assert_equal track.git.head_sha, track.synced_to_git_sha
   end
 
   test "track is updated when there are changes" do

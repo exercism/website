@@ -1,5 +1,3 @@
-require 'set'
-
 module Git
   class SyncTrack
     include Mandate

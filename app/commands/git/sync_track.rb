@@ -4,17 +4,12 @@ module Git
     initialize_with :track
 
     def call
-      guard!
       lookup_head_and_current_commit
       update_track! if track_files_modified?
     end
 
     private
     attr_reader :current_commit, :head_commit
-
-    def guard!
-      raise TrackNotFoundError unless track
-    end
 
     def lookup_head_and_current_commit
       track.git.send(:repo).update!

@@ -12,7 +12,7 @@ module Git
     attr_reader :current_commit, :head_commit
 
     def lookup_head_and_current_commit
-      track.git.send(:repo).update!
+      track.git.update!
 
       @current_commit = track.git.send(:repo).lookup_commit(track.synced_to_git_sha)
       @head_commit = track.git.send(:repo).head_commit

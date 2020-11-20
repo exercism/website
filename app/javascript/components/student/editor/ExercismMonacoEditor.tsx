@@ -46,7 +46,7 @@ export function ExercismMonacoEditor({
 }) {
   const startLanguageClient = useCallback(() => {
     const languageServerUrl = document.querySelector<HTMLMetaElement>(
-      'meta[name=language-server-url]'
+      'meta[name="language-server-url"]'
     )?.content
 
     if (!languageServerUrl) {

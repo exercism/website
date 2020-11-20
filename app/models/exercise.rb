@@ -47,7 +47,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def git
-    # TODO: Change to sha, not HEAD
-    Git::Exercise.new(track.slug, slug, "HEAD", git_type)
+    Git::Exercise.new(track.slug, slug, git_sha, git_type)
   end
 end

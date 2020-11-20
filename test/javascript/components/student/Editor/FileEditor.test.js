@@ -6,7 +6,6 @@ import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { FileEditor } from '../../../../../app/javascript/components/student/editor/FileEditor'
-import localForage from 'localforage'
 
 test('change theme', async () => {
   const { queryByText, getByLabelText } = render(
@@ -15,9 +14,9 @@ test('change theme', async () => {
 
   fireEvent.change(getByLabelText('Theme'), { target: { value: 'vs-dark' } })
 
-  await waitFor(() => expect(queryByText('Theme: vs-dark')).toBeInTheDocument())
+  expect(queryByText('Theme: vs-dark')).toBeInTheDocument()
 
-  await localForage.clear()
+  localStorage.clear()
 })
 
 test('change wrapping', async () => {
@@ -27,9 +26,9 @@ test('change wrapping', async () => {
 
   fireEvent.change(getByLabelText('Wrap'), { target: { value: 'off' } })
 
-  await waitFor(() => expect(queryByText('Wrap: off')).toBeInTheDocument())
+  expect(queryByText('Wrap: off')).toBeInTheDocument()
 
-  await localForage.clear()
+  localStorage.clear()
 })
 
 test('apply correct syntax highlighting', async () => {
@@ -37,20 +36,20 @@ test('apply correct syntax highlighting', async () => {
     <FileEditor file={{ name: 'file', content: '' }} language="go" />
   )
 
-  await waitFor(() => expect(queryByText('Language: go')).toBeInTheDocument())
+  expect(queryByText('Language: go')).toBeInTheDocument()
 
-  await localForage.clear()
+  localStorage.clear()
 })
 
 test('loads data from storage', async () => {
-  await localForage.setItem('file-editor-content', 'class')
+  localStorage.setItem('file-editor-content', 'class')
   const { queryByText } = render(
     <FileEditor file={{ filename: 'file', content: '' }} language="go" />
   )
 
-  await waitFor(() => expect(queryByText('Value: class')).toBeInTheDocument())
+  expect(queryByText('Value: class')).toBeInTheDocument()
 
-  await localForage.clear()
+  localStorage.clear()
 })
 
 test('saves data to storage when data changed', async () => {
@@ -64,25 +63,26 @@ test('saves data to storage when data changed', async () => {
     jest.runOnlyPendingTimers()
   })
 
-  expect(await localForage.getItem('file-editor-content')).toEqual('code')
+  expect(localStorage.getItem('file-editor-content')).toEqual('code')
 
-  await localForage.clear()
+  localStorage.clear()
 })
 
 test('revert to last submission', async () => {
-  await localForage.setItem('file-editor-content', 'class')
+  localStorage.setItem('file-editor-content', 'class')
   const { queryByText } = render(
     <FileEditor file={{ filename: 'file', content: 'file' }} language="go" />
   )
 
-  await waitFor(() => expect(queryByText('Value: class')).toBeInTheDocument())
+  expect(queryByText('Value: class')).toBeInTheDocument()
 
   fireEvent.click(queryByText('Revert to last run code'))
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
 
-  await waitFor(() => expect(queryByText('Value: file')).toBeInTheDocument())
-  await waitFor(() =>
-    expect(queryByText('Revert to last run code')).not.toBeInTheDocument()
-  )
+  expect(queryByText('Value: file')).toBeInTheDocument()
+  expect(queryByText('Revert to last run code')).not.toBeInTheDocument()
 
-  await localForage.clear()
+  localStorage.clear()
 })

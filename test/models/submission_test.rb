@@ -15,9 +15,4 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal solution.git_sha, submission.git_sha
     assert_equal solution.git_slug, submission.git_slug
   end
-
-  test "exercise_version" do
-    submission = create :submission
-    assert_equal '15.8.12', submission.exercise_version
-  end
 end

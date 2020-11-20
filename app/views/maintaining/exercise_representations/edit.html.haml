@@ -1,0 +1,36 @@
+:css
+  #maintaining-exercise-representation-form {
+    padding:25px 5%;
+    font-size: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  textarea {
+    border:1px solid #aaa;
+    padding:20px;
+  }
+  pre {
+    border:1px solid #aaa;
+    padding:20px;
+    background:#fff;
+  }
+
+#maintaining-exercise-representation-form
+  %h2.text-h3 Edit Represenation
+  .tw-flex
+    .submission.tw-w-1-2.tw-mr-32
+      %h3.text-h4.tw-mb-8 Submission
+      %pre{ style: "overflow:scroll" }
+        = @representation.source_submission.files.first.content
+
+      %h3.text-h4.tw-mb-8.tw-mt-48 AST
+      %pre{ style: "overflow:scroll" }
+        = @representation.ast
+
+    = form_for @representation, url: maintaining_exercise_representation_path(@representation) do |f|
+      %h3.text-h4.tw-mb-8 Feedback
+      = f.text_area :feedback_markdown, style: "width:400px;height:400px;"
+      = f.button "Let's go!", class: "btn-cta"
+

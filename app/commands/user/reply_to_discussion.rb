@@ -2,14 +2,14 @@ class User
   class ReplyToDiscussion
     include Mandate
 
-    initialize_with :discussion, :submission, :content_markdown
+    initialize_with :discussion, :iteration, :content_markdown
 
     def call
-      discussion_post = Submission::DiscussionPost.create!(
-        submission: submission,
-        source: discussion,
+      discussion_post = Solution::MentorDiscussionPost.create!(
+        iteration: iteration,
+        discussion: discussion,
         content_markdown: content_markdown,
-        user: solution.user
+        author: iteration.solution.user
       )
 
       Notification::Create.(
@@ -19,12 +19,6 @@ class User
       )
 
       discussion_post
-    end
-
-    private
-    memoize
-    def solution
-      submission.solution
     end
   end
 end

@@ -10,7 +10,7 @@ class Submission
       def call
         # This goes in its own transaction. We want
         # to record this whatever happens.
-        test_run = submission.test_runs.create!(
+        test_run = submission.create_test_run!(
           tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,
           raw_results: results

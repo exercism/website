@@ -3,59 +3,61 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(submission_uuid, ops_status, ast, mapping)
-        @submission = Submission.find_by!(uuid: submission_uuid)
-        @ops_status = ops_status.to_i
-        @ast = ast
-        @mapping = mapping
+      def initialize(tooling_job)
+        @tooling_job = tooling_job
       end
 
       def call
-        # Firstly, create a record for debugging and to give
-        # us some basis of the next set of decisions etc.
-        @submission_representation = Submission::Representation.create!(
-          submission: submission,
-          ops_status: ops_status,
-          ast: ast
-        )
+        create_submission_representation!
 
+        # If we had an error then handle the error and leave
         return handle_ops_error! if submission_representation.ops_errored?
 
-        # Now we need to check to see if we already have an exercise
-        # representation for this submission and version
-        @exercise_representation = Exercise::Representation.create_or_find_by!(
-          exercise: submission.exercise,
-          exercise_version: exercise_version,
-          ast_digest: submission_representation.ast_digest
-        ) do |rep|
-          rep.source_submission = submission
-          rep.mapping = mapping
-          rep.ast = ast
-        end
+        # Otherwise, lets retrieve or create the version of this.
+        create_exercise_representation!
 
-        # Then all of the submethods here should
-        # action within transaction setting the
-        # status to be an error if it fails.
         begin
-          if exercise_representation.approve?
-            handle_approve!
-          elsif exercise_representation.disapprove?
-            handle_disapprove!
-          else
-            handle_pending!
+          # Then all of the submethods here should
+          # action within transaction setting the
+          # status to be an error if it fails.
+          ActiveRecord::Base.transaction do
+            if exercise_representation.approve?
+              handle_approve!
+            elsif exercise_representation.disapprove?
+              handle_disapprove!
+            else
+              handle_pending!
+            end
           end
         rescue StandardError
-          submission.analysis_exceptioned!
+          # Reload the record here to ensure
+          # that it hasn't got in a bad state in the
+          # transaction above.
+          submission.reload.representation_exceptioned!
         end
 
         submission.broadcast!
       end
-      attr_reader :submission, :ops_status, :ast, :mapping
-      attr_reader :submission_representation, :exercise_representation
 
-      private
-      def exercise_version
-        submission.exercise_version.to_i # to_i returns everything up to the dot
+      attr_reader :tooling_job, :exercise_representation, :submission_representation
+
+      def create_submission_representation!
+        @submission_representation = Submission::Representation.create!(
+          submission: submission,
+          ops_status: tooling_job.execution_status.to_i,
+          ast_digest: ast_digest
+        )
+      end
+
+      def create_exercise_representation!
+        @exercise_representation = Exercise::Representation.create_or_find_by!(
+          exercise: submission.exercise,
+          ast_digest: ast_digest
+        ) do |rep|
+          rep.source_submission = submission
+          rep.ast = ast
+          rep.mapping = mapping
+        end
       end
 
       def handle_ops_error!
@@ -64,26 +66,58 @@ class Submission
 
       def handle_approve!
         submission.representation_approved!
-        create_discussion_post!
+        create_notification!
       end
 
       def handle_disapprove!
         submission.representation_disapproved!
-        create_discussion_post!
+        create_notification!
       end
 
       def handle_pending!
         submission.representation_inconclusive!
       end
 
-      def create_discussion_post!
+      def create_notification!
         return unless exercise_representation.has_feedback?
 
-        Submission::DiscussionPost::CreateFromRepresentation.(
-          submission,
-          submission_representation,
-          exercise_representation
-        )
+        # TODO: Create notification about the fact there
+        # is a piece of automated feedback
+      end
+
+      memoize
+      def ops_status
+        tooling_job.execution_status.to_i
+      end
+
+      memoize
+      def ops_success?
+        ops_status == 200
+      end
+
+      memoize
+      def ast_digest
+        Submission::Representation.digest_ast(ast)
+      end
+
+      memoize
+      def submission
+        Submission.find_by!(uuid: tooling_job.submission_uuid)
+      end
+
+      memoize
+      def ast
+        tooling_job.execution_output['representation.txt']
+      rescue StandardError
+        nil
+      end
+
+      memoize
+      def mapping
+        res = JSON.parse(tooling_job.execution_output['mapping.json'])
+        res.is_a?(Hash) ? res.symbolize_keys : {}
+      rescue StandardError
+        {}
       end
     end
   end

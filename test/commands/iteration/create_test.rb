@@ -42,4 +42,39 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal exercise, activity.exercise
     assert_equal iteration, activity.iteration
   end
+
+  test "starts analysis and representation" do
+    filename_1 = "subdir/foobar.rb"
+    content_1 = "'I think' = 'I am'"
+
+    filename_2 = "barfood.rb"
+    content_2 = "something = :else"
+
+    files = [
+      { filename: filename_1, content: content_1 },
+      { filename: filename_2, content: content_2 }
+    ]
+
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, filename: filename_1, content: content_1
+    create :submission_file, submission: submission, filename: filename_2, content: content_2
+
+    job_id = SecureRandom.uuid
+    SecureRandom.stubs(uuid: job_id)
+
+    ToolingJob::UploadFiles.expects(:call).with(job_id, files, [], solution.track.test_regexp)
+    Submission::Representation::Init.expects(:call).with(job_id, submission.uuid, solution.track.slug,
+      solution.exercise.slug)
+
+    ToolingJob::UploadFiles.expects(:call).with(job_id, files, [], solution.track.test_regexp)
+    # TODO: Readd this when analyses are reenabled
+    # Submission::Analysis::Init.expects(:call).with(job_id, submission.uuid, solution.track.slug, solution.exercise.slug)
+
+    Iteration::Create.(solution, submission)
+
+    submission.reload
+    assert :queued, submission.representation_status
+    assert :queued, submission.analysis_status
+  end
 end

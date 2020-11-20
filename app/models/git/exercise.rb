@@ -25,6 +25,13 @@ module Git
       read_file_blob(".docs/instructions.md")
     end
 
+    # TODO: This is stub code
+    def example
+      read_file_blob(filepaths.find { |fp| fp.include?("example.") })
+    rescue StandardError
+      "No example code found"
+    end
+
     # Files that should be transported
     # to a user for use in the editor.
     memoize
@@ -62,10 +69,6 @@ module Git
     def filepaths
       file_entries.map { |defn| defn[:full] }
     end
-
-    # def version
-    #   config[:version]
-    # end
 
     memoize
     def file_entries

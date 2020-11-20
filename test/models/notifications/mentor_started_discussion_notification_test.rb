@@ -4,7 +4,7 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
   test "uniqueness_key" do
     user = create :user
     discussion = create(:solution_mentor_discussion)
-    discussion_post = create(:submission_discussion_post)
+    discussion_post = create(:solution_mentor_discussion_post)
 
     notification = Notifications::MentorStartedDiscussionNotification.create!(
       user: user,
@@ -22,7 +22,7 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
     exercise = create :practice_exercise, track: track
     mentor = create(:user)
     discussion = create(:solution_mentor_discussion, solution: create(:practice_solution, exercise: exercise), mentor: mentor)
-    discussion_post = create(:submission_discussion_post, source: discussion)
+    discussion_post = create(:solution_mentor_discussion_post, discussion: discussion)
 
     notification = Notifications::MentorStartedDiscussionNotification.create!(
       user: create(:user),

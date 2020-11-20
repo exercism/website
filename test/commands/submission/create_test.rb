@@ -15,22 +15,12 @@ class Submission::CreateTest < ActiveSupport::TestCase
       { filename: filename_2, content: content_2 }
     ]
 
-    ToolingJob::UploadFiles.expects(:call)
-    Submission::TestRun::Init.expects(:call)
-
-    # TODO: Move to iteration::create
-    # Submission::Analysis::Init.expects(:call)
-    # Submission::Representation::Init.expects(:call)
-
     solution = create :concept_solution
     submission = Submission::Create.(solution, files, :cli)
 
     # Check db record is setup correctly
     assert submission.persisted?
     assert_equal submission.solution, solution
-    assert :queued, submission.tests_status
-    assert :not_queued, submission.representation_status
-    assert :not_queued, submission.analysis_status
 
     # Check files are set up correctly
     assert_equal 2, submission.files.count
@@ -85,5 +75,41 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert_enqueued_with(job: AwardBadgeJob, args: [user, :rookie]) do
       Submission::Create.(solution, [files.first], :cli)
     end
+  end
+
+  test "starts test run" do
+    solution = create :concept_solution
+
+    filename_1 = "subdir/foobar.rb"
+    content_1 = "'I think' = 'I am'"
+
+    filename_2 = "barfood.rb"
+    content_2 = "something = :else"
+
+    files = [
+      { filename: filename_1, content: content_1 },
+      { filename: filename_2, content: content_2 }
+    ]
+
+    test_run_id = SecureRandom.uuid
+    SecureRandom.stubs(uuid: test_run_id)
+
+    ToolingJob::UploadFiles.expects(:call).with(
+      test_run_id,
+      files,
+      Git::Exercise.for_solution(solution).non_ignored_files,
+      solution.track.test_regexp
+    )
+    Submission::TestRun::Init.expects(:call).with(
+      test_run_id,
+      anything,
+      solution.track.slug,
+      solution.exercise.slug
+    )
+    submission = Submission::Create.(solution, files, :cli)
+
+    assert :queued, submission.tests_status
+    assert :not_queued, submission.representation_status
+    assert :not_queued, submission.analysis_status
   end
 end

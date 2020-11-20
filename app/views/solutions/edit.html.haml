@@ -1,3 +1,8 @@
 #page-editor
   .md-container
     = ReactComponents::Student::Editor.new(@solution)
+
+  .md-container
+    %h2.text-h3.tw-mt-20 Example solution
+    %pre
+      = @solution.exercise.send(:git).example

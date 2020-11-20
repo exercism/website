@@ -20,21 +20,11 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
 
     representation = create :submission_representation,
       submission: create(:submission, exercise: exercise),
-      ast: ast
-
-    # Wrong exercise version
-    create :exercise_representation,
-      exercise: exercise,
-      exercise_version: 2,
       ast_digest: ast_digest
-    assert_raises do
-      representation.exercise_representation
-    end
 
     # Wrong exercise
     create :exercise_representation,
       exercise: create(:concept_exercise),
-      exercise_version: 15,
       ast_digest: Submission::Representation.digest_ast(ast)
     assert_raises do
       representation.exercise_representation
@@ -43,7 +33,6 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
     # Wrong ast
     create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: "something"
 
     assert_raises do
@@ -53,7 +42,6 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
     # Correct everything!
     exercise_representation = create :exercise_representation,
       exercise: exercise,
-      exercise_version: 15,
       ast_digest: ast_digest
     assert_equal exercise_representation, representation.exercise_representation
   end

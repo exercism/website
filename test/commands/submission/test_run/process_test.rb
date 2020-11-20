@@ -12,8 +12,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     Submission::TestRun::Process.(job)
 
-    assert_equal 1, submission.reload.test_runs.size
-    tr = submission.reload.test_runs.first
+    tr = submission.reload.test_run
 
     assert_equal ops_status, tr.ops_status
     assert_equal status.to_sym, tr.status
@@ -91,6 +90,6 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     Submission::TestRun::Process.(job)
 
-    assert_equal submission.test_runs.size, 1
+    assert submission.test_run
   end
 end

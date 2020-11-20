@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useMemo } from 'react'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc'
@@ -44,18 +44,20 @@ export function ExercismMonacoEditor({
   value: string | null | undefined
   theme: string
 }) {
-  const startLanguageClient = useCallback(() => {
-    const languageServerUrl = document.querySelector<HTMLMetaElement>(
+  const languageServerUrl: string = useMemo(() => {
+    const languageServerHost = document.querySelector<HTMLMetaElement>(
       'meta[name="language-server-url"]'
     )?.content
 
-    if (!languageServerUrl) {
-      throw 'Language server URL not found'
-      return
+    if (!languageServerHost) {
+      throw 'Language server host not found'
     }
 
-    const url = normalizeUrl(`${languageServerUrl}/${language}/${uuidv4()}`)
-    const webSocket = new ReconnectingWebsocket(url, [], {
+    return normalizeUrl(`${languageServerHost}/${language}/${uuidv4()}`)
+  }, [document, language, uuidv4])
+
+  useEffect(() => {
+    const webSocket = new ReconnectingWebsocket(languageServerUrl, [], {
       maxReconnectionDelay: 10000,
       minReconnectionDelay: 1000,
       reconnectionDelayGrowFactor: 1.3,
@@ -63,6 +65,7 @@ export function ExercismMonacoEditor({
       maxRetries: Infinity,
       debug: false,
     })
+
     listen({
       webSocket,
       onConnection: (connection) => {
@@ -87,15 +90,11 @@ export function ExercismMonacoEditor({
         connection.onClose(() => disposable.dispose())
       },
     })
-  }, [document, listen])
-
-  useEffect(() => {
-    window.addEventListener('load', startLanguageClient)
 
     return () => {
-      window.removeEventListener('load', startLanguageClient)
+      webSocket.close()
     }
-  }, [window, startLanguageClient])
+  }, [languageServerUrl])
 
   const handleEditorDidMount = (
     editor: monacoEditor.editor.IStandaloneCodeEditor

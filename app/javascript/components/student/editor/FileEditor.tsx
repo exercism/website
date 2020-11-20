@@ -9,7 +9,7 @@ import React, {
 import { File } from '../Editor'
 import { ExercismMonacoEditor } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
-import { useStorage } from '../../../utils/use-storage'
+import { useLocalStorage } from '../../../utils/use-storage'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -34,7 +34,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       glyphMargin: true,
       lightbulb: { enabled: true },
     })
-    const [content, setContent] = useStorage<string>(
+    const [content, setContent] = useLocalStorage<string>(
       `${file.filename}-editor-content`,
       file.content
     )
@@ -59,7 +59,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
     )
     const revertContent = useCallback(
       (e) => {
-        setContent(file.content)
+        editorRef.current?.setValue(file.content)
       },
       [setContent, file]
     )

@@ -1,5 +1,7 @@
 module Git
   class Track
+    delegate :update!, to: :repo
+
     def initialize(slug, repo_url: nil, repo: nil)
       raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
 

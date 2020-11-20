@@ -15,6 +15,11 @@ export function ExercismMonacoEditor({
     getValue: () => {
       return textareaRef.current?.value
     },
+    setValue: (value) => {
+      if (textareaRef.current) {
+        textareaRef.current.value = value
+      }
+    },
   }
 
   useEffect(() => {

@@ -40,8 +40,8 @@ module Git
 
       diff = head_commit.diff(current_commit)
       diff.each_delta.any? do |delta|
-        delta.old_file[:path] == track.git.config_file ||
-          delta.new_file[:path] == track.git.config_file
+        delta.old_file[:path] == track.git.config_filepath ||
+          delta.new_file[:path] == track.git.config_filepath
       end
     end
 

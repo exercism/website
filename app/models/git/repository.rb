@@ -75,10 +75,6 @@ module Git
       Rails.logger.info e.message
     end
 
-    def diff(old_commit, new_commit: head_commit)
-      old_commit.diff(new_commit)
-    end
-
     private
     attr_reader :repo_name, :repo_url
 

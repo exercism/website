@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "git_sha", null: false
+    t.string "synced_to_git_sha", null: false
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -236,7 +237,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "title", null: false
     t.string "blurb", limit: 400, null: false
     t.string "repo_url", null: false
-    t.string "git_sha", null: false
+    t.string "synced_to_git_sha", null: false
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false

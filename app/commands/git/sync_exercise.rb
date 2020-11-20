@@ -33,6 +33,7 @@ module Git
         exercise.update!(
           slug: config_exercise[:slug],
           title: config_exercise[:name],
+          deprecated: config_exercise[:deprecated],
           git_sha: head_commit.oid,
           synced_to_git_sha: head_commit.oid
         )

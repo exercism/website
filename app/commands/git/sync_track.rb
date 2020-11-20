@@ -5,7 +5,7 @@ module Git
 
     def call
       lookup_head_and_current_commit
-      update_track!
+      update_track! unless track_synced_to_head?
     end
 
     private
@@ -16,6 +16,10 @@ module Git
 
       @current_commit = track.git.send(:repo).lookup_commit(track.synced_to_git_sha)
       @head_commit = track.git.send(:repo).head_commit
+    end
+
+    def track_synced_to_head?
+      current_commit.oid == head_commit.oid
     end
 
     def update_track!
@@ -36,8 +40,6 @@ module Git
     end
 
     def track_config_modified?
-      return false if current_commit.oid == head_commit.oid
-
       diff = head_commit.diff(current_commit)
       diff.each_delta.any? do |delta|
         delta.old_file[:path] == track.git.config_filepath ||

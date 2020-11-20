@@ -18,6 +18,23 @@ module Git
       @head_commit = track.git.send(:repo).head_commit
     end
 
+    def update_track!
+      # TODO: consider raising error when slug in config is different from track slug
+      # TODO: validate track to prevent invalid track data
+      if track_config_modified?
+        track.update!(
+          blurb: head_config[:blurb],
+          active: head_config[:active],
+          title: head_config[:language],
+          synced_to_git_sha: head_commit.oid
+        )
+      else
+        track.update!(
+          synced_to_git_sha: head_commit.oid
+        )
+      end
+    end
+
     def track_config_modified?
       return false if current_commit.oid == head_commit.oid
 
@@ -28,19 +45,9 @@ module Git
       end
     end
 
-    def update_track!
-      # TODO: consider raising error when slug in config is different from track slug
-
-      head_config = track.git.config(commit: head_commit)
-
-      track.blurb = head_config[:blurb]
-      track.active = head_config[:active]
-      track.title = head_config[:language]
-
-      # TODO: validate track to prevent invalid track data
-
-      track.synced_to_git_sha = head_commit.oid
-      track.save
+    memoize
+    def head_config
+      track.git.config(commit: head_commit)
     end
   end
 end

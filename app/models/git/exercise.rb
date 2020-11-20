@@ -27,7 +27,7 @@ module Git
 
     # TODO: This is stub code
     def example
-      read_file_blob(filepaths.find { |fp| fp.include?("example.") })
+      read_file_blob(filepaths.find { |fp| fp.downcase.include?("example.") })
     rescue StandardError
       "No example code found"
     end

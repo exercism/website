@@ -34,7 +34,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
       glyphMargin: true,
       lightbulb: { enabled: true },
     })
-    const [content, setContent] = useLocalStorage<string>(
+    const [content, setContent] = useLocalStorage(
       `${file.filename}-editor-content`,
       file.content
     )

@@ -22,10 +22,10 @@ module Git
     end
 
     def config(commit: repo.head_commit)
-      repo.read_json_blob(commit, config_file)
+      repo.read_json_blob(commit, config_filepath)
     end
 
-    def config_file
+    def config_filepath
       "languages/#{slug}/config.json"
     end
 

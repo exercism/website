@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react'
+import React, { useEffect, useCallback, useMemo, useRef } from 'react'
 import MonacoEditor from 'react-monaco-editor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc'
@@ -12,6 +12,7 @@ import {
 import normalizeUrl from 'normalize-url'
 import ReconnectingWebsocket from 'reconnecting-websocket'
 import { v4 as uuidv4 } from 'uuid'
+import { initVimMode } from 'monaco-vim'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -96,9 +97,14 @@ export function ExercismMonacoEditor({
   //   }
   // }, [languageServerUrl])
 
+  const vimStatusBarRef = useRef<HTMLDivElement | null>(null)
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
+
   const handleEditorDidMount = (
     editor: monacoEditor.editor.IStandaloneCodeEditor
   ) => {
+    editorRef.current = editor
+
     editor.addAction({
       id: 'runTests',
       label: 'Run tests',
@@ -107,18 +113,26 @@ export function ExercismMonacoEditor({
     })
 
     MonacoServices.install(editor)
+
     editorDidMount(editor)
   }
 
+  useEffect(() => {
+    initVimMode(editorRef.current, vimStatusBarRef.current)
+  }, [editorRef, vimStatusBarRef])
+
   return (
-    <MonacoEditor
-      width="800"
-      height="600"
-      language={language}
-      editorDidMount={handleEditorDidMount}
-      options={options}
-      value={value}
-      theme={theme}
-    />
+    <div>
+      <MonacoEditor
+        width="800"
+        height="600"
+        language={language}
+        editorDidMount={handleEditorDidMount}
+        options={options}
+        value={value}
+        theme={theme}
+      />
+      <div ref={vimStatusBarRef}></div>
+    </div>
   )
 }

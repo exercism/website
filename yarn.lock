@@ -7029,6 +7029,11 @@ monaco-languageclient@^0.13.0:
     vscode-languageclient "^6.0.0"
     vscode-uri "^2.1.1"
 
+monaco-vim@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/monaco-vim/-/monaco-vim-0.1.8.tgz#7de9bd01a28b1d3e6c9874baea168e6e1449545e"
+  integrity sha512-tXi6oaYuhLl5+rv0TAfYXWJOy8nC5zIZdnr21eZlLJqNXznFhV1dYA95QhzlwjZZkTbCYe5luCvEmq/IQrofZw==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"

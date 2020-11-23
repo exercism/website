@@ -30,5 +30,5 @@ export function useLocalStorage(key: string, initialValue: string) {
     }
   }
 
-  return [storedValue, setValue]
+  return [storedValue, setValue] as const
 }

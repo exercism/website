@@ -39,7 +39,8 @@ class Submission < ApplicationRecord
     tests_data = tests_status
     if tests_exceptioned?
       job = ToolingJob.find(test_run.tooling_job_id, full: true)
-      tests_data += "\n\n#{JSON.pretty_generate(job.execution_metadata)}"
+      tests_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+      tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
     end
 
     {

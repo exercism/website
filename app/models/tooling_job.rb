@@ -9,17 +9,17 @@ class ToolingJob
 
   def self.find(id, full: false)
     params = {
-      table_name: table_name,
+      table_name: dynamodb_table_name,
       key: { id: id }
     }
     params[:attributes_to_get] = BASIC_ATTRIBUTES unless full
 
-    new(client.get_item(params).item)
+    new(dynamodb_client.get_item(params).item)
   end
 
   def self.find_queued(submission_uuid, type)
-    item = client.query(
-      table_name: table_name,
+    item = dynamodb_client.query(
+      table_name: dynamodb_table_name,
       index_name: "submission_type",
       expression_attribute_values: {
         ":SU" => submission_uuid,
@@ -48,8 +48,8 @@ class ToolingJob
   end
 
   def processed!
-    client.update_item(
-      table_name: table_name,
+    dynamodb_client.update_item(
+      table_name: dynamodb_table_name,
       key: { id: id },
       expression_attribute_names: { "#JS": "job_status" },
       expression_attribute_values: { ":js": "processed" },
@@ -58,8 +58,8 @@ class ToolingJob
   end
 
   def cancelled!
-    client.update_item(
-      table_name: Exercism.config.dynamodb_tooling_jobs_table,
+    dynamodb_client.update_item(
+      table_name: dynamodb_table_name,
       key: { id: id },
       expression_attribute_names: { "#JS": "job_status" },
       expression_attribute_values: { ":js": "cancelled" },
@@ -71,14 +71,49 @@ class ToolingJob
     id == other.id
   end
 
-  def self.client
+  def stderr
+    read_s3_file('stderr')
+  end
+
+  def stdout
+    read_s3_file('stdout')
+  end
+
+  def read_s3_file(name)
+    s3_client.get_object(
+      bucket: s3_bucket_name,
+      key: "#{s3_folder}/#{name}"
+    ).body.read
+  rescue StandardError
+    ""
+  end
+
+  memoize
+  def self.dynamodb_client
     ExercismConfig::SetupDynamoDBClient.()
   end
 
-  def self.table_name
+  memoize
+  def self.dynamodb_table_name
     Exercism.config.dynamodb_tooling_jobs_table
   end
-  delegate :client, :table_name, to: self
+
+  memoize
+  def self.s3_client
+    ExercismConfig::SetupS3Client.()
+  end
+
+  memoize
+  def s3_folder
+    "#{Exercism.env}/#{id}"
+  end
+
+  memoize
+  def s3_bucket_name
+    Exercism.config.aws_tooling_jobs_bucket
+  end
+
+  delegate :dynamodb_client, :s3_client, :dynamodb_table_name, to: self
 
   private
   attr_writer :id, :submission_uuid, :type, :job_status, :created_at

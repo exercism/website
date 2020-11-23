@@ -43,6 +43,11 @@ class Submission < ApplicationRecord
       tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
     end
 
+    if representation_exceptioned?
+      job = ToolingJob.find(submission_representation.tooling_job_id, full: true)
+      tests_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+      tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+    end
     {
       id: id,
       track: track.title,

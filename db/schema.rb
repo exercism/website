@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
 
   create_table "submission_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
+    t.string "tooling_job_id", null: false
     t.integer "ops_status", limit: 2, null: false
     t.text "ast"
     t.string "ast_digest"

@@ -42,8 +42,8 @@ class Submission
       attr_reader :tooling_job, :exercise_representation, :submission_representation
 
       def create_submission_representation!
-        @submission_representation = Submission::Representation.create!(
-          submission: submission,
+        @submission_representation = submission.create_submission_representation!(
+          tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,
           ast_digest: ast_digest
         )

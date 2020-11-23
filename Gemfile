@@ -9,10 +9,13 @@ gem 'rails',
 # gem 'rails', '~> 6.1.0.alpha'
 
 gem 'mysql2', '>= 0.4.4'
-gem 'iodine', '~> 0.7'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'anycable-rails', '~> 0.6' # , "~> 1.0.0.rc1"
+
+# Serving requests
+gem 'iodine', '~> 0.7'
+gem 'rack-attack'
 
 # Helper gems for Rails
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -44,10 +47,6 @@ gem 'ansi-to-html'
 platforms :mingw, :mswin, :x64_mingw, :jruby do
   # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
   gem 'tzinfo-data'
-end
-
-group :development, :production do
-  gem 'rack-attack'
 end
 
 group :development, :test do

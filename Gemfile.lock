@@ -247,6 +247,8 @@ GEM
     puma (4.3.6)
       nio4r (~> 2.0)
     rack (2.2.3)
+    rack-attack (6.3.1)
+      rack (>= 1.0, < 3)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -411,6 +413,7 @@ DEPENDENCIES
   mocha
   mysql2 (>= 0.4.4)
   puma (~> 4.1)
+  rack-attack
   rails!
   rails-controller-testing
   redis (~> 4.0)

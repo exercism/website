@@ -46,6 +46,10 @@ platforms :mingw, :mswin, :x64_mingw, :jruby do
   gem 'tzinfo-data'
 end
 
+group :development, :production do
+  gem 'rack-attack'
+end
+
 group :development, :test do
   #  gem 'pry'
   #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

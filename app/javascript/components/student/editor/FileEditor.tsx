@@ -118,6 +118,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         >
           <option value={Keybindings.DEFAULT}>Default</option>
           <option value={Keybindings.VIM}>Vim</option>
+          <option value={Keybindings.EMACS}>Emacs</option>
         </select>
         {content !== file.content && (
           <button onClick={revertContent} type="button">

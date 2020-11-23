@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react'
 export enum Keybindings {
   DEFAULT = 'default',
   VIM = 'vim',
+  EMACS = 'emacs',
 }
 
 export function ExercismMonacoEditor({

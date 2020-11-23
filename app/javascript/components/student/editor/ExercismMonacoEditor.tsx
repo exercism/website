@@ -13,6 +13,7 @@ import normalizeUrl from 'normalize-url'
 import ReconnectingWebsocket from 'reconnecting-websocket'
 import { v4 as uuidv4 } from 'uuid'
 import { initVimMode, VimMode } from 'monaco-vim'
+import { EmacsExtension } from 'monaco-emacs'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -27,6 +28,7 @@ type FileEditorProps = {
 export enum Keybindings {
   DEFAULT = 'default',
   VIM = 'vim',
+  EMACS = 'emacs',
 }
 
 const SAVE_INTERVAL = 500
@@ -106,7 +108,7 @@ export function ExercismMonacoEditor({
 
   const statusBarRef = useRef<HTMLDivElement | null>(null)
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
-  const keybindingRef = useRef<VimMode | null>()
+  const keybindingRef = useRef<VimMode | EmacsExtension | null>()
 
   const handleEditorDidMount = (
     editor: monacoEditor.editor.IStandaloneCodeEditor
@@ -138,6 +140,13 @@ export function ExercismMonacoEditor({
           editorRef.current,
           statusBarRef.current
         )
+
+        break
+      case Keybindings.EMACS:
+        const extension = new EmacsExtension(editorRef.current)
+        extension.start()
+
+        keybindingRef.current = extension
 
         break
     }

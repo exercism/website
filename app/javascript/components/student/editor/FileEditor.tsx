@@ -75,7 +75,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
 
     useEffect(() => {
       const interval = setInterval(() => {
-        setContent(editorRef.current?.getValue())
+        setContent(editorRef.current?.getValue() || '')
       }, SAVE_INTERVAL)
 
       return () => clearInterval(interval)

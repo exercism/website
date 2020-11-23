@@ -5,6 +5,20 @@ const aliases = {
 }
 
 environment.config.merge({ resolve: { alias: aliases } })
-environment.plugins.append('MonacoWebpackPlugin', new MonacoWebpackPlugin())
+
+let ASSET_HOST
+
+if (process.env.NODE_ENV === 'production') {
+  ASSET_HOST = 'https://exercism-assets-staging.s3.eu-west-2.amazonaws.com'
+} else {
+  ASSET_HOST = ''
+}
+
+environment.plugins.append(
+  'MonacoWebpackPlugin',
+  new MonacoWebpackPlugin({
+    publicPath: ASSET_HOST,
+  })
+)
 
 module.exports = environment

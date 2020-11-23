@@ -56,7 +56,11 @@ class Submission < ApplicationRecord
   def exercise_representation
     Rails.logger.warn "Calling exercise_representation on a submission may cause n+1s"
 
+    return nil unless submission_representation&.ops_success?
+
     submission_representation&.exercise_representation
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   memoize

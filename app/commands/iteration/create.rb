@@ -11,7 +11,7 @@ class Iteration
         FROM iterations where solution_id = #{solution.id}
       })
       Iteration.find(id).tap do |iteration|
-        init_services(iteration)
+        init_services
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique
@@ -19,7 +19,7 @@ class Iteration
     end
 
     # TODO: All this is very messy
-    def init_services(_iteration)
+    def init_services
       submission_uuid = submission.uuid
       submission_files = submission.files.map do |file|
         { filename: file.filename, content: file.content }

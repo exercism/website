@@ -6,7 +6,7 @@ class CreateSubmissionRepresentations < ActiveRecord::Migration[6.0]
       t.integer :ops_status, limit: 2, null: false
 
       t.text :ast, null: true
-      t.string :ast_digest, null: false
+      t.string :ast_digest, null: true
 
       t.timestamps
     end

@@ -15,4 +15,32 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal solution.git_sha, submission.git_sha
     assert_equal solution.git_slug, submission.git_slug
   end
+
+  test "exercise_representation" do
+    ast = "foobar"
+
+    # No submission_representation
+    submission = create :submission
+    assert_nil submission.exercise_representation
+
+    # Ops error submission rep
+    sr = create :submission_representation, submission: submission, ast: ast, ops_status: 500
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+
+    # Missing exercise_reprsentation
+    sr.update!(ops_status: 200)
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+
+    # er present
+    er = create :exercise_representation, exercise: submission.exercise, ast_digest: sr.ast_digest
+    submission = Submission.find(submission.id)
+    assert_equal er, submission.exercise_representation
+
+    # er present and ops error submission rep
+    sr.update!(ops_status: 500)
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+  end
 end

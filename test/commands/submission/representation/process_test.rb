@@ -58,7 +58,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
 
-    job = create_representer_job!(submission, execution_status: 500, ast: "ast 2")
+    job = create_representer_job!(submission, execution_status: 500, ast: nil)
     Submission::Representation::Process.(job)
 
     assert submission.reload.representation_exceptioned?

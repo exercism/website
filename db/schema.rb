@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
     t.text "ast"
-    t.string "ast_digest", null: false
+    t.string "ast_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"

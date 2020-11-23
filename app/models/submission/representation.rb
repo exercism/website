@@ -10,6 +10,8 @@ class Submission::Representation < ApplicationRecord
   belongs_to :submission
 
   before_create do
+    # TODO: if there is no AST digest, this this
+    # *MUST* set the status to an ops_error.
     self.ast_digest = self.class.digest_ast(ast) unless self.ast_digest
   end
 

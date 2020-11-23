@@ -57,11 +57,11 @@ Rails.application.configure do
   # routes, locales, etc.
   config.file_watcher = ENV['EXERCISM_DOCKER'] ? ActiveSupport::FileUpdateChecker : ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << "lvh.me"
+  config.hosts << "fuf.me"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
 end
 
 Rails.application.routes.default_url_options = {
-  host: "http://lvh.me:3020"
+  host: "http://fuf.me:3020"
 }

@@ -9,7 +9,7 @@ gem 'rails',
 # gem 'rails', '~> 6.1.0.alpha'
 
 gem 'mysql2', '>= 0.4.4'
-gem 'puma', '~> 4.1'
+gem 'iodine', '~> 0.7'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'anycable-rails', '~> 0.6' # , "~> 1.0.0.rc1"

@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react'
 import { File } from '../Editor'
-import { ExercismMonacoEditor } from './ExercismMonacoEditor'
+import { ExercismMonacoEditor, Keybindings } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { useLocalStorage } from '../../../utils/use-storage'
 
@@ -26,6 +26,7 @@ const SAVE_INTERVAL = 500
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
   ({ file, language, onRunTests }, ref) => {
     const [theme, setTheme] = useState('vs')
+    const [keybindings, setKeybindings] = useState(Keybindings.DEFAULT)
     const [options, setOptions] = useState<
       monacoEditor.editor.IStandaloneEditorConstructionOptions
     >({
@@ -56,6 +57,12 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
         setTheme(e.target.value)
       },
       [setTheme]
+    )
+    const handleKeybindingsChange = useCallback(
+      (e) => {
+        setKeybindings(e.target.value)
+      },
+      [setKeybindings]
     )
     const revertContent = useCallback(
       (e) => {
@@ -101,6 +108,17 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           <option value="vs">Light</option>
           <option value="vs-dark">Dark</option>
         </select>
+        <label htmlFor={`${file.filename}-editor-keybindings`}>
+          Keybindings
+        </label>
+        <select
+          id={`${file.filename}-editor-keybindings`}
+          value={keybindings}
+          onChange={handleKeybindingsChange}
+        >
+          <option value={Keybindings.DEFAULT}>Default</option>
+          <option value={Keybindings.VIM}>Vim</option>
+        </select>
         {content !== file.content && (
           <button onClick={revertContent} type="button">
             Revert to last run code
@@ -116,6 +134,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           options={options}
           value={content}
           theme={theme}
+          keybindings={keybindings}
         />
       </div>
     )

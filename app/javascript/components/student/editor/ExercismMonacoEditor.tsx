@@ -12,7 +12,7 @@ import {
 import normalizeUrl from 'normalize-url'
 import ReconnectingWebsocket from 'reconnecting-websocket'
 import { v4 as uuidv4 } from 'uuid'
-import { initVimMode } from 'monaco-vim'
+import { initVimMode, VimMode } from 'monaco-vim'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -22,6 +22,11 @@ type FileEditorProps = {
   file: File
   language: string
   onRunTests: () => void
+}
+
+export enum Keybindings {
+  DEFAULT = 'default',
+  VIM = 'vim',
 }
 
 const SAVE_INTERVAL = 500
@@ -35,6 +40,7 @@ export function ExercismMonacoEditor({
   options,
   value,
   theme,
+  keybindings,
 }: {
   width: string
   height: string
@@ -44,6 +50,7 @@ export function ExercismMonacoEditor({
   options: monacoEditor.editor.IStandaloneEditorConstructionOptions
   value: string | null | undefined
   theme: string
+  keybindings: Keybindings
 }) {
   // const languageServerUrl: string = useMemo(() => {
   //   const languageServerHost = document.querySelector<HTMLMetaElement>(
@@ -97,8 +104,9 @@ export function ExercismMonacoEditor({
   //   }
   // }, [languageServerUrl])
 
-  const vimStatusBarRef = useRef<HTMLDivElement | null>(null)
+  const statusBarRef = useRef<HTMLDivElement | null>(null)
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
+  const keybindingRef = useRef<VimMode | null>()
 
   const handleEditorDidMount = (
     editor: monacoEditor.editor.IStandaloneCodeEditor
@@ -118,8 +126,22 @@ export function ExercismMonacoEditor({
   }
 
   useEffect(() => {
-    initVimMode(editorRef.current, vimStatusBarRef.current)
-  }, [editorRef, vimStatusBarRef])
+    if (!editorRef.current || !statusBarRef.current) {
+      return
+    }
+
+    keybindingRef.current?.dispose()
+
+    switch (keybindings) {
+      case Keybindings.VIM:
+        keybindingRef.current = initVimMode(
+          editorRef.current,
+          statusBarRef.current
+        )
+
+        break
+    }
+  }, [editorRef, statusBarRef, keybindings, keybindingRef])
 
   return (
     <div>
@@ -132,7 +154,7 @@ export function ExercismMonacoEditor({
         value={value}
         theme={theme}
       />
-      <div ref={vimStatusBarRef}></div>
+      <div ref={statusBarRef}></div>
     </div>
   )
 }

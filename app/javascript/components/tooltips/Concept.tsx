@@ -238,7 +238,19 @@ export const Concept = ({
   // Retrieve the HTML contents from the contentEndpoint
   const { isLoading, isError, data: htmlContent } = useQuery<string>(
     tooltipId,
-    () => fetch(contentEndpoint).then((res) => res.text())
+    () => {
+      const controller = new AbortController()
+      const signal = controller.signal
+      return Object.assign(
+        // Create a fetch request for the tooltip content, assign the abort controller to the promise
+        // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
+        fetch(contentEndpoint, {
+          method: 'get',
+          signal,
+        }).then((res) => res.text()),
+        { cancel: () => controller.abort() }
+      )
+    }
   )
 
   const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null)

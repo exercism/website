@@ -2,6 +2,8 @@ module Git
   class Concept
     extend Mandate::Memoize
 
+    delegate :update!, :head_commit, to: :repo
+
     # TODO: repo_url can be removed once we're out of a monorepo
     def initialize(track_slug, concept_slug, git_sha = "HEAD", repo_url: nil)
       @repo = Repository.new(track_slug, repo_url: repo_url)

@@ -1,5 +1,5 @@
 module Git
-  class SyncTrack
+  class SyncTrackMetadata
     include Mandate
     initialize_with :track
 

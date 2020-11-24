@@ -129,6 +129,7 @@ track_slugs.each do |track_slug|
           c.uuid = concept_config[:uuid]
           c.name = concept_config[:name]
           c.blurb = concept_config[:blurb].to_s
+          c.synced_to_git_sha = git_track.head_sha
         end
       end
     end

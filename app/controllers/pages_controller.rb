@@ -3,4 +3,8 @@ class PagesController < ApplicationController
     # solution = Solution.first
     # SubmissionsChannel.broadcast!(solution)
   end
+
+  def health_check
+    render json: { ruok: true }
+  end
 end

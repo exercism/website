@@ -67,9 +67,14 @@ Rails.application.routes.draw do
 
   root to: "pages#index"
 
-  # ###############
+  ##############
+  # ELB routes #
+  ##############
+  get "health-check", to: 'pages#health_check'
+
+  #################
   # Legacy routes #
-  # ###############
+  #################
   get "solutions/:uuid" => "legacy#solution"
   get "my/solutions/:uuid" => "legacy#solution"
   get "mentor/solutions/:uuid" => "legacy#solution"

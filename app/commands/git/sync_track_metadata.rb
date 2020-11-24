@@ -1,7 +1,11 @@
 module Git
   class SyncTrackMetadata
     include Mandate
-    initialize_with :track
+
+    def initialize(track)
+      @track = track
+      @git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
+    end
 
     def call
       lookup_head_and_current_commit
@@ -9,13 +13,13 @@ module Git
     end
 
     private
-    attr_reader :current_commit, :head_commit
+    attr_reader :track, :git_track, :current_commit, :head_commit
 
     def lookup_head_and_current_commit
-      track.git.update!
+      git_track.update!
 
-      @current_commit = track.git.lookup_commit(track.synced_to_git_sha)
-      @head_commit = track.git.head_commit
+      @current_commit = git_track.lookup_commit(track.synced_to_git_sha)
+      @head_commit = git_track.head_commit
     end
 
     def track_synced_to_head?
@@ -45,7 +49,7 @@ module Git
 
     memoize
     def head_config
-      track.git.config(commit: head_commit)
+      git_track.config(commit: head_commit)
     end
   end
 end

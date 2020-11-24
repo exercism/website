@@ -108,13 +108,14 @@ track_slugs.each do |track_slug|
 
         ce.prerequisites << Track::Concept.find_or_create_by!(
           slug: slug, 
-          track: track
+          track: track,
         ) do |c|
           concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
 
           c.uuid = concept_config[:uuid]
           c.name = concept_config[:name]
           c.blurb = concept_config[:blurb].to_s
+          c.synced_to_git_sha = git_track.head_sha
         end
       end
       

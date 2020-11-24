@@ -39,6 +39,8 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in .docs files" do
+    skip
+
     track = create :track, slug: 'fsharp'
     exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: 'Lucian\'s Luscious Lasagna', git_sha: "ad3893d6231d11bcbb3c2898c4629f5cbae3b76c", synced_to_git_sha: "ad3893d6231d11bcbb3c2898c4629f5cbae3b76c" # rubocop:disable Layout/LineLength
 
@@ -49,6 +51,8 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in .meta files" do
+    skip
+
     track = create :track, slug: 'fsharp'
     exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "c1a216f90aa2e18df78ab24ae1f99b0a5dfcec0f", synced_to_git_sha: "c1a216f90aa2e18df78ab24ae1f99b0a5dfcec0f" # rubocop:disable Layout/LineLength
 
@@ -59,6 +63,8 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in track-specific files" do
+    skip
+
     track = create :track, slug: 'fsharp'
     exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing game', git_sha: "90d4f30cda48b4f58d3ac7353c259ff865d6e136", synced_to_git_sha: "90d4f30cda48b4f58d3ac7353c259ff865d6e136" # rubocop:disable Layout/LineLength
 

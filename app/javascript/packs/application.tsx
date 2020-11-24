@@ -57,6 +57,7 @@ import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
+import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { Submission, File } from '../components/student/Editor'
@@ -88,15 +89,20 @@ initReact({
       tagOptions={data.tag_options}
     />
   ),
-  'concept-map': (data: any) => (
-    <ConceptMap
-      concepts={data.graph.concepts}
-      levels={data.graph.levels}
-      connections={data.graph.connections}
-      status={data.graph.status}
-      exercise_counts={data.graph.exercise_counts}
-    />
-  ),
+  'concept-map': (data: any) => {
+    const mapData: IConceptMap = (camelizeKeys(
+      data.graph
+    ) as unknown) as IConceptMap
+    return (
+      <ConceptMap
+        concepts={mapData.concepts}
+        levels={mapData.levels}
+        connections={mapData.connections}
+        status={mapData.status}
+        exercise_counts={mapData.exercise_counts}
+      />
+    )
+  },
   'track-iteration-summary': (data: any) => (
     <Track.IterationSummary
       iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}

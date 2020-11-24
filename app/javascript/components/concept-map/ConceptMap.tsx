@@ -67,8 +67,8 @@ export const ConceptMap = ({
                     key={slug}
                     slug={slug}
                     name={concept.name}
-                    web_url={concept.web_url}
-                    tooltip_url={concept.tooltip_url}
+                    webUrl={concept.webUrl}
+                    tooltipUrl={concept.tooltipUrl}
                     exercises={exercise_counts[slug]?.exercises ?? 0}
                     exercisesCompleted={
                       exercise_counts[slug]?.exercises_completed ?? 0

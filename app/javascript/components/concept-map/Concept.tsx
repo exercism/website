@@ -13,11 +13,19 @@ import {
 } from './helpers/concept-visibility-handler'
 import { wrapAnimationFrame } from './helpers/animation-helpers'
 
+type ConceptProps = IConcept & {
+  handleEnter: MouseEventHandler
+  handleLeave: MouseEventHandler
+  status: ConceptStatus
+  isActive: boolean
+  isActiveHover: boolean
+}
+
 export const Concept = ({
   slug,
   name,
-  web_url,
-  tooltip_url,
+  webUrl,
+  tooltipUrl,
   handleEnter,
   handleLeave,
   status,
@@ -25,15 +33,14 @@ export const Concept = ({
   isActiveHover,
   exercises = 0,
   exercisesCompleted = 0,
-}: IConcept & {
-  handleEnter: MouseEventHandler
-  handleLeave: MouseEventHandler
-  status: ConceptStatus
-  isActive: boolean
-  isActiveHover: boolean
-}): JSX.Element => {
+}: ConceptProps): JSX.Element => {
+  // sets the initial visibility, to avoid the flash of unstyled content
   const [visibility, setVisibility] = useState<Visibility>('hidden')
+
+  // reference to the concept anchor tag
   const conceptRef = useRef(null)
+
+  // the state of the anchor tag focus (if it is the active element)
   const [hasFocus, setHasFocus] = useState<boolean>(
     document.activeElement === conceptRef.current
   )
@@ -71,7 +78,7 @@ export const Concept = ({
     <div role="presentation">
       <a
         ref={conceptRef}
-        href={web_url}
+        href={webUrl}
         id={conceptSlugToId(slug)}
         className={classes.join(' ')}
         data-concept-slug={slug}
@@ -94,7 +101,7 @@ export const Concept = ({
         />
       </a>
       <ConceptTooltip
-        contentEndpoint={tooltip_url}
+        contentEndpoint={tooltipUrl}
         hoverRequestToShow={isActiveHover}
         focusRequestToShow={hasFocus}
         referenceElement={conceptRef.current}

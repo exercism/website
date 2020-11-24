@@ -94,6 +94,8 @@
         }
     }
 
+    /* Required for functionality */
+    /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
     &::before {
         content: "";
         width: 100%;
@@ -104,6 +106,9 @@
         background: rgba(0, 0, 0, 0);
         position: absolute;
     }
+
+    /* Required for functionality */
+    /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
     &::after {
         content: "";
         width: 100%;

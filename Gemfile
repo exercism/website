@@ -14,8 +14,9 @@ gem 'aws-sdk-s3', '~> 1'
 gem 'anycable-rails', '~> 0.6' # , "~> 1.0.0.rc1"
 
 # Serving requests
-gem 'iodine', '~> 0.7'
 gem 'rack-attack'
+gem 'iodine', '~> 0.7'
+
 
 # Helper gems for Rails
 gem 'bootsnap', '>= 1.4.2', require: false

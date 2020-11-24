@@ -14,7 +14,8 @@ class Git::SyncTrackMetadataMetadataTest < ActiveSupport::TestCase
 
     Git::SyncTrackMetadata.(track)
 
-    assert_equal track.git.head_sha, track.synced_to_git_sha
+    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
+    assert_equal git_track.head_sha, track.synced_to_git_sha
   end
 
   test "git sync SHA changes to HEAD SHA when there are changes" do
@@ -22,7 +23,8 @@ class Git::SyncTrackMetadataMetadataTest < ActiveSupport::TestCase
 
     Git::SyncTrackMetadata.(track)
 
-    assert_equal track.git.head_sha, track.synced_to_git_sha
+    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
+    assert_equal git_track.head_sha, track.synced_to_git_sha
   end
 
   test "track is updated when there are changes" do

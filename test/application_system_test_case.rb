@@ -4,19 +4,6 @@ require_relative "./support/websockets_helpers"
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
   # Devise::Test::IntegrationHelpers
-  Capybara.register_server :iodine do |app, port, host|
-    Iodine.workers = 1
-    Iodine.threads = 1
-    Iodine.listen(
-      service: :http,
-      handler: app,
-      port: port,
-      address: host,
-      log: false
-    )
-    Iodine.start
-  end
-  Capybara.server = :iodine
 
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
   driven_by :selenium, using: :headless_chrome do |driver_option|

@@ -23,25 +23,20 @@ module Git
     end
 
     def update_exercise!
-      update_concept_exercise! if exercise.concept_exercise?
-      update_practice_exercise! if exercise.practice_exercise?
+      send("update_#{exercise.git_type}_exercise!")
       # # TODO: validate exercise to prevent invalid exercise data
     end
 
     def update_concept_exercise!
-      if exercise_modified?
-        exercise.update!(
-          slug: config_exercise[:slug],
-          title: config_exercise[:name],
-          deprecated: config_exercise[:deprecated],
-          git_sha: head_commit.oid,
-          synced_to_git_sha: head_commit.oid
-        )
-      else
-        exercise.update!(
-          synced_to_git_sha: head_commit.oid
-        )
-      end
+      return exercise.update!(synced_to_git_sha: head_commit.oid) unless exercise_modified?
+
+      exercise.update!(
+        slug: config_exercise[:slug],
+        title: config_exercise[:name],
+        deprecated: config_exercise[:deprecated] || false,
+        git_sha: head_commit.oid,
+        synced_to_git_sha: head_commit.oid
+      )
     end
 
     def update_practice_exercise!
@@ -57,16 +52,14 @@ module Git
 
       config_exercise[:slug] != exercise.slug ||
         config_exercise[:name] != exercise.title ||
-        config_exercise[:deprecated] != exercise.deprecated
+        !!config_exercise[:deprecated] != exercise.deprecated
     end
 
     def exercise_files_modified?
       return false if current_commit.oid == head_commit.oid
 
-      diff.each_delta.any? do |delta|
-        delta.old_file[:path] == exercise.track.git.config_filepath ||
-          delta.new_file[:path] == exercise.track.git.config_filepath
-      end
+      # TODO
+      false
     end
 
     def track_config_modified?

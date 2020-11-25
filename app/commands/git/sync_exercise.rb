@@ -71,8 +71,8 @@ module Git
 
       diff = head_git_exercise.commit.diff(synced_git_exercise.commit)
       diff.each_delta.any? do |delta|
-        delta.old_file[:path] == exercise.track.git.config_filepath ||
-          delta.new_file[:path] == exercise.track.git.config_filepath
+        delta.old_file[:path] == head_git_track.config_filepath ||
+          delta.new_file[:path] == head_git_track.config_filepath
       end
     end
 

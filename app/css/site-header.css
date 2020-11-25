@@ -51,4 +51,11 @@
             }
         }
     }
+    & .user-section {
+        @apply flex justify-end flex-grow;
+
+        & .c-notification {
+            @apply ml-32;
+        }
+    }
 }

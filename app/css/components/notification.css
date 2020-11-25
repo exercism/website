@@ -1,0 +1,39 @@
+.c-notification {
+    box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+
+    @apply relative flex items-center justify-center;
+    @apply rounded-8 bg-white;
+    height: 37px;
+    width: 41px;
+
+    &.unread {
+        @apply text-orange;
+        box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
+
+        background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            linear-gradient(0deg, #fff4e3, #fff4e3);
+
+        & .--count {
+            @apply flex;
+        }
+    }
+
+    & .c-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    & .--count {
+        @apply absolute hidden items-center justify-center;
+        @apply bg-red text-white font-semibold rounded-circle;
+
+        top: -7px;
+        right: -10px;
+        width: 25px;
+        height: 25px;
+    }
+}

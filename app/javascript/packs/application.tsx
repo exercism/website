@@ -20,6 +20,7 @@ import '../../css/components/concept-icon.css'
 import '../../css/components/concept-progress-bar.css'
 import '../../css/components/copy-text-to-clipboard.css'
 import '../../css/components/iteration-summary.css'
+import '../../css/components/notification.css'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
@@ -71,7 +72,7 @@ initReact({
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),
   'notifications-icon': (data: any) => (
-    <Notifications.Icon count={data.count} />
+    <Notifications.Widget count={data.count} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

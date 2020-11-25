@@ -1,12 +1,10 @@
-class ConceptExercise
+class Solution
   class Complete
     include Mandate
 
-    initialize_with :user, :exercise
+    initialize_with :solution, :user_track
 
     def call
-      guard!
-
       ActiveRecord::Base.transaction do
         mark_concepts_as_learnt!
         mark_solution_as_complete!
@@ -19,6 +17,8 @@ class ConceptExercise
       solution.update!(completed_at: Date.current)
     end
 
+    # TODO: Check if the exercise is a concept_exercise
+    # before doing this.
     def mark_concepts_as_learnt!
       exercise.taught_concepts.each do |concept|
         user_track.learnt_concepts << concept
@@ -37,17 +37,14 @@ class ConceptExercise
       Rails.logger.error e.message
     end
 
-    def guard!
-      raise SolutionNotFoundError unless solution
-      raise UserTrackNotFoundError unless user_track
+    memoize
+    def user
+      solution.user
     end
 
-    def solution
-      Solution.for(user, exercise)
-    end
-
-    def user_track
-      UserTrack.for(user, exercise.track)
+    memoize
+    def exercise
+      solution.exercise
     end
   end
 end

@@ -18,7 +18,7 @@ export function MentoredStudent({
 }: {
   endpoint: string
   styles?: React.CSSProperties
-}) {
+}): JSX.Element {
   const request = { endpoint: endpoint, options: {} }
   const { isLoading, isError, isSuccess, data } = useRequestQuery<
     MentoredStudentData

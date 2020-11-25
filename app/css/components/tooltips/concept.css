@@ -5,6 +5,8 @@
 
     @apply shadow-lg rounded-8 py-20 px-24 bg-white;
 
+    /* TODO: add fade in transition for opacity */
+
     & .c-concept-icon {
         @apply mr-16;
     }
@@ -90,5 +92,31 @@
         & .info {
             @apply text-darkGray leading-paragraph font-medium;
         }
+    }
+
+    /* Required for functionality */
+    /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
+    &::before {
+        content: "";
+        width: 100%;
+        height: 8px;
+        left: 0;
+        top: 0;
+        transform: translateY(-100%);
+        background: transparent;
+        position: absolute;
+    }
+
+    /* Required for functionality */
+    /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
+    &::after {
+        content: "";
+        width: 100%;
+        height: 8px;
+        left: 0;
+        bottom: 0;
+        transform: translateY(100%);
+        background: rgba(0, 0, 0, 0);
+        position: absolute;
     }
 }

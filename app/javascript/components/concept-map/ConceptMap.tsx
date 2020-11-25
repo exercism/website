@@ -67,7 +67,8 @@ export const ConceptMap = ({
                     key={slug}
                     slug={slug}
                     name={concept.name}
-                    web_url={concept.web_url}
+                    webUrl={concept.webUrl}
+                    tooltipUrl={concept.tooltipUrl}
                     exercises={exercise_counts[slug]?.exercises ?? 0}
                     exercisesCompleted={
                       exercise_counts[slug]?.exercises_completed ?? 0
@@ -76,6 +77,7 @@ export const ConceptMap = ({
                     handleLeave={unsetActiveSlug}
                     status={status[slug] ?? 'unavailable'}
                     isActive={isActive}
+                    isActiveHover={activeSlug === slug}
                   />
                 )
               })}

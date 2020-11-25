@@ -36,6 +36,7 @@ import '../../css/components/track/top-level-nav.css'
 import '../../css/components/track/concept-nav.css'
 import '../../css/components/track/exercise-nav.css'
 import '../../css/components/track/icon.css'
+import '../../css/components/track/concept-map.css'
 
 import '../../css/pages/staging.css'
 import '../../css/pages/track-shared-index.css'
@@ -47,8 +48,6 @@ import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
 
-import 'components/concept-map/ConceptMap.css'
-
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
@@ -58,6 +57,7 @@ import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
+import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { Submission, File } from '../components/student/Editor'
@@ -89,15 +89,20 @@ initReact({
       tagOptions={data.tag_options}
     />
   ),
-  'concept-map': (data: any) => (
-    <ConceptMap
-      concepts={data.graph.concepts}
-      levels={data.graph.levels}
-      connections={data.graph.connections}
-      status={data.graph.status}
-      exercise_counts={data.graph.exercise_counts}
-    />
-  ),
+  'concept-map': (data: any) => {
+    const mapData: IConceptMap = (camelizeKeys(
+      data.graph
+    ) as unknown) as IConceptMap
+    return (
+      <ConceptMap
+        concepts={mapData.concepts}
+        levels={mapData.levels}
+        connections={mapData.connections}
+        status={mapData.status}
+        exercise_counts={mapData.exercise_counts}
+      />
+    )
+  },
   'track-iteration-summary': (data: any) => (
     <Track.IterationSummary
       iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}

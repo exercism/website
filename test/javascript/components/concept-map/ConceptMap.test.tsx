@@ -76,7 +76,7 @@ const concept = (
   return {
     slug: conceptName,
     name: slugToTitlecase(conceptName),
-    web_url: `link-for-${conceptName}`,
+    webUrl: `link-for-${conceptName}`,
   }
 }
 

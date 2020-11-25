@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { CompleteIcon } from './CompleteIcon'
+import { Concept as ConceptTooltip } from '../tooltips'
+import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 import { IConcept, ConceptStatus } from './concept-map-types'
 
@@ -10,26 +12,38 @@ import {
   Visibility,
 } from './helpers/concept-visibility-handler'
 import { wrapAnimationFrame } from './helpers/animation-helpers'
-import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
-export const Concept = ({
-  slug,
-  name,
-  web_url,
-  handleEnter,
-  handleLeave,
-  status,
-  isActive,
-  exercises = 0,
-  exercisesCompleted = 0,
-}: IConcept & {
+type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
   handleLeave: MouseEventHandler
   status: ConceptStatus
   isActive: boolean
-}): JSX.Element => {
+  isActiveHover: boolean
+}
+
+export const Concept = ({
+  slug,
+  name,
+  webUrl,
+  tooltipUrl,
+  handleEnter,
+  handleLeave,
+  status,
+  isActive,
+  isActiveHover,
+  exercises = 0,
+  exercisesCompleted = 0,
+}: ConceptProps): JSX.Element => {
+  // sets the initial visibility, to avoid the flash of unstyled content
   const [visibility, setVisibility] = useState<Visibility>('hidden')
+
+  // reference to the concept anchor tag
   const conceptRef = useRef(null)
+
+  // the state of the anchor tag focus (if it is the active element)
+  const [hasFocus, setHasFocus] = useState<boolean>(
+    document.activeElement === conceptRef.current
+  )
 
   useEffect(() => {
     const current = conceptRef.current
@@ -60,41 +74,40 @@ export const Concept = ({
     classes.push('not-started')
   }
 
-  if (slug === 'basics') {
-    console.log({
-      slug,
-      name,
-      web_url,
-      handleEnter,
-      handleLeave,
-      status,
-      isActive,
-      exercises,
-      exercisesCompleted,
-    })
-  }
-
   return (
-    <a
-      ref={conceptRef}
-      href={web_url}
-      id={conceptSlugToId(slug)}
-      className={classes.join(' ')}
-      data-concept-slug={slug}
-      data-concept-status={status}
-      onMouseEnter={wrapAnimationFrame(handleEnter)}
-      onMouseLeave={wrapAnimationFrame(handleLeave)}
-    >
-      <div className="display">
-        <div className="name">{name}</div>
-        <CompleteIcon show={hasExercises && exercises === exercisesCompleted} />
-      </div>
-      <PureExerciseProgressBar
-        completed={exercisesCompleted}
-        exercises={exercises}
-        hidden={!hasExercises || !isStarted}
+    <div role="presentation">
+      <a
+        ref={conceptRef}
+        href={webUrl}
+        id={conceptSlugToId(slug)}
+        className={classes.join(' ')}
+        data-concept-slug={slug}
+        data-concept-status={status}
+        onFocus={() => setHasFocus(true)}
+        onBlur={() => setHasFocus(false)}
+        onMouseEnter={wrapAnimationFrame(handleEnter)}
+        onMouseLeave={wrapAnimationFrame(handleLeave)}
+      >
+        <div className="display">
+          <div className="name">{name}</div>
+          <CompleteIcon
+            show={hasExercises && exercises === exercisesCompleted}
+          />
+        </div>
+        <PureExerciseProgressBar
+          completed={exercisesCompleted}
+          exercises={exercises}
+          hidden={!hasExercises || !isStarted}
+        />
+      </a>
+      <ConceptTooltip
+        contentEndpoint={tooltipUrl}
+        hoverRequestToShow={isActiveHover}
+        focusRequestToShow={hasFocus}
+        referenceElement={conceptRef.current}
+        referenceConceptSlug={slug}
       />
-    </a>
+    </div>
   )
 }
 

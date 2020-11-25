@@ -37,6 +37,7 @@ module Git
       Git::Track.new(track.slug, synced_to_git_sha, repo: git_repo)
     end
 
+    memoize
     def synced_to_head?
       synced_git_track.commit.oid == head_git_track.commit.oid
     end

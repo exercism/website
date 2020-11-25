@@ -20,9 +20,9 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
     assert_equal git_concept.head_sha, concept.synced_to_git_sha
   end
 
-  test "git sync SHA changes to HEAD SHA when there are changes in config.json" do
+  test "git sync SHA changes to HEAD SHA when there are changes in concept documents" do
     track = create :track, slug: 'fsharp'
-    concept = create :track_concept, track: track, uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215', slug: 'basics', name: 'Basics', synced_to_git_sha: 'c68f057eb4cfc3f9d07867e9ee9e29de7bfac088' # rubocop:disable Layout/LineLength
+    concept = create :track_concept, track: track, uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215', slug: 'basics', name: 'Basics', synced_to_git_sha: '434ffe503a51531c8e1c6f5d7d10275afa69497a' # rubocop:disable Layout/LineLength
 
     Git::SyncConcept.(concept)
 

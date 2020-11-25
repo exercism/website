@@ -4,7 +4,10 @@ module ReactComponents
       initialize_with :user
 
       def to_s
-        super("notifications-icon", { count: user.notifications.count })
+        super(
+          "notifications-icon",
+          { count: user.notifications.count }
+        )
       end
     end
   end

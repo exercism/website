@@ -26,3 +26,9 @@
             = graphical_icon(:logo)
             Contribute
 
+    .user-section
+      = ReactComponents::Notifications::Icon.new(current_user)
+
+      .c-notification
+        = icon :badges, "You have 0 new badges"
+        .--count 0

@@ -9,6 +9,7 @@ module ReactComponents
       tag.div(
         "",
         {
+          class: "c-react-component",
           "data-react-#{id}": true,
           "data-react-data": data.to_json
         }

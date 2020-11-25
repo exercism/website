@@ -23,7 +23,9 @@ module ViewComponents
       def join_button
         if current_user
           if current_user.joined_track?(track)
-            "Joined"
+            tag.div(class: 'faux-btn-joined') do
+              safe_join([graphical_icon("check-circle"), "Joined"])
+            end
           else
             url = Exercism::Routes.join_track_path(track)
             view_context.button_to(url, method: :post, class: "btn-cta") do

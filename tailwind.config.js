@@ -107,6 +107,7 @@ module.exports = {
     width: {
       // Sometimes, elements need to have *some* width set
       // to then respond to flex-grow. This is used for that.
+      auto: 'auto',
       arbitary: '1px',
       '5-7': '41.6%',
       '1-3': '33.3%',

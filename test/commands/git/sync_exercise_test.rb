@@ -39,10 +39,8 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in .docs files" do
-    skip
-
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: 'Lucian\'s Luscious Lasagna', git_sha: "ad3893d6231d11bcbb3c2898c4629f5cbae3b76c", synced_to_git_sha: "ad3893d6231d11bcbb3c2898c4629f5cbae3b76c" # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "6c4eae85df5edc9b355c3ed8c665579d272ebc8c", synced_to_git_sha: "6c4eae85df5edc9b355c3ed8c665579d272ebc8c" # rubocop:disable Layout/LineLength
 
     Git::SyncExercise.(exercise)
 
@@ -51,10 +49,8 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in .meta files" do
-    skip
-
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "c1a216f90aa2e18df78ab24ae1f99b0a5dfcec0f", synced_to_git_sha: "c1a216f90aa2e18df78ab24ae1f99b0a5dfcec0f" # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing game', git_sha: "99126fe27cbf9e9cb7dd06865840b3f8a44c7e16", synced_to_git_sha: "99126fe27cbf9e9cb7dd06865840b3f8a44c7e16" # rubocop:disable Layout/LineLength
 
     Git::SyncExercise.(exercise)
 
@@ -63,10 +59,8 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in track-specific files" do
-    skip
-
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing game', git_sha: "90d4f30cda48b4f58d3ac7353c259ff865d6e136", synced_to_git_sha: "90d4f30cda48b4f58d3ac7353c259ff865d6e136" # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: 'Lucian\'s Luscious Lasagna', git_sha: "d098419839aa89d0efafe7a5f30e5214540384e8", synced_to_git_sha: "d098419839aa89d0efafe7a5f30e5214540384e8" # rubocop:disable Layout/LineLength
 
     Git::SyncExercise.(exercise)
 

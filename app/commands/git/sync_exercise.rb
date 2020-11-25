@@ -44,8 +44,7 @@ module Git
     end
 
     def exercise_files_modified?
-      # TODO
-      false
+      head_git_exercise.non_ignored_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
     end
 
     memoize

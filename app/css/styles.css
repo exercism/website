@@ -43,9 +43,9 @@
     @apply bg-anotherPurple text-white border-anotherPurple;
 }
 .btn {
-    line-height: 48px;
+    height: 48px;
     @apply flex items-center px-20 border-1 rounded-5;
-    @apply text-16 font-semibold justify-center w-100;
+    @apply text-16 font-semibold justify-center;
 
     & svg {
         @apply mr-12;

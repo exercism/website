@@ -1,3 +1,7 @@
+/ TOOD: Move this into a component method
+/ Don't render HAML unless necessary.
+- return unless render_site_header?
+
 %header#site-header
   .lg-container.container
     = link_to root_path, class: "exercism-link" do

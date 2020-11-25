@@ -1,8 +1,29 @@
 #page-editor
-  .md-container
+  .header
+    = link_to track_exercise_path(@track, @exercise), class: 'close-btn' do
+      = graphical_icon "arrow-left"
+      Exit Editor
+    .title
+      .track= @track.title
+      .divider /
+      .exercise= @exercise.title
+
+    %button.btn.hints-btn Hints
+
+    %button.keyboard-shortcuts-btn
+      = icon :keyboard, "Keyboard Shortcuts"
+
+    %button.settings-btn
+      = icon :settings, "Settings"
+
+    %button.more-btn
+      = icon :"more-horizontal", "Open more options"
+
+  .lhs
     = ReactComponents::Student::Editor.new(@solution)
 
-  .md-container
     %h2.text-h3.tw-mt-20 Example solution
     %pre
       = @solution.exercise.send(:git).example
+  .rhs
+    foo

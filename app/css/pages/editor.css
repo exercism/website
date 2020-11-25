@@ -1,0 +1,80 @@
+#page-editor {
+    --side-padding: 32px;
+    --border-color: rgba(203, 201, 217, 0.5);
+
+    @apply fixed grid;
+    width: 100%;
+    height: 100%;
+
+    grid-template-areas: "header header" "left right";
+
+    & .header {
+        grid-area: header;
+        height: 54px;
+        border-color: var(--border-color);
+
+        @apply flex items-center px-32 border-b-1;
+
+        & .close-btn {
+            @apply flex;
+            @apply font-semibold text-textLight text-16;
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-24;
+            }
+        }
+        & .title {
+            @apply flex-grow flex justify-center;
+            @apply font-semibold text-16;
+
+            & .track {
+                @apply text-textLight;
+            }
+
+            & .divider {
+                @apply text-textLight px-16;
+            }
+
+            & .exercise {
+            }
+        }
+
+        & .hints-btn,
+        & .keyboard-shortcuts-btn,
+        & .settings-btn,
+        & .more-btn {
+            height: 36px;
+        }
+
+        & .hints-btn {
+            @apply text-14 text-textLight border-textLight mr-24;
+        }
+
+        & .hints-btn,
+        & .keyboard-shortcuts-btn,
+        & .settings-btn {
+            @apply mr-24;
+        }
+
+        & .keyboard-shortcuts-btn,
+        & .settings-btn,
+        & .more-btn {
+            @apply flex justify-center items-center;
+            @apply text-textLight;
+            width: 48px;
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+    & .lhs {
+        grid-area: left;
+        border-color: var(--border-color);
+        @apply border-r-1;
+    }
+    & .rhs {
+        grid-area: right;
+    }
+}

@@ -4,19 +4,13 @@ module Git
     initialize_with :track
 
     def call
-      fetch_git_data!
+      update_git_repo!
       sync! unless synced_to_head?
     end
 
     private
-    attr_reader :synced_git_track, :head_git_track
-
-    def fetch_git_data!
-      git_repo = Git::Repository.new(track.slug, repo_url: track.repo_url)
+    def update_git_repo!
       git_repo.update!
-
-      @synced_git_track = Git::Track.new(track.slug, track.synced_to_git_sha, repo: git_repo)
-      @head_git_track = Git::Track.new(track.slug, git_repo.head_sha, repo: git_repo)
     end
 
     def synced_to_head?
@@ -42,6 +36,21 @@ module Git
         delta.old_file[:path] == head_git_track.config_filepath ||
           delta.new_file[:path] == head_git_track.config_filepath
       end
+    end
+
+    memoize
+    def git_repo
+      Git::Repository.new(track.slug, repo_url: track.repo_url)
+    end
+
+    memoize
+    def synced_git_track
+      Git::Track.new(track.slug, track.synced_to_git_sha, repo: git_repo)
+    end
+
+    memoize
+    def head_git_track
+      Git::Track.new(track.slug, git_repo.head_sha, repo: git_repo)
     end
   end
 end

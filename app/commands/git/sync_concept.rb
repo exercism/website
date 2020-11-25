@@ -4,20 +4,13 @@ module Git
     initialize_with :concept
 
     def call
-      fetch_git_data!
+      update_git_repo!
       sync! unless synced_to_head?
     end
 
     private
-    attr_reader :synced_git_concept, :head_git_concept, :head_git_track
-
-    def fetch_git_data!
-      git_repo = Git::Repository.new(concept.track.slug, repo_url: concept.track.repo_url)
+    def update_git_repo!
       git_repo.update!
-
-      @synced_git_concept = Git::Concept.new(concept.track.slug, concept.slug, concept.synced_to_git_sha, repo: git_repo)
-      @head_git_concept = Git::Concept.new(concept.track.slug, concept.slug, git_repo.head_sha, repo: git_repo)
-      @head_git_track = Git::Track.new(concept.track.slug, git_repo.head_sha, repo: git_repo)
     end
 
     def synced_to_head?
@@ -44,8 +37,6 @@ module Git
     end
 
     def track_config_modified?
-      return false if synced_git_concept.commit.oid == head_git_concept.commit.oid
-
       diff = head_git_concept.commit.diff(synced_git_concept.commit)
       diff.each_delta.any? do |delta|
         delta.old_file[:path] == head_git_track.config_filepath ||
@@ -57,6 +48,26 @@ module Git
     def config_concept
       # TODO: determine what to do when the concept could not be found
       head_git_track.config[:concepts].find { |e| e[:uuid] == concept.uuid }
+    end
+
+    memoize
+    def git_repo
+      Git::Repository.new(concept.track.slug, repo_url: concept.track.repo_url)
+    end
+
+    memoize
+    def synced_git_concept
+      Git::Concept.new(concept.track.slug, concept.slug, concept.synced_to_git_sha, repo: git_repo)
+    end
+
+    memoize
+    def head_git_concept
+      Git::Concept.new(concept.track.slug, concept.slug, git_repo.head_sha, repo: git_repo)
+    end
+
+    memoize
+    def head_git_track
+      Git::Track.new(concept.track.slug, git_repo.head_sha, repo: git_repo)
     end
   end
 end

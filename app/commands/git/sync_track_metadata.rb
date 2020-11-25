@@ -18,7 +18,7 @@ module Git
     end
 
     def sync!
-      return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_config_modified?
+      return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
 
       # TODO: consider raising error when slug in config is different from track slug
       # TODO: validate track to prevent invalid track data
@@ -28,6 +28,10 @@ module Git
         title: head_git_track.config[:language],
         synced_to_git_sha: head_git_track.commit.oid
       )
+    end
+
+    def track_needs_updating?
+      track_config_modified?
     end
 
     def track_config_modified?

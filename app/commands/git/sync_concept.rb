@@ -30,6 +30,7 @@ module Git
       concept.update!(
         slug: config_concept[:slug],
         name: config_concept[:name],
+        blurb: config_concept[:blurb],
         synced_to_git_sha: head_git_concept.commit.oid
       )
     end
@@ -38,7 +39,8 @@ module Git
       return false unless track_config_modified?
 
       config_concept[:slug] != concept.slug ||
-        config_concept[:name] != concept.name
+        config_concept[:name] != concept.name ||
+        config_concept[:blurb] != concept.blurb
     end
 
     def track_config_modified?

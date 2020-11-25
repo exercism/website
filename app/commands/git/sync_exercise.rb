@@ -1,21 +1,14 @@
 module Git
-  class SyncExercise
+  class SyncExercise < Sync
     include Mandate
-    initialize_with :exercise
 
-    def call
-      update_git_repo!
-      sync! unless synced_to_head?
+    def initialize(exercise)
+      super(exercise.track, exercise.synced_to_git_sha)
+      @exercise = exercise
     end
 
     private
-    def update_git_repo!
-      git_repo.update!
-    end
-
-    def synced_to_head?
-      synced_git_exercise.commit.oid == head_git_exercise.commit.oid
-    end
+    attr_reader :exercise
 
     def sync!
       # # TODO: validate exercise to prevent invalid exercise data
@@ -55,14 +48,6 @@ module Git
       false
     end
 
-    def track_config_modified?
-      diff = head_git_exercise.commit.diff(synced_git_exercise.commit)
-      diff.each_delta.any? do |delta|
-        delta.old_file[:path] == head_git_track.config_filepath ||
-          delta.new_file[:path] == head_git_track.config_filepath
-      end
-    end
-
     memoize
     def config_exercise
       # TODO: determine what to do when the exercise could not be found
@@ -70,23 +55,8 @@ module Git
     end
 
     memoize
-    def git_repo
-      Git::Repository.new(exercise.track.slug, repo_url: exercise.track.repo_url)
-    end
-
-    memoize
-    def synced_git_exercise
-      Git::Exercise.new(exercise.track.slug, exercise.slug, exercise.git_type, exercise.synced_to_git_sha, repo: git_repo)
-    end
-
-    memoize
     def head_git_exercise
       Git::Exercise.new(exercise.track.slug, exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
-    end
-
-    memoize
-    def head_git_track
-      Git::Track.new(exercise.track.slug, git_repo.head_sha, repo: git_repo)
     end
   end
 end

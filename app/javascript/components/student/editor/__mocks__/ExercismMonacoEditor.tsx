@@ -1,5 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 
+export enum Keybindings {
+  DEFAULT = 'default',
+  VIM = 'vim',
+  EMACS = 'emacs',
+}
+
 export function ExercismMonacoEditor({
   width,
   height,
@@ -9,6 +15,7 @@ export function ExercismMonacoEditor({
   options,
   value,
   theme,
+  keybindings,
 }) {
   const textareaRef = useRef<HTMLTextArea | undefined>()
   const editor = {
@@ -30,6 +37,7 @@ export function ExercismMonacoEditor({
     <div>
       <p>Theme: {theme}</p>
       <p>Language: {language}</p>
+      <p>Keybindings: {keybindings}</p>
       <p>Wrap: {options.wordWrap}</p>
       <p>Value: {value}</p>
       <textarea

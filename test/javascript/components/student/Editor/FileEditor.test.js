@@ -19,6 +19,18 @@ test('change theme', async () => {
   localStorage.clear()
 })
 
+test('change keybindings', async () => {
+  const { queryByText, getByLabelText } = render(
+    <FileEditor file={{ name: 'file', content: '' }} />
+  )
+
+  fireEvent.change(getByLabelText('Keybindings'), { target: { value: 'vim' } })
+
+  expect(queryByText('Keybindings: vim')).toBeInTheDocument()
+
+  localStorage.clear()
+})
+
 test('change wrapping', async () => {
   const { queryByText, getByLabelText } = render(
     <FileEditor file={{ name: 'file', content: '' }} />

@@ -28,3 +28,18 @@ declare module 'reconnecting-websocket' {
   const ReconnectingWebsocket: ReconnectingWebsocket
   export = ReconnectingWebsocket
 }
+
+declare module 'monaco-vim' {
+  import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
+
+  function initVimMode(
+    editor: monacoEditor.editor.IStandaloneCodeEditor,
+    statusBarNode: HTMLElement,
+    StatusBarClass?: any,
+    sanitizer?: any
+  ): VimMode
+
+  type VimMode = {
+    dispose: () => void
+  }
+}

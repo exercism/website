@@ -23,7 +23,7 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   def complete
-    ConceptExercise::Complete.(current_user, @exercise)
+    Solution::Complete.(@solution, @user_track)
     redirect_to action: :show
   end
 

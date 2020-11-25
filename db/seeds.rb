@@ -1,7 +1,7 @@
 
 # This is all temporary and horrible while we have a monorepo
-v3_url = "https://github.com/exercism/v3"
-repo = Git::Track.new(:ruby, repo_url: v3_url)
+repo_url = "https://github.com/exercism/v3"
+repo = Git::Repository.new(:v3, repo_url: repo_url)
 
 # This updates it once before we stub it below
 repo.send(:repo).update!
@@ -79,7 +79,7 @@ track_slugs.each do |track_slug|
   end
 
   begin
-    git_track = Git::Track.new(track_slug, repo_url: repo_url)
+    git_track = Git::Track.new(track_slug, repo.head_commit.oid, repo_url: repo_url)
 
     puts "Adding Track: #{track_slug}"
     track = Track.create!(
@@ -87,7 +87,7 @@ track_slugs.each do |track_slug|
       title: git_track.config[:language],
       blurb: git_track.config[:blurb],
       repo_url: v3_url,
-      synced_to_git_sha: git_track.head_sha,
+      synced_to_git_sha: repo.head_commit.oid,
 
       # Randomly selects 1-5 tags from different categories
       tags: tags.sample(1 + rand(5)).map {|category|category.sample}
@@ -100,8 +100,8 @@ track_slugs.each do |track_slug|
         uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
         slug: exercise_config[:slug],
         title: exercise_config[:slug].titleize,
-        git_sha: git_track.head_sha,
-        synced_to_git_sha: git_track.head_sha,
+        git_sha: repo.head_commit.oid,
+        synced_to_git_sha: repo.head_commit.oid,
       )
       
       exercise_config[:prerequisites].each do |slug|

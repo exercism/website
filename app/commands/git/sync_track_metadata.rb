@@ -1,55 +1,47 @@
 module Git
   class SyncTrackMetadata
     include Mandate
-
-    def initialize(track)
-      @track = track
-      @git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
-    end
+    initialize_with :track
 
     def call
-      lookup_head_and_current_commit
-      update_track! unless track_synced_to_head?
+      fetch_git_data!
+      sync! unless synced_to_head?
     end
 
     private
-    attr_reader :track, :git_track, :current_commit, :head_commit
+    attr_reader :synced_git_track, :head_git_track
 
-    def lookup_head_and_current_commit
-      git_track.update!
+    def fetch_git_data!
+      git_repo = Git::Repository.new(track.slug, repo_url: track.repo_url)
+      git_repo.update!
 
-      @current_commit = git_track.lookup_commit(track.synced_to_git_sha)
-      @head_commit = git_track.head_commit
+      @synced_git_track = Git::Track.new(track.slug, track.synced_to_git_sha, repo: git_repo)
+      @head_git_track = Git::Track.new(track.slug, git_repo.head_sha, repo: git_repo)
     end
 
-    def track_synced_to_head?
-      current_commit.oid == head_commit.oid
+    def synced_to_head?
+      synced_git_track.commit.oid == head_git_track.commit.oid
     end
 
-    def update_track!
-      return track.update!(synced_to_git_sha: head_commit.oid) unless track_config_modified?
+    def sync!
+      return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_config_modified?
 
       # TODO: consider raising error when slug in config is different from track slug
       # TODO: validate track to prevent invalid track data
       track.update!(
-        blurb: head_config[:blurb],
-        active: head_config[:active],
-        title: head_config[:language],
-        synced_to_git_sha: head_commit.oid
+        blurb: head_git_track.config[:blurb],
+        active: head_git_track.config[:active],
+        title: head_git_track.config[:language],
+        synced_to_git_sha: head_git_track.commit.oid
       )
     end
 
     def track_config_modified?
-      diff = head_commit.diff(current_commit)
+      diff = head_git_track.commit.diff(synced_git_track.commit)
       diff.each_delta.any? do |delta|
-        delta.old_file[:path] == track.git.config_filepath ||
-          delta.new_file[:path] == track.git.config_filepath
+        delta.old_file[:path] == head_git_track.config_filepath ||
+          delta.new_file[:path] == head_git_track.config_filepath
       end
-    end
-
-    memoize
-    def head_config
-      git_track.config(commit: head_commit)
     end
   end
 end

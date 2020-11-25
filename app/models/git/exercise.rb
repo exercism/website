@@ -3,28 +3,24 @@ module Git
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
 
-    delegate :update!, :lookup_commit, :head_commit, to: :repo
+    delegate :head_sha, :update!, :lookup_commit, :head_commit, to: :repo
 
     def self.for_solution(solution)
       new(
         solution.track.slug,
         solution.git_slug,
-        solution.git_sha,
-        solution.git_type
+        solution.git_type,
+        solution.git_sha
       )
     end
 
     # TODO: repo_url can be removed once we're out of a monorepo
-    def initialize(track_slug, exercise_slug, git_sha, exercise_type, repo_url: nil)
-      @repo = Repository.new(track_slug, repo_url: repo_url)
+    def initialize(track_slug, exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
+      @repo = repo || Repository.new(track_slug, repo_url: repo_url)
       @track_slug = track_slug
       @exercise_slug = exercise_slug
       @exercise_type = exercise_type
       @git_sha = git_sha
-    end
-
-    def head_sha
-      repo.head_commit.oid
     end
 
     def instructions

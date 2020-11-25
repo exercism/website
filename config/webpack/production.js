@@ -4,7 +4,8 @@ const environment = require('./environment')
 
 environment.config.merge({
   output: {
-    publicPath: 'https://exercism-assets-staging.s3.eu-west-2.amazonaws.com',
+    publicPath:
+      'https://exercism-assets-staging.s3.eu-west-2.amazonaws.com/packs/',
   },
 })
 

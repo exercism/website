@@ -16,6 +16,12 @@ module Git
       git_repo.update!
     end
 
+    def filepath_in_diff?(filepath)
+      diff.each_delta.any? do |delta|
+        [delta.old_file[:path], delta.new_file[:path]].include?(filepath)
+      end
+    end
+
     memoize
     def git_repo
       Git::Repository.new(track.slug, repo_url: track.repo_url)
@@ -38,12 +44,6 @@ module Git
     memoize
     def track_config_modified?
       filepath_in_diff?(head_git_track.config_filepath)
-    end
-
-    def filepath_in_diff?(filepath)
-      diff.each_delta.any? do |delta|
-        [delta.old_file[:path], delta.new_file[:path]].include?(filepath)
-      end
     end
 
     memoize

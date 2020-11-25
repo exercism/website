@@ -4,42 +4,46 @@ module Git
     initialize_with :exercise
 
     def call
-      lookup_head_and_current_commit
-      update_exercise! unless exercise_synced_to_head?
+      fetch_git_data!
+      sync! unless synced_to_head?
     end
 
     private
-    attr_reader :current_commit, :head_commit
+    attr_reader :synced_git_exercise, :head_git_exercise, :head_git_track
 
-    def lookup_head_and_current_commit
-      exercise.git.update!
+    def fetch_git_data!
+      git_repo = Git::Repository.new(exercise.track.slug, repo_url: exercise.track.repo_url)
+      git_repo.update!
 
-      @current_commit = exercise.git.lookup_commit(exercise.synced_to_git_sha)
-      @head_commit = exercise.git.head_commit
+      @synced_git_exercise = Git::Exercise.new(exercise.track.slug, exercise.slug, exercise.git_type,
+        exercise.synced_to_git_sha, repo: git_repo)
+      @head_git_exercise = Git::Exercise.new(exercise.track.slug, exercise.slug, exercise.git_type, git_repo.head_sha,
+        repo: git_repo)
+      @head_git_track = Git::Track.new(exercise.track.slug, git_repo.head_sha, repo: git_repo)
     end
 
-    def exercise_synced_to_head?
-      current_commit.oid == head_commit.oid
+    def synced_to_head?
+      synced_git_exercise.commit.oid == head_git_exercise.commit.oid
     end
 
-    def update_exercise!
-      send("update_#{exercise.git_type}_exercise!")
+    def sync!
       # # TODO: validate exercise to prevent invalid exercise data
+      send("sync_#{exercise.git_type}_exercise!")
     end
 
-    def update_concept_exercise!
-      return exercise.update!(synced_to_git_sha: head_commit.oid) unless exercise_modified?
+    def sync_concept_exercise!
+      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_modified?
 
       exercise.update!(
         slug: config_exercise[:slug],
         title: config_exercise[:name],
         deprecated: config_exercise[:deprecated] || false,
-        git_sha: head_commit.oid,
-        synced_to_git_sha: head_commit.oid
+        git_sha: head_git_exercise.commit.oid,
+        synced_to_git_sha: head_git_exercise.commit.oid
       )
     end
 
-    def update_practice_exercise!
+    def sync_practice_exercise!
       # TODO
     end
 
@@ -56,15 +60,16 @@ module Git
     end
 
     def exercise_files_modified?
-      return false if current_commit.oid == head_commit.oid
+      return false if synced_git_exercise.commit.oid == head_git_exercise.commit.oid
 
       # TODO
       false
     end
 
     def track_config_modified?
-      return false if current_commit.oid == head_commit.oid
+      return false if synced_git_exercise.commit.oid == head_git_exercise.commit.oid
 
+      diff = head_git_exercise.commit.diff(synced_git_exercise.commit)
       diff.each_delta.any? do |delta|
         delta.old_file[:path] == exercise.track.git.config_filepath ||
           delta.new_file[:path] == exercise.track.git.config_filepath
@@ -74,13 +79,7 @@ module Git
     memoize
     def config_exercise
       # TODO: determine what to do when the exercise could not be found
-      head_config = exercise.track.git.config(commit: head_commit)
-      head_config[:exercises][:concept].find { |e| e[:uuid] == exercise.uuid }
-    end
-
-    memoize
-    def diff
-      head_commit.diff(current_commit)
+      head_git_track.config[:exercises][:concept].find { |e| e[:uuid] == exercise.uuid }
     end
   end
 end

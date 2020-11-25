@@ -26,6 +26,10 @@ module Git
       active_branch.target
     end
 
+    def head_sha
+      head_commit.oid
+    end
+
     def read_json_blob(commit, path)
       oid = find_file_oid(commit, path)
       raw = read_blob(oid, "{}")

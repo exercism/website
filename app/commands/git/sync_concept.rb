@@ -4,31 +4,33 @@ module Git
     initialize_with :concept
 
     def call
-      lookup_head_and_current_commit
-      update_concept! unless concept_synced_to_head?
+      fetch_git_data!
+      sync! unless synced_to_head?
     end
 
     private
-    attr_reader :current_commit, :head_commit
+    attr_reader :synced_git_concept, :head_git_concept, :head_git_track
 
-    def lookup_head_and_current_commit
-      concept.git.update!
+    def fetch_git_data!
+      git_repo = Git::Repository.new(concept.track.slug, repo_url: concept.track.repo_url)
+      git_repo.update!
 
-      @current_commit = concept.git.lookup_commit(concept.synced_to_git_sha)
-      @head_commit = concept.git.head_commit
+      @synced_git_concept = Git::Concept.new(concept.track.slug, concept.slug, concept.synced_to_git_sha, repo: git_repo)
+      @head_git_concept = Git::Concept.new(concept.track.slug, concept.slug, git_repo.head_sha, repo: git_repo)
+      @head_git_track = Git::Track.new(concept.track.slug, git_repo.head_sha, repo: git_repo)
     end
 
-    def concept_synced_to_head?
-      current_commit.oid == head_commit.oid
+    def synced_to_head?
+      synced_git_concept.commit.oid == head_git_concept.commit.oid
     end
 
-    def update_concept!
-      return concept.update!(synced_to_git_sha: head_commit.oid) unless concept_modified?
+    def sync!
+      return concept.update!(synced_to_git_sha: head_git_concept.commit.oid) unless concept_modified?
 
       concept.update!(
         slug: config_concept[:slug],
         name: config_concept[:name],
-        synced_to_git_sha: head_commit.oid
+        synced_to_git_sha: head_git_concept.commit.oid
       )
     end
 
@@ -40,24 +42,19 @@ module Git
     end
 
     def track_config_modified?
-      return false if current_commit.oid == head_commit.oid
+      return false if synced_git_concept.commit.oid == head_git_concept.commit.oid
 
+      diff = head_git_concept.commit.diff(synced_git_concept.commit)
       diff.each_delta.any? do |delta|
-        delta.old_file[:path] == concept.track.git.config_filepath ||
-          delta.new_file[:path] == concept.track.git.config_filepath
+        delta.old_file[:path] == git_track.config_filepath ||
+          delta.new_file[:path] == git_track.config_filepath
       end
     end
 
     memoize
     def config_concept
       # TODO: determine what to do when the concept could not be found
-      head_config = concept.track.git.config(commit: head_commit)
-      head_config[:concepts].find { |e| e[:uuid] == concept.uuid }
-    end
-
-    memoize
-    def diff
-      head_commit.diff(current_commit)
+      head_git_track.config[:concepts].find { |e| e[:uuid] == concept.uuid }
     end
   end
 end

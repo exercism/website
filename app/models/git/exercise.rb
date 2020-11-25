@@ -56,12 +56,19 @@ module Git
         hash[filepath] = read_file_blob(filepath)
       end
     end
+
     # This includes meta files
     memoize
     def non_ignored_filepaths
       filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         !filepath.match?(track.ignore_regexp)
       end
+    end
+
+    # This includes meta files
+    memoize
+    def non_ignored_absolute_filepaths
+      non_ignored_filepaths.map { |filepath| full_filepath(filepath) }
     end
 
     def read_file_blob(filepath)
@@ -71,6 +78,10 @@ module Git
 
     private
     attr_reader :repo, :track_slug, :exercise_slug, :git_sha, :exercise_type
+
+    def full_filepath(filepath)
+      "#{dir}/#{filepath}"
+    end
 
     def filepaths
       file_entries.map { |defn| defn[:full] }
@@ -90,7 +101,11 @@ module Git
     def tree
       # TODO: When things are exploded back into repos, do this
       # repo.fetch_tree(commit, "exercises/#{exercise_type}/#{slug}")
-      repo.fetch_tree(commit, "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}")
+      repo.fetch_tree(commit, dir)
+    end
+
+    def dir
+      "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}"
     end
 
     memoize

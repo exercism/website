@@ -18,7 +18,7 @@ module Git
     end
 
     def sync!
-      return concept.update!(synced_to_git_sha: head_git_concept.commit.oid) unless concept_modified?
+      return concept.update!(synced_to_git_sha: head_git_concept.commit.oid) unless concept_needs_updating?
 
       concept.update!(
         slug: config_concept[:slug],
@@ -28,7 +28,7 @@ module Git
       )
     end
 
-    def concept_modified?
+    def concept_needs_updating?
       return false unless track_config_modified?
 
       config_concept[:slug] != concept.slug ||

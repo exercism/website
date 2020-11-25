@@ -23,7 +23,7 @@ module Git
     end
 
     def sync_concept_exercise!
-      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_modified?
+      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
 
       exercise.update!(
         slug: config_exercise[:slug],
@@ -38,7 +38,7 @@ module Git
       # TODO
     end
 
-    def exercise_modified?
+    def exercise_needs_updating?
       config_exercise_modified? || exercise_files_modified?
     end
 

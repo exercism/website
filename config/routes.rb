@@ -1,6 +1,17 @@
 Rails.application.routes.draw do
-  devise_for :users
   mount ActionCable.server => '/cable'
+
+  # #### #
+  # Auth #
+  # #### #
+  devise_for :users, controllers: {
+    registrations: "registrations",
+    confirmations: "confirmations"
+  }
+
+  devise_scope :user do
+    get "confirmations/required" => "confirmations#required", as: "confirmation_required"
+  end
 
   # ### #
   # API #

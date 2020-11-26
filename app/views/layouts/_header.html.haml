@@ -33,6 +33,6 @@
     .user-section
       = ReactComponents::Notifications::Icon.new(current_user)
 
-      .c-notification
+      .c-notification.--single-digit
         = icon :badges, "You have 0 new badges"
-        .--count 0
+        .--count 7

@@ -60,4 +60,22 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     user.reload
     refute user.valid_password?("12345678")
   end
+
+  test "ensures handle uniqueness" do
+    create :user, handle: "user22"
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(
+        email: "user@exercism.io",
+        name: "Name",
+        nickname: "user22"
+      )
+    )
+
+    user = User::AuthenticateFromOmniauth.(auth)
+
+    assert user.persisted?
+    refute_equal "user22", user.handle
+  end
 end

@@ -48,14 +48,20 @@ class User
         email: auth.info.email,
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
-        handle: auth.info.nickname
+        handle: handle
       )
 
       user.skip_confirmation!
-      user.save
+      User::Bootstrap.(user) if user.save
 
-      User::Bootstrap.(user)
       user
+    end
+
+    private
+    def handle
+      attempt = auth.info.nickname
+      attempt = "#{auth.info.nickname}-#{SecureRandom.random_number(10_000)}" while User.where(handle: attempt).exists?
+      attempt
     end
   end
 end

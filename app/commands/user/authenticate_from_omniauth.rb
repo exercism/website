@@ -54,6 +54,7 @@ class User
       user.skip_confirmation!
       user.save
 
+      User::Bootstrap.(user)
       user
     end
   end

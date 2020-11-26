@@ -15,7 +15,5 @@ module ReactComponents
         }
       )
     end
-
-    def class_name; end
   end
 end

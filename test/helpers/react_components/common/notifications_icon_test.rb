@@ -6,7 +6,8 @@ class CommonNotificationsIconTest < ReactComponentTestCase
     create(:notification, user: user, read_at: nil)
 
     assert_component ReactComponents::Common::NotificationsIcon.new(user),
-      "notifications-icon",
-      { count: 1 }
+      "common-notifications-icon",
+      { count: 1 },
+      fitted: true
   end
 end

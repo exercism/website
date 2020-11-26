@@ -71,7 +71,7 @@ initReact({
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),
   'common-notifications-icon': (data: any) => (
-    <Common.NotificationIcon count={data.count} />
+    <Common.NotificationsIcon count={data.count} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

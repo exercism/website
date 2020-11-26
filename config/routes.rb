@@ -104,9 +104,7 @@ Rails.application.routes.draw do
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
-        namespace :notifications do
-          resource :icon, only: %i[show update], controller: "icon"
-        end
+        resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :queue, controller: "queue", only: [:show] do
             get 'solutions', on: :member

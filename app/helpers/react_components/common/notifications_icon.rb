@@ -4,9 +4,12 @@ module ReactComponents
       initialize_with :user
 
       def to_s
+        return nil unless user
+
         super(
           "common-notifications-icon",
-          { count: user.notifications.count }
+          { count: user.notifications.count },
+          fitted: true
         )
       end
     end

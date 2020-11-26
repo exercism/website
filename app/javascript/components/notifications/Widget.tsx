@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect, useMemo } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { Icon } from '../common/Icon'
 
@@ -20,7 +20,18 @@ function reducer(state: WidgetProps, action: WidgetAction) {
 
 export function Widget({ count }: WidgetProps) {
   const [state, dispatch] = useReducer(reducer, { count: count })
-  const isUnread = state.count > 0
+  const variantClass = useMemo(() => {
+    switch (true) {
+      case state.count === 0:
+        return '--none'
+      case state.count >= 1 && state.count <= 9:
+        return '--digital'
+      case state.count >= 10 && state.count <= 99:
+        return '--double-digit'
+      case state.count >= 100:
+        return '--triple-digit'
+    }
+  }, [state.count])
 
   useEffect(() => {
     const received = (data: WidgetAction) => {
@@ -35,7 +46,7 @@ export function Widget({ count }: WidgetProps) {
   }, [])
 
   return (
-    <div className={`c-notification ${isUnread ? 'unread' : ''}`}>
+    <div className={`c-notification ${variantClass}`}>
       <Icon
         icon="notifications"
         alt={`You have ${state.count} notifications`}

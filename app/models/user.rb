@@ -39,7 +39,7 @@ class User < ApplicationRecord
       user.handle = auth.info.nickname
 
       user.skip_confirmation!
-      user.save!
+      user.save
     end
   end
 

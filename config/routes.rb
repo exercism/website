@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # Auth #
   # #### #
   devise_for :users, controllers: {
+    sessions: "sessions",
     registrations: "registrations",
     omniauth_callbacks: "omniauth_callbacks",
     confirmations: "confirmations"

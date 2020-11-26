@@ -1,9 +1,10 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable, and :omniauthable
+  # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable,
-    :confirmable, :validatable
+    :confirmable, :validatable,
+    :omniauthable, omniauth_providers: [:github]
   has_many :auth_tokens, dependent: :destroy
 
   has_many :user_tracks, dependent: :destroy
@@ -28,6 +29,20 @@ class User < ApplicationRecord
     return find_by!(id: param) if param.is_a?(Numeric)
 
     find_by!(handle: param)
+  end
+
+  def self.from_omniauth(auth)
+    User.new(
+      provider: auth.provider,
+      uid: auth.uid,
+      email: auth.info.email,
+      password: Devise.friendly_token[0, 20],
+      name: auth.info.name,
+      handle: auth.info.nickname
+    ).tap do |user|
+      user.skip_confirmation!
+      user.save!
+    end
   end
 
   def reputation(track_slug: nil, category: nil)

@@ -14,6 +14,18 @@ module Flows
       assert_text "Please confirm your email"
     end
 
+    test "user sees registration errors" do
+      visit new_user_registration_path
+      fill_in "Name", with: "Name"
+      fill_in "Email", with: "user@exercism.io"
+      fill_in "Handle", with: "user22!"
+      fill_in "Password", with: "password"
+      fill_in "Password confirmation", with: "password"
+      click_on "Sign up"
+
+      assert_text "Handle must have only letters, numbers, or hyphens"
+    end
+
     test "user registers via Github" do
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({

@@ -24,7 +24,7 @@ class User < ApplicationRecord
   belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
   has_one :featured_badge, through: :featured_user_badge
 
-  validates :handle, uniqueness: { case_sensitive: false }
+  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
   def self.for!(param)
     return param if param.is_a?(User)

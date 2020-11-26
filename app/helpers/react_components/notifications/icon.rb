@@ -6,7 +6,8 @@ module ReactComponents
       def to_s
         super(
           "notifications-icon",
-          { count: user.notifications.count }
+          { count: user.notifications.count },
+          fitted: true
         )
       end
     end

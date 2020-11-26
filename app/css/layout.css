@@ -18,6 +18,8 @@
 }
 
 .c-react-component {
-    width: fit-content;
-    height: fit-content;
+    &.--fitted {
+        width: fit-content;
+        height: fit-content;
+    }
 }

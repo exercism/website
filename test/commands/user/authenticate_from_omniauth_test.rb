@@ -1,6 +1,22 @@
 require "test_helper"
 
 class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
+  test "creates an auth token for a new user" do
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(
+        email: "user@exercism.io",
+        name: "Name",
+        nickname: "user22"
+      )
+    )
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_equal 1, User::AuthToken.count
+  end
+
   test "updates email if from users.noreply.github.com" do
     user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com"
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io"))

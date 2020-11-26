@@ -83,6 +83,7 @@ group :test do
   gem 'simplecov', '~> 0.17.0', require: false
   gem 'webdrivers'
   gem 'webmock'
+  gem 'show_me_the_cookies'
 
   # Adds assert_template
   gem 'rails-controller-testing'

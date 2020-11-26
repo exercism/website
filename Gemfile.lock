@@ -356,6 +356,8 @@ GEM
       rubyzip (>= 1.2.2)
     semantic_range (2.3.0)
     sexp_processor (4.15.1)
+    show_me_the_cookies (5.0.1)
+      capybara (>= 2, < 4)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -464,6 +466,7 @@ DEPENDENCIES
   rubocop-rails
   rugged
   selenium-webdriver
+  show_me_the_cookies
   simplecov (~> 0.17.0)
   solargraph
   spring

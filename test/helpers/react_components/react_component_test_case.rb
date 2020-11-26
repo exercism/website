@@ -5,6 +5,7 @@ class ReactComponentTestCase < ActionView::TestCase
     assert_dom_equal(
       %(
        <div
+         class="c-react-component "
          data-react-#{id}="true"
          data-react-data="#{ERB::Util.unwrapped_html_escape(data.to_json)}"
         />

@@ -1,24 +1,24 @@
 import React, { useReducer, useEffect, useMemo } from 'react'
 import consumer from '../../utils/action-cable-consumer'
-import { Icon } from '../common/Icon'
+import { Icon } from './Icon'
 
-type WidgetProps = {
+type NotificationIconProps = {
   count: number
 }
 
-type WidgetAction = {
+type NotificationIconAction = {
   type: 'notifications.changed'
-  payload: WidgetProps
+  payload: NotificationIconProps
 }
 
-function reducer(state: WidgetProps, action: WidgetAction) {
+function reducer(state: NotificationIconProps, action: NotificationIconAction) {
   switch (action.type) {
     case 'notifications.changed':
       return { count: action.payload.count }
   }
 }
 
-export function Widget({ count }: WidgetProps) {
+export function NotificationIcon({ count }: NotificationIconProps) {
   const [state, dispatch] = useReducer(reducer, { count: count })
   const variantClass = useMemo(() => {
     switch (true) {
@@ -34,7 +34,7 @@ export function Widget({ count }: WidgetProps) {
   }, [state.count])
 
   useEffect(() => {
-    const received = (data: WidgetAction) => {
+    const received = (data: NotificationIconAction) => {
       dispatch(data)
     }
 

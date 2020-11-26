@@ -3,108 +3,90 @@ import React from 'react'
 import '@testing-library/jest-dom'
 
 // Test deps
-import {
-  getByText,
-  getByTitle,
-  queryByTitle,
-  render,
-} from '@testing-library/react'
+import { screen, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
 import { ConceptMap } from '../../../../app/javascript/components/concept-map/ConceptMap'
-import {
-  ConceptStatus,
-  IConcept as Concept,
-  ConceptConnection,
-  ConceptLayer,
-} from '../../../../app/javascript/components/concept-map/concept-map-types'
 
 describe('<ConceptMap />', () => {
   test('renders empty component', () => {
-    const { container } = renderMap([], [], [], {}, {})
+    const { container } = render(
+      <ConceptMap
+        concepts={[]}
+        levels={[[]]}
+        connections={[]}
+        status={{}}
+        exercise_counts={{}}
+      />
+    )
     const map = container.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
 
-  test('renders single incomplete concept', () => {
+  test('renders single incomplete concept', async () => {
     const testConcept = concept('test')
-    const { container } = renderMap(
-      [testConcept],
-      [[testConcept.slug]],
-      [],
-      {
-        test: 'unavailable',
-      },
-      {
-        test: {
-          exercises: 1,
-          exercises_completed: 0,
-        },
-      }
+
+    render(
+      <ConceptMap
+        concepts={[testConcept]}
+        levels={[[testConcept.slug]]}
+        connections={[]}
+        status={{
+          test: 'unavailable',
+        }}
+        exercise_counts={{
+          test: {
+            exercises: 1,
+            exercises_completed: 0,
+          },
+        }}
+      />
     )
-    const conceptEl = getByText(container, 'Test')
-    expect(conceptEl).toBeInTheDocument()
-    const completeIconEl = queryByTitle(
-      container,
-      'You have mastered this concept'
-    )
-    expect(completeIconEl).not.toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(
+        screen.queryByTitle('You have mastered this concept')
+      ).not.toBeInTheDocument()
+    })
   })
 
-  test('renders single completed concept', () => {
+  test('renders single completed concept', async () => {
     const testConcept = concept('test')
-    const { container } = renderMap(
-      [testConcept],
-      [[testConcept.slug]],
-      [],
-      {
-        test: 'completed',
-      },
-      {
-        test: {
-          exercises: 1,
-          exercises_completed: 1,
-        },
-      }
+    render(
+      <ConceptMap
+        concepts={[testConcept]}
+        levels={[[testConcept.slug]]}
+        connections={[]}
+        status={{
+          test: 'completed',
+        }}
+        exercise_counts={{
+          test: {
+            exercises: 1,
+            exercises_completed: 1,
+          },
+        }}
+      />
     )
-    const conceptEl = getByText(container, 'Test')
-    expect(conceptEl).toBeInTheDocument()
-    const completeIconEl = getByTitle(
-      container,
-      'You have mastered this concept'
-    )
-    expect(completeIconEl).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(
+        screen.getByTitle('You have mastered this concept')
+      ).toBeInTheDocument()
+    })
   })
 })
 
-const concept = (conceptName: string): Concept => {
+const concept = (conceptName: string) => {
   return {
     slug: conceptName,
     name: slugToTitlecase(conceptName),
     webUrl: `link-for-${conceptName}`,
     tooltipUrl: `tooltop-link-for${conceptName}`,
   }
-}
-
-const renderMap = (
-  concepts: Concept[],
-  levels: ConceptLayer[],
-  connections: ConceptConnection[],
-  status: { [key: string]: ConceptStatus },
-  exercise_counts: {
-    [key: string]: { exercises: number; exercises_completed: number }
-  }
-) => {
-  return render(
-    <ConceptMap
-      concepts={concepts}
-      levels={levels}
-      connections={connections}
-      status={status}
-      exercise_counts={exercise_counts}
-    />
-  )
 }
 
 function slugToTitlecase(slug: string): string {

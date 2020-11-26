@@ -8,7 +8,8 @@
         @apply ml-8 px-8;
         @apply border-1 border-borderLight rounded-100;
         @apply text-14 font-medium;
-        line-height: 20px;
+        @apply flex items-center justify-center;
+        height: 20px;
     }
     & svg {
         height: 24px;

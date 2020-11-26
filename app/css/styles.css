@@ -43,14 +43,22 @@
     @apply bg-anotherPurple text-white border-anotherPurple;
 }
 .btn {
+    @apply flex items-center justify-center px-20 border-1 rounded-5;
+    @apply text-16 font-semibold;
     height: 48px;
-    @apply flex items-center px-20 border-1 rounded-5;
-    @apply text-16 font-semibold justify-center;
 
     & svg {
         @apply mr-12;
         height: 18px;
         width: 18px;
+    }
+
+    & .kb-shortcut {
+        @apply ml-8;
+    }
+
+    &:disabled {
+        opacity: 0.5;
     }
 }
 .btn-cta {
@@ -58,12 +66,12 @@
 }
 
 .btn-large {
-    @apply flex items-center px-32 border-3;
-    @apply text-18 font-semibold rounded-5;
-    line-height: 54px;
+    @apply btn;
+    @apply px-32 border-3 text-18;
+    height: 54px;
 
     & svg {
-        @apply mr-12 text-white;
+        @apply mr-12;
         height: 16px;
         width: 16px;
     }
@@ -73,5 +81,23 @@
 }
 .btn-large-secondary {
     @apply btn-large;
+    @apply bg-white text-anotherPurple border-anotherPurple;
+}
+
+.btn-small {
+    @apply btn border-1 text-14 rounded-5;
+    height: 36px;
+
+    & svg {
+        @apply mr-12;
+        height: 14px;
+        width: 14px;
+    }
+}
+.btn-small-cta {
+    @apply btn-small btn--cta;
+}
+.btn-small-secondary {
+    @apply btn-small;
     @apply bg-white text-anotherPurple border-anotherPurple;
 }

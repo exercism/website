@@ -25,6 +25,10 @@ module Git
       read_file_blob(".docs/instructions.md")
     end
 
+    def introduction
+      read_file_blob(".docs/introduction.md")
+    end
+
     # TODO: This is stub code
     def example
       read_file_blob(filepaths.find { |fp| fp.downcase.include?("example.") })

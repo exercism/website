@@ -52,5 +52,17 @@ module Flows
 
       OmniAuth.config.test_mode = false
     end
+
+    test "user sees errors when initial OAuth exchange fails" do
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:github] = :failed
+
+      visit new_user_registration_path
+      click_on "Sign in with GitHub"
+
+      assert_text "Sorry, we could not authenticate you from GitHub."
+
+      OmniAuth.config.test_mode = false
+    end
   end
 end

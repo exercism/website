@@ -3,11 +3,7 @@ class RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters
 
   def create
-    super do |user|
-      return unless user.persisted?
-
-      User::Bootstrap.(user)
-    end
+    super { |user| User::Bootstrap.(user) if user.persisted? }
   end
 
   def configure_permitted_parameters

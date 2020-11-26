@@ -56,7 +56,7 @@ end
 
 group :development, :test do
   #  gem 'pry'
-  #  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
 
   # To avoid polling for changes on Windows MRI, it needs this opt-in gem

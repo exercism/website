@@ -1,9 +1,9 @@
 // Deps
 import React from 'react'
+import '@testing-library/jest-dom'
 
 // Test deps
 import {
-  getByTestId,
   getByText,
   getByTitle,
   queryByTitle,
@@ -22,26 +22,38 @@ import {
 
 describe('<ConceptMap />', () => {
   test('renders empty component', () => {
-    const { container } = renderMap([], [], [], {})
+    const { container } = renderMap([], [], [], {}, {})
     const map = container.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
 
   test('renders single incomplete concept', () => {
     const testConcept = concept('test')
-    const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: 'locked',
-    })
+    const { container } = renderMap(
+      [testConcept],
+      [[testConcept.slug]],
+      [],
+      {
+        test: 'unavailable',
+      },
+      {
+        test: {
+          exercises: 1,
+          exercises_completed: 0,
+        },
+      }
+    )
     const conceptEl = getByText(container, 'Test')
+    expect(conceptEl).toBeInTheDocument()
     const completeIconEl = queryByTitle(
       container,
       'You have mastered this concept'
     )
-    expect(completeIconEl).toBeNull()
+    expect(completeIconEl).not.toBeInTheDocument()
   })
 
   test('renders single completed concept', () => {
-    const testConcept = concept('test', { state: 'completed' })
+    const testConcept = concept('test')
     const { container } = renderMap(
       [testConcept],
       [[testConcept.slug]],
@@ -57,26 +69,21 @@ describe('<ConceptMap />', () => {
       }
     )
     const conceptEl = getByText(container, 'Test')
+    expect(conceptEl).toBeInTheDocument()
     const completeIconEl = getByTitle(
       container,
       'You have mastered this concept'
     )
+    expect(completeIconEl).toBeInTheDocument()
   })
 })
 
-const concept = (
-  conceptName: string,
-  options: {
-    index?: number
-    state?: ConceptStatus
-  } = {}
-): Concept => {
-  const index = options.index ?? 0
-
+const concept = (conceptName: string): Concept => {
   return {
     slug: conceptName,
     name: slugToTitlecase(conceptName),
     webUrl: `link-for-${conceptName}`,
+    tooltipUrl: `tooltop-link-for${conceptName}`,
   }
 }
 

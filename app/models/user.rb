@@ -32,14 +32,12 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth(auth)
-    User.new(
-      provider: auth.provider,
-      uid: auth.uid,
-      email: auth.info.email,
-      password: Devise.friendly_token[0, 20],
-      name: auth.info.name,
-      handle: auth.info.nickname
-    ).tap do |user|
+    User.find_or_initialize_by(provider: auth.provider, uid: auth.uid) do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
+      user.handle = auth.info.nickname
+
       user.skip_confirmation!
       user.save!
     end

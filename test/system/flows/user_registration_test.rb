@@ -33,5 +33,24 @@ module Flows
 
       OmniAuth.config.test_mode = false
     end
+
+    test "user sees errors when registering via Github" do
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
+                                                                    provider: "github",
+                                                                    uid: "111",
+                                                                    info: {
+                                                                      email: nil,
+                                                                      name: "Name",
+                                                                      nickname: "user22"
+                                                                    }
+                                                                  })
+      visit new_user_registration_path
+      click_on "Sign in with GitHub"
+
+      assert_text "Sorry, we could not authenticate you from GitHub."
+
+      OmniAuth.config.test_mode = false
+    end
   end
 end

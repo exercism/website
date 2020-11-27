@@ -5,7 +5,7 @@ module Auth
     def create
       super
     rescue BCrypt::Errors::InvalidHash
-      set_flash_message(:auth_alert, :invalid_hash) if is_navigational_format?
+      set_flash_message(:alert, :invalid_hash) if is_navigational_format?
 
       redirect_to new_user_session_path
     end

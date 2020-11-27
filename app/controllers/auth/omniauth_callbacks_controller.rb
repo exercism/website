@@ -12,14 +12,14 @@ module Auth
       else
         session["devise.github_data"] = request.env["omniauth.auth"].except(:extra)
 
-        set_flash_message(:auth_alert, :failure, kind: "GitHub") if is_navigational_format?
+        set_flash_message(:alert, :failure, kind: "GitHub") if is_navigational_format?
 
         redirect_to after_omniauth_failure_path_for(resource_name)
       end
     end
 
     def failure
-      set_flash_message(:auth_alert, :failure, kind: OmniAuth::Utils.camelize(failed_strategy.name))
+      set_flash_message(:alert, :failure, kind: OmniAuth::Utils.camelize(failed_strategy.name))
 
       redirect_to after_omniauth_failure_path_for(resource_name)
     end

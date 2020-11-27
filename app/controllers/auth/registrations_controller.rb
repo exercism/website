@@ -22,7 +22,7 @@ module Auth
 
       return if verification.succeeded?
 
-      set_flash_message(:auth_alert, :captcha_verification_failed) if is_navigational_format?
+      set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?
 
       redirect_to new_user_registration_path
     end

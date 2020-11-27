@@ -33,7 +33,7 @@ class HCaptcha
       @success = success
     end
 
-    def success?
+    def succeeded?
       success
     end
 

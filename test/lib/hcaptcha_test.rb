@@ -8,7 +8,7 @@ class HCaptchaTest < ActiveSupport::TestCase
     stub_request(:post, "https://hcaptcha.com/siteverify").
       to_return(body: { success: true }.to_json)
 
-    assert HCaptcha.verify("token").success?
+    assert HCaptcha.verify("token").succeeded?
 
     RestClient.stubs(:post)
   end

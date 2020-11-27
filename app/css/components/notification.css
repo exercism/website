@@ -44,12 +44,15 @@
     }
     &.--triple-digit {
         & .--count {
-            top: -3px;
-            right: -5px;
-            width: 15px;
-            height: 15px;
+            @apply invisible;
+            &:after {
+                @apply absolute bg-red rounded-circle;
+                @apply visible;
 
-            font-size: 0px;
+                content: "";
+                width: 15px;
+                height: 15px;
+            }
         }
     }
 }

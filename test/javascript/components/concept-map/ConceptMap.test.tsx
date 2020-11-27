@@ -3,7 +3,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 
 // Test deps
-import { screen, render, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
@@ -20,14 +20,14 @@ describe('<ConceptMap />', () => {
       exerciseCounts: {},
     }
 
-    const { container } = await waitForConceptMapReady(config)
-    const map = container.querySelector('.c-concepts-map')
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
+    const map = renderedConceptMap.container.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
 
   test('renders single incomplete concept', async () => {
     const testConcept = concept('test')
-
     const config: IConceptMap = {
       concepts: [testConcept],
       levels: [[testConcept.slug]],
@@ -36,10 +36,12 @@ describe('<ConceptMap />', () => {
       exerciseCounts: { test: { exercises: 1, exercisesCompleted: 0 } },
     }
 
-    await waitForConceptMapReady(config)
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
 
+    expect(renderedConceptMap.queryByText('Test')).toBeInTheDocument()
     expect(
-      screen.queryByTitle('You have mastered this concept')
+      renderedConceptMap.queryByTitle('You have mastered this concept')
     ).not.toBeInTheDocument()
   })
 
@@ -54,16 +56,18 @@ describe('<ConceptMap />', () => {
       exerciseCounts: { test: { exercises: 1, exercisesCompleted: 1 } },
     }
 
-    await waitForConceptMapReady(config)
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
 
+    expect(renderedConceptMap.queryByText('Test')).toBeInTheDocument()
     expect(
-      screen.queryByTitle('You have mastered this concept')
+      renderedConceptMap.queryByTitle('You have mastered this concept')
     ).toBeInTheDocument()
   })
 })
 
-const waitForConceptMapReady = async (config: IConceptMap) => {
-  const renderResult = render(
+const renderConceptMap = (config: IConceptMap) =>
+  render(
     <ConceptMap
       concepts={config.concepts}
       levels={config.levels}
@@ -73,15 +77,19 @@ const waitForConceptMapReady = async (config: IConceptMap) => {
     />
   )
 
+const waitForConceptMapReady = async (
+  renderedConceptMap: ReturnType<typeof renderConceptMap>,
+  config: IConceptMap
+) => {
   await Promise.all(
     config.concepts
       .map((concept) => concept.name)
       .map((conceptName) =>
-        waitFor(() => expect(screen.getByText(conceptName)).toBeInTheDocument())
+        waitFor(() =>
+          expect(renderedConceptMap.getByText(conceptName)).toBeInTheDocument()
+        )
       )
   )
-
-  return renderResult
 }
 
 const concept = (conceptName: string) => {

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
     return unless user_signed_in?
     return if current_user.onboarded?
 
-    redirect_to onboarding_path
+    redirect_to user_onboarding_path
   end
 
   def self.allow_unauthenticated!(*actions)

@@ -58,7 +58,7 @@ class User < ApplicationRecord
   end
 
   def onboarded?
-    accepted_terms_at.present? &&
-      accepted_privacy_policy_at.present?
+    accepted_privacy_policy_at.present? &&
+      accepted_terms_at.present?
   end
 end

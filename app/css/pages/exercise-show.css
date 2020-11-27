@@ -223,7 +223,7 @@
             @apply mt-20 pt-20 border-t-1 border-borderLight;
 
             & button {
-                @apply mb-12;
+                @apply mb-12 w-100;
             }
 
             & .explanation {

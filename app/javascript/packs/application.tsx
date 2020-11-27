@@ -99,7 +99,7 @@ initReact({
         levels={mapData.levels}
         connections={mapData.connections}
         status={mapData.status}
-        exercise_counts={mapData.exercise_counts}
+        exerciseCounts={mapData.exerciseCounts}
       />
     )
   },

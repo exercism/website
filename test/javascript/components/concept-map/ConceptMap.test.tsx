@@ -17,7 +17,7 @@ describe('<ConceptMap />', () => {
       levels: [[]],
       connections: [],
       status: {},
-      exercise_counts: {},
+      exerciseCounts: {},
     }
 
     const { container } = await waitForConceptMapReady(config)
@@ -33,7 +33,7 @@ describe('<ConceptMap />', () => {
       levels: [[testConcept.slug]],
       connections: [],
       status: { test: 'unavailable' },
-      exercise_counts: { test: { exercises: 1, exercises_completed: 0 } },
+      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 0 } },
     }
 
     await waitForConceptMapReady(config)
@@ -51,7 +51,7 @@ describe('<ConceptMap />', () => {
       levels: [[testConcept.slug]],
       connections: [],
       status: { test: 'unavailable' },
-      exercise_counts: { test: { exercises: 1, exercises_completed: 1 } },
+      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 1 } },
     }
 
     await waitForConceptMapReady(config)
@@ -69,7 +69,7 @@ const waitForConceptMapReady = async (config: IConceptMap) => {
       levels={config.levels}
       connections={config.connections}
       status={config.status}
-      exercise_counts={config.exercise_counts}
+      exerciseCounts={config.exerciseCounts}
     />
   )
 

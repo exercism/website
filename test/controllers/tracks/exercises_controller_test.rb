@@ -12,7 +12,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index: renders correctly for joined" do
-    user = create :user
+    user = create :user, :onboarded
     track = create :track
     create :user_track, user: user, track: track
 
@@ -23,9 +23,10 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index: renders correctly for unjoined" do
+    user = create :user, :onboarded
     track = create :track
 
-    sign_in!
+    sign_in!(user)
 
     get track_exercises_url(track)
     assert_template "tracks/exercises/index"
@@ -43,7 +44,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "concept/show: renders correctly for joined" do
-    user = create :user
+    user = create :user, :onboarded
     exercise = create :concept_exercise
     create :user_track, user: user, track: exercise.track
 
@@ -54,9 +55,10 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "concept/show: renders correctly for unjoined" do
+    user = create :user, :onboarded
     exercise = create :concept_exercise
 
-    sign_in!
+    sign_in!(user)
 
     get track_exercise_url(exercise.track, exercise)
     assert_template "tracks/exercises/show"
@@ -74,7 +76,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "practice/show: renders correctly for joined" do
-    user = create :user
+    user = create :user, :onboarded
     track = create :track
     create :user_track, user: user, track: track
     exercise = create :practice_exercise, track: track
@@ -86,10 +88,11 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "practice/show: renders correctly for unjoined" do
+    user = create :user, :onboarded
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    sign_in!
+    sign_in!(user)
 
     get track_exercise_url(track, exercise)
     assert_template "tracks/exercises/show"

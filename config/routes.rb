@@ -77,6 +77,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :onboarding, only: %i[show update], controller: "onboarding"
+
   resources :solutions, only: %i[edit]
 
   root to: "pages#index"

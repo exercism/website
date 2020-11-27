@@ -5,7 +5,7 @@ module Flows
     test "starts concept exercise succesfully" do
       exercise = create :concept_exercise
 
-      user = create :user
+      user = create :user, :onboarded
       create :user_track, user: user, track: exercise.track
 
       sign_in!(user)

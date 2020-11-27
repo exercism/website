@@ -11,10 +11,10 @@ module Flows
 
       visit new_user_session_path
       click_on "Sign in with GitHub"
-      assert_text "Welcome to Exercism v3"
+      assert_text "Onboarding"
       expire_cookies
       visit new_user_session_path
-      assert_text "Welcome to Exercism v3"
+      assert_text "Onboarding"
 
       OmniAuth.config.test_mode = false
     end

@@ -1,5 +1,13 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :ensure_onboarded!
+
+  def ensure_onboarded!
+    return unless user_signed_in?
+    return if current_user.onboarded?
+
+    redirect_to onboarding_path
+  end
 
   def self.allow_unauthenticated!(*actions)
     skip_before_action(:authenticate_user!, only: actions)

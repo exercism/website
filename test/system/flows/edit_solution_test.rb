@@ -6,7 +6,7 @@ module Flows
     include CapybaraHelpers
 
     test "user runs tests" do
-      user = create :user
+      user = create :user, :onboarded
       create :user_auth_token, user: user
       solution = create :concept_solution, user: user
 
@@ -29,7 +29,7 @@ module Flows
     end
 
     test "user sees previous test results" do
-      user = create :user
+      user = create :user, :onboarded
       create :user_auth_token, user: user
       solution = create :concept_solution, user: user
       submission = create :submission, solution: solution
@@ -49,7 +49,7 @@ module Flows
     end
 
     test "user sees errors" do
-      user = create :user
+      user = create :user, :onboarded
       create :user_auth_token, user: user
       solution = create :concept_solution, user: user
       create :submission, solution: solution
@@ -66,7 +66,7 @@ module Flows
     test "user submits code" do
       Submission::File.any_instance.stubs(:content)
       use_capybara_host do
-        user = create :user
+        user = create :user, :onboarded
         create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 

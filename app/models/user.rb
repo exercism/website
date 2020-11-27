@@ -56,4 +56,9 @@ class User < ApplicationRecord
   def may_view_solution?(solution)
     id == solution.user_id
   end
+
+  def onboarded?
+    accepted_terms_at.present? &&
+      accepted_privacy_policy_at.present?
+  end
 end

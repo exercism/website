@@ -62,7 +62,7 @@ module Flows
       click_on "Sign in with GitHub"
 
       refute_text "Please confirm your email"
-      assert_text "Welcome to Exercism v3"
+      assert_text "Onboarding"
 
       OmniAuth.config.test_mode = false
     end

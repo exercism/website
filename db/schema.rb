@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title", null: false
+    t.string "blurb", limit: 400, null: false
     t.string "repo_url", null: false
     t.json "tags"
     t.boolean "active", default: true, null: false

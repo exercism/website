@@ -78,9 +78,20 @@ track_slugs.each do |track_slug|
   end
 
   puts "Adding Track: #{track_slug}"
+
+  begin
+    git_track = Git::Track.new(track_slug, repo_url:"https://github.com/exercism/v3")
+    title = git_track.config[:language]
+    blurb = git_track.config[:blurb]
+  rescue => e
+    title = track_slug.titleize
+    blurb = 'C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.'
+  end
+
   track = Track.create!(
     slug: track_slug, 
-    title: track_slug.titleize, 
+    title: title,
+    blurb: blurb,
     repo_url: v3_url,
 
     # Randomly selects 1-5 tags from different categories

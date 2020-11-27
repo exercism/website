@@ -105,6 +105,7 @@ module Git
     end
 
     def dir
+      # TODO: Needs changing once we're out of the monorepo
       "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}"
     end
 

@@ -2,7 +2,10 @@
 
 .c-textual-content {
     & * {
-        @apply text-prose mb-16;
+        @apply text-18 leading-code;
+    }
+    & > * {
+        @apply mb-16;
     }
 
     & h2 {
@@ -13,7 +16,8 @@
     }
     & p {
         & code {
-            @apply shadow-lg p-4;
+            @apply inline-flex items-center justify-center rounded-8;
+            @apply bg-veryLightBlue px-6 text-darkGray font-medium;
         }
     }
     & ul {

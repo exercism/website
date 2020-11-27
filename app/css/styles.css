@@ -1,25 +1,21 @@
 .text-h1 {
-    font-size: 40px;
+    @apply text-40 font-bold text-black;
     line-height: 1.25;
-    @apply font-bold text-black;
 }
 .text-h2 {
-    font-size: 31px;
+    @apply text-31 font-semibold text-black;
     line-height: 1.25;
-    @apply font-semibold text-black;
 }
 .text-h3 {
-    @apply text-black font-semibold;
-    font-size: 25px;
+    @apply text-25 text-black font-semibold;
     line-height: 1.25;
 }
 .text-h3-mono {
     @apply text-h3 font-mono font-bold;
 }
 .text-h4 {
-    font-size: 20px;
+    @apply font-semibold text-black text-20;
     line-height: 1.25;
-    @apply font-semibold text-black;
 }
 .text-h5 {
     line-height: 1.38;

@@ -5,14 +5,14 @@ Rails.application.routes.draw do
   # Auth #
   # #### #
   devise_for :users, controllers: {
-    sessions: "sessions",
-    registrations: "registrations",
-    omniauth_callbacks: "omniauth_callbacks",
-    confirmations: "confirmations"
+    sessions: "auth/sessions",
+    registrations: "auth/registrations",
+    omniauth_callbacks: "auth/omniauth_callbacks",
+    confirmations: "auth/confirmations"
   }
 
   devise_scope :user do
-    get "confirmations/required" => "confirmations#required", as: "confirmation_required"
+    get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
   end
 
   # ### #

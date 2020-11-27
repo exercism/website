@@ -168,18 +168,14 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  # TODO: Add this when adding devise
-  # include Devise::Test::IntegrationHelpers
+  include Devise::Test::IntegrationHelpers
 
-  # TODO: Add this implmentation back when devise
-  # is added.
   def sign_in!(user = nil)
     @current_user = user || create(:user)
     @current_user.auth_tokens.create! if @current_user.auth_tokens.blank?
 
-    # TODO: Renable when adding devise
-    #  @current_user.confirm
-    #  sign_in @current_user
+    @current_user.confirm
+    sign_in @current_user
   end
 
   # As we only use #page- prefix on ids for pages

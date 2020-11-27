@@ -18,5 +18,20 @@ module Flows
 
       OmniAuth.config.test_mode = false
     end
+
+    test "user attempts to log in an account with a wrong password hash" do
+      create(:user,
+        email: "user@exercism.io",
+        encrypted_password: "wrong",
+        provider: "github",
+        confirmed_at: Date.new(2016, 12, 25))
+
+      visit new_user_session_path
+      fill_in "Email", with: "user@exercism.io"
+      fill_in "Password", with: "otherpassword"
+      click_on "Log in"
+
+      assert_text "Your account does not have a password. Please use OAuth."
+    end
   end
 end

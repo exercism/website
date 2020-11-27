@@ -1,0 +1,4 @@
+en:
+  auth:
+    errors:
+      captcha_verification_failed: "Captcha verification failed. Please try again."

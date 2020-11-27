@@ -6,9 +6,8 @@
       = track_icon(@track)
       .info
         %h1= @track.title
-        %p
-          / TODO: Add real data
-          C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.
+        %p= @track.blurb
+
         .btns.tw-flex.tw-gap-24
           = button_to join_track_path(@track), method: :post, class: "btn-large-cta" do
             = graphical_icon(:plus)

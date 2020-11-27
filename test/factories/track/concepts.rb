@@ -4,6 +4,7 @@ FactoryBot.define do
     uuid { SecureRandom.uuid }
     slug { "concept_#{SecureRandom.hex(4)}" }
     name { slug.titleize }
+    blurb { "A cracking concept" }
 
     trait :with_git_data do
       track { create(:track, slug: "csharp") }

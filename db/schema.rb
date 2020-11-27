@@ -223,6 +223,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
+    t.string "blurb", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_track_concepts_on_track_id"

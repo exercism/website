@@ -9,7 +9,7 @@ class DeviseMailer < Devise::Mailer
   def confirmation_instructions(user, token, options = {})
     @user = user
     @token = token
-    options[:subject] = "Confirm your Exercism account"
+    options[:subject] = "[Exercism] Confirm your account"
     super
   end
 end

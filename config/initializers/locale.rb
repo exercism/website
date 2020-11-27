@@ -1,5 +1,6 @@
 %w[
   api
+  auth
   notifications
   user_activities
 ].each do |category|

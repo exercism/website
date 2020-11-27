@@ -19,6 +19,6 @@ class RegistrationsController < Devise::RegistrationsController
   def verify_captcha!
     verification = HCaptcha.verify(params["h-captcha-response"])
 
-    redirect_to new_user_registration_path, alert: "Captcha verification failed. Please try again." if verification.failed?
+    redirect_to new_user_registration_path, alert: I18n.t("auth.errors.captcha_verification_failed") if verification.failed?
   end
 end

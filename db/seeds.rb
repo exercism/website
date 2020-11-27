@@ -83,7 +83,7 @@ track_slugs.each do |track_slug|
     git_track = Git::Track.new(track_slug, repo_url:"https://github.com/exercism/v3")
     title = git_track.config[:language]
     blurb = git_track.config[:blurb]
-  rescue => e
+  rescue StandardError
     title = track_slug.titleize
     blurb = 'C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.'
   end

@@ -26,7 +26,7 @@
     = f.label :password_confirmation
     %br/
     = f.password_field :password_confirmation, autocomplete: "new-password"
-    = captcha_tags
+    = render ViewComponents::Captcha.new
   .actions
     = f.submit "Sign up"
 = render "devise/shared/links"

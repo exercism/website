@@ -8,6 +8,8 @@ class CreateTrackConcepts < ActiveRecord::Migration[6.0]
 
       t.string :name, null: false
 
+      t.string :blurb, null: false
+
       t.timestamps
     end
   end

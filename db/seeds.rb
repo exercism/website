@@ -98,12 +98,16 @@ track_slugs.each do |track_slug|
       )
       
       exercise_config[:prerequisites].each do |slug|
+
         ce.prerequisites << Track::Concept.find_or_create_by!(
           slug: slug, 
           track: track
         ) do |c|
-          c.uuid = SecureRandom.uuid
-          c.name = slug.titleize
+          concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
+
+          c.uuid = concept_config[:uuid]
+          c.name = concept_config[:name]
+          c.blurb = concept_config[:blurb].to_s
         end
       end
       
@@ -112,8 +116,11 @@ track_slugs.each do |track_slug|
           slug: slug, 
           track: track
         ) do |c|
-          c.uuid = SecureRandom.uuid
-          c.name = slug.titleize
+          concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
+
+          c.uuid = concept_config[:uuid]
+          c.name = concept_config[:name]
+          c.blurb = concept_config[:blurb].to_s
         end
       end
     end

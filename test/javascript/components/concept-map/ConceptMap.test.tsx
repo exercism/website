@@ -1,103 +1,104 @@
 // Deps
 import React from 'react'
+import '@testing-library/jest-dom'
 
 // Test deps
-import {
-  getByTestId,
-  getByText,
-  getByTitle,
-  queryByTitle,
-  render,
-} from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
 import { ConceptMap } from '../../../../app/javascript/components/concept-map/ConceptMap'
-import {
-  ConceptStatus,
-  IConcept as Concept,
-  ConceptConnection,
-  ConceptLayer,
-} from '../../../../app/javascript/components/concept-map/concept-map-types'
+import { IConceptMap } from '../../../../app/javascript/components/concept-map/concept-map-types'
 
 describe('<ConceptMap />', () => {
-  test('renders empty component', () => {
-    const { container } = renderMap([], [], [], {})
-    const map = container.querySelector('.c-concepts-map')
+  test('renders empty component', async () => {
+    const config: IConceptMap = {
+      concepts: [],
+      levels: [[]],
+      connections: [],
+      status: {},
+      exerciseCounts: {},
+    }
+
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
+    const map = renderedConceptMap.container.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
 
-  test('renders single incomplete concept', () => {
+  test('renders single incomplete concept', async () => {
     const testConcept = concept('test')
-    const { container } = renderMap([testConcept], [[testConcept.slug]], [], {
-      test: 'locked',
-    })
-    const conceptEl = getByText(container, 'Test')
-    const completeIconEl = queryByTitle(
-      container,
-      'You have mastered this concept'
-    )
-    expect(completeIconEl).toBeNull()
+    const config: IConceptMap = {
+      concepts: [testConcept],
+      levels: [[testConcept.slug]],
+      connections: [],
+      status: { test: 'unavailable' },
+      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 0 } },
+    }
+
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
+
+    expect(renderedConceptMap.queryByText('Test')).toBeInTheDocument()
+    expect(
+      renderedConceptMap.queryByTitle('You have mastered this concept')
+    ).not.toBeInTheDocument()
   })
 
-  test('renders single completed concept', () => {
-    const testConcept = concept('test', { state: 'completed' })
-    const { container } = renderMap(
-      [testConcept],
-      [[testConcept.slug]],
-      [],
-      {
-        test: 'completed',
-      },
-      {
-        test: {
-          exercises: 1,
-          exercises_completed: 1,
-        },
-      }
-    )
-    const conceptEl = getByText(container, 'Test')
-    const completeIconEl = getByTitle(
-      container,
-      'You have mastered this concept'
-    )
+  test('renders single completed concept', async () => {
+    const testConcept = concept('test')
+
+    const config: IConceptMap = {
+      concepts: [testConcept],
+      levels: [[testConcept.slug]],
+      connections: [],
+      status: { test: 'unavailable' },
+      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 1 } },
+    }
+
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
+
+    expect(renderedConceptMap.queryByText('Test')).toBeInTheDocument()
+    expect(
+      renderedConceptMap.queryByTitle('You have mastered this concept')
+    ).toBeInTheDocument()
   })
 })
 
-const concept = (
-  conceptName: string,
-  options: {
-    index?: number
-    state?: ConceptStatus
-  } = {}
-): Concept => {
-  const index = options.index ?? 0
+const renderConceptMap = (config: IConceptMap) =>
+  render(
+    <ConceptMap
+      concepts={config.concepts}
+      levels={config.levels}
+      connections={config.connections}
+      status={config.status}
+      exerciseCounts={config.exerciseCounts}
+    />
+  )
 
+const waitForConceptMapReady = async (
+  renderedConceptMap: ReturnType<typeof renderConceptMap>,
+  config: IConceptMap
+) => {
+  await Promise.all(
+    config.concepts
+      .map((concept) => concept.name)
+      .map((conceptName) =>
+        waitFor(() =>
+          expect(renderedConceptMap.getByText(conceptName)).toBeInTheDocument()
+        )
+      )
+  )
+}
+
+const concept = (conceptName: string) => {
   return {
     slug: conceptName,
     name: slugToTitlecase(conceptName),
     webUrl: `link-for-${conceptName}`,
+    tooltipUrl: `tooltop-link-for${conceptName}`,
   }
-}
-
-const renderMap = (
-  concepts: Concept[],
-  levels: ConceptLayer[],
-  connections: ConceptConnection[],
-  status: { [key: string]: ConceptStatus },
-  exercise_counts: {
-    [key: string]: { exercises: number; exercises_completed: number }
-  }
-) => {
-  return render(
-    <ConceptMap
-      concepts={concepts}
-      levels={levels}
-      connections={connections}
-      status={status}
-      exercise_counts={exercise_counts}
-    />
-  )
 }
 
 function slugToTitlecase(slug: string): string {

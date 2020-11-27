@@ -15,6 +15,12 @@
     "allowSyntheticDefaultImports": true,
     "types": ["webpack-env", "app/javascript/declarations"]
   },
-  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
   "compileOnSave": false
 }

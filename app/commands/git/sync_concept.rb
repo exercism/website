@@ -4,7 +4,7 @@ module Git
 
     def initialize(concept)
       super(concept.track, concept.synced_to_git_sha)
-      
+
       @concept = concept
     end
 

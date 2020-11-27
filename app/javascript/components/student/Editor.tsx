@@ -12,6 +12,8 @@ import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 import { Submission, TestRun, TestRunStatus, File } from './editor/types'
 import { Iteration } from '../track/IterationSummary'
+import { GraphicalIcon } from '../common/GraphicalIcon'
+import { Icon } from '../common/Icon'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 
@@ -113,12 +115,24 @@ export function Editor({
   initialSubmission,
   files,
   language,
+  exercisePath,
+  trackTitle,
+  exerciseTitle,
+  introduction,
+  instructions,
+  exampleSolution,
 }: {
   endpoint: string
   timeout?: number
   initialSubmission?: Submission
   files: File[]
   language: string
+  exercisePath: string
+  trackTitle: string
+  exerciseTitle: string
+  introduction: string
+  instructions: string
+  exampleSolution: string
 }) {
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
@@ -290,44 +304,115 @@ export function Editor({
   }, [])
 
   return (
-    <div>
-      {editorsRef.current.map((editor) => (
-        <FileEditor
-          key={editor.file.filename}
-          file={editor.file}
-          ref={editor.ref}
-          language={language}
-          onRunTests={runTests}
-        />
-      ))}
-      <button
-        type="button"
-        onClick={() => {
-          runTests()
-        }}
-      >
-        Run tests
-      </button>
-      <button
-        type="button"
-        onClick={submit}
-        disabled={submission?.testRun?.status !== TestRunStatus.PASS}
-      >
-        Submit
-      </button>
-      {status === EditorStatus.CREATING_SUBMISSION && (
-        <Submitting onCancel={cancel} />
-      )}
-      {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
-      {apiError && <p>{apiError.message}</p>}
-      {submission && submission.testRun && (
-        <TestRunSummary
-          testRun={submission.testRun}
-          cancelLink={submission.links.cancel}
-          timeout={timeout}
-          onUpdate={updateSubmission}
-        />
-      )}
+    <div id="page-editor">
+      <div className="header">
+        <a href={exercisePath} className="close-btn">
+          <GraphicalIcon icon="arrow-left" />
+          Exit Editor
+        </a>
+
+        <div className="title">
+          <div className="track">{trackTitle}</div>
+          <div className="divider">/</div>
+          <div className="exeercise">{exerciseTitle}</div>
+        </div>
+
+        <button className="btn-small hints-btn">Hints</button>
+
+        <button className="keyboard-shortcuts-btn">
+          <Icon icon="keyboard" alt="Keyboard Shortcuts" />
+        </button>
+
+        <button className="settings-btn">
+          <Icon icon="settings" alt="Settings" />
+        </button>
+
+        <button className="more-btn">
+          <Icon icon="more-horizontal" alt="Open more options" />
+        </button>
+      </div>
+
+      <div className="main-lhs">
+        {editorsRef.current.map((editor) => (
+          <FileEditor
+            key={editor.file.filename}
+            file={editor.file}
+            ref={editor.ref}
+            language={language}
+            onRunTests={runTests}
+          />
+        ))}
+      </div>
+
+      <div className="main-rhs">
+        <section className="instructions">
+          <div className="c-textual-content">
+            <h2>Introduction</h2>
+            <div dangerouslySetInnerHTML={{ __html: introduction }} />
+
+            <h2>Instructions</h2>
+            <div dangerouslySetInnerHTML={{ __html: instructions }} />
+
+            <h2 className="text-h3 tw-mt-20">Example solution</h2>
+            <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
+          </div>
+        </section>
+        <section className="results">
+          {submission && submission.testRun && (
+            <TestRunSummary
+              testRun={submission.testRun}
+              cancelLink={submission.links.cancel}
+              timeout={timeout}
+              onUpdate={updateSubmission}
+            />
+          )}
+        </section>
+      </div>
+
+      <div className="footer-lhs">
+        {status === EditorStatus.CREATING_SUBMISSION && (
+          <Submitting onCancel={cancel} />
+        )}
+        {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
+        {apiError && <p>{apiError.message}</p>}
+
+        <button
+          type="button"
+          onClick={runTests}
+          className="btn-small-secondary"
+        >
+          <GraphicalIcon icon="run-tests" />
+          Run Tests
+          <div className="kb-shortcut">F2</div>
+        </button>
+
+        <button
+          type="button"
+          onClick={submit}
+          className="btn-small-cta"
+          disabled={submission?.testRun?.status !== TestRunStatus.PASS}
+        >
+          Submit
+          <div className="kb-shortcut">F3</div>
+        </button>
+      </div>
+
+      <div className="footer-rhs">
+        <div className="tabs">
+          <button className="c-tab selected">
+            <GraphicalIcon icon="editor" />
+            <span data-text="Instructions">Instructions</span>
+          </button>
+          <button className="c-tab">
+            <GraphicalIcon icon="tests" />
+            <span data-text="Tests">Tests</span>
+          </button>
+          <button className="c-tab">
+            <GraphicalIcon icon="test-results" />
+            <span data-text="Results">Results</span>
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

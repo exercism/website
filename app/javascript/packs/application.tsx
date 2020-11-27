@@ -117,6 +117,12 @@ initReact({
       }
       files={data.files}
       language={data.language}
+      exercisePath={data.exercise_path}
+      trackTitle={data.track_title}
+      exerciseTitle={data.exercise_title}
+      introduction={data.introduction}
+      instructions={data.instructions}
+      exampleSolution={data.example_solution}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

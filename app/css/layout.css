@@ -16,3 +16,12 @@
     max-width: 1440px;
     padding: 0 48px;
 }
+
+.c-react-component {
+    width: stretch;
+
+    &.--fitted {
+        width: fit-content;
+        height: fit-content;
+    }
+}

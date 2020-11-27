@@ -20,6 +20,7 @@ import '../../css/components/concept-icon.css'
 import '../../css/components/concept-progress-bar.css'
 import '../../css/components/copy-text-to-clipboard.css'
 import '../../css/components/iteration-summary.css'
+import '../../css/components/notification.css'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'
 import '../../css/components/tab.css'
@@ -53,7 +54,6 @@ import React from 'react'
 import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
-import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
@@ -70,8 +70,8 @@ initReact({
   'maintaining-submissions-summary-table': (data: any) => (
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),
-  'notifications-icon': (data: any) => (
-    <Notifications.Icon count={data.count} />
+  'common-notifications-icon': (data: any) => (
+    <Common.NotificationsIcon count={data.count} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

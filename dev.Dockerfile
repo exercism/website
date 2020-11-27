@@ -27,7 +27,7 @@ RUN set -ex; \
     apt-get update; \
     # we need the mysql client for our init script to setup the databases
     # git is required for `jest --watch`
-    apt-get install -y curl gnupg default-mysql-client git; \
+    apt-get install -y curl gnupg default-mysql-client git gcc; \
     rm -rf /var/lib/apt/lists/*
 
 # copy over anycable and overmind

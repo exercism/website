@@ -2,5 +2,9 @@
 # to be used when mapped in a UNIX docker container
 * text eol=lf
 
+# The bare repositories used for testing purposes
+# should be treated as binary files
+test/repos/** binary
+
 config/credentials/*.yml.enc diff=rails_credentials
 config/credentials.yml.enc diff=rails_credentials

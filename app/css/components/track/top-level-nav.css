@@ -11,13 +11,8 @@
         @apply flex flex-grow;
 
         & .c-tab {
-            line-height: var(--nav-height);
+            height: var(--nav-height);
             @apply mr-8;
         }
-    }
-
-    & .btn-cta {
-        line-height: 34px;
-        @apply px-16 text-14;
     }
 }

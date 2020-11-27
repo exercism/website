@@ -50,16 +50,17 @@ class Solution < ApplicationRecord
   end
 
   memoize
-  def instructions
-    Git::Exercise.for_solution(self).instructions
-  end
+  delegate :instructions, to: :git_exercise
+
+  memoize
+  delegate :introduction, to: :git_exercise
 
   def editor_language
     track.slug
   end
 
   def editor_solution_files
-    files = Git::Exercise.for_solution(self).editor_solution_files
+    files = git_exercise.editor_solution_files
 
     submission = submissions.last
     if submission # rubocop:disable Style/SafeNavigation
@@ -90,5 +91,10 @@ class Solution < ApplicationRecord
       git_slug: exercise.slug,
       git_sha: track.git_head_sha
     )
+  end
+
+  memoize
+  def git_exercise
+    Git::Exercise.for_solution(self)
   end
 end

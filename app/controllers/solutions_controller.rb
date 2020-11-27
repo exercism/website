@@ -1,5 +1,6 @@
 class SolutionsController < ApplicationController
   before_action :use_solution, only: [:edit]
+  disable_site_header! only: [:edit]
 
   def edit; end
 

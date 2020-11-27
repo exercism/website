@@ -31,4 +31,21 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  #############################
+  # Site Header Functionality #
+  #############################
+  def render_site_header?
+    iv = "@__render_site_header__"
+    instance_variable_defined?(iv) ? instance_variable_get(iv) : true
+  end
+  helper_method :render_site_header?
+
+  def disable_site_header!
+    @__render_site_header__ = false
+  end
+
+  def self.disable_site_header!(*args)
+    before_action :disable_site_header!, *args
+  end
 end

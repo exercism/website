@@ -22,7 +22,9 @@ module Auth
 
       return if verification.succeeded?
 
-      redirect_to new_user_registration_path, alert: I18n.t("auth.errors.captcha_verification_failed")
+      set_flash_message(:auth_alert, :captcha_verification_failed) if is_navigational_format?
+
+      redirect_to new_user_registration_path
     end
   end
 end

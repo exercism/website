@@ -45,6 +45,7 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address."
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
+      captcha_verification_failed: "Captcha verification failed. Please try again."
     sessions:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."

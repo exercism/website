@@ -3,27 +3,48 @@ require "application_system_test_case"
 module Flows
   class UserRegistrationTest < ApplicationSystemTestCase
     test "user registers successfully" do
-      visit new_user_registration_path
-      fill_in "Name", with: "Name"
-      fill_in "Email", with: "user@exercism.io"
-      fill_in "Handle", with: "user22"
-      fill_in "Password", with: "password"
-      fill_in "Password confirmation", with: "password"
-      click_on "Sign up"
+      allow_captcha_request do
+        visit new_user_registration_path
+        fill_in "Name", with: "Name"
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Handle", with: "user22"
+        fill_in "Password", with: "password"
+        fill_in "Password confirmation", with: "password"
+        click_on "Sign up"
 
-      assert_text "Please confirm your email"
+        assert_text "Please confirm your email"
+      end
+    end
+
+    test "user sees captcha errors" do
+      allow_captcha_request do
+        stub_request(:post, "https://hcaptcha.com/siteverify").
+          to_return(body: { success: false }.to_json)
+
+        visit new_user_registration_path
+        fill_in "Name", with: "Name"
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Handle", with: "user22!"
+        fill_in "Password", with: "password"
+        fill_in "Password confirmation", with: "password"
+        click_on "Sign up"
+
+        assert_text "Captcha verification failed. Please try again."
+      end
     end
 
     test "user sees registration errors" do
-      visit new_user_registration_path
-      fill_in "Name", with: "Name"
-      fill_in "Email", with: "user@exercism.io"
-      fill_in "Handle", with: "user22!"
-      fill_in "Password", with: "password"
-      fill_in "Password confirmation", with: "password"
-      click_on "Sign up"
+      allow_captcha_request do
+        visit new_user_registration_path
+        fill_in "Name", with: "Name"
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Handle", with: "user22!"
+        fill_in "Password", with: "password"
+        fill_in "Password confirmation", with: "password"
+        click_on "Sign up"
 
-      assert_text "Handle must have only letters, numbers, or hyphens"
+        assert_text "Handle must have only letters, numbers, or hyphens"
+      end
     end
 
     test "user registers via Github" do
@@ -75,6 +96,17 @@ module Flows
       assert_text "Sorry, we could not authenticate you from GitHub."
 
       OmniAuth.config.test_mode = false
+    end
+
+    private
+    def allow_captcha_request
+      RestClient.unstub(:post)
+      stub_request(:post, "https://hcaptcha.com/siteverify").
+        to_return(body: { success: true }.to_json)
+
+      yield
+
+      RestClient.stubs(:post)
     end
   end
 end

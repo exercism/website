@@ -4,8 +4,8 @@ repo_url = "https://github.com/exercism/v3"
 repo = Git::Repository.new(:v3, repo_url: repo_url)
 
 # This updates it once before we stub it below
-repo.send(:repo).update!
-repo.send(:repo).send(:rugged_repo)
+repo.update!
+repo.send(:rugged_repo)
 
 # Adding this is many OOM faster. It's horrible and temporary
 # but useful for now
@@ -67,8 +67,6 @@ tags = [
 ]
 
 track_slugs = []
-repo_url = "https://github.com/exercism/v3"
-repo = Git::Repository.new(:v3, repo_url: repo_url)
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
@@ -86,7 +84,7 @@ track_slugs.each do |track_slug|
       slug: track_slug, 
       title: git_track.config[:language],
       blurb: git_track.config[:blurb],
-      repo_url: v3_url,
+      repo_url: repo_url,
       synced_to_git_sha: repo.head_commit.oid,
 
       # Randomly selects 1-5 tags from different categories
@@ -105,12 +103,9 @@ track_slugs.each do |track_slug|
       )
       
       exercise_config[:prerequisites].each do |slug|
-
-        ce.prerequisites << Track::Concept.find_or_create_by!(
-          slug: slug, 
-          track: track,
-        ) do |c|
-          concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
+        ce.prerequisites << Track::Concept.find_or_create_by!(slug: slug,  track: track) do |c|
+          concept_config = git_track.config[:concepts].find { |e| e[:slug] == slug }
+          next unless concept_config
 
           c.uuid = concept_config[:uuid]
           c.name = concept_config[:name]
@@ -120,11 +115,9 @@ track_slugs.each do |track_slug|
       end
       
       exercise_config[:concepts].each do |slug|
-        ce.taught_concepts << Track::Concept.find_or_create_by!(
-          slug: slug, 
-          track: track
-        ) do |c|
-          concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
+        ce.taught_concepts << Track::Concept.find_or_create_by!(slug: slug, track: track) do |c|
+          concept_config = git_track.config[:concepts].find { |e| e[:slug] == slug }
+          next unless concept_config
 
           c.uuid = concept_config[:uuid]
           c.name = concept_config[:name]
@@ -133,9 +126,9 @@ track_slugs.each do |track_slug|
         end
       end
     end
-  rescue => e
-    #puts e.message
-    #puts e.backtrace
+  rescue StandardError => e
+    puts e.message
+    puts e.backtrace
     puts "Error seeding Track #{track_slug}: #{e}"
   end
 end

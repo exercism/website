@@ -1,7 +1,6 @@
 %h2 Log in
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  - if alert
-    %p= alert
+  %p= flash[:auth_alert]
   .field
     = f.label :email
     %br/

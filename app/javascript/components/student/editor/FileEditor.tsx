@@ -6,7 +6,7 @@ import React, {
   useCallback,
   useState,
 } from 'react'
-import { File } from '../Editor'
+import { File } from './types'
 import { ExercismMonacoEditor, Keybindings } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { useLocalStorage } from '../../../utils/use-storage'

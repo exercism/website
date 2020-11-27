@@ -1,6 +1,6 @@
 import consumer from '../utils/action-cable-consumer'
 import { camelizeKeys } from 'humps'
-import { Submission, TestRun } from '../components/student/Editor'
+import { Submission, TestRun } from '../components/student/editor/types'
 import { typecheck } from '../utils/typecheck'
 
 export class TestRunChannel {

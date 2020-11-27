@@ -10,68 +10,14 @@ import { Submitting } from './editor/Submitting'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
+import { Submission, TestRun, TestRunStatus, File } from './editor/types'
 import { Iteration } from '../track/IterationSummary'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 
-export type Submission = {
-  testsStatus: SubmissionTestsStatus
-  uuid: string
-  links: SubmissionLinks
-  testRun?: TestRun
-}
-
 type APIError = {
   type: string
   message: string
-}
-
-export enum SubmissionTestsStatus {
-  NOT_QUEUED = 'not_queued',
-  QUEUED = 'queued',
-  PASSED = 'passed',
-  FAILED = 'failed',
-  ERRORED = 'errored',
-  EXCEPTIONED = 'exceptioned',
-  CANCELLED = 'cancelled',
-}
-
-export type TestRun = {
-  id: number | null
-  submissionUuid: string
-  status: TestRunStatus
-  message: string
-  tests: Test[]
-}
-
-export type Test = {
-  name: string
-  status: TestStatus
-  message: string
-  output: string
-}
-
-export enum TestStatus {
-  PASS = 'pass',
-  FAIL = 'fail',
-  ERROR = 'error',
-}
-
-type SubmissionLinks = {
-  cancel: string
-  submit: string
-  testRun: string
-}
-
-export enum TestRunStatus {
-  PASS = 'pass',
-  FAIL = 'fail',
-  ERROR = 'error',
-  OPS_ERROR = 'ops_error',
-  QUEUED = 'queued',
-  TIMEOUT = 'timeout',
-  CANCELLING = 'cancelling',
-  CANCELLED = 'cancelled',
 }
 
 enum EditorStatus {
@@ -93,6 +39,11 @@ enum ActionType {
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
+}
+
+type EditorRef = {
+  file: File
+  ref: React.RefObject<FileEditorHandle>
 }
 
 type Action =
@@ -154,16 +105,6 @@ function reducer(state: State, action: Action): State {
     default:
       return state
   }
-}
-
-type EditorRef = {
-  file: File
-  ref: React.RefObject<FileEditorHandle>
-}
-
-export type File = {
-  filename: string
-  content: string
 }
 
 export function Editor({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SubmissionTestsStatus } from '../../student/Editor'
+import { SubmissionTestsStatus } from '../../student/editor/types'
 
 function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
   switch (testsStatus) {

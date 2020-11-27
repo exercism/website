@@ -8,18 +8,19 @@ import '@testing-library/jest-dom/extend-expect'
 
 // Component
 import { ConceptMap } from '../../../../app/javascript/components/concept-map/ConceptMap'
+import { IConceptMap } from '../../../../app/javascript/components/concept-map/concept-map-types'
 
 describe('<ConceptMap />', () => {
-  test('renders empty component', () => {
-    const { container } = render(
-      <ConceptMap
-        concepts={[]}
-        levels={[[]]}
-        connections={[]}
-        status={{}}
-        exercise_counts={{}}
-      />
-    )
+  test('renders empty component', async () => {
+    const config: IConceptMap = {
+      concepts: [],
+      levels: [[]],
+      connections: [],
+      status: {},
+      exercise_counts: {},
+    }
+
+    const { container } = await waitForConceptMapReady(config)
     const map = container.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
@@ -27,58 +28,61 @@ describe('<ConceptMap />', () => {
   test('renders single incomplete concept', async () => {
     const testConcept = concept('test')
 
-    render(
-      <ConceptMap
-        concepts={[testConcept]}
-        levels={[[testConcept.slug]]}
-        connections={[]}
-        status={{
-          test: 'unavailable',
-        }}
-        exercise_counts={{
-          test: {
-            exercises: 1,
-            exercises_completed: 0,
-          },
-        }}
-      />
-    )
+    const config: IConceptMap = {
+      concepts: [testConcept],
+      levels: [[testConcept.slug]],
+      connections: [],
+      status: { test: 'unavailable' },
+      exercise_counts: { test: { exercises: 1, exercises_completed: 0 } },
+    }
 
-    await waitFor(() => {
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.queryByTitle('You have mastered this concept')
-      ).not.toBeInTheDocument()
-    })
+    await waitForConceptMapReady(config)
+
+    expect(
+      screen.queryByTitle('You have mastered this concept')
+    ).not.toBeInTheDocument()
   })
 
   test('renders single completed concept', async () => {
     const testConcept = concept('test')
-    render(
-      <ConceptMap
-        concepts={[testConcept]}
-        levels={[[testConcept.slug]]}
-        connections={[]}
-        status={{
-          test: 'completed',
-        }}
-        exercise_counts={{
-          test: {
-            exercises: 1,
-            exercises_completed: 1,
-          },
-        }}
-      />
-    )
 
-    await waitFor(() => {
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByTitle('You have mastered this concept')
-      ).toBeInTheDocument()
-    })
+    const config: IConceptMap = {
+      concepts: [testConcept],
+      levels: [[testConcept.slug]],
+      connections: [],
+      status: { test: 'unavailable' },
+      exercise_counts: { test: { exercises: 1, exercises_completed: 1 } },
+    }
+
+    await waitForConceptMapReady(config)
+
+    expect(
+      screen.queryByTitle('You have mastered this concept')
+    ).toBeInTheDocument()
   })
 })
+
+const waitForConceptMapReady = async (config: IConceptMap) => {
+  const renderResult = render(
+    <ConceptMap
+      concepts={config.concepts}
+      levels={config.levels}
+      connections={config.connections}
+      status={config.status}
+      exercise_counts={config.exercise_counts}
+    />
+  )
+
+  await Promise.all(
+    config.concepts
+      .map((concept) => concept.name)
+      .map((conceptName) =>
+        waitFor(() => expect(screen.getByText(conceptName)).toBeInTheDocument())
+      )
+  )
+
+  return renderResult
+}
 
 const concept = (conceptName: string) => {
   return {

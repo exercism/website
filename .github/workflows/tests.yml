@@ -118,7 +118,7 @@ jobs:
       ###
       # Publish the coverage to CodeClimate
       - name: Publish code coverage
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         env:
           GIT_BRANCH: ${GITHUB_REF/refs\/heads\//}
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}

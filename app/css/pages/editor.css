@@ -84,6 +84,9 @@
         overflow-y: scroll;
 
         & section.instructions {
+            /* Until we have tabs */
+            display: none;
+
             @apply py-16 px-32;
 
             & .c-textual-content {
@@ -101,6 +104,77 @@
                 } /* Override the default */
                 & :not(h2) + h3 {
                     @apply mt-28;
+                }
+            }
+        }
+        & section.results {
+            & .summary-status {
+                @apply flex items-center justify-center;
+                @apply pt-6 pb-8 px-8 border-t-4 mb-24;
+                @apply font-bold font-mono uppercase leading-code;
+                & .--dot {
+                    @apply rounded-circle mr-12;
+                    height: 8px;
+                    width: 8px;
+                }
+                &.failed {
+                    @apply bg-lightRed text-red;
+                    @apply border-red;
+                    & .--dot {
+                        @apply bg-red;
+                    }
+                }
+            }
+            & .tests-list {
+                @apply px-32 pb-16;
+
+                & .c-test-summary {
+                    @apply flex items-center;
+                    @apply bg-unnamed15 font-mono;
+
+                    & summary {
+                        @apply flex items-center;
+                        @apply py-8 px-24;
+                        &::-webkit-details-marker {
+                            @apply hidden;
+                        }
+
+                        & .--status {
+                            @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
+                            @apply font-bold uppercase text-13 leading-huge;
+                            width: 70px;
+                        }
+                        & .--summary-details {
+                            & .--summary-idx {
+                                @apply font-semibold text-textLight leading-huge;
+                            }
+                            & .--summary-name {
+                                @apply font-body font-semibold text-15 leading-code;
+                            }
+                        }
+                    }
+                    & .--explanation {
+                        @apply py-8 px-24;
+
+                        & .--info {
+                            @apply mb-16;
+                            & h3 {
+                                @apply font-bold text-darkGray uppercase leading-huge mb-8;
+                            }
+                            & pre {
+                                @apply bg-white py-16 px-20 whitespace-pre-wrap;
+                            }
+                        }
+                    }
+
+                    &.error,
+                    &.fail {
+                        & summary {
+                            & .--status {
+                                @apply bg-red text-white;
+                            }
+                        }
+                    }
                 }
             }
         }

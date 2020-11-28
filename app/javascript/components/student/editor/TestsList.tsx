@@ -23,7 +23,7 @@ export function TestsList({ tests }: { tests: Test[] }) {
     firstFailedTestIdx === -1 ? tests : tests.slice(0, firstFailedTestIdx + 1)
 
   return (
-    <div>
+    <div className="tests-list">
       <Overview tests={tests} />
       {testsToShow.map((test) => {
         return <TestSummary key={test.name} test={test} />

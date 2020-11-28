@@ -23,6 +23,7 @@ module.exports = {
       '1': '1px',
       '2': '2px',
       '3': '3px',
+      '4': '4px',
     },
     boxShadow: {
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
@@ -60,6 +61,7 @@ module.exports = {
 
       orange: '#F69605',
       red: '#EB5757',
+      lightRed: '#fdeaea',
 
       black: '#000',
       white: '#fff',

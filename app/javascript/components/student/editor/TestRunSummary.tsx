@@ -100,9 +100,12 @@ export function TestRunSummary({
   }, [timer])
 
   return (
-    <div>
-      <p>Status: {testRun.status}</p>
+    <>
+      {/*<p>Status: {testRun.status}</p>*/}
+      <div className="summary-status failed">
+        <span className="--dot" />1 test failure
+      </div>
       <TestRunSummaryContent testRun={testRun} onCancel={cancel} />
-    </div>
+    </>
   )
 }

@@ -32,6 +32,7 @@ export type TestRun = {
 export type Test = {
   name: string
   status: TestStatus
+  testCode: string
   message: string
   output: string
 }

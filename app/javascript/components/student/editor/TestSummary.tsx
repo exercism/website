@@ -13,13 +13,38 @@ export function TestSummary({ test }: { test: Test }) {
 
   return (
     <details
+      className={`c-test-summary ${test.status}`}
       open={test.status === TestStatus.FAIL || test.status === TestStatus.ERROR}
     >
       <summary>
-        {statusLabels[test.status]}: {test.name}
+        <div className="--status">{statusLabels[test.status]}</div>
+        <div className="--summary-details">
+          {/* TODO */}
+          <div className="--summary-idx">Test 11</div>
+          <div className="--summary-name">{test.name}</div>
+        </div>
       </summary>
-      {isPresent(test.message) ? <p>Message: {test.message}</p> : null}
-      {isPresent(test.output) ? <p>Output: {test.output}</p> : null}
+      <div className="--explanation">
+        {/* TODO: If this is an error, the h3 should be "Test Error", otherwise it should be "Test Failure" */}
+        {isPresent(test.testCode) ? (
+          <div className="--info">
+            <h3>Code Run</h3>
+            <pre>{test.testCode}</pre>
+          </div>
+        ) : null}
+        {isPresent(test.message) ? (
+          <div className="--info">
+            <h3>Test Error</h3>
+            <pre>{test.message}</pre>
+          </div>
+        ) : null}
+        {isPresent(test.output) ? (
+          <div className="--info">
+            <h3>Your Output</h3>
+            <pre>{test.output}</pre>
+          </div>
+        ) : null}
+      </div>
     </details>
   )
 }

@@ -4,10 +4,16 @@ import { Icon } from '../../common/Icon'
 import { Keybindings } from './types'
 
 export function Settings({
+  theme,
+  keybindings,
+  wrap,
   setTheme,
   setKeybindings,
   setWrap,
 }: {
+  theme: string
+  keybindings: Keybindings
+  wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded'
   setTheme: (theme: string) => void
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded') => void
@@ -56,7 +62,11 @@ export function Settings({
         {open ? (
           <div>
             <label htmlFor="theme">Theme</label>
-            <select id="theme" onChange={(e) => setTheme(e.target.value)}>
+            <select
+              id="theme"
+              onChange={(e) => setTheme(e.target.value)}
+              value={theme}
+            >
               <option value="vs">Light</option>
               <option value="vs-dark">Dark</option>
             </select>
@@ -64,6 +74,7 @@ export function Settings({
             <select
               id="keybindings"
               onChange={(e) => setKeybindings(e.target.value as Keybindings)}
+              value={keybindings}
             >
               <option value={Keybindings.DEFAULT}>Default</option>
               <option value={Keybindings.VIM}>Vim</option>
@@ -77,6 +88,7 @@ export function Settings({
                   e.target.value as 'off' | 'on' | 'wordWrapColumn' | 'bounded'
                 )
               }
+              value={wrap}
             >
               <option value="on">On</option>
               <option value="off">Off</option>

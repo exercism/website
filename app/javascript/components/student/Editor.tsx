@@ -349,6 +349,9 @@ export function Editor({
         </button>
 
         <Settings
+          theme={theme}
+          keybindings={keybindings}
+          wrap={wrap}
           setTheme={setTheme}
           setKeybindings={setKeybindings}
           setWrap={setWrap}

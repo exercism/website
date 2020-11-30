@@ -3,10 +3,13 @@ import React, {
   useRef,
   useEffect,
   useCallback,
+  useState,
   createRef,
 } from 'react'
 import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
+import { Tab } from './editor/Tab'
+import { TabPanel } from './editor/TabPanel'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
@@ -41,6 +44,12 @@ enum ActionType {
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
+}
+
+export enum TabIndex {
+  INSTRUCTIONS = 'instructions',
+  TESTS = 'tests',
+  RESULTS = 'results',
 }
 
 type EditorRef = {
@@ -134,6 +143,7 @@ export function Editor({
   instructions: string
   exampleSolution: string
 }) {
+  const [tab, setTab] = useState<TabIndex>(TabIndex.INSTRUCTIONS)
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
@@ -175,6 +185,7 @@ export function Editor({
           type: ActionType.SUBMISSION_CREATED,
           payload: { submission: typecheck<Submission>(json, 'submission') },
         })
+        setTab(TabIndex.RESULTS)
 
         editorsRef.current = files.map((file) => {
           return {
@@ -345,28 +356,35 @@ export function Editor({
       </div>
 
       <div className="main-rhs">
-        <section className="instructions">
-          <div className="c-textual-content">
-            <h2>Introduction</h2>
-            <div dangerouslySetInnerHTML={{ __html: introduction }} />
+        <TabPanel currentIndex={tab} index={TabIndex.INSTRUCTIONS}>
+          <section className="instructions">
+            <div className="c-textual-content">
+              <h2>Introduction</h2>
+              <div dangerouslySetInnerHTML={{ __html: introduction }} />
 
-            <h2>Instructions</h2>
-            <div dangerouslySetInnerHTML={{ __html: instructions }} />
+              <h2>Instructions</h2>
+              <div dangerouslySetInnerHTML={{ __html: instructions }} />
 
-            <h2 className="text-h3 tw-mt-20">Example solution</h2>
-            <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
-          </div>
-        </section>
-        <section className="results">
-          {submission && submission.testRun && (
-            <TestRunSummary
-              testRun={submission.testRun}
-              cancelLink={submission.links.cancel}
-              timeout={timeout}
-              onUpdate={updateSubmission}
-            />
-          )}
-        </section>
+              <h3 className="text-h3 tw-mt-20">Example solution</h3>
+              <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
+            </div>
+          </section>
+        </TabPanel>
+        <TabPanel currentIndex={tab} index={TabIndex.TESTS}>
+          <section className="tests"></section>
+        </TabPanel>
+        <TabPanel currentIndex={tab} index={TabIndex.RESULTS}>
+          <section className="results">
+            {submission && submission.testRun && (
+              <TestRunSummary
+                testRun={submission.testRun}
+                cancelLink={submission.links.cancel}
+                timeout={timeout}
+                onUpdate={updateSubmission}
+              />
+            )}
+          </section>
+        </TabPanel>
       </div>
 
       <div className="footer-lhs">
@@ -399,18 +417,18 @@ export function Editor({
 
       <div className="footer-rhs">
         <div className="tabs">
-          <button className="c-tab selected">
+          <Tab currentIndex={tab} index={TabIndex.INSTRUCTIONS} setTab={setTab}>
             <GraphicalIcon icon="editor" />
             <span data-text="Instructions">Instructions</span>
-          </button>
-          <button className="c-tab">
+          </Tab>
+          <Tab currentIndex={tab} index={TabIndex.TESTS} setTab={setTab}>
             <GraphicalIcon icon="tests" />
             <span data-text="Tests">Tests</span>
-          </button>
-          <button className="c-tab">
+          </Tab>
+          <Tab currentIndex={tab} index={TabIndex.RESULTS} setTab={setTab}>
             <GraphicalIcon icon="test-results" />
             <span data-text="Results">Results</span>
-          </button>
+          </Tab>
         </div>
       </div>
     </div>

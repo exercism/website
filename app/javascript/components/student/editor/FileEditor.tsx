@@ -17,10 +17,11 @@ type FileEditorProps = {
   file: File
   language: string
   onRunTests: () => void
+  theme: string
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file, language, onRunTests }, ref) => {
+  ({ file, language, onRunTests, theme }, ref) => {
     const options: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
       minimap: { enabled: false },
       wordWrap: 'on',
@@ -54,7 +55,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           onRunTests={onRunTests}
           options={options}
           value={file.content}
-          theme={'vs'}
+          theme={theme}
           keybindings={Keybindings.DEFAULT}
         />
       </div>

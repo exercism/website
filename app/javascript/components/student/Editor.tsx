@@ -10,6 +10,7 @@ import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
 import { Tab } from './editor/Tab'
 import { TabPanel } from './editor/TabPanel'
+import { Settings } from './editor/Settings'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
@@ -143,6 +144,7 @@ export function Editor({
   instructions: string
   exampleSolution: string
 }) {
+  const [theme, setTheme] = useState('vs')
   const [tab, setTab] = useState<TabIndex>(TabIndex.INSTRUCTIONS)
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
@@ -334,9 +336,7 @@ export function Editor({
           <Icon icon="keyboard" alt="Keyboard Shortcuts" />
         </button>
 
-        <button className="settings-btn">
-          <Icon icon="settings" alt="Settings" />
-        </button>
+        <Settings setTheme={setTheme} />
 
         <button className="more-btn">
           <Icon icon="more-horizontal" alt="Open more options" />
@@ -350,6 +350,7 @@ export function Editor({
             file={editor.file}
             ref={editor.ref}
             language={language}
+            theme={theme}
             onRunTests={runTests}
           />
         ))}

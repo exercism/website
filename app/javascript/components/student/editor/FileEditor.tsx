@@ -56,7 +56,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           editorDidMount={editorDidMount}
           onRunTests={onRunTests}
           options={options}
-          value={file.content}
+          defaultValue={file.content}
           theme={theme}
           keybindings={keybindings}
         />

@@ -23,7 +23,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "solution with user's solution" do
-    user = create :user, :onboarded
+    user = create :user
     solution = create :concept_solution, user: user
     sign_in!(user)
 
@@ -32,7 +32,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "solution with logged-in published solution" do
-    user = create :user, :onboarded
+    user = create :user
     solution = create :concept_solution, published_at: Time.current
 
     get "/solutions/#{solution.uuid}"
@@ -50,7 +50,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "solution with logged-in non-published solution" do
-    user = create :user, :onboarded
+    user = create :user
 
     solution = create :concept_solution, published_at: nil
     sign_in!(user)

@@ -7,7 +7,7 @@ module Components
         super
 
         # This component uses the API, which requires authentication.
-        user = create :user, :onboarded
+        user = create :user
         sign_in!(user)
       end
 

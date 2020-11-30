@@ -12,7 +12,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index: renders correctly for joined" do
-    user = create :user, :onboarded
+    user = create :user
     track = create :track
     create :user_track, user: user, track: track
 
@@ -23,7 +23,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index: renders correctly for unjoined" do
-    user = create :user, :onboarded
+    user = create :user
     track = create :track
 
     sign_in!(user)
@@ -42,7 +42,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
   test "show: renders correctly for available" do
     concept = create :track_concept, :with_git_data
-    user = create :user, :onboarded
+    user = create :user
     create :user_track, track: concept.track, user: user
 
     UserTrack.any_instance.stubs(concept_learnt?: false)
@@ -56,7 +56,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
   test "show: renders correctly for learnt" do
     concept = create :track_concept, :with_git_data
-    user = create :user, :onboarded
+    user = create :user
     ut = create :user_track, track: concept.track, user: user
 
     UserTrack.any_instance.stubs(concept_learnt?: true)
@@ -70,7 +70,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
   test "show: renders correctly for locked" do
     concept = create :track_concept, :with_git_data
-    user = create :user, :onboarded
+    user = create :user
     ut = create :user_track, track: concept.track, user: user
 
     UserTrack.any_instance.stubs(concept_learnt?: false)

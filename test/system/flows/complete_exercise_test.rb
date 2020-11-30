@@ -5,7 +5,7 @@ module Flows
     test "completes succesfully" do
       exercise = create :concept_exercise
 
-      user = create :user, :onboarded
+      user = create :user
       create :user_track, user: user, track: exercise.track
       solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution

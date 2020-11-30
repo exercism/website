@@ -4,7 +4,7 @@ module Flows
   class ViewIterationsTest < ApplicationSystemTestCase
     test "user views iterations" do
       Submission::File.any_instance.stubs(:content)
-      user = create :user, :onboarded
+      user = create :user
       track = create :track
       create :user_track, user: user, track: track
       exercise = create :concept_exercise, track: track

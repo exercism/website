@@ -6,7 +6,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     track_2 = create :track, title: "JS #{SecureRandom.uuid}"
     track_3 = create :track, title: "Ruby #{SecureRandom.uuid}"
 
-    user = create :user, :onboarded
+    user = create :user
     create :user_track, user: user, track: track_1
     create :user_track, user: user, track: track_2
 

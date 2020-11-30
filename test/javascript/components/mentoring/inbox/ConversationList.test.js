@@ -60,6 +60,6 @@ test('allow retry after loading error', async () => {
 
   fireEvent.click(screen.getByText('Retry'))
 
-  await waitFor(() => expect(screen.getByText('Bob')).toBeInTheDocument())
+  await waitFor(() => expect(screen.getByText('on Bob')).toBeInTheDocument())
   expect(screen.queryByText('Retry')).not.toBeInTheDocument()
 })

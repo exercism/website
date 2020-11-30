@@ -1,6 +1,8 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
+import { Icon } from '../../common/Icon'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 type ConversationProps = {
   trackTitle: string
@@ -30,25 +32,37 @@ export function Conversation({
   url,
 }: ConversationProps) {
   return (
-    <tr>
-      <td>
-        <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
-      </td>
-      <td>
+    <a className="--solution" href={url}>
+      <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
+      <div
+        className="c-rounded-bg-img"
+        style={{ backgroundImage: `url(${menteeAvatarUrl})` }}
+      >
         <img
-          style={{ width: 100 }}
           src={menteeAvatarUrl}
-          alt={`avatar for ${menteeHandle}`}
+          alt={`${menteeHandle}'s uploaded avatar`}
+          className="tw-sr-only"
         />
-      </td>
-      <td>{menteeHandle}</td>
-      <td>{exerciseTitle}</td>
-      <td>{isStarred.toString()}</td>
-      <td>{haveMentoredPreviously.toString()}</td>
-      <td>{isNewSubmission.toString()}</td>
-      <td>{postsCount}</td>
-      <td>{fromNow(updatedAt)}</td>
-      <td>{url}</td>
-    </tr>
+      </div>
+      <div className="--info">
+        <div className="--handle">
+          {menteeHandle}
+          {isStarred ? <Icon icon="gold-star" alt="Starred student" /> : null}
+        </div>
+        <div className="--exercise-title">on {exerciseTitle}</div>
+      </div>
+      {isNewSubmission ? (
+        <div className="--new-iteration">
+          <GraphicalIcon icon="stars" />
+          New Iteration
+        </div>
+      ) : null}
+      <div className="--comments-count">
+        <Icon icon="comment" alt={`{postsCount} comments`} />
+        {postsCount}
+      </div>
+      <time className="-updated-at">{fromNow(updatedAt)}</time>
+      <GraphicalIcon icon="chevron-right" className="action-icon" />
+    </a>
   )
 }

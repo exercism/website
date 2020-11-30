@@ -15,7 +15,7 @@ export function ConversationList({ request, setPage }) {
   } = usePaginatedRequestQuery('mentor-conversations-list', request)
 
   return (
-    <div className="conversations-list">
+    <div>
       {isLoading && <Loading />}
       {isError && (
         <>
@@ -26,36 +26,20 @@ export function ConversationList({ request, setPage }) {
         </>
       )}
       {isSuccess && (
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th>Track icon</th>
-                <th>Mentee avatar</th>
-                <th>Mentee handle</th>
-                <th>Exercise title</th>
-                <th>Starred?</th>
-                <th>Mentored previously?</th>
-                <th>New submission?</th>
-                <th>Posts count</th>
-                <th>Updated at</th>
-                <th>URL</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resolvedData.results.map((conversation, key) => (
-                <Conversation key={key} {...conversation} />
-              ))}
-            </tbody>
-          </table>
+        <div className="--conversations">
+          {resolvedData.results.map((conversation, key) => (
+            <Conversation key={key} {...conversation} />
+          ))}
           {latestData && (
-            <Pagination
-              current={request.query.page}
-              total={latestData.meta.total}
-              setPage={setPage}
-            />
+            <footer>
+              <Pagination
+                current={request.query.page}
+                total={latestData.meta.total}
+                setPage={setPage}
+              />
+            </footer>
           )}
-        </>
+        </div>
       )}
     </div>
   )

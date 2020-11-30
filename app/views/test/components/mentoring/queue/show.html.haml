@@ -5,4 +5,5 @@
   = select_tag :state, options_for_select(%w[Success Error Loading], params[:state])
   = submit_tag "Submit", name: nil
 %hr/
-= ReactComponents::Mentoring::Queue.new({ endpoint: solutions_test_components_mentoring_queue_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" } })
+.md-container.tw-mt-32.tw-bg-bgGray{ style: "width:783px" }
+  = ReactComponents::Mentoring::Queue.new({ endpoint: solutions_test_components_mentoring_queue_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" } })

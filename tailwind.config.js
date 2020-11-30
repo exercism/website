@@ -86,6 +86,7 @@ module.exports = {
     },
     lineHeight: {
       none: '1',
+      tight: '125%',
       regular: '138%',
       paragraph: '150%',
       code: '160%',

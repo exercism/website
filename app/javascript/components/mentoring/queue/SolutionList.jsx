@@ -33,33 +33,18 @@ export function SolutionList({ request, setPage }) {
       {isError && <p>Something went wrong</p>}
       {isSuccess && (
         <>
-          <table>
-            <thead>
-              <tr>
-                <th>Track icon</th>
-                <th>Mentee avatar</th>
-                <th>Mentee handle</th>
-                <th>Exercise title</th>
-                <th>Starred?</th>
-                <th>Mentored previously?</th>
-                <th>Status</th>
-                <th>Updated at</th>
-                <th>URL</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resolvedData.results.map((solution, key) => (
-                <Solution
-                  key={key}
-                  {...solution}
-                  showMoreInformation={(e) =>
-                    showTooltip(e.target, solution.tooltipUrl)
-                  }
-                  hideMoreInformation={() => hideTooltip()}
-                />
-              ))}
-            </tbody>
-          </table>
+          <div className="--solutions">
+            {resolvedData.results.map((solution, key) => (
+              <Solution
+                key={key}
+                {...solution}
+                showMoreInformation={(e) =>
+                  showTooltip(e.target, solution.tooltipUrl)
+                }
+                hideMoreInformation={() => hideTooltip()}
+              />
+            ))}
+          </div>
           <div ref={setTooltipElement}>
             {tooltipTrigger ? (
               <Tooltips.MentoredStudent
@@ -71,11 +56,13 @@ export function SolutionList({ request, setPage }) {
         </>
       )}
       {latestData && (
-        <Pagination
-          current={request.query.page}
-          total={latestData.meta.total}
-          setPage={setPage}
-        />
+        <footer>
+          <Pagination
+            current={request.query.page}
+            total={latestData.meta.total}
+            setPage={setPage}
+          />
+        </footer>
       )}
     </div>
   )

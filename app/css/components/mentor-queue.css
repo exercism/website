@@ -1,0 +1,84 @@
+.c-mentor-queue {
+    @apply shadow-lg bg-white rounded-8;
+
+    & header {
+        @apply flex items-center justify-between;
+        @apply py-16 px-24;
+
+        & .c-mentor-text-filter {
+            @apply mr-16;
+            width: 100%;
+        }
+    }
+    & .--solutions {
+        & .--solution {
+            @apply border-lightGray border-t-1;
+            @apply flex items-center;
+            @apply py-8 px-20;
+
+            &:hover {
+                @apply bg-bgGray;
+            }
+
+            & .c-track-icon {
+                height: 32px;
+                width: 28px;
+
+                @apply mr-32;
+            }
+
+            & .c-rounded-bg-img {
+                height: 42px;
+                width: 42px;
+
+                @apply mr-16;
+            }
+            & .--info {
+                @apply flex-grow;
+
+                & .--handle {
+                    @apply flex items-center;
+                    @apply font-mono font-semibold text-16 leading-tight;
+                    & .dot,
+                    & .c-icon {
+                        @apply ml-8;
+                    }
+
+                    & .c-icon {
+                        height: 22px;
+                        width: 22px;
+                    }
+                    & .dot {
+                        @apply rounded-circle bg-lightBlue;
+                        height: 9px;
+                        width: 9px;
+                    }
+                }
+                & .--exercise-title {
+                    @apply font-mono font-semibold text-16 text-textLight leading-tight;
+                }
+            }
+
+            & .--status {
+                @apply font-medium text-14 text-textLight leading-code;
+                @apply py-4 px-12 border-borderLight border-1 rounded-100;
+                @apply ml-56;
+            }
+            & time {
+                @apply font-medium text-14 text-textLight leading-code;
+                @apply ml-56;
+            }
+
+            & .action-icon {
+                @apply ml-36 text-unnamed16;
+
+                height: 16px;
+                width: 16px;
+            }
+        }
+    }
+    & footer {
+        @apply px-24 py-16;
+        @apply border-lightGray border-t-1;
+    }
+}

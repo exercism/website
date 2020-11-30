@@ -1,6 +1,8 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Icon } from '../../common/Icon'
 
 type SolutionProps = {
   trackTitle: string
@@ -32,29 +34,36 @@ export function Solution({
   hideMoreInformation,
 }: SolutionProps) {
   return (
-    <tr
+    <a
+      href={url}
+      className="--solution"
       onMouseEnter={showMoreInformation}
       onMouseLeave={hideMoreInformation}
       onFocus={showMoreInformation}
       onBlur={hideMoreInformation}
     >
-      <td>
-        <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
-      </td>
-      <td>
+      <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
+      <div
+        className="c-rounded-bg-img"
+        style={{ backgroundImage: `url(${menteeAvatarUrl})` }}
+      >
         <img
-          style={{ width: 100 }}
           src={menteeAvatarUrl}
-          alt={`avatar for ${menteeHandle}`}
+          alt={`${menteeHandle}'s uploaded avatar`}
+          className="tw-sr-only"
         />
-      </td>
-      <td>{menteeHandle}</td>
-      <td>{exerciseTitle}</td>
-      <td>{isStarred.toString()}</td>
-      <td>{haveMentoredPreviously.toString()}</td>
-      <td>{status}</td>
-      <td>{fromNow(updatedAt)}</td>
-      <td>{url}</td>
-    </tr>
+      </div>
+      <div className="--info">
+        <div className="--handle">
+          {menteeHandle}
+          {isStarred ? <Icon icon="gold-star" alt="Starred student" /> : null}
+          {haveMentoredPreviously ? <div className="dot" /> : null}
+        </div>
+        <div className="--exercise-title">on {exerciseTitle}</div>
+      </div>
+      <div className="--status">{status}</div>
+      <time className="-updated-at">{fromNow(updatedAt)}</time>
+      <GraphicalIcon icon="chevron-right" className="action-icon" />
+    </a>
   )
 }

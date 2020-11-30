@@ -40,6 +40,11 @@ Rails.application.routes.draw do
   # Normal pages #
   # ############ #
 
+  namespace :mentor do
+    get "/", to: redirect("mentor/dashboard")
+    resource :dashboard, only: [:show], controller: "dashboard"
+  end
+
   namespace :maintaining do
     resources :submissions, only: [:index]
     resources :exercise_representations

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '../common/Icon'
 
 export function TextFilter({ setFilter, id, filter = '', placeholder }) {
   function handleChange(e) {
@@ -6,8 +7,8 @@ export function TextFilter({ setFilter, id, filter = '', placeholder }) {
   }
 
   return (
-    <div className="text-filter">
-      <label htmlFor={id}>Filter</label>
+    <div className="c-mentor-text-filter">
+      <Icon icon="search" alt="Filter results" />
       <input
         id={id}
         onChange={handleChange}

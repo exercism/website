@@ -14,6 +14,7 @@
             = graphical_icon(:dashboard)
             Dashboard
 
+        / TODO: Vary this based on section
         %li.selected{ "aria-current": "page" }
           = link_to tracks_path do
             = icon('bubbly-background', "Selected", css_class: 'selected')
@@ -21,7 +22,7 @@
             Tracks
 
         %li
-          = link_to "#" do
+          = link_to mentor_dashboard_path do
             = graphical_icon(:mentoring)
             Mentoring
 

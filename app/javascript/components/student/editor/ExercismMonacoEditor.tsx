@@ -34,8 +34,6 @@ export enum Keybindings {
 const SAVE_INTERVAL = 500
 
 export function ExercismMonacoEditor({
-  width,
-  height,
   language,
   editorDidMount,
   onRunTests,
@@ -44,8 +42,6 @@ export function ExercismMonacoEditor({
   theme,
   keybindings,
 }: {
-  width: string
-  height: string
   language: string
   editorDidMount: (editor: monacoEditor.editor.IStandaloneCodeEditor) => void
   onRunTests: () => void
@@ -153,10 +149,8 @@ export function ExercismMonacoEditor({
   }, [editorRef, statusBarRef, keybindings, keybindingRef])
 
   return (
-    <div>
+    <div className="c-file-editor-monaco">
       <MonacoEditor
-        width="800"
-        height="600"
         language={language}
         editorDidMount={handleEditorDidMount}
         options={options}

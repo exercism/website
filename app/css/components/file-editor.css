@@ -1,0 +1,9 @@
+@import "../styles";
+
+.c-file-editor {
+    height: 100%;
+
+    & > .c-file-editor-monaco {
+        height: 100%;
+    }
+}

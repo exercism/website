@@ -73,7 +73,7 @@
     & .main-lhs {
         grid-area: main-lhs;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: hidden;
 
         border-color: var(--border-color);
         @apply border-r-1;

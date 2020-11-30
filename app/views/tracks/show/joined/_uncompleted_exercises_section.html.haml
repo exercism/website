@@ -1,0 +1,12 @@
+- return if user_track.uncompleted_exercises.blank?
+
+%section.uncompleted-exercises
+  .header
+    = graphical_icon :exercises
+    %h2
+      Exercises you’ve started
+      %em (but not completed)
+
+  .exercises
+    - user_track.uncompleted_exercises[0, 6].each do |exercise|
+      = render ViewComponents::Widgets::Exercise.new(exercise, user_track, size: :medium)

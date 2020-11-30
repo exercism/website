@@ -2,22 +2,25 @@ module ViewComponents
   module Widgets
     class Exercise < ViewComponent
       extend Mandate::Memoize
+      SIZES = %i[small medium large].freeze
 
-      def initialize(exercise, user_track, large: true, desc: true)
+      def initialize(exercise, user_track, size:, desc: true)
+        raise "Invalid exercise size #{size}" unless SIZES.include?(size.to_sym)
+
         @exercise = exercise
         @user_track = user_track
-        @large = large
+        @size = size
         @desc = desc
       end
 
       def to_s
-        css_class = "c-exercise-widget #{large ? '--large' : '--small'}"
+        css_class = "c-exercise-widget --#{size}"
 
         if available?
           route = Exercism::Routes.track_exercise_path(exercise.track, exercise)
           link_to(route, class: css_class) do
             parts = [ex_icon, info_tag]
-            parts << graphical_icon('chevron-right', css_class: "--chevron-icon") if large
+            parts << graphical_icon('chevron-right', css_class: "--chevron-icon") unless small?
             safe_join(parts)
           end
         else
@@ -30,7 +33,7 @@ module ViewComponents
       end
 
       private
-      attr_reader :exercise, :user_track, :large, :desc
+      attr_reader :exercise, :user_track, :size, :desc
 
       def available?
         user_track.exercise_available?(exercise)
@@ -46,7 +49,7 @@ module ViewComponents
 
       def info_tag
         parts = [title_tag]
-        parts << desc_tag if desc && large
+        parts << desc_tag if desc && !small?
         tag.div safe_join(parts), class: '--info'
       end
 
@@ -59,6 +62,14 @@ module ViewComponents
       def desc_tag
         text = "Atoms are internally represented" # rubocop:disable Layout/LineLength
         tag.div(text, class: "--desc")
+      end
+
+      def small?
+        size == :small
+      end
+
+      def large?
+        size == :large
       end
     end
   end

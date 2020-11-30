@@ -31,5 +31,5 @@
     %section.exercises
       .lg-container.container
         - @exercises.each do |exercise|
-          = render ViewComponents::Widgets::Exercise.new(exercise, @user_track)
+          = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, size: :large)
 

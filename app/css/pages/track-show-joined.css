@@ -12,17 +12,65 @@
             rgba(225, 235, 255, 0) 100%
         );
         & .c-track-icon {
-            @apply mr-48;
+            @apply mr-40;
 
             height: 125px;
             width: 125px;
             /*width: calc(var(--c-track-icon-width-ratio) * 125px);*/
         }
-        & h1 {
-            @apply text-h1 mb-8;
+        & .info {
+            @apply flex-grow;
+
+            & h1 {
+                @apply text-h1 mb-8;
+            }
+            & .joined {
+                @apply flex items-center text-16;
+
+                & .c-icon {
+                    @apply mr-12 text-textLight;
+                    height: 21px;
+                    width: 21px;
+                }
+                & time {
+                    @apply ml-4;
+                }
+            }
         }
-        & .joined {
-            @apply text-16;
+        & .progress {
+            @apply ml-40 w-100;
+            max-width: 600px;
+
+            & progress {
+                @apply appearance-none w-100 rounded-8 overflow-hidden;
+                @apply mb-12;
+                height: 8px;
+
+                &::-webkit-progress-bar {
+                    @apply bg-veryLightBlue;
+                }
+                &[value] {
+                    &::-webkit-progress-value {
+                        @apply bg-lightBlue;
+                    }
+                }
+            }
+            & .progress-key {
+                @apply flex items-center;
+
+                & .dot {
+                    @apply bg-lightBlue rounded-3 mr-24;
+                    height: 12px;
+                    width: 12px;
+                }
+
+                & .metric {
+                    @apply font-mono font-bold text-18 leading-code;
+                }
+                & .text {
+                    @apply text-16 leading-code;
+                }
+            }
         }
     }
     & article {
@@ -161,10 +209,15 @@
     & section.activities {
         @apply mb-64;
 
+        & .track-summary,
         & .start-track-cta,
         & .placeholder-activity {
             @apply shadow-lg bg-white rounded-8;
             @apply flex;
+        }
+
+        & .track-summary {
+            @apply px-32 py-64 bg-white;
         }
 
         & .start-track-cta {
@@ -227,6 +280,7 @@
             }
         }
     }
+    & section.uncompleted-exercises,
     & section.concepts {
         @apply mb-64;
 
@@ -241,7 +295,23 @@
             & h2 {
                 @apply text-h3;
                 @apply mr-16;
+
+                & em {
+                    @apply text-h5 not-italic text-textLight;
+                }
             }
+        }
+    }
+
+    & section.uncompleted-exercises {
+        & .exercises {
+            @apply grid gap-16;
+            grid-template-columns: repeat(2, 50%);
+        }
+    }
+
+    & section.concepts {
+        & .header {
             & .progress {
                 @apply py-8 px-12 text-textLight font-medium;
                 @apply border-1 border-textLight rounded-100;

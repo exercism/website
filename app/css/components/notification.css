@@ -4,7 +4,6 @@
     height: 37px;
     width: 41px;
 
-    @apply;
     box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
 
     background: linear-gradient(
@@ -31,7 +30,9 @@
 
     &.--none {
         box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
-        @apply bg-white text-textBase;
+
+        /* We need the bg-none to reset the gradient */
+        @apply bg-none bg-white text-textBase;
 
         & .--count {
             @apply hidden;

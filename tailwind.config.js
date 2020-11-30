@@ -12,6 +12,7 @@ module.exports = {
   theme: {
     borderRadius: {
       none: '0',
+      '3': '3px',
       '5': '5px',
       '8': '8px',
       '12': '12px',

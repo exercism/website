@@ -1,5 +1,6 @@
 %section.activities
   - if activities.present?
+    .track-summary
     - activities.each do |activity|
       = render ViewComponents::UserActivity.new(activity)
   - else

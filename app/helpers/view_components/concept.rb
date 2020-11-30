@@ -4,7 +4,7 @@ module ViewComponents
     SIZES = %i[small medium].freeze
 
     def initialize(concept, user_track, size)
-      raise "Invalid concept icon size #{size}" unless SIZES.include?(size.to_sym)
+      raise "Invalid concept size #{size}" unless SIZES.include?(size.to_sym)
 
       @concept = concept
       @user_track = user_track

@@ -14,7 +14,13 @@ import { Settings } from './editor/Settings'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
-import { Submission, TestRun, TestRunStatus, File } from './editor/types'
+import {
+  Submission,
+  TestRun,
+  TestRunStatus,
+  File,
+  Keybindings,
+} from './editor/types'
 import { Iteration } from '../track/IterationSummary'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
@@ -145,6 +151,9 @@ export function Editor({
   exampleSolution: string
 }) {
   const [theme, setTheme] = useState('vs')
+  const [keybindings, setKeybindings] = useState<Keybindings>(
+    Keybindings.DEFAULT
+  )
   const [tab, setTab] = useState<TabIndex>(TabIndex.INSTRUCTIONS)
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
@@ -336,7 +345,7 @@ export function Editor({
           <Icon icon="keyboard" alt="Keyboard Shortcuts" />
         </button>
 
-        <Settings setTheme={setTheme} />
+        <Settings setTheme={setTheme} setKeybindings={setKeybindings} />
 
         <button className="more-btn">
           <Icon icon="more-horizontal" alt="Open more options" />
@@ -351,6 +360,7 @@ export function Editor({
             ref={editor.ref}
             language={language}
             theme={theme}
+            keybindings={keybindings}
             onRunTests={runTests}
           />
         ))}

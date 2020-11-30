@@ -280,3 +280,16 @@ test('change theme', async () => {
     expect(queryByText('Theme: vs-dark')).toBeInTheDocument()
   })
 })
+
+test('change keybindings', async () => {
+  const { getByTitle, getByLabelText, queryByText } = render(
+    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+  )
+
+  fireEvent.click(getByTitle('Settings'))
+  fireEvent.change(getByLabelText('Keybindings'), { target: { value: 'vim' } })
+
+  await waitFor(() => {
+    expect(queryByText('Keybindings: vim')).toBeInTheDocument()
+  })
+})

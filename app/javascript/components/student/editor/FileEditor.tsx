@@ -4,8 +4,8 @@ import React, {
   useImperativeHandle,
   useCallback,
 } from 'react'
-import { File } from './types'
-import { ExercismMonacoEditor, Keybindings } from './ExercismMonacoEditor'
+import { File, Keybindings } from './types'
+import { ExercismMonacoEditor } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { useLocalStorage } from '../../../utils/use-storage'
 
@@ -18,10 +18,11 @@ type FileEditorProps = {
   language: string
   onRunTests: () => void
   theme: string
+  keybindings: Keybindings
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file, language, onRunTests, theme }, ref) => {
+  ({ file, language, onRunTests, theme, keybindings }, ref) => {
     const options: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
       minimap: { enabled: false },
       wordWrap: 'on',
@@ -56,7 +57,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           options={options}
           value={file.content}
           theme={theme}
-          keybindings={Keybindings.DEFAULT}
+          keybindings={keybindings}
         />
       </div>
     )

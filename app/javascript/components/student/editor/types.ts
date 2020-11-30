@@ -58,3 +58,9 @@ export type File = {
   filename: string
   content: string
 }
+
+export enum Keybindings {
+  DEFAULT = 'default',
+  VIM = 'vim',
+  EMACS = 'emacs',
+}

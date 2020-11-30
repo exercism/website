@@ -1,8 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { usePopper } from 'react-popper'
 import { Icon } from '../../common/Icon'
+import { Keybindings } from './types'
 
-export function Settings({ setTheme }: { setTheme: (theme: string) => void }) {
+export function Settings({
+  setTheme,
+  setKeybindings,
+}: {
+  setTheme: (theme: string) => void
+  setKeybindings: (keybinding: Keybindings) => void
+}) {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -50,6 +57,15 @@ export function Settings({ setTheme }: { setTheme: (theme: string) => void }) {
             <select id="theme" onChange={(e) => setTheme(e.target.value)}>
               <option value="vs">Light</option>
               <option value="vs-dark">Dark</option>
+            </select>
+            <label htmlFor="keybindings">Keybindings</label>
+            <select
+              id="keybindings"
+              onChange={(e) => setKeybindings(e.target.value as Keybindings)}
+            >
+              <option value={Keybindings.DEFAULT}>Default</option>
+              <option value={Keybindings.VIM}>Vim</option>
+              <option value={Keybindings.EMACS}>Emacs</option>
             </select>
           </div>
         ) : null}

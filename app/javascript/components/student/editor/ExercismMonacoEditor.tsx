@@ -14,6 +14,7 @@ import ReconnectingWebsocket from 'reconnecting-websocket'
 import { v4 as uuidv4 } from 'uuid'
 import { initVimMode, VimMode } from 'monaco-vim'
 import { EmacsExtension } from 'monaco-emacs'
+import { Keybindings } from './types'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -23,12 +24,6 @@ type FileEditorProps = {
   file: File
   language: string
   onRunTests: () => void
-}
-
-export enum Keybindings {
-  DEFAULT = 'default',
-  VIM = 'vim',
-  EMACS = 'emacs',
 }
 
 const SAVE_INTERVAL = 500

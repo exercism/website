@@ -9,70 +9,45 @@ module Components
       test "shows correct information" do
         visit test_components_mentoring_inbox_url
 
-        row = {
-          "Track icon" => lambda {
-            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-          },
-          "Mentee avatar" => -> { assert_css "img[src='https://robohash.org/exercism'][alt='avatar for Mentee']" },
-          "Mentee handle" => "Mentee",
-          "Exercise title" => "Series",
-          "Starred?" => "true",
-          "Mentored previously?" => "true",
-          "New submission?" => "true",
-          "Posts count" => "15",
-          "Updated at" => "a year ago",
-          "URL" => "https://exercism.io/conversations/1"
-        }
-
-        assert_table_row first("table"), row
+        assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
+        assert_css "img[src='https://robohash.org/exercism'][alt=\"Mentee's uploaded avatar\"]"
+        assert_text "Mentee"
+        assert_text "on Series"
+        assert_text "New Iteration"
+        assert_text "15"
+        assert_text "a year ago"
+        assert_link "", href: "https://exercism.io/conversations/1"
+        assert_css "title", text: "Starred student", visible: false
       end
 
       test "paginates results" do
         visit test_components_mentoring_inbox_url
         click_on "2"
 
-        row = { "Exercise title" => "Tournament" }
-
-        assert_table_row first("table"), row
+        assert_text "on Tournament"
       end
 
       test "filters by track" do
         visit test_components_mentoring_inbox_url
-        select "Ruby", from: "Track", exact: true
+        select "Ruby", from: "track-filter-track", exact: true
 
-        ruby_row = {
-          "Track icon" => lambda {
-            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-          }
-        }
-        go_row = {
-          "Track icon" => lambda {
-            refute_css "img[src='https://assets.exercism.io/tracks/go-hex-white.png'][alt='icon for Go track']"
-          }
-        }
-
-        assert_table_row first("table"), ruby_row
-        assert_table_row first("table"), go_row
+        assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
+        refute_css "img[src='https://assets.exercism.io/tracks/go-hex-white.png'][alt='icon for Go track']"
       end
 
       test "filter by query" do
         visit test_components_mentoring_inbox_url
         fill_in "conversation-filter", with: "Tourn"
 
-        row = { "Exercise title" => "Tournament" }
-
-        assert_table_row first("table"), row
-
-        assert_selector('.conversations-list tbody tr', count: 1)
+        assert_text "on Tournament"
+        assert_selector('.--conversations .--solution', count: 1)
       end
 
       test "sort by student" do
         visit test_components_mentoring_inbox_url
-        select "Sort by Student", from: "Sort", exact: true
+        select "Sort by Student", from: "conversation-sorter-sort", exact: true
 
-        row = { "Mentee handle" => "Frank" }
-
-        assert_table_row first("table"), row
+        assert_text "Frank"
       end
 
       test "handles conversations endpoint API errors" do
@@ -88,7 +63,7 @@ module Components
         select "Loading", from: "Conversations endpoint state"
         click_on "Submit"
 
-        within(".conversations-list") { assert_text "Loading" }
+        within(".c-mentor-inbox") { assert_text "Loading" }
       end
 
       test "handles tracks endpoint API errors" do

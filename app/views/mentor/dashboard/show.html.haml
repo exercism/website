@@ -1,8 +1,17 @@
-#mentor-dashboard-page.tw-bg-bgGray
-  %section.inbox-section.tw-mb-32
-    .md-container
-      = ReactComponents::Mentoring::Inbox.new({ endpoint: conversations_test_components_mentoring_inbox_path, query: { state: params[:conversations_endpoint_state], sort: :exercise }, options: { retry: params[:conversations_endpoint_state] == "Loading" } }, { endpoint: tracks_test_components_mentoring_inbox_path, query: { state: params[:tracks_endpoint_state] }, options: { retry: params[:tracks_endpoint_state] == "Loading" } })
+#mentor-dashboard-page
+  = render ViewComponents::Mentor::Nav.new(:dashboard)
 
-  %section.queue-section
-    .md-container{ style: "width:783px" }
-      = ReactComponents::Mentoring::Queue.new({ endpoint: solutions_test_components_mentoring_queue_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" } })
+  %article.content
+    .md-container
+      %section.inbox-section
+        %header.header
+          %h2 Your Workspace
+          = link_to "See mentoring guidelines", "#"
+
+        = ReactComponents::Mentoring::Inbox.new({ endpoint: conversations_test_components_mentoring_inbox_path, query: { state: params[:conversations_endpoint_state], sort: :exercise }, options: { retry: params[:conversations_endpoint_state] == "Loading" } }, { endpoint: tracks_test_components_mentoring_inbox_path, query: { state: params[:tracks_endpoint_state] }, options: { retry: params[:tracks_endpoint_state] == "Loading" } })
+
+      %section.queue-section
+        %header.header
+          %h2 Solutions to Mentor
+        %div{ style: "width:783px" }
+          = ReactComponents::Mentoring::Queue.new({ endpoint: solutions_test_components_mentoring_queue_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" } })

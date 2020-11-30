@@ -29,6 +29,4 @@
         @apply text-16 font-semibold font-mono;
         line-height: var(--nav-height);
     }
-    & .divider {
-    }
 }

@@ -84,9 +84,6 @@
         overflow-y: scroll;
 
         & section.instructions {
-            /* Until we have tabs */
-            display: none;
-
             @apply py-16 px-32;
 
             & .c-textual-content {

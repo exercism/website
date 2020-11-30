@@ -28,6 +28,12 @@ export function TestRunSummaryContent({
           <p>{testRun.message}</p>
         </div>
       )
+    case TestRunStatus.TIMEOUT:
+      return (
+        <div>
+          <p>Tests timed out</p>
+        </div>
+      )
     case TestRunStatus.QUEUED:
       const handleCancel = useCallback(() => {
         onCancel()

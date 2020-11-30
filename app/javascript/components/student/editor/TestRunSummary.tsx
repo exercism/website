@@ -101,7 +101,6 @@ export function TestRunSummary({
 
   return (
     <>
-      {/*<p>Status: {testRun.status}</p>*/}
       <div className="summary-status failed">
         <span className="--dot" />1 test failure
       </div>

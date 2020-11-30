@@ -48,14 +48,24 @@ test('clears current submission when resubmitting', async () => {
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
     />
   )
-  fireEvent.click(getByText('Run tests'))
-  await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
-  fireEvent.click(getByText('Run tests'))
+  fireEvent.click(getByText('Run Tests'))
+  await waitFor(() =>
+    expect(
+      queryByText("We've queued your code and will run it shortly.")
+    ).toBeInTheDocument()
+  )
+  fireEvent.click(getByText('Run Tests'))
 
   await waitFor(() =>
-    expect(queryByText('Status: queued')).not.toBeInTheDocument()
+    expect(
+      queryByText("We've queued your code and will run it shortly.")
+    ).not.toBeInTheDocument()
   )
-  await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
+  await waitFor(() =>
+    expect(
+      queryByText("We've queued your code and will run it shortly.")
+    ).toBeInTheDocument()
+  )
 
   server.close()
 })
@@ -99,11 +109,15 @@ test('shows message when test times out', async () => {
       timeout={0}
     />
   )
-  fireEvent.click(getByText('Run tests'))
-  await waitFor(() => expect(queryByText('Status: queued')).toBeInTheDocument())
+  fireEvent.click(getByText('Run Tests'))
+  await waitFor(() =>
+    expect(
+      queryByText("We've queued your code and will run it shortly.")
+    ).toBeInTheDocument()
+  )
 
   await waitFor(() =>
-    expect(queryByText('Status: timeout')).toBeInTheDocument()
+    expect(queryByText('Tests timed out')).toBeInTheDocument()
   )
 
   server.close()
@@ -123,7 +137,7 @@ test('cancels a pending submission', async () => {
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
     />
   )
-  fireEvent.click(getByText('Run tests'))
+  fireEvent.click(getByText('Run Tests'))
   fireEvent.click(getByText('Cancel'))
 
   await waitFor(() =>

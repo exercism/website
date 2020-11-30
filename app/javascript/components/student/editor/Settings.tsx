@@ -6,9 +6,11 @@ import { Keybindings } from './types'
 export function Settings({
   setTheme,
   setKeybindings,
+  setWrap,
 }: {
   setTheme: (theme: string) => void
   setKeybindings: (keybinding: Keybindings) => void
+  setWrap: (wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded') => void
 }) {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -66,6 +68,18 @@ export function Settings({
               <option value={Keybindings.DEFAULT}>Default</option>
               <option value={Keybindings.VIM}>Vim</option>
               <option value={Keybindings.EMACS}>Emacs</option>
+            </select>
+            <label htmlFor="wrap">Wrap</label>
+            <select
+              id="wrap"
+              onChange={(e) =>
+                setWrap(
+                  e.target.value as 'off' | 'on' | 'wordWrapColumn' | 'bounded'
+                )
+              }
+            >
+              <option value="on">On</option>
+              <option value="off">Off</option>
             </select>
           </div>
         ) : null}

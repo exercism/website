@@ -19,13 +19,14 @@ type FileEditorProps = {
   onRunTests: () => void
   theme: string
   keybindings: Keybindings
+  wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded'
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file, language, onRunTests, theme, keybindings }, ref) => {
+  ({ file, language, onRunTests, theme, keybindings, wrap }, ref) => {
     const options: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
       minimap: { enabled: false },
-      wordWrap: 'on',
+      wordWrap: wrap,
       glyphMargin: true,
       lightbulb: { enabled: true },
       automaticLayout: true,

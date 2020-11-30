@@ -293,3 +293,16 @@ test('change keybindings', async () => {
     expect(queryByText('Keybindings: vim')).toBeInTheDocument()
   })
 })
+
+test('change wrapping', async () => {
+  const { getByTitle, getByLabelText, queryByText } = render(
+    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+  )
+
+  fireEvent.click(getByTitle('Settings'))
+  fireEvent.change(getByLabelText('Wrap'), { target: { value: 'off' } })
+
+  await waitFor(() => {
+    expect(queryByText('Wrap: off')).toBeInTheDocument()
+  })
+})

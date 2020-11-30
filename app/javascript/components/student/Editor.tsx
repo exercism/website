@@ -154,6 +154,9 @@ export function Editor({
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT
   )
+  const [wrap, setWrap] = useState<'off' | 'on' | 'wordWrapColumn' | 'bounded'>(
+    'on'
+  )
   const [tab, setTab] = useState<TabIndex>(TabIndex.INSTRUCTIONS)
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
@@ -345,7 +348,11 @@ export function Editor({
           <Icon icon="keyboard" alt="Keyboard Shortcuts" />
         </button>
 
-        <Settings setTheme={setTheme} setKeybindings={setKeybindings} />
+        <Settings
+          setTheme={setTheme}
+          setKeybindings={setKeybindings}
+          setWrap={setWrap}
+        />
 
         <button className="more-btn">
           <Icon icon="more-horizontal" alt="Open more options" />
@@ -361,6 +368,7 @@ export function Editor({
             language={language}
             theme={theme}
             keybindings={keybindings}
+            wrap={wrap}
             onRunTests={runTests}
           />
         ))}

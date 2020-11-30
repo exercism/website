@@ -15,20 +15,22 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
   }
 
   return (
-    <div className="mentor-inbox">
-      <TrackFilter request={tracksRequest} setTrack={setTrack} />
-      <TextFilter
-        filter={conversationsRequest.query.filter}
-        setFilter={setFilter}
-        id="conversation-filter"
-        placeholder="Filter by student or exercise name"
-      />
-      <Sorter
-        sortOptions={sortOptions}
-        sort={conversationsRequest.query.sort}
-        setSort={setSort}
-        id="conversation-sorter-sort"
-      />
+    <div className="c-mentor-inbox">
+      <header>
+        <TrackFilter request={tracksRequest} setTrack={setTrack} />
+        <TextFilter
+          filter={conversationsRequest.query.filter}
+          setFilter={setFilter}
+          id="conversation-filter"
+          placeholder="Filter by student or exercise name"
+        />
+        <Sorter
+          sortOptions={sortOptions}
+          sort={conversationsRequest.query.sort}
+          setSort={setSort}
+          id="conversation-sorter-sort"
+        />
+      </header>
       <ConversationList request={conversationsRequest} setPage={setPage} />
     </div>
   )

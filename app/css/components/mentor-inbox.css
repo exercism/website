@@ -1,4 +1,4 @@
-.c-mentor-queue {
+.c-mentor-inbox {
     @apply shadow-lg bg-white rounded-8;
 
     & header {
@@ -7,7 +7,8 @@
 
         & .c-mentor-text-filter {
             @apply mr-16;
-            width: 100%;
+            width: 60%;
+            max-width: 450px;
         }
     }
     & footer {

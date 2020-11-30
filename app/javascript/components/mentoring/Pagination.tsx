@@ -25,7 +25,7 @@ export function Pagination({
   }
 
   return (
-    <div>
+    <div className="c-pagination">
       <button
         onClick={() => {
           setPage(1)
@@ -36,21 +36,23 @@ export function Pagination({
       >
         First
       </button>
-      {range.map((page) => {
-        return (
-          <button
-            key={page}
-            onClick={() => {
-              setPage(page)
-            }}
-            disabled={page === current}
-            aria-label={`Go to page ${page}`}
-            aria-current={page === current ? 'page' : undefined}
-          >
-            {page}
-          </button>
-        )
-      })}
+      <div className="--pages">
+        {range.map((page) => {
+          return (
+            <button
+              key={page}
+              onClick={() => {
+                setPage(page)
+              }}
+              disabled={page === current}
+              aria-label={`Go to page ${page}`}
+              aria-current={page === current ? 'page' : undefined}
+            >
+              {page}
+            </button>
+          )
+        })}
+      </div>
       <button
         onClick={() => {
           setPage(total)

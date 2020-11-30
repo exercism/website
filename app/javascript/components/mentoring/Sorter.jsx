@@ -6,8 +6,7 @@ export function Sorter({ setSort, sort, sortOptions, id }) {
   }
 
   return (
-    <div className="sorter">
-      <label htmlFor={id}>Sort</label>
+    <div className="c-mentor-sorter">
       <select id={id} onChange={handleChange} value={sort}>
         {sortOptions.map((sortOption) => {
           return (

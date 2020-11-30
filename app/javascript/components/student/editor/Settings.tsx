@@ -22,7 +22,7 @@ export function Settings({
   const buttonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
-  const { styles, attributes } = usePopper(
+  const { styles, attributes, update } = usePopper(
     buttonRef.current,
     panelRef.current,
     {
@@ -45,6 +45,14 @@ export function Settings({
       document.removeEventListener('click', handleClickOutside)
     }
   }, [])
+
+  useEffect(() => {
+    if (!open || !update) {
+      return
+    }
+
+    update()
+  }, [open])
 
   return (
     <div ref={componentRef}>

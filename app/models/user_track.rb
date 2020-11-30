@@ -36,6 +36,7 @@ class UserTrack < ApplicationRecord
   delegate :exercise_available?, :exercise_completed?,
     :num_completed_exercises,
     :num_concepts, :num_concepts_mastered,
+    :num_exercises,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,
     :concept_available?, :concept_learnt?, :concept_mastered?,
     to: :summary
@@ -58,6 +59,11 @@ class UserTrack < ApplicationRecord
   memoize
   def available_exercises
     Exercise.where(id: summary.available_exercise_ids)
+  end
+
+  memoize
+  def uncompleted_exercises
+    Exercise.where(id: summary.uncompleted_exercises_ids)
   end
 
   private

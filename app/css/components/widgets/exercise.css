@@ -29,14 +29,9 @@
         }
     }
 
+    &.--medium,
     &.--large {
         @apply py-20 pl-20 pr-40 w-100;
-
-        & .--exercise-icon {
-            height: 64px;
-            width: 64px;
-            @apply mr-20;
-        }
 
         & .--info {
             @apply flex-grow;
@@ -56,17 +51,38 @@
 
             max-height: 50px; /* Fallback for max 2 lines */
         }
-
-        & .--lock-icon,
-        & .--chevron-icon {
-            height: 24px;
-            width: 24px;
-        }
         & .--lock-icon {
             @apply text-textLight;
         }
         & .--chevron-icon {
             @apply text-textLight;
+        }
+    }
+
+    &.--medium {
+        & .--exercise-icon {
+            height: 48px;
+            width: 48px;
+            @apply mr-16;
+        }
+
+        & .--lock-icon,
+        & .--chevron-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+    &.--large {
+        & .--exercise-icon {
+            height: 64px;
+            width: 64px;
+            @apply mr-24;
+        }
+
+        & .--lock-icon,
+        & .--chevron-icon {
+            height: 24px;
+            width: 24px;
         }
     }
 

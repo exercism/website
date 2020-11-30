@@ -21,12 +21,20 @@ class UserTrack
     ###############################
     # Exercises aggregate methods #
     ###############################
+    def num_exercises
+      mapped_exercises.count
+    end
+
     def num_completed_exercises
       mapped_exercises.values.count(&:completed)
     end
 
     def available_exercise_ids
       mapped_exercises.values.select(&:available).map(&:id)
+    end
+
+    def uncompleted_exercises_ids
+      mapped_exercises.values.select(&:started).reject(&:completed).map(&:id)
     end
 
     ###################

@@ -6,6 +6,7 @@ class Tracks::ExercisesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
+    # TODO: - Sort by whether exercise is started, available, completed.
     @exercises = @track.exercises
     @num_completed = @user_track.num_completed_exercises
   end

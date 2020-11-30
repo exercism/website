@@ -192,6 +192,24 @@ class UserTrackTest < ActiveSupport::TestCase
     ], user_track.available_practice_exercises
   end
 
+  test "uncompleted_exercises" do
+    track = create :track
+    concept_exercise_1 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_2 = create :concept_exercise, :random_slug, track: track
+
+    practice_exercise_1 = create :practice_exercise, :random_slug, track: track
+    create :practice_exercise, :random_slug, track: track
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_solution, user: user, exercise: concept_exercise_1, completed_at: Time.current
+    create :concept_solution, user: user, exercise: concept_exercise_2
+    create :practice_solution, user: user, exercise: practice_exercise_1
+
+    assert_equal [concept_exercise_2, practice_exercise_1], user_track.uncompleted_exercises
+  end
+
   test "summary proxies correctly" do
     track = create :track
     concept = create :track_concept, track: track

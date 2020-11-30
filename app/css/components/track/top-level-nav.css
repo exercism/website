@@ -21,7 +21,7 @@
         @apply text-anotherPurple border-anotherPurple;
         @apply px-16 text-14;
 
-        line-height: 34px;
+        height: 34px;
 
         & .c-icon {
             width: 14px;

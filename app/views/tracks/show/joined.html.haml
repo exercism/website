@@ -7,15 +7,23 @@
       .info
         %h1= @track.title
         .joined
+          = graphical_icon :"check-circle"
           Joined on
           %time{ datetime: @user_track.created_at.iso8601 }
             = format_date(@user_track.created_at)
-      .progress-bar
+      .progress
+        %progress.progress-bar{ value: @user_track.num_completed_exercises, max: @user_track.num_exercises }
+        .progress-key
+          .dot
+          .key
+            .metric #{@user_track.num_completed_exercises}/#{@user_track.num_exercises}
+            .text Exercises completed
 
   %article
     .lg-container.container
       .lhs
         = render "tracks/show/joined/activities_section", activities: @activities
+        = render "tracks/show/joined/uncompleted_exercises_section", track: @track, user_track: @user_track
         = render "tracks/show/joined/concepts_section", track: @track, user_track: @user_track
       .rhs
         = render "tracks/show/joined/contributors_section", track: @track

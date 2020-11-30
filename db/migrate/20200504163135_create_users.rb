@@ -14,6 +14,8 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.datetime :confirmed_at
       t.datetime :confirmation_sent_at
       t.string :unconfirmed_email
+      t.datetime :accepted_privacy_policy_at
+      t.datetime :accepted_terms_at
 
       t.timestamps null: false
     end

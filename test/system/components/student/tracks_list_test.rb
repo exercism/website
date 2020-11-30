@@ -7,7 +7,8 @@ module Components
         super
 
         # This component uses the API, which requires authentication.
-        sign_in!
+        user = create :user
+        sign_in!(user)
       end
 
       test "renders correctly for unjoined track" do

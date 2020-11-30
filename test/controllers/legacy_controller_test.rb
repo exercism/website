@@ -32,20 +32,16 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "solution with logged-in published solution" do
-    # TODO: Once we have devise, move this below next to the get
-    sign_in!
-
+    user = create :user
     solution = create :concept_solution, published_at: Time.current
 
     get "/solutions/#{solution.uuid}"
+    sign_in!(user)
 
     assert_redirected_to "https://test.exercism.io/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}/solutions/#{solution.user.handle}" # rubocop:disable Layout/LineLength
   end
 
   test "solution with logged-out published solution" do
-    # TODO: Remove this when we add Devise
-    create :user
-
     solution = create :concept_solution, published_at: Time.current
 
     get "/solutions/#{solution.uuid}"
@@ -54,10 +50,10 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "solution with logged-in non-published solution" do
-    # TODO: Once we have devise, move this below next to the get
-    sign_in!
+    user = create :user
 
     solution = create :concept_solution, published_at: nil
+    sign_in!(user)
 
     assert_raises ActiveRecord::RecordNotFound do
       get "/solutions/#{solution.uuid}"
@@ -65,9 +61,6 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "solution with logged-out non-published solution" do
-    # TODO: Remove this when we add Devise
-    create :user
-
     solution = create :concept_solution, published_at: nil
 
     assert_raises ActiveRecord::RecordNotFound do

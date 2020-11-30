@@ -145,6 +145,7 @@ end
 
 puts "Creating User iHiD"
 user = User.create!(handle: 'iHiD', email: 'ihid@exercism.io', name: 'iHiD', password: 'password') unless User.find_by(handle: 'iHiD')
+user.confirm
 UserTrack.create!(user: user, track: Track.find_by_slug!("ruby"))
 auth_token = user.auth_tokens.create!
 

@@ -312,6 +312,8 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.datetime "accepted_privacy_policy_at"
+    t.datetime "accepted_terms_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "featured_badge_id"

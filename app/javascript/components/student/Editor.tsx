@@ -308,7 +308,7 @@ export function Editor({
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
       <div id="page-editor">
-        <Header>
+        <div className="header">
           <Header.Back exercisePath={exercisePath} />
           <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
           <Header.ActionHints />
@@ -322,7 +322,7 @@ export function Editor({
             setWrap={setWrap}
           />
           <Header.ActionMore />
-        </Header>
+        </div>
 
         <div className="main-lhs">
           {editorsRef.current.map((editor) => (

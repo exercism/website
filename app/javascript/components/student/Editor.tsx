@@ -7,7 +7,6 @@ import React, {
   createRef,
   createContext,
 } from 'react'
-import { Tab } from './editor/Tab'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { typecheck } from '../../utils/typecheck'
 import {
@@ -21,12 +20,13 @@ import {
 import { fetchJSON } from '../../utils/fetch-json'
 import { useRequest, APIError } from '../../hooks/use-request'
 import { Iteration } from '../track/IterationSummary'
-import { GraphicalIcon } from '../common/GraphicalIcon'
-import { Icon } from '../common/Icon'
 import { Header } from './editor/Header'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
+import { InstructionsTab } from './editor/InstructionsTab'
+import { TestsTab } from './editor/TestsTab'
+import { ResultsTab } from './editor/ResultsTab'
 import { EditorStatusSummary } from './editor/EditorStatusSummary'
 import { RunTestsButton } from './editor/RunTestsButton'
 import { SubmitButton } from './editor/SubmitButton'
@@ -340,23 +340,17 @@ export function Editor({
         </div>
 
         <div className="main-rhs">
-          <Tab.Panel index={TabIndex.INSTRUCTIONS}>
-            <InstructionsPanel
-              introduction={introduction}
-              instructions={instructions}
-              exampleSolution={exampleSolution}
-            />
-          </Tab.Panel>
-          <Tab.Panel index={TabIndex.TESTS}>
-            <TestsPanel />
-          </Tab.Panel>
-          <Tab.Panel index={TabIndex.RESULTS}>
-            <ResultsPanel
-              submission={submission}
-              timeout={timeout}
-              onUpdate={updateSubmission}
-            />
-          </Tab.Panel>
+          <InstructionsPanel
+            introduction={introduction}
+            instructions={instructions}
+            exampleSolution={exampleSolution}
+          />
+          <TestsPanel />
+          <ResultsPanel
+            submission={submission}
+            timeout={timeout}
+            onUpdate={updateSubmission}
+          />
         </div>
 
         <div className="footer-lhs">
@@ -374,18 +368,9 @@ export function Editor({
 
         <div className="footer-rhs">
           <div className="tabs">
-            <Tab index={TabIndex.INSTRUCTIONS}>
-              <GraphicalIcon icon="editor" />
-              <span data-text="Instructions">Instructions</span>
-            </Tab>
-            <Tab index={TabIndex.TESTS}>
-              <GraphicalIcon icon="tests" />
-              <span data-text="Tests">Tests</span>
-            </Tab>
-            <Tab index={TabIndex.RESULTS}>
-              <GraphicalIcon icon="test-results" />
-              <span data-text="Results">Results</span>
-            </Tab>
+            <InstructionsTab />
+            <TestsTab />
+            <ResultsTab />
           </div>
         </div>
       </div>

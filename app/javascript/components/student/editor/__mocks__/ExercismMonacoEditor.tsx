@@ -13,7 +13,7 @@ export function ExercismMonacoEditor({
   editorDidMount,
   onRunTests,
   options,
-  value,
+  defaultValue,
   theme,
   keybindings,
 }) {
@@ -39,11 +39,11 @@ export function ExercismMonacoEditor({
       <p>Language: {language}</p>
       <p>Keybindings: {keybindings}</p>
       <p>Wrap: {options.wordWrap}</p>
-      <p>Value: {value}</p>
+      <p>Value: {editor.getValue()}</p>
       <textarea
         ref={textareaRef}
         data-testid="editor-value"
-        defaultValue={value}
+        defaultValue={defaultValue}
       ></textarea>
     </div>
   )

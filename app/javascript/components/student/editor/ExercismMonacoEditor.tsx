@@ -14,6 +14,7 @@ import ReconnectingWebsocket from 'reconnecting-websocket'
 import { v4 as uuidv4 } from 'uuid'
 import { initVimMode, VimMode } from 'monaco-vim'
 import { EmacsExtension } from 'monaco-emacs'
+import { Keybindings } from './types'
 
 export type FileEditorHandle = {
   getFile: () => File
@@ -25,12 +26,6 @@ type FileEditorProps = {
   onRunTests: () => void
 }
 
-export enum Keybindings {
-  DEFAULT = 'default',
-  VIM = 'vim',
-  EMACS = 'emacs',
-}
-
 const SAVE_INTERVAL = 500
 
 export function ExercismMonacoEditor({
@@ -38,7 +33,7 @@ export function ExercismMonacoEditor({
   editorDidMount,
   onRunTests,
   options,
-  value,
+  defaultValue,
   theme,
   keybindings,
 }: {
@@ -46,7 +41,7 @@ export function ExercismMonacoEditor({
   editorDidMount: (editor: monacoEditor.editor.IStandaloneCodeEditor) => void
   onRunTests: () => void
   options: monacoEditor.editor.IStandaloneEditorConstructionOptions
-  value: string | null | undefined
+  defaultValue: string | undefined
   theme: string
   keybindings: Keybindings
 }) {
@@ -154,7 +149,7 @@ export function ExercismMonacoEditor({
         language={language}
         editorDidMount={handleEditorDidMount}
         options={options}
-        value={value}
+        defaultValue={defaultValue}
         theme={theme}
       />
       <div ref={statusBarRef}></div>

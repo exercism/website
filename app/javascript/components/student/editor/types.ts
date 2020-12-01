@@ -58,3 +58,11 @@ export type File = {
   filename: string
   content: string
 }
+
+export enum Keybindings {
+  DEFAULT = 'default',
+  VIM = 'vim',
+  EMACS = 'emacs',
+}
+
+export type WrapSetting = 'off' | 'on' | 'wordWrapColumn' | 'bounded'

@@ -267,3 +267,42 @@ test('switches tabs', async () => {
 
   server.close()
 })
+
+test('change theme', async () => {
+  const { getByTitle, getByLabelText, queryByText } = render(
+    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+  )
+
+  fireEvent.click(getByTitle('Settings'))
+  fireEvent.change(getByLabelText('Theme'), { target: { value: 'vs-dark' } })
+
+  await waitFor(() => {
+    expect(queryByText('Theme: vs-dark')).toBeInTheDocument()
+  })
+})
+
+test('change keybindings', async () => {
+  const { getByTitle, getByLabelText, queryByText } = render(
+    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+  )
+
+  fireEvent.click(getByTitle('Settings'))
+  fireEvent.change(getByLabelText('Keybindings'), { target: { value: 'vim' } })
+
+  await waitFor(() => {
+    expect(queryByText('Keybindings: vim')).toBeInTheDocument()
+  })
+})
+
+test('change wrapping', async () => {
+  const { getByTitle, getByLabelText, queryByText } = render(
+    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+  )
+
+  fireEvent.click(getByTitle('Settings'))
+  fireEvent.change(getByLabelText('Wrap'), { target: { value: 'off' } })
+
+  await waitFor(() => {
+    expect(queryByText('Wrap: off')).toBeInTheDocument()
+  })
+})

@@ -17,3 +17,6 @@ exclude_patterns:
   # test controllers/views
   - app/controllers/test/
   - app/views/test/
+
+  - lib/solargraph-rails.rb
+  - lib/run_migrations_with_concurrent_guard.rb

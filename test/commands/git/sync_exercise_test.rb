@@ -21,11 +21,13 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
 
   test "git SHA does not change when there are no changes" do
     track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'pattern-matching', uuid: '3439b5d6-6e1b-486b-989d-9f7e8f9eb732' # rubocop:disable Layout/LineLength
     exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing game', git_sha: "8f10cdff3f00cfa5f1daf86b4ab589118e54a5cb", synced_to_git_sha: "8f10cdff3f00cfa5f1daf86b4ab589118e54a5cb" # rubocop:disable Layout/LineLength
+    exercise.taught_concepts << conditionals
 
     Git::SyncExercise.(exercise)
 
-    assert_equal "171577814bd42a0ed0880b9c28016b26688c51ab", exercise.git_sha
+    assert_equal "8f10cdff3f00cfa5f1daf86b4ab589118e54a5cb", exercise.git_sha
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do

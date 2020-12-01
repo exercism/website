@@ -26,15 +26,11 @@ jobs:
         ports:
           - 6379/tcp
 
-      dynamodb:
-        image: "amazon/dynamodb-local"
+      aws:
+        image: "localstack/localstack"
         ports:
-          - 8000
+          - 4566
 
-      s3:
-        image: "adobe/s3mock"
-        ports:
-          - 9090
     steps:
       ###
       # Checkout using GitHub's checkout action
@@ -71,9 +67,8 @@ jobs:
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
-          DYNAMODB_PORT: ${{ job.services.dynamodb.ports['8000'] }}
+          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          S3_PORT: ${{ job.services.s3.ports['9090'] }}
         run: |
           yarn install
           bundle exec setup_exercism_config
@@ -93,9 +88,8 @@ jobs:
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
-          DYNAMODB_PORT: ${{ job.services.dynamodb.ports['8000'] }}
+          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          S3_PORT: ${{ job.services.s3.ports['9090'] }}
           CAPTURE_CODE_COVERAGE: true
         run: |
           bundle exec rails test:zeitwerk

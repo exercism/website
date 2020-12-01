@@ -50,8 +50,7 @@ if ENV["EXERCISM_CI"]
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "127.0.0.1:#{ENV['DYNAMODB_PORT']}",
-      "127.0.0.1:#{ENV['S3_PORT']}"
+      "127.0.0.1:#{ENV['AWS_PORT']}"
     ]
   )
 else
@@ -61,8 +60,7 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "localhost:3040", "dynamodb",
-      "localhost:3041", "s3"
+      "localhost:3040", "aws"
     ]
   )
 end
@@ -133,16 +131,14 @@ class ActiveSupport::TestCase
   end
 
   def write_to_dynamodb(table_name, item)
-    client = ExercismConfig::SetupDynamoDBClient.()
-    client.put_item(
+    Exercism.dynamodb_client.put_item(
       table_name: table_name,
       item: item
     )
   end
 
   def read_from_dynamodb(table_name, key, attributes)
-    client = ExercismConfig::SetupDynamoDBClient.()
-    client.get_item(
+    Exercism.dynamodb_client.get_item(
       table_name: table_name,
       key: key,
       attributes_to_get: attributes,
@@ -152,8 +148,7 @@ class ActiveSupport::TestCase
   end
 
   def upload_to_s3(bucket, key, body)
-    client = ExercismConfig::SetupS3Client.()
-    client.put_object(
+    Exercism.s3_client.put_object(
       bucket: bucket,
       key: key,
       body: body,
@@ -162,8 +157,7 @@ class ActiveSupport::TestCase
   end
 
   def download_s3_file(bucket, key)
-    client = ExercismConfig::SetupS3Client.()
-    client.get_object(
+    Exercism.s3_client.get_object(
       bucket: bucket,
       key: key
     ).body.read

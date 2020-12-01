@@ -54,16 +54,10 @@ You need the following installed:
 - [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
 - [S3Mock](https://github.com/adobe/s3mock)
 
-Run DynamoDB on port 3040 locally:
+Run localstack for a local AWS:
 
-```
-docker run -dp 3040:8000 amazon/dynamodb-local
-```
-
-Run S3Mock on port 3041 locally:
-
-```
-docker run -dp 3041:9090 adobe/s3mock
+```bash
+docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
 ```
 
 #### Mac-Specific

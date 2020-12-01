@@ -14,7 +14,7 @@ class Submission::File < ApplicationRecord
   # and never want to update or change this content.
   after_create do
     if @content
-      s3_client.put_object(
+      Exercism.s3_client.put_object(
         bucket: s3_bucket,
         key: s3_key,
         body: @content,
@@ -24,7 +24,7 @@ class Submission::File < ApplicationRecord
   end
 
   def content
-    s3_client.get_object(
+    Exercism.s3_client.get_object(
       bucket: s3_bucket,
       key: s3_key
     ).body.read
@@ -36,10 +36,5 @@ class Submission::File < ApplicationRecord
 
   def s3_key
     URI_REGEX.match(uri)[:key]
-  end
-
-  private
-  def s3_client
-    ExercismConfig::SetupS3Client.()
   end
 end

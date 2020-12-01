@@ -10,7 +10,6 @@ import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
 import { Tab } from './editor/Tab'
 import { TabPanel } from './editor/TabPanel'
-import { Settings } from './editor/Settings'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { typecheck } from '../../utils/typecheck'
 import {
@@ -26,6 +25,7 @@ import { useRequest, APIError } from '../../hooks/use-request'
 import { Iteration } from '../track/IterationSummary'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
+import { Header } from './editor/Header'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 
@@ -300,25 +300,12 @@ export function Editor({
 
   return (
     <div id="page-editor">
-      <div className="header">
-        <a href={exercisePath} className="close-btn">
-          <GraphicalIcon icon="arrow-left" />
-          Exit Editor
-        </a>
-
-        <div className="title">
-          <div className="track">{trackTitle}</div>
-          <div className="divider">/</div>
-          <div className="exeercise">{exerciseTitle}</div>
-        </div>
-
-        <button className="btn-small hints-btn">Hints</button>
-
-        <button className="keyboard-shortcuts-btn">
-          <Icon icon="keyboard" alt="Keyboard Shortcuts" />
-        </button>
-
-        <Settings
+      <Header>
+        <Header.Back exercisePath={exercisePath} />
+        <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
+        <Header.ActionHints />
+        <Header.ActionKeyboardShortcuts />
+        <Header.ActionSettings
           theme={theme}
           keybindings={keybindings}
           wrap={wrap}
@@ -326,11 +313,8 @@ export function Editor({
           setKeybindings={setKeybindings}
           setWrap={setWrap}
         />
-
-        <button className="more-btn">
-          <Icon icon="more-horizontal" alt="Open more options" />
-        </button>
-      </div>
+        <Header.ActionMore />
+      </Header>
 
       <div className="main-lhs">
         {editorsRef.current.map((editor) => (

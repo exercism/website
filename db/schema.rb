@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_exercises_on_track_id"
+    t.index ["uuid"], name: "index_exercises_on_uuid", unique: true
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

@@ -29,14 +29,26 @@ module Git
       )
     end
 
-    def sync_concepts!
-      track.concepts.each {|concept| Git::SyncConcept.(concept)}
+    def sync_exercises!
+      track.concept_exercises.each { |concept| Git::SyncExercise.(concept) }
+      track.practice_exercises.each { |concept| Git::SyncExercise.(concept) }
     end
 
-    def sync_exercises!
-      track.concept_exercises.each {|concept| Git::SyncExercise.(concept)}
-      track.practice_exercises.each {|concept| Git::SyncExercise.(concept)}
-    end    
+    def sync_concepts!
+      concepts = config_concepts.map do |config_concept|
+        ::Track::Concept.create_or_find_by!(uuid: config_concept[:uuid]) do |c|
+          c.slug = config_concept[:slug]
+          c.name = config_concept[:name]
+          c.blurb = config_concept[:blurb]
+          c.synced_to_git_sha = head_git_track.commit.oid
+          c.track = track
+        end
+      end
+
+      # TODO: verify that all exercise concepts and prerequisites are in the concepts section
+      track.concepts.replace(concepts)
+      track.concepts.each { |concept| Git::SyncConcept.(concept) }
+    end
 
     def track_needs_updating?
       track_config_modified?

@@ -64,3 +64,5 @@ export enum Keybindings {
   VIM = 'vim',
   EMACS = 'emacs',
 }
+
+export type WrapSetting = 'off' | 'on' | 'wordWrapColumn' | 'bounded'

@@ -20,6 +20,7 @@ import {
   TestRunStatus,
   File,
   Keybindings,
+  WrapSetting,
 } from './editor/types'
 import { Iteration } from '../track/IterationSummary'
 import { GraphicalIcon } from '../common/GraphicalIcon'
@@ -154,9 +155,7 @@ export function Editor({
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT
   )
-  const [wrap, setWrap] = useState<'off' | 'on' | 'wordWrapColumn' | 'bounded'>(
-    'on'
-  )
+  const [wrap, setWrap] = useState<WrapSetting>('on')
   const [tab, setTab] = useState<TabIndex>(TabIndex.INSTRUCTIONS)
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {

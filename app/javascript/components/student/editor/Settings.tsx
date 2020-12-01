@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { usePopper } from 'react-popper'
 import { Icon } from '../../common/Icon'
-import { Keybindings } from './types'
+import { Keybindings, WrapSetting } from './types'
 
 export function Settings({
   theme,
@@ -13,10 +13,10 @@ export function Settings({
 }: {
   theme: string
   keybindings: Keybindings
-  wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded'
+  wrap: WrapSetting
   setTheme: (theme: string) => void
   setKeybindings: (keybinding: Keybindings) => void
-  setWrap: (wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded') => void
+  setWrap: (wrap: WrapSetting) => void
 }) {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -91,11 +91,7 @@ export function Settings({
             <label htmlFor="wrap">Wrap</label>
             <select
               id="wrap"
-              onChange={(e) =>
-                setWrap(
-                  e.target.value as 'off' | 'on' | 'wordWrapColumn' | 'bounded'
-                )
-              }
+              onChange={(e) => setWrap(e.target.value as WrapSetting)}
               value={wrap}
             >
               <option value="on">On</option>

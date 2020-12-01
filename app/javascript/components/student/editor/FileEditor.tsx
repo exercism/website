@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   useCallback,
 } from 'react'
-import { File, Keybindings } from './types'
+import { File, Keybindings, WrapSetting } from './types'
 import { ExercismMonacoEditor } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { useLocalStorage } from '../../../utils/use-storage'
@@ -19,7 +19,7 @@ type FileEditorProps = {
   onRunTests: () => void
   theme: string
   keybindings: Keybindings
-  wrap: 'off' | 'on' | 'wordWrapColumn' | 'bounded'
+  wrap: WrapSetting
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(

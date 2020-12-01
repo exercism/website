@@ -170,24 +170,45 @@ export function Editor({
     controllerRef.current?.abort()
     controllerRef.current = undefined
   }, [controllerRef])
+
+  const sendRequest = useCallback(
+    (endpoint: string, body: any, method: string) => {
+      abort()
+      const [request, cancel] = useRequest(endpoint, body, method)
+      controllerRef.current = cancel
+
+      return request
+        .then((json: any) => {
+          if (!isMountedRef.current) {
+            throw new Error('Component not mounted')
+          }
+
+          return json
+        })
+        .catch((err) => {
+          if (err.message === 'Component not mounted') {
+            return
+          }
+
+          throw err
+        })
+        .finally(() => {
+          controllerRef.current = undefined
+        })
+    },
+    [controllerRef, isMountedRef]
+  )
+
   const runTests = useCallback(() => {
     const files = editorsRef.current.map((editor) => {
       return editor.ref.current?.getFile()
     })
 
-    abort()
-
     dispatch({ type: ActionType.CREATING_SUBMISSION })
 
-    const [runTests, cancel] = useRequest(
-      endpoint,
-      JSON.stringify({ files: files }),
-      'POST'
-    )
-    controllerRef.current = cancel
-    runTests
+    sendRequest(endpoint, JSON.stringify({ files: files }), 'POST')
       .then((json: any) => {
-        if (!isMountedRef.current) {
+        if (!json) {
           return
         }
 
@@ -205,10 +226,6 @@ export function Editor({
         })
       })
       .catch((err) => {
-        if (!isMountedRef.current) {
-          return
-        }
-
         if (err instanceof Error) {
           dispatch({ type: ActionType.SUBMISSION_CANCELLED })
         }
@@ -222,10 +239,8 @@ export function Editor({
           })
         }
       })
-      .finally(() => {
-        controllerRef.current = undefined
-      })
-  }, [abort, controllerRef, isMountedRef])
+  }, [sendRequest, dispatch, editorsRef])
+
   const submit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       if (!submission) {
@@ -234,44 +249,33 @@ export function Editor({
 
       dispatch({ type: ActionType.CREATING_ITERATION })
 
-      const [submit, cancel] = useRequest(
-        submission.links.submit,
-        JSON.stringify({}),
-        'POST'
-      )
-      controllerRef.current = cancel
-
-      submit
-        .then((json: any) => {
-          if (!isMountedRef.current) {
+      sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
+        (json: any) => {
+          if (!json) {
             return
           }
 
           const iteration = typecheck<Iteration>(json, 'iteration')
           location.assign(iteration.links.self)
-        })
-        .finally(() => {
-          controllerRef.current = undefined
-        })
+        }
+      )
     },
-    [controllerRef, isMountedRef, submission]
+    [sendRequest, dispatch, submission]
   )
+
   const cancel = useCallback(() => {
     abort()
     dispatch({ type: ActionType.SUBMISSION_CANCELLED })
   }, [dispatch, abort])
+
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
-      if (!isMountedRef.current) {
-        return
-      }
-
       dispatch({
         type: ActionType.SUBMISSION_CHANGED,
         payload: { testRun: testRun },
       })
     },
-    [dispatch, isMountedRef]
+    [dispatch]
   )
 
   useEffect(() => {
@@ -279,29 +283,20 @@ export function Editor({
   }, [abort])
 
   useEffect(() => {
-    if (!submission) {
+    if (!initialSubmission) {
       return
     }
 
-    const [fetchTestRun, cancel] = useRequest(
-      submission.links.testRun,
-      null,
-      'GET'
-    )
-    controllerRef.current = cancel
-
-    fetchTestRun
-      .then((json: any) => {
-        if (!isMountedRef.current) {
+    sendRequest(initialSubmission.links.testRun, null, 'GET').then(
+      (json: any) => {
+        if (!json) {
           return
         }
 
         updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
-      })
-      .finally(() => {
-        controllerRef.current = undefined
-      })
-  }, [])
+      }
+    )
+  }, [sendRequest, initialSubmission, updateSubmission])
 
   return (
     <div id="page-editor">

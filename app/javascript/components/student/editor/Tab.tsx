@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { TabsContext, TabIndex } from '../Editor'
 
-export function Tab({
+export const Tab = ({
   index,
   children,
 }: {
   index: TabIndex
   children?: React.ReactNode
-}) {
+}) => {
   const { tab: currentIndex, switchToTab } = useContext(TabsContext)
 
   const classNames = ['c-tab']
@@ -26,4 +26,20 @@ export function Tab({
       {children}
     </button>
   )
+}
+
+Tab.Panel = ({
+  index,
+  children,
+}: {
+  index: TabIndex
+  children: React.ReactNode
+}) => {
+  const { tab: currentIndex, switchToTab } = useContext(TabsContext)
+
+  if (currentIndex !== index) {
+    return null
+  }
+
+  return <div>{children}</div>
 }

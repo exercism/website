@@ -10,7 +10,6 @@ import React, {
 import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
 import { Tab } from './editor/Tab'
-import { TabPanel } from './editor/TabPanel'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { typecheck } from '../../utils/typecheck'
 import {
@@ -339,7 +338,7 @@ export function Editor({
         </div>
 
         <div className="main-rhs">
-          <TabPanel index={TabIndex.INSTRUCTIONS}>
+          <Tab.Panel index={TabIndex.INSTRUCTIONS}>
             <section className="instructions">
               <div className="c-textual-content">
                 <h2>Introduction</h2>
@@ -352,11 +351,11 @@ export function Editor({
                 <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
               </div>
             </section>
-          </TabPanel>
-          <TabPanel index={TabIndex.TESTS}>
+          </Tab.Panel>
+          <Tab.Panel index={TabIndex.TESTS}>
             <section className="tests"></section>
-          </TabPanel>
-          <TabPanel index={TabIndex.RESULTS}>
+          </Tab.Panel>
+          <Tab.Panel index={TabIndex.RESULTS}>
             <section className="results">
               {submission && submission.testRun && (
                 <TestRunSummary
@@ -367,7 +366,7 @@ export function Editor({
                 />
               )}
             </section>
-          </TabPanel>
+          </Tab.Panel>
         </div>
 
         <div className="footer-lhs">

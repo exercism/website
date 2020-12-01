@@ -21,11 +21,11 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
 
   test "git SHA does not change when there are no changes" do
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: 'Lucian\'s Luscious Lasagna', git_sha: "9874874b7699998e0be9aad4ae302af81eb4e7a3", synced_to_git_sha: "9874874b7699998e0be9aad4ae302af81eb4e7a3" # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing game', git_sha: "8f10cdff3f00cfa5f1daf86b4ab589118e54a5cb", synced_to_git_sha: "8f10cdff3f00cfa5f1daf86b4ab589118e54a5cb" # rubocop:disable Layout/LineLength
 
     Git::SyncExercise.(exercise)
 
-    assert_equal "9874874b7699998e0be9aad4ae302af81eb4e7a3", exercise.git_sha
+    assert_equal "171577814bd42a0ed0880b9c28016b26688c51ab", exercise.git_sha
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do
@@ -68,7 +68,7 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
     assert_equal exercise.git.head_sha, exercise.git_sha
   end
 
-  test "exercise is updated when there are changes in config.json" do
+  test "metadata is updated when there are changes in config.json" do
     track = create :track, slug: 'fsharp'
     exercise = create :concept_exercise,
       track: track,
@@ -84,5 +84,44 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
     assert_equal "log-levels!", exercise.slug
     assert_equal "Log Levels!", exercise.title
     assert exercise.deprecated
+  end
+
+  test "removes concepts that are not in config.json" do
+    track = create :track, slug: 'fsharp'
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    exercise = create :concept_exercise,
+      track: track,
+      uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125',
+      slug: 'log-levels!',
+      title: 'Log Levels!',
+      deprecated: true,
+      git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e",
+      synced_to_git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e"
+    exercise.taught_concepts << strings
+    exercise.taught_concepts << conditionals
+
+    Git::SyncExercise.(exercise)
+
+    refute_includes exercise.taught_concepts, conditionals
+  end
+
+  test "adds new concepts defined in config.json" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    exercise = create :concept_exercise,
+      track: track,
+      uuid: '6ea2765e-5885-11ea-82b4-0242ac130003',
+      slug: 'cars-assemble',
+      title: 'Cars, Assemble!',
+      deprecated: true,
+      git_sha: "98aa6c99837cf312d06734a085307e0327cb42a3",
+      synced_to_git_sha: "98aa6c99837cf312d06734a085307e0327cb42a3"
+    exercise.taught_concepts << conditionals
+
+    Git::SyncExercise.(exercise)
+
+    numbers = ::Track::Concept.find_by(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3')
+    assert_includes exercise.taught_concepts, numbers
   end
 end

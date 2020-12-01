@@ -18,6 +18,19 @@ module Git
     def sync_concept_exercise!
       return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
 
+      # TODO: verify if exercise concepts are also in the track concepts first
+      taught_concepts = config_exercise[:concepts].map do |concept_slug|
+        config_concept = find_config_concept(concept_slug)
+        ::Track::Concept.create_or_find_by!(uuid: config_concept[:uuid]) do |c|
+          c.slug = config_concept[:slug]
+          c.name = config_concept[:name]
+          c.blurb = config_concept[:blurb]
+          c.synced_to_git_sha = head_git_exercise.commit.oid
+          c.track = exercise.track
+        end
+      end
+      exercise.taught_concepts.replace(taught_concepts)
+
       exercise.update!(
         slug: config_exercise[:slug],
         title: config_exercise[:name],
@@ -40,17 +53,27 @@ module Git
 
       config_exercise[:slug] != exercise.slug ||
         config_exercise[:name] != exercise.title ||
-        !!config_exercise[:deprecated] != exercise.deprecated
+        !!config_exercise[:deprecated] != exercise.deprecated ||
+        config_exercise[:concepts].sort != exercise.taught_concepts.map(&:slug).sort
     end
 
     def exercise_files_modified?
       head_git_exercise.non_ignored_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
     end
 
+    def find_config_concept(slug)
+      config_concepts.find { |e| e[:slug] == slug }
+    end
+
     memoize
     def config_exercise
       # TODO: determine what to do when the exercise could not be found
       head_git_track.config[:exercises][:concept].find { |e| e[:uuid] == exercise.uuid }
+    end
+
+    memoize
+    def config_concepts
+      head_git_track.config[:concepts]
     end
 
     memoize

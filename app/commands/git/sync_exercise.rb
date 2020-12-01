@@ -31,6 +31,18 @@ module Git
       end
       exercise.taught_concepts.replace(taught_concepts)
 
+      prerequisites = config_exercise[:prerequisites].map do |concept_slug|
+        config_concept = find_config_concept(concept_slug)
+        ::Track::Concept.create_or_find_by!(uuid: config_concept[:uuid]) do |c|
+          c.slug = config_concept[:slug]
+          c.name = config_concept[:name]
+          c.blurb = config_concept[:blurb]
+          c.synced_to_git_sha = head_git_exercise.commit.oid
+          c.track = exercise.track
+        end
+      end
+      exercise.prerequisites.replace(prerequisites)
+
       exercise.update!(
         slug: config_exercise[:slug],
         title: config_exercise[:name],
@@ -54,7 +66,8 @@ module Git
       config_exercise[:slug] != exercise.slug ||
         config_exercise[:name] != exercise.title ||
         !!config_exercise[:deprecated] != exercise.deprecated ||
-        config_exercise[:concepts].sort != exercise.taught_concepts.map(&:slug).sort
+        config_exercise[:concepts].sort != exercise.taught_concepts.map(&:slug).sort ||
+        config_exercise[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
     end
 
     def exercise_files_modified?

@@ -51,5 +51,23 @@ module Git
     def diff
       head_git_track.commit.diff(synced_git_track.commit)
     end
+
+    memoize
+    def config_concept_exercises
+      config[:exercises][:concept]
+    end
+
+    memoize
+    def config_practice_exercises
+      config[:exercises][:concept]
+    end
+
+    memoize
+    def config_concepts
+      config[:concepts]
+    end
+
+    memoize
+    delegate :config, to: :head_git_track
   end
 end

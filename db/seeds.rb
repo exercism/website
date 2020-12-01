@@ -97,7 +97,7 @@ track_slugs.each do |track_slug|
     )
 
     #track.update(title: track.repo.config[:language])
-    git_track.config[:exercises][:concept].each do |exercise_config|
+    git_track.config[:exercises][:concept].each do |exercise_config|      
       ce = ConceptExercise.create!(
         track: track,
         uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),

@@ -25,10 +25,9 @@ module Git
         practice_exercises: practice_exercises
       )
 
-      # TODO: enable syncing
-      # track.concepts.each { |concept| Git::SyncConcept.(concept) }
-      # track.concept_exercises.each { |concept| Git::SyncExercise.(concept) }
-      # track.practice_exercises.each { |concept| Git::SyncExercise.(concept) }
+      track.concepts.each { |concept| Git::SyncConcept.(concept) }
+      track.concept_exercises.each { |concept| Git::SyncExercise.(concept) }
+      track.practice_exercises.each { |concept| Git::SyncExercise.(concept) }
     end
 
     def concepts

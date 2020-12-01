@@ -74,63 +74,23 @@ tags = [
 track_slugs = []
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
+first_commit = repo.head_commit.parents.last
 
 track_slugs.each do |track_slug|
-  if Track.find_by(slug: track_slug)
-    puts "Track already added: #{track_slug}"
-    next
-  end
+  puts "Adding Track: #{track_slug}"
 
   begin
     git_track = Git::Track.new(track_slug, repo.head_commit.oid, repo_url: repo_url)
-
-    puts "Adding Track: #{track_slug}"
-    track = Track.create!(
-      slug: track_slug, 
-      title: git_track.config[:language],
-      blurb: git_track.config[:blurb],
-      repo_url: repo_url,
-      synced_to_git_sha: repo.head_commit.oid,
-
+    track = Track::Create.(
+      track_slug, 
+      git_track.config[:language],
+      git_track.config[:blurb],
+      repo_url,
+      first_commit.oid,
       # Randomly selects 1-5 tags from different categories
-      tags: tags.sample(1 + rand(5)).map {|category|category.sample}
+      tags.sample(1 + rand(5)).map {|category|category.sample}
     )
-
-    #track.update(title: track.repo.config[:language])
-    git_track.config[:exercises][:concept].each do |exercise_config|      
-      ce = ConceptExercise.create!(
-        track: track,
-        uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
-        slug: exercise_config[:slug],
-        title: exercise_config[:slug].titleize,
-        git_sha: repo.head_commit.oid,
-        synced_to_git_sha: repo.head_commit.oid,
-      )
-      
-      exercise_config[:prerequisites].each do |slug|
-        ce.prerequisites << Track::Concept.find_or_create_by!(slug: slug,  track: track) do |c|
-          concept_config = git_track.config[:concepts].find { |e| e[:slug] == slug }
-          next unless concept_config
-
-          c.uuid = concept_config[:uuid]
-          c.name = concept_config[:name]
-          c.blurb = concept_config[:blurb].to_s
-          c.synced_to_git_sha = git_track.head_sha
-        end
-      end
-      
-      exercise_config[:concepts].each do |slug|
-        ce.taught_concepts << Track::Concept.find_or_create_by!(slug: slug, track: track) do |c|
-          concept_config = git_track.config[:concepts].find { |e| e[:slug] == slug }
-          next unless concept_config
-
-          c.uuid = concept_config[:uuid]
-          c.name = concept_config[:name]
-          c.blurb = concept_config[:blurb].to_s
-          c.synced_to_git_sha = git_track.head_sha
-        end
-      end
-    end
+    Git::SyncTrack.(track)
   rescue StandardError => e
     # puts e.message
     # puts e.backtrace

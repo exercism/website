@@ -36,8 +36,8 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
     Git::SyncConcept.(concept)
 
-    assert_equal "basics!", concept.slug
-    assert_equal "Basics!", concept.name
+    assert_equal "the-basics", concept.slug
+    assert_equal "The Basics", concept.name
     assert_equal "The F# basics are immutability and functional-first!", concept.blurb
   end
 end

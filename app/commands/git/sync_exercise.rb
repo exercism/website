@@ -18,37 +18,14 @@ module Git
     def sync_concept_exercise!
       return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
 
-      # TODO: verify if exercise concepts are also in the track concepts first
-      taught_concepts = config_exercise[:concepts].map do |concept_slug|
-        config_concept = find_config_concept(concept_slug)
-        ::Track::Concept.create_or_find_by!(uuid: config_concept[:uuid]) do |c|
-          c.slug = config_concept[:slug]
-          c.name = config_concept[:name]
-          c.blurb = config_concept[:blurb]
-          c.synced_to_git_sha = head_git_exercise.commit.oid
-          c.track = exercise.track
-        end
-      end
-      exercise.taught_concepts.replace(taught_concepts)
-
-      prerequisites = config_exercise[:prerequisites].map do |concept_slug|
-        config_concept = find_config_concept(concept_slug)
-        ::Track::Concept.create_or_find_by!(uuid: config_concept[:uuid]) do |c|
-          c.slug = config_concept[:slug]
-          c.name = config_concept[:name]
-          c.blurb = config_concept[:blurb]
-          c.synced_to_git_sha = head_git_exercise.commit.oid
-          c.track = exercise.track
-        end
-      end
-      exercise.prerequisites.replace(prerequisites)
-
       exercise.update!(
         slug: config_exercise[:slug],
         title: config_exercise[:name],
         deprecated: config_exercise[:deprecated] || false,
         git_sha: head_git_exercise.commit.oid,
-        synced_to_git_sha: head_git_exercise.commit.oid
+        synced_to_git_sha: head_git_exercise.commit.oid,
+        taught_concepts: find_concepts(config_exercise[:concepts]),
+        prerequisites: find_concepts(config_exercise[:prerequisites])
       )
     end
 
@@ -74,8 +51,11 @@ module Git
       head_git_exercise.non_ignored_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
     end
 
-    def find_config_concept(slug)
-      config_concepts.find { |e| e[:slug] == slug }
+    def find_concepts(slugs)
+      slugs.map do |slug|
+        config_concept = config_concepts.find { |e| e[:slug] == slug }
+        ::Track::Concept.find_by!(uuid: config_concept[:uuid])
+      end
     end
 
     memoize

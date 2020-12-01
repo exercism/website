@@ -12,7 +12,6 @@ import { Tab } from './editor/Tab'
 import { TabPanel } from './editor/TabPanel'
 import { Settings } from './editor/Settings'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
-import { fetchJSON } from '../../utils/fetch-json'
 import { typecheck } from '../../utils/typecheck'
 import {
   Submission,
@@ -22,16 +21,13 @@ import {
   Keybindings,
   WrapSetting,
 } from './editor/types'
+import { fetchJSON } from '../../utils/fetch-json'
+import { useRequest, APIError } from '../../hooks/use-request'
 import { Iteration } from '../track/IterationSummary'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
-
-type APIError = {
-  type: string
-  message: string
-}
 
 enum EditorStatus {
   CREATING_SUBMISSION = 'creatingSubmission',
@@ -180,15 +176,16 @@ export function Editor({
     })
 
     abort()
-    controllerRef.current = new AbortController()
 
     dispatch({ type: ActionType.CREATING_SUBMISSION })
 
-    fetchJSON(endpoint, {
-      method: 'POST',
-      signal: controllerRef.current.signal,
-      body: JSON.stringify({ files: files }),
-    })
+    const [runTests, cancel] = useRequest(
+      endpoint,
+      JSON.stringify({ files: files }),
+      'POST'
+    )
+    controllerRef.current = cancel
+    runTests
       .then((json: any) => {
         if (!isMountedRef.current) {
           return
@@ -213,19 +210,16 @@ export function Editor({
         }
 
         if (err instanceof Error) {
-          if (err.name === 'AbortError' && controllerRef.current) {
-            return
-          }
           dispatch({ type: ActionType.SUBMISSION_CANCELLED })
         }
 
         if (err instanceof Response) {
-          err.json().then((res: any) =>
+          err.json().then((res: any) => {
             dispatch({
               type: ActionType.SUBMISSION_CANCELLED,
               payload: { apiError: res.error },
             })
-          )
+          })
         }
       })
       .finally(() => {
@@ -238,15 +232,16 @@ export function Editor({
         return
       }
 
-      controllerRef.current = new AbortController()
-
       dispatch({ type: ActionType.CREATING_ITERATION })
 
-      fetchJSON(submission.links.submit, {
-        method: 'POST',
-        body: JSON.stringify({}),
-        signal: controllerRef.current.signal,
-      })
+      const [submit, cancel] = useRequest(
+        submission.links.submit,
+        JSON.stringify({}),
+        'POST'
+      )
+      controllerRef.current = cancel
+
+      submit
         .then((json: any) => {
           if (!isMountedRef.current) {
             return
@@ -254,17 +249,6 @@ export function Editor({
 
           const iteration = typecheck<Iteration>(json, 'iteration')
           location.assign(iteration.links.self)
-        })
-        .catch((err) => {
-          if (!isMountedRef.current) {
-            return
-          }
-
-          if (err instanceof Error) {
-            if (err.name === 'AbortError' && controllerRef.current) {
-              return
-            }
-          }
         })
         .finally(() => {
           controllerRef.current = undefined
@@ -299,28 +283,20 @@ export function Editor({
       return
     }
 
-    controllerRef.current = new AbortController()
+    const [fetchTestRun, cancel] = useRequest(
+      submission.links.testRun,
+      null,
+      'GET'
+    )
+    controllerRef.current = cancel
 
-    fetchJSON(submission.links.testRun, {
-      method: 'GET',
-      signal: controllerRef.current.signal,
-    })
+    fetchTestRun
       .then((json: any) => {
         if (!isMountedRef.current) {
           return
         }
-        updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
-      })
-      .catch((err) => {
-        if (!isMountedRef.current) {
-          return
-        }
 
-        if (err instanceof Error) {
-          if (err.name === 'AbortError' && controllerRef.current) {
-            return
-          }
-        }
+        updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
       })
       .finally(() => {
         controllerRef.current = undefined

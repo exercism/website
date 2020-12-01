@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useState,
   createRef,
+  createContext,
 } from 'react'
 import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
@@ -48,12 +49,6 @@ enum ActionType {
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
-}
-
-export enum TabIndex {
-  INSTRUCTIONS = 'instructions',
-  TESTS = 'tests',
-  RESULTS = 'results',
 }
 
 type EditorRef = {
@@ -122,6 +117,17 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+export enum TabIndex {
+  INSTRUCTIONS = 'instructions',
+  TESTS = 'tests',
+  RESULTS = 'results',
+}
+
+export const TabsContext = createContext({
+  tab: TabIndex.INSTRUCTIONS,
+  switchToTab: (index: TabIndex) => {},
+})
+
 export function Editor({
   endpoint,
   timeout = 60000,
@@ -147,12 +153,12 @@ export function Editor({
   instructions: string
   exampleSolution: string
 }) {
+  const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState('vs')
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT
   )
   const [wrap, setWrap] = useState<WrapSetting>('on')
-  const [tab, setTab] = useState<TabIndex>(TabIndex.INSTRUCTIONS)
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
     status: undefined,
@@ -216,7 +222,7 @@ export function Editor({
           type: ActionType.SUBMISSION_CREATED,
           payload: { submission: typecheck<Submission>(json, 'submission') },
         })
-        setTab(TabIndex.RESULTS)
+        switchToTab(TabIndex.RESULTS)
 
         editorsRef.current = files.map((file) => {
           return {
@@ -299,114 +305,116 @@ export function Editor({
   }, [sendRequest, initialSubmission, updateSubmission])
 
   return (
-    <div id="page-editor">
-      <Header>
-        <Header.Back exercisePath={exercisePath} />
-        <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
-        <Header.ActionHints />
-        <Header.ActionKeyboardShortcuts />
-        <Header.ActionSettings
-          theme={theme}
-          keybindings={keybindings}
-          wrap={wrap}
-          setTheme={setTheme}
-          setKeybindings={setKeybindings}
-          setWrap={setWrap}
-        />
-        <Header.ActionMore />
-      </Header>
-
-      <div className="main-lhs">
-        {editorsRef.current.map((editor) => (
-          <FileEditor
-            key={editor.file.filename}
-            file={editor.file}
-            ref={editor.ref}
-            language={language}
+    <TabsContext.Provider value={{ tab, switchToTab }}>
+      <div id="page-editor">
+        <Header>
+          <Header.Back exercisePath={exercisePath} />
+          <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
+          <Header.ActionHints />
+          <Header.ActionKeyboardShortcuts />
+          <Header.ActionSettings
             theme={theme}
             keybindings={keybindings}
             wrap={wrap}
-            onRunTests={runTests}
+            setTheme={setTheme}
+            setKeybindings={setKeybindings}
+            setWrap={setWrap}
           />
-        ))}
-      </div>
+          <Header.ActionMore />
+        </Header>
 
-      <div className="main-rhs">
-        <TabPanel currentIndex={tab} index={TabIndex.INSTRUCTIONS}>
-          <section className="instructions">
-            <div className="c-textual-content">
-              <h2>Introduction</h2>
-              <div dangerouslySetInnerHTML={{ __html: introduction }} />
+        <div className="main-lhs">
+          {editorsRef.current.map((editor) => (
+            <FileEditor
+              key={editor.file.filename}
+              file={editor.file}
+              ref={editor.ref}
+              language={language}
+              theme={theme}
+              keybindings={keybindings}
+              wrap={wrap}
+              onRunTests={runTests}
+            />
+          ))}
+        </div>
 
-              <h2>Instructions</h2>
-              <div dangerouslySetInnerHTML={{ __html: instructions }} />
+        <div className="main-rhs">
+          <TabPanel index={TabIndex.INSTRUCTIONS}>
+            <section className="instructions">
+              <div className="c-textual-content">
+                <h2>Introduction</h2>
+                <div dangerouslySetInnerHTML={{ __html: introduction }} />
 
-              <h3 className="text-h3 tw-mt-20">Example solution</h3>
-              <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
-            </div>
-          </section>
-        </TabPanel>
-        <TabPanel currentIndex={tab} index={TabIndex.TESTS}>
-          <section className="tests"></section>
-        </TabPanel>
-        <TabPanel currentIndex={tab} index={TabIndex.RESULTS}>
-          <section className="results">
-            {submission && submission.testRun && (
-              <TestRunSummary
-                testRun={submission.testRun}
-                cancelLink={submission.links.cancel}
-                timeout={timeout}
-                onUpdate={updateSubmission}
-              />
-            )}
-          </section>
-        </TabPanel>
-      </div>
+                <h2>Instructions</h2>
+                <div dangerouslySetInnerHTML={{ __html: instructions }} />
 
-      <div className="footer-lhs">
-        {status === EditorStatus.CREATING_SUBMISSION && (
-          <Submitting onCancel={cancel} />
-        )}
-        {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
-        {apiError && <p>{apiError.message}</p>}
+                <h3 className="text-h3 tw-mt-20">Example solution</h3>
+                <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
+              </div>
+            </section>
+          </TabPanel>
+          <TabPanel index={TabIndex.TESTS}>
+            <section className="tests"></section>
+          </TabPanel>
+          <TabPanel index={TabIndex.RESULTS}>
+            <section className="results">
+              {submission && submission.testRun && (
+                <TestRunSummary
+                  testRun={submission.testRun}
+                  cancelLink={submission.links.cancel}
+                  timeout={timeout}
+                  onUpdate={updateSubmission}
+                />
+              )}
+            </section>
+          </TabPanel>
+        </div>
 
-        <button
-          type="button"
-          onClick={runTests}
-          className="btn-small-secondary"
-        >
-          <GraphicalIcon icon="run-tests" />
-          Run Tests
-          <div className="kb-shortcut">F2</div>
-        </button>
+        <div className="footer-lhs">
+          {status === EditorStatus.CREATING_SUBMISSION && (
+            <Submitting onCancel={cancel} />
+          )}
+          {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
+          {apiError && <p>{apiError.message}</p>}
 
-        <button
-          type="button"
-          onClick={submit}
-          className="btn-small-cta"
-          disabled={submission?.testRun?.status !== TestRunStatus.PASS}
-        >
-          Submit
-          <div className="kb-shortcut">F3</div>
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={runTests}
+            className="btn-small-secondary"
+          >
+            <GraphicalIcon icon="run-tests" />
+            Run Tests
+            <div className="kb-shortcut">F2</div>
+          </button>
 
-      <div className="footer-rhs">
-        <div className="tabs">
-          <Tab currentIndex={tab} index={TabIndex.INSTRUCTIONS} setTab={setTab}>
-            <GraphicalIcon icon="editor" />
-            <span data-text="Instructions">Instructions</span>
-          </Tab>
-          <Tab currentIndex={tab} index={TabIndex.TESTS} setTab={setTab}>
-            <GraphicalIcon icon="tests" />
-            <span data-text="Tests">Tests</span>
-          </Tab>
-          <Tab currentIndex={tab} index={TabIndex.RESULTS} setTab={setTab}>
-            <GraphicalIcon icon="test-results" />
-            <span data-text="Results">Results</span>
-          </Tab>
+          <button
+            type="button"
+            onClick={submit}
+            className="btn-small-cta"
+            disabled={submission?.testRun?.status !== TestRunStatus.PASS}
+          >
+            Submit
+            <div className="kb-shortcut">F3</div>
+          </button>
+        </div>
+
+        <div className="footer-rhs">
+          <div className="tabs">
+            <Tab index={TabIndex.INSTRUCTIONS}>
+              <GraphicalIcon icon="editor" />
+              <span data-text="Instructions">Instructions</span>
+            </Tab>
+            <Tab index={TabIndex.TESTS}>
+              <GraphicalIcon icon="tests" />
+              <span data-text="Tests">Tests</span>
+            </Tab>
+            <Tab index={TabIndex.RESULTS}>
+              <GraphicalIcon icon="test-results" />
+              <span data-text="Results">Results</span>
+            </Tab>
+          </div>
         </div>
       </div>
-    </div>
+    </TabsContext.Provider>
   )
 }

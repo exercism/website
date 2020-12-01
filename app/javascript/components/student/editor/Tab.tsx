@@ -1,17 +1,15 @@
-import React from 'react'
-import { TabIndex } from '../Editor'
+import React, { useContext } from 'react'
+import { TabsContext, TabIndex } from '../Editor'
 
 export function Tab({
   index,
-  currentIndex,
-  setTab,
   children,
 }: {
-  currentIndex: TabIndex
   index: TabIndex
-  setTab: (index: TabIndex) => void
   children?: React.ReactNode
 }) {
+  const { tab: currentIndex, switchToTab } = useContext(TabsContext)
+
   const classNames = ['c-tab']
   if (index === currentIndex) {
     classNames.push('selected')
@@ -22,7 +20,7 @@ export function Tab({
       className={classNames.join(' ')}
       type="button"
       onClick={() => {
-        setTab(index)
+        switchToTab(index)
       }}
     >
       {children}

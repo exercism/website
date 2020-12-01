@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { TabsContext, TabIndex } from '../Editor'
 
 export function TabPanel({
-  currentIndex,
   index,
   children,
 }: {
   index: TabIndex,
-  currentIndex: TabIndex,
   children: React.ReactNode,
 }) {
+  const { tab: currentIndex, switchToTab } = useContext(TabsContext)
+
   if (currentIndex !== index) {
     return null
   }

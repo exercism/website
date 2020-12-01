@@ -127,8 +127,8 @@ track_slugs.each do |track_slug|
       end
     end
   rescue StandardError => e
-    puts e.message
-    puts e.backtrace
+    # puts e.message
+    # puts e.backtrace
     puts "Error seeding Track #{track_slug}: #{e}"
   end
 end

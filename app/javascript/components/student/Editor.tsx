@@ -7,7 +7,6 @@ import React, {
   createRef,
   createContext,
 } from 'react'
-import { Submitting } from './editor/Submitting'
 import { Tab } from './editor/Tab'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { typecheck } from '../../utils/typecheck'
@@ -28,10 +27,14 @@ import { Header } from './editor/Header'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
+import { EditorStatusSummary } from './editor/EditorStatusSummary'
+import { RunTestsButton } from './editor/RunTestsButton'
+import { SubmitButton } from './editor/SubmitButton'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 
-enum EditorStatus {
+export enum EditorStatus {
+  INITIALIZED = 'initialized',
   CREATING_SUBMISSION = 'creatingSubmission',
   SUBMISSION_CREATED = 'submissionCreated',
   CREATING_ITERATION = 'creatingIteration',
@@ -40,7 +43,7 @@ enum EditorStatus {
 
 type State = {
   submission?: Submission
-  status?: EditorStatus
+  status: EditorStatus
   apiError?: APIError
 }
 
@@ -162,7 +165,7 @@ export function Editor({
   const [wrap, setWrap] = useState<WrapSetting>('on')
   const isMountedRef = useIsMounted()
   const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
-    status: undefined,
+    status: EditorStatus.INITIALIZED,
     submission: initialSubmission,
   })
   const controllerRef = useRef<AbortController | undefined>(
@@ -248,27 +251,24 @@ export function Editor({
       })
   }, [sendRequest, dispatch, editorsRef])
 
-  const submit = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (!submission) {
-        return
-      }
+  const submit = useCallback(() => {
+    if (!submission) {
+      return
+    }
 
-      dispatch({ type: ActionType.CREATING_ITERATION })
+    dispatch({ type: ActionType.CREATING_ITERATION })
 
-      sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
-        (json: any) => {
-          if (!json) {
-            return
-          }
-
-          const iteration = typecheck<Iteration>(json, 'iteration')
-          location.assign(iteration.links.self)
+    sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
+      (json: any) => {
+        if (!json) {
+          return
         }
-      )
-    },
-    [sendRequest, dispatch, submission]
-  )
+
+        const iteration = typecheck<Iteration>(json, 'iteration')
+        location.assign(iteration.links.self)
+      }
+    )
+  }, [sendRequest, dispatch, submission])
 
   const cancel = useCallback(() => {
     abort()
@@ -360,31 +360,16 @@ export function Editor({
         </div>
 
         <div className="footer-lhs">
-          {status === EditorStatus.CREATING_SUBMISSION && (
-            <Submitting onCancel={cancel} />
-          )}
-          {status === EditorStatus.CREATING_ITERATION && <p>Submitting...</p>}
-          {apiError && <p>{apiError.message}</p>}
-
-          <button
-            type="button"
-            onClick={runTests}
-            className="btn-small-secondary"
-          >
-            <GraphicalIcon icon="run-tests" />
-            Run Tests
-            <div className="kb-shortcut">F2</div>
-          </button>
-
-          <button
-            type="button"
+          <EditorStatusSummary
+            status={status}
+            onCancel={cancel}
+            error={apiError?.message}
+          />
+          <RunTestsButton onClick={runTests} />
+          <SubmitButton
             onClick={submit}
-            className="btn-small-cta"
             disabled={submission?.testRun?.status !== TestRunStatus.PASS}
-          >
-            Submit
-            <div className="kb-shortcut">F3</div>
-          </button>
+          />
         </div>
 
         <div className="footer-rhs">

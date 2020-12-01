@@ -7,7 +7,6 @@ import React, {
   createRef,
   createContext,
 } from 'react'
-import { TestRunSummary } from './editor/TestRunSummary'
 import { Submitting } from './editor/Submitting'
 import { Tab } from './editor/Tab'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
@@ -26,6 +25,9 @@ import { Iteration } from '../track/IterationSummary'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Header } from './editor/Header'
+import { InstructionsPanel } from './editor/InstructionsPanel'
+import { TestsPanel } from './editor/TestsPanel'
+import { ResultsPanel } from './editor/ResultsPanel'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 
@@ -339,33 +341,21 @@ export function Editor({
 
         <div className="main-rhs">
           <Tab.Panel index={TabIndex.INSTRUCTIONS}>
-            <section className="instructions">
-              <div className="c-textual-content">
-                <h2>Introduction</h2>
-                <div dangerouslySetInnerHTML={{ __html: introduction }} />
-
-                <h2>Instructions</h2>
-                <div dangerouslySetInnerHTML={{ __html: instructions }} />
-
-                <h3 className="text-h3 tw-mt-20">Example solution</h3>
-                <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
-              </div>
-            </section>
+            <InstructionsPanel
+              introduction={introduction}
+              instructions={instructions}
+              exampleSolution={exampleSolution}
+            />
           </Tab.Panel>
           <Tab.Panel index={TabIndex.TESTS}>
-            <section className="tests"></section>
+            <TestsPanel />
           </Tab.Panel>
           <Tab.Panel index={TabIndex.RESULTS}>
-            <section className="results">
-              {submission && submission.testRun && (
-                <TestRunSummary
-                  testRun={submission.testRun}
-                  cancelLink={submission.links.cancel}
-                  timeout={timeout}
-                  onUpdate={updateSubmission}
-                />
-              )}
-            </section>
+            <ResultsPanel
+              submission={submission}
+              timeout={timeout}
+              onUpdate={updateSubmission}
+            />
           </Tab.Panel>
         </div>
 

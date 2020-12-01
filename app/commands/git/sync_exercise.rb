@@ -61,12 +61,7 @@ module Git
     memoize
     def config_exercise
       # TODO: determine what to do when the exercise could not be found
-      head_git_track.config[:exercises][:concept].find { |e| e[:uuid] == exercise.uuid }
-    end
-
-    memoize
-    def config_concepts
-      head_git_track.config[:concepts]
+      config_concept_exercises.find { |e| e[:uuid] == exercise.uuid }
     end
 
     memoize

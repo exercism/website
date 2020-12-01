@@ -58,4 +58,22 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     refute_includes track.concepts, recursion
   end
+
+  test "adds new concept exercises defined in config.json" do
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'c68f057eb4cfc3f9d07867e9ee9e29de7bfac088'
+
+    Git::SyncTrack.(track)
+
+    cars_assemble = ::Track::ConceptExercise.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003')
+    assert_includes track.concept_exercises, cars_assemble
+  end
+
+  test "adds new practice exercises defined in config.json" do
+    track = create :track, slug: 'fsharp', synced_to_git_sha: '171577814bd42a0ed0880b9c28016b26688c51ab'
+
+    Git::SyncTrack.(track)
+
+    two_fer = ::Track::ConceptExercise.find_by(uuid: 'two-fer')
+    assert_includes track.practice_exercises, two_fer
+  end
 end

@@ -127,7 +127,7 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
     assert_includes exercise.taught_concepts, numbers
   end
 
-  test "removes prerequisite that are not in config.json" do
+  test "removes prerequisites that are not in config.json" do
     track = create :track, slug: 'fsharp'
     numbers = create :track_concept, track: track, slug: 'numbers', uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'

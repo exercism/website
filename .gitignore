@@ -34,3 +34,6 @@ yarn-debug.log*
 
 # Cache used for docker
 .cache
+
+# Any code coverage that's generated
+coverage/

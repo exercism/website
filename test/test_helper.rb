@@ -3,7 +3,10 @@ ENV['RAILS_ENV'] ||= 'test'
 # This must happen above the env require below
 if ENV["CAPTURE_CODE_COVERAGE"]
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start 'rails' do
+    add_filter %r{^/app/.+/test/}
+    add_filter %r{^/app/.+/tmp/}
+  end
 end
 
 require_relative '../config/environment'

@@ -22,7 +22,7 @@ export function Settings({
   const buttonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
-  const { styles, attributes, update } = usePopper(
+  const { styles, attributes, update: updatePanelPosition } = usePopper(
     buttonRef.current,
     panelRef.current,
     {
@@ -30,28 +30,30 @@ export function Settings({
     }
   )
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (componentRef.current?.contains(e.target as Node)) {
-      return
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const clickedOutsideComponent = !componentRef.current?.contains(
+        e.target as Node
+      )
+
+      if (clickedOutsideComponent) {
+        setOpen(false)
+      }
     }
 
-    setOpen(false)
-  }
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
+    document.addEventListener('click', handleClick)
 
     return () => {
-      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('click', handleClick)
     }
   }, [])
 
   useEffect(() => {
-    if (!open || !update) {
+    if (!open || !updatePanelPosition) {
       return
     }
 
-    update()
+    updatePanelPosition()
   }, [open])
 
   return (

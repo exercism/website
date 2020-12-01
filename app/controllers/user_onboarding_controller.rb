@@ -1,7 +1,6 @@
 class UserOnboardingController < ApplicationController
   skip_before_action :ensure_onboarded!
 
-
   def show
     @onboarding = UserOnboardingForm.new
   end

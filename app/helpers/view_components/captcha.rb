@@ -1,10 +1,5 @@
 module ViewComponents
   class Captcha < ViewComponent
-    def initialize(endpoint = HCaptcha.endpoint, site_key = HCaptcha.site_key)
-      @endpoint = endpoint
-      @site_key = site_key
-    end
-
     def to_s
       tag.div(class: "h-captcha", data: { sitekey: site_key }) do
         tag.script(nil, async: true, defer: "defer", src: "#{endpoint}/1/api.js")
@@ -12,6 +7,12 @@ module ViewComponents
     end
 
     private
-    attr_reader :endpoint, :site_key
+    def endpoint
+      Exercism.config.hcaptcha_endpoint
+    end
+
+    def site_key
+      Exercism.secrets.hcaptcha_site_key
+    end
   end
 end

@@ -1,6 +1,7 @@
 module Auth
   class SessionsController < Devise::SessionsController
     skip_before_action :authenticate_user!
+    skip_before_action :ensure_onboarded!
 
     def create
       super

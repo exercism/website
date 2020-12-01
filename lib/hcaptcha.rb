@@ -1,20 +1,15 @@
 require "rest_client"
 
 class HCaptcha
-  class << self
-    attr_accessor :endpoint, :secret, :site_key
-  end
-
-  def self.configure
-    yield(self)
-  end
-
   def self.verify(response)
     begin
-      verification = RestClient.post("#{endpoint}/siteverify", {
-                                       secret: secret,
-                                       response: response
-                                     })
+      verification = RestClient.post(
+        "#{Exercism.config.hcaptcha_endpoint}/siteverify",
+        {
+          secret: Exercism.secrets.hcaptcha_secret,
+          response: response
+        }
+      )
     rescue RestClient::ExceptionWithResponse
       return HCaptcha::Verification.new(success: false)
     end

@@ -1,5 +1,5 @@
 module Git
-  class SyncTrackMetadata < Sync
+  class SyncTrack < Sync
     include Mandate
 
     def initialize(track)
@@ -11,6 +11,12 @@ module Git
     attr_reader :track
 
     def sync!
+      sync_metadata!
+      sync_concepts!
+      sync_exercises!
+    end
+
+    def sync_metadata!
       return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
 
       # TODO: consider raising error when slug in config is different from track slug
@@ -23,8 +29,27 @@ module Git
       )
     end
 
+    def sync_concepts!
+      track.concepts.each {|concept| Git::SyncConcept.(concept)}
+    end
+
+    def sync_exercises!
+      track.concept_exercises.each {|concept| Git::SyncExercise.(concept)}
+      track.practice_exercises.each {|concept| Git::SyncExercise.(concept)}
+    end    
+
     def track_needs_updating?
       track_config_modified?
+    end
+
+    memoize
+    def config_exercises
+      head_git_track.config[:exercises]
+    end
+
+    memoize
+    def config_concepts
+      head_git_track.config[:concepts]
     end
   end
 end

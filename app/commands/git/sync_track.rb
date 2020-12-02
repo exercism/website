@@ -32,10 +32,10 @@ module Git
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
-      track.concept_exercises.each { |concept_exercise| Git::SyncExercise.(concept_exercise) }
+      track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise) }
 
       # TODO: re-enable once we import practice exercises
-      # track.practice_exercises.each { |practice_exercise| Git::SyncExercise.(practice_exercise) }
+      # track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
     end
 
     def concepts

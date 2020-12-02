@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
   create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

@@ -50,7 +50,9 @@ module Git
           exercise[:uuid],
           track,
           slug: exercise[:slug],
-          title: exercise[:name], # TODO: the DB used title, config.json used name. Consider if we want this
+          # TODO: the DB used title, config.json used name. Consider if we want this
+          # TODO: remove title option once tracks have all updated the config.json
+          title: exercise[:name] || exercise[:slug].titleize,
           taught_concepts: find_concepts(exercise[:concepts]),
           prerequisites: find_concepts(exercise[:prerequisites]),
           deprecated: exercise[:deprecated] || false,

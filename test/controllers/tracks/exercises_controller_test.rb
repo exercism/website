@@ -2,13 +2,10 @@ require "test_helper"
 
 class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "index: renders correctly for external" do
-    # TODO: Unskip when devise is added
-    skip
-
     track = create :track
 
     get track_exercises_url(track)
-    assert_template "tracks/exercises/index/external"
+    assert_template "tracks/exercises/index"
   end
 
   test "index: renders correctly for joined" do
@@ -33,13 +30,9 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "concept/show: renders correctly for external" do
-    # TODO: Unskip when devise is added
-    skip
+    exercise = create :concept_exercise
 
-    track = create :track
-    exercise = create :concept_exercise, track: track
-
-    get track_exercise_url(track, exercise)
+    get track_exercise_url(exercise.track, exercise)
     assert_template "tracks/exercises/show"
   end
 
@@ -65,9 +58,6 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "practice/show: renders correctly for external" do
-    # TODO: Unskip when devise is added
-    skip
-
     track = create :track
     exercise = create :practice_exercise, track: track
 

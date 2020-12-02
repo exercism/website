@@ -26,10 +26,7 @@ module API
         user = User::AuthToken.find_by(token: token).try(:user)
         break unless user
 
-        # TODO: - Switch when Devise is added
-        # sign_in(user) and return
-        @current_user = user
-        return
+        sign_in(user) and return
       end
 
       render_401

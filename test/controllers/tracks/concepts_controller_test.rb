@@ -2,13 +2,10 @@ require "test_helper"
 
 class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "index: renders correctly for external" do
-    # TODO: Unskip when devise is added
-    skip
-
     track = create :track
 
     get track_concepts_url(track)
-    assert_template "tracks/concepts/index/external"
+    assert_template "tracks/concepts/index"
   end
 
   test "index: renders correctly for joined" do

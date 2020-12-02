@@ -64,7 +64,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    cars_assemble = ::Track::ConceptExercise.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003')
+    cars_assemble = ::ConceptExercise.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003')
     assert_includes track.concept_exercises, cars_assemble
   end
 
@@ -73,7 +73,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    two_fer = ::Track::ConceptExercise.find_by(uuid: 'two-fer')
+    two_fer = ::PracticeExercise.find_by(uuid: 'two-fer')
     assert_includes track.practice_exercises, two_fer
   end
 
@@ -83,7 +83,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     track.concepts.each do |concept|
-      assert_equal git_track.head_sha, concept.synced_to_git_sha
+      assert_equal track.git_head_sha, concept.synced_to_git_sha
     end
   end
 
@@ -93,7 +93,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     track.concept_exercises.each do |concept_exercise|
-      assert_equal git_track.head_sha, concept_exercise.synced_to_git_sha
+      assert_equal track.git_head_sha, concept_exercise.synced_to_git_sha
     end
   end
 
@@ -103,7 +103,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     track.practice_exercises.each do |practice_exercise|
-      assert_equal git_track.head_sha, practice_exercise.synced_to_git_sha
+      assert_equal track.git_head_sha, practice_exercise.synced_to_git_sha
     end
   end
 end

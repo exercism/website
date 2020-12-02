@@ -38,7 +38,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "create should 404 if the submission doesn't belong to the solution" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    submission = create :submission
+    submission = create :submission, track: solution.track
     post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid), headers: @headers, as: :json
     assert_response 404
     expected = { error: {
@@ -71,7 +71,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     submission = create :submission, solution: solution
 
-    Iteration::Create.expects(:call).with(solution, submission).returns(create(:iteration))
+    Iteration::Create.expects(:call).with(solution, submission).returns(create(:iteration, submission: submission))
 
     post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid),
       headers: @headers,

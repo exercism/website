@@ -7,6 +7,11 @@ module Git
       @track = track
     end
 
+    def call
+      update_git_repo!
+      super
+    end
+
     private
     attr_reader :track
 

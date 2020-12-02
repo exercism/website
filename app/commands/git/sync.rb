@@ -4,7 +4,6 @@ module Git
     initialize_with :track, :synced_to_git_sha
 
     def call
-      update_git_repo!
       sync! unless synced_to_head?
     end
 
@@ -59,7 +58,7 @@ module Git
 
     memoize
     def config_practice_exercises
-      config[:exercises][:concept]
+      config[:exercises][:practice]
     end
 
     memoize

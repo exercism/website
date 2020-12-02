@@ -14,7 +14,7 @@ module ReactComponents
             request: request.deep_merge(
               {
                 options: { initialData: data },
-                query: { auth_token: user.auth_tokens.first.to_s }
+                query: {}
               }
             ),
             status_options: STATUS_OPTIONS,

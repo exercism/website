@@ -7,7 +7,6 @@ module Flows
 
     test "user runs tests" do
       user = create :user
-      create :user_auth_token, user: user
       solution = create :concept_solution, user: user
 
       use_capybara_host do
@@ -30,7 +29,6 @@ module Flows
 
     test "user sees previous test results" do
       user = create :user
-      create :user_auth_token, user: user
       solution = create :concept_solution, user: user
       submission = create :submission, solution: solution
       create :submission_test_run,
@@ -50,7 +48,6 @@ module Flows
 
     test "user sees errors" do
       user = create :user
-      create :user_auth_token, user: user
       solution = create :concept_solution, user: user
       create :submission, solution: solution
 
@@ -67,7 +64,6 @@ module Flows
       Submission::File.any_instance.stubs(:content)
       use_capybara_host do
         user = create :user
-        create :user_auth_token, user: user
         solution = create :concept_solution, user: user
 
         sign_in!(user)

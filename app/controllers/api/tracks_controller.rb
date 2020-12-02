@@ -1,5 +1,8 @@
 module API
   class TracksController < BaseController
+    skip_before_action :authenticate_user!
+    before_action :authenticate_user
+
     def index
       tracks = Track::Search.(
         criteria: params[:criteria],

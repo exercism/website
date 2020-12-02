@@ -3,12 +3,8 @@ require "application_system_test_case"
 module Components
   module Student
     class TracksListTest < ApplicationSystemTestCase
-      def setup
-        super
-
-        # This component uses the API, which requires authentication.
-        user = create :user
-        sign_in!(user)
+      setup do
+        sign_in!
       end
 
       test "renders correctly for unjoined track" do

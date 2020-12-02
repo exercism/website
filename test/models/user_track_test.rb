@@ -34,14 +34,14 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_nil UserTrack.for(create(:user), nil)
     assert_nil UserTrack.for(nil, nil)
     assert_nil UserTrack.for(create(:user), track)
-    assert_nil UserTrack.for(ut.user, create(:track))
+    assert_nil UserTrack.for(ut.user, create(:track, :random_slug))
     assert_nil UserTrack.for(nil, track)
     assert_nil UserTrack.for(nil, track.slug)
 
     assert_nil UserTrack.for(create(:user), nil, external_if_missing: true)
     assert_nil UserTrack.for(nil, nil, external_if_missing: true)
     assert UserTrack.for(create(:user), track, external_if_missing: true).is_a?(UserTrack::External)
-    assert UserTrack.for(ut.user, create(:track), external_if_missing: true).is_a?(UserTrack::External)
+    assert UserTrack.for(ut.user, create(:track, :random_slug), external_if_missing: true).is_a?(UserTrack::External)
     assert UserTrack.for(nil, track, external_if_missing: true).is_a?(UserTrack::External)
     assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
   end

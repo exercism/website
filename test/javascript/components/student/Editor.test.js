@@ -188,6 +188,23 @@ test('disables submit button unless tests passed', async () => {
 })
 
 test('populates files', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            id: null,
+            submission_uuid: '123',
+            status: 'queued',
+            message: '',
+            tests: [],
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
   const { getByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
@@ -206,6 +223,8 @@ test('populates files', async () => {
   await waitFor(() => {
     expect(getByText('class Lasagna')).toBeInTheDocument()
   })
+
+  server.close()
 })
 
 test('switches tabs', async () => {

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { usePopper } from 'react-popper'
-import { Icon } from '../../common/Icon'
-import { Keybindings, WrapSetting } from './types'
+import { Icon } from '../../../common/Icon'
+import { Keybindings, WrapSetting } from '../types'
 
 export function Settings({
   theme,

@@ -26,13 +26,16 @@ module Git
         title: head_git_track.config[:language],
         synced_to_git_sha: head_git_track.commit.oid,
         concepts: concepts,
-        concept_exercises: concept_exercises,
-        practice_exercises: practice_exercises
+        concept_exercises: concept_exercises
+        # TODO: re-enable once we import practice exercises
+        # practice_exercises: practice_exercises
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
       track.concept_exercises.each { |concept_exercise| Git::SyncExercise.(concept_exercise) }
-      track.practice_exercises.each { |practice_exercise| Git::SyncExercise.(practice_exercise) }
+
+      # TODO: re-enable once we import practice exercises
+      # track.practice_exercises.each { |practice_exercise| Git::SyncExercise.(practice_exercise) }
     end
 
     def concepts

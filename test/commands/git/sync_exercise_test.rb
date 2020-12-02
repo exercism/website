@@ -11,6 +11,9 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "practice exercise does not change when git SHA matches HEAD SHA" do
+    # TODO: re-enable once we import practice exercises
+    skip
+
     track = create :track, slug: 'fsharp'
     exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "HEAD", synced_to_git_sha: "HEAD" # rubocop:disable Layout/LineLength
 
@@ -32,6 +35,9 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
   end
 
   test "practice exercise git sync SHA changes to HEAD SHA when there are no changes" do
+    # TODO: re-enable once we import practice exercises
+    skip
+
     track = create :track, slug: 'fsharp'
     exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "171577814bd42a0ed0880b9c28016b26688c51ab", synced_to_git_sha: "171577814bd42a0ed0880b9c28016b26688c51ab" # rubocop:disable Layout/LineLength
 

@@ -83,10 +83,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     assert_equal 5, track.concepts.length
-
-    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
     track.concepts.each do |concept|
-      assert_equal track.git_head_sha, concept.synced_to_git_sha
+      assert_equal track.git.head_sha, concept.synced_to_git_sha
     end
   end
 
@@ -96,10 +94,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     assert_equal 4, track.concept_exercises.length
-
-    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
     track.concept_exercises.each do |concept_exercise|
-      assert_equal track.git_head_sha, concept_exercise.synced_to_git_sha
+      assert_equal track.git.head_sha, concept_exercise.synced_to_git_sha
     end
   end
 
@@ -109,10 +105,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     assert_equal 3, track.practice_exercises.length
-
-    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
     track.practice_exercises.each do |practice_exercise|
-      assert_equal track.git_head_sha, practice_exercise.synced_to_git_sha
+      assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
   end
 end

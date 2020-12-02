@@ -16,8 +16,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
     Git::SyncConcept.(concept)
 
-    git_concept = Git::Concept.new(track.slug, concept.slug, concept.synced_to_git_sha, repo_url: track.repo_url)
-    assert_equal git_concept.head_sha, concept.synced_to_git_sha
+    assert_equal concept.git.head_sha, concept.synced_to_git_sha
   end
 
   test "git sync SHA changes to HEAD SHA when there are changes in concept documents" do
@@ -26,8 +25,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
     Git::SyncConcept.(concept)
 
-    git_concept = Git::Concept.new(track.slug, concept.slug, concept.synced_to_git_sha, repo_url: track.repo_url)
-    assert_equal git_concept.head_sha, concept.synced_to_git_sha
+    assert_equal concept.git.head_sha, concept.synced_to_git_sha
   end
 
   test "concept is updated when there are changes in config.json" do

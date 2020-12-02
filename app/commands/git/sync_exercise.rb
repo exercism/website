@@ -11,12 +11,12 @@ module Git
     attr_reader :exercise
 
     def sync!
-      # # TODO: validate exercise to prevent invalid exercise data
+      # TODO: validate exercise to prevent invalid exercise data
       send("sync_#{exercise.git_type}_exercise!")
     end
 
     def sync_concept_exercise!
-      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
+      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless concept_exercise_needs_updating?
 
       exercise.update!(
         slug: config_exercise[:slug],
@@ -30,20 +30,43 @@ module Git
     end
 
     def sync_practice_exercise!
-      # TODO
+      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless practice_exercise_needs_updating?
+
+      exercise.update!(
+        slug: config_exercise[:slug],
+        title: config_exercise[:name],
+        deprecated: config_exercise[:deprecated] || false,
+        git_sha: head_git_exercise.commit.oid,
+        synced_to_git_sha: head_git_exercise.commit.oid,
+        prerequisites: find_concepts(config_exercise[:prerequisites])
+      )
     end
 
-    def exercise_needs_updating?
-      config_exercise_modified? || exercise_files_modified?
+    def concept_exercise_needs_updating?
+      config_concept_exercise_modified? || exercise_files_modified?
     end
 
-    def config_exercise_modified?
+    def config_concept_exercise_modified?
       return false unless track_config_modified?
 
       config_exercise[:slug] != exercise.slug ||
         config_exercise[:name] != exercise.title ||
         !!config_exercise[:deprecated] != exercise.deprecated ||
         config_exercise[:concepts].sort != exercise.taught_concepts.map(&:slug).sort ||
+        config_exercise[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
+    end
+
+    def practice_exercise_needs_updating?
+      config_practice_exercise_modified? || exercise_files_modified?
+    end
+
+    def config_practice_exercise_modified?
+      return false unless track_config_modified?
+
+      config_exercise[:slug] != exercise.slug ||
+        # TODO: enable the line underneath when (if?) practice exercises have names
+        # config_exercise[:name] != exercise.title ||
+        !!config_exercise[:deprecated] != exercise.deprecated ||
         config_exercise[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
     end
 
@@ -61,7 +84,8 @@ module Git
     memoize
     def config_exercise
       # TODO: determine what to do when the exercise could not be found
-      config_concept_exercises.find { |e| e[:uuid] == exercise.uuid }
+      config_exercises = exercise.concept_exercise? ? config_concept_exercises : config_practice_exercises
+      config_exercises.find { |e| e[:uuid] == exercise.uuid }
     end
 
     memoize

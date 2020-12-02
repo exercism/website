@@ -10,12 +10,30 @@ class Git::SyncExerciseTest < ActiveSupport::TestCase
     refute exercise.changed?
   end
 
+  test "practice exercise does not change when git SHA matches HEAD SHA" do
+    track = create :track, slug: 'fsharp'
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "HEAD", synced_to_git_sha: "HEAD" # rubocop:disable Layout/LineLength
+
+    Git::SyncExercise.(exercise)
+
+    refute exercise.changed?
+  end
+
   test "concept exercise git sync SHA changes to HEAD SHA when there are no changes" do
     track = create :track, slug: 'fsharp'
     exercise = create :concept_exercise, track: track, uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125', slug: 'log-levels', title: 'Log Levels', git_sha: "9874874b7699998e0be9aad4ae302af81eb4e7a3", synced_to_git_sha: "9874874b7699998e0be9aad4ae302af81eb4e7a3" # rubocop:disable Layout/LineLength
     create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
     create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
+
+    Git::SyncExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+  end
+
+  test "practice exercise git sync SHA changes to HEAD SHA when there are no changes" do
+    track = create :track, slug: 'fsharp'
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "171577814bd42a0ed0880b9c28016b26688c51ab", synced_to_git_sha: "171577814bd42a0ed0880b9c28016b26688c51ab" # rubocop:disable Layout/LineLength
 
     Git::SyncExercise.(exercise)
 

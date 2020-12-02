@@ -5,7 +5,7 @@ class Track
     initialize_with :slug, :title, :blurb, :repo_url, :synced_to_git_sha, :tags
 
     def call
-      ::Track.create_or_find_by!(slug: slug) do |t|
+      Track.create_or_find_by!(slug: slug) do |t|
         t.title = title
         t.blurb = blurb
         t.repo_url = repo_url

@@ -6,10 +6,12 @@ module Components
     class EditorTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
+      setup do
+        sign_in!
+      end
+
       test "user runs tests and tests pass" do
-        user = create :user
-        create :user_auth_token, user: user
-        solution = create :concept_solution, user: user
+        solution = create :concept_solution, user: @current_user
 
         use_capybara_host do
           visit test_components_student_editor_path(solution_id: solution.id)
@@ -29,9 +31,7 @@ module Components
       end
 
       test "user runs tests and tests fail" do
-        user = create :user
-        create :user_auth_token, user: user
-        solution = create :concept_solution, user: user
+        solution = create :concept_solution, user: @current_user
 
         use_capybara_host do
           visit test_components_student_editor_path(solution_id: solution.id)
@@ -51,9 +51,7 @@ module Components
       end
 
       test "user runs tests and errors" do
-        user = create :user
-        create :user_auth_token, user: user
-        solution = create :concept_solution, user: user
+        solution = create :concept_solution, user: @current_user
 
         use_capybara_host do
           visit test_components_student_editor_path(solution_id: solution.id)
@@ -74,9 +72,7 @@ module Components
       end
 
       test "user runs tests and an ops error happens" do
-        user = create :user
-        create :user_auth_token, user: user
-        solution = create :concept_solution, user: user
+        solution = create :concept_solution, user: @current_user
 
         use_capybara_host do
           visit test_components_student_editor_path(solution_id: solution.id)
@@ -97,9 +93,7 @@ module Components
       end
 
       test "user runs tests and cancels" do
-        user = create :user
-        create :user_auth_token, user: user
-        solution = create :concept_solution, user: user
+        solution = create :concept_solution, user: @current_user
 
         use_capybara_host do
           visit test_components_student_editor_path(solution_id: solution.id)

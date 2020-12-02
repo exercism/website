@@ -189,26 +189,26 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     track = create :track
     create(:practice_exercise, track: track).tap do |exercise|
       create :exercise_prerequisite, exercise: exercise, concept: create(:track_concept, track: track)
-      create :user_track, track: exercise.track # TODO: Will break with devise added
+      create :user_track, track: exercise.track
     end
   end
 
   def available_exercise
     create(:practice_exercise).tap do |exercise|
-      create :user_track, track: exercise.track # TODO: Will break with devise added
+      create :user_track, track: exercise.track
     end
   end
 
   def in_progress_exercise
     create(:practice_exercise).tap do |exercise|
-      user_track = create :user_track, track: exercise.track # TODO: Will break with devise added
+      user_track = create :user_track, track: exercise.track
       create :practice_solution, user: user_track.user, exercise: exercise
     end
   end
 
   def completed_exercise
     create(:practice_exercise).tap do |exercise|
-      user_track = create :user_track, track: exercise.track # TODO: Will break with devise added
+      user_track = create :user_track, track: exercise.track
       create :practice_solution, user: user_track.user, exercise: exercise, completed_at: Time.current
     end
   end

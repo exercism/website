@@ -1,6 +1,20 @@
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
+  # #### #
+  # Auth #
+  # #### #
+  devise_for :users, controllers: {
+    sessions: "auth/sessions",
+    registrations: "auth/registrations",
+    omniauth_callbacks: "auth/omniauth_callbacks",
+    confirmations: "auth/confirmations"
+  }
+
+  devise_scope :user do
+    get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
+  end
+
   # ### #
   # API #
   # ### #
@@ -67,6 +81,8 @@ Rails.application.routes.draw do
       post :join
     end
   end
+
+  resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
 
   resources :solutions, only: %i[edit]
 

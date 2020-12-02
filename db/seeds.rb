@@ -1,3 +1,8 @@
+puts "Creating User iHiD"
+user = User.create!(handle: 'iHiD', email: 'ihid@exercism.io', name: 'iHiD', password: 'password') unless User.find_by(handle: 'iHiD')
+user.confirm
+auth_token = user.auth_tokens.create!
+
 
 # This is all temporary and horrible while we have a monorepo
 v3_url = "https://github.com/exercism/v3"
@@ -141,12 +146,6 @@ track_slugs.each do |track_slug|
     puts "Error creating concept exercises for Track #{track_slug}: #{e}"
   end
 end
-
-
-puts "Creating User iHiD"
-user = User.create!(handle: 'iHiD') unless User.find_by(handle: 'iHiD')
-UserTrack.create!(user: user, track: Track.find_by_slug!("ruby"))
-auth_token = user.auth_tokens.create!
 
 puts ""
 puts "To use the CLI locally, run: "

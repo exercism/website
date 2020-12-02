@@ -7,32 +7,28 @@
 module API
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_action :authenticate_user!
 
     rescue_from ActionController::RoutingError, with: -> { render_404 }
 
     layout false
 
+    def authenticate_user
+      return if user_signed_in?
+
+      authenticate_with_http_token do |token|
+        return if token.blank?
+
+        user = User::AuthToken.find_by!(token: token).user
+        sign_in(user)
+      end
+    rescue ActiveRecord::RecordNotFound
+      # User isn't found and so isn't signed in.
+    end
+
     def authenticate_user!
-      # TODO: Remove this once API session support is set up
-      if params[:auth_token].present?
-        @current_user = User::AuthToken.find_by(token: params[:auth_token]).user
-        return if @current_user
-      end
+      authenticate_user
 
-      authenticate_with_http_token do |token, _options|
-        break if token.blank?
-
-        user = User::AuthToken.find_by(token: token).try(:user)
-        break unless user
-
-        # TODO: - Switch when Devise is added
-        # sign_in(user) and return
-        @current_user = user
-        return
-      end
-
-      render_401
+      render_401 unless user_signed_in?
     end
 
     def render_401

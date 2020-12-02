@@ -22,9 +22,10 @@ class API::TracksControllerTest < API::BaseTestCase
     assert_equal expected, response.body
   end
 
-  test "show should return 401 with incorrect token" do
-    get api_track_path(1), as: :json
-    assert_response 401
+  test "show should work without token" do
+    track = create :track, title: "Ruby #{SecureRandom.uuid}"
+    get api_track_path(track.slug), as: :json
+    assert_response 200
   end
 
   test "show should return 404 when there is no track" do

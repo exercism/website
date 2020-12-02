@@ -1,20 +1,13 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :ensure_onboarded!
 
-  # TODO: Remove when devise is added
-  def authenticate_user!
-    raise "Not logged in" unless user_signed_in?
-  end
+  def ensure_onboarded!
+    return unless user_signed_in?
+    return if current_user.onboarded?
 
-  def current_user
-    @__current_user__ ||= User.first # rubocop:disable Naming/MemoizedInstanceVariableName
+    redirect_to user_onboarding_path
   end
-  helper_method :current_user
-
-  def user_signed_in?
-    !!current_user
-  end
-  helper_method :user_signed_in?
 
   def self.allow_unauthenticated!(*actions)
     skip_before_action(:authenticate_user!, only: actions)

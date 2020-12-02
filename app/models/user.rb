@@ -1,4 +1,10 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :lockable, :timeoutable
+  devise :database_authenticatable, :registerable,
+    :recoverable, :rememberable,
+    :confirmable, :validatable,
+    :omniauthable, omniauth_providers: [:github]
   has_many :auth_tokens, dependent: :destroy
 
   has_many :user_tracks, dependent: :destroy
@@ -17,6 +23,8 @@ class User < ApplicationRecord
 
   belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
   has_one :featured_badge, through: :featured_user_badge
+
+  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
   def self.for!(param)
     return param if param.is_a?(User)
@@ -47,5 +55,10 @@ class User < ApplicationRecord
   # TODO: This needs fleshing out for mentors
   def may_view_solution?(solution)
     id == solution.user_id
+  end
+
+  def onboarded?
+    accepted_privacy_policy_at.present? &&
+      accepted_terms_at.present?
   end
 end

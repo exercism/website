@@ -4,3 +4,6 @@ Exercism.config.api_host =
   else
     "https://api.exercism.io".freeze
   end
+
+Exercism.config.hcaptcha_endpoint =
+  "https://hcaptcha.com"

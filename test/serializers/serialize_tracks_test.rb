@@ -100,9 +100,9 @@ class SerializeTracksTest < ActiveSupport::TestCase
 
   test "sorts by name" do
     ruby = create :track, title: "Ruby"
-    javascript = create :track, title: "Javascript"
-    assembly = create :track, title: "Assembly"
-    rust = create :track, title: "Rust"
+    javascript = create :track, title: "Javascript", slug: :js
+    assembly = create :track, title: "Assembly", slug: :ass
+    rust = create :track, title: "Rust", slug: :rust
 
     expected = %w[Assembly Javascript Ruby Rust]
     actual = SerializeTracks.(
@@ -113,9 +113,9 @@ class SerializeTracksTest < ActiveSupport::TestCase
 
   test "sorts by joined then name" do
     ruby = create :track, title: "Ruby"
-    javascript = create :track, title: "Javascript"
-    assembly = create :track, title: "Assembly"
-    rust = create :track, title: "Rust"
+    javascript = create :track, title: "Javascript", slug: :js
+    assembly = create :track, title: "Assembly", slug: :ass
+    rust = create :track, title: "Rust", slug: :rust
 
     user = create :user
     create :user_track, user: user, track: rust

@@ -35,11 +35,11 @@ module Git
       config_concepts.map do |config_concept|
         ::Track::Concept::Create.(
           config_concept[:uuid],
-          config_concept[:slug],
-          config_concept[:name],
-          config_concept[:blurb],
-          head_git_track.commit.oid,
-          track
+          track,
+          slug: config_concept[:slug],
+          name: config_concept[:name],
+          blurb: config_concept[:blurb],
+          synced_to_git_sha: head_git_track.commit.oid
         )
       end
     end
@@ -48,14 +48,14 @@ module Git
       config_concept_exercises.map do |exercise|
         ::ConceptExercise::Create.(
           exercise[:uuid],
-          exercise[:slug],
-          exercise[:name], # TODO: the DB used title, config.json used name. Consider if we want this
-          find_concepts(exercise[:concepts]),
-          find_concepts(exercise[:prerequisites]),
-          exercise[:deprecated] || false,
-          head_git_track.commit.oid,
-          head_git_track.commit.oid,
-          track
+          track,
+          slug: exercise[:slug],
+          title: exercise[:name], # TODO: the DB used title, config.json used name. Consider if we want this
+          concepts: find_concepts(exercise[:concepts]),
+          prerequisites: find_concepts(exercise[:prerequisites]),
+          deprecated: exercise[:deprecated] || false,
+          git_sha: head_git_track.commit.oid,
+          synced_to_git_sha: head_git_track.commit.oid
         )
       end
     end
@@ -64,13 +64,13 @@ module Git
       config_concept_exercises.map do |exercise|
         ::PracticeExercise::Create.(
           exercise[:uuid],
-          exercise[:slug],
-          exercise[:name], # TODO: what to do with practice exercise names?
-          find_concepts(exercise[:prerequisites]),
-          exercise[:deprecated] || false,
-          head_git_track.commit.oid,
-          head_git_track.commit.oid,
-          track
+          track,
+          slug: exercise[:slug],
+          title: exercise[:name], # TODO: what to do with practice exercise names?
+          prerequisites: find_concepts(exercise[:prerequisites]),
+          deprecated: exercise[:deprecated] || false,
+          git_sha: head_git_track.commit.oid,
+          synced_to_git_sha: head_git_track.commit.oid
         )
       end
     end

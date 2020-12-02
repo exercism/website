@@ -2,15 +2,11 @@ class Track::Concept
   class Create
     include Mandate
 
-    initialize_with :uuid, :slug, :name, :blurb, :synced_to_git_sha, :track
+    initialize_with :uuid, :track, :attributes
 
     def call
-      ::Track::Concept.create_or_find_by!(uuid: uuid) do |c|
-        c.slug = slug
-        c.name = name
-        c.blurb = blurb
-        c.synced_to_git_sha = synced_to_git_sha
-        c.track = track
+      Track::Concept.create_or_find_by!(uuid: uuid, track: track) do |c|
+        c.attributes = attributes
       end
     end
   end

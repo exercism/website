@@ -26,8 +26,8 @@ module Git
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
-      track.concept_exercises.each { |concept| Git::SyncExercise.(concept) }
-      track.practice_exercises.each { |concept| Git::SyncExercise.(concept) }
+      track.concept_exercises.each { |concept_exercise| Git::SyncExercise.(concept_exercise) }
+      track.practice_exercises.each { |practice_exercise| Git::SyncExercise.(practice_exercise) }
     end
 
     def concepts
@@ -51,7 +51,7 @@ module Git
           track,
           slug: exercise[:slug],
           title: exercise[:name], # TODO: the DB used title, config.json used name. Consider if we want this
-          concepts: find_concepts(exercise[:concepts]),
+          taught_concepts: find_concepts(exercise[:concepts]),
           prerequisites: find_concepts(exercise[:prerequisites]),
           deprecated: exercise[:deprecated] || false,
           git_sha: head_git_track.commit.oid,
@@ -61,12 +61,12 @@ module Git
     end
 
     def practice_exercises
-      config_concept_exercises.map do |exercise|
+      config_practice_exercises.map do |exercise|
         ::PracticeExercise::Create.(
           exercise[:uuid],
           track,
           slug: exercise[:slug],
-          title: exercise[:name], # TODO: what to do with practice exercise names?
+          title: exercise[:slug].titleize, # TODO: what to do with practice exercise names?
           prerequisites: find_concepts(exercise[:prerequisites]),
           deprecated: exercise[:deprecated] || false,
           git_sha: head_git_track.commit.oid,

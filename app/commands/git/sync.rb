@@ -59,7 +59,7 @@ module Git
 
     memoize
     def config_practice_exercises
-      config[:exercises][:concept]
+      config[:exercises][:practice]
     end
 
     memoize

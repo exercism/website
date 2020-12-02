@@ -2,8 +2,8 @@ require "test_helper"
 
 class Track::CreateTest < ActiveSupport::TestCase
   test "creates track" do
-    Track::Create.('fsharp', 'F#', 'F# is a functional language', 'https://github.com/exercism/v3', 'HEAD',
-      ['Compiles to:Binary', 'Runtime:Browser'])
+    Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/v3', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
+                             tags: ['Compiles to:Binary', 'Runtime:Browser'])
 
     assert_equal 1, Track.count
     track = Track.last
@@ -18,8 +18,8 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "idempotent" do
     assert_idempotent_command do
-      Track::Create.('fsharp', 'F#', 'F# is a functional language', 'https://github.com/exercism/v3', 'HEAD',
-        ['Compiles to:Binary', 'Runtime:Browser'])
+      Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/v3', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
+                               tags: ['Compiles to:Binary', 'Runtime:Browser'])
     end
   end
 end

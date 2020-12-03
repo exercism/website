@@ -2,9 +2,6 @@ require "test_helper"
 
 class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   test "no change when git SHA matches HEAD SHA" do
-    # TODO: re-enable once we import practice exercises
-    skip
-
     track = create :track, slug: 'fsharp'
     exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "HEAD", synced_to_git_sha: "HEAD" # rubocop:disable Layout/LineLength
 
@@ -14,11 +11,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are no changes" do
-    # TODO: re-enable once we import practice exercises
-    skip
-
     track = create :track, slug: 'fsharp'
-    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "171577814bd42a0ed0880b9c28016b26688c51ab", synced_to_git_sha: "171577814bd42a0ed0880b9c28016b26688c51ab" # rubocop:disable Layout/LineLength
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "c5f6c9620528a2ec6c5f84146cda444926446997", synced_to_git_sha: "c5f6c9620528a2ec6c5f84146cda444926446997" # rubocop:disable Layout/LineLength
+    create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -26,13 +21,8 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do
-    skip
-
-    # TODO: implement
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125', slug: 'log-levels', title: 'Log Levels!', deprecated: true, git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e", synced_to_git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e" # rubocop:disable Layout/LineLength
-    create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
-    create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "bbe7435448f3617d457f4f75dcfad2fff9896fcf", synced_to_git_sha: "bbe7435448f3617d457f4f75dcfad2fff9896fcf" # rubocop:disable Layout/LineLength
     create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
 
     Git::SyncPracticeExercise.(exercise)
@@ -42,17 +32,10 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in documentation files" do
-    skip
-
-    # TODO: implement
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "6c4eae85df5edc9b355c3ed8c665579d272ebc8c", synced_to_git_sha: "6c4eae85df5edc9b355c3ed8c665579d272ebc8c" # rubocop:disable Layout/LineLength
-    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
-    basics = create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
-    numbers = create :track_concept, track: track, slug: 'numbers', uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3'
-    exercise.taught_concepts << conditionals
-    exercise.taught_concepts << numbers
-    exercise.prerequisites << basics
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "42ab6f9d30e5a7edcd90f8f17d39cb27d8d74cb0", synced_to_git_sha: "42ab6f9d30e5a7edcd90f8f17d39cb27d8d74cb0" # rubocop:disable Layout/LineLength
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
+    exercise.prerequisites << strings
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -61,14 +44,10 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in track-specific files" do
-    skip
-
-    # TODO: implement
-
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: 'Lucian\'s Luscious Lasagna', git_sha: "d098419839aa89d0efafe7a5f30e5214540384e8", synced_to_git_sha: "d098419839aa89d0efafe7a5f30e5214540384e8" # rubocop:disable Layout/LineLength
-    basics = create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
-    exercise.taught_concepts << basics
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb", synced_to_git_sha: "ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb" # rubocop:disable Layout/LineLength
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
+    exercise.prerequisites << strings
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -77,81 +56,35 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "metadata is updated when there are changes in config.json" do
-    skip
-
-    # TODO: implement
-
     track = create :track, slug: 'fsharp'
-    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
-    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
-    basics = create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
-    exercise = create :concept_exercise,
-      track: track,
-      uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125',
-      slug: 'log-levels',
-      title: 'Log Levels',
-      deprecated: false,
-      git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e",
-      synced_to_git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e"
-    exercise.taught_concepts << strings
-    exercise.prerequisites << basics
-    exercise.prerequisites << conditionals
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "bbe7435448f3617d457f4f75dcfad2fff9896fcf", synced_to_git_sha: "bbe7435448f3617d457f4f75dcfad2fff9896fcf" # rubocop:disable Layout/LineLength
+    create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal "log-levels!", exercise.slug
-    assert_equal "Log Levels!", exercise.title
-    assert exercise.deprecated
+    assert_equal "Hello World!", exercise.title
   end
 
   test "adds new prerequisites defined in config.json" do
-    skip
-
-    # TODO: implement
-
     track = create :track, slug: 'fsharp'
-    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
-    basics = create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
-    numbers = create :track_concept, track: track, slug: 'numbers', uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3'
-    exercise = create :concept_exercise,
-      track: track,
-      uuid: '6ea2765e-5885-11ea-82b4-0242ac130003',
-      slug: 'cars-assemble',
-      title: 'Cars, Assemble!',
-      deprecated: true,
-      git_sha: "98aa6c99837cf312d06734a085307e0327cb42a3",
-      synced_to_git_sha: "98aa6c99837cf312d06734a085307e0327cb42a3"
-    exercise.taught_concepts << conditionals
-    exercise.prerequisites << basics
+    exercise = create :practice_exercise, track: track, uuid: '302312cc-bd15-4ba0-8f2f-cbf411c40186', slug: 'hello-world', title: 'Hello World', git_sha: "dc8071dd51a031fdcefafe3c383c18d4f6630522", synced_to_git_sha: "dc8071dd51a031fdcefafe3c383c18d4f6630522" # rubocop:disable Layout/LineLength
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_includes exercise.taught_concepts, numbers
+    assert_includes exercise.prerequisites, strings
   end
 
   test "removes prerequisites that are not in config.json" do
-    skip
-
-    # TODO: implement
-
     track = create :track, slug: 'fsharp'
-    numbers = create :track_concept, track: track, slug: 'numbers', uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3'
+    exercise = create :practice_exercise, track: track, uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1', slug: 'two-fer', title: 'Two Fer', git_sha: "e74f6457b4c872a254830ae8f002164c2235259a", synced_to_git_sha: "e74f6457b4c872a254830ae8f002164c2235259a" # rubocop:disable Layout/LineLength
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
-    create :track_concept, track: track, slug: 'the-basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
-    create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
-    exercise = create :concept_exercise,
-      track: track,
-      uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125',
-      slug: 'log-levels!',
-      title: 'Log Levels!',
-      deprecated: true,
-      git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e",
-      synced_to_git_sha: "afa3b42c421aa37295bce1da3b4107ac42d1c20e"
-    exercise.prerequisites << numbers
+    exercise.prerequisites << strings
     exercise.prerequisites << conditionals
 
     Git::SyncPracticeExercise.(exercise)
 
-    refute_includes exercise.prerequisites, numbers
+    refute_includes exercise.prerequisites, conditionals
   end
 end

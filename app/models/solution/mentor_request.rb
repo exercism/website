@@ -5,6 +5,10 @@ class Solution::MentorRequest < ApplicationRecord
   enum type: { code_review: 0, question: 1 }, _prefix: true
 
   belongs_to :solution
+  has_one :user, through: :solution
+  has_one :exercise, through: :solution
+  has_one :track, through: :exercise
+
   belongs_to :locked_by, class_name: "User", optional: true
 
   scope :locked, -> { where("locked_until > ?", Time.current) }
@@ -12,6 +16,10 @@ class Solution::MentorRequest < ApplicationRecord
     where(locked_until: nil).
       or(where("locked_until < ?", Time.current))
   }
+
+  delegate :title, :icon_url, to: :track, prefix: :track
+  delegate :handle, :avatar_url, to: :user, prefix: :user
+  delegate :title, to: :exercise, prefix: :exercise
 
   def status
     super.to_sym

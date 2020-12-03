@@ -37,9 +37,18 @@ Rails.application.routes.draw do
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
       end
+
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
+      end
+
+      resources :profiles, only: [] do
+        get :summary, on: :member
+      end
+
+      namespace :mentor do
+        resource :queue, only: [:show], controller: 'queue'
       end
     end
   end
@@ -72,6 +81,7 @@ Rails.application.routes.draw do
   namespace :mentor do
     get "/", to: redirect("mentor/dashboard")
     resource :dashboard, only: [:show], controller: "dashboard"
+    resources :requests, only: [:show]
   end
 
   namespace :maintaining do

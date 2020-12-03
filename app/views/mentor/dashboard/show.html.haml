@@ -14,4 +14,4 @@
         %header.header
           %h2 Solutions to Mentor
         %div{ style: "width:783px" }
-          = ReactComponents::Mentoring::Queue.new({ endpoint: solutions_test_components_mentoring_queue_path, query: { state: params[:state] }, options: { retry: params[:state] == "Loading" } })
+          = ReactComponents::Mentoring::Queue.new

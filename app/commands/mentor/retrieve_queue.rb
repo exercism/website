@@ -7,6 +7,7 @@ module Mentor
     def call
       Solution::MentorRequest.
         joins(:solution).
+        includes(solution: [:user, { exercise: :track }]).
         pending.
         unlocked.
         where.not('solutions.user_id': user.id).

@@ -95,5 +95,9 @@ module Git
     def find_concepts(concept_slugs)
       concept_slugs.map { |concept_slug| ::Track::Concept.find_by!(slug: concept_slug) }
     end
+
+    def update_git_repo!
+      git_repo.update!
+    end
   end
 end

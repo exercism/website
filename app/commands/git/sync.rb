@@ -8,10 +8,6 @@ module Git
       raise NotImplementedError
     end
 
-    def update_git_repo!
-      git_repo.update!
-    end
-
     def filepath_in_diff?(filepath)
       diff.each_delta.any? do |delta|
         [delta.old_file[:path], delta.new_file[:path]].include?(filepath)

@@ -58,11 +58,12 @@ import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
+import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
-import { Submission, File } from '../components/student/editor/types'
+import { Submission, File } from '../components/editor/types'
 import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.
@@ -110,8 +111,8 @@ initReact({
       iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
     />
   ),
-  'student-editor': (data: any) => (
-    <Student.Editor
+  editor: (data: any) => (
+    <Editor
       endpoint={data.endpoint}
       initialSubmission={
         (camelizeKeys(data.submission) as unknown) as Submission

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Submission, TestRun, TestRunStatus } from './types'
-import { TestRunChannel } from '../../../channels/testRunChannel'
+import { TestRunChannel } from '../../channels/testRunChannel'
 import { TestRunSummaryContent } from './TestRunSummaryContent'
-import { fetchJSON } from '../../../utils/fetch-json'
+import { fetchJSON } from '../../utils/fetch-json'
 
 export function TestRunSummary({
   testRun,

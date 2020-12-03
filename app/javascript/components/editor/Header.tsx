@@ -1,6 +1,6 @@
 import React from 'react'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { Icon } from '../../common/Icon'
+import { GraphicalIcon } from '../common/GraphicalIcon'
+import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
 
 export const Header = ({ children }: { children: React.ReactNode }) => (

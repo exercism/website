@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tab } from './Tab'
 import { TabIndex } from '../Editor'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { GraphicalIcon } from '../common/GraphicalIcon'
 
 export const InstructionsTab = () => (
   <Tab index={TabIndex.INSTRUCTIONS}>

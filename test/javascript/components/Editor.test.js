@@ -1,13 +1,11 @@
-jest.mock(
-  '../../../../app/javascript/components/student/editor/ExercismMonacoEditor'
-)
+jest.mock('../../../app/javascript/components/editor/ExercismMonacoEditor')
 
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { Editor } from '../../../../app/javascript/components/student/Editor'
+import { Editor } from '../../../app/javascript/components/Editor'
 
 test('clears current submission when resubmitting', async () => {
   const server = setupServer(

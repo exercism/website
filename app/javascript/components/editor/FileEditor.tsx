@@ -7,7 +7,7 @@ import React, {
 import { File, Keybindings, WrapSetting } from './types'
 import { ExercismMonacoEditor } from './ExercismMonacoEditor'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
-import { useLocalStorage } from '../../../utils/use-storage'
+import { useLocalStorage } from '../../utils/use-storage'
 
 export type FileEditorHandle = {
   getFile: () => File

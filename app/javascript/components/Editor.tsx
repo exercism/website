@@ -8,7 +8,7 @@ import React, {
   createContext,
 } from 'react'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
-import { typecheck } from '../../utils/typecheck'
+import { typecheck } from '../utils/typecheck'
 import {
   Submission,
   TestRun,
@@ -17,9 +17,9 @@ import {
   Keybindings,
   WrapSetting,
 } from './editor/types'
-import { fetchJSON } from '../../utils/fetch-json'
-import { useRequest, APIError } from '../../hooks/use-request'
-import { Iteration } from '../track/IterationSummary'
+import { fetchJSON } from '../utils/fetch-json'
+import { useRequest, APIError } from '../hooks/use-request'
+import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'

@@ -1,12 +1,8 @@
-jest.mock(
-  '../../../../../app/javascript/components/student/editor/ExercismMonacoEditor'
-)
-
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestsList } from '../../../../../app/javascript/components/student/editor/TestsList'
-import { TestStatus } from '../../../../../app/javascript/components/student/editor/types'
+import { TestsList } from '../../../../app/javascript/components/editor/TestsList'
+import { TestStatus } from '../../../../app/javascript/components/editor/types'
 
 test('shows overview', async () => {
   const tests = [

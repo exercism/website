@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { Settings } from '../../../../../app/javascript/components/student/editor/Settings'
+import { Settings } from '../../../../../app/javascript/components/editor/header/Settings'
 
 test('toggles settings panel when clicking on button', async () => {
   const { getByTitle, queryByLabelText } = render(<Settings />)

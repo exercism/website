@@ -8,10 +8,7 @@ module Git
       @concept = concept
     end
 
-    private
-    attr_reader :concept
-
-    def sync!
+    def call
       return concept.update!(synced_to_git_sha: head_git_concept.commit.oid) unless concept_needs_updating?
 
       concept.update!(
@@ -22,7 +19,11 @@ module Git
       )
     end
 
+    private
+    attr_reader :concept
+
     def concept_needs_updating?
+      return false if synced_to_head?
       return false unless track_config_modified?
 
       config_concept[:slug] != concept.slug ||

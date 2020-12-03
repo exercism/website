@@ -1,13 +1,10 @@
 module Git
   class Sync
     include Mandate
+
     initialize_with :track, :synced_to_git_sha
 
     def call
-      sync! unless synced_to_head?
-    end
-
-    def sync!
       raise NotImplementedError
     end
 

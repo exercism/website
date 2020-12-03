@@ -7,10 +7,7 @@ module Git
       @exercise = exercise
     end
 
-    private
-    attr_reader :exercise
-
-    def sync!
+    def call
       return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
 
       exercise.update!(
@@ -24,7 +21,12 @@ module Git
       )
     end
 
+    private
+    attr_reader :exercise
+
     def exercise_needs_updating?
+      return false if synced_to_head?
+
       config_exercise_modified? || exercise_files_modified?
     end
 

@@ -9,13 +9,7 @@ module Git
 
     def call
       update_git_repo!
-      super
-    end
 
-    private
-    attr_reader :track
-
-    def sync!
       return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
 
       # TODO: consider raising error when slug in config is different from track slug
@@ -37,6 +31,9 @@ module Git
       # TODO: re-enable once we import practice exercises
       # track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
     end
+
+    private
+    attr_reader :track
 
     def concepts
       # TODO: verify that all exercise concepts and prerequisites are in the concepts section
@@ -90,6 +87,8 @@ module Git
     end
 
     def track_needs_updating?
+      return false if synced_to_head?
+
       track_config_modified?
     end
 

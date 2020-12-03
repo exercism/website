@@ -58,8 +58,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "adds new practice exercises defined in config.json" do
-    # TODO: re-enable once we import practice exercises
-    # skip
+    skip # TODO: re-enable once we import practice exercises
 
     track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
@@ -92,8 +91,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all practice exercises" do
-    # TODO: re-enable once we import practice exercises
-    # skip
+    skip # TODO: re-enable once we import practice exercises
 
     track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 

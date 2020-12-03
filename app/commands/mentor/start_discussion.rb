@@ -4,6 +4,7 @@ module Mentor
 
     initialize_with :mentor, :request, :iteration, :content_markdown
 
+    # TODO: Guard against a user mentoring their own solution
     def call
       ActiveRecord::Base.transaction do
         request.lock!

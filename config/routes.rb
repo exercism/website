@@ -83,13 +83,16 @@ Rails.application.routes.draw do
       get :tooltip, on: :member
     end
 
-    resources :exercises, only: %i[index show], controller: "tracks/exercises" do
+    resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         patch :start
         patch :complete
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
+
+      resources :mentoring, only: [:index], controller: "tracks/mentoring"
+      resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
     end
 
     member do
@@ -98,8 +101,6 @@ Rails.application.routes.draw do
   end
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
-
-  resources :solutions, only: %i[edit]
 
   root to: "pages#index"
 

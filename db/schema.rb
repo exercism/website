@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_205912) do
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
     t.bigint "request_id", null: false
+    t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"

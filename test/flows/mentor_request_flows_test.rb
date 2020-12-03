@@ -9,7 +9,7 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
 
-    request = User::RequestMentor.(solution, :code_review, "")
+    request = Solution::MentorRequest::Create.(solution, :code_review, "")
 
     Mentor::LockRequest.(mentor, request)
     assert request.reload.locked?

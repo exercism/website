@@ -8,7 +8,10 @@ class Solution::MentorDiscussion < ApplicationRecord
                    dependent: :destroy,
                    inverse_of: :discussion
 
+  scope :completed, -> { where.not(completed_at: nil) }
+  scope :in_progress, -> { where(completed_at: nil) }
+
   before_validation do
-    self.solution = request.solution
+    self.solution = request.solution unless self.solution
   end
 end

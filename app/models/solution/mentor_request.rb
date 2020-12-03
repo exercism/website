@@ -1,11 +1,17 @@
 class Solution::MentorRequest < ApplicationRecord
   disable_sti!
 
-  enum status: { pending: 0, fulfilled: 1 }
+  enum status: { pending: 0, fulfilled: 1, cancelled: 2 }
   enum type: { code_review: 0, question: 1 }, _prefix: true
 
   belongs_to :solution
   belongs_to :locked_by, class_name: "User", optional: true
+
+  scope :locked, -> { where("locked_until > ?", Time.current) }
+  scope :unlocked, lambda {
+    where(locked_until: nil).
+      or(where("locked_until < ?", Time.current))
+  }
 
   def status
     super.to_sym

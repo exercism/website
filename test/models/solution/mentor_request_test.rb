@@ -38,4 +38,13 @@ class Solution::MentorRequestTest < ActiveSupport::TestCase
     request.update(locked_by: create(:user), locked_until: Time.current + 5.minutes)
     refute request.lockable_by?(mentor)
   end
+
+  test "locked and unlocked scopes" do
+    unlocked = create :solution_mentor_request, locked_until: nil
+    locked = create :solution_mentor_request, locked_until: Time.current + 5.minutes
+    expired = create :solution_mentor_request, locked_until: Time.current - 5.minutes
+
+    assert_equal [locked], Solution::MentorRequest.locked
+    assert_equal [unlocked, expired], Solution::MentorRequest.unlocked
+  end
 end

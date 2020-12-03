@@ -10,7 +10,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are no changes" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: "765f921ce85917cfe22b2a608d370f67da57820b"
+    track = create :track, slug: 'fsharp', synced_to_git_sha: "72c4dc096d3f7a5c01c4545d3d6570b5aa3e4252"
 
     Git::SyncTrack.(track)
 
@@ -19,7 +19,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are changes" do
-    track = create :track, slug: 'fsharp', active: false, synced_to_git_sha: "f290a29144b93b21e2399cd532b22562d83b6a52"
+    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
 
     Git::SyncTrack.(track)
 
@@ -29,20 +29,18 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "track is updated when there are changes" do
     track = create :track, slug: "fsharp",
-                           title: "F#!",
-                           active: false,
-                           blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. F# can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
-                           synced_to_git_sha: "f290a29144b93b21e2399cd532b22562d83b6a52"
+                           title: "F#",
+                           active: true,
+                           blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
+                           synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
 
     Git::SyncTrack.(track)
 
-    assert_equal "F#", track.title
-    assert track.active
-    assert_equal "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", track.blurb # rubocop:disable Layout/LineLength
+    assert_equal "F# is a strongly-typed, functional language.", track.blurb # rubocop:disable Layout/LineLength
   end
 
   test "adds new concepts defined in config.json" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'c68f057eb4cfc3f9d07867e9ee9e29de7bfac088'
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -50,17 +48,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     assert_includes track.concepts, numbers
   end
 
-  test "removes concepts that are not in config.json" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'c68f057eb4cfc3f9d07867e9ee9e29de7bfac088'
-    recursion = create :track_concept, track: track, slug: 'recursion', uuid: 'f1b9f00d-12e7-49b8-b315-e2f4b2d875f1'
-
-    Git::SyncTrack.(track)
-
-    refute_includes track.concepts, recursion
-  end
-
   test "adds new concept exercises defined in config.json" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'c68f057eb4cfc3f9d07867e9ee9e29de7bfac088'
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -70,9 +59,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "adds new practice exercises defined in config.json" do
     # TODO: re-enable once we import practice exercises
-    skip
+    # skip
 
-    track = create :track, slug: 'fsharp', synced_to_git_sha: '171577814bd42a0ed0880b9c28016b26688c51ab'
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -81,7 +70,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all concepts" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: '171577814bd42a0ed0880b9c28016b26688c51ab'
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -92,7 +81,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all concept exercises" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: '171577814bd42a0ed0880b9c28016b26688c51ab'
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -104,9 +93,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "syncs all practice exercises" do
     # TODO: re-enable once we import practice exercises
-    skip
+    # skip
 
-    track = create :track, slug: 'fsharp', synced_to_git_sha: '171577814bd42a0ed0880b9c28016b26688c51ab'
+    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 

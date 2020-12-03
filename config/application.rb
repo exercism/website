@@ -1,5 +1,4 @@
 require_relative 'boot'
-
 require "rails"
 
 # Pick the frameworks you want:
@@ -19,7 +18,6 @@ require "rails/test_unit/railtie"
 # require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
-
 module Website
   class Application < Rails::Application
     config.load_defaults 6.0

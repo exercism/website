@@ -234,6 +234,10 @@ jobs:
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_ed25519
 
+          # Setup the git user (required to push)
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
           git remote add upstream git@github.com:exercism/website-deployer.git
           git show-ref
           git push upstream +master

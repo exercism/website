@@ -16,12 +16,14 @@ module Components
       end
 
       test "user tooltip renders correctly" do
+        create :user, handle: 'mentee'
+
         visit test_components_tooltips_tooltip_path
 
         users = all('ol.users > li')
 
         users[0].hover
-        within(".c-user-tooltip") { assert_text "Erik Schierboom" }
+        within(".c-user-tooltip") { assert_text "Erik ShireBOOM" }
 
         # users[1].hover
         # within(".c-user-tooltip") { assert_text "Rob Keim" }

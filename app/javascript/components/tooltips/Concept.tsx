@@ -224,7 +224,7 @@ const tooltipReducer: ShowReducer = function (state, body) {
   return nextState
 }
 
-export const Concept = ({
+export const ConceptTooltip = ({
   contentEndpoint,
   hoverRequestToShow,
   focusRequestToShow,

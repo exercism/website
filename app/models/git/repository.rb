@@ -19,7 +19,7 @@ module Git
           "https://github.com/exercism/v3"
         end
 
-      update! if keep_up_to_date?
+      fetch! if keep_up_to_date?
     end
 
     def head_commit
@@ -50,7 +50,7 @@ module Git
     rescue Rugged::OdbError
       raise 'not-found' unless update_on_failure
 
-      update!
+      fetch!
       lookup_commit(sha, update_on_failure: false)
     end
 
@@ -72,7 +72,7 @@ module Git
       rugged_repo.lookup(*args)
     end
 
-    def update!
+    def fetch!
       system("cd #{repo_dir} && git fetch origin master:master", out: File::NULL, err: File::NULL)
     rescue Rugged::NetworkError => e
       # Don't block development offline
@@ -112,7 +112,7 @@ module Git
         ].join(" ")
         system(cmd)
 
-        update!
+        fetch!
       end
 
       Rugged::Repository.new(repo_dir)

@@ -3,7 +3,7 @@ module Git
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
 
-    delegate :head_sha, :update!, :lookup_commit, :head_commit, to: :repo
+    delegate :head_sha, :lookup_commit, :head_commit, to: :repo
 
     def self.for_solution(solution)
       new(

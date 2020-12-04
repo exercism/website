@@ -8,7 +8,7 @@ module Git
     end
 
     def call
-      update_git_repo!
+      fetch_git_repo!
 
       return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
 
@@ -96,8 +96,8 @@ module Git
       concept_slugs.map { |concept_slug| ::Track::Concept.find_by!(slug: concept_slug) }
     end
 
-    def update_git_repo!
-      git_repo.update!
+    def fetch_git_repo!
+      git_repo.fetch!
     end
   end
 end

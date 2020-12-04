@@ -8,8 +8,8 @@ auth_token = user.auth_tokens.create!
 repo_url = "https://github.com/exercism/v3"
 repo = Git::Repository.new(:v3, repo_url: repo_url)
 
-# This updates it once before we stub it below
-repo.update!
+# This fetches it once before we stub it below
+repo.fetch!
 repo.send(:rugged_repo)
 
 # Adding this is many OOM faster. It's horrible and temporary

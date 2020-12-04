@@ -27,6 +27,41 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     assert_equal git_track.head_sha, track.synced_to_git_sha
   end
 
+  test "git sync SHA does not change when concept syncing fails" do
+    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    Git::SyncConcept.expects(:call).raises(RuntimeError)
+
+    suppress(RuntimeError) do
+      Git::SyncTrack.(track)
+    end
+
+    assert_equal "98403713252d41babae8353793ea5ec9ad7d770f", track.synced_to_git_sha
+  end
+
+  test "git sync SHA does not change when concept exercise syncing fails" do
+    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    Git::SyncConceptExercise.expects(:call).raises(RuntimeError)
+
+    suppress(RuntimeError) do
+      Git::SyncTrack.(track)
+    end
+
+    assert_equal "98403713252d41babae8353793ea5ec9ad7d770f", track.synced_to_git_sha
+  end
+
+  test "git sync SHA does not change when practice exercise syncing fails" do
+    skip # TODO: re-enable once we import practice exercises
+
+    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    Git::SyncPracticeExercise.expects(:call).raises(RuntimeError)
+
+    suppress(RuntimeError) do
+      Git::SyncTrack.(track)
+    end
+
+    assert_equal "98403713252d41babae8353793ea5ec9ad7d770f", track.synced_to_git_sha
+  end
+
   test "track is updated when there are changes" do
     track = create :track, slug: "fsharp",
                            title: "F#",

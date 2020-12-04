@@ -1,5 +1,5 @@
 .c-user-tooltip {
-    max-width: 460px;
+    width: 460px;
 
     @apply shadow-lg rounded-8 py-20 px-24 bg-white;
 

@@ -1,33 +1,36 @@
 import React from 'react'
+import pluralize from 'pluralize'
 import { TestSummary } from './TestSummary'
 import { TestStatus, Test } from './types'
 
-function Overview({ tests }: { tests: Test[] }) {
-  const passed = tests.filter((test) => test.status === TestStatus.PASS).length
-  const failed = passed === tests.length ? 0 : 1
-  const skipped = tests.length - (passed + failed)
-
-  return (
-    <p>
-      {passed} passed, {failed} failed, {skipped} skipped
-    </p>
-  )
-}
-
-export function TestsList({ tests }: { tests: Test[] }) {
+export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
   const firstFailedTestIdx = tests.findIndex(
     (test) =>
       test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
   )
-  const testsToShow =
-    firstFailedTestIdx === -1 ? tests : tests.slice(0, firstFailedTestIdx + 1)
+  const passed = tests.filter((test) => test.status === TestStatus.PASS)
+  const failed = firstFailedTestIdx !== -1 ? [tests[firstFailedTestIdx]] : []
+  const skipped = tests.length - (passed.length + failed.length)
 
   return (
     <div className="tests-list">
-      <Overview tests={tests} />
-      {testsToShow.map((test) => {
-        return <TestSummary key={test.name} test={test} />
-      })}
+      <details>
+        <summary>
+          {passed.length} {pluralize('test', passed.length)} passed
+        </summary>
+        {passed.map((test) => (
+          <TestSummary key={test.name} test={test} />
+        ))}
+      </details>
+      <details>
+        <summary>
+          {failed.length} {pluralize('test', failed.length)} failed
+        </summary>
+        {failed.map((test) => (
+          <TestSummary key={test.name} test={test} />
+        ))}
+      </details>
+      <p>{pluralize('test', skipped)} skipped</p>
     </div>
   )
 }

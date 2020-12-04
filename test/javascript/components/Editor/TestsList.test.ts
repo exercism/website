@@ -1,10 +1,29 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { TestsList } from '../../../../app/javascript/components/editor/TestsList'
 import { TestStatus } from '../../../../app/javascript/components/editor/types'
 
-test('shows overview', async () => {
+test('shows passed tests', async () => {
+  const tests = [
+    {
+      name: 'first test',
+      status: TestStatus.PASS,
+    },
+    {
+      name: 'second test',
+      status: TestStatus.PASS,
+    },
+  ]
+
+  const { getByText, queryByText } = render(<TestsList tests={tests} />)
+  fireEvent.click(getByText('2 tests passed'))
+
+  expect(queryByText('first test')).toBeVisible()
+  expect(queryByText('second test')).toBeVisible()
+})
+
+test('shows number of skipped tests', async () => {
   const tests = [
     {
       name: 'first test',
@@ -22,7 +41,7 @@ test('shows overview', async () => {
 
   const { queryByText } = render(<TestsList tests={tests} />)
 
-  expect(queryByText('1 passed, 1 failed, 1 skipped')).toBeInTheDocument()
+  expect(queryByText('1 test skipped')).toBeVisible()
 })
 
 test('only shows until first failed test', async () => {
@@ -41,27 +60,9 @@ test('only shows until first failed test', async () => {
     },
   ]
 
-  const { queryByText } = render(<TestsList tests={tests} />)
+  const { getByText, queryByText, debug } = render(<TestsList tests={tests} />)
+  fireEvent.click(getByText('1 test failed'))
 
-  expect(queryByText('Passed: first test')).toBeInTheDocument()
-  expect(queryByText('Failed: second test')).toBeInTheDocument()
-  expect(queryByText('Failed: third test')).not.toBeInTheDocument()
-})
-
-test('shows passed tests', async () => {
-  const tests = [
-    {
-      name: 'first test',
-      status: TestStatus.PASS,
-    },
-    {
-      name: 'second test',
-      status: TestStatus.PASS,
-    },
-  ]
-
-  const { queryByText } = render(<TestsList tests={tests} />)
-
-  expect(queryByText('Passed: first test')).toBeInTheDocument()
-  expect(queryByText('Passed: second test')).toBeInTheDocument()
+  expect(queryByText('second test')).toBeVisible()
+  expect(queryByText('third test')).not.toBeInTheDocument()
 })

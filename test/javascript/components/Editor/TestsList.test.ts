@@ -61,7 +61,6 @@ test('only shows until first failed test', async () => {
   ]
 
   const { getByText, queryByText, debug } = render(<TestsList tests={tests} />)
-  fireEvent.click(getByText('1 test failed'))
 
   expect(queryByText('second test')).toBeVisible()
   expect(queryByText('third test')).not.toBeInTheDocument()

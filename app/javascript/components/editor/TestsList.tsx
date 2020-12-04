@@ -19,18 +19,28 @@ export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
           {passed.length} {pluralize('test', passed.length)} passed
         </summary>
         {passed.map((test) => (
-          <TestSummary key={test.name} test={test} />
+          <TestSummary
+            key={test.name}
+            test={test}
+            index={tests.indexOf(test) + 1}
+          />
         ))}
       </details>
-      <details>
+      <details open={true}>
         <summary>
           {failed.length} {pluralize('test', failed.length)} failed
         </summary>
         {failed.map((test) => (
-          <TestSummary key={test.name} test={test} />
+          <TestSummary
+            key={test.name}
+            test={test}
+            index={tests.indexOf(test) + 1}
+          />
         ))}
       </details>
-      <p>{pluralize('test', skipped)} skipped</p>
+      <p>
+        {skipped} {pluralize('test', skipped)} skipped
+      </p>
     </div>
   )
 }

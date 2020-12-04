@@ -12,7 +12,13 @@ const messageLabels = {
   [TestStatus.ERROR]: 'Test Error',
 }
 
-export function TestSummary({ test }: { test: Test }): JSX.Element {
+export function TestSummary({
+  test,
+  index,
+}: {
+  test: Test
+  index: number
+}): JSX.Element {
   const isPresent = useCallback((str) => {
     return str !== undefined && str !== null && str !== ''
   }, [])
@@ -25,8 +31,7 @@ export function TestSummary({ test }: { test: Test }): JSX.Element {
       <summary>
         <div className="--status">{statusLabels[test.status]}</div>
         <div className="--summary-details">
-          {/* TODO */}
-          <div className="--summary-idx">Test 11</div>
+          <div className="--summary-idx">Test {index}</div>
           <div className="--summary-name">{test.name}</div>
         </div>
       </summary>

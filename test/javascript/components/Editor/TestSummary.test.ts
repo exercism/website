@@ -12,9 +12,10 @@ test('shows test details', async () => {
     message: 'message',
   }
 
-  const { queryByText } = render(<TestSummary test={test} />)
+  const { queryByText } = render(<TestSummary test={test} index={2} />)
   fireEvent.click(queryByText('first test'))
 
+  expect(queryByText('Test 2')).toBeVisible()
   expect(queryByText('debug')).toBeVisible()
   expect(queryByText('message')).toBeVisible()
 })

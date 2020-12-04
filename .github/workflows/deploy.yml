@@ -229,6 +229,6 @@ jobs:
           WEBSITE_DEPLOYER_CLONE_KEY: ${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}
 
         run: |
-          echo $WEBSITE_DEPLOYER_CLONE_KEY > .ssh/id_rsa
+          echo $WEBSITE_DEPLOYER_CLONE_KEY > ~/.ssh/id_rsa
           git remote add upstream git@github.com:exercism/website-deployer.git
           git push upstream +master

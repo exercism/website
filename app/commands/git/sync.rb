@@ -25,13 +25,13 @@ module Git
     end
 
     memoize
-    def synced_git_track
+    def current_git_track
       Git::Track.new(track.slug, synced_to_git_sha, repo: git_repo)
     end
 
     memoize
     def synced_to_head?
-      synced_git_track.commit.oid == head_git_track.commit.oid
+      current_git_track.commit.oid == head_git_track.commit.oid
     end
 
     memoize
@@ -41,7 +41,7 @@ module Git
 
     memoize
     def diff
-      head_git_track.commit.diff(synced_git_track.commit)
+      head_git_track.commit.diff(current_git_track.commit)
     end
 
     memoize

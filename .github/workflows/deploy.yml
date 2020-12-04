@@ -27,7 +27,9 @@ on:
 
 jobs:
   deploy:
-    name: Upload images to ECR, assets to S3, and defintion to ECS
+    if: github.repository == 'exercism/website-deployer'
+
+    name: Upload images to ECR, assets to S3, and definition to ECS
     runs-on: ubuntu-latest
     steps:
       ###############

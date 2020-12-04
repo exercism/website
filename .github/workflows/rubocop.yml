@@ -8,6 +8,9 @@ on:
 
 jobs:
   rubocop:
+    # TODO: Change this to website when merging
+    if: github.repository == 'exercism/v3-website'
+
     runs-on: ubuntu-latest
 
     steps:

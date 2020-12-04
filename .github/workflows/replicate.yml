@@ -1,0 +1,30 @@
+name: Replicate
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: 50 4 * * *
+
+jobs:
+  replicate:
+    # TODO: Change this to website when merging
+    if: github.repository == 'exercism/v3-website'
+
+    name: Replicate to exercism/website-deployer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Push to Website Deployer
+        run: |
+          mkdir ~/.ssh
+          echo "${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          git remote add upstream git@github.com:exercism/website-deployer.git
+          git push upstream master

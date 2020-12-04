@@ -61,7 +61,7 @@ class UserTest < ActiveSupport::TestCase
   test "joined_track?" do
     user = create :user
     user_track = create :user_track, user: user
-    track = create :track
+    track = create :track, :random_slug
 
     assert user.joined_track?(user_track.track)
     refute user.joined_track?(track)

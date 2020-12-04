@@ -5,12 +5,12 @@ auth_token = user.auth_tokens.create!
 
 
 # This is all temporary and horrible while we have a monorepo
-v3_url = "https://github.com/exercism/v3"
-repo = Git::Track.new(:ruby, repo_url: v3_url)
+repo_url = "https://github.com/exercism/v3"
+repo = Git::Repository.new(:v3, repo_url: repo_url)
 
-# This updates it once before we stub it below
-repo.send(:repo).update!
-repo.send(:repo).send(:rugged_repo)
+# This fetches it once before we stub it below
+repo.fetch!
+repo.send(:rugged_repo)
 
 # Adding this is many OOM faster. It's horrible and temporary
 # but useful for now
@@ -72,78 +72,38 @@ tags = [
 ]
 
 track_slugs = []
-repo = Git::Repository.new(:v3, repo_url:"https://github.com/exercism/v3")
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
-track_slugs.each do |track_slug|
-  if Track.find_by(slug: track_slug)
-    puts "Track already added: #{track_slug}"
-    next
-  end
+# Find the first commit in the repo
+first_commit = repo.head_commit
+Rugged::Walker.walk(repo.send(:rugged_repo),
+  show: repo.head_commit.oid,
+  sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
+  simplify: true
+) do |commit|
+  first_commit = commit
+end
 
+track_slugs.each do |track_slug|
   puts "Adding Track: #{track_slug}"
 
   begin
-    git_track = Git::Track.new(track_slug, repo_url:"https://github.com/exercism/v3")
-    title = git_track.config[:language]
-    blurb = git_track.config[:blurb]
-  rescue StandardError
-    title = track_slug.titleize
-    blurb = 'C# is a modern, object-oriented language with lots of great features, such as type-inference and async/await. The tooling is excellent, and there is extensive, well-written documentation.'
-  end
-
-  track = Track.create!(
-    slug: track_slug, 
-    title: title,
-    blurb: blurb,
-    repo_url: v3_url,
-
-    # Randomly selects 1-5 tags from different categories
-    tags: tags.sample(1 + rand(5)).map {|category|category.sample}
-  )
-
-  begin
-    #track.update(title: track.repo.config[:language])
-    track.send(:git).config[:exercises][:concept].each do |exercise_config|
-      ce = ConceptExercise.create!(
-        track: track,
-        uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
-        slug: exercise_config[:slug],
-        title: exercise_config[:slug].titleize,
-      )
-      
-      exercise_config[:prerequisites].each do |slug|
-
-        ce.prerequisites << Track::Concept.find_or_create_by!(
-          slug: slug, 
-          track: track
-        ) do |c|
-          concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
-
-          c.uuid = concept_config[:uuid]
-          c.name = concept_config[:name]
-          c.blurb = concept_config[:blurb].to_s
-        end
-      end
-      
-      exercise_config[:concepts].each do |slug|
-        ce.taught_concepts << Track::Concept.find_or_create_by!(
-          slug: slug, 
-          track: track
-        ) do |c|
-          concept_config = track.send(:git).config[:concepts].find { |e| e[:slug] == slug }
-
-          c.uuid = concept_config[:uuid]
-          c.name = concept_config[:name]
-          c.blurb = concept_config[:blurb].to_s
-        end
-      end
-    end
-  rescue => e
-    #puts e.message
-    #puts e.backtrace
-    puts "Error creating concept exercises for Track #{track_slug}: #{e}"
+    git_track = Git::Track.new(track_slug, repo.head_commit.oid, repo_url: repo_url)
+    track = Track::Create.(
+      track_slug, 
+      title: git_track.config[:language],
+      blurb: git_track.config[:blurb],
+      repo_url: repo_url,
+      synced_to_git_sha: first_commit.oid,
+      # Randomly selects 1-5 tags from different categories
+      tags: tags.sample(1 + rand(5)).map {|category|category.sample}
+    )
+    Git::SyncTrack.(track)
+  rescue StandardError => e
+    # puts e.message
+    # puts e.backtrace
+    puts "Error seeding Track #{track_slug}: #{e}"
   end
 end
 

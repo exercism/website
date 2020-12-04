@@ -19,7 +19,7 @@ class UserTrack::RetrieveActivitiesTest < ActiveSupport::TestCase
     user_track = create :user_track, user: user, track: track
 
     valid = create :started_exercise_user_activity, user: user, track: track
-    create :started_exercise_user_activity, user: user
+    create :started_exercise_user_activity, user: user, track: create(:track, :random_slug)
     create :started_exercise_user_activity, track: track
 
     activities = UserTrack::RetrieveActivities.(user_track)
@@ -34,7 +34,7 @@ class UserTrack::RetrieveActivitiesTest < ActiveSupport::TestCase
     exercise_2 = create :concept_exercise, track: track
 
     one_started = create :started_exercise_user_activity, user: user, track: track, params: { exercise: exercise_1 }
-    create :started_exercise_user_activity, user: user, params: { exercise: exercise_2 }
+    create :started_exercise_user_activity, user: user, track: create(:track, :random_slug), params: { exercise: exercise_2 }
     two_submitted = create :submitted_iteration_user_activity,
       user: user,
       track: track,

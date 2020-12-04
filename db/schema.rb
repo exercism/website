@@ -67,9 +67,13 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
+    t.string "git_sha", null: false
+    t.string "synced_to_git_sha", null: false
+    t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_exercises_on_track_id"
+    t.index ["uuid"], name: "index_exercises_on_uuid", unique: true
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -224,9 +228,11 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "uuid", null: false
     t.string "name", null: false
     t.string "blurb", null: false
+    t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_track_concepts_on_track_id"
+    t.index ["uuid"], name: "index_track_concepts_on_uuid", unique: true
   end
 
   create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -234,10 +240,12 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.string "title", null: false
     t.string "blurb", limit: 400, null: false
     t.string "repo_url", null: false
+    t.string "synced_to_git_sha", null: false
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
   create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

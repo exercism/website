@@ -5,9 +5,9 @@ class API::TracksControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
 
-    track_1 = create :track, title: "Ruby #{SecureRandom.uuid}"
-    track_2 = create :track, title: "JS #{SecureRandom.uuid}"
-    create :track, title: "Ruby #{SecureRandom.uuid}"
+    track_1 = create :track, slug: :ruby, title: "Ruby Joined"
+    track_2 = create :track, slug: :js, title: "JS FOobar"
+    create :track, slug: :ruby_unjoined, title: "Ruby Unjoined"
 
     create :user_track, user: user, track: track_1
     create :user_track, user: user, track: track_2

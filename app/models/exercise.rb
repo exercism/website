@@ -23,6 +23,10 @@ class Exercise < ApplicationRecord
     :all_solution_files,
     to: :git
 
+  before_create do
+    self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
+  end
+
   def git_type
     self.class.name.sub("Exercise", "").downcase
   end
@@ -47,7 +51,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def git
-    # TODO: Change to sha, not HEAD
-    Git::Exercise.new(track.slug, slug, "HEAD", git_type)
+    Git::Exercise.new(track.slug, slug, git_type, git_sha, repo_url: track.repo_url)
   end
 end

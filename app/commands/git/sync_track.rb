@@ -63,8 +63,7 @@ module Git
           taught_concepts: find_concepts(exercise[:concepts]),
           prerequisites: find_concepts(exercise[:prerequisites]),
           deprecated: exercise[:deprecated] || false,
-          git_sha: head_git_track.commit.oid,
-          synced_to_git_sha: head_git_track.commit.oid
+          git_sha: head_git_track.commit.oid
         )
       end
     end
@@ -80,8 +79,7 @@ module Git
           title: exercise[:slug].titleize, # TODO: what to do with practice exercise names?
           prerequisites: find_concepts(exercise[:prerequisites]),
           deprecated: exercise[:deprecated] || false,
-          git_sha: head_git_track.commit.oid,
-          synced_to_git_sha: head_git_track.commit.oid
+          git_sha: head_git_track.commit.oid
         )
       end
     end

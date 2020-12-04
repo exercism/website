@@ -23,6 +23,10 @@ class Exercise < ApplicationRecord
     :all_solution_files,
     to: :git
 
+  before_create do
+    self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
+  end
+
   def git_type
     self.class.name.sub("Exercise", "").downcase
   end

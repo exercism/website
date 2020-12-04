@@ -17,7 +17,6 @@ import {
   Keybindings,
   WrapSetting,
 } from './editor/types'
-import { fetchJSON } from '../utils/fetch-json'
 import { useRequest, APIError } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
@@ -206,7 +205,7 @@ export function Editor({
           controllerRef.current = undefined
         })
     },
-    [controllerRef, isMountedRef]
+    [abort, isMountedRef]
   )
 
   const runTests = useCallback(() => {
@@ -242,7 +241,7 @@ export function Editor({
           })
         }
       })
-  }, [sendRequest, dispatch, editorsRef])
+  }, [sendRequest, endpoint])
 
   const submit = useCallback(() => {
     if (!submission) {

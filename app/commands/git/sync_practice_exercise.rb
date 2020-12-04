@@ -11,12 +11,12 @@ module Git
       return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
 
       exercise.update!(
-        slug: config_exercise[:slug],
-        title: config_exercise[:name],
-        deprecated: config_exercise[:deprecated] || false,
+        slug: exercise_config[:slug],
+        title: exercise_config[:name],
+        deprecated: exercise_config[:deprecated] || false,
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,
-        prerequisites: find_concepts(config_exercise[:prerequisites])
+        prerequisites: find_concepts(exercise_config[:prerequisites])
       )
     end
 
@@ -26,17 +26,17 @@ module Git
     def exercise_needs_updating?
       return false if synced_to_head?
 
-      config_exercise_modified? || exercise_files_modified?
+      exercise_config_modified? || exercise_files_modified?
     end
 
-    def config_exercise_modified?
+    def exercise_config_modified?
       return false unless track_config_modified?
 
-      config_exercise[:slug] != exercise.slug ||
+      exercise_config[:slug] != exercise.slug ||
         # TODO: enable the line underneath when (if?) practice exercises have names
-        # config_exercise[:name] != exercise.title ||
-        !!config_exercise[:deprecated] != exercise.deprecated ||
-        config_exercise[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
+        # exercise_config[:name] != exercise.title ||
+        !!exercise_config[:deprecated] != exercise.deprecated ||
+        exercise_config[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
     end
 
     def exercise_files_modified?
@@ -45,15 +45,15 @@ module Git
 
     def find_concepts(slugs)
       slugs.map do |slug|
-        config_concept = config_concepts.find { |e| e[:slug] == slug }
-        ::Track::Concept.find_by!(uuid: config_concept[:uuid])
+        concept_config = concepts_config.find { |e| e[:slug] == slug }
+        ::Track::Concept.find_by!(uuid: concept_config[:uuid])
       end
     end
 
     memoize
-    def config_exercise
+    def exercise_config
       # TODO: determine what to do when the exercise could not be found
-      config_practice_exercises.find { |e| e[:uuid] == exercise.uuid }
+      practice_exercises_config.find { |e| e[:uuid] == exercise.uuid }
     end
 
     memoize

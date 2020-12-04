@@ -37,48 +37,48 @@ module Git
 
     def concepts
       # TODO: verify that all exercise concepts and prerequisites are in the concepts section
-      config_concepts.map do |config_concept|
+      concepts_config.map do |concept_config|
         ::Track::Concept::Create.(
-          config_concept[:uuid],
+          concept_config[:uuid],
           track,
-          slug: config_concept[:slug],
-          name: config_concept[:name],
-          blurb: config_concept[:blurb],
+          slug: concept_config[:slug],
+          name: concept_config[:name],
+          blurb: concept_config[:blurb],
           synced_to_git_sha: head_git_track.commit.oid
         )
       end
     end
 
     def concept_exercises
-      config_concept_exercises.map do |exercise|
-        next if exercise[:uuid].blank? # TODO: decide if we want to allow null as the uuid
+      concept_exercises_config.map do |exercise_config|
+        next if exercise_config[:uuid].blank? # TODO: decide if we want to allow null as the uuid
 
         ::ConceptExercise::Create.(
-          exercise[:uuid],
+          exercise_config[:uuid],
           track,
-          slug: exercise[:slug],
+          slug: exercise_config[:slug],
           # TODO: the DB used title, config.json used name. Consider if we want this
           # TODO: remove title option once tracks have all updated the config.json
-          title: exercise[:name] || exercise[:slug].titleize,
-          taught_concepts: find_concepts(exercise[:concepts]),
-          prerequisites: find_concepts(exercise[:prerequisites]),
-          deprecated: exercise[:deprecated] || false,
+          title: exercise_config[:name] || exercise_config[:slug].titleize,
+          taught_concepts: find_concepts(exercise_config[:concepts]),
+          prerequisites: find_concepts(exercise_config[:prerequisites]),
+          deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
         )
       end
     end
 
     def practice_exercises
-      config_practice_exercises.map do |exercise|
-        next if exercise[:uuid].blank? # TODO: decide if we want to allow null as the uuid
+      practice_exercises_config.map do |exercise_config|
+        next if exercise_config[:uuid].blank? # TODO: decide if we want to allow null as the uuid
 
         ::PracticeExercise::Create.(
-          exercise[:uuid],
+          exercise_config[:uuid],
           track,
-          slug: exercise[:slug],
-          title: exercise[:slug].titleize, # TODO: what to do with practice exercise names?
-          prerequisites: find_concepts(exercise[:prerequisites]),
-          deprecated: exercise[:deprecated] || false,
+          slug: exercise_config[:slug],
+          title: exercise_config[:slug].titleize, # TODO: what to do with practice exercise names?
+          prerequisites: find_concepts(exercise_config[:prerequisites]),
+          deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
         )
       end

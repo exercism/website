@@ -227,13 +227,6 @@ export function Editor({
           payload: { submission: typecheck<Submission>(json, 'submission') },
         })
         switchToTab(TabIndex.RESULTS)
-
-        editorsRef.current = files.map((file) => {
-          return {
-            file: file,
-            ref: createRef<FileEditorHandle>(),
-          } as EditorRef
-        })
       })
       .catch((err) => {
         if (err instanceof Error) {

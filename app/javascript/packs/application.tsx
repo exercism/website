@@ -129,8 +129,14 @@ initReact({
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
-  'user-summary-tooltip': (data: any) => (
-    <Tooltips.UserSummary endpoint={data.endpoint} />
+  'user-summary-tooltip': (data: any, elem: HTMLElement) => (
+    <Tooltips.UserSummaryTooltip
+      contentEndpoint={data.endpoint}
+      referenceElement={elem}
+      referenceUserHandle={data.handle}
+      hoverRequestToShow={true}
+      focusRequestToShow={true}
+    />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

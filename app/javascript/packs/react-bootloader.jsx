@@ -18,18 +18,16 @@ export const initReact = (mappings) => {
       const selector = '[data-react-' + name + ']'
       document.querySelectorAll(selector).forEach((elem) => {
         const data = JSON.parse(elem.dataset.reactData)
-        render(elem, generator(data))
+        render(elem, generator(data, elem))
       })
     }
 
     document
-      .querySelectorAll('[data-tooltip-type][data-tooltip-url]')
+      .querySelectorAll('[data-tooltip-type][data-endpoint]')
       .forEach((elem) => {
         const name = elem.dataset['tooltipType'] + '-tooltip'
         const generator = mappings[name]
-
-        const componentData = { endpoint: elem.dataset['tooltipUrl'] }
-        const component = generator(componentData)
+        const component = generator(elem.dataset, elem)
 
         // Create an element render the React component in
         const tooltipElem = document.createElement('div')

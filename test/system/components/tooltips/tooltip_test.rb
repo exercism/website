@@ -21,10 +21,10 @@ module Components
         user_summaries = all('ol.user-summaries > li')
 
         user_summaries[0].hover
-        within(".c-user-summary-tooltip") { assert_text "Erik Schierboom" }
+        within(".c-user-tooltip") { assert_text "Erik Schierboom" }
 
         # user_summaries[1].hover
-        # within(".c-user-summary-tooltip") { assert_text "Rob Keim" }
+        # within(".c-user-tooltip") { assert_text "Rob Keim" }
       end
     end
   end

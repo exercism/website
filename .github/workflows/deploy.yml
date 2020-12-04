@@ -27,8 +27,7 @@ on:
 
 jobs:
   deploy:
-    # TODO: Change this to website when merging
-    if: github.repository == "exercism/website-deployer"
+    if: github.repository == 'exercism/website-deployer'
 
     name: Upload images to ECR, assets to S3, and defintion to ECS
     runs-on: ubuntu-latest
@@ -217,7 +216,7 @@ jobs:
 
   replicate:
     # TODO: Change this to website when merging
-    if: github.repository == "exercism/v3-website"
+    if: github.repository == 'exercism/v3-website'
 
     name: Replicate to exercism/website-deployer
     runs-on: ubuntu-latest
@@ -225,10 +224,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Push to Website Deployer
         env:
           WEBSITE_DEPLOYER_CLONE_KEY: ${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}
 
-      - name: Push to Website Deployer
         run: |
           echo $WEBSITE_DEPLOYER_CLONE_KEY > .ssh/id_rsa
           git remote add upstream git@github.com:exercism/website-deployer.git

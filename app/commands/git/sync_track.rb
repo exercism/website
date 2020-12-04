@@ -30,7 +30,6 @@ module Git
         blurb: head_git_track.config[:blurb],
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
-        synced_to_git_sha: head_git_track.commit.oid,
         concepts: concepts,
         concept_exercises: concept_exercises
         # TODO: re-enable once we import practice exercises
@@ -42,6 +41,10 @@ module Git
 
       # TODO: re-enable once we import practice exercises
       # track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
+
+      # Now that the concepts and exercises have synced successfully,
+      # we can set the track's synced git SHA to the HEAD SHA
+      track.update!(synced_to_git_sha: head_git_track.commit.oid)
     end
 
     private

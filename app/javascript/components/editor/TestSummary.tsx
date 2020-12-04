@@ -1,12 +1,18 @@
 import React, { useCallback } from 'react'
 import { TestStatus, Test } from './types'
 
-export function TestSummary({ test }: { test: Test }) {
-  const statusLabels = {
-    [TestStatus.PASS]: 'Passed',
-    [TestStatus.FAIL]: 'Failed',
-    [TestStatus.ERROR]: 'Failed',
-  }
+const statusLabels = {
+  [TestStatus.PASS]: 'Passed',
+  [TestStatus.FAIL]: 'Failed',
+  [TestStatus.ERROR]: 'Failed',
+}
+const messageLabels = {
+  [TestStatus.PASS]: null,
+  [TestStatus.FAIL]: 'Test Failure',
+  [TestStatus.ERROR]: 'Test Error',
+}
+
+export function TestSummary({ test }: { test: Test }): JSX.Element {
   const isPresent = useCallback((str) => {
     return str !== undefined && str !== null && str !== ''
   }, [])
@@ -25,7 +31,6 @@ export function TestSummary({ test }: { test: Test }) {
         </div>
       </summary>
       <div className="--explanation">
-        {/* TODO: If this is an error, the h3 should be "Test Error", otherwise it should be "Test Failure" */}
         {isPresent(test.testCode) ? (
           <div className="--info">
             <h3>Code Run</h3>
@@ -34,7 +39,7 @@ export function TestSummary({ test }: { test: Test }) {
         ) : null}
         {isPresent(test.message) ? (
           <div className="--info">
-            <h3>Test Error</h3>
+            <h3>{messageLabels[test.status]}</h3>
             <pre>{test.message}</pre>
           </div>
         ) : null}

@@ -34,7 +34,6 @@ import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/pagination.css'
 import '../../css/components/tooltips/concept.css'
-import '../../css/components/tooltips/user-summary.css'
 import '../../css/components/user_activity.css'
 
 import '../../css/components/widgets/exercise.css'

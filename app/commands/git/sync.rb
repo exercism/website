@@ -25,11 +25,6 @@ module Git
     end
 
     memoize
-    def current_git_track
-      Git::Track.new(track.slug, synced_to_git_sha, repo: git_repo)
-    end
-
-    memoize
     def synced_to_head?
       current_git_track.commit.oid == head_git_track.commit.oid
     end
@@ -37,11 +32,6 @@ module Git
     memoize
     def track_config_modified?
       filepath_in_diff?(head_git_track.config_filepath)
-    end
-
-    memoize
-    def diff
-      head_git_track.commit.diff(current_git_track.commit)
     end
 
     memoize
@@ -59,7 +49,18 @@ module Git
       config[:concepts]
     end
 
+    private
     memoize
     delegate :config, to: :head_git_track
+
+    memoize
+    def current_git_track
+      Git::Track.new(track.slug, synced_to_git_sha, repo: git_repo)
+    end
+
+    memoize
+    def diff
+      head_git_track.commit.diff(current_git_track.commit)
+    end
   end
 end

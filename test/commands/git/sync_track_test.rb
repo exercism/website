@@ -55,7 +55,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
     Git::SyncPracticeExercise.expects(:call).raises(RuntimeError)
 
-    suppress(RuntimeError) do
+    assert_raises RuntimeError do
       Git::SyncTrack.(track)
     end
 

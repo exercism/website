@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { UserSummaryTooltip } from '../../../../app/javascript/components/tooltips'
+import { UserTooltip } from '../../../../app/javascript/components/tooltips'
 
 test('correct information is displayed', async () => {
   const server = setupServer(
@@ -36,7 +36,7 @@ Bree, Middle Earth.
   server.listen()
 
   const { getByText } = render(
-    <UserSummaryTooltip
+    <UserTooltip
       contentEndpoint="https://exercism.test/tooltips/user_summary/1"
       hoverRequestToShow={true}
       focusRequestToShow={true}

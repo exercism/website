@@ -130,8 +130,8 @@ initReact({
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
-  'user-summary-tooltip': (data: any, elem: HTMLElement) => (
-    <Tooltips.UserSummaryTooltip
+  'user-tooltip': (data: any, elem: HTMLElement) => (
+    <Tooltips.UserTooltip
       contentEndpoint={data.endpoint}
       referenceElement={elem}
       referenceUserHandle={data.handle}

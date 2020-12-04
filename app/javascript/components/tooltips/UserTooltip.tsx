@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip } from './Tooltip'
 
-interface UserSummaryTooltipProps {
+interface UserTooltipProps {
   contentEndpoint: string
   hoverRequestToShow: boolean
   focusRequestToShow: boolean
@@ -9,16 +9,16 @@ interface UserSummaryTooltipProps {
   referenceUserHandle: string
 }
 
-export const UserSummaryTooltip = ({
+export const UserTooltip = ({
   contentEndpoint,
   hoverRequestToShow,
   focusRequestToShow,
   referenceElement,
   referenceUserHandle,
-}: UserSummaryTooltipProps): JSX.Element | null => {
+}: UserTooltipProps): JSX.Element | null => {
   return (
     <Tooltip
-      id={`user-summary-tooltip-${referenceUserHandle}`}
+      id={`user-tooltip-${referenceUserHandle}`}
       className="c-user-tooltip"
       referenceElement={referenceElement}
       contentEndpoint={contentEndpoint}

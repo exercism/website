@@ -231,8 +231,8 @@ jobs:
           echo "${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_ed25519
+          # eval "$(ssh-agent -s)"
+          # ssh-add ~/.ssh/id_ed25519
 
           # Setup the git user (required to push)
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -240,4 +240,5 @@ jobs:
 
           git remote add upstream git@github.com:exercism/website-deployer.git
           git fetch upstream
+          git show-ref
           git push upstream master

@@ -225,12 +225,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Push to Website Deployer
-        env:
-          WEBSITE_DEPLOYER_CLONE_KEY: ${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}
 
         run: |
           mkdir ~/.ssh
-          echo $WEBSITE_DEPLOYER_CLONE_KEY > ~/.ssh/id_ed25519
+          echo "${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
           eval "$(ssh-agent -s)"

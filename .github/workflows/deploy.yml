@@ -19,7 +19,7 @@ env:
   s3_bucket: "exercism-assets-staging"
 
 on:
-  push:
+  pull_request:
     branches:
       - master
   schedule:
@@ -27,6 +27,9 @@ on:
 
 jobs:
   deploy:
+    # TODO: Change this to website when merging
+    if: ${{github.repository == "exercism/website-deployer"}}
+
     name: Upload images to ECR, assets to S3, and defintion to ECS
     runs-on: ubuntu-latest
     steps:
@@ -211,3 +214,22 @@ jobs:
           service: ${{ env.service_name }}
           cluster: ${{ env.cluster_name }}
           wait-for-service-stability: true
+
+  replicate:
+    # TODO: Change this to website when merging
+    if: ${{github.repository == "exercism/v3-website"}}
+
+    name: Replicate to exercism/website-deployer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+        env:
+          WEBSITE_DEPLOYER_CLONE_KEY: ${{ secrets.WEBSITE_DEPLOYER_CLONE_KEY }}
+
+      - name: Push to Website Deployer
+        run: |
+          echo $WEBSITE_DEPLOYER_CLONE_KEY > .ssh/id_rsa
+          git remote add upstream git@github.com:exercism/website-deployer.git
+          git push upstream +master

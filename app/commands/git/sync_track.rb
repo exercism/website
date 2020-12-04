@@ -1,3 +1,15 @@
+# Syncing a track involves the following steps:
+#
+# 1. Fetch the latest data of the Git repo
+# 2. Stop syncing if the track is already synced to the Git repo's HEAD commit
+# 3. Update the track's metadata (title, blurb, etc.) if the track data in the
+#    config.json file has changed after last syncing the track.
+# 4. Update the track's concepts if the concept data in the config.json file or
+#    one of the concept files (about.md, links.json, etc.) has changed after
+#    last syncing the track.
+# 5. Update the track's exercises if the exercise data in the config.json file
+#    or one of the exercise files (instructions.md, test suite, etc.) has
+#    changed after last syncing the track.
 module Git
   class SyncTrack < Sync
     include Mandate

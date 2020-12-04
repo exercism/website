@@ -240,5 +240,4 @@ jobs:
 
           git remote add upstream git@github.com:exercism/website-deployer.git
           git fetch upstream
-          git show-ref
-          git push upstream +master
+          git push upstream master

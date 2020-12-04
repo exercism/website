@@ -20,18 +20,13 @@ export type FileEditorHandle = {
   getFile: () => File
 }
 
-type FileEditorProps = {
-  file: File
-  language: string
-  onRunTests: () => void
-}
-
 const SAVE_INTERVAL = 500
 
 export function ExercismMonacoEditor({
   language,
   editorDidMount,
   onRunTests,
+  onSubmit,
   options,
   defaultValue,
   theme,
@@ -40,11 +35,12 @@ export function ExercismMonacoEditor({
   language: string
   editorDidMount: (editor: monacoEditor.editor.IStandaloneCodeEditor) => void
   onRunTests: () => void
+  onSubmit: () => void
   options: monacoEditor.editor.IStandaloneEditorConstructionOptions
   defaultValue: string | undefined
   theme: string
   keybindings: Keybindings
-}) {
+}): JSX.Element {
   // const languageServerUrl: string = useMemo(() => {
   //   const languageServerHost = document.querySelector<HTMLMetaElement>(
   //     'meta[name="language-server-url"]'
@@ -111,6 +107,13 @@ export function ExercismMonacoEditor({
       label: 'Run tests',
       keybindings: [monacoEditor.KeyCode.F2],
       run: onRunTests,
+    })
+
+    editor.addAction({
+      id: 'submit',
+      label: 'Submit',
+      keybindings: [monacoEditor.KeyCode.F3],
+      run: onSubmit,
     })
 
     MonacoServices.install(editor)

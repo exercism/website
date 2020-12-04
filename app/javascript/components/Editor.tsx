@@ -249,6 +249,10 @@ export function Editor({
       return
     }
 
+    if (submission.testRun?.status !== TestRunStatus.PASS) {
+      return
+    }
+
     dispatch({ type: ActionType.CREATING_ITERATION })
 
     sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
@@ -328,6 +332,7 @@ export function Editor({
               keybindings={keybindings}
               wrap={wrap}
               onRunTests={runTests}
+              onSubmit={submit}
             />
           ))}
         </div>

@@ -17,13 +17,14 @@ type FileEditorProps = {
   file: File
   language: string
   onRunTests: () => void
+  onSubmit: () => void
   theme: string
   keybindings: Keybindings
   wrap: WrapSetting
 }
 
 export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
-  ({ file, language, onRunTests, theme, keybindings, wrap }, ref) => {
+  ({ file, language, onRunTests, onSubmit, theme, keybindings, wrap }, ref) => {
     const options: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
       minimap: { enabled: false },
       wordWrap: wrap,
@@ -55,6 +56,7 @@ export const FileEditor = forwardRef<FileEditorHandle, FileEditorProps>(
           language={language}
           editorDidMount={editorDidMount}
           onRunTests={onRunTests}
+          onSubmit={onSubmit}
           options={options}
           defaultValue={file.content}
           theme={theme}

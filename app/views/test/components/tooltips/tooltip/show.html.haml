@@ -3,17 +3,17 @@
 %h2 Mentored Student
 
 %ol.mentored-students
-  %li{ "data-tooltip-type": "mentored-student", "data-tooltip-url": mentored_student_test_components_tooltips_tooltip_path(1) }
+  %li{ "data-tooltip-type": "mentored-student", "data-endpoint": mentored_student_test_components_tooltips_tooltip_path(1) }
     Mentored student #1
 
-  %li{ "data-tooltip-type": "mentored-student", "data-tooltip-url": mentored_student_test_components_tooltips_tooltip_path(2) }
+  %li{ "data-tooltip-type": "mentored-student", "data-endpoint": mentored_student_test_components_tooltips_tooltip_path(2) }
     Mentored student #2
 
-%h2 User summary
+%h2 Users
 
-%ol.user-summaries
-  %li{ "data-tooltip-type": "user-summary", "data-tooltip-url": user_summary_test_components_tooltips_tooltip_path(1) }
+%ol.users
+  %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path('mentee'), "data-handle": "mentee" }
     User #1
 
-  %li{ "data-tooltip-type": "user-summary", "data-tooltip-url": user_summary_test_components_tooltips_tooltip_path(2) }
+  %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path('Frank'), "data-handle": "Frank" }
     User #2

@@ -1,9 +1,9 @@
-.c-user-summary-tooltip {
-    max-width: 460px;
+.c-user-tooltip {
+    width: 460px;
 
     @apply shadow-lg rounded-8 py-20 px-24 bg-white;
 
-    & .--header {
+    & .heading {
         @apply flex items-center mb-12;
 
         & .c-rounded-bg-img {
@@ -12,23 +12,23 @@
 
             @apply mr-16;
         }
-        & .--identifier {
+        & .identifier {
             @apply flex-grow;
 
-            & .--name {
+            & .name {
                 @apply text-16 text-darkGray font-semibold leading-paragraph;
             }
-            & .--handle {
+            & .handle {
                 @apply text-15 text-textLight font-medium leading-paragraph;
             }
         }
     }
 
-    & .--bio {
+    & .bio {
         @apply text-15 leading-paragraph mb-8;
     }
 
-    & .--location {
+    & .location {
         @apply flex items-center text-14 leading-paragraph font-medium;
         & .c-icon {
             height: 16px;

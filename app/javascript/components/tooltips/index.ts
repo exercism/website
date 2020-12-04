@@ -1,3 +1,3 @@
 export { MentoredStudent } from './MentoredStudent'
-export { UserSummary } from './UserSummary'
-export { Concept } from './Concept'
+export { UserTooltip } from './UserTooltip'
+export { ConceptTooltip } from './ConceptTooltip'

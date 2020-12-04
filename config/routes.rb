@@ -35,10 +35,6 @@ Rails.application.routes.draw do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
       end
-
-      resources :profiles, only: [] do
-        get :summary, on: :member
-      end
     end
   end
   get "api/(*url)", to: 'api/errors#render_404'
@@ -53,6 +49,12 @@ Rails.application.routes.draw do
   # ############ #
   # Normal pages #
   # ############ #
+
+  resources :profiles, only: [] do
+    member do
+      get :tooltip
+    end
+  end
 
   namespace :mentor do
     get "/", to: redirect("mentor/dashboard")

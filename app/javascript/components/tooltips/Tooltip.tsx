@@ -85,12 +85,13 @@ interface ShowReducer {
   (state: TooltipState, payload: DispatchAction): TooltipState
 }
 
-interface ConceptProps {
+interface TooltipProps {
+  id: string
+  className: string
+  referenceElement: HTMLElement | null
   contentEndpoint: string
   hoverRequestToShow: boolean
   focusRequestToShow: boolean
-  referenceElement: HTMLElement | null
-  referenceConceptSlug: string
 }
 
 function initialTooltipState(): TooltipState {
@@ -164,7 +165,7 @@ const handleHideRequest = (state: TooltipState): ShowState => {
 
 /**
  * tooltipReducer
- * This serves as a state reducer for the Concept (tooltip) Component for use with
+ * This serves as a state reducer for the <Tooltip /> Component for use with
  * the useReducer hook.
  */
 const tooltipReducer: ShowReducer = function (state, body) {
@@ -224,34 +225,28 @@ const tooltipReducer: ShowReducer = function (state, body) {
   return nextState
 }
 
-export const Concept = ({
+export const Tooltip = ({
+  id,
+  className,
+  referenceElement,
   contentEndpoint,
   hoverRequestToShow,
   focusRequestToShow,
-  referenceElement,
-  referenceConceptSlug,
-}: ConceptProps): JSX.Element | null => {
-  const tooltipId = `concept-tooltip${
-    referenceConceptSlug ? `-${referenceConceptSlug}` : referenceConceptSlug
-  }`
-
+}: TooltipProps): JSX.Element | null => {
   // Retrieve the HTML contents from the contentEndpoint
-  const { isLoading, isError, data: htmlContent } = useQuery<string>(
-    tooltipId,
-    () => {
-      const controller = new AbortController()
-      const signal = controller.signal
-      return Object.assign(
-        // Create a fetch request for the tooltip content, assign the abort controller to the promise
-        // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
-        fetch(contentEndpoint, {
-          method: 'get',
-          signal,
-        }).then((res) => res.text()),
-        { cancel: () => controller.abort() }
-      )
-    }
-  )
+  const { isLoading, isError, data: htmlContent } = useQuery<string>(id, () => {
+    const controller = new AbortController()
+    const signal = controller.signal
+    return Object.assign(
+      // Create a fetch request for the tooltip content, assign the abort controller to the promise
+      // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
+      fetch(contentEndpoint, {
+        method: 'get',
+        signal,
+      }).then((res) => res.text()),
+      { cancel: () => controller.abort() }
+    )
+  })
 
   const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null)
 
@@ -263,7 +258,7 @@ export const Concept = ({
 
   const popper = usePopper(referenceElement, tooltipElement, {
     placement: 'bottom',
-    // The line below controls the offset appearance of the tooltip from the reference concept
+    // The line below controls the offset appearance of the tooltip from the reference element
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
   })
 
@@ -271,7 +266,7 @@ export const Concept = ({
   useEffect(() => {
     if (hoverRequestToShow) {
       dispatch({
-        id: tooltipId,
+        id: id,
         action: {
           type: 'request-show-from-ref-hover',
         },
@@ -283,7 +278,7 @@ export const Concept = ({
     // self-hever has time to fire
     const timeoutRef = setTimeout(() => {
       dispatch({
-        id: tooltipId,
+        id: id,
         action: {
           type: 'request-hide-from-ref-hover',
         },
@@ -293,13 +288,13 @@ export const Concept = ({
     return () => {
       clearTimeout(timeoutRef)
     }
-  }, [hoverRequestToShow, tooltipId])
+  }, [hoverRequestToShow, id])
 
   // useEffect for responding to the reference element's request to show when focused
   useEffect(() => {
     if (focusRequestToShow) {
       dispatch({
-        id: tooltipId,
+        id: id,
         action: {
           type: 'request-show-from-ref-focus',
         },
@@ -311,7 +306,7 @@ export const Concept = ({
     // self-focus has time to fire
     const timeoutRef = setTimeout(() => {
       dispatch({
-        id: tooltipId,
+        id: id,
         action: {
           type: 'request-hide-from-ref-focus',
         },
@@ -321,15 +316,15 @@ export const Concept = ({
     return () => {
       clearTimeout(timeoutRef)
     }
-  }, [focusRequestToShow, tooltipId])
+  }, [focusRequestToShow, id])
 
   // useEffect for responding to the tooltips internal state
   useEffect(() => {
     if (isError) {
-      removeOpenTooltip(tooltipId)
+      removeOpenTooltip(id)
 
       dispatch({
-        id: tooltipId,
+        id: id,
         action: {
           type: 'error',
         },
@@ -342,26 +337,26 @@ export const Concept = ({
           return
         }
         dispatch({
-          id: tooltipId,
+          id: id,
           action: {
             type: 'loaded',
           },
         })
         break
       case 'invisible':
-        addOpenTooltip(tooltipId, dispatch as React.Dispatch<unknown>)
+        addOpenTooltip(id, dispatch as React.Dispatch<unknown>)
         dispatch({
-          id: tooltipId,
+          id: id,
           action: {
             type: 'show',
           },
         })
         break
       case 'visible':
-        closeOtherOpenTooltips(tooltipId)
+        closeOtherOpenTooltips(id)
         break
       case 'hidden':
-        removeOpenTooltip(tooltipId)
+        removeOpenTooltip(id)
         break
     }
 
@@ -374,7 +369,7 @@ export const Concept = ({
     //     },
     //   })
     // }
-  }, [showState, tooltipId, isLoading, isError])
+  }, [showState, id, isLoading, isError])
 
   // short-circuit return null if not ready to display the tooltip
   if ((showState !== 'visible' && showState !== 'invisible') || !htmlContent) {
@@ -383,7 +378,7 @@ export const Concept = ({
 
   // Get styles and classes to apply
   const styles = { ...popper.styles.popper, zIndex: 10 }
-  const classNames = ['c-tooltip', 'c-concept-tooltip']
+  const classNames = ['c-tooltip', className]
   if (showState === 'invisible') {
     classNames.push('tw-invisible')
   }
@@ -401,7 +396,7 @@ export const Concept = ({
       tabIndex={showState === 'visible' ? undefined : -1}
       onFocus={() => {
         dispatch({
-          id: tooltipId,
+          id: id,
           action: {
             type: 'request-show-focus',
           },
@@ -409,7 +404,7 @@ export const Concept = ({
       }}
       onBlur={() => {
         dispatch({
-          id: tooltipId,
+          id: id,
           action: {
             type: 'request-hide-focus',
           },
@@ -417,7 +412,7 @@ export const Concept = ({
       }}
       onMouseEnter={() =>
         dispatch({
-          id: tooltipId,
+          id: id,
           action: {
             type: 'request-show-hover',
           },
@@ -425,7 +420,7 @@ export const Concept = ({
       }
       onMouseLeave={() =>
         dispatch({
-          id: tooltipId,
+          id: id,
           action: {
             type: 'request-hide-hover',
           },

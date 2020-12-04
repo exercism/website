@@ -34,7 +34,7 @@ import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/pagination.css'
 import '../../css/components/tooltips/concept.css'
-import '../../css/components/tooltips/user-summary.css'
+import '../../css/components/tooltips/user.css'
 import '../../css/components/user_activity.css'
 
 import '../../css/components/widgets/exercise.css'
@@ -130,8 +130,14 @@ initReact({
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
-  'user-summary-tooltip': (data: any) => (
-    <Tooltips.UserSummary endpoint={data.endpoint} />
+  'user-tooltip': (data: any, elem: HTMLElement) => (
+    <Tooltips.UserTooltip
+      contentEndpoint={data.endpoint}
+      referenceElement={elem}
+      referenceUserHandle={data.handle}
+      hoverRequestToShow={true}
+      focusRequestToShow={true}
+    />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

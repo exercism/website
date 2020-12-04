@@ -1,0 +1,19 @@
+.heading
+  = rounded_bg_img("https://avatars2.githubusercontent.com/u/8953691?s=460&u=593aaf70d7708aa3a98eb0b49a212a45263bc065&v=4", "Erik SchierBOOM's uploaded avatar")
+  .identifier
+    %h4.name= @profile.name
+    .handle= @user.handle
+
+  .c-reputation{ 'aria-label': "#{@user.reputation} reputation" }
+    = icon(:reputation, "Reputation")
+    = @user.reputation
+
+- if @profile.bio
+  .bio= @profile.bio
+- if @profile.location
+  .location
+    = icon(:location, "Located in")
+    = @profile.location
+-#
+  {/*<div>{data.badges.count} badges collected</div>
+  <div>{data.badges.latest.join(', ')}</div>*/}

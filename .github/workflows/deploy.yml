@@ -41,14 +41,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: satackey/action-docker-layer-caching@v0.0.8
-        continue-on-error: true
-        with:
-          # Change these to rest the cache
-          key: docker-layer-caching-deploy-2-{hash}
-          restore-keys: docker-layer-caching-deploy-2-
-          concurrency: 30
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

@@ -30,7 +30,8 @@ jobs:
     if: github.repository == 'exercism/website-deployer'
 
     name: Upload images to ECR, assets to S3, and definition to ECS
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+
     steps:
       ###############
       ###############

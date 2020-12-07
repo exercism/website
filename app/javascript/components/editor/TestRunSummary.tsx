@@ -1,8 +1,28 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Submission, TestRun, TestRunStatus } from './types'
+import React, { useEffect, useCallback, useRef } from 'react'
+import { TestRun, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { TestRunSummaryContent } from './TestRunSummaryContent'
 import { fetchJSON } from '../../utils/fetch-json'
+
+const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
+  switch (testRun.status) {
+    case TestRunStatus.FAIL:
+      return (
+        <div className="summary-status failed">
+          <span className="--dot" />1 test failure
+        </div>
+      )
+    case TestRunStatus.PASS:
+      return (
+        <div className="summary-status">
+          <span className="--dot" />
+          All tests passed
+        </div>
+      )
+    default:
+      return null
+  }
+}
 
 export function TestRunSummary({
   testRun,
@@ -14,7 +34,7 @@ export function TestRunSummary({
   timeout: number
   onUpdate: (testRun: TestRun) => void
   cancelLink: string
-}) {
+}): JSX.Element {
   const setTestRun = useCallback(
     (testRun) => {
       onUpdate(testRun)
@@ -28,7 +48,7 @@ export function TestRunSummary({
       setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
       timer.current = undefined
     }, timeout)
-  }, [timer])
+  }, [setTestRun, testRun, timeout])
   const handleTimeout = useCallback(() => {
     channel.current?.disconnect()
   }, [channel])
@@ -40,7 +60,7 @@ export function TestRunSummary({
     }).then(() => {
       setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
     })
-  }, [timer])
+  }, [cancelLink, setTestRun, testRun])
   const handleCancelled = useCallback(() => {
     clearTimeout(timer.current)
 
@@ -48,7 +68,7 @@ export function TestRunSummary({
   }, [channel, timer])
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-  }, [])
+  }, [setTestRun, testRun])
 
   useEffect(() => {
     switch (testRun.status) {
@@ -85,7 +105,7 @@ export function TestRunSummary({
     return () => {
       channel.current?.disconnect()
     }
-  }, [testRun.submissionUuid])
+  }, [setTestRun, testRun, testRun.submissionUuid])
 
   useEffect(() => {
     return () => {
@@ -101,9 +121,7 @@ export function TestRunSummary({
 
   return (
     <>
-      <div className="summary-status failed">
-        <span className="--dot" />1 test failure
-      </div>
+      <TestRunSummaryHeader testRun={testRun} />
       <TestRunSummaryContent testRun={testRun} onCancel={cancel} />
     </>
   )

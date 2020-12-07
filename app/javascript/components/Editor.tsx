@@ -4,10 +4,8 @@ import React, {
   useEffect,
   useCallback,
   useState,
-  createRef,
   createContext,
 } from 'react'
-import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { typecheck } from '../utils/typecheck'
 import {
   Submission,
@@ -20,6 +18,7 @@ import {
 import { useRequest, APIError } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
+import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
@@ -52,11 +51,6 @@ enum ActionType {
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
-}
-
-type EditorRef = {
-  file: File
-  ref: React.RefObject<FileEditorHandle>
 }
 
 type Action =
@@ -158,6 +152,7 @@ export function Editor({
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState('vs')
+  const editorRef = useRef<FileEditorHandle>()
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT
   )
@@ -169,11 +164,6 @@ export function Editor({
   })
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
-  )
-  const editorsRef = useRef<EditorRef[]>(
-    files.map((file) => {
-      return { file: file, ref: createRef<FileEditorHandle>() } as EditorRef
-    })
   )
   const abort = useCallback(() => {
     controllerRef.current?.abort()
@@ -209,9 +199,7 @@ export function Editor({
   )
 
   const runTests = useCallback(() => {
-    const files = editorsRef.current.map((editor) => {
-      return editor.ref.current?.getFile()
-    })
+    const files = editorRef.current?.getFiles()
 
     dispatch({ type: ActionType.CREATING_SUBMISSION })
 
@@ -223,7 +211,9 @@ export function Editor({
 
         dispatch({
           type: ActionType.SUBMISSION_CREATED,
-          payload: { submission: typecheck<Submission>(json, 'submission') },
+          payload: {
+            submission: typecheck<Submission>(json, 'submission'),
+          },
         })
         switchToTab(TabIndex.RESULTS)
       })
@@ -241,7 +231,7 @@ export function Editor({
           })
         }
       })
-  }, [sendRequest, endpoint])
+  }, [editorRef, sendRequest, endpoint])
 
   const submit = useCallback(() => {
     if (!submission) {
@@ -279,6 +269,12 @@ export function Editor({
       })
     },
     [dispatch]
+  )
+  const editorDidMount = useCallback(
+    (editor) => {
+      editorRef.current = editor
+    },
+    [editorRef]
   )
 
   useEffect(() => {
@@ -321,19 +317,16 @@ export function Editor({
         </div>
 
         <div className="main-lhs">
-          {editorsRef.current.map((editor) => (
-            <FileEditor
-              key={editor.file.filename}
-              file={editor.file}
-              ref={editor.ref}
-              language={language}
-              theme={theme}
-              keybindings={keybindings}
-              wrap={wrap}
-              onRunTests={runTests}
-              onSubmit={submit}
-            />
-          ))}
+          <FileEditor
+            editorDidMount={editorDidMount}
+            files={files}
+            language={language}
+            theme={theme}
+            keybindings={keybindings}
+            wrap={wrap}
+            onRunTests={runTests}
+            onSubmit={submit}
+          />
         </div>
 
         <div className="main-rhs">

@@ -77,4 +77,17 @@ class UserTest < ActiveSupport::TestCase
     assert user.joined_track?(user_track.track)
     refute user.joined_track?(track)
   end
+
+  test "display_name" do
+    name = "Real Name"
+    display_name = "Something anon"
+    user = create :user, name: name, display_name: display_name
+    assert_equal display_name, user.reload.display_name
+
+    user.update(display_name: "")
+    assert_equal name, user.reload.display_name
+
+    user.update(display_name: nil)
+    assert_equal name, user.reload.display_name
+  end
 end

@@ -1,0 +1,88 @@
+@import "../styles";
+
+#page-profile {
+    & header {
+        background: linear-gradient(180deg, #e1ebff 0%, #fbfcfe 137.68%);
+        box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.15);
+
+        & section.info-section {
+            @apply py-32;
+
+            & .container {
+                @apply flex items-center;
+            }
+
+            & .c-rounded-bg-img {
+                height: 125px;
+                width: 125px;
+
+                @apply mr-40;
+            }
+
+            & .info {
+                @apply flex-grow;
+
+                & .heading {
+                    @apply flex items-center;
+                    @apply mb-8;
+                    & h1 {
+                        @apply text-h1 mr-24;
+                    }
+                }
+
+                & .details {
+                    @apply flex items-center;
+                    & .handle {
+                        @apply text-h4 pr-16 mr-16;
+                        @apply border-borderLight border-r-1;
+                        @apply text-20 font-semibold text-textLight;
+                    }
+                    & .joined {
+                        @apply text-textLight text-16 font-medium;
+                    }
+                    & .new {
+                        @apply ml-12 px-12 py-4;
+                        @apply text-13 font-medium text-textLight leading-regular;
+                        @apply border-borderLight border-2 rounded-100;
+                    }
+                }
+                & .bio {
+                    @apply mt-12;
+                    @apply text-18 leading-paragraph;
+                    max-width: 700px;
+                }
+            }
+            & .links {
+                @apply self-start;
+
+                & .link {
+                    @apply flex items-center px-16 py-6;
+                    @apply shadow-sm bg-white rounded-100 mb-12;
+                    & .site-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-12;
+                    }
+                    & .site-name {
+                        @apply text-15 leading-paragraph font-medium text-darkGray;
+                    }
+                    & .action-icon {
+                        height: 13px;
+                        width: 13px;
+                        @apply ml-12;
+                    }
+                }
+            }
+        }
+        & section.tabs-section {
+            @apply pb-16;
+            & .container {
+                @apply flex;
+            }
+            & .c-tab {
+                @apply mr-24;
+                height: 49px;
+            }
+        }
+    }
+}

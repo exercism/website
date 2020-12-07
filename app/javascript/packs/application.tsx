@@ -51,7 +51,8 @@ import '../../css/components/widgets/exercise.css'
 
 import '../../css/pages/auth.css'
 import '../../css/pages/editor.css'
-import '../../css/pages/staging.css'
+import '../../css/pages/profile.css'
+import '../../css/pages/staging.css' // TODO: Remove for launch
 import '../../css/pages/track-shared-index.css'
 import '../../css/pages/concepts-index.css'
 import '../../css/pages/concept-show.css'

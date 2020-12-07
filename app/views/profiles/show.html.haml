@@ -1,0 +1,62 @@
+#page-profile
+  %header
+    %section.info-section
+      .lg-container.container
+        = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "#{@user.name}'s uploaded avatar")
+        .info
+          .heading
+            %h1= @user.name
+            .c-reputation{ 'aria-label': "#{@user.reputation} reputation" }
+              = icon(:reputation, "Reputation")
+              = @user.reputation
+          .details
+            .handle @#{@user.handle}
+            .joined
+              Joined
+              %time= @user.created_at.strftime('%b %Y')
+            - if @user.created_at > Time.current - 3.months
+              .new New Member
+          - if @user.bio.present?
+            / TODO: Make Read more widget
+            .bio= @user.bio
+
+        .links
+          - if @profile.github.present?
+            .link
+              = graphical_icon "external-site-github", css_class: "site-icon"
+              .site-name GitHub
+              = icon "external-link", "This is an external link", css_class: "action-icon"
+
+          - if @profile.linkedin.present?
+            .link
+              = graphical_icon "external-site-linkedin", css_class: "site-icon"
+              .site-name LinkedIn
+              = icon "external-link", "This is an external link", css_class: "action-icon"
+
+          -# TODO: Need a medium icon
+            - if @profile.medium.present?
+              .link
+                = graphical_icon "external-site-medium", css_class: "site-icon"
+                .site-name Medium
+                = icon "external-link", "This is an external link", css_class: "action-icon"
+
+          - if @profile.twitter.present?
+            .link
+              = graphical_icon "external-site-twitter", css_class: "site-icon"
+              .site-name Twitter
+              = icon "external-link", "This is an external link", css_class: "action-icon"
+
+
+    %section.tabs-section
+      .lg-container.container
+        %button.c-tab.selected
+          = graphical_icon :dashboard
+          %span{ data: { text: "Overview" } } Overview
+
+        %button.c-tab
+          = graphical_icon :editor
+          %span{ data: { text: "Solutions" } } Solutions
+
+        %button.c-tab
+          = graphical_icon :badges
+          %span{ data: { text: "Badges" } } Badges

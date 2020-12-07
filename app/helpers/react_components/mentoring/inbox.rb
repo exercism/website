@@ -28,13 +28,13 @@ module ReactComponents
       attr_reader :conversations_request, :tracks_request
 
       def default_conversations_request
-        # TODO: Change this to the actual endpoint, not the test endpoint
-        { endpoint: Exercism::Routes.conversations_test_components_mentoring_inbox_path }
+        { endpoint: Exercism::Routes.api_mentor_inbox_path }
       end
 
       def default_tracks_request
         # TODO: Change this to the actual endpoint, not the test endpoint
         { endpoint: Exercism::Routes.tracks_test_components_mentoring_inbox_path }
+        # { endpoint: Exercism::Routes.api_mentor_inbox_path }
       end
     end
   end

@@ -152,6 +152,8 @@ ActiveRecord::Schema.define(version: 2020_12_11_205912) do
     t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "requires_mentor_action_since"
+    t.datetime "requires_student_action_since"
     t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_solution_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"

@@ -31,7 +31,8 @@ class SerializeMentorQueueTest < ActiveSupport::TestCase
 
           url: "https://test.exercism.io/mentor/requests/#{request.id}"
         }
-      ]
+      ],
+      meta: { current: 1, total: 1 }
     }
 
     assert_equal expected, SerializeMentorQueue.(queue)

@@ -76,7 +76,7 @@
         & time {
             @apply font-medium text-14 text-textLight leading-code;
             @apply ml-56;
-            width: 100px;
+            width: 120px;
             text-align: right;
         }
 

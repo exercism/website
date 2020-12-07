@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 
       namespace :mentor do
         resource :queue, only: [:show], controller: 'queue'
+        resource :inbox, only: [:show], controller: 'inbox'
       end
     end
   end
@@ -82,6 +83,7 @@ Rails.application.routes.draw do
     get "/", to: redirect("mentor/dashboard")
     resource :dashboard, only: [:show], controller: "dashboard"
     resources :requests, only: [:show]
+    resources :discussions, only: [:show]
   end
 
   namespace :maintaining do

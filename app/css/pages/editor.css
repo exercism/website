@@ -69,6 +69,25 @@
                 width: 24px;
             }
         }
+
+        & .settings-dialog {
+            @apply bg-white;
+            @apply flex flex-col shadow-lg;
+            @apply py-24 px-32 text-left;
+
+            & .setting {
+                @apply flex;
+                @apply mb-16;
+                &:last-child {
+                    @apply mb-0;
+                }
+            }
+            & .name {
+                @apply text-16 font-medium text-darkGray;
+                @apply mr-56;
+                width: 100px;
+            }
+        }
     }
     & .main-lhs {
         grid-area: main-lhs;
@@ -77,6 +96,34 @@
 
         border-color: var(--border-color);
         @apply border-r-1;
+        @apply bg-bgGray;
+
+        @apply flex flex-col;
+
+        & .tabs {
+            @apply bg-bgGray;
+
+            & button {
+                @apply py-8 px-16;
+                @apply font-semibold leading-code;
+            }
+        }
+        & .react-monaco-editor-container {
+            @apply pt-20;
+        }
+
+        & .monaco-editor {
+            & .monaco-scrollable-element .scrollbar {
+                background: transparent;
+                .arrow-background {
+                    background: purple;
+                }
+
+                & .slider {
+                    background: red;
+                }
+            }
+        }
     }
     & .main-rhs {
         grid-area: main-rhs;

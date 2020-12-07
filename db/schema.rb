@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_09_170425) do
+ActiveRecord::Schema.define(version: 2020_12_07_221819) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -293,6 +293,17 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_concept_id"], name: "index_user_track_learnt_concepts_on_track_concept_id"
     t.index ["user_track_id"], name: "index_user_track_learnt_concepts_on_user_track_id"
+  end
+
+  create_table "user_track_maintainers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "track_id"
+    t.boolean "alumnus", default: false, null: false
+    t.boolean "visible", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["track_id"], name: "index_user_track_maintainers_on_track_id"
+    t.index ["user_id"], name: "index_user_track_maintainers_on_user_id"
   end
 
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

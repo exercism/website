@@ -5,6 +5,7 @@ import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { initVimMode, VimMode } from 'monaco-vim'
 import { EmacsExtension } from 'monaco-emacs'
 import { Keybindings, File, WrapSetting } from './types'
+import { useSaveFiles } from './file-editor/useSaveFiles'
 
 type FileRef = {
   filename: string
@@ -16,8 +17,6 @@ export type FileEditorHandle = {
   getFiles: () => File[]
 }
 
-const SAVE_INTERVAL = 500
-
 export function FileEditor({
   language,
   editorDidMount,
@@ -25,7 +24,7 @@ export function FileEditor({
   onSubmit,
   theme,
   keybindings,
-  files,
+  files: initialFiles,
   wrap,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
@@ -46,12 +45,25 @@ export function FileEditor({
     model: null,
   }
   const [tab, setTab] = useState(0)
+  const [files, setFiles] = useSaveFiles(initialFiles, () => {
+    return getFiles()
+  })
   const filesRef = useRef<FileRef[]>(
     files.map((file) => ({
       filename: file.filename,
       model: monacoEditor.editor.createModel(file.content, language),
       state: null,
     }))
+  )
+  const getFiles = useCallback(
+    () =>
+      filesRef.current?.map((fileRef: FileRef) => {
+        return {
+          filename: fileRef.filename,
+          content: fileRef.model.getValue(),
+        }
+      }),
+    [filesRef]
   )
   const statusBarRef = useRef<HTMLDivElement | null>(null)
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor>()
@@ -80,15 +92,7 @@ export function FileEditor({
 
     editor.setModel(filesRef.current[0].model)
 
-    editorDidMount({
-      getFiles: () =>
-        filesRef.current?.map((fileRef: FileRef) => {
-          return {
-            filename: fileRef.filename,
-            content: fileRef.model.getValue(),
-          }
-        }),
-    })
+    editorDidMount({ getFiles })
   }
 
   useEffect(() => {

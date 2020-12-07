@@ -121,17 +121,42 @@
                         @apply bg-red;
                     }
                 }
+                &.passed {
+                    @apply bg-veryLightGreen text-darkGreen;
+                    @apply border-literallySoManyGreens;
+                    & .--dot {
+                        @apply bg-darkGreen;
+                    }
+                }
             }
             & .tests-list {
                 @apply px-32 pb-16;
 
+                & .tests-group {
+                    & .tests-group-summary {
+                        @apply inline-flex items-center;
+                        @apply font-semibold text-14 text-darkGray;
+                        @apply border-2 border-lightGray rounded-100;
+                        @apply py-8 px-24 mb-12;
+                        &::-webkit-details-marker {
+                            @apply hidden;
+                        }
+                        & .c-icon.indicator {
+                            height: 24px;
+                            width: 24px;
+                            @apply mr-16;
+                        }
+                    }
+                }
+
                 & .c-test-summary {
                     @apply flex items-center;
                     @apply bg-unnamed15 font-mono;
+                    @apply mb-12 rounded-8;
 
-                    & summary {
+                    & .--summary {
                         @apply flex items-center;
-                        @apply py-8 px-24;
+                        @apply py-8 px-24 mb-12;
                         &::-webkit-details-marker {
                             @apply hidden;
                         }
@@ -139,14 +164,16 @@
                         & .--status {
                             @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
                             @apply font-bold uppercase text-13 leading-huge;
+                            @apply text-white bg-darkGreen;
                             width: 70px;
                         }
                         & .--summary-details {
+                            @apply flex-grow;
                             & .--summary-idx {
                                 @apply font-semibold text-textLight leading-huge;
                             }
                             & .--summary-name {
-                                @apply font-body font-semibold text-15 leading-code;
+                                @apply font-body font-semibold text-15 leading-regular;
                             }
                         }
                     }

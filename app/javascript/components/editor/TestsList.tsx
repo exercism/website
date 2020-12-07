@@ -2,6 +2,7 @@ import React from 'react'
 import pluralize from 'pluralize'
 import { TestSummary } from './TestSummary'
 import { TestStatus, Test } from './types'
+import { GraphicalIcon } from '../common/GraphicalIcon'
 
 export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
   const firstFailedTestIdx = tests.findIndex(
@@ -14,9 +15,12 @@ export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
 
   return (
     <div className="tests-list">
-      <details>
-        <summary>
+      <details className="tests-group c-details">
+        <summary className="tests-group-summary">
+          <GraphicalIcon icon="passed-check-circle" className="indicator" />
           {passed.length} {pluralize('test', passed.length)} passed
+          <GraphicalIcon icon="chevron-right" className="--closed-icon" />
+          <GraphicalIcon icon="chevron-down" className="--open-icon" />
         </summary>
         {passed.map((test) => (
           <TestSummary
@@ -26,9 +30,12 @@ export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
           />
         ))}
       </details>
-      <details open={true}>
-        <summary>
+      <details open={true} className="tests-group c-details">
+        <summary className="tests-group-summary">
+          <GraphicalIcon icon="failed-check-circle" className="indicator" />
           {failed.length} {pluralize('test', failed.length)} failed
+          <GraphicalIcon icon="chevron-right" className="--closed-icon" />
+          <GraphicalIcon icon="chevron-down" className="--open-icon" />
         </summary>
         {failed.map((test) => (
           <TestSummary
@@ -38,9 +45,12 @@ export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
           />
         ))}
       </details>
-      <p>
-        {skipped} {pluralize('test', skipped)} skipped
-      </p>
+      <div className="tests-group">
+        <div className="tests-group-summary">
+          <GraphicalIcon icon="skipped-check-circle" className="indicator" />
+          {skipped} {pluralize('test', skipped)} skipped
+        </div>
+      </div>
     </div>
   )
 }

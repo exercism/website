@@ -14,7 +14,7 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
       )
     case TestRunStatus.PASS:
       return (
-        <div className="summary-status">
+        <div className="summary-status passed">
           <span className="--dot" />
           All tests passed
         </div>

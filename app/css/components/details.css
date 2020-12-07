@@ -1,0 +1,30 @@
+.c-details {
+    & > summary {
+        @apply cursor-pointer;
+
+        & > .c-icon.--closed-icon,
+        & > .c-icon.--open-icon {
+            height: 12px;
+            width: 12px;
+            @apply ml-16;
+        }
+
+        & > .--closed-icon {
+            @apply block;
+        }
+        & > .--open-icon {
+            @apply hidden;
+        }
+    }
+
+    &[open] {
+        & > summary {
+            & > .--closed-icon {
+                @apply hidden;
+            }
+            & > .--open-icon {
+                @apply block;
+            }
+        }
+    }
+}

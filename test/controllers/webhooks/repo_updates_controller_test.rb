@@ -25,24 +25,13 @@ class Webhooks::RepoUpdatesControllerTest < Webhooks::BaseTestCase
     assert_response 200
   end
 
-  test "create should sync track when signature is valid" do
+  test "create should process repo update when signature is valid" do
     payload = {
       ref: 'refs/heads/master',
       repo: { name: 'csharp' }
     }
-    track = create :track, slug: 'csharp'
-    Git::SyncTrack.expects(:call).with(track)
-
-    post webhooks_repo_updates_path, headers: headers(payload), as: :json, params: payload
-  end
-
-  test "create should not sync track when pushing to non-master branch" do
-    payload = {
-      ref: 'refs/heads/develop',
-      repo: { name: 'csharp' }
-    }
     create :track, slug: 'csharp'
-    Git::SyncTrack.expects(:call).never
+    Webhooks::ProcessRepoUpdate.expects(:call).with('refs/heads/master', 'csharp')
 
     post webhooks_repo_updates_path, headers: headers(payload), as: :json, params: payload
   end

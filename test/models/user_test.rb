@@ -16,6 +16,17 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
+  test "defaults name to handle correctly" do
+    name = "Someone"
+    handle = "soooomeone"
+    user = User.create!(name: name, handle: handle, email: "who@where.com", password: "foobar")
+    assert_equal name, user.name
+
+    handle = "eeeelllseee"
+    user = User.create!(handle: handle, email: "who@there.com", password: "foobar")
+    assert_equal handle, user.name
+  end
+
   test "reputation sums correctly" do
     user = create :user
     create :user_reputation_acquisition

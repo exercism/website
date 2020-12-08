@@ -26,6 +26,10 @@ class User < ApplicationRecord
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
+  before_create do
+    self.name = self.handle if self.name.blank?
+  end
+
   def self.for!(param)
     return param if param.is_a?(User)
     return find_by!(id: param) if param.is_a?(Numeric)

@@ -58,10 +58,13 @@ module.exports = {
       mediumGreen: '#B8EADB',
       lightGreen: '#ABDBCC',
       tooManyGreens: '#59D2AE',
+      soManyGreens: '#228466',
+      bgGreen: 'rgba(89, 210, 174, 0.15)',
 
       orange: '#F69605',
       lightOrange: '#FFF3E1',
       red: '#EB5757',
+      bgRed: 'rgba(235, 87, 87, 0.15)',
 
       black: '#000',
       white: '#fff',

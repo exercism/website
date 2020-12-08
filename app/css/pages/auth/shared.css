@@ -1,0 +1,163 @@
+@import "../../styles";
+
+#page-auth {
+    --lhs-width: 550px;
+
+    @apply flex-grow;
+    @apply flex bg-white;
+
+    & section.form-section {
+        min-width: var(--lhs-width);
+        max-width: var(--lhs-width);
+        @apply py-48 px-48;
+        margin: 0 auto;
+
+        @apply flex flex-col items-center;
+
+        & .logo {
+            @apply mb-12;
+
+            max-height: 32px;
+        }
+        & p.tagline {
+            @apply text-16 leading-paragraph text-darkGray;
+            @apply mb-32;
+        }
+        & .intro {
+            @apply mt-40 mb-16 w-100;
+            & h2 {
+                @apply text-h3 mb-12 text-left;
+            }
+            & p {
+                @apply text-16 leading-huge text-left;
+            }
+        }
+        & .github-btn {
+            @apply w-100 mb-24;
+
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-16;
+            }
+        }
+
+        & .divider {
+            @apply w-100 mb-16 relative flex items-center justify-center;
+            @apply text-14 font-mono font-bold leading-code uppercase;
+
+            & span {
+                @apply bg-white py-8 px-24;
+                z-index: 2;
+            }
+
+            &:before {
+                @apply absolute bg-borderLight;
+
+                content: "";
+                z-index: 1;
+                height: 1px;
+                left: 0;
+                right: 0;
+                top: 50%;
+            }
+        }
+        & .c-flash {
+            @apply w-100 mb-16;
+        }
+
+        & form {
+            @apply w-100 mb-24 mt-8;
+
+            & .field {
+                @apply mb-16;
+
+                &:focus-within {
+                    & label {
+                        @apply text-lightBlue;
+                    }
+                }
+
+                & label {
+                    @apply block mb-8;
+                    @apply text-14 leading-code uppercase font-mono font-bold;
+                }
+
+                & input {
+                    @apply w-100 px-24 py-16 bg-lightGray;
+                    @apply border-lightGray border-2 rounded-5;
+                    @apply text-16 leading-regular;
+
+                    &::placeholder {
+                        @apply font-medium text-unnamed16;
+                    }
+
+                    &:focus {
+                        @apply bg-white border-lightBlue;
+                    }
+                }
+                & .forgotten-password {
+                    @apply inline-block mt-12;
+                    @apply text-lightBlue font-semibold;
+                }
+            }
+            & button {
+                @apply mt-24;
+                @apply w-100;
+            }
+        }
+        & .devise-links {
+            @apply text-16 leading-code;
+            & .link {
+                @apply text-center;
+            }
+            & .link + .link {
+                @apply mt-8;
+            }
+            & a {
+                @apply text-lightBlue font-medium;
+            }
+        }
+    }
+    & section.information-section {
+        @apply flex-grow;
+        @apply fixed;
+        top: 0;
+        left: var(--lhs-width);
+        right: 0;
+        bottom: 0;
+        @apply flex-col;
+
+        background: linear-gradient(360deg, #5141bd 0%, #3e2ea5 100%),
+            linear-gradient(0deg, #2f2768, #2f2768);
+
+        & .faces {
+            @apply flex-grow flex items-center;
+            @apply pl-48;
+        }
+        & .content {
+            @apply p-48;
+            & h2 {
+                @apply text-h3 text-white mb-12;
+            }
+            & p {
+                @apply text-18 text-veryLightBlue leading-huge;
+                max-width: 720px;
+                & strong {
+                    @apply font-semibold;
+                }
+            }
+            & .icons {
+                @apply flex items-center mt-32;
+                & .c-icon {
+                    height: 64px;
+                    width: 64px;
+                    @apply mr-24;
+                }
+                & .more {
+                    @apply text-white font-semibold;
+                }
+            }
+        }
+    }
+}

@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     sessions: "auth/sessions",
     registrations: "auth/registrations",
     omniauth_callbacks: "auth/omniauth_callbacks",
-    confirmations: "auth/confirmations"
+    confirmations: "auth/confirmations",
+    passwords: "auth/passwords"
   }
 
   devise_scope :user do

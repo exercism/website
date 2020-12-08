@@ -18,6 +18,7 @@ module Webhooks
       end
     end
 
+    private
     def track
       Track.find_by(slug: track_slug)
     end

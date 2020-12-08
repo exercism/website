@@ -25,7 +25,7 @@ gem 'rest-client' # http
 gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.55.0'
+gem 'exercism-config', '>= 0.56.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies

@@ -4,7 +4,7 @@ class Webhooks::RepoUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 403 when signature is invalid" do
     payload = {
       ref: 'refs/heads/master',
-      repo: { name: 'csharp' }
+      repository: { name: 'csharp' }
     }
 
     invalid_headers = headers(payload)
@@ -17,7 +17,7 @@ class Webhooks::RepoUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 200 when signature is valid" do
     payload = {
       ref: 'refs/heads/master',
-      repo: { name: 'csharp' }
+      repository: { name: 'csharp' }
     }
     create :track, slug: 'csharp'
 
@@ -28,7 +28,7 @@ class Webhooks::RepoUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should process repo update when signature is valid" do
     payload = {
       ref: 'refs/heads/master',
-      repo: { name: 'csharp' }
+      repository: { name: 'csharp' }
     }
     create :track, slug: 'csharp'
     Webhooks::ProcessRepoUpdate.expects(:call).with('refs/heads/master', 'csharp')

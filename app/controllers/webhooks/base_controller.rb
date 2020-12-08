@@ -9,6 +9,7 @@ module Webhooks
     skip_before_action :authenticate_user!
 
     before_action :verify_github_webhook!
+    before_action :handle_ping_event!
 
     layout false
 
@@ -22,6 +23,16 @@ module Webhooks
           message: "The auth token provided is invalid. Delivery: #{github_delivery}"
         }
       }, status: :forbidden
+    end
+
+    def handle_ping_event!
+      return unless is_ping_event?
+
+      render json: {}, status: :ok
+    end
+
+    def is_ping_event?
+      github_event == 'ping'
     end
 
     def signature_valid?
@@ -44,6 +55,10 @@ module Webhooks
 
     def github_delivery
       request.headers['HTTP_X_GITHUB_DELIVERY']
+    end
+
+    def github_event
+      request.headers['HTTP_X_GITHUB_EVENT']
     end
   end
 end

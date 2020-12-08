@@ -42,6 +42,21 @@ Assuming your docker-compose is already "up," you can run the following commands
 ./bin/script website run-js-tests
 ```
 
+#### Running single tests
+
+Oftentimes you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
+
+```bash
+# run rake test TEST=test/system/components/tooltips/tooltip_test.rb
+./bin/script website run-tests TEST=test/commands/track/create_test.rb
+
+# run rake test:system TEST=test/system/components/tooltips/tooltip_test.rb
+./bin/script website run-system-tests TEST=test/system/components/tooltips/tooltip_test.rb
+
+# run yarn test test/javascript/components/student/TracksList/Track.test.js
+./bin/script website run-js-tests test/javascript/components/student/TracksList/Track.test.js
+```
+
 ### Local setup
 
 The website can be also be setup and run locally. This is unsupported.

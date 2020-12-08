@@ -1,7 +1,7 @@
 require "test_helper"
 
-class Webhooks::ProcessRepoUpdateControllerTest < ActiveSupport::TestCase
-  test "should sync track" do
+class Webhooks::ProcessRepoUpdateTest < ActiveSupport::TestCase
+  test "should sync track when pushing to master branch" do
     track = create :track, slug: 'csharp'
     Git::SyncTrack.expects(:call).with(track)
 

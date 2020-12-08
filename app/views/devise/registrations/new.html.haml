@@ -10,9 +10,9 @@
     .divider
       %span or
 
+    = flash_messages
+
     = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-      = render "devise/shared/error_messages", resource: resource
-      %p= alert
       .field
         = f.label :handle, "Username"
         = f.text_field :handle, placeholder: 'Choose a unique username'

@@ -1,4 +1,4 @@
-@import "../../styles";
+@import "../styles";
 
 #page-auth {
     --lhs-width: 550px;
@@ -30,6 +30,16 @@
             }
             & p {
                 @apply text-16 leading-huge text-left;
+                & + p {
+                    @apply mt-12;
+                }
+                & a {
+                    @apply text-lightBlue font-medium;
+                    &:hover {
+                        @apply border-b-1;
+                        @apply border-lightBlue;
+                    }
+                }
             }
         }
         & .github-btn {

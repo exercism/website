@@ -21,7 +21,7 @@ module Webhooks
           type: :invalid_webhook_signature,
           message: "The auth token provided is invalid. Delivery: #{github_delivery}"
         }
-      }, status: :internal_server_error
+      }, status: :forbidden
     end
 
     def signature_valid?

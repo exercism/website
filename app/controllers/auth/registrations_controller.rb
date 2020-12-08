@@ -4,6 +4,7 @@ module Auth
   class RegistrationsController < Devise::RegistrationsController
     skip_before_action :authenticate_user!
     before_action :configure_permitted_parameters
+    before_action :disable_site_header!
     before_action :verify_captcha!, only: [:create]
 
     def create

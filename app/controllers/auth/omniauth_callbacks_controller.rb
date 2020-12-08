@@ -1,6 +1,8 @@
 module Auth
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     skip_before_action :authenticate_user!
+    before_action :disable_site_header!
+
     include Devise::Controllers::Rememberable
 
     def github

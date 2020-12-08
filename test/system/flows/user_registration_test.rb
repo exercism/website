@@ -5,12 +5,11 @@ module Flows
     test "user registers successfully" do
       allow_captcha_request do
         visit new_user_registration_path
-        fill_in "Name", with: "Name"
         fill_in "Email", with: "user@exercism.io"
-        fill_in "Handle", with: "user22"
+        fill_in "Username", with: "user22"
         fill_in "Password", with: "password"
         fill_in "Password confirmation", with: "password"
-        click_on "Sign up"
+        click_on "Sign Up"
 
         assert_text "Please confirm your email"
       end
@@ -22,12 +21,11 @@ module Flows
           to_return(body: { success: false }.to_json)
 
         visit new_user_registration_path
-        fill_in "Name", with: "Name"
         fill_in "Email", with: "user@exercism.io"
-        fill_in "Handle", with: "user22!"
+        fill_in "Username", with: "user22!"
         fill_in "Password", with: "password"
         fill_in "Password confirmation", with: "password"
-        click_on "Sign up"
+        click_on "Sign Up"
 
         assert_text "Captcha verification failed. Please try again."
       end
@@ -36,12 +34,11 @@ module Flows
     test "user sees registration errors" do
       allow_captcha_request do
         visit new_user_registration_path
-        fill_in "Name", with: "Name"
         fill_in "Email", with: "user@exercism.io"
-        fill_in "Handle", with: "user22!"
+        fill_in "Username", with: "user22!"
         fill_in "Password", with: "password"
         fill_in "Password confirmation", with: "password"
-        click_on "Sign up"
+        click_on "Sign Up"
 
         assert_text "Handle must have only letters, numbers, or hyphens"
       end
@@ -59,7 +56,7 @@ module Flows
         }
       )
       visit new_user_registration_path
-      click_on "Sign in with GitHub"
+      click_on "Sign Up with GitHub"
 
       refute_text "Please confirm your email"
       assert_text "Onboarding"
@@ -80,7 +77,7 @@ module Flows
         }
       )
       visit new_user_registration_path
-      click_on "Sign in with GitHub"
+      click_on "Sign Up with GitHub"
 
       assert_text "Sorry, we could not authenticate you from GitHub."
 
@@ -97,7 +94,7 @@ module Flows
       OmniAuth.config.logger.expects(:error).with("(github) Authentication failure! failed encountered.")
 
       visit new_user_registration_path
-      click_on "Sign in with GitHub"
+      click_on "Sign Up with GitHub"
 
       assert_text "Sorry, we could not authenticate you from GitHub."
 

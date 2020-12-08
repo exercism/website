@@ -8,12 +8,12 @@ module Webhooks
     skip_before_action :verify_authenticity_token
     skip_before_action :authenticate_user!
 
-    before_action :verify_github_webhook
+    before_action :verify_github_webhook!
 
     layout false
 
     private
-    def verify_github_webhook
+    def verify_github_webhook!
       return if signature_valid?
 
       render json: {

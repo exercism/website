@@ -46,6 +46,13 @@ Rails.application.routes.draw do
     resources :tooling_jobs, only: :update
   end
 
+  # ######## #
+  # Webhooks #
+  # ######## #
+  namespace :webhooks do
+    resource :repo_updates, only: [:create]
+  end
+
   # ############ #
   # Normal pages #
   # ############ #

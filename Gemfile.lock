@@ -160,7 +160,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.10.0)
     erubis (2.7.0)
-    exercism-config (0.55.0)
+    exercism-config (0.56.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -446,7 +446,7 @@ DEPENDENCIES
   commonmarker
   delayed_job_active_record (~> 4.1.4)
   devise
-  exercism-config (>= 0.55.0)
+  exercism-config (>= 0.56.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml-rails (~> 2.0)

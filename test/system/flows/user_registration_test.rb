@@ -11,7 +11,7 @@ module Flows
         fill_in "Password confirmation", with: "password"
         click_on "Sign Up"
 
-        assert_text "Please confirm your email"
+        assert_text "Check your email"
       end
     end
 
@@ -58,7 +58,7 @@ module Flows
       visit new_user_registration_path
       click_on "Sign Up with GitHub"
 
-      refute_text "Please confirm your email"
+      refute_text "Check your email"
       assert_text "Onboarding"
 
     ensure

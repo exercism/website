@@ -21,8 +21,9 @@ module Auth
 
     private
     def verify_captcha!
-      verification = HCaptcha.verify(params["h-captcha-response"])
+      return true if Rails.env.development?
 
+      verification = HCaptcha.verify(params["h-captcha-response"])
       return if verification.succeeded?
 
       set_flash_message(:alert, :captcha_verification_failed) if is_navigational_format?

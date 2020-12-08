@@ -49,6 +49,7 @@ import '../../css/components/track/concept-map.css'
 
 import '../../css/components/widgets/exercise.css'
 
+import '../../css/pages/auth.css'
 import '../../css/pages/editor.css'
 import '../../css/pages/staging.css'
 import '../../css/pages/track-shared-index.css'
@@ -60,10 +61,6 @@ import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
 import '../../css/pages/mentor/dashboard'
-
-import '../../css/pages/auth/log-in.css'
-// import '../../css/pages/auth/sign-up.css'
-import '../../css/pages/auth/shared.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'

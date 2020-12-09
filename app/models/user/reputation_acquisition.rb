@@ -3,7 +3,7 @@ class User::ReputationAcquisition < ApplicationRecord
   belongs_to :reason_object, polymorphic: true, optional: true
 
   before_create do
-    self.amount = REASON_AMOUNTS[self.reason] unless self.amount
+    self.amount = REASON_AMOUNTS[self.reason]
   end
 
   validates :reason, inclusion: {

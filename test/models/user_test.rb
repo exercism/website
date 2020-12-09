@@ -19,14 +19,14 @@ class UserTest < ActiveSupport::TestCase
   test "reputation sums correctly" do
     user = create :user
     create :user_reputation_acquisition
-    create :user_reputation_acquisition, user: user, category: "track_ruby", amount: 1
-    create :user_reputation_acquisition, user: user, category: "track_ruby", amount: 2
-    create :user_reputation_acquisition, user: user, category: "track_javascript", amount: 4
-    create :user_reputation_acquisition, user: user, category: "docs", amount: 8
+    create :user_reputation_acquisition, user: user, category: "track_ruby", reason: :exercise_authorship
+    create :user_reputation_acquisition, user: user, category: "track_ruby", reason: :exercise_authorship
+    create :user_reputation_acquisition, user: user, category: "track_javascript", reason: :exercise_contributorship
+    create :user_reputation_acquisition, user: user, category: "docs", reason: :exercise_authorship
 
-    assert_equal 15, user.reputation
-    assert_equal 3, user.reputation(track_slug: :ruby)
-    assert_equal 8, user.reputation(category: :docs)
+    assert_equal 35, user.reputation
+    assert_equal 20, user.reputation(track_slug: :ruby)
+    assert_equal 10, user.reputation(category: :docs)
   end
 
   test "reputation raises with both track_slug and category specified" do

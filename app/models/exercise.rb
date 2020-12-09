@@ -18,7 +18,6 @@ class Exercise < ApplicationRecord
     class_name: "Exercise::Authorship",
     inverse_of: :exercise,
     dependent: :destroy
-
   has_many :authors,
     through: :authorships,
     source: :author
@@ -27,7 +26,6 @@ class Exercise < ApplicationRecord
     class_name: "Exercise::Contributorship",
     inverse_of: :exercise,
     dependent: :destroy
-
   has_many :contributors,
     through: :contributorships,
     source: :contributor

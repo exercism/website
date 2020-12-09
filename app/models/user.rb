@@ -24,6 +24,12 @@ class User < ApplicationRecord
   belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
   has_one :featured_badge, through: :featured_user_badge
 
+  has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
+  has_many :authored_exercises, through: :authorships, source: :exercise
+
+  has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
+  has_many :contributed_exercises, through: :contributorships, source: :exercise
+
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
   def self.for!(param)

@@ -12,7 +12,6 @@ class CreateUserProfiles < ActiveRecord::Migration[6.1]
       t.timestamps
     end
     
-    add_column :users, :display_name, :string, null: true
     add_column :users, :bio, :text, null: true
 
     User.update_all(bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best.")

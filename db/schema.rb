@@ -357,7 +357,6 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "featured_badge_id"
-    t.string "display_name"
     t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

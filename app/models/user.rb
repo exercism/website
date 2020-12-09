@@ -52,10 +52,6 @@ class User < ApplicationRecord
     true
   end
 
-  def display_name
-    super.presence || name
-  end
-
   def reputation(track_slug: nil, category: nil)
     raise if track_slug && category
 

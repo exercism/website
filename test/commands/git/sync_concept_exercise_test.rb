@@ -186,4 +186,38 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     refute_includes exercise.authors, first_author
     assert_includes exercise.authors, second_author
   end
+
+  test "adds reputation acquisition for new author" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "ec9778d42d14df4ae8f8709f9b24acc8ca837432", synced_to_git_sha: "ec9778d42d14df4ae8f8709f9b24acc8ca837432" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << basics
+    exercise.taught_concepts << conditionals
+    second_author = create :user, handle: "RobKeim"
+
+    Git::SyncConceptExercise.(exercise)
+
+    new_authorship = exercise.authorships.find_by(author: second_author)
+    new_author_rep_acquisition = second_author.reputation_acquisitions.find_by(reason_object: new_authorship)
+    assert_equal :exercise_authorship, new_author_rep_acquisition.reason
+    assert_equal "exercise_authorship", new_author_rep_acquisition.category
+    assert_equal 10, new_author_rep_acquisition.amount
+  end
+
+  test "only adds reputation acquisition once for each author" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "ec9778d42d14df4ae8f8709f9b24acc8ca837432", synced_to_git_sha: "ec9778d42d14df4ae8f8709f9b24acc8ca837432" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << basics
+    exercise.taught_concepts << conditionals
+    first_author = create :user, handle: "ErikSchierboom"
+    first_author_authorship = create :exercise_authorship, exercise: exercise, author: first_author
+    create :user_reputation_acquisition, user: first_author, reason_object: first_author_authorship, amount: 10, reason: "exercise_authorship", category: "exercise_authorship" # rubocop:disable Layout/LineLength
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal 1, first_author.reputation_acquisitions.where(category: "exercise_authorship").count
+  end
 end

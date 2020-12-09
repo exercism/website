@@ -20,10 +20,25 @@ module Git
         prerequisites: find_concepts(exercise_config[:prerequisites]),
         authors: authors
       )
+
+      update_reputation!
     end
 
     private
     attr_reader :exercise
+
+    def update_reputation!
+      exercise.authorships.each do |authorship|
+        User::ReputationAcquisition.find_or_create_by!(
+          user: authorship.author,
+          reason_object: authorship,
+          reason: "exercise_authorship",
+          category: "exercise_authorship"
+        ) do |ra|
+          ra.amount = 10
+        end
+      end
+    end
 
     def exercise_needs_updating?
       return false if synced_to_head?

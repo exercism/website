@@ -17,7 +17,15 @@ export const ActionMore = ({
     buttonRef.current,
     panelRef.current,
     {
-      placement: 'bottom',
+      placement: 'bottom-end',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 2],
+          },
+        },
+      ],
     }
   )
   const handleRevert = useCallback(() => {

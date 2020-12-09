@@ -17,8 +17,8 @@ class User::ReputationAcquisition < ApplicationRecord
   end
 
   REASON_AMOUNTS = {
-    'exercise_authorship': 10,
-    'exercise_contributorship': 5
+    exercise_authorship: 10,
+    exercise_contributorship: 5
   }.freeze
   private_constant :REASON_AMOUNTS
 end

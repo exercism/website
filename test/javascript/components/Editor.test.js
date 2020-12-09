@@ -1,4 +1,4 @@
-jest.mock('../../../app/javascript/components/editor/ExercismMonacoEditor')
+jest.mock('../../../app/javascript/components/editor/FileEditor')
 
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'

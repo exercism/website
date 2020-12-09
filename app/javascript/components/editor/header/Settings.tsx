@@ -44,7 +44,9 @@ export function Settings({
         {open ? (
           <div className="settings-dialog">
             <div className="setting">
-              <div className="name">Theme</div>
+              <label htmlFor="theme" className="name">
+                Theme
+              </label>{' '}
               <select
                 id="theme"
                 onChange={(e) => setTheme(e.target.value)}
@@ -55,7 +57,9 @@ export function Settings({
               </select>
             </div>
             <div className="setting">
-              <div className="name">Keybindings</div>
+              <label htmlFor="keybindings" className="name">
+                Keybindings
+              </label>
               <select
                 id="keybindings"
                 onChange={(e) => setKeybindings(e.target.value as Keybindings)}
@@ -67,7 +71,9 @@ export function Settings({
               </select>
             </div>
             <div className="setting">
-              <div className="name">Wrap</div>
+              <label htmlFor="wrap" className="name">
+                Wrap
+              </label>
               <select
                 id="wrap"
                 onChange={(e) => setWrap(e.target.value as WrapSetting)}

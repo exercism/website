@@ -205,7 +205,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_equal 10, new_author_rep_acquisition.amount
   end
 
-  test "only adds reputation acquisition once for each author" do
+  test "only adds reputation acquisition for new author" do
     track = create :track, slug: 'fsharp'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
@@ -271,7 +271,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_equal 5, new_contributor_rep_acquisition.amount
   end
 
-  test "only adds reputation acquisition once for each contributor" do
+  test "only adds reputation acquisition for new contributor" do
     track = create :track, slug: 'fsharp'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'

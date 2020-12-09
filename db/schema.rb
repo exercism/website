@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_authorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_authorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_authorships_on_user_id"
   end
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_contributorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_contributorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_contributorships_on_user_id"
   end

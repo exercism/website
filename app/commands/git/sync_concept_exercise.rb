@@ -17,44 +17,38 @@ module Git
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,
         taught_concepts: find_concepts(exercise_config[:concepts]),
-        prerequisites: find_concepts(exercise_config[:prerequisites]),
-        authors: authors,
-        contributors: contributors
+        prerequisites: find_concepts(exercise_config[:prerequisites])
       )
 
-      update_reputation!
+      update_authors!
+      update_contributors!
     end
 
     private
     attr_reader :exercise
 
-    def update_reputation!
-      update_authorship_reputation!
-      update_contributor_reputation!
-    end
+    def update_authors!
+      authors = ::User.where(handle: author_usernames_config)
+      author_usernames_config.each do |username|
+        author = authors.find { |a| a.handle == username }
 
-    def update_authorship_reputation!
-      exercise.authorships.each do |authorship|
-        User::ReputationAcquisition.find_or_create_by!(
-          user: authorship.author,
-          reason_object: authorship,
-          reason: "exercise_authorship",
-          category: "exercise_authorship"
-        ) do |ra|
-          ra.amount = 10
+        if author
+          ::Exercise::Authorship::Create.(exercise, author)
+        else
+          Rails.logger.error "Missing author: #{username}"
         end
       end
     end
 
-    def update_contributor_reputation!
-      exercise.contributorships.each do |contributorship|
-        User::ReputationAcquisition.find_or_create_by!(
-          user: contributorship.contributor,
-          reason_object: contributorship,
-          reason: "exercise_contributorship",
-          category: "exercise_contributorship"
-        ) do |ra|
-          ra.amount = 5
+    def update_contributors!
+      contributors = ::User.where(handle: contributor_usernames_config)
+      contributor_usernames_config.each do |username|
+        contributor = contributors.find { |a| a.handle == username }
+
+        if contributor
+          ::Exercise::Contributorship::Create.(exercise, contributor)
+        else
+          Rails.logger.error "Missing contributor: #{username}"
         end
       end
     end
@@ -86,24 +80,18 @@ module Git
       end
     end
 
-    def authors
-      head_git_exercise.authors.map do |author|
-        ::User.find_by!(handle: author["exercism_username"])
-      rescue StandardError
-        Rails.logger.error "Missing author: #{author[:exercism_username]}"
-        nil
-      end.compact
+    memoize
+    def author_usernames_config
+      return [] unless head_git_exercise.authors
+
+      head_git_exercise.authors.map { |a| a["exercism_username"] }
     end
 
-    def contributors
+    memoize
+    def contributor_usernames_config
       return [] unless head_git_exercise.contributors
 
-      head_git_exercise.contributors.map do |contributor|
-        ::User.find_by!(handle: contributor["exercism_username"])
-      rescue StandardError
-        Rails.logger.error "Missing contributor: #{contributor[:exercism_username]}"
-        nil
-      end.compact
+      head_git_exercise.contributors.map { |a| a["exercism_username"] }
     end
 
     memoize

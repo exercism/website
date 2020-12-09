@@ -18,7 +18,8 @@ module Git
         synced_to_git_sha: head_git_exercise.commit.oid,
         taught_concepts: find_concepts(exercise_config[:concepts]),
         prerequisites: find_concepts(exercise_config[:prerequisites]),
-        authors: authors
+        authors: authors,
+        contributors: contributors
       )
 
       update_reputation!
@@ -28,6 +29,11 @@ module Git
     attr_reader :exercise
 
     def update_reputation!
+      update_authorship_reputation!
+      update_contributor_reputation!
+    end
+
+    def update_authorship_reputation!
       exercise.authorships.each do |authorship|
         User::ReputationAcquisition.find_or_create_by!(
           user: authorship.author,
@@ -36,6 +42,19 @@ module Git
           category: "exercise_authorship"
         ) do |ra|
           ra.amount = 10
+        end
+      end
+    end
+
+    def update_contributor_reputation!
+      exercise.contributorships.each do |contributorship|
+        User::ReputationAcquisition.find_or_create_by!(
+          user: contributorship.contributor,
+          reason_object: contributorship,
+          reason: "exercise_contributorship",
+          category: "exercise_contributorship"
+        ) do |ra|
+          ra.amount = 5
         end
       end
     end
@@ -72,6 +91,17 @@ module Git
         ::User.find_by!(handle: author["exercism_username"])
       rescue StandardError
         Rails.logger.error "Missing author: #{author[:exercism_username]}"
+        nil
+      end.compact
+    end
+
+    def contributors
+      return [] unless head_git_exercise.contributors
+
+      head_git_exercise.contributors.map do |contributor|
+        ::User.find_by!(handle: contributor["exercism_username"])
+      rescue StandardError
+        Rails.logger.error "Missing contributor: #{contributor[:exercism_username]}"
         nil
       end.compact
     end

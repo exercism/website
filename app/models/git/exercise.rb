@@ -42,6 +42,10 @@ module Git
       config[:authors]
     end
 
+    def contributors
+      config[:contributors]
+    end
+
     # Files that should be transported
     # to a user for use in the editor.
     memoize

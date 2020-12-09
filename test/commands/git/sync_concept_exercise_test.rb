@@ -220,4 +220,70 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     assert_equal 1, first_author.reputation_acquisitions.where(category: "exercise_authorship").count
   end
+
+  test "adds contributors that are in .meta/config.json" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "e47f3bb23b5108793e2acd333bec7bccbb5193fd", synced_to_git_sha: "e47f3bb23b5108793e2acd333bec7bccbb5193fd" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << basics
+    exercise.taught_concepts << conditionals
+    contributor = create :user, handle: "SleeplessByte"
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_includes exercise.contributors, contributor
+  end
+
+  test "removes contributors that are not in .meta/config.json" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
+    pattern_matching = create :track_concept, track: track, slug: 'pattern-matching', uuid: '3439b5d6-6e1b-486b-989d-9f7e8f9eb732' # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing Game', git_sha: "bb8b38cb441e154475fd1d7b53efeddfc446fdda", synced_to_git_sha: "bb8b38cb441e154475fd1d7b53efeddfc446fdda" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << conditionals
+    exercise.prerequisites << strings
+    exercise.taught_concepts << pattern_matching
+    first_contributor = create :user, handle: "ErikSchierboom"
+    second_contributor = create :user, handle: "neenjaw"
+
+    Git::SyncConceptExercise.(exercise)
+
+    refute_includes exercise.contributors, first_contributor
+    assert_includes exercise.contributors, second_contributor
+  end
+
+  test "adds reputation acquisition for new contributor" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "e47f3bb23b5108793e2acd333bec7bccbb5193fd", synced_to_git_sha: "e47f3bb23b5108793e2acd333bec7bccbb5193fd" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << basics
+    exercise.taught_concepts << conditionals
+    contributor = create :user, handle: "SleeplessByte"
+
+    Git::SyncConceptExercise.(exercise)
+
+    new_contributorship = exercise.contributorships.find_by(contributor: contributor)
+    new_contributor_rep_acquisition = contributor.reputation_acquisitions.find_by(reason_object: new_contributorship)
+    assert_equal :exercise_contributorship, new_contributor_rep_acquisition.reason
+    assert_equal "exercise_contributorship", new_contributor_rep_acquisition.category
+    assert_equal 5, new_contributor_rep_acquisition.amount
+  end
+
+  test "only adds reputation acquisition once for each contributor" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "e47f3bb23b5108793e2acd333bec7bccbb5193fd", synced_to_git_sha: "e47f3bb23b5108793e2acd333bec7bccbb5193fd" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << basics
+    exercise.taught_concepts << conditionals
+    contributor = create :user, handle: "SleeplessByte"
+    contributor_contributorship = create :exercise_contributorship, exercise: exercise, contributor: contributor
+    create :user_reputation_acquisition, user: contributor, reason_object: contributor_contributorship, amount: 5, reason: "exercise_contributorship", category: "exercise_contributorship" # rubocop:disable Layout/LineLength
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal 1, contributor.reputation_acquisitions.where(category: "exercise_contributorship").count
+  end
 end

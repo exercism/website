@@ -297,6 +297,10 @@ export function Editor({
     )
   }, [sendRequest, initialSubmission, updateSubmission])
 
+  const revertContent = useCallback(() => {
+    editorRef.current?.setFiles(files)
+  }, [files])
+
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
       <div id="page-editor">
@@ -313,7 +317,7 @@ export function Editor({
             setKeybindings={setKeybindings}
             setWrap={setWrap}
           />
-          <Header.ActionMore />
+          <Header.ActionMore onRevert={revertContent} />
         </div>
 
         <div className="main-lhs">

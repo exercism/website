@@ -15,6 +15,7 @@ type FileRef = {
 
 export type FileEditorHandle = {
   getFiles: () => File[]
+  setFiles: (files: File[]) => void
 }
 
 export function FileEditor({
@@ -45,7 +46,7 @@ export function FileEditor({
     model: null,
   }
   const [tab, setTab] = useState(0)
-  const [files, setFiles] = useSaveFiles(initialFiles, () => {
+  const [files] = useSaveFiles(initialFiles, () => {
     return getFiles()
   })
   const filesRef = useRef<FileRef[]>(
@@ -55,6 +56,17 @@ export function FileEditor({
       state: null,
     }))
   )
+  const setFiles = useCallback((files: File[]) => {
+    filesRef.current?.forEach((fileRef: FileRef) => {
+      const file = files.find((file) => file.filename === fileRef.filename)
+
+      if (!file) {
+        return
+      }
+
+      fileRef.model.setValue(file.content)
+    })
+  }, [])
   const getFiles = useCallback(
     () =>
       filesRef.current?.map((fileRef: FileRef) => {
@@ -92,7 +104,7 @@ export function FileEditor({
 
     editor.setModel(filesRef.current[0].model)
 
-    editorDidMount({ getFiles })
+    editorDidMount({ getFiles, setFiles })
   }
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import React from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
+import { ActionMore } from './header/ActionMore'
 
 export const Header = ({ children }: { children: React.ReactNode }) => (
   <div className="header">{children}</div>
@@ -40,8 +41,4 @@ Header.ActionKeyboardShortcuts = () => (
 
 Header.ActionSettings = Settings
 
-Header.ActionMore = () => (
-  <button className="more-btn">
-    <Icon icon="more-horizontal" alt="Open more options" />
-  </button>
-)
+Header.ActionMore = ActionMore

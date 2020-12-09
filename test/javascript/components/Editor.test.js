@@ -356,3 +356,25 @@ test('saves data to storage when data changed', async () => {
 
   localStorage.clear()
 })
+
+test('revert to last submission', async () => {
+  jest.useFakeTimers()
+  localStorage.setItem(
+    'files',
+    JSON.stringify([{ filename: 'file', content: 'class' }])
+  )
+
+  const { getByTitle, getByText, queryByText } = render(
+    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  )
+
+  fireEvent.click(getByTitle('Open more options'))
+  fireEvent.click(getByText('Revert to last iteration submission'))
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
+
+  await waitFor(() => expect(queryByText('Value: file')).toBeInTheDocument())
+
+  localStorage.clear()
+})

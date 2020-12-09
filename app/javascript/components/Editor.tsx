@@ -30,7 +30,7 @@ import { RunTestsButton } from './editor/RunTestsButton'
 import { SubmitButton } from './editor/SubmitButton'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
-import { useSaveFiles } from './editor/file-editor/useSaveFiles'
+import { useSaveFiles } from './editor/useSaveFiles'
 import { isEqual } from 'lodash'
 
 export enum EditorStatus {

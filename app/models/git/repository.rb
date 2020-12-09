@@ -1,4 +1,7 @@
 module Git
+  class MissingCommitError < RuntimeError
+  end
+
   class Repository
     extend Mandate::Memoize
 
@@ -48,7 +51,7 @@ module Git
         raise 'wrong-type' if object.type != :commit
       end
     rescue Rugged::OdbError
-      raise 'not-found' unless update_on_failure
+      raise MissingCommitError unless update_on_failure
 
       fetch!
       lookup_commit(sha, update_on_failure: false)

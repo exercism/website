@@ -57,7 +57,10 @@ module.exports = {
       darkGreen: '#43B593',
       mediumGreen: '#B8EADB',
       lightGreen: '#ABDBCC',
+      veryLightGreen: 'rgba(79,205,167,0.15)',
+
       tooManyGreens: '#59D2AE',
+      literallySoManyGreens: '#4FCDA7',
 
       orange: '#F69605',
       red: '#EB5757',
@@ -94,6 +97,7 @@ module.exports = {
       huge: '170%',
     },
     spacing: {
+      '0': '0px',
       '4': '4px',
       '6': '6px',
       '8': '8px',

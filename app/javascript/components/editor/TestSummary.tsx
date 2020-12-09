@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { TestStatus, Test } from './types'
+import { GraphicalIcon } from '../common/GraphicalIcon'
 
 const statusLabels = {
   [TestStatus.PASS]: 'Passed',
@@ -25,15 +26,17 @@ export function TestSummary({
 
   return (
     <details
-      className={`c-test-summary ${test.status}`}
+      className={`c-details c-test-summary ${test.status}`}
       open={test.status === TestStatus.FAIL || test.status === TestStatus.ERROR}
     >
-      <summary>
+      <summary className="--summary">
         <div className="--status">{statusLabels[test.status]}</div>
         <div className="--summary-details">
           <div className="--summary-idx">Test {index}</div>
           <div className="--summary-name">{test.name}</div>
         </div>
+        <GraphicalIcon icon="chevron-right" className="--closed-icon" />
+        <GraphicalIcon icon="chevron-down" className="--open-icon" />
       </summary>
       <div className="--explanation">
         {isPresent(test.testCode) ? (

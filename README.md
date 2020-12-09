@@ -47,7 +47,7 @@ Assuming your docker-compose is already "up," you can run the following commands
 Oftentimes you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
 
 ```bash
-# run rails test test/system/components/tooltips/tooltip_test.rb
+# run rails test test/commands/track/create_test.rb
 ./bin/script website run-tests test/commands/track/create_test.rb
 
 # run rails test:system test/system/components/tooltips/tooltip_test.rb

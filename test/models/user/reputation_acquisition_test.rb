@@ -14,7 +14,7 @@ class User::ReputationAcquisitionTest < ActiveSupport::TestCase
     reason = :mentoring
     reason_object = create :concept_solution
 
-    assert_raises ReputationAcquisitionReasonMissingAmount do
+    assert_raises ReputationAcquisitionReasonInvalid do
       create :user_reputation_acquisition, reason: reason, reason_object: reason_object, amount: nil
     end
   end

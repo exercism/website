@@ -9,7 +9,7 @@ class User::ReputationAcquisition < ApplicationRecord
   validates :reason, inclusion: {
     in: %i[exercise_authorship exercise_contributorship],
     message: "%<value>s is not a valid reason",
-    strict: ReputationAcquisitionReasonMissingAmount
+    strict: ReputationAcquisitionReasonInvalid
   }
 
   def reason

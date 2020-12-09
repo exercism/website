@@ -13,6 +13,7 @@ export function FileEditor({
   wrap,
   theme,
   keybindings,
+  isPaletteOpen,
 }): JSX.Element {
   const textareaRef = useRef(files.map(() => createRef()))
   const getFiles = useCallback(() => {
@@ -37,6 +38,7 @@ export function FileEditor({
       <p>Language: {language}</p>
       <p>Keybindings: {keybindings}</p>
       <p>Wrap: {wrap}</p>
+      <p>Palette open: {isPaletteOpen.toString()}</p>
       {files.map((file, i) => (
         <div key={file.filename}>
           <p>Value: {file.content}</p>

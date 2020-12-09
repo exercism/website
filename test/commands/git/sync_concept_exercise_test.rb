@@ -152,4 +152,38 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     assert_includes exercise.prerequisites, numbers
   end
+
+  test "adds new authors that are in .meta/config.json" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    exercise = create :concept_exercise, track: track, uuid: '6ea2765e-5885-11ea-82b4-0242ac130003', slug: 'cars-assemble', title: 'Cars, Assemble!', git_sha: "ec9778d42d14df4ae8f8709f9b24acc8ca837432", synced_to_git_sha: "ec9778d42d14df4ae8f8709f9b24acc8ca837432" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << basics
+    exercise.taught_concepts << conditionals
+    first_author = create :user, handle: "ErikSchierboom"
+    second_author = create :user, handle: "RobKeim"
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_includes exercise.authors, first_author
+    assert_includes exercise.authors, second_author
+  end
+
+  test "removes authors that are not in .meta/config.json" do
+    track = create :track, slug: 'fsharp'
+    conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
+    strings = create :track_concept, track: track, slug: 'strings', uuid: '8a3e23fd-aa42-42c3-9dbd-c26159fd6774'
+    pattern_matching = create :track_concept, track: track, slug: 'pattern-matching', uuid: '3439b5d6-6e1b-486b-989d-9f7e8f9eb732' # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: 'd605385d-fd8a-45fa-a320-4d7c40213769', slug: 'guessing-game', title: 'Guessing Game', git_sha: "bb8b38cb441e154475fd1d7b53efeddfc446fdda", synced_to_git_sha: "bb8b38cb441e154475fd1d7b53efeddfc446fdda" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << conditionals
+    exercise.prerequisites << strings
+    exercise.taught_concepts << pattern_matching
+    first_author = create :user, handle: "ErikSchierboom"
+    second_author = create :user, handle: "SleeplessByte"
+
+    Git::SyncConceptExercise.(exercise)
+
+    refute_includes exercise.authors, first_author
+    assert_includes exercise.authors, second_author
+  end
 end

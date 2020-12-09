@@ -17,7 +17,8 @@ module Git
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,
         taught_concepts: find_concepts(exercise_config[:concepts]),
-        prerequisites: find_concepts(exercise_config[:prerequisites])
+        prerequisites: find_concepts(exercise_config[:prerequisites]),
+        authors: authors
       )
     end
 
@@ -49,6 +50,15 @@ module Git
         concept_config = concepts_config.find { |e| e[:slug] == slug }
         ::Track::Concept.find_by!(uuid: concept_config[:uuid])
       end
+    end
+
+    def authors
+      head_git_exercise.authors.map do |author|
+        ::User.find_by!(handle: author["exercism_username"])
+      rescue StandardError
+        Rails.logger.error "Missing author: #{author[:exercism_username]}"
+        nil
+      end.compact
     end
 
     memoize

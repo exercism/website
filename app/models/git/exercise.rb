@@ -38,6 +38,10 @@ module Git
       "No example code found"
     end
 
+    def authors
+      config[:authors]
+    end
+
     # Files that should be transported
     # to a user for use in the editor.
     memoize

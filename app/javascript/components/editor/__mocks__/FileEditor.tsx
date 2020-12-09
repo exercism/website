@@ -1,5 +1,4 @@
 import React, { createRef, useRef, useEffect, useCallback } from 'react'
-import { useSaveFiles } from '../file-editor/useSaveFiles'
 
 export enum Keybindings {
   DEFAULT = 'default',
@@ -8,33 +7,29 @@ export enum Keybindings {
 }
 
 export function FileEditor({
-  files: initialFiles,
+  files,
   language,
   editorDidMount,
   wrap,
   theme,
   keybindings,
 }): JSX.Element {
-  const textareaRef = useRef(initialFiles.map(() => createRef()))
-  const [files] = useSaveFiles(initialFiles, () => {
-    return getFiles()
-  })
-
+  const textareaRef = useRef(files.map(() => createRef()))
   const getFiles = useCallback(() => {
     return textareaRef.current.map((ref, i) => {
       return { filename: files[i].filename, content: ref.current.value }
     })
   }, [files])
 
-  const setFiles = useCallback(() => {
+  const setFiles = useCallback((files) => {
     return textareaRef.current.map((ref, i) => {
-      ref.current.value = initialFiles[i].content
+      ref.current.value = files[i].content
     })
-  }, [initialFiles])
+  }, [])
 
   useEffect(() => {
     editorDidMount({ getFiles, setFiles })
-  }, [editorDidMount, getFiles, initialFiles, setFiles])
+  }, [editorDidMount, getFiles, files, setFiles])
 
   return (
     <div>

@@ -375,6 +375,7 @@ test('revert to last submission', async () => {
   })
 
   await waitFor(() => expect(queryByText('Value: file')).toBeInTheDocument())
+  expect(getByText('Revert to last iteration submission')).toBeDisabled()
 
   localStorage.clear()
 })

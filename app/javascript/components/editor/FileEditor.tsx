@@ -5,7 +5,6 @@ import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { initVimMode, VimMode } from 'monaco-vim'
 import { EmacsExtension } from 'monaco-emacs'
 import { Keybindings, File, WrapSetting } from './types'
-import { useSaveFiles } from './file-editor/useSaveFiles'
 
 type FileRef = {
   filename: string
@@ -25,7 +24,7 @@ export function FileEditor({
   onSubmit,
   theme,
   keybindings,
-  files: initialFiles,
+  files,
   wrap,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
@@ -46,9 +45,6 @@ export function FileEditor({
     model: null,
   }
   const [tab, setTab] = useState(0)
-  const [files] = useSaveFiles(initialFiles, () => {
-    return getFiles()
-  })
   const filesRef = useRef<FileRef[]>(
     files.map((file) => ({
       filename: file.filename,

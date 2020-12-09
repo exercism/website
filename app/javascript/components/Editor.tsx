@@ -30,6 +30,8 @@ import { RunTestsButton } from './editor/RunTestsButton'
 import { SubmitButton } from './editor/SubmitButton'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
+import { useSaveFiles } from './editor/file-editor/useSaveFiles'
+import { isEqual } from 'lodash'
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -129,7 +131,7 @@ export function Editor({
   endpoint,
   timeout = 60000,
   initialSubmission,
-  files,
+  files: initialFiles,
   language,
   exercisePath,
   trackTitle,
@@ -153,6 +155,9 @@ export function Editor({
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState('vs')
   const editorRef = useRef<FileEditorHandle>()
+  const [files] = useSaveFiles(initialFiles, () => {
+    return editorRef.current?.getFiles() || []
+  })
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT
   )
@@ -298,8 +303,8 @@ export function Editor({
   }, [sendRequest, initialSubmission, updateSubmission])
 
   const revertContent = useCallback(() => {
-    editorRef.current?.setFiles(files)
-  }, [files])
+    editorRef.current?.setFiles(initialFiles)
+  }, [initialFiles])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
@@ -317,7 +322,10 @@ export function Editor({
             setKeybindings={setKeybindings}
             setWrap={setWrap}
           />
-          <Header.ActionMore onRevert={revertContent} />
+          <Header.ActionMore
+            onRevert={revertContent}
+            isRevertDisabled={isEqual(initialFiles, files)}
+          />
         </div>
 
         <div className="main-lhs">

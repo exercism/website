@@ -12,9 +12,7 @@ class Exercise
           reason_object: contributorship,
           reason: "exercise_contributorship",
           category: "exercise_contributorship"
-        ) do |ra|
-          ra.amount = 5
-        end
+        )
       rescue ActiveRecord::RecordNotUnique
         nil
       end

@@ -141,13 +141,9 @@ GEM
     commonmarker (0.21.0)
       ruby-enum (~> 0.5)
     concurrent-ruby (1.1.7)
+    connection_pool (2.2.3)
     crack (0.4.4)
     crass (1.0.6)
-    delayed_job (4.1.8)
-      activesupport (>= 3.0, < 6.1)
-    delayed_job_active_record (4.1.4)
-      activerecord (>= 3.0, < 6.1)
-      delayed_job (>= 3.0, < 5)
     devise (4.7.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -160,7 +156,7 @@ GEM
     e2mmap (0.1.0)
     erubi (1.10.0)
     erubis (2.7.0)
-    exercism-config (0.56.0)
+    exercism-config (0.57.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -358,6 +354,10 @@ GEM
     sexp_processor (4.15.1)
     show_me_the_cookies (5.0.1)
       capybara (>= 2, < 4)
+    sidekiq (6.1.2)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -444,9 +444,8 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   commonmarker
-  delayed_job_active_record (~> 4.1.4)
   devise
-  exercism-config (>= 0.56.0)
+  exercism-config (>= 0.57.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml-rails (~> 2.0)
@@ -470,6 +469,7 @@ DEPENDENCIES
   rugged
   selenium-webdriver
   show_me_the_cookies
+  sidekiq (~> 6.1)
   simplecov (~> 0.17.0)
   solargraph
   spring

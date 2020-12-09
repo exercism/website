@@ -1,0 +1,13 @@
+---
+:queues:
+  # Rails defaults
+  - mailers
+  - default
+  - action_mailbox_routing
+  - action_mailbox_incineration
+  - active_storage_analysis
+  - active_storage_purge
+
+  # Custom
+  - critical
+  - low

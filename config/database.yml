@@ -18,25 +18,13 @@ development:
   primary:
     <<: *default
     database: exercism_v3_development
-  dj:
-    <<: *default
-    database: exercism_v3_dj_development
-    migrations_paths: "db/dj_migrate"
 
 test:
   primary:
     <<: *default
     database: exercism_v3_test
-  dj:
-    <<: *default
-    database: exercism_v3_test
-    migrations_paths: "db/dj_migrate"
 
 production:
   primary:
     <<: *default
     database: exercism_v3
-  dj:
-    <<: *default
-    database: exercism_v3_dj
-    migrations_paths: "db/dj_migrate"

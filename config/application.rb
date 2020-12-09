@@ -22,7 +22,7 @@ module Website
   class Application < Rails::Application
     config.load_defaults 6.0
 
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :sidekiq
 
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc

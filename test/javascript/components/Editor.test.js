@@ -375,7 +375,10 @@ test('revert to last submission', async () => {
   })
 
   await waitFor(() => expect(queryByText('Value: file')).toBeInTheDocument())
-  expect(getByText('Revert to last iteration submission')).toBeDisabled()
+  fireEvent.click(getByTitle('Open more options'))
+  await waitFor(() =>
+    expect(getByText('Revert to last iteration submission')).toBeDisabled()
+  )
 
   localStorage.clear()
 })

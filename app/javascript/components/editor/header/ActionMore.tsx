@@ -30,6 +30,8 @@ export const ActionMore = ({
   )
   const handleRevert = useCallback(() => {
     onRevert()
+
+    setOpen(false)
   }, [onRevert])
 
   useEffect(() => {

@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_id"
-    t.bigint "user_id"
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_exercise_authorships_on_exercise_id"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
   end
 
   create_table "exercise_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_id"
-    t.bigint "user_id"
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_exercise_contributorships_on_exercise_id"

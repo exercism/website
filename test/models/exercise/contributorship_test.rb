@@ -6,7 +6,7 @@ class Exercise::ContributorshipTest < ActiveSupport::TestCase
     user = create :user
     contributorship = create :exercise_contributorship,
       exercise: exercise,
-      author: user
+      contributor: user
 
     assert_equal exercise, contributorship.exercise
     assert_equal user, contributorship.contributor

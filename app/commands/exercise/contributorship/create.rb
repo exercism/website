@@ -6,15 +6,18 @@ class Exercise
       initialize_with :exercise, :contributor
 
       def call
-        contributorship = exercise.contributorships.create!(contributor: contributor)
+        begin
+          contributorship = exercise.contributorships.create!(contributor: contributor)
+        rescue ActiveRecord::RecordNotUnique
+          return nil
+        end
+
         User::ReputationAcquisition.find_or_create_by!(
           user: contributor,
           reason_object: contributorship,
           reason: "exercise_contributorship",
           category: "exercise_contributorship"
         )
-      rescue ActiveRecord::RecordNotUnique
-        nil
       end
     end
   end

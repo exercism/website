@@ -14,6 +14,12 @@ class Exercise < ApplicationRecord
     through: :exercise_prerequisites,
     source: :concept
 
+  has_many :authorships,
+    inverse_of: :exercise,
+    dependent: :destroy
+
+  has_many :authors, through: :authorships
+
   scope :without_prerequisites, lambda {
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }

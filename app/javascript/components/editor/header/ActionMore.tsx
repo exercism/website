@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react'
-import { usePopper } from 'react-popper'
+import React, { useCallback } from 'react'
 import { Icon } from '../../common/Icon'
+import { usePanel } from './usePanel'
 
 export const ActionMore = ({
   onRevert,
@@ -9,56 +9,21 @@ export const ActionMore = ({
   onRevert: () => void
   isRevertDisabled: boolean
 }): JSX.Element => {
-  const [open, setOpen] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
-  const { styles, attributes, update: updatePanelPosition } = usePopper(
-    buttonRef.current,
-    panelRef.current,
-    {
-      placement: 'bottom-end',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 2],
-          },
-        },
-      ],
-    }
-  )
+  const {
+    open,
+    setOpen,
+    buttonRef,
+    panelRef,
+    componentRef,
+    styles,
+    attributes,
+  } = usePanel()
+
   const handleRevert = useCallback(() => {
     onRevert()
 
     setOpen(false)
-  }, [onRevert])
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const clickedOutsideComponent = !componentRef.current?.contains(
-        e.target as Node
-      )
-
-      if (clickedOutsideComponent) {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!open || !updatePanelPosition) {
-      return
-    }
-
-    updatePanelPosition()
-  }, [open, updatePanelPosition])
+  }, [onRevert, setOpen])
 
   return (
     <div ref={componentRef}>

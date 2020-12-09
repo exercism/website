@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { usePopper } from 'react-popper'
+import React from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, WrapSetting } from '../types'
+import { usePanel } from './usePanel'
 
 export function Settings({
   theme,
@@ -18,43 +18,15 @@ export function Settings({
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: WrapSetting) => void
 }) {
-  const [open, setOpen] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
-  const { styles, attributes, update: updatePanelPosition } = usePopper(
-    buttonRef.current,
-    panelRef.current,
-    {
-      placement: 'bottom',
-    }
-  )
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const clickedOutsideComponent = !componentRef.current?.contains(
-        e.target as Node
-      )
-
-      if (clickedOutsideComponent) {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!open || !updatePanelPosition) {
-      return
-    }
-
-    updatePanelPosition()
-  }, [open])
+  const {
+    open,
+    setOpen,
+    buttonRef,
+    panelRef,
+    componentRef,
+    styles,
+    attributes,
+  } = usePanel()
 
   return (
     <div ref={componentRef}>

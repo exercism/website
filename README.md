@@ -32,10 +32,10 @@ Assuming your docker-compose is already "up," you can run the following commands
 # run rubocop to lint the codebase
 ./bin/script website lint
 
-# run rake test
+# run rails test
 ./bin/script website run-tests
 
-# run rake test:system
+# run rails test:system
 ./bin/script website run-system-tests
 
 # run yarn test
@@ -47,11 +47,11 @@ Assuming your docker-compose is already "up," you can run the following commands
 Often you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
 
 ```bash
-# run rake test TEST=test/system/components/tooltips/tooltip_test.rb
-./bin/script website run-tests TEST=test/commands/track/create_test.rb
+# run rails test test/commands/track/create_test.rb
+./bin/script website run-tests test/commands/track/create_test.rb
 
-# run rake test:system TEST=test/system/components/tooltips/tooltip_test.rb
-./bin/script website run-system-tests TEST=test/system/components/tooltips/tooltip_test.rb
+# run rails test:system test/system/components/tooltips/tooltip_test.rb
+./bin/script website run-system-tests test/system/components/tooltips/tooltip_test.rb
 
 # run yarn test test/javascript/components/student/TracksList/Track.test.js
 ./bin/script website run-js-tests test/javascript/components/student/TracksList/Track.test.js
@@ -162,7 +162,7 @@ bundle exec rubocop -a
 The tests can be run using:
 
 ```
-bundle exec rake test
+bundle exec rails test
 ```
 
 ### Git Repos

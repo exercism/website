@@ -3,7 +3,6 @@ user = User.create!(handle: 'iHiD', email: 'ihid@exercism.io', name: 'iHiD', pas
 user.confirm
 auth_token = user.auth_tokens.create!
 
-
 # This is all temporary and horrible while we have a monorepo
 repo_url = "https://github.com/exercism/v3"
 repo = Git::Repository.new(:v3, repo_url: repo_url)

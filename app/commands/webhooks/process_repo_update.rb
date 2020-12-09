@@ -7,15 +7,7 @@ module Webhooks
     def call
       return unless pushed_to_master?
 
-      # TODO: enable this once we're out of the monorepo
-      # Git::SyncTrack.(track)
-
-      # TODO: remove this this once we're out of the monorepo
-      Track.all.each do |track|
-        Git::SyncTrack.(track)
-      rescue StandardError => e
-        Rails.logger.error "Error syncing Track #{track.slug}: #{e}"
-      end
+      SyncTrackJob.perform_later(track)
     end
 
     private

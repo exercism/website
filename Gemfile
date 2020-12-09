@@ -25,12 +25,12 @@ gem 'rest-client' # http
 gem 'mandate', '0.4.0.beta.1'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.56.0'
+gem 'exercism-config', '>= 0.57.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
-gem 'delayed_job_active_record', '~> 4.1.4'
+gem 'sidekiq', '~> 6.1'
 gem 'friendly_id', '~> 5.4.0'
 
 # View-level Dependencies

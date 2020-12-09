@@ -37,6 +37,11 @@ class User < ApplicationRecord
     find_by!(handle: param)
   end
 
+  # TODO: Move this to the database
+  def admin?
+    true
+  end
+
   def reputation(track_slug: nil, category: nil)
     raise if track_slug && category
 

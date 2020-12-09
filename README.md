@@ -44,7 +44,7 @@ Assuming your docker-compose is already "up," you can run the following commands
 
 #### Running single tests
 
-Oftentimes you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
+Often you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
 
 ```bash
 # run rake test TEST=test/system/components/tooltips/tooltip_test.rb

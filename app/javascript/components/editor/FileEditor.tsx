@@ -26,6 +26,7 @@ export function FileEditor({
   keybindings,
   files,
   wrap,
+  isPaletteOpen,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
@@ -35,6 +36,7 @@ export function FileEditor({
   keybindings: Keybindings
   files: File[]
   wrap: WrapSetting
+  isPaletteOpen: boolean
 }): JSX.Element {
   const options: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false },
@@ -45,6 +47,7 @@ export function FileEditor({
     model: null,
   }
   const [tab, setTab] = useState(0)
+  const containerRef = useRef<HTMLDivElement>(null)
   const filesRef = useRef<FileRef[]>(
     files.map((file) => ({
       filename: file.filename,
@@ -104,6 +107,21 @@ export function FileEditor({
   }
 
   useEffect(() => {
+    const editor = editorRef.current
+
+    if (!editor) {
+      return
+    }
+
+    if (isPaletteOpen) {
+      editor.focus()
+      editor.trigger(null, 'editor.action.quickCommand', {})
+    } else {
+      editor.focus()
+    }
+  }, [isPaletteOpen])
+
+  useEffect(() => {
     if (!editorRef.current || !statusBarRef.current) {
       return
     }
@@ -155,7 +173,7 @@ export function FileEditor({
   )
 
   return (
-    <div className="c-file-editor">
+    <div ref={containerRef} className="c-file-editor">
       <div className="tabs">
         {files.map((file, index) => (
           <button

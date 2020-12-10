@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, forwardRef } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
@@ -33,10 +33,21 @@ Header.ActionHints = () => (
   <button className="btn-small hints-btn">Hints</button>
 )
 
-Header.ActionKeyboardShortcuts = () => (
-  <button className="keyboard-shortcuts-btn">
-    <Icon icon="keyboard" alt="Keyboard Shortcuts" />
-  </button>
+Header.ActionKeyboardShortcuts = forwardRef(
+  ({ onClick }: { onClick: () => void }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        onClick={() => {
+          onClick()
+        }}
+        className="keyboard-shortcuts-btn"
+      >
+        <Icon icon="keyboard" alt="Keyboard Shortcuts" />
+      </button>
+    )
+  }
 )
 
 Header.ActionSettings = Settings

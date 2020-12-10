@@ -29,7 +29,7 @@ module Git
 
     def update_authors!
       authors = ::User.where(handle: author_usernames_config)
-      authors.each { |author| ::Exercise::Authorship::Create.(exercise, author) }
+      authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
 
       missing_authors = author_usernames_config - authors.map(&:handle)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
@@ -37,7 +37,7 @@ module Git
 
     def update_contributors!
       contributors = ::User.where(handle: contributor_usernames_config)
-      contributors.each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
+      contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
 
       missing_contributors = contributor_usernames_config - contributors.map(&:handle)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?

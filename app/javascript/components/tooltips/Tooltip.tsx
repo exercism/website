@@ -12,6 +12,20 @@ interface TooltipProps {
   focusRequestToShow: boolean
 }
 
+const fetchContent = (endpoint: string) => {
+  const controller = new AbortController()
+  const signal = controller.signal
+  return Object.assign(
+    // Create a fetch request for the tooltip content, assign the abort controller to the promise
+    // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
+    fetch(endpoint, {
+      method: 'get',
+      signal,
+    }).then((res) => res.text()),
+    { cancel: () => controller.abort() }
+  )
+}
+
 export const Tooltip = ({
   id,
   className,
@@ -39,19 +53,7 @@ export const Tooltip = ({
   // Retrieve the HTML contents from the contentEndpoint
   const { isLoading, isError, data: htmlContent } = useQuery<string>(
     id,
-    () => {
-      const controller = new AbortController()
-      const signal = controller.signal
-      return Object.assign(
-        // Create a fetch request for the tooltip content, assign the abort controller to the promise
-        // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
-        fetch(contentEndpoint, {
-          method: 'get',
-          signal,
-        }).then((res) => res.text()),
-        { cancel: () => controller.abort() }
-      )
-    },
+    () => fetchContent(contentEndpoint),
     {
       // Enable the query to fetch only if it isn't in a hidden or error state
       enabled: showState != 'hidden' && showState != 'error',
@@ -61,17 +63,15 @@ export const Tooltip = ({
   // useEffect for responding to the reference element's request to show when hovered
   useEffect(() => {
     if (hoverRequestToShow) {
-      dispatch({
+      return dispatch({
         id: id,
         action: {
           type: 'request-show-from-ref-hover',
         },
       })
-      return
     }
 
-    // setTimeout used to fire this dispatch AFTER the tooltip
-    // self-hever has time to fire
+    // setTimeout used to fire this dispatch AFTER the tooltip self-hover has time to fire
     const timeoutRef = setTimeout(() => {
       dispatch({
         id: id,
@@ -89,17 +89,15 @@ export const Tooltip = ({
   // useEffect for responding to the reference element's request to show when focused
   useEffect(() => {
     if (focusRequestToShow) {
-      dispatch({
+      return dispatch({
         id: id,
         action: {
           type: 'request-show-from-ref-focus',
         },
       })
-      return
     }
 
-    // setTimeout used to fire this dispatch AFTER the tooltip
-    // self-focus has time to fire
+    // setTimeout used to fire this dispatch AFTER the tooltip self-focus has time to fire
     const timeoutRef = setTimeout(() => {
       dispatch({
         id: id,
@@ -118,8 +116,7 @@ export const Tooltip = ({
   useEffect(() => {
     if (isError) {
       removeOpenTooltip(id)
-
-      dispatch({
+      return dispatch({
         id: id,
         action: {
           type: 'error',
@@ -199,22 +196,22 @@ export const Tooltip = ({
       {...popper.attributes.popper}
       role="tooltip"
       tabIndex={showState === 'visible' ? undefined : -1}
-      onFocus={() => {
+      onFocus={() =>
         dispatch({
           id: id,
           action: {
             type: 'request-show-focus',
           },
         })
-      }}
-      onBlur={() => {
+      }
+      onBlur={() =>
         dispatch({
           id: id,
           action: {
             type: 'request-hide-focus',
           },
         })
-      }}
+      }
       onMouseEnter={() =>
         dispatch({
           id: id,

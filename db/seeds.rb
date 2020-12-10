@@ -1,6 +1,7 @@
 puts "Creating User iHiD"
 user = User.create!(handle: 'iHiD', email: 'ihid@exercism.io', name: 'iHiD', password: 'password') unless User.find_by(handle: 'iHiD')
 user.confirm
+user.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 auth_token = user.auth_tokens.create!
 
 # This is all temporary and horrible while we have a monorepo

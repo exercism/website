@@ -81,11 +81,46 @@
                 &:last-child {
                     @apply mb-0;
                 }
-            }
-            & .name {
-                @apply text-16 font-medium text-darkGray;
-                @apply mr-56;
-                width: 100px;
+
+                & .name {
+                    @apply text-16 font-medium text-darkGray;
+                    @apply mr-56;
+                    width: 100px;
+                }
+
+                & .options {
+                    @apply bg-borderLight rounded-100;
+                    @apply flex items-center;
+
+                    & label {
+                        @apply block relative;
+                        & .label {
+                            @apply px-12 py-6;
+                            @apply cursor-pointer;
+                            @apply border-1 border-borderLight rounded-100;
+                            @apply text-textLight font-mono font-bold leading-regular;
+                        }
+
+                        /* Keep it here so it's discoverable by touch
+                         * for accessibility purposes */
+                        & input {
+                            @apply absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 0;
+                            &:checked + .label {
+                                @apply bg-lightBlue;
+                                @apply text-white;
+                            }
+                        }
+
+                        &:focus-within {
+                            & .label {
+                                outline: 2px solid lightBlue;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

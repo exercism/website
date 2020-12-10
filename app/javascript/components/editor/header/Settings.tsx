@@ -32,17 +32,20 @@ const Setting = ({
 }) => (
   <div className="setting">
     <div className="name">{title}</div>
-    {options.map((option) => (
-      <label key={option.value}>
-        {option.label}
-        <input
-          type="radio"
-          value={option.value}
-          checked={value === option.value}
-          onChange={onChange}
-        />
-      </label>
-    ))}
+    <div className="options">
+      {options.map((option) => (
+        <label key={option.value}>
+          <input
+            type="radio"
+            value={option.value}
+            name={title}
+            checked={value === option.value}
+            onChange={onChange}
+          />
+          <div className="label">{option.label}</div>
+        </label>
+      ))}
+    </div>
   </div>
 )
 

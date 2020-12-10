@@ -7,67 +7,6 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { Editor } from '../../../app/javascript/components/Editor'
 
-test('clears current submission when resubmitting', async () => {
-  const server = setupServer(
-    rest.post('https://exercism.test/submissions', (req, res, ctx) => {
-      return res(
-        ctx.json({
-          submission: {
-            id: 2,
-            uuid: '123',
-            tests_status: 'queued',
-            links: {
-              cancel: 'https://exercism.test/cancel',
-              testRun: 'https://exercism.test/test_run',
-            },
-          },
-        })
-      )
-    }),
-    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
-      return res(
-        ctx.json({
-          test_run: {
-            id: null,
-            submission_uuid: '123',
-            status: 'queued',
-            message: '',
-            tests: [],
-          },
-        })
-      )
-    })
-  )
-  server.listen()
-
-  const { getByText, queryByText } = render(
-    <Editor
-      endpoint="https://exercism.test/submissions"
-      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-    />
-  )
-  fireEvent.click(getByText('Run Tests'))
-  await waitFor(() =>
-    expect(
-      queryByText("We've queued your code and will run it shortly.")
-    ).toBeInTheDocument()
-  )
-  fireEvent.click(getByText('Run Tests'))
-
-  await waitFor(() =>
-    expect(
-      queryByText("We've queued your code and will run it shortly.")
-    ).not.toBeInTheDocument()
-  )
-  await waitFor(() =>
-    expect(
-      queryByText("We've queued your code and will run it shortly.")
-    ).toBeInTheDocument()
-  )
-
-  server.close()
-})
-
 test('shows message when test times out', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/submissions', (req, res, ctx) => {

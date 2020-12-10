@@ -35,6 +35,7 @@ export type Test = {
   testCode: string
   message: string
   output: string
+  index?: number
 }
 
 export enum TestStatus {

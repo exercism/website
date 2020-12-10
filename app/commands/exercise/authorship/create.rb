@@ -12,12 +12,7 @@ class Exercise
           return nil
         end
 
-        User::ReputationAcquisition.find_or_create_by!(
-          user: author,
-          reason_object: authorship,
-          reason: "exercise_authorship",
-          category: "exercise_authorship"
-        )
+        User::ReputationAcquisition::ExerciseAuthorship::Create.(authorship)
       end
     end
   end

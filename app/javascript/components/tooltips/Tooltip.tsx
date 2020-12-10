@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { usePopper } from 'react-popper'
-import { useQuery } from 'react-query'
 import {
   useStatefulTooltip,
   dispatchError,
@@ -16,6 +15,7 @@ import {
   dispatchRequestShowFromHover,
   dispatchRequestShowFromFocus,
 } from '../../hooks/use-stateful-tooltip'
+import { useTooltipContentQuery } from '../../hooks/use-tooltip-content-query'
 
 interface TooltipProps {
   id: string
@@ -24,20 +24,6 @@ interface TooltipProps {
   contentEndpoint: string
   hoverRequestToShow: boolean
   focusRequestToShow: boolean
-}
-
-const fetchContent = (endpoint: string) => {
-  const controller = new AbortController()
-  const signal = controller.signal
-  return Object.assign(
-    // Create a fetch request for the tooltip content, assign the abort controller to the promise
-    // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
-    fetch(endpoint, {
-      method: 'get',
-      signal,
-    }).then((res) => res.text()),
-    { cancel: () => controller.abort() }
-  )
 }
 
 export const Tooltip = ({
@@ -60,18 +46,13 @@ export const Tooltip = ({
 
   const popper = usePopper(referenceElement, tooltipElement, {
     placement: 'bottom',
-    // The line below controls the offset appearance of the tooltip from the reference element
-    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
+    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }], // offset from the tooltip's reference element
   })
 
-  // Retrieve the HTML contents from the contentEndpoint
-  const { isLoading, isError, data: htmlContent } = useQuery<string>(
+  const { isLoading, isError, htmlContent } = useTooltipContentQuery(
     id,
-    () => fetchContent(contentEndpoint),
-    {
-      // Enable the query to fetch only if it isn't in a hidden or error state
-      enabled: showState != 'hidden' && showState != 'error',
-    }
+    contentEndpoint,
+    showState != 'hidden' && showState != 'error'
   )
 
   // useEffect for responding to the reference element's request to show when hovered

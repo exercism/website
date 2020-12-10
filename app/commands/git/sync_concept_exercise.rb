@@ -72,16 +72,12 @@ module Git
 
     memoize
     def author_usernames_config
-      return [] unless head_git_exercise.authors
-
-      head_git_exercise.authors.map { |a| a["exercism_username"] }
+      head_git_exercise.authors.to_a.map { |a| a["exercism_username"] }
     end
 
     memoize
     def contributor_usernames_config
-      return [] unless head_git_exercise.contributors
-
-      head_git_exercise.contributors.map { |a| a["exercism_username"] }
+      head_git_exercise.contributors.to_a.map { |a| a["exercism_username"] }
     end
 
     memoize

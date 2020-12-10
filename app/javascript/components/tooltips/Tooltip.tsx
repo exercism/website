@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { usePopper } from 'react-popper'
 import { useQuery } from 'react-query'
-import { useStatefulTooltip } from '../../hooks/use-stateful-tooltip'
+import {
+  useStatefulTooltip,
+  dispatchError,
+  dispatchLoaded,
+  dispatchShow,
+  // dispatchHide,
+  dispatchRequestHideFromRefHover,
+  dispatchRequestHideFromRefFocus,
+  dispatchRequestShowFromRefHover,
+  dispatchRequestShowFromRefFocus,
+  dispatchRequestHideFromHover,
+  dispatchRequestHideFromFocus,
+  dispatchRequestShowFromHover,
+  dispatchRequestShowFromFocus,
+} from '../../hooks/use-stateful-tooltip'
 
 interface TooltipProps {
   id: string
@@ -63,22 +77,12 @@ export const Tooltip = ({
   // useEffect for responding to the reference element's request to show when hovered
   useEffect(() => {
     if (hoverRequestToShow) {
-      return dispatch({
-        id: id,
-        action: {
-          type: 'request-show-from-ref-hover',
-        },
-      })
+      return dispatchRequestShowFromRefHover(dispatch, id)
     }
 
     // setTimeout used to fire this dispatch AFTER the tooltip self-hover has time to fire
     const timeoutRef = setTimeout(() => {
-      dispatch({
-        id: id,
-        action: {
-          type: 'request-hide-from-ref-hover',
-        },
-      })
+      dispatchRequestHideFromRefHover(dispatch, id)
     }, 0)
 
     return () => {
@@ -89,22 +93,12 @@ export const Tooltip = ({
   // useEffect for responding to the reference element's request to show when focused
   useEffect(() => {
     if (focusRequestToShow) {
-      return dispatch({
-        id: id,
-        action: {
-          type: 'request-show-from-ref-focus',
-        },
-      })
+      return dispatchRequestShowFromRefFocus(dispatch, id)
     }
 
     // setTimeout used to fire this dispatch AFTER the tooltip self-focus has time to fire
     const timeoutRef = setTimeout(() => {
-      dispatch({
-        id: id,
-        action: {
-          type: 'request-hide-from-ref-focus',
-        },
-      })
+      dispatchRequestHideFromRefFocus(dispatch, id)
     }, 0)
 
     return () => {
@@ -116,12 +110,7 @@ export const Tooltip = ({
   useEffect(() => {
     if (isError) {
       removeOpenTooltip(id)
-      return dispatch({
-        id: id,
-        action: {
-          type: 'error',
-        },
-      })
+      return dispatchError(dispatch, id)
     }
 
     switch (showState) {
@@ -129,21 +118,11 @@ export const Tooltip = ({
         if (isLoading) {
           return
         }
-        dispatch({
-          id: id,
-          action: {
-            type: 'loaded',
-          },
-        })
+        dispatchLoaded(dispatch, id)
         break
       case 'invisible':
         addOpenTooltip(id, dispatch as React.Dispatch<unknown>)
-        dispatch({
-          id: id,
-          action: {
-            type: 'show',
-          },
-        })
+        dispatchShow(dispatch, id)
         break
       case 'visible':
         closeOtherOpenTooltips(id)
@@ -196,38 +175,10 @@ export const Tooltip = ({
       {...popper.attributes.popper}
       role="tooltip"
       tabIndex={showState === 'visible' ? undefined : -1}
-      onFocus={() =>
-        dispatch({
-          id: id,
-          action: {
-            type: 'request-show-focus',
-          },
-        })
-      }
-      onBlur={() =>
-        dispatch({
-          id: id,
-          action: {
-            type: 'request-hide-focus',
-          },
-        })
-      }
-      onMouseEnter={() =>
-        dispatch({
-          id: id,
-          action: {
-            type: 'request-show-hover',
-          },
-        })
-      }
-      onMouseLeave={() =>
-        dispatch({
-          id: id,
-          action: {
-            type: 'request-hide-hover',
-          },
-        })
-      }
+      onFocus={() => dispatchRequestShowFromFocus(dispatch, id)}
+      onBlur={() => dispatchRequestHideFromFocus(dispatch, id)}
+      onMouseEnter={() => dispatchRequestShowFromHover(dispatch, id)}
+      onMouseLeave={() => dispatchRequestHideFromHover(dispatch, id)}
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     ></div>
   )

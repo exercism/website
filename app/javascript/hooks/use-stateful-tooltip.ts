@@ -240,3 +240,43 @@ export function useStatefulTooltip(): UseStatefulTooltip {
     closeOtherOpenTooltips,
   }
 }
+
+interface DispatchHelper {
+  (dispatch: React.Dispatch<DispatchAction>, id: string): void
+}
+
+export const dispatchError: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'error' } })
+
+export const dispatchLoaded: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'loaded' } })
+
+export const dispatchShow: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'show' } })
+
+export const dispatchHide: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'hide' } })
+
+export const dispatchRequestHideFromRefHover: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-hide-from-ref-hover' } })
+
+export const dispatchRequestHideFromRefFocus: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-hide-from-ref-focus' } })
+
+export const dispatchRequestShowFromRefHover: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-show-from-ref-hover' } })
+
+export const dispatchRequestShowFromRefFocus: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-show-from-ref-focus' } })
+
+export const dispatchRequestHideFromHover: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-hide-hover' } })
+
+export const dispatchRequestHideFromFocus: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-hide-hover' } })
+
+export const dispatchRequestShowFromHover: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-show-hover' } })
+
+export const dispatchRequestShowFromFocus: DispatchHelper = (dispatch, id) =>
+  dispatch({ id, action: { type: 'request-show-focus' } })

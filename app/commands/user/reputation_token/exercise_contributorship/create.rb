@@ -1,5 +1,5 @@
 class User
-  class ReputationAcquisition
+  class ReputationToken
     module ExerciseContributorship
       class Create
         include Mandate
@@ -7,7 +7,7 @@ class User
         initialize_with :contributorship
 
         def call
-          User::ReputationAcquisition.find_or_create_by!(
+          User::ReputationToken.find_or_create_by!(
             user: contributorship.contributor,
             reason_object: contributorship,
             reason: :exercise_contributorship,

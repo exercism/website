@@ -29,11 +29,11 @@ class UserTest < ActiveSupport::TestCase
 
   test "reputation sums correctly" do
     user = create :user
-    create :user_reputation_acquisition
-    create :user_reputation_acquisition, user: user, category: "track_ruby", reason: :exercise_authorship
-    create :user_reputation_acquisition, user: user, category: "track_ruby", reason: :exercise_authorship
-    create :user_reputation_acquisition, user: user, category: "track_javascript", reason: :exercise_contributorship
-    create :user_reputation_acquisition, user: user, category: "docs", reason: :exercise_authorship
+    create :user_reputation_token
+    create :user_reputation_token, user: user, category: "track_ruby", reason: :exercise_authorship
+    create :user_reputation_token, user: user, category: "track_ruby", reason: :exercise_authorship
+    create :user_reputation_token, user: user, category: "track_javascript", reason: :exercise_contributorship
+    create :user_reputation_token, user: user, category: "docs", reason: :exercise_authorship
 
     user.reload
     assert_equal 35, user.reputation

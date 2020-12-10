@@ -320,18 +320,19 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "user_reputation_acquisitions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "reason_object_type"
-    t.bigint "reason_object_id"
-    t.integer "amount", null: false
-    t.string "category", null: false
+    t.string "context_type"
+    t.bigint "context_id"
+    t.integer "value", null: false
     t.string "reason", null: false
+    t.string "category", null: false
+    t.integer "track_id"
+    t.string "external_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "link"
-    t.index ["reason_object_type", "reason_object_id"], name: "reason_object_index"
-    t.index ["user_id"], name: "index_user_reputation_acquisitions_on_user_id"
+    t.index ["context_type", "context_id"], name: "reason_object_index"
+    t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
   end
 
   create_table "user_track_learnt_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -419,7 +420,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concepts", "tracks"
   add_foreign_key "user_auth_tokens", "users"
-  add_foreign_key "user_reputation_acquisitions", "users"
+  add_foreign_key "user_reputation_tokens", "users"
   add_foreign_key "user_track_learnt_concepts", "track_concepts"
   add_foreign_key "user_track_learnt_concepts", "user_tracks"
   add_foreign_key "user_tracks", "tracks"

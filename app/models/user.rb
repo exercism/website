@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussion_posts, as: :author, dependent: :destroy
 
-  has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition", dependent: :destroy
+  has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
   has_many :badges, dependent: :destroy
 
@@ -59,7 +59,7 @@ class User < ApplicationRecord
 
     category = "track_#{track_slug}" if track_slug
 
-    q = reputation_acquisitions
+    q = reputation_tokens
     q.where!(category: category) if category
     q.sum(:amount)
   end

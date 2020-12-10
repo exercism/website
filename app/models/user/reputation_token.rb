@@ -1,6 +1,6 @@
-class User::ReputationAcquisition < ApplicationRecord
+class User::ReputationToken < ApplicationRecord
   belongs_to :user
-  belongs_to :reason_object, polymorphic: true, optional: true
+  belongs_to :context, polymorphic: true, optional: true
 
   validates :reason, inclusion: {
     in: %i[exercise_authorship exercise_contributorship],
@@ -13,8 +13,8 @@ class User::ReputationAcquisition < ApplicationRecord
   end
 
   after_save do
-    total_amount = Arel.sql("(#{user.reputation_acquisitions.select('SUM(amount)').to_sql})")
-    User.where(id: user.id).update_all(reputation: total_amount)
+    summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")
+    User.where(id: user.id).update_all(reputation: summing_sql)
   end
 
   def reason

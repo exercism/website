@@ -113,7 +113,7 @@ module Git
       # Until then it's good to check each one and
       # return an error if one is found.
       concept_slugs.map do |concept_slug|
-        ::Track::Concept.find_by!(slug: concept_slug)
+        track.concepts.find_by!(slug: concept_slug)
       rescue StandardError
         Rails.logger.error "Missing concept: #{concept_slug}"
         nil

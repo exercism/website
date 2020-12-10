@@ -156,7 +156,7 @@ export function Editor({
   const [theme, setTheme] = useState('vs')
   const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const editorRef = useRef<FileEditorHandle>()
-  const keyboardShortcutsRef = useRef<HTMLDivElement>()
+  const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const [files] = useSaveFiles(initialFiles, () => {
     return editorRef.current?.getFiles() || []
   })

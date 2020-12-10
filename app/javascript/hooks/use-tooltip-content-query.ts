@@ -5,7 +5,7 @@ function fetchContent(endpoint: string, signal: AbortSignal) {
     method: 'get',
     signal,
   }).then((res) => {
-    if (res.status != 200 && res.status != 304) {
+    if (![200, 304].includes(res.status)) {
       return Promise.reject(
         `No content available. HTTP response status ${res.status}`
       )

@@ -433,3 +433,53 @@ test('hide command palette when window blurs', async () => {
 
   localStorage.clear()
 })
+
+test('opens instructions tab by default', async () => {
+  const { queryByText } = render(
+    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  )
+
+  expect(queryByText('Introduction')).toBeInTheDocument()
+
+  localStorage.clear()
+})
+
+test('opens results tab by default if tests have previously ran', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            id: null,
+            submission_uuid: '123',
+            status: 'queued',
+            message: '',
+            tests: [],
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  const { queryByText } = render(
+    <Editor
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+      initialSubmission={{
+        uuid: '123',
+        testsStatus: 'queued',
+        links: {
+          testRun: 'https://exercism.test/test_run',
+        },
+      }}
+    />
+  )
+  await waitFor(() =>
+    expect(
+      queryByText("We've queued your code and will run it shortly.")
+    ).toBeInTheDocument()
+  )
+  expect(queryByText('Introduction')).not.toBeInTheDocument()
+
+  server.close()
+})

@@ -299,7 +299,13 @@ export function Editor({
           return
         }
 
-        updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+        const testRun = typecheck<TestRun>(camelizeKeys(json), 'testRun')
+
+        if (testRun) {
+          switchToTab(TabIndex.RESULTS)
+        }
+
+        updateSubmission(testRun)
       }
     )
   }, [sendRequest, initialSubmission, updateSubmission])

@@ -294,7 +294,7 @@ test('change theme', async () => {
   fireEvent.click(getByLabelText('Dark'))
 
   await waitFor(() => {
-    expect(queryByText('Theme: vs-dark')).toBeInTheDocument()
+    expect(queryByText('Theme: dark')).toBeInTheDocument()
   })
 })
 

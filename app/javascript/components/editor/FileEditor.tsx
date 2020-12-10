@@ -5,6 +5,7 @@ import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { initVimMode, VimMode } from 'monaco-vim'
 import { EmacsExtension } from 'monaco-emacs'
 import { Keybindings, File, WrapSetting } from './types'
+import { setupThemes } from './file-editor/themes'
 
 type FileRef = {
   filename: string
@@ -45,6 +46,16 @@ export function FileEditor({
     lightbulb: { enabled: true },
     automaticLayout: true,
     model: null,
+    scrollbar: {
+      useShadows: true,
+      verticalHasArrows: false,
+      horizontalHasArrows: false,
+      vertical: 'auto',
+      horizontal: 'auto',
+      verticalScrollbarSize: 18,
+      horizontalScrollbarSize: 18,
+      arrowSize: 30,
+    },
   }
   const [tab, setTab] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -104,6 +115,10 @@ export function FileEditor({
     editor.setModel(filesRef.current[0].model)
 
     editorDidMount({ getFiles, setFiles })
+  }
+
+  const handleEditorWillMount = () => {
+    setupThemes()
   }
 
   useEffect(() => {
@@ -188,6 +203,7 @@ export function FileEditor({
       <MonacoEditor
         language={language}
         editorDidMount={handleEditorDidMount}
+        editorWillMount={handleEditorWillMount}
         options={options}
         theme={theme}
       />

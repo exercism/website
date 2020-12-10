@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useCallback } from 'react'
 import { Icon } from '../../common/Icon'
-import { Keybindings, WrapSetting } from '../types'
+import { Keybindings, WrapSetting, Themes } from '../types'
 import { usePanel } from './usePanel'
 
 const THEMES = [
-  { label: 'Light', value: 'vs' },
-  { label: 'Dark', value: 'vs-dark' },
+  { label: 'Light', value: Themes.LIGHT },
+  { label: 'Dark', value: Themes.DARK },
 ]
 
 const KEYBINDINGS = [
@@ -57,7 +57,7 @@ export function Settings({
   theme: string
   keybindings: Keybindings
   wrap: WrapSetting
-  setTheme: (theme: string) => void
+  setTheme: (theme: Themes) => void
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: WrapSetting) => void
 }) {

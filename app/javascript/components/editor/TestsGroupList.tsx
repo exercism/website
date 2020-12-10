@@ -4,7 +4,7 @@ import { TestStatus, Test } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { TestsGroup } from './TestsGroup'
 
-export function TestsList({ tests }: { tests: Test[] }): JSX.Element {
+export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
   const firstFailedTestIdx = tests.findIndex(
     (test) =>
       test.status === TestStatus.FAIL || test.status === TestStatus.ERROR

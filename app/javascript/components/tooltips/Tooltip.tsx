@@ -233,21 +233,6 @@ export const Tooltip = ({
   hoverRequestToShow,
   focusRequestToShow,
 }: TooltipProps): JSX.Element | null => {
-  // Retrieve the HTML contents from the contentEndpoint
-  const { isLoading, isError, data: htmlContent } = useQuery<string>(id, () => {
-    const controller = new AbortController()
-    const signal = controller.signal
-    return Object.assign(
-      // Create a fetch request for the tooltip content, assign the abort controller to the promise
-      // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
-      fetch(contentEndpoint, {
-        method: 'get',
-        signal,
-      }).then((res) => res.text()),
-      { cancel: () => controller.abort() }
-    )
-  })
-
   const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null)
 
   const [{ showState }, dispatch] = useReducer(
@@ -261,6 +246,28 @@ export const Tooltip = ({
     // The line below controls the offset appearance of the tooltip from the reference element
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }],
   })
+
+  // Retrieve the HTML contents from the contentEndpoint
+  const { isLoading, isError, data: htmlContent } = useQuery<string>(
+    id,
+    () => {
+      const controller = new AbortController()
+      const signal = controller.signal
+      return Object.assign(
+        // Create a fetch request for the tooltip content, assign the abort controller to the promise
+        // https://react-query.tanstack.com/docs/guides/query-cancellation#using-fetch
+        fetch(contentEndpoint, {
+          method: 'get',
+          signal,
+        }).then((res) => res.text()),
+        { cancel: () => controller.abort() }
+      )
+    },
+    {
+      // Enable the query to fetch only if it isn't in a hidden or error state
+      enabled: !(showState == 'hidden' || showState == 'error'),
+    }
+  )
 
   // useEffect for responding to the reference element's request to show when hovered
   useEffect(() => {

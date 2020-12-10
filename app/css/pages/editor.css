@@ -78,7 +78,7 @@
             @apply py-24 px-32 text-left;
 
             & .setting {
-                @apply flex;
+                @apply flex items-center;
                 @apply mb-16;
                 &:last-child {
                     @apply mb-0;

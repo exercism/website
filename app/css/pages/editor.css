@@ -78,7 +78,7 @@
             @apply py-24 px-32 text-left;
 
             & .setting {
-                @apply flex items-center;
+                @apply flex items-center justify-between;
                 @apply mb-16;
                 &:last-child {
                     @apply mb-0;
@@ -93,6 +93,7 @@
                 & .options {
                     @apply bg-borderLight rounded-100;
                     @apply flex items-center;
+                    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
 
                     & label {
                         @apply block relative;

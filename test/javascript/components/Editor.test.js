@@ -291,7 +291,7 @@ test('change theme', async () => {
   )
 
   fireEvent.click(getByTitle('Settings'))
-  fireEvent.change(getByLabelText('Theme'), { target: { value: 'vs-dark' } })
+  fireEvent.click(getByLabelText('Dark'))
 
   await waitFor(() => {
     expect(queryByText('Theme: vs-dark')).toBeInTheDocument()
@@ -304,7 +304,7 @@ test('change keybindings', async () => {
   )
 
   fireEvent.click(getByTitle('Settings'))
-  fireEvent.change(getByLabelText('Keybindings'), { target: { value: 'vim' } })
+  fireEvent.click(getByLabelText('Vim'))
 
   await waitFor(() => {
     expect(queryByText('Keybindings: vim')).toBeInTheDocument()
@@ -317,7 +317,7 @@ test('change wrapping', async () => {
   )
 
   fireEvent.click(getByTitle('Settings'))
-  fireEvent.change(getByLabelText('Wrap'), { target: { value: 'off' } })
+  fireEvent.click(getByLabelText('Off'))
 
   await waitFor(() => {
     expect(queryByText('Wrap: off')).toBeInTheDocument()

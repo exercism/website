@@ -9,3 +9,4 @@ class TrackHasCyclicPrerequisiteError < RuntimeError; end
 class TrackSearchStatusWithoutUserError < RuntimeError; end
 class TrackSearchInvalidStatusError < RuntimeError; end
 class UserTrackNotFoundError < RuntimeError; end
+class ReputationAcquisitionReasonInvalid < RuntimeError; end

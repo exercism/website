@@ -265,7 +265,7 @@ export const Tooltip = ({
     },
     {
       // Enable the query to fetch only if it isn't in a hidden or error state
-      enabled: !(showState == 'hidden' || showState == 'error'),
+      enabled: showState != 'hidden' && showState != 'error',
     }
   )
 

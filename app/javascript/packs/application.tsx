@@ -8,6 +8,8 @@ require('turbolinks').start()
 require('@rails/activestorage').start()
 require('channels')
 
+import 'focus-visible'
+
 // TODO: Let's get all of these loading automatically
 // without needing to be specified individually here.
 import '../../css/application.css'

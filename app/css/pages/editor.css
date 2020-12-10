@@ -1,3 +1,5 @@
+@import "../styles";
+
 #page-editor {
     --side-padding: 32px;
     --border-color: rgba(203, 201, 217, 0.5);
@@ -112,11 +114,16 @@
                                 @apply bg-lightBlue;
                                 @apply text-white;
                             }
-                        }
 
-                        &:focus-within {
-                            & .label {
-                                outline: 2px solid lightBlue;
+                            /* It would be nice to DRY this up with application.css
+                             * but its tricky with the adjecent element. */
+                            &:focus {
+                                & + .label {
+                                    outline: 5px auto -webkit-focus-ring-color;
+                                }
+                                &:not(.focus-visible) + .label {
+                                    outline: none;
+                                }
                             }
                         }
                     }

@@ -61,7 +61,7 @@ class User < ApplicationRecord
 
     q = reputation_tokens
     q.where!(category: category) if category
-    q.sum(:amount)
+    q.sum(:value)
   end
 
   def joined_track?(track)

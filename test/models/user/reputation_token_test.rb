@@ -1,22 +1,23 @@
 require 'test_helper'
 
 class User::ReputationTokenTest < ActiveSupport::TestCase
-  test "creates with reason" do
-    reason = :mentoring
+  test "creates with category and reason" do
+    category = :mentoring
+    reason = :mentored
     context = create :concept_solution
 
-    acq = create :user_reputation_token, reason: reason, context: context
+    acq = create :user_reputation_token, category: category, reason: reason, context: context
+    assert_equal category, acq.category
     assert_equal reason, acq.reason
     assert_equal context, acq.context
   end
 
-  test "raises when no amount specified for reason" do
-    reason = :mentoring
-    reason_object = create :concept_solution
+  test "raises when no value specified for reason" do
+    reason = :some_other_reason
+    context = create :concept_solution
 
     assert_raises ReputationTokenReasonInvalid do
-      create :user_reputation_token, reason: reason, reason_object: reason_object, amount: nil
+      create :user_reputation_token, reason: reason, context: context, value: nil
     end
   end
-
 end

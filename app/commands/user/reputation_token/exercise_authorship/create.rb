@@ -9,9 +9,9 @@ class User
         def call
           User::ReputationToken.find_or_create_by!(
             user: authorship.author,
-            reason_object: authorship,
-            reason: :exercise_authorship,
-            category: "exercise_authorship"
+            context: authorship,
+            reason: :authored_exercise,
+            category: :authoring
           )
         end
       end

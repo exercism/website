@@ -187,7 +187,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_includes exercise.authors, second_author
   end
 
-  test "adds reputation acquisition for new author" do
+  test "adds reputation token for new author" do
     track = create :track, slug: 'fsharp'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
@@ -199,13 +199,13 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     new_authorship = exercise.authorships.find_by(author: second_author)
-    new_author_rep_acquisition = second_author.reputation_acquisitions.find_by(reason_object: new_authorship)
-    assert_equal :exercise_authorship, new_author_rep_acquisition.reason
-    assert_equal "exercise_authorship", new_author_rep_acquisition.category
-    assert_equal 10, new_author_rep_acquisition.amount
+    new_author_rep_token = second_author.reputation_tokens.find_by(context: new_authorship)
+    assert_equal :authoring, new_author_rep_token.category
+    assert_equal :authored_exercise, new_author_rep_token.reason
+    assert_equal 10, new_author_rep_token.value
   end
 
-  test "only adds reputation acquisition for new author" do
+  test "only adds reputation token for new author" do
     track = create :track, slug: 'fsharp'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
@@ -214,11 +214,11 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << conditionals
     first_author = create :user, handle: "ErikSchierboom"
     first_author_authorship = create :exercise_authorship, exercise: exercise, author: first_author
-    create :user_reputation_acquisition, user: first_author, reason_object: first_author_authorship, amount: 10, reason: "exercise_authorship", category: "exercise_authorship" # rubocop:disable Layout/LineLength
+    create :user_reputation_token, user: first_author, context: first_author_authorship, value: 10, reason: "authored_exercise", category: "authoring" # rubocop:disable Layout/LineLength
 
     Git::SyncConceptExercise.(exercise)
 
-    assert_equal 1, first_author.reputation_acquisitions.where(category: "exercise_authorship").count
+    assert_equal 1, first_author.reputation_tokens.where(category: "authoring").count
   end
 
   test "adds contributors that are in .meta/config.json" do
@@ -253,7 +253,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_includes exercise.contributors, second_contributor
   end
 
-  test "adds reputation acquisition for new contributor" do
+  test "adds reputation token for new contributor" do
     track = create :track, slug: 'fsharp'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
@@ -265,13 +265,13 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     new_contributorship = exercise.contributorships.find_by(contributor: contributor)
-    new_contributor_rep_acquisition = contributor.reputation_acquisitions.find_by(reason_object: new_contributorship)
-    assert_equal :exercise_contributorship, new_contributor_rep_acquisition.reason
-    assert_equal "exercise_contributorship", new_contributor_rep_acquisition.category
-    assert_equal 5, new_contributor_rep_acquisition.amount
+    new_contributor_rep_token = contributor.reputation_tokens.find_by(context: new_contributorship)
+    assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
+    assert_equal :authoring, new_contributor_rep_token.category
+    assert_equal 5, new_contributor_rep_token.value
   end
 
-  test "only adds reputation acquisition for new contributor" do
+  test "only adds reputation token for new contributor" do
     track = create :track, slug: 'fsharp'
     conditionals = create :track_concept, track: track, slug: 'conditionals', uuid: '2d2c2485-7655-40f0-9bd2-476fc322e67f'
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
@@ -280,10 +280,10 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << conditionals
     contributor = create :user, handle: "SleeplessByte"
     contributor_contributorship = create :exercise_contributorship, exercise: exercise, contributor: contributor
-    create :user_reputation_acquisition, user: contributor, reason_object: contributor_contributorship, amount: 5, reason: "exercise_contributorship", category: "exercise_contributorship" # rubocop:disable Layout/LineLength
+    create :user_reputation_token, user: contributor, context: contributor_contributorship, value: 5, reason: "contributed_to_exercise", category: "authoring" # rubocop:disable Layout/LineLength
 
     Git::SyncConceptExercise.(exercise)
 
-    assert_equal 1, contributor.reputation_acquisitions.where(category: "exercise_contributorship").count
+    assert_equal 1, contributor.reputation_tokens.where(category: "authoring").count
   end
 end

@@ -12,7 +12,7 @@ class Exercise
           return nil
         end
 
-        User::ReputationAcquisition::ExerciseContributorship::Create.(contributorship)
+        User::ReputationToken::ExerciseContributorship::Create.(contributorship)
       end
     end
   end

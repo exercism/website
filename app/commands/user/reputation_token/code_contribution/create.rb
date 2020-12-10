@@ -9,8 +9,8 @@ class User
         def call
           User::ReputationToken.find_or_create_by!(
             user: user,
-            reason: :code_contribution,
-            category: "code_contribution"
+            reason: :committed_code,
+            category: :building
           )
         end
       end

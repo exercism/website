@@ -1,15 +1,38 @@
 class User::ReputationToken < ApplicationRecord
+  CATEGORIES = %i[
+    building
+    authoring
+    mentoring
+  ].freeze
+  private_constant :CATEGORIES
+
+  REASON_VALUES = {
+    authored_exercise: 10,
+    contributed_to_exercise: 5,
+    committed_code: 10,
+    mentored: 10
+  }.freeze
+  private_constant :REASON_VALUES
+
   belongs_to :user
+  belongs_to :track, optional: true
   belongs_to :context, polymorphic: true, optional: true
 
+  # TODO: Add test for this
+  validates :category, inclusion: {
+    in: CATEGORIES,
+    message: "%<value>s is not a valid category",
+    strict: ReputationTokenReasonInvalid # TODO: Add extra exception
+  }
+
   validates :reason, inclusion: {
-    in: %i[exercise_authorship exercise_contributorship],
+    in: REASON_VALUES.keys,
     message: "%<value>s is not a valid reason",
-    strict: ReputationAcquisitionReasonInvalid
+    strict: ReputationTokenReasonInvalid
   }
 
   before_create do
-    self.amount = REASON_AMOUNTS[self.reason]
+    self.value = REASON_VALUES[self.reason]
   end
 
   after_save do
@@ -21,9 +44,7 @@ class User::ReputationToken < ApplicationRecord
     super.to_sym
   end
 
-  REASON_AMOUNTS = {
-    exercise_authorship: 10,
-    exercise_contributorship: 5
-  }.freeze
-  private_constant :REASON_AMOUNTS
+  def category
+    super.to_sym
+  end
 end

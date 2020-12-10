@@ -331,7 +331,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.string "external_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["context_type", "context_id"], name: "reason_object_index"
+    t.index ["context_type", "context_id"], name: "context_index"
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
   end
 

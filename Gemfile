@@ -31,6 +31,7 @@ gem 'exercism-config', '>= 0.57.0'
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'sidekiq', '~> 6.1'
+gem 'sidekiq-failures'
 gem 'friendly_id', '~> 5.4.0'
 
 # View-level Dependencies

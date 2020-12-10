@@ -323,3 +323,113 @@ test('change wrapping', async () => {
     expect(queryByText('Wrap: off')).toBeInTheDocument()
   })
 })
+
+test('loads data from storage', async () => {
+  localStorage.setItem(
+    'files',
+    JSON.stringify([{ filename: 'file', content: 'class' }])
+  )
+
+  const { queryByText } = render(
+    <Editor files={[{ filename: 'file', content: '' }]} />
+  )
+
+  expect(queryByText('Value: class')).toBeInTheDocument()
+
+  localStorage.clear()
+})
+
+test('saves data to storage when data changed', async () => {
+  jest.useFakeTimers()
+  const { getByTestId } = render(
+    <Editor files={[{ filename: 'file', content: '' }]} />
+  )
+
+  fireEvent.change(getByTestId('editor-value'), { target: { value: 'code' } })
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
+
+  expect(localStorage.getItem('files')).toEqual(
+    JSON.stringify([{ filename: 'file', content: 'code' }])
+  )
+
+  localStorage.clear()
+})
+
+test('revert to last submission', async () => {
+  jest.useFakeTimers()
+  localStorage.setItem(
+    'files',
+    JSON.stringify([{ filename: 'file', content: 'class' }])
+  )
+
+  const { getByTitle, getByText, queryByText } = render(
+    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  )
+
+  fireEvent.click(getByTitle('Open more options'))
+  fireEvent.click(getByText('Revert to last iteration submission'))
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
+
+  await waitFor(() => expect(queryByText('Value: file')).toBeInTheDocument())
+  fireEvent.click(getByTitle('Open more options'))
+  await waitFor(() =>
+    expect(getByText('Revert to last iteration submission')).toBeDisabled()
+  )
+
+  localStorage.clear()
+})
+
+test('toggle command palette when clicking on button', async () => {
+  const { getByTitle, queryByText } = render(
+    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  )
+
+  fireEvent.click(getByTitle('Keyboard Shortcuts'))
+  await waitFor(() =>
+    expect(queryByText('Palette open: true')).toBeInTheDocument()
+  )
+  fireEvent.click(getByTitle('Keyboard Shortcuts'))
+  await waitFor(() =>
+    expect(queryByText('Palette open: false')).toBeInTheDocument()
+  )
+
+  localStorage.clear()
+})
+
+test('hide command palette when clicking on document', async () => {
+  const { getByTitle, queryByText } = render(
+    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  )
+
+  fireEvent.click(getByTitle('Keyboard Shortcuts'))
+  await waitFor(() =>
+    expect(queryByText('Palette open: true')).toBeInTheDocument()
+  )
+  fireEvent.click(document)
+  await waitFor(() =>
+    expect(queryByText('Palette open: false')).toBeInTheDocument()
+  )
+
+  localStorage.clear()
+})
+
+test('hide command palette when window blurs', async () => {
+  const { getByTitle, queryByText } = render(
+    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  )
+
+  fireEvent.click(getByTitle('Keyboard Shortcuts'))
+  await waitFor(() =>
+    expect(queryByText('Palette open: true')).toBeInTheDocument()
+  )
+  fireEvent.blur(window)
+  await waitFor(() =>
+    expect(queryByText('Palette open: false')).toBeInTheDocument()
+  )
+
+  localStorage.clear()
+})

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useCallback, forwardRef } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
+import { ActionMore } from './header/ActionMore'
 
 export const Header = ({ children }: { children: React.ReactNode }) => (
   <div className="header">{children}</div>
@@ -32,16 +33,23 @@ Header.ActionHints = () => (
   <button className="btn-small hints-btn">Hints</button>
 )
 
-Header.ActionKeyboardShortcuts = () => (
-  <button className="keyboard-shortcuts-btn">
-    <Icon icon="keyboard" alt="Keyboard Shortcuts" />
-  </button>
+Header.ActionKeyboardShortcuts = forwardRef(
+  ({ onClick }: { onClick: () => void }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        onClick={() => {
+          onClick()
+        }}
+        className="keyboard-shortcuts-btn"
+      >
+        <Icon icon="keyboard" alt="Keyboard Shortcuts" />
+      </button>
+    )
+  }
 )
 
 Header.ActionSettings = Settings
 
-Header.ActionMore = () => (
-  <button className="more-btn">
-    <Icon icon="more-horizontal" alt="Open more options" />
-  </button>
-)
+Header.ActionMore = ActionMore

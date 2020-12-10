@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { usePopper } from 'react-popper'
+import React from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, WrapSetting } from '../types'
+import { usePanel } from './usePanel'
 
 export function Settings({
   theme,
@@ -18,43 +18,15 @@ export function Settings({
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: WrapSetting) => void
 }) {
-  const [open, setOpen] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
-  const { styles, attributes, update: updatePanelPosition } = usePopper(
-    buttonRef.current,
-    panelRef.current,
-    {
-      placement: 'bottom',
-    }
-  )
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const clickedOutsideComponent = !componentRef.current?.contains(
-        e.target as Node
-      )
-
-      if (clickedOutsideComponent) {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!open || !updatePanelPosition) {
-      return
-    }
-
-    updatePanelPosition()
-  }, [open])
+  const {
+    open,
+    setOpen,
+    buttonRef,
+    panelRef,
+    componentRef,
+    styles,
+    attributes,
+  } = usePanel()
 
   return (
     <div ref={componentRef}>
@@ -72,7 +44,9 @@ export function Settings({
         {open ? (
           <div className="settings-dialog">
             <div className="setting">
-              <div className="name">Theme</div>
+              <label htmlFor="theme" className="name">
+                Theme
+              </label>{' '}
               <select
                 id="theme"
                 onChange={(e) => setTheme(e.target.value)}
@@ -83,7 +57,9 @@ export function Settings({
               </select>
             </div>
             <div className="setting">
-              <div className="name">Keybindings</div>
+              <label htmlFor="keybindings" className="name">
+                Keybindings
+              </label>
               <select
                 id="keybindings"
                 onChange={(e) => setKeybindings(e.target.value as Keybindings)}
@@ -95,7 +71,9 @@ export function Settings({
               </select>
             </div>
             <div className="setting">
-              <div className="name">Wrap</div>
+              <label htmlFor="wrap" className="name">
+                Wrap
+              </label>
               <select
                 id="wrap"
                 onChange={(e) => setWrap(e.target.value as WrapSetting)}

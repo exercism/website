@@ -30,6 +30,8 @@ import { RunTestsButton } from './editor/RunTestsButton'
 import { SubmitButton } from './editor/SubmitButton'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
+import { useSaveFiles } from './editor/useSaveFiles'
+import { isEqual } from 'lodash'
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -129,7 +131,7 @@ export function Editor({
   endpoint,
   timeout = 60000,
   initialSubmission,
-  files,
+  files: initialFiles,
   language,
   exercisePath,
   trackTitle,
@@ -152,7 +154,12 @@ export function Editor({
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState('vs')
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const editorRef = useRef<FileEditorHandle>()
+  const keyboardShortcutsRef = useRef<HTMLDivElement>()
+  const [files] = useSaveFiles(initialFiles, () => {
+    return editorRef.current?.getFiles() || []
+  })
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT
   )
@@ -297,6 +304,36 @@ export function Editor({
     )
   }, [sendRequest, initialSubmission, updateSubmission])
 
+  const revertContent = useCallback(() => {
+    editorRef.current?.setFiles(initialFiles)
+  }, [initialFiles])
+
+  const toggleKeyboardShortcuts = useCallback(() => {
+    setIsPaletteOpen(!isPaletteOpen)
+  }, [isPaletteOpen])
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (keyboardShortcutsRef.current?.contains(e.target as Node)) {
+        return
+      }
+
+      setIsPaletteOpen(false)
+    }
+
+    const handleBlur = () => {
+      setIsPaletteOpen(false)
+    }
+
+    document.addEventListener('click', handleClick)
+    window.addEventListener('blur', handleBlur)
+
+    return () => {
+      document.removeEventListener('click', handleClick)
+      window.addEventListener('blur', handleBlur)
+    }
+  }, [])
+
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
       <div id="page-editor">
@@ -304,7 +341,10 @@ export function Editor({
           <Header.Back exercisePath={exercisePath} />
           <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
           <Header.ActionHints />
-          <Header.ActionKeyboardShortcuts />
+          <Header.ActionKeyboardShortcuts
+            ref={keyboardShortcutsRef}
+            onClick={toggleKeyboardShortcuts}
+          />
           <Header.ActionSettings
             theme={theme}
             keybindings={keybindings}
@@ -313,7 +353,10 @@ export function Editor({
             setKeybindings={setKeybindings}
             setWrap={setWrap}
           />
-          <Header.ActionMore />
+          <Header.ActionMore
+            onRevert={revertContent}
+            isRevertDisabled={isEqual(initialFiles, files)}
+          />
         </div>
 
         <div className="main-lhs">
@@ -326,6 +369,7 @@ export function Editor({
             wrap={wrap}
             onRunTests={runTests}
             onSubmit={submit}
+            isPaletteOpen={isPaletteOpen}
           />
         </div>
 

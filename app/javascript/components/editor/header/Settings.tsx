@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, WrapSetting } from '../types'
 import { usePanel } from './usePanel'
@@ -18,6 +18,33 @@ const WRAP = [
   { label: 'On', value: 'on' },
   { label: 'Off', value: 'off' },
 ]
+
+const Setting = ({
+  title,
+  options,
+  value,
+  onChange,
+}: {
+  title: string
+  value: string | Keybindings
+  options: { label: string; value: string | Keybindings }[]
+  onChange: (e: ChangeEvent) => void
+}) => (
+  <div className="setting">
+    <div className="name">{title}</div>
+    {options.map((option) => (
+      <label key={option.value}>
+        {option.label}
+        <input
+          type="radio"
+          value={option.value}
+          checked={value === option.value}
+          onChange={onChange}
+        />
+      </label>
+    ))}
+  </div>
+)
 
 export function Settings({
   theme,
@@ -78,48 +105,24 @@ export function Settings({
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
           <div className="settings-dialog">
-            <div className="setting">
-              <div className="name">Theme</div>
-              {THEMES.map((setting) => (
-                <label key={setting.value}>
-                  {setting.label}
-                  <input
-                    type="radio"
-                    value={setting.value}
-                    checked={theme === setting.value}
-                    onChange={handleThemeChange}
-                  />
-                </label>
-              ))}
-            </div>
-            <div className="setting">
-              <div className="name">Keybindings</div>
-              {KEYBINDINGS.map((setting) => (
-                <label key={setting.value}>
-                  {setting.label}
-                  <input
-                    type="radio"
-                    value={setting.value as string}
-                    checked={keybindings === setting.value}
-                    onChange={handleKeybindingsChange}
-                  />
-                </label>
-              ))}
-            </div>
-            <div className="setting">
-              <div className="name">Wrap</div>
-              {WRAP.map((setting) => (
-                <label key={setting.value}>
-                  {setting.label}
-                  <input
-                    type="radio"
-                    value={setting.value}
-                    checked={wrap === setting.value}
-                    onChange={handleWrapChange}
-                  />
-                </label>
-              ))}
-            </div>
+            <Setting
+              title="Theme"
+              value={theme}
+              options={THEMES}
+              onChange={handleThemeChange}
+            />
+            <Setting
+              title="Keybindings"
+              value={keybindings}
+              options={KEYBINDINGS}
+              onChange={handleKeybindingsChange}
+            />
+            <Setting
+              title="Wrap"
+              value={wrap}
+              options={WRAP}
+              onChange={handleWrapChange}
+            />
           </div>
         ) : null}
       </div>

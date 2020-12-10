@@ -14,11 +14,11 @@ class User
 
       if user.email.ends_with?("@users.noreply.github.com")
         user.email = auth.info.email
-        user.github_username = auth.info.nickname
         user.skip_reconfirmation!
         user.save
       end
 
+      user.update(github_username: auth.info.nickname)
       user
     end
 

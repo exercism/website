@@ -147,6 +147,7 @@
         }
         & .content {
             @apply p-48;
+
             & h2 {
                 @apply text-h3 text-white mb-12;
             }

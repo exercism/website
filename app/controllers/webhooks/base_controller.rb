@@ -26,12 +26,12 @@ module Webhooks
     end
 
     def handle_ping_event!
-      return unless is_ping_event?
+      return unless ping_event?
 
-      render json: {}, status: :ok
+      head :no_content
     end
 
-    def is_ping_event?
+    def ping_event?
       github_event == 'ping'
     end
 

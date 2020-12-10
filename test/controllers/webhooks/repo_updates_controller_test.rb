@@ -34,13 +34,13 @@ class Webhooks::RepoUpdatesControllerTest < Webhooks::BaseTestCase
     post webhooks_repo_updates_path, headers: headers(payload), as: :json, params: payload
   end
 
-  test "create should return 200 when ping event is sent" do
+  test "create should return 204 when ping event is sent" do
     payload = {
       ref: 'refs/heads/master',
       repository: { name: 'csharp' }
     }
 
     post webhooks_repo_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
-    assert_response 200
+    assert_response 204
   end
 end

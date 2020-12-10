@@ -12,6 +12,11 @@ class User::ReputationAcquisition < ApplicationRecord
     self.amount = REASON_AMOUNTS[self.reason]
   end
 
+  after_save do
+    total_amount = Arel.sql("(#{user.reputation_acquisitions.select('SUM(amount)').to_sql})")
+    User.where(id: user.id).update_all(reputation: total_amount)
+  end
+
   def reason
     super.to_sym
   end

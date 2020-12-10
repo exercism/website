@@ -35,6 +35,7 @@ class UserTest < ActiveSupport::TestCase
     create :user_reputation_acquisition, user: user, category: "track_javascript", reason: :exercise_contributorship
     create :user_reputation_acquisition, user: user, category: "docs", reason: :exercise_authorship
 
+    user.reload
     assert_equal 35, user.reputation
     assert_equal 20, user.reputation(track_slug: :ruby)
     assert_equal 10, user.reputation(category: :docs)

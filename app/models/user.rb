@@ -53,6 +53,8 @@ class User < ApplicationRecord
   end
 
   def reputation(track_slug: nil, category: nil)
+    return super() if track_slug.nil? && category.nil?
+
     raise if track_slug && category
 
     category = "track_#{track_slug}" if track_slug

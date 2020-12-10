@@ -31,6 +31,7 @@ module Git
       authors = ::User.where(handle: author_usernames_config)
       authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
 
+      # TODO: consider what to do with missing authors
       missing_authors = author_usernames_config - authors.map(&:handle)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
     end
@@ -39,6 +40,7 @@ module Git
       contributors = ::User.where(handle: contributor_usernames_config)
       contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
 
+      # TODO: consider what to do with missing contributors
       missing_contributors = contributor_usernames_config - contributors.map(&:handle)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
     end

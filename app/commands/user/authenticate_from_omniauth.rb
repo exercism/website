@@ -14,6 +14,7 @@ class User
 
       if user.email.ends_with?("@users.noreply.github.com")
         user.email = auth.info.email
+        user.github_username = auth.info.nickname
         user.skip_reconfirmation!
         user.save
       end
@@ -27,6 +28,7 @@ class User
 
       user.provider = auth.provider
       user.uid = auth.uid
+      user.github_username = auth.info.nickname
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -55,7 +57,8 @@ class User
         email: auth.info.email,
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
-        handle: handle
+        handle: handle,
+        github_username: auth.info.nickname
       )
 
       user.skip_confirmation!

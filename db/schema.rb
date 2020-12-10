@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.string "reason", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "link"
     t.index ["reason_object_type", "reason_object_id"], name: "reason_object_index"
     t.index ["user_id"], name: "index_user_reputation_acquisitions_on_user_id"
   end

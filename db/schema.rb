@@ -374,6 +374,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.bigint "featured_badge_id"
     t.text "bio"
     t.string "github_username"
+    t.integer "reputation", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["featured_badge_id"], name: "index_users_on_featured_badge_id"

@@ -244,6 +244,7 @@ test('change keybindings', async () => {
 
   fireEvent.click(getByTitle('Settings'))
   fireEvent.click(getByLabelText('Vim'))
+  fireEvent.click(document)
 
   await waitFor(() => {
     expect(queryByText('Keybindings: vim')).toBeInTheDocument()

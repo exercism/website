@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react'
+import React, { ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, WrapSetting, Themes } from '../types'
 import { usePanel } from './usePanel'
@@ -64,6 +64,7 @@ export function Settings({
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: WrapSetting) => void
 }) {
+  const [localKeybindings, setLocalKeybindings] = useState(keybindings)
   const {
     open,
     setOpen,
@@ -82,9 +83,9 @@ export function Settings({
   )
   const handleKeybindingsChange = useCallback(
     (e) => {
-      setKeybindings(e.target.value as Keybindings)
+      setLocalKeybindings(e.target.value as Keybindings)
     },
-    [setKeybindings]
+    [setLocalKeybindings]
   )
   const handleWrapChange = useCallback(
     (e) => {
@@ -92,6 +93,14 @@ export function Settings({
     },
     [setWrap]
   )
+
+  useEffect(() => {
+    if (open) {
+      return
+    }
+
+    setKeybindings(localKeybindings)
+  }, [localKeybindings, open, setKeybindings])
 
   return (
     <div ref={componentRef}>
@@ -116,7 +125,7 @@ export function Settings({
             />
             <Setting
               title="Keybindings"
-              value={keybindings}
+              value={localKeybindings}
               options={KEYBINDINGS}
               onChange={handleKeybindingsChange}
             />

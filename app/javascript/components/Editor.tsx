@@ -14,6 +14,7 @@ import {
   File,
   Keybindings,
   WrapSetting,
+  Themes,
 } from './editor/types'
 import { useRequest, APIError } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
@@ -74,7 +75,6 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         apiError: undefined,
-        submission: undefined,
         status: EditorStatus.CREATING_SUBMISSION,
       }
     case ActionType.SUBMISSION_CREATED:
@@ -153,7 +153,7 @@ export function Editor({
   exampleSolution: string
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
-  const [theme, setTheme] = useState('vs')
+  const [theme, setTheme] = useState(Themes.LIGHT)
   const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
@@ -299,7 +299,13 @@ export function Editor({
           return
         }
 
-        updateSubmission(typecheck<TestRun>(camelizeKeys(json), 'testRun'))
+        const testRun = typecheck<TestRun>(camelizeKeys(json), 'testRun')
+
+        if (testRun) {
+          switchToTab(TabIndex.RESULTS)
+        }
+
+        updateSubmission(testRun)
       }
     )
   }, [sendRequest, initialSubmission, updateSubmission])

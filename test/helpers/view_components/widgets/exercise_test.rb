@@ -230,7 +230,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
       <div class="--info">
         <div class="--title">
           Bob
-          #{%(<svg role="img" class="c-icon "><title>Exercises is completed</title><use xlink:href="#completed-check-circle" /></svg>) if completed}
+          #{%(<svg role="img" class="c-icon"><title>Exercises is completed</title><use xlink:href="#completed-check-circle" /></svg>) if completed}
         </div>
         #{%(<div class="--desc">Atoms are internally represented</div>) if desc}
       </div>

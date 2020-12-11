@@ -4,7 +4,7 @@ module IconsHelper
   end
 
   def icon(icon, alt, role: 'img', css_class: nil, hex: false)
-    classes = "c-icon #{css_class} #{'--hex' if hex}"
+    classes = "c-icon #{css_class} #{'--hex' if hex}".strip
     tag.svg(role: role, class: classes) do
       parts = [
         (alt ? tag.title(alt) : nil),

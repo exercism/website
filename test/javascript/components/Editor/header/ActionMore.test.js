@@ -6,7 +6,7 @@ import { ActionMore } from '../../../../../app/javascript/components/editor/head
 test('hides panel after clicking on revert button', async () => {
   const onRevert = () => {}
   const { getByTitle, getByText, queryByText } = render(
-    <ActionMore onRevert={onRevert} />
+    <ActionMore onRevertToLastIteration={onRevert} />
   )
 
   fireEvent.click(getByTitle('Open more options'))

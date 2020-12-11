@@ -3,11 +3,13 @@ import { Icon } from '../../common/Icon'
 import { usePanel } from './usePanel'
 
 export const ActionMore = ({
-  onRevert,
-  isRevertDisabled,
+  onRevertToLastIteration,
+  onRevertToExerciseStart,
+  isRevertToLastIterationDisabled,
 }: {
-  onRevert: () => void
-  isRevertDisabled: boolean
+  onRevertToLastIteration: () => void
+  onRevertToExerciseStart: () => void
+  isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
   const {
     open,
@@ -19,11 +21,17 @@ export const ActionMore = ({
     attributes,
   } = usePanel()
 
-  const handleRevert = useCallback(() => {
-    onRevert()
+  const handleRevertToLastIteration = useCallback(() => {
+    onRevertToLastIteration()
 
     setOpen(false)
-  }, [onRevert, setOpen])
+  }, [onRevertToLastIteration, setOpen])
+
+  const handleRevertToExerciseStart = useCallback(() => {
+    onRevertToExerciseStart()
+
+    setOpen(false)
+  }, [onRevertToExerciseStart, setOpen])
 
   return (
     <div ref={componentRef}>
@@ -39,10 +47,13 @@ export const ActionMore = ({
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
           <div>
+            <button type="button" onClick={handleRevertToExerciseStart}>
+              Revert to exercise start
+            </button>
             <button
-              onClick={handleRevert}
+              onClick={handleRevertToLastIteration}
               type="button"
-              disabled={isRevertDisabled}
+              disabled={isRevertToLastIterationDisabled}
             >
               Revert to last iteration submission
             </button>

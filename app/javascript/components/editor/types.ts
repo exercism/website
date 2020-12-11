@@ -9,6 +9,7 @@ type SubmissionLinks = {
   cancel: string
   submit: string
   testRun: string
+  files: string
 }
 
 export enum SubmissionTestsStatus {

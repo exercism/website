@@ -40,6 +40,8 @@ export enum EditorStatus {
   SUBMISSION_CREATED = 'submissionCreated',
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
+  REVERTING_TO_EXERCISE_START = 'revertingToExerciseStart',
+  REVERTED = 'reverted',
 }
 
 type State = {
@@ -54,6 +56,8 @@ enum ActionType {
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
+  REVERTING_TO_EXERCISE_START = 'revertingToExerciseStart',
+  REVERTED = 'reverted',
 }
 
 type Action =
@@ -68,6 +72,8 @@ type Action =
       type: ActionType.SUBMISSION_CHANGED
       payload: { testRun: TestRun }
     }
+  | { type: ActionType.REVERTING_TO_EXERCISE_START }
+  | { type: ActionType.REVERTED }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -110,6 +116,16 @@ function reducer(state: State, action: Action): State {
           ...(state.submission as Submission),
           testRun: action.payload.testRun,
         },
+      }
+    case ActionType.REVERTING_TO_EXERCISE_START:
+      return {
+        ...state,
+        status: EditorStatus.REVERTING_TO_EXERCISE_START,
+      }
+    case ActionType.REVERTED:
+      return {
+        ...state,
+        status: EditorStatus.REVERTED,
       }
     default:
       return state
@@ -309,13 +325,32 @@ export function Editor({
     )
   }, [sendRequest, initialSubmission, updateSubmission])
 
-  const revertContent = useCallback(() => {
+  const revertToLastIteration = useCallback(() => {
     editorRef.current?.setFiles(initialFiles)
   }, [initialFiles])
 
   const toggleKeyboardShortcuts = useCallback(() => {
     editorRef.current?.openPalette()
   }, [editorRef])
+
+  const revertToExerciseStart = useCallback(() => {
+    if (!submission) {
+      return
+    }
+
+    dispatch({ type: ActionType.REVERTING_TO_EXERCISE_START })
+
+    sendRequest(submission.links.files, null, 'GET').then((json: any) => {
+      if (!json) {
+        return
+      }
+
+      const files = typecheck<File[]>(json, 'files')
+
+      editorRef.current?.setFiles(files)
+      dispatch({ type: ActionType.REVERTED })
+    })
+  }, [sendRequest, submission])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
@@ -337,8 +372,9 @@ export function Editor({
             setWrap={setWrap}
           />
           <Header.ActionMore
-            onRevert={revertContent}
-            isRevertDisabled={isEqual(initialFiles, files)}
+            onRevertToExerciseStart={revertToExerciseStart}
+            onRevertToLastIteration={revertToLastIteration}
+            isRevertToLastIterationDisabled={isEqual(initialFiles, files)}
           />
         </div>
 

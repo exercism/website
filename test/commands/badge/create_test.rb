@@ -48,7 +48,7 @@ class Badge::CreateTest < ActiveSupport::TestCase
     badge = Badge::Create.(user, :dummy_good)
 
     assert_equal 1, user.notifications.size
-    notification = user.notifications.first
+    notification = Notification.where(user: user).first
     assert_equal Notifications::AcquiredBadgeNotification, notification.class
     assert_equal({ badge: badge }, notification.send(:params))
   end

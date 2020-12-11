@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_115925) do
+ActiveRecord::Schema.define(version: 2020_12_11_205912) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
     t.integer "idx", limit: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "published", default: false, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end

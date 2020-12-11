@@ -127,15 +127,26 @@ puts "To use the CLI locally, run: "
 puts "exercism configure -a http://localhost:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
-=begin
-concept_exercise = ConceptExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "numbers", prerequisites: [], title: "numbers")
-practice_exercise = PracticeExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "bob", prerequisites: [], title: "bob")
-concept_solution = ConceptSolution.create!(exercise: concept_exercise, user: user, uuid: SecureRandom.uuid)
-practice_solution = PracticeSolution.create!(exercise: practice_exercise, user: user, uuid: SecureRandom.uuid)
-
-Submission.create!(
-  solution: concept_solution,
+ruby = Track.find_by_slug(:ruby)
+UserTrack.create!(user: user, track: ruby)
+solution = Solution::Create.(
+  User.first, 
+  ruby.concept_exercises.find_by!(slug: "lasagna")
+)
+submission = Submission.create!(
+  solution: solution,
   uuid: SecureRandom.uuid,
   submitted_via: "cli"
 )
-=end
+submission.files.create!(
+  filename: "lasagna.rb",
+  content: "class Lasagna\nend",
+  digest: SecureRandom.uuid
+)
+Iteration.create!(
+  submission: submission,
+  solution: solution,
+  idx: 1
+)
+
+Solution::Publish.(solution, [])

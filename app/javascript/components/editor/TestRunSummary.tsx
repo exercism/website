@@ -111,13 +111,13 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {
     case TestRunStatus.FAIL:
       return (
-        <div className="summary-status failed">
+        <div className="summary-status failed" role="status">
           <span className="--dot" />1 test failure
         </div>
       )
     case TestRunStatus.PASS:
       return (
-        <div className="summary-status passed">
+        <div className="summary-status passed" role="status">
           <span className="--dot" />
           All tests passed
         </div>
@@ -140,7 +140,7 @@ TestRunSummary.Content = ({
       return <TestsGroupList tests={testRun.tests} />
     case TestRunStatus.ERROR:
       return (
-        <div>
+        <div role="status">
           <p>An error occurred</p>
           <p>We got the following error message when we ran your code:</p>
           <p>{testRun.message}</p>
@@ -148,14 +148,14 @@ TestRunSummary.Content = ({
       )
     case TestRunStatus.OPS_ERROR:
       return (
-        <div>
+        <div role="status">
           <p>An error occurred</p>
           <p>{testRun.message}</p>
         </div>
       )
     case TestRunStatus.TIMEOUT:
       return (
-        <div>
+        <div role="status">
           <p>Tests timed out</p>
         </div>
       )
@@ -165,7 +165,7 @@ TestRunSummary.Content = ({
       }, [onCancel])
 
       return (
-        <div>
+        <div role="status">
           <p>We've queued your code and will run it shortly.</p>
           <button type="button" onClick={handleCancel}>
             Cancel

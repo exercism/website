@@ -52,12 +52,19 @@ class SolutionTest < ActiveSupport::TestCase
     assert create(:concept_solution, published_at: Time.current).published?
   end
 
-  test ".completed and .uncompleted" do
+  test ".completed and .uncompleted scopes" do
     completed = create :concept_solution, completed_at: Time.current
     not_completed = create :concept_solution, completed_at: nil
 
     assert_equal [completed], Solution.completed
     assert_equal [not_completed], Solution.not_completed
+  end
+
+  test ".published scope" do
+    published = create(:concept_solution, published_at: Time.current)
+    create(:concept_solution, published_at: nil)
+
+    assert [published], Solution.published
   end
 
   test ".for" do

@@ -13,9 +13,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
   test "sets correct iterations as published" do
     solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    iteration_3 = create :iteration, solution: solution
+    iteration_1 = create :iteration, solution: solution, idx: 1
+    iteration_2 = create :iteration, solution: solution, idx: 2
+    iteration_3 = create :iteration, solution: solution, idx: 3
 
     Solution::Publish.(solution, [iteration_1.idx, iteration_3.idx])
 
@@ -27,9 +27,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
   test "defaults to last iteration with no iterations" do
     solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    iteration_3 = create :iteration, solution: solution
+    iteration_1 = create :iteration, solution: solution, idx: 1
+    iteration_2 = create :iteration, solution: solution, idx: 2
+    iteration_3 = create :iteration, solution: solution, idx: 3
 
     Solution::Publish.(solution, [])
 
@@ -41,9 +41,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
   test "defaults to last iteration with incorrect iterations" do
     solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    iteration_3 = create :iteration, solution: solution
+    iteration_1 = create :iteration, solution: solution, idx: 1
+    iteration_2 = create :iteration, solution: solution, idx: 2
+    iteration_3 = create :iteration, solution: solution, idx: 3
 
     Solution::Publish.(solution, [5])
 

@@ -46,7 +46,7 @@ export enum EditorStatus {
 
 type State = {
   submission?: Submission
-  status: EditorStatus
+  status?: SubmissionStatus
   apiError?: APIError
 }
 
@@ -56,8 +56,18 @@ enum ActionType {
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
   SUBMISSION_CHANGED = 'submissionChanged',
-  REVERTING_TO_EXERCISE_START = 'revertingToExerciseStart',
-  REVERTED = 'reverted',
+}
+
+enum SubmissionStatus {
+  CREATING = 'creating',
+  CREATED = 'created',
+  CANCELLED = 'cancelled',
+  CREATING_ITERATION = 'creating_iteration',
+}
+
+enum RevertStatus {
+  INITIALIZED = 'initialized',
+  SUCCEEDED = 'reverted',
 }
 
 type Action =
@@ -72,8 +82,6 @@ type Action =
       type: ActionType.SUBMISSION_CHANGED
       payload: { testRun: TestRun }
     }
-  | { type: ActionType.REVERTING_TO_EXERCISE_START }
-  | { type: ActionType.REVERTED }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -81,7 +89,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         apiError: undefined,
-        status: EditorStatus.CREATING_SUBMISSION,
+        status: SubmissionStatus.CREATING,
       }
     case ActionType.SUBMISSION_CREATED:
       return {
@@ -96,18 +104,18 @@ function reducer(state: State, action: Action): State {
             message: '',
           },
         },
-        status: EditorStatus.SUBMISSION_CREATED,
+        status: SubmissionStatus.CREATED,
       }
     case ActionType.SUBMISSION_CANCELLED:
       return {
         ...state,
         apiError: action.payload?.apiError,
-        status: EditorStatus.SUBMISSION_CANCELLED,
+        status: SubmissionStatus.CANCELLED,
       }
     case ActionType.CREATING_ITERATION:
       return {
         ...state,
-        status: EditorStatus.CREATING_ITERATION,
+        status: SubmissionStatus.CREATING_ITERATION,
       }
     case ActionType.SUBMISSION_CHANGED:
       return {
@@ -116,16 +124,6 @@ function reducer(state: State, action: Action): State {
           ...(state.submission as Submission),
           testRun: action.payload.testRun,
         },
-      }
-    case ActionType.REVERTING_TO_EXERCISE_START:
-      return {
-        ...state,
-        status: EditorStatus.REVERTING_TO_EXERCISE_START,
-      }
-    case ActionType.REVERTED:
-      return {
-        ...state,
-        status: EditorStatus.REVERTED,
       }
     default:
       return state
@@ -170,6 +168,7 @@ export function Editor({
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState(Themes.LIGHT)
+  const [revertStatus, setRevertStatus] = useState<RevertStatus | null>(null)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const [files] = useSaveFiles(initialFiles, () => {
@@ -180,10 +179,11 @@ export function Editor({
   )
   const [wrap, setWrap] = useState<WrapSetting>('on')
   const isMountedRef = useIsMounted()
-  const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
-    status: EditorStatus.INITIALIZED,
-    submission: initialSubmission,
-  })
+  const [
+    { submission, status: submissionStatus, apiError },
+    dispatch,
+  ] = useReducer(reducer, { submission: initialSubmission })
+  const [status, setStatus] = useState(EditorStatus.INITIALIZED)
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
@@ -338,7 +338,7 @@ export function Editor({
       return
     }
 
-    dispatch({ type: ActionType.REVERTING_TO_EXERCISE_START })
+    setRevertStatus(RevertStatus.INITIALIZED)
 
     sendRequest(submission.links.files, null, 'GET').then((json: any) => {
       if (!json) {
@@ -348,9 +348,38 @@ export function Editor({
       const files = typecheck<File[]>(json, 'files')
 
       editorRef.current?.setFiles(files)
-      dispatch({ type: ActionType.REVERTED })
+
+      setRevertStatus(RevertStatus.SUCCEEDED)
     })
   }, [sendRequest, submission])
+
+  useEffect(() => {
+    switch (submissionStatus) {
+      case SubmissionStatus.CREATED:
+        setStatus(EditorStatus.SUBMISSION_CREATED)
+        break
+      case SubmissionStatus.CANCELLED:
+        setStatus(EditorStatus.SUBMISSION_CANCELLED)
+        break
+      case SubmissionStatus.CREATING:
+        setStatus(EditorStatus.CREATING_SUBMISSION)
+        break
+      case SubmissionStatus.CREATING_ITERATION:
+        setStatus(EditorStatus.CREATING_ITERATION)
+        break
+    }
+  }, [submissionStatus])
+
+  useEffect(() => {
+    switch (revertStatus) {
+      case RevertStatus.INITIALIZED:
+        setStatus(EditorStatus.REVERTING_TO_EXERCISE_START)
+        break
+      case RevertStatus.SUCCEEDED:
+        setStatus(EditorStatus.REVERTED)
+        break
+    }
+  }, [revertStatus])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>

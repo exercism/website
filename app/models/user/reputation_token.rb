@@ -35,6 +35,7 @@ class User::ReputationToken < ApplicationRecord
   end
 
   after_save do
+    # We're updating in a single query instead of two queries to avoid race-conditions
     summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")
     User.where(id: user.id).update_all(reputation: summing_sql)
   end

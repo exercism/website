@@ -35,6 +35,7 @@ export type Test = {
   testCode: string
   message: string
   output: string
+  index?: number
 }
 
 export enum TestStatus {
@@ -66,3 +67,8 @@ export enum Keybindings {
 }
 
 export type WrapSetting = 'off' | 'on' | 'wordWrapColumn' | 'bounded'
+
+export enum Themes {
+  LIGHT = 'light',
+  DARK = 'dark',
+}

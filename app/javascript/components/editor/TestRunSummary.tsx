@@ -1,30 +1,10 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import { TestRun, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
-import { TestRunSummaryContent } from './TestRunSummaryContent'
 import { fetchJSON } from '../../utils/fetch-json'
+import { TestsGroupList } from './TestsGroupList'
 
-const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
-  switch (testRun.status) {
-    case TestRunStatus.FAIL:
-      return (
-        <div className="summary-status failed">
-          <span className="--dot" />1 test failure
-        </div>
-      )
-    case TestRunStatus.PASS:
-      return (
-        <div className="summary-status passed">
-          <span className="--dot" />
-          All tests passed
-        </div>
-      )
-    default:
-      return null
-  }
-}
-
-export function TestRunSummary({
+export const TestRunSummary = ({
   testRun,
   timeout,
   onUpdate,
@@ -34,7 +14,7 @@ export function TestRunSummary({
   timeout: number
   onUpdate: (testRun: TestRun) => void
   cancelLink: string
-}): JSX.Element {
+}): JSX.Element => {
   const setTestRun = useCallback(
     (testRun) => {
       onUpdate(testRun)
@@ -121,8 +101,78 @@ export function TestRunSummary({
 
   return (
     <>
-      <TestRunSummaryHeader testRun={testRun} />
-      <TestRunSummaryContent testRun={testRun} onCancel={cancel} />
+      <TestRunSummary.Header testRun={testRun} />
+      <TestRunSummary.Content testRun={testRun} onCancel={cancel} />
     </>
   )
+}
+
+TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
+  switch (testRun.status) {
+    case TestRunStatus.FAIL:
+      return (
+        <div className="summary-status failed" role="status">
+          <span className="--dot" />1 test failure
+        </div>
+      )
+    case TestRunStatus.PASS:
+      return (
+        <div className="summary-status passed" role="status">
+          <span className="--dot" />
+          All tests passed
+        </div>
+      )
+    default:
+      return null
+  }
+}
+
+TestRunSummary.Content = ({
+  testRun,
+  onCancel,
+}: {
+  testRun: TestRun
+  onCancel: () => void
+}) => {
+  switch (testRun.status) {
+    case TestRunStatus.PASS:
+    case TestRunStatus.FAIL:
+      return <TestsGroupList tests={testRun.tests} />
+    case TestRunStatus.ERROR:
+      return (
+        <div role="status">
+          <p>An error occurred</p>
+          <p>We got the following error message when we ran your code:</p>
+          <p>{testRun.message}</p>
+        </div>
+      )
+    case TestRunStatus.OPS_ERROR:
+      return (
+        <div role="status">
+          <p>An error occurred</p>
+          <p>{testRun.message}</p>
+        </div>
+      )
+    case TestRunStatus.TIMEOUT:
+      return (
+        <div role="status">
+          <p>Tests timed out</p>
+        </div>
+      )
+    case TestRunStatus.QUEUED:
+      const handleCancel = useCallback(() => {
+        onCancel()
+      }, [onCancel])
+
+      return (
+        <div role="status">
+          <p>We've queued your code and will run it shortly.</p>
+          <button type="button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+      )
+    default:
+      return null
+  }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestsList } from '../../../../app/javascript/components/editor/TestsList'
+import { TestsGroupList } from '../../../../app/javascript/components/editor/TestsGroupList'
 import { TestStatus } from '../../../../app/javascript/components/editor/types'
 
 test('shows passed tests', async () => {
@@ -16,7 +16,7 @@ test('shows passed tests', async () => {
     },
   ]
 
-  const { getByText, queryByText } = render(<TestsList tests={tests} />)
+  const { getByText, queryByText } = render(<TestsGroupList tests={tests} />)
   fireEvent.click(getByText('2 tests passed'))
 
   expect(queryByText('first test')).toBeVisible()
@@ -39,7 +39,7 @@ test('shows number of skipped tests', async () => {
     },
   ]
 
-  const { queryByText } = render(<TestsList tests={tests} />)
+  const { queryByText } = render(<TestsGroupList tests={tests} />)
 
   expect(queryByText('1 test skipped')).toBeVisible()
 })
@@ -60,7 +60,9 @@ test('only shows until first failed test', async () => {
     },
   ]
 
-  const { getByText, queryByText, debug } = render(<TestsList tests={tests} />)
+  const { getByText, queryByText, debug } = render(
+    <TestsGroupList tests={tests} />
+  )
 
   expect(queryByText('second test')).toBeVisible()
   expect(queryByText('third test')).not.toBeInTheDocument()

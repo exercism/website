@@ -35,8 +35,7 @@ class UserTest < ActiveSupport::TestCase
     create :user_reputation_token, user: user, category: "building", reason: :committed_code
     create :user_reputation_token, user: user, category: "mentoring", reason: :committed_code
 
-    user.reload
-    assert_equal 35, user.reputation
+    assert_equal 35, user.reload.reputation
     # assert_equal 20, user.reputation(track_slug: :ruby)
     assert_equal 15, user.reputation(category: :authoring)
   end

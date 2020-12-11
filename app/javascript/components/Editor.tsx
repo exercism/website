@@ -92,6 +92,7 @@ export function Editor({
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState(Themes.LIGHT)
   const [revertStatus, setRevertStatus] = useState<RevertStatus | null>(null)
+  const [apiError, setApiError] = useState<ApiError | null>(null)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const [files] = useSaveFiles(initialFiles, () => {
@@ -103,7 +104,7 @@ export function Editor({
   const [wrap, setWrap] = useState<WrapSetting>('on')
   const isMountedRef = useIsMounted()
   const [
-    { submission, status: submissionStatus, apiError },
+    { submission, status: submissionStatus, apiError: submissionApiError },
     submissionDispatch,
   ] = useSubmission(initialSubmission)
   const [status, setStatus] = useState(EditorStatus.INITIALIZED)
@@ -305,6 +306,10 @@ export function Editor({
         break
     }
   }, [revertStatus])
+
+  useEffect(() => {
+    setApiError(submissionApiError)
+  }, [submissionApiError])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>

@@ -31,9 +31,11 @@
             = graphical_icon(:logo)
             Contribute
 
-    .user-section
-      = ReactComponents::Common::NotificationsIcon.new(current_user)
+    - if user_signed_in?
+      .user-section
+        = ReactComponents::Common::NotificationsIcon.new(current_user)
+        = render ViewComponents::Reputation.new(current_user, primary: true, has_notification: true)
+        .user-menu
+          = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "#{current_user.name}'s uploaded avatar")
+          = icon "more-vertical", "Profile Menu"
 
-      .c-notification.--single-digit
-        = icon :badges, "You have 0 new badges"
-        .--count 7

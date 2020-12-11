@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Git::SyncCodeContributionsTest < ActiveSupport::TestCase
-  test "adds code contributions for all commits" do
+  test "adds code contributions for commits made after synced git SHA" do
     track = create :track, slug: 'fsharp', synced_to_git_sha: '55494f90e0d0f4b8eddeab2d8883da38483c4984'
     first_user = create :user, handle: "ErikSchierboom", github_username: "erik@schierboom.org"
     second_user = create :user, handle: "SleeplessByte", github_username: "sleepless@byte.org"

@@ -23,7 +23,6 @@ module Git
     attr_reader :concept
 
     def concept_needs_updating?
-      return false if synced_to_head?
       return false unless track_config_modified?
 
       concept_config[:slug] != concept.slug ||

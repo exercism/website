@@ -24,8 +24,6 @@ module Git
     attr_reader :exercise
 
     def exercise_needs_updating?
-      return false if synced_to_head?
-
       exercise_config_modified? || exercise_files_modified?
     end
 

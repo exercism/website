@@ -79,8 +79,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    numbers = ::Track::Concept.find_by(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3')
-    assert_includes track.concepts, numbers
+    assert track.concepts.find_by(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3').present?
   end
 
   test "adds new concept exercises defined in config.json" do
@@ -88,8 +87,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    cars_assemble = ConceptExercise.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003')
-    assert_includes track.concept_exercises, cars_assemble
+    assert track.concept_exercises.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003').present?
   end
 
   test "adds new practice exercises defined in config.json" do
@@ -99,8 +97,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    two_fer = PracticeExercise.find_by(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1')
-    assert_includes track.practice_exercises, two_fer
+    assert track.practice_exercises.find_by(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1').present?
   end
 
   test "syncs all concepts" do

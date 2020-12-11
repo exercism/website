@@ -2,7 +2,9 @@ class ProfilesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[show tooltip]
   before_action :use_profile
 
-  def show; end
+  def show
+    raise ActiveRecord::RecordNotFound unless @profile
+  end
 
   def tooltip
     expires_in 1.minute
@@ -14,6 +16,5 @@ class ProfilesController < ApplicationController
   def use_profile
     @user = User.find_by(handle: params[:id])
     @profile = @user.profile
-    raise ActiveRecord::RecordNotFound unless @profile
   end
 end

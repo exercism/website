@@ -11,7 +11,7 @@
 - if @user.bio.present?
   .bio= @user.bio
 
-- if @profile.location.present?
+- if @profile&.location.present?
   .location
     = icon(:location, "Located in")
     = @profile.location

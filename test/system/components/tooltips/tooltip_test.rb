@@ -16,7 +16,7 @@ module Components
       end
 
       test "user tooltip renders correctly" do
-        create :user, handle: 'mentee'
+        create :user, handle: 'mentee', name: 'Erik ShireBOOM'
 
         visit test_components_tooltips_tooltip_path
 
@@ -25,6 +25,7 @@ module Components
         users[0].hover
         within(".c-user-tooltip") { assert_text "Erik ShireBOOM" }
 
+        # TODO: Fix or delete
         # users[1].hover
         # within(".c-user-tooltip") { assert_text "Rob Keim" }
       end

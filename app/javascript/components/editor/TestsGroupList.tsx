@@ -5,17 +5,16 @@ import { TestsGroup } from './TestsGroup'
 
 export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
   const testsWithIndex = tests.map((test, i) => ({ index: i + 1, ...test }))
-  const firstFailedTestIdx = testsWithIndex.findIndex(
-    (test) =>
-      test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
-  )
   const passed = testsWithIndex.filter(
     (test) => test.status === TestStatus.PASS
   )
-  const failed =
-    firstFailedTestIdx !== -1 ? [testsWithIndex[firstFailedTestIdx]] : []
+  const failed = testsWithIndex.filter(
+    (test) =>
+      test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
+  )
+  const firstFailedTest = failed.slice(0, 1)
   const skipped = testsWithIndex.filter(
-    (test) => !passed.concat(failed).includes(test)
+    (test) => !passed.concat(firstFailedTest).includes(test)
   )
 
   return (
@@ -29,7 +28,7 @@ export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
         </TestsGroup.Header>
         <TestsGroup.Tests />
       </TestsGroup>
-      <TestsGroup open={true} tests={failed}>
+      <TestsGroup open={true} tests={firstFailedTest}>
         <TestsGroup.Header>
           <GraphicalIcon icon="failed-check-circle" className="indicator" />
           <TestsGroup.Title status="failed" />

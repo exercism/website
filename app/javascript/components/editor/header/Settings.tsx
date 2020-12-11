@@ -108,6 +108,8 @@ export function Settings({
         ref={buttonRef}
         className="settings-btn"
         type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
         onClick={() => {
           setOpen(!open)
         }}
@@ -116,7 +118,12 @@ export function Settings({
       </button>
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
-          <div className="settings-dialog">
+          <div
+            tabIndex={-1}
+            role="dialog"
+            aria-label="A series of radio buttons to configure the Exercism's code editor"
+            className="settings-dialog"
+          >
             <Setting
               title="Theme"
               value={theme}

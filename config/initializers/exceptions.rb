@@ -21,3 +21,4 @@ class TrackSearchInvalidStatusError < RuntimeError; end
 class UserTrackNotFoundError < RuntimeError; end
 
 class ReputationTokenReasonInvalid < RuntimeError; end
+class ReputationTokenCategoryInvalid < RuntimeError; end

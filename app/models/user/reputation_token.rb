@@ -18,11 +18,10 @@ class User::ReputationToken < ApplicationRecord
   belongs_to :track, optional: true
   belongs_to :context, polymorphic: true, optional: true
 
-  # TODO: Add test for this
   validates :category, inclusion: {
     in: CATEGORIES,
     message: "%<value>s is not a valid category",
-    strict: ReputationTokenReasonInvalid # TODO: Add extra exception
+    strict: ReputationTokenCategoryInvalid
   }
 
   validates :reason, inclusion: {

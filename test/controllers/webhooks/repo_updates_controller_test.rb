@@ -21,7 +21,7 @@ class Webhooks::RepoUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_repo_updates_path, headers: headers(payload), as: :json, params: payload
-    assert_response 200
+    assert_response 204
   end
 
   test "create should process repo update when signature is valid" do

@@ -3,7 +3,7 @@ module Webhooks
     def create
       ::Webhooks::ProcessRepoUpdate.(params[:ref], params[:repository][:name])
 
-      render json: {}, status: :ok
+      head :no_content
     end
   end
 end

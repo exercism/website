@@ -79,8 +79,33 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    numbers = ::Track::Concept.find_by(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3')
-    assert_includes track.concepts, numbers
+    assert track.concepts.where(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3').exists?
+  end
+
+  test "concept exercises use track concepts for taught concepts" do
+    csharp_track = create :track, slug: 'charp'
+    csharp_concept = create :track_concept, track: csharp_track, slug: 'basics'
+    fsharp_track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    fsharp_concept = create :track_concept, track: fsharp_track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+
+    Git::SyncTrack.(fsharp_track)
+
+    fsharp_concept_exercise = fsharp_track.concept_exercises.find_by(uuid: '1fc8216e-6519-11ea-bc55-0242ac130003')
+    assert_includes fsharp_concept_exercise.taught_concepts, fsharp_concept
+    refute_includes fsharp_concept_exercise.taught_concepts, csharp_concept
+  end
+
+  test "concept exercises use track concepts for prerequisites" do
+    csharp_track = create :track, slug: 'charp'
+    csharp_concept = create :track_concept, track: csharp_track, slug: 'basics'
+    fsharp_track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    fsharp_concept = create :track_concept, track: fsharp_track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+
+    Git::SyncTrack.(fsharp_track)
+
+    fsharp_concept_exercise = fsharp_track.concept_exercises.find_by(uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125')
+    assert_includes fsharp_concept_exercise.prerequisites, fsharp_concept
+    refute_includes fsharp_concept_exercise.prerequisites, csharp_concept
   end
 
   test "adds new concept exercises defined in config.json" do
@@ -88,8 +113,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    cars_assemble = ConceptExercise.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003')
-    assert_includes track.concept_exercises, cars_assemble
+    assert track.concept_exercises.where(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003').exists?
   end
 
   test "adds new practice exercises defined in config.json" do
@@ -99,8 +123,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    two_fer = PracticeExercise.find_by(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1')
-    assert_includes track.practice_exercises, two_fer
+    assert track.practice_exercises.where(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1').exists?
   end
 
   test "syncs all concepts" do

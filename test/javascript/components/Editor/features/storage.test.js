@@ -150,3 +150,46 @@ test('revert to exercise start', async () => {
 
   server.close()
 })
+
+test('revert to exercise start fails', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/files', (req, res, ctx) => {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          error: { type: 'generic', message: 'Unable to retrieve files' },
+        })
+      )
+    }),
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(ctx.json({ test_run: null }))
+    })
+  )
+  server.listen()
+
+  const { getByTitle, getByText, queryByText } = render(
+    <Editor
+      files={[{ filename: 'file', content: 'file' }]}
+      initialSubmission={{
+        uuid: '123',
+        testsStatus: 'failed',
+        links: {
+          testRun: 'https://exercism.test/test_run',
+          files: 'https://exercism.test/files',
+        },
+      }}
+    />
+  )
+
+  fireEvent.click(getByTitle('Open more options'))
+  fireEvent.click(getByText('Revert to exercise start'))
+
+  await waitFor(() =>
+    expect(queryByText('Reverting to exercise start...')).toBeInTheDocument()
+  )
+  await waitFor(() =>
+    expect(queryByText('Unable to retrieve files')).toBeInTheDocument()
+  )
+
+  server.close()
+})

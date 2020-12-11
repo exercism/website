@@ -5,7 +5,7 @@ import { Submission, TestRun, TestRunStatus } from './types'
 type State = {
   submission?: Submission
   status?: SubmissionStatus
-  apiError?: APIError
+  apiError: APIError | null
 }
 
 export enum ActionType {
@@ -41,7 +41,7 @@ function reducer(state: State, action: Action): State {
     case ActionType.CREATING_SUBMISSION:
       return {
         ...state,
-        apiError: undefined,
+        apiError: null,
         status: SubmissionStatus.CREATING,
       }
     case ActionType.SUBMISSION_CREATED:
@@ -62,7 +62,7 @@ function reducer(state: State, action: Action): State {
     case ActionType.SUBMISSION_CANCELLED:
       return {
         ...state,
-        apiError: action.payload?.apiError,
+        apiError: action.payload?.apiError || null,
         status: SubmissionStatus.CANCELLED,
       }
     case ActionType.CREATING_ITERATION:
@@ -84,5 +84,5 @@ function reducer(state: State, action: Action): State {
 }
 
 export const useSubmission = (submission?: Submission) => {
-  return useReducer(reducer, { submission: submission })
+  return useReducer(reducer, { submission: submission, apiError: null })
 }

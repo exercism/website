@@ -15,7 +15,7 @@ import {
   WrapSetting,
   Themes,
 } from './editor/types'
-import { useRequest } from '../hooks/use-request'
+import { useRequest, APIError } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
@@ -36,6 +36,7 @@ import {
   ActionType as SubmissionActionType,
   SubmissionStatus,
 } from './editor/useSubmission'
+import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
 
 export enum TabIndex {
@@ -52,11 +53,7 @@ export enum EditorStatus {
   SUBMISSION_CANCELLED = 'submissionCancelled',
   REVERTING_TO_EXERCISE_START = 'revertingToExerciseStart',
   REVERTED = 'reverted',
-}
-
-enum RevertStatus {
-  INITIALIZED = 'initialized',
-  SUCCEEDED = 'reverted',
+  REVERT_FAILED = 'revertFailed',
 }
 
 export const TabsContext = createContext({
@@ -91,8 +88,11 @@ export function Editor({
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState(Themes.LIGHT)
-  const [revertStatus, setRevertStatus] = useState<RevertStatus | null>(null)
-  const [apiError, setApiError] = useState<ApiError | null>(null)
+  const [
+    { status: revertStatus, apiError: revertApiError },
+    revertDispatch,
+  ] = useFileRevert()
+  const [apiError, setApiError] = useState<APIError | null>(null)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const [files] = useSaveFiles(initialFiles, () => {
@@ -264,20 +264,43 @@ export function Editor({
       return
     }
 
-    setRevertStatus(RevertStatus.INITIALIZED)
+    revertDispatch({ type: RevertStatus.INITIALIZED })
 
-    sendRequest(submission.links.files, null, 'GET').then((json: any) => {
-      if (!json) {
-        return
-      }
+    sendRequest(submission.links.files, null, 'GET')
+      .then((json: any) => {
+        if (!json) {
+          return
+        }
 
-      const files = typecheck<File[]>(json, 'files')
+        const files = typecheck<File[]>(json, 'files')
 
-      editorRef.current?.setFiles(files)
+        editorRef.current?.setFiles(files)
 
-      setRevertStatus(RevertStatus.SUCCEEDED)
-    })
-  }, [sendRequest, submission])
+        revertDispatch({ type: RevertStatus.SUCCEEDED })
+      })
+      .catch((err) => {
+        if (err instanceof Error) {
+          revertDispatch({
+            type: RevertStatus.FAILED,
+            payload: {
+              apiError: {
+                type: 'unknown',
+                message: 'Unable to revert file, please try again.',
+              } as APIError,
+            },
+          })
+        }
+
+        if (err instanceof Response) {
+          err.json().then((res: any) => {
+            revertDispatch({
+              type: RevertStatus.FAILED,
+              payload: { apiError: res.error },
+            })
+          })
+        }
+      })
+  }, [revertDispatch, sendRequest, submission])
 
   useEffect(() => {
     switch (submissionStatus) {
@@ -304,12 +327,19 @@ export function Editor({
       case RevertStatus.SUCCEEDED:
         setStatus(EditorStatus.REVERTED)
         break
+      case RevertStatus.FAILED:
+        setStatus(EditorStatus.REVERT_FAILED)
+        break
     }
   }, [revertStatus])
 
   useEffect(() => {
     setApiError(submissionApiError)
   }, [submissionApiError])
+
+  useEffect(() => {
+    setApiError(revertApiError)
+  }, [revertApiError])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>

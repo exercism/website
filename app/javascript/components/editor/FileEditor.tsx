@@ -16,6 +16,7 @@ type FileRef = {
 export type FileEditorHandle = {
   getFiles: () => File[]
   setFiles: (files: File[]) => void
+  openPalette: () => void
 }
 
 export function FileEditor({
@@ -27,7 +28,6 @@ export function FileEditor({
   keybindings,
   files,
   wrap,
-  isPaletteOpen,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
@@ -37,7 +37,6 @@ export function FileEditor({
   keybindings: Keybindings
   files: File[]
   wrap: WrapSetting
-  isPaletteOpen: boolean
 }): JSX.Element {
   const options: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false },
@@ -114,27 +113,23 @@ export function FileEditor({
 
     editor.setModel(filesRef.current[0].model)
 
-    editorDidMount({ getFiles, setFiles })
+    editorDidMount({ getFiles, setFiles, openPalette })
   }
 
   const handleEditorWillMount = () => {
     setupThemes()
   }
 
-  useEffect(() => {
+  const openPalette = useCallback(() => {
     const editor = editorRef.current
 
     if (!editor) {
       return
     }
 
-    if (isPaletteOpen) {
-      editor.focus()
-      editor.trigger(null, 'editor.action.quickCommand', {})
-    } else {
-      editor.focus()
-    }
-  }, [isPaletteOpen])
+    editor.focus()
+    editor.trigger(null, 'editor.action.quickCommand', {})
+  }, [editorRef])
 
   useEffect(() => {
     if (!editorRef.current || !statusBarRef.current) {

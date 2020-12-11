@@ -154,7 +154,6 @@ export function Editor({
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState(Themes.LIGHT)
-  const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const [files] = useSaveFiles(initialFiles, () => {
@@ -315,30 +314,8 @@ export function Editor({
   }, [initialFiles])
 
   const toggleKeyboardShortcuts = useCallback(() => {
-    setIsPaletteOpen(!isPaletteOpen)
-  }, [isPaletteOpen])
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (keyboardShortcutsRef.current?.contains(e.target as Node)) {
-        return
-      }
-
-      setIsPaletteOpen(false)
-    }
-
-    const handleBlur = () => {
-      setIsPaletteOpen(false)
-    }
-
-    document.addEventListener('click', handleClick)
-    window.addEventListener('blur', handleBlur)
-
-    return () => {
-      document.removeEventListener('click', handleClick)
-      window.addEventListener('blur', handleBlur)
-    }
-  }, [])
+    editorRef.current?.openPalette()
+  }, [editorRef])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
@@ -375,7 +352,6 @@ export function Editor({
             wrap={wrap}
             onRunTests={runTests}
             onSubmit={submit}
-            isPaletteOpen={isPaletteOpen}
           />
         </div>
 

@@ -20,7 +20,6 @@ module.exports = {
       circle: '100%',
     },
     borderWidth: {
-      none: '0',
       '1': '1px',
       '2': '2px',
       '3': '3px',
@@ -31,6 +30,7 @@ module.exports = {
       lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',
     },
     colors: {
+      unnamed10: '#3D3B45',
       unnamed15: '#F0F3F9',
       unnamed16: '#8480A0',
       randomBlue: '#F9F8FF',
@@ -66,6 +66,7 @@ module.exports = {
       lightOrange: '#FFF3E1',
       red: '#EB5757',
       bgRed: 'rgba(235, 87, 87, 0.15)',
+      gold: '#E2CB2D',
 
       commonBadge: '#F0F3F9',
       rareBadge: '#9FB4FF',

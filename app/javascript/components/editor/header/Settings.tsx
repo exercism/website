@@ -1,7 +1,53 @@
-import React from 'react'
+import React, { ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Icon } from '../../common/Icon'
-import { Keybindings, WrapSetting } from '../types'
+import { Keybindings, WrapSetting, Themes } from '../types'
 import { usePanel } from './usePanel'
+
+const THEMES = [
+  { label: 'Light', value: Themes.LIGHT },
+  { label: 'Dark', value: Themes.DARK },
+]
+
+const KEYBINDINGS = [
+  { label: 'Default', value: Keybindings.DEFAULT },
+  { label: 'Vim', value: Keybindings.VIM },
+  { label: 'Emacs', value: Keybindings.EMACS },
+]
+
+const WRAP = [
+  { label: 'On', value: 'on' },
+  { label: 'Off', value: 'off' },
+]
+
+const Setting = ({
+  title,
+  options,
+  value,
+  onChange,
+}: {
+  title: string
+  value: string | Keybindings
+  options: { label: string; value: string | Keybindings }[]
+  onChange: (e: ChangeEvent) => void
+}) => (
+  <div className="setting">
+    <div className="name">{title}</div>
+    <div className="options">
+      {options.map((option) => (
+        <label key={option.value}>
+          <input
+            type="radio"
+            value={option.value}
+            name={title}
+            checked={value === option.value}
+            onChange={onChange}
+          />
+          <div className="label">{option.label}</div>
+        </label>
+      ))}
+    </div>
+  </div>
+)
 
 export function Settings({
   theme,
@@ -14,10 +60,11 @@ export function Settings({
   theme: string
   keybindings: Keybindings
   wrap: WrapSetting
-  setTheme: (theme: string) => void
+  setTheme: (theme: Themes) => void
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: WrapSetting) => void
 }) {
+  const [localKeybindings, setLocalKeybindings] = useState(keybindings)
   const {
     open,
     setOpen,
@@ -28,12 +75,41 @@ export function Settings({
     attributes,
   } = usePanel()
 
+  const handleThemeChange = useCallback(
+    (e) => {
+      setTheme(e.target.value)
+    },
+    [setTheme]
+  )
+  const handleKeybindingsChange = useCallback(
+    (e) => {
+      setLocalKeybindings(e.target.value as Keybindings)
+    },
+    [setLocalKeybindings]
+  )
+  const handleWrapChange = useCallback(
+    (e) => {
+      setWrap(e.target.value as WrapSetting)
+    },
+    [setWrap]
+  )
+
+  useEffect(() => {
+    if (open) {
+      return
+    }
+
+    setKeybindings(localKeybindings)
+  }, [localKeybindings, open, setKeybindings])
+
   return (
     <div ref={componentRef}>
       <button
         ref={buttonRef}
         className="settings-btn"
         type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
         onClick={() => {
           setOpen(!open)
         }}
@@ -42,47 +118,30 @@ export function Settings({
       </button>
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
-          <div className="settings-dialog">
-            <div className="setting">
-              <label htmlFor="theme" className="name">
-                Theme
-              </label>{' '}
-              <select
-                id="theme"
-                onChange={(e) => setTheme(e.target.value)}
-                value={theme}
-              >
-                <option value="vs">Light</option>
-                <option value="vs-dark">Dark</option>
-              </select>
-            </div>
-            <div className="setting">
-              <label htmlFor="keybindings" className="name">
-                Keybindings
-              </label>
-              <select
-                id="keybindings"
-                onChange={(e) => setKeybindings(e.target.value as Keybindings)}
-                value={keybindings}
-              >
-                <option value={Keybindings.DEFAULT}>Default</option>
-                <option value={Keybindings.VIM}>Vim</option>
-                <option value={Keybindings.EMACS}>Emacs</option>
-              </select>
-            </div>
-            <div className="setting">
-              <label htmlFor="wrap" className="name">
-                Wrap
-              </label>
-              <select
-                id="wrap"
-                onChange={(e) => setWrap(e.target.value as WrapSetting)}
-                value={wrap}
-              >
-                <option value="on">On</option>
-                <option value="off">Off</option>
-              </select>
-            </div>
+          <div
+            tabIndex={-1}
+            role="dialog"
+            aria-label="A series of radio buttons to configure the Exercism's code editor"
+            className="settings-dialog"
+          >
+            <Setting
+              title="Theme"
+              value={theme}
+              options={THEMES}
+              onChange={handleThemeChange}
+            />
+            <Setting
+              title="Keybindings"
+              value={localKeybindings}
+              options={KEYBINDINGS}
+              onChange={handleKeybindingsChange}
+            />
+            <Setting
+              title="Wrap"
+              value={wrap}
+              options={WRAP}
+              onChange={handleWrapChange}
+            />
           </div>
         ) : null}
       </div>

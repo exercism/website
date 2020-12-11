@@ -7,6 +7,8 @@ class User < ApplicationRecord
     :omniauthable, omniauth_providers: [:github]
   has_many :auth_tokens, dependent: :destroy
 
+  has_one :profile, dependent: :destroy
+
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy
@@ -29,6 +31,8 @@ class User < ApplicationRecord
 
   has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
   has_many :contributed_exercises, through: :contributorships, source: :exercise
+
+  # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 

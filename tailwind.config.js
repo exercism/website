@@ -34,6 +34,7 @@ module.exports = {
       unnamed15: '#F0F3F9',
       unnamed16: '#8480A0',
       randomBlue: '#F9F8FF',
+      lightGold: '#FFD38F',
 
       transparent: 'transparent',
       current: 'currentColor',
@@ -65,6 +66,9 @@ module.exports = {
       lightOrange: '#FFF3E1',
       red: '#EB5757',
       bgRed: 'rgba(235, 87, 87, 0.15)',
+
+      commonBadge: '#F0F3F9',
+      rareBadge: '#9FB4FF',
 
       black: '#000',
       white: '#fff',
@@ -98,6 +102,7 @@ module.exports = {
       huge: '170%',
     },
     spacing: {
+      auto: 'auto',
       '4': '4px',
       '6': '6px',
       '8': '8px',
@@ -113,6 +118,7 @@ module.exports = {
       '56': '56px',
       '64': '64px',
       '80': '80px',
+      '128': '128px',
       spacedColumns: '70px',
     },
     width: {

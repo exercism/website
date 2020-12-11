@@ -1,8 +1,23 @@
 puts "Creating User iHiD"
-user = User.create!(handle: 'iHiD', email: 'ihid@exercism.io', name: 'iHiD', password: 'password') unless User.find_by(handle: 'iHiD')
+user = User.create!(
+  handle: 'iHiD', 
+  email: 'ihid@exercism.io', 
+  name: 'Jeremy Walker', 
+  password: 'password',
+  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+) unless User.find_by(handle: 'iHiD')
 user.confirm
 user.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 auth_token = user.auth_tokens.create!
+
+user.create_profile(
+  location: "Bree, Middle Earth",
+  github: "iHiD",
+  twitter: "iHiD",
+  linkedin: "iHiD",
+  medium: "iHiD",
+  website: "https://ihid.info"
+)
 
 # This is all temporary and horrible while we have a monorepo
 repo_url = "https://github.com/exercism/v3"

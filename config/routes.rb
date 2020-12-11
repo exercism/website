@@ -63,7 +63,7 @@ Rails.application.routes.draw do
   # Normal pages #
   # ############ #
 
-  resources :profiles, only: [] do
+  resources :profiles, only: [:show] do
     member do
       get :tooltip
     end

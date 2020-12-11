@@ -293,6 +293,18 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
 
+  create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "twitter"
+    t.string "website"
+    t.string "github"
+    t.string "linkedin"
+    t.string "medium"
+    t.string "location"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "user_reputation_acquisitions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "reason_object_type"
@@ -345,6 +357,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_115925) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "featured_badge_id"
+    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["featured_badge_id"], name: "index_users_on_featured_badge_id"

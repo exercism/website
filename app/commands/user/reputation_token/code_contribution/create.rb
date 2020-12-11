@@ -10,7 +10,7 @@ class User
           User::ReputationToken.find_or_create_by!(
             user: user,
             external_link: external_link,
-            reason: :committed_code,
+            reason: 'committed_code',
             category: :building
           )
         end

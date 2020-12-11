@@ -7,11 +7,11 @@ class User::ReputationToken < ApplicationRecord
   private_constant :CATEGORIES
 
   REASON_VALUES = {
-    authored_exercise: 10,
-    contributed_to_exercise: 5,
-    committed_code: 10,
-    mentored: 10
-  }.freeze
+    'authored_exercise': 10,
+    'contributed_to_exercise': 5,
+    'committed_code': 10,
+    'mentored': 10
+  }.with_indifferent_access.freeze
   private_constant :REASON_VALUES
 
   belongs_to :user
@@ -38,10 +38,6 @@ class User::ReputationToken < ApplicationRecord
     # We're updating in a single query instead of two queries to avoid race-conditions
     summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")
     User.where(id: user.id).update_all(reputation: summing_sql)
-  end
-
-  def reason
-    super.to_sym
   end
 
   def category

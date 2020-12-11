@@ -10,7 +10,7 @@ class User
           User::ReputationToken.find_or_create_by!(
             user: contributorship.contributor,
             context: contributorship,
-            reason: :contributed_to_exercise,
+            reason: 'contributed_to_exercise',
             category: :authoring
           )
         end

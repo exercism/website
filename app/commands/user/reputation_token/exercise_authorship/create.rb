@@ -10,7 +10,7 @@ class User
           User::ReputationToken.find_or_create_by!(
             user: authorship.author,
             context: authorship,
-            reason: :authored_exercise,
+            reason: 'authored_exercise',
             category: :authoring
           )
         end

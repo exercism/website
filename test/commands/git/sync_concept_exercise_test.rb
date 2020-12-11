@@ -192,7 +192,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     new_authorship = exercise.authorships.find_by(author: second_author)
     new_author_rep_token = second_author.reputation_tokens.find_by(context: new_authorship)
     assert_equal :authoring, new_author_rep_token.category
-    assert_equal :authored_exercise, new_author_rep_token.reason
+    assert_equal 'authored_exercise', new_author_rep_token.reason
     assert_equal 10, new_author_rep_token.value
   end
 
@@ -257,7 +257,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     new_contributorship = exercise.contributorships.find_by(contributor: contributor)
     new_contributor_rep_token = contributor.reputation_tokens.find_by(context: new_contributorship)
-    assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
+    assert_equal 'contributed_to_exercise', new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
     assert_equal 5, new_contributor_rep_token.value
   end

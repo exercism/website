@@ -30,10 +30,10 @@ class UserTest < ActiveSupport::TestCase
   test "reputation sums correctly" do
     user = create :user
     create :user_reputation_token
-    create :user_reputation_token, user: user, category: "authoring", reason: :authored_exercise
-    create :user_reputation_token, user: user, category: "authoring", reason: :contributed_to_exercise
-    create :user_reputation_token, user: user, category: "building", reason: :committed_code
-    create :user_reputation_token, user: user, category: "mentoring", reason: :committed_code
+    create :user_reputation_token, user: user, category: "authoring", reason: 'authored_exercise'
+    create :user_reputation_token, user: user, category: "authoring", reason: 'contributed_to_exercise'
+    create :user_reputation_token, user: user, category: "building", reason: 'committed_code'
+    create :user_reputation_token, user: user, category: "mentoring", reason: 'committed_code'
 
     assert_equal 35, user.reload.reputation
     # assert_equal 20, user.reputation(track_slug: :ruby)

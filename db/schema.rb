@@ -322,12 +322,12 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
 
   create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.integer "track_id"
     t.string "context_type"
     t.bigint "context_id"
     t.integer "value", null: false
     t.string "reason", null: false
     t.string "category", null: false
-    t.integer "track_id"
     t.string "external_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

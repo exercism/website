@@ -14,13 +14,6 @@ module Git
       end
     end
 
-    def commits_from_current_to_head
-      walker = Rugged::Walker.new(git_repo.send(:rugged_repo))
-      walker.push(head_git_track.commit.oid)
-      walker.hide(current_git_track.commit.oid)
-      walker.each.to_a
-    end
-
     memoize
     def git_repo
       Git::Repository.new(track.slug, repo_url: track.repo_url)

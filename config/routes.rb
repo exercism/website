@@ -76,7 +76,8 @@ Rails.application.routes.draw do
   # Webhooks #
   # ######## #
   namespace :webhooks do
-    resource :repo_updates, only: [:create]
+    resource :push_updates, only: [:create]
+    resource :pull_request_updates, only: [:create]
   end
 
   # ############ #

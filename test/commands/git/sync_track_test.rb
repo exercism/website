@@ -79,7 +79,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert track.concepts.find_by(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3').present?
+    assert track.concepts.where(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3').exists?
   end
 
   test "concept exercises use track concepts for taught concepts" do
@@ -113,7 +113,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert track.concept_exercises.find_by(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003').present?
+    assert track.concept_exercises.where(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003').exists?
   end
 
   test "adds new practice exercises defined in config.json" do
@@ -123,7 +123,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert track.practice_exercises.find_by(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1').present?
+    assert track.practice_exercises.where(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1').exists?
   end
 
   test "syncs all concepts" do

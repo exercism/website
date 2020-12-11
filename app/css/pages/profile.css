@@ -1,7 +1,7 @@
 @import "../styles";
 
 #page-profile {
-    & header {
+    & header.main-header {
         background: linear-gradient(180deg, #e1ebff 0%, #fbfcfe 137.68%);
         box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.15);
 
@@ -51,9 +51,34 @@
                     @apply text-18 leading-paragraph;
                     max-width: 700px;
                 }
+                & .pins {
+                    @apply flex mt-20;
+                    & .pin {
+                        @apply text-darkGray font-mono font-bold text-15;
+                        @apply bg-lightGold rounded-100 pl-48 pr-12 relative;
+                        @apply flex items-center;
+                        height: 31px;
+
+                        & .icon {
+                            position: absolute;
+                            left: 0px;
+                            top: -4px;
+                            width: 40px;
+                            height: 40px;
+                            @apply flex items-center justify-center;
+                            @apply border-2 border-darkGray bg-bgGray rounded-circle;
+
+                            & .c-icon {
+                                height: 16px;
+                                width: 16px;
+                            }
+                        }
+                    }
+                }
             }
             & .links {
                 @apply self-start;
+                @apply flex flex-col items-end;
 
                 & .link {
                     @apply flex items-center px-16 py-6;
@@ -82,6 +107,168 @@
             & .c-tab {
                 @apply mr-24;
                 height: 49px;
+            }
+        }
+    }
+    & article {
+        & header {
+            @apply relative self-center;
+            @apply flex flex-col items-center;
+
+            & .c-icon {
+                height: 64px;
+                width: 64px;
+            }
+            & h2 {
+                @apply text-h2 mx-auto text-center;
+                & span {
+                    display: block;
+                }
+            }
+            & .total-count {
+                @apply absolute px-12 flex items-center;
+                @apply font-medium text-14 text-textLight leading-regular;
+                @apply border-1 border-textLight rounded-100;
+
+                right: -50px;
+                bottom: 4px;
+                height: 30px;
+            }
+        }
+        & hr {
+            width: 64px;
+            @apply border-anotherPurple mt-24 mx-auto;
+        }
+
+        & .container {
+            @apply flex flex-col;
+        }
+
+        & section.published-section {
+            @apply py-56;
+
+            & hr {
+                @apply mb-40;
+            }
+
+            & .solutions {
+                @apply grid grid-cols-3 gap-16 mb-32;
+                & .solution {
+                    height: 438px;
+                    @apply shadow-base bg-white;
+                }
+            }
+            & .c-prominent-link {
+                @apply self-center;
+            }
+        }
+
+        & section.testimonials-section {
+            @apply py-56;
+
+            & hr {
+                @apply mb-32;
+            }
+            & .testimonials {
+                @apply flex mb-40;
+                & .summaries {
+                    width: 40%;
+                    @apply flex-shrink-0 mr-64;
+                    & .summary {
+                        @apply rounded-8 py-16 px-24 mb-16;
+                        @apply flex items-center;
+
+                        & .c-rounded-bg-img {
+                            height: 64px;
+                            width: 64px;
+                            @apply mr-16;
+                        }
+                        & .student {
+                            @apply text-h5 mb-4;
+                        }
+                        & .exercise {
+                            @apply text-textLight text-16 leading-paragraph;
+                        }
+                        &.active {
+                            @apply shadow-lg bg-white;
+                        }
+                    }
+                }
+                & .content {
+                    & .copy {
+                        @apply text-25 leading-huge mb-16;
+                    }
+                    & .stars {
+                        @apply flex mb-24;
+                        & .c-icon {
+                            height: 24px;
+                            width: 24px;
+                        }
+                    }
+                    & .submitted-at {
+                        @apply text-16 text-textLight;
+                    }
+                }
+            }
+            & .c-prominent-link {
+                @apply self-center;
+            }
+        }
+
+        & section.badges-section {
+            @apply mt-40 pt-128 mb-128;
+            background: url("data:image/svg+xml;base64,ICAgICAgPHN2ZyB3aWR0aD0iMTQxNyIgaGVpZ2h0PSIyNDQiIHZpZXdCb3g9IjAgMCAxNDE3IDI0NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgPHBhdGggb3BhY2l0eT0iMC42IiBkPSJNMCAxNDIuODEyTDQ0NC45NzYgMzAuNjI5M0M1NjIuMDI1IDEuMTIwMjkgNjgzLjQ0OSAtNi45NTI3NCA4MDMuMzc0IDYuODAwNzNMMTQ5NCA4Ni4wMDQ2VjI0NEgwVjE0Mi44MTJaIiBmaWxsPSJ1cmwoI3BhaW50MF9saW5lYXIpIi8+CiAgICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSI3NDciIHkxPSItMTQiIHgyPSI3NDciIHkyPSIyNDQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0UxRUJGRiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNGMEYzRjkiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICA8L2RlZnM+CiAgICAgIDwvc3ZnPgo=");
+            background-repeat: no-repeat;
+            background-size: 100%;
+
+            & header {
+                @apply mb-32;
+            }
+
+            & .summary {
+                @apply shadow-lg bg-white py-24 mb-48 rounded-8;
+                @apply flex justify-center;
+
+                & .block {
+                    @apply flex items-center mx-32;
+                    & .c-icon {
+                        @apply mr-16;
+                        height: 16px;
+                        width: 16px;
+                    }
+                    & .count {
+                        @apply mr-24;
+                        @apply text-20 leading-regular font-semibold text-darkGray;
+                    }
+                    & .info {
+                        @apply text-16 leading-paragraph;
+
+                        & h3 {
+                            @apply font-semibold text-darkGray;
+                        }
+                        & .subtitle {
+                            @apply text-textLight;
+                        }
+                    }
+                    &.common .c-icon {
+                        @apply text-commonBadge;
+                    }
+                    &.rare .c-icon {
+                        @apply text-rareBadge;
+                    }
+                    &.ultimate .c-icon {
+                        @apply text-orange;
+                    }
+                    &.legendary .c-icon {
+                        @apply text-red;
+                    }
+                }
+            }
+            & .badges {
+                @apply grid grid-cols-3 gap-x-48 gap-y-32;
+
+                & .c-badge {
+                }
             }
         }
     }

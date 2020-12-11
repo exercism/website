@@ -1,5 +1,5 @@
 #page-profile
-  %header
+  %header.main-header
     %section.info-section
       .lg-container.container
         = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "#{@user.name}'s uploaded avatar")
@@ -19,6 +19,15 @@
           - if @user.bio.present?
             / TODO: Make Read more widget
             .bio= @user.bio
+
+          / TODO: Make this pivot on whether someone
+          / is a maintainer, etc
+          .pins
+            .pin
+              .icon
+                = graphical_icon :maintaining
+              Maintainer
+
 
         .links
           - if @profile.github.present?
@@ -60,3 +69,122 @@
         %button.c-tab
           = graphical_icon :badges
           %span{ data: { text: "Badges" } } Badges
+
+  %article
+    %section.published-section
+      .lg-container.container
+        %header
+          %h2 Published Solutions
+          / TODO
+          .total-count 5
+        %hr
+
+        .solutions
+          .solution
+          .solution
+          .solution
+
+        = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
+
+    %section.testimonials-section
+      .md-container.container
+        %header
+          = graphical_icon :testimonials, hex: true
+          %h2 Testimonials
+          / TODO
+          .total-count 5
+        %hr
+
+        .testimonials
+          .summaries
+            .summary.active
+              = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+              .info
+                .student @ErikShireBOOM
+                .exercise Lasagna in C#
+
+            .summary
+              = rounded_bg_img("https://avatars2.githubusercontent.com/u/17816791?s=460&u=75b8876b2ec4d897e946888493a7fc7b7d97ec55&v=4", "Erik SchierBOOM's uploaded avatar")
+              .info
+                .student @iHiD
+                .exercise Life in Ruby
+
+            .summary
+              = rounded_bg_link("https://avatars0.githubusercontent.com/u/6251883?s=400&u=1111c5251e1c1bbf6b45790b6ffa4a919c502bd6&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+              .info
+                .student @neenjaw
+                .exercise Stuff in Elixir
+
+          .content
+            .copy For the first time in my life, someone got my name right the first time round. I’m not really sure what that means, but, I think I’m gonna go and celebrate. Man, I can’t believe this. I can’t believe SleeplessByte got my name right!
+            / TODO: a11y
+            .stars
+              = graphical_icon "gold-star"
+              = graphical_icon "gold-star"
+              = graphical_icon "gold-star"
+              = graphical_icon "gold-star"
+              = graphical_icon "gold-star"
+            .submitted-at Submitted 3 days ago
+
+        = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s testimonials", "#")
+
+
+    %section.badges-section
+      .md-container.container
+        %header
+          %h2 #{@user.name}'s Badges
+          / TODO
+          .total-count 5
+
+        .summary
+          .block.common
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Common
+              .subtitle badges owned
+          .block.rare
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Rare
+              .subtitle badges owned
+          .block.ultimate
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Ultimate
+              .subtitle badges owned
+          .block.legendary
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Legendary
+              .subtitle badges owned
+
+        .badges
+          .c-badge.--common
+            .c-badge-medallion
+              = graphical_icon :maintaining
+            .--info
+              .--name Night Owl
+              .--desc Submitted an exercise past midnight
+          .c-badge.--rare
+            .c-badge-medallion
+              = graphical_icon :testimonials
+            .--info
+              .--name Neverending Story
+              .--desc Submitted at least 10 iterations to the same exercise
+          .c-badge.--ultimate
+            .c-badge-medallion
+              = graphical_icon :settings
+            .--info
+              .--name 2020 Winter Hackathon
+              .--desc Attended the 2020 Exercism Winter Hackathon
+          .c-badge.--legendary
+            .c-badge-medallion
+              = graphical_icon :keyboard
+            .--info
+              .--name We’ll do it live!
+              .--desc Livestream solving an exercise
+

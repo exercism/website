@@ -1,4 +1,5 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
+import { Themes } from '../types'
 
 export const setupThemes = (): void => {
   monaco.editor.defineTheme(Themes.LIGHT, {

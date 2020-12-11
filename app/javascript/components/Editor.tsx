@@ -1,5 +1,4 @@
 import React, {
-  useReducer,
   useRef,
   useEffect,
   useCallback,
@@ -16,7 +15,7 @@ import {
   WrapSetting,
   Themes,
 } from './editor/types'
-import { useRequest, APIError } from '../hooks/use-request'
+import { useRequest } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
@@ -32,7 +31,18 @@ import { SubmitButton } from './editor/SubmitButton'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 import { useSaveFiles } from './editor/useSaveFiles'
+import {
+  useSubmission,
+  ActionType as SubmissionActionType,
+  SubmissionStatus,
+} from './editor/useSubmission'
 import { isEqual } from 'lodash'
+
+export enum TabIndex {
+  INSTRUCTIONS = 'instructions',
+  TESTS = 'tests',
+  RESULTS = 'results',
+}
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -44,96 +54,9 @@ export enum EditorStatus {
   REVERTED = 'reverted',
 }
 
-type State = {
-  submission?: Submission
-  status?: SubmissionStatus
-  apiError?: APIError
-}
-
-enum ActionType {
-  CREATING_SUBMISSION = 'creatingSubmission',
-  SUBMISSION_CREATED = 'submissionCreated',
-  CREATING_ITERATION = 'creatingIteration',
-  SUBMISSION_CANCELLED = 'submissionCancelled',
-  SUBMISSION_CHANGED = 'submissionChanged',
-}
-
-enum SubmissionStatus {
-  CREATING = 'creating',
-  CREATED = 'created',
-  CANCELLED = 'cancelled',
-  CREATING_ITERATION = 'creating_iteration',
-}
-
 enum RevertStatus {
   INITIALIZED = 'initialized',
   SUCCEEDED = 'reverted',
-}
-
-type Action =
-  | { type: ActionType.CREATING_SUBMISSION }
-  | {
-      type: ActionType.SUBMISSION_CREATED
-      payload: { submission: Submission }
-    }
-  | { type: ActionType.SUBMISSION_CANCELLED; payload?: { apiError?: APIError } }
-  | { type: ActionType.CREATING_ITERATION }
-  | {
-      type: ActionType.SUBMISSION_CHANGED
-      payload: { testRun: TestRun }
-    }
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case ActionType.CREATING_SUBMISSION:
-      return {
-        ...state,
-        apiError: undefined,
-        status: SubmissionStatus.CREATING,
-      }
-    case ActionType.SUBMISSION_CREATED:
-      return {
-        ...state,
-        submission: {
-          ...action.payload.submission,
-          testRun: {
-            id: null,
-            submissionUuid: action.payload.submission.uuid,
-            status: TestRunStatus.QUEUED,
-            tests: [],
-            message: '',
-          },
-        },
-        status: SubmissionStatus.CREATED,
-      }
-    case ActionType.SUBMISSION_CANCELLED:
-      return {
-        ...state,
-        apiError: action.payload?.apiError,
-        status: SubmissionStatus.CANCELLED,
-      }
-    case ActionType.CREATING_ITERATION:
-      return {
-        ...state,
-        status: SubmissionStatus.CREATING_ITERATION,
-      }
-    case ActionType.SUBMISSION_CHANGED:
-      return {
-        ...state,
-        submission: {
-          ...(state.submission as Submission),
-          testRun: action.payload.testRun,
-        },
-      }
-    default:
-      return state
-  }
-}
-
-export enum TabIndex {
-  INSTRUCTIONS = 'instructions',
-  TESTS = 'tests',
-  RESULTS = 'results',
 }
 
 export const TabsContext = createContext({
@@ -181,8 +104,8 @@ export function Editor({
   const isMountedRef = useIsMounted()
   const [
     { submission, status: submissionStatus, apiError },
-    dispatch,
-  ] = useReducer(reducer, { submission: initialSubmission })
+    submissionDispatch,
+  ] = useSubmission(initialSubmission)
   const [status, setStatus] = useState(EditorStatus.INITIALIZED)
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
@@ -223,7 +146,7 @@ export function Editor({
   const runTests = useCallback(() => {
     const files = editorRef.current?.getFiles()
 
-    dispatch({ type: ActionType.CREATING_SUBMISSION })
+    submissionDispatch({ type: SubmissionActionType.CREATING_SUBMISSION })
 
     sendRequest(endpoint, JSON.stringify({ files: files }), 'POST')
       .then((json: any) => {
@@ -231,8 +154,8 @@ export function Editor({
           return
         }
 
-        dispatch({
-          type: ActionType.SUBMISSION_CREATED,
+        submissionDispatch({
+          type: SubmissionActionType.SUBMISSION_CREATED,
           payload: {
             submission: typecheck<Submission>(json, 'submission'),
           },
@@ -241,19 +164,21 @@ export function Editor({
       })
       .catch((err) => {
         if (err instanceof Error) {
-          dispatch({ type: ActionType.SUBMISSION_CANCELLED })
+          submissionDispatch({
+            type: SubmissionActionType.SUBMISSION_CANCELLED,
+          })
         }
 
         if (err instanceof Response) {
           err.json().then((res: any) => {
-            dispatch({
-              type: ActionType.SUBMISSION_CANCELLED,
+            submissionDispatch({
+              type: SubmissionActionType.SUBMISSION_CANCELLED,
               payload: { apiError: res.error },
             })
           })
         }
       })
-  }, [editorRef, sendRequest, endpoint])
+  }, [submissionDispatch, sendRequest, endpoint])
 
   const submit = useCallback(() => {
     if (!submission) {
@@ -264,7 +189,7 @@ export function Editor({
       return
     }
 
-    dispatch({ type: ActionType.CREATING_ITERATION })
+    submissionDispatch({ type: SubmissionActionType.CREATING_ITERATION })
 
     sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
       (json: any) => {
@@ -276,21 +201,21 @@ export function Editor({
         location.assign(iteration.links.self)
       }
     )
-  }, [sendRequest, dispatch, submission])
+  }, [sendRequest, submissionDispatch, submission])
 
   const cancel = useCallback(() => {
     abort()
-    dispatch({ type: ActionType.SUBMISSION_CANCELLED })
-  }, [dispatch, abort])
+    submissionDispatch({ type: SubmissionActionType.SUBMISSION_CANCELLED })
+  }, [submissionDispatch, abort])
 
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
-      dispatch({
-        type: ActionType.SUBMISSION_CHANGED,
+      submissionDispatch({
+        type: SubmissionActionType.SUBMISSION_CHANGED,
         payload: { testRun: testRun },
       })
     },
-    [dispatch]
+    [submissionDispatch]
   )
   const editorDidMount = useCallback(
     (editor) => {

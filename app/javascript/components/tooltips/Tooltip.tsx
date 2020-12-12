@@ -50,7 +50,7 @@ export const Tooltip = ({
   })
 
   const { isLoading, isError, htmlContent } = useTooltipContentQuery(
-    id,
+    contentEndpoint,
     contentEndpoint,
     showState != 'hidden' && showState != 'error'
   )

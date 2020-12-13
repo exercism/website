@@ -152,6 +152,27 @@ module Components
       end
     end
 
+    test "user reverts to original exercise solution" do
+      user = create :user
+      create :user_auth_token, user: user
+      bob = create :practice_exercise, slug: "bob"
+      solution = create :practice_solution, user: user, exercise: bob
+      submission = create :submission, solution: solution
+      create :submission_file,
+        submission: submission,
+        content: "new content",
+        filename: "bob.rb",
+        digest: Digest::SHA1.hexdigest("new content")
+
+      use_capybara_host do
+        visit test_components_editor_path(solution_id: solution.id)
+        find(".more-btn").click
+        click_on("Revert to exercise start")
+
+        assert_text "stub content"
+      end
+    end
+
     private
     def wait_for_submission
       assert_text "We've queued your code and will run it shortly."

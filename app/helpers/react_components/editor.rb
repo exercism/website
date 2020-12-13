@@ -17,12 +17,7 @@ module ReactComponents
             auth_token: solution.user.auth_tokens.first.to_s
           ),
           submission: SerializeSubmission.(solution.submissions.last),
-          files: solution.editor_solution_files.map do |filename, content|
-            {
-              filename: filename,
-              content: content
-            }
-          end,
+          files: SerializeFiles.(solution.editor_solution_files),
           language: solution.editor_language
         }
       )

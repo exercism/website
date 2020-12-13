@@ -17,6 +17,9 @@ Rails.application.routes.draw do
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
       end
+      resources :solution, only: [] do
+        resources :original_solution_files, only: %i[index], controller: "solutions/original_solution_files"
+      end
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"

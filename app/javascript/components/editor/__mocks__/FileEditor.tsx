@@ -1,4 +1,10 @@
-import React, { createRef, useRef, useEffect, useCallback } from 'react'
+import React, {
+  useState,
+  createRef,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react'
 
 export enum Keybindings {
   DEFAULT = 'default',
@@ -13,8 +19,8 @@ export function FileEditor({
   wrap,
   theme,
   keybindings,
-  isPaletteOpen,
 }): JSX.Element {
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const textareaRef = useRef(files.map(() => createRef()))
   const getFiles = useCallback(() => {
     return textareaRef.current.map((ref, i) => {
@@ -29,7 +35,13 @@ export function FileEditor({
   }, [])
 
   useEffect(() => {
-    editorDidMount({ getFiles, setFiles })
+    editorDidMount({
+      getFiles,
+      setFiles,
+      openPalette: () => {
+        setIsPaletteOpen(true)
+      },
+    })
   }, [editorDidMount, getFiles, files, setFiles])
 
   return (

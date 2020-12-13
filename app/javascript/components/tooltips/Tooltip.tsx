@@ -113,15 +113,7 @@ export const Tooltip = ({
         break
     }
 
-    // TODO: 🔥 I think this needs a cleanup, but this seems to cause problems
-    // return () => {
-    //   dispatch({
-    //     id: tooltipId,
-    //     action: {
-    //       type: 'hide',
-    //     },
-    //   })
-    // }
+    return () => removeOpenTooltip(id)
   }, [
     showState,
     id,

@@ -95,6 +95,7 @@ export function Editor({
   const [apiError, setApiError] = useState<APIError | null>(null)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
+  const submissionFilesRef = useRef<File[]>(initialFiles)
   const [files] = useSaveFiles(initialFiles, () => {
     return editorRef.current?.getFiles() || []
   })
@@ -147,6 +148,10 @@ export function Editor({
   const runTests = useCallback(() => {
     const files = editorRef.current?.getFiles()
 
+    if (!files) {
+      return
+    }
+
     submissionDispatch({ type: SubmissionActionType.CREATING_SUBMISSION })
 
     sendRequest(endpoint, JSON.stringify({ files: files }), 'POST')
@@ -162,6 +167,7 @@ export function Editor({
           },
         })
         switchToTab(TabIndex.RESULTS)
+        submissionFilesRef.current = files
       })
       .catch((err) => {
         if (err instanceof Error) {
@@ -252,8 +258,8 @@ export function Editor({
   }, [sendRequest, initialSubmission, updateSubmission])
 
   const revertToLastIteration = useCallback(() => {
-    editorRef.current?.setFiles(initialFiles)
-  }, [initialFiles])
+    editorRef.current?.setFiles(submissionFilesRef.current)
+  }, [editorRef, submissionFilesRef])
 
   const toggleKeyboardShortcuts = useCallback(() => {
     editorRef.current?.openPalette()
@@ -363,7 +369,10 @@ export function Editor({
           <Header.ActionMore
             onRevertToExerciseStart={revertToExerciseStart}
             onRevertToLastIteration={revertToLastIteration}
-            isRevertToLastIterationDisabled={isEqual(initialFiles, files)}
+            isRevertToLastIterationDisabled={isEqual(
+              submissionFilesRef.current,
+              files
+            )}
           />
         </div>
 

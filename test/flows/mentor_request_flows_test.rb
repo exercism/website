@@ -11,11 +11,22 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
 
     request = Solution::MentorRequest::Create.(solution, :code_review, "")
 
-    Mentor::LockRequest.(mentor, request)
+    Solution::MentorRequest::Lock.(request, mentor)
     assert request.reload.locked?
 
-    Mentor::StartDiscussion.(mentor, request, iteration, "This is great!! Why do you even need a mentor?")
+    discussion = Solution::MentorDiscussion::Create.(
+      mentor,
+      request,
+      iteration,
+      "This is great!! Why do you even need a mentor?"
+    )
     assert_equal 1, solution.mentor_discussions.size
-    assert_equal 1, solution.mentor_discussions.first.posts.size
+    assert_equal 1, discussion.posts.size
+
+    Solution::MentorDiscussion::ReplyByStudent.(discussion, iteration, "Well, because I don't know ALL the answers.")
+    assert_equal 2, discussion.posts.size
+
+    Solution::MentorDiscussion::ReplyByMentor.(discussion, iteration, "You know enough. Believe in yourself.")
+    assert_equal 3, discussion.posts.size
   end
 end

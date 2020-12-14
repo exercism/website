@@ -82,7 +82,9 @@ Rails.application.routes.draw do
   namespace :mentor do
     get "/", to: redirect("mentor/dashboard")
     resource :dashboard, only: [:show], controller: "dashboard"
-    resources :requests, only: [:show]
+    resources :requests, only: [:show] do
+      get :unavailable, on: :member
+    end
     resources :discussions, only: [:show]
   end
 

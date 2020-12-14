@@ -1,11 +1,11 @@
 puts "Creating User iHiD"
-iHiD = User.create!(
+iHiD = User.find_by(handle: 'iHiD') || User.create!(
   handle: 'iHiD', 
   email: 'ihid@exercism.io', 
   name: 'Jeremy Walker', 
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
-) unless User.find_by(handle: 'iHiD')
+)
 iHiD.confirm
 iHiD.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 auth_token = iHiD.auth_tokens.create!
@@ -20,22 +20,22 @@ iHiD.create_profile(
 )
 
 puts "Creating User erikSchierboom"
-erik = User.create!(
+erik = User.find_by(handle: 'erikSchierboom') || User.create!(
   handle: 'erikSchierboom', 
   email: 'erik@exercism.io', 
   name: 'Erik Schierboom', 
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
-) unless User.find_by(handle: 'erikSchierboom')
+)
 
 puts "Creating User karlosoriano"
-karlo = User.create!(
+karlo = User.find_by(handle: 'karlosoriano') || User.create!(
   handle: 'karlosoriano', 
   email: 'karlo@exercism.io', 
   name: 'Karlo Soriano', 
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
-) unless User.find_by(handle: 'karlosoriano')
+)
 
 
 
@@ -172,15 +172,18 @@ Iteration.create!(
 Solution::Publish.(solution, [])
 
 ## Create mentoring solutions
+UserTrack.create!(user: erik, track: ruby)
 solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!( submission: submission, solution: solution, idx: 1)
-MentorRequest.create!(solution: solution)
+Solution::MentorRequest.create!(solution: solution, type: :code_review)
 
 ## Create mentoring solutions
+UserTrack.create!(user: karlo, track: ruby)
 solution = Solution::Create.( karlo, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!( submission: submission, solution: solution, idx: 1)
-MentorRequest.create!(solution: solution)
+Solution::MentorRequest.create!(solution: solution, type: :code_review)
+

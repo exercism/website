@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class User::ReplyToDiscussionTest < ActiveSupport::TestCase
+class Solution::MentorDiscussion::ReplyByStudentTest < ActiveSupport::TestCase
   test "creates discussion post" do
     iteration = create :iteration
     content_markdown = "foobar"
     discussion = create :solution_mentor_discussion
 
-    discussion_post = User::ReplyToDiscussion.(
+    discussion_post = Solution::MentorDiscussion::ReplyByStudent.(
       discussion,
       iteration,
       content_markdown
@@ -25,7 +25,7 @@ class User::ReplyToDiscussionTest < ActiveSupport::TestCase
     mentor = create :user
     discussion = create(:solution_mentor_discussion, solution: solution, mentor: mentor)
 
-    User::ReplyToDiscussion.(
+    Solution::MentorDiscussion::ReplyByStudent.(
       discussion,
       iteration,
       "foobar"

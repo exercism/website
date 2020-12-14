@@ -18,8 +18,16 @@ class Solution::MentorRequestTest < ActiveSupport::TestCase
   test "lockable_by?" do
     mentor = create :user
 
-    # No lock
-    request = create :solution_mentor_request, locked_until: nil
+    # No lock, fulfilled
+    request = create :solution_mentor_request, locked_until: nil, status: :fulfilled
+    refute request.lockable_by?(mentor)
+
+    # Cancelled
+    request.update(status: :cancelled)
+    refute request.lockable_by?(mentor)
+
+    # Pending
+    request.update(status: :pending)
     assert request.lockable_by?(mentor)
 
     # Locked by mentor

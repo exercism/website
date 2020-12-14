@@ -75,8 +75,8 @@
         }
         & time {
             @apply font-medium text-14 text-textLight leading-code;
-            @apply ml-56;
-            width: 120px;
+            @apply ml-32;
+            width: 140px;
             text-align: right;
         }
 

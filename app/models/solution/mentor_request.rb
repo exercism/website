@@ -40,7 +40,7 @@ class Solution::MentorRequest < ApplicationRecord
   # If the solution isn't locked at all then the person timed
   # out but no-one else claimed it so let's carry on
   def lockable_by?(mentor)
-    !locked? || locked_by == mentor
+    (pending? && !locked?) || locked_by == mentor
   end
 
   def locked?

@@ -27,4 +27,4 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
 
           git remote add upstream git@github.com:exercism/website-deployer.git
-          git push upstream master
+          git push upstream +master

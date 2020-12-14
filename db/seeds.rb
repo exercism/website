@@ -1,16 +1,16 @@
 puts "Creating User iHiD"
-user = User.create!(
+iHiD = User.create!(
   handle: 'iHiD', 
   email: 'ihid@exercism.io', 
   name: 'Jeremy Walker', 
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 ) unless User.find_by(handle: 'iHiD')
-user.confirm
-user.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
-auth_token = user.auth_tokens.create!
+iHiD.confirm
+iHiD.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
+auth_token = iHiD.auth_tokens.create!
 
-user.create_profile(
+iHiD.create_profile(
   location: "Bree, Middle Earth",
   github: "iHiD",
   twitter: "iHiD",
@@ -18,6 +18,26 @@ user.create_profile(
   medium: "iHiD",
   website: "https://ihid.info"
 )
+
+puts "Creating User erikSchierboom"
+erik = User.create!(
+  handle: 'erikSchierboom', 
+  email: 'erik@exercism.io', 
+  name: 'Erik Schierboom', 
+  password: 'password',
+  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+) unless User.find_by(handle: 'erikSchierboom')
+
+puts "Creating User karlosoriano"
+karlo = User.create!(
+  handle: 'karlosoriano', 
+  email: 'karlo@exercism.io', 
+  name: 'Karlo Soriano', 
+  password: 'password',
+  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+) unless User.find_by(handle: 'karlosoriano')
+
+
 
 # This is all temporary and horrible while we have a monorepo
 repo_url = "https://github.com/exercism/v3"
@@ -128,9 +148,9 @@ puts "exercism configure -a http://localhost:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
 ruby = Track.find_by_slug(:ruby)
-UserTrack.create!(user: user, track: ruby)
+UserTrack.create!(user: iHiD, track: ruby)
 solution = Solution::Create.(
-  User.first, 
+  iHiD, 
   ruby.concept_exercises.find_by!(slug: "lasagna")
 )
 submission = Submission.create!(
@@ -150,3 +170,17 @@ Iteration.create!(
 )
 
 Solution::Publish.(solution, [])
+
+## Create mentoring solutions
+solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
+submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
+Iteration.create!( submission: submission, solution: solution, idx: 1)
+MentorRequest.create!(solution: solution)
+
+## Create mentoring solutions
+solution = Solution::Create.( karlo, ruby.concept_exercises.find_by!(slug: "lasagna"))
+submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
+Iteration.create!( submission: submission, solution: solution, idx: 1)
+MentorRequest.create!(solution: solution)

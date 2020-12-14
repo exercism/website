@@ -31,7 +31,7 @@ class User::ReplyToDiscussionTest < ActiveSupport::TestCase
       "foobar"
     )
     assert_equal 1, mentor.notifications.size
-    notification = mentor.notifications.first
+    notification = Notification.where(user: mentor).first
     assert_equal Notifications::StudentRepliedToDiscussionNotification, notification.class
     assert_equal({ discussion_post: Solution::MentorDiscussionPost.first }, notification.send(:params))
   end

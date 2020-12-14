@@ -169,7 +169,7 @@ class ActionDispatch::IntegrationTest
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)
-    @current_user.auth_tokens.create! if @current_user.auth_tokens.blank?
+    @current_user.auth_tokens.create! unless @current_user.auth_tokens.exists?
 
     @current_user.confirm
     sign_in @current_user

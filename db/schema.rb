@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
   create_table "solution_mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
-    t.bigint "request_id", null: false
+    t.bigint "request_id"
     t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

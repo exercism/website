@@ -185,5 +185,11 @@ solution = Solution::Create.( karlo, ruby.concept_exercises.find_by!(slug: "lasa
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!( submission: submission, solution: solution, idx: 1)
-Solution::MentorRequest.create!(solution: solution, type: :code_review)
 
+submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\n\nend", digest: SecureRandom.uuid)
+Iteration.create!( submission: submission, solution: solution, idx: 2)
+
+req = Solution::MentorRequest.create!(solution: solution, type: :code_review)
+discussion = Solution::MentorDiscussion.create!(request: req, solution: solution, mentor: iHiD)
+p "Discussion: #{discussion.uuid}"

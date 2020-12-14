@@ -5,7 +5,7 @@ class Solution::MentorDiscussion < ApplicationRecord
   has_one :track, through: :exercise
 
   belongs_to :mentor, class_name: "User"
-  belongs_to :request, class_name: "Solution::MentorRequest"
+  belongs_to :request, class_name: "Solution::MentorRequest", optional: true
 
   has_many :posts, class_name: "Solution::MentorDiscussionPost",
                    foreign_key: "discussion_id",

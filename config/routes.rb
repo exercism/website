@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       namespace :mentor do
         resource :queue, only: [:show], controller: 'queue'
         resource :inbox, only: [:show], controller: 'inbox'
+        resource :discussions, only: [:show], controller: 'discussions'
       end
     end
   end

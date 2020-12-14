@@ -1,0 +1,91 @@
+.c-mentor-discussion
+  %header.discussion-header
+    = link_to track_exercise_path(@track, @exercise), class: 'close-btn' do
+      = graphical_icon "arrow-left"
+
+    = track_icon @track
+
+    .student
+      = rounded_bg_img(@student.avatar_url, "Uploaded avatar of #{@student.handle}")
+      .info
+        .handle= @student.handle
+        .exercise
+          on
+          %strong= @exercise.title
+          in
+          %strong= @track.title
+    .iterations
+
+      / TODO: @kntsoriano: This will be an array of objects with
+      / `idx, `num_comments`, and `unread` as a bool
+      / The selected iteraction should have the active state
+      /-@solution.iterations.each.with_index do |iteration, i|
+      %button.iteration
+        /iteration.idx
+        1
+        .comments.unread 9+
+
+      %button.iteration
+        /iteration.idx
+        2
+        .comments.unread 4
+
+
+      %button.iteration.active
+        3
+        .comments 1
+
+  %article
+    .lhs
+      %header.iteration-header
+
+    .rhs
+      .tabs
+        %button.c-tab.selected
+          = graphical_icon :comment
+          %span{ data: { text: "Discussion" } } Discussion
+        %button.c-tab
+          = graphical_icon :scratchpad
+          %span{ data: { text: "Scratchpad" } } Scratchpad
+        %button.c-tab
+          = graphical_icon :guidance
+          %span{ data: { text: "Guidance" } } Guidance
+
+      .discussion
+        .post
+          %header.post-header
+            / Discussion post author avatar
+            = rounded_bg_img(@student.avatar_url, "Uploaded avatar of #{@student.handle}")
+
+            / Discussion post author handle
+            .handle= @student.handle
+
+            / if discussion_post.user_id == student_id
+            .tag Student
+
+          / This will be HTML so needs to be rendered raw
+          .post-content
+            %p Is there a ruby-er way to zip the two lists?
+
+          / discussion post date
+          %time.post-at #{time_ago_in_words(Time.current - 1.day)} ago
+
+        .post
+          %header.post-header
+            / Discussion post author avatar
+            = rounded_bg_img(@mentor.avatar_url, "Uploaded avatar of #{@mentor.handle}")
+
+            / Discussion post author handle
+            .handle= @mentor.handle
+
+          / This will be HTML so needs to be rendered raw
+          .post-content
+            %p Nope, that's a good way to do it. I'm not sure of the tradeoff between using chars and each_char - it might be an interesting exercises to benchmark which is faster.
+            %p That first bit (strand_a.each_char.zip(strand_b.each_char).) is good.
+            %p By counting the number of differences between two homologous DNA strands...
+            %p If you took that sentence and transposed it quite literally into code after the zip, how might you turn this into a one-liner?
+            %p ArgumentError is good :)
+
+          / discussion post date
+          %time.post-at #{time_ago_in_words(Time.current - 1.hour)} ago
+

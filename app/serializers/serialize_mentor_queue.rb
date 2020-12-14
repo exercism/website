@@ -43,7 +43,6 @@ class SerializeMentorQueue
       tooltip_url: "#",
 
       # TODO: Rename this to web_url
-      # TODO: Maybe expose a UUID instead?
       url: Exercism::Routes.mentor_request_url(request)
     }
   end

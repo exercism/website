@@ -41,7 +41,6 @@ class SerializeMentorInbox
       posts_count: 4,
 
       # TODO: Rename this to web_url
-      # TODO: Maybe expose a UUID instead?
       url: Exercism::Routes.mentor_discussion_url(request)
     }
   end

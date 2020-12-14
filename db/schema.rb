@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_205912) do
+ActiveRecord::Schema.define(version: 2020_12_14_170439) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_205912) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "requires_mentor_action_since"
     t.datetime "requires_student_action_since"
+    t.string "uuid", null: false
     t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_solution_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"
@@ -168,6 +169,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_205912) do
     t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["locked_by_id"], name: "index_solution_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_solution_mentor_requests_on_solution_id"
   end

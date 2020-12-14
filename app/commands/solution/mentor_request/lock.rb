@@ -5,6 +5,10 @@ class Solution
 
       initialize_with :request, :mentor
 
+      # TOOD: Add a guard that a mentor should only have
+      # two solutions locked to them at any time. When someone
+      # hits 'start discussion' that should remove the lock.
+
       def call
         ActiveRecord::Base.transaction do
           # This is a DB lock (The naming is confusing!)

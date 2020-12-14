@@ -21,6 +21,14 @@ class Solution::MentorRequest < ApplicationRecord
   delegate :handle, :avatar_url, to: :user, prefix: :user
   delegate :title, to: :exercise, prefix: :exercise
 
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
+  def to_param
+    uuid
+  end
+
   def status
     super.to_sym
   end

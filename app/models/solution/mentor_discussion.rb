@@ -22,7 +22,15 @@ class Solution::MentorDiscussion < ApplicationRecord
     self.solution = request.solution unless self.solution
   end
 
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
   delegate :title, :icon_url, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, to: :exercise, prefix: :exercise
+
+  def to_param
+    uuid
+  end
 end

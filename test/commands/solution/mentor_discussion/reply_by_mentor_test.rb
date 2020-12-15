@@ -9,7 +9,7 @@ class Solution::MentorDiscussion::ReplyByMentorTest < ActiveSupport::TestCase
 
     discussion_post = Solution::MentorDiscussion::ReplyByMentor.(
       discussion,
-      iteration,
+      iteration.idx,
       content_markdown
     )
     assert discussion_post.persisted?
@@ -27,7 +27,7 @@ class Solution::MentorDiscussion::ReplyByMentorTest < ActiveSupport::TestCase
 
     Solution::MentorDiscussion::ReplyByMentor.(
       discussion,
-      iteration,
+      iteration.idx,
       "foobar"
     )
     assert_equal 1, user.notifications.size

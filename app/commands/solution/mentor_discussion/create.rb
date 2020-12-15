@@ -3,7 +3,7 @@ class Solution
     class Create
       include Mandate
 
-      initialize_with :mentor, :request, :iteration, :content_markdown
+      initialize_with :mentor, :request, :iteration_idx, :content_markdown
 
       # TODO: Guard against a user mentoring their own solution
       def call
@@ -41,6 +41,11 @@ class Solution
 
           discussion
         end
+      end
+
+      memoize
+      def iteration
+        discussion.solution.iterations.find_by!(idx: iteration_idx)
       end
     end
   end

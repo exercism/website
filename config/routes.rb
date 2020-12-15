@@ -36,15 +36,16 @@ Rails.application.routes.draw do
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
+      end
 
-        resources :mentor_requests, only: %i[], controller: "solutions/mentor_requests" do
-          member do
-            patch :lock
-          end
+      resources :mentor_requests, only: %i[] do
+        member do
+          patch :lock
         end
-        resources :mentor_discussions, only: %i[], controller: "solutions/mentor_discussions" do
-          resources :posts, only: %i[create], controller: "solutions/mentor_discussion_posts"
-        end
+      end
+
+      resources :mentor_discussions, only: %i[] do
+        resources :posts, only: %i[create], controller: "mentor_discussion_posts"
       end
 
       resources :submission, only: [] do

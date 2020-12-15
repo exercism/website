@@ -18,3 +18,4 @@ en:
       file_too_large: "The submitted file was too large"
 
       mentor_request_not_found: "The mentor request was not found"
+      mentor_discussion_not_found: "The mentor discussion was not found"

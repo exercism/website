@@ -51,7 +51,9 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       }
     }
     Webhooks::ProcessPullRequestUpdate.expects(:call).with('opened', 'user22',
-      'https://api.github.com/repos/exercism/v3/pulls/1347', 'https://github.com/exercism/v3/pull/1347', %w[bug duplicate])
+      url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
+      html_url: 'https://github.com/exercism/v3/pull/1347',
+      labels: %w[bug duplicate])
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
   end

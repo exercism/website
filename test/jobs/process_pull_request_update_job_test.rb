@@ -8,7 +8,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
 
-    User::ReputationToken::AwardForPullRequest.expects(:call).with(action, login, url, html_url, labels)
-    ProcessPullRequestUpdateJob.perform_now(action, login, url, html_url, labels)
+    User::ReputationToken::AwardForPullRequest.expects(:call).with(action, login, url: url, html_url: html_url,
+                                                                                  labels: labels)
+    ProcessPullRequestUpdateJob.perform_now(action, login, url: url, html_url: html_url, labels: labels)
   end
 end

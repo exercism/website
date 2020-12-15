@@ -8,10 +8,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels)
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url, labels)
+      ProcessPullRequestUpdateJob.perform_later(action, login, url: url, html_url: html_url, labels: labels)
     end
   end
 
@@ -22,10 +22,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels)
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url, labels)
+      ProcessPullRequestUpdateJob.perform_later(action, login, url: url, html_url: html_url, labels: labels)
     end
   end
 
@@ -36,10 +36,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels)
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url, labels)
+      ProcessPullRequestUpdateJob.perform_later(action, login, url: url, html_url: html_url, labels: labels)
     end
   end
 
@@ -50,7 +50,7 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels)
 
     assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob
   end

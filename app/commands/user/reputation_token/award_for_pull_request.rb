@@ -3,10 +3,10 @@ class User
     class AwardForPullRequest
       include Mandate
 
-      initialize_with :action, :author, :url, :html_url
+      initialize_with :action, :github_username, :url, :html_url
 
       def call
-        user = User.find_by(github_username: author)
+        user = User.find_by(github_username: github_username)
 
         # # TODO: decide what to do with user that cannot be found
         # next unless user

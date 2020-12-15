@@ -2,12 +2,12 @@ module Webhooks
   class ProcessPullRequestUpdate
     include Mandate
 
-    initialize_with :action, :author, :url, :html_url
+    initialize_with :action, :github_username, :url, :html_url
 
     def call
       return unless handle_event?
 
-      ProcessPullRequestUpdateJob.perform_later(action, author, url, html_url)
+      ProcessPullRequestUpdateJob.perform_later(action, github_username, url, html_url)
     end
 
     private

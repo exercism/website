@@ -1,7 +1,7 @@
 class ProcessPullRequestUpdateJob < ApplicationJob
   queue_as :default
 
-  def perform(action, author, url, html_url)
-    User::ReputationToken::AwardForPullRequest.(action, author, url, html_url)
+  def perform(action, github_username, url, html_url)
+    User::ReputationToken::AwardForPullRequest.(action, github_username, url, html_url)
   end
 end

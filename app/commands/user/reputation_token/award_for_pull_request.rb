@@ -1,3 +1,5 @@
+require 'octokit'
+
 class User
   class ReputationToken
     class AwardForPullRequest
@@ -6,17 +8,20 @@ class User
       initialize_with :action, :github_username, :params
 
       def call
+        award_reputation_to_author
+      end
+
+      private
+      def award_reputation_to_author
         user = User.find_by(github_username: github_username)
 
         # TODO: decide what to do with user that cannot be found
+        Rails.logger.error "Missing author: #{github_username}" unless user
         return unless user
-
-        # https://api.github.com/repos/exercism/v3/pulls/2731/reviews
 
         User::ReputationToken::CodeContribution::Create.(user, external_link, context_key, reason)
       end
 
-      private
       def external_link
         params[:html_url]
       end

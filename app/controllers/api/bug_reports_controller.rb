@@ -8,7 +8,7 @@ module API
 
     private
     def bug_report_params
-      params.require(:bug_report).permit(:content)
+      params.require(:bug_report).permit(:content_markdown)
     end
   end
 end

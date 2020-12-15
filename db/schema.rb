@@ -23,7 +23,8 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
 
   create_table "bug_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.text "content", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_bug_reports_on_user_id"

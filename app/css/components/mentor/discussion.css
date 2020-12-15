@@ -1,7 +1,6 @@
 @import "../../styles";
 
 .c-mentor-discussion {
-    --side-padding: 32px;
     --header-height: 68px;
 
     @apply fixed flex flex-col items-stretch;
@@ -43,7 +42,7 @@
                 & .exercise {
                     @apply font-mono font-medium text-16 text-textLight leading-regular;
                     & strong {
-                        @apply text-textBase;
+                        @apply font-medium text-darkGray;
                     }
                 }
             }
@@ -86,6 +85,43 @@
         overflow-y: scroll;
 
         @apply border-r-2 border-lightGray flex-grow;
+
+        & .iteration-header {
+            @apply flex items-center px-32;
+            @apply border-b-1 border-lightGray;
+            height: 69px;
+
+            & .info {
+                @apply flex-grow mr-24;
+
+                & .title {
+                    @apply flex items-center;
+
+                    & h2 {
+                        @apply font-mono font-semibold text-16 leading-huge text-darkGray;
+                    }
+                    & .latest {
+                        height: 22px;
+                        @apply flex items-center ml-16 rounded-5;
+                        @apply font-medium text-12 text-textLight px-8;
+                        @apply border-1 border-borderLight;
+                    }
+                }
+                & .submitted-time {
+                    @apply flex items-center;
+                    @apply text-label-timestamp;
+                    @apply leading-huge;
+                    & .c-icon {
+                        height: 14px;
+                        width: 14px;
+
+                        @apply mr-12;
+                    }
+                }
+            }
+            & .download-btn {
+            }
+        }
     }
     & .rhs {
         @apply relative flex flex-col;
@@ -111,6 +147,7 @@
         & .tabs {
             @apply flex border-b-1 border-lightGray;
             @apply px-24 pt-20 pb-12;
+            height: 69px;
 
             & .c-tab {
                 height: 36px;

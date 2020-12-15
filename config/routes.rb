@@ -42,6 +42,9 @@ Rails.application.routes.draw do
             patch :lock
           end
         end
+        resources :mentor_discussions, only: %i[], controller: "solutions/mentor_discussions" do
+          resources :posts, only: %i[create], controller: "solutions/mentor_discussion_posts"
+        end
       end
 
       resources :submission, only: [] do

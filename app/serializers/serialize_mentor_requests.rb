@@ -5,9 +5,9 @@ class SerializeMentorRequests
 
   def call
     {
-      results: requests.map {|r| serialize_request(r)},
-      meta: { 
-        current: requests.current_page, 
+      results: requests.map { |r| serialize_request(r) },
+      meta: {
+        current: requests.current_page,
         total: requests.total_count
       }
     }

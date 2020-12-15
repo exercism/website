@@ -41,8 +41,7 @@ class Submission
     end
 
     private
-    attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via
-    attr_reader :submission
+    attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission
 
     def guard!
       last_submission = solution.submissions.last

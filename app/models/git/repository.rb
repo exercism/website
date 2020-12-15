@@ -15,7 +15,7 @@ module Git
           repo_url
         elsif Rails.env.test?
           # TODO; Switch when we move back out of monorepo
-          "file://#{(Rails.root / 'test' / 'repos' / 'v3-monorepo')}"
+          "file://#{Rails.root / 'test' / 'repos' / 'v3-monorepo'}"
         else
           # TODO; Switch when we move back out of monorepo
           # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"

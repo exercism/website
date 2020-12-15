@@ -20,8 +20,7 @@ class Track
     end
 
     private
-    attr_reader :criteria, :tags, :status, :user
-    attr_reader :tracks
+    attr_reader :criteria, :tags, :status, :user, :tracks
 
     def filter_criteria
       return if criteria.blank?

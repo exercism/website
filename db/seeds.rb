@@ -28,9 +28,9 @@ erik = User.find_by(handle: 'erikSchierboom') || User.create!(
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 )
 
-puts "Creating User karlosoriano"
-karlo = User.find_by(handle: 'karlosoriano') || User.create!(
-  handle: 'karlosoriano', 
+puts "Creating User kntsoriano"
+karlo = User.find_by(handle: 'kntsoriano') || User.create!(
+  handle: 'kntsoriano', 
   email: 'karlo@exercism.io', 
   name: 'Karlo Soriano', 
   password: 'password',

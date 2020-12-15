@@ -31,8 +31,7 @@ repo.send(:rugged_repo)
 # but useful for now
 module Git
   class Repository
-    def rugged_repo
-      Rugged::Repository.new(repo_dir)
+    def fetch!
     end
   end
 end

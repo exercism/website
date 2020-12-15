@@ -106,18 +106,11 @@ module Git
     end
 
     def find_concepts(concept_slugs)
-      # TODO: When we have the configlet check in place
-      # this should chnage to:
-      # Track::Concept.where(slug: concept_slugs)
-      #
-      # Until then it's good to check each one and
-      # return an error if one is found.
-      concept_slugs.map do |concept_slug|
-        track.concepts.find_by!(slug: concept_slug)
-      rescue StandardError
-        Rails.logger.error "Missing concept: #{concept_slug}"
-        nil
-      end.compact
+      track.concepts.where(slug: concept_slugs).tap do |concepts|
+        # TODO: We should be able to remove this once configlet is in place
+        missing_concepts = concept_slugs - concepts.map(&:slug)
+        Rails.logger.error "Missing concepts: #{missing_concepts.join(', ')}" if missing_concepts.present?
+      end
     end
 
     def fetch_git_repo!

@@ -160,4 +160,13 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
   end
+
+  test "update is only called once" do
+    # Use the first commit in the repo
+    track = create :track, slug: 'fsharp', synced_to_git_sha: '041e4efbdbc09c4c7f913e2f1259c4f1970d88ca'
+
+    Git::Repository.any_instance.stubs(keep_up_to_date?: false)
+    Git::Repository.any_instance.expects(:fetch!).once
+    Git::SyncTrack.(track)
+  end
 end

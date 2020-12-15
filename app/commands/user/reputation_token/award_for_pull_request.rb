@@ -9,6 +9,7 @@ class User
 
       def call
         award_reputation_to_author
+        award_reputation_to_reviewers
       end
 
       private
@@ -20,6 +21,26 @@ class User
         return unless user
 
         User::ReputationToken::CodeContribution::Create.(user, external_link, repo, number, reason)
+      end
+
+      def award_reputation_to_reviewers
+        return unless closed?
+
+        reviews = octokit_client.pull_request_reviews(repo, number)
+        reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
+
+        reviewers = ::User.where(handle: reviewer_usernames)
+        reviewers.find_each do |reviewer|
+          User::ReputationToken::CodeReview::Create.(reviewer, external_link, repo, number, 'reviewed_code')
+        end
+
+        # TODO: consider what to do with missing reviewers
+        missing_reviewers = reviewer_usernames - reviewers.map(&:handle)
+        Rails.logger.error "Missing reviewers: #{missing_reviewers.join(', ')}" if missing_reviewers.present?
+      end
+
+      def closed?
+        action == 'closed'
       end
 
       def external_link
@@ -39,6 +60,15 @@ class User
         return 'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
 
         'contributed_code'
+      end
+
+      memoize
+      def octokit_client
+        Octokit::Client.new(access_token: github_access_token)
+      end
+
+      def github_access_token
+        Exercism.secrets.github_access_token
       end
     end
   end

@@ -38,13 +38,14 @@ Rails.application.routes.draw do
         resources :iterations, only: %i[create]
       end
 
-      resources :mentor_requests, only: %i[] do
+      resources :mentor_requests, only: %i[index] do
         member do
           patch :lock
         end
       end
 
-      resources :mentor_discussions, only: %i[create] do
+      resources :mentor_discussions, only: %i[index create] do
+        get :tracks, on: :collection # TODO: Remove this
         resources :posts, only: %i[create], controller: "mentor_discussion_posts"
       end
 
@@ -55,12 +56,6 @@ Rails.application.routes.draw do
 
       resources :profiles, only: [] do
         get :summary, on: :member
-      end
-
-      namespace :mentor do
-        resource :queue, only: [:show], controller: 'queue'
-        resource :inbox, only: [:show], controller: 'inbox'
-        resource :discussions, only: [:show], controller: 'discussions'
       end
     end
   end

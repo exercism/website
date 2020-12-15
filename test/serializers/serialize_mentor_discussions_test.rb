@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SerializeMentorInboxTest < ActiveSupport::TestCase
+class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
   test "basic request" do
     student = create :user
     mentor = create :user
@@ -12,7 +12,7 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
       solution: solution,
       mentor: mentor
 
-    inbox = Mentor::RetrieveInbox.(mentor)
+    discussions = Solution::MentorDiscussion::Retrieve.(mentor, 1)
 
     expected = {
       results: [
@@ -38,6 +38,6 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
       meta: { current: 1, total: 1 }
     }
 
-    assert_equal expected, SerializeMentorInbox.(inbox)
+    assert_equal expected, SerializeMentorDiscussions.(discussions)
   end
 end

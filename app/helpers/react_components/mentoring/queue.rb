@@ -26,7 +26,7 @@ module ReactComponents
       attr_reader :request
 
       def default_request
-        { endpoint: Exercism::Routes.api_mentor_queue_path }
+        { endpoint: Exercism::Routes.api_mentor_requests_path }
       end
     end
   end

@@ -45,6 +45,7 @@ export function FileEditor({
     lightbulb: { enabled: true },
     automaticLayout: true,
     model: null,
+    scrollBeyondLastLine: false,
     scrollbar: {
       useShadows: true,
       verticalHasArrows: false,

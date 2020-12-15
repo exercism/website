@@ -19,15 +19,19 @@ class User
         Rails.logger.error "Missing author: #{github_username}" unless user
         return unless user
 
-        User::ReputationToken::CodeContribution::Create.(user, external_link, context_key, reason)
+        User::ReputationToken::CodeContribution::Create.(user, external_link, repo, number, reason)
       end
 
       def external_link
         params[:html_url]
       end
 
-      def context_key
-        params[:url].remove('https://api.github.com/repos/exercism/')
+      def repo
+        params[:repo]
+      end
+
+      def number
+        params[:number]
       end
 
       def reason

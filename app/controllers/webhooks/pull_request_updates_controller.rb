@@ -5,7 +5,9 @@ module Webhooks
         url: url,
         html_url: html_url,
         labels: labels,
-        state: state)
+        state: state,
+        number: number,
+        repo: repo)
 
       head :no_content
     end
@@ -34,6 +36,14 @@ module Webhooks
 
     def state
       params[:pull_request][:state]
+    end
+
+    def number
+      params[:pull_request][:number]
+    end
+
+    def repo
+      params[:repository][:full_name]
     end
   end
 end

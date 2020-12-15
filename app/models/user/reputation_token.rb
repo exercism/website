@@ -12,7 +12,8 @@ class User::ReputationToken < ApplicationRecord
     'contributed_code': 10,
     'contributed_code/minor': 5,
     'contributed_code/major': 15,
-    'mentored': 10
+    'mentored': 10,
+    'reviewed_code': 3
   }.with_indifferent_access.freeze
   private_constant :REASON_VALUES
 

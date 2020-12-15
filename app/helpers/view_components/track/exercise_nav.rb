@@ -31,7 +31,14 @@ module ViewComponents
             tag.span("Approaches", "data-text": "Approaches"),
             "#",
             class: tab_class(:approaches)
+          ),
+
+          link_to(
+            tag.span("Mentoring", "data-text": "Mentoring"),
+            Exercism::Routes.track_exercise_mentoring_index_path(track, exercise),
+            class: tab_class(:mentoring)
           )
+
         ]
       end
 

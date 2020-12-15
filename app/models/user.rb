@@ -80,4 +80,9 @@ class User < ApplicationRecord
     accepted_privacy_policy_at.present? &&
       accepted_terms_at.present?
   end
+
+  # TODO
+  def avatar_url
+    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
+  end
 end

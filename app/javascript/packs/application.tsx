@@ -42,6 +42,7 @@ import '../../css/components/mentor/queue.css'
 import '../../css/components/mentor/solution-row.css'
 import '../../css/components/mentor/sorter.css'
 import '../../css/components/mentor/text-filter.css'
+import '../../css/components/mentor/discussion.css'
 
 import '../../css/components/track/generic-nav.css'
 import '../../css/components/track/top-level-nav.css'

@@ -1,9 +1,10 @@
 class Tracks::ExercisesController < ApplicationController
   before_action :use_track
-  before_action :use_exercise, only: %i[show start complete]
-  before_action :use_solution, only: %i[show complete]
+  before_action :use_exercise, only: %i[show start edit complete]
+  before_action :use_solution, only: %i[show edit complete]
 
   skip_before_action :authenticate_user!, only: %i[index show]
+  disable_site_header! only: [:edit]
 
   def index
     # TODO: - Sort by whether exercise is started, available, completed.
@@ -19,9 +20,11 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   def start
-    solution = Solution::Create.(current_user, @exercise)
-    redirect_to edit_solution_path(solution.uuid)
+    Solution::Create.(current_user, @exercise)
+    redirect_to action: :edit
   end
+
+  def edit; end
 
   def complete
     Solution::Complete.(@solution, @user_track)

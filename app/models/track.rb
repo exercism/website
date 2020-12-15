@@ -25,6 +25,10 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
+  def to_param
+    slug
+  end
+
   memoize
   def git
     # TODO: Slug can be removed from this

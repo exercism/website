@@ -1,12 +1,12 @@
 require "test_helper"
 
-class Mentor::LockRequestTest < ActiveSupport::TestCase
+class Solution::MentorRequest::LockTest < ActiveSupport::TestCase
   test "locks request" do
     freeze_time do
       mentor = create :user
       request = create :solution_mentor_request
 
-      Mentor::LockRequest.(mentor, request)
+      Solution::MentorRequest::Lock.(request, mentor)
 
       assert request.reload.locked?
       assert_equal Time.current + 30.minutes, request.locked_until
@@ -19,7 +19,7 @@ class Mentor::LockRequestTest < ActiveSupport::TestCase
       mentor = create :user
       request = create :solution_mentor_request, locked_until: Time.current + 5.minutes, locked_by: mentor
 
-      Mentor::LockRequest.(mentor, request)
+      Solution::MentorRequest::Lock.(request, mentor)
 
       assert request.reload.locked?
       assert_equal Time.current + 30.minutes, request.locked_until
@@ -32,7 +32,7 @@ class Mentor::LockRequestTest < ActiveSupport::TestCase
       mentor = create :user
       request = create :solution_mentor_request, locked_until: Time.current - 5.minutes, locked_by: create(:user)
 
-      Mentor::LockRequest.(mentor, request)
+      Solution::MentorRequest::Lock.(request, mentor)
 
       assert request.reload.locked?
       assert_equal Time.current + 30.minutes, request.locked_until
@@ -45,7 +45,7 @@ class Mentor::LockRequestTest < ActiveSupport::TestCase
     request = create :solution_mentor_request, locked_until: Time.current + 5.minutes, locked_by: create(:user)
 
     assert_raises SolutionLockedByAnotherMentorError do
-      Mentor::LockRequest.(mentor, request)
+      Solution::MentorRequest::Lock.(request, mentor)
     end
   end
 end

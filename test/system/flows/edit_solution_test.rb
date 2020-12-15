@@ -11,7 +11,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit edit_solution_path(solution.uuid)
+        visit edit_track_exercise_path(solution.track, solution.exercise)
         click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -39,7 +39,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit edit_solution_path(solution.uuid)
+        visit edit_track_exercise_path(solution.track, solution.exercise)
 
         assert_text "Status: pass"
         assert_text "Passed: test_a_name_given"
@@ -53,7 +53,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit edit_solution_path(solution.uuid)
+        visit edit_track_exercise_path(solution.track, solution.exercise)
         click_on "Run tests"
 
         assert_text "No files you submitted have changed since your last submission"
@@ -67,7 +67,7 @@ module Flows
         solution = create :concept_solution, user: user
 
         sign_in!(user)
-        visit edit_solution_path(solution.uuid)
+        visit edit_track_exercise_path(solution.track, solution.exercise)
         click_on "Run tests"
         wait_for_submission
         2.times { wait_for_websockets }

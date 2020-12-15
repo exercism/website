@@ -37,9 +37,30 @@ Rails.application.routes.draw do
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
       end
+
+      resources :mentor_requests, only: %i[] do
+        member do
+          patch :lock
+        end
+      end
+
+      resources :mentor_discussions, only: %i[create] do
+        resources :posts, only: %i[create], controller: "mentor_discussion_posts"
+      end
+
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
+      end
+
+      resources :profiles, only: [] do
+        get :summary, on: :member
+      end
+
+      namespace :mentor do
+        resource :queue, only: [:show], controller: 'queue'
+        resource :inbox, only: [:show], controller: 'inbox'
+        resource :discussions, only: [:show], controller: 'discussions'
       end
     end
   end
@@ -72,6 +93,10 @@ Rails.application.routes.draw do
   namespace :mentor do
     get "/", to: redirect("mentor/dashboard")
     resource :dashboard, only: [:show], controller: "dashboard"
+    resources :requests, only: [:show] do
+      get :unavailable, on: :member
+    end
+    resources :discussions, only: [:show]
   end
 
   namespace :maintaining do
@@ -83,13 +108,16 @@ Rails.application.routes.draw do
       get :tooltip, on: :member
     end
 
-    resources :exercises, only: %i[index show], controller: "tracks/exercises" do
+    resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         patch :start
         patch :complete
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
+
+      resources :mentoring, only: [:index], controller: "tracks/mentoring"
+      resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
     end
 
     member do
@@ -98,8 +126,6 @@ Rails.application.routes.draw do
   end
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
-
-  resources :solutions, only: %i[edit]
 
   root to: "pages#index"
 

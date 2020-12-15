@@ -51,6 +51,18 @@ class Solution < ApplicationRecord
     !!published_at
   end
 
+  def has_unlocked_pending_mentoring_request?
+    mentor_requests.pending.unlocked.exists?
+  end
+
+  def has_locked_pending_mentoring_request?
+    mentor_requests.pending.locked.exists?
+  end
+
+  def has_in_progress_mentor_discussion?
+    mentor_discussions.in_progress.exists?
+  end
+
   memoize
   delegate :instructions, to: :git_exercise
 

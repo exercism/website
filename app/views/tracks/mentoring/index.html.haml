@@ -1,0 +1,10 @@
+- if @solution.has_in_progress_mentor_discussion?
+  In progress discussion
+- elsif @solution.has_unlocked_pending_mentoring_request?
+  Mentor request pending
+- elsif @solution.has_locked_pending_mentoring_request?
+  A mentor has locked your solution to write a response.
+- else
+  = form_with url: track_exercise_mentoring_request_path(@track, @exercise), method: :post do
+    = text_area_tag :comment, '', placeholder: "What do you want help with?"
+    = button_tag "Request Mentoring"

@@ -192,6 +192,18 @@ GEM
     jmespath (1.4.0)
     json (2.3.1)
     jwt (2.2.2)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -447,6 +459,7 @@ DEPENDENCIES
   haml-rails (~> 2.0)
   haml_lint
   image_processing (~> 1.2)
+  kaminari
   listen (>= 3.0.5, < 3.2)
   mandate (= 0.4.0.beta.1)
   minitest

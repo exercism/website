@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SerializeMentorQueueTest < ActiveSupport::TestCase
+class SerializeMentorRequestsTest < ActiveSupport::TestCase
   test "basic request" do
     mentee = create :user
     track = create :track
@@ -9,7 +9,7 @@ class SerializeMentorQueueTest < ActiveSupport::TestCase
     request = create :solution_mentor_request, solution: solution
     mentor = create :user
 
-    queue = Mentor::RetrieveQueue.(mentor)
+    requests = Solution::MentorRequest::Retrieve.(mentor, 1)
 
     expected = {
       results: [
@@ -35,6 +35,6 @@ class SerializeMentorQueueTest < ActiveSupport::TestCase
       meta: { current: 1, total: 1 }
     }
 
-    assert_equal expected, SerializeMentorQueue.(queue)
+    assert_equal expected, SerializeMentorRequests.(requests)
   end
 end

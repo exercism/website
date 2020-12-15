@@ -22,6 +22,7 @@ gem 'rest-client' # http
 
 # General-purpose gems
 gem 'mandate', '0.4.0.beta.1'
+gem 'kaminari'
 
 # Setup dependencies
 gem 'exercism-config', '>= 0.57.0'

@@ -1,27 +1,20 @@
-class SerializeMentorQueue
+class SerializeMentorRequests
   include Mandate
 
-  initialize_with :queue
+  initialize_with :requests
 
   def call
     {
-      results: requests,
-      meta: { current: page, total: queue.size }
+      results: requests.map {|r| serialize_request(r)},
+      meta: { 
+        current: requests.current_page, 
+        total: requests.total_count
+      }
     }
   end
 
-  def page
-    1
-  end
-
-  def requests
-    queue.map do |request|
-      data_for_request(request)
-    end
-  end
-
   private
-  def data_for_request(request)
+  def serialize_request(request)
     {
       # TODO: Maybe expose a UUID instead?
       id: request.uuid,

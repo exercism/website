@@ -1,27 +1,20 @@
-class SerializeMentorInbox
+class SerializeMentorDiscussions
   include Mandate
 
-  initialize_with :inbox
+  initialize_with :discussions
 
   def call
     {
-      results: discussions,
-      meta: { current: page, total: inbox.size }
+      results: discussions.map {|d|serialize_discussion(d)},
+      meta: { 
+        current: discussions.current_page, 
+        total: discussions.total_count
+      }
     }
   end
 
-  def page
-    1
-  end
-
-  def discussions
-    inbox.map do |discussion|
-      data_for_discussion(discussion)
-    end
-  end
-
   private
-  def data_for_discussion(discussion)
+  def serialize_discussion(discussion)
     {
       # TODO: Maybe expose a UUID instead?
       id: discussion.uuid,

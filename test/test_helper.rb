@@ -6,6 +6,8 @@ if ENV["CAPTURE_CODE_COVERAGE"]
   SimpleCov.start 'rails' do
     add_filter %r{^/app/.+/test/}
     add_filter %r{^/app/.+/tmp/}
+    add_filter "lib/solargraph-rails.rb"
+    add_filter "lib/run_migrations_with_concurrent_guard.rb"
   end
 end
 

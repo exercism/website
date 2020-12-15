@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
 
   create_table "bug_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.text "body", null: false
+    t.text "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_bug_reports_on_user_id"
@@ -313,6 +313,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
   end
 
   add_foreign_key "badges", "users"
+  add_foreign_key "bug_reports", "users"
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"

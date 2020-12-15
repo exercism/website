@@ -49,7 +49,9 @@ export const BugReportModal = ({
 
       const [request, cancel] = useRequest(
         url,
-        JSON.stringify({ bug_report: { body: e.target.elements.body.value } }),
+        JSON.stringify({
+          bug_report: { content: e.target.elements.content.value },
+        }),
         'POST'
       )
 
@@ -91,8 +93,8 @@ export const BugReportModal = ({
     <Modal isOpen={open} onRequestClose={onClose}>
       <Status status={status} />
       <form onSubmit={handleSubmit}>
-        <label htmlFor="body">Report</label>
-        <textarea id="body"></textarea>
+        <label htmlFor="content">Report</label>
+        <textarea id="content"></textarea>
         <button type="submit" disabled={!url}>
           Submit
         </button>

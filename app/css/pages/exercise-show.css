@@ -36,24 +36,21 @@
             @apply flex items-center;
 
             & .faces {
-                @apply relative;
+                @apply relative flex;
                 height: 32px;
-            }
-            & .c-rounded-bg-img {
-                height: 32px;
-                width: 32px;
-                @apply absolute;
-                &:nth-child(1) {
-                    z-index: 1;
-                    right: 32px;
+                padding-left: 16px;
+
+                & .c-rounded-bg-img {
+                    height: 32px;
+                    width: 32px;
+                    margin-left: -16px;
+                    transition: margin 0.2s ease-out;
                 }
-                &:nth-child(2) {
-                    z-index: 2;
-                    right: 16px;
-                }
-                &:nth-child(3) {
-                    z-index: 3;
-                    right: 0;
+
+                &:hover {
+                    & .c-rounded-bg-img {
+                        margin-left: 4px;
+                    }
                 }
             }
             & .stats {

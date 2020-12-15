@@ -23,7 +23,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
   test "raises when invalid category specified" do
     category = :some_other_category
-    reason = 'committed_code'
+    reason = 'contributed_code'
     context = create :concept_solution
 
     assert_raises ReputationTokenCategoryInvalid do

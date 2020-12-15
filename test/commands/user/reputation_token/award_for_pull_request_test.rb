@@ -10,6 +10,6 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(action, login, url, html_url)
 
-    assert user.reputation_tokens.where(reason: 'committed_code', external_link: 'https://github.com/exercism/v3/pull/1347').exists?
+    assert user.reputation_tokens.where(reason: 'contributed_code', external_link: 'https://github.com/exercism/v3/pull/1347').exists?
   end
 end

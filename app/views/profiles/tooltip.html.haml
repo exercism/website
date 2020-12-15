@@ -4,9 +4,7 @@
     %h4.name= @user.name
     .handle= @user.handle
 
-  .c-reputation{ 'aria-label': "#{@user.reputation} reputation" }
-    = icon(:reputation, "Reputation")
-    = @user.reputation
+  = render ViewComponents::Reputation.new(@user)
 
 - if @user.bio.present?
   .bio= @user.bio

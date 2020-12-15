@@ -58,7 +58,7 @@
         & .c-notification {
             @apply mr-48;
         }
-        & .c-reputation {
+        & .c-primary-reputation {
             @apply mr-48;
         }
         & .user-menu {

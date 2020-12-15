@@ -40,15 +40,19 @@
                 height: 32px;
                 padding-left: 16px;
 
-                & .c-rounded-bg-img {
-                    height: 32px;
-                    width: 32px;
+                & .author {
                     margin-left: -16px;
                     transition: margin 0.2s ease-out;
+                    cursor: pointer;
+
+                    & .c-rounded-bg-img {
+                        height: 32px;
+                        width: 32px;
+                    }
                 }
 
                 &:hover {
-                    & .c-rounded-bg-img {
+                    & .author {
                         margin-left: 4px;
                     }
                 }

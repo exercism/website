@@ -1,0 +1,37 @@
+.c-primary-reputation {
+    @apply border-1 border-lightGray rounded-100 shadow-sm bg-white;
+    @apply relative flex px-8 items-center justify-center border-none;
+    background: linear-gradient(180deg, #cc00ff 0%, #3300ff 100%);
+    padding: 3px;
+
+    & .--inner {
+        @apply flex px-8 items-center justify-center;
+        @apply text-13 text-unnamed16;
+        @apply flex-grow bg-unnamed10 px-16 rounded-100;
+        @apply text-white font-semibold text-16;
+
+        line-height: 28px;
+    }
+
+    & svg {
+        height: 24px;
+        width: 24px;
+        @apply text-gold mr-8;
+    }
+
+    & .--notification {
+        @apply absolute flex items-center justify-center;
+        @apply rounded-circle bg-white;
+        height: 21px;
+        width: 21px;
+        top: -7px;
+        right: -7px;
+
+        &:after {
+            @apply rounded-circle bg-red;
+            content: "";
+            width: 15px;
+            height: 15px;
+        }
+    }
+}

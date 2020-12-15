@@ -35,7 +35,7 @@ end
 # TODO: Remove this as part of the git extraction
 module TestHelpers
   def self.git_repo_url(slug)
-    "file://#{(Rails.root / 'test' / 'repos' / slug.to_s)}"
+    "file://#{Rails.root / 'test' / 'repos' / slug.to_s}"
   end
 end
 

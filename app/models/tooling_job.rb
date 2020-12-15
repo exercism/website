@@ -39,9 +39,9 @@ class ToolingJob
     new(item)
   end
 
-  attr_reader :id, :submission_uuid, :type, :job_status, :created_at
-  attr_reader :language, :exercise, :locked_until
-  attr_reader :execution_status, :execution_metadata, :execution_output
+  attr_reader :id, :submission_uuid, :type, :job_status, :created_at,
+    :language, :exercise, :locked_until,
+    :execution_status, :execution_metadata, :execution_output
 
   def initialize(params)
     params.each { |key, value| send("#{key}=", value) }
@@ -106,8 +106,7 @@ class ToolingJob
   delegate :dynamodb_table_name, to: self
 
   private
-  attr_writer :id, :submission_uuid, :type, :job_status, :created_at
-  attr_writer :language, :exercise, :locked_until
-  attr_writer :execution_status, :execution_metadata, :execution_output
-  attr_writer :s3_uri
+  attr_writer :id, :submission_uuid, :type, :job_status, :created_at,
+    :language, :exercise, :locked_until,
+    :execution_status, :execution_metadata, :execution_output, :s3_uri
 end

@@ -5,9 +5,9 @@ class SerializeMentorDiscussions
 
   def call
     {
-      results: discussions.map {|d|serialize_discussion(d)},
-      meta: { 
-        current: discussions.current_page, 
+      results: discussions.map { |d| serialize_discussion(d) },
+      meta: {
+        current: discussions.current_page,
         total: discussions.total_count
       }
     }

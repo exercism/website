@@ -44,7 +44,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :mentor_discussions, only: %i[] do
+      resources :mentor_discussions, only: %i[create] do
         resources :posts, only: %i[create], controller: "mentor_discussion_posts"
       end
 

@@ -31,11 +31,15 @@ module API
       render_401 unless user_signed_in?
     end
 
+    def render_400(type)
+      render_error(400, type)
+    end
+
     def render_401
       render_error(401, :invalid_auth_token)
     end
 
-    def render_403(type)
+    def render_403(type = :permission_denied)
       render_error(403, type)
     end
 

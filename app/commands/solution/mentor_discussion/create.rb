@@ -5,7 +5,9 @@ class Solution
 
       initialize_with :mentor, :request, :iteration_idx, :content_markdown
 
-      # TODO: Guard against a user mentoring their own solution
+      # TODO: Guard against a user mentoring their own solution and
+      # catch whatever exception is raised in the controller and handle
+      # gracefully.
       def call
         ActiveRecord::Base.transaction do
           request.lock!
@@ -45,7 +47,7 @@ class Solution
 
       memoize
       def iteration
-        discussion.solution.iterations.find_by!(idx: iteration_idx)
+        request.solution.iterations.find_by!(idx: iteration_idx)
       end
     end
   end

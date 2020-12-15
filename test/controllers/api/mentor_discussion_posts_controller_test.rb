@@ -13,9 +13,15 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     setup_user
     post api_mentor_discussion_posts_path('xxx'), headers: @headers, as: :json
     assert_response 404
+    expected = { error: {
+      type: "mentor_discussion_not_found",
+      message: I18n.t('api.errors.mentor_discussion_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 
-  test "create should 401 unless user is mentor or student" do
+  test "create should 403 unless user is mentor or student" do
     user = create :user
     setup_user(user)
 
@@ -30,7 +36,14 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
       },
       headers: @headers, as: :json
 
-    assert_response 401
+    assert_response 403
+    expected = { error: {
+      type: "permission_denied",
+      message: I18n.t('api.errors.permission_denied')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+
     assert_equal 0, discussion.posts.size
   end
 

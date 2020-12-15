@@ -15,9 +15,10 @@ module API
       when @discussion.student
         Solution::MentorDiscussion::ReplyByStudent.(*attrs)
       else
-        return head(401)
+        return render_403
       end
 
+      # TODO: Return the discussion post here
       head 200
     end
 

@@ -4,7 +4,7 @@ class Solution::MentorDiscussion::ReplyByStudentTest < ActiveSupport::TestCase
   test "creates discussion post" do
     iteration = create :iteration
     content_markdown = "foobar"
-    discussion = create :solution_mentor_discussion
+    discussion = create :solution_mentor_discussion, solution: iteration.solution
 
     discussion_post = Solution::MentorDiscussion::ReplyByStudent.(
       discussion,

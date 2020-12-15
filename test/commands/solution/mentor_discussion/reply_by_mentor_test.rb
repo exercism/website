@@ -5,7 +5,7 @@ class Solution::MentorDiscussion::ReplyByMentorTest < ActiveSupport::TestCase
     iteration = create :iteration
     content_markdown = "foobar"
     mentor = create :user
-    discussion = create :solution_mentor_discussion, mentor: mentor
+    discussion = create :solution_mentor_discussion, mentor: mentor, solution: iteration.solution
 
     discussion_post = Solution::MentorDiscussion::ReplyByMentor.(
       discussion,

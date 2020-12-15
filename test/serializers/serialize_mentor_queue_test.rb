@@ -29,7 +29,7 @@ class SerializeMentorQueueTest < ActiveSupport::TestCase
           status: "First timer",
           tooltip_url: "#",
 
-          url: "https://test.exercism.io/mentor/requests/#{request.id}"
+          url: "https://test.exercism.io/mentor/requests/#{request.uuid}"
         }
       ],
       meta: { current: 1, total: 1 }

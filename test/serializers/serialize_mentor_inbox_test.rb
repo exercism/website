@@ -7,7 +7,7 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
-    request = create :solution_mentor_discussion,
+    discussion = create :solution_mentor_discussion,
       :requires_mentor_action,
       solution: solution,
       mentor: mentor
@@ -17,7 +17,7 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
     expected = {
       results: [
         {
-          id: track.id,
+          id: discussion.id,
 
           track_title: track.title,
           track_icon_url: track.icon_url,
@@ -25,14 +25,14 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
 
           mentee_handle: student.handle,
           mentee_avatar_url: student.avatar_url,
-          updated_at: request.created_at,
+          updated_at: discussion.created_at,
 
           is_starred: true,
 
           # TODO: Populate this
           posts_count: 4,
 
-          url: "https://test.exercism.io/mentor/discussions/#{request.id}"
+          url: "https://test.exercism.io/mentor/discussions/#{discussion.uuid}"
         }
       ],
       meta: { current: 1, total: 1 }

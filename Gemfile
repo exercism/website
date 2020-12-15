@@ -19,6 +19,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Interaction gems
 gem 'rugged' # Git
 gem 'rest-client' # http
+gem 'octokit' # GitHub
 
 # General-purpose gems
 gem 'mandate', '0.4.0.beta.1'

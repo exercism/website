@@ -1,7 +1,11 @@
 module Webhooks
   class PullRequestUpdatesController < BaseController
     def create
-      ::Webhooks::ProcessPullRequestUpdate.(action, github_username, url: url, html_url: html_url, labels: labels)
+      ::Webhooks::ProcessPullRequestUpdate.(action, github_username,
+        url: url,
+        html_url: html_url,
+        labels: labels,
+        state: state)
 
       head :no_content
     end
@@ -26,6 +30,10 @@ module Webhooks
 
     def labels
       params[:pull_request][:labels].map { |label| label[:name] }
+    end
+
+    def state
+      params[:pull_request][:state]
     end
   end
 end

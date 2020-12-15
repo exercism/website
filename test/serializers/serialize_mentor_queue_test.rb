@@ -14,7 +14,7 @@ class SerializeMentorQueueTest < ActiveSupport::TestCase
     expected = {
       results: [
         {
-          id: track.id,
+          id: request.uuid,
 
           track_title: track.title,
           track_icon_url: track.icon_url,
@@ -22,7 +22,7 @@ class SerializeMentorQueueTest < ActiveSupport::TestCase
 
           mentee_handle: mentee.handle,
           mentee_avatar_url: mentee.avatar_url,
-          updated_at: request.created_at,
+          updated_at: request.created_at.to_i,
 
           is_starred: true,
           have_mentored_previously: true,

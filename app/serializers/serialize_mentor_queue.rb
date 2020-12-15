@@ -24,7 +24,7 @@ class SerializeMentorQueue
   def data_for_request(request)
     {
       # TODO: Maybe expose a UUID instead?
-      id: request.id,
+      id: request.uuid,
 
       track_title: request.track_title,
       track_icon_url: request.track_icon_url,
@@ -34,7 +34,7 @@ class SerializeMentorQueue
       mentee_avatar_url: request.user_avatar_url,
 
       # TODO: Should this be requested_at?
-      updated_at: request.created_at,
+      updated_at: request.created_at.to_i,
 
       # TODO: Add all these
       is_starred: true,

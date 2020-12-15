@@ -17,7 +17,7 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
     expected = {
       results: [
         {
-          id: discussion.id,
+          id: discussion.uuid,
 
           track_title: track.title,
           track_icon_url: track.icon_url,
@@ -25,7 +25,7 @@ class SerializeMentorInboxTest < ActiveSupport::TestCase
 
           mentee_handle: student.handle,
           mentee_avatar_url: student.avatar_url,
-          updated_at: discussion.created_at,
+          updated_at: discussion.created_at.to_i,
 
           is_starred: true,
 

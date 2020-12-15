@@ -24,7 +24,7 @@ class SerializeMentorInbox
   def data_for_discussion(discussion)
     {
       # TODO: Maybe expose a UUID instead?
-      id: discussion.id,
+      id: discussion.uuid,
 
       track_title: discussion.track_title,
       track_icon_url: discussion.track_icon_url,
@@ -34,7 +34,7 @@ class SerializeMentorInbox
       mentee_avatar_url: discussion.student_avatar_url,
 
       # TODO: Should this be discussioned_at?
-      updated_at: discussion.created_at,
+      updated_at: discussion.created_at.to_i,
 
       # TODO: Add all these
       is_starred: true,

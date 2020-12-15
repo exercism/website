@@ -6,11 +6,12 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     login = 'user22'
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url)
+      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url, labels)
     end
   end
 
@@ -19,11 +20,12 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     login = 'user22'
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url)
+      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url, labels)
     end
   end
 
@@ -32,11 +34,12 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     login = 'user22'
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url)
+      ProcessPullRequestUpdateJob.perform_later(action, login, url, html_url, labels)
     end
   end
 
@@ -45,8 +48,9 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     login = 'user22'
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = %w[bug duplicate]
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url)
+    Webhooks::ProcessPullRequestUpdate.(action, login, url, html_url, labels)
 
     assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob
   end

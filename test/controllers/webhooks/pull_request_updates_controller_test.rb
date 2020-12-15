@@ -9,7 +9,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347'
+        html_url: 'https://github.com/exercism/v3/pull/1347',
+        labels: [{ name: "bug" }, { name: "duplicate" }]
       }
     }
 
@@ -28,7 +29,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347'
+        html_url: 'https://github.com/exercism/v3/pull/1347',
+        labels: [{ name: "bug" }, { name: "duplicate" }]
       }
     }
 
@@ -44,11 +46,12 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347'
+        html_url: 'https://github.com/exercism/v3/pull/1347',
+        labels: [{ name: "bug" }, { name: "duplicate" }]
       }
     }
     Webhooks::ProcessPullRequestUpdate.expects(:call).with('opened', 'user22',
-      'https://api.github.com/repos/exercism/v3/pulls/1347', 'https://github.com/exercism/v3/pull/1347')
+      'https://api.github.com/repos/exercism/v3/pulls/1347', 'https://github.com/exercism/v3/pull/1347', %w[bug duplicate])
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -61,7 +64,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347'
+        html_url: 'https://github.com/exercism/v3/pull/1347',
+        labels: [{ name: "bug" }, { name: "duplicate" }]
       }
     }
 

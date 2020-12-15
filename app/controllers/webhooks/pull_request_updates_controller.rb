@@ -6,7 +6,8 @@ module Webhooks
         request.request_parameters[:action],
         params[:pull_request][:user][:login],
         params[:pull_request][:url],
-        params[:pull_request][:html_url]
+        params[:pull_request][:html_url],
+        params[:pull_request][:labels].map { |label| label[:name] }
       )
 
       head :no_content

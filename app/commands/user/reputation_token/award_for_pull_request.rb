@@ -13,15 +13,23 @@ class User
 
         # https://api.github.com/repos/exercism/v3/pulls/2731/reviews
 
-        User::ReputationToken::CodeContribution::Create.(user, params[:html_url], size)
+        User::ReputationToken::CodeContribution::Create.(user, external_link, context_key, reason)
       end
 
       private
-      def size
-        return :minor if params[:labels].include?('reputation/contributed_code/minor')
-        return :major if params[:labels].include?('reputation/contributed_code/major')
+      def external_link
+        params[:html_url]
+      end
 
-        :regular
+      def context_key
+        params[:url].remove('https://api.github.com/repos/exercism/')
+      end
+
+      def reason
+        return 'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
+        return 'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
+
+        'contributed_code'
       end
     end
   end

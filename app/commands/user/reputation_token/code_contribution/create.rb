@@ -4,27 +4,19 @@ class User
       class Create
         include Mandate
 
-        initialize_with :user, :external_link, :size
+        initialize_with :user, :external_link, :context_key, :reason
 
         def call
-          User::ReputationToken.find_or_create_by!(
+          reputation_token = User::ReputationToken.create_or_find_by!(
             user: user,
-            external_link: external_link,
-            reason: reason,
-            category: :building
-          )
-        end
-
-        private
-        def reason
-          case size
-          when :minor
-            'contributed_code/minor'
-          when :major
-            'contributed_code/major'
-          else
-            'contributed_code'
+            context_key: "contributed_code/#{context_key}"
+          ) do |rt|
+            rt.external_link = external_link
+            rt.reason = reason
+            rt.category = :building
           end
+
+          reputation_token.update!(reason: reason)
         end
       end
     end

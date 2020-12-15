@@ -32,7 +32,7 @@ class User::ReputationToken < ApplicationRecord
     strict: ReputationTokenReasonInvalid
   }
 
-  before_create do
+  before_save do
     self.value = REASON_VALUES[self.reason]
   end
 

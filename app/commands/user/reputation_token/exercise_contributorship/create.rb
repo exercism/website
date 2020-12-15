@@ -7,9 +7,10 @@ class User
         initialize_with :contributorship
 
         def call
-          User::ReputationToken.find_or_create_by!(
+          User::ReputationToken.create_or_find_by!(
             user: contributorship.contributor,
             context: contributorship,
+            context_key: "contributed_to_exercise/#{contributorship.exercise.uuid}",
             reason: 'contributed_to_exercise',
             category: :authoring
           )

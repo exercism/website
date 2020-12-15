@@ -93,7 +93,9 @@ export const BugReportModal = ({
       <form onSubmit={handleSubmit}>
         <label htmlFor="body">Report</label>
         <textarea id="body"></textarea>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!url}>
+          Submit
+        </button>
       </form>
     </Modal>
   )

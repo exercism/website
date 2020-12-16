@@ -74,7 +74,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       labels: %w[bug duplicate],
       state: 'open',
       repo: 'exercism/v3',
-      number: 4,
+      pr_id: 4,
       merged: true)
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload

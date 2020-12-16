@@ -6,7 +6,7 @@ module Webhooks
         html_url: html_url,
         labels: labels,
         state: state,
-        number: number,
+        pr_id: pr_id,
         repo: repo,
         merged: merged?)
 
@@ -39,7 +39,7 @@ module Webhooks
       params[:pull_request][:state]
     end
 
-    def number
+    def pr_id
       params[:pull_request][:number]
     end
 

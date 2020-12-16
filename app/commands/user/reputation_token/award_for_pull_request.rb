@@ -20,16 +20,16 @@ class User
         Rails.logger.error "Missing author: #{github_username}" unless user
         return unless user
 
-        User::ReputationToken::CodeContribution::Create.(user, external_link, repo, number, reason)
+        User::ReputationToken::CodeContribution::Create.(user, external_link, repo, pr_id, reason)
       end
 
       def award_reputation_to_reviewers
-        reviews = octokit_client.pull_request_reviews(repo, number)
+        reviews = octokit_client.pull_request_reviews(repo, pr_id)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
 
         reviewers = ::User.where(handle: reviewer_usernames)
         reviewers.find_each do |reviewer|
-          User::ReputationToken::CodeReview::Create.(reviewer, external_link, repo, number, 'reviewed_code')
+          User::ReputationToken::CodeReview::Create.(reviewer, external_link, repo, pr_id, 'reviewed_code')
         end
 
         # TODO: consider what to do with missing reviewers
@@ -53,8 +53,8 @@ class User
         params[:repo]
       end
 
-      def number
-        params[:number]
+      def pr_id
+        params[:pr_id]
       end
 
       def reason

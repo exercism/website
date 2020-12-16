@@ -1,54 +1,20 @@
 module Webhooks
   class PullRequestUpdatesController < BaseController
     def create
-      ::Webhooks::ProcessPullRequestUpdate.(action, github_username,
-        { url: url,
-          html_url: html_url,
-          labels: labels,
-          state: state,
-          pr_id: pr_id,
-          repo: repo,
-          merged: merged? })
+      ::Webhooks::ProcessPullRequestUpdate.(
+        # params[:action] does not work as it is populated by Rails with the action method name
+        request.request_parameters[:action],
+        params[:pull_request][:user][:login],
+        url: params[:pull_request][:url],
+        html_url: params[:pull_request][:html_url],
+        labels: params[:pull_request][:labels].map { |label| label[:name] },
+        state: params[:pull_request][:state],
+        pr_id: params[:pull_request][:number],
+        repo: params[:repository][:full_name],
+        merged: params[:pull_request][:merged]
+      )
 
       head :no_content
-    end
-
-    private
-    def action
-      # params[:action] does not work as it is populated by Rails with the action method name
-      request.request_parameters[:action]
-    end
-
-    def github_username
-      params[:pull_request][:user][:login]
-    end
-
-    def url
-      params[:pull_request][:url]
-    end
-
-    def html_url
-      params[:pull_request][:html_url]
-    end
-
-    def labels
-      params[:pull_request][:labels].map { |label| label[:name] }
-    end
-
-    def state
-      params[:pull_request][:state]
-    end
-
-    def pr_id
-      params[:pull_request][:number]
-    end
-
-    def repo
-      params[:repository][:full_name]
-    end
-
-    def merged?
-      params[:pull_request][:merged]
     end
   end
 end

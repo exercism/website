@@ -4,7 +4,7 @@ class User
       class Create
         include Mandate
 
-        initialize_with :user, :external_link, :repo, :pr_id, :reason
+        initialize_with :user, :external_link, :repo, :pr_id
 
         def call
           User::ReputationToken.create_or_find_by!(
@@ -12,7 +12,7 @@ class User
             context_key: "reviewed_code/#{repo}/pulls/#{pr_id}"
           ) do |rt|
             rt.external_link = external_link
-            rt.reason = reason
+            rt.reason = :reviewed_code
             rt.category = :building
           end
         end

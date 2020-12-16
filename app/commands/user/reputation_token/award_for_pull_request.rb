@@ -8,28 +8,32 @@ class User
       initialize_with :action, :github_username, :params
 
       def call
-        award_reputation_to_author if merged?
-        award_reputation_to_reviewers if closed?
+        award_reputation_to_author
+        award_reputation_to_reviewers
       end
 
       private
       def award_reputation_to_author
+        return unless merged?
+
         user = User.find_by(github_username: github_username)
 
         # TODO: decide what to do with user that cannot be found
         Rails.logger.error "Missing author: #{github_username}" unless user
         return unless user
 
-        User::ReputationToken::CodeContribution::Create.(user, external_link, repo, pr_id, reason)
+        User::ReputationToken::CodeContribution::Create.(user, external_link, repo, pr_id, author_reputation_reason)
       end
 
       def award_reputation_to_reviewers
+        return unless closed?
+
         reviews = octokit_client.pull_request_reviews(repo, pr_id)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
 
         reviewers = ::User.where(handle: reviewer_usernames)
         reviewers.find_each do |reviewer|
-          User::ReputationToken::CodeReview::Create.(reviewer, external_link, repo, pr_id, 'reviewed_code')
+          User::ReputationToken::CodeReview::Create.(reviewer, external_link, repo, pr_id)
         end
 
         # TODO: consider what to do with missing reviewers
@@ -57,11 +61,11 @@ class User
         params[:pr_id]
       end
 
-      def reason
-        return 'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
-        return 'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
+      def author_reputation_reason
+        return :'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
+        return :'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
 
-        'contributed_code/regular'
+        :'contributed_code/regular'
       end
 
       memoize

@@ -308,12 +308,41 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     assert_empty user.reputation_tokens
   end
 
-  test "pull request reviewers are awarded reputation on closed action" do
+  test "pull request reviewers are awarded reputation on closed action when pull request is merged" do
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
     number = 1347
     merged = true
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    reviewer_1 = create :user, handle: "Reviewer71", github_username: "Reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer13", github_username: "Reviewer13"
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
+      to_return(status: 200, body: [
+        { user: { login: "Reviewer71" } },
+        { user: { login: "Reviewer13" } }
+      ].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    User::ReputationToken::AwardForPullRequest.(action, login,
+      url: url, html_url: html_url, labels: labels, repo: repo, number: number, merged: merged)
+
+    reputation_token_1 = reviewer_1.reputation_tokens.find_by(context_key: 'reviewed_code/exercism/v3/pulls/1347')
+    assert_equal 3, reputation_token_1.value
+
+    reputation_token_2 = reviewer_2.reputation_tokens.find_by(context_key: 'reviewed_code/exercism/v3/pulls/1347')
+    assert_equal 3, reputation_token_2.value
+  end
+
+  test "pull request reviewers are awarded reputation on closed action even when pull request is not merged" do
+    action = 'closed'
+    login = 'user22'
+    repo = 'exercism/v3'
+    number = 1347
+    merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []

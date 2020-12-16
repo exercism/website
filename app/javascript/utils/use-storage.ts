@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { StoredMemoryValue, useMutableMemoryValue } from 'use-memory-value'
 
 export function useStorage<T>(key: string, initialValue: T) {
@@ -7,28 +7,29 @@ export function useStorage<T>(key: string, initialValue: T) {
   return useMutableMemoryValue(memoryValue)
 }
 
-export function useLocalStorage(key: string, initialValue: string) {
-  const [storedValue, setStoredValue] = useState(() => {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      const item = localStorage.getItem(key)
+      const item = JSON.parse(localStorage.getItem(key) || '') as T
 
       return item || initialValue
     } catch (error) {
-      console.log(error)
-
       return initialValue
     }
   })
 
-  const setValue = (value: string) => {
+  const setValue = (value: T) => {
     try {
       setStoredValue(value)
 
-      localStorage.setItem(key, value)
+      localStorage.setItem(key, JSON.stringify(value))
     } catch (error) {
       console.log(error)
     }
   }
 
-  return [storedValue, setValue] as const
+  return [storedValue, setValue]
 }

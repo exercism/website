@@ -23,6 +23,7 @@ module.exports = {
       '1': '1px',
       '2': '2px',
       '3': '3px',
+      '4': '4px',
     },
     boxShadow: {
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
@@ -58,13 +59,17 @@ module.exports = {
       darkGreen: '#43B593',
       mediumGreen: '#B8EADB',
       lightGreen: '#ABDBCC',
+      veryLightGreen: 'rgba(79,205,167,0.15)',
+
       tooManyGreens: '#59D2AE',
+      literallySoManyGreens: '#4FCDA7',
       soManyGreens: '#228466',
       bgGreen: 'rgba(89, 210, 174, 0.15)',
 
       orange: '#F69605',
       lightOrange: '#FFF3E1',
       red: '#EB5757',
+      lightRed: '#fdeaea',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
 
@@ -105,6 +110,7 @@ module.exports = {
     },
     spacing: {
       auto: 'auto',
+      '0': '0px',
       '4': '4px',
       '6': '6px',
       '8': '8px',

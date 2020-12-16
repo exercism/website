@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { SubmissionTestsStatus } from '../student/Editor'
+import { SubmissionTestsStatus } from '../editor/types'
 import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { TestsStatusSummary } from './iteration-summary/TestsStatusSummary'

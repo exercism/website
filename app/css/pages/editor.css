@@ -1,3 +1,5 @@
+@import "../styles";
+
 #page-editor {
     --side-padding: 32px;
     --border-color: rgba(203, 201, 217, 0.5);
@@ -69,14 +71,102 @@
                 width: 24px;
             }
         }
+
+        & .settings-dialog {
+            @apply bg-white;
+            @apply flex flex-col shadow-lg;
+            @apply py-24 px-32 text-left;
+
+            & .setting {
+                @apply flex items-center justify-between;
+                @apply mb-16;
+                &:last-child {
+                    @apply mb-0;
+                }
+
+                & .name {
+                    @apply text-16 font-medium text-darkGray;
+                    @apply mr-56;
+                    width: 100px;
+                }
+
+                & .options {
+                    @apply bg-borderLight rounded-100;
+                    @apply flex items-center;
+                    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+
+                    & label {
+                        @apply block relative;
+                        & .label {
+                            @apply px-12 py-6;
+                            @apply cursor-pointer;
+                            @apply border-1 border-borderLight rounded-100;
+                            @apply text-textLight font-mono font-bold leading-regular;
+                        }
+
+                        /* Keep it here so it's discoverable by touch
+                         * for accessibility purposes */
+                        & input {
+                            @apply absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 0;
+                            &:checked + .label {
+                                @apply bg-lightBlue;
+                                @apply text-white;
+                            }
+
+                            /* It would be nice to DRY this up with application.css
+                             * but its tricky with the adjecent element. */
+                            &:focus {
+                                & + .label {
+                                    outline: 5px auto -webkit-focus-ring-color;
+                                }
+                                &:not(.focus-visible) + .label {
+                                    outline: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     & .main-lhs {
         grid-area: main-lhs;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: hidden;
 
         border-color: var(--border-color);
         @apply border-r-1;
+        @apply bg-bgGray;
+
+        @apply flex flex-col;
+
+        & .tabs {
+            @apply bg-bgGray;
+
+            & button {
+                @apply py-8 px-16;
+                @apply font-semibold leading-code;
+            }
+        }
+        & .react-monaco-editor-container {
+            @apply pt-20;
+        }
+
+        & .monaco-editor {
+            & .monaco-scrollable-element .scrollbar {
+                background: transparent;
+                .arrow-background {
+                    background: purple;
+                }
+
+                & .slider {
+                    background: red;
+                }
+            }
+        }
     }
     & .main-rhs {
         grid-area: main-rhs;
@@ -101,6 +191,104 @@
                 } /* Override the default */
                 & :not(h2) + h3 {
                     @apply mt-28;
+                }
+            }
+        }
+        & section.results {
+            & .summary-status {
+                @apply flex items-center justify-center;
+                @apply pt-6 pb-8 px-8 border-t-4 mb-24;
+                @apply font-bold font-mono uppercase leading-code;
+                & .--dot {
+                    @apply rounded-circle mr-12;
+                    height: 8px;
+                    width: 8px;
+                }
+                &.failed {
+                    @apply bg-lightRed text-red;
+                    @apply border-red;
+                    & .--dot {
+                        @apply bg-red;
+                    }
+                }
+                &.passed {
+                    @apply bg-veryLightGreen text-darkGreen;
+                    @apply border-literallySoManyGreens;
+                    & .--dot {
+                        @apply bg-darkGreen;
+                    }
+                }
+            }
+            & .tests-list {
+                @apply px-32 pb-16;
+
+                & .tests-group {
+                    & .tests-group-summary {
+                        @apply inline-flex items-center;
+                        @apply font-semibold text-14 text-darkGray;
+                        @apply border-2 border-lightGray rounded-100;
+                        @apply py-8 px-24 mb-12;
+                        &::-webkit-details-marker {
+                            @apply hidden;
+                        }
+                        & .c-icon.indicator {
+                            height: 24px;
+                            width: 24px;
+                            @apply mr-16;
+                        }
+                    }
+                }
+
+                & .c-test-summary {
+                    @apply flex items-center;
+                    @apply bg-unnamed15 font-mono;
+                    @apply mb-12 rounded-8;
+
+                    & .--summary {
+                        @apply flex items-center;
+                        @apply py-8 px-24 mb-12;
+                        &::-webkit-details-marker {
+                            @apply hidden;
+                        }
+
+                        & .--status {
+                            @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
+                            @apply font-bold uppercase text-13 leading-huge;
+                            @apply text-white bg-darkGreen;
+                            width: 70px;
+                        }
+                        & .--summary-details {
+                            @apply flex-grow;
+                            & .--summary-idx {
+                                @apply font-semibold text-textLight leading-huge;
+                            }
+                            & .--summary-name {
+                                @apply font-body font-semibold text-15 leading-regular;
+                            }
+                        }
+                    }
+                    & .--explanation {
+                        @apply py-8 px-24;
+
+                        & .--info {
+                            @apply mb-16;
+                            & h3 {
+                                @apply font-bold text-darkGray uppercase leading-huge mb-8;
+                            }
+                            & pre {
+                                @apply bg-white py-16 px-20 whitespace-pre-wrap;
+                            }
+                        }
+                    }
+
+                    &.error,
+                    &.fail {
+                        & summary {
+                            & .--status {
+                                @apply bg-red text-white;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -149,5 +337,9 @@
                 #fbfcfe 44.22%
             );
         }
+    }
+
+    & .--file-editor {
+        height: 100%;
     }
 }

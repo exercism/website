@@ -73,8 +73,12 @@ class Solution < ApplicationRecord
     track.slug
   end
 
+  def initial_files
+    exercise.editor_solution_files
+  end
+
   def editor_solution_files
-    files = git_exercise.editor_solution_files
+    files = initial_files
 
     submission = submissions.last
     if submission # rubocop:disable Style/SafeNavigation

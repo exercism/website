@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.index ["user_id"], name: "index_badges_on_user_id"
   end
 
+  create_table "bug_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_bug_reports_on_user_id"
+  end
+
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
@@ -373,6 +382,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
   end
 
   add_foreign_key "badges", "users"
+  add_foreign_key "bug_reports", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

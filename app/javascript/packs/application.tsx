@@ -8,6 +8,8 @@ require('turbolinks').start()
 require('@rails/activestorage').start()
 require('channels')
 
+import 'focus-visible'
+
 // TODO: Let's get all of these loading automatically
 // without needing to be specified individually here.
 import '../../css/application.css'
@@ -20,6 +22,7 @@ import '../../css/components/concept.css'
 import '../../css/components/concept-icon.css'
 import '../../css/components/concept-progress-bar.css'
 import '../../css/components/copy-text-to-clipboard.css'
+import '../../css/components/details.css'
 import '../../css/components/flash.css'
 import '../../css/components/icon.css'
 import '../../css/components/iteration-summary.css'
@@ -74,11 +77,12 @@ import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
+import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
-import { Submission, File } from '../components/student/Editor'
+import { Submission } from '../components/editor/types'
 import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.
@@ -126,14 +130,20 @@ initReact({
       iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
     />
   ),
-  'student-editor': (data: any) => (
-    <Student.Editor
+  editor: (data: any) => (
+    <Editor
       endpoint={data.endpoint}
       initialSubmission={
         (camelizeKeys(data.submission) as unknown) as Submission
       }
       files={data.files}
       language={data.language}
+      exercisePath={data.exercise_path}
+      trackTitle={data.track_title}
+      exerciseTitle={data.exercise_title}
+      introduction={data.introduction}
+      instructions={data.instructions}
+      exampleSolution={data.example_solution}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

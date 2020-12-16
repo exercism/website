@@ -195,6 +195,28 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     assert_equal 15, reputation_token.value
   end
 
+  test "pull request ignores irrelevant labels" do
+    action = 'closed'
+    login = 'user22'
+    repo = 'exercism/v3'
+    number = 1347
+    merged = true
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = %w[bug duplicate]
+    user = create :user, handle: "User22", github_username: "user22"
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
+      to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    User::ReputationToken::AwardForPullRequest.(action, login,
+      url: url, html_url: html_url, labels: labels, repo: repo, number: number, merged: merged)
+
+    reputation_token = user.reputation_tokens.find_by(context_key: 'contributed_code/exercism/v3/pulls/1347')
+    assert_equal 10, reputation_token.value
+  end
+
   test "pull request with added label updates reputation value" do
     action = 'labeled'
     login = 'user22'

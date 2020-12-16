@@ -61,7 +61,7 @@ class User
         return 'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
         return 'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
 
-        'contributed_code'
+        'contributed_code/regular'
       end
 
       memoize

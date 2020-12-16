@@ -9,8 +9,8 @@ class User::ReputationToken < ApplicationRecord
   REASON_VALUES = {
     'authored_exercise': 10,
     'contributed_to_exercise': 5,
-    'contributed_code': 10,
     'contributed_code/minor': 5,
+    'contributed_code/regular': 10,
     'contributed_code/major': 15,
     'mentored': 10,
     'reviewed_code': 3

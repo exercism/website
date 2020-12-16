@@ -32,7 +32,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     user = create :user, handle: "User22", github_username: "user22"
-    create :user_reputation_token, user: user, reason: 'contributed_code', context_key: 'contributed_code/exercism/v3/pulls/1347', category: :building # rubocop:disable Layout/LineLength
+    create :user_reputation_token, user: user, reason: 'contributed_code/regular', context_key: 'contributed_code/exercism/v3/pulls/1347', category: :building # rubocop:disable Layout/LineLength
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -227,7 +227,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor']
     user = create :user, handle: "User22", github_username: "user22"
-    reputation_token = create :user_reputation_token, user: user, reason: 'contributed_code', context_key: 'contributed_code/exercism/v3/pulls/1347', category: :building # rubocop:disable Layout/LineLength
+    reputation_token = create :user_reputation_token, user: user, reason: 'contributed_code/regular', context_key: 'contributed_code/exercism/v3/pulls/1347', category: :building # rubocop:disable Layout/LineLength
 
     User::ReputationToken::AwardForPullRequest.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)

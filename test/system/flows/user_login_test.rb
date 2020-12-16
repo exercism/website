@@ -53,5 +53,41 @@ module Flows
 
       assert_text "Your account does not have a password. Please use OAuth."
     end
+
+    test "user logs in and is redirected to the correct page" do
+      track = create :track, title: "Ruby"
+      create(:user,
+        email: "user@exercism.io",
+        password: "password",
+        confirmed_at: Date.new(2016, 12, 25))
+
+      visit track_path(track)
+      click_on "Join The Ruby Track"
+      fill_in "Email", with: "user@exercism.io"
+      fill_in "Password", with: "password"
+      click_on "Log In"
+
+      assert_text "Join The Ruby Track"
+    end
+
+    test "user logs in, onboards, and is redirected to the correct page" do
+      track = create :track, title: "Ruby"
+      create(:user,
+        :not_onboarded,
+        email: "user@exercism.io",
+        password: "password",
+        confirmed_at: Date.new(2016, 12, 25))
+
+      visit track_path(track)
+      click_on "Join The Ruby Track"
+      fill_in "Email", with: "user@exercism.io"
+      fill_in "Password", with: "password"
+      click_on "Log In"
+      check "Accept Terms of Service"
+      check "Accept Privacy Policy"
+      click_on "Submit"
+
+      assert_text "Join The Ruby Track"
+    end
   end
 end

@@ -35,6 +35,18 @@ module Git
       assert_equal(/[iI]gnore/, track.ignore_regexp)
     end
 
+    def test_monorepo_about
+      track = Git::Track.new(:csharp, repo_url: TestHelpers.git_repo_url("v3-monorepo"))
+      expected = "C# is a multi-paradigm, statically-typed programming language with object-oriented, declarative, functional, generic, lazy, integrated querying features and type inference.\n\nC# is a modern language that is constantly being updated. It is also fully open-source and runs on a wide variety of runtimes.\n" # rubocop:disable Layout/LineLength
+      assert_equal(expected, track.about)
+    end
+
+    def test_monorepo_snippet
+      track = Git::Track.new(:csharp, repo_url: TestHelpers.git_repo_url("v3-monorepo"))
+      expected = "class HelloWorld\n{\n    string Hello()\n    {\n        return \"Hello, World!\";\n    }\n}\n"
+      assert_equal(expected, track.snippet)
+    end
+
     def test_monorepo_key_features
       track = Git::Track.new(:csharp, repo_url: TestHelpers.git_repo_url("v3-monorepo"))
       expected = [

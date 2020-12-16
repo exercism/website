@@ -39,6 +39,11 @@ module Git
       JSON.parse(raw, symbolize_names: true)
     end
 
+    def read_text_blob(commit, path)
+      oid = find_file_oid(commit, path)
+      read_blob(oid)
+    end
+
     def read_blob(oid, default = nil)
       blob = lookup(oid)
       blob.present? ? blob.text : default

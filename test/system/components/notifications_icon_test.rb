@@ -3,7 +3,7 @@ require "application_system_test_case"
 module Components
   class NotificationsIconTest < ApplicationSystemTestCase
     test "shows no number for no notifications" do
-      create(:user)
+      sign_in!
 
       visit test_components_notifications_icon_path
       wait_for_websockets
@@ -16,7 +16,7 @@ module Components
     end
 
     test "shows number for 1+ notifications" do
-      create(:user)
+      sign_in!
 
       visit test_components_notifications_icon_path
       wait_for_websockets
@@ -29,7 +29,7 @@ module Components
     end
 
     test "shows number for <=99 notifications" do
-      create(:user)
+      sign_in!
 
       visit test_components_notifications_icon_path
       wait_for_websockets
@@ -42,7 +42,7 @@ module Components
     end
 
     test "shows no number for >99 notifications" do
-      create(:user)
+      sign_in!
 
       visit test_components_notifications_icon_path
       wait_for_websockets

@@ -63,7 +63,7 @@ test('shows message when test times out', async () => {
 test('cancels a pending submission', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/submissions', (req, res, ctx) => {
-      return res(ctx.delay(1000))
+      return res(ctx.delay(), ctx.json({}))
     })
   )
   server.listen()

@@ -14,6 +14,7 @@
             = graphical_icon(:dashboard)
             Dashboard
 
+        / TODO: Vary this based on section
         %li.selected{ "aria-current": "page" }
           = link_to tracks_path do
             = icon('bubbly-background', "Selected", css_class: 'selected')
@@ -21,7 +22,7 @@
             Tracks
 
         %li
-          = link_to "#" do
+          = link_to mentor_dashboard_path do
             = graphical_icon(:mentoring)
             Mentoring
 
@@ -29,4 +30,12 @@
           = link_to "#" do
             = graphical_icon(:logo)
             Contribute
+
+    - if user_signed_in?
+      .user-section
+        = ReactComponents::Common::NotificationsIcon.new(current_user)
+        = render ViewComponents::PrimaryReputation.new(current_user, has_notification: true)
+        .user-menu
+          = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "#{current_user.name}'s uploaded avatar")
+          = icon "more-vertical", "Profile Menu"
 

@@ -25,11 +25,15 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
+  def to_param
+    slug
+  end
+
   memoize
   def git
     # TODO: Slug can be removed from this
     # once we're out of the monorepo
-    Git::Track.new(slug, repo_url: repo_url)
+    Git::Track.new(slug, synced_to_git_sha, repo_url: repo_url)
   end
 
   # TODO: Set this properly

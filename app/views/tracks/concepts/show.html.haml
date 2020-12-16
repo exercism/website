@@ -50,7 +50,7 @@
 
           .exercises
             - @concept_exercises.each do |concept_exercise|
-              = render ViewComponents::Widgets::Exercise.new(concept_exercise, @user_track)
+              = render ViewComponents::Widgets::Exercise.new(concept_exercise, @user_track, size: :large)
 
       - if @practice_exercises.present?
         .practice
@@ -58,4 +58,4 @@
 
           .exercises
             - @practice_exercises.each do |practice_exercise|
-              = render ViewComponents::Widgets::Exercise.new(practice_exercise, @user_track)
+              = render ViewComponents::Widgets::Exercise.new(practice_exercise, @user_track, size: :large)

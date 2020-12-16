@@ -3,7 +3,8 @@
 
     & .container {
         /* Should be py-12 when other components have been added */
-        @apply flex items-center py-20;
+        @apply flex items-center;
+        height: 64px;
     }
 
     & .exercism-link {
@@ -48,6 +49,31 @@
                 width: 62px;
                 left: -19px;
                 top: -17px;
+            }
+        }
+    }
+    & .user-section {
+        @apply flex justify-end items-center flex-grow;
+
+        & .c-notification {
+            @apply mr-48;
+        }
+        & .c-primary-reputation {
+            @apply mr-48;
+        }
+        & .user-menu {
+            @apply flex items-center;
+
+            & .c-rounded-bg-img {
+                height: 42px;
+                width: 42px;
+
+                @apply mr-16;
+                box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+            }
+            & .c-icon {
+                height: 16px;
+                width: 16px;
             }
         }
     }

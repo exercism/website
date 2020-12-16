@@ -161,7 +161,7 @@ test('revert to exercise start', async () => {
         testsStatus: 'failed',
         links: {
           testRun: 'https://exercism.test/test_run',
-          files: 'https://exercism.test/files',
+          initialFiles: 'https://exercism.test/files',
         },
       }}
     />
@@ -207,7 +207,7 @@ test('revert to exercise start fails', async () => {
         testsStatus: 'failed',
         links: {
           testRun: 'https://exercism.test/test_run',
-          files: 'https://exercism.test/files',
+          initialFiles: 'https://exercism.test/files',
         },
       }}
     />

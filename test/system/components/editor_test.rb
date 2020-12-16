@@ -6,10 +6,9 @@ module Components
     include CapybaraHelpers
 
     test "user runs tests and tests pass" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -28,10 +27,9 @@ module Components
     end
 
     test "user runs tests and tests fail" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -50,10 +48,9 @@ module Components
     end
 
     test "user runs tests and errors" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -74,10 +71,9 @@ module Components
     end
 
     test "user runs tests and an ops error happens" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -98,10 +94,9 @@ module Components
     end
 
     test "user runs tests and cancels" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -114,10 +109,9 @@ module Components
     end
 
     test "user sees previous test results" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
       submission = create :submission, solution: solution
       create :submission_test_run,
         submission: submission,
@@ -133,10 +127,9 @@ module Components
     end
 
     test "user sees submission errors" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
@@ -153,10 +146,9 @@ module Components
     end
 
     test "user reverts to original exercise solution" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
@@ -174,10 +166,9 @@ module Components
     end
 
     test "user reports a bug" do
-      user = create :user
-      create :user_auth_token, user: user
+      sign_in!
       bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: user, exercise: bob
+      solution = create :practice_solution, user: @current_user, exercise: bob
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)

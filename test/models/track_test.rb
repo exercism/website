@@ -19,9 +19,14 @@ class TrackTest < ActiveSupport::TestCase
   test ".active scope" do
     # Create one active and one inactive track
     track = create :track, active: true
-    create :track, active: false
+    create :track, :random_slug, active: false
 
     assert_equal [track], Track.active
+  end
+
+  test "to_slug" do
+    track = create :track
+    assert_equal track.slug, track.to_param
   end
 
   test "Retrieves test_regexp for csharp" do

@@ -1,7 +1,0 @@
-%h1 Notifications
-%h2 Icon
-= form_with method: :patch do |f|
-  = f.label :count
-  = f.number_field :count
-  = f.submit "Update"
-= ReactComponents::Notifications::Icon.new(@user)

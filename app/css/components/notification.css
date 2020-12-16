@@ -1,0 +1,59 @@
+.c-notification {
+    @apply relative flex items-center justify-center;
+    @apply rounded-8 text-orange;
+    height: 37px;
+    width: 41px;
+
+    box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
+
+    background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0) 100%
+        ),
+        linear-gradient(0deg, #fff4e3, #fff4e3);
+
+    & .c-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    & .--count {
+        @apply absolute flex items-center justify-center;
+        @apply bg-red text-white font-semibold rounded-circle;
+
+        top: -7px;
+        right: -10px;
+        width: 25px;
+        height: 25px;
+    }
+
+    &.--none {
+        box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+
+        /* We need the bg-none to reset the gradient */
+        @apply bg-none bg-white text-textBase;
+
+        & .--count {
+            @apply hidden;
+        }
+    }
+    &.--double-digit {
+        & .--count {
+            font-size: 13px;
+        }
+    }
+    &.--triple-digit {
+        & .--count {
+            @apply invisible;
+            &:after {
+                @apply absolute bg-red rounded-circle;
+                @apply visible;
+
+                content: "";
+                width: 15px;
+                height: 15px;
+            }
+        }
+    }
+}

@@ -1,5 +1,4 @@
 require_relative 'boot'
-
 require "rails"
 
 # Pick the frameworks you want:
@@ -19,12 +18,11 @@ require "rails/test_unit/railtie"
 # require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
-
 module Website
   class Application < Rails::Application
     config.load_defaults 6.0
 
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :sidekiq
 
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc

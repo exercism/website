@@ -14,7 +14,8 @@ module Components
           bob = create :practice_exercise, slug: "bob"
           solution = create :practice_solution, user: user, exercise: bob
 
-          visit edit_solution_path(solution.uuid)
+          sign_in!(user)
+          visit edit_track_exercise_path(solution.track, solution.exercise)
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }

@@ -3,7 +3,12 @@ ENV['RAILS_ENV'] ||= 'test'
 # This must happen above the env require below
 if ENV["CAPTURE_CODE_COVERAGE"]
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start 'rails' do
+    add_filter %r{^/app/.+/test/}
+    add_filter %r{^/app/.+/tmp/}
+    add_filter "lib/solargraph-rails.rb"
+    add_filter "lib/run_migrations_with_concurrent_guard.rb"
+  end
 end
 
 require_relative '../config/environment'
@@ -30,7 +35,7 @@ end
 # TODO: Remove this as part of the git extraction
 module TestHelpers
   def self.git_repo_url(slug)
-    "file://#{(Rails.root / 'test' / 'repos' / slug.to_s)}"
+    "file://#{Rails.root / 'test' / 'repos' / slug.to_s}"
   end
 end
 
@@ -47,8 +52,7 @@ if ENV["EXERCISM_CI"]
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "127.0.0.1:#{ENV['DYNAMODB_PORT']}",
-      "127.0.0.1:#{ENV['S3_PORT']}"
+      "127.0.0.1:#{ENV['AWS_PORT']}"
     ]
   )
 else
@@ -58,8 +62,7 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "localhost:3040", "dynamodb",
-      "localhost:3041", "s3"
+      "localhost:3040", "aws"
     ]
   )
 end
@@ -130,16 +133,14 @@ class ActiveSupport::TestCase
   end
 
   def write_to_dynamodb(table_name, item)
-    client = ExercismConfig::SetupDynamoDBClient.()
-    client.put_item(
+    Exercism.dynamodb_client.put_item(
       table_name: table_name,
       item: item
     )
   end
 
   def read_from_dynamodb(table_name, key, attributes)
-    client = ExercismConfig::SetupDynamoDBClient.()
-    client.get_item(
+    Exercism.dynamodb_client.get_item(
       table_name: table_name,
       key: key,
       attributes_to_get: attributes,
@@ -149,8 +150,7 @@ class ActiveSupport::TestCase
   end
 
   def upload_to_s3(bucket, key, body)
-    client = ExercismConfig::SetupS3Client.()
-    client.put_object(
+    Exercism.s3_client.put_object(
       bucket: bucket,
       key: key,
       body: body,
@@ -159,8 +159,7 @@ class ActiveSupport::TestCase
   end
 
   def download_s3_file(bucket, key)
-    client = ExercismConfig::SetupS3Client.()
-    client.get_object(
+    Exercism.s3_client.get_object(
       bucket: bucket,
       key: key
     ).body.read
@@ -168,18 +167,14 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  # TODO: Add this when adding devise
-  # include Devise::Test::IntegrationHelpers
+  include Devise::Test::IntegrationHelpers
 
-  # TODO: Add this implmentation back when devise
-  # is added.
   def sign_in!(user = nil)
     @current_user = user || create(:user)
-    @current_user.auth_tokens.create! if @current_user.auth_tokens.blank?
+    @current_user.auth_tokens.create! unless @current_user.auth_tokens.exists?
 
-    # TODO: Renable when adding devise
-    #  @current_user.confirm
-    #  sign_in @current_user
+    @current_user.confirm
+    sign_in @current_user
   end
 
   # As we only use #page- prefix on ids for pages

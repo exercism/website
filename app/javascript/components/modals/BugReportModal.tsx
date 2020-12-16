@@ -23,6 +23,7 @@ const Status = ({ status }: { status: BugReportModalStatus }) => {
 export const BugReportModal = ({
   open,
   onClose,
+  ...props
 }: {
   open: boolean
   onClose: () => void
@@ -75,7 +76,7 @@ export const BugReportModal = ({
   }, [open])
 
   return (
-    <Modal isOpen={open} onRequestClose={onClose}>
+    <Modal isOpen={open} onRequestClose={onClose} {...props}>
       <Status status={status} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="content_markdown">Report</label>

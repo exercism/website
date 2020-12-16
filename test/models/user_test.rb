@@ -16,17 +16,28 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
+  test "defaults name to handle correctly" do
+    name = "Someone"
+    handle = "soooomeone"
+    user = User.create!(name: name, handle: handle, email: "who@where.com", password: "foobar")
+    assert_equal name, user.name
+
+    handle = "eeeelllseee"
+    user = User.create!(handle: handle, email: "who@there.com", password: "foobar")
+    assert_equal handle, user.name
+  end
+
   test "reputation sums correctly" do
     user = create :user
     create :user_reputation_acquisition
-    create :user_reputation_acquisition, user: user, category: "track_ruby", amount: 1
-    create :user_reputation_acquisition, user: user, category: "track_ruby", amount: 2
-    create :user_reputation_acquisition, user: user, category: "track_javascript", amount: 4
-    create :user_reputation_acquisition, user: user, category: "docs", amount: 8
+    create :user_reputation_acquisition, user: user, category: "track_ruby", reason: :exercise_authorship
+    create :user_reputation_acquisition, user: user, category: "track_ruby", reason: :exercise_authorship
+    create :user_reputation_acquisition, user: user, category: "track_javascript", reason: :exercise_contributorship
+    create :user_reputation_acquisition, user: user, category: "docs", reason: :exercise_authorship
 
-    assert_equal 15, user.reputation
-    assert_equal 3, user.reputation(track_slug: :ruby)
-    assert_equal 8, user.reputation(category: :docs)
+    assert_equal 35, user.reputation
+    assert_equal 20, user.reputation(track_slug: :ruby)
+    assert_equal 10, user.reputation(category: :docs)
   end
 
   test "reputation raises with both track_slug and category specified" do
@@ -61,7 +72,7 @@ class UserTest < ActiveSupport::TestCase
   test "joined_track?" do
     user = create :user
     user_track = create :user_track, user: user
-    track = create :track
+    track = create :track, :random_slug
 
     assert user.joined_track?(user_track.track)
     refute user.joined_track?(track)

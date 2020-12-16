@@ -7,7 +7,10 @@ linters:
     max: 100
 
   ViewLength:
-    max: 200
+    enabled: false
+
+  ClassesBeforeIds:
+    EnforcedStyle: id
 
   RuboCop:
     ignored_cops:

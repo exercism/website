@@ -1,0 +1,22 @@
+exclude_patterns:
+  # Defaults
+  - config/
+  - db/
+  - dist/
+  - features/
+  - node_modules/
+  - script/
+  - test/
+  - vendor/
+  - "**/*.d.ts"
+
+  # Tmp controllers/views
+  - app/controllers/tmp/
+  - app/views/tmp/
+
+  # test controllers/views
+  - app/controllers/test/
+  - app/views/test/
+
+  - lib/solargraph-rails.rb
+  - lib/run_migrations_with_concurrent_guard.rb

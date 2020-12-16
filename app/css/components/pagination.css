@@ -1,0 +1,14 @@
+.c-pagination {
+    @apply flex justify-between items-center;
+
+    & button {
+        @apply py-8 px-16;
+        @apply font-mono font-semibold text-13 text-textLight leading-huge;
+        @apply border-1 border-borderLight rounded-5;
+    }
+
+    & .--pages {
+        @apply grid gap-8;
+        grid-auto-flow: column;
+    }
+}

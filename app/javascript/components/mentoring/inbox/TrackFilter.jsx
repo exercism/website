@@ -18,8 +18,11 @@ export function TrackFilter({ request, setTrack }) {
       {isError && <p>Something went wrong</p>}
       {isSuccess && (
         <>
-          <label htmlFor="track-filter-track">Track</label>
-          <select id="track-filter-track" onChange={handleChange}>
+          <select
+            data-testid="track-filter"
+            id="track-filter-track"
+            onChange={handleChange}
+          >
             <option value={''}>All</option>
             {data.map((track) => {
               return (

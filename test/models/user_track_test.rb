@@ -34,14 +34,14 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_nil UserTrack.for(create(:user), nil)
     assert_nil UserTrack.for(nil, nil)
     assert_nil UserTrack.for(create(:user), track)
-    assert_nil UserTrack.for(ut.user, create(:track))
+    assert_nil UserTrack.for(ut.user, create(:track, :random_slug))
     assert_nil UserTrack.for(nil, track)
     assert_nil UserTrack.for(nil, track.slug)
 
     assert_nil UserTrack.for(create(:user), nil, external_if_missing: true)
     assert_nil UserTrack.for(nil, nil, external_if_missing: true)
     assert UserTrack.for(create(:user), track, external_if_missing: true).is_a?(UserTrack::External)
-    assert UserTrack.for(ut.user, create(:track), external_if_missing: true).is_a?(UserTrack::External)
+    assert UserTrack.for(ut.user, create(:track, :random_slug), external_if_missing: true).is_a?(UserTrack::External)
     assert UserTrack.for(nil, track, external_if_missing: true).is_a?(UserTrack::External)
     assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
   end
@@ -190,6 +190,24 @@ class UserTrackTest < ActiveSupport::TestCase
       practice_exercise_3,
       practice_exercise_4
     ], user_track.available_practice_exercises
+  end
+
+  test "uncompleted_exercises" do
+    track = create :track
+    concept_exercise_1 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_2 = create :concept_exercise, :random_slug, track: track
+
+    practice_exercise_1 = create :practice_exercise, :random_slug, track: track
+    create :practice_exercise, :random_slug, track: track
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_solution, user: user, exercise: concept_exercise_1, completed_at: Time.current
+    create :concept_solution, user: user, exercise: concept_exercise_2
+    create :practice_solution, user: user, exercise: practice_exercise_1
+
+    assert_equal [concept_exercise_2, practice_exercise_1], user_track.uncompleted_exercises
   end
 
   test "summary proxies correctly" do

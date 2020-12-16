@@ -14,6 +14,22 @@ class Exercise < ApplicationRecord
     through: :exercise_prerequisites,
     source: :concept
 
+  has_many :authorships,
+    class_name: "Exercise::Authorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :authors,
+    through: :authorships,
+    source: :author
+
+  has_many :contributorships,
+    class_name: "Exercise::Contributorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :contributors,
+    through: :contributorships,
+    source: :contributor
+
   scope :without_prerequisites, lambda {
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
@@ -22,6 +38,10 @@ class Exercise < ApplicationRecord
     :cli_solution_filepaths,
     :all_solution_files,
     to: :git
+
+  before_create do
+    self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
+  end
 
   def git_type
     self.class.name.sub("Exercise", "").downcase
@@ -33,6 +53,10 @@ class Exercise < ApplicationRecord
 
   def practice_exercise?
     is_a?(PracticeExercise)
+  end
+
+  def to_param
+    slug
   end
 
   # TODO: Implement this properly
@@ -47,7 +71,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def git
-    # TODO: Change to sha, not HEAD
-    Git::Exercise.new(track.slug, slug, "HEAD", git_type)
+    Git::Exercise.new(track.slug, slug, git_type, git_sha, repo_url: track.repo_url)
   end
 end

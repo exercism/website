@@ -34,7 +34,7 @@
     .learn-heading
       = graphical_icon :concepts
       Learn #{@concept.name}
-    = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, large: false)
+    = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, size: :small)
 
     .info
       Completing

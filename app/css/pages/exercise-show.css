@@ -36,24 +36,25 @@
             @apply flex items-center;
 
             & .faces {
-                @apply relative;
+                @apply relative flex;
                 height: 32px;
-            }
-            & .c-rounded-bg-img {
-                height: 32px;
-                width: 32px;
-                @apply absolute;
-                &:nth-child(1) {
-                    z-index: 1;
-                    right: 32px;
+                padding-left: 16px;
+
+                & .author {
+                    margin-left: -16px;
+                    transition: margin 0.2s ease-out;
+                    cursor: pointer;
+
+                    & .c-rounded-bg-img {
+                        height: 32px;
+                        width: 32px;
+                    }
                 }
-                &:nth-child(2) {
-                    z-index: 2;
-                    right: 16px;
-                }
-                &:nth-child(3) {
-                    z-index: 3;
-                    right: 0;
+
+                &:hover {
+                    & .author {
+                        margin-left: 4px;
+                    }
                 }
             }
             & .stats {
@@ -223,7 +224,7 @@
             @apply mt-20 pt-20 border-t-1 border-borderLight;
 
             & button {
-                @apply mb-12;
+                @apply mb-12 w-100;
             }
 
             & .explanation {

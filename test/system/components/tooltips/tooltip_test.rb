@@ -15,16 +15,19 @@ module Components
         within(".c-mentored-student-tooltip") { assert_text "User 2" }
       end
 
-      test "user summary tooltip renders correctly" do
+      test "user tooltip renders correctly" do
+        create :user, handle: 'mentee', name: 'Erik ShireBOOM'
+
         visit test_components_tooltips_tooltip_path
 
-        user_summaries = all('ol.user-summaries > li')
+        users = all('ol.users > li')
 
-        user_summaries[0].hover
-        within(".c-user-summary-tooltip") { assert_text "Erik Schierboom" }
+        users[0].hover
+        within(".c-user-tooltip") { assert_text "Erik ShireBOOM" }
 
-        # user_summaries[1].hover
-        # within(".c-user-summary-tooltip") { assert_text "Rob Keim" }
+        # TODO: Fix or delete
+        # users[1].hover
+        # within(".c-user-tooltip") { assert_text "Rob Keim" }
       end
     end
   end

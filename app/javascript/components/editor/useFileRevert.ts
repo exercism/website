@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { APIError } from '../../hooks/use-request'
+import { APIError } from '../../utils/send-request'
 
 type State = {
   status: RevertStatus

@@ -5,9 +5,10 @@ class Iteration
     initialize_with :solution, :submission
 
     def call
+      time = Time.now.utc.to_s(:db)
       id = Iteration.connection.insert(%{
         INSERT INTO iterations (uuid, solution_id, submission_id, idx, created_at, updated_at)
-        SELECT "#{SecureRandom.compact_uuid}", #{solution.id}, #{submission.id}, (COUNT(*) + 1), NOW(), NOW()
+        SELECT "#{SecureRandom.compact_uuid}", #{solution.id}, #{submission.id}, (COUNT(*) + 1), "#{time}", "#{time}"
         FROM iterations where solution_id = #{solution.id}
       })
       Iteration.find(id).tap do |iteration|

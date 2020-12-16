@@ -1,6 +1,7 @@
 .c-reputation {
-    @apply flex px-8 items-center;
-    @apply border-1 border-lightGray rounded-100 shadow-sm;
+    @apply border-1 border-lightGray rounded-100 shadow-sm bg-white;
+
+    @apply flex px-8 items-center justify-center;
     @apply text-13 text-unnamed16;
     line-height: 28px;
 

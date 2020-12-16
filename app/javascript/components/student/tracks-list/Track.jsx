@@ -15,12 +15,16 @@ export function Track({ track }) {
           </div>
           <ul className="--counts">
             <li>
-              {track.numCompletedConceptExercises}/{track.numConceptExercises}{' '}
-              concepts
+              {track.numCompletedConceptExercises == undefined
+                ? null
+                : `${track.numCompletedConceptExercises}/`}
+              {track.numConceptExercises} concepts
             </li>
             <li>
-              {track.numCompletedPracticeExercises}/{track.numPracticeExercises}{' '}
-              exercises
+              {track.numCompletedPracticeExercises == undefined
+                ? null
+                : `${track.numCompletedPracticeExercises}/`}
+              {track.numPracticeExercises} exercises
             </li>
           </ul>
           <ul className="--tags">

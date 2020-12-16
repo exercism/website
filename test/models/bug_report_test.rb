@@ -6,6 +6,6 @@ class BugReportTest < ActiveSupport::TestCase
 
     bug_report.save
 
-    assert_equal "<p>Hello</p>", bug_report.content_html
+    assert_equal "<p>Hello</p>\n", bug_report.content_html
   end
 end

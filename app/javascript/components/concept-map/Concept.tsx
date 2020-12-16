@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { CompleteIcon } from './CompleteIcon'
-import { Concept as ConceptTooltip } from '../tooltips'
+import { ConceptTooltip } from '../tooltips'
 import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 import { IConcept, ConceptStatus } from './concept-map-types'

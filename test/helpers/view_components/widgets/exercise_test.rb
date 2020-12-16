@@ -3,7 +3,7 @@ require "test_helper"
 # rubocop:disable Layout/LineLength
 class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   test "external" do
-    comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track)
+    comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, size: :large)
     expected = %(
       <div class="c-exercise-widget --large --locked">
         #{exercise_icon}
@@ -15,7 +15,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "external no-desc" do
-    comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, desc: false)
+    comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, size: :large, desc: false)
     expected = %(
       <div class="c-exercise-widget --large --locked">
         #{exercise_icon}
@@ -27,7 +27,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "external small" do
-    comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, large: false)
+    comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, size: :small)
     expected = %(
       <div class="c-exercise-widget --small --locked">
         #{exercise_icon}
@@ -39,7 +39,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "locked" do
-    comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track)
+    comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, size: :large)
     expected = %(
       <div class="c-exercise-widget --large --locked">
         #{exercise_icon}
@@ -51,7 +51,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "locked no-desc" do
-    comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, desc: false)
+    comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, size: :large, desc: false)
     expected = %(
       <div class="c-exercise-widget --large --locked">
         #{exercise_icon}
@@ -63,7 +63,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "locked small" do
-    comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, large: false)
+    comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, size: :small)
     expected = %(
       <div class="c-exercise-widget --small --locked">
         #{exercise_icon}
@@ -75,7 +75,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "available" do
-    comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track)
+    comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, size: :large)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -86,7 +86,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "available no desc" do
-    comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, desc: false)
+    comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, size: :large, desc: false)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -97,7 +97,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "available small" do
-    comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, large: false)
+    comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, size: :small)
     expected = %(
       <a class="c-exercise-widget --small" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -107,7 +107,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "in-progress" do
-    comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track)
+    comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, size: :large)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -118,7 +118,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "in-progress no desc" do
-    comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, desc: false)
+    comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, size: :large, desc: false)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -129,7 +129,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "in-progress small" do
-    comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, large: false)
+    comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, size: :small)
     expected = %(
       <a class="c-exercise-widget --small" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -139,7 +139,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "completed" do
-    comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track)
+    comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, size: :large)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -150,7 +150,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "completed no-desc" do
-    comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, desc: false)
+    comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, size: :large, desc: false)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -161,7 +161,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   test "completed small" do
-    comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, large: false)
+    comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, size: :small)
     expected = %(
       <a class="c-exercise-widget --small" href="/tracks/ruby/exercises/bob">
         #{exercise_icon}
@@ -189,26 +189,26 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     track = create :track
     create(:practice_exercise, track: track).tap do |exercise|
       create :exercise_prerequisite, exercise: exercise, concept: create(:track_concept, track: track)
-      create :user_track, track: exercise.track # TODO: Will break with devise added
+      create :user_track, track: exercise.track
     end
   end
 
   def available_exercise
     create(:practice_exercise).tap do |exercise|
-      create :user_track, track: exercise.track # TODO: Will break with devise added
+      create :user_track, track: exercise.track
     end
   end
 
   def in_progress_exercise
     create(:practice_exercise).tap do |exercise|
-      user_track = create :user_track, track: exercise.track # TODO: Will break with devise added
+      user_track = create :user_track, track: exercise.track
       create :practice_solution, user: user_track.user, exercise: exercise
     end
   end
 
   def completed_exercise
     create(:practice_exercise).tap do |exercise|
-      user_track = create :user_track, track: exercise.track # TODO: Will break with devise added
+      user_track = create :user_track, track: exercise.track
       create :practice_solution, user: user_track.user, exercise: exercise, completed_at: Time.current
     end
   end
@@ -230,7 +230,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
       <div class="--info">
         <div class="--title">
           Bob
-          #{%(<svg role="img" class="c-icon "><title>Exercises is completed</title><use xlink:href="#completed-check-circle" /></svg>) if completed}
+          #{%(<svg role="img" class="c-icon"><title>Exercises is completed</title><use xlink:href="#completed-check-circle" /></svg>) if completed}
         </div>
         #{%(<div class="--desc">Atoms are internally represented</div>) if desc}
       </div>

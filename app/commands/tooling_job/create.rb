@@ -5,7 +5,7 @@ class ToolingJob
     initialize_with :id, :type, :attributes
 
     def call
-      client.put_item(
+      Exercism.dynamodb_client.put_item(
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         item: attributes.merge(
           id: id,
@@ -14,10 +14,6 @@ class ToolingJob
           job_status: :queued
         )
       )
-    end
-
-    def client
-      ExercismConfig::SetupDynamoDBClient.()
     end
   end
 end

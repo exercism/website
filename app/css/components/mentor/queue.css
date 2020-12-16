@@ -1,0 +1,17 @@
+.c-mentor-queue {
+    @apply shadow-lg bg-white rounded-8;
+
+    & header {
+        @apply flex items-center justify-between;
+        @apply py-16 px-24;
+
+        & .c-mentor-text-filter {
+            @apply mr-16;
+            width: 100%;
+        }
+    }
+    & footer {
+        @apply px-24 py-16;
+        @apply border-lightGray border-t-1;
+    }
+}

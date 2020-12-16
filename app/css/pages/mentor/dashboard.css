@@ -1,0 +1,22 @@
+@import "../../styles";
+
+#mentor-dashboard-page {
+    & article {
+        @apply pt-40;
+    }
+    & section {
+        @apply mb-64;
+
+        & .header {
+            @apply flex justify-between items-center;
+            @apply mb-24;
+
+            & h2 {
+                @apply text-h2;
+            }
+            & a {
+                @apply text-lightBlue text-16 font-semibold leading-code;
+            }
+        }
+    }
+}

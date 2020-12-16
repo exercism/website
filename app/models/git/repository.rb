@@ -1,4 +1,7 @@
 module Git
+  class MissingCommitError < RuntimeError
+  end
+
   class Repository
     extend Mandate::Memoize
 
@@ -12,18 +15,22 @@ module Git
           repo_url
         elsif Rails.env.test?
           # TODO; Switch when we move back out of monorepo
-          "file://#{(Rails.root / 'test' / 'repos' / 'v3-monorepo')}"
+          "file://#{Rails.root / 'test' / 'repos' / 'v3-monorepo'}"
         else
           # TODO; Switch when we move back out of monorepo
           # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
           "https://github.com/exercism/v3"
         end
 
-      update! if keep_up_to_date?
+      fetch! if keep_up_to_date?
     end
 
     def head_commit
       active_branch.target
+    end
+
+    def head_sha
+      head_commit.oid
     end
 
     def read_json_blob(commit, path)
@@ -37,17 +44,17 @@ module Git
       blob.present? ? blob.text : default
     end
 
-    def lookup_commit(oid, update_on_failure: true)
-      return head_commit if oid == "HEAD"
+    def lookup_commit(sha, update_on_failure: true)
+      return head_commit if sha == "HEAD"
 
-      lookup(oid).tap do |object|
+      lookup(sha).tap do |object|
         raise 'wrong-type' if object.type != :commit
       end
     rescue Rugged::OdbError
-      raise 'not-found' unless update_on_failure
+      raise MissingCommitError unless update_on_failure
 
-      update!
-      lookup_commit(oid, update_on_failure: false)
+      fetch!
+      lookup_commit(sha, update_on_failure: false)
     end
 
     def find_file_oid(commit, path)
@@ -68,8 +75,8 @@ module Git
       rugged_repo.lookup(*args)
     end
 
-    def update!
-      system("cd #{repo_dir} && git fetch origin master:master", out: File::NULL, err: File::NULL)
+    def fetch!
+      system("cd #{repo_dir} && git fetch --force origin master:master", out: File::NULL, err: File::NULL)
     rescue Rugged::NetworkError => e
       # Don't block development offline
       Rails.logger.info e.message
@@ -108,7 +115,7 @@ module Git
         ].join(" ")
         system(cmd)
 
-        update!
+        fetch!
       end
 
       Rugged::Repository.new(repo_dir)

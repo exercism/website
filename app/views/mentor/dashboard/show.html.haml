@@ -1,0 +1,17 @@
+#mentor-dashboard-page
+  = render ViewComponents::Mentor::Nav.new(:dashboard)
+
+  %article.content
+    .md-container
+      %section.inbox-section
+        %header.header
+          %h2 Your Workspace
+          = link_to "See mentoring guidelines", "#"
+
+        = ReactComponents::Mentoring::Inbox.new
+
+      %section.queue-section
+        %header.header
+          %h2 Solutions to Mentor
+        %div{ style: "width:783px" }
+          = ReactComponents::Mentoring::Queue.new

@@ -1,0 +1,19 @@
+.c-flash {
+    & .--notice,
+    & .--alert,
+    & .--errors {
+        @apply py-8 px-16;
+        @apply text-16 font-medium leading-huge;
+        @apply border-2 rounded-8;
+    }
+
+    & .--notice {
+        @apply text-soManyGreens bg-bgGreen;
+    }
+    & .--alert {
+        @apply text-red bg-bgRed;
+    }
+    & .--errors {
+        @apply text-red bg-bgRed;
+    }
+}

@@ -27,8 +27,11 @@ on:
 
 jobs:
   deploy:
-    name: Upload images to ECR, assets to S3, and defintion to ECS
-    runs-on: ubuntu-latest
+    if: github.repository == 'exercism/website-deployer'
+
+    name: Upload images to ECR, assets to S3, and definition to ECS
+    runs-on: self-hosted
+
     steps:
       ###############
       ###############
@@ -37,14 +40,6 @@ jobs:
       ###############
       - name: Checkout
         uses: actions/checkout@v2
-
-      - uses: satackey/action-docker-layer-caching@v0.0.8
-        continue-on-error: true
-        with:
-          # Change these to rest the cache
-          key: docker-layer-caching-deploy-2-{hash}
-          restore-keys: docker-layer-caching-deploy-2-
-          concurrency: 30
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -97,7 +92,7 @@ jobs:
 
       - name: Upload assets to s3
         run: |
-          aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress
+          aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress --cache-control max-age=31536000
 
       #########################
       #########################

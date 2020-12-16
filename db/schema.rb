@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_073537) do
+ActiveRecord::Schema.define(version: 2020_12_14_170439) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -28,6 +28,26 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_bug_reports_on_user_id"
+  end
+
+  create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_authorships_on_exercise_id_and_user_id", unique: true
+    t.index ["exercise_id"], name: "index_exercise_authorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_authorships_on_user_id"
+  end
+
+  create_table "exercise_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_contributorships_on_exercise_id_and_user_id", unique: true
+    t.index ["exercise_id"], name: "index_exercise_contributorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_contributorships_on_user_id"
   end
 
   create_table "exercise_prerequisites", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -76,9 +96,13 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
+    t.string "git_sha", null: false
+    t.string "synced_to_git_sha", null: false
+    t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_exercises_on_track_id"
+    t.index ["uuid"], name: "index_exercises_on_uuid", unique: true
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -99,6 +123,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
     t.integer "idx", limit: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "published", default: false, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -132,9 +157,13 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
   create_table "solution_mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
-    t.bigint "request_id", null: false
+    t.bigint "request_id"
+    t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "requires_mentor_action_since"
+    t.datetime "requires_student_action_since"
+    t.string "uuid", null: false
     t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_solution_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"
@@ -149,6 +178,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
     t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["locked_by_id"], name: "index_solution_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_solution_mentor_requests_on_solution_id"
   end
@@ -232,19 +262,25 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
+    t.string "blurb", null: false
+    t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_track_concepts_on_track_id"
+    t.index ["uuid"], name: "index_track_concepts_on_uuid", unique: true
   end
 
   create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title", null: false
+    t.string "blurb", limit: 400, null: false
     t.string "repo_url", null: false
+    t.string "synced_to_git_sha", null: false
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
   create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -270,6 +306,18 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
+  end
+
+  create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "twitter"
+    t.string "website"
+    t.string "github"
+    t.string "linkedin"
+    t.string "medium"
+    t.string "location"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "user_reputation_acquisitions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -307,14 +355,38 @@ ActiveRecord::Schema.define(version: 2020_12_14_073537) do
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "handle", null: false
+    t.string "name", null: false
+    t.string "provider"
+    t.string "uid"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.datetime "accepted_privacy_policy_at"
+    t.datetime "accepted_terms_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "featured_badge_id"
+    t.text "bio"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["featured_badge_id"], name: "index_users_on_featured_badge_id"
+    t.index ["handle"], name: "index_users_on_handle", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "badges", "users"
   add_foreign_key "bug_reports", "users"
+  add_foreign_key "exercise_authorships", "exercises"
+  add_foreign_key "exercise_authorships", "users"
+  add_foreign_key "exercise_contributorships", "exercises"
+  add_foreign_key "exercise_contributorships", "users"
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"

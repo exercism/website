@@ -105,7 +105,18 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  config.action_controller.asset_host = "exercism-assets-staging.s3.eu-west-2.amazonaws.com"
+  config.action_controller.asset_host = Exercism.config.website_assets_host
+
+  # SMTP setup
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name: Exercism.secrets.smtp_username,
+    password: Exercism.secrets.smtp_password,
+    address: Exercism.secrets.smtp_address,
+    domain: Exercism.secrets.smtp_address,
+    port: Exercism.secrets.smtp_port,
+    authentication: Exercism.secrets.smtp_authentication
+  }
 end
 
 Rails.application.routes.default_url_options = {

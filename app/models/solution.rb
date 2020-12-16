@@ -13,6 +13,8 @@ class Solution < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
 
+  scope :published, -> { where.not(published_at: nil) }
+
   before_create do
     # Search engines derive meaning by using hyphens
     # as word-boundaries in URLs. Since we use the
@@ -47,6 +49,18 @@ class Solution < ApplicationRecord
 
   def published?
     !!published_at
+  end
+
+  def has_unlocked_pending_mentoring_request?
+    mentor_requests.pending.unlocked.exists?
+  end
+
+  def has_locked_pending_mentoring_request?
+    mentor_requests.pending.locked.exists?
+  end
+
+  def has_in_progress_mentor_discussion?
+    mentor_discussions.in_progress.exists?
   end
 
   memoize

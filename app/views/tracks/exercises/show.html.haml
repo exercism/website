@@ -13,9 +13,12 @@
 
       .makers
         .faces
-          = rounded_bg_img("https://avatars2.githubusercontent.com/u/8953691?s=460&u=593aaf70d7708aa3a98eb0b49a212a45263bc065&v=4", "Erik SchierBOOM's uploaded avatar")
-          = rounded_bg_img("https://avatars2.githubusercontent.com/u/1964376?s=400&u=591370994dd91ec3d5f2a345252a653406858be0&v=4", "Erik SchierBOOM's uploaded avatar")
-          = rounded_bg_img("https://avatars2.githubusercontent.com/u/7852553?s=400&u=6227e3aeff0e649cce5483fca11deb3cc6481319&v=4", "Erik SchierBOOM's uploaded avatar")
+          .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path('iHiD'), "data-handle": "erikschierboom" }
+            = rounded_bg_img("https://avatars2.githubusercontent.com/u/8953691?s=460&u=593aaf70d7708aa3a98eb0b49a212a45263bc065&v=4", "Erik SchierBOOM's uploaded avatar")
+          .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path('erikschierboom'), "data-handle": "erikschierboom" }
+            = rounded_bg_img("https://avatars2.githubusercontent.com/u/1964376?s=400&u=591370994dd91ec3d5f2a345252a653406858be0&v=4", "Erik SchierBOOM's uploaded avatar")
+          .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path('kntsoriano'), "data-handle": "kntsoriano" }
+            = rounded_bg_img("https://avatars2.githubusercontent.com/u/7852553?s=400&u=6227e3aeff0e649cce5483fca11deb3cc6481319&v=4", "Erik SchierBOOM's uploaded avatar")
         .stats
           .authors 2 authors
           .contributors 4 contributors
@@ -75,7 +78,7 @@
 
             .prereqs
               - @exercise.prerequisite_exercises.each do |prereq|
-                = render ViewComponents::Widgets::Exercise.new(prereq, @user_track, large: false)
+                = render ViewComponents::Widgets::Exercise.new(prereq, @user_track, size: :small)
 
       - else
         / TODO: External state

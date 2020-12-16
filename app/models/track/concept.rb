@@ -12,11 +12,6 @@ class Track::Concept < ApplicationRecord
 
   delegate :about, :links, to: :git
 
-  # TODO: Read from git
-  def blurb
-    "C# structs are closely related to classes. They have state and behavior. They have constructors that take arguments, instances can be assigned, tested for equality and stored in collections." # rubocop:disable Layout/LineLength
-  end
-
   memoize
   def concept_exercises
     ConceptExercise.that_teach(self)

@@ -51,11 +51,15 @@ class API::SubmissionsControllerTest < API::BaseTestCase
           ),
           submit: Exercism::Routes.api_solution_iterations_url(
             Submission.last.solution.uuid,
-            submission_id: Submission.last.uuid,
-            auth_token: @current_user.auth_tokens.first.to_s
+            auth_token: @current_user.auth_tokens.first.to_s,
+            submission_id: Submission.last.uuid
           ),
           test_run: Exercism::Routes.api_submission_test_run_url(
             Submission.last.uuid,
+            auth_token: @current_user.auth_tokens.first.to_s
+          ),
+          initial_files: Exercism::Routes.api_solution_initial_files_url(
+            solution.uuid,
             auth_token: @current_user.auth_tokens.first.to_s
           )
         }

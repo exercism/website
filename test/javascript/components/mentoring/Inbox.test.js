@@ -55,7 +55,9 @@ test('page is reset to 1 when switching tracks', async () => {
   )
 
   await waitFor(() =>
-    fireEvent.change(screen.getByLabelText('Track'), { target: { value: '2' } })
+    fireEvent.change(screen.getByTestId('track-filter'), {
+      target: { value: '2' },
+    })
   )
   await waitFor(() => expect(screen.getByText('First')).toBeDisabled())
 })

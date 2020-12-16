@@ -32,14 +32,29 @@ Assuming your docker-compose is already "up," you can run the following commands
 # run rubocop to lint the codebase
 ./bin/script website lint
 
-# run rake test
+# run rails test
 ./bin/script website run-tests
 
-# run rake test:system
+# run rails test:system
 ./bin/script website run-system-tests
 
 # run yarn test
 ./bin/script website run-js-tests
+```
+
+#### Running single tests
+
+Often you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
+
+```bash
+# run rails test test/commands/track/create_test.rb
+./bin/script website run-tests test/commands/track/create_test.rb
+
+# run rails test:system test/system/components/tooltips/tooltip_test.rb
+./bin/script website run-system-tests test/system/components/tooltips/tooltip_test.rb
+
+# run yarn test test/javascript/components/student/TracksList/Track.test.js
+./bin/script website run-js-tests test/javascript/components/student/TracksList/Track.test.js
 ```
 
 ### Local setup
@@ -54,16 +69,10 @@ You need the following installed:
 - [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
 - [S3Mock](https://github.com/adobe/s3mock)
 
-Run DynamoDB on port 3040 locally:
+Run localstack for a local AWS:
 
-```
-docker run -dp 3040:8000 amazon/dynamodb-local
-```
-
-Run S3Mock on port 3041 locally:
-
-```
-docker run -dp 3041:9090 adobe/s3mock
+```bash
+docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
 ```
 
 #### Mac-Specific
@@ -81,10 +90,6 @@ CREATE USER 'exercism_v3'@'localhost' IDENTIFIED BY 'exercism_v3';
 CREATE DATABASE exercism_v3_development;
 ALTER DATABASE exercism_v3_development CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON exercism_v3_development.* TO 'exercism_v3'@'localhost';
-
-CREATE DATABASE exercism_v3_dj_development;
-ALTER DATABASE exercism_v3_dj_development CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON exercism_v3_dj_development.* TO 'exercism_v3'@'localhost';
 
 CREATE DATABASE `exercism_v3_test`;
 ALTER DATABASE `exercism_v3_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -153,7 +158,7 @@ bundle exec rubocop -a
 The tests can be run using:
 
 ```
-bundle exec rake test
+bundle exec rails test
 ```
 
 ### Git Repos

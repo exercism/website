@@ -14,11 +14,11 @@ class ToolingJob
     }
     params[:attributes_to_get] = BASIC_ATTRIBUTES unless full
 
-    new(dynamodb_client.get_item(params).item)
+    new(Exercism.dynamodb_client.get_item(params).item)
   end
 
   def self.find_queued(submission_uuid, type)
-    item = dynamodb_client.query(
+    item = Exercism.dynamodb_client.query(
       table_name: dynamodb_table_name,
       index_name: "submission_type",
       expression_attribute_values: {
@@ -39,16 +39,16 @@ class ToolingJob
     new(item)
   end
 
-  attr_reader :id, :submission_uuid, :type, :job_status, :created_at
-  attr_reader :language, :exercise, :locked_until
-  attr_reader :execution_status, :execution_metadata, :execution_output
+  attr_reader :id, :submission_uuid, :type, :job_status, :created_at,
+    :language, :exercise, :locked_until,
+    :execution_status, :execution_metadata, :execution_output
 
   def initialize(params)
     params.each { |key, value| send("#{key}=", value) }
   end
 
   def processed!
-    dynamodb_client.update_item(
+    Exercism.dynamodb_client.update_item(
       table_name: dynamodb_table_name,
       key: { id: id },
       expression_attribute_names: { "#JS": "job_status" },
@@ -58,7 +58,7 @@ class ToolingJob
   end
 
   def cancelled!
-    dynamodb_client.update_item(
+    Exercism.dynamodb_client.update_item(
       table_name: dynamodb_table_name,
       key: { id: id },
       expression_attribute_names: { "#JS": "job_status" },
@@ -80,7 +80,7 @@ class ToolingJob
   end
 
   def read_s3_file(name)
-    s3_client.get_object(
+    Exercism.s3_client.get_object(
       bucket: s3_bucket_name,
       key: "#{s3_folder}/#{name}"
     ).body.read
@@ -89,18 +89,8 @@ class ToolingJob
   end
 
   memoize
-  def self.dynamodb_client
-    ExercismConfig::SetupDynamoDBClient.()
-  end
-
-  memoize
   def self.dynamodb_table_name
     Exercism.config.dynamodb_tooling_jobs_table
-  end
-
-  memoize
-  def self.s3_client
-    ExercismConfig::SetupS3Client.()
   end
 
   memoize
@@ -113,11 +103,10 @@ class ToolingJob
     Exercism.config.aws_tooling_jobs_bucket
   end
 
-  delegate :dynamodb_client, :s3_client, :dynamodb_table_name, to: self
+  delegate :dynamodb_table_name, to: self
 
   private
-  attr_writer :id, :submission_uuid, :type, :job_status, :created_at
-  attr_writer :language, :exercise, :locked_until
-  attr_writer :execution_status, :execution_metadata, :execution_output
-  attr_writer :s3_uri
+  attr_writer :id, :submission_uuid, :type, :job_status, :created_at,
+    :language, :exercise, :locked_until,
+    :execution_status, :execution_metadata, :execution_output, :s3_uri
 end

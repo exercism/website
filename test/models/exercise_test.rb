@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class ExerciseTest < ActiveSupport::TestCase
+  test "to_slug" do
+    exercise = create :concept_exercise
+    assert_equal exercise.slug, exercise.to_param
+  end
+
   test "prerequisites works correctly" do
     exercise = create :concept_exercise
 

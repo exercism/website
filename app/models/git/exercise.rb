@@ -3,18 +3,20 @@ module Git
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
 
+    delegate :head_sha, :lookup_commit, :head_commit, to: :repo
+
     def self.for_solution(solution)
       new(
         solution.track.slug,
         solution.git_slug,
-        solution.git_sha,
-        solution.git_type
+        solution.git_type,
+        solution.git_sha
       )
     end
 
     # TODO: repo_url can be removed once we're out of a monorepo
-    def initialize(track_slug, exercise_slug, git_sha, exercise_type, repo_url: nil)
-      @repo = Repository.new(track_slug, repo_url: repo_url)
+    def initialize(track_slug, exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
+      @repo = repo || Repository.new(track_slug, repo_url: repo_url)
       @track_slug = track_slug
       @exercise_slug = exercise_slug
       @exercise_type = exercise_type
@@ -36,6 +38,14 @@ module Git
       "No example code found"
     end
 
+    def authors
+      config[:authors]
+    end
+
+    def contributors
+      config[:contributors]
+    end
+
     # Files that should be transported
     # to a user for use in the editor.
     memoize
@@ -54,12 +64,19 @@ module Git
         hash[filepath] = read_file_blob(filepath)
       end
     end
+
     # This includes meta files
     memoize
     def non_ignored_filepaths
       filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         !filepath.match?(track.ignore_regexp)
       end
+    end
+
+    # This includes meta files
+    memoize
+    def non_ignored_absolute_filepaths
+      non_ignored_filepaths.map { |filepath| full_filepath(filepath) }
     end
 
     def read_file_blob(filepath)
@@ -69,6 +86,10 @@ module Git
 
     private
     attr_reader :repo, :track_slug, :exercise_slug, :git_sha, :exercise_type
+
+    def full_filepath(filepath)
+      "#{dir}/#{filepath}"
+    end
 
     def filepaths
       file_entries.map { |defn| defn[:full] }
@@ -88,7 +109,12 @@ module Git
     def tree
       # TODO: When things are exploded back into repos, do this
       # repo.fetch_tree(commit, "exercises/#{exercise_type}/#{slug}")
-      repo.fetch_tree(commit, "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}")
+      repo.fetch_tree(commit, dir)
+    end
+
+    def dir
+      # TODO: Needs changing once we're out of the monorepo
+      "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}"
     end
 
     memoize

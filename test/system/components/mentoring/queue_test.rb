@@ -9,30 +9,22 @@ module Components
       test "shows correct information" do
         visit test_components_mentoring_queue_url
 
-        row = {
-          "Track icon" => lambda {
-            assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-          },
-          "Mentee avatar" => -> { assert_css "img[src='https://robohash.org/exercism'][alt='avatar for mentee']" },
-          "Mentee handle" => "mentee",
-          "Exercise title" => "Series",
-          "Starred?" => "true",
-          "Mentored previously?" => "true",
-          "Status" => "First timer",
-          "Updated at" => "a year ago",
-          "URL" => "https://exercism.io/solutions/1"
-        }
-
-        assert_table_row first("table"), row
+        assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
+        assert_css "img[src='https://robohash.org/exercism'][alt=\"mentee's uploaded avatar\"]"
+        assert_text "mentee"
+        assert_text "on Series"
+        assert_text "First timer"
+        assert_text "a year ago"
+        assert_link "", href: "https://exercism.io/solutions/1"
+        assert_css "title", text: "Starred student", visible: false
+        assert_css ".dot"
       end
 
       test "paginates results" do
         visit test_components_mentoring_queue_url
         click_on "2"
 
-        row = { "Exercise title" => "Tournament" }
-
-        assert_table_row first("table"), row
+        assert_text "on Tournament"
       end
 
       test "shows error messages" do
@@ -48,27 +40,22 @@ module Components
         select "Loading", from: "State"
         click_on "Submit"
 
-        within(".mentoring-queue") { assert_text "Loading" }
+        within(".c-mentor-queue") { assert_text "Loading" }
       end
 
       test "filter by query" do
         visit test_components_mentoring_queue_url
         fill_in "Filter by student name", with: "Use"
 
-        row = { "Mentee handle" => "User 2" }
-
-        assert_table_row first("table"), row
-
-        assert_selector('.mentoring-queue tbody tr', count: 1)
+        assert_text "User 2"
+        assert_selector(".--solution", count: 1)
       end
 
       test "sort by student" do
         visit test_components_mentoring_queue_url
-        select "Sort by Student", from: "Sort", exact: true
+        select "Sort by Student", from: "mentoring-queue-sorter", exact: true
 
-        row = { "Mentee handle" => "Frank" }
-
-        assert_table_row first("table"), row
+        assert_text "Frank"
       end
     end
   end

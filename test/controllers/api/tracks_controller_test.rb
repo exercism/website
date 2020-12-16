@@ -5,9 +5,9 @@ class API::TracksControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
 
-    track_1 = create :track, title: "Ruby #{SecureRandom.uuid}"
-    track_2 = create :track, title: "JS #{SecureRandom.uuid}"
-    create :track, title: "Ruby #{SecureRandom.uuid}"
+    track_1 = create :track, slug: :ruby, title: "Ruby Joined"
+    track_2 = create :track, slug: :js, title: "JS FOobar"
+    create :track, slug: :ruby_unjoined, title: "Ruby Unjoined"
 
     create :user_track, user: user, track: track_1
     create :user_track, user: user, track: track_2
@@ -22,9 +22,10 @@ class API::TracksControllerTest < API::BaseTestCase
     assert_equal expected, response.body
   end
 
-  test "show should return 401 with incorrect token" do
-    get api_track_path(1), as: :json
-    assert_response 401
+  test "show should work without token" do
+    track = create :track, title: "Ruby #{SecureRandom.uuid}"
+    get api_track_path(track.slug), as: :json
+    assert_response 200
   end
 
   test "show should return 404 when there is no track" do

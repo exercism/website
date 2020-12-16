@@ -1,5 +1,25 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
+  authenticate :user, ->(user) { user.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  # #### #
+  # Auth #
+  # #### #
+  devise_for :users, controllers: {
+    sessions: "auth/sessions",
+    registrations: "auth/registrations",
+    omniauth_callbacks: "auth/omniauth_callbacks",
+    confirmations: "auth/confirmations",
+    passwords: "auth/passwords"
+  }
+
+  devise_scope :user do
+    get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
+  end
 
   # ### #
   # API #
@@ -21,6 +41,18 @@ Rails.application.routes.draw do
       resources :solution, only: [] do
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
       end
+
+      resources :mentor_requests, only: %i[index] do
+        member do
+          patch :lock
+        end
+      end
+
+      resources :mentor_discussions, only: %i[index create] do
+        get :tracks, on: :collection # TODO: Remove this
+        resources :posts, only: %i[create], controller: "mentor_discussion_posts"
+      end
+
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
@@ -40,9 +72,31 @@ Rails.application.routes.draw do
     resources :tooling_jobs, only: :update
   end
 
+  # ######## #
+  # Webhooks #
+  # ######## #
+  namespace :webhooks do
+    resource :repo_updates, only: [:create]
+  end
+
   # ############ #
   # Normal pages #
   # ############ #
+
+  resources :profiles, only: [:show] do
+    member do
+      get :tooltip
+    end
+  end
+
+  namespace :mentor do
+    get "/", to: redirect("mentor/dashboard")
+    resource :dashboard, only: [:show], controller: "dashboard"
+    resources :requests, only: [:show] do
+      get :unavailable, on: :member
+    end
+    resources :discussions, only: [:show]
+  end
 
   namespace :maintaining do
     resources :submissions, only: [:index]
@@ -53,13 +107,16 @@ Rails.application.routes.draw do
       get :tooltip, on: :member
     end
 
-    resources :exercises, only: %i[index show], controller: "tracks/exercises" do
+    resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         patch :start
         patch :complete
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
+
+      resources :mentoring, only: [:index], controller: "tracks/mentoring"
+      resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
     end
 
     member do
@@ -67,7 +124,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :solutions, only: %i[edit]
+  resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
 
   root to: "pages#index"
 
@@ -109,9 +166,7 @@ Rails.application.routes.draw do
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
-        namespace :notifications do
-          resource :icon, only: %i[show update], controller: "icon"
-        end
+        resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :queue, controller: "queue", only: [:show] do
             get 'solutions', on: :member

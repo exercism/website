@@ -1,0 +1,28 @@
+#page-auth
+  %section.form-section
+    = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
+    %p.tagline Code practice and mentorship for everyone
+
+    = link_to omniauth_authorize_path(:user, :github), class: "btn-large github-btn" do
+      = graphical_icon 'external-site-github'
+      Log In with GitHub
+
+    .divider
+      %span or
+
+    = flash_messages
+
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .field
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Enter your email address"
+      .field
+        = f.label :password
+        = f.password_field :password, autocomplete: "current-password", placeholder: "Enter your email address"
+        = link_to "Forgot your password?", new_password_path(resource_name), class: 'forgotten-password'
+
+      = f.button "Log In", class: 'btn-large-cta'
+
+    = render "devise/shared/links"
+
+  = render "devise/shared/information"

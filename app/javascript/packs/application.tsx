@@ -16,6 +16,7 @@ import '../../css/application.css'
 import '../../css/layout.css'
 import '../../css/site-header.css'
 
+import '../../css/components/badge.css'
 import '../../css/components/bg-img.css'
 import '../../css/components/concept.css'
 import '../../css/components/concept-icon.css'
@@ -23,17 +24,29 @@ import '../../css/components/concept-progress-bar.css'
 import '../../css/components/copy-text-to-clipboard.css'
 import '../../css/components/details.css'
 import '../../css/components/file-editor.css'
+import '../../css/components/flash.css'
+import '../../css/components/icon.css'
 import '../../css/components/iteration-summary.css'
+
+import '../../css/components/notification.css'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'
+import '../../css/components/primary-reputation.css'
 import '../../css/components/tab.css'
 import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
+import '../../css/components/pagination.css'
 import '../../css/components/tooltips/concept.css'
-import '../../css/components/tooltips/user-summary.css'
+import '../../css/components/tooltips/user.css'
 import '../../css/components/user_activity.css'
 
-import '../../css/components/widgets/exercise.css'
+import '../../css/components/mentor/nav.css'
+import '../../css/components/mentor/inbox.css'
+import '../../css/components/mentor/queue.css'
+import '../../css/components/mentor/solution-row.css'
+import '../../css/components/mentor/sorter.css'
+import '../../css/components/mentor/text-filter.css'
+import '../../css/components/mentor/discussion.css'
 
 import '../../css/components/track/generic-nav.css'
 import '../../css/components/track/top-level-nav.css'
@@ -42,8 +55,12 @@ import '../../css/components/track/exercise-nav.css'
 import '../../css/components/track/icon.css'
 import '../../css/components/track/concept-map.css'
 
+import '../../css/components/widgets/exercise.css'
+
+import '../../css/pages/auth.css'
 import '../../css/pages/editor.css'
-import '../../css/pages/staging.css'
+import '../../css/pages/profile.css'
+import '../../css/pages/staging.css' // TODO: Remove for launch
 import '../../css/pages/track-shared-index.css'
 import '../../css/pages/concepts-index.css'
 import '../../css/pages/concept-show.css'
@@ -52,12 +69,12 @@ import '../../css/pages/exercises-index.css'
 import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
+import '../../css/pages/mentor/dashboard'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
-import * as Notifications from '../components/notifications'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
@@ -75,8 +92,8 @@ initReact({
   'maintaining-submissions-summary-table': (data: any) => (
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
   ),
-  'notifications-icon': (data: any) => (
-    <Notifications.Icon count={data.count} />
+  'common-notifications-icon': (data: any) => (
+    <Common.NotificationsIcon count={data.count} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
@@ -105,7 +122,7 @@ initReact({
         levels={mapData.levels}
         connections={mapData.connections}
         status={mapData.status}
-        exercise_counts={mapData.exercise_counts}
+        exerciseCounts={mapData.exerciseCounts}
       />
     )
   },
@@ -133,8 +150,14 @@ initReact({
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
-  'user-summary-tooltip': (data: any) => (
-    <Tooltips.UserSummary endpoint={data.endpoint} />
+  'user-tooltip': (data: any, elem: HTMLElement) => (
+    <Tooltips.UserTooltip
+      contentEndpoint={data.endpoint}
+      referenceElement={elem}
+      referenceUserHandle={data.handle}
+      hoverRequestToShow={true}
+      focusRequestToShow={true}
+    />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

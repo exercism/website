@@ -1,18 +1,57 @@
+puts "Creating User iHiD"
+iHiD = User.find_by(handle: 'iHiD') || User.create!(
+  handle: 'iHiD', 
+  email: 'ihid@exercism.io', 
+  name: 'Jeremy Walker', 
+  password: 'password',
+  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+)
+iHiD.confirm
+iHiD.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
+auth_token = iHiD.auth_tokens.create!
+
+iHiD.create_profile(
+  location: "Bree, Middle Earth",
+  github: "iHiD",
+  twitter: "iHiD",
+  linkedin: "iHiD",
+  medium: "iHiD",
+  website: "https://ihid.info"
+)
+
+puts "Creating User erikSchierboom"
+erik = User.find_by(handle: 'erikSchierboom') || User.create!(
+  handle: 'erikSchierboom', 
+  email: 'erik@exercism.io', 
+  name: 'Erik Schierboom', 
+  password: 'password',
+  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+)
+
+puts "Creating User kntsoriano"
+karlo = User.find_by(handle: 'kntsoriano') || User.create!(
+  handle: 'kntsoriano', 
+  email: 'karlo@exercism.io', 
+  name: 'Karlo Soriano', 
+  password: 'password',
+  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+)
+
+
 
 # This is all temporary and horrible while we have a monorepo
-v3_url = "https://github.com/exercism/v3"
-repo = Git::Track.new(:ruby, repo_url: v3_url)
+repo_url = "https://github.com/exercism/v3"
+repo = Git::Repository.new(:v3, repo_url: repo_url)
 
-# This updates it once before we stub it below
-repo.send(:repo).update!
-repo.send(:repo).send(:rugged_repo)
+# This fetches it once before we stub it below
+repo.fetch!
+repo.send(:rugged_repo)
 
 # Adding this is many OOM faster. It's horrible and temporary
 # but useful for now
 module Git
   class Repository
-    def rugged_repo
-      Rugged::Repository.new(repo_dir)
+    def fetch!
     end
   end
 end
@@ -67,83 +106,89 @@ tags = [
 ]
 
 track_slugs = []
-repo = Git::Repository.new(:v3, repo_url:"https://github.com/exercism/v3")
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
 
-track_slugs.each do |track_slug|
-  if Track.find_by(slug: track_slug)
-    puts "Track already added: #{track_slug}"
-    next
-  end
-
-  puts "Adding Track: #{track_slug}"
-  track = Track.create!(
-    slug: track_slug, 
-    title: track_slug.titleize, 
-    repo_url: v3_url,
-
-    # Randomly selects 1-5 tags from different categories
-    tags: tags.sample(1 + rand(5)).map {|category|category.sample}
-  )
-
-  begin
-    #track.update(title: track.repo.config[:language])
-    track.send(:git).config[:exercises][:concept].each do |exercise_config|
-      ce = ConceptExercise.create!(
-        track: track,
-        uuid: (exercise_config[:uuid].presence || SecureRandom.compact_uuid),
-        slug: exercise_config[:slug],
-        title: exercise_config[:slug].titleize,
-      )
-      
-      exercise_config[:prerequisites].each do |slug|
-        ce.prerequisites << Track::Concept.find_or_create_by!(
-          slug: slug, 
-          track: track
-        ) do |c|
-          c.uuid = SecureRandom.uuid
-          c.name = slug.titleize
-        end
-      end
-      
-      exercise_config[:concepts].each do |slug|
-        ce.taught_concepts << Track::Concept.find_or_create_by!(
-          slug: slug, 
-          track: track
-        ) do |c|
-          c.uuid = SecureRandom.uuid
-          c.name = slug.titleize
-        end
-      end
-    end
-  rescue => e
-    #puts e.message
-    #puts e.backtrace
-    puts "Error creating concept exercises for Track #{track_slug}: #{e}"
-  end
+# Find the first commit in the repo
+first_commit = repo.head_commit
+Rugged::Walker.walk(repo.send(:rugged_repo),
+  show: repo.head_commit.oid,
+  sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
+  simplify: true
+) do |commit|
+  first_commit = commit
 end
 
+track_slugs.each do |track_slug|
+  puts "Adding Track: #{track_slug}"
 
-puts "Creating User iHiD"
-user = User.create!(handle: 'iHiD') unless User.find_by(handle: 'iHiD')
-UserTrack.create!(user: user, track: Track.find_by_slug!("ruby"))
-auth_token = user.auth_tokens.create!
+  begin
+    git_track = Git::Track.new(track_slug, repo.head_commit.oid, repo_url: repo_url)
+    track = Track::Create.(
+      track_slug, 
+      title: git_track.config[:language],
+      blurb: git_track.config[:blurb],
+      repo_url: repo_url,
+      synced_to_git_sha: first_commit.oid,
+      # Randomly selects 1-5 tags from different categories
+      tags: tags.sample(1 + rand(5)).map {|category|category.sample}
+    )
+    Git::SyncTrack.(track)
+  rescue StandardError => e
+    # puts e.message
+    # puts e.backtrace
+    puts "Error seeding Track #{track_slug}: #{e}"
+  end
+end
 
 puts ""
 puts "To use the CLI locally, run: "
 puts "exercism configure -a http://localhost:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
-=begin
-concept_exercise = ConceptExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "numbers", prerequisites: [], title: "numbers")
-practice_exercise = PracticeExercise.create!(track: track, uuid: SecureRandom.uuid, slug: "bob", prerequisites: [], title: "bob")
-concept_solution = ConceptSolution.create!(exercise: concept_exercise, user: user, uuid: SecureRandom.uuid)
-practice_solution = PracticeSolution.create!(exercise: practice_exercise, user: user, uuid: SecureRandom.uuid)
-
-Submission.create!(
-  solution: concept_solution,
+ruby = Track.find_by_slug(:ruby)
+UserTrack.create!(user: iHiD, track: ruby)
+solution = Solution::Create.(
+  iHiD, 
+  ruby.concept_exercises.find_by!(slug: "lasagna")
+)
+submission = Submission.create!(
+  solution: solution,
   uuid: SecureRandom.uuid,
   submitted_via: "cli"
 )
-=end
+submission.files.create!(
+  filename: "lasagna.rb",
+  content: "class Lasagna\nend",
+  digest: SecureRandom.uuid
+)
+Iteration.create!(
+  submission: submission,
+  solution: solution,
+  idx: 1
+)
+
+Solution::Publish.(solution, [])
+
+## Create mentoring solutions
+UserTrack.create!(user: erik, track: ruby)
+solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
+submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
+Iteration.create!( submission: submission, solution: solution, idx: 1)
+Solution::MentorRequest.create!(solution: solution, type: :code_review)
+
+## Create mentoring solutions
+UserTrack.create!(user: karlo, track: ruby)
+solution = Solution::Create.( karlo, ruby.concept_exercises.find_by!(slug: "lasagna"))
+submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
+Iteration.create!( submission: submission, solution: solution, idx: 1)
+
+submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\n\nend", digest: SecureRandom.uuid)
+Iteration.create!( submission: submission, solution: solution, idx: 2)
+
+req = Solution::MentorRequest.create!(solution: solution, type: :code_review)
+discussion = Solution::MentorDiscussion.create!(request: req, solution: solution, mentor: iHiD)
+p "Discussion: #{discussion.uuid}"

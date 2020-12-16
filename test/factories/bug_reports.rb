@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :bug_reports do
+  factory :bug_report do
     user { create :user }
     content_markdown { "report" }
   end

@@ -9,7 +9,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
 
       # TODO: Test via the db rather than mocks
       client = mock
-      ExercismConfig::SetupDynamoDBClient.expects(:call).returns(client)
+      Exercism.expects(:dynamodb_client).returns(client)
       client.expects(:put_item).with(
         table_name: Exercism.config.dynamodb_tooling_jobs_table,
         item: {

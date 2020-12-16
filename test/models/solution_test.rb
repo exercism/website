@@ -52,12 +52,19 @@ class SolutionTest < ActiveSupport::TestCase
     assert create(:concept_solution, published_at: Time.current).published?
   end
 
-  test ".completed and .uncompleted" do
+  test ".completed and .uncompleted scopes" do
     completed = create :concept_solution, completed_at: Time.current
     not_completed = create :concept_solution, completed_at: nil
 
     assert_equal [completed], Solution.completed
     assert_equal [not_completed], Solution.not_completed
+  end
+
+  test ".published scope" do
+    published = create(:concept_solution, published_at: Time.current)
+    create(:concept_solution, published_at: nil)
+
+    assert [published], Solution.published
   end
 
   test ".for" do
@@ -94,5 +101,53 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: bob
 
     assert_equal({ "bob.rb" => "stub content\n" }, solution.initial_files)
+  end
+
+  test "has_in_progress_mentor_discussion" do
+    solution = create :concept_solution
+
+    # No discussion
+    refute solution.reload.has_in_progress_mentor_discussion?
+
+    # In progress discussion
+    discussion = create :solution_mentor_discussion, solution: solution, completed_at: nil
+    assert solution.reload.has_in_progress_mentor_discussion?
+
+    # Completed discussion
+    discussion.update!(completed_at: Time.current)
+    refute solution.reload.has_in_progress_mentor_discussion?
+  end
+
+  test "has_pending_mentoring_requests" do
+    solution = create :concept_solution
+
+    # No request
+    refute solution.reload.has_unlocked_pending_mentoring_request?
+    refute solution.reload.has_locked_pending_mentoring_request?
+
+    # No lock
+    request = create :solution_mentor_request, locked_until: nil, solution: solution
+    assert solution.reload.has_unlocked_pending_mentoring_request?
+    refute solution.reload.has_locked_pending_mentoring_request?
+
+    # Expired Lock
+    request.update(locked_by: create(:user), locked_until: Time.current - 5.minutes)
+    assert solution.reload.has_unlocked_pending_mentoring_request?
+    refute solution.reload.has_locked_pending_mentoring_request?
+
+    # Current Lock
+    request.update(locked_by: create(:user), locked_until: Time.current + 5.minutes)
+    refute solution.reload.has_unlocked_pending_mentoring_request?
+    assert solution.reload.has_locked_pending_mentoring_request?
+
+    # Fulfilled
+    request.update(status: :fulfilled)
+    refute solution.reload.has_unlocked_pending_mentoring_request?
+    refute solution.reload.has_locked_pending_mentoring_request?
+
+    # Cancelled
+    request.update(status: :cancelled)
+    refute solution.reload.has_unlocked_pending_mentoring_request?
+    refute solution.reload.has_locked_pending_mentoring_request?
   end
 end

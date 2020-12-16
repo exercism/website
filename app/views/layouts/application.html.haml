@@ -10,7 +10,8 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }
-    %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url(auth_token: current_user.auth_tokens.first.to_s) }
+    - if user_signed_in?
+      %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url(auth_token: current_user.auth_tokens.first.to_s) }
 
     // TODO - Remove any unused weights
     %link{ href: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap", rel: "stylesheet" }
@@ -20,32 +21,55 @@
 
     = yield
 
-    / TODO: Turn this into a font
-    .hidden
-      <svg>
-      = render("icons/misc")
-      = render("icons/clipboard")
-      = render("icons/completed_check_circle")
-      = render("icons/bubbly_background")
-      = render("icons/sample_exercise_rocket")
-      = render("icons/sample_exercise_butterflies")
-      = render("icons/sample_track")
-      = render("icons/graphic_laptop_man_1")
-      = render("icons/graphic_forest")
-      = render("icons/exercism_with_logo_black")
-      = render("icons/features")
-      = render("icons/pulse")
-      = render("icons/exercism_face")
-      = render("icons/iteration")
-      = render("icons/updates")
-      = render("icons/keyboard")
-      = render("icons/settings")
-      = render("icons/more_horizontal")
-      = render("icons/run_tests")
-      = render("icons/tests")
-      = render("icons/test_results")
-      = render("icons/passed_check_circle")
-      = render("icons/failed_check_circle")
-      = render("icons/skipped_check_circle")
-      </svg>
+    - if user_signed_in?
+      = button_to "Log out", destroy_user_session_path, method: :delete
 
+    / TODO: Turn this into a font
+    <svg style="height:0px;">
+    = render "icons/misc"
+    = render "icons/clipboard"
+    = render "icons/completed_check_circle"
+    = render "icons/bubbly_background"
+    = render "icons/sample_exercise_rocket"
+    = render "icons/sample_exercise_butterflies"
+    = render "icons/sample_track"
+    = render "icons/graphic_laptop_man_1"
+    = render "icons/graphic_forest"
+    = render "icons/exercism_with_logo_black"
+    = render "icons/features"
+    = render "icons/pulse"
+    = render "icons/exercism_face"
+    = render "icons/iteration"
+    = render "icons/updates"
+    = render "icons/keyboard"
+    = render "icons/settings"
+    = render "icons/more_horizontal"
+    = render "icons/more_vertical"
+    = render "icons/run_tests"
+    = render "icons/tests"
+    = render "icons/test_results"
+    = render "icons/search"
+    = render "icons/star"
+    = render "icons/gold_star"
+    = render "icons/stars"
+    = render "icons/comment"
+    = render "icons/guides"
+    = render "icons/testimonials"
+    = render "icons/external_site_github"
+    = render "icons/external_site_twitter"
+    = render "icons/external_site_linkedin"
+    = render "icons/maintaining"
+    = render "icons/badge_indicator"
+    = render "icons/guidance"
+    = render "icons/scratchpad"
+    = render "icons/clock"
+    = render "icons/run_tests"
+    = render "icons/tests"
+    = render "icons/test_results"
+    = render "icons/passed_check_circle"
+    = render "icons/failed_check_circle"
+    = render "icons/skipped_check_circle"
+    </svg>
+
+/ TODO: Add test for this!
+- flash.clear

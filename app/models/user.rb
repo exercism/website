@@ -1,5 +1,13 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :lockable, :timeoutable
+  devise :database_authenticatable, :registerable,
+    :recoverable, :rememberable,
+    :confirmable, :validatable,
+    :omniauthable, omniauth_providers: [:github]
   has_many :auth_tokens, dependent: :destroy
+
+  has_one :profile, dependent: :destroy
 
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
@@ -18,11 +26,30 @@ class User < ApplicationRecord
   belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
   has_one :featured_badge, through: :featured_user_badge
 
+  has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
+  has_many :authored_exercises, through: :authorships, source: :exercise
+
+  has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
+  has_many :contributed_exercises, through: :contributorships, source: :exercise
+
+  # TODO: Validate presence of name
+
+  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
+
+  before_create do
+    self.name = self.handle if self.name.blank?
+  end
+
   def self.for!(param)
     return param if param.is_a?(User)
     return find_by!(id: param) if param.is_a?(Numeric)
 
     find_by!(handle: param)
+  end
+
+  # TODO: Move this to the database
+  def admin?
+    true
   end
 
   def reputation(track_slug: nil, category: nil)
@@ -47,5 +74,15 @@ class User < ApplicationRecord
   # TODO: This needs fleshing out for mentors
   def may_view_solution?(solution)
     id == solution.user_id
+  end
+
+  def onboarded?
+    accepted_privacy_policy_at.present? &&
+      accepted_terms_at.present?
+  end
+
+  # TODO
+  def avatar_url
+    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
   end
 end

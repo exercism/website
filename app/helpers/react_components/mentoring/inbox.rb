@@ -1,8 +1,8 @@
 module ReactComponents
   module Mentoring
     class Inbox < ReactComponent
-      def initialize(conversations_request = default_conversations_request, tracks_request = default_tracks_request)
-        @conversations_request = conversations_request
+      def initialize(discussions_request = default_discussions_request, tracks_request = default_tracks_request)
+        @discussions_request = discussions_request
         @tracks_request = tracks_request
       end
 
@@ -10,7 +10,8 @@ module ReactComponents
         super(
           "mentoring-inbox",
           {
-            conversations_request: conversations_request,
+            # TODO: Rename to discussions
+            conversations_request: discussions_request,
             tracks_request: tracks_request,
             sort_options: SORT_OPTIONS
           }
@@ -25,16 +26,14 @@ module ReactComponents
       private_constant :SORT_OPTIONS
 
       private
-      attr_reader :conversations_request, :tracks_request
+      attr_reader :discussions_request, :tracks_request
 
-      def default_conversations_request
-        # TODO: Change this to the actual endpoint, not the test endpoint
-        { endpoint: Exercism::Routes.conversations_test_components_mentoring_inbox_path }
+      def default_discussions_request
+        { endpoint: Exercism::Routes.api_mentor_discussions_path }
       end
 
       def default_tracks_request
-        # TODO: Change this to the actual endpoint, not the test endpoint
-        { endpoint: Exercism::Routes.tracks_test_components_mentoring_inbox_path }
+        { endpoint: Exercism::Routes.tracks_api_mentor_discussions_path }
       end
     end
   end

@@ -14,6 +14,7 @@ class Track < ApplicationRecord
 
   delegate :test_regexp,
     :ignore_regexp,
+    :key_features,
     to: :git
 
   delegate :head_sha, to: :git, prefix: :git
@@ -39,9 +40,5 @@ class Track < ApplicationRecord
   # TODO: Set this properly
   def icon_url
     "https://assets.exercism.io/tracks/ruby-hex-white.png"
-  end
-
-  def key_features
-    git.key_features.to_a
   end
 end

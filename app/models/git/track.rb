@@ -23,7 +23,7 @@ module Git
     end
 
     def key_features
-      config[:key_features]
+      config[:key_features].to_a
     end
 
     memoize

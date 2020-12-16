@@ -22,7 +22,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # As we only use #page- prefix on ids for pages
   # this is a safe way of checking we've been positioned
   # on the right page during tests
-  def assert_correct_page(page)
+  def assert_page(page)
     assert_css "#page-#{page}"
   end
 

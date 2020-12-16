@@ -1,14 +1,15 @@
-%h1 Onboarding
+#page-onboarding
+  %h1 Onboarding
 
-%ul
-  - @onboarding.errors.full_messages.each do |message|
-    %li= message
+  %ul
+    - @onboarding.errors.full_messages.each do |message|
+      %li= message
 
-= form_with model: @onboarding, url: user_onboarding_path do |f|
-  = f.check_box :terms_of_service, required: true
-  = f.label :terms_of_service, "Accept Terms of Service"
+  = form_with model: @onboarding, url: user_onboarding_path do |f|
+    = f.check_box :terms_of_service, required: true
+    = f.label :terms_of_service, "Accept Terms of Service"
 
-  = f.check_box :privacy_policy, required: true
-  = f.label :privacy_policy, "Accept Privacy Policy"
+    = f.check_box :privacy_policy, required: true
+    = f.label :privacy_policy, "Accept Privacy Policy"
 
-  = f.button "Submit"
+    = f.button "Submit"

@@ -8,8 +8,8 @@ class User
       initialize_with :action, :github_username, :params
 
       def call
-        award_reputation_to_author
-        award_reputation_to_reviewers
+        award_reputation_to_author if merged?
+        award_reputation_to_reviewers if closed?
       end
 
       private
@@ -24,8 +24,6 @@ class User
       end
 
       def award_reputation_to_reviewers
-        return unless closed?
-
         reviews = octokit_client.pull_request_reviews(repo, number)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
 
@@ -37,6 +35,10 @@ class User
         # TODO: consider what to do with missing reviewers
         missing_reviewers = reviewer_usernames - reviewers.map(&:handle)
         Rails.logger.error "Missing reviewers: #{missing_reviewers.join(', ')}" if missing_reviewers.present?
+      end
+
+      def merged?
+        params[:merged].present? && params[:merged]
       end
 
       def closed?

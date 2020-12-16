@@ -7,7 +7,8 @@ module Webhooks
         labels: labels,
         state: state,
         number: number,
-        repo: repo)
+        repo: repo,
+        merged: merged?)
 
       head :no_content
     end
@@ -44,6 +45,10 @@ module Webhooks
 
     def repo
       params[:repository][:full_name]
+    end
+
+    def merged?
+      params[:pull_request][:merged]
     end
   end
 end

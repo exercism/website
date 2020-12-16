@@ -12,7 +12,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         html_url: 'https://github.com/exercism/v3/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
-        number: 4
+        number: 4,
+        merged: true
       },
       repository: {
         full_name: 'exercism/v3'
@@ -37,7 +38,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         html_url: 'https://github.com/exercism/v3/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
-        number: 4
+        number: 4,
+        merged: true
       },
       repository: {
         full_name: 'exercism/v3'
@@ -59,7 +61,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         html_url: 'https://github.com/exercism/v3/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
-        number: 4
+        number: 4,
+        merged: true
       },
       repository: {
         full_name: 'exercism/v3'
@@ -71,7 +74,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       labels: %w[bug duplicate],
       state: 'open',
       repo: 'exercism/v3',
-      number: 4)
+      number: 4,
+      merged: true)
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -87,7 +91,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         html_url: 'https://github.com/exercism/v3/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
-        number: 4
+        number: 4,
+        merged: true
       },
       repository: {
         full_name: 'exercism/v3'

@@ -271,7 +271,7 @@ export function Editor({
 
     abort()
     sendRequest({
-      endpoint: submission.links.files,
+      endpoint: submission.links.initialFiles,
       body: null,
       method: 'GET',
       isMountedRef: isMountedRef,

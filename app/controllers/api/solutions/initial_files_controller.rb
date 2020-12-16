@@ -1,10 +1,10 @@
 module API
   module Solutions
-    class OriginalSolutionFilesController < BaseController
+    class InitialFilesController < BaseController
       def index
         solution = current_user.solutions.find_by!(uuid: params[:solution_id])
 
-        files = SerializeFiles.(solution.original_solution_files)
+        files = SerializeFiles.(solution.initial_files)
 
         render json: { files: files }
       end

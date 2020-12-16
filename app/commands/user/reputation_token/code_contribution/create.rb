@@ -4,7 +4,7 @@ class User
       class Create
         include Mandate
 
-        initialize_with :user, :external_link, :repo, :pr_id, :reason
+        initialize_with :user, :reason, :repo, :pr_id, :external_link
 
         def call
           reputation_token = User::ReputationToken.create_or_find_by!(

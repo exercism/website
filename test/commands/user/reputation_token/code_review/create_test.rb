@@ -7,7 +7,7 @@ class User::ReputationToken::CodeReview::CreateTest < ActiveSupport::TestCase
     pr_id = 1347
     user = create :user, handle: "User22", github_username: "user22"
 
-    User::ReputationToken::CodeReview::Create.(user, external_link, repo, pr_id)
+    User::ReputationToken::CodeReview::Create.(user, repo, pr_id, external_link)
 
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
@@ -26,7 +26,7 @@ class User::ReputationToken::CodeReview::CreateTest < ActiveSupport::TestCase
     user = create :user, handle: "User22", github_username: "user22"
 
     assert_idempotent_command do
-      User::ReputationToken::CodeReview::Create.(user, external_link, repo, pr_id)
+      User::ReputationToken::CodeReview::Create.(user, repo, pr_id, external_link)
     end
   end
 end

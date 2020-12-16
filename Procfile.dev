@@ -1,4 +1,5 @@
 server: bin/rails server -p 3020
 assets: bin/webpack-dev-server
-anycable: RAILS_ENV=development bundle exec anycable --server-command "anycable-go --host=localhost --port 3334"
+anycable: bundle exec anycable
 sidekiq: bundle exec sidekiq
+ws: anycable-go --host=local.exercism.io --port 3334

@@ -8,7 +8,7 @@ gem 'rails', '~> 6.1.0'
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
-gem 'anycable-rails', '~> 0.6' # , "~> 1.0.0.rc1"
+gem 'anycable-rails', '~> 1.0.4'
 
 # Serving requests
 gem 'puma', '~> 4.1'
@@ -26,7 +26,7 @@ gem 'mandate', '0.4.0.beta.1'
 gem 'kaminari'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.57.0'
+gem 'exercism-config', '>= 0.60.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
@@ -43,7 +43,7 @@ gem 'commonmarker'
 gem 'ansi-to-html'
 
 # Authentication
-gem 'devise'
+gem 'devise', '~> 4.7.1'
 
 # Omniauth
 gem 'omniauth-github'

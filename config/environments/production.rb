@@ -1,8 +1,9 @@
 Rails.application.configure do
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
-    config.action_cable.url = ActionCable.server.config.url = "#{Exercism.config.websockets_url}/cable"
-    # config.action_cable.allowed_request_origins = %r{http://localhost.*} # May need this
+    if AnyCable::Rails.enabled?
+      config.action_cable.url = ActionCable.server.config.url = "#{Exercism.config.websockets_url}/cable"
+    end
   end
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -74,7 +75,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Use a different logger for distributed setups.
-  logger           = ActiveSupport::Logger.new(STDOUT)
+  logger           = ActiveSupport::Logger.new($stdout)
   logger.formatter = config.log_formatter
   config.logger    = ActiveSupport::TaggedLogging.new(logger)
 

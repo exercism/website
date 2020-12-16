@@ -60,7 +60,7 @@ class Solution < ApplicationRecord
   end
 
   def initial_files
-    git_exercise.editor_solution_files
+    exercise.editor_solution_files
   end
 
   def editor_solution_files

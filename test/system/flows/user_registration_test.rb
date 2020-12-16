@@ -65,6 +65,31 @@ module Flows
       OmniAuth.config.test_mode = false
     end
 
+    test "user registers via Github, onboards, and is redirected to the correct page" do
+      track = create :track, title: "Ruby"
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
+        provider: "github",
+        uid: "111",
+        info: {
+          email: "user@exercism.io",
+          name: "Name",
+          nickname: "user22"
+        }
+      )
+      visit track_path(track)
+      click_on "Join The Ruby Track"
+      visit new_user_registration_path
+      click_on "Sign Up with GitHub"
+      check "Accept Terms of Service"
+      check "Accept Privacy Policy"
+      click_on "Submit"
+
+      assert_text "Join The Ruby Track"
+    ensure
+      OmniAuth.config.test_mode = false
+    end
+
     test "user sees errors when registering via Github" do
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(

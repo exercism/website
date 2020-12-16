@@ -1,5 +1,6 @@
 class UserOnboardingController < ApplicationController
   skip_before_action :ensure_onboarded!
+  skip_before_action :store_user_location!
 
   def show
     @onboarding = UserOnboardingForm.new

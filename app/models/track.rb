@@ -12,9 +12,7 @@ class Track < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  delegate :test_regexp,
-    :ignore_regexp,
-    :key_features,
+  delegate :test_regexp, :ignore_regexp, :key_features,
     to: :git
 
   delegate :head_sha, to: :git, prefix: :git

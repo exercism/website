@@ -12,7 +12,7 @@ class User
             context_key: "authored_exercise/#{authorship.exercise.uuid}"
           ) do |rt|
             rt.context = authorship
-            rt.reason = 'authored_exercise'
+            rt.reason = :authored_exercise
             rt.category = :authoring
           end
         end

@@ -38,7 +38,7 @@ class User
       end
 
       def merged?
-        params[:merged].present? && params[:merged]
+        params[:merged].present?
       end
 
       def closed?

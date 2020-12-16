@@ -19,7 +19,7 @@ class User
         user.save
       end
 
-      user.update(github_username: auth.info.nickname)
+      user.update_column(:github_username, auth.info.nickname)
       user
     end
 

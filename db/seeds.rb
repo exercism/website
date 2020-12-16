@@ -4,6 +4,7 @@ iHiD = User.find_by(handle: 'iHiD') || User.create!(
   email: 'ihid@exercism.io', 
   name: 'Jeremy Walker', 
   password: 'password',
+  github_username: 'iHiD',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 )
 iHiD.confirm
@@ -23,7 +24,8 @@ puts "Creating User erikSchierboom"
 erik = User.find_by(handle: 'erikSchierboom') || User.create!(
   handle: 'erikSchierboom', 
   email: 'erik@exercism.io', 
-  name: 'Erik Schierboom', 
+  name: 'Erik Schierboom',
+  github_username: 'ErikSchierboom', 
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 )
@@ -34,10 +36,9 @@ karlo = User.find_by(handle: 'kntsoriano') || User.create!(
   email: 'karlo@exercism.io', 
   name: 'Karlo Soriano', 
   password: 'password',
+  github_username: 'kntsoriano', 
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 )
-
-
 
 # This is all temporary and horrible while we have a monorepo
 repo_url = "https://github.com/exercism/v3"

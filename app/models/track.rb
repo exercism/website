@@ -40,4 +40,8 @@ class Track < ApplicationRecord
   def icon_url
     "https://assets.exercism.io/tracks/ruby-hex-white.png"
   end
+
+  def key_features
+    git.key_features.to_a
+  end
 end

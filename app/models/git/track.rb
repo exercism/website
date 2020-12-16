@@ -22,6 +22,10 @@ module Git
       Regexp.new(pattern.presence || "[iI]gnore")
     end
 
+    def key_features
+      config[:key_features]
+    end
+
     memoize
     def config
       repo.read_json_blob(commit, config_filepath)

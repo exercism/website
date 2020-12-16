@@ -35,6 +35,23 @@ module Git
       assert_equal(/[iI]gnore/, track.ignore_regexp)
     end
 
+    def test_monorepo_key_features
+      track = Git::Track.new(:csharp, repo_url: TestHelpers.git_repo_url("v3-monorepo"))
+      expected = [
+        {
+          icon: "features-oop",
+          title: "Modern",
+          content: "C# is a modern, fast-evolving language."
+        },
+        {
+          icon: "features-strongly-typed",
+          title: "Cross-platform",
+          content: "C# runs on almost any platform and chipset."
+        }
+      ]
+      assert_equal(expected, track.key_features)
+    end
+
     def test_retrieves_test_regexp
       skip # TODO: Renable when not in monorepo
       track = Git::Track.new("track-with-exercises", :ruby)

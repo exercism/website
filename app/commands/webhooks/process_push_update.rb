@@ -1,5 +1,5 @@
 module Webhooks
-  class ProcessRepoUpdate
+  class ProcessPushUpdate
     include Mandate
 
     initialize_with :ref, :track_slug
@@ -7,7 +7,7 @@ module Webhooks
     def call
       return unless pushed_to_master?
 
-      SyncTrackJob.perform_later(track)
+      ProcessPushUpdateJob.perform_later(track)
     end
 
     private

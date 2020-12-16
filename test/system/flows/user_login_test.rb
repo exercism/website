@@ -6,7 +6,8 @@ module Flows
 
     test "user logs in via Github and is remembered" do
       OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: "github", uid: "123" })
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({ provider: "github", uid: "123",
+                                                                    info: { nickname: "user22" } })
       create :user, :not_onboarded, uid: "123", provider: "github", confirmed_at: Date.new(2016, 12, 25)
 
       visit new_user_session_path

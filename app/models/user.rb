@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussion_posts, as: :author, dependent: :destroy
 
-  has_many :reputation_acquisitions, class_name: "User::ReputationAcquisition", dependent: :destroy
+  has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
   has_many :badges, dependent: :destroy
 
@@ -53,13 +53,15 @@ class User < ApplicationRecord
   end
 
   def reputation(track_slug: nil, category: nil)
+    return super() unless track_slug || category
+
     raise if track_slug && category
 
     category = "track_#{track_slug}" if track_slug
 
-    q = reputation_acquisitions
+    q = reputation_tokens
     q.where!(category: category) if category
-    q.sum(:amount)
+    q.sum(:value)
   end
 
   def joined_track?(track)

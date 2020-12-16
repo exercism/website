@@ -1,4 +1,4 @@
-class SyncTrackJob < ApplicationJob
+class ProcessPushUpdateJob < ApplicationJob
   queue_as :default
 
   def perform(_track)

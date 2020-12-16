@@ -1,4 +1,5 @@
 class User
+  # TODO: update the github_username field from the v2 users' handle
   class AuthenticateFromOmniauth
     include Mandate
 
@@ -18,6 +19,7 @@ class User
         user.save
       end
 
+      user.update_column(:github_username, auth.info.nickname)
       user
     end
 
@@ -27,6 +29,7 @@ class User
 
       user.provider = auth.provider
       user.uid = auth.uid
+      user.github_username = auth.info.nickname
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -55,7 +58,8 @@ class User
         email: auth.info.email,
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
-        handle: handle
+        handle: handle,
+        github_username: auth.info.nickname
       )
 
       user.skip_confirmation!

@@ -10,12 +10,16 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       resources :tracks, only: %i[index show]
+      resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection
 
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
+      end
+      resources :solution, only: [] do
+        resources :initial_files, only: %i[index], controller: "solutions/initial_files"
       end
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"

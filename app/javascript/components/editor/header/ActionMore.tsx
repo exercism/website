@@ -1,14 +1,18 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Icon } from '../../common/Icon'
+import { BugReportModal } from '../../modals/BugReportModal'
 import { usePanel } from './usePanel'
 
 export const ActionMore = ({
-  onRevert,
-  isRevertDisabled,
+  onRevertToLastIteration,
+  onRevertToExerciseStart,
+  isRevertToLastIterationDisabled,
 }: {
-  onRevert: () => void
-  isRevertDisabled: boolean
+  onRevertToLastIteration: () => void
+  onRevertToExerciseStart: () => void
+  isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     open,
     setOpen,
@@ -19,14 +23,29 @@ export const ActionMore = ({
     attributes,
   } = usePanel()
 
-  const handleRevert = useCallback(() => {
-    onRevert()
+  const handleRevertToLastIteration = useCallback(() => {
+    onRevertToLastIteration()
 
     setOpen(false)
-  }, [onRevert, setOpen])
+  }, [onRevertToLastIteration, setOpen])
+
+  const handleRevertToExerciseStart = useCallback(() => {
+    onRevertToExerciseStart()
+
+    setOpen(false)
+  }, [onRevertToExerciseStart, setOpen])
+  const handleOpenReport = useCallback(() => {
+    setIsModalOpen(true)
+
+    setOpen(false)
+  }, [setOpen, setIsModalOpen])
 
   return (
     <div ref={componentRef}>
+      <BugReportModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <button
         ref={buttonRef}
         className="more-btn"
@@ -39,12 +58,18 @@ export const ActionMore = ({
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
           <div>
+            <button type="button" onClick={handleRevertToExerciseStart}>
+              Revert to exercise start
+            </button>
             <button
-              onClick={handleRevert}
+              onClick={handleRevertToLastIteration}
               type="button"
-              disabled={isRevertDisabled}
+              disabled={isRevertToLastIterationDisabled}
             >
               Revert to last iteration submission
+            </button>
+            <button type="button" onClick={handleOpenReport}>
+              Report a bug
             </button>
           </div>
         ) : null}

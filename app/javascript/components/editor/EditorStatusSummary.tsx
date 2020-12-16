@@ -24,6 +24,10 @@ export const EditorStatusSummary = ({
       return <p>Submitting...</p>
     case EditorStatus.SUBMISSION_CANCELLED:
       return <p>{error}</p>
+    case EditorStatus.REVERT_FAILED:
+      return <p>{error}</p>
+    case EditorStatus.REVERTING_TO_EXERCISE_START:
+      return <p>Reverting to exercise start...</p>
     default:
       return null
   }

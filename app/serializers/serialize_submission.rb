@@ -19,6 +19,10 @@ class SerializeSubmission
         test_run: Exercism::Routes.api_submission_test_run_url(
           submission.uuid,
           auth_token: user.auth_tokens.first.to_s
+        ),
+        initial_files: Exercism::Routes.api_solution_initial_files_url(
+          submission.solution.uuid,
+          auth_token: user.auth_tokens.first.to_s
         )
       }
     }

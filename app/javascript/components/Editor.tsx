@@ -1,5 +1,4 @@
 import React, {
-  useReducer,
   useRef,
   useEffect,
   useCallback,
@@ -16,7 +15,6 @@ import {
   WrapSetting,
   Themes,
 } from './editor/types'
-import { useRequest, APIError } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
@@ -32,7 +30,20 @@ import { SubmitButton } from './editor/SubmitButton'
 import { useIsMounted } from 'use-is-mounted'
 import { camelizeKeys } from 'humps'
 import { useSaveFiles } from './editor/useSaveFiles'
+import {
+  useSubmission,
+  ActionType as SubmissionActionType,
+  SubmissionStatus,
+} from './editor/useSubmission'
+import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
+import { sendRequest, APIError } from '../utils/send-request'
+
+export enum TabIndex {
+  INSTRUCTIONS = 'instructions',
+  TESTS = 'tests',
+  RESULTS = 'results',
+}
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -40,86 +51,9 @@ export enum EditorStatus {
   SUBMISSION_CREATED = 'submissionCreated',
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
-}
-
-type State = {
-  submission?: Submission
-  status: EditorStatus
-  apiError?: APIError
-}
-
-enum ActionType {
-  CREATING_SUBMISSION = 'creatingSubmission',
-  SUBMISSION_CREATED = 'submissionCreated',
-  CREATING_ITERATION = 'creatingIteration',
-  SUBMISSION_CANCELLED = 'submissionCancelled',
-  SUBMISSION_CHANGED = 'submissionChanged',
-}
-
-type Action =
-  | { type: ActionType.CREATING_SUBMISSION }
-  | {
-      type: ActionType.SUBMISSION_CREATED
-      payload: { submission: Submission }
-    }
-  | { type: ActionType.SUBMISSION_CANCELLED; payload?: { apiError?: APIError } }
-  | { type: ActionType.CREATING_ITERATION }
-  | {
-      type: ActionType.SUBMISSION_CHANGED
-      payload: { testRun: TestRun }
-    }
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case ActionType.CREATING_SUBMISSION:
-      return {
-        ...state,
-        apiError: undefined,
-        status: EditorStatus.CREATING_SUBMISSION,
-      }
-    case ActionType.SUBMISSION_CREATED:
-      return {
-        ...state,
-        submission: {
-          ...action.payload.submission,
-          testRun: {
-            id: null,
-            submissionUuid: action.payload.submission.uuid,
-            status: TestRunStatus.QUEUED,
-            tests: [],
-            message: '',
-          },
-        },
-        status: EditorStatus.SUBMISSION_CREATED,
-      }
-    case ActionType.SUBMISSION_CANCELLED:
-      return {
-        ...state,
-        apiError: action.payload?.apiError,
-        status: EditorStatus.SUBMISSION_CANCELLED,
-      }
-    case ActionType.CREATING_ITERATION:
-      return {
-        ...state,
-        status: EditorStatus.CREATING_ITERATION,
-      }
-    case ActionType.SUBMISSION_CHANGED:
-      return {
-        ...state,
-        submission: {
-          ...(state.submission as Submission),
-          testRun: action.payload.testRun,
-        },
-      }
-    default:
-      return state
-  }
-}
-
-export enum TabIndex {
-  INSTRUCTIONS = 'instructions',
-  TESTS = 'tests',
-  RESULTS = 'results',
+  REVERTING_TO_EXERCISE_START = 'revertingToExerciseStart',
+  REVERTED = 'reverted',
+  REVERT_FAILED = 'revertFailed',
 }
 
 export const TabsContext = createContext({
@@ -154,8 +88,14 @@ export function Editor({
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState(Themes.LIGHT)
+  const [
+    { status: revertStatus, apiError: revertApiError },
+    revertDispatch,
+  ] = useFileRevert()
+  const [apiError, setApiError] = useState<APIError | null>(null)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
+  const submissionFilesRef = useRef<File[]>(initialFiles)
   const [files] = useSaveFiles(initialFiles, () => {
     return editorRef.current?.getFiles() || []
   })
@@ -164,10 +104,11 @@ export function Editor({
   )
   const [wrap, setWrap] = useState<WrapSetting>('on')
   const isMountedRef = useIsMounted()
-  const [{ submission, status, apiError }, dispatch] = useReducer(reducer, {
-    status: EditorStatus.INITIALIZED,
-    submission: initialSubmission,
-  })
+  const [
+    { submission, status: submissionStatus, apiError: submissionApiError },
+    submissionDispatch,
+  ] = useSubmission(initialSubmission)
+  const [status, setStatus] = useState(EditorStatus.INITIALIZED)
   const controllerRef = useRef<AbortController | undefined>(
     new AbortController()
   )
@@ -176,68 +117,56 @@ export function Editor({
     controllerRef.current = undefined
   }, [controllerRef])
 
-  const sendRequest = useCallback(
-    (endpoint: string, body: any, method: string) => {
-      abort()
-      const [request, cancel] = useRequest(endpoint, body, method)
-      controllerRef.current = cancel
-
-      return request
-        .then((json: any) => {
-          if (!isMountedRef.current) {
-            throw new Error('Component not mounted')
-          }
-
-          return json
-        })
-        .catch((err) => {
-          if (err.message === 'Component not mounted') {
-            return
-          }
-
-          throw err
-        })
-        .finally(() => {
-          controllerRef.current = undefined
-        })
-    },
-    [abort, isMountedRef]
-  )
-
   const runTests = useCallback(() => {
     const files = editorRef.current?.getFiles()
 
-    dispatch({ type: ActionType.CREATING_SUBMISSION })
+    if (!files) {
+      return
+    }
 
-    sendRequest(endpoint, JSON.stringify({ files: files }), 'POST')
+    submissionDispatch({ type: SubmissionActionType.CREATING_SUBMISSION })
+
+    abort()
+    sendRequest({
+      endpoint: endpoint,
+      body: JSON.stringify({ files: files }),
+      method: 'POST',
+      isMountedRef: isMountedRef,
+    })
       .then((json: any) => {
         if (!json) {
           return
         }
 
-        dispatch({
-          type: ActionType.SUBMISSION_CREATED,
+        submissionDispatch({
+          type: SubmissionActionType.SUBMISSION_CREATED,
           payload: {
             submission: typecheck<Submission>(json, 'submission'),
           },
         })
         switchToTab(TabIndex.RESULTS)
+        submissionFilesRef.current = files
       })
       .catch((err) => {
         if (err instanceof Error) {
-          dispatch({ type: ActionType.SUBMISSION_CANCELLED })
+          submissionDispatch({
+            type: SubmissionActionType.SUBMISSION_CANCELLED,
+          })
         }
 
         if (err instanceof Response) {
           err.json().then((res: any) => {
-            dispatch({
-              type: ActionType.SUBMISSION_CANCELLED,
+            submissionDispatch({
+              type: SubmissionActionType.SUBMISSION_CANCELLED,
               payload: { apiError: res.error },
             })
           })
         }
       })
-  }, [editorRef, sendRequest, endpoint])
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [submissionDispatch, endpoint, isMountedRef])
 
   const submit = useCallback(() => {
     if (!submission) {
@@ -248,33 +177,41 @@ export function Editor({
       return
     }
 
-    dispatch({ type: ActionType.CREATING_ITERATION })
+    submissionDispatch({ type: SubmissionActionType.CREATING_ITERATION })
 
-    sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
-      (json: any) => {
+    abort()
+    sendRequest({
+      endpoint: submission.links.submit,
+      body: JSON.stringify({}),
+      method: 'POST',
+      isMountedRef: isMountedRef,
+    })
+      .then((json: any) => {
         if (!json) {
           return
         }
 
         const iteration = typecheck<Iteration>(json, 'iteration')
         location.assign(iteration.links.self)
-      }
-    )
-  }, [sendRequest, dispatch, submission])
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [submission, submissionDispatch, isMountedRef])
 
   const cancel = useCallback(() => {
     abort()
-    dispatch({ type: ActionType.SUBMISSION_CANCELLED })
-  }, [dispatch, abort])
+    submissionDispatch({ type: SubmissionActionType.SUBMISSION_CANCELLED })
+  }, [submissionDispatch, abort])
 
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
-      dispatch({
-        type: ActionType.SUBMISSION_CHANGED,
+      submissionDispatch({
+        type: SubmissionActionType.SUBMISSION_CHANGED,
         payload: { testRun: testRun },
       })
     },
-    [dispatch]
+    [submissionDispatch]
   )
   const editorDidMount = useCallback(
     (editor) => {
@@ -292,8 +229,14 @@ export function Editor({
       return
     }
 
-    sendRequest(initialSubmission.links.testRun, null, 'GET').then(
-      (json: any) => {
+    abort()
+    sendRequest({
+      endpoint: initialSubmission.links.testRun,
+      body: null,
+      method: 'GET',
+      isMountedRef: isMountedRef,
+    })
+      .then((json: any) => {
         if (!json) {
           return
         }
@@ -305,17 +248,110 @@ export function Editor({
         }
 
         updateSubmission(testRun)
-      }
-    )
-  }, [sendRequest, initialSubmission, updateSubmission])
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [initialSubmission, updateSubmission, isMountedRef])
 
-  const revertContent = useCallback(() => {
-    editorRef.current?.setFiles(initialFiles)
-  }, [initialFiles])
+  const revertToLastIteration = useCallback(() => {
+    editorRef.current?.setFiles(submissionFilesRef.current)
+  }, [editorRef, submissionFilesRef])
 
   const toggleKeyboardShortcuts = useCallback(() => {
     editorRef.current?.openPalette()
   }, [editorRef])
+
+  const revertToExerciseStart = useCallback(() => {
+    if (!submission) {
+      return
+    }
+
+    revertDispatch({ type: RevertStatus.INITIALIZED })
+
+    abort()
+    sendRequest({
+      endpoint: submission.links.initialFiles,
+      body: null,
+      method: 'GET',
+      isMountedRef: isMountedRef,
+    })
+      .then((json: any) => {
+        if (!json) {
+          return
+        }
+
+        const files = typecheck<File[]>(json, 'files')
+
+        editorRef.current?.setFiles(files)
+
+        revertDispatch({ type: RevertStatus.SUCCEEDED })
+      })
+      .catch((err) => {
+        if (err instanceof Error) {
+          revertDispatch({
+            type: RevertStatus.FAILED,
+            payload: {
+              apiError: {
+                type: 'unknown',
+                message: 'Unable to revert file, please try again.',
+              } as APIError,
+            },
+          })
+        }
+
+        if (err instanceof Response) {
+          err.json().then((res: any) => {
+            revertDispatch({
+              type: RevertStatus.FAILED,
+              payload: { apiError: res.error },
+            })
+          })
+        }
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [isMountedRef, revertDispatch, submission])
+
+  useEffect(() => {
+    switch (submissionStatus) {
+      case SubmissionStatus.CREATED:
+        setStatus(EditorStatus.SUBMISSION_CREATED)
+        break
+      case SubmissionStatus.CANCELLED:
+        setStatus(EditorStatus.SUBMISSION_CANCELLED)
+        break
+      case SubmissionStatus.CREATING:
+        setStatus(EditorStatus.CREATING_SUBMISSION)
+        break
+      case SubmissionStatus.CREATING_ITERATION:
+        setStatus(EditorStatus.CREATING_ITERATION)
+        break
+    }
+  }, [submissionStatus])
+
+  useEffect(() => {
+    switch (revertStatus) {
+      case RevertStatus.INITIALIZED:
+        setStatus(EditorStatus.REVERTING_TO_EXERCISE_START)
+        break
+      case RevertStatus.SUCCEEDED:
+        setStatus(EditorStatus.REVERTED)
+        break
+      case RevertStatus.FAILED:
+        setStatus(EditorStatus.REVERT_FAILED)
+        break
+    }
+  }, [revertStatus])
+
+  useEffect(() => {
+    setApiError(submissionApiError)
+  }, [submissionApiError])
+
+  useEffect(() => {
+    setApiError(revertApiError)
+  }, [revertApiError])
 
   return (
     <TabsContext.Provider value={{ tab, switchToTab }}>
@@ -337,8 +373,12 @@ export function Editor({
             setWrap={setWrap}
           />
           <Header.ActionMore
-            onRevert={revertContent}
-            isRevertDisabled={isEqual(initialFiles, files)}
+            onRevertToExerciseStart={revertToExerciseStart}
+            onRevertToLastIteration={revertToLastIteration}
+            isRevertToLastIterationDisabled={isEqual(
+              submissionFilesRef.current,
+              files
+            )}
           />
         </div>
 

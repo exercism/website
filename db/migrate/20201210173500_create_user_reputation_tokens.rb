@@ -7,6 +7,7 @@ class CreateUserReputationTokens < ActiveRecord::Migration[6.1]
       t.belongs_to :user, foreign_key: true, null: false
       t.integer :track_id, foreign_key: true, null: true
       t.belongs_to :context, polymorphic: true, null: true, index: { name: "context_index" }
+      t.string :context_key, null: false
 
       t.integer :value, null: false
 
@@ -16,6 +17,8 @@ class CreateUserReputationTokens < ActiveRecord::Migration[6.1]
       t.string :external_link, null: true
 
       t.timestamps
+
+      t.index %i[context_key user_id], unique: true
     end
   end
 end

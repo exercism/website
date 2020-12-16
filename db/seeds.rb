@@ -29,6 +29,8 @@ erik = User.find_by(handle: 'erikSchierboom') || User.create!(
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 )
+erik.confirm
+erik.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 
 puts "Creating User kntsoriano"
 karlo = User.find_by(handle: 'kntsoriano') || User.create!(
@@ -39,6 +41,8 @@ karlo = User.find_by(handle: 'kntsoriano') || User.create!(
   github_username: 'kntsoriano', 
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
 )
+karlo.confirm
+karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 
 # This is all temporary and horrible while we have a monorepo
 repo_url = "https://github.com/exercism/v3"

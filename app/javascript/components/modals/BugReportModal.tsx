@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react'
 import Modal from 'react-modal'
-import { useRequest } from '../../hooks/use-request'
+import { sendRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
 enum BugReportModalStatus {
@@ -42,39 +42,22 @@ export const BugReportModal = ({
         return
       }
 
-      setStatus(BugReportModalStatus.SENDING)
-
-      controllerRef.current?.abort()
-      controllerRef.current = undefined
-
-      const [request, cancel] = useRequest(
-        url,
-        JSON.stringify({
+      return sendRequest({
+        endpoint: url,
+        body: JSON.stringify({
           bug_report: {
             content_markdown: e.target.elements.content_markdown.value,
           },
         }),
-        'POST'
-      )
-
-      controllerRef.current = cancel
-
-      return request
+        method: 'POST',
+        isMountedRef: isMountedRef,
+      })
         .then((json: any) => {
-          if (!isMountedRef.current) {
-            throw new Error('Component not mounted')
-          }
-
-          setStatus(BugReportModalStatus.SUCCEEDED)
-
-          return json
-        })
-        .catch((err) => {
-          if (err.message === 'Component not mounted') {
+          if (!json) {
             return
           }
 
-          throw err
+          setStatus(BugReportModalStatus.SUCCEEDED)
         })
         .finally(() => {
           controllerRef.current = undefined

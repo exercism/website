@@ -15,7 +15,6 @@ import {
   WrapSetting,
   Themes,
 } from './editor/types'
-import { useRequest, APIError } from '../hooks/use-request'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
@@ -38,6 +37,7 @@ import {
 } from './editor/useSubmission'
 import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
+import { sendRequest, APIError } from '../utils/send-request'
 
 export enum TabIndex {
   INSTRUCTIONS = 'instructions',
@@ -95,6 +95,7 @@ export function Editor({
   const [apiError, setApiError] = useState<APIError | null>(null)
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
+  const submissionFilesRef = useRef<File[]>(initialFiles)
   const [files] = useSaveFiles(initialFiles, () => {
     return editorRef.current?.getFiles() || []
   })
@@ -116,40 +117,22 @@ export function Editor({
     controllerRef.current = undefined
   }, [controllerRef])
 
-  const sendRequest = useCallback(
-    (endpoint: string, body: any, method: string) => {
-      abort()
-      const [request, cancel] = useRequest(endpoint, body, method)
-      controllerRef.current = cancel
-
-      return request
-        .then((json: any) => {
-          if (!isMountedRef.current) {
-            throw new Error('Component not mounted')
-          }
-
-          return json
-        })
-        .catch((err) => {
-          if (err.message === 'Component not mounted') {
-            return
-          }
-
-          throw err
-        })
-        .finally(() => {
-          controllerRef.current = undefined
-        })
-    },
-    [abort, isMountedRef]
-  )
-
   const runTests = useCallback(() => {
     const files = editorRef.current?.getFiles()
 
+    if (!files) {
+      return
+    }
+
     submissionDispatch({ type: SubmissionActionType.CREATING_SUBMISSION })
 
-    sendRequest(endpoint, JSON.stringify({ files: files }), 'POST')
+    abort()
+    sendRequest({
+      endpoint: endpoint,
+      body: JSON.stringify({ files: files }),
+      method: 'POST',
+      isMountedRef: isMountedRef,
+    })
       .then((json: any) => {
         if (!json) {
           return
@@ -162,6 +145,7 @@ export function Editor({
           },
         })
         switchToTab(TabIndex.RESULTS)
+        submissionFilesRef.current = files
       })
       .catch((err) => {
         if (err instanceof Error) {
@@ -179,7 +163,10 @@ export function Editor({
           })
         }
       })
-  }, [submissionDispatch, sendRequest, endpoint])
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [submissionDispatch, endpoint, isMountedRef])
 
   const submit = useCallback(() => {
     if (!submission) {
@@ -192,17 +179,25 @@ export function Editor({
 
     submissionDispatch({ type: SubmissionActionType.CREATING_ITERATION })
 
-    sendRequest(submission.links.submit, JSON.stringify({}), 'POST').then(
-      (json: any) => {
+    abort()
+    sendRequest({
+      endpoint: submission.links.submit,
+      body: JSON.stringify({}),
+      method: 'POST',
+      isMountedRef: isMountedRef,
+    })
+      .then((json: any) => {
         if (!json) {
           return
         }
 
         const iteration = typecheck<Iteration>(json, 'iteration')
         location.assign(iteration.links.self)
-      }
-    )
-  }, [sendRequest, submissionDispatch, submission])
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [submission, submissionDispatch, isMountedRef])
 
   const cancel = useCallback(() => {
     abort()
@@ -234,8 +229,14 @@ export function Editor({
       return
     }
 
-    sendRequest(initialSubmission.links.testRun, null, 'GET').then(
-      (json: any) => {
+    abort()
+    sendRequest({
+      endpoint: initialSubmission.links.testRun,
+      body: null,
+      method: 'GET',
+      isMountedRef: isMountedRef,
+    })
+      .then((json: any) => {
         if (!json) {
           return
         }
@@ -247,13 +248,15 @@ export function Editor({
         }
 
         updateSubmission(testRun)
-      }
-    )
-  }, [sendRequest, initialSubmission, updateSubmission])
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [initialSubmission, updateSubmission, isMountedRef])
 
   const revertToLastIteration = useCallback(() => {
-    editorRef.current?.setFiles(initialFiles)
-  }, [initialFiles])
+    editorRef.current?.setFiles(submissionFilesRef.current)
+  }, [editorRef, submissionFilesRef])
 
   const toggleKeyboardShortcuts = useCallback(() => {
     editorRef.current?.openPalette()
@@ -266,7 +269,13 @@ export function Editor({
 
     revertDispatch({ type: RevertStatus.INITIALIZED })
 
-    sendRequest(submission.links.files, null, 'GET')
+    abort()
+    sendRequest({
+      endpoint: submission.links.files,
+      body: null,
+      method: 'GET',
+      isMountedRef: isMountedRef,
+    })
       .then((json: any) => {
         if (!json) {
           return
@@ -300,7 +309,10 @@ export function Editor({
           })
         }
       })
-  }, [revertDispatch, sendRequest, submission])
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [isMountedRef, revertDispatch, submission])
 
   useEffect(() => {
     switch (submissionStatus) {
@@ -363,7 +375,10 @@ export function Editor({
           <Header.ActionMore
             onRevertToExerciseStart={revertToExerciseStart}
             onRevertToLastIteration={revertToLastIteration}
-            isRevertToLastIterationDisabled={isEqual(initialFiles, files)}
+            isRevertToLastIterationDisabled={isEqual(
+              submissionFilesRef.current,
+              files
+            )}
           />
         </div>
 

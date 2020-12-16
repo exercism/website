@@ -66,7 +66,7 @@ import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
-import { Submission, File } from '../components/editor/types'
+import { Submission } from '../components/editor/types'
 import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.

@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Icon } from '../../common/Icon'
+import { BugReportModal } from '../../modals/BugReportModal'
 import { usePanel } from './usePanel'
 
 export const ActionMore = ({
@@ -11,6 +12,7 @@ export const ActionMore = ({
   onRevertToExerciseStart: () => void
   isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     open,
     setOpen,
@@ -32,9 +34,18 @@ export const ActionMore = ({
 
     setOpen(false)
   }, [onRevertToExerciseStart, setOpen])
+  const handleOpenReport = useCallback(() => {
+    setIsModalOpen(true)
+
+    setOpen(false)
+  }, [setOpen, setIsModalOpen])
 
   return (
     <div ref={componentRef}>
+      <BugReportModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <button
         ref={buttonRef}
         className="more-btn"
@@ -56,6 +67,9 @@ export const ActionMore = ({
               disabled={isRevertToLastIterationDisabled}
             >
               Revert to last iteration submission
+            </button>
+            <button type="button" onClick={handleOpenReport}>
+              Report a bug
             </button>
           </div>
         ) : null}

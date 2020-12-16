@@ -82,15 +82,46 @@ test('saves data to storage when data changed', async () => {
 
 test('revert to last submission', async () => {
   jest.useFakeTimers()
-  localStorage.setItem(
-    'files',
-    JSON.stringify([{ filename: 'file', content: 'class' }])
+  const server = setupServer(
+    rest.post('https://exercism.test/submissions', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          submission: {
+            id: 2,
+            uuid: '123',
+            tests_status: 'queued',
+            links: {
+              cancel: 'https://exercism.test/cancel',
+              testRun: 'https://exercism.test/test_run',
+            },
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  const { getByTitle, getByText, queryByText, getByTestId } = render(
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ filename: 'file', content: 'other' }]}
+    />
   )
 
-  const { getByTitle, getByText, queryByText } = render(
-    <Editor files={[{ filename: 'file', content: 'file' }]} />
+  fireEvent.change(getByTestId('editor-value'), { target: { value: 'file' } })
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
+  fireEvent.click(getByText('Run Tests'))
+  await waitFor(() =>
+    expect(
+      queryByText("We've queued your code and will run it shortly.")
+    ).toBeInTheDocument()
   )
-
+  fireEvent.change(getByTestId('editor-value'), { target: { value: 'class' } })
+  await waitFor(() => {
+    jest.runOnlyPendingTimers()
+  })
   fireEvent.click(getByTitle('Open more options'))
   fireEvent.click(getByText('Revert to last iteration submission'))
   await waitFor(() => {
@@ -104,6 +135,7 @@ test('revert to last submission', async () => {
   )
 
   localStorage.clear()
+  server.close()
 })
 
 test('revert to exercise start', async () => {

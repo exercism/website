@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_09_170425) do
+ActiveRecord::Schema.define(version: 2020_12_14_073537) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id", "type"], name: "index_badges_on_user_id_and_type", unique: true
     t.index ["user_id"], name: "index_badges_on_user_id"
+  end
+
+  create_table "bug_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_bug_reports_on_user_id"
   end
 
   create_table "exercise_prerequisites", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -305,6 +314,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_170425) do
   end
 
   add_foreign_key "badges", "users"
+  add_foreign_key "bug_reports", "users"
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"

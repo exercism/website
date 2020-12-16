@@ -58,8 +58,8 @@ class User
       end
 
       def reason
-        return 'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
         return 'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
+        return 'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
 
         'contributed_code'
       end

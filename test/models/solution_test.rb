@@ -88,4 +88,11 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     assert_equal instructions, solution.instructions
   end
+
+  test "#initial_files returns exercise files" do
+    bob = create :practice_exercise, slug: "bob"
+    solution = create :practice_solution, exercise: bob
+
+    assert_equal({ "bob.rb" => "stub content\n" }, solution.initial_files)
+  end
 end

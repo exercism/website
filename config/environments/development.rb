@@ -1,7 +1,9 @@
 Rails.application.configure do
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
-    config.action_cable.url = ActionCable.server.config.url = ENV.fetch("CABLE_URL", "ws://localhost:3334/cable") # if AnyCable::Rails.enabled?
+    if AnyCable::Rails.enabled?
+      config.action_cable.url = ActionCable.server.config.url = ENV.fetch("CABLE_URL", "ws://local.exercism.io:3334/cable")
+    end
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
@@ -57,11 +59,14 @@ Rails.application.configure do
   # routes, locales, etc.
   config.file_watcher = ENV['EXERCISM_DOCKER'] ? ActiveSupport::FileUpdateChecker : ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << "fuf.me"
+  # TODO: Change to exercism on launch
+  config.session_store :cookie_store, key: "_exercism_v3", domain: :all
+
+  config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
 end
 
 Rails.application.routes.default_url_options = {
-  host: "http://fuf.me:3020"
+  host: "http://local.exercism.io:3020"
 }

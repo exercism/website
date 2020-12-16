@@ -148,7 +148,7 @@ end
 
 puts ""
 puts "To use the CLI locally, run: "
-puts "exercism configure -a http://localhost:3020/api/v1 -t #{auth_token.token}"
+puts "exercism configure -a http://local.exercism.io:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
 ruby = Track.find_by_slug(:ruby)

@@ -57,9 +57,9 @@ development:
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
     https: false
-    host: localhost
+    host: local.exercism.io
     port: 3035
-    public: localhost:3035
+    public: local.exercism.io:3035
     hmr: true
     # Inline should be set to true if using HMR
     inline: true

@@ -26,7 +26,7 @@ class User
       end
 
       def award_reputation_to_reviewers
-        return unless closed?
+        return unless just_closed?
 
         reviews = octokit_client.pull_request_reviews(repo, pr_id)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
@@ -45,7 +45,7 @@ class User
         params[:merged].present?
       end
 
-      def closed?
+      def just_closed?
         action == 'closed'
       end
 

@@ -11,7 +11,7 @@ module Flows
       check "Accept Privacy Policy"
       click_on "Submit"
 
-      assert_text "Welcome to Exercism v3"
+      assert_page :staging
     end
   end
 end

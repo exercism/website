@@ -59,7 +59,7 @@ module Flows
       click_on "Sign Up with GitHub"
 
       refute_text "Check your email"
-      assert_text "Onboarding"
+      assert_page :onboarding
 
     ensure
       OmniAuth.config.test_mode = false

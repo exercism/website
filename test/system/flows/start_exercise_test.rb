@@ -15,7 +15,7 @@ module Flows
 
       click_on "Start"
 
-      assert_correct_page "editor"
+      assert_page "editor"
 
       assert Solution.for(user, exercise)
     end

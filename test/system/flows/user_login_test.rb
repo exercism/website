@@ -11,10 +11,11 @@ module Flows
 
       visit new_user_session_path
       click_on "Log In with GitHub"
-      assert_text "Onboarding"
+      assert_page :onboarding
+
       expire_cookies
       visit new_user_session_path
-      assert_text "Onboarding"
+      assert_page :onboarding
 
       OmniAuth.config.test_mode = false
     end
@@ -30,10 +31,11 @@ module Flows
       fill_in "Email", with: "user@exercism.io"
       fill_in "Password", with: "password"
       click_on "Log In"
-      assert_text "Onboarding"
+      assert_page :onboarding
+
       expire_cookies
       visit new_user_session_path
-      assert_text "Onboarding"
+      assert_page :onboarding
     end
 
     test "user attempts to log in an account with a oauth password hash" do

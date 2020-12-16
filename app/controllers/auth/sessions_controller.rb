@@ -4,8 +4,12 @@ module Auth
     skip_before_action :ensure_onboarded!
     before_action :disable_site_header!
 
+    include Devise::Controllers::Rememberable
+
     def create
-      super
+      super do |user|
+        remember_me(user)
+      end
     rescue BCrypt::Errors::InvalidHash
       set_flash_message(:alert, :invalid_hash) if is_navigational_format?
 

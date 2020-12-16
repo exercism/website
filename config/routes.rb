@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       resources :tracks, only: %i[index show]
+      resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection
 

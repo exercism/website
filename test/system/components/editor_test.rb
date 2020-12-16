@@ -173,6 +173,23 @@ module Components
       end
     end
 
+    test "user reports a bug" do
+      user = create :user
+      create :user_auth_token, user: user
+      bob = create :practice_exercise, slug: "bob"
+      solution = create :practice_solution, user: user, exercise: bob
+
+      use_capybara_host do
+        visit test_components_editor_path(solution_id: solution.id)
+        find(".more-btn").click
+        click_on("Report a bug")
+        fill_in "Report", with: "I found a bug"
+        click_on "Submit"
+
+        assert_text "Thanks for submitting a bug report"
+      end
+    end
+
     private
     def wait_for_submission
       assert_text "We've queued your code and will run it shortly."

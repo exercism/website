@@ -2,13 +2,13 @@ module Webhooks
   class PullRequestUpdatesController < BaseController
     def create
       ::Webhooks::ProcessPullRequestUpdate.(action, github_username,
-        url: url,
-        html_url: html_url,
-        labels: labels,
-        state: state,
-        pr_id: pr_id,
-        repo: repo,
-        merged: merged?)
+        { url: url,
+          html_url: html_url,
+          labels: labels,
+          state: state,
+          pr_id: pr_id,
+          repo: repo,
+          merged: merged? })
 
       head :no_content
     end

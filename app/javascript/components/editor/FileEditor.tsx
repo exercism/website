@@ -184,7 +184,7 @@ export function FileEditor({
   )
 
   return (
-    <div ref={containerRef} className="c-file-editor">
+    <div ref={containerRef} className="--file-editor">
       <div className="tabs">
         {files.map((file, index) => (
           <button

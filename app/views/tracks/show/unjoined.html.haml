@@ -16,17 +16,13 @@
           = link_to "#concepts", class: "btn-large-secondary" do
             See Concepts
 
-  -# Remove if when all tracks have a docs/ABOUT.md file
-  - if @track.about.present?
-    %section.about-section
-      .md-container.container
-        %h2 About #{@track.title}
-        .tw-flex.tw-items-start
-          .info= raw ParseMarkdown.(@track.about)
-          -# Remove if when all tracks have a docs/SNIPPET.txt file
-          - if @track.snippet.present?
-            %code
-              %pre= @track.snippet
+  %section.about-section
+    .md-container.container
+      %h2 About #{@track.title}
+      .tw-flex.tw-items-start
+        .info= raw ParseMarkdown.(@track.about)
+        %code
+          %pre= @track.snippet
 
   - if @track.key_features.present?
     %section.features-section

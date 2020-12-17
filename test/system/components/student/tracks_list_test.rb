@@ -10,7 +10,7 @@ module Components
       test "renders correctly for unjoined track" do
         create :track,
           title: "Ruby",
-          tags: ["Foo:Bar", "Abc:Xyz"]
+          tags: ["foo/bar", "abc/xyz"]
 
         visit test_components_student_tracks_list_url
 
@@ -29,8 +29,8 @@ module Components
                     <li>0/0 exercises</li>
                   </ul>
                   <ul class="--tags">
-                    <li>Bar</li>
-                    <li>Xyz</li>
+                    <li>bar</li>
+                    <li>xyz</li>
                   </ul>
                 </div>
                 <svg class="c-icon" role="presentation">
@@ -45,7 +45,7 @@ module Components
       test "renders correctly for joined track" do
         track = create :track,
           title: "Ruby",
-          tags: ["Foo:Bar", "Abc:Xyz"]
+          tags: ["foo/bar", "abc/xyz"]
         concept_exercises = Array.new(3).map { create :concept_exercise, track: track }
         practice_exercises = Array.new(4).map { create :practice_exercise, track: track }
         create :user_track, track: track, user: @current_user
@@ -70,8 +70,8 @@ module Components
                     <li>2/4 exercises</li>
                   </ul>
                   <ul class="--tags">
-                    <li>Bar</li>
-                    <li>Xyz</li>
+                    <li>bar</li>
+                    <li>xyz</li>
                   </ul>
                 </div>
                 <svg class="c-icon" role="presentation">

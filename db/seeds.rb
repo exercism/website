@@ -61,55 +61,6 @@ module Git
   end
 end
 
-tags = [
-  [
-    "Compiles to:Binary",
-    "Compiles to:Bytecode",
-    "Compiles to:JavaScript",
-  ],
-  [
-    "Runtime:Android",
-    "Runtime:Browser",
-    "Runtime:BEAM (Erlang)",
-    "Runtime:Common Language Runtime (.NET)",
-    "Runtime:iOS",
-    "Runtime:JVM (Java)",
-    "Runtime:V8 (NodeJS)",
-  ],
-  [
-    "Paradigm:Declarative",
-    "Paradigm:Functional",
-    "Paradigm:Imperative",
-    "Paradigm:Logic",
-    "Paradigm:Object-oriented",
-    "Paradigm:Procedural",
-  ],
-  [
-    "Typing:Static",
-    "Typing:Dynamic",
-  ],
-  [
-    "Family:C-like",
-    "Family:Lisp",
-    "Family:ML",
-    "Family:Java",
-    "Family:JavaScript",
-    "Family:SASL",
-    "Family:sh",
-  ],
-  [
-    "Domain:Cross-platform",
-    "Domain:Embedded systems",
-    "Domain:Games",
-    "Domain:GUIs",
-    "Domain:Logic",
-    "Domain:Maths",
-    "Domain:Mobile",
-    "Domain:Scripting",
-    "Domain:Web development",
-  ]
-]
-
 track_slugs = []
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
@@ -133,10 +84,9 @@ track_slugs.each do |track_slug|
       track_slug, 
       title: git_track.config[:language],
       blurb: git_track.config[:blurb],
+      tags: git_track.config[:tags].to_a,
       repo_url: repo_url,
-      synced_to_git_sha: first_commit.oid,
-      # Randomly selects 1-5 tags from different categories
-      tags: tags.sample(1 + rand(5)).map {|category|category.sample}
+      synced_to_git_sha: first_commit.oid
     )
     Git::SyncTrack.(track)
   rescue StandardError => e

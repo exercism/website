@@ -113,8 +113,8 @@ module Components
       end
 
       test "filter by tag" do
-        create :track, :random_slug, title: "Ruby", tags: ["Paradigm:Object-oriented", "Typing:Dynamic"]
-        create :track, :random_slug, title: "Go", tags: ["Paradigm:Object-oriented", "Typing:Static"]
+        create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+        create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
         visit test_components_student_tracks_list_url
         click_on "Filter by"
@@ -128,8 +128,8 @@ module Components
       end
 
       test "resets filters" do
-        create :track, :random_slug, title: "Ruby", tags: ["Paradigm:Object-oriented", "Typing:Dynamic"]
-        create :track, :random_slug, title: "Go", tags: ["Paradigm:Object-oriented", "Typing:Static"]
+        create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+        create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
         visit test_components_student_tracks_list_url
         click_on "Filter by"

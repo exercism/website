@@ -41,7 +41,7 @@ module Git
 
     def read_text_blob(commit, path)
       oid = find_file_oid(commit, path)
-      read_blob(oid, nil)
+      read_blob(oid, "")
     end
 
     def read_blob(oid, default = nil)

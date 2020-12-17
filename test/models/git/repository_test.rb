@@ -27,5 +27,43 @@ module Git
       )
       assert_equal repository.head_commit, repository.lookup_commit("HEAD")
     end
+
+    def test_read_json_blob_for_valid_path
+      repository = Repository.new(
+        :csharp,
+        repo_url: TestHelpers.git_repo_url("v3-monorepo")
+      )
+      commit = repository.lookup_commit("HEAD")
+      json = repository.read_json_blob(commit, "languages/fsharp/config.json")
+      assert_equal "fsharp", json[:slug]
+    end
+
+    def test_read_json_blob_for_invalid_path
+      repository = Repository.new(
+        :csharp,
+        repo_url: TestHelpers.git_repo_url("v3-monorepo")
+      )
+      commit = repository.lookup_commit("HEAD")
+      json = repository.read_json_blob(commit, "foobar")
+      assert_empty json
+    end
+
+    def test_read_text_blob_for_valid_path
+      repository = Repository.new(
+        :csharp,
+        repo_url: TestHelpers.git_repo_url("v3-monorepo")
+      )
+      commit = repository.lookup_commit("HEAD")
+      refute_empty repository.read_text_blob(commit, "languages/fsharp/README.md")
+    end
+
+    def test_read_text_blob_for_invalid_path
+      repository = Repository.new(
+        :csharp,
+        repo_url: TestHelpers.git_repo_url("v3-monorepo")
+      )
+      commit = repository.lookup_commit("HEAD")
+      assert_empty repository.read_text_blob(commit, "foobar")
+    end
   end
 end

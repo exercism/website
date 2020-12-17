@@ -5,10 +5,11 @@ import { File } from './types'
 const SAVE_INTERVAL = 500
 
 export const useSaveFiles = (
+  storageKey: string,
   initialFiles: File[],
   getFiles: () => File[]
 ): [File[], (files: File[]) => void] => {
-  const [files, setFiles] = useLocalStorage<File[]>('files', initialFiles)
+  const [files, setFiles] = useLocalStorage<File[]>(storageKey, initialFiles)
 
   useEffect(() => {
     const interval = setInterval(() => {

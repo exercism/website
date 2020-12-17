@@ -73,6 +73,7 @@ export function Editor({
   introduction,
   instructions,
   exampleSolution,
+  storageKey,
 }: {
   endpoint: string
   timeout?: number
@@ -85,6 +86,7 @@ export function Editor({
   introduction: string
   instructions: string
   exampleSolution: string
+  storageKey: string
 }) {
   const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
   const [theme, setTheme] = useState(Themes.LIGHT)
@@ -96,7 +98,7 @@ export function Editor({
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const submissionFilesRef = useRef<File[]>(initialFiles)
-  const [files] = useSaveFiles(initialFiles, () => {
+  const [files] = useSaveFiles(storageKey, initialFiles, () => {
     return editorRef.current?.getFiles() || []
   })
   const [keybindings, setKeybindings] = useState<Keybindings>(

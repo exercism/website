@@ -18,7 +18,8 @@ module ReactComponents
           ),
           submission: SerializeSubmission.(solution.submissions.last),
           files: SerializeFiles.(solution.editor_solution_files),
-          language: solution.editor_language
+          language: solution.editor_language,
+          storage_key: solution.uuid
         }
       )
     end

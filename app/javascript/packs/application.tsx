@@ -144,6 +144,7 @@ initReact({
       introduction={data.introduction}
       instructions={data.instructions}
       exampleSolution={data.example_solution}
+      storageKey={data.storage_key}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

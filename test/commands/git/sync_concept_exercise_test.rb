@@ -14,13 +14,13 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
   test "git SHA does not change when there are no changes" do
     track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: "Lucian's Luscious Lasagna", deprecated: false, git_sha: "72c4dc096d3f7a5c01c4545d3d6570b5aa3e4252", synced_to_git_sha: "1813969c8e42246336da329a517521a31eadc871" # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, track: track, uuid: '1fc8216e-6519-11ea-bc55-0242ac130003', slug: 'lucians-luscious-lasagna', title: "Lucian's Luscious Lasagna", deprecated: true, git_sha: "3b0e5ae6a166dd42af27217d1868a74d42023b8b", synced_to_git_sha: "3b0e5ae6a166dd42af27217d1868a74d42023b8b" # rubocop:disable Layout/LineLength
     basics = create :track_concept, track: track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
-    exercise.prerequisites << basics
+    exercise.taught_concepts << basics
 
     Git::SyncConceptExercise.(exercise)
 
-    assert_equal "72c4dc096d3f7a5c01c4545d3d6570b5aa3e4252", exercise.git_sha
+    assert_equal "3b0e5ae6a166dd42af27217d1868a74d42023b8b", exercise.git_sha
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do

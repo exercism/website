@@ -22,6 +22,7 @@ module Git
       Regexp.new(pattern.presence || "[iI]gnore")
     end
 
+    memoize
     def key_features
       config[:key_features].to_a
     end

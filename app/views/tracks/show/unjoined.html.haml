@@ -16,17 +16,17 @@
           = link_to "#concepts", class: "btn-large-secondary" do
             See Concepts
 
-  - unless @track.about.empty?
+  - if @track.about.present?
     %section.about-section
       .md-container.container
         %h2 About #{@track.title}
         .tw-flex.tw-items-start
           .info= raw ParseMarkdown.(@track.about)
-          - if @track.snippet
+          - if @track.snippet.present?
             %code
               %pre= @track.snippet
 
-  - unless @track.key_features.empty?
+  - if @track.key_features.present?
     %section.features-section
       .md-container.container
         %h2 Key Features of #{@track.title}

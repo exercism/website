@@ -1,8 +1,8 @@
 require 'test_helper'
 
 module Git
-  class ExerciseTest < Minitest::Test
-    def test_editor_solution_files
+  class ExerciseTest < ActiveSupport::TestCase
+    test "editor_solution_files" do
       exercise = Git::Exercise.new(:ruby, :bob, "practice", "HEAD")
 
       expected_files = ["bob.rb"]
@@ -10,20 +10,20 @@ module Git
       assert exercise.editor_solution_files["bob.rb"].start_with?("stub content\n")
     end
 
-    def test_read_file_blob
+    test "read_file_blob" do
       exercise = Git::Exercise.new(:ruby, :bob, "practice", "HEAD")
 
       assert_equal "stub content\n", exercise.read_file_blob('bob.rb')
     end
 
-    def test_non_ignored_files
+    test "non_ignored_files" do
       exercise = Git::Exercise.new(:csharp, :datetime, "concept", "HEAD")
 
       assert_equal exercise.non_ignored_filepaths, exercise.non_ignored_files.keys
       assert exercise.non_ignored_files[".docs/hints.md"].start_with?("## General")
     end
 
-    def test_non_ignored_filepaths
+    test "non_ignored_filepaths" do
       exercise = Git::Exercise.new(:csharp, :datetime, "concept", "HEAD")
 
       expected_filepaths = [

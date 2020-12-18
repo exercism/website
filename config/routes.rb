@@ -61,6 +61,8 @@ Rails.application.routes.draw do
       resources :profiles, only: [] do
         get :summary, on: :member
       end
+
+      post "markdown/parse" => "markdown#parse", as: "parse_markdown"
     end
   end
   get "api/(*url)", to: 'api/errors#render_404'

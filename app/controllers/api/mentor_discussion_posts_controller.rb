@@ -2,6 +2,12 @@ module API
   class MentorDiscussionPostsController < BaseController
     before_action :use_mentor_discussion
 
+    def index
+      posts = @discussion.posts.where(iteration: params[:iteration_id])
+
+      render json: SerializeMentorDiscussionPosts.(posts)
+    end
+
     def create
       attrs = [
         @discussion,

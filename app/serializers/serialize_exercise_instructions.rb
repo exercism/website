@@ -44,7 +44,10 @@ class SerializeExerciseInstructions
 
   def tasks
     instructions_doc.each.
+      # Skip the overview part of the instructions
       drop_while { |node| node.type != :header }.
+      # Convert to chunks that start with a header node and subsequent
+      # sibling nodes up until the next header
       chunk_while { |_, nxt| nxt.type != :header }.
       map do |nodes|
         task_title = parse_title(nodes.first)

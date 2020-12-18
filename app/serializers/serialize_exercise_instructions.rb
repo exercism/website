@@ -6,7 +6,8 @@ class SerializeExerciseInstructions
   def call
     {
       overview: overview,
-      general_hints: general_hints
+      general_hints: general_hints,
+      tasks: tasks
     }
   end
 
@@ -34,6 +35,20 @@ class SerializeExerciseInstructions
 
       hints[heading] = heading_hints
     end
+  end
+
+  def tasks
+    instructions_doc.each.
+      drop_while { |node| node.type != :header }.
+      chunk_while { |_, nxt| nxt.type != :header }.
+      each_with_object([]) do |nodes, tasks|
+        task = {
+          title: nodes.first.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2'),
+          text: nodes.drop(1).each.map(&:to_html).join.strip
+        }
+
+        tasks << task
+      end
   end
 
   memoize

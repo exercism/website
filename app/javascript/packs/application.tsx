@@ -112,7 +112,7 @@ initReact({
   'mentoring-discussion-post-list': (data: any) => (
     <Mentoring.DiscussionPostList
       discussionId={data.discussion_id}
-      iterationId={data.iteration_id}
+      iterationIdx={data.iteration_idx}
       endpoint={data.endpoint}
     />
   ),

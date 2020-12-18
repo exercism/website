@@ -16,7 +16,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 
-    get api_mentor_discussion_posts_path(discussion, iteration_id: iteration.id), headers: @headers, as: :json
+    get api_mentor_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
 
     assert_response 200
     expected = [

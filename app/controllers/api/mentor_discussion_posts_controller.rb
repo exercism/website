@@ -3,7 +3,10 @@ module API
     before_action :use_mentor_discussion
 
     def index
-      posts = @discussion.posts.where(iteration: params[:iteration_id])
+      posts = @discussion.
+        posts.
+        joins(:iteration).
+        where(iterations: { idx: params[:iteration_idx] })
 
       render json: SerializeMentorDiscussionPosts.(posts)
     end

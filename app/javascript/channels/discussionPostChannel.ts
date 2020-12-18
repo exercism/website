@@ -6,15 +6,15 @@ export class DiscussionPostChannel {
   constructor(
     {
       discussionId,
-      iterationId,
-    }: { discussionId: number; iterationId: number },
+      iterationIdx,
+    }: { discussionId: number; iterationIdx: number },
     onReceive: () => void
   ) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'DiscussionPostListChannel',
         discussion_id: discussionId,
-        iteration_id: iterationId,
+        iteration_idx: iterationIdx,
       },
       {
         received: onReceive,

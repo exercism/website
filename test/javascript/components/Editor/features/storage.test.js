@@ -49,7 +49,7 @@ test('populates files', async () => {
 
 test('loads data from storage', async () => {
   localStorage.setItem(
-    'files',
+    'solution-files-files',
     JSON.stringify([{ filename: 'file', content: 'class' }])
   )
 
@@ -73,7 +73,7 @@ test('saves data to storage when data changed', async () => {
     jest.runOnlyPendingTimers()
   })
 
-  expect(localStorage.getItem('files')).toEqual(
+  expect(localStorage.getItem('solution-files-files')).toEqual(
     JSON.stringify([{ filename: 'file', content: 'code' }])
   )
 

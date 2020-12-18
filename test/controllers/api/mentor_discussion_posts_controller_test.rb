@@ -32,6 +32,22 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
+  test "index should return 403 when discussion can not be accessed" do
+    setup_user
+    discussion = create :solution_mentor_discussion
+    iteration = create :iteration
+
+    get api_mentor_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "mentor_discussion_not_accessible",
+      message: I18n.t('api.errors.mentor_discussion_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   ###
   # Create
   ###
@@ -68,32 +84,6 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
-  end
-
-  test "create should 403 unless user is mentor or student" do
-    user = create :user
-    setup_user(user)
-
-    solution = create :concept_solution
-    create :iteration, solution: solution, idx: 1
-    discussion = create :solution_mentor_discussion, solution: solution
-
-    post api_mentor_discussion_posts_path(discussion),
-      params: {
-        iteration_idx: 1,
-        content: "foo to the baaar"
-      },
-      headers: @headers, as: :json
-
-    assert_response 403
-    expected = { error: {
-      type: "permission_denied",
-      message: I18n.t('api.errors.permission_denied')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-
-    assert_equal 0, discussion.posts.size
   end
 
   test "create should create correctly for mentor" do

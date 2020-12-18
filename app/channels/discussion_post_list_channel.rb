@@ -7,7 +7,7 @@ class DiscussionPostListChannel < ApplicationCable::Channel
     discussion = Solution::MentorDiscussion.find_by!(uuid: params[:discussion_id])
     iteration = discussion.solution.iterations.find_by!(idx: params[:iteration_idx])
 
-    return unless current_user == discussion.mentor || current_user == discussion.student
+    return unless discussion.viewable_by?(current_user)
 
     stream_for "#{discussion.uuid}_#{iteration.idx}"
   end

@@ -33,4 +33,9 @@ class Solution::MentorDiscussion < ApplicationRecord
   def to_param
     uuid
   end
+
+  def viewable_by?(user)
+    # TODO: Admins should also be allowed to view
+    [mentor, student].include?(user)
+  end
 end

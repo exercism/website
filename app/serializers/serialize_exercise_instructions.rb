@@ -11,7 +11,12 @@ class SerializeExerciseInstructions
   end
 
   private
-  def overview; end
+  def overview
+    instructions_doc.each.
+      take_while { |node| node.type != :header }.
+      map(&:to_html).
+      join
+  end
 
   def general_hints
     hints["general"].to_a
@@ -32,9 +37,18 @@ class SerializeExerciseInstructions
   end
 
   memoize
+  def instructions_doc
+    parse_markdown_doc(exercise.git.instructions)
+  end
+
+  memoize
   def hints_doc
+    parse_markdown_doc(exercise.git.hints)
+  end
+
+  def parse_markdown_doc(filepath)
     CommonMarker.render_doc(
-      exercise.git.hints,
+      filepath,
       :DEFAULT,
       %i[table tagfilter strikethrough]
     )

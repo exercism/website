@@ -32,18 +32,18 @@ class ParseMarkdown
 
   memoize
   def raw_html
-    renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
-    html = CommonMarker.render_doc(
+    doc = CommonMarker.render_doc(
       preprocessed_text,
       :DEFAULT,
       %i[table tagfilter strikethrough]
     )
-    renderer.render(html)
+    renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
+    renderer.render(doc)
   end
 
   memoize
   def preprocessed_text
-    text.gsub(/^`{3,}(.*?)`{3,}\s*$/m) { "\n#{$&}\n" }
+    text.gsub(/^`{3,}(.*?)`{3,}\s*$/m) { "\n#{Regexp.last_match(0)}\n" }
   end
 
   class Renderer < CommonMarker::HtmlRenderer

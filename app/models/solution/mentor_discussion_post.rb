@@ -18,7 +18,7 @@ class Solution::MentorDiscussionPost < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid
   end
 
-  def from_student?
+  def by_student?
     discussion.student == author
   end
 end

@@ -5,7 +5,7 @@ export type DiscussionPostProps = {
   id: number
   authorHandle: string
   authorAvatarUrl: string
-  fromStudent: boolean
+  byStudent: boolean
   contentHtml: string
   updatedAt: string
 }
@@ -13,14 +13,14 @@ export type DiscussionPostProps = {
 export const DiscussionPost = ({
   authorHandle,
   authorAvatarUrl,
-  fromStudent,
+  byStudent,
   contentHtml,
   updatedAt,
 }: DiscussionPostProps): JSX.Element => (
   <div>
     <img data-testid="author-avatar" src={authorAvatarUrl} />
     <p>{authorHandle}</p>
-    {fromStudent ? <p>Student</p> : null}
+    {byStudent ? <p>Student</p> : null}
     <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
     <p>{fromNow(updatedAt)}</p>
   </div>

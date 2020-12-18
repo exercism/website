@@ -31,7 +31,7 @@ class SerializeExerciseInstructions
     #  - foo
     #  - bar
     hints_doc.each_cons(2).each_with_object({}) do |(header, list), hints|
-      # TODO: Add an issue to the relevant track via a async job 
+      # TODO: Add an issue to the relevant track via a async job
       # if any of these are invalid
       next unless header.type == :header
       next unless header.header_level == 2
@@ -48,7 +48,7 @@ class SerializeExerciseInstructions
       chunk_while { |_, nxt| nxt.type != :header }.
       map do |nodes|
         task_title = parse_title(nodes.first)
-        task_text = nodes.drop(1).each.map(&:to_html).join.strip
+        task_text = nodes[1..].each.map(&:to_html).join.strip
         task_hints = hints[task_title.downcase].to_a
 
         { title: task_title, text: task_text, hints: task_hints }

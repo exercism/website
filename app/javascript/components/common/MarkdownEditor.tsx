@@ -14,6 +14,9 @@ export const MarkdownEditor = ({ uuid }: { uuid: string }): JSX.Element => {
     <SimpleMDE
       options={{
         autosave: { enabled: true, uniqueId: uuid },
+        blockStyles: {
+          italic: '_',
+        },
         indentWithTabs: false,
         toolbar: [
           'heading',

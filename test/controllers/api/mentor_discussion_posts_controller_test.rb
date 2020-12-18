@@ -52,6 +52,24 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "create should 404 if the iteration does not exist" do
+    user = create :user
+    setup_user(user)
+    solution = create :concept_solution
+    discussion = create :solution_mentor_discussion,
+      solution: solution,
+      mentor: user
+    post api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
+
+    assert_response 404
+    expected = { error: {
+      type: "iteration_not_found",
+      message: I18n.t("api.errors.iteration_not_found")
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   test "create should 403 unless user is mentor or student" do
     user = create :user
     setup_user(user)

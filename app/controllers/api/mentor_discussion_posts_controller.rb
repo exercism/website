@@ -12,7 +12,9 @@ module API
     end
 
     def create
-      iteration = @discussion.solution.iterations.find_by!(idx: params[:iteration_idx])
+      iteration = @discussion.solution.iterations.find_by(idx: params[:iteration_idx])
+
+      return render_404(:iteration_not_found) if iteration.blank?
 
       attrs = [
         @discussion,

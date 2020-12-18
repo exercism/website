@@ -22,3 +22,4 @@ en:
       mentor_discussion_not_found: "The mentor discussion was not found"
 
       permission_denied: "You do not have access to this resource"
+      iteration_not_found: "The iteration could not be found"

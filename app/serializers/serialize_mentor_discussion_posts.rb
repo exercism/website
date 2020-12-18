@@ -6,7 +6,7 @@ class SerializeMentorDiscussionPosts
   def call
     posts.map do |post|
       {
-        id: post.id,
+        id: post.uuid,
         author_handle: post.author.handle,
         author_avatar_url: post.author.avatar_url,
         from_student: post.from_student?,

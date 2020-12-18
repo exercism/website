@@ -21,10 +21,10 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_response 200
     expected = [
       {
-        id: discussion_post.id,
+        id: discussion_post.uuid,
         author_handle: "author",
         author_avatar_url: mentor.avatar_url,
-        from_student: false,
+        by_student: false,
         content_html: "<p>Hello</p>\n",
         updated_at: Time.utc(2016, 12, 25).iso8601
       }

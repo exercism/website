@@ -27,8 +27,6 @@ module API
         Solution::MentorDiscussion::ReplyByMentor.(*attrs)
       when @discussion.student
         Solution::MentorDiscussion::ReplyByStudent.(*attrs)
-      else
-        return render_403
       end
 
       DiscussionPostListChannel.notify!(@discussion, iteration)
@@ -40,7 +38,8 @@ module API
     private
     def use_mentor_discussion
       @discussion = Solution::MentorDiscussion.find_by(uuid: params[:mentor_discussion_id])
-      render_404(:mentor_discussion_not_found) unless @discussion
+      return render_404(:mentor_discussion_not_found) unless @discussion
+      return render_403(:mentor_discussion_not_accessible) unless @discussion.viewable_by?(current_user)
     end
   end
 end

@@ -31,6 +31,8 @@ class SerializeExerciseInstructions
     #  - foo
     #  - bar
     hints_doc.each_cons(2).each_with_object({}) do |(header, list), hints|
+      # TODO: Add an issue to the relevant track via a async job 
+      # if any of these are invalid
       next unless header.type == :header
       next unless header.header_level == 2
       next unless list.type == :list

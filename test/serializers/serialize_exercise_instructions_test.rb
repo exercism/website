@@ -80,4 +80,17 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
 
     assert_empty serialized[:general_hints]
   end
+
+  test "serialize exercise with some tasks missing hints" do
+    track = create :track, slug: 'csharp'
+    exercise = create :concept_exercise, track: track, slug: 'datetime'
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    assert serialized[:tasks][0][:hints].present?
+    assert_empty serialized[:tasks][1][:hints]
+    assert serialized[:tasks][2][:hints].present?
+    assert_empty serialized[:tasks][3][:hints]
+    assert_empty serialized[:tasks][4][:hints]
+  end
 end

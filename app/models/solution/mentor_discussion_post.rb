@@ -13,4 +13,8 @@ class Solution::MentorDiscussionPost < ApplicationRecord
   validates :content_markdown, presence: true
 
   has_markdown_field :content
+
+  def from_student?
+    discussion.student == author
+  end
 end

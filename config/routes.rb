@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
       resources :mentor_discussions, only: %i[index create] do
         get :tracks, on: :collection # TODO: Remove this
-        resources :posts, only: %i[create], controller: "mentor_discussion_posts"
+        resources :posts, only: %i[index create], controller: "mentor_discussion_posts"
       end
 
       resources :submission, only: [] do
@@ -171,6 +171,7 @@ Rails.application.routes.draw do
         end
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
+          resource :discussion_post_list, controller: "discussion_post_list", only: [:show]
           resource :queue, controller: "queue", only: [:show] do
             get 'solutions', on: :member
           end

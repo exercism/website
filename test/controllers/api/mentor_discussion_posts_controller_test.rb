@@ -2,6 +2,37 @@ require_relative './base_test_case'
 
 class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
   ###
+  # Index
+  ###
+  test "index returns posts for discussion and iteration" do
+    mentor = create :user, handle: "author"
+    setup_user(mentor)
+    discussion = create :solution_mentor_discussion, mentor: mentor
+    iteration = create :iteration
+    discussion_post = create(:solution_mentor_discussion_post,
+      discussion: discussion,
+      iteration: iteration,
+      author: mentor,
+      content_markdown: "Hello",
+      updated_at: Time.utc(2016, 12, 25))
+
+    get api_mentor_discussion_posts_path(discussion, iteration_id: iteration.id), headers: @headers, as: :json
+
+    assert_response 200
+    expected = [
+      {
+        id: discussion_post.id,
+        author_handle: "author",
+        author_avatar_url: mentor.avatar_url,
+        from_student: false,
+        content_html: "<p>Hello</p>\n",
+        updated_at: Time.utc(2016, 12, 25).iso8601
+      }
+    ]
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  ###
   # Create
   ###
   test "create should return 401 with incorrect token" do

@@ -1,8 +1,8 @@
 require 'test_helper'
 
 module Git
-  class ConceptTest < Minitest::Test
-    def test_about
+  class ConceptTest < ActiveSupport::TestCase
+    test "about" do
       concept = Git::Concept.new(
         :csharp,
         :datetimes,
@@ -13,7 +13,7 @@ module Git
       assert concept.about.start_with?("A `DateTime` in C# is an immutable object")
     end
 
-    def test_links
+    test "links" do
       concept = Git::Concept.new(
         :csharp,
         :datetimes,

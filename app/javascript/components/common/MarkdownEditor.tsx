@@ -1,18 +1,18 @@
 import React from 'react'
 import SimpleMDE from 'react-simplemde-editor'
-import 'easymde/dist/easymde.min.css'
 import { sendRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
 export const MarkdownEditor = ({
   contextId,
+  url = document.querySelector<HTMLMetaElement>(
+    'meta[name="parse-markdown-url"]'
+  )?.content,
 }: {
   contextId: string
+  url?: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const url = document.querySelector<HTMLMetaElement>(
-    'meta[name="parse-markdown-url"]'
-  )?.content
 
   return (
     <SimpleMDE
@@ -44,9 +44,13 @@ export const MarkdownEditor = ({
             body: JSON.stringify({ markdown: markdown }),
             method: 'POST',
             isMountedRef: isMountedRef,
-          }).then((json: any) => {
-            preview.innerHTML = json.html
           })
+            .then((json: any) => {
+              preview.innerHTML = json.html
+            })
+            .catch(() => {
+              preview.innerHTML = '<p>Unable to parse markdown</p>'
+            })
 
           return 'Loading...'
         },

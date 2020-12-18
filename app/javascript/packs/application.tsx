@@ -70,6 +70,8 @@ import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
 import '../../css/pages/mentor/dashboard'
 
+import 'easymde/dist/easymde.min.css'
+
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'

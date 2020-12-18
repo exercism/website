@@ -4,7 +4,11 @@ import 'easymde/dist/easymde.min.css'
 import { sendRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
-export const MarkdownEditor = ({ uuid }: { uuid: string }): JSX.Element => {
+export const MarkdownEditor = ({
+  contextId,
+}: {
+  contextId: string
+}): JSX.Element => {
   const isMountedRef = useIsMounted()
   const url = document.querySelector<HTMLMetaElement>(
     'meta[name="parse-markdown-url"]'
@@ -13,7 +17,7 @@ export const MarkdownEditor = ({ uuid }: { uuid: string }): JSX.Element => {
   return (
     <SimpleMDE
       options={{
-        autosave: { enabled: true, uniqueId: uuid },
+        autosave: { enabled: true, uniqueId: contextId },
         blockStyles: {
           italic: '_',
         },

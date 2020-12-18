@@ -95,7 +95,7 @@ initReact({
     <Common.NotificationsIcon count={data.count} />
   ),
   'common-markdown-editor': (data: any) => (
-    <Common.MarkdownEditor uuid={data.uuid} />
+    <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

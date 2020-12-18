@@ -25,6 +25,11 @@ class SerializeExerciseInstructions
 
   memoize
   def hints
+    # Hints documents are structured as a series of headers and lists:
+    # e.g.
+    #  ## Header
+    #  - foo
+    #  - bar
     hints_doc.each_cons(2).each_with_object({}) do |(header, list), hints|
       next unless header.type == :header
       next unless header.header_level == 2

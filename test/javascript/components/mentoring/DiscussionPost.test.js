@@ -8,7 +8,7 @@ test('does not display student tag if author is mentor', async () => {
     id: 1,
     author_handle: 'author',
     author_avatar_url: 'http://exercism.test/image',
-    from_student: false,
+    by_student: false,
     content_html: '<p>Hello</p>',
     updated_at: new Date().toISOString(),
   }

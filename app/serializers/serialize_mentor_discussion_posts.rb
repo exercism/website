@@ -9,7 +9,7 @@ class SerializeMentorDiscussionPosts
         id: post.uuid,
         author_handle: post.author.handle,
         author_avatar_url: post.author.avatar_url,
-        from_student: post.from_student?,
+        by_student: post.by_student?,
         content_html: post.content_html,
         updated_at: post.updated_at.iso8601
       }

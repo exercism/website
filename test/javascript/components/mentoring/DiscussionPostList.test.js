@@ -14,7 +14,7 @@ test('displays all posts', async () => {
             id: 1,
             author_handle: 'author',
             author_avatar_url: 'http://exercism.test/image',
-            from_student: true,
+            by_student: true,
             content_html: '<p>Hello</p>',
             updated_at: new Date().toISOString(),
           },

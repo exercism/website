@@ -3,7 +3,6 @@ require 'test_helper'
 class SerializeSubmissionTest < ActiveSupport::TestCase
   test "test submission" do
     user = create :user
-    auth_token = create :user_auth_token, user: user
     solution = create :concept_solution, user: user
     submission = create :submission, tests_status: :failed, solution: solution
 
@@ -11,17 +10,10 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
       uuid: submission.uuid,
       tests_status: 'failed',
       links: {
-        cancel: Exercism::Routes.api_submission_cancellations_url(submission, auth_token: auth_token.to_s),
-        submit: Exercism::Routes.api_solution_iterations_url(
-          submission.solution.uuid,
-          submission_id: submission.uuid,
-          auth_token: auth_token.to_s
-        ),
-        test_run: Exercism::Routes.api_submission_test_run_url(submission.uuid, auth_token: auth_token.to_s),
-        initial_files: Exercism::Routes.api_solution_initial_files_url(
-          submission.solution.uuid,
-          auth_token: user.auth_tokens.first.to_s
-        )
+        cancel: Exercism::Routes.api_submission_cancellations_url(submission),
+        submit: Exercism::Routes.api_solution_iterations_url(submission.solution.uuid, submission_id: submission.uuid),
+        test_run: Exercism::Routes.api_submission_test_run_url(submission.uuid),
+        initial_files: Exercism::Routes.api_solution_initial_files_url(submission.solution.uuid)
       }
     }
     actual = SerializeSubmission.(submission)

@@ -11,7 +11,7 @@
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }
     - if user_signed_in?
-      %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url(auth_token: current_user.auth_tokens.first.to_s) }
+      %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url }
       %meta{ name: "parse-markdown-url", content: Exercism::Routes.api_parse_markdown_url }
 
     // TODO - Remove any unused weights

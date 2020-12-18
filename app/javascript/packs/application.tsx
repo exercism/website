@@ -94,6 +94,9 @@ initReact({
   'common-notifications-icon': (data: any) => (
     <Common.NotificationsIcon count={data.count} />
   ),
+  'common-markdown-editor': (data: any) => (
+    <Common.MarkdownEditor uuid={data.uuid} />
+  ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
       conversationsRequest={data.conversations_request}

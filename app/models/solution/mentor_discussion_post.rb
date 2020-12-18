@@ -14,6 +14,10 @@ class Solution::MentorDiscussionPost < ApplicationRecord
 
   has_markdown_field :content
 
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
   def from_student?
     discussion.student == author
   end

@@ -7,6 +7,7 @@ class CreateSolutionMentorDiscussionPosts < ActiveRecord::Migration[6.0]
 
       t.text :content_markdown, null: false
       t.text :content_html, null: false
+      t.string :uuid, null: false
 
       t.timestamps
     end

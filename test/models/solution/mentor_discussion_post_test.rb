@@ -3,6 +3,12 @@ require 'test_helper'
 class Iteration::DiscussionPostTest < ActiveSupport::TestCase
   include MarkdownFieldMatchers
 
+  test "generates uuid before create" do
+    post = create :solution_mentor_discussion_post
+
+    assert post.uuid.present?
+  end
+
   test "has markdown fields for feedback" do
     assert_markdown_field(:solution_mentor_discussion_post, :content)
   end

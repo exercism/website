@@ -54,7 +54,7 @@ test('loads data from storage', async () => {
   )
 
   const { queryByText } = render(
-    <Editor files={[{ filename: 'file', content: '' }]} />
+    <Editor storageKey="files" files={[{ filename: 'file', content: '' }]} />
   )
 
   expect(queryByText('Value: class')).toBeInTheDocument()
@@ -65,7 +65,7 @@ test('loads data from storage', async () => {
 test('saves data to storage when data changed', async () => {
   jest.useFakeTimers()
   const { getByTestId } = render(
-    <Editor files={[{ filename: 'file', content: '' }]} />
+    <Editor storageKey="files" files={[{ filename: 'file', content: '' }]} />
   )
 
   fireEvent.change(getByTestId('editor-value'), { target: { value: 'code' } })

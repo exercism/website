@@ -56,4 +56,19 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:text] })
   end
+
+  test "serialize task hints" do
+    track = create :track, slug: 'fsharp'
+    exercise = create :concept_exercise, track: track, slug: 'log-levels'
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    expected = [
+      ["There are <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.indexof?view=netcore-3.1\">several methods</a> to find the index at which some text occurs in a <code>string</code>.", # rubocop:disable Layout/LineLength
+       "Removing white space is <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.trim?view=netcore-3.1\">built-in</a>."], # rubocop:disable Layout/LineLength
+      ["A <code>string</code> can be converted to lowercase using a <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.tolower?view=netcore-3.1\">built-in method</a>."], # rubocop:disable Layout/LineLength
+      ["There are several ways to <a href=\"https://exercism.github.io/v3/#/languages/fsharp/docs/string_concatenation\">concatenate strings</a>."] # rubocop:disable Layout/LineLength
+    ]
+    assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
+  end
 end

@@ -30,10 +30,8 @@ class SerializeExerciseInstructions
       next unless header.header_level == 2
       next unless list.type == :list
 
-      heading = header.to_plaintext.strip.gsub(/^(^\d+)\.(.*)/, '\1').downcase
-      heading_hints = list.each.map { |list_item| list_item.each.first.to_html }
-
-      hints[heading] = heading_hints
+      heading = parse_title(header).downcase
+      hints[heading] = list.each.map { |list_item| list_item.each.first.to_html }
     end
   end
 
@@ -42,12 +40,11 @@ class SerializeExerciseInstructions
       drop_while { |node| node.type != :header }.
       chunk_while { |_, nxt| nxt.type != :header }.
       each_with_object([]) do |nodes, tasks|
-        task = {
-          title: nodes.first.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2'),
-          text: nodes.drop(1).each.map(&:to_html).join.strip
-        }
+        task_title = parse_title(nodes.first)
+        task_text = nodes.drop(1).each.map(&:to_html).join.strip
+        task_hints = hints[task_title.downcase].to_a
 
-        tasks << task
+        tasks << { title: task_title, text: task_text, hints: task_hints }
       end
   end
 
@@ -59,6 +56,10 @@ class SerializeExerciseInstructions
   memoize
   def hints_doc
     parse_markdown_doc(exercise.git.hints)
+  end
+
+  def parse_title(header)
+    header.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2')
   end
 
   def parse_markdown_doc(filepath)

@@ -7,6 +7,8 @@ module ReactComponents
         super(
           "mentoring-discussion-post-list",
           {
+            discussion_id: discussion.id,
+            iteration_id: iteration.id,
             endpoint: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_id: iteration.id)
           }
         )

@@ -9,9 +9,11 @@ module API
     end
 
     def create
+      iteration = @discussion.solution.iterations.find_by!(idx: params[:iteration_idx])
+
       attrs = [
         @discussion,
-        params[:iteration_idx],
+        iteration,
         params[:content]
       ]
 
@@ -23,6 +25,8 @@ module API
       else
         return render_403
       end
+
+      DiscussionPostListChannel.notify!(@discussion, iteration)
 
       # TODO: Return the discussion post here
       head 200

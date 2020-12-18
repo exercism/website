@@ -12,7 +12,7 @@ class SerializeMentorDiscussionPostsTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: discussion_post.id,
+        id: discussion_post.uuid,
         author_handle: "author",
         author_avatar_url: mentor.avatar_url,
         from_student: false,

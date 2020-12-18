@@ -24,14 +24,4 @@
         %code
           %pre= @track.snippet
 
-  - if @track.key_features.present?
-    %section.features-section
-      .md-container.container
-        %h2 Key Features of #{@track.title}
-
-        .features
-          - @track.key_features.first(6).each do |key_feature|
-            .feature
-              = graphical_icon :"#{key_feature[:icon]}"
-              %h3= key_feature[:title]
-              %p= key_feature[:content]
+  = render "tracks/show/unjoined/key_features", track: @track

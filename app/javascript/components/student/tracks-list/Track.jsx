@@ -29,7 +29,8 @@ export function Track({ track }) {
           </ul>
           <ul className="--tags">
             {track.tags.slice(0, 3).map((tag) => {
-              return <li key={tag}>{tag.split(':')[1]}</li>
+              // TODO: find a nice solution to map tags to their human-readable form
+              return <li key={tag}>{tag.split('/')[1]}</li>
             })}
           </ul>
         </div>

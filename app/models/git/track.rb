@@ -23,11 +23,37 @@ module Git
     end
 
     memoize
+    def key_features
+      config[:key_features].to_a
+    end
+
+    memoize
+    def about
+      repo.read_text_blob(commit, about_filepath)
+    end
+
+    memoize
+    def snippet
+      repo.read_text_blob(commit, snippet_filepath)
+    end
+
+    memoize
     def config
       repo.read_json_blob(commit, config_filepath)
     end
 
+    def about_filepath
+      # TODO: remove track-specific path when no longer in monorepo
+      "languages/#{slug}/docs/ABOUT.md"
+    end
+
+    def snippet_filepath
+      # TODO: remove track-specific path when no longer in monorepo
+      "languages/#{slug}/docs/SNIPPET.txt"
+    end
+
     def config_filepath
+      # TODO: remove track-specific path when no longer in monorepo
       "languages/#{slug}/config.json"
     end
 

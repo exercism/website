@@ -34,9 +34,19 @@ module Git
     end
 
     def read_json_blob(commit, path)
-      oid = find_file_oid(commit, path)
-      raw = read_blob(oid, "{}")
+      raw = read_file_blob(commit, path, "{}")
       JSON.parse(raw, symbolize_names: true)
+    end
+
+    def read_text_blob(commit, path)
+      read_file_blob(commit, path, "")
+    end
+
+    def read_file_blob(commit, path, default = nil)
+      oid = find_file_oid(commit, path)
+      read_blob(oid, default)
+    rescue Rugged::TreeError
+      default
     end
 
     def read_blob(oid, default = nil)

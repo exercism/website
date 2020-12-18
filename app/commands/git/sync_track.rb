@@ -30,6 +30,7 @@ module Git
         blurb: head_git_track.config[:blurb],
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
+        tags: head_git_track.config[:tags].to_a,
         concepts: concepts,
         concept_exercises: concept_exercises
         # TODO: re-enable once we import practice exercises

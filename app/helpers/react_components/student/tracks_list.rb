@@ -33,11 +33,11 @@ module ReactComponents
       TAG_OPTIONS = [
         {
           category: "Paradigm",
-          options: [{ value: "Paradigm:Object-oriented", label: "Object-oriented" }]
+          options: [{ value: "paradigm/object_oriented", label: "Object-oriented" }]
         },
         {
           category: "Typing",
-          options: [{ value: "Typing:Static", label: "Static" }, { value: "Typing:Dynamic", label: "Dynamic" }]
+          options: [{ value: "typing/static", label: "Static" }, { value: "typing/dynamic", label: "Dynamic" }]
         }
       ].freeze
       private_constant :TAG_OPTIONS

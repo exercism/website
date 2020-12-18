@@ -10,7 +10,7 @@ module Components
       test "renders correctly for unjoined track" do
         create :track,
           title: "Ruby",
-          tags: ["Foo:Bar", "Abc:Xyz"]
+          tags: ["foo/bar", "abc/xyz"]
 
         visit test_components_student_tracks_list_url
 
@@ -29,8 +29,8 @@ module Components
                     <li>0/0 exercises</li>
                   </ul>
                   <ul class="--tags">
-                    <li>Bar</li>
-                    <li>Xyz</li>
+                    <li>bar</li>
+                    <li>xyz</li>
                   </ul>
                 </div>
                 <svg class="c-icon" role="presentation">
@@ -45,7 +45,7 @@ module Components
       test "renders correctly for joined track" do
         track = create :track,
           title: "Ruby",
-          tags: ["Foo:Bar", "Abc:Xyz"]
+          tags: ["foo/bar", "abc/xyz"]
         concept_exercises = Array.new(3).map { create :concept_exercise, track: track }
         practice_exercises = Array.new(4).map { create :practice_exercise, track: track }
         create :user_track, track: track, user: @current_user
@@ -70,8 +70,8 @@ module Components
                     <li>2/4 exercises</li>
                   </ul>
                   <ul class="--tags">
-                    <li>Bar</li>
-                    <li>Xyz</li>
+                    <li>bar</li>
+                    <li>xyz</li>
                   </ul>
                 </div>
                 <svg class="c-icon" role="presentation">
@@ -113,8 +113,8 @@ module Components
       end
 
       test "filter by tag" do
-        create :track, :random_slug, title: "Ruby", tags: ["Paradigm:Object-oriented", "Typing:Dynamic"]
-        create :track, :random_slug, title: "Go", tags: ["Paradigm:Object-oriented", "Typing:Static"]
+        create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+        create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
         visit test_components_student_tracks_list_url
         click_on "Filter by"
@@ -128,8 +128,8 @@ module Components
       end
 
       test "resets filters" do
-        create :track, :random_slug, title: "Ruby", tags: ["Paradigm:Object-oriented", "Typing:Dynamic"]
-        create :track, :random_slug, title: "Go", tags: ["Paradigm:Object-oriented", "Typing:Static"]
+        create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+        create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
         visit test_components_student_tracks_list_url
         click_on "Filter by"

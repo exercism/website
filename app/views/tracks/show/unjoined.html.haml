@@ -20,55 +20,18 @@
     .md-container.container
       %h2 About #{@track.title}
       .tw-flex.tw-items-start
-        .info
-          %p C# is a multi-paradigm, statically-typed programming language with object-oriented, declarative, functional, generic, lazy, integrated querying features and type inference.
-          %p Statically-typed means that identifiers have a type set at compile time--like those in Java, C++ or Haskell--instead of holding data of any type like those in Python, Ruby or JavaScript.
+        .info= raw ParseMarkdown.(@track.about)
         %code
-          %pre
-            :preserve
-              class Card
-              {
-                  static string NewYear(int year = 2020, string sender = "me")
-                  {
-                      return $"Happy {year} from {sender}!";
-                  }
-              }
+          %pre= @track.snippet
 
-              Card.NewYear();  // => "Happy 2020 from me!"
-              Card.Card(1999); // => "Happy 1999 from me!"
-              Card.Card(sender: "mom"); // => "Happy 2020 from mom!"
+  - if @track.key_features.present?
+    %section.features-section
+      .md-container.container
+        %h2 Key Features of #{@track.title}
 
-  %section.features-section
-    .md-container.container
-      %h2 Key Features of #{@track.title}
-      .features
-        .feature
-          = graphical_icon :"features-oop"
-          %h3 Object-orientated
-          %p Quisque faucibus metus eget nulla venenatis, vel ultrices mi vehicula. Sed at volutpat odio.
-
-        .feature
-          = graphical_icon :"features-strongly-typed"
-          %h3 Strongly-typed
-          %p Quisque faucibus metus eget nulla venenatis, vel ultrices mi vehicula. Sed at volutpat odio.
-
-        .feature
-          = graphical_icon :"features-functional"
-          %h3 Functional
-          %p Quisque faucibus metus eget nulla venenatis, vel ultrices mi vehicula. Sed at volutpat odio.
-
-        .feature
-          = graphical_icon :"features-lazy"
-          %h3 Lazy
-          %p Quisque faucibus metus eget nulla venenatis, vel ultrices mi vehicula. Sed at volutpat odio.
-
-        .feature
-          = graphical_icon :"features-declarative"
-          %h3 Declarative
-          %p Quisque faucibus metus eget nulla venenatis, vel ultrices mi vehicula. Sed at volutpat odio.
-
-        .feature
-          = graphical_icon :"features-generic"
-          %h3 Generic
-          %p Quisque faucibus metus eget nulla venenatis, vel ultrices mi vehicula. Sed at volutpat odio.
-
+        .features
+          - @track.key_features.first(6).each do |key_feature|
+            .feature
+              = graphical_icon :"#{key_feature[:icon]}"
+              %h3= key_feature[:title]
+              %p= key_feature[:content]

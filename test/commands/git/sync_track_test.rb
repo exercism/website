@@ -74,6 +74,26 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     assert_equal "F# is a strongly-typed, functional language.", track.blurb # rubocop:disable Layout/LineLength
   end
 
+  test "track is updated when tags change" do
+    track = create :track, slug: "fsharp",
+                           title: "F#",
+                           active: true,
+                           blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
+                           tags: ["compiles to:Bytecode", "runtime/common_language_runtime"],
+                           synced_to_git_sha: "3b0e5ae6a166dd42af27217d1868a74d42023b8b"
+
+    Git::SyncTrack.(track)
+
+    expected = [
+      "compiles_to/bytecode",
+      "runtime/common_language_runtime",
+      "paradigm/functional",
+      "paradigm/object_oriented",
+      "typing/static"
+    ]
+    assert_equal expected, track.tags
+  end
+
   test "adds new concepts defined in config.json" do
     track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 

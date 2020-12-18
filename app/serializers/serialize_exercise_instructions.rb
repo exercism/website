@@ -46,12 +46,12 @@ class SerializeExerciseInstructions
     instructions_doc.each.
       drop_while { |node| node.type != :header }.
       chunk_while { |_, nxt| nxt.type != :header }.
-      each_with_object([]) do |nodes, tasks|
+      map do |nodes|
         task_title = parse_title(nodes.first)
         task_text = nodes.drop(1).each.map(&:to_html).join.strip
         task_hints = hints[task_title.downcase].to_a
 
-        tasks << { title: task_title, text: task_text, hints: task_hints }
+        { title: task_title, text: task_text, hints: task_hints }
       end
   end
 

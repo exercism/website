@@ -10,7 +10,7 @@ module ReactComponents
           track_title: solution.track.title,
           exercise_title: solution.exercise.title,
           introduction: introduction,
-          instructions: instructions,
+          instructions: SerializeExerciseInstructions.(solution.exercise),
           example_solution: solution.exercise.send(:git).example,
           endpoint: Exercism::Routes.api_solution_submissions_path(
             solution.uuid,

@@ -71,4 +71,13 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end
+
+  test "serialize exercise without general hints" do
+    track = create :track, slug: 'fsharp'
+    exercise = create :concept_exercise, track: track, slug: 'cars-assemble'
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    assert_empty serialized[:general_hints]
+  end
 end

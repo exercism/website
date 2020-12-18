@@ -6,11 +6,11 @@ import { DiscussionPostChannel } from '../../channels/discussionPostChannel'
 export const DiscussionPostList = ({
   endpoint,
   discussionId,
-  iterationId,
+  iterationIdx,
 }: {
   endpoint: string
   discussionId: number
-  iterationId: number
+  iterationIdx: number
 }): JSX.Element | null => {
   const { isSuccess, data: posts, refetch } = useRequestQuery<
     DiscussionPostProps[]
@@ -18,14 +18,14 @@ export const DiscussionPostList = ({
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
-      { discussionId: discussionId, iterationId: iterationId },
+      { discussionId: discussionId, iterationIdx: iterationIdx },
       refetch
     )
 
     return () => {
       channel.disconnect()
     }
-  }, [discussionId, iterationId, refetch])
+  }, [discussionId, iterationIdx, refetch])
 
   if (isSuccess && posts) {
     return (

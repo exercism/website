@@ -1,21 +1,38 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import SimpleMDE from 'react-simplemde-editor'
 import { sendPostRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
+export type MarkdownEditorHandle = {
+  getValue: () => string
+}
+
 export const MarkdownEditor = ({
   contextId,
+  editorDidMount,
   url = document.querySelector<HTMLMetaElement>(
     'meta[name="parse-markdown-url"]'
   )?.content,
 }: {
   contextId: string
   url?: string
+  editorDidMount?: (editor: MarkdownEditorHandle) => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
 
+  const getInstance = useCallback(
+    (editor) => {
+      if (!editorDidMount) {
+        return
+      }
+
+      editorDidMount({ getValue: editor.value.bind(editor) })
+    },
+    [editorDidMount]
+  )
   return (
     <SimpleMDE
+      getMdeInstance={getInstance}
       options={{
         autosave: { enabled: true, uniqueId: contextId },
         blockStyles: {

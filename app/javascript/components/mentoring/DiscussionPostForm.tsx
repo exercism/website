@@ -75,7 +75,9 @@ export const DiscussionPostForm = ({
                 editorDidMount={handleEditorMount}
                 contextId={contextId}
               />
-              <button type="submit">Send</button>
+              <button type="submit" disabled={isLoading}>
+                Send
+              </button>
             </form>
             {isLoading ? <p>Loading...</p> : null}
             {error ? <p>{error.message}</p> : null}

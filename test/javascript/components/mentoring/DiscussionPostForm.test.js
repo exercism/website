@@ -24,6 +24,31 @@ test('shows loading message', async () => {
 
   await waitFor(() => expect(queryByText('Loading...')).toBeInTheDocument())
   await waitFor(() => expect(queryByText('Loading...')).not.toBeInTheDocument())
+
+  server.close()
+})
+
+test('send button should be disabled while sending', async () => {
+  const server = setupServer(
+    rest.post('https://exercism.test/posts', (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({}))
+    })
+  )
+  server.listen()
+
+  const { getByText, queryByText } = render(
+    <DiscussionPostForm
+      endpoint="https://exercism.test/posts"
+      contextId="test"
+    />
+  )
+  fireEvent.click(getByText('Add a comment'))
+  fireEvent.click(getByText('Send'))
+
+  expect(getByText('Send')).toBeDisabled()
+  await waitFor(() => expect(queryByText('Send')).not.toBeInTheDocument())
+
+  server.close()
 })
 
 test('shows error messages', async () => {
@@ -52,6 +77,8 @@ test('shows error messages', async () => {
   fireEvent.click(getByText('Send'))
 
   await waitFor(() => expect(queryByText('Unauthorized')).toBeInTheDocument())
+
+  server.close()
 })
 
 test('closes panel when request succeeds', async () => {
@@ -72,4 +99,6 @@ test('closes panel when request succeeds', async () => {
   fireEvent.click(getByText('Send'))
 
   await waitFor(() => expect(queryByText('Send')).not.toBeInTheDocument())
+
+  server.close()
 })

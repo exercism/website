@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { usePanel } from '../../hooks/use-panel'
 import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
 import { sendPostRequest } from '../../utils/send-request'
@@ -11,6 +11,7 @@ export const DiscussionPostForm = ({
   endpoint: string
   contextId: string
 }): JSX.Element | null => {
+  const [isLoading, setIsLoading] = useState(false)
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
   const {
@@ -27,11 +28,15 @@ export const DiscussionPostForm = ({
     (e) => {
       e.preventDefault()
 
+      setIsLoading(true)
+
       sendPostRequest({
         endpoint: endpoint,
         body: { content: editorRef.current?.getValue() },
         isMountedRef: isMountedRef,
-      }).then(() => setOpen(false))
+      })
+        .then(() => setOpen(false))
+        .finally(() => setIsLoading(false))
     },
     [editorRef, endpoint, isMountedRef, setOpen]
   )
@@ -56,13 +61,16 @@ export const DiscussionPostForm = ({
       </button>
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
-          <form onSubmit={handleSubmit}>
-            <MarkdownEditor
-              editorDidMount={handleEditorMount}
-              contextId={contextId}
-            />
-            <button type="submit">Send</button>
-          </form>
+          <div>
+            <form onSubmit={handleSubmit}>
+              <MarkdownEditor
+                editorDidMount={handleEditorMount}
+                contextId={contextId}
+              />
+              <button type="submit">Send</button>
+            </form>
+            {isLoading ? <p>Loading...</p> : null}
+          </div>
         ) : null}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, WrapSetting, Themes } from '../types'
-import { usePanel } from './usePanel'
+import { usePanel } from '../../../hooks/use-panel'
 
 const THEMES = [
   { label: 'Light', value: Themes.LIGHT },

@@ -26,6 +26,34 @@ test('shows loading message', async () => {
   await waitFor(() => expect(queryByText('Loading...')).not.toBeInTheDocument())
 })
 
+test('shows error messages', async () => {
+  const server = setupServer(
+    rest.post('https://exercism.test/posts', (req, res, ctx) => {
+      return res(
+        ctx.status(403),
+        ctx.json({
+          error: {
+            type: 'unauthorized',
+            message: 'Unauthorized',
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  const { getByText, queryByText } = render(
+    <DiscussionPostForm
+      endpoint="https://exercism.test/posts"
+      contextId="test"
+    />
+  )
+  fireEvent.click(getByText('Add a comment'))
+  fireEvent.click(getByText('Send'))
+
+  await waitFor(() => expect(queryByText('Unauthorized')).toBeInTheDocument())
+})
+
 test('closes panel when request succeeds', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {

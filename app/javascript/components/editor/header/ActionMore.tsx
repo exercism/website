@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Icon } from '../../common/Icon'
 import { BugReportModal } from '../../modals/BugReportModal'
 import { usePanel } from '../../../hooks/use-panel'

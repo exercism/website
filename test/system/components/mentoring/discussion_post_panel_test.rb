@@ -4,7 +4,7 @@ require_relative "../../../support/websockets_helpers"
 
 module Components
   module Mentoring
-    class DiscussionTest < ApplicationSystemTestCase
+    class DiscussionPanelListTest < ApplicationSystemTestCase
       include CapybaraHelpers
       include WebsocketsHelpers
 
@@ -22,7 +22,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_list_path(
+          visit test_components_mentoring_discussion_post_panel_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -42,7 +42,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_list_path(
+          visit test_components_mentoring_discussion_post_panel_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )

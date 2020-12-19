@@ -1,15 +1,17 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
-import { sendPostRequest, APIError } from '../../utils/send-request'
+import { sendRequest, APIError } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../common/Loading'
 
 export const DiscussionPostForm = ({
   endpoint,
+  method,
   contextId,
   onSuccess,
 }: {
   endpoint: string
+  method: 'POST' | 'PATCH'
   contextId: string
   onSuccess: () => void
 }): JSX.Element | null => {
@@ -24,9 +26,10 @@ export const DiscussionPostForm = ({
 
       setIsLoading(true)
 
-      sendPostRequest({
+      sendRequest({
         endpoint: endpoint,
-        body: { content: editorRef.current?.getValue() },
+        body: JSON.stringify({ content: editorRef.current?.getValue() }),
+        method: method,
         isMountedRef: isMountedRef,
       })
         .then(onSuccess)

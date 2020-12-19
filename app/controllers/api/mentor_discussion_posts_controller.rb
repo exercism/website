@@ -1,6 +1,6 @@
 module API
   class MentorDiscussionPostsController < BaseController
-    before_action :use_mentor_discussion
+    before_action :use_mentor_discussion, only: %i[index create]
 
     def index
       posts = @discussion.
@@ -30,6 +30,17 @@ module API
       end
 
       DiscussionPostListChannel.notify!(@discussion, iteration)
+
+      # TODO: Return the discussion post here
+      head 200
+    end
+
+    def update
+      post = Solution::MentorDiscussionPost.find_by!(uuid: params[:id], author: current_user)
+
+      return unless post.update(content_markdown: params[:content])
+
+      DiscussionPostListChannel.notify!(post.discussion, post.iteration)
 
       # TODO: Return the discussion post here
       head 200

@@ -11,6 +11,9 @@ test('does not display student tag if author is mentor', async () => {
     by_student: false,
     content_html: '<p>Hello</p>',
     updated_at: new Date().toISOString(),
+    links: {
+      self: 'https://exercism.test/links/1',
+    },
   }
 
   const { queryByText } = render(<DiscussionPost {...post} />)

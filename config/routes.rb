@@ -53,6 +53,8 @@ Rails.application.routes.draw do
         resources :posts, only: %i[index create], controller: "mentor_discussion_posts"
       end
 
+      resources :mentor_discussion_posts, only: %i[update]
+
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"

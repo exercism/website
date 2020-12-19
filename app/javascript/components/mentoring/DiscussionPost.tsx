@@ -1,8 +1,14 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
+import { EditDiscussionPost } from './EditDiscussionPost'
+
+type DiscussionPostLinks = {
+  self: string
+}
 
 export type DiscussionPostProps = {
   id: number
+  links: DiscussionPostLinks
   authorHandle: string
   authorAvatarUrl: string
   byStudent: boolean
@@ -11,6 +17,8 @@ export type DiscussionPostProps = {
 }
 
 export const DiscussionPost = ({
+  id,
+  links,
   authorHandle,
   authorAvatarUrl,
   byStudent,
@@ -23,5 +31,6 @@ export const DiscussionPost = ({
     {byStudent ? <p>Student</p> : null}
     <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
     <p>{fromNow(updatedAt)}</p>
+    <EditDiscussionPost endpoint={links.self} contextId={`edit_${id}`} />
   </div>
 )

@@ -11,7 +11,10 @@ class SerializeMentorDiscussionPosts
         author_avatar_url: post.author.avatar_url,
         by_student: post.by_student?,
         content_html: post.content_html,
-        updated_at: post.updated_at.iso8601
+        updated_at: post.updated_at.iso8601,
+        links: {
+          self: Exercism::Routes.api_mentor_discussion_post_url(post)
+        }
       }
     end
   end

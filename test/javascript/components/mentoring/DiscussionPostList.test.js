@@ -17,6 +17,9 @@ test('displays all posts', async () => {
             by_student: true,
             content_html: '<p>Hello</p>',
             updated_at: new Date().toISOString(),
+            links: {
+              self: 'https://exercism.test/posts/1',
+            },
           },
         ])
       )

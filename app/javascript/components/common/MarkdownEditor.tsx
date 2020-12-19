@@ -1,6 +1,6 @@
 import React from 'react'
 import SimpleMDE from 'react-simplemde-editor'
-import { sendRequest } from '../../utils/send-request'
+import { sendPostRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
 export const MarkdownEditor = ({
@@ -39,10 +39,9 @@ export const MarkdownEditor = ({
             return 'Preview unavailable'
           }
 
-          sendRequest({
+          sendPostRequest({
             endpoint: url,
-            body: JSON.stringify({ markdown: markdown }),
-            method: 'POST',
+            body: { markdown: markdown },
             isMountedRef: isMountedRef,
           })
             .then((json: any) => {

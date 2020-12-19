@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react'
 import Modal from 'react-modal'
-import { sendRequest } from '../../utils/send-request'
+import { sendPostRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
 enum BugReportModalStatus {
@@ -43,14 +43,13 @@ export const BugReportModal = ({
         return
       }
 
-      return sendRequest({
+      return sendPostRequest({
         endpoint: url,
-        body: JSON.stringify({
+        body: {
           bug_report: {
             content_markdown: e.target.elements.content_markdown.value,
           },
-        }),
-        method: 'POST',
+        },
         isMountedRef: isMountedRef,
       })
         .then((json: any) => {

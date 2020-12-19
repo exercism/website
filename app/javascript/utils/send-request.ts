@@ -5,6 +5,23 @@ export type APIError = {
   message: string
 }
 
+export const sendPostRequest = ({
+  endpoint,
+  body,
+  isMountedRef,
+}: {
+  endpoint: string
+  body: any
+  isMountedRef: React.MutableRefObject<Boolean>
+}) => {
+  return sendRequest({
+    endpoint: endpoint,
+    body: JSON.stringify(body),
+    method: 'POST',
+    isMountedRef: isMountedRef,
+  })
+}
+
 export const sendRequest = ({
   endpoint,
   body,

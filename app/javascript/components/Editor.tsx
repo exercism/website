@@ -37,7 +37,7 @@ import {
 } from './editor/useSubmission'
 import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
-import { sendRequest, APIError } from '../utils/send-request'
+import { sendRequest, sendPostRequest, APIError } from '../utils/send-request'
 
 export enum TabIndex {
   INSTRUCTIONS = 'instructions',
@@ -127,10 +127,9 @@ export function Editor({
     submissionDispatch({ type: SubmissionActionType.CREATING_SUBMISSION })
 
     abort()
-    sendRequest({
+    sendPostRequest({
       endpoint: endpoint,
-      body: JSON.stringify({ files: files }),
-      method: 'POST',
+      body: { files: files },
       isMountedRef: isMountedRef,
     })
       .then((json: any) => {
@@ -180,10 +179,9 @@ export function Editor({
     submissionDispatch({ type: SubmissionActionType.CREATING_ITERATION })
 
     abort()
-    sendRequest({
+    sendPostRequest({
       endpoint: submission.links.submit,
-      body: JSON.stringify({}),
-      method: 'POST',
+      body: {},
       isMountedRef: isMountedRef,
     })
       .then((json: any) => {

@@ -5,7 +5,7 @@ import { sendPostRequest, APIError } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../common/Loading'
 
-export const DiscussionPostForm = ({
+export const AddDiscussionPost = ({
   endpoint,
   contextId,
 }: {

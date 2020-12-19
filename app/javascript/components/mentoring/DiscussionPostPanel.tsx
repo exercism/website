@@ -1,6 +1,6 @@
 import React from 'react'
 import { DiscussionPostList } from './DiscussionPostList'
-import { DiscussionPostForm } from './DiscussionPostForm'
+import { AddDiscussionPost } from './AddDiscussionPost'
 
 export const DiscussionPostPanel = ({
   endpoint,
@@ -18,7 +18,7 @@ export const DiscussionPostPanel = ({
         discussionId={discussionId}
         iterationIdx={iterationIdx}
       />
-      <DiscussionPostForm
+      <AddDiscussionPost
         endpoint={endpoint}
         contextId={`${discussionId}_${iterationIdx}_new_post`}
       />

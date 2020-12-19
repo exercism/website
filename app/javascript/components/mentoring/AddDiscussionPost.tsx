@@ -1,9 +1,6 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import { usePanel } from '../../hooks/use-panel'
-import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
-import { sendPostRequest, APIError } from '../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
-import { Loading } from '../common/Loading'
+import { DiscussionPostForm } from './DiscussionPostForm'
 
 export const AddDiscussionPost = ({
   endpoint,
@@ -12,10 +9,6 @@ export const AddDiscussionPost = ({
   endpoint: string
   contextId: string
 }): JSX.Element | null => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<APIError | null>(null)
-  const editorRef = useRef<MarkdownEditorHandle | null>(null)
-  const isMountedRef = useIsMounted()
   const {
     open,
     setOpen,
@@ -26,36 +19,7 @@ export const AddDiscussionPost = ({
     attributes,
   } = usePanel()
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      setIsLoading(true)
-
-      sendPostRequest({
-        endpoint: endpoint,
-        body: { content: editorRef.current?.getValue() },
-        isMountedRef: isMountedRef,
-      })
-        .then(() => setOpen(false))
-        .catch((err) => {
-          if (err instanceof Response) {
-            err.json().then((res: any) => {
-              setError(res.error)
-            })
-          }
-        })
-        .finally(() => setIsLoading(false))
-    },
-    [editorRef, endpoint, isMountedRef, setOpen]
-  )
-
-  const handleEditorMount = useCallback(
-    (editor) => {
-      editorRef.current = editor
-    },
-    [editorRef]
-  )
+  const handleSuccess = useCallback(() => setOpen(false), [setOpen])
 
   return (
     <div ref={componentRef}>
@@ -70,19 +34,11 @@ export const AddDiscussionPost = ({
       </button>
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <MarkdownEditor
-                editorDidMount={handleEditorMount}
-                contextId={contextId}
-              />
-              <button type="submit" disabled={isLoading}>
-                Send
-              </button>
-            </form>
-            {isLoading ? <Loading /> : null}
-            {error ? <p>{error.message}</p> : null}
-          </div>
+          <DiscussionPostForm
+            onSuccess={handleSuccess}
+            endpoint={endpoint}
+            contextId={contextId}
+          />
         ) : null}
       </div>
     </div>

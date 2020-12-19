@@ -61,6 +61,8 @@ Rails.application.routes.draw do
       resources :profiles, only: [] do
         get :summary, on: :member
       end
+
+      post "markdown/parse" => "markdown#parse", as: "parse_markdown"
     end
   end
   get "api/(*url)", to: 'api/errors#render_404'
@@ -187,6 +189,7 @@ Rails.application.routes.draw do
         end
         namespace :common do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
+          resource :markdown_editor, controller: "markdown_editor", only: [:show]
           resource :icons, controller: "icons", only: [:show]
         end
       end

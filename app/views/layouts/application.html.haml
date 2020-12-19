@@ -10,8 +10,8 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }
-    - if user_signed_in?
-      %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url(auth_token: current_user.auth_tokens.first.to_s) }
+    %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url }
+    %meta{ name: "parse-markdown-url", content: Exercism::Routes.api_parse_markdown_url }
 
     // TODO - Remove any unused weights
     %link{ href: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap", rel: "stylesheet" }

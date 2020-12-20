@@ -3,9 +3,11 @@ import { usePanel } from '../../hooks/use-panel'
 import { DiscussionPostForm } from './DiscussionPostForm'
 
 export const EditDiscussionPost = ({
+  value,
   endpoint,
   contextId,
 }: {
+  value: string
   endpoint: string
   contextId: string
 }): JSX.Element | null => {
@@ -39,6 +41,7 @@ export const EditDiscussionPost = ({
             endpoint={endpoint}
             method="PATCH"
             contextId={contextId}
+            value={value}
           />
         ) : null}
       </div>

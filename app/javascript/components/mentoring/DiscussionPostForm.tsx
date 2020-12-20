@@ -7,13 +7,15 @@ import { Loading } from '../common/Loading'
 export const DiscussionPostForm = ({
   endpoint,
   method,
-  contextId,
   onSuccess,
+  contextId,
+  value = '',
 }: {
   endpoint: string
   method: 'POST' | 'PATCH'
-  contextId: string
   onSuccess: () => void
+  contextId: string
+  value?: string
 }): JSX.Element | null => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<APIError | null>(null)
@@ -48,11 +50,11 @@ export const DiscussionPostForm = ({
           setIsLoading(false)
         })
     },
-    [endpoint, isMountedRef, onSuccess]
+    [endpoint, isMountedRef, method, onSuccess]
   )
 
   const handleEditorMount = useCallback(
-    (editor) => {
+    (editor: MarkdownEditorHandle) => {
       editorRef.current = editor
     },
     [editorRef]
@@ -62,8 +64,9 @@ export const DiscussionPostForm = ({
     <div>
       <form onSubmit={handleSubmit}>
         <MarkdownEditor
-          editorDidMount={handleEditorMount}
           contextId={contextId}
+          value={value}
+          editorDidMount={handleEditorMount}
         />
         <button type="submit" disabled={isLoading}>
           Send

@@ -12,6 +12,7 @@ export type DiscussionPostProps = {
   authorHandle: string
   authorAvatarUrl: string
   byStudent: boolean
+  contentMarkdown: string
   contentHtml: string
   updatedAt: string
 }
@@ -22,15 +23,22 @@ export const DiscussionPost = ({
   authorHandle,
   authorAvatarUrl,
   byStudent,
+  contentMarkdown,
   contentHtml,
   updatedAt,
-}: DiscussionPostProps): JSX.Element => (
-  <div>
-    <img data-testid="author-avatar" src={authorAvatarUrl} />
-    <p>{authorHandle}</p>
-    {byStudent ? <p>Student</p> : null}
-    <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-    <p>{fromNow(updatedAt)}</p>
-    <EditDiscussionPost endpoint={links.self} contextId={`edit_${id}`} />
-  </div>
-)
+}: DiscussionPostProps): JSX.Element => {
+  return (
+    <div>
+      <img data-testid="author-avatar" src={authorAvatarUrl} />
+      <p>{authorHandle}</p>
+      {byStudent ? <p>Student</p> : null}
+      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <p>{fromNow(updatedAt)}</p>
+      <EditDiscussionPost
+        value={contentMarkdown}
+        endpoint={links.self}
+        contextId={`edit_${id}`}
+      />
+    </div>
+  )
+}

@@ -8,7 +8,7 @@ module API
         joins(:iteration).
         where(iterations: { idx: params[:iteration_idx] })
 
-      render json: SerializeMentorDiscussionPosts.(posts)
+      render json: posts.map { |post| SerializeMentorDiscussionPost.(post, current_user) }
     end
 
     def create
@@ -36,14 +36,15 @@ module API
     end
 
     def update
-      post = Solution::MentorDiscussionPost.find_by!(uuid: params[:id], author: current_user)
+      post = Solution::MentorDiscussionPost.find_by(uuid: params[:id], author: current_user)
+
+      return render_404(:mentor_discussion_post_not_found) if post.blank?
 
       return unless post.update(content_markdown: params[:content])
 
       DiscussionPostListChannel.notify!(post.discussion, post.iteration)
 
-      # TODO: Return the discussion post here
-      head 200
+      render json: SerializeMentorDiscussionPost.(post, current_user)
     end
 
     private

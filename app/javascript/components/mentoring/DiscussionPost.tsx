@@ -3,7 +3,7 @@ import { fromNow } from '../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
 
 type DiscussionPostLinks = {
-  update: string
+  update?: string
 }
 
 export type DiscussionPostProps = {

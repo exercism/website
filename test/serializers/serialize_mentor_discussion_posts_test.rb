@@ -16,6 +16,7 @@ class SerializeMentorDiscussionPostsTest < ActiveSupport::TestCase
         author_handle: "author",
         author_avatar_url: mentor.avatar_url,
         by_student: false,
+        content_markdown: "Hello",
         content_html: "<p>Hello</p>\n",
         updated_at: Time.utc(2016, 12, 25).iso8601,
         links: {

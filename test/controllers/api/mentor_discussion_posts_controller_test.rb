@@ -25,10 +25,11 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
         author_handle: "author",
         author_avatar_url: mentor.avatar_url,
         by_student: false,
+        content_markdown: "Hello",
         content_html: "<p>Hello</p>\n",
         updated_at: Time.utc(2016, 12, 25).iso8601,
         links: {
-          self: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+          update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
         }
       }
     ]
@@ -152,5 +153,52 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal user, post.author
     assert_equal content, post.content_markdown
     assert_equal it_2, post.iteration
+  end
+
+  ###
+  # Update
+  ###
+  test "returns 404 error when post not found" do
+    setup_user
+
+    patch api_mentor_discussion_post_path(1), headers: @headers, as: :json
+
+    assert_response 404
+    expected = { error: {
+      type: "mentor_discussion_post_not_found",
+      message: I18n.t("api.errors.mentor_discussion_post_not_found")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "updates a post" do
+    author = create(:user, handle: "author")
+    discussion_post = create(:solution_mentor_discussion_post,
+      author: author,
+      content_markdown: "Hello",
+      updated_at: Time.utc(2016, 12, 25))
+    setup_user(author)
+
+    patch api_mentor_discussion_post_path(discussion_post),
+      params: { content: "content" },
+      headers: @headers,
+      as: :json
+
+    assert_response 200
+
+    discussion_post.reload
+    expected = {
+      id: discussion_post.uuid,
+      author_handle: "author",
+      author_avatar_url: author.avatar_url,
+      by_student: false,
+      content_markdown: "content",
+      content_html: "<p>content</p>\n",
+      updated_at: discussion_post.updated_at.iso8601,
+      links: {
+        update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 end

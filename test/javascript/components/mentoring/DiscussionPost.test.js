@@ -29,7 +29,7 @@ test('does not display student tag if author is mentor', async () => {
     contentHtml: '<p>Hello</p>',
     updatedAt: new Date().toISOString(),
     links: {
-      self: 'https://exercism.test/links/1',
+      update: 'https://exercism.test/links/1',
     },
   }
 
@@ -48,7 +48,7 @@ test('prefills edit form with previous value', async () => {
     contentHtml: '<h1>Hello</h1>',
     updatedAt: new Date().toISOString(),
     links: {
-      self: 'https://exercism.test/links/1',
+      update: 'https://exercism.test/links/1',
     },
   }
 

@@ -147,9 +147,9 @@ ActiveRecord::Schema.define(version: 2021_01_04_185107) do
     t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
-    t.string "uuid", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["discussion_id"], name: "index_solution_mentor_discussion_posts_on_discussion_id"
     t.index ["iteration_id"], name: "index_solution_mentor_discussion_posts_on_iteration_id"
     t.index ["user_id"], name: "index_solution_mentor_discussion_posts_on_user_id"

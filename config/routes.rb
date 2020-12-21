@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   # API #
   # ### #
   namespace :api do
-    scope :v1 do
+    scope :v1 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   # ############ #
   # Normal pages #
   # ############ #
+  resource :dashboard, only: [:show], controller: "dashboard"
 
   resources :profiles, only: [:show] do
     member do

@@ -26,6 +26,7 @@ import '../../css/components/flash.css'
 import '../../css/components/icon.css'
 import '../../css/components/iteration-summary.css'
 
+import '../../css/components/heading-with-count.css'
 import '../../css/components/notification.css'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation.css'
@@ -58,6 +59,7 @@ import '../../css/components/track/concept-map.css'
 import '../../css/components/widgets/exercise.css'
 
 import '../../css/pages/auth.css'
+import '../../css/pages/dashboard.css'
 import '../../css/pages/editor.css'
 import '../../css/pages/profile.css'
 import '../../css/pages/staging.css' // TODO: Remove for launch

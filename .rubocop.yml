@@ -62,6 +62,9 @@ Metrics/AbcSize:
 Naming/PredicateName:
   Enabled: false
 
+Style/ConditionalAssignment:
+  EnforcedStyle: assign_inside_condition
+
 Style/StringLiterals:
   Enabled: false
 

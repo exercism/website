@@ -185,6 +185,24 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
+  test "returns 400 when validations fail" do
+    author = create(:user)
+    setup_user(author)
+    discussion_post = create(:solution_mentor_discussion_post, author: author)
+
+    patch api_mentor_discussion_post_path(discussion_post),
+      params: { content: '' },
+      headers: @headers,
+      as: :json
+
+    assert_response 400
+    expected = { error: {
+      type: "failed_validations",
+      message: "Content markdown can't be blank"
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
   test "updates a post" do
     author = create(:user, handle: "author")
     discussion_post = create(:solution_mentor_discussion_post,

@@ -35,6 +35,15 @@ module API
       render_error(400, type)
     end
 
+    def render_failed_validations(errors)
+      render json: {
+        error: {
+          type: :failed_validations,
+          message: I18n.t("api.errors.failed_validations", errors: errors.full_messages.join(", "))
+        }
+      }, status: :bad_request
+    end
+
     def render_401
       render_error(401, :invalid_auth_token)
     end

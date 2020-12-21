@@ -41,11 +41,12 @@ module API
       return render_404(:mentor_discussion_post_not_found) if post.blank?
       return render_403(:permission_denied) unless post.author == current_user
 
-      return unless post.update(content_markdown: params[:content])
-
-      DiscussionPostListChannel.notify!(post.discussion, post.iteration)
-
-      render json: SerializeMentorDiscussionPost.(post, current_user)
+      if post.update(content_markdown: params[:content])
+        DiscussionPostListChannel.notify!(post.discussion, post.iteration)
+        render json: SerializeMentorDiscussionPost.(post, current_user)
+      else
+        render_failed_validations(post.errors)
+      end
     end
 
     private

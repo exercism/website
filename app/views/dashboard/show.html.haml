@@ -1,0 +1,122 @@
+#page-dashboard
+  = link_to "#", class: 'summary-bar' do
+    .lg-container.container
+      = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+      .info
+        .handle @#{current_user.handle}
+        .extra= current_user.name
+      .badges
+        .c-badge-medallion.--common
+          = graphical_icon :maintaining
+        .c-badge-medallion.--rare
+          = graphical_icon :testimonials
+        .c-badge-medallion.--ultimate
+          = graphical_icon :settings
+        .c-badge-medallion.--legendary
+          = graphical_icon :keyboard
+        .count
+          + 24 more
+
+      .journey
+        Your Journey
+        = graphical_icon("chevron-right")
+
+  .lg-container.container.bg-shapes
+    %header.dashboard-header
+      .lhs
+        .intro
+          = graphical_icon "logo"
+          .content
+            %h1 Welcome back!
+            %p.welcome
+              Complete coding exercises and get mentoring to become more fluent in your chosen programming languages.
+              /%strong Exercism is not-for-profit, open-source and built by volunteers.
+            %p.cta
+              Exercism is built by people like you. We’d love you to
+              = link_to "contribute", "#"
+              and make it even better.
+      .rhs
+
+    %article
+      .lhs
+        %section.actions-section
+          = link_to tracks_path, class: 'action' do
+            = graphical_icon "graphic-bookworm"
+            Continue learning on your tracks
+          = link_to mentor_dashboard_path, class: 'action' do
+            = graphical_icon "graphic-phone-chat"
+            Try your hand at mentoring
+          = link_to "#", class: 'action' do
+            = graphical_icon "graphic-hacker-boy"
+            Contribute to building Exercism
+          = link_to "#", class: 'action' do
+            = graphical_icon "graphic-floating-cash"
+            Learn more about Exercism
+
+        %section.posts-section
+          %h2 Community Posts
+          .posts
+            = link_to "#", class: "post" do
+              .img
+              .new new
+              .title Welcome to Exercism v3!
+              .byline
+                .by @iHiD
+                &middot;
+                %date 4 days ago
+            = link_to "#", class: "post" do
+              .img
+              .title How we built 50+ tracks of coding exercise in a year and did so really really well!
+              .byline
+                .by @iHiD
+                &middot;
+                %date 4 days ago
+            = link_to "#", class: "post" do
+              .img
+              .title How we designed Exercism V3
+              .byline
+                .by @iHiD
+                &middot;
+                %date 4 days ago
+          = render ViewComponents::ProminentLink.new("See all community posts", "#")
+
+        %section.activity-section
+          %h2 Activity on Exercism
+
+      .rhs
+        %section.tracks-section
+          .c-heading-with-count
+            %h3.--text.text-h3 Your Tracks
+            .--count{ 'aria-label': "#{@user_tracks.size} Tracks" }= @user_tracks.size
+
+          .tracks
+            - @user_tracks.each do |user_track|
+              .track
+                = track_icon(user_track.track)
+                .info
+                  .title= user_track.track.title
+                  .progress
+                    %progress.progress-bar{ value: user_track.num_completed_exercises, max: user_track.num_exercises }
+                  .counts #{user_track.num_completed_exercises} / #{user_track.num_exercises} exercises completed
+                = graphical_icon :"chevron-right", css_class: "action-icon"
+
+          = render ViewComponents::ProminentLink.new("Discover more tracks", tracks_path)
+
+        %section.mentoring-section
+          .c-heading-with-count
+            %h3.--text.text-h3 Mentoring
+            .--count{ 'aria-label': "#{@mentoring_inbox_size} of your solutions need responses" }= @mentoring_inbox_size
+
+          .conversations
+            = link_to "#", "aria-label": "View profile of Erik Schierboom", class: 'conversation' do
+              = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+              .info
+                .handle @ErikSchierboom
+                .exercise on Lucians Luscious Lasagna
+              .comments.unread
+                = icon "comment", "#{5 + 1} comments"
+                5
+              %time 2m ago
+              = graphical_icon :"chevron-right", css_class: "action-icon"
+
+          = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentor_dashboard_path)

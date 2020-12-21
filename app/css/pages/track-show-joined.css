@@ -88,22 +88,8 @@
     & section.contributors {
         @apply bg-white rounded-8 pt-24 pb-32 px-32 mb-32 shadow-lg;
 
-        & header {
-            @apply flex items-center mb-16;
-            & h2 {
-                @apply flex items-center text-h4 mr-12;
-                & svg {
-                    height: 24px;
-                    width: 24px;
-                    @apply mr-16;
-                }
-            }
-            & .count {
-                @apply rounded-100 px-12;
-                @apply text-textLight text-14 font-medium;
-                @apply border-textLight border-1;
-                line-height: 28px;
-            }
+        & .c-heading-with-count {
+            @apply mb-16;
         }
 
         & .showcase {

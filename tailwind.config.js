@@ -20,6 +20,7 @@ module.exports = {
       circle: '100%',
     },
     borderWidth: {
+      '0': '0',
       '1': '1px',
       '2': '2px',
       '3': '3px',
@@ -32,6 +33,7 @@ module.exports = {
     },
     colors: {
       unnamed10: '#3D3B45',
+      unnamed13: '#33363F',
       unnamed15: '#F0F3F9',
       unnamed16: '#8480A0',
       randomBlue: '#F9F8FF',

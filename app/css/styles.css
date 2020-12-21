@@ -21,6 +21,9 @@
     line-height: 1.38;
     @apply text-18 font-semibold text-black;
 }
+.text-h5-mono {
+    @apply text-h5 font-mono font-bold;
+}
 .text-h6 {
     line-height: 1.38;
     @apply text-16 font-semibold text-darkGray;

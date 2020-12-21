@@ -36,9 +36,10 @@ module API
     end
 
     def update
-      post = Solution::MentorDiscussionPost.find_by(uuid: params[:id], author: current_user)
+      post = Solution::MentorDiscussionPost.find_by(uuid: params[:id])
 
       return render_404(:mentor_discussion_post_not_found) if post.blank?
+      return render_403(:permission_denied) unless post.author == current_user
 
       return unless post.update(content_markdown: params[:content])
 

@@ -171,6 +171,20 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
+  test "returns 403 error when post cannot be accessed" do
+    setup_user
+    discussion_post = create(:solution_mentor_discussion_post)
+
+    patch api_mentor_discussion_post_path(discussion_post), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "permission_denied",
+      message: I18n.t("api.errors.permission_denied")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
   test "updates a post" do
     author = create(:user, handle: "author")
     discussion_post = create(:solution_mentor_discussion_post,

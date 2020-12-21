@@ -9,7 +9,10 @@ export const useSaveFiles = (
   initialFiles: File[],
   getFiles: () => File[]
 ): [File[], (files: File[]) => void] => {
-  const [files, setFiles] = useLocalStorage<File[]>(storageKey, initialFiles)
+  const [files, setFiles] = useLocalStorage<File[]>(
+    `solution-files-${storageKey}`,
+    initialFiles
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {

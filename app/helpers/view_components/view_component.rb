@@ -3,10 +3,10 @@ module ViewComponents
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
 
-    delegate :current_user,
-      :safe_join,
+    delegate :user_signed_in?, :current_user,
+      :render, :safe_join,
       :tag, :link_to, :button_to,
-      :graphical_icon, :icon, :track_icon, :exercise_icon,
+      :graphical_icon, :icon, :track_icon, :exercise_icon, :rounded_bg_img,
       to: :view_context
 
     # This is called when you called `render SomeComponent.new(...)`

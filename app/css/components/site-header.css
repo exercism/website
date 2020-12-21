@@ -30,7 +30,6 @@
                 }
                 & .c-icon {
                     @apply text-white;
-                    @apply mr-20;
                 }
             }
         }
@@ -41,7 +40,7 @@
         & .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-12 relative;
+            @apply mr-16 relative;
 
             &.selected {
                 @apply absolute;

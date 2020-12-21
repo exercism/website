@@ -5,7 +5,7 @@ require_relative "../../../support/markdown_editor_helpers"
 
 module Components
   module Mentoring
-    class DiscussionPanelListTest < ApplicationSystemTestCase
+    class MentoringPanelListTest < ApplicationSystemTestCase
       include CapybaraHelpers
       include WebsocketsHelpers
       include MarkdownEditorHelpers
@@ -24,7 +24,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -44,7 +44,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -72,7 +72,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -102,7 +102,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -127,7 +127,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )

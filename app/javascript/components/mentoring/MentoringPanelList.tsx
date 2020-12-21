@@ -1,5 +1,6 @@
 import React, { useState, createContext } from 'react'
 import { Tab, TabContext } from '../common/Tab'
+import { DiscussionPostPanel } from './DiscussionPostPanel'
 
 type TabIndex = 'discussion' | 'scratchpad'
 
@@ -8,7 +9,15 @@ const TabsContext = createContext<TabContext>({
   switchToTab: () => {},
 })
 
-export const MentoringPanelList = (): JSX.Element => {
+export const MentoringPanelList = ({
+  endpoint,
+  discussionId,
+  iterationIdx,
+}: {
+  endpoint: string
+  discussionId: number
+  iterationIdx: number
+}): JSX.Element => {
   const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
@@ -25,7 +34,11 @@ export const MentoringPanelList = (): JSX.Element => {
           </Tab>
         </div>
         <Tab.Panel index="discussion" context={TabsContext}>
-          <p>Discussion</p>
+          <DiscussionPostPanel
+            endpoint={endpoint}
+            discussionId={discussionId}
+            iterationIdx={iterationIdx}
+          />
         </Tab.Panel>
         <Tab.Panel index="scratchpad" context={TabsContext}>
           <p>Scratchpad</p>

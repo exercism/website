@@ -1,11 +1,11 @@
 module ReactComponents
   module Mentoring
-    class DiscussionPostPanel < ReactComponent
+    class MentoringPanelList < ReactComponent
       initialize_with :discussion, :iteration
 
       def to_s
         super(
-          "mentoring-discussion-post-panel",
+          "mentoring-mentoring-panel-list",
           {
             discussion_id: discussion.uuid,
             iteration_idx: iteration.idx,

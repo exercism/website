@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_170439) do
+ActiveRecord::Schema.define(version: 2020_12_21_212727) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -147,9 +147,9 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
-    t.string "uuid", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["discussion_id"], name: "index_solution_mentor_discussion_posts_on_discussion_id"
     t.index ["iteration_id"], name: "index_solution_mentor_discussion_posts_on_iteration_id"
     t.index ["user_id"], name: "index_solution_mentor_discussion_posts_on_user_id"

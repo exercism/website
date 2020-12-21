@@ -20,6 +20,6 @@ en:
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."
       mentor_discussion_not_found: "The mentor discussion was not found"
-      mentor_discussion_not_acessible: "You do not have permission to view this mentor discussion"
+      mentor_discussion_not_accessible: "You do not have permission to view this mentor discussion"
       permission_denied: "You do not have access to this resource"
       iteration_not_found: "The iteration could not be found"

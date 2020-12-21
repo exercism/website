@@ -39,12 +39,9 @@ import {
 import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
 import { sendRequest, sendPostRequest, APIError } from '../utils/send-request'
+import { TabContext } from './common/Tab'
 
-export enum TabIndex {
-  INSTRUCTIONS = 'instructions',
-  TESTS = 'tests',
-  RESULTS = 'results',
-}
+type TabIndex = 'instructions' | 'tests' | 'results'
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -57,9 +54,9 @@ export enum EditorStatus {
   REVERT_FAILED = 'revertFailed',
 }
 
-export const TabsContext = createContext({
-  tab: TabIndex.INSTRUCTIONS,
-  switchToTab: (index: TabIndex) => {},
+export const TabsContext = createContext<TabContext>({
+  tab: 'instructions',
+  switchToTab: () => {},
 })
 
 export function Editor({
@@ -89,7 +86,7 @@ export function Editor({
   exampleSolution: string
   storageKey: string
 }) {
-  const [tab, switchToTab] = useState(TabIndex.INSTRUCTIONS)
+  const [tab, setTab] = useState<TabIndex>('instructions')
   const [theme, setTheme] = useState(Themes.LIGHT)
   const [
     { status: revertStatus, apiError: revertApiError },
@@ -146,7 +143,7 @@ export function Editor({
             submission: typecheck<Submission>(json, 'submission'),
           },
         })
-        switchToTab(TabIndex.RESULTS)
+        setTab('results')
         submissionFilesRef.current = files
       })
       .catch((err) => {
@@ -245,7 +242,7 @@ export function Editor({
         const testRun = typecheck<TestRun>(camelizeKeys(json), 'testRun')
 
         if (testRun) {
-          switchToTab(TabIndex.RESULTS)
+          setTab('results')
         }
 
         updateSubmission(testRun)
@@ -355,7 +352,9 @@ export function Editor({
   }, [revertApiError])
 
   return (
-    <TabsContext.Provider value={{ tab, switchToTab }}>
+    <TabsContext.Provider
+      value={{ tab, switchToTab: (index: string) => setTab(index as TabIndex) }}
+    >
       <div id="page-editor">
         <div className="header">
           <Header.Back exercisePath={exercisePath} />

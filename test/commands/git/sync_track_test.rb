@@ -4,7 +4,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "no change when git sync SHA matches HEAD SHA" do
     track = create :track, slug: 'fsharp', synced_to_git_sha: "HEAD"
 
+    Git::SyncConcept.expects(:call).never
     Git::SyncConceptExercise.expects(:call).never
+    # Git::SyncPracticeExercise.expects(:call).never # TOOD
     Git::SyncTrack.(track)
 
     refute track.changed?
@@ -13,7 +15,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "resyncs when force_sync is passed" do
     track = create :track, slug: 'fsharp', synced_to_git_sha: "HEAD"
 
+    Git::SyncConcept.expects(:call).at_least_once
     Git::SyncConceptExercise.expects(:call).at_least_once
+    # Git::SyncPracticeExercise.expects(:call).at_least_once # TOOD
+
     Git::SyncTrack.(track, force_sync: true)
 
     refute track.changed?

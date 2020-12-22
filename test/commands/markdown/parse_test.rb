@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Markdown::ParseMarkdownTest < ActiveSupport::TestCase
+class Markdown::ParseTest < ActiveSupport::TestCase
   test "empty in is empty out" do
     assert_equal "", Markdown::Parse.("\n")
   end

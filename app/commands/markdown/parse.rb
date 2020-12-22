@@ -1,4 +1,4 @@
-class ParseMarkdown
+class Markdown::Parse
   include Mandate
 
   # TODO: This needs fixing in mandate but I don't know

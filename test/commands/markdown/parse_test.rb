@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class ParseMarkdownTest < ActiveSupport::TestCase
+class Markdown::ParseMarkdownTest < ActiveSupport::TestCase
   test "empty in is empty out" do
-    assert_equal "", ParseMarkdown.("\n")
+    assert_equal "", Markdown::Parse.("\n")
   end
 
   test "converts markdown to html" do
@@ -17,7 +17,7 @@ class ParseMarkdownTest < ActiveSupport::TestCase
 <pre><code class="language-plain">$ go home
 </code></pre>'
 
-    actual = ParseMarkdown.('
+    actual = Markdown::Parse.('
 # OHAI
 
 So I was split between two ways of doing this.
@@ -41,7 +41,7 @@ $ go home
 &lt;iframe&gt;&lt;/iframe&gt;
 <p>Done</p>'
 
-    actual = ParseMarkdown.('
+    actual = Markdown::Parse.('
 Here is a sample of what a textarea block looks like:
 
 <iframe></iframe>
@@ -55,7 +55,7 @@ Done')
 This is the spoiler that I want to show.</details>
 <p>Done</p>'
 
-    actual = ParseMarkdown.('
+    actual = Markdown::Parse.('
 Here is a sample of what a details/summary block looks like:
 
 <details><summary>Click the little arrow to get a hint!</summary>
@@ -66,7 +66,7 @@ Done')
   end
 
   test "doesn't blow up with nil" do
-    assert_equal "", ParseMarkdown.(nil)
+    assert_equal "", Markdown::Parse.(nil)
   end
 
   test "parses tables" do
@@ -92,18 +92,18 @@ Done')
       </tbody>
       </table>
     HTML
-    assert_equal expected, ParseMarkdown.(table)
+    assert_equal expected, Markdown::Parse.(table)
   end
 
   test "resepects rel_nofollow" do
     normal = '<p><a href="http://example.com" target="_blank">Some link</a></p>'
     rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>'
 
-    assert_equal normal.chomp, ParseMarkdown.('[Some link](http://example.com)').chomp
-    assert_equal rel_nofollow.chomp, ParseMarkdown.('[Some link](http://example.com)', nofollow_links: true).chomp
+    assert_equal normal.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
+    assert_equal rel_nofollow.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
   test "parses double tildes as strikethrough" do
-    assert_equal "<p><del>Hello</del></p>\n", ParseMarkdown.("~~Hello~~")
+    assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
   end
 end

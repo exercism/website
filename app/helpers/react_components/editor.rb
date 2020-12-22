@@ -27,12 +27,12 @@ module ReactComponents
     private
     memoize
     def introduction
-      ParseMarkdown.(solution.introduction)
+      Markdown::Parse.(solution.introduction)
     end
 
     memoize
     def instructions
-      ParseMarkdown.(solution.instructions)
+      Markdown::Parse.(solution.instructions)
     end
   end
 end

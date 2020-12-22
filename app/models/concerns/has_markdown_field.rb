@@ -7,7 +7,7 @@ module HasMarkdownField
         html_field = "#{field}_html"
         markdown_field = "#{field}_markdown"
 
-        self[html_field] = ParseMarkdown.(self[markdown_field])
+        self[html_field] = Markdown::Parse.(self[markdown_field])
       end
     end
   end

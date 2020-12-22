@@ -1,6 +1,6 @@
 import React from 'react'
-import Modal from 'react-modal'
 import { ExerciseInstructions } from '../editor/types'
+import { Modal } from './Modal'
 
 const Hints = ({
   heading,
@@ -36,7 +36,7 @@ export const HintsModal = ({
   onClose: () => void
 }): JSX.Element => {
   return (
-    <Modal isOpen={open} onRequestClose={onClose} {...props}>
+    <Modal open={open} onClose={onClose} {...props}>
       <Hints hints={instructions.generalHints} heading="General" />
       {instructions.tasks.map((task, idx) => (
         <Hints key={idx} hints={task.hints} heading={task.title} />

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Tab } from './Tab'
 import { TabIndex } from '../Editor'
 import { ExerciseInstructions, ExerciseInstructionsTask } from './types'
+import { TaskHintsModal } from '../modals/TaskHintsModal'
 
 export const InstructionsPanel = ({
   introduction,
@@ -42,15 +43,32 @@ const Instructions = ({
   </>
 )
 
-const InstructionsTask = ({ task }: { task: ExerciseInstructionsTask }) => (
-  <details className="c-details">
-    <summary className="--summary">{task.title}</summary>
-    <div dangerouslySetInnerHTML={{ __html: task.text }} />
+const InstructionsTask = ({ task }: { task: ExerciseInstructionsTask }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const componentRef = useRef<HTMLDivElement>(null)
 
-    <ul>
-      {task.hints.map((hint, idx) => (
-        <li key={idx} dangerouslySetInnerHTML={{ __html: hint }}></li>
-      ))}
-    </ul>
-  </details>
-)
+  return (
+    <details className="c-details">
+      <summary className="--summary">{task.title}</summary>
+      <div dangerouslySetInnerHTML={{ __html: task.text }} />
+
+      <div ref={componentRef}>
+        <TaskHintsModal
+          task={task}
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+        <button
+          ref={buttonRef}
+          className="btn-small hints-btn"
+          onClick={() => {
+            setIsModalOpen(true)
+          }}
+        >
+          Hints
+        </button>
+      </div>
+    </details>
+  )
+}

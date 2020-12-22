@@ -25,7 +25,7 @@ Header.Title = ({
   <div className="title">
     <div className="track">{trackTitle}</div>
     <div className="divider">/</div>
-    <div className="exeercise">{exerciseTitle}</div>
+    <div className="exercise">{exerciseTitle}</div>
   </div>
 )
 

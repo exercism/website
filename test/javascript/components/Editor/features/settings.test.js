@@ -7,7 +7,10 @@ import { Editor } from '../../../../../app/javascript/components/Editor'
 
 test('change theme', async () => {
   const { getByTitle, getByLabelText, queryByText } = render(
-    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+    <Editor
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   fireEvent.click(getByTitle('Settings'))
@@ -20,7 +23,10 @@ test('change theme', async () => {
 
 test('change keybindings', async () => {
   const { getByTitle, getByLabelText, queryByText } = render(
-    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+    <Editor
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   fireEvent.click(getByTitle('Settings'))
@@ -34,7 +40,10 @@ test('change keybindings', async () => {
 
 test('change wrapping', async () => {
   const { getByTitle, getByLabelText, queryByText } = render(
-    <Editor files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]} />
+    <Editor
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   fireEvent.click(getByTitle('Settings'))

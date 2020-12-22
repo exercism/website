@@ -50,6 +50,11 @@ test('switches tabs', async () => {
           testRun: 'https://exercism.test/test_run',
         },
       }}
+      instructions={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
+      }}
     />
   )
 
@@ -68,7 +73,10 @@ test('switches tabs', async () => {
 })
 test('opens instructions tab by default', async () => {
   const { queryByText } = render(
-    <Editor files={[{ filename: 'file', content: 'file' }]} />
+    <Editor
+      files={[{ filename: 'file', content: 'file' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   expect(queryByText('Introduction')).toBeInTheDocument()
@@ -103,6 +111,11 @@ test('opens results tab by default if tests have previously ran', async () => {
         links: {
           testRun: 'https://exercism.test/test_run',
         },
+      }}
+      instructions={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
       }}
     />
   )

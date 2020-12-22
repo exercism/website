@@ -5,7 +5,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostForm } from '../../../../app/javascript/components/mentoring/DiscussionPostForm'
 
-test('shows loading message', async () => {
+test('shows loading message while fetching posts', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({}))

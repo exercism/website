@@ -15,7 +15,7 @@ class SerializeExerciseInstructions
   def overview
     instructions_doc.each.
       take_while { |node| node.type != :header }.
-      map(&:to_html).
+      map { |node| Markdown::Parse.(node.to_commonmark) }.
       join
   end
 
@@ -38,7 +38,7 @@ class SerializeExerciseInstructions
       next unless list.type == :list
 
       heading = parse_title(header).downcase
-      hints[heading] = list.each.map { |list_item| list_item.each.first.to_html }
+      hints[heading] = list.each.map { |list_item| Markdown::Parse.(list_item.each.first.to_commonmark) }
     end
   end
 
@@ -51,7 +51,7 @@ class SerializeExerciseInstructions
       chunk_while { |_, nxt| nxt.type != :header }.
       map do |nodes|
         task_title = parse_title(nodes.first)
-        task_text = nodes[1..].each.map(&:to_html).join.strip
+        task_text = Markdown::Parse.(nodes[1..].each.map(&:to_commonmark).join)
         task_hints = hints[task_title.downcase].to_a
 
         { title: task_title, text: task_text, hints: task_hints }

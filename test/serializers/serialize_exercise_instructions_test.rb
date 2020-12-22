@@ -8,8 +8,8 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = [
-      "The <code>string</code> class has many useful <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string?view=netcore-3.1#methods\">built-in methods</a>.", # rubocop:disable Layout/LineLength
-      "Remember that strings are immutable."
+      "<p>The <code>string</code> class has many useful <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string?view=netcore-3.1#methods\" target=\"_blank\">built-in\nmethods</a>.</p>\n", # rubocop:disable Layout/LineLength
+      "<p>Remember that strings are immutable.</p>\n"
     ]
     assert_equal expected, serialized[:general_hints]
   end
@@ -21,7 +21,7 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = "<p>In this exercise you'll be processing log-lines.</p>
-<p>Each log line is a string formatted as follows: <code>&quot;[&lt;LEVEL&gt;]: &lt;MESSAGE&gt;&quot;</code>.</p>
+<p>Each log line is a string formatted as follows: <code>\"[&lt;LEVEL&gt;]: &lt;MESSAGE&gt;\"</code>.</p>
 <p>There are three different log levels:</p>
 <ul>
 <li><code>INFO</code></li>
@@ -50,9 +50,9 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = [
-      "<p>Implement the <code>message</code> function to return a log line's message:</p>\n<pre><code class=\"language-fsharp\">message &quot;[ERROR]: Invalid operation&quot;\n// =&gt; &quot;Invalid operation&quot;\n</code></pre>\n<p>Any leading or trailing white space should be removed:</p>\n<pre><code class=\"language-fsharp\">message &quot;[WARNING]:  Disk almost full\\r\\n&quot;\n// =&gt; &quot;Disk almost full&quot;\n</code></pre>", # rubocop:disable Layout/LineLength
-      "<p>Implement the <code>logLevel</code> function to return a log line's log level, which should be returned in lowercase:</p>\n<pre><code class=\"language-fsharp\">logLevel &quot;[ERROR]: Invalid operation&quot;\n// =&gt; &quot;error&quot;\n</code></pre>", # rubocop:disable Layout/LineLength
-      "<p>Implement the <code>reformat</code> function that reformats the log line, putting the message first and the log level after it in parentheses:</p>\n<pre><code class=\"language-fsharp\">reformat &quot;[INFO]: Operation completed&quot;\n// =&gt; &quot;Operation completed (info)&quot;\n</code></pre>" # rubocop:disable Layout/LineLength
+      "<p>Implement the <code>message</code> function to return a log line's message:</p>\n<pre><code class=\"language-fsharp\">message \"[ERROR]: Invalid operation\"\n// =&gt; \"Invalid operation\"\n</code></pre>\n<p>Any leading or trailing white space should be removed:</p>\n<pre><code class=\"language-fsharp\">message \"[WARNING]:  Disk almost full\\r\\n\"\n// =&gt; \"Disk almost full\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
+      "<p>Implement the <code>logLevel</code> function to return a log line's log level, which should be returned in lowercase:</p>\n<pre><code class=\"language-fsharp\">logLevel \"[ERROR]: Invalid operation\"\n// =&gt; \"error\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
+      "<p>Implement the <code>reformat</code> function that reformats the log line, putting the message first and the log level after it in\nparentheses:</p>\n<pre><code class=\"language-fsharp\">reformat \"[INFO]: Operation completed\"\n// =&gt; \"Operation completed (info)\"\n</code></pre>\n" # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:text] })
   end
@@ -64,10 +64,10 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = [
-      ["There are <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.indexof?view=netcore-3.1\">several methods</a> to find the index at which some text occurs in a <code>string</code>.", # rubocop:disable Layout/LineLength
-       "Removing white space is <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.trim?view=netcore-3.1\">built-in</a>."], # rubocop:disable Layout/LineLength
-      ["A <code>string</code> can be converted to lowercase using a <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.tolower?view=netcore-3.1\">built-in method</a>."], # rubocop:disable Layout/LineLength
-      ["There are several ways to <a href=\"https://exercism.github.io/v3/#/languages/fsharp/docs/string_concatenation\">concatenate strings</a>."] # rubocop:disable Layout/LineLength
+      ["<p>There are <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.indexof?view=netcore-3.1\" target=\"_blank\">several methods</a> to find\nthe index at which some text occurs in a <code>string</code>.</p>\n", # rubocop:disable Layout/LineLength
+       "<p>Removing white space is <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.trim?view=netcore-3.1\" target=\"_blank\">built-in</a>.</p>\n"], # rubocop:disable Layout/LineLength
+      ["<p>A <code>string</code> can be converted to lowercase using a <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.tolower?view=netcore-3.1\" target=\"_blank\">built-in\nmethod</a>.</p>\n"], # rubocop:disable Layout/LineLength
+      ["<p>There are several ways to <a href=\"https://exercism.github.io/v3/#/languages/fsharp/docs/string_concatenation\" target=\"_blank\">concatenate\nstrings</a>.</p>\n"] # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end

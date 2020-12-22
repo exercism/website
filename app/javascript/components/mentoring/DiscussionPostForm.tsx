@@ -3,6 +3,7 @@ import { usePanel } from '../../hooks/use-panel'
 import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
 import { sendPostRequest, APIError } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
+import { Loading } from '../common/Loading'
 
 export const DiscussionPostForm = ({
   endpoint,
@@ -79,7 +80,7 @@ export const DiscussionPostForm = ({
                 Send
               </button>
             </form>
-            {isLoading ? <p>Loading...</p> : null}
+            {isLoading ? <Loading /> : null}
             {error ? <p>{error.message}</p> : null}
           </div>
         ) : null}

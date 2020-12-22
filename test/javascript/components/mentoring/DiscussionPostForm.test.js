@@ -22,8 +22,8 @@ test('shows loading message while fetching posts', async () => {
   fireEvent.click(getByText('Add a comment'))
   fireEvent.click(getByText('Send'))
 
-  await waitFor(() => expect(queryByText('Loading...')).toBeInTheDocument())
-  await waitFor(() => expect(queryByText('Loading...')).not.toBeInTheDocument())
+  await waitFor(() => expect(queryByText('Loading')).toBeInTheDocument())
+  await waitFor(() => expect(queryByText('Loading')).not.toBeInTheDocument())
 
   server.close()
 })

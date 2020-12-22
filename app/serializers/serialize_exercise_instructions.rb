@@ -16,8 +16,16 @@ class SerializeExerciseInstructions
     # TODO: remove once we figured out how to handle practice exercises
     return '' if exercise.practice_exercise?
 
+    # Instructions documents are structured as a series of headers and lists:
+    # e.g.
+    #  General instructions overview
+    #
+    #  ## 1. Task one
+    #  Task one description
+    #
+    #  ...
     instructions_doc.each.
-      take_while { |node| node.type != :header }.
+      take_while { |node| node.type != :header }. # TODO: should we check if this is a certain level of header?
       map { |node| Markdown::Parse.(node.to_commonmark) }.
       join
   end

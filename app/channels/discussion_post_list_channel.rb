@@ -5,9 +5,10 @@ class DiscussionPostListChannel < ApplicationCable::Channel
 
   def subscribed
     discussion = Solution::MentorDiscussion.find_by!(uuid: params[:discussion_id])
-    iteration = discussion.solution.iterations.find_by!(idx: params[:iteration_idx])
 
     return unless discussion.viewable_by?(current_user)
+
+    iteration = discussion.solution.iterations.find_by!(idx: params[:iteration_idx])
 
     stream_for "#{discussion.uuid}_#{iteration.idx}"
   end

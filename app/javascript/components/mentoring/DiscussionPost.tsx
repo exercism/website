@@ -18,7 +18,7 @@ export const DiscussionPost = ({
   updatedAt,
 }: DiscussionPostProps): JSX.Element => (
   <div>
-    <img data-testid="author-avatar" src={authorAvatarUrl} />
+    <img src={authorAvatarUrl} alt={`Avatar of ${authorHandle}`} />
     <p>{authorHandle}</p>
     {byStudent ? <p>Student</p> : null}
     <div dangerouslySetInnerHTML={{ __html: contentHtml }} />

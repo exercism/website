@@ -13,6 +13,9 @@ class SerializeExerciseInstructions
 
   private
   def overview
+    # TODO: remove once we figured out how to handle practice exercises
+    return '' if exercise.practice_exercise?
+
     instructions_doc.each.
       take_while { |node| node.type != :header }.
       map { |node| Markdown::Parse.(node.to_commonmark) }.
@@ -20,6 +23,9 @@ class SerializeExerciseInstructions
   end
 
   def general_hints
+    # TODO: remove once we figured out how to handle practice exercises
+    return [] if exercise.practice_exercise?
+
     hints["general"].to_a
   end
 
@@ -43,6 +49,9 @@ class SerializeExerciseInstructions
   end
 
   def tasks
+    # TODO: remove once we figured out how to handle practice exercises
+    return [] if exercise.practice_exercise?
+
     instructions_doc.each.
       # Skip the overview part of the instructions
       drop_while { |node| node.type != :header }.
@@ -60,12 +69,12 @@ class SerializeExerciseInstructions
 
   memoize
   def instructions_doc
-    render_doc(exercise.git.instructions)
+    render_doc(exercise.git.instructions || '')
   end
 
   memoize
   def hints_doc
-    render_doc(exercise.git.hints)
+    render_doc(exercise.git.hints || '')
   end
 
   def parse_title(header)

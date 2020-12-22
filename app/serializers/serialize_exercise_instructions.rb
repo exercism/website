@@ -60,23 +60,20 @@ class SerializeExerciseInstructions
 
   memoize
   def instructions_doc
-    parse_markdown_doc(exercise.git.instructions)
+    render_doc(exercise.git.instructions)
   end
 
   memoize
   def hints_doc
-    parse_markdown_doc(exercise.git.hints)
+    render_doc(exercise.git.hints)
   end
 
   def parse_title(header)
     header.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2')
   end
 
-  def parse_markdown_doc(filepath)
-    CommonMarker.render_doc(
-      filepath,
-      :DEFAULT,
-      %i[table tagfilter strikethrough]
-    )
+  def render_doc(text)
+    preprocessed_text = Markdown::Preprocess.(text)
+    Markdown::RenderDoc.(preprocessed_text)
   end
 end

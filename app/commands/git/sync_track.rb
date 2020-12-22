@@ -14,8 +14,9 @@ module Git
   class SyncTrack < Sync
     include Mandate
 
-    def initialize(track)
+    def initialize(track, force_sync: false)
       super(track, track.synced_to_git_sha)
+      @force_sync = force_sync
       @track = track
     end
 
@@ -48,7 +49,7 @@ module Git
     end
 
     private
-    attr_reader :track
+    attr_reader :track, :force_sync
 
     def concepts
       # TODO: verify that all exercise concepts and prerequisites are in the concepts section
@@ -100,6 +101,7 @@ module Git
     end
 
     def track_needs_updating?
+      return true if force_sync
       return false if synced_to_head?
 
       track_config_modified?

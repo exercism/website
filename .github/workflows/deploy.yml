@@ -2,9 +2,13 @@ name: Deploy to Amazon ECS
 
 env:
   aws_region: eu-west-2
-  task_definition_name: webservers
-  service_name: webservers
-  cluster_name: webservers
+  webservers_task_definition_name: webservers
+  webservers_service_name: webservers
+  webservers_cluster_name: webservers
+
+  sidekiq_task_definition_name: sidekiq
+  sidekiq_service_name: sidekiq
+  sidekiq_cluster_name: sidekiq
 
   ecr_repository_rails: "webserver-rails"
   dockerfile_rails: "docker/rails.Dockerfile"
@@ -153,7 +157,7 @@ jobs:
       # but then chained from action to action for the others.
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.task_definition_name }} --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.webservers_task_definition_name }} --query taskDefinition > task-definition.json
 
       # Set puma to rails
       - name: Update the definition for puma
@@ -203,6 +207,38 @@ jobs:
         with:
           # Ensure this is the final step in the daisy-chain above
           task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
-          service: ${{ env.service_name }}
-          cluster: ${{ env.cluster_name }}
+          service: ${{ env.webservers_service_name }}
+          cluster: ${{ env.webservers_cluster_name }}
+          wait-for-service-stability: true
+
+      ##############################
+      ##############################
+      # Update Sidekiq Task definition #
+      ##############################
+      ##############################
+
+      # We get the existing task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
+      - name: Download sidekiq task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.sidekiq_task_definition_name }} --query taskDefinition > sidekiq-task-definition.json
+
+      # Set puma to rails
+      - name: Update the sidekiq definition
+        id: update_definition_for_sidekiq
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: sidekiq-task-definition.json
+          container-name: sidekiq
+          image: "${{ steps.build_rails.outputs.image }}"
+
+      # Push the new defintion up to ECS and deploy a new sevice from it.
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          # Ensure this is the final step in the daisy-chain above
+          task-definition: ${{ steps.update_definition_for_sidekiq.outputs.task-definition }}
+          service: ${{ env.sidekiq_service_name }}
+          cluster: ${{ env.sidekiq_cluster_name }}
           wait-for-service-stability: true

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import * as ReactModal from 'react-modal'
+import { default as ReactModal } from 'react-modal'
 
 export const Modal = ({
   open,

@@ -360,7 +360,7 @@ export function Editor({
         <div className="header">
           <Header.Back exercisePath={exercisePath} />
           <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
-          <Header.ActionHints />
+          <Header.ActionHints instructions={instructions} />
           <Header.ActionKeyboardShortcuts
             ref={keyboardShortcutsRef}
             onClick={toggleKeyboardShortcuts}

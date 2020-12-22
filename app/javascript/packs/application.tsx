@@ -84,7 +84,7 @@ import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
-import { Submission } from '../components/editor/types'
+import { ExerciseInstructions, Submission } from '../components/editor/types'
 import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.
@@ -147,7 +147,9 @@ initReact({
       trackTitle={data.track_title}
       exerciseTitle={data.exercise_title}
       introduction={data.introduction}
-      instructions={data.instructions}
+      instructions={
+        (camelizeKeys(data.instructions) as unknown) as ExerciseInstructions
+      }
       exampleSolution={data.example_solution}
       storageKey={data.storage_key}
     />

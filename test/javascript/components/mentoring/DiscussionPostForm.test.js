@@ -51,7 +51,7 @@ test('send button should be disabled while sending', async () => {
   server.close()
 })
 
-test('shows error messages', async () => {
+test('shows error messages when error occurs during fetching', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
       return res(

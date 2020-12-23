@@ -198,7 +198,8 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_response 400
     expected = { error: {
       type: "failed_validations",
-      message: "Content markdown can't be blank"
+      message: I18n.t("api.errors.failed_validations"),
+      errors: { content_markdown: ["can't be blank"] }
     } }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end

@@ -45,7 +45,7 @@ module API
         DiscussionPostListChannel.notify!(post.discussion, post.iteration)
         render json: SerializeMentorDiscussionPost.(post, current_user)
       else
-        render_failed_validations(post.errors)
+        render_400(:failed_validations, errors: post.errors)
       end
     end
 

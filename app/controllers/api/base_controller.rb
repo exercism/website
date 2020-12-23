@@ -31,17 +31,8 @@ module API
       render_401 unless user_signed_in?
     end
 
-    def render_400(type)
-      render_error(400, type)
-    end
-
-    def render_failed_validations(errors)
-      render json: {
-        error: {
-          type: :failed_validations,
-          message: I18n.t("api.errors.failed_validations", errors: errors.full_messages.join(", "))
-        }
-      }, status: :bad_request
+    def render_400(type, data = {})
+      render_error(400, type, data)
     end
 
     def render_401

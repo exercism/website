@@ -64,11 +64,11 @@ module API
         assert_response :success
         expected = {
           scratchpad_page: {
-            id: page.id,
-            about_type: "Exercise",
-            about_id: exercise.id,
-            user_id: @current_user.id,
-            content_markdown: "# Some notes"
+            id: page.uuid,
+            content_markdown: "# Some notes",
+            links: {
+              update: Exercism::Routes.api_scratchpad_page_url(page)
+            }
           }
         }
         actual = JSON.parse(response.body, symbolize_names: true)
@@ -135,11 +135,11 @@ module API
         assert_response :success
         expected = {
           scratchpad_page: {
-            id: ScratchpadPage.last.id,
-            about_type: "Exercise",
-            about_id: exercise.id,
-            user_id: @current_user.id,
-            content_markdown: "Some notes"
+            id: ScratchpadPage.last.uuid,
+            content_markdown: "Some notes",
+            links: {
+              update: Exercism::Routes.api_scratchpad_page_url(ScratchpadPage.last.uuid)
+            }
           }
         }
         actual = JSON.parse(response.body, symbolize_names: true)

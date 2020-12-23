@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 2021_01_04_185107) do
     t.bigint "user_id", null: false
     t.text "content_markdown"
     t.text "content_html"
+    t.string "uuid", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"

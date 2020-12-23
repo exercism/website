@@ -8,6 +8,10 @@ import { Loading } from '../common/Loading'
 
 type ScratchpadPage = {
   contentMarkdown: string
+  links: {
+    create?: string
+    update?: string
+  }
 }
 
 export const Scratchpad = ({
@@ -34,15 +38,30 @@ export const Scratchpad = ({
     (e) => {
       e.preventDefault()
 
-      if (!editorRef.current) {
+      if (!editorRef.current || !page) {
         return
       }
 
-      sendPostRequest({
-        endpoint: endpoint,
-        body: { content_markdown: editorRef.current?.value() },
-        isMountedRef: isMountedRef,
-      }).then((json: any) => {
+      let request
+
+      if (page.links.create) {
+        request = sendPostRequest({
+          endpoint: page.links.create,
+          body: { content_markdown: editorRef.current?.value() },
+          isMountedRef: isMountedRef,
+        })
+      } else if (page.links.update) {
+        request = sendRequest({
+          endpoint: page.links.update,
+          method: 'PATCH',
+          body: JSON.stringify({
+            content_markdown: editorRef.current?.value(),
+          }),
+          isMountedRef: isMountedRef,
+        })
+      }
+
+      request?.then((json: any) => {
         if (!json) {
           return
         }
@@ -50,7 +69,7 @@ export const Scratchpad = ({
         setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
       })
     },
-    [endpoint, isMountedRef]
+    [isMountedRef, page]
   )
 
   useEffect(() => {
@@ -59,13 +78,17 @@ export const Scratchpad = ({
       body: null,
       method: 'GET',
       isMountedRef: isMountedRef,
-    }).then((json) => {
-      if (!json) {
-        return setPage({ contentMarkdown: '' })
-      }
-
-      setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
     })
+      .then((json) => {
+        if (!json) {
+          return setPage({ contentMarkdown: '', links: { create: endpoint } })
+        }
+
+        setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
+      })
+      .catch((err) => {
+        // do something
+      })
   }, [endpoint, isMountedRef])
 
   useEffect(() => {

@@ -8,11 +8,11 @@ class SerializeScratchpadPage
 
     {
       scratchpad_page: {
-        id: page.id,
-        about_type: page.about_type,
-        about_id: page.about_id,
-        user_id: page.user_id,
-        content_markdown: page.content_markdown
+        id: page.uuid,
+        content_markdown: page.content_markdown,
+        links: {
+          update: Exercism::Routes.api_scratchpad_page_url(page)
+        }
       }
     }
   end

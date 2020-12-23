@@ -152,7 +152,6 @@ module Components
           fill_in_editor "# Hello"
           assert_text "Unsaved"
           click_on "Save"
-
           assert_no_text "Unsaved"
         end
       end
@@ -174,6 +173,28 @@ module Components
           click_on "Scratchpad"
 
           assert_editor_text "# Some notes"
+          assert_no_text "Unsaved"
+        end
+      end
+
+      test "mentor updates scratchpad page" do
+        mentor = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, solution: solution
+        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_mentoring_panel_list_path(
+            discussion_id: discussion.id,
+            iteration_id: iteration.id
+          )
+          click_on "Scratchpad"
+          fill_in_editor "# Hello"
+          assert_text "Unsaved"
+          click_on "Save"
           assert_no_text "Unsaved"
         end
       end

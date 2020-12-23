@@ -5,7 +5,12 @@ import '@testing-library/jest-dom/extend-expect'
 import { MentoringPanelList } from '../../../../app/javascript/components/mentoring/MentoringPanelList'
 
 test('switches to the scratchpad tab', async () => {
-  render(<MentoringPanelList />)
+  const links = {
+    posts: 'http://exercism.test/posts',
+    scratchpad: 'http://exercism.test/scratchpad',
+  }
+
+  render(<MentoringPanelList links={links} />)
 
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
 

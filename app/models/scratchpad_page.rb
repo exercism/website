@@ -5,4 +5,12 @@ class ScratchpadPage < ApplicationRecord
     foreign_key: "user_id"
 
   has_markdown_field :content
+
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
+  def to_param
+    uuid
+  end
 end

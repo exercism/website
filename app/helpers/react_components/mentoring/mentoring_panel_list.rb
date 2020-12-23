@@ -9,7 +9,11 @@ module ReactComponents
           {
             discussion_id: discussion.uuid,
             iteration_idx: iteration.idx,
-            endpoint: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx)
+            links: {
+              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx),
+              scratchpad: Exercism::Routes.api_track_exercise_scratchpad_page_url(discussion.solution.track,
+                discussion.solution.exercise)
+            }
           }
         )
       end

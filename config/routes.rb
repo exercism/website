@@ -29,7 +29,11 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show]
+      resources :tracks, only: %i[index show] do
+        resources :exercise, only: [] do
+          resource :scratchpad_page, only: [:create], controller: "exercises/scratchpad_page"
+        end
+      end
       resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection

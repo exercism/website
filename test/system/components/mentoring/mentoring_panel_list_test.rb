@@ -135,6 +135,27 @@ module Components
 
         refute_text "Edit"
       end
+
+      test "mentor saves scratchpad page" do
+        mentor = create :user, handle: "author"
+        solution = create :concept_solution
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_mentoring_panel_list_path(
+            discussion_id: discussion.id,
+            iteration_id: iteration.id
+          )
+          click_on "Scratchpad"
+          fill_in_editor "# Hello"
+          assert_text "Unsaved"
+          click_on "Save"
+
+          assert_no_text "Unsaved"
+        end
+      end
     end
   end
 end

@@ -5,17 +5,22 @@ import { Scratchpad } from './Scratchpad'
 
 type TabIndex = 'discussion' | 'scratchpad'
 
+type MentoringPanelListLinks = {
+  posts: string
+  scratchpad: string
+}
+
 const TabsContext = createContext<TabContext>({
   tab: 'instructions',
   switchToTab: () => {},
 })
 
 export const MentoringPanelList = ({
-  endpoint,
+  links,
   discussionId,
   iterationIdx,
 }: {
-  endpoint: string
+  links: MentoringPanelListLinks
   discussionId: number
   iterationIdx: number
 }): JSX.Element => {
@@ -36,13 +41,13 @@ export const MentoringPanelList = ({
         </div>
         <Tab.Panel index="discussion" context={TabsContext}>
           <DiscussionPostPanel
-            endpoint={endpoint}
+            endpoint={links.posts}
             discussionId={discussionId}
             iterationIdx={iterationIdx}
           />
         </Tab.Panel>
         <Tab.Panel index="scratchpad" context={TabsContext}>
-          <Scratchpad discussionId={discussionId} />
+          <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
         </Tab.Panel>
       </div>
     </TabsContext.Provider>

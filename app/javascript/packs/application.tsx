@@ -114,7 +114,7 @@ initReact({
     <Mentoring.MentoringPanelList
       discussionId={data.discussion_id}
       iterationIdx={data.iteration_idx}
-      endpoint={data.endpoint}
+      links={data.links}
     />
   ),
   'student-tracks-list': (data: any) => (

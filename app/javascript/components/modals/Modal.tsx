@@ -16,8 +16,14 @@ export const Modal = ({
     ReactModal.setAppElement(document.querySelector('body') as HTMLElement)
   })
 
+  const reactModalProps = {
+    ...props,
+    className: 'modal-content',
+    overlayClassName: 'modal-overlay',
+  }
+
   return (
-    <ReactModal isOpen={open} onRequestClose={onClose} {...props}>
+    <ReactModal isOpen={open} onRequestClose={onClose} {...reactModalProps}>
       {children}
     </ReactModal>
   )

@@ -70,12 +70,13 @@ const InstructionsTask = ({ task }: { task: ExerciseInstructionsTask }) => {
         />
         <button
           ref={buttonRef}
-          className="btn-small hints-btn"
+          className="btn-small-secondary hints-btn"
           onClick={() => {
             setIsModalOpen(true)
           }}
         >
-          Hints
+          <GraphicalIcon icon="plus-square" />
+          Show Hints
         </button>
       </div>
     </details>

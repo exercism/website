@@ -228,6 +228,8 @@
                         }
                     }
                 }
+                &.hints-btn {
+                }
             }
         }
         & section.results {

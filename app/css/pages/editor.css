@@ -382,6 +382,8 @@
     }
 }
 
-.modal-editor-hints {
-    max-width: 1100px;
+.c-modal.modal-editor-hints {
+    & .--modal-content {
+        max-width: 1100px;
+    }
 }

@@ -3,6 +3,7 @@ import { Tab } from './Tab'
 import { TabIndex } from '../Editor'
 import { ExerciseInstructions, ExerciseInstructionsTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
+import { GraphicalIcon } from '../common/GraphicalIcon'
 
 export const InstructionsPanel = ({
   introduction,
@@ -50,7 +51,15 @@ const InstructionsTask = ({ task }: { task: ExerciseInstructionsTask }) => {
 
   return (
     <details className="c-details">
-      <summary className="--summary">{task.title}</summary>
+      <summary className="--summary">
+        <span className="--summary-title">{task.title}</span>
+        <span className="--closed-icon">
+          <GraphicalIcon icon="chevron-right" />
+        </span>
+        <span className="--open-icon">
+          <GraphicalIcon icon="chevron-down" />
+        </span>
+      </summary>
       <div dangerouslySetInnerHTML={{ __html: task.text }} />
 
       <div ref={componentRef}>

@@ -8,22 +8,20 @@
             width: 12px;
             @apply ml-16;
         }
-
-        & > .--closed-icon {
-            @apply block;
-        }
-        & > .--open-icon {
-            @apply hidden;
-        }
     }
 
     &[open] {
         & > summary {
             & > .--closed-icon {
-                @apply hidden;
+                @apply hidden !important;
             }
+        }
+    }
+
+    &:not([open]) {
+        & > summary {
             & > .--open-icon {
-                @apply block;
+                @apply hidden !important;
             }
         }
     }

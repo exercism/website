@@ -75,7 +75,12 @@ export const BugReportModal = ({
   }, [open])
 
   return (
-    <Modal open={open} onClose={onClose} {...props}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      className="modal-bug-report"
+      {...props}
+    >
       <Status status={status} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="content_markdown">Report</label>

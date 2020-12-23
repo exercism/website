@@ -5,11 +5,13 @@ export const Modal = ({
   open,
   onClose,
   children,
+  className,
   ...props
 }: {
   open: boolean
   onClose: () => void
   children?: React.ReactNode
+  className: string
 }): JSX.Element => {
   useLayoutEffect(() => {
     // Required for accessibility: http://reactcommunity.org/react-modal/accessibility/#app-element
@@ -19,7 +21,7 @@ export const Modal = ({
   const reactModalProps = {
     ...props,
     className: 'modal-content',
-    overlayClassName: 'modal-overlay',
+    overlayClassName: `${className} modal-overlay`,
   }
 
   return (

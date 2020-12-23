@@ -36,7 +36,12 @@ export const HintsModal = ({
   onClose: () => void
 }): JSX.Element => {
   return (
-    <Modal open={open} onClose={onClose} {...props}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      className="modal-editor-hints"
+      {...props}
+    >
       <Hints hints={instructions.generalHints} heading="General" />
       {instructions.tasks.map((task, idx) => (
         <Hints key={idx} hints={task.hints} heading={task.title} />

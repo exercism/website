@@ -13,7 +13,12 @@ export const TaskHintsModal = ({
   onClose: () => void
 }): JSX.Element => {
   return (
-    <Modal open={open} onClose={onClose} {...props}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      className="modal-editor-hints"
+      {...props}
+    >
       <ul>
         {task.hints.map((hint, idx) => (
           <li key={idx} dangerouslySetInnerHTML={{ __html: hint }}></li>

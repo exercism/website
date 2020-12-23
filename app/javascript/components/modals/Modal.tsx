@@ -20,8 +20,8 @@ export const Modal = ({
 
   const reactModalProps = {
     ...props,
-    className: 'modal-content',
-    overlayClassName: `${className} modal-overlay`,
+    className: '--modal-content',
+    overlayClassName: `c-modal ${className}`,
   }
 
   return (

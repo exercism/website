@@ -4,7 +4,7 @@ import { sendPostRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
 export type MarkdownEditorHandle = {
-  getValue: () => string
+  value: (value: string | void) => string | void
 }
 
 export const MarkdownEditor = ({
@@ -30,7 +30,7 @@ export const MarkdownEditor = ({
         return
       }
 
-      editorDidMount({ getValue: editor.value.bind(editor) })
+      editorDidMount({ value: editor.value.bind(editor) })
     },
     [editorDidMount]
   )

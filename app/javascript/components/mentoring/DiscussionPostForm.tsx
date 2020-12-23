@@ -30,7 +30,7 @@ export const DiscussionPostForm = ({
 
       sendRequest({
         endpoint: endpoint,
-        body: JSON.stringify({ content: editorRef.current?.getValue() }),
+        body: JSON.stringify({ content: editorRef.current?.value() }),
         method: method,
         isMountedRef: isMountedRef,
       })

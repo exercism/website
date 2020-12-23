@@ -3,6 +3,12 @@ module API
     class ScratchpadPageController < BaseController
       before_action :use_exercise
 
+      def show
+        page = ScratchpadPage.find_by(about: @exercise, author: current_user)
+
+        render json: SerializeScratchpadPage.(page)
+      end
+
       def create
         page = ScratchpadPage.create!(scratchpad_page_params)
 

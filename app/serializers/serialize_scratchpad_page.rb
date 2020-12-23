@@ -4,6 +4,8 @@ class SerializeScratchpadPage
   initialize_with :page
 
   def call
+    return if page.blank?
+
     {
       scratchpad_page: {
         id: page.id,

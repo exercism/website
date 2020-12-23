@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
       resources :tracks, only: %i[index show] do
         resources :exercise, only: [] do
-          resource :scratchpad_page, only: [:create], controller: "exercises/scratchpad_page"
+          resource :scratchpad_page, only: %i[show create], controller: "exercises/scratchpad_page"
         end
       end
       resources :bug_reports, only: %i[create]

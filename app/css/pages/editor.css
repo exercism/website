@@ -176,7 +176,7 @@
         & section.instructions {
             @apply py-16 px-32;
 
-            & .c-textual-content {
+            & > .c-textual-content {
                 & * {
                     @apply text-15 leading-code;
                 }
@@ -191,6 +191,44 @@
                 } /* Override the default */
                 & :not(h2) + h3 {
                     @apply mt-28;
+                }
+                & > .c-details {
+                    @apply border-t-2 border-lightGray;
+                    @apply mt-24 pt-16;
+                    @apply px-32;
+                    margin-left: -32px;
+                    margin-right: -32px;
+
+                    & > .--summary {
+                        @apply flex items-center;
+                        @apply mb-8;
+
+                        &::-webkit-details-marker {
+                            @apply hidden;
+                        }
+                        & .--summary-title {
+                            @apply flex-grow;
+                            @apply text-h2 text-18 leading-huge;
+                        }
+
+                        & .--closed-icon,
+                        & .--open-icon {
+                            height: 24px;
+                            width: 24px;
+
+                            @apply flex flex-shrink-0 items-center justify-center;
+                            @apply border-gray border-1 rounded-circle;
+                            @apply text-darkGray;
+                            @apply ml-16;
+
+                            & .c-icon {
+                                height: 11px;
+                                width: 11px;
+                            }
+                        }
+                    }
+                }
+                &.hints-btn {
                 }
             }
         }
@@ -341,5 +379,11 @@
 
     & .--file-editor {
         height: 100%;
+    }
+}
+
+.c-modal.modal-editor-hints {
+    & .--modal-content {
+        max-width: 1100px;
     }
 }

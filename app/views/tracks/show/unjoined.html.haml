@@ -20,7 +20,7 @@
     .md-container.container
       %h2 About #{@track.title}
       .tw-flex.tw-items-start
-        .info= raw ParseMarkdown.(@track.about)
+        .info= raw Markdown::Parse.(@track.about)
         %code
           %pre= @track.snippet
 

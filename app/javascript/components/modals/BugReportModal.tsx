@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react'
-import Modal from 'react-modal'
 import { sendPostRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
+import { Modal } from './Modal'
 
 enum BugReportModalStatus {
   INITIALIZED = 'initialized',
@@ -75,7 +75,12 @@ export const BugReportModal = ({
   }, [open])
 
   return (
-    <Modal isOpen={open} onRequestClose={onClose} {...props}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      className="modal-bug-report"
+      {...props}
+    >
       <Status status={status} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="content_markdown">Report</label>

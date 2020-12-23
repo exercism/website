@@ -24,7 +24,7 @@
     .tw-flex-grow.tw-w-arbitary
       .about.c-textual-content
         %h2 About #{@concept.name}
-        = raw ParseMarkdown.(@concept.about)
+        = raw Markdown::Parse.(@concept.about)
 
       .links
         %h3 Learn More

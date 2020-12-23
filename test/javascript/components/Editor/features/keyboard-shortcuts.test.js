@@ -7,7 +7,10 @@ import { Editor } from '../../../../../app/javascript/components/Editor'
 
 test('toggle command palette when clicking on button', async () => {
   const { getByTitle, queryByText } = render(
-    <Editor files={[{ filename: 'file', content: 'file' }]} />
+    <Editor
+      files={[{ filename: 'file', content: 'file' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   fireEvent.click(getByTitle('Keyboard Shortcuts'))

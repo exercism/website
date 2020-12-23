@@ -37,6 +37,11 @@ test('populates files', async () => {
           testRun: 'https://exercism.test/test_run',
         },
       }}
+      instructions={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
+      }}
     />
   )
 
@@ -54,7 +59,11 @@ test('loads data from storage', async () => {
   )
 
   const { queryByText } = render(
-    <Editor storageKey="files" files={[{ filename: 'file', content: '' }]} />
+    <Editor
+      storageKey="files"
+      files={[{ filename: 'file', content: '' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   expect(queryByText('Value: class')).toBeInTheDocument()
@@ -65,7 +74,11 @@ test('loads data from storage', async () => {
 test('saves data to storage when data changed', async () => {
   jest.useFakeTimers()
   const { getByTestId } = render(
-    <Editor storageKey="files" files={[{ filename: 'file', content: '' }]} />
+    <Editor
+      storageKey="files"
+      files={[{ filename: 'file', content: '' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
+    />
   )
 
   fireEvent.change(getByTestId('editor-value'), { target: { value: 'code' } })
@@ -105,6 +118,7 @@ test('revert to last submission', async () => {
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'file', content: 'other' }]}
+      instructions={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -164,6 +178,11 @@ test('revert to exercise start', async () => {
           initialFiles: 'https://exercism.test/files',
         },
       }}
+      instructions={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
+      }}
     />
   )
 
@@ -209,6 +228,11 @@ test('revert to exercise start fails', async () => {
           testRun: 'https://exercism.test/test_run',
           initialFiles: 'https://exercism.test/files',
         },
+      }}
+      instructions={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
       }}
     />
   )

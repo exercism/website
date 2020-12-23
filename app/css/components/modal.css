@@ -1,0 +1,16 @@
+.c-modal {
+    @apply fixed flex items-center justify-center;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+
+    & .--modal-content {
+        @apply bg-white;
+        @apply border-1 border-borderLight rounded-8;
+        @apply shadow-lg;
+        @apply px-32 py-16;
+    }
+}

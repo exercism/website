@@ -14,6 +14,7 @@ import {
   Keybindings,
   WrapSetting,
   Themes,
+  ExerciseInstructions,
 } from './editor/types'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
@@ -84,7 +85,7 @@ export function Editor({
   trackTitle: string
   exerciseTitle: string
   introduction: string
-  instructions: string
+  instructions: ExerciseInstructions
   exampleSolution: string
   storageKey: string
 }) {
@@ -359,7 +360,7 @@ export function Editor({
         <div className="header">
           <Header.Back exercisePath={exercisePath} />
           <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
-          <Header.ActionHints />
+          <Header.ActionHints instructions={instructions} />
           <Header.ActionKeyboardShortcuts
             ref={keyboardShortcutsRef}
             onClick={toggleKeyboardShortcuts}

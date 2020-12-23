@@ -23,25 +23,37 @@ module Git
       @git_sha = git_sha
     end
 
+    memoize
     def instructions
       read_file_blob(".docs/instructions.md")
     end
 
+    memoize
     def introduction
       read_file_blob(".docs/introduction.md")
     end
 
+    memoize
+    def hints
+      read_file_blob(".docs/hints.md")
+    rescue StandardError
+      nil
+    end
+
     # TODO: This is stub code
+    memoize
     def example
       read_file_blob(filepaths.find { |fp| fp.downcase.include?("example.") })
     rescue StandardError
       "No example code found"
     end
 
+    memoize
     def authors
       config[:authors]
     end
 
+    memoize
     def contributors
       config[:contributors]
     end

@@ -228,6 +228,8 @@
                         }
                     }
                 }
+                &.hints-btn {
+                }
             }
         }
         & section.results {
@@ -378,4 +380,8 @@
     & .--file-editor {
         height: 100%;
     }
+}
+
+.modal-editor-hints {
+    max-width: 1100px;
 }

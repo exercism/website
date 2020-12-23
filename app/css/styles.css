@@ -81,7 +81,7 @@
 }
 
 .btn-small {
-    @apply btn border-1 text-14 rounded-5;
+    @apply btn border-1 text-14 rounded-5 px-16;
     height: 36px;
 
     & svg {

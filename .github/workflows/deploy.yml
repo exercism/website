@@ -209,7 +209,7 @@ jobs:
           task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
           service: ${{ env.webservers_service_name }}
           cluster: ${{ env.webservers_cluster_name }}
-          wait-for-service-stability: true
+          wait-for-service-stability: false
 
       ##############################
       ##############################

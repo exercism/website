@@ -1,30 +1,26 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { usePanel } from '../../hooks/use-panel'
 import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
-import { sendPostRequest, APIError } from '../../utils/send-request'
+import { sendRequest, APIError } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../common/Loading'
 
 export const DiscussionPostForm = ({
   endpoint,
+  method,
+  onSuccess,
   contextId,
+  value = '',
 }: {
   endpoint: string
+  method: 'POST' | 'PATCH'
+  onSuccess: () => void
   contextId: string
+  value?: string
 }): JSX.Element | null => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<APIError | null>(null)
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    panelRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
 
   const handleSubmit = useCallback(
     (e) => {
@@ -32,12 +28,13 @@ export const DiscussionPostForm = ({
 
       setIsLoading(true)
 
-      sendPostRequest({
+      sendRequest({
         endpoint: endpoint,
-        body: { content: editorRef.current?.getValue() },
+        body: JSON.stringify({ content: editorRef.current?.getValue() }),
+        method: method,
         isMountedRef: isMountedRef,
       })
-        .then(() => setOpen(false))
+        .then(onSuccess)
         .catch((err) => {
           if (err instanceof Response) {
             err.json().then((res: any) => {
@@ -45,46 +42,38 @@ export const DiscussionPostForm = ({
             })
           }
         })
-        .finally(() => setIsLoading(false))
+        .finally(() => {
+          if (!isMountedRef.current) {
+            return
+          }
+
+          setIsLoading(false)
+        })
     },
-    [editorRef, endpoint, isMountedRef, setOpen]
+    [endpoint, isMountedRef, method, onSuccess]
   )
 
   const handleEditorMount = useCallback(
-    (editor) => {
+    (editor: MarkdownEditorHandle) => {
       editorRef.current = editor
     },
     [editorRef]
   )
 
   return (
-    <div ref={componentRef}>
-      <button
-        ref={buttonRef}
-        onClick={() => {
-          setOpen(!open)
-        }}
-        type="button"
-      >
-        Add a comment
-      </button>
-      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
-        {open ? (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <MarkdownEditor
-                editorDidMount={handleEditorMount}
-                contextId={contextId}
-              />
-              <button type="submit" disabled={isLoading}>
-                Send
-              </button>
-            </form>
-            {isLoading ? <Loading /> : null}
-            {error ? <p>{error.message}</p> : null}
-          </div>
-        ) : null}
-      </div>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <MarkdownEditor
+          contextId={contextId}
+          value={value}
+          editorDidMount={handleEditorMount}
+        />
+        <button type="submit" disabled={isLoading}>
+          Send
+        </button>
+      </form>
+      {isLoading ? <Loading /> : null}
+      {error ? <p>{error.message}</p> : null}
     </div>
   )
 }

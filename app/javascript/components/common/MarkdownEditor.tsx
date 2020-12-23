@@ -13,10 +13,12 @@ export const MarkdownEditor = ({
   url = document.querySelector<HTMLMetaElement>(
     'meta[name="parse-markdown-url"]'
   )?.content,
+  value = '',
 }: {
   contextId: string
   url?: string
   editorDidMount?: (editor: MarkdownEditorHandle) => void
+  value?: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
 
@@ -32,6 +34,7 @@ export const MarkdownEditor = ({
   )
   return (
     <SimpleMDE
+      value={value}
       getMdeInstance={getInstance}
       options={{
         autosave: { enabled: true, uniqueId: contextId },

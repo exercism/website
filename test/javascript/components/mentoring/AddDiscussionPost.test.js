@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { DiscussionPostForm } from '../../../../app/javascript/components/mentoring/DiscussionPostForm'
+import { AddDiscussionPost } from '../../../../app/javascript/components/mentoring/AddDiscussionPost'
 
 test('shows loading message while fetching posts', async () => {
   const server = setupServer(
@@ -14,7 +14,7 @@ test('shows loading message while fetching posts', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <DiscussionPostForm
+    <AddDiscussionPost
       endpoint="https://exercism.test/posts"
       contextId="test"
     />
@@ -37,7 +37,7 @@ test('send button should be disabled while sending', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <DiscussionPostForm
+    <AddDiscussionPost
       endpoint="https://exercism.test/posts"
       contextId="test"
     />
@@ -68,7 +68,7 @@ test('shows error messages when error occurs during fetching', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <DiscussionPostForm
+    <AddDiscussionPost
       endpoint="https://exercism.test/posts"
       contextId="test"
     />
@@ -90,7 +90,7 @@ test('closes panel when request succeeds', async () => {
   server.listen()
 
   const { getByText, queryByText } = render(
-    <DiscussionPostForm
+    <AddDiscussionPost
       endpoint="https://exercism.test/posts"
       contextId="test"
     />

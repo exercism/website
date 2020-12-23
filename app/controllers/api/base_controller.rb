@@ -31,8 +31,8 @@ module API
       render_401 unless user_signed_in?
     end
 
-    def render_400(type)
-      render_error(400, type)
+    def render_400(type, data = {})
+      render_error(400, type, data)
     end
 
     def render_401

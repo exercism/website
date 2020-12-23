@@ -21,4 +21,8 @@ class Solution::MentorDiscussionPost < ApplicationRecord
   def by_student?
     discussion.student == author
   end
+
+  def to_param
+    uuid
+  end
 end

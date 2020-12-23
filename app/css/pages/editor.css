@@ -381,3 +381,7 @@
         height: 100%;
     }
 }
+
+.modal-editor-hints {
+    max-width: 1100px;
+}

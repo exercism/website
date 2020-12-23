@@ -39,18 +39,25 @@ const Instructions = ({
     <div dangerouslySetInnerHTML={{ __html: instructions.overview }} />
 
     {instructions.tasks.map((task, idx) => (
-      <InstructionsTask key={idx} task={task} />
+      <InstructionsTask key={idx} task={task} open={idx === 0} />
     ))}
   </>
 )
 
-const InstructionsTask = ({ task }: { task: ExerciseInstructionsTask }) => {
+const InstructionsTask = ({
+  task,
+  open,
+}: {
+  task: ExerciseInstructionsTask
+  open?: boolean
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
+  const detailsProps = open ? { open: true } : {}
 
   return (
-    <details className="c-details">
+    <details className="c-details" {...detailsProps}>
       <summary className="--summary">
         <span className="--summary-title">{task.title}</span>
         <span className="--closed-icon">

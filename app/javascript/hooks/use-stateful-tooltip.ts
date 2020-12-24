@@ -273,7 +273,7 @@ export const dispatchRequestHideFromHover: DispatchHelper = (dispatch, id) =>
   dispatch({ id, action: { type: 'request-hide-hover' } })
 
 export const dispatchRequestHideFromFocus: DispatchHelper = (dispatch, id) =>
-  dispatch({ id, action: { type: 'request-hide-hover' } })
+  dispatch({ id, action: { type: 'request-hide-focus' } })
 
 export const dispatchRequestShowFromHover: DispatchHelper = (dispatch, id) =>
   dispatch({ id, action: { type: 'request-show-hover' } })

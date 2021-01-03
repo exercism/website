@@ -1,10 +1,12 @@
 require "application_system_test_case"
 require_relative "../../../support/capybara_helpers"
+require_relative "../../../support/markdown_editor_helpers"
 
 module Components
   module Common
     class MarkdownPreviewTest < ApplicationSystemTestCase
       include CapybaraHelpers
+      include MarkdownEditorHelpers
 
       test "user sees markdown preview" do
         use_capybara_host do
@@ -15,10 +17,6 @@ module Components
 
           assert_selector "h1", text: "Hello"
         end
-      end
-
-      def fill_in_editor(text)
-        execute_script("document.querySelector('.CodeMirror').CodeMirror.setValue('#{text}')")
       end
     end
   end

@@ -37,4 +37,10 @@ class Iteration::DiscussionPostTest < ActiveSupport::TestCase
 
     refute post.by_student?
   end
+
+  test "#to_param returns uuid" do
+    post = create :solution_mentor_discussion_post
+
+    assert_equal post.uuid, post.to_param
+  end
 end

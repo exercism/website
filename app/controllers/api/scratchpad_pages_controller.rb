@@ -1,7 +1,9 @@
 module API
   class ScratchpadPagesController < BaseController
     def update
-      page = current_user.scratchpad_pages.find_by!(uuid: params[:id])
+      page = current_user.scratchpad_pages.find_by(uuid: params[:id])
+
+      return render_404 unless page
 
       page.update(scratchpad_page_params)
 

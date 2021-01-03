@@ -8,7 +8,7 @@ export const AddDiscussionPost = ({
 }: {
   endpoint: string
   contextId: string
-}): JSX.Element | null => {
+}): JSX.Element => {
   const {
     open,
     setOpen,

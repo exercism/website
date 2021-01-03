@@ -10,7 +10,7 @@ export const EditDiscussionPost = ({
   value: string
   endpoint: string
   contextId: string
-}): JSX.Element | null => {
+}): JSX.Element => {
   const {
     open,
     setOpen,

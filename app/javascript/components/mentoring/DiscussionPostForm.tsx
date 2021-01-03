@@ -16,7 +16,7 @@ export const DiscussionPostForm = ({
   onSuccess: () => void
   contextId: string
   value?: string
-}): JSX.Element | null => {
+}): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<APIError | null>(null)
   const editorRef = useRef<MarkdownEditorHandle | null>(null)

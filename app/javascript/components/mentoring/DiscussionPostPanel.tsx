@@ -10,7 +10,7 @@ export const DiscussionPostPanel = ({
   endpoint: string
   discussionId: number
   iterationIdx: number
-}): JSX.Element | null => {
+}): JSX.Element => {
   return (
     <div>
       <DiscussionPostList

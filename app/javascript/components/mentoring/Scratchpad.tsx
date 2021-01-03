@@ -110,6 +110,7 @@ export const Scratchpad = ({
           editorDidMount={handleEditorDidMount}
           onChange={handleChange}
           contextId={`scratchpad-${discussionId}`}
+          options={{ status: [] }}
         />
         <button type="submit">Save</button>
       </form>

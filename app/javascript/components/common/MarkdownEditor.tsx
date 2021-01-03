@@ -15,12 +15,14 @@ export const MarkdownEditor = ({
     'meta[name="parse-markdown-url"]'
   )?.content,
   value = '',
+  options = {},
 }: {
   contextId: string
   url?: string
   editorDidMount?: (editor: MarkdownEditorHandle) => void
   value?: string
   onChange?: (value: string) => void
+  options?: EasyMDE.Options
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
 
@@ -76,6 +78,7 @@ export const MarkdownEditor = ({
 
           return 'Loading...'
         },
+        ...options,
       }}
     />
   )

@@ -19,20 +19,22 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     get api_mentor_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
 
     assert_response 200
-    expected = [
-      {
-        id: discussion_post.uuid,
-        author_handle: "author",
-        author_avatar_url: mentor.avatar_url,
-        by_student: false,
-        content_markdown: "Hello",
-        content_html: "<p>Hello</p>\n",
-        updated_at: Time.utc(2016, 12, 25).iso8601,
-        links: {
-          update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+    expected = {
+      posts: [
+        {
+          id: discussion_post.uuid,
+          author_handle: "author",
+          author_avatar_url: mentor.avatar_url,
+          by_student: false,
+          content_markdown: "Hello",
+          content_html: "<p>Hello</p>\n",
+          updated_at: Time.utc(2016, 12, 25).iso8601,
+          links: {
+            update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+          }
         }
-      }
-    ]
+      ]
+    }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
@@ -236,15 +238,17 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     discussion_post.reload
     expected = {
-      id: discussion_post.uuid,
-      author_handle: "author",
-      author_avatar_url: author.avatar_url,
-      by_student: false,
-      content_markdown: "content",
-      content_html: "<p>content</p>\n",
-      updated_at: discussion_post.updated_at.iso8601,
-      links: {
-        update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+      post: {
+        id: discussion_post.uuid,
+        author_handle: "author",
+        author_avatar_url: author.avatar_url,
+        by_student: false,
+        content_markdown: "content",
+        content_html: "<p>content</p>\n",
+        updated_at: discussion_post.updated_at.iso8601,
+        links: {
+          update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+        }
       }
     }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)

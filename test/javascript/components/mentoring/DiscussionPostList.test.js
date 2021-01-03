@@ -37,7 +37,7 @@ test('displays all posts', async () => {
   ]
   const server = setupServer(
     rest.get('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.json(posts))
+      return res(ctx.json({ posts: posts }))
     })
   )
   server.listen()

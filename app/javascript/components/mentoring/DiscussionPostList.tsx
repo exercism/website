@@ -13,9 +13,9 @@ export const DiscussionPostList = ({
   discussionId: number
   iterationIdx: number
 }): JSX.Element | null => {
-  const { isSuccess, isLoading, data: posts, refetch } = useRequestQuery<
-    DiscussionPostProps[]
-  >(endpoint, { endpoint: endpoint, options: {} })
+  const { isSuccess, isLoading, data, refetch } = useRequestQuery<{
+    posts: DiscussionPostProps[]
+  }>(endpoint, { endpoint: endpoint, options: {} })
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
@@ -36,10 +36,10 @@ export const DiscussionPostList = ({
     )
   }
 
-  if (isSuccess && posts) {
+  if (isSuccess && data) {
     return (
       <div>
-        {posts.map((post) => (
+        {data.posts.map((post) => (
           <DiscussionPost key={post.id} {...post} />
         ))}
       </div>

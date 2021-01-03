@@ -8,7 +8,9 @@ module API
         joins(:iteration).
         where(iterations: { idx: params[:iteration_idx] })
 
-      render json: posts.map { |post| SerializeMentorDiscussionPost.(post, current_user) }
+      serialized_posts = posts.map { |post| SerializeMentorDiscussionPost.(post, current_user) }
+
+      render json: { posts: serialized_posts }
     end
 
     def create
@@ -43,7 +45,7 @@ module API
 
       if post.update(content_markdown: params[:content])
         DiscussionPostListChannel.notify!(post.discussion, post.iteration)
-        render json: SerializeMentorDiscussionPost.(post, current_user)
+        render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
       else
         render_400(:failed_validations, errors: post.errors)
       end

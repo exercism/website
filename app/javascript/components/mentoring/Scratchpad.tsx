@@ -24,6 +24,7 @@ export const Scratchpad = ({
   const isMountedRef = useIsMounted()
   const editorRef = useRef<MarkdownEditorHandle | null>()
   const [content, setContent] = useState('')
+  const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
 
   const handleEditorDidMount = useCallback((editor: MarkdownEditorHandle) => {
@@ -41,6 +42,8 @@ export const Scratchpad = ({
       if (!editorRef.current || !page) {
         return
       }
+
+      setError('')
 
       let request
 
@@ -61,13 +64,21 @@ export const Scratchpad = ({
         })
       }
 
-      request?.then((json: any) => {
-        if (!json) {
-          return
-        }
+      request
+        ?.then((json: any) => {
+          if (!json) {
+            return
+          }
 
-        setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
-      })
+          setPage(
+            typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage')
+          )
+        })
+        .catch((err) => {
+          if (err instanceof Response) {
+            err.json().then((res: any) => setError(res.error.message))
+          }
+        })
     },
     [isMountedRef, page]
   )
@@ -86,7 +97,7 @@ export const Scratchpad = ({
 
         setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
       })
-      .catch((err) => {
+      .catch(() => {
         // do something
       })
   }, [endpoint, isMountedRef])
@@ -115,6 +126,7 @@ export const Scratchpad = ({
         <button type="submit">Save</button>
       </form>
       {content === page.contentMarkdown ? null : <p>Unsaved</p>}
+      {error ? <p>{error}</p> : null}
     </div>
   )
 }

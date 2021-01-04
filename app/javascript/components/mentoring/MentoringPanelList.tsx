@@ -2,6 +2,7 @@ import React, { useState, createContext } from 'react'
 import { Tab, TabContext } from '../common/Tab'
 import { DiscussionPostPanel } from './DiscussionPostPanel'
 import { Scratchpad } from './Scratchpad'
+import { Guidance } from './Guidance'
 
 type TabIndex = 'discussion' | 'scratchpad'
 
@@ -38,6 +39,9 @@ export const MentoringPanelList = ({
           <Tab index="scratchpad" context={TabsContext}>
             Scratchpad
           </Tab>
+          <Tab index="guidance" context={TabsContext}>
+            Guidance
+          </Tab>
         </div>
         <Tab.Panel index="discussion" context={TabsContext}>
           <DiscussionPostPanel
@@ -48,6 +52,9 @@ export const MentoringPanelList = ({
         </Tab.Panel>
         <Tab.Panel index="scratchpad" context={TabsContext}>
           <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
+        </Tab.Panel>
+        <Tab.Panel index="guidance" context={TabsContext}>
+          <Guidance />
         </Tab.Panel>
       </div>
     </TabsContext.Provider>

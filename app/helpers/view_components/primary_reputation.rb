@@ -1,6 +1,8 @@
 module ViewComponents
   class PrimaryReputation < ViewComponent
     def initialize(user, has_notification: false)
+      super()
+
       @user = user
       @has_notification = has_notification
     end

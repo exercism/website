@@ -8,19 +8,22 @@ module Git
     def initialize(repo_name, repo_url: nil)
       @repo_name = repo_name
 
-      @repo_url =
-        if ENV["GIT_CONTENT_REPO"].present?
+      if ENV["GIT_CONTENT_REPO"].present?
+        @repo_url =
           ENV["GIT_CONTENT_REPO"]
-        elsif repo_url
+      elsif repo_url
+        @repo_url =
           repo_url
-        elsif Rails.env.test?
-          # TODO; Switch when we move back out of monorepo
+      elsif Rails.env.test?
+        # TODO; Switch when we move back out of monorepo
+        @repo_url =
           "file://#{Rails.root / 'test' / 'repos' / 'v3-monorepo'}"
-        else
-          # TODO; Switch when we move back out of monorepo
-          # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
+      else
+        # TODO; Switch when we move back out of monorepo
+        # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
+        @repo_url =
           "https://github.com/exercism/v3"
-        end
+      end
 
       fetch! if keep_up_to_date?
     end

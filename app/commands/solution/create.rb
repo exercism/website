@@ -33,9 +33,10 @@ class Solution
     end
 
     def solution_class
-      if exercise.is_a?(ConceptExercise)
+      case exercise
+      when ConceptExercise
         ConceptSolution
-      elsif exercise.is_a?(PracticeExercise)
+      when PracticeExercise
         PracticeSolution
       else
         # Guard against some further third type

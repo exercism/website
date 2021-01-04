@@ -5,6 +5,8 @@ module ViewComponents
     def initialize(concept, size, view_context: nil)
       raise "Invalid concept icon size #{size}" unless SIZES.include?(size.to_sym)
 
+      super()
+
       @concept = concept
       @size = size
       @view_context = view_context

@@ -9,8 +9,8 @@ class UserTrack
       Rails.logger.info "[BM] Starting generating user summary"
 
       UserTrack::Summary.new(
-        concepts.map { |k, v| [k, ConceptSummary.new(v)] }.to_h,
-        exercises.map { |k, v| [k, ExerciseSummary.new(v)] }.to_h
+        concepts.transform_values { |v| ConceptSummary.new(v) },
+        exercises.transform_values { |v| ExerciseSummary.new(v) }
       ).tap do
         Rails.logger.info "[BM] Finished generating user summary"
         Rails.logger.info "[BM] Generating User Summary: #{Time.now.to_f - t}"

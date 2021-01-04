@@ -46,11 +46,11 @@ class Track
       raise TrackSearchInvalidStatusError unless STATUSES.include?(status.to_sym)
       return if status == :all
 
-      @tracks = if status == :joined
-                  tracks.where(id: user.tracks)
-                else
-                  tracks.where.not(id: user.tracks)
-                end
+      if status == :joined
+        @tracks = tracks.where(id: user.tracks)
+      else
+        @tracks = tracks.where.not(id: user.tracks)
+      end
     end
   end
 end

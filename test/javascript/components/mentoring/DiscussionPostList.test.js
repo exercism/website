@@ -50,15 +50,15 @@ test('displays all posts', async () => {
     })
   ).toBeInTheDocument()
 
-  expect(
-    await screen.findByRole('img', { name: 'Avatar of author' })
-  ).toHaveAttribute('src', 'http://exercism.test/image')
   expect(await screen.findByText('author')).toBeInTheDocument()
+  expect(
+    await screen.findByRole('img', { name: 'Uploaded avatar of author' })
+  ).toHaveAttribute('src', 'http://exercism.test/image')
   expect(await screen.findByText('Student')).toBeInTheDocument()
   expect(await screen.findByText('Hello')).toBeInTheDocument()
   expect(await screen.findByText('a few seconds ago')).toBeInTheDocument()
   expect(
-    await screen.findByRole('img', { name: 'Avatar of other-author' })
+    await screen.findByRole('img', { name: 'Uploaded avatar of other-author' })
   ).toHaveAttribute('src', 'http://exercism.test/other-image')
   expect(await screen.findByText('other-author')).toBeInTheDocument()
   expect(await screen.findByText('Student')).toBeInTheDocument()

@@ -38,7 +38,7 @@ export const DiscussionPostList = ({
 
   if (isSuccess && data) {
     return (
-      <div>
+      <div className="discussion">
         {data.posts.map((post) => (
           <DiscussionPost key={post.id} {...post} />
         ))}

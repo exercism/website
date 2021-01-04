@@ -112,8 +112,8 @@ initReact({
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  'mentoring-mentoring-panel-list': (data: any) => (
-    <Mentoring.MentoringPanelList
+  'mentoring-mentor-discussion': (data: any) => (
+    <Mentoring.MentorDiscussion
       discussionId={data.discussion_id}
       iterationIdx={data.iteration_idx}
       links={data.links}

@@ -1,13 +1,13 @@
 module ReactComponents
   module Mentoring
-    class MentoringPanelList < ReactComponent
+    class MentorDiscussion < ReactComponent
       initialize_with :discussion, :iteration
 
       def to_s
         scratchpad = ScratchpadPage.new(about: discussion.solution.exercise)
 
         super(
-          "mentoring-mentoring-panel-list",
+          "mentoring-mentor-discussion",
           {
             discussion_id: discussion.uuid,
             iteration_idx: iteration.idx,

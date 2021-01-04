@@ -13,7 +13,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
     analysis = submission.reload.analysis
 
-    assert_equal job.id, representation.tooling_job_id
+    assert_equal job.id, analysis.tooling_job_id
     assert_equal ops_status, analysis.ops_status
     assert_equal status.to_sym, analysis.status
     assert_equal comments, analysis.send(:comments)

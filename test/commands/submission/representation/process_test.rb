@@ -12,6 +12,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     representation = submission.reload.submission_representation
 
+    assert_equal job.id, representation.tooling_job_id
     assert_equal ops_status, representation.ops_status
     assert_equal ast_digest, representation.ast_digest
   end

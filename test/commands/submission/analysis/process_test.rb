@@ -8,10 +8,12 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     comments = [{ 'foo' => 'bar' }]
     data = { 'status' => status, 'comments' => comments }
 
-    Submission::Analysis::Process.(submission.uuid, ops_status, data)
+    job = create_analyzer_job!(submission, execution_status: ops_status, data: data)
+    Submission::Analysis::Process.(job)
 
     analysis = submission.reload.analysis
 
+    assert_equal job.id, representation.tooling_job_id
     assert_equal ops_status, analysis.ops_status
     assert_equal status.to_sym, analysis.status
     assert_equal comments, analysis.send(:comments)
@@ -21,7 +23,8 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
     data = { 'status' => :pass, 'comments' => [] }
-    Submission::Analysis::Process.(submission.uuid, 500, data)
+    job = create_analyzer_job!(submission, execution_status: 500, data: data)
+    Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_exceptioned?
   end
@@ -29,7 +32,8 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle approval" do
     submission = create :submission
     data = { 'status' => :approve, 'comments' => [] }
-    Submission::Analysis::Process.(submission.uuid, 200, data)
+    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_approved?
   end
@@ -37,7 +41,8 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle inconclusive" do
     submission = create :submission
     data = { 'status' => :refer_to_mentor, 'comments' => [] }
-    Submission::Analysis::Process.(submission.uuid, 200, data)
+    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_inconclusive?
   end
@@ -45,7 +50,8 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle disapproval" do
     submission = create :submission
     data = { 'status' => :disapprove, 'comments' => [] }
-    Submission::Analysis::Process.(submission.uuid, 200, data)
+    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_disapproved?
   end
@@ -53,7 +59,8 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle ambiguous" do
     submission = create :submission
     data = { 'status' => :ambiguous, 'comments' => [] }
-    Submission::Analysis::Process.(submission.uuid, 200, data)
+    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_exceptioned?
   end
@@ -65,6 +72,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     SubmissionChannel.expects(:broadcast!).with(submission)
     SubmissionsChannel.expects(:broadcast!).with(submission.solution)
 
-    Submission::Analysis::Process.(submission.uuid, 200, data)
+    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    Submission::Analysis::Process.(job)
   end
 end

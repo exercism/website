@@ -118,6 +118,18 @@ class ActiveSupport::TestCase
     )
   end
 
+  def create_analyzer_job!(submission, execution_status: nil, data: nil)
+    execution_output = {
+      "analysis.json" => data&.to_json
+    }
+    create_tooling_job!(
+      submission,
+      :analyzer,
+      execution_status: execution_status,
+      execution_output: execution_output
+    )
+  end
+
   def create_tooling_job!(submission, type, params = {})
     id = SecureRandom.uuid
     write_to_dynamodb(
@@ -149,7 +161,7 @@ class ActiveSupport::TestCase
     ).item
   end
 
-  def upload_to_s3(bucket, key, body)
+  def upload_to_s3(bucket, key, body) # rubocop:disable Naming/VariableNumber
     Exercism.s3_client.put_object(
       bucket: bucket,
       key: key,

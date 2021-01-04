@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_170439) do
+ActiveRecord::Schema.define(version: 2021_01_04_185107) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2020_12_14_170439) do
     t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "tooling_job_id", null: false
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
   end
 

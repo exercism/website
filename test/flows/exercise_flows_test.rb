@@ -42,11 +42,12 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # Simulate an analysis being returned
     # It should be inconclusive
-    Submission::Analysis::Process.(
-      basics_submission_1.uuid,
-      200,
-      { status: :refer_to_mentor, comments: [] }
+    job = create_analyzer_job!(
+      basics_submission_1,
+      execution_status: 200,
+      data: { status: :refer_to_mentor, comments: [] }
     )
+    Submission::Analysis::Process.(job)
     assert basics_submission_1.reload.analysis_inconclusive?
 
     # Create a representation with feedback that should be given

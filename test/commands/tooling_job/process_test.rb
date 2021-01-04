@@ -52,7 +52,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to analyzer" do
     id = SecureRandom.uuid
     type = "analyzer"
-    submission_uuid = "submission-uuid"
+    submission = create :submission
     execution_status = "job-status"
     analysis = { 'some' => 'result' }
 
@@ -61,19 +61,20 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
       {
         "id" => id,
         "type" => type,
-        "submission_uuid" => submission_uuid,
+        "submission_uuid" => submission.uuid,
         "execution_status" => execution_status,
         "execution_output" => { "analysis.json" => analysis.to_json }
       }
     )
 
-    Submission::Analysis::Process.expects(:call).with(
-      submission_uuid,
-      execution_status,
-      analysis
+    job = create_analyzer_job!(
+      submission,
+      execution_status: execution_status,
+      data: analysis
     )
 
-    ToolingJob::Process.(id)
+    Submission::Analysis::Process.expects(:call).with(job)
+    ToolingJob::Process.(job.id)
   end
 
   test "sets dynamodb job status to processed" do

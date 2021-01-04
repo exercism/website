@@ -3,17 +3,16 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(submission_uuid, ops_status, data)
-        @submission = Submission.find_by!(uuid: submission_uuid)
-        @ops_status = ops_status.to_i
-        @data = data.is_a?(Hash) ? data.symbolize_keys : {}
+      def initialize(tooling_job)
+        @tooling_job = tooling_job
       end
 
       def call
         # Firstly create a record for debugging and to give
         # us some basis of the next set of decisions etc.
         analysis = submission.create_analysis!(
-          ops_status: ops_status,
+          tooling_job_id: tooling_job.id,
+          ops_status: tooling_job.execution_status.to_i,
           data: data
         )
 
@@ -40,7 +39,7 @@ class Submission
       end
 
       private
-      attr_reader :submission, :ops_status, :data
+      attr_reader :tooling_job
 
       def handle_ops_error!
         submission.analysis_exceptioned!
@@ -56,6 +55,19 @@ class Submission
 
       def handle_inconclusive!
         submission.analysis_inconclusive!
+      end
+
+      memoize
+      def submission
+        Submission.find_by!(uuid: tooling_job.submission_uuid)
+      end
+
+      memoize
+      def data
+        res = JSON.parse(tooling_job.execution_output['analysis.json'])
+        res.is_a?(Hash) ? res.symbolize_keys : {}
+      rescue StandardError
+        {}
       end
     end
   end

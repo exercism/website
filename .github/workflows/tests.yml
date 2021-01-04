@@ -30,7 +30,7 @@ jobs:
           - 6379/tcp
 
       aws:
-        image: "localstack/localstack"
+        image: "localstack/localstack:0.12.3"
         ports:
           - 4566
 

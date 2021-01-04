@@ -83,7 +83,7 @@ export const Scratchpad = ({
     [isMountedRef, page]
   )
 
-  useEffect(() => {
+  const pullPage = useCallback(() => {
     sendRequest({
       endpoint: endpoint,
       body: null,
@@ -101,6 +101,8 @@ export const Scratchpad = ({
         // do something
       })
   }, [endpoint, isMountedRef])
+
+  useEffect(pullPage, [pullPage])
 
   useEffect(() => {
     if (!editorRef.current || !page) {
@@ -125,6 +127,9 @@ export const Scratchpad = ({
         />
         <button type="submit">Save</button>
       </form>
+      <button type="button" onClick={() => pullPage()}>
+        Revert
+      </button>
       {content === page.contentMarkdown ? null : <p>Unsaved</p>}
       {error ? <p>{error}</p> : null}
     </div>

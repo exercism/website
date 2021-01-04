@@ -36,7 +36,7 @@ module Webhooks
     end
 
     def signature_valid?
-      signature = 'sha256=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), github_webhooks_secret, payload_body)
+      signature = "sha256=#{OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), github_webhooks_secret, payload_body)}"
       Rack::Utils.secure_compare(signature, github_signature)
     end
 

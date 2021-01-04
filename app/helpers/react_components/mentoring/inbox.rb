@@ -2,6 +2,8 @@ module ReactComponents
   module Mentoring
     class Inbox < ReactComponent
       def initialize(discussions_request = default_discussions_request, tracks_request = default_tracks_request)
+        super()
+
         @discussions_request = discussions_request
         @tracks_request = tracks_request
       end

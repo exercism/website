@@ -6,11 +6,11 @@ module FlashHelper
 
     # rubocop:disable Rails/HelperInstanceVariable
     if devise_controller? && @user && @user.errors.full_messages.present?
-      errors = if html_messages
-                 @user.errors.full_messages.join("<br/>").html_safe
-               else
-                 safe_join(@user.errors.full_messages, "<br/>".html_safe)
-               end
+      if html_messages
+        errors = @user.errors.full_messages.join("<br/>").html_safe
+      else
+        errors = safe_join(@user.errors.full_messages, "<br/>".html_safe)
+      end
       tags << tag.div(errors, class: '--errors')
     end
     # rubocop:enable Rails/HelperInstanceVariable

@@ -96,7 +96,7 @@ class ActiveSupport::TestCase
   # DynamoDB Helpers #
   ####################
   def create_test_runner_job!(submission, execution_status: nil, results: nil)
-    execution_output = results ? { "results.json" => results.to_json } : nil
+    results ? execution_output = { "results.json" => results.to_json } : execution_output = nil
     create_tooling_job!(
       submission,
       :test_runner,

@@ -39,6 +39,8 @@ class Solution
         attr_reader :request
 
         def initialize(request)
+          super()
+
           @request = request
         end
       end

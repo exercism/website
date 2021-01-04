@@ -82,12 +82,12 @@ class UserTrack
     #################
 
     def exercise(obj)
-      slug = obj.is_a?(Exercise) ? obj.slug : obj.to_s
+      obj.is_a?(Exercise) ? slug = obj.slug : slug = obj.to_s
       mapped_exercises[slug]
     end
 
     def concept(obj)
-      slug = obj.is_a?(Track::Concept) ? obj.slug : obj.to_s
+      obj.is_a?(Track::Concept) ? slug = obj.slug : slug = obj.to_s
       mapped_concepts[slug]
     end
 

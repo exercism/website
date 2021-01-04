@@ -2,6 +2,8 @@ module ViewComponents
   class ConceptProgressBar < ViewComponent
     extend Mandate::Memoize
     def initialize(concept, user_track, view_context: nil)
+      super()
+
       @concept = concept
       @user_track = user_track
       @view_context = view_context

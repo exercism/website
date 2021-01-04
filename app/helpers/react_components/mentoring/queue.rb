@@ -2,6 +2,8 @@ module ReactComponents
   module Mentoring
     class Queue < ReactComponent
       def initialize(request = default_request)
+        super()
+
         @request = request
       end
 

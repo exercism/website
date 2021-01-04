@@ -6,6 +6,8 @@ module ViewComponents
     def initialize(concept, user_track, size)
       raise "Invalid concept size #{size}" unless SIZES.include?(size.to_sym)
 
+      super()
+
       @concept = concept
       @user_track = user_track
       @size = size

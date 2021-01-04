@@ -59,7 +59,7 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest)
 
     2.times { create :submission_representation, ast_digest: medium_ast_digest }
-    1.times { create :submission_representation, ast_digest: rare_ast_digest }
+    create :submission_representation, ast_digest: rare_ast_digest
     3.times { create :submission_representation, ast_digest: frequent_ast_digest }
 
     expected = [

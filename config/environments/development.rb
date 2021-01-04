@@ -57,7 +57,7 @@ Rails.application.configure do
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc.
-  config.file_watcher = ENV['EXERCISM_DOCKER'] ? ActiveSupport::FileUpdateChecker : ActiveSupport::EventedFileUpdateChecker
+  ENV['EXERCISM_DOCKER'] ? config.file_watcher = ActiveSupport::FileUpdateChecker : config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # TODO: Change to exercism on launch
   config.session_store :cookie_store, key: "_exercism_v3", domain: :all

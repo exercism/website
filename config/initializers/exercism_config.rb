@@ -1,8 +1,9 @@
-Exercism.config.api_host =
-  if Rails.env.development?
+if Rails.env.development?
+  Exercism.config.api_host =
     "http://local.exercism.io:3020/api".freeze
-  else
+else
+  Exercism.config.api_host =
     "https://api.exercism.io".freeze
-  end
+end
 
 Exercism.config.hcaptcha_endpoint = "https://hcaptcha.com"

@@ -3,6 +3,8 @@ module ReactComponents
     class TracksList < ReactComponent
       # TODO: Remove `user` and its usage here once API supports session requests
       def initialize(user, data, request = default_request)
+        super()
+
         @user = user
         @data = data
         @request = request

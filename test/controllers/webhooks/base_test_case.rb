@@ -11,8 +11,11 @@ module Webhooks
     end
 
     def signature(payload)
-      'sha256=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'),
-        Exercism.secrets.github_webhooks_secret, payload.to_json)
+      digest = OpenSSL::HMAC.hexdigest(
+        OpenSSL::Digest.new('sha256'),
+        Exercism.secrets.github_webhooks_secret, payload.to_json
+      )
+      "sha256=#{digest}"
     end
   end
 end

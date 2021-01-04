@@ -7,6 +7,8 @@ module ViewComponents
       def initialize(exercise, user_track, size:, desc: true)
         raise "Invalid exercise size #{size}" unless SIZES.include?(size.to_sym)
 
+        super()
+
         @exercise = exercise
         @user_track = user_track
         @size = size

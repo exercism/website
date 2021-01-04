@@ -27,6 +27,7 @@ body {
             position: absolute;
             top: 0;
             bottom: 0;
+            width: 100%;
             content: "";
             background-size: 90% auto;
             background-repeat: no-repeat;

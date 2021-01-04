@@ -49,11 +49,6 @@ test('displays all posts', async () => {
       name: 'Discussion post list loading indicator',
     })
   ).toBeInTheDocument()
-  waitForElementToBeRemoved(
-    screen.queryByRole('status', {
-      name: 'Discussion post list loading indicator',
-    })
-  )
 
   expect(
     await screen.findByRole('img', { name: 'Avatar of author' })
@@ -69,6 +64,11 @@ test('displays all posts', async () => {
   expect(await screen.findByText('Student')).toBeInTheDocument()
   expect(await screen.findByText('Goodbye')).toBeInTheDocument()
   expect(await screen.findByText('2 days ago')).toBeInTheDocument()
+  expect(
+    screen.queryByRole('status', {
+      name: 'Discussion post list loading indicator',
+    })
+  ).not.toBeInTheDocument()
 
   server.close()
 })

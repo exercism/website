@@ -3,7 +3,7 @@ module API
     def update
       page = current_user.scratchpad_pages.find_by(uuid: params[:id])
 
-      return render_404 unless page
+      return render_404(:scratchpad_page_not_found) unless page
 
       page.update(scratchpad_page_params)
 

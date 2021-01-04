@@ -25,8 +25,8 @@ module API
 
       assert_response 404
       expected = { error: {
-        type: "resource_not_found",
-        message: I18n.t("api.errors.resource_not_found")
+        type: "scratchpad_page_not_found",
+        message: I18n.t("api.errors.scratchpad_page_not_found")
       } }
       actual = JSON.parse(response.body, symbolize_names: true)
       assert_equal expected, actual

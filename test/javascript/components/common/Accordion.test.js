@@ -5,7 +5,7 @@ import { Accordion } from '../../../../app/javascript/components/common/Accordio
 
 test('collapsed accordion', () => {
   render(
-    <Accordion id="accordion" open={false}>
+    <Accordion id="accordion" isOpen={false}>
       <Accordion.Header>Header</Accordion.Header>
       <Accordion.Panel>
         <p>Content</p>
@@ -22,7 +22,7 @@ test('collapsed accordion', () => {
 
 test('expanded accordion', () => {
   render(
-    <Accordion id="accordion" open={true}>
+    <Accordion id="accordion" isOpen={true}>
       <Accordion.Header>Header</Accordion.Header>
       <Accordion.Panel>
         <p>Content</p>

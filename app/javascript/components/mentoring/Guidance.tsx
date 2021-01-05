@@ -46,19 +46,27 @@ export const Guidance = (): JSX.Element => {
 
   return (
     <div>
-      <Accordion id="solution" open={isOpen('solution')} onClick={handleClick}>
+      <Accordion
+        id="solution"
+        isOpen={isOpen('solution')}
+        onClick={handleClick}
+      >
         <Accordion.Header>How you solved the exercise</Accordion.Header>
         <Accordion.Panel>
           <p>Solution here</p>
         </Accordion.Panel>
       </Accordion>
-      <Accordion id="notes" open={isOpen('notes')} onClick={handleClick}>
+      <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <Accordion.Header>Mentor notes</Accordion.Header>
         <Accordion.Panel>
           <p>Notes here</p>
         </Accordion.Panel>
       </Accordion>
-      <Accordion id="feedback" open={isOpen('feedback')} onClick={handleClick}>
+      <Accordion
+        id="feedback"
+        isOpen={isOpen('feedback')}
+        onClick={handleClick}
+      >
         <Accordion.Header>Automated feedback</Accordion.Header>
         <Accordion.Panel>
           <p>Feedback here</p>

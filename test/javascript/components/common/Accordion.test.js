@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Accordion } from '../../../../app/javascript/components/common/Accordion'
 
-test('collapsed accordion', () => {
+test('closed accordion', () => {
   render(
     <Accordion id="accordion" isOpen={false}>
       <Accordion.Header>Header</Accordion.Header>
@@ -20,7 +20,7 @@ test('collapsed accordion', () => {
   expect(screen.queryByText('Content')).not.toBeVisible()
 })
 
-test('expanded accordion', () => {
+test('open accordion', () => {
   render(
     <Accordion id="accordion" isOpen={true}>
       <Accordion.Header>Header</Accordion.Header>

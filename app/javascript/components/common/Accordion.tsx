@@ -1,30 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 export type AccordionContext = {
   index: string
   open: boolean
-  setOpen: (open: boolean) => void
+  onClick: (index: string) => void
 }
 
 const Context = React.createContext<AccordionContext>({
   index: '',
   open: false,
-  setOpen: () => {},
+  onClick: (index: string) => {},
 })
 
 export const Accordion = ({
   index,
-  open: initialOpen,
+  open,
+  onClick,
   children,
 }: {
   index: string
   open: boolean
+  onClick: (index: string) => void
   children?: React.ReactNode
 }): JSX.Element => {
-  const [open, setOpen] = useState(initialOpen)
-
   return (
-    <Context.Provider value={{ open, index, setOpen }}>
+    <Context.Provider value={{ open, index, onClick }}>
       {children}
     </Context.Provider>
   )
@@ -35,12 +35,12 @@ const AccordionHeader = ({
 }: {
   children?: React.ReactNode
 }): JSX.Element => {
-  const { open, index, setOpen } = React.useContext(Context)
+  const { open, index, onClick } = React.useContext(Context)
 
   return (
     <button
       type="button"
-      onClick={() => setOpen(!open)}
+      onClick={() => onClick(index)}
       aria-expanded={open}
       aria-controls={`accordion-panel-${index}`}
       id={`accordion-header-${index}`}

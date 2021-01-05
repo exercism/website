@@ -3,6 +3,7 @@ import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Icon } from '../../common/Icon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Avatar } from '../../common/Avatar'
 
 type ConversationProps = {
   trackTitle: string
@@ -34,16 +35,7 @@ export function Conversation({
   return (
     <a className="--solution" href={url}>
       <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
-      <div
-        className="c-rounded-bg-img"
-        style={{ backgroundImage: `url(${menteeAvatarUrl})` }}
-      >
-        <img
-          src={menteeAvatarUrl}
-          alt={`${menteeHandle}'s uploaded avatar`}
-          className="tw-sr-only"
-        />
-      </div>
+      <Avatar src={menteeAvatarUrl} handle={menteeHandle} />
       <div className="--info">
         <div className="--handle">
           {menteeHandle}

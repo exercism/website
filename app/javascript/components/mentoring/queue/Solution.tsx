@@ -3,6 +3,7 @@ import { fromNow } from '../../../utils/time'
 import { TrackIcon } from '../../common/TrackIcon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Icon } from '../../common/Icon'
+import { Avatar } from '../../common/Avatar'
 
 type SolutionProps = {
   trackTitle: string
@@ -43,16 +44,7 @@ export function Solution({
       onBlur={hideMoreInformation}
     >
       <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
-      <div
-        className="c-rounded-bg-img"
-        style={{ backgroundImage: `url(${menteeAvatarUrl})` }}
-      >
-        <img
-          src={menteeAvatarUrl}
-          alt={`${menteeHandle}'s uploaded avatar`}
-          className="tw-sr-only"
-        />
-      </div>
+      <Avatar src={menteeAvatarUrl} handle={menteeHandle} />
       <div className="--info">
         <div className="--handle">
           {menteeHandle}

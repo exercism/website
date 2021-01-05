@@ -1,6 +1,7 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
+import { Avatar } from '../common/Avatar'
 
 type DiscussionPostLinks = {
   update?: string
@@ -27,12 +28,17 @@ export const DiscussionPost = ({
   contentHtml,
   updatedAt,
 }: DiscussionPostProps): JSX.Element => (
-  <div>
-    <img src={authorAvatarUrl} alt={`Avatar of ${authorHandle}`} />
-    <p>{authorHandle}</p>
-    {byStudent ? <p>Student</p> : null}
-    <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-    <p>{fromNow(updatedAt)}</p>
+  <div className="post">
+    <header className="post-header">
+      <Avatar handle={authorHandle} src={authorAvatarUrl} />
+      <div className="handle">{authorHandle}</div>
+      {byStudent ? <div className="tag">Student</div> : null}
+    </header>
+    <div
+      className="post-content"
+      dangerouslySetInnerHTML={{ __html: contentHtml }}
+    />
+    <time className="post-at">{fromNow(updatedAt)}</time>
     {links.update ? (
       <EditDiscussionPost
         value={contentMarkdown}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MentoringPanelList } from './MentoringPanelList'
 
 type Links = {
@@ -6,22 +6,33 @@ type Links = {
   scratchpad: string
 }
 
+export type Iteration = {
+  idx: number
+  links: {
+    posts: string
+  }
+}
+
 export const MentorDiscussion = ({
   links,
   discussionId,
-  iterationIdx,
+  iterations,
 }: {
   links: Links
   discussionId: number
-  iterationIdx: number
+  iterations: Iteration[]
 }): JSX.Element => {
+  const [currentIteration, setCurrentIteration] = useState(
+    iterations[iterations.length - 1]
+  )
+
   return (
     <div className="c-mentor-discussion">
       <div className="rhs">
         <MentoringPanelList
           links={links}
           discussionId={discussionId}
-          iterationIdx={iterationIdx}
+          iteration={currentIteration}
         />
       </div>
     </div>

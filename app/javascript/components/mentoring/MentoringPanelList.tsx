@@ -4,11 +4,11 @@ import { DiscussionPostPanel } from './DiscussionPostPanel'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { GraphicalIcon } from '../common'
+import { Iteration } from './MentorDiscussion'
 
 type TabIndex = 'discussion' | 'scratchpad'
 
 type MentoringPanelListLinks = {
-  posts: string
   scratchpad: string
 }
 
@@ -20,11 +20,11 @@ const TabsContext = createContext<TabContext>({
 export const MentoringPanelList = ({
   links,
   discussionId,
-  iterationIdx,
+  iteration,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
-  iterationIdx: number
+  iteration: Iteration
 }): JSX.Element => {
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -51,9 +51,8 @@ export const MentoringPanelList = ({
       </div>
       <Tab.Panel id="discussion" context={TabsContext}>
         <DiscussionPostPanel
-          endpoint={links.posts}
+          iteration={iteration}
           discussionId={discussionId}
-          iterationIdx={iterationIdx}
         />
       </Tab.Panel>
       <Tab.Panel id="scratchpad" context={TabsContext}>

@@ -24,10 +24,8 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          click_on "1"
         end
 
         assert_css "img[src='#{mentor.avatar_url}']"
@@ -44,10 +42,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           create(:solution_mentor_discussion_post,
             discussion: discussion,
             iteration: iteration,
@@ -68,14 +63,11 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        create :iteration, solution: solution
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           wait_for_websockets
           click_on "Add a comment"
           fill_in_editor "# Hello"
@@ -102,10 +94,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           click_on "Edit"
           fill_in_editor "# Edited"
           click_on "Send"
@@ -127,10 +116,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
         end
 
         refute_text "Edit"
@@ -140,14 +126,11 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        create :iteration, solution: solution
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
           fill_in_editor "# Hello"
           assert_text "Unsaved"
@@ -161,15 +144,12 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
 
           assert_editor_text "# Some notes"
@@ -182,15 +162,12 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
           fill_in_editor "# Hello"
           assert_text "Unsaved"
@@ -204,15 +181,12 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(
-            discussion_id: discussion.id,
-            iteration_id: iteration.id
-          )
+          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
           fill_in_editor "# Hello"
           click_on "Revert"

@@ -115,7 +115,7 @@ initReact({
   'mentoring-mentor-discussion': (data: any) => (
     <Mentoring.MentorDiscussion
       discussionId={data.discussion_id}
-      iterationIdx={data.iteration_idx}
+      iterations={data.iterations}
       links={data.links}
     />
   ),

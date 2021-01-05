@@ -185,6 +185,40 @@ export function FileEditor({
     [tab]
   )
 
+  const [{ width, height }, setSize] = useState<{
+    width: string | number
+    height: string | number
+  }>({ width: '100%', height: '100%' })
+
+  useEffect(() => {
+    let lastAnimationFrame: number | undefined
+
+    function determineNewSize() {
+      lastAnimationFrame = undefined
+      const { current } = containerRef
+      if (!current) {
+        return
+      }
+
+      setSize(current.getBoundingClientRect())
+    }
+
+    function onResize() {
+      if (lastAnimationFrame) {
+        return
+      }
+
+      lastAnimationFrame = requestAnimationFrame(determineNewSize)
+    }
+
+    window.addEventListener('resize', onResize)
+    return () => {
+      lastAnimationFrame !== undefined &&
+        cancelAnimationFrame(lastAnimationFrame)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [containerRef])
+
   return (
     <div ref={containerRef} className="--file-editor">
       <div className="tabs">
@@ -204,6 +238,8 @@ export function FileEditor({
         editorWillMount={handleEditorWillMount}
         options={options}
         theme={theme}
+        width={width}
+        height={height}
       />
       <div ref={statusBarRef}></div>
     </div>

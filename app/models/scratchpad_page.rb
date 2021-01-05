@@ -6,11 +6,17 @@ class ScratchpadPage < ApplicationRecord
 
   has_markdown_field :content
 
-  before_create do
-    self.uuid = SecureRandom.compact_uuid
+  def category
+    case about
+    when Exercise
+      "mentoring:exercise"
+    end
   end
 
-  def to_param
-    uuid
+  def title
+    case about
+    when Exercise
+      "#{about.track.slug}:#{about.slug}"
+    end
   end
 end

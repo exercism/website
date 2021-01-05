@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react'
 import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
-import { sendPostRequest, sendRequest } from '../../utils/send-request'
+import { sendRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../utils/typecheck'
 import { camelizeKeys } from 'humps'
@@ -8,10 +8,6 @@ import { Loading } from '../common/Loading'
 
 type ScratchpadPage = {
   contentMarkdown: string
-  links: {
-    create?: string
-    update?: string
-  }
 }
 
 export const Scratchpad = ({
@@ -45,27 +41,15 @@ export const Scratchpad = ({
 
       setError('')
 
-      let request
-
-      if (page.links.create) {
-        request = sendPostRequest({
-          endpoint: page.links.create,
-          body: { content_markdown: editorRef.current?.value() },
-          isMountedRef: isMountedRef,
-        })
-      } else if (page.links.update) {
-        request = sendRequest({
-          endpoint: page.links.update,
-          method: 'PATCH',
-          body: JSON.stringify({
-            content_markdown: editorRef.current?.value(),
-          }),
-          isMountedRef: isMountedRef,
-        })
-      }
-
-      request
-        ?.then((json: any) => {
+      sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: JSON.stringify({
+          scratchpad_page: { content_markdown: editorRef.current?.value() },
+        }),
+        isMountedRef: isMountedRef,
+      })
+        .then((json: any) => {
           if (!json) {
             return
           }
@@ -80,7 +64,7 @@ export const Scratchpad = ({
           }
         })
     },
-    [isMountedRef, page]
+    [endpoint, isMountedRef, page]
   )
 
   const pullPage = useCallback(() => {
@@ -91,10 +75,6 @@ export const Scratchpad = ({
       isMountedRef: isMountedRef,
     })
       .then((json) => {
-        if (!json) {
-          return setPage({ contentMarkdown: '', links: { create: endpoint } })
-        }
-
         setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
       })
       .catch(() => {
@@ -109,7 +89,7 @@ export const Scratchpad = ({
       return
     }
 
-    editorRef.current.value(page.contentMarkdown)
+    editorRef.current.value(page.contentMarkdown || '')
   }, [page])
 
   if (!page) {

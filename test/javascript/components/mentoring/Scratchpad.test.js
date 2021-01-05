@@ -13,7 +13,7 @@ import { Scratchpad } from '../../../../app/javascript/components/mentoring/Scra
 test('hides local storage autosave message', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json(null))
+      return res(ctx.json({ scratchpad_page: { content_markdown: null } }))
     })
   )
   server.listen()
@@ -31,9 +31,9 @@ test('hides local storage autosave message', async () => {
 test('shows errors from API', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json(null))
+      return res(ctx.json({ scratchpad_page: { content_markdown: null } }))
     }),
-    rest.post('https://exercism.test/scratchpad', (req, res, ctx) => {
+    rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
       return res(
         ctx.status(404),
         ctx.json({
@@ -61,9 +61,9 @@ test('shows errors from API', async () => {
 test('clears errors when resubmitting', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json(null))
+      return res(ctx.json({ scratchpad_page: { content_markdown: null } }))
     }),
-    rest.post('https://exercism.test/scratchpad', (req, res, ctx) => {
+    rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
       return res(
         ctx.status(404),
         ctx.json({

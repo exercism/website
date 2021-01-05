@@ -29,12 +29,9 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :scratchpad_pages, only: %i[update]
-      resources :tracks, only: %i[index show] do
-        resources :exercise, only: [] do
-          resource :scratchpad_page, only: %i[show create], controller: "exercises/scratchpad_page"
-        end
-      end
+      resources :tracks, only: %i[index show]
+      get "/scratchpads/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
+      patch "/scratchpads/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection

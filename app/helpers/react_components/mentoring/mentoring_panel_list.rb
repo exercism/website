@@ -4,6 +4,8 @@ module ReactComponents
       initialize_with :discussion, :iteration
 
       def to_s
+        scratchpad = ScratchpadPage.new(about: discussion.solution.exercise)
+
         super(
           "mentoring-mentoring-panel-list",
           {
@@ -11,8 +13,7 @@ module ReactComponents
             iteration_idx: iteration.idx,
             links: {
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx),
-              scratchpad: Exercism::Routes.api_track_exercise_scratchpad_page_url(discussion.solution.track,
-                discussion.solution.exercise)
+              scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
             }
           }
         )

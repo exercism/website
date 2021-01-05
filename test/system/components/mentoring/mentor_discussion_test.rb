@@ -14,7 +14,8 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        iteration = create :iteration, idx: 1, solution: solution
+        create :iteration, idx: 2, solution: solution
         create(:solution_mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,

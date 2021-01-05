@@ -28,6 +28,20 @@ export const MentorDiscussion = ({
 
   return (
     <div className="c-mentor-discussion">
+      <header className="discussion-header">
+        <div className="iterations">
+          {iterations.map((iteration) => (
+            <button
+              key={iteration.idx}
+              type="button"
+              className="iteration"
+              onClick={() => setCurrentIteration(iteration)}
+            >
+              {iteration.idx}
+            </button>
+          ))}
+        </div>
+      </header>
       <div className="rhs">
         <MentoringPanelList
           links={links}

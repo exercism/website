@@ -1,30 +1,30 @@
 import React from 'react'
 
 export type AccordionContext = {
-  index: string
+  id: string
   open: boolean
-  onClick: (index: string) => void
+  onClick: (id: string) => void
 }
 
 const Context = React.createContext<AccordionContext>({
-  index: '',
+  id: '',
   open: false,
-  onClick: (index: string) => {},
+  onClick: (id: string) => {},
 })
 
 export const Accordion = ({
-  index,
+  id,
   open,
   onClick,
   children,
 }: {
-  index: string
+  id: string
   open: boolean
-  onClick: (index: string) => void
+  onClick: (id: string) => void
   children?: React.ReactNode
 }): JSX.Element => {
   return (
-    <Context.Provider value={{ open, index, onClick }}>
+    <Context.Provider value={{ open, id, onClick }}>
       {children}
     </Context.Provider>
   )
@@ -35,15 +35,15 @@ const AccordionHeader = ({
 }: {
   children?: React.ReactNode
 }): JSX.Element => {
-  const { open, index, onClick } = React.useContext(Context)
+  const { open, id, onClick } = React.useContext(Context)
 
   return (
     <button
       type="button"
-      onClick={() => onClick(index)}
+      onClick={() => onClick(id)}
       aria-expanded={open}
-      aria-controls={`accordion-panel-${index}`}
-      id={`accordion-header-${index}`}
+      aria-controls={`accordion-panel-${id}`}
+      id={`accordion-header-${id}`}
     >
       {children}
     </button>
@@ -53,12 +53,12 @@ AccordionHeader.displayName = 'AccordionHeader'
 Accordion.Header = AccordionHeader
 
 const AccordionPanel = ({ children }: { children: React.ReactNode }) => {
-  const { open, index } = React.useContext(Context)
+  const { open, id } = React.useContext(Context)
 
   return (
     <div
-      id={`accordion-panel-${index}`}
-      aria-labelledby={`accordion-panel-${index}`}
+      id={`accordion-panel-${id}`}
+      aria-labelledby={`accordion-panel-${id}`}
       hidden={!open}
     >
       {children}

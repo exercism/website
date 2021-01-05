@@ -4,26 +4,26 @@ import { Accordion } from '../common/Accordion'
 export const Guidance = (): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
-      index: 'solution',
+      id: 'solution',
       isOpen: true,
     },
     {
-      index: 'notes',
+      id: 'notes',
       isOpen: false,
     },
     {
-      index: 'feedback',
+      id: 'feedback',
       isOpen: false,
     },
   ])
 
   const handleClick = useCallback(
-    (index: string) => {
+    (id: string) => {
       setAccordionState(
         accordionState.map((state) => {
           return {
-            index: state.index,
-            isOpen: index === state.index,
+            id: state.id,
+            isOpen: id === state.id,
           }
         })
       )
@@ -32,11 +32,11 @@ export const Guidance = (): JSX.Element => {
   )
 
   const isOpen = useCallback(
-    (index: string) => {
-      const state = accordionState.find((state) => state.index === index)
+    (id: string) => {
+      const state = accordionState.find((state) => state.id === id)
 
       if (!state) {
-        throw new Error('Accordion index not found')
+        throw new Error('Accordion id not found')
       }
 
       return state.isOpen
@@ -46,27 +46,19 @@ export const Guidance = (): JSX.Element => {
 
   return (
     <div>
-      <Accordion
-        index="solution"
-        open={isOpen('solution')}
-        onClick={handleClick}
-      >
+      <Accordion id="solution" open={isOpen('solution')} onClick={handleClick}>
         <Accordion.Header>How you solved the exercise</Accordion.Header>
         <Accordion.Panel>
           <p>Solution here</p>
         </Accordion.Panel>
       </Accordion>
-      <Accordion index="notes" open={isOpen('notes')} onClick={handleClick}>
+      <Accordion id="notes" open={isOpen('notes')} onClick={handleClick}>
         <Accordion.Header>Mentor notes</Accordion.Header>
         <Accordion.Panel>
           <p>Notes here</p>
         </Accordion.Panel>
       </Accordion>
-      <Accordion
-        index="feedback"
-        open={isOpen('feedback')}
-        onClick={handleClick}
-      >
+      <Accordion id="feedback" open={isOpen('feedback')} onClick={handleClick}>
         <Accordion.Header>Automated feedback</Accordion.Header>
         <Accordion.Panel>
           <p>Feedback here</p>

@@ -78,7 +78,7 @@ export const Scratchpad = ({
         setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
       })
       .catch(() => {
-        // do something
+        // TODO: do something
       })
   }, [endpoint, isMountedRef])
 

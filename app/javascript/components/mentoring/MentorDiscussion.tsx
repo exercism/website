@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { MentoringPanelList } from './mentor-discussion/MentoringPanelList'
 import { IterationsList } from './mentor-discussion/IterationsList'
+import { BackButton } from './mentor-discussion/BackButton'
 
 type Links = {
-  posts: string
   scratchpad: string
+  exercise: string
 }
 
 export type Iteration = {
@@ -32,6 +33,7 @@ export const MentorDiscussion = ({
   return (
     <div className="c-mentor-discussion">
       <header className="discussion-header">
+        <BackButton url={links.exercise} />
         <IterationsList
           iterations={iterations}
           onClick={setCurrentIteration}

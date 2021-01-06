@@ -22,6 +22,7 @@ module ReactComponents
               }
             end,
             links: {
+              exercise: Exercism::Routes.track_exercise_path(discussion.solution.track, discussion.solution.exercise),
               scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
             }
           }

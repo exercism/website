@@ -32,3 +32,25 @@ test('highlights currently selected iteration', async () => {
     await screen.findByRole('button', { name: 'Go to iteration 1' })
   ).toHaveAttribute('aria-current', 'true')
 })
+
+test('shows back button', async () => {
+  const links = {
+    scratchpad: 'https://exercism.test/scratchpad',
+    exercise: 'https://exercism.test/exercise',
+  }
+  const iterations = [
+    {
+      idx: 1,
+      links: {
+        posts: 'https://exercism.test/iterations/1/posts',
+      },
+    },
+  ]
+  render(
+    <MentorDiscussion links={links} iterations={iterations} discussionId={1} />
+  )
+
+  expect(
+    screen.getByRole('link', { name: 'Back to exercise' })
+  ).toHaveAttribute('href', 'https://exercism.test/exercise')
+})

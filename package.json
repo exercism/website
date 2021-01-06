@@ -52,6 +52,7 @@
     "@testing-library/dom": "^7.24.1",
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/react": "^10.4.3",
+    "@testing-library/user-event": "^12.6.0",
     "@types/fontfaceobserver": "^0.0.6",
     "@types/lodash": "^4.14.165",
     "@types/pluralize": "^0.0.29",

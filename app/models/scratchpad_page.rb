@@ -6,6 +6,8 @@ class ScratchpadPage < ApplicationRecord
 
   has_markdown_field :content
 
+  validates :content_markdown, presence: true
+
   def category
     case about
     when Exercise

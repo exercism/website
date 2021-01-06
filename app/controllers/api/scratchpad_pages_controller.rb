@@ -7,9 +7,11 @@ module API
     end
 
     def update
-      @page.update(scratchpad_page_params)
-
-      render json: SerializeScratchpadPage.(@page)
+      if @page.update(scratchpad_page_params)
+        render json: SerializeScratchpadPage.(@page)
+      else
+        render_400(:failed_validations, errors: @page.errors)
+      end
     end
 
     private

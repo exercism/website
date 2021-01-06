@@ -150,6 +150,26 @@ module API
       assert_equal expected, actual
     end
 
+    test "update should return 400 when validations fail" do
+      setup_user
+      ruby = create :track, slug: "ruby"
+      exercise = create :concept_exercise, track: ruby, slug: "lasagna"
+      create :scratchpad_page, content_markdown: "hello world", author: @current_user, about: exercise
+
+      patch api_scratchpad_page_path("mentoring:exercise", "ruby:lasagna"),
+        params: { scratchpad_page: { content_markdown: nil } },
+        headers: @headers,
+        as: :json
+
+      assert_response 400
+      expected = { error: {
+        type: "failed_validations",
+        message: I18n.t("api.errors.failed_validations"),
+        errors: { content_markdown: ["can't be blank"] }
+      } }
+      assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    end
+
     test "update should update a scratchpad page" do
       setup_user
       ruby = create :track, slug: "ruby"

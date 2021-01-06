@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { MentoringPanelList } from './MentoringPanelList'
-import { IterationsList } from './IterationsList'
+import { MentoringPanelList } from './mentor-discussion/MentoringPanelList'
+import { IterationsList } from './mentor-discussion/IterationsList'
 
 type Links = {
   posts: string

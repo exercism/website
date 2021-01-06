@@ -1,7 +1,7 @@
 import React from 'react'
 import { DiscussionPostList } from './DiscussionPostList'
 import { AddDiscussionPost } from './AddDiscussionPost'
-import { Iteration } from './MentorDiscussion'
+import { Iteration } from '../MentorDiscussion'
 
 export const DiscussionPostPanel = ({
   discussionId,

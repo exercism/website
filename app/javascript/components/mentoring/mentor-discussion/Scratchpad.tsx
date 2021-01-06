@@ -1,10 +1,13 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react'
-import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
-import { sendRequest } from '../../utils/send-request'
+import {
+  MarkdownEditor,
+  MarkdownEditorHandle,
+} from '../../common/MarkdownEditor'
+import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { typecheck } from '../../utils/typecheck'
+import { typecheck } from '../../../utils/typecheck'
 import { camelizeKeys } from 'humps'
-import { Loading } from '../common/Loading'
+import { Loading } from '../../common/Loading'
 
 type ScratchpadPage = {
   contentMarkdown: string

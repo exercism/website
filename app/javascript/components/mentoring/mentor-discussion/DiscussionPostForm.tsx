@@ -1,8 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { MarkdownEditor, MarkdownEditorHandle } from '../common/MarkdownEditor'
-import { sendRequest, APIError } from '../../utils/send-request'
+import {
+  MarkdownEditor,
+  MarkdownEditorHandle,
+} from '../../common/MarkdownEditor'
+import { sendRequest, APIError } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { Loading } from '../common/Loading'
+import { Loading } from '../../common/Loading'
 
 export const DiscussionPostForm = ({
   endpoint,

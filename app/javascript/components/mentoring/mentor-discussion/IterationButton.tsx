@@ -1,5 +1,5 @@
 import React from 'react'
-import { Iteration } from './MentorDiscussion'
+import { Iteration } from '../MentorDiscussion'
 
 const formatCommentCount = (count: number) => {
   if (count >= 0 && count <= 9) {

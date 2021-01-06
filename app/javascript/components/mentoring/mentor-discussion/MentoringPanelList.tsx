@@ -1,10 +1,10 @@
 import React, { useState, createContext } from 'react'
-import { Tab, TabContext } from '../common/Tab'
+import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostPanel } from './DiscussionPostPanel'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
-import { GraphicalIcon } from '../common'
-import { Iteration } from './MentorDiscussion'
+import { GraphicalIcon } from '../../common'
+import { Iteration } from '../MentorDiscussion'
 
 type TabIndex = 'discussion' | 'scratchpad'
 

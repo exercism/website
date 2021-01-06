@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { MentoringPanelList } from '../../../../app/javascript/components/mentoring/MentoringPanelList'
+import { MentoringPanelList } from '../../../../../app/javascript/components/mentoring/mentor-discussion/MentoringPanelList'
 
 test('switches to the scratchpad tab', async () => {
   const links = {

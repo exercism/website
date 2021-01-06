@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react'
-import { usePanel } from '../../hooks/use-panel'
+import { usePanel } from '../../../hooks/use-panel'
 import { DiscussionPostForm } from './DiscussionPostForm'
 
-export const AddDiscussionPost = ({
+export const EditDiscussionPost = ({
+  value,
   endpoint,
   contextId,
 }: {
+  value: string
   endpoint: string
   contextId: string
 }): JSX.Element => {
@@ -30,15 +32,16 @@ export const AddDiscussionPost = ({
         }}
         type="button"
       >
-        Add a comment
+        Edit
       </button>
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
           <DiscussionPostForm
             onSuccess={handleSuccess}
             endpoint={endpoint}
-            method="POST"
+            method="PATCH"
             contextId={contextId}
+            value={value}
           />
         ) : null}
       </div>

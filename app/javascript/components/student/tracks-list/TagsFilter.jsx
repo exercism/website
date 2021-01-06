@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TagOptionList } from './TagOptionList'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export function TagsFilter({ options, dispatch }) {
   const [expanded, setExpanded] = useState(false)
@@ -67,6 +68,7 @@ export function TagsFilter({ options, dispatch }) {
         aria-expanded={expanded}
       >
         Filter by
+        <GraphicalIcon icon="chevron-down" />
       </button>
       <div
         ref={dialogRef}
@@ -76,7 +78,7 @@ export function TagsFilter({ options, dispatch }) {
         className="--tag-option-list"
         {...(expanded ? {} : { hidden: true })}
       >
-        <div className="md-container">
+        <div className="lg-container container">
           <TagOptionList
             selectedTags={selectedTags}
             options={options}
@@ -87,6 +89,7 @@ export function TagsFilter({ options, dispatch }) {
         </div>
       </div>
       <button onClick={resetFilters} className="--reset-btn">
+        <GraphicalIcon icon="reset" />
         Reset filters
       </button>
     </>

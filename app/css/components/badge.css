@@ -41,7 +41,7 @@
             @apply text-h5 mb-4;
         }
         & .--desc {
-            @apply text-16 text-textLight leading-code;
+            @apply text-16 text-textColor6 leading-code;
         }
     }
 }

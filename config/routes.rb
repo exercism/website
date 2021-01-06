@@ -110,6 +110,7 @@ Rails.application.routes.draw do
     resources :submissions, only: [:index]
     resources :exercise_representations
   end
+
   resources :tracks, only: %i[index show] do
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member
@@ -133,6 +134,11 @@ Rails.application.routes.draw do
   end
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
+  resource :journey, only: [:show], controller: "journey" do
+    member do
+      get :badges
+    end
+  end
 
   root to: "pages#index"
 

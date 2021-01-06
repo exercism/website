@@ -2,11 +2,7 @@ import React from 'react'
 import { Iteration } from '../MentorDiscussion'
 
 const formatCommentCount = (count: number) => {
-  if (count >= 0 && count <= 9) {
-    return count
-  } else {
-    return '9+'
-  }
+  return count > 9 ? '9+' : count
 }
 
 const Comments = ({ iteration }: { iteration: Iteration }): JSX.Element => {

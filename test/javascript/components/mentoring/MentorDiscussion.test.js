@@ -26,10 +26,9 @@ test('highlights currently selected iteration', async () => {
     <MentorDiscussion links={links} iterations={iterations} discussionId={1} />
   )
 
-  userEvent.click(screen.getByRole('button', { name: '1' }))
+  userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
 
-  expect(await screen.findByRole('button', { name: '1' })).toHaveAttribute(
-    'aria-current',
-    'true'
-  )
+  expect(
+    await screen.findByRole('button', { name: 'Go to iteration 1' })
+  ).toHaveAttribute('aria-current', 'true')
 })

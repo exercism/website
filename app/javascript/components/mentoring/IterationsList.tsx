@@ -16,7 +16,7 @@ export const IterationsList = ({
       {iterations.map((iteration) => (
         <IterationButton
           key={iteration.idx}
-          idx={iteration.idx}
+          iteration={iteration}
           onClick={() => onClick(iteration)}
           selected={current === iteration}
         />

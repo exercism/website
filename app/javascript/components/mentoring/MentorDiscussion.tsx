@@ -9,6 +9,7 @@ type Links = {
 
 export type Iteration = {
   idx: number
+  numComments: number
   links: {
     posts: string
   }

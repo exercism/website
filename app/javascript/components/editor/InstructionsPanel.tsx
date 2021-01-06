@@ -14,7 +14,7 @@ export const InstructionsPanel = ({
   instructions: ExerciseInstructions
   exampleSolution: string
 }) => (
-  <Tab.Panel index="instructions" context={TabsContext}>
+  <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
       <div className="c-textual-content">
         <h2>Introduction</h2>

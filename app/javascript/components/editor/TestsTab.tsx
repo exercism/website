@@ -4,7 +4,7 @@ import { TabsContext } from '../Editor'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 
 export const TestsTab = () => (
-  <Tab index="tests" context={TabsContext}>
+  <Tab id="tests" context={TabsContext}>
     <GraphicalIcon icon="tests" />
     <span data-text="Tests">Tests</span>
   </Tab>

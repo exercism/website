@@ -13,7 +13,7 @@ type MentoringPanelListLinks = {
 }
 
 const TabsContext = createContext<TabContext>({
-  tab: 'instructions',
+  current: 'instructions',
   switchToTab: () => {},
 })
 
@@ -30,33 +30,36 @@ export const MentoringPanelList = ({
 
   return (
     <TabsContext.Provider
-      value={{ tab, switchToTab: (index: string) => setTab(index as TabIndex) }}
+      value={{
+        current: tab,
+        switchToTab: (id: string) => setTab(id as TabIndex),
+      }}
     >
       <div className="tabs" role="tablist">
-        <Tab index="discussion" context={TabsContext}>
+        <Tab id="discussion" context={TabsContext}>
           <GraphicalIcon icon="comment" />
           Discussion
         </Tab>
-        <Tab index="scratchpad" context={TabsContext}>
+        <Tab id="scratchpad" context={TabsContext}>
           <GraphicalIcon icon="scratchpad" />
           Scratchpad
         </Tab>
-        <Tab index="guidance" context={TabsContext}>
+        <Tab id="guidance" context={TabsContext}>
           <GraphicalIcon icon="guidance" />
           Guidance
         </Tab>
       </div>
-      <Tab.Panel index="discussion" context={TabsContext}>
+      <Tab.Panel id="discussion" context={TabsContext}>
         <DiscussionPostPanel
           endpoint={links.posts}
           discussionId={discussionId}
           iterationIdx={iterationIdx}
         />
       </Tab.Panel>
-      <Tab.Panel index="scratchpad" context={TabsContext}>
+      <Tab.Panel id="scratchpad" context={TabsContext}>
         <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
       </Tab.Panel>
-      <Tab.Panel index="guidance" context={TabsContext}>
+      <Tab.Panel id="guidance" context={TabsContext}>
         <Guidance />
       </Tab.Panel>
     </TabsContext.Provider>

@@ -55,7 +55,7 @@ export enum EditorStatus {
 }
 
 export const TabsContext = createContext<TabContext>({
-  tab: 'instructions',
+  current: 'instructions',
   switchToTab: () => {},
 })
 
@@ -353,7 +353,10 @@ export function Editor({
 
   return (
     <TabsContext.Provider
-      value={{ tab, switchToTab: (index: string) => setTab(index as TabIndex) }}
+      value={{
+        current: tab,
+        switchToTab: (id: string) => setTab(id as TabIndex),
+      }}
     >
       <div id="page-editor">
         <div className="header">

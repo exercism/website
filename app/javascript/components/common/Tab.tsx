@@ -1,23 +1,23 @@
 import React, { useContext } from 'react'
 
 export type TabContext = {
-  tab: string
+  current: string
   switchToTab: (index: string) => void
 }
 
 export const Tab = ({
   context,
-  index,
+  id,
   children,
 }: {
   context: React.Context<TabContext>
-  index: string
+  id: string
   children?: React.ReactNode
 }): JSX.Element => {
-  const { tab: currentIndex, switchToTab } = useContext(context)
+  const { current, switchToTab } = useContext(context)
 
   const classNames = ['c-tab']
-  if (index === currentIndex) {
+  if (id === current) {
     classNames.push('selected')
   }
 
@@ -25,12 +25,12 @@ export const Tab = ({
     <button
       className={classNames.join(' ')}
       role="tab"
-      aria-selected={currentIndex === index}
-      aria-controls={`panel-${index}`}
-      id={`tab-${index}`}
-      tabIndex={currentIndex === index ? 0 : -1}
+      aria-selected={id === current}
+      aria-controls={`panel-${id}`}
+      id={`tab-${id}`}
+      tabIndex={id === current ? 0 : -1}
       onClick={() => {
-        switchToTab(index)
+        switchToTab(id)
       }}
     >
       {children}
@@ -39,23 +39,23 @@ export const Tab = ({
 }
 
 const TabPanel = ({
-  index,
+  id,
   children,
   context,
 }: {
-  index: string
+  id: string
   children: React.ReactNode
   context: React.Context<TabContext>
 }) => {
-  const { tab: currentIndex } = useContext(context)
+  const { current } = useContext(context)
 
   return (
     <div
-      id={`panel-${index}`}
+      id={`panel-${id}`}
       role="tabpanel"
-      aria-labelledby={`tab-${index}`}
+      aria-labelledby={`tab-${id}`}
       tabIndex={0}
-      hidden={index !== currentIndex}
+      hidden={id !== current}
     >
       {children}
     </div>

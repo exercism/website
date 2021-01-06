@@ -13,7 +13,7 @@ export const ResultsPanel = ({
   timeout: number
   onUpdate: (testRun: TestRun) => void
 }) => (
-  <Tab.Panel index="results" context={TabsContext}>
+  <Tab.Panel id="results" context={TabsContext}>
     <section className="results">
       {submission && submission.testRun && (
         <TestRunSummary

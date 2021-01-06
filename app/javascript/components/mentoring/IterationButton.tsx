@@ -9,10 +9,16 @@ const formatCommentCount = (count: number) => {
   }
 }
 
-const Comments = ({ count }: { count: number }): JSX.Element => {
+const Comments = ({ iteration }: { iteration: Iteration }): JSX.Element => {
+  const classNames = ['comments']
+
+  if (iteration.unread) {
+    classNames.push('unread')
+  }
+
   return (
-    <div className="comments" aria-hidden={true}>
-      {formatCommentCount(count)}
+    <div className={classNames.join(' ')} aria-hidden={true}>
+      {formatCommentCount(iteration.numComments)}
     </div>
   )
 }
@@ -47,9 +53,7 @@ export const IterationButton = ({
       onClick={onClick}
     >
       {iteration.idx}
-      {iteration.numComments > 0 ? (
-        <Comments count={iteration.numComments} />
-      ) : null}
+      {iteration.numComments > 0 ? <Comments iteration={iteration} /> : null}
     </button>
   )
 }

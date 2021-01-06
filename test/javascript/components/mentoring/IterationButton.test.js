@@ -43,3 +43,17 @@ test('applies correct labels when numComments > 9', async () => {
   ).toBeInTheDocument()
   expect(screen.getByText('9+')).toBeInTheDocument()
 })
+
+test('applies correct labels when iteration is unread', async () => {
+  const iteration = { idx: 1, numComments: 10, unread: true }
+  render(<IterationButton iteration={iteration} selected={true} />)
+
+  expect(screen.getByText('9+')).toHaveAttribute('class', 'comments unread')
+})
+
+test('applies correct labels when iteration is read', async () => {
+  const iteration = { idx: 1, numComments: 10, unread: false }
+  render(<IterationButton iteration={iteration} selected={true} />)
+
+  expect(screen.getByText('9+')).toHaveAttribute('class', 'comments')
+})

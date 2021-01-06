@@ -48,6 +48,10 @@ export const sendRequest = ({
       return json
     })
     .catch((err) => {
+      if (!isMountedRef.current) {
+        return
+      }
+
       if (err.message === 'Component not mounted') {
         return
       }

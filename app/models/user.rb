@@ -31,6 +31,7 @@ class User < ApplicationRecord
 
   has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
   has_many :contributed_exercises, through: :contributorships, source: :exercise
+  has_many :scratchpad_pages, dependent: :destroy
 
   # TODO: Validate presence of name
 

@@ -31,4 +31,26 @@ class Solution::MentorDiscussionTest < ActiveSupport::TestCase
 
     assert_equal [requires_action], Solution::MentorDiscussion.requires_student_action
   end
+
+  test "#viewable_by? returns true if user is student" do
+    student = create :user
+    solution = create :concept_solution, user: student
+    discussion = create :solution_mentor_discussion, solution: solution
+
+    assert discussion.viewable_by?(student)
+  end
+
+  test "#viewable_by? returns true if user is mentor" do
+    mentor = create :user
+    discussion = create :solution_mentor_discussion, mentor: mentor
+
+    assert discussion.viewable_by?(mentor)
+  end
+
+  test "#viewable_by? returns false if user is neither a mentor nor a user" do
+    user = create :user
+    discussion = create :solution_mentor_discussion
+
+    refute discussion.viewable_by?(user)
+  end
 end

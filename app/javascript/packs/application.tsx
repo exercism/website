@@ -112,6 +112,13 @@ initReact({
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
+  'mentoring-mentoring-panel-list': (data: any) => (
+    <Mentoring.MentoringPanelList
+      discussionId={data.discussion_id}
+      iterationIdx={data.iteration_idx}
+      links={data.links}
+    />
+  ),
   'student-tracks-list': (data: any) => (
     <Student.TracksList
       request={data.request}

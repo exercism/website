@@ -3,7 +3,7 @@ class Solution
     class ReplyByMentor
       include Mandate
 
-      initialize_with :discussion, :iteration_idx, :content_markdown
+      initialize_with :discussion, :iteration, :content_markdown
 
       def call
         discussion_post = Solution::MentorDiscussionPost.create!(
@@ -20,11 +20,6 @@ class Solution
         )
 
         discussion_post
-      end
-
-      memoize
-      def iteration
-        discussion.solution.iterations.find_by!(idx: iteration_idx)
       end
     end
   end

@@ -13,4 +13,16 @@ class Solution::MentorDiscussionPost < ApplicationRecord
   validates :content_markdown, presence: true
 
   has_markdown_field :content
+
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
+  def by_student?
+    discussion.student == author
+  end
+
+  def to_param
+    uuid
+  end
 end

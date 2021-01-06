@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       resources :tracks, only: %i[index show]
+      get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
+      patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection
@@ -50,8 +52,10 @@ Rails.application.routes.draw do
 
       resources :mentor_discussions, only: %i[index create] do
         get :tracks, on: :collection # TODO: Remove this
-        resources :posts, only: %i[create], controller: "mentor_discussion_posts"
+        resources :posts, only: %i[index create], controller: "mentor_discussion_posts"
       end
+
+      resources :mentor_discussion_posts, only: %i[update]
 
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
@@ -172,6 +176,7 @@ Rails.application.routes.draw do
         end
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
+          resource :mentoring_panel_list, controller: "mentoring_panel_list", only: [:show]
           resource :queue, controller: "queue", only: [:show] do
             get 'solutions', on: :member
           end

@@ -96,6 +96,10 @@ import {
 } from '../components/mentoring/MentorDiscussion'
 import * as Tooltips from '../components/tooltips'
 
+function camelizeKeysAs<T>(object: any): T {
+  return (camelizeKeys(object) as unknown) as T
+}
+
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
@@ -121,18 +125,10 @@ initReact({
   'mentoring-mentor-discussion': (data: any) => (
     <Mentoring.MentorDiscussion
       discussionId={data.discussion_id}
-      student={
-        (camelizeKeys(data.student) as unknown) as MentorDiscussionStudent
-      }
-      track={(camelizeKeys(data.track) as unknown) as MentorDiscussionTrack}
-      exercise={
-        (camelizeKeys(data.exercise) as unknown) as MentorDiscussionExercise
-      }
-      iterations={
-        (camelizeKeys(
-          data.iterations
-        ) as unknown) as MentorDiscussionIteration[]
-      }
+      student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
+      track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
+      iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
       links={data.links}
     />
   ),
@@ -144,9 +140,7 @@ initReact({
     />
   ),
   'concept-map': (data: any) => {
-    const mapData: IConceptMap = (camelizeKeys(
-      data.graph
-    ) as unknown) as IConceptMap
+    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
     return (
       <ConceptMap
         concepts={mapData.concepts}
@@ -159,24 +153,20 @@ initReact({
   },
   'track-iteration-summary': (data: any) => (
     <Track.IterationSummary
-      iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
+      iteration={camelizeKeysAs<Iteration>(data.iteration)}
     />
   ),
   editor: (data: any) => (
     <Editor
       endpoint={data.endpoint}
-      initialSubmission={
-        (camelizeKeys(data.submission) as unknown) as Submission
-      }
+      initialSubmission={camelizeKeysAs<Submission>(data.submission)}
       files={data.files}
       language={data.language}
       exercisePath={data.exercise_path}
       trackTitle={data.track_title}
       exerciseTitle={data.exercise_title}
       introduction={data.introduction}
-      instructions={
-        (camelizeKeys(data.instructions) as unknown) as ExerciseInstructions
-      }
+      instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
       exampleSolution={data.example_solution}
       storageKey={data.storage_key}
     />

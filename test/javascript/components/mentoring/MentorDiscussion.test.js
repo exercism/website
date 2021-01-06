@@ -8,6 +8,15 @@ test('highlights currently selected iteration', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
   }
+  const track = {
+    title: 'Ruby',
+  }
+  const exercise = {
+    title: 'Bob',
+  }
+  const student = {
+    avatarUrl: 'https://exercism.test/avatar',
+  }
   const iterations = [
     {
       idx: 1,
@@ -23,7 +32,14 @@ test('highlights currently selected iteration', async () => {
     },
   ]
   render(
-    <MentorDiscussion links={links} iterations={iterations} discussionId={1} />
+    <MentorDiscussion
+      exercise={exercise}
+      links={links}
+      track={track}
+      student={student}
+      iterations={iterations}
+      discussionId={1}
+    />
   )
 
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
@@ -38,6 +54,15 @@ test('shows back button', async () => {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
   }
+  const track = {
+    title: 'Ruby',
+  }
+  const exercise = {
+    title: 'Bob',
+  }
+  const student = {
+    avatarUrl: 'https://exercism.test/avatar',
+  }
   const iterations = [
     {
       idx: 1,
@@ -47,7 +72,14 @@ test('shows back button', async () => {
     },
   ]
   render(
-    <MentorDiscussion links={links} iterations={iterations} discussionId={1} />
+    <MentorDiscussion
+      exercise={exercise}
+      links={links}
+      track={track}
+      student={student}
+      iterations={iterations}
+      discussionId={1}
+    />
   )
 
   expect(

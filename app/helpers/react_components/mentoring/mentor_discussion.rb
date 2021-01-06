@@ -5,11 +5,25 @@ module ReactComponents
 
       def to_s
         scratchpad = ScratchpadPage.new(about: discussion.solution.exercise)
+        student = discussion.solution.user
+        track = discussion.solution.track
+        exercise = discussion.solution.exercise
 
         super(
           "mentoring-mentor-discussion",
           {
             discussion_id: discussion.uuid,
+            student: {
+              avatar_url: student.avatar_url,
+              handle: student.handle
+            },
+            track: {
+              title: track.title,
+              icon_url: track.icon_url
+            },
+            exercise: {
+              title: exercise.title
+            },
             iterations: discussion.solution.iterations.map do |iteration|
               {
                 idx: iteration.idx,
@@ -22,7 +36,7 @@ module ReactComponents
               }
             end,
             links: {
-              exercise: Exercism::Routes.track_exercise_path(discussion.solution.track, discussion.solution.exercise),
+              exercise: Exercism::Routes.track_exercise_path(track, exercise),
               scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
             }
           }

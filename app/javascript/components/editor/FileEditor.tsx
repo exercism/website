@@ -4,7 +4,8 @@ import { MonacoServices } from 'monaco-languageclient'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { initVimMode, VimMode } from 'monaco-vim'
 import { EmacsExtension } from 'monaco-emacs'
-import { Keybindings, File, WrapSetting } from './types'
+import { Keybindings, WrapSetting } from './types'
+import { File } from '../types'
 import { setupThemes } from './file-editor/themes'
 
 type FileRef = {

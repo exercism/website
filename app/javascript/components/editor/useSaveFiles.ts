@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocalStorage } from '../../utils/use-storage'
-import { File } from './types'
+import { File } from '../types'
 
 const SAVE_INTERVAL = 500
 

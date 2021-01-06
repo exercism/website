@@ -56,11 +56,6 @@ export enum TestRunStatus {
   CANCELLED = 'cancelled',
 }
 
-export type File = {
-  filename: string
-  content: string
-}
-
 export enum Keybindings {
   DEFAULT = 'default',
   VIM = 'vim',

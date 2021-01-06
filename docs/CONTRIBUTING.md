@@ -138,6 +138,7 @@ Each View Component has a class in Rails which is used to render it in a consist
 
 - The JS for each component lives in `app/javascript/components/**/XXX.js`.
 - The CSS for each component lives in `app/css/components/**/XXX.css`.
+- React components are named using PascalCase (e.g. `app/javascript/components/common/MarkdownEditor.js`)
 
 #### CSS
 
@@ -147,7 +148,7 @@ Each View Component has a class in Rails which is used to render it in a consist
 
 #### Server-side component class
 
-Each React Component has a corrosponding Rails class, which lives in `app/helpers/react_components/**/XXX.rb`.
+Each React Component has a corresponding Rails class, which lives in `app/helpers/react_components/**/XXX.rb`. This class uses the default Ruby naming conventions (e.g. `app/helpers/react_components/common/markdown_editor.rb`).
 
 This class should defined a `#to_s` method, which is responsible for rendering HTML with relevant attributes.
 This is generally achieved by calling the `super` method on the (parent) `ReactComponents::ReactComponent` class (located in `app/helpers/react_components/react_component.rb`), which generates a `div` with a data attribute for the react component's name (e.g. `data-react-tracks-list` for the `tracks-list` component) and a `data-react-data` containing any data that the Component needs to initialize.
@@ -160,7 +161,7 @@ The tests should cover all functionality in the component, with unit tests being
 
 Each Component should have a set of JavaScript tests.
 These are written in Jest.
-They reside in `test/javascript/**/XXX.test.js`
+They reside in `test/javascript/**/XXX.test.js` (e.g. `test/javascript/components/common/MarkdownEditor.test.js`).
 
 Each Component should have a test file for its server-side View Component class.
 This should test the component's div and initial data are rendered correctly.

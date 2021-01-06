@@ -30,8 +30,8 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       resources :tracks, only: %i[index show]
-      get "/scratchpads/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
-      patch "/scratchpads/:category/:title" => "scratchpad_pages#update"
+      get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
+      patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection

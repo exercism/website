@@ -142,11 +142,11 @@ ActiveRecord::Schema.define(version: 2021_01_04_185107) do
   end
 
   create_table "scratchpad_pages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "about_type"
-    t.bigint "about_id"
+    t.string "about_type", null: false
+    t.bigint "about_id", null: false
     t.bigint "user_id", null: false
-    t.text "content_markdown"
-    t.text "content_html"
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"

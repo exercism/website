@@ -13,6 +13,9 @@ module ReactComponents
             iterations: discussion.solution.iterations.map do |iteration|
               {
                 idx: iteration.idx,
+                num_comments: Solution::MentorDiscussionPost.where(discussion: discussion, iteration: iteration).count,
+                # TODO: @iHiD, I don't know how to get the correct unread state
+                unread: true,
                 links: {
                   posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx)
                 }

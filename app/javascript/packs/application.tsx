@@ -88,6 +88,7 @@ import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
+import { Iteration as MentorDiscussionIteration } from '../components/mentoring/MentorDiscussion'
 import * as Tooltips from '../components/tooltips'
 
 // Add all react components here.
@@ -115,7 +116,11 @@ initReact({
   'mentoring-mentor-discussion': (data: any) => (
     <Mentoring.MentorDiscussion
       discussionId={data.discussion_id}
-      iterations={data.iterations}
+      iterations={
+        (camelizeKeys(
+          data.iterations
+        ) as unknown) as MentorDiscussionIteration[]
+      }
       links={data.links}
     />
   ),

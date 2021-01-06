@@ -4,21 +4,25 @@ import { sendPostRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
 export type MarkdownEditorHandle = {
-  getValue: () => string
+  value: (value: string | void) => string | void
 }
 
 export const MarkdownEditor = ({
   contextId,
+  onChange = () => {},
   editorDidMount,
   url = document.querySelector<HTMLMetaElement>(
     'meta[name="parse-markdown-url"]'
   )?.content,
   value = '',
+  options = {},
 }: {
   contextId: string
   url?: string
   editorDidMount?: (editor: MarkdownEditorHandle) => void
   value?: string
+  onChange?: (value: string) => void
+  options?: EasyMDE.Options
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
 
@@ -28,7 +32,7 @@ export const MarkdownEditor = ({
         return
       }
 
-      editorDidMount({ getValue: editor.value.bind(editor) })
+      editorDidMount({ value: editor.value.bind(editor) })
     },
     [editorDidMount]
   )
@@ -36,6 +40,7 @@ export const MarkdownEditor = ({
     <SimpleMDE
       value={value}
       getMdeInstance={getInstance}
+      onChange={onChange}
       options={{
         autosave: { enabled: true, uniqueId: contextId },
         blockStyles: {
@@ -73,6 +78,7 @@ export const MarkdownEditor = ({
 
           return 'Loading...'
         },
+        ...options,
       }}
     />
   )

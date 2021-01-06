@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       resources :tracks, only: %i[index show]
+      get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
+      patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
       resources :solutions, only: %i[show update] do
         get :latest, on: :collection
@@ -173,7 +175,7 @@ Rails.application.routes.draw do
         end
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
-          resource :discussion_post_panel, controller: "discussion_post_panel", only: [:show]
+          resource :mentoring_panel_list, controller: "mentoring_panel_list", only: [:show]
           resource :queue, controller: "queue", only: [:show] do
             get 'solutions', on: :member
           end

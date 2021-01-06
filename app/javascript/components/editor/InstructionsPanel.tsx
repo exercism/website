@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { Tab } from './Tab'
-import { TabIndex } from '../Editor'
+import { Tab } from '../common/Tab'
+import { TabsContext } from '../Editor'
 import { ExerciseInstructions, ExerciseInstructionsTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon } from '../common/GraphicalIcon'
@@ -14,7 +14,7 @@ export const InstructionsPanel = ({
   instructions: ExerciseInstructions
   exampleSolution: string
 }) => (
-  <Tab.Panel index={TabIndex.INSTRUCTIONS}>
+  <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
       <div className="c-textual-content">
         <h2>Introduction</h2>

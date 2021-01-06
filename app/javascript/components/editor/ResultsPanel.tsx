@@ -1,8 +1,8 @@
 import React from 'react'
 import { TestRunSummary } from './TestRunSummary'
 import { Submission, TestRun } from './types'
-import { Tab } from './Tab'
-import { TabIndex } from '../Editor'
+import { Tab } from '../common/Tab'
+import { TabsContext } from '../Editor'
 
 export const ResultsPanel = ({
   submission,
@@ -13,7 +13,7 @@ export const ResultsPanel = ({
   timeout: number
   onUpdate: (testRun: TestRun) => void
 }) => (
-  <Tab.Panel index={TabIndex.RESULTS}>
+  <Tab.Panel id="results" context={TabsContext}>
     <section className="results">
       {submission && submission.testRun && (
         <TestRunSummary

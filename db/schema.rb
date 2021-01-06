@@ -141,6 +141,18 @@ ActiveRecord::Schema.define(version: 2021_01_04_185107) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "scratchpad_pages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "about_type", null: false
+    t.bigint "about_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"
+    t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
+  end
+
   create_table "solution_mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "discussion_id", null: false
     t.bigint "iteration_id", null: false
@@ -407,6 +419,7 @@ ActiveRecord::Schema.define(version: 2021_01_04_185107) do
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"
   add_foreign_key "notifications", "users"
+  add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "solution_mentor_discussion_posts", "iterations"
   add_foreign_key "solution_mentor_discussion_posts", "solution_mentor_discussions", column: "discussion_id"
   add_foreign_key "solution_mentor_discussion_posts", "users"

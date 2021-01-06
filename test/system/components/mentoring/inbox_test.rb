@@ -10,7 +10,7 @@ module Components
         visit test_components_mentoring_inbox_url
 
         assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-        assert_css "img[src='https://robohash.org/exercism'][alt=\"Mentee's uploaded avatar\"]"
+        assert_css "img[src='https://robohash.org/exercism'][alt=\"Uploaded avatar of Mentee\"]"
         assert_text "Mentee"
         assert_text "on Series"
         assert_text "New Iteration"

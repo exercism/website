@@ -5,7 +5,7 @@ require_relative "../../../support/markdown_editor_helpers"
 
 module Components
   module Mentoring
-    class DiscussionPanelListTest < ApplicationSystemTestCase
+    class MentoringPanelListTest < ApplicationSystemTestCase
       include CapybaraHelpers
       include WebsocketsHelpers
       include MarkdownEditorHelpers
@@ -24,7 +24,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -44,7 +44,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -72,7 +72,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -102,7 +102,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
@@ -127,13 +127,97 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_mentoring_discussion_post_panel_path(
+          visit test_components_mentoring_mentoring_panel_list_path(
             discussion_id: discussion.id,
             iteration_id: iteration.id
           )
         end
 
         refute_text "Edit"
+      end
+
+      test "mentor saves scratchpad page" do
+        mentor = create :user, handle: "author"
+        solution = create :concept_solution
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_mentoring_panel_list_path(
+            discussion_id: discussion.id,
+            iteration_id: iteration.id
+          )
+          click_on "Scratchpad"
+          fill_in_editor "# Hello"
+          assert_text "Unsaved"
+          click_on "Save"
+          assert_no_text "Unsaved"
+        end
+      end
+
+      test "mentor sees scratchpad page" do
+        mentor = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, solution: solution
+        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_mentoring_panel_list_path(
+            discussion_id: discussion.id,
+            iteration_id: iteration.id
+          )
+          click_on "Scratchpad"
+
+          assert_editor_text "# Some notes"
+          assert_no_text "Unsaved"
+        end
+      end
+
+      test "mentor updates scratchpad page" do
+        mentor = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, solution: solution
+        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_mentoring_panel_list_path(
+            discussion_id: discussion.id,
+            iteration_id: iteration.id
+          )
+          click_on "Scratchpad"
+          fill_in_editor "# Hello"
+          assert_text "Unsaved"
+          click_on "Save"
+          assert_no_text "Unsaved"
+        end
+      end
+
+      test "mentor reverts scratchpad page" do
+        mentor = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, solution: solution
+        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_mentoring_panel_list_path(
+            discussion_id: discussion.id,
+            iteration_id: iteration.id
+          )
+          click_on "Scratchpad"
+          fill_in_editor "# Hello"
+          click_on "Revert"
+          assert_editor_text "# Some notes"
+        end
       end
     end
   end

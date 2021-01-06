@@ -1,5 +1,5 @@
 #site-header {
-    @apply bg-white border-b-1 border-lightGray;
+    @apply bg-backgroundColorA border-b-1 border-borderColor7;
 
     & .container {
         /* Should be py-12 when other components have been added */

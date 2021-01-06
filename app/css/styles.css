@@ -19,7 +19,7 @@
 }
 .text-h5 {
     line-height: 1.38;
-    @apply text-18 font-semibold text-black;
+    @apply text-18 font-semibold text-textColor1;
 }
 .text-h5-mono {
     @apply text-h5 font-mono font-bold;

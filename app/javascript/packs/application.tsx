@@ -40,6 +40,7 @@ import '../../css/components/modal.css'
 import '../../css/components/tooltips/concept.css'
 import '../../css/components/tooltips/user.css'
 import '../../css/components/user_activity.css'
+import '../../css/components/search-bar.css'
 
 import '../../css/components/mentor/nav.css'
 import '../../css/components/mentor/inbox.css'
@@ -72,6 +73,7 @@ import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
 import '../../css/pages/mentor/dashboard'
+import '../../css/pages/journey'
 
 import 'easymde/dist/easymde.min.css'
 

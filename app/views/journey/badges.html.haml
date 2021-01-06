@@ -1,0 +1,40 @@
+#page-journey
+  = render "journey/hero", user_tracks: @user_tracks
+
+  %article.badges-tab.theme-dark
+    .md-container.container
+      .c-search-bar
+        %input.--search{ placeholder: "Search for a badge" }
+        %button.--filter-btn
+          Filter By
+          = graphical_icon :'chevron-down'
+        %button.--reset-btn
+          = graphical_icon :reset
+          Reset filters
+
+      .badges
+        .c-badge
+          .c-badge-medallion.--common
+            = graphical_icon :maintaining
+          .--info
+            .--name Night Owl
+            .--desc Submitted an exercise past midnight
+        .c-badge
+          .c-badge-medallion.--rare
+            = graphical_icon :testimonials
+          .--info
+            .--name Neverending Story
+            .--desc Submitted at least 10 iterations to the same exercise
+        .c-badge
+          .c-badge-medallion.--ultimate
+            = graphical_icon :settings
+          .--info
+            .--name 2020 Winter Hackathon
+            .--desc Attended the 2020 Exercism Winter Hackathon
+        .c-badge
+          .c-badge-medallion.--legendary
+            = graphical_icon :keyboard
+          .--info
+            .--name We’ll do it live!
+            .--desc Livestream solving an exercise
+

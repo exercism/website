@@ -1,0 +1,100 @@
+@import "../styles";
+
+#page-journey {
+    @apply bg-journeyBackground;
+
+    & header.hero {
+        @apply mb-48;
+
+        & .content {
+            @apply relative;
+        }
+        & .bottom {
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 180px;
+
+            @apply absolute;
+            background: linear-gradient(
+                180deg,
+                rgba(40, 35, 57, 0) 0%,
+                #282339 100%
+            );
+        }
+        & .overlay {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            @apply absolute flex flex-col items-center;
+            @apply p-32;
+
+            & .privacy {
+                @apply absolute;
+                top: 32px;
+                right: 32px;
+                @apply flex flex-col;
+                & .private {
+                    @apply flex self-end;
+                    @apply py-8 px-16 mb-12 bg-white rounded-100;
+                    @apply font-medium text-15 leading-paragraph;
+
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-12;
+                    }
+                }
+                & .explanation {
+                    @apply text-textLight text-16 font-medium leading-huge;
+                }
+            }
+
+            & .pathway-icon {
+                @apply mt-32 mb-8;
+                height: 64px;
+                width: 64px;
+            }
+            & h1 {
+                @apply text-64 leading-tight font-bold text-black;
+                @apply mb-8;
+            }
+            & .subtitle {
+                @apply text-22 leading-huge;
+                @apply mb-32;
+            }
+
+            & .tracks {
+                @apply flex items-center;
+
+                & .c-track-icon {
+                    height: 64px;
+                    width: 64px;
+                    & + .c-track-icon {
+                        @apply ml-24;
+                    }
+                }
+                & .more {
+                    @apply text-15 text-lightBlue font-semibold;
+                    @apply ml-24;
+                }
+            }
+        }
+    }
+    & .c-search-bar {
+        @apply pb-24 mb-40;
+
+        & .--search {
+            @apply flex-grow;
+        }
+    }
+
+    & article.badges-tab {
+        @apply mb-48;
+        & .badges {
+            @apply grid grid-cols-3 gap-x-48 gap-y-32;
+        }
+    }
+}

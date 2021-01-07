@@ -1,7 +1,7 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Avatar } from '../../common/Avatar'
-import { Student, Track, Exercise } from '../MentorDiscussion'
+import { Student, Track, Exercise } from '../Discussion'
 
 export const SolutionInfo = ({
   student,

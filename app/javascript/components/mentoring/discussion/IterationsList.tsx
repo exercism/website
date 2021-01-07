@@ -1,5 +1,5 @@
 import React from 'react'
-import { Iteration } from '../MentorDiscussion'
+import { Iteration } from '../Discussion'
 import { IterationButton } from './IterationButton'
 
 export const IterationsList = ({

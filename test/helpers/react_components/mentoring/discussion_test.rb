@@ -1,7 +1,7 @@
 require_relative "../react_component_test_case"
 
 module Mentoring
-  class MentorDiscussionTest < ReactComponentTestCase
+  class DiscussionTest < ReactComponentTestCase
     test "mentoring discussion renders correctly" do
       student = create :user
       track = create :track
@@ -17,11 +17,11 @@ module Mentoring
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
-      component = ReactComponents::Mentoring::MentorDiscussion.new(discussion)
+      component = ReactComponents::Mentoring::Discussion.new(discussion)
       scratchpad = ScratchpadPage.new(about: exercise)
 
       assert_component component,
-        "mentoring-mentor-discussion",
+        "mentoring-discussion",
         {
           discussion_id: discussion.uuid,
           student: {

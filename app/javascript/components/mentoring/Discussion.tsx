@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { MentoringPanelList } from './mentor-discussion/MentoringPanelList'
-import { IterationsList } from './mentor-discussion/IterationsList'
-import { BackButton } from './mentor-discussion/BackButton'
-import { SolutionInfo } from './mentor-discussion/SolutionInfo'
+import { MentoringPanelList } from './discussion/MentoringPanelList'
+import { IterationsList } from './discussion/IterationsList'
+import { BackButton } from './discussion/BackButton'
+import { SolutionInfo } from './discussion/SolutionInfo'
 
 type Links = {
   scratchpad: string
@@ -32,7 +32,7 @@ export type Exercise = {
   title: string
 }
 
-export const MentorDiscussion = ({
+export const Discussion = ({
   student,
   track,
   exercise,

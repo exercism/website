@@ -5,7 +5,7 @@ require_relative "../../../support/markdown_editor_helpers"
 
 module Components
   module Mentoring
-    class MentorDiscussionTest < ApplicationSystemTestCase
+    class DiscussionTest < ApplicationSystemTestCase
       include CapybaraHelpers
       include WebsocketsHelpers
       include MarkdownEditorHelpers
@@ -21,7 +21,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         end
 
         assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
@@ -46,7 +46,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           click_on "1"
         end
 
@@ -65,7 +65,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           create(:solution_mentor_discussion_post,
             discussion: discussion,
             iteration: iteration,
@@ -90,7 +90,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           wait_for_websockets
           click_on "Add a comment"
           fill_in_editor "# Hello"
@@ -117,7 +117,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           click_on "Edit"
           fill_in_editor "# Edited"
           click_on "Send"
@@ -139,7 +139,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         end
 
         refute_text "Edit"
@@ -153,7 +153,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
           fill_in_editor "# Hello"
           assert_text "Unsaved"
@@ -172,7 +172,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
 
           assert_editor_text "# Some notes"
@@ -190,7 +190,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
           fill_in_editor "# Hello"
           assert_text "Unsaved"
@@ -209,7 +209,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_mentor_discussion_path(discussion_id: discussion.id)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           click_on "Scratchpad"
           fill_in_editor "# Hello"
           click_on "Revert"

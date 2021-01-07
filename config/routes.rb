@@ -176,7 +176,7 @@ Rails.application.routes.draw do
         end
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
-          resource :mentor_discussion, controller: "mentor_discussion", only: [:show]
+          resource :discussion, controller: "discussion", only: [:show]
           resource :queue, controller: "queue", only: [:show] do
             get 'solutions', on: :member
           end

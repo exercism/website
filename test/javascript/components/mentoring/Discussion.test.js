@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { MentorDiscussion } from '../../../../app/javascript/components/mentoring/MentorDiscussion'
+import { Discussion } from '../../../../app/javascript/components/mentoring/Discussion'
 
 test('highlights currently selected iteration', async () => {
   const links = {
@@ -32,7 +32,7 @@ test('highlights currently selected iteration', async () => {
     },
   ]
   render(
-    <MentorDiscussion
+    <Discussion
       exercise={exercise}
       links={links}
       track={track}
@@ -72,7 +72,7 @@ test('shows back button', async () => {
     },
   ]
   render(
-    <MentorDiscussion
+    <Discussion
       exercise={exercise}
       links={links}
       track={track}

@@ -4,7 +4,7 @@ import { DiscussionPostPanel } from './DiscussionPostPanel'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { GraphicalIcon } from '../../common'
-import { Iteration } from '../MentorDiscussion'
+import { Iteration } from '../Discussion'
 
 type TabIndex = 'discussion' | 'scratchpad'
 

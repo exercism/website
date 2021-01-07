@@ -1,3 +1,3 @@
 export { Inbox } from './Inbox'
 export { Queue } from './Queue'
-export { MentorDiscussion } from './MentorDiscussion'
+export { Discussion } from './Discussion'

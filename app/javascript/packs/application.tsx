@@ -93,7 +93,7 @@ import {
   Student as MentorDiscussionStudent,
   Track as MentorDiscussionTrack,
   Exercise as MentorDiscussionExercise,
-} from '../components/mentoring/MentorDiscussion'
+} from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
 
 function camelizeKeysAs<T>(object: any): T {
@@ -122,8 +122,8 @@ initReact({
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  'mentoring-mentor-discussion': (data: any) => (
-    <Mentoring.MentorDiscussion
+  'mentoring-discussion': (data: any) => (
+    <Mentoring.Discussion
       discussionId={data.discussion_id}
       student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
       track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}

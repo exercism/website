@@ -1,6 +1,6 @@
 module ReactComponents
   module Mentoring
-    class MentorDiscussion < ReactComponent
+    class Discussion < ReactComponent
       initialize_with :discussion
 
       def to_s
@@ -10,7 +10,7 @@ module ReactComponents
         exercise = discussion.solution.exercise
 
         super(
-          "mentoring-mentor-discussion",
+          "mentoring-discussion",
           {
             discussion_id: discussion.uuid,
             student: {

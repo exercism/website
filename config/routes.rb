@@ -162,6 +162,7 @@ Rails.application.routes.draw do
     namespace :test do
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
+        resource :file_viewer, only: [:show], controller: "file_viewer"
 
         namespace :student do
           resource :concept_map, only: [:show], controller: 'concept_map'

@@ -74,6 +74,7 @@ import '../../css/pages/track-show-unjoined.css'
 import '../../css/pages/mentor/dashboard'
 
 import 'easymde/dist/easymde.min.css'
+import 'highlight.js/styles/github.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
@@ -83,11 +84,13 @@ import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import { Editor } from '../components/Editor'
+import { FileViewer } from '../components/FileViewer'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
+import { File } from '../components/types'
 import {
   Iteration as MentorDiscussionIteration,
   Student as MentorDiscussionStudent,
@@ -169,6 +172,12 @@ initReact({
       instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
       exampleSolution={data.example_solution}
       storageKey={data.storage_key}
+    />
+  ),
+  'file-viewer': (data: any) => (
+    <FileViewer
+      language={data.language}
+      file={camelizeKeysAs<File>(data.file)}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

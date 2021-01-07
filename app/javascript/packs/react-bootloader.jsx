@@ -103,7 +103,7 @@ const renderDropdowns = (mappings) => {
 
         if (elem.contains(event.target)) {
           toggleDropdown()
-        } else {
+        } else if (dropdownShown) {
           hideDropdown()
         }
       })

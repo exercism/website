@@ -1,7 +1,7 @@
 require "test_helper"
 
 class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
-  test "creates an auth token for a new user" do
+  test "bootstraps a new user" do
     auth = stub(
       provider: "github",
       uid: "111",
@@ -12,9 +12,10 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       )
     )
 
+    User::Bootstrap.expects(:call).with do |user|
+      assert user.is_a?(User)
+    end
     User::AuthenticateFromOmniauth.(auth)
-
-    assert_equal 1, User::AuthToken.count
   end
 
   test "creates new user using auth info" do

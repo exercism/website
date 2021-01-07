@@ -26,7 +26,7 @@
 
             &.selected {
                 & a {
-                    @apply font-semibold text-black;
+                    @apply font-semibold text-textColor1;
                 }
                 & .c-icon {
                     @apply text-white;

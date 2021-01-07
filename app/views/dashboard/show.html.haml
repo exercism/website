@@ -5,17 +5,15 @@
       .info
         .handle @#{current_user.handle}
         .extra= current_user.name
+      / TODO: Add tests for this
       .badges
-        .c-badge-medallion.--common
-          = graphical_icon :maintaining
-        .c-badge-medallion.--rare
-          = graphical_icon :testimonials
-        .c-badge-medallion.--ultimate
-          = graphical_icon :settings
-        .c-badge-medallion.--legendary
-          = graphical_icon :keyboard
+        - @featured_badges.each do |badge|
+          .c-badge-medallion{ class: "--#{badge.rarity}" }
+            = graphical_icon badge.icon
         .count
-          + 24 more
+          - num_extra_badges = @num_badges - @featured_badges.size
+          - if num_extra_badges.positive?
+            + #{num_extra_badges} more
 
       .journey
         Your Journey

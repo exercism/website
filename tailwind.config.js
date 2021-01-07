@@ -36,18 +36,23 @@ module.exports = {
       current: 'currentColor',
 
       /* NEW */
-      textColor1: 'var(--textColor1)',
-      textColor5: 'var(--textColor5)',
-      textColor6: 'var(--textColor4)',
-      textColor9: 'var(--textColor9)',
-      inputBackgroundColor: 'var(--inputBackgroundColor)',
-      inputBorderColorFocus: 'var(--inputBorderColorFocus)',
+      darkThemeBackgroundColor: 'var(--darkThemeBackgroundColor)',
+
       backgroundColorA: 'var(--backgroundColorA)',
       backgroundColorB: 'var(--backgroundColorB)',
       backgroundColorC: 'var(--backgroundColorC)',
       borderColor4: 'var(--borderColor4)',
       borderColor5: 'var(--borderColor5)',
       borderColor7: 'var(--borderColor7)',
+      textColor1: 'var(--textColor1)',
+      textColor5: 'var(--textColor5)',
+      textColor6: 'var(--textColor4)',
+      textColor9: 'var(--textColor9)',
+
+      inputBackgroundColor: 'var(--inputBackgroundColor)',
+      inputBorderColorFocus: 'var(--inputBorderColorFocus)',
+      tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
+      tabColorSelected: 'var(--tabColorSelected)',
 
       /* LEGACY*/
       textBase: 'var(--textColor5)',
@@ -94,8 +99,6 @@ module.exports = {
 
       commonBadge: '#F0F3F9',
       rareBadge: '#9FB4FF',
-
-      journeyBackground: '#282339',
 
       black: '#000',
       white: '#fff',

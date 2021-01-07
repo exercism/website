@@ -1,6 +1,6 @@
 %header.hero
   .lg-container.container
-    .content
+    .background
       <svg viewBox="0 0 1440 845" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1440 0H0V845H1440V0Z" fill="#D4DFF1"/>
       <path d="M964.146 663.63C1011.76 619.964 1011.76 549.167 964.146 505.501C916.534 461.835 839.339 461.835 791.727 505.501C744.115 549.167 744.115 619.964 791.727 663.63C839.339 707.297 916.534 707.297 964.146 663.63Z" fill="#F6D661"/>
@@ -111,23 +111,29 @@
       <path d="M1152.8 140.62C1147.76 139.96 1142.96 137.979 1137.92 138.419C1134.08 138.859 1130.72 140.62 1127.6 142.381C1118.48 147.223 1109.6 152.286 1100.48 157.128C1099.28 161.31 1105.52 163.952 1110.32 164.612C1159.04 171.215 1208.48 173.636 1257.68 171.655C1261.04 171.435 1264.64 171.435 1267.52 169.674C1270.4 167.914 1272.08 164.172 1270.4 161.53C1269.44 160.21 1267.76 159.329 1266.08 158.669C1258.4 155.587 1249.52 154.927 1241.36 156.688C1229.12 140.18 1205.84 131.375 1184.48 135.337C1173.68 137.318 1163.36 142.161 1152.8 140.62Z" fill="#EAF5FC"/>
       <path d="M1232.4 454.966C1229.28 457.828 1227.12 461.569 1223.52 463.991C1214.64 469.934 1200.48 465.972 1192.56 472.795C1192.8 480.939 1204.08 484.461 1212.96 485.341C1266 490.844 1319.52 491.504 1372.8 487.762C1377.6 487.322 1383.12 486.662 1385.76 482.92C1389.6 477.637 1384.32 470.154 1377.84 468.173C1371.36 465.972 1364.16 467.292 1357.2 467.072C1354.32 467.072 1351.2 466.632 1348.8 464.871C1346.88 463.33 1345.92 461.349 1344.48 459.368C1338.72 450.564 1327.44 445.722 1316.16 445.281C1305.12 444.621 1294.08 448.143 1284.24 452.985C1278.96 455.626 1273.2 458.928 1267.44 456.947C1264.8 456.067 1262.64 454.086 1260.24 452.545C1252.08 447.262 1239.6 448.363 1232.4 454.966Z" fill="#EAF5FC"/>
       </svg>
-
       .bottom
-      .overlay
-        .privacy
-          .private
-            = graphical_icon "lock"
-            Private
-          .explanation
-            No-one else can see this but you
 
-        <svg class="pathway-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>outdoors-landscape</title><path class="cls-1" d="M7.5,3.767,5.934,1.418a1.5,1.5,0,0,0-2.59.161L.75,6.767h12L10.681,2.629a1.5,1.5,0,0,0-2.4-.39l-1.1,1.053"/><polygon class="cls-1" points="20.25 3 17.25 11.25 23.25 11.25 20.25 3"/><line class="cls-1" x1="20.25" y1="11.25" x2="20.25" y2="14.25"/><polygon class="cls-1" points="3.75 12 0.75 20.25 6.75 20.25 3.75 12"/><line class="cls-1" x1="3.75" y1="20.25" x2="3.75" y2="23.25"/><path class="cls-1" d="M19.5,19.7a4.818,4.818,0,0,1,1.27,2.056"/><path class="cls-1" d="M15,17.848c.24.058.489.109.749.152a9.264,9.264,0,0,1,1.507.376"/><path class="cls-1" d="M10.7,14.667a5.746,5.746,0,0,0,1.3,1.7"/><path class="cls-1" d="M9.75,9.75A16.554,16.554,0,0,0,9.837,11.5"/></svg>
-        %h1 Your Journey
-        .subtitle Exploring your time on Exercism
+    .content
+      .privacy
+        .private
+          = graphical_icon "lock"
+          Private
+        .explanation
+          No-one else can see this but you
 
-        / TODO: Add tests for this
-        .tracks
-          - user_tracks[0, 4].each do |user_track|
-            = track_icon(user_track.track)
-          - if user_tracks.size > 4
-            .more + #{user_tracks.size - 1} more
+      <svg class="pathway-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>outdoors-landscape</title><path class="cls-1" d="M7.5,3.767,5.934,1.418a1.5,1.5,0,0,0-2.59.161L.75,6.767h12L10.681,2.629a1.5,1.5,0,0,0-2.4-.39l-1.1,1.053"/><polygon class="cls-1" points="20.25 3 17.25 11.25 23.25 11.25 20.25 3"/><line class="cls-1" x1="20.25" y1="11.25" x2="20.25" y2="14.25"/><polygon class="cls-1" points="3.75 12 0.75 20.25 6.75 20.25 3.75 12"/><line class="cls-1" x1="3.75" y1="20.25" x2="3.75" y2="23.25"/><path class="cls-1" d="M19.5,19.7a4.818,4.818,0,0,1,1.27,2.056"/><path class="cls-1" d="M15,17.848c.24.058.489.109.749.152a9.264,9.264,0,0,1,1.507.376"/><path class="cls-1" d="M10.7,14.667a5.746,5.746,0,0,0,1.3,1.7"/><path class="cls-1" d="M9.75,9.75A16.554,16.554,0,0,0,9.837,11.5"/></svg>
+      %h1 Your Journey
+      .subtitle Exploring your time on Exercism
+      / TODO: Add tests for this
+      .tracks
+        - user_tracks[0, 4].each do |user_track|
+          = track_icon(user_track.track)
+        - if user_tracks.size > 4
+          .more + #{user_tracks.size - 1} more
+      = graphical_icon :'chevron-down', css_class: "continue-indicator"
+      %a{ name: "tabs" }
+      .tabs.theme-dark
+        = render ViewComponents::Tab.new("Overview", :overview, journey_path(anchor: "tabs"), action_name == "show")
+        = render ViewComponents::Tab.new("Badges", :badges, badges_journey_path(anchor: "tabs"), action_name == "badges")
+
+

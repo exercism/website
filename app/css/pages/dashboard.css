@@ -191,7 +191,7 @@
             @apply mb-24;
 
             & .track {
-                @apply flex mb-16;
+                @apply flex mb-16 items-center;
                 & .c-track-icon {
                     @apply mr-16 flex-shrink-0;
                     height: 54px;

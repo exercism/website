@@ -91,7 +91,7 @@
 
           .tracks
             - @user_tracks.each do |user_track|
-              .track
+              = link_to user_track.track, class: 'track' do
                 = track_icon(user_track.track)
                 .info
                   .title= user_track.track.title

@@ -1,84 +1,115 @@
 @import "../styles";
 
 #page-journey {
-    @apply bg-journeyBackground;
+    @apply bg-darkThemeBackgroundColor;
 
     & header.hero {
         @apply mb-48;
+        @apply border-unnamed13 border-b-1;
 
-        & .content {
+        & .container {
             @apply relative;
         }
-        & .bottom {
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 180px;
 
+        & .background {
             @apply absolute;
-            background: linear-gradient(
-                180deg,
-                rgba(40, 35, 57, 0) 0%,
-                #282339 100%
-            );
-        }
-        & .overlay {
-            top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-
-            @apply absolute flex flex-col items-center;
-            @apply p-32;
-
-            & .privacy {
+            & .svg {
                 @apply absolute;
-                top: 32px;
-                right: 32px;
-                @apply flex flex-col;
-                & .private {
-                    @apply flex self-end;
-                    @apply py-8 px-16 mb-12 bg-white rounded-100;
-                    @apply font-medium text-15 leading-paragraph;
+                left: 0;
+                right: 0;
+                top: 0;
+            }
+            & .bottom {
+                @apply absolute;
+                height: 180px;
+                left: 0;
+                right: 0;
+                bottom: 0;
 
-                    & .c-icon {
-                        height: 16px;
-                        width: 16px;
-                        @apply mr-12;
-                    }
-                }
-                & .explanation {
-                    @apply text-textLight text-16 font-medium leading-huge;
+                background: linear-gradient(
+                    180deg,
+                    rgba(40, 35, 57, 0) 0%,
+                    #282339 100%
+                );
+            }
+        }
+        & .content {
+            @apply relative;
+            @apply flex flex-col items-center;
+            @apply px-32 pt-32;
+        }
+
+        & .privacy {
+            top: 32px;
+            right: 32px;
+            @apply absolute flex flex-col;
+            & .private {
+                @apply flex self-end;
+                @apply py-8 px-16 mb-12 bg-white rounded-100;
+                @apply font-medium text-15 leading-paragraph;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
                 }
             }
+            & .explanation {
+                @apply text-textLight text-16 font-medium leading-huge;
+            }
+        }
 
-            & .pathway-icon {
-                @apply mt-32 mb-8;
+        & .pathway-icon {
+            @apply mt-32 mb-8;
+            height: 64px;
+            width: 64px;
+        }
+        & h1 {
+            @apply text-64 leading-tight font-bold text-black;
+            @apply mb-8;
+        }
+        & .subtitle {
+            @apply text-22 leading-huge;
+            @apply mb-32;
+        }
+
+        & .tracks {
+            @apply flex items-center;
+            margin-bottom: 280px;
+
+            & .c-track-icon {
                 height: 64px;
                 width: 64px;
-            }
-            & h1 {
-                @apply text-64 leading-tight font-bold text-black;
-                @apply mb-8;
-            }
-            & .subtitle {
-                @apply text-22 leading-huge;
-                @apply mb-32;
-            }
-
-            & .tracks {
-                @apply flex items-center;
-
-                & .c-track-icon {
-                    height: 64px;
-                    width: 64px;
-                    & + .c-track-icon {
-                        @apply ml-24;
-                    }
-                }
-                & .more {
-                    @apply text-15 text-lightBlue font-semibold;
+                & + .c-track-icon {
                     @apply ml-24;
+                }
+            }
+            & .more {
+                @apply text-15 text-lightBlue font-semibold;
+                @apply ml-24;
+            }
+        }
+        & .continue-indicator {
+            height: 64px;
+            width: 64px;
+            margin-bottom: 116px;
+            @apply text-veryLightBlue;
+        }
+        & .tabs {
+            @apply flex;
+            @apply py-24;
+
+            & .c-tab {
+                height: 49px;
+                @apply text-18;
+                @apply mr-24 px-24 py-12;
+
+                & svg {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-16;
                 }
             }
         }
@@ -91,8 +122,12 @@
         }
     }
 
+    & article {
+        /* Fill the bottom of the screen below 145px of tabs */
+        min-height: calc(100vh - 145px);
+        @apply pb-48;
+    }
     & article.badges-tab {
-        @apply mb-48;
         & .badges {
             @apply grid grid-cols-3 gap-x-48 gap-y-32;
         }

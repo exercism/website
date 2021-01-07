@@ -134,6 +134,8 @@
       %a{ name: "tabs" }
       .tabs.theme-dark
         = render ViewComponents::Tab.new("Overview", :overview, journey_path(anchor: "tabs"), action_name == "show")
+        = render ViewComponents::Tab.new("Solutions", :editor, solutions_journey_path(anchor: "tabs"), action_name == "solutions")
+        = render ViewComponents::Tab.new("Reputation", :reputation, reputation_journey_path(anchor: "tabs"), action_name == "reputation")
         = render ViewComponents::Tab.new("Badges", :badges, badges_journey_path(anchor: "tabs"), action_name == "badges")
 
 

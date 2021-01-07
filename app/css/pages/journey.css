@@ -107,8 +107,8 @@
                 @apply mr-24 px-24 py-12;
 
                 & svg {
-                    height: 16px;
-                    width: 16px;
+                    height: 24px;
+                    width: 24px;
                     @apply mr-16;
                 }
             }

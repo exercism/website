@@ -136,6 +136,8 @@ Rails.application.routes.draw do
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
   resource :journey, only: [:show], controller: "journey" do
     member do
+      get :solutions
+      get :reputation
       get :badges
     end
   end

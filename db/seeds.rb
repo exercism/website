@@ -19,6 +19,8 @@ iHiD.create_profile(
   medium: "iHiD",
   website: "https://ihid.info"
 )
+Badges::MemberBadge.create!(user: iHiD)
+Badges::RookieBadge.create!(user: iHiD)
 
 puts "Creating User erikSchierboom"
 erik = User.find_by(handle: 'erikSchierboom') || User.create!(

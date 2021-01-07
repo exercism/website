@@ -1,9 +1,12 @@
 require "test_helper"
 
 class Badge::RookieBadgeTest < ActiveSupport::TestCase
-  test "name" do
+  test "attributes" do
     badge = create :rookie_badge
     assert_equal "Rookie", badge.name
+    assert_equal :common, badge.rarity
+    assert_equal :editor, badge.icon
+    assert_equal "Submitted an exercise", badge.description
   end
 
   test "should_award?" do

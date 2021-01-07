@@ -3,7 +3,9 @@ class JourneyController < ApplicationController
 
   def show; end
 
-  def badges; end
+  def badges
+    @badges = current_user.badges
+  end
 
   def setup_hero
     @user_tracks = current_user.user_tracks.sort_by { |ut| -ut.num_completed_exercises }

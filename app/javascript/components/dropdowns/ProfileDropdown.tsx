@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown } from './Dropdown'
+import { PrerenderedDropdown } from './PrerenderedDropdown'
 
 interface ProfileDropdownProps {
   prerenderedContent: string
@@ -11,7 +11,7 @@ export const ProfileDropdown = ({
   referenceElement,
 }: ProfileDropdownProps): JSX.Element | null => {
   return (
-    <Dropdown
+    <PrerenderedDropdown
       id="profile-dropdown"
       className="c-profile-dropdown"
       referenceElement={referenceElement}

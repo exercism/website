@@ -19,7 +19,7 @@ export const PrerenderedDropdown = ({
       id={id}
       className={className}
       referenceElement={referenceElement}
-      prerenderedContent={prerenderedContent}
+      htmlContent={prerenderedContent}
     />
   )
 }

@@ -10,7 +10,8 @@ class Solution
           iteration: iteration,
           discussion: discussion,
           content_markdown: content_markdown,
-          author: iteration.solution.user
+          author: iteration.solution.user,
+          seen_by_student: true
         )
 
         Notification::Create.(

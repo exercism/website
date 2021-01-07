@@ -17,6 +17,8 @@ class Solution::MentorDiscussion::ReplyByMentorTest < ActiveSupport::TestCase
     assert_equal discussion, discussion_post.discussion
     assert_equal content_markdown, discussion_post.content_markdown
     assert_equal mentor, discussion_post.author
+    assert discussion_post.seen_by_mentor?
+    refute discussion_post.seen_by_student?
   end
 
   test "creates notification" do

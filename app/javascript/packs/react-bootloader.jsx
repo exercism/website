@@ -96,6 +96,8 @@ const renderDropdowns = (mappings) => {
       }
       const toggleDropdown = () =>
         dropdownShown ? hideDropdown() : showDropdown()
+
+      // TODO: find out if this is performant enough
       document.addEventListener('click', (event) => {
         event.preventDefault()
 

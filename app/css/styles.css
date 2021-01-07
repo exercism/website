@@ -1,20 +1,20 @@
 .text-h1 {
-    @apply text-40 font-bold text-black;
+    @apply text-40 font-bold text-textColor1;
     line-height: 1.25;
 }
 .text-h2 {
-    @apply text-31 font-semibold text-black;
+    @apply text-31 font-semibold text-textColor1;
     line-height: 1.25;
 }
 .text-h3 {
-    @apply text-25 text-black font-semibold;
+    @apply text-25 text-textColor1 font-semibold;
     line-height: 1.25;
 }
 .text-h3-mono {
     @apply text-h3 font-mono font-bold;
 }
 .text-h4 {
-    @apply font-semibold text-black text-20;
+    @apply font-semibold text-textColor1 text-20;
     line-height: 1.25;
 }
 .text-h5 {

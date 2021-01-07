@@ -12,6 +12,9 @@
           = graphical_icon :reset
           Reset filters
 
+      .results-title-bar
+        %h3 Showing #{@badges.size} badges
+
       .badges
         - @badges.each do |badge|
           .c-badge

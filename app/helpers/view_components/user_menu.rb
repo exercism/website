@@ -1,7 +1,7 @@
 module ViewComponents
   class UserMenu < ViewComponent
     def to_s
-      tag.div(class: "user-menu", data: { dropdown_prerendered: profile_menu_dropdown }) do
+      tag.div(class: "user-menu", data: { dropdown_type: :profile, prerendered: profile_menu_dropdown }) do
         rounded_bg_img(
           "https://avatars3.githubusercontent.com/u/135246?s=460",
           "#{current_user.name}'s uploaded avatar"

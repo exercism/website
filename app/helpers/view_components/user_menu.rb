@@ -14,6 +14,7 @@ module ViewComponents
     def profile_menu_dropdown
       tag.nav do
         tag.ul do
+          # TODO: add the appropriate links once we have routes for them
           tag.li("My Journey") +
             tag.li("Profile") +
             tag.li("Settings") +

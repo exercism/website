@@ -70,13 +70,7 @@ module ViewComponents
         safe_join([
                     ReactComponents::Common::NotificationsIcon.new(current_user).to_s,
                     render(ViewComponents::PrimaryReputation.new(current_user, has_notification: true)),
-                    tag.div(class: "user-menu") do
-                      rounded_bg_img(
-                        "https://avatars3.githubusercontent.com/u/135246?s=460",
-                        "#{current_user.name}'s uploaded avatar"
-                      ) +
-                      icon("more-vertical", "Profile Menu")
-                    end
+                    render(ViewComponents::UserMenu.new)
                   ])
       end
     end

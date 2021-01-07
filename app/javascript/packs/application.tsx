@@ -212,7 +212,10 @@ initReact({
     />
   ),
   'profile-dropdown': (data: any, elem: HTMLElement) => (
-    <Dropdowns.ProfileDropdown />
+    <Dropdowns.ProfileDropdown
+      referenceElement={elem}
+      prerenderedContent={data.prerendered}
+    />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

@@ -78,7 +78,7 @@ const renderDropdowns = (mappings) => {
 
       // Link the dropdown element with the reference element
       const popperOptions = {
-        placement: elem.dataset['placement'] || 'bottom-start',
+        placement: elem.dataset['placement'] || 'bottom-end',
 
         // TODO Set the default skidding to 50% and the default
         // offset to 20px (https://popper.js.org/docs/v2/modifiers/offset/)

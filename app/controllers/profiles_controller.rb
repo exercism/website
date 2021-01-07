@@ -4,6 +4,8 @@ class ProfilesController < ApplicationController
 
   def show
     raise ActiveRecord::RecordNotFound unless @profile
+
+    @badges = @user.badges
   end
 
   def tooltip

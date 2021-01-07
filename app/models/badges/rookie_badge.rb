@@ -1,8 +1,9 @@
 module Badges
   class RookieBadge < Badge
-    def name
-      "Rookie"
-    end
+    badge "Rookie",
+      :common,
+      :editor,
+      "Submitted an exercise"
 
     def should_award?
       user.submissions.exists?

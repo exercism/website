@@ -114,19 +114,28 @@
             }
         }
     }
-    & .c-search-bar {
-        @apply pb-24 mb-40;
-
-        & .--search {
-            @apply flex-grow;
-        }
-    }
 
     & article {
         /* Fill the bottom of the screen below 145px of tabs */
         min-height: calc(100vh - 145px);
         @apply pb-48;
     }
+    & .c-search-bar {
+        @apply pb-24 mb-40;
+        @apply border-b-1 border-unnamed10;
+
+        & .--search {
+            @apply flex-grow;
+        }
+    }
+    & .results-title-bar {
+        @apply mb-48;
+
+        & h3 {
+            @apply text-h3;
+        }
+    }
+
     & article.badges-tab {
         & .badges {
             @apply grid grid-cols-3 gap-x-48 gap-y-32;

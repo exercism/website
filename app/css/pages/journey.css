@@ -129,10 +129,11 @@
         }
     }
     & .results-title-bar {
+        @apply flex items-center;
         @apply mb-48;
 
         & h3 {
-            @apply text-h3;
+            @apply flex-grow text-h3;
         }
     }
 

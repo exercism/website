@@ -19,6 +19,7 @@ module ReactComponents
             },
             track: {
               title: track.title,
+              slug: track.slug,
               icon_url: track.icon_url
             },
             exercise: {
@@ -45,6 +46,7 @@ module ReactComponents
             num_comments: ccs.sum(&:second),
             unread: ccs.reject { |(_, seen), _| seen }.present?,
             links: {
+              files: Exercism::Routes.api_submission_files_url(iteration.submission),
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx)
             }
           }

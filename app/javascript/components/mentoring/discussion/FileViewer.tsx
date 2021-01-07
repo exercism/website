@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { File } from './types'
-import { highlight } from '../utils/highlight'
+import { File } from '../../types'
+import { highlight } from '../../../utils/highlight'
 
 export const FileViewer = ({
   language,

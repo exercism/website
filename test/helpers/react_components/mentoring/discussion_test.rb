@@ -30,6 +30,7 @@ module Mentoring
           },
           track: {
             title: track.title,
+            slug: track.slug,
             icon_url: track.icon_url
           },
           exercise: {
@@ -40,6 +41,7 @@ module Mentoring
             num_comments: 0,
             unread: false,
             links: {
+              files: Exercism::Routes.api_submission_files_url(iteration_1.submission),
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration_1.idx)
             }
           }, {
@@ -47,6 +49,7 @@ module Mentoring
             num_comments: 1,
             unread: false,
             links: {
+              files: Exercism::Routes.api_submission_files_url(iteration_2.submission),
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration_2.idx)
             }
           }, {
@@ -54,6 +57,7 @@ module Mentoring
             num_comments: 2,
             unread: true,
             links: {
+              files: Exercism::Routes.api_submission_files_url(iteration_3.submission),
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration_3.idx)
             }
           }],

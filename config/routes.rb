@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"
+        resources :files, only: %i[index], controller: "submissions/files"
       end
 
       resources :profiles, only: [] do
@@ -162,8 +163,6 @@ Rails.application.routes.draw do
     namespace :test do
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
-        resource :file_viewer, only: [:show], controller: "file_viewer"
-
         namespace :student do
           resource :concept_map, only: [:show], controller: 'concept_map'
           resource :tracks_list, only: [:show], controller: "tracks_list" do

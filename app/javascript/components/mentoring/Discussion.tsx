@@ -3,6 +3,7 @@ import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
 import { BackButton } from './discussion/BackButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
+import { IterationFiles } from './discussion/IterationFiles'
 
 type Links = {
   scratchpad: string
@@ -15,6 +16,7 @@ export type Iteration = {
   unread: boolean
   links: {
     posts: string
+    files: string
   }
 }
 
@@ -26,6 +28,7 @@ export type Student = {
 export type Track = {
   title: string
   iconUrl: string
+  slug: string
 }
 
 export type Exercise = {
@@ -62,13 +65,25 @@ export const Discussion = ({
           current={currentIteration}
         />
       </header>
-      <div className="rhs">
-        <MentoringPanelList
-          links={links}
-          discussionId={discussionId}
-          iteration={currentIteration}
-        />
-      </div>
+      <article>
+        <div className="lhs">
+          <div className="iteration-content">
+            <div className="code">
+              <IterationFiles
+                endpoint={currentIteration.links.files}
+                language={track.slug}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="rhs">
+          <MentoringPanelList
+            links={links}
+            discussionId={discussionId}
+            iteration={currentIteration}
+          />
+        </div>
+      </article>
     </div>
   )
 }

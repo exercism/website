@@ -84,7 +84,6 @@ import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import { Editor } from '../components/Editor'
-import { FileViewer } from '../components/FileViewer'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
@@ -172,12 +171,6 @@ initReact({
       instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
       exampleSolution={data.example_solution}
       storageKey={data.storage_key}
-    />
-  ),
-  'file-viewer': (data: any) => (
-    <FileViewer
-      language={data.language}
-      file={camelizeKeysAs<File>(data.file)}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

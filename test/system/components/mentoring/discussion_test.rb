@@ -57,6 +57,27 @@ module Components
         assert_text "Hello"
       end
 
+      test "shows files per iteration" do
+        mentor = create :user, handle: "author"
+        solution = create :concept_solution
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        submission = create :submission, solution: solution
+        create :submission_file,
+          submission: submission,
+          content: "class Bob\nend",
+          filename: "bob.rb"
+        create :iteration, idx: 1, solution: solution, submission: submission
+        create :iteration, idx: 2, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          click_on "1"
+        end
+
+        assert_text "class Bob"
+      end
+
       test "refetches when new post comes in" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution

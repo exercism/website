@@ -4,37 +4,74 @@ import { FileViewer } from './FileViewer'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { File } from '../../types'
 import { Loading } from '../../common'
+import { ErrorBoundary, useErrorHandler } from 'react-error-boundary'
+import { APIError } from '../../types'
 
 const TabsContext = createContext<TabContext>({
   current: '',
   switchToTab: () => {},
 })
 
-export const IterationFiles = ({
-  endpoint,
-  language,
-}: {
+type ComponentProps = {
   endpoint: string
   language: string
-}): JSX.Element | null => {
-  const { data, status } = useRequestQuery<{
-    files: File[]
-  }>(endpoint, { endpoint: endpoint, options: {} })
+}
+
+export const IterationFiles = (props: ComponentProps): JSX.Element => (
+  <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <Component {...props} />
+  </ErrorBoundary>
+)
+
+const ErrorFallback = ({ error }: { error: Error }) => (
+  <div>
+    <p>{error.message}</p>
+  </div>
+)
+
+const Component = ({
+  endpoint,
+  language,
+}: ComponentProps): JSX.Element | null => {
+  const { data, error, status } = useRequestQuery<
+    { files: File[] } | { error: APIError },
+    Error
+  >(endpoint, { endpoint: endpoint, options: {} })
+
   const [tab, setTab] = useState<string | null>(null)
+  const handleError = useErrorHandler()
 
   useEffect(() => {
     if (!data) {
       return
     }
 
-    setTab(data.files[0].filename)
-  }, [data])
+    if ('files' in data) {
+      if (data.files.length === 0) {
+        return
+      }
+
+      setTab(data.files[0].filename)
+    } else {
+      handleError(new Error(data.error.message))
+    }
+  }, [data, handleError])
+
+  useEffect(() => {
+    if (status !== 'error') {
+      return
+    }
+
+    if (error) {
+      handleError(new Error('Unable to load files'))
+    }
+  }, [error, handleError, status])
 
   if (status === 'loading') {
     return <Loading />
   }
 
-  if (status === 'success' && data && tab) {
+  if (data && 'files' in data && tab) {
     return (
       <TabsContext.Provider
         value={{

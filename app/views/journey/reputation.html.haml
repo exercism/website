@@ -1,0 +1,49 @@
+#page-journey
+  = render "journey/hero", user_tracks: @user_tracks
+
+  %article.reputation-tab.theme-dark
+    .md-container.container
+      .c-search-bar
+        %input.--search{ placeholder: "Search for a contribution" }
+        %button.--filter-btn
+          Filter By
+          = graphical_icon :'chevron-down'
+        %button.--reset-btn
+          = graphical_icon :reset
+          Reset filters
+
+      .results-title-bar
+        %h3 Showing #{@reputation_tokens.size} contributions
+        .c-select.order
+          %select
+            %option Sort by Newest First
+
+      .reputation_tokens
+        .reputation-token
+          = graphical_icon "sample-exercise-rocket", css_class: "primary-icon"
+          .info
+            .title You mentored a solution on TwoFer
+            .extra
+              .exercise
+                in
+                = graphical_icon("sample-track")
+                .name Ruby
+              %date 3 mins ago
+          = render ViewComponents::Reputation.new("+10", flashy: true)
+          = graphical_icon "chevron-right", css_class: 'action-button'
+
+        .reputation-token
+          = graphical_icon "sample-exercise-butterflies", css_class: "primary-icon"
+          .info
+            .title You contributed to the TwoFer exercise on the Elixir Track
+            .extra
+              .exercise
+                in
+                = graphical_icon("sample-track")
+                .name Elixir
+              %date 3 mins ago
+          = render ViewComponents::Reputation.new("+50", flashy: true)
+          = graphical_icon "chevron-right", css_class: 'action-button'
+
+
+          /- graphical_icon "sample-exercise-butterflies"

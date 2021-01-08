@@ -7,6 +7,7 @@ module ViewComponents
       @has_notification = has_notification
     end
 
+    # TODO: Move this to React and add Websockets
     def to_s
       link_to("#", class: "c-primary-reputation", 'aria-label': "#{@user.reputation} reputation") do
         tags = [

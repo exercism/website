@@ -3,6 +3,10 @@ class JourneyController < ApplicationController
 
   def show; end
 
+  def solutions
+    @solutions = current_user.solutions
+  end
+
   def badges
     @badges = current_user.badges
   end

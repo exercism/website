@@ -57,6 +57,22 @@ module Components
         assert_text "Hello"
       end
 
+      test "shows iteration information" do
+        mentor = create :user
+        solution = create :concept_solution
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        create :iteration, idx: 1, solution: solution, created_at: Time.current - 2.days
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        end
+
+        assert_text "Iteration 1"
+        assert_text "latest"
+        assert_text "Submitted 2 days ago"
+      end
+
       test "shows files per iteration" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution

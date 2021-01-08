@@ -45,6 +45,7 @@ module ReactComponents
             idx: iteration.idx,
             num_comments: ccs.sum(&:second),
             unread: ccs.reject { |(_, seen), _| seen }.present?,
+            created_at: iteration.created_at.iso8601,
             links: {
               files: Exercism::Routes.api_submission_files_url(iteration.submission),
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx)

@@ -90,4 +90,8 @@ class Submission < ApplicationRecord
     feedback << exercise_representation if has_automated_feedback?
     feedback
   end
+
+  def viewable_by?(user)
+    solution.mentors.include?(user)
+  end
 end

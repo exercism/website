@@ -61,13 +61,14 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
+        submission_1 = create :submission, solution: solution
         create :submission_file,
-          submission: submission,
+          submission: submission_1,
           content: "class Bob\nend",
           filename: "bob.rb"
-        create :iteration, idx: 1, solution: solution, submission: submission
-        create :iteration, idx: 2, solution: solution
+        submission_2 = create :submission, solution: solution
+        create :iteration, idx: 1, solution: solution, submission: submission_1
+        create :iteration, idx: 2, solution: solution, submission: submission_2
 
         use_capybara_host do
           sign_in!(mentor)

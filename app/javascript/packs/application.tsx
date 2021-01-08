@@ -91,7 +91,17 @@ import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
+import {
+  Iteration as MentorDiscussionIteration,
+  Student as MentorDiscussionStudent,
+  Track as MentorDiscussionTrack,
+  Exercise as MentorDiscussionExercise,
+} from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
+
+function camelizeKeysAs<T>(object: any): T {
+  return (camelizeKeys(object) as unknown) as T
+}
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -115,10 +125,13 @@ initReact({
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
   ),
-  'mentoring-mentoring-panel-list': (data: any) => (
-    <Mentoring.MentoringPanelList
+  'mentoring-discussion': (data: any) => (
+    <Mentoring.Discussion
       discussionId={data.discussion_id}
-      iterationIdx={data.iteration_idx}
+      student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
+      track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
+      iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
       links={data.links}
     />
   ),
@@ -130,9 +143,7 @@ initReact({
     />
   ),
   'concept-map': (data: any) => {
-    const mapData: IConceptMap = (camelizeKeys(
-      data.graph
-    ) as unknown) as IConceptMap
+    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
     return (
       <ConceptMap
         concepts={mapData.concepts}
@@ -145,24 +156,20 @@ initReact({
   },
   'track-iteration-summary': (data: any) => (
     <Track.IterationSummary
-      iteration={(camelizeKeys(data.iteration) as unknown) as Iteration}
+      iteration={camelizeKeysAs<Iteration>(data.iteration)}
     />
   ),
   editor: (data: any) => (
     <Editor
       endpoint={data.endpoint}
-      initialSubmission={
-        (camelizeKeys(data.submission) as unknown) as Submission
-      }
+      initialSubmission={camelizeKeysAs<Submission>(data.submission)}
       files={data.files}
       language={data.language}
       exercisePath={data.exercise_path}
       trackTitle={data.track_title}
       exerciseTitle={data.exercise_title}
       introduction={data.introduction}
-      instructions={
-        (camelizeKeys(data.instructions) as unknown) as ExerciseInstructions
-      }
+      instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
       exampleSolution={data.example_solution}
       storageKey={data.storage_key}
     />

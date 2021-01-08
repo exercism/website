@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { AddDiscussionPost } from '../../../../app/javascript/components/mentoring/AddDiscussionPost'
+import { AddDiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/AddDiscussionPost'
 
 test('shows loading message while fetching posts', async () => {
   const server = setupServer(

@@ -1,26 +1,25 @@
 import React from 'react'
 import { DiscussionPostList } from './DiscussionPostList'
 import { AddDiscussionPost } from './AddDiscussionPost'
+import { Iteration } from '../Discussion'
 
 export const DiscussionPostPanel = ({
-  endpoint,
   discussionId,
-  iterationIdx,
+  iteration,
 }: {
-  endpoint: string
   discussionId: number
-  iterationIdx: number
+  iteration: Iteration
 }): JSX.Element => {
   return (
     <div>
       <DiscussionPostList
-        endpoint={endpoint}
+        endpoint={iteration.links.posts}
         discussionId={discussionId}
-        iterationIdx={iterationIdx}
+        iterationIdx={iteration.idx}
       />
       <AddDiscussionPost
-        endpoint={endpoint}
-        contextId={`${discussionId}_${iterationIdx}_new_post`}
+        endpoint={iteration.links.posts}
+        contextId={`${discussionId}_${iteration.idx}_new_post`}
       />
     </div>
   )

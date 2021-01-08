@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Accordion } from '../common/Accordion'
+import { Accordion } from '../../common/Accordion'
 
 export const Guidance = (): JSX.Element => {
   const [accordionState, setAccordionState] = useState([

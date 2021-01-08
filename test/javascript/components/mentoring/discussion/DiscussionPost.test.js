@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { DiscussionPost } from '../../../../app/javascript/components/mentoring/DiscussionPost'
+import { DiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPost'
 
 document.createRange = () => {
   const range = new Range()

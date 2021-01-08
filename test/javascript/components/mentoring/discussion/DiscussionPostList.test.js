@@ -1,13 +1,9 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { DiscussionPostList } from '../../../../app/javascript/components/mentoring/DiscussionPostList'
+import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
 
 test('displays all posts', async () => {
   const twoDaysAgo = new Date(new Date() - 1000 * 60 * 60 * 24 * 2)

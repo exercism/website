@@ -2,15 +2,19 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { MentoringPanelList } from '../../../../app/javascript/components/mentoring/MentoringPanelList'
+import { MentoringPanelList } from '../../../../../app/javascript/components/mentoring/discussion/MentoringPanelList'
 
 test('switches to the scratchpad tab', async () => {
   const links = {
-    posts: 'http://exercism.test/posts',
     scratchpad: 'http://exercism.test/scratchpad',
   }
+  const iteration = {
+    links: {
+      posts: 'http://exercism.test/posts',
+    },
+  }
 
-  render(<MentoringPanelList links={links} />)
+  render(<MentoringPanelList links={links} iteration={iteration} />)
 
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
 
@@ -30,11 +34,15 @@ test('switches to the scratchpad tab', async () => {
 
 test('switches to the guidance tab', async () => {
   const links = {
-    posts: 'http://exercism.test/posts',
     scratchpad: 'http://exercism.test/scratchpad',
   }
+  const iteration = {
+    links: {
+      posts: 'http://exercism.test/posts',
+    },
+  }
 
-  render(<MentoringPanelList links={links} />)
+  render(<MentoringPanelList links={links} iteration={iteration} />)
 
   userEvent.click(screen.getByRole('tab', { name: 'Guidance' }))
 

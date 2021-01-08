@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { useRequestQuery } from '../../hooks/request-query'
+import { useRequestQuery } from '../../../hooks/request-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
-import { DiscussionPostChannel } from '../../channels/discussionPostChannel'
-import { Loading } from '../common/Loading'
+import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
+import { Loading } from '../../common/Loading'
 
 export const DiscussionPostList = ({
   endpoint,

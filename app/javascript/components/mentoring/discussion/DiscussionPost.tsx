@@ -1,7 +1,7 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
+import { fromNow } from '../../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
-import { Avatar } from '../common/Avatar'
+import { Avatar } from '../../common/Avatar'
 
 type DiscussionPostLinks = {
   update?: string

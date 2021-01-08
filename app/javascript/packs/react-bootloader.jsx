@@ -99,10 +99,9 @@ const renderDropdowns = (mappings) => {
 
       // TODO: find out if this is performant enough
       document.addEventListener('click', (event) => {
-        event.preventDefault()
-
         if (elem.contains(event.target)) {
           toggleDropdown()
+          event.preventDefault()
         } else if (dropdownShown) {
           hideDropdown()
         }

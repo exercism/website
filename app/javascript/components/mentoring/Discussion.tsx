@@ -67,12 +67,10 @@ export const Discussion = ({
       </header>
       <article>
         <div className="lhs">
-          <div className="iteration-content">
-            <IterationFiles
-              endpoint={currentIteration.links.files}
-              language={track.slug}
-            />
-          </div>
+          <IterationFiles
+            endpoint={currentIteration.links.files}
+            language={track.slug}
+          />
         </div>
         <div className="rhs">
           <MentoringPanelList

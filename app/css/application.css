@@ -27,7 +27,6 @@
     --c-6A93FF: #6a93ff;
     --c-8480A0: #8480a0;
     --c-EAECF3: #eaecf3;
-    --c-CBC9D9: #cbc9d9;
     --c-26282D: #26282d;
     --c-000000: #000000;
     --c-FFFFFF: #ffffff;
@@ -37,6 +36,8 @@
     --c-E1EBFF: #e1ebff;
     --c-604FCD: #604fcd;
     --c-B0A8E3: #b0a8e3;
+    --c-433F56: #433f56;
+    --c-4FCDA7: #4fcda7;
 
     --darkThemeBackgroundColor: var(--c-282339);
 }
@@ -67,7 +68,7 @@
     --backgroundColorC: var(--c-322C44);
     --borderColor4: var(--c-8480A0);
     --borderColor5: #ccc;
-    --borderColor7: #333;
+    --borderColor7: var(--c-433F56);
     --textColor1: var(--c-FFFFFF);
     --textColor5: var(--c-CBC9D9);
     --textColor6: var(--c-A9A6BD);
@@ -77,6 +78,7 @@
     --inputBorderColorFocus: var(--c-8480A0);
     --tabBackgroundColorSelected: var(--c-604FCD);
     --tabColorSelected: var(--c-FFFFFF);
+    --successColor: var(--c-4FCDA7);
 
     @apply text-textColor5 bg-backgroundColorB;
 }

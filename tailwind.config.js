@@ -46,13 +46,14 @@ module.exports = {
       borderColor7: 'var(--borderColor7)',
       textColor1: 'var(--textColor1)',
       textColor5: 'var(--textColor5)',
-      textColor6: 'var(--textColor4)',
+      textColor6: 'var(--textColor6)',
       textColor9: 'var(--textColor9)',
 
       inputBackgroundColor: 'var(--inputBackgroundColor)',
       inputBorderColorFocus: 'var(--inputBorderColorFocus)',
       tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
       tabColorSelected: 'var(--tabColorSelected)',
+      successColor: 'var(--successColor)',
 
       /* LEGACY*/
       textBase: 'var(--textColor5)',

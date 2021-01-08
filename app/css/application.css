@@ -62,9 +62,9 @@
 }
 
 .theme-dark {
-    --backgroundColorA: var(--c-282339);
+    --backgroundColorA: var(--c-000000);
     --backgroundColorB: var(--c-282339);
-    --backgroundColorC: var(--c-282339);
+    --backgroundColorC: var(--c-322C44);
     --borderColor4: var(--c-8480A0);
     --borderColor5: #ccc;
     --borderColor7: #333;

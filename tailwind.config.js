@@ -151,6 +151,7 @@ module.exports = {
       '56': '56px',
       '64': '64px',
       '80': '80px',
+      '96': '96px',
       '128': '128px',
       spacedColumns: '70px',
     },

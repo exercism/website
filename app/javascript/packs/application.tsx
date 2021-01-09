@@ -74,6 +74,8 @@ import '../../css/pages/iterations-index.css'
 import '../../css/pages/track-show-joined.css'
 import '../../css/pages/track-show-unjoined.css'
 import '../../css/pages/mentor/dashboard'
+import '../../css/pages/maintaining/dashboard'
+import '../../css/pages/maintaining/track'
 import '../../css/pages/journey'
 
 import 'easymde/dist/easymde.min.css'

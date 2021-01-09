@@ -1,0 +1,23 @@
+#page-maintaining-dashboard
+  .lg-container.container
+    %h1 Maintaining Exercism
+
+    .links
+      %h2 Cross-Track
+      %ul
+        %li
+          = link_to "All Submissions", maintaining_submissions_path
+        %li
+          = link_to "All Representations", maintaining_exercise_representations_path
+
+    %h2 Tracks
+    %table
+      %tr
+        %th Title
+        %th Synced Version
+        %th
+      - @tracks.each do |track|
+        %tr
+          %td= track.title
+          %td= track.synced_to_git_sha
+          %td= render ViewComponents::ProminentLink.new("More", maintaining_track_path(track))

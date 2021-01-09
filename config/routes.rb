@@ -107,8 +107,10 @@ Rails.application.routes.draw do
   end
 
   namespace :maintaining do
+    root to: "dashboard#show"
     resources :submissions, only: [:index]
     resources :exercise_representations
+    resources :tracks, only: [:show]
   end
 
   resources :tracks, only: %i[index show] do
@@ -161,9 +163,7 @@ Rails.application.routes.draw do
   # ########################### #
 
   namespace :tmp do
-    resources :submissions, only: [:create]
     resources :tracks, only: [:create]
-    post "git/pull" => "git#pull", as: "pull_git"
   end
 
   unless Rails.env.production?
@@ -182,6 +182,7 @@ Rails.application.routes.draw do
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
+
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]

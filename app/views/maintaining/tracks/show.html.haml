@@ -1,0 +1,24 @@
+#page-maintaining-track
+  .lg-container.container
+    %h1 Maintaining #{@track.title}
+
+    .data
+      %h2 Deployed Versions
+      %p.warning
+        %strong Note:
+        It make take up to a minute for the versions of the tooling repos
+        specified below to be deployed across all servers.
+
+      %table
+        %tr
+          %th Primary Repo:
+          %td= @track.synced_to_git_sha
+        %tr
+          %th Test Runner:
+          %td= @test_runner_sha
+        %tr
+          %th Representer:
+          %td= @representer_sha
+        %tr
+          %th Analyzer:
+          %td= @analyzer_sha

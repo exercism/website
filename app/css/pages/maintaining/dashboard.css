@@ -1,0 +1,40 @@
+@import "../../styles";
+
+#page-maintaining-dashboard {
+    @apply pt-16 pb-48;
+
+    & h1 {
+        @apply text-h1 mb-16;
+    }
+
+    & h2 {
+        @apply text-h2 mb-16;
+    }
+    & .links {
+        @apply text-16 mb-24;
+        & ul {
+            @apply ml-24;
+            & li {
+                @apply mb-8 list-disc;
+            }
+        }
+        & a {
+            @apply font-semibold border-lightBlue border-b-1;
+            @apply text-lightBlue;
+        }
+    }
+
+    & table {
+        @apply text-16;
+        & tr {
+            @apply border-b-1 border-borderColor5;
+        }
+        & th {
+            @apply text-left;
+        }
+        & th,
+        & td {
+            @apply py-8 px-12;
+        }
+    }
+}

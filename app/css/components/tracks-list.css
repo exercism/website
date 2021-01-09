@@ -96,9 +96,10 @@
     }
 
     & .--track {
+        @apply flex flex-col;
         @apply bg-backgroundColorA shadow-base rounded-8;
         & .--content {
-            @apply flex items-start p-24;
+            @apply flex flex-grow items-start p-24;
 
             & .c-track-icon {
                 width: 57px;

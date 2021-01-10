@@ -5,7 +5,11 @@ const formatCommentCount = (count: number) => {
   return count > 9 ? '9+' : count
 }
 
-const Comments = ({ iteration }: { iteration: Iteration }): JSX.Element => {
+const CommentsCount = ({
+  iteration,
+}: {
+  iteration: Iteration
+}): JSX.Element => {
   const classNames = ['comments']
 
   if (iteration.unread) {
@@ -49,7 +53,9 @@ export const IterationButton = ({
       onClick={onClick}
     >
       {iteration.idx}
-      {iteration.numComments > 0 ? <Comments iteration={iteration} /> : null}
+      {iteration.numComments > 0 ? (
+        <CommentsCount iteration={iteration} />
+      ) : null}
     </button>
   )
 }

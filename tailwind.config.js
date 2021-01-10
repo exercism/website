@@ -32,6 +32,33 @@ module.exports = {
       lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',
     },
     colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+
+      /* NEW */
+      darkThemeBackgroundColor: 'var(--darkThemeBackgroundColor)',
+
+      backgroundColorA: 'var(--backgroundColorA)',
+      backgroundColorB: 'var(--backgroundColorB)',
+      backgroundColorC: 'var(--backgroundColorC)',
+      borderColor4: 'var(--borderColor4)',
+      borderColor5: 'var(--borderColor5)',
+      borderColor7: 'var(--borderColor7)',
+      textColor1: 'var(--textColor1)',
+      textColor5: 'var(--textColor5)',
+      textColor6: 'var(--textColor6)',
+      textColor9: 'var(--textColor9)',
+
+      inputBackgroundColor: 'var(--inputBackgroundColor)',
+      inputBorderColorFocus: 'var(--inputBorderColorFocus)',
+      tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
+      tabColorSelected: 'var(--tabColorSelected)',
+      successColor: 'var(--successColor)',
+
+      /* LEGACY*/
+      textBase: 'var(--textColor5)',
+      textLight: 'var(--textColor6)',
+
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
       unnamed15: '#F0F3F9',
@@ -39,12 +66,8 @@ module.exports = {
       randomBlue: '#F9F8FF',
       lightGold: '#FFD38F',
 
-      transparent: 'transparent',
-      current: 'currentColor',
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
-      textBase: '#343741',
-      textLight: '#6D6986',
       borderLight: '#CBC9D9',
 
       lightBlue: '#2E57E8',
@@ -98,6 +121,7 @@ module.exports = {
       '25': '25px',
       '31': '31px',
       '40': '40px',
+      '64': '64px',
     },
     height: {
       '48': '48px',
@@ -128,6 +152,7 @@ module.exports = {
       '56': '56px',
       '64': '64px',
       '80': '80px',
+      '96': '96px',
       '128': '128px',
       spacedColumns: '70px',
     },

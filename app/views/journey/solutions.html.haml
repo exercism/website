@@ -1,0 +1,58 @@
+#page-journey
+  = render "journey/hero", user_tracks: @user_tracks
+
+  %article.solutions-tab.theme-dark
+    .md-container.container
+      .c-search-bar
+        %input.--search{ placeholder: "Search for an exercise" }
+        %button.--filter-btn
+          Filter By
+          = graphical_icon :'chevron-down'
+        %button.--reset-btn
+          = graphical_icon :reset
+          Reset filters
+
+      .results-title-bar
+        %h3 Showing #{@solutions.size} solutions
+        .c-select.order
+          %select
+            %option Sort by Newest First
+
+      .solutions
+        - @solutions.each do |solution|
+          .solution
+            .main
+              .exercise
+                = exercise_icon(solution.exercise, css_class: "exercise-icon")
+                .info
+                  .exercise-title= solution.exercise.title
+                  .extra
+                    .track
+                      in
+                      = track_icon(solution.exercise.track)
+                      .track-title= solution.exercise.track.title
+                    .status
+                      = graphical_icon "completed-check-circle"
+                      Completed
+              .stats
+                .stat
+                  = graphical_icon :iteration
+                  #{solution.iterations.size} iterations
+
+                .stat
+                  = graphical_icon :loc
+                  9 - 18 lines
+
+                .stat
+                  = graphical_icon :views
+                  1,270 views
+              %date.last-updated
+                Last submitted 2 years ago
+
+            .counts
+              .count
+                = graphical_icon :star
+                .num 10
+              .count
+                = graphical_icon :comment
+                .num 2

@@ -1,21 +1,19 @@
 #page-dashboard
-  = link_to "#", class: 'summary-bar' do
+  = link_to journey_path, class: 'summary-bar' do
     .lg-container.container
       = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
       .info
         .handle @#{current_user.handle}
         .extra= current_user.name
+      / TODO: Add tests for this
       .badges
-        .c-badge-medallion.--common
-          = graphical_icon :maintaining
-        .c-badge-medallion.--rare
-          = graphical_icon :testimonials
-        .c-badge-medallion.--ultimate
-          = graphical_icon :settings
-        .c-badge-medallion.--legendary
-          = graphical_icon :keyboard
+        - @featured_badges.each do |badge|
+          .c-badge-medallion{ class: "--#{badge.rarity}" }
+            = graphical_icon badge.icon
         .count
-          + 24 more
+          - num_extra_badges = @num_badges - @featured_badges.size
+          - if num_extra_badges.positive?
+            + #{num_extra_badges} more
 
       .journey
         Your Journey
@@ -91,7 +89,7 @@
 
           .tracks
             - @user_tracks.each do |user_track|
-              .track
+              = link_to user_track.track, class: 'track' do
                 = track_icon(user_track.track)
                 .info
                   .title= user_track.track.title

@@ -40,13 +40,13 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
 
   return (
     <div className="c-tracks-list">
-      <section className="--search-bar">
-        <div className="lg-container">
+      <section className="c-search-bar">
+        <div className="lg-container container">
           <Search dispatch={dispatch} />
           <TagsFilter dispatch={dispatch} options={tagOptions} />
         </div>
       </section>
-      <section className="md-container">
+      <section className="md-container container">
         <Header data={latestData} query={request.query} />
         <StatusFilter
           value={request.query.status}

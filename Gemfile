@@ -8,6 +8,7 @@ gem 'rails', '~> 6.1.0'
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
+gem 'aws-sdk-ecr'
 gem 'anycable-rails', '~> 1.0.4'
 
 # Serving requests

@@ -1,43 +1,15 @@
 @import "../styles";
 
 .c-tracks-list {
-    & .--search-bar {
+    & .c-search-bar {
+        @apply bg-backgroundColorA shadow-base;
         @apply py-12 mb-32;
-        @apply bg-white shadow-base;
-
-        & > .md-container {
-            @apply flex;
-        }
 
         & input.--search {
+            @apply flex-grow;
             max-width: 550px;
-            width: 100%;
-
-            @apply mr-24 rounded-5 bg-lightGray px-12 border-2 border-transparent h-48;
-            &::placeholder {
-                @apply text-textLight;
-            }
-            &:focus {
-                @apply border-darkBlue outline-none;
-            }
-        }
-        & .--filter-btn,
-        & .--reset-btn {
-            @apply px-12 h-48;
-            @apply text-16 font-semibold border-2;
         }
 
-        & .--filter-btn {
-            @apply mr-40;
-            @apply border-darkGray rounded-5;
-            @apply px-24;
-            &:focus {
-                @apply bg-black text-white outline-none border-black;
-            }
-        }
-        & .--reset-btn {
-            @apply border-transparent;
-        }
         & .--tag-option-list {
             @apply absolute left-0 right-0;
             @apply bg-white;
@@ -50,7 +22,7 @@
                 @apply outline-none;
             }
 
-            & .md-container {
+            & .container {
                 @apply py-24;
             }
 
@@ -124,9 +96,10 @@
     }
 
     & .--track {
-        @apply border-black bg-white shadow-base rounded-8;
+        @apply flex flex-col;
+        @apply bg-backgroundColorA shadow-base rounded-8;
         & .--content {
-            @apply flex items-start p-24;
+            @apply flex flex-grow items-start p-24;
 
             & .c-track-icon {
                 width: 57px;
@@ -141,11 +114,11 @@
 
                 & .--title {
                     @apply mr-16;
-                    @apply text-h3-mono text-black;
+                    @apply text-h3-mono text-textColor1;
                 }
 
                 & .--joined {
-                    @apply text-14 font-medium text-textLight;
+                    @apply text-14 font-medium text-textColor6;
                 }
 
                 & .--counts {
@@ -162,8 +135,8 @@
                     max-height: 32px;
 
                     & li {
-                        @apply border-borderLight border-1 border-solid rounded-100;
-                        @apply font-medium text-14 text-textLight leading-none;
+                        @apply border-borderColor7 border-1 rounded-100;
+                        @apply font-medium text-14 text-textColor6 leading-none;
                         @apply py-8 px-12;
                         @apply whitespace-no-wrap;
                     }
@@ -175,7 +148,7 @@
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                @apply text-textLight self-center;
+                @apply text-textColor6 self-center;
             }
         }
 

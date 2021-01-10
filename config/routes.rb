@@ -108,9 +108,12 @@ Rails.application.routes.draw do
   end
 
   namespace :maintaining do
+    root to: "dashboard#show"
     resources :submissions, only: [:index]
     resources :exercise_representations
+    resources :tracks, only: [:show]
   end
+
   resources :tracks, only: %i[index show] do
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member
@@ -134,6 +137,13 @@ Rails.application.routes.draw do
   end
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
+  resource :journey, only: [:show], controller: "journey" do
+    member do
+      get :solutions
+      get :reputation
+      get :badges
+    end
+  end
 
   root to: "pages#index"
 
@@ -154,9 +164,7 @@ Rails.application.routes.draw do
   # ########################### #
 
   namespace :tmp do
-    resources :submissions, only: [:create]
     resources :tracks, only: [:create]
-    post "git/pull" => "git#pull", as: "pull_git"
   end
 
   unless Rails.env.production?
@@ -174,6 +182,7 @@ Rails.application.routes.draw do
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
+
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]

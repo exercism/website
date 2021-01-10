@@ -2,7 +2,7 @@
 .c-tab {
     @apply flex items-center;
     @apply px-16 rounded-100;
-    @apply text-16 text-textBase font-medium;
+    @apply text-16 text-textColor5 font-medium;
 
     & .count {
         @apply ml-8 px-8;
@@ -14,16 +14,16 @@
     & svg {
         height: 24px;
         width: 24px;
-        @apply mr-12 text-textLight;
+        @apply mr-12 text-textColor6;
     }
 
     &.selected {
-        @apply bg-veryLightBlue text-black font-semibold;
+        @apply bg-tabBackgroundColorSelected text-tabColorSelected font-semibold;
         & .count {
-            @apply text-anotherPurple border-lightPurple;
+            @apply text-tabColorSelected border-lightPurple;
         }
         & svg {
-            @apply mr-12 text-anotherPurple;
+            @apply mr-12 text-tabColorSelected;
         }
     }
     /* This functionality stops the tab resizing when the

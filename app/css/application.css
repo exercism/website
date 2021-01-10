@@ -18,10 +18,76 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+    /* TODO: Rename these to match figma */
+    --c-CBC9D9: #cbc9d9;
+    --c-322C44: #322c44;
+    --c-343741: #343741;
+    --c-6D6986: #6d6986;
+    --c-6A93FF: #6a93ff;
+    --c-8480A0: #8480a0;
+    --c-EAECF3: #eaecf3;
+    --c-26282D: #26282d;
+    --c-000000: #000000;
+    --c-FFFFFF: #ffffff;
+    --c-FBFCFE: #fbfcfe;
+    --c-282339: #282339;
+    --c-A9A6BD: #a9a6bd;
+    --c-E1EBFF: #e1ebff;
+    --c-604FCD: #604fcd;
+    --c-B0A8E3: #b0a8e3;
+    --c-433F56: #433f56;
+    --c-4FCDA7: #4fcda7;
+
+    --darkThemeBackgroundColor: var(--c-282339);
+}
+
+.theme-light {
+    --backgroundColorA: var(--c-FFFFFF);
+    --backgroundColorB: var(--c-FBFCFE);
+    --backgroundColorC: var(--c-EAECF3);
+    --borderColor4: var(--c-26282D);
+    --borderColor5: var(--c-CBC9D9);
+    --borderColor7: var(--c-EAECF3);
+    --textColor1: var(--c-000000);
+    --textColor5: var(--c-343741);
+    --textColor6: var(--c-6D6986);
+    --textColor9: var(--c-FFFFFF);
+
+    --inputBackgroundColor: var(--c-EAECF3);
+    --inputBorderColorFocus: var(--c-6A93FF);
+    --tabBackgroundColorSelected: var(--c-E1EBFF);
+    --tabColorSelected: var(--c-000000);
+
+    @apply text-textColor5 bg-backgroundColorB;
+}
+
+.theme-dark {
+    --backgroundColorA: var(--c-000000);
+    --backgroundColorB: var(--c-282339);
+    --backgroundColorC: var(--c-322C44);
+    --borderColor4: var(--c-8480A0);
+    --borderColor5: #ccc;
+    --borderColor7: var(--c-433F56);
+    --textColor1: var(--c-FFFFFF);
+    --textColor5: var(--c-CBC9D9);
+    --textColor6: var(--c-A9A6BD);
+    --textColor9: var(--c-000000);
+
+    --inputBackgroundColor: var(--c-322C44);
+    --inputBorderColorFocus: var(--c-8480A0);
+    --tabBackgroundColorSelected: var(--c-604FCD);
+    --tabColorSelected: var(--c-FFFFFF);
+    --successColor: var(--c-4FCDA7);
+
+    @apply text-textColor5 bg-backgroundColorB;
+}
+
 body {
-    @apply font-body bg-bgGray text-textBase antialiased;
+    @apply font-body antialiased;
     line-height: 1;
     font-size: 14px;
+    scroll-behavior: smooth;
 
     /* This stops the page jumping around on Windows
        when the scrollbar appears or disappears. */

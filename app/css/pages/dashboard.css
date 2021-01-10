@@ -1,17 +1,22 @@
 @import "../styles";
 
-#page-dashboard {
+.theme-light #page-dashboard {
     background: linear-gradient(
         180deg,
         #e1ebff 0%,
         rgba(225, 235, 255, 0) 220px
     );
+}
+.theme-dark #page-dashboard {
+    background: linear-gradient(180deg, #000 0%, rgba(#282339, 0) 220px);
+}
+#page-dashboard {
     & .rhs {
         width: 420px;
         @apply flex-grow-0 flex-shrink-0 ml-48;
     }
     & .summary-bar {
-        @apply block bg-white shadow-lg py-12;
+        @apply block bg-backgroundColorA shadow-lg py-12;
 
         & .container {
             @apply flex items-center;
@@ -102,9 +107,8 @@
 
     & section.actions-section {
         height: 216px;
-        background: white;
         @apply flex mb-48;
-        @apply rounded-8;
+        @apply rounded-8 bg-backgroundColorA;
 
         box-shadow: 0px 4px 42px rgba(79, 114, 205, 0.15);
 
@@ -113,7 +117,7 @@
 
             @apply flex flex-col items-center justify-start;
             @apply p-24 text-16 leading-paragraph text-center;
-            @apply border-r-1 border-lightGray;
+            @apply border-r-1 border-borderColor7;
             &:last-child {
                 @apply border-r-0;
             }
@@ -187,7 +191,7 @@
             @apply mb-24;
 
             & .track {
-                @apply flex mb-16;
+                @apply flex mb-16 items-center;
                 & .c-track-icon {
                     @apply mr-16 flex-shrink-0;
                     height: 54px;

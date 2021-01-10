@@ -1,0 +1,34 @@
+@import "../../styles";
+
+#page-maintaining-track {
+    @apply pt-16 pb-48;
+
+    & .data {
+        & .warning {
+            @apply text-16 text-red mb-16 font-medium;
+
+            & strong {
+                @apply font-bold underline;
+            }
+        }
+    }
+
+    & h1 {
+        @apply text-h1 mb-16;
+    }
+
+    & h2 {
+        @apply text-h2 mb-16;
+    }
+
+    & table {
+        @apply text-16;
+        & th {
+            @apply text-left;
+        }
+        & th,
+        & td {
+            @apply pb-12 pr-12;
+        }
+    }
+}

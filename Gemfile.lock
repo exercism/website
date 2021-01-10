@@ -83,6 +83,9 @@ GEM
     aws-sdk-dynamodb (1.58.0)
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-ecr (1.39.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.40.0)
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sigv4 (~> 1.1)
@@ -462,6 +465,7 @@ PLATFORMS
 DEPENDENCIES
   ansi-to-html
   anycable-rails (~> 1.0.4)
+  aws-sdk-ecr
   aws-sdk-s3 (~> 1)
   bootsnap (>= 1.4.2)
   byebug

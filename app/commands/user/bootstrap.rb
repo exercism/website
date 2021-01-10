@@ -6,6 +6,7 @@ class User
 
     def call
       user.auth_tokens.create!
+      AwardBadgeJob.perform_later(user, :member)
     end
   end
 end

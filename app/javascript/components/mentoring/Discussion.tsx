@@ -30,7 +30,7 @@ export type Student = {
 export type Track = {
   title: string
   iconUrl: string
-  slug: string
+  highlighterLanguage: string
 }
 
 export type Exercise = {
@@ -75,7 +75,7 @@ export const Discussion = ({
           />
           <IterationFiles
             endpoint={currentIteration.links.files}
-            language={track.slug}
+            language={track.highlighterLanguage}
           />
         </div>
         <div className="rhs">

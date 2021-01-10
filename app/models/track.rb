@@ -39,4 +39,9 @@ class Track < ApplicationRecord
   def icon_url
     "https://assets.exercism.io/tracks/ruby-hex-white.png"
   end
+
+  # TODO: Create mapping for Highlight.JS, otherwise use slug
+  def highlighter_language
+    slug
+  end
 end

@@ -74,8 +74,10 @@ module Components
       end
 
       test "shows files per iteration" do
-        mentor = create :user, handle: "author"
-        solution = create :concept_solution
+        mentor = create :user
+        ruby = create :track, slug: "ruby"
+        bob = create :concept_exercise, track: ruby
+        solution = create :concept_solution, exercise: bob
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission_1 = create :submission, solution: solution
         create :submission_file,

@@ -30,7 +30,7 @@ module Mentoring
           },
           track: {
             title: track.title,
-            slug: track.slug,
+            highlighter_language: track.highlighter_language,
             icon_url: track.icon_url
           },
           exercise: {

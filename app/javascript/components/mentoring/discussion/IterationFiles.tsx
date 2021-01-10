@@ -17,11 +17,13 @@ type ComponentProps = {
   language: string
 }
 
-export const IterationFiles = (props: ComponentProps): JSX.Element => (
-  <ErrorBoundary FallbackComponent={ErrorFallback}>
-    <Component {...props} />
-  </ErrorBoundary>
-)
+export const IterationFiles = (props: ComponentProps): JSX.Element => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Component {...props} />
+    </ErrorBoundary>
+  )
+}
 
 const ErrorFallback = ({ error }: { error: Error }) => (
   <div>

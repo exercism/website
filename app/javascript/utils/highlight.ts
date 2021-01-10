@@ -50,6 +50,12 @@ function wrapLineNumbers(code: string) {
   const element = document.createElement('div')
   element.innerHTML = code.trim()
 
+  /*
+    Highlight JS wraps multiline code (e.g. comments) in one parent node.
+    Since we need to append line numbers to every line, this method recursively
+    expands the tree and wraps each line in the multiline node with the class of
+    the parent node.
+  */
   duplicateMultilineNodes(element)
 
   const rows = getLines(element.innerHTML)

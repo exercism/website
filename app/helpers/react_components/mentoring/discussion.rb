@@ -19,7 +19,7 @@ module ReactComponents
             },
             track: {
               title: track.title,
-              highlighter_language: track.highlighter_language,
+              highlightjs_language: track.highlightjs_language,
               icon_url: track.icon_url
             },
             exercise: {

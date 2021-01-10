@@ -37,6 +37,15 @@ export type Exercise = {
   title: string
 }
 
+type DiscussionProps = {
+  student: Student
+  track: Track
+  exercise: Exercise
+  links: Links
+  discussionId: number
+  iterations: readonly Iteration[]
+}
+
 export const Discussion = ({
   student,
   track,
@@ -44,14 +53,7 @@ export const Discussion = ({
   links,
   discussionId,
   iterations,
-}: {
-  student: Student
-  track: Track
-  exercise: Exercise
-  links: Links
-  discussionId: number
-  iterations: Iteration[]
-}): JSX.Element => {
+}: DiscussionProps): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )

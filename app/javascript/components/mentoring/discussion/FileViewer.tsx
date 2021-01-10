@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { File } from '../../types'
 import { highlight } from '../../../utils/highlight'
 
@@ -11,7 +11,7 @@ export const FileViewer = ({
 }): JSX.Element => {
   const [content, setContent] = useState('')
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setContent(highlight(language, file.content))
   }, [file, language])
 

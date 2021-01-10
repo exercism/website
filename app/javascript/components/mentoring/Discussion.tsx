@@ -4,6 +4,7 @@ import { IterationsList } from './discussion/IterationsList'
 import { BackButton } from './discussion/BackButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
+import { IterationHeader } from './discussion/IterationHeader'
 
 type Links = {
   scratchpad: string
@@ -14,6 +15,7 @@ export type Iteration = {
   idx: number
   numComments: number
   unread: boolean
+  createdAt: string
   links: {
     posts: string
     files: string
@@ -67,12 +69,14 @@ export const Discussion = ({
       </header>
       <article>
         <div className="lhs">
-          <div className="iteration-content">
-            <IterationFiles
-              endpoint={currentIteration.links.files}
-              language={track.slug}
-            />
-          </div>
+          <IterationHeader
+            iteration={currentIteration}
+            latest={iterations[iterations.length - 1] === currentIteration}
+          />
+          <IterationFiles
+            endpoint={currentIteration.links.files}
+            language={track.slug}
+          />
         </div>
         <div className="rhs">
           <MentoringPanelList

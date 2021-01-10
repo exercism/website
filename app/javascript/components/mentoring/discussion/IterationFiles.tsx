@@ -79,23 +79,25 @@ const Component = ({
           switchToTab: (filename: string) => setTab(filename),
         }}
       >
-        <div className="tabs" role="tablist">
-          {data.files.map((file) => (
-            <Tab key={file.filename} id={file.filename} context={TabsContext}>
-              {file.filename}
-            </Tab>
-          ))}
-        </div>
-        <div className="code">
-          {data.files.map((file) => (
-            <Tab.Panel
-              key={file.filename}
-              id={file.filename}
-              context={TabsContext}
-            >
-              <FileViewer file={file} language={language} />
-            </Tab.Panel>
-          ))}
+        <div className="iteration-content">
+          <div className="tabs" role="tablist">
+            {data.files.map((file) => (
+              <Tab key={file.filename} id={file.filename} context={TabsContext}>
+                {file.filename}
+              </Tab>
+            ))}
+          </div>
+          <div className="code">
+            {data.files.map((file) => (
+              <Tab.Panel
+                key={file.filename}
+                id={file.filename}
+                context={TabsContext}
+              >
+                <FileViewer file={file} language={language} />
+              </Tab.Panel>
+            ))}
+          </div>
         </div>
       </TabsContext.Provider>
     )

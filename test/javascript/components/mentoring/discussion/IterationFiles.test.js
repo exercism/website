@@ -10,6 +10,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { IterationFiles } from '../../../../../app/javascript/components/mentoring/discussion/IterationFiles'
 import userEvent from '@testing-library/user-event'
 import { silenceConsole } from '../../../support/silence-console'
+import { TestQueryCache } from '../../../support/TestQueryCache'
 
 test('shows files in tabs', async () => {
   const files = [
@@ -55,7 +56,9 @@ test('shows errors from API', async () => {
   server.listen()
 
   render(
-    <IterationFiles endpoint="https://exercism.test/files" language="ruby" />
+    <TestQueryCache>
+      <IterationFiles endpoint="https://exercism.test/files" language="ruby" />
+    </TestQueryCache>
   )
 
   expect(await screen.findByText('Unable to load files')).toBeInTheDocument()
@@ -73,7 +76,9 @@ test('shows generic error message for unexpected errors', async () => {
   server.listen()
 
   render(
-    <IterationFiles endpoint="https://exercism.test/files" language="ruby" />
+    <TestQueryCache>
+      <IterationFiles endpoint="weirdendpoint" language="ruby" />
+    </TestQueryCache>
   )
 
   expect(await screen.findByText('Unable to load files')).toBeInTheDocument()

@@ -38,6 +38,7 @@
     --c-B0A8E3: #b0a8e3;
     --c-433F56: #433f56;
     --c-4FCDA7: #4fcda7;
+    --c-FBFCFE: #fbfcfe;
 
     --darkThemeBackgroundColor: var(--c-282339);
 }
@@ -46,7 +47,8 @@
     --backgroundColorA: var(--c-FFFFFF);
     --backgroundColorB: var(--c-FBFCFE);
     --backgroundColorC: var(--c-EAECF3);
-    --borderColor4: var(--c-26282D);
+    --borderColor3: var(--c-26282D);
+    --borderColor4: var(--c-A9A6BD);
     --borderColor5: var(--c-CBC9D9);
     --borderColor7: var(--c-EAECF3);
     --textColor1: var(--c-000000);
@@ -66,7 +68,7 @@
     --backgroundColorA: var(--c-000000);
     --backgroundColorB: var(--c-282339);
     --backgroundColorC: var(--c-322C44);
-    --borderColor4: var(--c-8480A0);
+    --borderColor3: var(--c-8480A0);
     --borderColor5: #ccc;
     --borderColor7: var(--c-433F56);
     --textColor1: var(--c-FFFFFF);

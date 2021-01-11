@@ -41,6 +41,8 @@ module.exports = {
       backgroundColorA: 'var(--backgroundColorA)',
       backgroundColorB: 'var(--backgroundColorB)',
       backgroundColorC: 'var(--backgroundColorC)',
+      backgroundColorD: 'var(--backgroundColorD)',
+      borderColor3: 'var(--borderColor4)',
       borderColor4: 'var(--borderColor4)',
       borderColor5: 'var(--borderColor5)',
       borderColor7: 'var(--borderColor7)',

@@ -38,6 +38,14 @@ export const DiscussionPost = ({
       className="post-content"
       dangerouslySetInnerHTML={{ __html: contentHtml }}
     />
+    <div
+      className="post-content"
+      dangerouslySetInnerHTML={{ __html: contentHtml }}
+    />
+    <div
+      className="post-content"
+      dangerouslySetInnerHTML={{ __html: contentHtml }}
+    />
     <time className="post-at">{fromNow(updatedAt)}</time>
     {links.update ? (
       <EditDiscussionPost

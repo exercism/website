@@ -56,6 +56,7 @@ const TabPanel = ({
       aria-labelledby={`tab-${id}`}
       tabIndex={0}
       hidden={id !== current}
+      className="--tab-panel"
     >
       {children}
     </div>

@@ -13,7 +13,6 @@ export const AddDiscussionPost = ({
     open,
     setOpen,
     buttonRef,
-    panelRef,
     componentRef,
     styles,
     attributes,
@@ -22,26 +21,28 @@ export const AddDiscussionPost = ({
   const handleSuccess = useCallback(() => setOpen(false), [setOpen])
 
   return (
-    <div ref={componentRef}>
+    <section className="comment-section" ref={componentRef}>
+      {/* TODO: Don't know why this doesn't work */}
+      {/* {open ? null : ( */}
       <button
+        className="faux-input"
         ref={buttonRef}
         onClick={() => {
-          setOpen(!open)
+          setOpen(true)
         }}
         type="button"
       >
         Add a comment
       </button>
-      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
-        {open ? (
-          <DiscussionPostForm
-            onSuccess={handleSuccess}
-            endpoint={endpoint}
-            method="POST"
-            contextId={contextId}
-          />
-        ) : null}
-      </div>
-    </div>
+      {/*)}*/}
+      {open ? (
+        <DiscussionPostForm
+          onSuccess={handleSuccess}
+          endpoint={endpoint}
+          method="POST"
+          contextId={contextId}
+        />
+      ) : null}
+    </section>
   )
 }

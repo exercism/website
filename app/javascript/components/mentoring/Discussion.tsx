@@ -60,34 +60,32 @@ export const Discussion = ({
 
   return (
     <div className="c-mentor-discussion">
-      <header className="discussion-header">
-        <BackButton url={links.exercise} />
-        <SolutionInfo student={student} track={track} exercise={exercise} />
-        <IterationsList
-          iterations={iterations}
-          onClick={setCurrentIteration}
-          current={currentIteration}
+      <div className="lhs">
+        <header className="discussion-header">
+          <BackButton url={links.exercise} />
+          <SolutionInfo student={student} track={track} exercise={exercise} />
+          <IterationsList
+            iterations={iterations}
+            onClick={setCurrentIteration}
+            current={currentIteration}
+          />
+        </header>
+        <IterationHeader
+          iteration={currentIteration}
+          latest={iterations[iterations.length - 1] === currentIteration}
         />
-      </header>
-      <article>
-        <div className="lhs">
-          <IterationHeader
-            iteration={currentIteration}
-            latest={iterations[iterations.length - 1] === currentIteration}
-          />
-          <IterationFiles
-            endpoint={currentIteration.links.files}
-            language={track.highlightjsLanguage}
-          />
-        </div>
-        <div className="rhs">
-          <MentoringPanelList
-            links={links}
-            discussionId={discussionId}
-            iteration={currentIteration}
-          />
-        </div>
-      </article>
+        <IterationFiles
+          endpoint={currentIteration.links.files}
+          language={track.highlightjsLanguage}
+        />
+      </div>
+      <div className="rhs">
+        <MentoringPanelList
+          links={links}
+          discussionId={discussionId}
+          iteration={currentIteration}
+        />
+      </div>
     </div>
   )
 }

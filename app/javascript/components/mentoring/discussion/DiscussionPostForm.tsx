@@ -64,16 +64,18 @@ export const DiscussionPostForm = ({
   )
 
   return (
-    <div>
+    <div className="comment-form">
       <form onSubmit={handleSubmit}>
         <MarkdownEditor
           contextId={contextId}
           value={value}
           editorDidMount={handleEditorMount}
         />
-        <button type="submit" disabled={isLoading}>
-          Send
-        </button>
+        <footer className="comment-form-footer">
+          <button className="btn-small-cta" type="submit" disabled={isLoading}>
+            Send
+          </button>
+        </footer>
       </form>
       {isLoading ? <Loading /> : null}
       {error ? <p>{error.message}</p> : null}

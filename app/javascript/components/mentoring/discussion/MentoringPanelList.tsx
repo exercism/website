@@ -1,6 +1,7 @@
 import React, { useState, createContext } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
-import { DiscussionPostPanel } from './DiscussionPostPanel'
+import { DiscussionPostList } from './DiscussionPostList'
+import { AddDiscussionPost } from './AddDiscussionPost'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { GraphicalIcon } from '../../common'
@@ -29,38 +30,45 @@ export const MentoringPanelList = ({
   const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
-    <TabsContext.Provider
-      value={{
-        current: tab,
-        switchToTab: (id: string) => setTab(id as TabIndex),
-      }}
-    >
-      <div className="tabs" role="tablist">
-        <Tab id="discussion" context={TabsContext}>
-          <GraphicalIcon icon="comment" />
-          Discussion
-        </Tab>
-        <Tab id="scratchpad" context={TabsContext}>
-          <GraphicalIcon icon="scratchpad" />
-          Scratchpad
-        </Tab>
-        <Tab id="guidance" context={TabsContext}>
-          <GraphicalIcon icon="guidance" />
-          Guidance
-        </Tab>
-      </div>
-      <Tab.Panel id="discussion" context={TabsContext}>
-        <DiscussionPostPanel
-          iteration={iteration}
-          discussionId={discussionId}
-        />
-      </Tab.Panel>
-      <Tab.Panel id="scratchpad" context={TabsContext}>
-        <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
-      </Tab.Panel>
-      <Tab.Panel id="guidance" context={TabsContext}>
-        <Guidance />
-      </Tab.Panel>
-    </TabsContext.Provider>
+    <>
+      <TabsContext.Provider
+        value={{
+          current: tab,
+          switchToTab: (id: string) => setTab(id as TabIndex),
+        }}
+      >
+        <div className="tabs" role="tablist">
+          <Tab id="discussion" context={TabsContext}>
+            <GraphicalIcon icon="comment" />
+            <span data-text="Discussion">Discussion</span>
+          </Tab>
+          <Tab id="scratchpad" context={TabsContext}>
+            <GraphicalIcon icon="scratchpad" />
+            Scratchpad
+          </Tab>
+          <Tab id="guidance" context={TabsContext}>
+            <GraphicalIcon icon="guidance" />
+            Guidance
+          </Tab>
+        </div>
+        <Tab.Panel id="discussion" context={TabsContext}>
+          <DiscussionPostList
+            endpoint={iteration.links.posts}
+            discussionId={discussionId}
+            iterationIdx={iteration.idx}
+          />
+        </Tab.Panel>
+        <Tab.Panel id="scratchpad" context={TabsContext}>
+          <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
+        </Tab.Panel>
+        <Tab.Panel id="guidance" context={TabsContext}>
+          <Guidance />
+        </Tab.Panel>
+      </TabsContext.Provider>
+      <AddDiscussionPost
+        endpoint={iteration.links.posts}
+        contextId={`${discussionId}_${iteration.idx}_new_post`}
+      />
+    </>
   )
 }

@@ -14,23 +14,34 @@ export const AddDiscussionPost = ({
 
   return (
     <section className="comment-section">
-      <button
-        className="faux-input"
-        onClick={() => {
-          setOpen(true)
-        }}
-        type="button"
-      >
-        Add a comment
-      </button>
       {open ? (
-        <DiscussionPostForm
-          onSuccess={handleSuccess}
-          endpoint={endpoint}
-          method="POST"
-          contextId={contextId}
-        />
-      ) : null}
+        <div>
+          <DiscussionPostForm
+            onSuccess={handleSuccess}
+            endpoint={endpoint}
+            method="POST"
+            contextId={contextId}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          className="faux-input"
+          onClick={() => {
+            setOpen(true)
+          }}
+          type="button"
+        >
+          Add a comment
+        </button>
+      )}
     </section>
   )
 }

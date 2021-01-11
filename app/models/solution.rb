@@ -9,6 +9,7 @@ class Solution < ApplicationRecord
 
   has_many :mentor_requests, class_name: "Solution::MentorRequest", dependent: :destroy
   has_many :mentor_discussions, class_name: "Solution::MentorDiscussion", dependent: :destroy
+  has_many :mentors, through: :mentor_discussions
 
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }

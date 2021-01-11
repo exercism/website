@@ -79,6 +79,7 @@ import '../../css/pages/maintaining/track'
 import '../../css/pages/journey'
 
 import 'easymde/dist/easymde.min.css'
+import 'highlight.js/styles/github.css'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'
@@ -93,6 +94,7 @@ import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
+import { File } from '../components/types'
 import {
   Iteration as MentorDiscussionIteration,
   Student as MentorDiscussionStudent,

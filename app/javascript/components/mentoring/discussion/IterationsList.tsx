@@ -7,7 +7,7 @@ export const IterationsList = ({
   current,
   onClick,
 }: {
-  iterations: Iteration[]
+  iterations: readonly Iteration[]
   current: Iteration
   onClick: (iteration: Iteration) => void
 }): JSX.Element => {

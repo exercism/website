@@ -9,6 +9,7 @@ en:
       solution_not_accessible: "You do not have permission to view this solution"
       solution_not_unlocked: "You have not unlocked this exercise"
       submission_not_found: "This submission could not be found"
+      submission_not_accessible: "You do not have permission to view this submission"
       team_not_found: "The team could not be found"
       track_ambiguous: "Please specify a track ID"
       track_not_found: "The track you specified does not exist"

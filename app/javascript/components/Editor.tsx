@@ -10,12 +10,12 @@ import {
   Submission,
   TestRun,
   TestRunStatus,
-  File,
   Keybindings,
   WrapSetting,
   Themes,
   ExerciseInstructions,
 } from './editor/types'
+import { File } from './types'
 import { Iteration } from './track/IterationSummary'
 import { Header } from './editor/Header'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'

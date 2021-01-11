@@ -23,6 +23,13 @@ type PaginatedRequest = {
 
 function handleFetch<TResult>(key: string, url: string, query: RequestQuery) {
   return fetch(`${url}?${new UrlParams(query).toString()}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw response
+      }
+
+      return response
+    })
     .then((response) => response.json())
     .then((json) => (camelizeKeys(json) as unknown) as TResult)
 }

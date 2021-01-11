@@ -3,6 +3,8 @@ import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
 import { BackButton } from './discussion/BackButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
+import { IterationFiles } from './discussion/IterationFiles'
+import { IterationHeader } from './discussion/IterationHeader'
 
 type Links = {
   scratchpad: string
@@ -13,8 +15,10 @@ export type Iteration = {
   idx: number
   numComments: number
   unread: boolean
+  createdAt: string
   links: {
     posts: string
+    files: string
   }
 }
 
@@ -26,10 +30,20 @@ export type Student = {
 export type Track = {
   title: string
   iconUrl: string
+  highlightjsLanguage: string
 }
 
 export type Exercise = {
   title: string
+}
+
+type DiscussionProps = {
+  student: Student
+  track: Track
+  exercise: Exercise
+  links: Links
+  discussionId: number
+  iterations: readonly Iteration[]
 }
 
 export const Discussion = ({
@@ -39,14 +53,7 @@ export const Discussion = ({
   links,
   discussionId,
   iterations,
-}: {
-  student: Student
-  track: Track
-  exercise: Exercise
-  links: Links
-  discussionId: number
-  iterations: Iteration[]
-}): JSX.Element => {
+}: DiscussionProps): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
@@ -62,13 +69,25 @@ export const Discussion = ({
           current={currentIteration}
         />
       </header>
-      <div className="rhs">
-        <MentoringPanelList
-          links={links}
-          discussionId={discussionId}
-          iteration={currentIteration}
-        />
-      </div>
+      <article>
+        <div className="lhs">
+          <IterationHeader
+            iteration={currentIteration}
+            latest={iterations[iterations.length - 1] === currentIteration}
+          />
+          <IterationFiles
+            endpoint={currentIteration.links.files}
+            language={track.highlightjsLanguage}
+          />
+        </div>
+        <div className="rhs">
+          <MentoringPanelList
+            links={links}
+            discussionId={discussionId}
+            iteration={currentIteration}
+          />
+        </div>
+      </article>
     </div>
   )
 }

@@ -147,25 +147,23 @@
             }
             & .comment-form {
                 @apply border-1 border-borderColor4 rounded-5;
-                & #simplemde-editor-4-wrapper {
-                    & .editor-toolbar {
-                        border-width: 0; /* Override default */
-                        @apply border-b-1 border-borderColor5;
-                    }
-                    /* TODO: Decide what to do with this */
-                    & .editor-statusbar {
-                        display: none;
-                    }
-                    & .CodeMirror {
-                        height: 160px;
-                        min-height: 160px;
-                        border: none;
-                        @apply text-textColor5 text-15 leading-huge;
+                & .editor-toolbar {
+                    border-width: 0; /* Override default */
+                    @apply border-b-1 border-borderColor5;
+                }
+                /* TODO: Decide what to do with this */
+                & .editor-statusbar {
+                    display: none;
+                }
+                & .CodeMirror {
+                    height: 160px;
+                    min-height: 160px;
+                    border: none;
+                    @apply text-textColor5 text-15 leading-huge;
 
-                        & .CodeMirror-scroll {
-                            height: 140px;
-                            min-height: 140px !important;
-                        }
+                    & .CodeMirror-scroll {
+                        height: 140px;
+                        min-height: 140px !important;
                     }
                 }
                 & .comment-form-footer {

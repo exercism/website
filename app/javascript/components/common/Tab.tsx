@@ -64,3 +64,9 @@ const TabPanel = ({
 }
 TabPanel.displayName = 'TabPanel'
 Tab.Panel = TabPanel
+
+const TabTitle = ({ text }: { text: string }) => {
+  return <span data-text={text}>{text}</span>
+}
+TabTitle.displayName = 'TabTitle'
+Tab.Title = TabTitle

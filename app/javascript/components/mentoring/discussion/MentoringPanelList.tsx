@@ -39,15 +39,15 @@ export const MentoringPanelList = ({
         <div className="tabs" role="tablist">
           <Tab id="discussion" context={TabsContext}>
             <GraphicalIcon icon="comment" />
-            <span data-text="Discussion">Discussion</span>
+            <Tab.Title text="Discussion" />
           </Tab>
           <Tab id="scratchpad" context={TabsContext}>
             <GraphicalIcon icon="scratchpad" />
-            Scratchpad
+            <Tab.Title text="Scratchpad" />
           </Tab>
           <Tab id="guidance" context={TabsContext}>
             <GraphicalIcon icon="guidance" />
-            Guidance
+            <Tab.Title text="Guidance" />
           </Tab>
         </div>
         <Tab.Panel id="discussion" context={TabsContext}>

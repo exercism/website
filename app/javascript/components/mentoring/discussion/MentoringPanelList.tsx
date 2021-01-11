@@ -1,12 +1,10 @@
-import React, { useState, createContext } from 'react'
+import React, { createContext } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostList } from './DiscussionPostList'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { GraphicalIcon } from '../../common'
-import { Iteration } from '../Discussion'
-
-type TabIndex = 'discussion' | 'scratchpad'
+import { Iteration, TabIndex } from '../Discussion'
 
 type MentoringPanelListLinks = {
   scratchpad: string
@@ -21,13 +19,15 @@ export const MentoringPanelList = ({
   links,
   discussionId,
   iteration,
+  tab,
+  setTab,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
   iteration: Iteration
+  tab: TabIndex
+  setTab: (id: TabIndex) => void
 }): JSX.Element => {
-  const [tab, setTab] = useState<TabIndex>('discussion')
-
   return (
     <>
       <TabsContext.Provider

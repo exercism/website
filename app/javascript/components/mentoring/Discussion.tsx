@@ -47,6 +47,8 @@ type DiscussionProps = {
   iterations: readonly Iteration[]
 }
 
+export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
+
 export const Discussion = ({
   student,
   track,
@@ -58,6 +60,7 @@ export const Discussion = ({
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
+  const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
     <div className="c-mentor-discussion">
@@ -82,12 +85,17 @@ export const Discussion = ({
       </div>
       <div className="rhs">
         <MentoringPanelList
+          tab={tab}
+          setTab={setTab}
           links={links}
           discussionId={discussionId}
           iteration={currentIteration}
         />
         <AddDiscussionPost
           endpoint={currentIteration.links.posts}
+          onSuccess={() => {
+            setTab('discussion')
+          }}
           contextId={`${discussionId}_${currentIteration.idx}_new_post`}
         />
       </div>

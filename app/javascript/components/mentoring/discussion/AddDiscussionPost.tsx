@@ -4,13 +4,19 @@ import { DiscussionPostForm } from './DiscussionPostForm'
 export const AddDiscussionPost = ({
   endpoint,
   contextId,
+  onSuccess = () => {},
 }: {
   endpoint: string
   contextId: string
+  onSuccess?: () => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
 
-  const handleSuccess = useCallback(() => setOpen(false), [setOpen])
+  const handleSuccess = useCallback(() => {
+    onSuccess()
+
+    setOpen(false)
+  }, [onSuccess])
 
   return (
     <section className="comment-section">

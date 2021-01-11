@@ -39,8 +39,8 @@ class Solution::MentorDiscussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
-  def mark_as_nothing_to_do(user)
-    update(requires_mentor_action_since: nil) if user == mentor
+  def mentor_action_not_required!
+    update_column(:requires_mentor_action_since, nil)
   end
 
   def requires_mentor_action?

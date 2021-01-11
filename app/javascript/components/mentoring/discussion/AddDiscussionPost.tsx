@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react'
-import { usePanel } from '../../../hooks/use-panel'
+import React, { useCallback, useState } from 'react'
 import { DiscussionPostForm } from './DiscussionPostForm'
 
 export const AddDiscussionPost = ({
@@ -9,24 +8,14 @@ export const AddDiscussionPost = ({
   endpoint: string
   contextId: string
 }): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
+  const [open, setOpen] = useState(false)
 
   const handleSuccess = useCallback(() => setOpen(false), [setOpen])
 
   return (
-    <section className="comment-section" ref={componentRef}>
-      {/* TODO: Don't know why this doesn't work */}
-      {/* {open ? null : ( */}
+    <section className="comment-section">
       <button
         className="faux-input"
-        ref={buttonRef}
         onClick={() => {
           setOpen(true)
         }}
@@ -34,7 +23,6 @@ export const AddDiscussionPost = ({
       >
         Add a comment
       </button>
-      {/*)}*/}
       {open ? (
         <DiscussionPostForm
           onSuccess={handleSuccess}

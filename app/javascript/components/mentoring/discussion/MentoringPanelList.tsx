@@ -1,7 +1,6 @@
 import React, { useState, createContext } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostList } from './DiscussionPostList'
-import { AddDiscussionPost } from './AddDiscussionPost'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { GraphicalIcon } from '../../common'
@@ -65,10 +64,6 @@ export const MentoringPanelList = ({
           <Guidance />
         </Tab.Panel>
       </TabsContext.Provider>
-      <AddDiscussionPost
-        endpoint={iteration.links.posts}
-        contextId={`${discussionId}_${iteration.idx}_new_post`}
-      />
     </>
   )
 }

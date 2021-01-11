@@ -5,6 +5,7 @@ import { BackButton } from './discussion/BackButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
+import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 
 type Links = {
   scratchpad: string
@@ -84,6 +85,10 @@ export const Discussion = ({
           links={links}
           discussionId={discussionId}
           iteration={currentIteration}
+        />
+        <AddDiscussionPost
+          endpoint={currentIteration.links.posts}
+          contextId={`${discussionId}_${currentIteration.idx}_new_post`}
         />
       </div>
     </div>

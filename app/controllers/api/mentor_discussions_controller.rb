@@ -45,6 +45,7 @@ module API
 
       return render_404(:mentor_discussion_not_found) if discussion.blank?
       return render_403(:mentor_discussion_not_accessible) unless discussion.viewable_by?(current_user)
+      return render_403(:mentor_discussion_not_accessible) unless current_user == discussion.mentor
 
       discussion.mentor_action_not_required!
 

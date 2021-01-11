@@ -75,3 +75,7 @@ export const highlight = (language: string, code: string): string => {
 
   return wrapLineNumbers(content)
 }
+
+export const highlightBlock = (block: HTMLElement): void => {
+  highlighter.highlightBlock(block)
+}

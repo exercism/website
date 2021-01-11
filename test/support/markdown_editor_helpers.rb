@@ -1,7 +1,7 @@
 module MarkdownEditorHelpers
-  def fill_in_editor(text)
+  def fill_in_editor(text, within: "")
     wait_for_editor_to_load
-    execute_script("document.querySelector('.CodeMirror').CodeMirror.setValue('#{text}')")
+    execute_script("document.querySelector('#{within} .CodeMirror').CodeMirror.setValue('#{text}')")
   end
 
   def assert_editor_text(expected)

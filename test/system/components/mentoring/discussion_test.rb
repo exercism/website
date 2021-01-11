@@ -133,7 +133,7 @@ module Components
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           wait_for_websockets
           click_on "Add a comment"
-          fill_in_editor "# Hello"
+          fill_in_editor "# Hello", within: ".comment-section"
           click_on "Send"
         end
 

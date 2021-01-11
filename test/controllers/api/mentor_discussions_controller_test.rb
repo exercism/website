@@ -93,4 +93,53 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
     assert_equal content, post.content_markdown
     assert_equal it_2, post.iteration
   end
+
+  ###
+  # MARK AS NOTHING TO DO
+  ###
+  test "mark_as_nothing_to_do should return 401 with incorrect token" do
+    patch mark_as_nothing_to_do_api_mentor_discussion_path(1), as: :json
+
+    assert_response 401
+  end
+
+  test "mark_as_nothing_to_do should return 404 when the discussion does not exist" do
+    setup_user
+
+    patch mark_as_nothing_to_do_api_mentor_discussion_path(1), headers: @headers, as: :json
+
+    assert_response 404
+    expected = { error: {
+      type: "mentor_discussion_not_found",
+      message: I18n.t("api.errors.mentor_discussion_not_found")
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "mark_as_nothing_to_do should return 403 when the discussion is not accessible" do
+    setup_user
+    discussion = create :solution_mentor_discussion
+
+    patch mark_as_nothing_to_do_api_mentor_discussion_path(discussion), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "mentor_discussion_not_accessible",
+      message: I18n.t("api.errors.mentor_discussion_not_accessible")
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "mark_as_nothing_to_do should return 200 when the discussion is not accessible" do
+    setup_user
+    discussion = create :solution_mentor_discussion, mentor: @current_user
+
+    patch mark_as_nothing_to_do_api_mentor_discussion_path(discussion), headers: @headers, as: :json
+
+    assert_response 200
+    discussion.reload
+    refute discussion.requires_mentor_action?
+  end
 end

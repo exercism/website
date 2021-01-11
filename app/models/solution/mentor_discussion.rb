@@ -38,4 +38,12 @@ class Solution::MentorDiscussion < ApplicationRecord
     # TODO: Admins should also be allowed to view
     [mentor, student].include?(user)
   end
+
+  def mark_as_nothing_to_do(user)
+    update(requires_mentor_action_since: nil) if user == mentor
+  end
+
+  def requires_mentor_action?
+    requires_mentor_action_since.present?
+  end
 end

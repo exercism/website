@@ -5,10 +5,12 @@ import { BackButton } from './discussion/BackButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
+import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
-type Links = {
+export type Links = {
   scratchpad: string
   exercise: string
+  markAsNothingToDo?: string
 }
 
 export type Iteration = {
@@ -79,6 +81,9 @@ export const Discussion = ({
             endpoint={currentIteration.links.files}
             language={track.highlightjsLanguage}
           />
+          {links.markAsNothingToDo ? (
+            <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
+          ) : null}
         </div>
         <div className="rhs">
           <MentoringPanelList

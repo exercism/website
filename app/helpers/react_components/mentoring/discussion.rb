@@ -4,11 +4,6 @@ module ReactComponents
       initialize_with :discussion
 
       def to_s
-        scratchpad = ScratchpadPage.new(about: discussion.solution.exercise)
-        student = discussion.solution.user
-        track = discussion.solution.track
-        exercise = discussion.solution.exercise
-
         super(
           "mentoring-discussion",
           {
@@ -26,12 +21,20 @@ module ReactComponents
               title: exercise.title
             },
             iterations: iterations,
-            links: {
-              exercise: Exercism::Routes.track_exercise_path(track, exercise),
-              scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
-            }
+            links: links
           }
         )
+      end
+
+      def links
+        {
+          exercise: Exercism::Routes.track_exercise_path(track, exercise),
+          scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+        }.tap do |links|
+          if discussion.requires_mentor_action?
+            links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
+          end
+        end
       end
 
       def iterations
@@ -52,6 +55,26 @@ module ReactComponents
             }
           }
         end
+      end
+
+      memoize
+      def student
+        discussion.solution.user
+      end
+
+      memoize
+      def track
+        discussion.solution.track
+      end
+
+      memoize
+      def exercise
+        discussion.solution.exercise
+      end
+
+      memoize
+      def scratchpad
+        ScratchpadPage.new(about: exercise)
       end
     end
   end

@@ -8,8 +8,13 @@ class Iteration < ApplicationRecord
   has_one :track, through: :exercise
 
   delegate :tests_status, to: :submission
+  delegate :discussion, to: :solution
 
   before_create do
     self.uuid = SecureRandom.compact_uuid unless self.uuid
+  end
+
+  def viewable_by?(user)
+    solution.mentors.include?(user) || solution.user == user
   end
 end

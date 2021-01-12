@@ -6,11 +6,11 @@ import { typecheck } from '../utils/typecheck'
 export class IterationChannel {
   subscription: ActionCable.Channel
 
-  constructor(iteration: Iteration, onReceive: (iteration: Iteration) => void) {
+  constructor(uuid: string, onReceive: (iteration: Iteration) => void) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'IterationChannel',
-        uuid: iteration.uuid,
+        uuid: uuid,
       },
       {
         received: (response: any) => {

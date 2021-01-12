@@ -1,7 +1,9 @@
 class IterationChannel < ApplicationCable::Channel
   def subscribed
     # Assert that the user owns this iteration
-    iteration = current_user.iterations.find_by!(uuid: params[:uuid])
+    iteration = Iteration.find_by!(uuid: params[:uuid])
+
+    return unless iteration.viewable_by?(current_user)
 
     # Don't use persisted objects for stream_for
     stream_for iteration.id

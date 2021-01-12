@@ -43,6 +43,7 @@ module ReactComponents
           ccs = comment_counts.select { |(it_id, _), _| it_id == iteration.id }
 
           {
+            uuid: iteration.uuid,
             idx: iteration.idx,
             num_comments: ccs.sum(&:second),
             unread: ccs.reject { |(_, seen), _| seen }.present?,

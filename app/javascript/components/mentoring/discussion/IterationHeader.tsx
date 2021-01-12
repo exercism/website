@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Iteration } from '../Discussion'
 import { GraphicalIcon } from '../../common'
+import { IterationChannel } from '../../../channels/iterationChannel'
 import { fromNow } from '../../../utils/time'
 
 export const IterationHeader = ({
@@ -10,6 +11,22 @@ export const IterationHeader = ({
   iteration: Iteration
   latest: boolean
 }): JSX.Element => {
+  const [testsStatus, setTestsStatus] = useState(iteration.testsStatus)
+
+  useEffect(() => {
+    const iterationChannel = new IterationChannel(
+      iteration.uuid,
+      (iteration) => {
+        console.log('boom')
+        setTestsStatus(iteration.testsStatus)
+      }
+    )
+
+    return () => {
+      iterationChannel.disconnect()
+    }
+  }, [iteration])
+
   return (
     <header className="iteration-header">
       <div className="info">
@@ -23,7 +40,7 @@ export const IterationHeader = ({
             Submitted {fromNow(iteration.createdAt)}
           </time>
         </div>
-        <p>{iteration.testsStatus}</p>
+        <p>{testsStatus}</p>
       </div>
     </header>
   )

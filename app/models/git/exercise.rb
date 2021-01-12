@@ -10,7 +10,7 @@ module Git
         solution.track.slug,
         solution.git_slug,
         solution.git_type,
-        solution.git_sha
+        "HEAD" # TODO: Change to solution.git_sha once we let users update exercises
       )
     end
 

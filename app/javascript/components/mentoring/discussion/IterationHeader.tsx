@@ -17,7 +17,6 @@ export const IterationHeader = ({
     const iterationChannel = new IterationChannel(
       iteration.uuid,
       (iteration) => {
-        console.log('boom')
         setTestsStatus(iteration.testsStatus)
       }
     )

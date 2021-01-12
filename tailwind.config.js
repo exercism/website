@@ -47,8 +47,10 @@ module.exports = {
       borderColor5: 'var(--borderColor5)',
       borderColor7: 'var(--borderColor7)',
       textColor1: 'var(--textColor1)',
+      textColor3: 'var(--textColor3)',
       textColor5: 'var(--textColor5)',
       textColor6: 'var(--textColor6)',
+      textColor7: 'var(--textColor7)',
       textColor9: 'var(--textColor9)',
 
       inputBackgroundColor: 'var(--inputBackgroundColor)',

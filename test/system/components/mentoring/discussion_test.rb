@@ -31,12 +31,11 @@ module Components
         assert_text "on Running in Ruby"
       end
 
-      test "shows correct information" do
+      test "shows posts" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         iteration = create :iteration, idx: 1, solution: solution
-        create :iteration, idx: 2, solution: solution
         create(:solution_mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
@@ -47,11 +46,11 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          click_on "1"
         end
 
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "1"
+        within(".discussion") { assert_text "Iteration 1" }
         assert_text "author"
         refute_text "Student"
         assert_text "Hello"
@@ -61,7 +60,8 @@ module Components
         mentor = create :user
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, idx: 1, solution: solution, created_at: Time.current - 2.days
+        submission = create :submission, tests_status: "failed"
+        iteration = create :iteration, idx: 1, solution: solution, created_at: Time.current - 2.days, submission: submission
 
         use_capybara_host do
           sign_in!(mentor)
@@ -71,6 +71,11 @@ module Components
         assert_text "Iteration 1"
         assert_text "latest"
         assert_text "Submitted 2 days ago"
+        assert_text "failed"
+
+        submission.update!(tests_status: :passed)
+        IterationChannel.broadcast!(iteration)
+        assert_text "passed"
       end
 
       test "shows files per iteration" do
@@ -113,7 +118,7 @@ module Components
             content_markdown: "Hello",
             updated_at: Time.current)
           wait_for_websockets
-          DiscussionPostListChannel.notify!(discussion, iteration)
+          DiscussionPostListChannel.notify!(discussion)
         end
 
         assert_css "img[src='#{mentor.avatar_url}']"

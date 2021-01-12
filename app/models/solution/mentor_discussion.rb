@@ -11,6 +11,7 @@ class Solution::MentorDiscussion < ApplicationRecord
                    foreign_key: "discussion_id",
                    dependent: :destroy,
                    inverse_of: :discussion
+  has_many :iterations, through: :solution
 
   scope :completed, -> { where.not(completed_at: nil) }
   scope :in_progress, -> { where(completed_at: nil) }

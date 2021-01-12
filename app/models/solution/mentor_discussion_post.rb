@@ -25,4 +25,6 @@ class Solution::MentorDiscussionPost < ApplicationRecord
   def to_param
     uuid
   end
+
+  delegate :idx, to: :iteration, prefix: true
 end

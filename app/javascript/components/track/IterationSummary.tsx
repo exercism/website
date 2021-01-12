@@ -55,9 +55,12 @@ export function IterationSummary(props: { iteration: Iteration }) {
   const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
-    const iterationChannel = new IterationChannel(iteration, (iteration) => {
-      setIteration(iteration)
-    })
+    const iterationChannel = new IterationChannel(
+      iteration.uuid,
+      (iteration) => {
+        setIteration(iteration)
+      }
+    )
 
     channel.current = iterationChannel
 

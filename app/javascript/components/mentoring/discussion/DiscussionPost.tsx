@@ -17,6 +17,7 @@ export type DiscussionPostProps = {
   contentMarkdown: string
   contentHtml: string
   updatedAt: string
+  iterationIdx: number
 }
 
 export const DiscussionPost = ({

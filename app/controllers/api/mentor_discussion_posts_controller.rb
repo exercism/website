@@ -3,10 +3,7 @@ module API
     before_action :use_mentor_discussion, only: %i[index create]
 
     def index
-      posts = @discussion.
-        posts.
-        joins(:iteration).
-        where(iterations: { idx: params[:iteration_idx] })
+      posts = @discussion.posts
 
       serialized_posts = posts.map { |post| SerializeMentorDiscussionPost.(post, current_user) }
 
@@ -14,13 +11,9 @@ module API
     end
 
     def create
-      iteration = @discussion.solution.iterations.find_by(idx: params[:iteration_idx])
-
-      return render_404(:iteration_not_found) if iteration.blank?
-
       attrs = [
         @discussion,
-        iteration,
+        @discussion.iterations.last,
         params[:content]
       ]
 
@@ -31,7 +24,7 @@ module API
         Solution::MentorDiscussion::ReplyByStudent.(*attrs)
       end
 
-      DiscussionPostListChannel.notify!(@discussion, iteration)
+      DiscussionPostListChannel.notify!(@discussion)
 
       # TODO: Return the discussion post here
       head 200
@@ -44,7 +37,7 @@ module API
       return render_403(:permission_denied) unless post.author == current_user
 
       if post.update(content_markdown: params[:content])
-        DiscussionPostListChannel.notify!(post.discussion, post.iteration)
+        DiscussionPostListChannel.notify!(post.discussion)
         render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
       else
         render_400(:failed_validations, errors: post.errors)

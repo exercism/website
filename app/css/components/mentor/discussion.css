@@ -2,89 +2,94 @@
 
 .c-mentor-discussion {
     --header-height: 68px;
+    --footer-height: 80px;
 
-    @apply fixed flex flex-col items-stretch;
+    @apply flex fixed;
     width: 100%;
     height: 100%;
 
-    & .discussion-header {
-        height: var(--header-height);
-        width: 100%;
-
-        @apply flex items-center px-32 border-b-1 border-lightGray;
-
-        & .close-btn {
-            @apply flex;
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-                @apply mr-24;
-            }
-        }
-        & .c-track-icon {
-            height: 42px;
-            width: 42px;
-            @apply mr-32;
-        }
-        & .student {
-            @apply flex items-center;
-            & .c-rounded-bg-img {
-                height: 48px;
-                width: 48px;
-                @apply mr-8;
-            }
-            & .info {
-                @apply flex flex-col;
-                & .handle {
-                    @apply font-mono font-semibold text-16 text-darkGray leading-regular;
-                }
-
-                & .exercise {
-                    @apply font-mono font-medium text-16 text-textLight leading-regular;
-                    & strong {
-                        @apply font-medium text-darkGray;
-                    }
-                }
-            }
-        }
-        & .iterations {
-            @apply flex flex-grow items-center justify-end;
-
-            & .iteration {
-                height: 32px;
-                width: 32px;
-                @apply relative flex items-center justify-center ml-20;
-                @apply rounded-circle border-1 border-borderLight;
-                @apply font-semibold font-mono text-13;
-
-                & .comments {
-                    top: -12px;
-                    left: 20px;
-
-                    @apply absolute py-4 px-6 rounded-5;
-                    @apply border-1 border-borderLight bg-white;
-                    @apply text-darkGray text-13 font-semibold font-mono;
-
-                    &.unread {
-                        @apply border-orange bg-lightOrange;
-                    }
-                }
-
-                &.active {
-                    @apply text-darkGray border-lightBlue bg-veryLightBlue;
-                }
-            }
-        }
-    }
-    & article {
-        @apply flex flex-grow;
-        max-height: calc(100% - var(--header-height));
-    }
     & .lhs {
-        overflow-x: hidden;
-        overflow-y: scroll;
+        overflow: hidden;
 
         @apply border-r-2 border-lightGray flex-grow;
+        @apply flex flex-col items-stretch bg-backgroundColorA;
+
+        & .discussion-header {
+            height: var(--header-height);
+            width: 100%;
+            @apply bg-white;
+
+            @apply flex items-center px-32 border-b-1 border-lightGray;
+
+            & .close-btn {
+                @apply flex;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-24;
+                }
+            }
+            & .c-track-icon {
+                height: 42px;
+                width: 42px;
+                @apply mr-32;
+            }
+            & .student {
+                @apply flex items-center;
+                & .c-rounded-bg-img {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-8;
+                }
+                & .info {
+                    @apply flex flex-col;
+                    & .handle {
+                        @apply font-mono font-semibold text-16 text-darkGray leading-regular;
+                    }
+
+                    & .exercise {
+                        @apply font-mono font-medium text-16 text-textLight leading-regular;
+                        & strong {
+                            @apply font-medium text-darkGray;
+                        }
+                    }
+                }
+            }
+        }
+        & .discussion-footer {
+            height: var(--footer-height);
+            @apply flex items-center px-24;
+            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+
+            & .iterations {
+                @apply flex flex-grow items-center;
+
+                & .iteration {
+                    height: 32px;
+                    width: 32px;
+                    @apply relative flex items-center justify-center ml-20;
+                    @apply rounded-circle border-1 border-borderLight;
+                    @apply font-semibold font-mono text-13;
+
+                    & .comments {
+                        top: -12px;
+                        left: 20px;
+
+                        @apply absolute py-4 px-6 rounded-5;
+                        @apply border-1 border-borderLight bg-white;
+                        @apply text-darkGray text-13 font-semibold font-mono;
+
+                        &.unread {
+                            @apply border-orange bg-lightOrange;
+                        }
+                    }
+
+                    &.active {
+                        @apply text-darkGray border-lightBlue bg-veryLightBlue;
+                    }
+                }
+            }
+        }
 
         & .iteration-header {
             @apply flex items-center px-32;
@@ -122,32 +127,112 @@
             & .download-btn {
             }
         }
+        & .iteration-content {
+            @apply flex-grow flex flex-col;
+            @apply bg-backgroundColorB;
+
+            & .tabs {
+                @apply bg-backgroundColorA;
+                @apply border-b-1 border-borderColor7;
+                & .c-tab {
+                    @apply bg-backgroundColorA;
+                    @apply py-6 px-16;
+                    @apply text-14 text-textColor6 leading-paragraph;
+                    @apply border-r-1 border-borderColor7;
+                    @apply rounded-none;
+                    margin-bottom: -1px;
+                    border-bottom: 1px solid transparent;
+
+                    &.selected {
+                        @apply bg-backgroundColorB;
+                        @apply text-textColor3 font-medium;
+                        border-bottom-color: var(--backgroundColorA);
+                    }
+                }
+            }
+            & .code {
+                @apply py-16;
+                & li {
+                    @apply flex;
+                    @apply text-15 font-mono leading-huge;
+                    & .idx {
+                        @apply text-center text-textColor7;
+                        @apply mr-20;
+                        width: 64px;
+                    }
+                    & .loc {
+                        @apply flex-grow;
+                        @apply pr-24;
+                    }
+
+                    &:hover {
+                        @apply bg-backgroundColorC;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
     }
     & .rhs {
         @apply relative flex flex-col;
+        @apply shadow-base;
         width: 570px;
+        height: 100%;
+        overflow: hidden;
 
-        overflow-x: hidden;
-        overflow-y: scroll;
-
-        &:before {
-            content: "";
-            height: 48px;
-            top: -48px;
+        & .comment-section {
+            @apply flex flex-col relative;
+            bottom: 0;
             left: 0;
             right: 0;
-            position: absolute;
-            background: linear-gradient(
-                180deg,
-                rgba(251, 252, 254, 0) 0%,
-                #fbfcfe 44.22%
-            );
+            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+
+            @apply px-24 py-16 bg-backgroundColorA;
+
+            & button.faux-input {
+                @apply relative;
+                @apply border-1 border-borderColor4 rounded-5;
+                @apply py-12 px-16;
+                @apply text-16 leading-paragraph text-textColor6;
+                @apply text-left;
+            }
+            & .comment-form {
+                @apply border-1 border-borderColor4 rounded-5;
+                & .editor-toolbar {
+                    border-width: 0; /* Override default */
+                    @apply border-b-1 border-borderColor5;
+                }
+                /* TODO: Decide what to do with this */
+                & .editor-statusbar {
+                    display: none;
+                }
+                & .CodeMirror {
+                    height: 160px;
+                    min-height: 160px;
+                    border: none;
+                    @apply text-textColor5 text-15 leading-huge;
+
+                    & .CodeMirror-scroll {
+                        height: 140px;
+                        min-height: 140px !important;
+                    }
+                }
+                & .comment-form-footer {
+                    @apply p-16;
+                    @apply flex justify-end;
+                }
+            }
         }
 
         & .tabs {
-            @apply flex border-b-1 border-lightGray;
+            @apply flex;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+
+            @apply border-b-1 border-lightGray bg-backgroundColorA;
             @apply px-24 pt-20 pb-12;
-            height: 69px;
 
             & .c-tab {
                 height: 36px;
@@ -160,9 +245,18 @@
             }
         }
 
+        & .--tab-panel {
+            @apply flex-grow;
+            overflow-y: scroll;
+        }
+
         & .discussion {
             & .post {
-                @apply py-16 px-24;
+                @apply py-16 px-24 bg-backgroundColorA;
+
+                &:hover {
+                    @apply bg-backgroundColorB;
+                }
 
                 & .post-header {
                     @apply flex items-center mb-8;
@@ -183,7 +277,6 @@
                     }
                 }
                 & .post-content {
-                    @apply text-15 leading-huge mb-8;
                 }
                 & .post-at {
                     @apply text-label-timestamp;

@@ -1,47 +1,53 @@
-import React, { useCallback } from 'react'
-import { usePanel } from '../../../hooks/use-panel'
+import React, { useCallback, useState } from 'react'
 import { DiscussionPostForm } from './DiscussionPostForm'
 
 export const AddDiscussionPost = ({
   endpoint,
   contextId,
+  onSuccess = () => {},
 }: {
   endpoint: string
   contextId: string
+  onSuccess?: () => void
 }): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    panelRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
+  const [open, setOpen] = useState(false)
 
-  const handleSuccess = useCallback(() => setOpen(false), [setOpen])
+  const handleSuccess = useCallback(() => {
+    onSuccess()
+
+    setOpen(false)
+  }, [onSuccess])
 
   return (
-    <div ref={componentRef}>
-      <button
-        ref={buttonRef}
-        onClick={() => {
-          setOpen(!open)
-        }}
-        type="button"
-      >
-        Add a comment
-      </button>
-      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
-        {open ? (
+    <section className="comment-section">
+      {open ? (
+        <div>
           <DiscussionPostForm
             onSuccess={handleSuccess}
             endpoint={endpoint}
             method="POST"
             contextId={contextId}
           />
-        ) : null}
-      </div>
-    </div>
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          className="faux-input"
+          onClick={() => {
+            setOpen(true)
+          }}
+          type="button"
+        >
+          Add a comment
+        </button>
+      )}
+    </section>
   )
 }

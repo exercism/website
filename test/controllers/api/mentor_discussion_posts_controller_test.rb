@@ -8,7 +8,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     mentor = create :user, handle: "author"
     setup_user(mentor)
     discussion = create :solution_mentor_discussion, mentor: mentor
-    iteration = create :iteration
+    iteration = create :iteration, idx: 1
     discussion_post = create(:solution_mentor_discussion_post,
       discussion: discussion,
       iteration: iteration,
@@ -29,6 +29,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_markdown: "Hello",
           content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
+          iteration_idx: 1,
           links: {
             update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
           }
@@ -69,24 +70,6 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = { error: {
       type: "mentor_discussion_not_found",
       message: I18n.t('api.errors.mentor_discussion_not_found')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
-  test "create should 404 if the iteration does not exist" do
-    user = create :user
-    setup_user(user)
-    solution = create :concept_solution
-    discussion = create :solution_mentor_discussion,
-      solution: solution,
-      mentor: user
-    post api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
-
-    assert_response 404
-    expected = { error: {
-      type: "iteration_not_found",
-      message: I18n.t("api.errors.iteration_not_found")
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -223,8 +206,10 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
   test "updates a post" do
     author = create(:user, handle: "author")
+    iteration = create :iteration, idx: 1
     discussion_post = create(:solution_mentor_discussion_post,
       author: author,
+      iteration: iteration,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
     setup_user(author)
@@ -246,6 +231,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
         content_markdown: "content",
         content_html: "<p>content</p>\n",
         updated_at: discussion_post.updated_at.iso8601,
+        iteration_idx: 1,
         links: {
           update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
         }

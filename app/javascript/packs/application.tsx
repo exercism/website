@@ -79,7 +79,7 @@ import '../../css/pages/maintaining/track'
 import '../../css/pages/journey'
 
 import 'easymde/dist/easymde.min.css'
-import 'highlight.js/styles/github.css'
+import '../../css/highlighters/highlightjs-light'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'

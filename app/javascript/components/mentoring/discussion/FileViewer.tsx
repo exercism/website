@@ -16,10 +16,8 @@ export const FileViewer = ({
   }, [file, language])
 
   return (
-    <div>
-      <pre>
-        <code dangerouslySetInnerHTML={{ __html: content }} />
-      </pre>
-    </div>
+    <pre>
+      <code dangerouslySetInnerHTML={{ __html: content }} />
+    </pre>
   )
 }

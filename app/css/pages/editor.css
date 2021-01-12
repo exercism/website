@@ -177,15 +177,6 @@
             @apply py-16 px-32;
 
             & > .c-textual-content {
-                & * {
-                    @apply text-15 leading-code;
-                }
-                & h2 {
-                    @apply text-24 mb-8;
-                }
-                & h3 {
-                    @apply text-18 mb-8;
-                }
                 & * + h3 {
                     margin-top: 0;
                 } /* Override the default */

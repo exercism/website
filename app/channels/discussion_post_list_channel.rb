@@ -1,6 +1,6 @@
 class DiscussionPostListChannel < ApplicationCable::Channel
-  def self.notify!(discussion, iteration)
-    broadcast_to("#{discussion.uuid}_#{iteration.idx}", {})
+  def self.notify!(discussion)
+    broadcast_to(discussion, {})
   end
 
   def subscribed
@@ -8,8 +8,6 @@ class DiscussionPostListChannel < ApplicationCable::Channel
 
     return unless discussion.viewable_by?(current_user)
 
-    iteration = discussion.solution.iterations.find_by!(idx: params[:iteration_idx])
-
-    stream_for "#{discussion.uuid}_#{iteration.idx}"
+    stream_for(discussion)
   end
 end

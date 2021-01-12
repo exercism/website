@@ -5,21 +5,24 @@ import { BackButton } from './discussion/BackButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
+import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
 export type Links = {
   scratchpad: string
   exercise: string
+  posts: string
   markAsNothingToDo?: string
 }
 
 export type Iteration = {
+  uuid: string
   idx: number
   numComments: number
   unread: boolean
   createdAt: string
+  testsStatus: string
   links: {
-    posts: string
     files: string
   }
 }
@@ -48,6 +51,8 @@ type DiscussionProps = {
   iterations: readonly Iteration[]
 }
 
+export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
+
 export const Discussion = ({
   student,
   track,
@@ -59,40 +64,49 @@ export const Discussion = ({
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
+  const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
     <div className="c-mentor-discussion">
-      <header className="discussion-header">
-        <BackButton url={links.exercise} />
-        <SolutionInfo student={student} track={track} exercise={exercise} />
-        <IterationsList
-          iterations={iterations}
-          onClick={setCurrentIteration}
-          current={currentIteration}
-        />
-      </header>
-      <article>
-        <div className="lhs">
-          <IterationHeader
-            iteration={currentIteration}
-            latest={iterations[iterations.length - 1] === currentIteration}
-          />
-          <IterationFiles
-            endpoint={currentIteration.links.files}
-            language={track.highlightjsLanguage}
-          />
+      <div className="lhs">
+        <header className="discussion-header">
+          <BackButton url={links.exercise} />
+          <SolutionInfo student={student} track={track} exercise={exercise} />
           {links.markAsNothingToDo ? (
             <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
           ) : null}
-        </div>
-        <div className="rhs">
-          <MentoringPanelList
-            links={links}
-            discussionId={discussionId}
-            iteration={currentIteration}
+        </header>
+        <IterationHeader
+          iteration={currentIteration}
+          latest={iterations[iterations.length - 1] === currentIteration}
+        />
+        <IterationFiles
+          endpoint={currentIteration.links.files}
+          language={track.highlightjsLanguage}
+        />
+        <footer className="discussion-footer">
+          <IterationsList
+            iterations={iterations}
+            onClick={setCurrentIteration}
+            current={currentIteration}
           />
-        </div>
-      </article>
+        </footer>
+      </div>
+      <div className="rhs">
+        <MentoringPanelList
+          tab={tab}
+          setTab={setTab}
+          links={links}
+          discussionId={discussionId}
+        />
+        <AddDiscussionPost
+          endpoint={links.posts}
+          onSuccess={() => {
+            setTab('discussion')
+          }}
+          contextId={`${discussionId}_new_post`}
+        />
+      </div>
     </div>
   )
 }

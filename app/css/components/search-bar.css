@@ -31,9 +31,9 @@
 
     & .--filter-btn {
         @apply mr-40 rounded-5 px-24;
-        @apply border-borderColor4;
+        @apply border-borderColor3;
         &:focus {
-            @apply bg-borderColor4 text-textColor9;
+            @apply bg-borderColor3 text-textColor9;
             @apply outline-none;
         }
         & .c-icon {

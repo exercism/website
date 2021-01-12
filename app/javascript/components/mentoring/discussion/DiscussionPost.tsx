@@ -17,6 +17,7 @@ export type DiscussionPostProps = {
   contentMarkdown: string
   contentHtml: string
   updatedAt: string
+  iterationIdx: number
 }
 
 export const DiscussionPost = ({
@@ -51,7 +52,7 @@ export const DiscussionPost = ({
         {byStudent ? <div className="tag">Student</div> : null}
       </header>
       <div
-        className="post-content"
+        className="post-content c-textual-content --small"
         ref={contentRef}
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />

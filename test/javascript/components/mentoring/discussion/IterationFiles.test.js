@@ -36,9 +36,7 @@ test('shows files in tabs', async () => {
   await waitForElementToBeRemoved(screen.getByText('Loading'))
   userEvent.click(await screen.findByRole('tab', { name: 'bob_test.rb' }))
 
-  expect(
-    screen.getByRole('cell', { name: 'class BobTest' })
-  ).toBeInTheDocument()
+  expect(screen.getByText('BobTest')).toBeInTheDocument()
 
   server.close()
 })

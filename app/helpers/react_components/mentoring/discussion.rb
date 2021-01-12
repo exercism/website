@@ -28,7 +28,8 @@ module ReactComponents
             iterations: iterations,
             links: {
               exercise: Exercism::Routes.track_exercise_path(track, exercise),
-              scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+              scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
+              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
             }
           }
         )
@@ -47,8 +48,7 @@ module ReactComponents
             unread: ccs.reject { |(_, seen), _| seen }.present?,
             created_at: iteration.created_at.iso8601,
             links: {
-              files: Exercism::Routes.api_submission_files_url(iteration.submission),
-              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion, iteration_idx: iteration.idx)
+              files: Exercism::Routes.api_submission_files_url(iteration.submission)
             }
           }
         end

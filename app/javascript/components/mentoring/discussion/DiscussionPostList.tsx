@@ -7,11 +7,9 @@ import { Loading } from '../../common/Loading'
 export const DiscussionPostList = ({
   endpoint,
   discussionId,
-  iterationIdx,
 }: {
   endpoint: string
   discussionId: number
-  iterationIdx: number
 }): JSX.Element | null => {
   const { isSuccess, isLoading, data, refetch } = useRequestQuery<{
     posts: DiscussionPostProps[]
@@ -19,14 +17,14 @@ export const DiscussionPostList = ({
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
-      { discussionId: discussionId, iterationIdx: iterationIdx },
+      { discussionId: discussionId },
       refetch
     )
 
     return () => {
       channel.disconnect()
     }
-  }, [discussionId, iterationIdx, refetch])
+  }, [discussionId, refetch])
 
   if (isLoading) {
     return (

@@ -10,6 +10,7 @@ import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 type Links = {
   scratchpad: string
   exercise: string
+  posts: string
 }
 
 export type Iteration = {
@@ -18,7 +19,6 @@ export type Iteration = {
   unread: boolean
   createdAt: string
   links: {
-    posts: string
     files: string
   }
 }
@@ -89,14 +89,13 @@ export const Discussion = ({
           setTab={setTab}
           links={links}
           discussionId={discussionId}
-          iteration={currentIteration}
         />
         <AddDiscussionPost
-          endpoint={currentIteration.links.posts}
+          endpoint={links.posts}
           onSuccess={() => {
             setTab('discussion')
           }}
-          contextId={`${discussionId}_${currentIteration.idx}_new_post`}
+          contextId={`${discussionId}_new_post`}
         />
       </div>
     </div>

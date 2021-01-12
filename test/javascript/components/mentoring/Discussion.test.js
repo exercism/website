@@ -30,13 +30,13 @@ test('highlights currently selected iteration', async () => {
     {
       idx: 1,
       links: {
-        posts: 'https://exercism.test/iterations/1/posts',
+        files: 'https://exercism.test/iterations/1/files',
       },
     },
     {
       idx: 2,
       links: {
-        posts: 'https://exercism.test/iterations/2/posts',
+        files: 'https://exercism.test/iterations/2/files',
       },
     },
   ]
@@ -62,6 +62,7 @@ test('shows back button', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+    posts: 'https://exercism.test/posts',
   }
   const track = {
     title: 'Ruby',
@@ -76,7 +77,7 @@ test('shows back button', async () => {
     {
       idx: 1,
       links: {
-        posts: 'https://exercism.test/iterations/1/posts',
+        files: 'https://exercism.test/iterations/1/files',
       },
     },
   ]
@@ -100,6 +101,7 @@ test('hides latest label if on old iteration', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+    posts: 'https://exercism.test/posts',
   }
   const track = {
     title: 'Ruby',
@@ -114,13 +116,13 @@ test('hides latest label if on old iteration', async () => {
     {
       idx: 1,
       links: {
-        posts: 'https://exercism.test/iterations/1/posts',
+        files: 'https://exercism.test/iterations/1/files',
       },
     },
     {
       idx: 2,
       links: {
-        posts: 'https://exercism.test/iterations/2/posts',
+        files: 'https://exercism.test/iterations/2/files',
       },
     },
   ]
@@ -146,6 +148,7 @@ test('switches to posts tab when comment success', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+    posts: 'https://exercism.test/posts',
   }
   const track = {
     title: 'Ruby',
@@ -160,12 +163,12 @@ test('switches to posts tab when comment success', async () => {
     {
       idx: 1,
       links: {
-        posts: 'https://exercism.test/iterations/1/posts',
+        files: 'https://exercism.test/iterations/1/files',
       },
     },
   ]
   const server = setupServer(
-    rest.post('https://exercism.test/iterations/1/posts', (req, res, ctx) => {
+    rest.post('https://exercism.test/posts', (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({}))
     })
   )
@@ -205,6 +208,7 @@ test('switches tabs', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+    posts: 'https://exercism.test/posts',
   }
   const track = {
     title: 'Ruby',
@@ -219,7 +223,7 @@ test('switches tabs', async () => {
     {
       idx: 1,
       links: {
-        posts: 'https://exercism.test/iterations/1/posts',
+        files: 'https://exercism.test/iterations/1/files',
       },
     },
   ]

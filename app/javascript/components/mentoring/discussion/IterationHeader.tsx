@@ -23,6 +23,7 @@ export const IterationHeader = ({
             Submitted {fromNow(iteration.createdAt)}
           </time>
         </div>
+        <p>{iteration.testsStatus}</p>
       </div>
     </header>
   )

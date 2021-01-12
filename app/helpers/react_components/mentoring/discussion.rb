@@ -47,6 +47,7 @@ module ReactComponents
             num_comments: ccs.sum(&:second),
             unread: ccs.reject { |(_, seen), _| seen }.present?,
             created_at: iteration.created_at.iso8601,
+            tests_status: iteration.tests_status,
             links: {
               files: Exercism::Routes.api_submission_files_url(iteration.submission)
             }

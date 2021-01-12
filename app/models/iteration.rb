@@ -7,6 +7,8 @@ class Iteration < ApplicationRecord
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
 
+  delegate :tests_status, to: :submission
+
   before_create do
     self.uuid = SecureRandom.compact_uuid unless self.uuid
   end

@@ -18,6 +18,7 @@ export type Iteration = {
   numComments: number
   unread: boolean
   createdAt: string
+  testsStatus: string
   links: {
     files: string
   }

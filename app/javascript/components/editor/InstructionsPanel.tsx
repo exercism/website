@@ -16,7 +16,7 @@ export const InstructionsPanel = ({
 }) => (
   <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
-      <div className="c-textual-content">
+      <div className="c-textual-content --small">
         <h2>Introduction</h2>
         <div dangerouslySetInnerHTML={{ __html: introduction }} />
 

@@ -35,7 +35,7 @@ export const DiscussionPost = ({
       {byStudent ? <div className="tag">Student</div> : null}
     </header>
     <div
-      className="post-content"
+      className="post-content c-textual-content --small"
       dangerouslySetInnerHTML={{ __html: contentHtml }}
     />
     <time className="post-at">{fromNow(updatedAt)}</time>

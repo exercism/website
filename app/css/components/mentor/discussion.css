@@ -280,7 +280,6 @@
                     }
                 }
                 & .post-content {
-                    @apply text-15 leading-huge mb-8;
                 }
                 & .post-at {
                     @apply text-label-timestamp;

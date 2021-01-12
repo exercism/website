@@ -35,6 +35,7 @@ linters:
       - Metrics/LineLength
       - Naming/FileName
       - Style/AsciiComments
+      - Style/ConditionalAssignment
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier
       - Style/Next

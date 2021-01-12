@@ -96,9 +96,6 @@
             @apply border-b-1 border-lightGray;
             height: 69px;
 
-            /* TODO Move the bits from this to the new place(s) */
-            display: none;
-
             & .info {
                 @apply flex-grow mr-24;
 

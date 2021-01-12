@@ -60,18 +60,22 @@ function wrapLineNumbers(code: string) {
 
   const rows = getLines(element.innerHTML)
     .map((line, i) => {
-      return `<tr>
-          <td>${i + 1}</td>
-          <td>${line}</td>
-        </tr>`
+      return `<li>
+          <div class="idx">${i + 1}</div>
+          <div class="loc">${line}</div>
+        </li>`
     })
     .join('')
 
-  return `<table>${rows}</table>`
+  return `<ul>${rows}</ul>`
 }
 
 export const highlight = (language: string, code: string): string => {
   const content = highlighter.highlight(language, code).value
 
   return wrapLineNumbers(content)
+}
+
+export const highlightBlock = (block: HTMLElement): void => {
+  highlighter.highlightBlock(block)
 }

@@ -78,5 +78,14 @@ module Mentoring
           }
         }
     end
+
+    test "#links adds link to mark as nothing to do when discussion requires mentor action" do
+      discussion = create :solution_mentor_discussion, requires_mentor_action_since: 2.days.ago
+
+      component = ReactComponents::Mentoring::Discussion.new(discussion)
+
+      assert_equal Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion),
+        component.links[:mark_as_nothing_to_do]
+    end
   end
 end

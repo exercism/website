@@ -261,6 +261,27 @@ module Components
           assert_editor_text "# Some notes"
         end
       end
+
+      test "mentor marks discussion as nothing to do" do
+        mentor = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :solution_mentor_discussion,
+          solution: solution,
+          mentor: mentor,
+          requires_mentor_action_since: 1.day.ago
+        create :iteration, solution: solution
+        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          click_on "Mark as nothing to do"
+        end
+
+        assert_text "Loading"
+        assert_no_text "Mark as nothing to do"
+      end
     end
   end
 end

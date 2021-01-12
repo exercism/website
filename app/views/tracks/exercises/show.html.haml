@@ -52,7 +52,7 @@
                 = render ViewComponents::ConceptIcon.new(concept, :small)
                 = concept.name
 
-      %section.instructions.c-textual-content
+      %section.instructions.c-textual-content.--large
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw Markdown::Parse.(instructions)

@@ -39,4 +39,12 @@ class Solution::MentorDiscussion < ApplicationRecord
     # TODO: Admins should also be allowed to view
     [mentor, student].include?(user)
   end
+
+  def mentor_action_not_required!
+    update_column(:requires_mentor_action_since, nil)
+  end
+
+  def requires_mentor_action?
+    requires_mentor_action_since.present?
+  end
 end

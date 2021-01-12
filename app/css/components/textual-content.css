@@ -1,45 +1,119 @@
 @import "../styles";
 
 .c-textual-content {
-    & * {
-        @apply text-18 leading-code;
-    }
-    & > * {
-        @apply mb-16;
-    }
+    &.--large {
+        & * {
+            @apply text-18;
+        }
+        & > * {
+            @apply mb-16;
+        }
 
-    & h2 {
-        @apply text-h3 mb-8;
-    }
-    & h3 {
-        @apply text-h4 mb-8;
-    }
-    & p {
-        & code {
-            @apply inline-flex items-center justify-center rounded-8;
-            @apply bg-veryLightBlue px-6 text-darkGray font-medium;
+        /************/
+        /* HEADINGS */
+        /************/
+        & h2 {
+            @apply text-h3 mb-8;
+        }
+        & h3 {
+            @apply text-h4 mb-8;
+        }
+        & * + h3 {
+            @apply mt-28;
         }
     }
-    & ul {
-        @apply ml-24;
-        & li {
-            @apply mb-8 list-disc;
+    &.--small {
+        & * {
+            @apply text-15;
+        }
+
+        /************/
+        /* HEADINGS */
+        /************/
+        & h2 {
+            @apply text-h3 mb-8;
+            @apply text-24 mb-8;
+        }
+        & h3 {
+            @apply text-h4 mb-8;
+            @apply text-18 mb-8;
         }
     }
-    & ol {
-        @apply ml-24;
-        & li {
-            @apply mb-8 list-decimal;
+}
+
+.c-textual-content {
+    /* This is necessary else the rules above override 
+     * the ones below */
+    &.--large,
+    &.--small {
+        & * {
+            @apply leading-code;
         }
-    }
-    & pre {
-        @apply shadow-lg mb-24 py-16 px-24 rounded-8 overflow-auto;
-        @apply text-16;
-    }
-    & * + h3 {
-        @apply mt-28;
-    }
-    & a {
-        @apply font-semibold border-textLight border-b-1;
+
+        /******************/
+        /* Block elements */
+        /*****************/
+        & blockquote {
+            @apply border-l-4 border-borderColor5 pl-24;
+            @apply text-textColor6;
+            @apply mt-16 mb-24;
+            & strong {
+                @apply font-medium;
+            }
+        }
+        & p {
+            @apply mb-8;
+        }
+
+        /*******************/
+        /* Inline elements */
+        /*******************/
+        & a {
+            @apply font-semibold text-lightBlue;
+        }
+
+        & strong {
+            @apply font-semibold;
+        }
+        & em {
+            @apply italic;
+        }
+        & strikethrough {
+            @apply line-through;
+        }
+
+        /*********/
+        /* Lists */
+        /*********/
+        & ul,
+        & ol {
+            @apply mb-24;
+            margin-left: 14px;
+            & li {
+                margin-left: 6px;
+                @apply mb-8;
+            }
+        }
+        & ul li {
+            @apply list-disc;
+        }
+        & ol li {
+            @apply list-decimal;
+        }
+
+        /*********/
+        /* Code */
+        /*********/
+        /* Block-level code blocks */
+        & pre {
+            @apply border-1 border-borderColor5 rounded-8 bg-backgroundColorA;
+            @apply mb-24 py-12 px-20 overflow-auto;
+            @apply text-16;
+        }
+        /* Inline code blocks */
+        & :not(pre) > code {
+            @apply inline-flex items-center justify-center rounded-5;
+            @apply bg-veryLightBlue px-6 text-gotToLoveAPurple leading-regular;
+        }
     }
 }

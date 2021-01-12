@@ -47,8 +47,10 @@ module.exports = {
       borderColor5: 'var(--borderColor5)',
       borderColor7: 'var(--borderColor7)',
       textColor1: 'var(--textColor1)',
+      textColor3: 'var(--textColor3)',
       textColor5: 'var(--textColor5)',
       textColor6: 'var(--textColor6)',
+      textColor7: 'var(--textColor7)',
       textColor9: 'var(--textColor9)',
 
       inputBackgroundColor: 'var(--inputBackgroundColor)',
@@ -79,6 +81,7 @@ module.exports = {
       purple: 'rgba(103, 93, 172, 1)',
       lightPurple: '#B0A8E3',
       anotherPurple: '#604FCD',
+      gotToLoveAPurple: '#271B72',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',

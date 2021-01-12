@@ -2,7 +2,7 @@
 
 .c-mentor-discussion {
     --header-height: 68px;
-    --tabs-height: 69px;
+    --footer-height: 80px;
 
     @apply flex fixed;
     width: 100%;
@@ -55,8 +55,14 @@
                     }
                 }
             }
+        }
+        & .discussion-footer {
+            height: var(--footer-height);
+            @apply flex items-center px-24;
+            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+
             & .iterations {
-                @apply flex flex-grow items-center justify-end;
+                @apply flex flex-grow items-center;
 
                 & .iteration {
                     height: 32px;
@@ -121,6 +127,51 @@
             & .download-btn {
             }
         }
+        & .iteration-content {
+            @apply flex-grow flex flex-col;
+            @apply bg-backgroundColorB;
+
+            & .tabs {
+                @apply bg-backgroundColorA;
+                @apply border-b-1 border-borderColor7;
+                & .c-tab {
+                    @apply bg-backgroundColorA;
+                    @apply py-6 px-16;
+                    @apply text-14 text-textColor6 leading-paragraph;
+                    @apply border-r-1 border-borderColor7;
+                    @apply rounded-none;
+                    margin-bottom: -1px;
+                    border-bottom: 1px solid transparent;
+
+                    &.selected {
+                        @apply bg-backgroundColorB;
+                        @apply text-textColor3 font-medium;
+                        border-bottom-color: var(--backgroundColorA);
+                    }
+                }
+            }
+            & .code {
+                @apply py-16;
+                & li {
+                    @apply flex;
+                    @apply text-15 font-mono leading-huge;
+                    & .idx {
+                        @apply text-center text-textColor7;
+                        @apply mr-20;
+                        width: 64px;
+                    }
+                    & .loc {
+                        @apply flex-grow;
+                        @apply pr-24;
+                    }
+
+                    &:hover {
+                        @apply bg-backgroundColorC;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
     }
     & .rhs {
         @apply relative flex flex-col;
@@ -178,7 +229,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: var(--tabs-height);
+            height: var(--header-height);
 
             @apply border-b-1 border-lightGray bg-backgroundColorA;
             @apply px-24 pt-20 pb-12;
@@ -226,7 +277,6 @@
                     }
                 }
                 & .post-content {
-                    @apply text-15 leading-huge mb-8;
                 }
                 & .post-at {
                     @apply text-label-timestamp;

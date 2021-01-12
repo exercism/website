@@ -6,11 +6,13 @@ import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
+import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
-type Links = {
+export type Links = {
   scratchpad: string
   exercise: string
   posts: string
+  markAsNothingToDo?: string
 }
 
 export type Iteration = {
@@ -70,11 +72,9 @@ export const Discussion = ({
         <header className="discussion-header">
           <BackButton url={links.exercise} />
           <SolutionInfo student={student} track={track} exercise={exercise} />
-          <IterationsList
-            iterations={iterations}
-            onClick={setCurrentIteration}
-            current={currentIteration}
-          />
+          {links.markAsNothingToDo ? (
+            <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
+          ) : null}
         </header>
         <IterationHeader
           iteration={currentIteration}
@@ -84,6 +84,13 @@ export const Discussion = ({
           endpoint={currentIteration.links.files}
           language={track.highlightjsLanguage}
         />
+        <footer className="discussion-footer">
+          <IterationsList
+            iterations={iterations}
+            onClick={setCurrentIteration}
+            current={currentIteration}
+          />
+        </footer>
       </div>
       <div className="rhs">
         <MentoringPanelList

@@ -50,6 +50,7 @@ module Components
 
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "1"
+        within(".discussion") { assert_text "Iteration 1" }
         assert_text "author"
         refute_text "Student"
         assert_text "Hello"

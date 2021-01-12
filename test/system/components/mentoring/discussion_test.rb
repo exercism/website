@@ -60,7 +60,8 @@ module Components
         mentor = create :user
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, idx: 1, solution: solution, created_at: Time.current - 2.days
+        submission = create :submission, tests_status: "failed"
+        iteration = create :iteration, idx: 1, solution: solution, created_at: Time.current - 2.days, submission: submission
 
         use_capybara_host do
           sign_in!(mentor)
@@ -70,6 +71,11 @@ module Components
         assert_text "Iteration 1"
         assert_text "latest"
         assert_text "Submitted 2 days ago"
+        assert_text "failed"
+
+        submission.update!(tests_status: :passed)
+        IterationChannel.broadcast!(iteration)
+        assert_text "passed"
       end
 
       test "shows files per iteration" do

@@ -14,10 +14,12 @@ type Links = {
 }
 
 export type Iteration = {
+  uuid: string
   idx: number
   numComments: number
   unread: boolean
   createdAt: string
+  testsStatus: string
   links: {
     files: string
   }

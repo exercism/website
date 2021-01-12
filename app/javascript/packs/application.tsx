@@ -94,12 +94,12 @@ import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
-import { File } from '../components/types'
 import {
   Iteration as MentorDiscussionIteration,
   Student as MentorDiscussionStudent,
   Track as MentorDiscussionTrack,
   Exercise as MentorDiscussionExercise,
+  Links as MentorDiscussionLinks,
 } from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
 
@@ -136,7 +136,7 @@ initReact({
       track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
       iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
-      links={data.links}
+      links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
     />
   ),
   'student-tracks-list': (data: any) => (

@@ -6,10 +6,12 @@ import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
+import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
-type Links = {
+export type Links = {
   scratchpad: string
   exercise: string
+  markAsNothingToDo?: string
 }
 
 export type Iteration = {
@@ -68,6 +70,9 @@ export const Discussion = ({
         <header className="discussion-header">
           <BackButton url={links.exercise} />
           <SolutionInfo student={student} track={track} exercise={exercise} />
+          {links.markAsNothingToDo ? (
+            <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
+          ) : null}
         </header>
         <IterationHeader
           iteration={currentIteration}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPost'
 import { stubRange } from '../../../support/code-mirror-helpers'
@@ -46,4 +46,25 @@ test('prefills edit form with previous value', async () => {
     const editor = document.querySelector('.CodeMirror').CodeMirror
     expect(editor.getValue()).toEqual('# Hello')
   })
+})
+
+test('highlights code blocks', async () => {
+  const post = {
+    id: 1,
+    authorHandle: 'author',
+    authorAvatarUrl: 'http://exercism.test/image',
+    byStudent: false,
+    contentMarkdown: '# My code\n```ruby\nHello\n```',
+    contentHtml:
+      '<h1>My code</h1><pre><code class="language-ruby">class Hello</code></pre>',
+    updatedAt: new Date().toISOString(),
+    links: {
+      update: 'https://exercism.test/links/1',
+    },
+  }
+
+  render(<DiscussionPost {...post} />)
+
+  expect(screen.getByText('class')).toHaveAttribute('class', 'hljs-keyword')
+  expect(screen.getByText('Hello')).toHaveAttribute('class', 'hljs-title')
 })

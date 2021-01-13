@@ -98,4 +98,9 @@ class User < ApplicationRecord
   def languages_spoken
     %w[english spanish]
   end
+
+  # TODO
+  def favorited_by?(_user)
+    false
+  end
 end

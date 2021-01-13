@@ -51,6 +51,7 @@ module Components
           assert_text "I am a user"
           assert_text "english, spanish"
           assert_text "1500"
+          assert_text "15 previous sessions"
           assert_css "img[src='https://avatars2.githubusercontent.com/u/5337876?s=460&v=4']"\
             "[alt=\"Uploaded avatar of student\"]"
           assert_button "Add to favorites"

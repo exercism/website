@@ -32,6 +32,7 @@ module Mentoring
             avatar_url: student.avatar_url,
             reputation: student.reputation,
             is_favorite: false,
+            num_previous_sessions: 15,
             links: {
               favorite: "stub_link"
             }

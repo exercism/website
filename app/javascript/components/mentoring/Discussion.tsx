@@ -35,6 +35,7 @@ export type Student = {
   handle: string
   reputation: number
   isFavorite: boolean
+  numPreviousSessions: number
   links: {
     favorite: string
   }

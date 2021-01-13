@@ -2,6 +2,7 @@ import React from 'react'
 import { Student } from '../Discussion'
 import { Avatar } from '../../common/Avatar'
 import { FavoriteButton } from './FavoriteButton'
+import { PreviousSessionsLink } from './PreviousSessionsLink'
 
 export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
   return (
@@ -12,6 +13,7 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
       {student.bio}
       {student.languagesSpoken.join(', ')}
       {student.reputation}
+      <PreviousSessionsLink numSessions={student.numPreviousSessions} />
       <Avatar src={student.avatarUrl} handle={student.handle} />
       <FavoriteButton
         isFavorite={student.isFavorite}

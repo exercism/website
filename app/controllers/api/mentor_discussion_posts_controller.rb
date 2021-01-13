@@ -27,7 +27,7 @@ module API
       DiscussionPostListChannel.notify!(@discussion)
 
       # TODO: Return the discussion post here
-      head 200
+      render json: {}
     end
 
     def update

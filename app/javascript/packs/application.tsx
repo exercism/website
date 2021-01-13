@@ -42,6 +42,7 @@ import '../../css/components/tooltips/concept.css'
 import '../../css/components/tooltips/user.css'
 import '../../css/components/user_activity.css'
 import '../../css/components/search-bar.css'
+import '../../css/components/published-solution.css'
 
 import '../../css/components/mentor/nav.css'
 import '../../css/components/mentor/inbox.css'
@@ -198,6 +199,10 @@ initReact({
     <Common.GraphicalIcon icon={data.icon} />
   ),
 })
+
+// TODO: Make this work with turbolinks
+import * as hljs from 'highlight.js'
+hljs.initHighlightingOnLoad()
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)

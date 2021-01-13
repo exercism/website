@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 import {
   MarkdownEditor,
   MarkdownEditorHandle,
@@ -62,6 +62,14 @@ export const DiscussionPostForm = ({
     },
     [editorRef]
   )
+
+  useEffect(() => {
+    if (!editorRef.current) {
+      return
+    }
+
+    editorRef.current.value(value)
+  }, [value])
 
   return (
     <div className="comment-form">

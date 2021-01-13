@@ -11,11 +11,12 @@ export const AddDiscussionPost = ({
   onSuccess?: () => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
+  const [value, setValue] = useState('')
 
   const handleSuccess = useCallback(() => {
-    onSuccess()
-
     setOpen(false)
+    setValue('')
+    onSuccess()
   }, [onSuccess])
 
   return (
@@ -27,6 +28,7 @@ export const AddDiscussionPost = ({
             endpoint={endpoint}
             method="POST"
             contextId={contextId}
+            value={value}
           />
           <button
             type="button"

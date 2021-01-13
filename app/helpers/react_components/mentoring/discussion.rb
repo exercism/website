@@ -9,8 +9,12 @@ module ReactComponents
           {
             discussion_id: discussion.uuid,
             student: {
+              name: student.name,
+              handle: student.handle,
+              bio: student.bio,
+              languages_spoken: student.languages_spoken,
               avatar_url: student.avatar_url,
-              handle: student.handle
+              reputation: student.reputation
             },
             track: {
               title: track.title,

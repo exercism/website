@@ -30,7 +30,11 @@ module Mentoring
             bio: student.bio,
             languages_spoken: student.languages_spoken,
             avatar_url: student.avatar_url,
-            reputation: student.reputation
+            reputation: student.reputation,
+            is_favorite: false,
+            links: {
+              favorite: "stub_link"
+            }
           },
           track: {
             title: track.title,

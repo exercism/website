@@ -34,6 +34,10 @@ export type Student = {
   languagesSpoken: string[]
   handle: string
   reputation: number
+  isFavorite: boolean
+  links: {
+    favorite: string
+  }
 }
 
 export type Track = {

@@ -14,7 +14,12 @@ module ReactComponents
               bio: student.bio,
               languages_spoken: student.languages_spoken,
               avatar_url: student.avatar_url,
-              reputation: student.reputation
+              reputation: student.reputation,
+              is_favorite: student.favorited_by?(discussion.mentor),
+              links: {
+                # TODO
+                favorite: "stub_link"
+              }
             },
             track: {
               title: track.title,

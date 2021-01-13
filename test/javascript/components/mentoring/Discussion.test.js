@@ -26,6 +26,9 @@ test('highlights currently selected iteration', async () => {
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
     languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -74,6 +77,9 @@ test('shows back button', async () => {
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
     languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -114,6 +120,9 @@ test('hides latest label if on old iteration', async () => {
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
     languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -162,6 +171,9 @@ test('switches to posts tab when comment success', async () => {
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
     languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -223,6 +235,9 @@ test('switches tabs', async () => {
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
     languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {

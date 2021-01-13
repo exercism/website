@@ -1,62 +1,36 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { Loading } from '../../common'
-import {
-  ErrorBoundary,
-  useErrorHandler,
-  FallbackProps,
-} from 'react-error-boundary'
-import { APIError } from '../../types'
+import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { sendRequest } from '../../../utils/send-request'
 
 type ComponentProps = {
   endpoint: string
 }
 
-const ERROR_MESSAGE_TIMEOUT = 500
-
 export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary>
       <Component {...props} />
     </ErrorBoundary>
   )
 }
 
-const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
-  useEffect(() => {
-    setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT)
-  }, [resetErrorBoundary])
-
-  return (
-    <div>
-      <p>{error.message}</p>
-    </div>
-  )
-}
+const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
 
 const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
-  const handleError = useErrorHandler()
+  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(() => {
-    return fetch(endpoint, { method: 'PATCH' }).then((response) => {
-      if (!response.ok) {
-        throw response
-      }
+    return sendRequest({
+      endpoint: endpoint,
+      method: 'PATCH',
+      body: null,
+      isMountedRef: isMountedRef,
     })
   })
 
-  useEffect(() => {
-    if (!error) {
-      return
-    }
-
-    if (error instanceof Error) {
-      handleError(new Error('Unable to mark discussion as nothing to do'))
-    } else if (error instanceof Response) {
-      error.json().then((res: { error: APIError }) => {
-        handleError(new Error(res.error.message))
-      })
-    }
-  }, [error, handleError])
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
   switch (status) {
     case 'idle':

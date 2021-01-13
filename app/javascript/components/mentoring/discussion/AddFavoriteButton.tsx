@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useMutation } from 'react-query'
+import { useIsMounted } from 'use-is-mounted'
+import { sendPostRequest } from '../../../utils/send-request'
 import { Loading } from '../../common/Loading'
-import {
-  ErrorBoundary,
-  useErrorHandler,
-  FallbackProps,
-} from 'react-error-boundary'
-import { APIError } from '../../types'
-
-const ERROR_MESSAGE_TIMEOUT = 500
+import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 
 type ComponentProps = {
   endpoint: string
@@ -17,54 +12,28 @@ type ComponentProps = {
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary>
       <Component {...props} />
     </ErrorBoundary>
   )
 }
 
-const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
-  useEffect(() => {
-    setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT)
-  }, [resetErrorBoundary])
+const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
-  return (
-    <div>
-      <p>{error.message}</p>
-    </div>
-  )
-}
-
-export const Component = ({
+const Component = ({
   endpoint,
   onSuccess,
-}: ComponentProps): JSX.Element => {
+}: ComponentProps): JSX.Element | null => {
+  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(() => {
-    return fetch(endpoint, { method: 'POST' })
-      .then((response) => {
-        if (!response.ok) {
-          throw response
-        }
-
-        return response
-      })
-      .then(onSuccess)
+    return sendPostRequest({
+      endpoint: endpoint,
+      body: null,
+      isMountedRef: isMountedRef,
+    }).then(onSuccess)
   })
-  const handleError = useErrorHandler()
 
-  useEffect(() => {
-    if (!error) {
-      return
-    }
-
-    if (error instanceof Error) {
-      handleError(new Error('Unable to mark student as a favorite'))
-    } else if (error instanceof Response) {
-      error.json().then((res: { error: APIError }) => {
-        handleError(new Error(res.error.message))
-      })
-    }
-  }, [error, handleError])
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
   switch (status) {
     case 'idle':

@@ -254,3 +254,96 @@ test('switches tabs', async () => {
     screen.queryByRole('tabpanel', { name: 'Discussion' })
   ).not.toBeInTheDocument()
 })
+
+test('go to previous iteration', async () => {
+  const links = {
+    scratchpad: 'https://exercism.test/scratchpad',
+    exercise: 'https://exercism.test/exercise',
+    posts: 'https://exercism.test/posts',
+  }
+  const track = {
+    title: 'Ruby',
+  }
+  const exercise = {
+    title: 'Bob',
+  }
+  const student = {
+    avatarUrl: 'https://exercism.test/avatar',
+  }
+  const iterations = [
+    {
+      idx: 1,
+      links: {
+        files: 'https://exercism.test/iterations/1/files',
+      },
+    },
+    {
+      idx: 2,
+      links: {
+        files: 'https://exercism.test/iterations/2/files',
+      },
+    },
+  ]
+
+  render(
+    <Discussion
+      exercise={exercise}
+      links={links}
+      track={track}
+      student={student}
+      iterations={iterations}
+      discussionId={1}
+    />
+  )
+  userEvent.click(
+    screen.getByRole('button', { name: 'Go to previous iteration' })
+  )
+
+  expect(await screen.findByText('Iteration 1')).toBeInTheDocument()
+})
+
+test('go to next iteration', async () => {
+  const links = {
+    scratchpad: 'https://exercism.test/scratchpad',
+    exercise: 'https://exercism.test/exercise',
+    posts: 'https://exercism.test/posts',
+  }
+  const track = {
+    title: 'Ruby',
+  }
+  const exercise = {
+    title: 'Bob',
+  }
+  const student = {
+    avatarUrl: 'https://exercism.test/avatar',
+  }
+  const iterations = [
+    {
+      idx: 1,
+      links: {
+        files: 'https://exercism.test/iterations/1/files',
+      },
+    },
+    {
+      idx: 2,
+      links: {
+        files: 'https://exercism.test/iterations/2/files',
+      },
+    },
+  ]
+
+  render(
+    <Discussion
+      exercise={exercise}
+      links={links}
+      track={track}
+      student={student}
+      iterations={iterations}
+      discussionId={1}
+    />
+  )
+  userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  userEvent.click(screen.getByRole('button', { name: 'Go to next iteration' }))
+
+  expect(await screen.findByText('Iteration 2')).toBeInTheDocument()
+})

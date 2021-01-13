@@ -31,6 +31,20 @@ class Tracks::ExercisesController < ApplicationController
     redirect_to action: :show
   end
 
+  # TODO: Remove
+  def completed
+    use_exercise
+    use_track
+
+    if @exercise.concept_exercise?
+      @concepts = @exercise.taught_concepts
+      @unlocked_concepts = [] # TODO
+      @unlocked_exercises = [] # TODO
+    else
+      @concepts = @exercise.prerequisites
+    end
+  end
+
   private
   def use_track
     @track = Track.find(params[:track_id])

@@ -124,6 +124,7 @@ Rails.application.routes.draw do
       member do
         patch :start
         patch :complete
+        get :completed # TODO: Remove
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"

@@ -61,6 +61,8 @@ import '../../css/components/track/concept-map.css'
 
 import '../../css/components/widgets/exercise.css'
 
+import '../../css/modals/completed-exercise.css'
+
 import '../../css/pages/auth.css'
 import '../../css/pages/dashboard.css'
 import '../../css/pages/editor.css'

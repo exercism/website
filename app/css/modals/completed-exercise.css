@@ -1,0 +1,53 @@
+@import "../styles";
+
+.m-completed-exercise {
+    & .--modal-content {
+        width: 100%;
+        max-width: 834px;
+        @apply py-32 px-48 bg-backgroundColorA;
+    }
+
+    & header {
+        @apply flex mb-32;
+        & .exercise-icon {
+            height: 96px;
+            width: 96px;
+            @apply mr-32;
+        }
+        & .exercise-title {
+            @apply text-h1;
+        }
+    }
+
+    & .concepts {
+        & .concept {
+            @apply flex items-center py-16 px-24;
+            @apply shadow-lg rounded-8;
+
+            & + .concept {
+                @apply mt-8;
+            }
+        }
+
+        & .c-concept-icon {
+            @apply mr-24;
+        }
+
+        & .name {
+            @apply flex-grow;
+            @apply text-h5 truncate;
+            @apply mr-40;
+        }
+        & .c-concept-progress-bar {
+            width: 380px;
+            @apply justify-self-end;
+            height: 6px;
+        }
+
+        & .completed {
+            width: 32px;
+            height: 32px;
+            @apply ml-24;
+        }
+    }
+}

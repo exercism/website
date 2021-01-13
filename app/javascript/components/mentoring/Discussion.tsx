@@ -29,7 +29,11 @@ export type Iteration = {
 
 export type Student = {
   avatarUrl: string
+  name: string
+  bio: string
+  languagesSpoken: string[]
   handle: string
+  reputation: number
 }
 
 export type Track = {
@@ -97,6 +101,7 @@ export const Discussion = ({
           tab={tab}
           setTab={setTab}
           links={links}
+          student={student}
           discussionId={discussionId}
         />
         <AddDiscussionPost

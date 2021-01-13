@@ -88,4 +88,14 @@ class User < ApplicationRecord
   def avatar_url
     "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
   end
+
+  # TODO
+  def bio
+    "I am a user"
+  end
+
+  # TODO
+  def languages_spoken
+    %w[english spanish]
+  end
 end

@@ -3,8 +3,9 @@ import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostList } from './DiscussionPostList'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
+import { StudentInfo } from './StudentInfo'
 import { GraphicalIcon } from '../../common'
-import { TabIndex } from '../Discussion'
+import { TabIndex, Student } from '../Discussion'
 
 type MentoringPanelListLinks = {
   scratchpad: string
@@ -21,11 +22,13 @@ export const MentoringPanelList = ({
   discussionId,
   tab,
   setTab,
+  student,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
   tab: TabIndex
   setTab: (id: TabIndex) => void
+  student: Student
 }): JSX.Element => {
   return (
     <>
@@ -50,6 +53,7 @@ export const MentoringPanelList = ({
           </Tab>
         </div>
         <Tab.Panel id="discussion" context={TabsContext}>
+          <StudentInfo student={student} />
           <DiscussionPostList
             endpoint={links.posts}
             discussionId={discussionId}

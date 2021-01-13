@@ -31,6 +31,31 @@ module Components
         assert_text "on Running in Ruby"
       end
 
+      test "shows student info" do
+        mentor = create :user
+        student = create :user, name: "Apprentice", handle: "student", reputation: 1500
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        create :iteration, idx: 1, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        end
+
+        within(".student-info") do
+          assert_text "Apprentice"
+          assert_text "student"
+          assert_text "I am a user"
+          assert_text "english, spanish"
+          assert_text "1500"
+          assert_css "img[src='https://avatars2.githubusercontent.com/u/5337876?s=460&v=4']"\
+            "[alt=\"Uploaded avatar of student\"]"
+        end
+      end
+
       test "shows posts" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution

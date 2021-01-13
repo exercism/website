@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
@@ -17,10 +17,9 @@ export const DiscussionPostList = ({
   endpoint: string
   discussionId: number
 }): JSX.Element | null => {
-  const { isSuccess, isLoading, data, refetch } = useRequestQuery<{
+  const { isLoading, data, refetch } = useRequestQuery<{
     posts: DiscussionPostProps[]
   }>(endpoint, { endpoint: endpoint, options: {} })
-
   const iterations = useMemo(() => {
     if (!data) {
       return []
@@ -40,6 +39,7 @@ export const DiscussionPostList = ({
       return iterations
     }, [])
   }, [data])
+  const lastPostRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
@@ -52,6 +52,14 @@ export const DiscussionPostList = ({
     }
   }, [discussionId, refetch])
 
+  useEffect(() => {
+    if (!lastPostRef.current) {
+      return
+    }
+
+    lastPostRef.current.scrollIntoView()
+  }, [data])
+
   if (isLoading) {
     return (
       <div role="status" aria-label="Discussion post list loading indicator">
@@ -60,7 +68,7 @@ export const DiscussionPostList = ({
     )
   }
 
-  if (isSuccess && data) {
+  if (data) {
     return (
       <div className="discussion">
         {iterations.map((iteration) => {
@@ -76,7 +84,13 @@ export const DiscussionPostList = ({
                 <time>24 Jan 2020</time>
               </div>
               {iteration.posts.map((post) => {
-                return <DiscussionPost key={post.id} {...post} />
+                if (iterations[iterations.length - 1] === iteration) {
+                  return (
+                    <DiscussionPost ref={lastPostRef} key={post.id} {...post} />
+                  )
+                } else {
+                  return <DiscussionPost key={post.id} {...post} />
+                }
               })}
             </React.Fragment>
           )

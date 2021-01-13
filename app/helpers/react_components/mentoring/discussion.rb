@@ -15,7 +15,8 @@ module ReactComponents
               languages_spoken: student.languages_spoken,
               avatar_url: student.avatar_url,
               reputation: student.reputation,
-              is_favorite: student.favorited_by?(discussion.mentor),
+              is_favorite: student.favorited_by?(mentor),
+              num_previous_sessions: mentor.num_previous_mentor_sessions_with(student),
               links: {
                 # TODO
                 favorite: "stub_link"
@@ -69,9 +70,10 @@ module ReactComponents
       end
 
       memoize
-      def student
-        discussion.solution.user
-      end
+      delegate :student, to: :discussion
+
+      memoize
+      delegate :mentor, to: :discussion
 
       memoize
       def track

@@ -103,4 +103,8 @@ class User < ApplicationRecord
   def favorited_by?(_user)
     false
   end
+
+  def num_previous_mentor_sessions_with(_user)
+    15
+  end
 end

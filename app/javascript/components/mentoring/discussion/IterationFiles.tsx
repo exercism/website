@@ -4,8 +4,7 @@ import { FileViewer } from './FileViewer'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { File } from '../../types'
 import { Loading } from '../../common'
-import { ErrorBoundary, useErrorHandler } from 'react-error-boundary'
-import { APIError } from '../../types'
+import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 
 const TabsContext = createContext<TabContext>({
   current: '',
@@ -19,7 +18,7 @@ type ComponentProps = {
 
 export const IterationFiles = (props: ComponentProps): JSX.Element => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary fallback={ErrorFallback}>
       <Component {...props} />
     </ErrorBoundary>
   )
@@ -31,6 +30,8 @@ const ErrorFallback = ({ error }: { error: Error }) => (
   </div>
 )
 
+const DEFAULT_ERROR = new Error('Unable to load files')
+
 const Component = ({
   endpoint,
   language,
@@ -39,9 +40,9 @@ const Component = ({
     { files: File[] },
     Error | Response
   >(endpoint, { endpoint: endpoint, options: {} })
-
   const [tab, setTab] = useState<string | null>(null)
-  const handleError = useErrorHandler()
+
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
   useEffect(() => {
     if (!data) {
@@ -53,21 +54,7 @@ const Component = ({
     }
 
     setTab(data.files[0].filename)
-  }, [data, handleError])
-
-  useEffect(() => {
-    if (status !== 'error') {
-      return
-    }
-
-    if (error instanceof Error) {
-      handleError(new Error('Unable to load files'))
-    } else if (error instanceof Response) {
-      error.json().then((res: { error: APIError }) => {
-        handleError(new Error(res.error.message))
-      })
-    }
-  }, [error, handleError, status])
+  }, [data])
 
   if (status === 'loading') {
     return <Loading />

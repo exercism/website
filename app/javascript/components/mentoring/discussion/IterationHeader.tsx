@@ -32,6 +32,7 @@ export const IterationHeader = ({
         <div className="title">
           <h2>Iteration {iteration.idx}</h2>
           {latest ? <div className="latest">latest</div> : null}
+          <div className="tests-status">{testsStatus}</div>
         </div>
         <div className="submitted-time">
           <GraphicalIcon icon="clock" />
@@ -39,7 +40,6 @@ export const IterationHeader = ({
             Submitted {fromNow(iteration.createdAt)}
           </time>
         </div>
-        <p>{testsStatus}</p>
       </div>
     </header>
   )

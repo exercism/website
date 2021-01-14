@@ -9,6 +9,7 @@ import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
 export type Links = {
+  mentorDashboard: string
   scratchpad: string
   exercise: string
   posts: string
@@ -70,7 +71,7 @@ export const Discussion = ({
     <div className="c-mentor-discussion">
       <div className="lhs">
         <header className="discussion-header">
-          <BackButton url={links.exercise} />
+          <BackButton url={links.mentorDashboard} />
           <SolutionInfo student={student} track={track} exercise={exercise} />
           {links.markAsNothingToDo ? (
             <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />

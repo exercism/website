@@ -26,6 +26,7 @@ class Tracks::ExercisesController < ApplicationController
 
   def edit; end
 
+  # TODO: Delete when this is working via the API
   def complete
     Solution::Complete.(@solution, @user_track)
     redirect_to action: :show

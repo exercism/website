@@ -17,17 +17,16 @@ module API
         params[:content]
       ]
 
-      case current_user
-      when @discussion.mentor
-        Solution::MentorDiscussion::ReplyByMentor.(*attrs)
-      when @discussion.student
-        Solution::MentorDiscussion::ReplyByStudent.(*attrs)
-      end
+      post = case current_user
+             when @discussion.mentor
+               Solution::MentorDiscussion::ReplyByMentor.(*attrs)
+             when @discussion.student
+               Solution::MentorDiscussion::ReplyByStudent.(*attrs)
+             end
 
       DiscussionPostListChannel.notify!(@discussion)
 
-      # TODO: Return the discussion post here
-      render json: {}
+      render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
     end
 
     def update

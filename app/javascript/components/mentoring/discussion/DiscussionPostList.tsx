@@ -6,43 +6,49 @@ import React, {
   useState,
   useCallback,
 } from 'react'
-import { useRequestQuery } from '../../../hooks/request-query'
-import { queryCache } from 'react-query'
+import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { CacheContext } from '../Discussion'
+import { sendRequest } from '../../../utils/send-request'
+import { useIsMounted } from 'use-is-mounted'
+import { typecheck } from '../../../utils/typecheck'
 
 type Iteration = {
   idx: number
   posts: DiscussionPostProps[]
 }
 
-export type DiscussionPostListHandle = {
-  scrollToLastMessage: () => void
-}
-
 export const DiscussionPostList = ({
   endpoint,
   discussionId,
-  onMount = () => {},
+  userId,
 }: {
   endpoint: string
   discussionId: number
-  onMount?: (handle: DiscussionPostListHandle) => void
+  userId: number
 }): JSX.Element | null => {
+  const isMountedRef = useIsMounted()
   const { posts: cacheKey } = useContext(CacheContext)
   const [hasNewMessages, setHasNewMessages] = useState(false)
-  const { status, data } = useRequestQuery<{
-    posts: DiscussionPostProps[]
-  }>(cacheKey, { endpoint: endpoint, options: {} })
+  const { status, data } = useQuery<DiscussionPostProps[]>(cacheKey, () => {
+    return sendRequest({
+      endpoint: endpoint,
+      method: 'GET',
+      body: null,
+      isMountedRef: isMountedRef,
+    }).then((json) => {
+      return typecheck<DiscussionPostProps[]>(json, 'posts')
+    })
+  })
   const iterations = useMemo(() => {
     if (!data) {
       return []
     }
 
-    return data.posts.reduce<Iteration[]>((iterations, post) => {
+    return data.reduce<Iteration[]>((iterations, post) => {
       const iteration = iterations.find(
         (iteration) => iteration.idx === post.iterationIdx
       )
@@ -68,6 +74,20 @@ export const DiscussionPostList = ({
   }, [lastPostRef])
 
   useEffect(() => {
+    if (!data || data.length === 0) {
+      return
+    }
+
+    const lastPost = data[data.length - 1]
+
+    if (lastPost.authorId === userId) {
+      scrollToLastMessage()
+    } else {
+      setHasNewMessages(true)
+    }
+  }, [data])
+
+  useEffect(() => {
     if (!lastPostRef.current) {
       return
     }
@@ -87,15 +107,10 @@ export const DiscussionPostList = ({
   }, [data])
 
   useEffect(() => {
-    onMount({ scrollToLastMessage })
-  }, [onMount, scrollToLastMessage])
-
-  useEffect(() => {
     const channel = new DiscussionPostChannel(
       { discussionId: discussionId },
       () => {
         queryCache.invalidateQueries(cacheKey)
-        setHasNewMessages(true)
       }
     )
 

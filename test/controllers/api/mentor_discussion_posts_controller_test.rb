@@ -23,6 +23,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
       posts: [
         {
           id: discussion_post.uuid,
+          author_id: mentor.id,
           author_handle: "author",
           author_avatar_url: mentor.avatar_url,
           by_student: false,
@@ -117,11 +118,27 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers, as: :json
 
     assert_response :success
-
     post = discussion.posts.last
     assert_equal user, post.author
     assert_equal content, post.content_markdown
     assert_equal it_2, post.iteration
+    expected = {
+      post: {
+        id: post.uuid,
+        author_id: user.id,
+        author_handle: user.handle,
+        author_avatar_url: user.avatar_url,
+        by_student: false,
+        content_markdown: content,
+        content_html: "<p>#{content}</p>\n",
+        updated_at: post.updated_at.iso8601,
+        iteration_idx: 2,
+        links: {
+          update: Exercism::Routes.api_mentor_discussion_post_url(post)
+        }
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
   test "create should create correctly for student" do
@@ -153,6 +170,23 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal user, post.author
     assert_equal content, post.content_markdown
     assert_equal it_2, post.iteration
+    expected = {
+      post: {
+        id: post.uuid,
+        author_id: user.id,
+        author_handle: user.handle,
+        author_avatar_url: user.avatar_url,
+        by_student: true,
+        content_markdown: content,
+        content_html: "<p>#{content}</p>\n",
+        updated_at: post.updated_at.iso8601,
+        iteration_idx: 2,
+        links: {
+          update: Exercism::Routes.api_mentor_discussion_post_url(post)
+        }
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
   ###
@@ -225,6 +259,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       post: {
         id: discussion_post.uuid,
+        author_id: author.id,
         author_handle: "author",
         author_avatar_url: author.avatar_url,
         by_student: false,

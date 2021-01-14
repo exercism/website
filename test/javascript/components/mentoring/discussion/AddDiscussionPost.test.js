@@ -44,7 +44,7 @@ test('hides form after clicking on "Cancel" button', async () => {
 test('hides form when request succeeds', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.status(200), ctx.json({ post: {} }))
     })
   )
   server.listen()

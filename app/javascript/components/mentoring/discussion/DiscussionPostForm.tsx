@@ -9,6 +9,8 @@ import { Loading } from '../../common/Loading'
 import { useMutation, queryCache } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { CacheContext } from '../Discussion'
+import { DiscussionPostProps } from './DiscussionPost'
+import { typecheck } from '../../../utils/typecheck'
 
 const DEFAULT_ERROR = new Error('Unable to save post')
 
@@ -40,18 +42,41 @@ export const DiscussionPostForm = ({
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
   const { posts: cacheKey } = useContext(CacheContext)
-  const [mutation, { status, error }] = useMutation(
+  const [mutation, { status, error }] = useMutation<
+    DiscussionPostProps | undefined
+  >(
     () => {
       return sendRequest({
         endpoint: endpoint,
         method: method,
         body: JSON.stringify({ content: editorRef.current?.value() }),
         isMountedRef: isMountedRef,
+      }).then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<DiscussionPostProps>(json, 'post')
       })
     },
     {
-      onSuccess: () => {
-        queryCache.invalidateQueries(cacheKey).then(onSuccess)
+      onSettled: () => queryCache.invalidateQueries(cacheKey),
+      onSuccess: (data) => {
+        if (!data) {
+          return
+        }
+
+        const oldData =
+          queryCache.getQueryData<DiscussionPostProps[]>(cacheKey) || []
+
+        queryCache.setQueryData(
+          [cacheKey],
+          oldData.map((post) => {
+            return post.id === data.id ? data : post
+          })
+        )
+
+        onSuccess()
       },
     }
   )

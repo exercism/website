@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 test('shows loading message while sending posts', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.status(200), ctx.json({ post: {} }))
     })
   )
   server.listen()
@@ -33,7 +33,7 @@ test('shows loading message while sending posts', async () => {
 test('send button should be disabled while sending', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.status(200), ctx.json({ post: {} }))
     })
   )
   server.listen()

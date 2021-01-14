@@ -8,6 +8,7 @@ class SerializeMentorDiscussionPost
       id: post.uuid,
       iteration_idx: post.iteration_idx,
       author_handle: post.author.handle,
+      author_id: post.author.id,
       author_avatar_url: post.author.avatar_url,
       by_student: post.by_student?,
       content_markdown: post.content_markdown,

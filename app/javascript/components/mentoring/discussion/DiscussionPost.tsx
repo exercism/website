@@ -11,6 +11,7 @@ type DiscussionPostLinks = {
 export type DiscussionPostProps = {
   id: number
   links: DiscussionPostLinks
+  authorId: number
   authorHandle: string
   authorAvatarUrl: string
   byStudent: boolean
@@ -25,6 +26,7 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
     {
       id,
       links,
+      authorId,
       authorHandle,
       authorAvatarUrl,
       byStudent,

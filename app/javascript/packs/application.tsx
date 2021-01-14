@@ -132,6 +132,7 @@ initReact({
   'mentoring-discussion': (data: any) => (
     <Mentoring.Discussion
       discussionId={data.discussion_id}
+      userId={data.user_id}
       student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
       track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}

@@ -1,4 +1,4 @@
-import React, { useState, createContext, useRef, useCallback } from 'react'
+import React, { useState, createContext } from 'react'
 import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
 import { BackButton } from './discussion/BackButton'
@@ -7,7 +7,6 @@ import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
-import { DiscussionPostListHandle } from './discussion/DiscussionPostList'
 
 export type Links = {
   scratchpad: string
@@ -59,6 +58,7 @@ type DiscussionProps = {
   links: Links
   discussionId: number
   iterations: readonly Iteration[]
+  userId: number
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -72,16 +72,13 @@ export const Discussion = ({
   links,
   discussionId,
   iterations,
+  userId,
 }: DiscussionProps): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
   const [tab, setTab] = useState<TabIndex>('discussion')
   const postsKey = `posts-${discussionId}`
-  const postListRef = useRef<DiscussionPostListHandle | null>(null)
-  const handleDiscussionPostListMount = useCallback((list) => {
-    postListRef.current = list
-  }, [])
 
   return (
     <CacheContext.Provider value={{ posts: postsKey }}>
@@ -116,14 +113,13 @@ export const Discussion = ({
             setTab={setTab}
             links={links}
             student={student}
+            userId={userId}
             discussionId={discussionId}
-            onDiscussionPostListMount={handleDiscussionPostListMount}
           />
           <AddDiscussionPost
             endpoint={links.posts}
             onSuccess={() => {
               setTab('discussion')
-              postListRef.current?.scrollToLastMessage()
             }}
             contextId={`${discussionId}_new_post`}
           />

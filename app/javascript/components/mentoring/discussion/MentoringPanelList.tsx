@@ -1,9 +1,6 @@
 import React, { createContext } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
-import {
-  DiscussionPostList,
-  DiscussionPostListHandle,
-} from './DiscussionPostList'
+import { DiscussionPostList } from './DiscussionPostList'
 import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { StudentInfo } from './StudentInfo'
@@ -25,15 +22,15 @@ export const MentoringPanelList = ({
   discussionId,
   tab,
   setTab,
+  userId,
   student,
-  onDiscussionPostListMount,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
   tab: TabIndex
   setTab: (id: TabIndex) => void
   student: Student
-  onDiscussionPostListMount: (list: DiscussionPostListHandle) => void
+  userId: number
 }): JSX.Element => {
   return (
     <>
@@ -62,7 +59,7 @@ export const MentoringPanelList = ({
           <DiscussionPostList
             endpoint={links.posts}
             discussionId={discussionId}
-            onMount={onDiscussionPostListMount}
+            userId={userId}
           />
         </Tab.Panel>
         <Tab.Panel id="scratchpad" context={TabsContext}>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_07_175541) do
+ActiveRecord::Schema.define(version: 2021_01_14_143952) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -126,6 +126,18 @@ ActiveRecord::Schema.define(version: 2021_01_07_175541) do
     t.boolean "published", default: false, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
+  end
+
+  create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "mentor_id", null: false
+    t.bigint "student_id", null: false
+    t.boolean "favorite", default: false, null: false
+    t.integer "num_discussions", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mentor_id", "student_id"], name: "index_mentor_student_relationships_on_mentor_id_and_student_id", unique: true
+    t.index ["mentor_id"], name: "index_mentor_student_relationships_on_mentor_id"
+    t.index ["student_id"], name: "index_mentor_student_relationships_on_student_id"
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -420,6 +432,8 @@ ActiveRecord::Schema.define(version: 2021_01_07_175541) do
   add_foreign_key "exercises", "tracks"
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"
+  add_foreign_key "mentor_student_relationships", "users", column: "mentor_id"
+  add_foreign_key "mentor_student_relationships", "users", column: "student_id"
   add_foreign_key "notifications", "users"
   add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "solution_mentor_discussion_posts", "iterations"

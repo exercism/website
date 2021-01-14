@@ -33,13 +33,15 @@ class Solution
           )
 
           Notification::Create.(
-            request.solution.user,
+            student,
             :mentor_started_discussion,
             {
               discussion: discussion,
               discussion_post: discussion_post
             }
           )
+
+          Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
 
           discussion
         end
@@ -48,6 +50,11 @@ class Solution
       memoize
       def iteration
         request.solution.iterations.find_by!(idx: iteration_idx)
+      end
+
+      memoize
+      def student
+        request.solution.user
       end
     end
   end

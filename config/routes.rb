@@ -58,6 +58,9 @@ Rails.application.routes.draw do
 
       resources :mentor_discussion_posts, only: %i[update]
 
+      post "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#create", as: "mentor_favorite_student"
+      delete "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#destroy", as: "mentor_unfavorite_student"
+
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
         resources :cancellations, only: %i[create], controller: "submissions/cancellations"

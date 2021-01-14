@@ -8,7 +8,7 @@ module ReactComponents
     def to_s(id, data, fitted: false)
       css_classes = ["c-react-component"]
       css_classes << "c-react-wrapper-#{id}"
-      css_classes << ' --fitted' if fitted
+      css_classes << '--fitted' if fitted
       tag.div(
         "",
         {

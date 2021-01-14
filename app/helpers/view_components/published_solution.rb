@@ -15,9 +15,9 @@ module ViewComponents
           exercise_title: solution.exercise.title,
           track_title: solution.track.title,
           published_at: solution.published_at,
-          stars_count: 10, # TODO
-          comments_count: 2, # TODO
-          lines_count: 9, # TODO
+          num_stars: 10, # TODO
+          num_comments: 2, # TODO
+          num_lines: 9, # TODO
           snippet: snippet, # TODO
           highlightjs_language: "csharp" # TODO
         },

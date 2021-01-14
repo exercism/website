@@ -8,11 +8,11 @@
       .counts
         .count
           = graphical_icon(:star)
-          .num= stars_count
+          .num= num_stars
 
         .count
           = graphical_icon(:comment)
-          .num= comments_count
+          .num= num_comments
 
   %pre
     %code{ class: "language-#{highlightjs_language}" }
@@ -23,4 +23,4 @@
     %time Submitted #{time_ago_in_words(published_at)} ago
     .locs
       = graphical_icon(:loc)
-      .num #{lines_count} lines
+      .num #{num_lines} lines

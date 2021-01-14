@@ -3,6 +3,7 @@ import { useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
 import { sendPostRequest } from '../../../utils/send-request'
 import { Loading } from '../../common/Loading'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 
 type ComponentProps = {
@@ -33,6 +34,7 @@ const Component = ({
     }).then(onSuccess)
   })
 
+  /* TODO: Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
   switch (status) {
@@ -43,7 +45,9 @@ const Component = ({
             mutation()
           }}
           type="button"
+          className="btn-small"
         >
+          <GraphicalIcon icon="plus" />
           Add to favorites
         </button>
       )

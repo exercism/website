@@ -91,7 +91,7 @@ class User < ApplicationRecord
 
   # TODO
   def bio
-    "I am a user"
+    "Developing software / Learning languages / Love to sail"
   end
 
   # TODO

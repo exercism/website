@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '../../common/Icon'
 
 export const PreviousSessionsLink = ({
   numSessions,
@@ -9,5 +10,10 @@ export const PreviousSessionsLink = ({
     return null
   }
 
-  return <div>{numSessions} previous sessions</div>
+  return (
+    <div className="previous-sessions">
+      {numSessions} previous sessions
+      <Icon icon="modal" alt="Opens in modal" />
+    </div>
+  )
 }

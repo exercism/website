@@ -44,6 +44,7 @@ const Component = ({
             mutation()
           }}
           type="button"
+          className="btn-small"
         >
           Unfavorite?
         </button>

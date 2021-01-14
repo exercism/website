@@ -3,6 +3,7 @@ import { useRequestQuery } from '../../../hooks/request-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 type Iteration = {
   idx: number
@@ -64,12 +65,20 @@ export const DiscussionPostList = ({
       <div className="discussion">
         {iterations.map((iteration) => {
           return (
-            <div key={iteration.idx}>
-              <div>Iteration {iteration.idx}</div>
+            <React.Fragment key={iteration.idx}>
+              <div className="iteration-marker">
+                <div className="info">
+                  <GraphicalIcon icon="iteration" />
+                  <strong>Iteration {iteration.idx}</strong>
+                  was submitted
+                </div>
+                {/* TODO: Read this from Data */}
+                <time>24 Jan 2020</time>
+              </div>
               {iteration.posts.map((post) => {
                 return <DiscussionPost key={post.id} {...post} />
               })}
-            </div>
+            </React.Fragment>
           )
         })}
       </div>

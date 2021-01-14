@@ -1,8 +1,8 @@
-import React, { useRef, useLayoutEffect } from 'react'
+import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
 import { Avatar } from '../../common/Avatar'
-import { highlightBlock } from '../../../utils/highlight'
+import { useHighlighting } from '../../../utils/highlight'
 
 type DiscussionPostLinks = {
   update?: string
@@ -30,19 +30,7 @@ export const DiscussionPost = ({
   contentHtml,
   updatedAt,
 }: DiscussionPostProps): JSX.Element => {
-  const contentRef = useRef<HTMLDivElement | null>(null)
-
-  useLayoutEffect(() => {
-    if (!contentRef.current) {
-      return
-    }
-
-    contentRef.current
-      .querySelectorAll<HTMLElement>('pre code')
-      .forEach((block) => {
-        highlightBlock(block)
-      })
-  }, [contentRef])
+  const contentRef = useHighlighting<HTMLDivElement>()
 
   return (
     <div className="post">

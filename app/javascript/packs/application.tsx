@@ -202,9 +202,11 @@ initReact({
   ),
 })
 
-// TODO: Make this work with turbolinks
-import * as hljs from 'highlight.js'
-hljs.initHighlightingOnLoad()
+import { highlightAll } from '../utils/highlight'
+
+document.addEventListener('turbolinks:load', () => {
+  highlightAll()
+})
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)

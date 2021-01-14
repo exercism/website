@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useContext } from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
+import { queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { CacheContext } from '../Discussion'
 
 type Iteration = {
   idx: number
@@ -17,9 +19,10 @@ export const DiscussionPostList = ({
   endpoint: string
   discussionId: number
 }): JSX.Element | null => {
-  const { isLoading, data, refetch } = useRequestQuery<{
+  const { posts: cacheKey } = useContext(CacheContext)
+  const { status, data } = useRequestQuery<{
     posts: DiscussionPostProps[]
-  }>(endpoint, { endpoint: endpoint, options: {} })
+  }>(cacheKey, { endpoint: endpoint, options: {} })
   const iterations = useMemo(() => {
     if (!data) {
       return []
@@ -44,13 +47,15 @@ export const DiscussionPostList = ({
   useEffect(() => {
     const channel = new DiscussionPostChannel(
       { discussionId: discussionId },
-      refetch
+      () => {
+        queryCache.invalidateQueries(cacheKey)
+      }
     )
 
     return () => {
       channel.disconnect()
     }
-  }, [discussionId, refetch])
+  }, [cacheKey, discussionId])
 
   useEffect(() => {
     if (!lastPostRef.current) {
@@ -60,7 +65,7 @@ export const DiscussionPostList = ({
     lastPostRef.current.scrollIntoView()
   }, [data])
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <div role="status" aria-label="Discussion post list loading indicator">
         <Loading />

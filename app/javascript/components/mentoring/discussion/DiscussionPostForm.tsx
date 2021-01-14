@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react'
+import React, { useCallback, useRef, useEffect, useContext } from 'react'
 import {
   MarkdownEditor,
   MarkdownEditorHandle,
@@ -6,15 +6,16 @@ import {
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../../common/Loading'
-import { useMutation } from 'react-query'
+import { useMutation, queryCache } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { CacheContext } from '../Discussion'
 
 const DEFAULT_ERROR = new Error('Unable to save post')
 
 type ComponentProps = {
   endpoint: string
   method: 'POST' | 'PATCH'
-  onSuccess: () => void
+  onSuccess?: () => void
   contextId: string
   value?: string
 }
@@ -32,20 +33,29 @@ const ErrorFallback = ({ error }: { error: Error }) => {
 export const DiscussionPostForm = ({
   endpoint,
   method,
-  onSuccess,
+  onSuccess = () => {},
   contextId,
   value = '',
 }: ComponentProps): JSX.Element => {
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation(() => {
-    return sendRequest({
-      endpoint: endpoint,
-      method: method,
-      body: JSON.stringify({ content: editorRef.current?.value() }),
-      isMountedRef: isMountedRef,
-    }).then(onSuccess)
-  })
+  const { posts: cacheKey } = useContext(CacheContext)
+  const [mutation, { status, error }] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: endpoint,
+        method: method,
+        body: JSON.stringify({ content: editorRef.current?.value() }),
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: () => {
+        queryCache.invalidateQueries(cacheKey)
+        onSuccess()
+      },
+    }
+  )
 
   const handleSubmit = useCallback(
     (e) => {

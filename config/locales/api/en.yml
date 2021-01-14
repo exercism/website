@@ -4,6 +4,7 @@ en:
       duplicate_submission: "No files you submitted have changed since your last submission"
       exercise_not_found: "The exercise you specified could not be found"
       invalid_auth_token: "The auth token provided is invalid"
+      invalid_mentor_student_relationship: "There is not a valid relationship between you and this student"
       resource_not_found: "This URL was not recognised"
       solution_not_found: "This solution could not be found"
       solution_not_accessible: "You do not have permission to view this solution"

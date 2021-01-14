@@ -34,6 +34,19 @@ class Solution::MentorDiscussion::CreateTest < ActiveSupport::TestCase
     assert_equal Notifications::MentorStartedDiscussionNotification, Notification.where(user: user).first.class
   end
 
+  test "updates num_discussions on relationship record" do
+    request = create :solution_mentor_request
+    submission = create :submission, solution: request.solution
+    iteration = create :iteration, submission: submission
+    student = request.solution.user
+    mentor = create :user
+    Solution::MentorDiscussion::Create.(mentor, request, iteration.idx, "foobar")
+
+    rel = Mentor::StudentRelationship.find_by!(mentor: mentor, student: student)
+    assert_equal 1, rel.num_discussions
+    refute rel.favorite?
+  end
+
   test "fulfils request" do
     solution = create :practice_solution
     request = create :solution_mentor_request, solution: solution

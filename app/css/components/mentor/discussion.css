@@ -19,7 +19,7 @@
             width: 100%;
             @apply bg-white;
 
-            @apply flex items-center px-32 border-b-1 border-lightGray;
+            @apply flex items-center px-24 border-b-1 border-lightGray;
 
             & .close-btn {
                 @apply flex;
@@ -92,7 +92,7 @@
         }
 
         & .iteration-header {
-            @apply flex items-center px-32;
+            @apply flex items-center px-24;
             @apply border-b-1 border-lightGray;
             height: 69px;
 
@@ -136,7 +136,7 @@
                 @apply border-b-1 border-borderColor7;
                 & .c-tab {
                     @apply bg-backgroundColorA;
-                    @apply py-6 px-16;
+                    @apply py-6 px-24;
                     @apply text-14 text-textColor6 leading-paragraph;
                     @apply border-r-1 border-borderColor7;
                     @apply rounded-none;
@@ -250,7 +250,77 @@
             overflow-y: scroll;
         }
 
+        & .student-info {
+            @apply bg-backgroundColorA;
+            @apply flex;
+
+            @apply py-16 px-24 mb-8;
+
+            & .subtitle {
+                @apply text-textColor6 leading-paragraph mb-6;
+            }
+            & .name-block {
+                @apply flex items-center;
+                & .name {
+                    @apply text-h5 mr-12;
+                }
+            }
+            & .handle {
+                @apply text-16 text-textColor6 font-medium leading-regular;
+                @apply mb-6;
+            }
+            & .bio {
+                @apply text-15 leading-huge mr-40 mb-20;
+                & .flags {
+                    @apply ml-8;
+                }
+            }
+            & .options {
+                @apply flex items-center;
+
+                & button {
+                    @apply text-textColor6;
+                }
+                & .previous-sessions {
+                    @apply flex items-center ml-24;
+                    @apply font-semibold text-textColor6 leading-huge;
+                    & .c-icon {
+                        height: 14px;
+                        width: 14px;
+                        @apply ml-12;
+                    }
+                }
+            }
+            & .c-rounded-bg-img {
+                height: 64px;
+                width: 64px;
+                @apply ml-16;
+            }
+        }
         & .discussion {
+            & .iteration-marker {
+                @apply flex items-center;
+                @apply mx-24 py-8 px-16;
+                @apply bg-backgroundColorD rounded-8;
+                @apply text-textColor6 leading-paragraph;
+
+                & .info {
+                    @apply flex-grow flex items-center;
+                    @apply text-15;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-8;
+                    }
+
+                    & strong {
+                        @apply font-medium text-textColor1 mr-6;
+                    }
+                }
+                & time {
+                }
+            }
+
             & .post {
                 @apply py-16 px-24 bg-backgroundColorA;
 

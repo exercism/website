@@ -24,8 +24,8 @@ module Components
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         end
 
-        assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-        assert_css "img[src='https://avatars2.githubusercontent.com/u/5337876?s=460&v=4']"\
+        assert_css "img[src='#{solution.track.icon_url}'][alt='icon for Ruby track']"
+        assert_css "img[src='#{student.avatar_url}']"\
           "[alt=\"Uploaded avatar of student\"]"
         assert_text "student"
         assert_text "on Running in Ruby"
@@ -46,13 +46,13 @@ module Components
         end
 
         within(".student-info") do
-          assert_text "Apprentice"
-          assert_text "student"
-          assert_text "I am a user"
-          assert_text "english, spanish"
-          assert_text "1500"
+          assert_text student.name
+          assert_text "@#{student.handle}"
+          assert_text student.bio
+          # assert_text "english, spanish" # TODO: Renable
+          assert_text student.reputation
           assert_text "15 previous sessions"
-          assert_css "img[src='https://avatars2.githubusercontent.com/u/5337876?s=460&v=4']"\
+          assert_css "img[src='#{student.avatar_url}']"\
             "[alt=\"Uploaded avatar of student\"]"
           assert_button "Add to favorites"
         end

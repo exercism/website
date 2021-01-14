@@ -45,6 +45,15 @@ class Tracks::ExercisesController < ApplicationController
     end
   end
 
+  # TODO: Remove
+  def publish
+    use_exercise
+    use_solution
+    use_track
+
+    @iterations = @solution.iterations
+  end
+
   private
   def use_track
     @track = Track.find(params[:track_id])

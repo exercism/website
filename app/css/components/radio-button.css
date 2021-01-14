@@ -1,0 +1,35 @@
+@import "../styles";
+
+.c-radio-button {
+    @apply flex;
+
+    & input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    & .radio {
+        /* This keeps it relative to the font-size of the parent */
+        width: 1em;
+        height: 1em;
+        @apply rounded-circle border-1 border-inputBorderColor;
+        @apply cursor-pointer;
+        @apply grid place-items-center;
+
+        &:before {
+            content: "";
+            width: 0.5em;
+            height: 0.5em;
+            box-shadow: inset 0.5em 0.5em currentColor;
+            transition: 180ms transform ease-in-out;
+            transform: scale(0);
+
+            @apply rounded-circle text-textColor5;
+        }
+    }
+    & input:checked + .radio {
+        &:before {
+            transform: scale(1);
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.c-modal.m-publish-exercise
+  .--modal-content
+    .content
+      = graphical_icon :publish, css_class: "publish-icon"
+      .title
+        Publish your code and share your knowledge
+      %p
+        By publishing your code, you’ll help others learn from your work.
+        You can choose which iterations you publish, add more iterations once its published, and unpublish it at any time.
+
+      / TODO: There's probably a11y stuff to add to this tag
+      / If there's not, it can be deleted
+      .form
+        %label
+          .c-radio-button
+            %input{ type: 'radio', name: "share" }
+            .radio
+          .label Yes, I'd like to share my solution with the community.
+        %label
+          .c-radio-button
+            %input{ type: 'radio', name: "share" }
+            .radio
+          .label No, I just want to mark the exercise as complete
+        %button.confirm-button.btn-large-cta Confirm
+
+    = graphical_icon :"graphic-laptop-man-1", css_class: "decorative-image"

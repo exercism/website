@@ -61,7 +61,7 @@ test('highlights currently selected iteration', async () => {
 test('shows back button', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
-    exercise: 'https://exercism.test/exercise',
+    close: 'https://exercism.test/exercise',
     posts: 'https://exercism.test/posts',
   }
   const track = {
@@ -93,7 +93,7 @@ test('shows back button', async () => {
   )
 
   expect(
-    screen.getByRole('link', { name: 'Back to exercise' })
+    screen.getByRole('link', { name: 'Close discussion' })
   ).toHaveAttribute('href', 'https://exercism.test/exercise')
 })
 

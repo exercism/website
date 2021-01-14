@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
-import { BackButton } from './discussion/BackButton'
+import { CloseButton } from './discussion/CloseButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
@@ -10,7 +10,7 @@ import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
 export type Links = {
   scratchpad: string
-  exercise: string
+  close: string
   posts: string
   markAsNothingToDo?: string
 }
@@ -70,7 +70,7 @@ export const Discussion = ({
     <div className="c-mentor-discussion">
       <div className="lhs">
         <header className="discussion-header">
-          <BackButton url={links.exercise} />
+          <CloseButton url={links.close} />
           <SolutionInfo student={student} track={track} exercise={exercise} />
           {links.markAsNothingToDo ? (
             <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />

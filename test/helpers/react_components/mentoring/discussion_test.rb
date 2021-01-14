@@ -72,7 +72,7 @@ module Mentoring
             }
           ],
           links: {
-            exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            close: Exercism::Routes.mentor_dashboard_path,
             scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
             posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
           }

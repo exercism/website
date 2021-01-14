@@ -51,8 +51,7 @@ export const DiscussionPostForm = ({
     },
     {
       onSuccess: () => {
-        queryCache.invalidateQueries(cacheKey)
-        onSuccess()
+        queryCache.invalidateQueries(cacheKey).then(onSuccess)
       },
     }
   )

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useRef, useCallback } from 'react'
 import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
 import { BackButton } from './discussion/BackButton'
@@ -7,6 +7,7 @@ import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
+import { DiscussionPostListHandle } from './discussion/DiscussionPostList'
 
 export type Links = {
   scratchpad: string
@@ -77,6 +78,10 @@ export const Discussion = ({
   )
   const [tab, setTab] = useState<TabIndex>('discussion')
   const postsKey = `posts-${discussionId}`
+  const postListRef = useRef<DiscussionPostListHandle | null>(null)
+  const handleDiscussionPostListMount = useCallback((list) => {
+    postListRef.current = list
+  }, [])
 
   return (
     <CacheContext.Provider value={{ posts: postsKey }}>
@@ -112,11 +117,13 @@ export const Discussion = ({
             links={links}
             student={student}
             discussionId={discussionId}
+            onDiscussionPostListMount={handleDiscussionPostListMount}
           />
           <AddDiscussionPost
             endpoint={links.posts}
             onSuccess={() => {
               setTab('discussion')
+              postListRef.current?.scrollToLastMessage()
             }}
             contextId={`${discussionId}_new_post`}
           />

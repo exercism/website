@@ -25,17 +25,11 @@ export const FavoriteButton = ({
     return (
       <RemoveFavoriteButton
         endpoint={endpoint}
+        onMouseLeave={() => setIsHovering(false)}
         onSuccess={() => setIsFavorite(false)}
       />
     )
   }
 
-  return (
-    <div
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      Favorited
-    </div>
-  )
+  return <div onMouseEnter={() => setIsHovering(true)}>Favorited</div>
 }

@@ -8,6 +8,7 @@ import { sendRequest } from '../../../utils/send-request'
 type ComponentProps = {
   endpoint: string
   onSuccess: () => void
+  onMouseLeave: () => void
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -23,6 +24,7 @@ const DEFAULT_ERROR = new Error('Unable to remove student as a favorite')
 const Component = ({
   endpoint,
   onSuccess,
+  ...props
 }: ComponentProps): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(() => {
@@ -40,6 +42,7 @@ const Component = ({
     case 'idle':
       return (
         <button
+          {...props}
           onClick={() => {
             mutation()
           }}

@@ -19,8 +19,7 @@ module ReactComponents
               is_favorite: student.favorited_by?(mentor),
               num_previous_sessions: mentor.num_previous_mentor_sessions_with(student),
               links: {
-                # TODO
-                favorite: "stub_link"
+                favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
               }
             },
             track: {

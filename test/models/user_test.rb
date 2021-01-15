@@ -77,4 +77,27 @@ class UserTest < ActiveSupport::TestCase
     assert user.joined_track?(user_track.track)
     refute user.joined_track?(track)
   end
+
+  test "#favorited_by? returns false if no relationship exists" do
+    mentor = create :user
+    student = create :user
+
+    refute student.favorited_by?(mentor)
+  end
+
+  test "#favorited_by? returns false if relationship is not a favorite" do
+    mentor = create :user
+    student = create :user
+    create :mentor_student_relationship, mentor: mentor, student: student, favorite: false
+
+    refute student.favorited_by?(mentor)
+  end
+
+  test "#favorited_by? returns true if relationship is a favorite" do
+    mentor = create :user
+    student = create :user
+    create :mentor_student_relationship, mentor: mentor, student: student, favorite: true
+
+    assert student.favorited_by?(mentor)
+  end
 end

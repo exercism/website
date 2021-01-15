@@ -99,9 +99,10 @@ class User < ApplicationRecord
     %w[english spanish]
   end
 
-  # TODO
-  def favorited_by?(_user)
-    false
+  def favorited_by?(mentor)
+    relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
+
+    relationship ? relationship.favorite? : false
   end
 
   def num_previous_mentor_sessions_with(_user)

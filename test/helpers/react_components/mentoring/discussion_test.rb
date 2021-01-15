@@ -35,7 +35,7 @@ module Mentoring
             is_favorite: false,
             num_previous_sessions: 15,
             links: {
-              favorite: "stub_link"
+              favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
             }
           },
           track: {

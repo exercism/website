@@ -289,6 +289,9 @@ test('go to previous iteration', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -336,6 +339,9 @@ test('go to next iteration', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {

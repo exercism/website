@@ -60,7 +60,7 @@ test('highlights currently selected iteration', async () => {
 
 test('shows back button', async () => {
   const links = {
-    mentor_dashboard: 'https://exercism.test/mentor/dashboard',
+    mentorDashboard: 'https://exercism.test/mentor/dashboard',
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
     posts: 'https://exercism.test/posts',

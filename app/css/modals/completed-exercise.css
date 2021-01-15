@@ -19,7 +19,7 @@
         }
     }
 
-    & .concepts {
+    & .progressed-concepts {
         & .concept {
             @apply flex items-center py-16 px-24;
             @apply shadow-lg rounded-8;
@@ -49,5 +49,48 @@
             height: 32px;
             @apply ml-24;
         }
+    }
+
+    & .unlocks {
+        @apply flex mt-32;
+        & .unlocked-exercises,
+        & .unlocked-concepts {
+            @apply flex-grow pr-40;
+            min-width: 50%;
+        }
+        & h3 {
+            @apply flex text-h5 mb-16;
+
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                @apply mx-8;
+            }
+        }
+        & .exercises,
+        & .concepts {
+            @apply flex flex-wrap;
+        }
+        & .exercise,
+        & .concept {
+            @apply flex items-center py-8 px-12 mr-8 mb-8;
+            @apply rounded-8 shadow-base;
+            @apply cursor-default;
+
+            & .c-icon,
+            & .c-concept-icon {
+                @apply mr-12;
+            }
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+            }
+            & .title {
+                @apply text-16 leading-paragraph font-medium truncate;
+                max-width: 160px;
+            }
+        }
+    }
+    & .unlocked-concepts {
     }
 }

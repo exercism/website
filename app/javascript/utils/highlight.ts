@@ -71,13 +71,7 @@ function wrapLineNumbers(code: string, start = 1) {
   return `<ul>${rows}</ul>`
 }
 
-export const highlight = (language: string, code: string): string => {
-  const content = highlighter.highlight(language, code).value
-
-  return wrapLineNumbers(content)
-}
-
-export const highlightBlock = (block: HTMLElement): void => {
+const highlightBlock = (block: HTMLElement): void => {
   const hasLineNumbers =
     block.dataset.highlightLineNumbers === '' ||
     block.dataset.highlightLineNumbers === 'true'

@@ -7,7 +7,7 @@ import {
 } from 'react-error-boundary'
 import { APIError } from './types'
 
-const ERROR_MESSAGE_TIMEOUT = 500
+const ERROR_MESSAGE_TIMEOUT_IN_MS = 500
 
 type ErrorBoundaryType = Omit<
   ErrorBoundaryPropsWithComponent,
@@ -28,7 +28,7 @@ export const ErrorBoundary = ({
 
 const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   useEffect(() => {
-    setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT)
+    setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT_IN_MS)
   }, [resetErrorBoundary])
 
   return (

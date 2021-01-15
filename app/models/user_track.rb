@@ -39,6 +39,7 @@ class UserTrack < ApplicationRecord
     :num_exercises,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,
     :concept_available?, :concept_learnt?, :concept_mastered?,
+    :concept_progressions, :available_exercise_ids, :available_concept_ids,
     to: :summary
 
   memoize

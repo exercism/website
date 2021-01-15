@@ -75,14 +75,12 @@
       .lg-container.container
         %header.section-header
           %h2 Published Solutions
-          / TODO
-          .total-count 5
+          .total-count= @num_total_solutions
         %hr
 
         .solutions
-          = render ViewComponents::PublishedSolution.new(Solution.first)
-          = render ViewComponents::PublishedSolution.new(Solution.first)
-          = render ViewComponents::PublishedSolution.new(Solution.first)
+          - @solutions.each do |solution|
+            = render ViewComponents::PublishedSolution.new(solution)
 
         = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
 
@@ -91,8 +89,7 @@
         %header.section-header
           = graphical_icon :testimonials, hex: true
           %h2 Testimonials
-          / TODO
-          .total-count 5
+          .total-count= @num_testimonials
         %hr
 
         .testimonials

@@ -113,6 +113,7 @@ Rails.application.routes.draw do
       get :unavailable, on: :member
     end
     resources :discussions, only: [:show]
+    resources :testimonials, only: [:index]
   end
 
   namespace :maintaining do

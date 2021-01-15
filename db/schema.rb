@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_14_143952) do
+ActiveRecord::Schema.define(version: 2021_01_15_162916) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -138,6 +138,18 @@ ActiveRecord::Schema.define(version: 2021_01_14_143952) do
     t.index ["mentor_id", "student_id"], name: "index_mentor_student_relationships_on_mentor_id_and_student_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_student_relationships_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_student_relationships_on_student_id"
+  end
+
+  create_table "mentor_testimonials", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "mentor_id", null: false
+    t.bigint "student_id", null: false
+    t.bigint "discussion_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id"
+    t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
+    t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -434,6 +446,9 @@ ActiveRecord::Schema.define(version: 2021_01_14_143952) do
   add_foreign_key "iterations", "submissions"
   add_foreign_key "mentor_student_relationships", "users", column: "mentor_id"
   add_foreign_key "mentor_student_relationships", "users", column: "student_id"
+  add_foreign_key "mentor_testimonials", "solution_mentor_discussions", column: "discussion_id"
+  add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
+  add_foreign_key "mentor_testimonials", "users", column: "student_id"
   add_foreign_key "notifications", "users"
   add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "solution_mentor_discussion_posts", "iterations"

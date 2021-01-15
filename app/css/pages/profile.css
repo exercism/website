@@ -152,9 +152,10 @@
             }
 
             & .solutions {
-                @apply grid grid-cols-3 gap-16 mb-32;
-                & .solution {
-                    height: 438px;
+                @apply flex justify-center mb-32;
+                & .c-published-solution {
+                    @apply m-8;
+                    width: calc((100% / 3) - 16px);
                 }
             }
             & .c-prominent-link {

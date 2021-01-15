@@ -3,20 +3,24 @@ import {
   ErrorBoundary as ReactErrorBoundary,
   FallbackProps,
   useErrorHandler as useReactErrorHandler,
+  ErrorBoundaryPropsWithComponent,
 } from 'react-error-boundary'
 import { APIError } from './types'
 
 const ERROR_MESSAGE_TIMEOUT = 500
 
+type ErrorBoundaryType = Omit<
+  ErrorBoundaryPropsWithComponent,
+  'FallbackComponent'
+> & { FallbackComponent?: React.ComponentType<FallbackProps> }
+
 export const ErrorBoundary = ({
   children,
-  fallback = ErrorFallback,
-}: {
-  children: React.ReactNode
-  fallback?: React.ComponentType<FallbackProps>
-}): JSX.Element => {
+  FallbackComponent = ErrorFallback,
+  ...props
+}: React.PropsWithChildren<ErrorBoundaryType>): JSX.Element => {
   return (
-    <ReactErrorBoundary FallbackComponent={fallback}>
+    <ReactErrorBoundary FallbackComponent={FallbackComponent} {...props}>
       {children}
     </ReactErrorBoundary>
   )

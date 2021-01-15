@@ -5,7 +5,14 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
 
+window.IntersectionObserver = jest.fn(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 test('displays all posts', async () => {
+  stubScroll()
   const twoDaysAgo = new Date(new Date() - 1000 * 60 * 60 * 24 * 2)
   const posts = [
     {
@@ -70,3 +77,7 @@ test('displays all posts', async () => {
 
   server.close()
 })
+
+function stubScroll() {
+  Element.prototype.scrollIntoView = jest.fn()
+}

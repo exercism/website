@@ -196,6 +196,7 @@ module Components
         end
 
         assert_css "h1", text: "Edited"
+        assert_no_css "h1", text: "Hello"
       end
 
       test "user can't edit another's post" do

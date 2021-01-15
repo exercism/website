@@ -22,6 +22,7 @@ export const MentoringPanelList = ({
   discussionId,
   tab,
   setTab,
+  userId,
   student,
 }: {
   links: MentoringPanelListLinks
@@ -29,6 +30,7 @@ export const MentoringPanelList = ({
   tab: TabIndex
   setTab: (id: TabIndex) => void
   student: Student
+  userId: number
 }): JSX.Element => {
   return (
     <>
@@ -57,6 +59,7 @@ export const MentoringPanelList = ({
           <DiscussionPostList
             endpoint={links.posts}
             discussionId={discussionId}
+            userId={userId}
           />
         </Tab.Panel>
         <Tab.Panel id="scratchpad" context={TabsContext}>

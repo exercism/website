@@ -18,7 +18,7 @@ type ComponentProps = {
 
 export const IterationFiles = (props: ComponentProps): JSX.Element => {
   return (
-    <ErrorBoundary fallback={ErrorFallback}>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Component {...props} />
     </ErrorBoundary>
   )

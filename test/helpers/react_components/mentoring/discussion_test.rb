@@ -17,13 +17,14 @@ module Mentoring
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
-      component = ReactComponents::Mentoring::Discussion.new(discussion)
+      component = ReactComponents::Mentoring::Discussion.new(discussion, student)
       scratchpad = ScratchpadPage.new(about: exercise)
 
       assert_component component,
         "mentoring-discussion",
         {
           discussion_id: discussion.uuid,
+          user_id: student.id,
           student: {
             name: student.name,
             handle: student.handle,
@@ -91,7 +92,7 @@ module Mentoring
     test "#links adds link to mark as nothing to do when discussion requires mentor action" do
       discussion = create :solution_mentor_discussion, requires_mentor_action_since: 2.days.ago
 
-      component = ReactComponents::Mentoring::Discussion.new(discussion)
+      component = ReactComponents::Mentoring::Discussion.new(discussion, nil)
 
       assert_equal Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion),
         component.links[:mark_as_nothing_to_do]

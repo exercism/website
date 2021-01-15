@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react'
+import React, { useRef, useLayoutEffect, forwardRef } from 'react'
 import { fromNow } from '../../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
 import { Avatar } from '../../common/Avatar'
@@ -11,6 +11,7 @@ type DiscussionPostLinks = {
 export type DiscussionPostProps = {
   id: number
   links: DiscussionPostLinks
+  authorId: number
   authorHandle: string
   authorAvatarUrl: string
   byStudent: boolean
@@ -20,50 +21,55 @@ export type DiscussionPostProps = {
   iterationIdx: number
 }
 
-export const DiscussionPost = ({
-  id,
-  links,
-  authorHandle,
-  authorAvatarUrl,
-  byStudent,
-  contentMarkdown,
-  contentHtml,
-  updatedAt,
-}: DiscussionPostProps): JSX.Element => {
-  const contentRef = useRef<HTMLDivElement | null>(null)
+export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
+  (
+    {
+      id,
+      links,
+      authorId,
+      authorHandle,
+      authorAvatarUrl,
+      byStudent,
+      contentMarkdown,
+      contentHtml,
+      updatedAt,
+    },
+    ref
+  ) => {
+    const contentRef = useRef<HTMLDivElement | null>(null)
+    useLayoutEffect(() => {
+      if (!contentRef.current) {
+        return
+      }
 
-  useLayoutEffect(() => {
-    if (!contentRef.current) {
-      return
-    }
+      contentRef.current
+        .querySelectorAll<HTMLElement>('pre code')
+        .forEach((block) => {
+          highlightBlock(block)
+        })
+    }, [contentRef])
 
-    contentRef.current
-      .querySelectorAll<HTMLElement>('pre code')
-      .forEach((block) => {
-        highlightBlock(block)
-      })
-  }, [contentRef])
-
-  return (
-    <div className="post">
-      <header className="post-header">
-        <Avatar handle={authorHandle} src={authorAvatarUrl} />
-        <div className="handle">{authorHandle}</div>
-        {byStudent ? <div className="tag">Student</div> : null}
-      </header>
-      <div
-        className="post-content c-textual-content --small"
-        ref={contentRef}
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
-      />
-      <time className="post-at">{fromNow(updatedAt)}</time>
-      {links.update ? (
-        <EditDiscussionPost
-          value={contentMarkdown}
-          endpoint={links.update}
-          contextId={`edit_${id}`}
+    return (
+      <div ref={ref} className="post">
+        <header className="post-header">
+          <Avatar handle={authorHandle} src={authorAvatarUrl} />
+          <div className="handle">{authorHandle}</div>
+          {byStudent ? <div className="tag">Student</div> : null}
+        </header>
+        <div
+          className="post-content c-textual-content --small"
+          ref={contentRef}
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
-      ) : null}
-    </div>
-  )
-}
+        <time className="post-at">{fromNow(updatedAt)}</time>
+        {links.update ? (
+          <EditDiscussionPost
+            value={contentMarkdown}
+            endpoint={links.update}
+            contextId={`edit_${id}`}
+          />
+        ) : null}
+      </div>
+    )
+  }
+)

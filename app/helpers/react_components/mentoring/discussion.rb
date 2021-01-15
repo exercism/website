@@ -1,13 +1,14 @@
 module ReactComponents
   module Mentoring
     class Discussion < ReactComponent
-      initialize_with :discussion
+      initialize_with :discussion, :user
 
       def to_s
         super(
           "mentoring-discussion",
           {
             discussion_id: discussion.uuid,
+            user_id: user.id,
             student: {
               name: student.name,
               handle: student.handle,

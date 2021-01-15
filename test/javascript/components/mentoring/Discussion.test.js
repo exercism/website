@@ -185,7 +185,7 @@ test('switches to posts tab when comment success', async () => {
   ]
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.status(200), ctx.json({ post: {} }))
     })
   )
   server.listen()

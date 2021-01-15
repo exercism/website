@@ -44,6 +44,9 @@ class Tracks::ExercisesController < ApplicationController
     else
       @concepts = @exercise.prerequisites
     end
+
+    @unlocked_exercises = @track.exercises.limit(2)
+    @unlocked_concepts = @track.concepts.limit(2)
   end
 
   # TODO: Remove

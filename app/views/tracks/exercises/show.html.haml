@@ -40,6 +40,30 @@
 
           = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(@track))
 
+          .next-steps
+            .header-bar
+              %h3 What can I do from here?
+              / TODO: Implement
+              %button.btn-small
+                = graphical_icon :close
+                Dismiss
+
+            .steps
+              = link_to track_exercise_iterations_path(@track, @exercise), class: 'action' do
+                = graphical_icon "graphic-bookworm"
+                Review any automated feedback
+
+              = link_to "#", class: 'action' do
+                = graphical_icon "graphic-phone-chat"
+                Learn from alternative approaches
+
+              = link_to track_exercise_mentoring_index_path(@track, @exercise), class: 'action' do
+                = graphical_icon "graphic-hacker-boy"
+                Get free mentoring on your solution
+
+              = link_to "#", class: 'action' do
+                = graphical_icon "graphic-floating-cash"
+                Mark the exercise as complete
 
       - if @exercise.concept_exercise? && !@solution&.completed?
         %section.taught-concepts

@@ -1,4 +1,5 @@
 import * as highlighter from 'highlight.js'
+import React, { useEffect, useRef } from 'react'
 
 function duplicateMultilineNodes(element: HTMLElement) {
   element.childNodes.forEach((child) => {
@@ -46,7 +47,7 @@ function getLinesCount(text: string) {
   return (text.trim().match(/\r\n|\r|\n/g) || []).length
 }
 
-function wrapLineNumbers(code: string) {
+function wrapLineNumbers(code: string, start = 1) {
   const element = document.createElement('div')
   element.innerHTML = code.trim()
 
@@ -61,7 +62,7 @@ function wrapLineNumbers(code: string) {
   const rows = getLines(element.innerHTML)
     .map((line, i) => {
       return `<li>
-          <div class="idx">${i + 1}</div>
+          <div class="idx">${start + i}</div>
           <div class="loc">${line}</div>
         </li>`
     })
@@ -70,12 +71,39 @@ function wrapLineNumbers(code: string) {
   return `<ul>${rows}</ul>`
 }
 
-export const highlight = (language: string, code: string): string => {
-  const content = highlighter.highlight(language, code).value
+const highlightBlock = (block: HTMLElement): void => {
+  const hasLineNumbers =
+    block.dataset.highlightLineNumbers === '' ||
+    block.dataset.highlightLineNumbers === 'true'
 
-  return wrapLineNumbers(content)
+  let lineNumberStart
+  if (block.dataset.highlightLineNumberStart) {
+    lineNumberStart = parseInt(block.dataset.highlightLineNumberStart)
+  }
+
+  highlighter.highlightBlock(block)
+
+  if (hasLineNumbers) {
+    block.innerHTML = wrapLineNumbers(block.innerHTML, lineNumberStart)
+  }
 }
 
-export const highlightBlock = (block: HTMLElement): void => {
-  highlighter.highlightBlock(block)
+export const highlightAll = (parent: ParentNode = document): void => {
+  parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    highlightBlock(block)
+  })
+}
+
+export const useHighlighting = <T>() => {
+  const parentRef = useRef<T | null>(null)
+
+  useEffect(() => {
+    if (!parentRef.current) {
+      return
+    }
+
+    highlightAll((parentRef.current as unknown) as ParentNode)
+  }, [])
+
+  return parentRef
 }

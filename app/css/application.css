@@ -58,6 +58,7 @@
     --textColor9: var(--c-FFFFFF);
 
     --inputBackgroundColor: var(--c-EAECF3);
+    --inputBorderColor: var(--c-8480A0);
     --inputBorderColorFocus: var(--c-6A93FF);
     --tabBackgroundColorSelected: var(--c-E1EBFF);
     --tabColorSelected: var(--c-000000);

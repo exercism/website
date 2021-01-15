@@ -1,5 +1,8 @@
 @import "../styles";
 
+.c-react-wrapper-track-iteration-summary {
+    min-height: 53px;
+}
 .c-iteration-summary {
     @apply flex items-center flex-grow;
 

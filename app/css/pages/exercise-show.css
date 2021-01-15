@@ -171,6 +171,48 @@
         & p + a.iteration {
             @apply mt-24;
         }
+        & .next-steps {
+            @apply border-t-1 border-borderColor7 pt-24 mt-32;
+            & .header-bar {
+                @apply flex items-center mb-24;
+                & h3 {
+                    @apply flex-grow;
+                    @apply text-h4;
+                }
+                & .btn {
+                }
+            }
+
+            & .steps {
+                height: 216px;
+                @apply flex;
+                @apply rounded-8 bg-backgroundColorA;
+
+                box-shadow: 0px 4px 42px rgba(79, 114, 205, 0.15);
+
+                & a {
+                    width: 25%;
+
+                    @apply flex flex-col items-center justify-start;
+                    @apply px-16 py-32 text-14 leading-paragraph text-center;
+                    @apply border-r-1 border-borderColor7;
+                    &:last-child {
+                        @apply border-r-0;
+                    }
+
+                    &:hover {
+                        @apply shadow-lg;
+                    }
+
+                    & .c-icon {
+                        height: 96px;
+                        width: 96px;
+
+                        @apply mb-12;
+                    }
+                }
+            }
+        }
     }
 
     & section.instructions {

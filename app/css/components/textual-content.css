@@ -19,7 +19,10 @@
             @apply text-h4 mb-8;
         }
         & * + h3 {
-            @apply mt-28;
+            @apply mt-32;
+        }
+        & p {
+            @apply mb-12;
         }
     }
     &.--small {
@@ -37,6 +40,13 @@
         & h3 {
             @apply text-h4 mb-8;
             @apply text-18 mb-8;
+        }
+
+        /******************/
+        /* Block Elements */
+        /******************/
+        & p {
+            @apply mb-8;
         }
     }
 }
@@ -60,9 +70,6 @@
             & strong {
                 @apply font-medium;
             }
-        }
-        & p {
-            @apply mb-8;
         }
 
         /*******************/

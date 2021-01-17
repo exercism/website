@@ -60,6 +60,7 @@ test('highlights currently selected iteration', async () => {
 
 test('shows back button', async () => {
   const links = {
+    mentorDashboard: 'https://exercism.test/mentor/dashboard',
     scratchpad: 'https://exercism.test/scratchpad',
     close: 'https://exercism.test/exercise',
     posts: 'https://exercism.test/posts',
@@ -93,8 +94,10 @@ test('shows back button', async () => {
   )
 
   expect(
-    screen.getByRole('link', { name: 'Close discussion' })
-  ).toHaveAttribute('href', 'https://exercism.test/exercise')
+    screen.getByRole('link', {
+      name: 'Close discussion and return to mentoring dashboard',
+    })
+  ).toHaveAttribute('href', 'https://exercism.test/mentor/dashboard')
 })
 
 test('hides latest label if on old iteration', async () => {

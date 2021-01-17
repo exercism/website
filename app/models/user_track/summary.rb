@@ -77,6 +77,16 @@ class UserTrack
       mapped_concepts.values.count(&:mastered?)
     end
 
+    memoize
+    def concept_progressions
+      mapped_concepts.each.with_object({}) do |(_, concept), h|
+        h[concept.id] = {
+          completed: concept.num_completed_exercises,
+          total: concept.num_exercises
+        }
+      end
+    end
+
     #################
     # Private stuff #
     #################

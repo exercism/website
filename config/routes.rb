@@ -29,7 +29,11 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show]
+      resources :tracks, only: %i[index show] do
+        resources :exercises, only: [] do
+          patch :complete, on: :member
+        end
+      end
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
@@ -57,6 +61,9 @@ Rails.application.routes.draw do
       end
 
       resources :mentor_discussion_posts, only: %i[update]
+
+      post "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#create", as: "mentor_favorite_student"
+      delete "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#destroy", as: "mentor_unfavorite_student"
 
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"
@@ -124,6 +131,8 @@ Rails.application.routes.draw do
       member do
         patch :start
         patch :complete
+        get :completed # TODO: Remove
+        get :publish # TODO: Remove
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"

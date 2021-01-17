@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React from 'react'
 import { File } from '../../types'
-import { highlight } from '../../../utils/highlight'
+import { useHighlighting } from '../../../utils/highlight'
 
 export const FileViewer = ({
   language,
@@ -9,15 +9,16 @@ export const FileViewer = ({
   language: string
   file: File
 }): JSX.Element => {
-  const [content, setContent] = useState('')
-
-  useLayoutEffect(() => {
-    setContent(highlight(language, file.content))
-  }, [file, language])
+  const parentRef = useHighlighting<HTMLPreElement>()
 
   return (
-    <pre>
-      <code dangerouslySetInnerHTML={{ __html: content }} />
+    <pre ref={parentRef}>
+      <code
+        className={language}
+        data-highlight-line-numbers={true}
+        data-highlight-line-number-start={1}
+        dangerouslySetInnerHTML={{ __html: file.content }}
+      />
     </pre>
   )
 }

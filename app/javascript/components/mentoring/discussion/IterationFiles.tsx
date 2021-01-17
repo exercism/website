@@ -70,7 +70,11 @@ const Component = ({
   }, [error, handleError, status])
 
   if (status === 'loading') {
-    return <Loading />
+    return (
+      <div className="iteration-content">
+        <Loading />
+      </div>
+    )
   }
 
   if (!data || !tab) {

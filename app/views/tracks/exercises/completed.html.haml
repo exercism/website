@@ -1,0 +1,52 @@
+.c-modal.m-completed-exercise
+  .--modal-content
+    %header
+      = exercise_icon(@exercise, css_class: "exercise-icon")
+      .exercise-title
+        You've completed
+        %br
+        #{@exercise.title}!
+
+    .progressed-concepts
+      - @concepts.each do |concept|
+        - mastered = @user_track.concept_mastered?(concept)
+
+        .concept
+          = render ViewComponents::ConceptIcon.new(concept, :medium)
+          .name= concept.name
+
+          / TODO: Add width transition on the psuedo-element
+          = render ViewComponents::ConceptProgressBar.new(concept, @user_track)
+
+          - if mastered
+            = icon "completed-check-circle", "Concept Completed", css_class: "completed"
+          - else
+            .completed
+
+    - if @unlocked_exercises.present? || @unlocked_concepts.present?
+      .unlocks
+        - if @unlocked_exercises.present?
+          .unlocked-exercises
+            %h3
+              You've unlocked
+              = graphical_icon :exercises
+              = pluralize @unlocked_exercises.size, "exercise"
+            .exercises
+              - @unlocked_exercises.each do |exercise|
+                .exercise
+                  = exercise_icon(exercise)
+                  .title
+                    = exercise.title
+
+        - if @unlocked_concepts.present?
+          .unlocked-concepts
+            %h3
+              You've unlocked
+              = graphical_icon :concepts
+              = pluralize @unlocked_concepts.size, "concept"
+            .concepts
+              - @unlocked_concepts.each do |concept|
+                .concept
+                  = render ViewComponents::ConceptIcon.new(concept, 'small')
+                  .title
+                    = concept.name

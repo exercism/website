@@ -73,22 +73,22 @@
   %article
     %section.published-section
       .lg-container.container
-        %header
+        %header.section-header
           %h2 Published Solutions
           / TODO
           .total-count 5
         %hr
 
         .solutions
-          .solution
-          .solution
-          .solution
+          = render ViewComponents::PublishedSolution.new(Solution.first)
+          = render ViewComponents::PublishedSolution.new(Solution.first)
+          = render ViewComponents::PublishedSolution.new(Solution.first)
 
         = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
 
     %section.testimonials-section
       .md-container.container
-        %header
+        %header.section-header
           = graphical_icon :testimonials, hex: true
           %h2 Testimonials
           / TODO
@@ -131,7 +131,7 @@
 
     %section.badges-section
       .md-container.container
-        %header
+        %header.section-header
           %h2 #{@user.name}'s Badges
           / TODO
           .total-count 5

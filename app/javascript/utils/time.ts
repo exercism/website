@@ -6,3 +6,7 @@ dayjs.extend(RelativeTime)
 export function fromNow(dateTime: ConfigType) {
   return dayjs(dateTime).fromNow()
 }
+
+export function timeFormat(dateTime: ConfigType, template: string) {
+  return dayjs(dateTime).format(template)
+}

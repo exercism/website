@@ -1,8 +1,8 @@
-import React, { useRef, useLayoutEffect, forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import { fromNow } from '../../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
 import { Avatar } from '../../common/Avatar'
-import { highlightBlock } from '../../../utils/highlight'
+import { useHighlighting } from '../../../utils/highlight'
 
 type DiscussionPostLinks = {
   update?: string
@@ -26,7 +26,6 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
     {
       id,
       links,
-      authorId,
       authorHandle,
       authorAvatarUrl,
       byStudent,
@@ -36,18 +35,7 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
     },
     ref
   ) => {
-    const contentRef = useRef<HTMLDivElement | null>(null)
-    useLayoutEffect(() => {
-      if (!contentRef.current) {
-        return
-      }
-
-      contentRef.current
-        .querySelectorAll<HTMLElement>('pre code')
-        .forEach((block) => {
-          highlightBlock(block)
-        })
-    }, [contentRef])
+    const contentRef = useHighlighting<HTMLDivElement>()
 
     return (
       <div ref={ref} className="post">

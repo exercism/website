@@ -54,6 +54,7 @@ module.exports = {
       textColor9: 'var(--textColor9)',
 
       inputBackgroundColor: 'var(--inputBackgroundColor)',
+      inputBorderColor: 'var(--inputBorderColor)',
       inputBorderColorFocus: 'var(--inputBorderColorFocus)',
       tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
       tabColorSelected: 'var(--tabColorSelected)',

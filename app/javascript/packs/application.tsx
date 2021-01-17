@@ -37,11 +37,13 @@ import '../../css/components/textual-content.css'
 import '../../css/components/tracks-list.css'
 import '../../css/components/pagination.css'
 import '../../css/components/modal.css'
+import '../../css/components/radio-button.css'
 import '../../css/components/select.css'
 import '../../css/components/tooltips/concept.css'
 import '../../css/components/tooltips/user.css'
 import '../../css/components/user_activity.css'
 import '../../css/components/search-bar.css'
+import '../../css/components/published-solution.css'
 
 import '../../css/components/mentor/nav.css'
 import '../../css/components/mentor/inbox.css'
@@ -59,6 +61,9 @@ import '../../css/components/track/icon.css'
 import '../../css/components/track/concept-map.css'
 
 import '../../css/components/widgets/exercise.css'
+
+import '../../css/modals/completed-exercise.css'
+import '../../css/modals/publish-exercise.css'
 
 import '../../css/pages/auth.css'
 import '../../css/pages/dashboard.css'
@@ -198,6 +203,12 @@ initReact({
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
   ),
+})
+
+import { highlightAll } from '../utils/highlight'
+
+document.addEventListener('turbolinks:load', () => {
+  highlightAll()
 })
 
 // Uncomment to copy all static images under ../images to the output folder and reference

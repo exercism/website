@@ -26,9 +26,36 @@ class Tracks::ExercisesController < ApplicationController
 
   def edit; end
 
+  # TODO: Delete when this is working via the API
   def complete
     Solution::Complete.(@solution, @user_track)
     redirect_to action: :show
+  end
+
+  # TODO: Remove
+  def completed
+    use_exercise
+    use_track
+
+    if @exercise.concept_exercise?
+      @concepts = @exercise.taught_concepts
+      @unlocked_concepts = [] # TODO
+      @unlocked_exercises = [] # TODO
+    else
+      @concepts = @exercise.prerequisites
+    end
+
+    @unlocked_exercises = @track.exercises.limit(2)
+    @unlocked_concepts = @track.concepts.limit(2)
+  end
+
+  # TODO: Remove
+  def publish
+    use_exercise
+    use_solution
+    use_track
+
+    @iterations = @solution.iterations
   end
 
   private

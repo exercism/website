@@ -24,9 +24,9 @@
             & .close-btn {
                 @apply flex;
                 & .c-icon {
-                    height: 16px;
-                    width: 16px;
-                    @apply mr-24;
+                    height: 24px;
+                    width: 24px;
+                    @apply mr-32;
                 }
             }
             & .c-track-icon {
@@ -39,19 +39,16 @@
                 & .c-rounded-bg-img {
                     height: 48px;
                     width: 48px;
-                    @apply mr-8;
+                    @apply mr-16;
                 }
                 & .info {
                     @apply flex flex-col;
                     & .handle {
-                        @apply font-mono font-semibold text-16 text-darkGray leading-regular;
+                        @apply font-medium text-16 text-textColor3 leading-huge;
                     }
 
                     & .exercise {
-                        @apply font-mono font-medium text-16 text-textLight leading-regular;
-                        & strong {
-                            @apply font-medium text-darkGray;
-                        }
+                        @apply text-14 text-textColor6 leading-regular;
                     }
                 }
             }
@@ -92,9 +89,8 @@
         }
 
         & .iteration-header {
-            @apply flex items-center px-24;
+            @apply flex items-center py-8 px-32;
             @apply border-b-1 border-lightGray;
-            height: 69px;
 
             & .info {
                 @apply flex-grow mr-24;
@@ -103,18 +99,22 @@
                     @apply flex items-center;
 
                     & h2 {
-                        @apply font-mono font-semibold text-16 leading-huge text-darkGray;
+                        @apply font-medium text-15 leading-huge text-textColor1;
                     }
                     & .latest {
                         height: 22px;
                         @apply flex items-center ml-16 rounded-5;
-                        @apply font-medium text-12 text-textLight px-8;
-                        @apply border-1 border-borderLight;
+                        @apply font-medium text-12 text-textColor6 px-8;
+                        @apply border-1 border-borderColor5;
+                    }
+                    & .tests-status {
+                        @apply ml-24;
                     }
                 }
+
                 & .submitted-time {
                     @apply flex items-center;
-                    @apply text-label-timestamp;
+                    @apply font-medium text-textColor6;
                     @apply leading-huge;
                     & .c-icon {
                         height: 14px;

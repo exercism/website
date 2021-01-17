@@ -1,0 +1,50 @@
+@import "../styles";
+
+.m-publish-exercise {
+    & .--modal-content {
+        width: 100%;
+        max-width: 1100px;
+        @apply py-48 px-64 bg-backgroundColorA;
+
+        @apply flex items-center;
+    }
+
+    & .content {
+        @apply flex-grow flex flex-col;
+
+        & .publish-icon {
+            height: 48px;
+            width: 48px;
+            @apply mb-24;
+        }
+        & .title {
+            @apply text-h1 mb-16;
+        }
+
+        & p {
+            @apply text-18 leading-huge mb-24;
+        }
+
+        & label {
+            @apply flex items-center mb-8;
+            @apply text-20;
+            @apply cursor-pointer;
+
+            & .c-radio-button {
+                @apply mr-16;
+            }
+            & .label {
+                @apply text-18 font-medium leading-huge;
+            }
+        }
+        & .confirm-button {
+            @apply mt-32;
+        }
+    }
+
+    & .decorative-image {
+        height: 300px;
+        width: 300px;
+        @apply ml-96 flex-shrink-0;
+    }
+}

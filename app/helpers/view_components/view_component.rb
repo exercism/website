@@ -6,6 +6,7 @@ module ViewComponents
     delegate :user_signed_in?, :current_user,
       :render, :safe_join,
       :tag, :link_to, :button_to,
+      :time_ago_in_words,
       :graphical_icon, :icon, :track_icon, :exercise_icon, :rounded_bg_img,
       to: :view_context
 

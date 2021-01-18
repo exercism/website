@@ -199,7 +199,7 @@
                 right: 24px;
                 top: -54px;
                 width: calc(100% - 48px);
-                background: rgba(255, 211, 143, 0.9);
+                background: rgba(255, 211, 143, 0.95);
 
                 @apply flex items-center justify-center p-8;
                 @apply text-textColor3 font-semibold leading-paragraph;

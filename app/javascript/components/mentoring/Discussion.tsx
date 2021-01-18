@@ -8,6 +8,8 @@ import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
+import { Icon } from '../common/Icon'
+
 export type Links = {
   mentorDashboard: string
   scratchpad: string
@@ -106,6 +108,9 @@ export const Discussion = ({
               onClick={setCurrentIteration}
               current={currentIteration}
             />
+            <button className="settings-button btn-keyboard-shortcut">
+              <Icon icon="settings" alt="Mentor settings" />
+            </button>
           </footer>
         </div>
         <div className="rhs">

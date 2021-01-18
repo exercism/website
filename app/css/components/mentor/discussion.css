@@ -56,7 +56,7 @@
         & .discussion-footer {
             height: var(--footer-height);
             @apply flex items-center px-24;
-            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+            @apply shadow-sm;
 
             & .iterations {
                 @apply flex flex-grow items-center;
@@ -85,6 +85,16 @@
                         @apply text-darkGray border-lightBlue bg-veryLightBlue;
                     }
                 }
+                & .previous {
+                    @apply ml-64 mr-12;
+                }
+            }
+            & .settings-button {
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                }
+                @apply ml-24;
             }
         }
 

@@ -102,3 +102,28 @@
     @apply btn-small;
     @apply bg-white text-anotherPurple border-anotherPurple;
 }
+.btn-keyboard-shortcut {
+    @apply flex items-center;
+    @apply py-6 px-12;
+
+    &:hover {
+    }
+
+    & > :first-child {
+        @apply mr-12;
+    }
+    & .--kb {
+        @apply py-6 px-8;
+        @apply border-1 border-borderColor5 rounded-5;
+        @apply text-textColor6;
+        box-shadow: 0px 1px 0px 1px #cbc9d9 60%;
+
+        & .c-icon {
+            height: 12px;
+            width: 12px;
+        }
+    }
+    & .--hint {
+        @apply text-textColor6 font-semibold;
+    }
+}

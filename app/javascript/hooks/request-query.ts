@@ -12,7 +12,7 @@ import { sendRequest } from '../utils/send-request'
 
 type RequestQuery = ConstructorParameters<typeof UrlParams>[0]
 
-type Request = {
+export type Request = {
   endpoint: string
   query?: RequestQuery
   options: QueryConfig<any>

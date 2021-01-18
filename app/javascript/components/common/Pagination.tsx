@@ -3,7 +3,7 @@ import React from 'react'
 type PaginationProps = {
   current: number
   total: number
-  around: number
+  around?: number
   setPage: (page: number) => void
 }
 

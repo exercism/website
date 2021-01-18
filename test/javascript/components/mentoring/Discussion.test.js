@@ -102,7 +102,7 @@ test('shows back button', async () => {
   )
 
   expect(
-    screen.getByRole('link', {
+    await screen.findByRole('link', {
       name: 'Close discussion and return to mentoring dashboard',
     })
   ).toHaveAttribute('href', 'https://exercism.test/mentor/dashboard')

@@ -1,0 +1,41 @@
+.c-modal.m-mentoring-sessions
+  .--modal-content
+    %header
+      %strong You have #{@num_total_discussions} previous discussions
+      with
+      = rounded_bg_img(@student.avatar_url, "Avatar of #{@student.handle}")
+      .student-name= @student.name
+      / TODO: Use the existing favouring component for this
+      .btn
+        Add to favorites
+    .discussions
+      = link_to "#", class: "discussion" do
+        = track_icon(@discussion.exercise.track)
+        = exercise_icon(@discussion.exercise, css_class: 'exercise-icon')
+        .exercise-title= @discussion.exercise.title
+        .num-comments
+          = graphical_icon :comment
+          3
+        .num-iterations
+          = graphical_icon :iteration
+          10
+        %time 2 days ago
+        = graphical_icon 'chevron-right', css_class: 'action-icon'
+
+      = link_to "#", class: "discussion" do
+        = track_icon(@discussion.exercise.track)
+        = exercise_icon(@discussion.exercise, css_class: 'exercise-icon')
+        .exercise-title= @discussion.exercise.title
+        .num-comments
+          = graphical_icon :comment
+          3
+        .num-iterations
+          = graphical_icon :iteration
+          10
+        %time 2 days ago
+        = graphical_icon 'chevron-right', css_class: 'action-icon'
+
+    .c-pagination
+      .--pages
+        %button 1
+        %button 2

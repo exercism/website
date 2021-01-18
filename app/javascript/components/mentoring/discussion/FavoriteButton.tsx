@@ -10,26 +10,20 @@ export const FavoriteButton = ({
   endpoint: string
 }): JSX.Element | null => {
   const [isFavorite, setIsFavorite] = useState(props.isFavorite)
-  const [isHovering, setIsHovering] = useState(false)
 
-  if (!isFavorite) {
-    return (
-      <AddFavoriteButton
-        endpoint={endpoint}
-        onSuccess={() => setIsFavorite(true)}
-      />
-    )
-  }
-
-  if (isHovering) {
-    return (
-      <RemoveFavoriteButton
-        endpoint={endpoint}
-        onMouseLeave={() => setIsHovering(false)}
-        onSuccess={() => setIsFavorite(false)}
-      />
-    )
-  }
-
-  return <div onMouseEnter={() => setIsHovering(true)}>Favorited</div>
+  return (
+    <div className="button-wrapper">
+      {isFavorite ? (
+        <RemoveFavoriteButton
+          endpoint={endpoint}
+          onSuccess={() => setIsFavorite(false)}
+        />
+      ) : (
+        <AddFavoriteButton
+          endpoint={endpoint}
+          onSuccess={() => setIsFavorite(true)}
+        />
+      )}
+    </div>
+  )
 }

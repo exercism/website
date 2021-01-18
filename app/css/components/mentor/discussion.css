@@ -289,8 +289,25 @@
             & .options {
                 @apply flex items-center;
 
-                & button {
-                    @apply text-textColor6;
+                & .button-wrapper {
+                    @apply flex;
+                    width: 173px;
+                    height: 36px;
+
+                    & button {
+                        @apply flex-grow text-textColor6;
+                    }
+
+                    & button.unfavorite-button {
+                        @apply border-orange;
+                        @apply bg-lightOrange;
+                        @apply text-orange;
+                        &.hover {
+                            @apply text-red;
+                            @apply border-red;
+                            @apply bg-lightRed;
+                        }
+                    }
                 }
                 & .previous-sessions {
                     @apply flex items-center ml-24;

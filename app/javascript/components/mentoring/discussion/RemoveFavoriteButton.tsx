@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Loading } from '../../common'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { useMutation } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { useIsMounted } from 'use-is-mounted'
@@ -8,7 +9,6 @@ import { sendRequest } from '../../../utils/send-request'
 type ComponentProps = {
   endpoint: string
   onSuccess: () => void
-  onMouseLeave: () => void
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -27,6 +27,8 @@ const Component = ({
   ...props
 }: ComponentProps): JSX.Element | null => {
   const isMountedRef = useIsMounted()
+  const [isHovering, setIsHovering] = useState(false)
+
   const [mutation, { status, error }] = useMutation(() => {
     return sendRequest({
       endpoint: endpoint,
@@ -47,9 +49,26 @@ const Component = ({
             mutation()
           }}
           type="button"
-          className="btn-small"
+          className={
+            // We use a hover class, rather than the hover css construct
+            // so that the button doesn't immediately switch to its hover
+            // state once it's been clicked. By using onMouseEnter that state
+            // only gets set when someone is moving into the box afresh.
+            'btn-small unfavorite-button ' + (isHovering ? 'hover' : '')
+          }
+          // TODO: These do not work on tab (a11y).
+          // When tabbing this should be set to true.
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
-          Unfavorite?
+          {isHovering ? (
+            'Unfavorite?'
+          ) : (
+            <>
+              <GraphicalIcon icon="star" />
+              <span>Favorited</span>
+            </>
+          )}
         </button>
       )
     case 'loading':

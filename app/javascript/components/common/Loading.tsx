@@ -1,5 +1,5 @@
 import React from 'react'
 
 export function Loading() {
-  return <p>Loading</p>
+  return <div className="c-loading"></div>
 }

@@ -1,0 +1,78 @@
+@import "../../styles";
+
+#mentor-testimonials-page {
+    & header {
+        @apply flex items-center pt-32 mb-24;
+        & h1 {
+            @apply text-h2;
+        }
+        & .total-count {
+            @apply px-12 flex items-center ml-16;
+            @apply font-medium text-14 text-textColor6 leading-huge;
+            @apply border-1 border-textColor6 rounded-100;
+        }
+    }
+    & article {
+        @apply rounded-8 shadow-lg bg-backgroundColorA;
+
+        & .c-search-bar {
+            @apply py-16 px-32;
+            @apply border-b-1 border-borderColor6;
+            @apply justify-between;
+
+            & .--search {
+                width: 100%;
+                max-width: 450px;
+            }
+        }
+
+        & .testimonials {
+            @apply grid gap-32;
+            @apply grid-cols-3;
+            @apply py-16 px-32;
+        }
+        & .testimonial {
+            @apply pt-32 pb-24 px-24;
+            @apply mt-24;
+            @apply border-1 border-borderColor6;
+            @apply rounded-8;
+            @apply relative;
+
+            & .c-rounded-bg-img {
+                @apply absolute;
+                top: -24px;
+                height: 48px;
+                width: 48px;
+            }
+            & .content {
+                @apply text-20 leading-regular font-semibold;
+                @apply mb-8;
+                @apply overflow-hidden;
+
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                max-height: 58px;
+            }
+            & .student-name {
+                @apply text-16 text-textColor5 font-medium leading-paragraph;
+                @apply mb-4;
+            }
+            & .exercise {
+                @apply flex items-center mb-8;
+                @apply text-16 text-textColor6 leading-paragraph;
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply mx-8;
+                }
+                & .track-title {
+                    @apply text-textColor3 font-medium;
+                }
+            }
+            & time {
+                @apply text-textColor6 leading-paragraph font-medium;
+            }
+        }
+    }
+}

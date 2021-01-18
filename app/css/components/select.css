@@ -1,6 +1,6 @@
 .c-select {
     @apply grid items-center;
-    @apply text-16 font-medium leading-huge text-textColor1;
+    @apply text-16 font-medium leading-huge;
     @apply bg-inputBackgroundColor;
     @apply cursor-pointer;
     @apply border-1 border-transparent rounded-5;
@@ -12,6 +12,7 @@
         cursor: inherit;
         outline: none;
         @apply py-16 pl-20 pr-80;
+        @apply text-textColor1;
         grid-area: select;
     }
 

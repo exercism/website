@@ -156,7 +156,7 @@
                     @apply flex;
                     @apply text-15 font-mono leading-huge;
                     & .idx {
-                        @apply text-center text-textColor7;
+                        @apply text-center text-textColor6;
                         @apply mr-20;
                         width: 64px;
                     }
@@ -191,13 +191,13 @@
 
             & button.faux-input {
                 @apply relative;
-                @apply border-1 border-borderColor4 rounded-5;
+                @apply border-1 border-buttonBorderColor2 rounded-5;
                 @apply py-12 px-16;
                 @apply text-16 leading-paragraph text-textColor6;
                 @apply text-left;
             }
             & .comment-form {
-                @apply border-1 border-borderColor4 rounded-5;
+                @apply border-1 border-buttonBorderColor2 rounded-5;
                 & .editor-toolbar {
                     border-width: 0; /* Override default */
                     @apply border-b-1 border-borderColor5;

@@ -149,3 +149,8 @@ Iteration.create!( submission: submission, solution: solution, idx: 2)
 req = Solution::MentorRequest.create!(solution: solution, type: :code_review)
 discussion = Solution::MentorDiscussion.create!(request: req, solution: solution, mentor: iHiD)
 p "Discussion: #{discussion.uuid}"
+
+Mentor::Testimonial.create!(
+  mentor: iHiD, student: erik, discussion: discussion, 
+  content: "For the first time in my life, someone got my name right the first time round. I’m not really sure what that means, but, I think I’m gonna go and celebrate. Man, I can’t believe this. I can’t believe SleeplessByte got my name right!"
+)

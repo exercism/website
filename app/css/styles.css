@@ -42,7 +42,8 @@
     @apply bg-anotherPurple text-white border-anotherPurple;
 }
 .btn {
-    @apply flex items-center justify-center px-20 border-1 rounded-5;
+    @apply flex items-center justify-center px-20;
+    @apply border-1 border-buttonBorderColor1 rounded-5;
     @apply text-16 font-semibold;
     height: 48px;
 
@@ -84,7 +85,7 @@
 }
 
 .btn-small {
-    @apply btn border-1 border-borderColor4;
+    @apply btn border-1 border-buttonBorderColor2;
     @apply text-14 rounded-5 px-16;
     height: 36px;
 

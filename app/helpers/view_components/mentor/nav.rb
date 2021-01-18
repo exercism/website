@@ -9,10 +9,12 @@ module ViewComponents
         guard!
 
         tag.nav(class: 'c-mentor-nav') do
-          tag.div(class: 'md-container container') do
-            safe_join([
-                        tag.div(safe_join(tabs), class: 'tabs')
-                      ])
+          tag.div(class: 'lg-container container') do
+            safe_join(
+              [
+                tag.div(safe_join(tabs), class: 'tabs')
+              ]
+            )
           end
         end
       end
@@ -23,12 +25,20 @@ module ViewComponents
             Exercism::Routes.mentor_dashboard_path,
             class: tab_class(:dashboard)
           ) do
-            graphical_icon(:dashboard) +
+            graphical_icon(:mentoring) +
               tag.span("Mentoring Area", "data-text": "Mentoring Area")
           end,
 
           link_to(
             "#",
+            class: tab_class(:activity)
+          ) do
+            graphical_icon(:pulse) +
+              tag.span("Activity", "data-text": "Activity")
+          end,
+
+          link_to(
+            Exercism::Routes.mentor_testimonials_path,
             class: tab_class(:testimonials)
           ) do
             graphical_icon(:testimonials) +

@@ -31,9 +31,9 @@
 
     & .--filter-btn {
         @apply mr-40 rounded-5 px-24;
-        @apply border-borderColor3;
+        @apply border-buttonBorderColor1;
         &:focus {
-            @apply bg-borderColor3 text-textColor9;
+            @apply bg-buttonBorderColor2 text-textColor9;
             @apply outline-none;
         }
         & .c-icon {
@@ -48,6 +48,13 @@
             @apply mr-12;
             height: 18px;
             width: 18px;
+        }
+    }
+    & .c-select {
+        & select {
+            height: 48px;
+            @apply py-0;
+            @apply text-textColor6;
         }
     }
 }

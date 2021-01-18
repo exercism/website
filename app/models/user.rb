@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussion_posts, as: :author, dependent: :destroy
+  has_many :mentor_testimonials, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
+                                 class_name: "Mentor::Testimonial"
 
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 

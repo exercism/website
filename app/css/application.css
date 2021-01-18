@@ -50,7 +50,7 @@
     --backgroundColorC: var(--c-EAECF3);
     --backgroundColorD: var(--c-F0F3F9);
     --borderColor3: var(--c-26282D);
-    --borderColor4: var(--c-A9A6BD);
+    --borderColor4: var(--c-6D6986);
     --borderColor5: var(--c-CBC9D9);
     --borderColor6: var(--c-D5D8E4);
     --borderColor7: var(--c-EAECF3);
@@ -58,9 +58,10 @@
     --textColor3: var(--c-26282D);
     --textColor5: var(--c-343741);
     --textColor6: var(--c-6D6986);
-    --textColor7: var(--c-A9A6BD);
     --textColor9: var(--c-FFFFFF);
 
+    --buttonBorderColor1: var(--c-26282D);
+    --buttonBorderColor2: var(--c-A9A6BD);
     --inputBackgroundColor: var(--c-EAECF3);
     --inputBorderColor: var(--c-8480A0);
     --inputBorderColorFocus: var(--c-6A93FF);

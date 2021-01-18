@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { usePanel } from '../../../hooks/use-panel'
 import { DiscussionPostForm } from './DiscussionPostForm'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const EditDiscussionPost = ({
   value,
@@ -11,28 +12,22 @@ export const EditDiscussionPost = ({
   endpoint: string
   contextId: string
 }): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    panelRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
 
   const handleSuccess = useCallback(() => setOpen(false), [setOpen])
 
   return (
-    <div ref={componentRef}>
+    <React.Fragment>
       <button
         ref={buttonRef}
         onClick={() => {
           setOpen(!open)
         }}
         type="button"
+        className="edit-button"
       >
-        Edit
+        <GraphicalIcon icon="edit" />
+        <span>Edit</span>
       </button>
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
@@ -45,6 +40,6 @@ export const EditDiscussionPost = ({
           />
         ) : null}
       </div>
-    </div>
+    </React.Fragment>
   )
 }

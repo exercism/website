@@ -84,7 +84,7 @@ import '../../css/pages/maintaining/dashboard'
 import '../../css/pages/maintaining/track'
 import '../../css/pages/journey'
 
-import 'easymde/dist/easymde.min'
+import 'easymde/dist/easymde.min.css'
 import '../../css/highlighters/highlightjs-light'
 
 import React from 'react'

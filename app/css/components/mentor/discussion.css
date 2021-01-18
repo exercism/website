@@ -400,30 +400,50 @@
 
                 &:hover {
                     @apply bg-backgroundColorB;
+                    & .post-header {
+                        & .edit-button {
+                            @apply visible;
+                        }
+                    }
                 }
 
                 & .post-header {
                     @apply flex items-center mb-8;
 
-                    & .c-rounded-bg-img {
-                        height: 32px;
-                        width: 32px;
-                        @apply mr-12;
+                    & .author {
+                        @apply flex-grow flex items-center;
+
+                        & .c-rounded-bg-img {
+                            height: 32px;
+                            width: 32px;
+                            @apply mr-12;
+                        }
+                        & .handle {
+                            @apply font-mono font-semibold text-16 text-darkGray;
+                        }
+                        & .tag {
+                            height: 30px;
+                            @apply flex items-center ml-16 rounded-100;
+                            @apply font-medium text-textLight px-12;
+                            @apply border-1 border-textLight;
+                        }
                     }
-                    & .handle {
-                        @apply font-mono font-semibold text-16 text-darkGray;
-                    }
-                    & .tag {
-                        height: 30px;
-                        @apply flex items-center ml-16 rounded-100;
-                        @apply font-medium text-textLight px-12;
-                        @apply border-1 border-textLight;
+
+                    & .edit-button {
+                        @apply flex items-center ml-32 p-8;
+                        @apply text-textColor6 font-medium leading-huge;
+                        @apply invisible;
+                        & .c-icon {
+                            @apply mr-12;
+                            height: 16px;
+                            width: 16px;
+                        }
                     }
                 }
                 & .post-content {
                 }
                 & .post-at {
-                    @apply text-label-timestamp;
+                    @apply text-textColor6 leading-huge;
                 }
             }
         }

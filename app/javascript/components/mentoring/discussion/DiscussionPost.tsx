@@ -40,9 +40,18 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
     return (
       <div ref={ref} className="post">
         <header className="post-header">
-          <Avatar handle={authorHandle} src={authorAvatarUrl} />
-          <div className="handle">{authorHandle}</div>
-          {byStudent ? <div className="tag">Student</div> : null}
+          <div className="author">
+            <Avatar handle={authorHandle} src={authorAvatarUrl} />
+            <div className="handle">{authorHandle}</div>
+            {byStudent ? <div className="tag">Student</div> : null}
+          </div>
+          {links.update ? (
+            <EditDiscussionPost
+              value={contentMarkdown}
+              endpoint={links.update}
+              contextId={`edit_${id}`}
+            />
+          ) : null}
         </header>
         <div
           className="post-content c-textual-content --small"
@@ -50,13 +59,6 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
         <time className="post-at">{fromNow(updatedAt)}</time>
-        {links.update ? (
-          <EditDiscussionPost
-            value={contentMarkdown}
-            endpoint={links.update}
-            contextId={`edit_${id}`}
-          />
-        ) : null}
       </div>
     )
   }

@@ -86,7 +86,7 @@ export const Discussion = ({
       <div className="c-mentor-discussion">
         <div className="lhs">
           <header className="discussion-header">
-            <BackButton url={links.mentorDashboard} />
+            <CloseButton url={links.mentorDashboard} />
             <SolutionInfo student={student} track={track} exercise={exercise} />
             {links.markAsNothingToDo ? (
               <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />

@@ -9,6 +9,7 @@ import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 
 import { Icon } from '../common/Icon'
+import { GraphicalIcon } from '../common/GraphicalIcon'
 
 export type Links = {
   mentorDashboard: string
@@ -123,6 +124,7 @@ export const Discussion = ({
             discussionId={discussionId}
             iterations={iterations}
           />
+
           <AddDiscussionPost
             endpoint={links.posts}
             onSuccess={() => {

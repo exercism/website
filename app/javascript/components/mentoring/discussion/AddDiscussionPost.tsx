@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { DiscussionPostForm } from './DiscussionPostForm'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const AddDiscussionPost = ({
   endpoint,
@@ -21,6 +22,11 @@ export const AddDiscussionPost = ({
 
   return (
     <section className="comment-section">
+      <button className="new-messages-button" type="button">
+        <GraphicalIcon icon="comment" />
+        <span>1 New Message</span>
+      </button>
+
       {open ? (
         <div>
           <DiscussionPostForm

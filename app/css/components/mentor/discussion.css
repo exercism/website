@@ -126,12 +126,6 @@
                     @apply flex items-center;
                     @apply font-medium text-textColor6;
                     @apply leading-huge;
-                    & .c-icon {
-                        height: 14px;
-                        width: 14px;
-
-                        @apply mr-12;
-                    }
                 }
             }
             & .download-btn {
@@ -198,6 +192,25 @@
             box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
 
             @apply px-24 py-16 bg-backgroundColorA;
+
+            & .new-messages-button {
+                @apply absolute;
+                left: 24px;
+                right: 24px;
+                top: -54px;
+                width: calc(100% - 48px);
+                background: rgba(255, 211, 143, 0.9);
+
+                @apply flex items-center justify-center p-8;
+                @apply text-textColor3 font-semibold leading-paragraph;
+                @apply leading-paragraph;
+                @apply rounded-8;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-16;
+                }
+            }
 
             & button.faux-input {
                 @apply relative;
@@ -325,6 +338,7 @@
                 @apply ml-16;
             }
         }
+
         & .discussion {
             & .iteration-marker {
                 @apply flex items-center;

@@ -149,8 +149,13 @@ export const DiscussionPostList = ({
     return (
       <div className="discussion">
         {hasNewMessages ? (
-          <button type="button" onClick={() => scrollToLastMessage()}>
-            View new messages
+          <button
+            className="new-messages-button"
+            type="button"
+            onClick={() => scrollToLastMessage()}
+          >
+            TODO: This should be moved into the place it is in
+            AddDiscussionPost.tsx
           </button>
         ) : null}
         {iterationsWithPosts.map((iteration) => {
@@ -219,6 +224,5 @@ export const DiscussionPostList = ({
       </div>
     )
   }
-
   return null
 }

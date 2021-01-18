@@ -62,7 +62,7 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
+        iteration = create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
         create(:solution_mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
@@ -78,6 +78,7 @@ module Components
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "1"
         within(".discussion") { assert_text "Iteration 1" }
+        assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
         assert_text "author"
         refute_text "Student"
         assert_text "Hello"

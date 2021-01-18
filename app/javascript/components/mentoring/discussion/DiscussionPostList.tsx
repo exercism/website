@@ -10,14 +10,15 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { CacheContext } from '../Discussion'
+import { CacheContext, Iteration } from '../Discussion'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
+import { IterationMarker } from './IterationMarker'
 
-type Iteration = {
+type IterationWithPost = {
   idx: number
+  createdAt: string
   posts: DiscussionPostProps[]
 }
 
@@ -25,10 +26,12 @@ export const DiscussionPostList = ({
   endpoint,
   discussionId,
   userId,
+  iterations,
 }: {
   endpoint: string
   discussionId: number
   userId: number
+  iterations: readonly Iteration[]
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { posts: cacheKey } = useContext(CacheContext)
@@ -43,25 +46,37 @@ export const DiscussionPostList = ({
       return typecheck<DiscussionPostProps[]>(json, 'posts')
     })
   })
-  const iterations = useMemo(() => {
+  const iterationsWithPosts = useMemo(() => {
     if (!data) {
       return []
     }
 
-    return data.reduce<Iteration[]>((iterations, post) => {
-      const iteration = iterations.find(
+    return data.reduce<IterationWithPost[]>((iterationsWithPosts, post) => {
+      const iterationWithPost = iterationsWithPosts.find(
         (iteration) => iteration.idx === post.iterationIdx
       )
 
-      if (iteration) {
-        iteration.posts.push(post)
+      if (iterationWithPost) {
+        iterationWithPost.posts.push(post)
       } else {
-        iterations.push({ idx: post.iterationIdx, posts: [post] })
+        const iteration = iterations.find(
+          (iteration) => iteration.idx === post.iterationIdx
+        )
+
+        if (!iteration) {
+          throw new Error('Iteration idx does not exist')
+        }
+
+        iterationsWithPosts.push({
+          idx: iteration.idx,
+          createdAt: iteration.createdAt,
+          posts: [post],
+        })
       }
 
-      return iterations
+      return iterationsWithPosts
     }, [])
-  }, [data])
+  }, [data, iterations])
   const lastPostRef = useRef<HTMLDivElement>(null)
   const observer = useRef<IntersectionObserver | null>()
 
@@ -85,7 +100,7 @@ export const DiscussionPostList = ({
     } else {
       setHasNewMessages(true)
     }
-  }, [data])
+  }, [data, scrollToLastMessage, userId])
 
   useEffect(() => {
     if (!lastPostRef.current) {
@@ -135,20 +150,18 @@ export const DiscussionPostList = ({
             View new messages
           </button>
         ) : null}
-        {iterations.map((iteration) => {
+        {iterationsWithPosts.map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
-              <div className="iteration-marker">
-                <div className="info">
-                  <GraphicalIcon icon="iteration" />
-                  <strong>Iteration {iteration.idx}</strong>
-                  was submitted
-                </div>
-                {/* TODO: Read this from Data */}
-                <time>24 Jan 2020</time>
-              </div>
+              <IterationMarker
+                idx={iteration.idx}
+                createdAt={iteration.createdAt}
+              />
               {iteration.posts.map((post) => {
-                if (iterations[iterations.length - 1] === iteration) {
+                if (
+                  iterationsWithPosts[iterationsWithPosts.length - 1] ===
+                  iteration
+                ) {
                   return (
                     <DiscussionPost ref={lastPostRef} key={post.id} {...post} />
                   )

@@ -14,6 +14,14 @@ window.IntersectionObserver = jest.fn(() => ({
 test('displays all posts', async () => {
   stubScroll()
   const twoDaysAgo = new Date(new Date() - 1000 * 60 * 60 * 24 * 2)
+  const iterations = [
+    {
+      idx: 1,
+    },
+    {
+      idx: 2,
+    },
+  ]
   const posts = [
     {
       id: 1,
@@ -47,7 +55,12 @@ test('displays all posts', async () => {
   )
   server.listen()
 
-  render(<DiscussionPostList endpoint="https://exercism.test/posts" />)
+  render(
+    <DiscussionPostList
+      iterations={iterations}
+      endpoint="https://exercism.test/posts"
+    />
+  )
 
   expect(
     await screen.findByRole('status', {

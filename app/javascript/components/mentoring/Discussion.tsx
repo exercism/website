@@ -116,6 +116,7 @@ export const Discussion = ({
             student={student}
             userId={userId}
             discussionId={discussionId}
+            iterations={iterations}
           />
           <AddDiscussionPost
             endpoint={links.posts}

@@ -5,7 +5,7 @@ import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { StudentInfo } from './StudentInfo'
 import { GraphicalIcon } from '../../common'
-import { TabIndex, Student } from '../Discussion'
+import { TabIndex, Student, Iteration } from '../Discussion'
 
 type MentoringPanelListLinks = {
   scratchpad: string
@@ -24,6 +24,7 @@ export const MentoringPanelList = ({
   setTab,
   userId,
   student,
+  iterations,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
@@ -31,6 +32,7 @@ export const MentoringPanelList = ({
   setTab: (id: TabIndex) => void
   student: Student
   userId: number
+  iterations: readonly Iteration[]
 }): JSX.Element => {
   return (
     <>
@@ -58,6 +60,7 @@ export const MentoringPanelList = ({
           <StudentInfo student={student} />
           <DiscussionPostList
             endpoint={links.posts}
+            iterations={iterations}
             discussionId={discussionId}
             userId={userId}
           />

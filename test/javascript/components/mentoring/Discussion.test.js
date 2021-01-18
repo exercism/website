@@ -66,7 +66,7 @@ test('shows back button', async () => {
   const links = {
     mentorDashboard: 'https://exercism.test/mentor/dashboard',
     scratchpad: 'https://exercism.test/scratchpad',
-    exercise: 'https://exercism.test/exercise',
+    close: 'https://exercism.test/exercise',
     posts: 'https://exercism.test/posts',
   }
   const track = {

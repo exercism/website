@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react'
 import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
-import { BackButton } from './discussion/BackButton'
+import { CloseButton } from './discussion/CloseButton'
 import { SolutionInfo } from './discussion/SolutionInfo'
 import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
@@ -11,7 +11,7 @@ import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
 export type Links = {
   mentorDashboard: string
   scratchpad: string
-  exercise: string
+  close: string
   posts: string
   markAsNothingToDo?: string
 }

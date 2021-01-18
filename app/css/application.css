@@ -39,6 +39,7 @@
     --c-433F56: #433f56;
     --c-4FCDA7: #4fcda7;
     --c-F0F3F9: #f0f3f9;
+    --c-D5D8E4: #d5d8e4;
 
     --darkThemeBackgroundColor: var(--c-282339);
 }
@@ -51,6 +52,7 @@
     --borderColor3: var(--c-26282D);
     --borderColor4: var(--c-A9A6BD);
     --borderColor5: var(--c-CBC9D9);
+    --borderColor6: var(--c-D5D8E4);
     --borderColor7: var(--c-EAECF3);
     --textColor1: var(--c-000000);
     --textColor3: var(--c-26282D);

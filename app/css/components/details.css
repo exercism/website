@@ -2,6 +2,10 @@
     & > summary {
         @apply cursor-pointer;
 
+        &::-webkit-details-marker {
+            @apply hidden;
+        }
+
         & > .c-icon.--closed-icon,
         & > .c-icon.--open-icon {
             height: 12px;

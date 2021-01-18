@@ -45,6 +45,7 @@ module.exports = {
       borderColor3: 'var(--borderColor4)',
       borderColor4: 'var(--borderColor4)',
       borderColor5: 'var(--borderColor5)',
+      borderColor6: 'var(--borderColor6)',
       borderColor7: 'var(--borderColor7)',
       textColor1: 'var(--textColor1)',
       textColor3: 'var(--textColor3)',

@@ -10,6 +10,9 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Icon } from '../../common/Icon'
+import { Avatar } from '../../common/Avatar'
 import { CacheContext, Iteration } from '../Discussion'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
@@ -157,6 +160,47 @@ export const DiscussionPostList = ({
                 idx={iteration.idx}
                 createdAt={iteration.createdAt}
               />
+              <details className="c-details auto-feedback">
+                <summary>
+                  <GraphicalIcon icon="alert-circle" className="info-icon" />
+                  <div className="info">
+                    WDNewmann recieved automated feedback
+                  </div>
+                  <GraphicalIcon
+                    icon="chevron-right"
+                    className="--closed-icon"
+                  />
+                  <GraphicalIcon icon="chevron-down" className="--open-icon" />
+                </summary>
+                <div className="feedback">
+                  <div className="c-textual-content --small">
+                    <p>
+                      The biggest improvement you could make to this would be to
+                      use Ruby's String helper methods rather than regular
+                      expressions. That will help make it much more readable to
+                      future-you or another developer. Take a look at the String
+                      docs and check out things such as <code>strip</code> and{' '}
+                      <code>end_with?</code>.
+                    </p>
+                  </div>
+                  <div className="byline">
+                    <Avatar
+                      src="https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
+                      handle="mentor handle"
+                    />
+                    <div className="name">by ErikSchierboom</div>
+                    {/* TODO: Extract to common reputation component */}
+                    <div className="c-reputation" aria-label="20 reputation">
+                      <GraphicalIcon icon="reputation" />
+                      <span>20</span>
+                    </div>
+                  </div>
+                  <a href="#" className="more">
+                    Learn more about this feedback
+                    <Icon icon="external-link" alt="Opens in new tab" />
+                  </a>
+                </div>
+              </details>
               {iteration.posts.map((post) => {
                 if (
                   iterationsWithPosts[iterationsWithPosts.length - 1] ===

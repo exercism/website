@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Solution } from './Solution'
 import * as Tooltips from '../../tooltips'
-import { Pagination } from '../Pagination'
+import { Pagination } from '../../common/Pagination'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
 import { usePopper } from 'react-popper'

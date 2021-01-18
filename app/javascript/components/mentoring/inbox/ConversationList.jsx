@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pagination } from '../Pagination'
+import { Pagination } from '../../common/Pagination'
 import { Conversation } from './Conversation'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'

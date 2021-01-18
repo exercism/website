@@ -11,7 +11,7 @@
                 / TODO: 🤮
                 = iteration.submission.files.first.content
           .analysis
-            - iteration.submission.automated_feedback.each do |feedback|
+            - iteration.automated_feedback.each do |feedback|
               .comment
                 .text= raw feedback.feedback_html
                 .byline

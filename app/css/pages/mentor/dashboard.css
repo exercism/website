@@ -4,7 +4,7 @@
     & article {
         @apply pt-40;
     }
-    & section {
+    & section.inbox-section {
         @apply mb-64;
 
         & .header {
@@ -16,6 +16,140 @@
             }
             & a {
                 @apply text-lightBlue text-16 font-semibold leading-code;
+            }
+        }
+    }
+    & section.queue-section {
+        & header.header {
+            @apply flex flex-col items-center;
+            @apply mb-48;
+
+            & .c-icon {
+                height: 64px;
+                width: 64px;
+                @apply mb-16;
+            }
+            & h2 {
+                @apply text-h2;
+                @apply mb-8;
+            }
+            & .subtitle {
+                @apply text-18 leading-huge;
+            }
+        }
+        & .queue-section-content {
+            @apply flex;
+        }
+
+        & .mentor-queue-filtering {
+            width: 420px;
+            @apply flex-grow-0 flex-shrink-0;
+            @apply ml-48;
+
+            & header.filtering-header {
+                @apply flex items-start mb-24;
+
+                & .title {
+                    @apply flex-grow;
+                    & h3 {
+                        @apply text-h5;
+                    }
+                    & .subtitle {
+                        @apply text-16 text-textColor6 leading-huge;
+                    }
+                }
+                & button.reset-filters {
+                    @apply flex items-center;
+                    @apply text-14 text-textColor6;
+                    @apply py-8 px-16 ml-32;
+
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-12;
+                    }
+                }
+            }
+            & .track-filter,
+            & .exercise-filter {
+                & h3 {
+                    @apply text-16 text-textColor3 font-semibold;
+                    @apply mb-16;
+                }
+                & label {
+                    cursor: pointer;
+                    @apply flex;
+                    & input {
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+                    }
+                    & .row {
+                        @apply flex-grow flex items-center;
+                        @apply py-8 px-16 mb-8;
+                        @apply rounded-8;
+
+                        & .c-checkbox {
+                            @apply mr-24;
+                            @apply text-textColor3;
+                        }
+                        & .c-track-icon,
+                        & .c-exercise-icon {
+                            height: 32px;
+                            width: 32px;
+                            @apply mr-12;
+                        }
+                        & .title {
+                            @apply flex-grow;
+                            @apply text-16 font-medium text-textColor6 leading-regular;
+                        }
+                        & .count {
+                            @apply px-12 flex items-center ml-16;
+                            @apply font-medium text-14 text-textColor6 leading-huge;
+                            @apply border-1 border-textColor6 rounded-100;
+                        }
+                    }
+                    & input:checked + .row {
+                        background: #f0f3f9;
+
+                        & .c-checkbox .c-icon {
+                            transform: scale(1);
+                        }
+                        & .title {
+                            @apply text-textColor3;
+                        }
+                    }
+                }
+            }
+            & .track-filter {
+                @apply mb-32;
+
+                & .tracks {
+                }
+
+                & button.change-tracks-button {
+                    @apply flex items-center;
+                    @apply py-8 px-20;
+                    @apply text-16 leading-paragraph text-lightBlue font-semibold;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-16;
+                    }
+                }
+            }
+            & .exercise-filter {
+                & .c-search-bar {
+                    @apply mb-24;
+
+                    & input.--search {
+                        margin: 0;
+                        width: 100%;
+                        @apply bg-backgroundColorA border-1 border-buttonBorderColor2;
+                        background-position-x: calc(100% - 32px);
+                        @apply pl-16;
+                    }
+                }
             }
         }
     }

@@ -1,8 +1,0 @@
-.c-mentor-sorter {
-    @apply bg-unnamed15 py-12 px-24 rounded-5;
-
-    & select {
-        @apply bg-transparent;
-        @apply text-16 font-medium leading-code text-textLight;
-    }
-}

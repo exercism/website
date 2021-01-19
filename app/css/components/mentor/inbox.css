@@ -1,14 +1,19 @@
 .c-mentor-inbox {
     @apply shadow-lg bg-white rounded-8;
 
-    & header {
-        @apply flex items-center justify-between;
+    & header.c-search-bar {
         @apply py-16 px-24;
 
-        & .c-mentor-text-filter {
+        & .track-filter {
+            @apply mr-16;
+        }
+        & .--search {
             @apply mr-16;
             width: 60%;
             max-width: 450px;
+        }
+        & .c-select {
+            margin-left: auto;
         }
     }
     & footer {

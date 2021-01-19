@@ -7,14 +7,12 @@ export function TextFilter({ setFilter, id, filter = '', placeholder }) {
   }
 
   return (
-    <div className="c-mentor-text-filter">
-      <Icon icon="search" alt="Filter results" />
-      <input
-        id={id}
-        onChange={handleChange}
-        value={filter}
-        placeholder={placeholder}
-      />
-    </div>
+    <input
+      id={id}
+      onChange={handleChange}
+      value={filter}
+      placeholder={placeholder}
+      className="--search"
+    />
   )
 }

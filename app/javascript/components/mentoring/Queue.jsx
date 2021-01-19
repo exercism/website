@@ -9,7 +9,7 @@ export function Queue({ sortOptions, ...props }) {
 
   return (
     <div className="c-mentor-queue">
-      <header>
+      <header className="c-search-bar">
         <TextFilter
           filter={request.query.filter}
           setFilter={setFilter}

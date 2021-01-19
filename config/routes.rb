@@ -172,6 +172,7 @@ Rails.application.routes.draw do
   # Temporary and testing pages #
   # ########################### #
 
+  # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]
     resources :modals, only: [] do

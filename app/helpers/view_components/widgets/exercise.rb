@@ -46,7 +46,7 @@ module ViewComponents
       end
 
       def ex_icon
-        exercise_icon(@exercise, css_class: "--exercise-icon")
+        exercise_icon(@exercise)
       end
 
       def info_tag

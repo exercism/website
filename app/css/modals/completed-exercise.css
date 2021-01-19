@@ -9,7 +9,7 @@
 
     & header {
         @apply flex mb-32;
-        & .exercise-icon {
+        & .c-exercise-icon {
             height: 96px;
             width: 96px;
             @apply mr-32;

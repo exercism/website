@@ -1,7 +1,7 @@
 .c-mentor-inbox,
 .c-mentor-queue {
     & .--solution {
-        @apply border-lightGray border-t-1;
+        @apply border-backgroundColorC border-t-1;
         @apply flex items-center;
         @apply py-8 px-20;
 
@@ -27,7 +27,7 @@
 
             & .--handle {
                 @apply flex items-center;
-                @apply font-mono font-semibold text-16 leading-tight;
+                @apply font-medium text-16 text-textColor3 leading-regular;
                 & .dot,
                 & .c-icon {
                     @apply ml-8;
@@ -44,7 +44,7 @@
                 }
             }
             & .--exercise-title {
-                @apply font-mono font-semibold text-16 text-textLight leading-tight;
+                @apply text-14 text-textColor6 leading-regular;
             }
         }
 
@@ -69,19 +69,18 @@
             }
         }
         & .--status {
-            @apply font-medium text-14 text-textLight leading-code;
+            @apply font-medium text-14 text-textColor6 leading-code;
             @apply py-4 px-12 border-borderLight border-1 rounded-100;
             @apply ml-56;
         }
         & time {
-            @apply font-medium text-14 text-textLight leading-code;
-            @apply ml-32;
+            @apply font-medium text-14 text-textColor6 leading-code;
+            @apply ml-32 text-right;
             width: 140px;
-            text-align: right;
         }
 
         & .action-icon {
-            @apply ml-36 text-unnamed16;
+            @apply ml-36 text-textColor6;
 
             height: 16px;
             width: 16px;

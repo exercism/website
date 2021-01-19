@@ -50,8 +50,6 @@ import '../../css/components/mentor/nav'
 import '../../css/components/mentor/inbox'
 import '../../css/components/mentor/queue'
 import '../../css/components/mentor/solution-row'
-import '../../css/components/mentor/sorter'
-import '../../css/components/mentor/text-filter'
 import '../../css/components/mentor/discussion'
 
 import '../../css/components/track/generic-nav'

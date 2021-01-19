@@ -214,7 +214,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   def exercise_icon
-    %(<svg role="presentation" class="c-icon --exercise-icon"><use xlink:href="#sample-exercise-butterflies" /></svg>)
+    %(<svg role="presentation" class="c-icon c-exercise-icon"><use xlink:href="#sample-exercise-butterflies" /></svg>)
   end
 
   def lock_icon

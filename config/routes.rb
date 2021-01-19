@@ -131,9 +131,7 @@ Rails.application.routes.draw do
     resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         patch :start
-        patch :complete
-        get :completed # TODO: Remove
-        get :publish # TODO: Remove
+        patch :complete # TODO: Remove once via the API.
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
@@ -174,8 +172,16 @@ Rails.application.routes.draw do
   # Temporary and testing pages #
   # ########################### #
 
-  namespace :tmp do
+  # TODO: Remove these before launching
+  namespace :temp do
     resources :tracks, only: [:create]
+    resources :modals, only: [] do
+      collection do
+        get :mentoring_sessions
+        get :publish_exercise
+        get :completed_exercise
+      end
+    end
   end
 
   unless Rails.env.production?

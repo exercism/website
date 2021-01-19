@@ -23,7 +23,7 @@
         & .--desc {
             @apply text-textLight;
         }
-        & .--exercise-icon {
+        & .c-exercise-icon {
             opacity: 0.8;
             filter: grayscale(1);
         }
@@ -59,7 +59,7 @@
     }
 
     &.--medium {
-        & .--exercise-icon {
+        & .c-exercise-icon {
             height: 48px;
             width: 48px;
             @apply mr-16;
@@ -72,7 +72,7 @@
         }
     }
     &.--large {
-        & .--exercise-icon {
+        & .c-exercise-icon {
             height: 64px;
             width: 64px;
             @apply mr-24;
@@ -92,7 +92,7 @@
             @apply text-16 font-medium leading-paragraph;
         }
 
-        & .--exercise-icon {
+        & .c-exercise-icon {
             height: 26px;
             width: 26px;
             @apply mr-12;

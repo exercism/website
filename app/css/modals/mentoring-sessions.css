@@ -1,0 +1,85 @@
+@import "../styles";
+
+.m-mentoring-sessions {
+    & .--modal-content {
+        width: 100%;
+        max-width: 1150px;
+        @apply py-32 px-48 bg-backgroundColorA;
+
+        & header {
+            @apply flex items-center;
+            @apply text-20 leading-paragraph font-medium text-textColor3;
+            @apply mb-20;
+
+            & strong {
+                @apply text-h3;
+                @apply mr-12;
+            }
+            & .c-rounded-bg-img {
+                width: 48px;
+                height: 48px;
+                @apply ml-12 mr-8;
+            }
+            & .student-name {
+                @apply flex-grow;
+                @apply font-semibold;
+            }
+        }
+        & .discussions {
+            & .discussion {
+                @apply flex items-center;
+                @apply border-1 border-borderColor5 rounded-8;
+                @apply py-8 px-16;
+
+                &:hover {
+                    @apply bg-backgroundColorD;
+                }
+                & + .discussion {
+                    margin-top: 12px;
+                }
+
+                & .c-track-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mr-24;
+                }
+
+                & .exercise-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-16;
+                }
+                & .exercise-title {
+                    @apply flex-grow;
+                    @apply text-18 leading-paragraph font-medium text-textColor3;
+                }
+
+                & .num-comments,
+                & .num-iterations {
+                    @apply flex items-center justify-center ml-16;
+                    @apply font-medium leading-code text-textColor1;
+                    @apply py-4 px-12 border-borderColor5 border-1 rounded-5 bg-backgroundColorA;
+                    width: 66px;
+                    & .c-icon {
+                        @apply mr-6 text-textColor6;
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
+                & time {
+                    width: 130px;
+                    @apply ml-24 text-right;
+                    @apply text-textColor6;
+                }
+                & .action-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply text-textColor6 ml-48;
+                }
+            }
+        }
+        & .c-pagination {
+            @apply mt-32;
+        }
+    }
+}

@@ -6,7 +6,7 @@ export function Sorter({ setSort, sort, sortOptions, id }) {
   }
 
   return (
-    <div className="c-mentor-sorter">
+    <div className="c-select">
       <select id={id} onChange={handleChange} value={sort}>
         {sortOptions.map((sortOption) => {
           return (

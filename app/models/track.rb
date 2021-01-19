@@ -1,7 +1,6 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
-
   friendly_id :slug, use: [:history]
 
   has_many :concepts, class_name: "Track::Concept", dependent: :destroy
@@ -44,4 +43,55 @@ class Track < ApplicationRecord
   def highlightjs_language
     slug
   end
+
+  TAGS = {
+    "Paradigm": {
+      declarative: "Declarative",
+      functional: "Functional",
+      imperative: "Imperative",
+      logic: "Logic",
+      object_oriented: "Object-oriented",
+      procedural: "Procedural"
+    },
+    "Typing": {
+      static: "Static",
+      dynamic: "Dynamic",
+      strong: "Strong",
+      weak: "Weak"
+    },
+    "Execution mode": {
+      compiled: "Compiled",
+      interpreted: "Interpreted"
+    },
+    "Platform": {
+      windows: "Windows",
+      mac: "Mac OSX",
+      linux: "Linux",
+      ios: "iOS",
+      android: "Android",
+      web: "Web Browser"
+    },
+    "Runtime": {
+      standalone_executable: "Standalone executable",
+      language_specific: "Language-specific runtime",
+      clr: "Common Language Runtime (.NET)",
+      jvm: "JVM (Java)",
+      beam: "BEAM (Erlang)"
+    },
+    "Used for": {
+      artificial_intelligence: "Artificial Intelligence",
+      backends: "Backends",
+      cross_platform_development: "Cross-platform development",
+      embedded_systems: "Embedded systems",
+      financial_systems: "Financial systems",
+      frontends: "Frontends",
+      games: "Games",
+      guis: "GUIs",
+      mobile: "Mobile",
+      robotics: "Robotics",
+      scientific_calculations: "Scientific calculations",
+      scripts: "Scripts",
+      web_development: "Web development"
+    }
+  }.freeze
 end

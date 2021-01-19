@@ -12,12 +12,20 @@ export const EditDiscussionPost = ({
   endpoint: string
   contextId: string
 }): JSX.Element => {
-  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
+  const {
+    open,
+    setOpen,
+    componentRef,
+    buttonRef,
+    panelRef,
+    styles,
+    attributes,
+  } = usePanel()
 
   const handleSuccess = useCallback(() => setOpen(false), [setOpen])
 
   return (
-    <React.Fragment>
+    <div ref={componentRef}>
       <button
         ref={buttonRef}
         onClick={() => {
@@ -40,6 +48,6 @@ export const EditDiscussionPost = ({
           />
         ) : null}
       </div>
-    </React.Fragment>
+    </div>
   )
 }

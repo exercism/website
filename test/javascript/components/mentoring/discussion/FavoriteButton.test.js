@@ -133,9 +133,7 @@ test('unfavorite a student returns an API error', async () => {
   await waitForElementToBeRemoved(screen.getByText('Loading'))
 
   expect(screen.getByText('Student does not exist')).toBeInTheDocument()
-  expect(
-    await screen.findByRole('button', { name: 'Unfavorite?' })
-  ).toBeInTheDocument()
+  expect(await screen.findByText('Favorited')).toBeInTheDocument()
 
   server.close()
 })
@@ -151,7 +149,5 @@ test('unfavorites a student fails unexpectedly', async () => {
   expect(
     screen.getByText('Unable to remove student as a favorite')
   ).toBeInTheDocument()
-  expect(
-    await screen.findByRole('button', { name: 'Unfavorite?' })
-  ).toBeInTheDocument()
+  expect(await screen.findByText('Favorited')).toBeInTheDocument()
 })

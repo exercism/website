@@ -191,6 +191,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          find(".post").hover
           click_on "Edit"
           fill_in_editor "# Edited"
           click_on "Send"

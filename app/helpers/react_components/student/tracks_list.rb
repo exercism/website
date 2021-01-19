@@ -20,7 +20,7 @@ module ReactComponents
               }
             ),
             status_options: STATUS_OPTIONS,
-            tag_options: TAG_OPTIONS
+            tag_options: tag_options
           }
         )
       end
@@ -32,23 +32,23 @@ module ReactComponents
       ].freeze
       private_constant :STATUS_OPTIONS
 
-      TAG_OPTIONS = [
-        {
-          category: "Paradigm",
-          options: [{ value: "paradigm/object_oriented", label: "Object-oriented" }]
-        },
-        {
-          category: "Typing",
-          options: [{ value: "typing/static", label: "Static" }, { value: "typing/dynamic", label: "Dynamic" }]
-        }
-      ].freeze
-      private_constant :TAG_OPTIONS
-
       private
       attr_reader :user, :data, :request
 
       def default_request
         { endpoint: Exercism::Routes.api_tracks_path }
+      end
+
+      def tag_options
+        ::Track::TAGS.map do |category, options|
+          category_prefix = category.to_s.underscore
+          {
+            category: category,
+            options: options.map do |value, label|
+              { value: "#{category_prefix}/#{value}", label: label }
+            end
+          }
+        end
       end
     end
   end

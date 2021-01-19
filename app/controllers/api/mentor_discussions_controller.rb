@@ -49,7 +49,7 @@ module API
 
       discussion.mentor_action_not_required!
 
-      head :ok
+      render json: {}
     end
   end
 end

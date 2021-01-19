@@ -20,6 +20,6 @@ module IconsHelper
   end
 
   def exercise_icon(exercise, css_class: nil)
-    graphical_icon(exercise.icon_name, css_class: css_class)
+    graphical_icon(exercise.icon_name, css_class: "c-exercise-icon #{css_class}")
   end
 end

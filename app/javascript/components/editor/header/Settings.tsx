@@ -65,15 +65,7 @@ export function Settings({
   setWrap: (wrap: WrapSetting) => void
 }) {
   const [localKeybindings, setLocalKeybindings] = useState(keybindings)
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    panelRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
 
   const handleThemeChange = useCallback(
     (e) => {
@@ -103,7 +95,7 @@ export function Settings({
   }, [localKeybindings, open, setKeybindings])
 
   return (
-    <div ref={componentRef}>
+    <React.Fragment>
       <button
         ref={buttonRef}
         className="settings-btn"
@@ -145,6 +137,6 @@ export function Settings({
           </div>
         ) : null}
       </div>
-    </div>
+    </React.Fragment>
   )
 }

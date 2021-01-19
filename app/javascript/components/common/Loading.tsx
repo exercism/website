@@ -1,5 +1,9 @@
 import React from 'react'
 
 export function Loading() {
-  return <p>Loading</p>
+  return (
+    <div className="c-loading" role="alert">
+      <span className="tw-sr-only">Loading</span>
+    </div>
+  )
 }

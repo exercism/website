@@ -84,7 +84,7 @@ import '../../css/pages/maintaining/dashboard'
 import '../../css/pages/maintaining/track'
 import '../../css/pages/journey'
 
-import 'easymde/dist/easymde.min'
+import 'easymde/dist/easymde.min.css'
 import '../../css/highlighters/highlightjs-light'
 
 import React from 'react'
@@ -138,6 +138,7 @@ initReact({
   'mentoring-discussion': (data: any) => (
     <Mentoring.Discussion
       discussionId={data.discussion_id}
+      userId={data.user_id}
       student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
       track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}

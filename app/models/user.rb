@@ -90,4 +90,24 @@ class User < ApplicationRecord
   def avatar_url
     "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
   end
+
+  # TODO
+  def bio
+    "Developing software / Learning languages / Love to sail"
+  end
+
+  # TODO
+  def languages_spoken
+    %w[english spanish]
+  end
+
+  def favorited_by?(mentor)
+    relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
+
+    relationship ? relationship.favorite? : false
+  end
+
+  def num_previous_mentor_sessions_with(_user)
+    15
+  end
 end

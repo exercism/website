@@ -1,8 +1,5 @@
 module ReactComponents
-  class ReactComponent
-    extend Mandate::Memoize
-    extend Mandate::InitializerInjector
-
+  class ReactComponent < ViewComponents::ViewComponent
     include ActionView::Helpers::TagHelper
 
     def to_s(id, data, fitted: false)

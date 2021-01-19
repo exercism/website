@@ -13,15 +13,7 @@ export const ActionMore = ({
   isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    panelRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
 
   const handleRevertToLastIteration = useCallback(() => {
     onRevertToLastIteration()
@@ -41,7 +33,7 @@ export const ActionMore = ({
   }, [setOpen, setIsModalOpen])
 
   return (
-    <div ref={componentRef}>
+    <React.Fragment>
       <BugReportModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -74,6 +66,6 @@ export const ActionMore = ({
           </div>
         ) : null}
       </div>
-    </div>
+    </React.Fragment>
   )
 }

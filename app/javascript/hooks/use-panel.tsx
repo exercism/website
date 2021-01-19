@@ -5,7 +5,6 @@ export function usePanel() {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
   const { styles, attributes, update: updatePanelPosition } = usePopper(
     buttonRef.current,
     panelRef.current,
@@ -24,8 +23,9 @@ export function usePanel() {
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      const clickedOutsideComponent = !componentRef.current?.contains(
-        e.target as Node
+      const clickedOutsideComponent = !(
+        panelRef.current?.contains(e.target as Node) ||
+        buttonRef.current?.contains(e.target as Node)
       )
 
       if (clickedOutsideComponent) {
@@ -53,7 +53,6 @@ export function usePanel() {
     setOpen,
     buttonRef,
     panelRef,
-    componentRef,
     styles,
     attributes,
   }

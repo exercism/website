@@ -35,7 +35,6 @@ export const IterationHeader = ({
           <div className="tests-status">{testsStatus}</div>
         </div>
         <div className="submitted-time">
-          <GraphicalIcon icon="clock" />
           <time dateTime={iteration.createdAt}>
             Submitted {fromNow(iteration.createdAt)}
           </time>

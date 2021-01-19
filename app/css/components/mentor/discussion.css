@@ -11,7 +11,7 @@
     & .lhs {
         overflow: hidden;
 
-        @apply border-r-2 border-lightGray flex-grow;
+        @apply flex-grow;
         @apply flex flex-col items-stretch bg-backgroundColorA;
 
         & .discussion-header {
@@ -19,7 +19,7 @@
             width: 100%;
             @apply bg-white;
 
-            @apply flex items-center px-32 border-b-1 border-lightGray;
+            @apply flex items-center px-24 border-b-1 border-borderColor6;
 
             & .close-btn {
                 @apply flex;
@@ -56,7 +56,7 @@
         & .discussion-footer {
             height: var(--footer-height);
             @apply flex items-center px-24;
-            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+            @apply shadow-sm;
 
             & .iterations {
                 @apply flex flex-grow items-center;
@@ -85,12 +85,22 @@
                         @apply text-darkGray border-lightBlue bg-veryLightBlue;
                     }
                 }
+                & .previous {
+                    @apply ml-64 mr-12;
+                }
+            }
+            & .settings-button {
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                }
+                @apply ml-24;
             }
         }
 
         & .iteration-header {
             @apply flex items-center py-8 px-32;
-            @apply border-b-1 border-lightGray;
+            @apply border-b-1 border-borderColor6;
 
             & .info {
                 @apply flex-grow mr-24;
@@ -116,12 +126,6 @@
                     @apply flex items-center;
                     @apply font-medium text-textColor6;
                     @apply leading-huge;
-                    & .c-icon {
-                        height: 14px;
-                        width: 14px;
-
-                        @apply mr-12;
-                    }
                 }
             }
             & .download-btn {
@@ -136,7 +140,7 @@
                 @apply border-b-1 border-borderColor7;
                 & .c-tab {
                     @apply bg-backgroundColorA;
-                    @apply py-6 px-16;
+                    @apply py-6 px-24;
                     @apply text-14 text-textColor6 leading-paragraph;
                     @apply border-r-1 border-borderColor7;
                     @apply rounded-none;
@@ -174,8 +178,8 @@
         }
     }
     & .rhs {
-        @apply relative flex flex-col;
-        @apply shadow-base;
+        @apply flex flex-col;
+        @apply shadow-base bg-backgroundColorA;
         width: 570px;
         height: 100%;
         overflow: hidden;
@@ -188,6 +192,25 @@
             box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
 
             @apply px-24 py-16 bg-backgroundColorA;
+
+            & .new-messages-button {
+                @apply absolute;
+                left: 24px;
+                right: 24px;
+                top: -54px;
+                width: calc(100% - 48px);
+                background: rgba(255, 211, 143, 0.95);
+
+                @apply flex items-center justify-center p-8;
+                @apply text-textColor3 font-semibold leading-paragraph;
+                @apply leading-paragraph;
+                @apply rounded-8;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-16;
+                }
+            }
 
             & button.faux-input {
                 @apply relative;
@@ -225,13 +248,14 @@
         }
 
         & .tabs {
-            @apply flex;
+            @apply flex relative;
             top: 0;
             left: 0;
             right: 0;
             height: var(--header-height);
 
-            @apply border-b-1 border-lightGray bg-backgroundColorA;
+            @apply bg-backgroundColorA;
+            @apply shadow-sm;
             @apply px-24 pt-20 pb-12;
 
             & .c-tab {
@@ -250,36 +274,207 @@
             overflow-y: scroll;
         }
 
+        & .student-info {
+            @apply bg-backgroundColorA;
+            @apply flex;
+
+            @apply py-16 px-24 mb-8;
+
+            & .subtitle {
+                @apply text-textColor6 leading-paragraph mb-6;
+            }
+            & .name-block {
+                @apply flex items-center;
+                & .name {
+                    @apply text-h5 mr-12;
+                }
+            }
+            & .handle {
+                @apply text-16 text-textColor6 font-medium leading-regular;
+                @apply mb-6;
+            }
+            & .bio {
+                @apply text-15 leading-huge mr-40 mb-20;
+                & .flags {
+                    @apply ml-8;
+                }
+            }
+            & .options {
+                @apply flex items-center;
+
+                & .button-wrapper {
+                    @apply flex;
+                    width: 173px;
+                    height: 36px;
+
+                    & button {
+                        @apply flex-grow text-textColor6;
+                    }
+
+                    & button.unfavorite-button {
+                        @apply border-orange;
+                        @apply bg-lightOrange;
+                        @apply text-orange;
+                        &.hover {
+                            @apply text-red;
+                            @apply border-red;
+                            @apply bg-lightRed;
+                        }
+                    }
+                }
+                & .previous-sessions {
+                    @apply flex items-center ml-24;
+                    @apply font-semibold text-textColor6 leading-huge;
+                    & .c-icon {
+                        height: 14px;
+                        width: 14px;
+                        @apply ml-12;
+                    }
+                }
+            }
+            & .c-rounded-bg-img {
+                height: 64px;
+                width: 64px;
+                @apply ml-16;
+            }
+        }
+
         & .discussion {
+            & .iteration-marker {
+                @apply flex items-center;
+                @apply mx-24 py-8 px-16;
+                @apply bg-backgroundColorD rounded-8;
+                @apply text-textColor6 leading-paragraph;
+
+                & .info {
+                    @apply flex-grow flex items-center;
+                    @apply text-15;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-8;
+                    }
+
+                    & strong {
+                        @apply font-medium text-textColor1 mr-6;
+                    }
+                }
+                & time {
+                }
+            }
+
+            & details.auto-feedback {
+                @apply mx-24 mt-8;
+                @apply relative;
+                @apply border-1 border-borderColor6 rounded-8;
+                @apply py-8 px-16;
+
+                &:before {
+                    content: "";
+                    top: -8px;
+                    height: 8px;
+                    left: 24px;
+
+                    @apply absolute;
+                    @apply border-l-1 border-borderColor6;
+                }
+
+                & summary {
+                    @apply flex items-center;
+                    & .info-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply text-orange mr-12;
+                    }
+                    & .info {
+                        @apply flex-grow;
+                        @apply text-15 text-textColor6 font-medium leading-paragraph;
+                    }
+                }
+                & .feedback {
+                    @apply border-t-1 border-borderColor6;
+                    @apply mt-8 pt-12 mb-12;
+                    @apply flex flex-col items-start;
+
+                    & .byline {
+                        @apply flex items-center mb-12;
+
+                        & .c-rounded-bg-img {
+                            @apply mr-8;
+                            height: 32px;
+                            width: 32px;
+                        }
+                        & .name {
+                            @apply mr-12;
+                            @apply text-14 leading-paragraph text-textColor6 font-medium;
+                        }
+                        & .c-icon {
+                            @apply text-textColor6;
+                        }
+                    }
+                    & .more {
+                        @apply border-1 border-borderColor6 rounded-8;
+                        @apply px-16 py-6;
+                        @apply font-medium leading-huge text-textColor6;
+                        @apply flex items-center;
+                        & .c-icon {
+                            height: 14px;
+                            width: 14px;
+                            @apply ml-12;
+                        }
+                    }
+                }
+            }
+
             & .post {
-                @apply py-16 px-24 bg-backgroundColorA;
+                @apply pt-20 pb-16 px-24 bg-backgroundColorA;
 
                 &:hover {
                     @apply bg-backgroundColorB;
+                    & .post-header {
+                        & .edit-button {
+                            @apply visible;
+                        }
+                    }
                 }
 
                 & .post-header {
                     @apply flex items-center mb-8;
 
-                    & .c-rounded-bg-img {
-                        height: 32px;
-                        width: 32px;
-                        @apply mr-12;
+                    & .author {
+                        @apply flex-grow flex items-center;
+
+                        & .c-rounded-bg-img {
+                            height: 32px;
+                            width: 32px;
+                            @apply mr-12;
+                        }
+                        & .handle {
+                            @apply font-mono font-semibold text-16 text-darkGray;
+                        }
+                        & .tag {
+                            height: 30px;
+                            @apply flex items-center ml-16 rounded-100;
+                            @apply font-medium text-textLight px-12;
+                            @apply border-1 border-textLight;
+                        }
                     }
-                    & .handle {
-                        @apply font-mono font-semibold text-16 text-darkGray;
-                    }
-                    & .tag {
-                        height: 30px;
-                        @apply flex items-center ml-16 rounded-100;
-                        @apply font-medium text-textLight px-12;
-                        @apply border-1 border-textLight;
+
+                    & .edit-button {
+                        @apply flex items-center ml-32 p-8;
+                        @apply text-textColor6 font-medium leading-huge;
+                        @apply invisible;
+                        & .c-icon {
+                            @apply mr-12;
+                            height: 16px;
+                            width: 16px;
+                        }
                     }
                 }
                 & .post-content {
                 }
                 & .post-at {
-                    @apply text-label-timestamp;
+                    @apply text-textColor6 leading-huge;
                 }
             }
         }

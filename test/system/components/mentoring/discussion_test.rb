@@ -24,18 +24,45 @@ module Components
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         end
 
-        assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-        assert_css "img[src='https://avatars2.githubusercontent.com/u/5337876?s=460&v=4']"\
+        assert_css "img[src='#{solution.track.icon_url}'][alt='icon for Ruby track']"
+        assert_css "img[src='#{student.avatar_url}']"\
           "[alt=\"Uploaded avatar of student\"]"
         assert_text "student"
         assert_text "on Running in Ruby"
+      end
+
+      test "shows student info" do
+        mentor = create :user
+        student = create :user, name: "Apprentice", handle: "student", reputation: 1500
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        create :iteration, idx: 1, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        end
+
+        within(".student-info") do
+          assert_text student.name
+          assert_text "@#{student.handle}"
+          assert_text student.bio
+          # assert_text "english, spanish" # TODO: Renable
+          assert_text student.reputation
+          assert_text "15 previous sessions"
+          assert_css "img[src='#{student.avatar_url}']"\
+            "[alt=\"Uploaded avatar of student\"]"
+          assert_button "Add to favorites"
+        end
       end
 
       test "shows posts" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
+        iteration = create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
         create(:solution_mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
@@ -51,6 +78,7 @@ module Components
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "1"
         within(".discussion") { assert_text "Iteration 1" }
+        assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
         assert_text "author"
         refute_text "Student"
         assert_text "Hello"
@@ -163,12 +191,14 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          find(".post").hover
           click_on "Edit"
           fill_in_editor "# Edited"
           click_on "Send"
         end
 
         assert_css "h1", text: "Edited"
+        assert_no_css "h1", text: "Hello"
       end
 
       test "user can't edit another's post" do

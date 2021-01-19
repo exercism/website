@@ -18,15 +18,26 @@ module Mentoring
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
       component = ReactComponents::Mentoring::Discussion.new(discussion)
+      component.stubs(current_user: student)
       scratchpad = ScratchpadPage.new(about: exercise)
 
       assert_component component,
         "mentoring-discussion",
         {
           discussion_id: discussion.uuid,
+          user_id: student.id,
           student: {
+            name: student.name,
+            handle: student.handle,
+            bio: student.bio,
+            languages_spoken: student.languages_spoken,
             avatar_url: student.avatar_url,
-            handle: student.handle
+            reputation: student.reputation,
+            is_favorite: false,
+            num_previous_sessions: 15,
+            links: {
+              favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
+            }
           },
           track: {
             title: track.title,

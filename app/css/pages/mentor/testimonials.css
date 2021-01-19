@@ -9,7 +9,7 @@
         & .total-count {
             @apply px-12 flex items-center ml-16;
             @apply font-medium text-14 text-textColor6 leading-huge;
-            @apply border-1 border-textColor6 rounded-100;
+            @apply border-1 border-borderColor4 rounded-100;
         }
     }
     & article {

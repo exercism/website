@@ -25,6 +25,10 @@ test('highlights currently selected iteration', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -73,6 +77,10 @@ test('shows back button', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -114,6 +122,10 @@ test('hides latest label if on old iteration', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -161,6 +173,10 @@ test('switches to posts tab when comment success', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -172,7 +188,7 @@ test('switches to posts tab when comment success', async () => {
   ]
   const server = setupServer(
     rest.post('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.status(200), ctx.json({ post: {} }))
     })
   )
   server.listen()
@@ -221,6 +237,10 @@ test('switches tabs', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    languagesSpoken: [],
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -272,6 +292,9 @@ test('go to previous iteration', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {
@@ -319,6 +342,9 @@ test('go to next iteration', async () => {
   }
   const student = {
     avatarUrl: 'https://exercism.test/avatar',
+    links: {
+      favorite: 'https://exercism.test/favorite',
+    },
   }
   const iterations = [
     {

@@ -8,9 +8,19 @@ module ReactComponents
           "mentoring-discussion",
           {
             discussion_id: discussion.uuid,
+            user_id: current_user.id,
             student: {
+              name: student.name,
+              handle: student.handle,
+              bio: student.bio,
+              languages_spoken: student.languages_spoken,
               avatar_url: student.avatar_url,
-              handle: student.handle
+              reputation: student.reputation,
+              is_favorite: student.favorited_by?(mentor),
+              num_previous_sessions: mentor.num_previous_mentor_sessions_with(student),
+              links: {
+                favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
+              }
             },
             track: {
               title: track.title,
@@ -61,9 +71,10 @@ module ReactComponents
       end
 
       memoize
-      def student
-        discussion.solution.user
-      end
+      delegate :student, to: :discussion
+
+      memoize
+      delegate :mentor, to: :discussion
 
       memoize
       def track

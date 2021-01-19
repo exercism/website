@@ -1,15 +1,17 @@
 import React from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
-import { Loading } from '../../common'
+import { useIsMounted } from 'use-is-mounted'
+import { sendPostRequest } from '../../../utils/send-request'
+import { Loading } from '../../common/Loading'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { sendRequest } from '../../../utils/send-request'
 
 type ComponentProps = {
   endpoint: string
+  onSuccess: () => void
 }
 
-export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
+export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
   return (
     <ErrorBoundary>
       <Component {...props} />
@@ -17,19 +19,22 @@ export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
   )
 }
 
-const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
+const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
-const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
+const Component = ({
+  endpoint,
+  onSuccess,
+}: ComponentProps): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(() => {
-    return sendRequest({
+    return sendPostRequest({
       endpoint: endpoint,
-      method: 'PATCH',
       body: null,
       isMountedRef: isMountedRef,
-    })
+    }).then(onSuccess)
   })
 
+  /* TODO: Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
   switch (status) {
@@ -40,8 +45,10 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
             mutation()
           }}
           type="button"
+          className="btn-small"
         >
-          Mark as nothing to do
+          <GraphicalIcon icon="plus" />
+          Add to favorites
         </button>
       )
     case 'loading':

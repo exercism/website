@@ -13,6 +13,7 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
     expected = {
       id: discussion_post.uuid,
       author_handle: "author",
+      author_id: author.id,
       author_avatar_url: author.avatar_url,
       by_student: false,
       content_markdown: "Hello",
@@ -40,6 +41,7 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
     expected = {
       id: discussion_post.uuid,
       author_handle: "author",
+      author_id: author.id,
       author_avatar_url: author.avatar_url,
       by_student: false,
       content_markdown: "Hello",

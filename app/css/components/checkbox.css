@@ -1,0 +1,17 @@
+@import "../styles";
+
+.c-checkbox {
+    height: 21px;
+    width: 21px;
+
+    @apply border-1 border-inputBorderColor rounded-5;
+    @apply cursor-pointer;
+    @apply grid place-items-center;
+
+    & .c-icon {
+        height: 9px;
+        width: 9px;
+        transition: 200ms transform linear;
+        transform: scale(0);
+    }
+}

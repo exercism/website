@@ -8,7 +8,7 @@
         @apply flex mb-20;
         & .exercise {
             @apply flex flex-grow;
-            & .exercise-icon {
+            & .c-exercise-icon {
                 height: 48px;
                 width: 48px;
                 @apply mr-16;

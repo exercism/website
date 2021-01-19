@@ -11,7 +11,7 @@
             #e1ebff 0%,
             rgba(225, 235, 255, 0) 100%
         );
-        & .exercise-icon {
+        & .c-exercise-icon {
             @apply mr-32;
             width: 118px;
             height: 118px;

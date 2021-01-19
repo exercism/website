@@ -201,7 +201,7 @@
 
                 & .exercise {
                     @apply flex items-start mb-16;
-                    & .exercise-icon {
+                    & .c-exercise-icon {
                         height: 64px;
                         width: 64px;
                         @apply mr-16;

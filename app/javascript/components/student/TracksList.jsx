@@ -5,6 +5,7 @@ import { StatusFilter } from './tracks-list/StatusFilter'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
 import { Header } from './tracks-list/Header'
+import { useIsMounted } from 'use-is-mounted'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -30,13 +31,14 @@ function reducer(state, action) {
 }
 
 export function TracksList({ statusOptions, tagOptions, ...props }) {
+  const isMountedRef = useIsMounted()
   const [request, dispatch] = useReducer(reducer, props.request)
   const {
     resolvedData,
     latestData,
     isError,
     isFetching,
-  } = usePaginatedRequestQuery('track-list', request)
+  } = usePaginatedRequestQuery('track-list', request, isMountedRef)
 
   return (
     <div className="c-tracks-list">

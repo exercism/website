@@ -5,14 +5,14 @@ import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
 
 export function Queue({ sortOptions, ...props }) {
-  const [request, setFilter, setSort, setPage] = useList(props.request)
+  const { request, setSearch, setSort, setPage } = useList(props.request)
 
   return (
     <div className="c-mentor-queue">
       <header className="c-search-bar">
         <TextFilter
-          filter={request.query.filter}
-          setFilter={setFilter}
+          filter={request.query.search}
+          setFilter={setSearch}
           id="mentoring-queue-student-name-filter"
           placeholder="Filter by student name"
         />

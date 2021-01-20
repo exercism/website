@@ -1,4 +1,5 @@
 import React from 'react'
+import { useIsMounted } from 'use-is-mounted'
 import { useRequestQuery } from '../../hooks/request-query'
 import { fromNow } from '../../utils/time'
 import { Loading } from '../common/Loading'
@@ -20,9 +21,10 @@ export function MentoredStudent({
   styles?: React.CSSProperties
 }): JSX.Element {
   const request = { endpoint: endpoint, options: {} }
+  const isMountedRef = useIsMounted()
   const { isLoading, isError, isSuccess, data } = useRequestQuery<
     MentoredStudentData
-  >('mentored-student-tooltip', request)
+  >('mentored-student-tooltip', request, isMountedRef)
 
   return (
     <div className="c-tooltip c-mentored-student-tooltip" style={styles}>

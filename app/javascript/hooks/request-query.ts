@@ -1,15 +1,18 @@
 import {
   PaginatedQueryConfig,
+  PaginatedQueryResult,
   QueryConfig,
+  QueryResult,
   usePaginatedQuery,
   useQuery,
 } from 'react-query'
 import { UrlParams } from '../utils/url-params'
 import { camelizeKeys } from 'humps'
+import { sendRequest } from '../utils/send-request'
 
 type RequestQuery = ConstructorParameters<typeof UrlParams>[0]
 
-type Request = {
+export type Request = {
   endpoint: string
   query?: RequestQuery
   options: QueryConfig<any>
@@ -21,37 +24,42 @@ type PaginatedRequest = {
   options: PaginatedQueryConfig<any>
 }
 
-function handleFetch<TResult>(key: string, url: string, query: RequestQuery) {
-  return fetch(`${url}?${new UrlParams(query).toString()}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw response
-      }
-
-      return response
-    })
-    .then((response) => response.json())
-    .then((json) => (camelizeKeys(json) as unknown) as TResult)
+function handleFetch(
+  request: Request,
+  isMountedRef: React.MutableRefObject<boolean>
+) {
+  return sendRequest({
+    endpoint: `${request.endpoint}?${new UrlParams(request.query).toString()}`,
+    body: null,
+    method: 'GET',
+    isMountedRef: isMountedRef,
+  })
 }
 
 export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
   key: string,
-  request: PaginatedRequest
-) {
+  request: PaginatedRequest,
+  isMountedRef: React.MutableRefObject<boolean>
+): PaginatedQueryResult<TResult, TError> {
   return usePaginatedQuery<TResult, TError>(
     [key, request.endpoint, request.query],
-    handleFetch,
+    () => {
+      return handleFetch(request, isMountedRef)
+    },
     camelizeKeys(request.options)
   )
 }
 
 export function useRequestQuery<TResult = unknown, TError = unknown>(
   key: string,
-  request: Request
-) {
+  request: Request,
+  isMountedRef: React.MutableRefObject<boolean>
+): QueryResult<TResult, TError> {
   return useQuery<TResult, TError>(
     [key, request.endpoint, request.query],
-    handleFetch,
+    () => {
+      return handleFetch(request, isMountedRef)
+    },
     camelizeKeys(request.options)
   )
 }

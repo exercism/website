@@ -1,10 +1,12 @@
 import React from 'react'
-import { Pagination } from '../Pagination'
+import { Pagination } from '../../common/Pagination'
 import { Conversation } from './Conversation'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
+import { useIsMounted } from 'use-is-mounted'
 
 export function ConversationList({ request, setPage }) {
+  const isMountedRef = useIsMounted()
   const {
     isLoading,
     isError,
@@ -12,7 +14,11 @@ export function ConversationList({ request, setPage }) {
     resolvedData,
     latestData,
     refetch,
-  } = usePaginatedRequestQuery('mentor-conversations-list', request)
+  } = usePaginatedRequestQuery(
+    'mentor-conversations-list',
+    request,
+    isMountedRef
+  )
 
   return (
     <div>

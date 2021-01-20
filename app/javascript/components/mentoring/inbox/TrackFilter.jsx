@@ -1,11 +1,14 @@
 import React from 'react'
+import { useIsMounted } from 'use-is-mounted'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
 
 export function TrackFilter({ request, setTrack }) {
+  const isMountedRef = useIsMounted()
   const { isLoading, isError, isSuccess, data } = useRequestQuery(
     'track-filter',
-    request
+    request,
+    isMountedRef
   )
 
   function handleChange(e) {

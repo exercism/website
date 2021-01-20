@@ -6,6 +6,11 @@ function reducer(state, action) {
       return { ...state, query: { ...state.query, page: action.payload.page } }
     case 'query.changed':
       return { ...state, query: action.payload.query }
+    case 'search.changed':
+      return {
+        ...state,
+        query: { ...state.query, search: action.payload.search, page: 1 },
+      }
     case 'filter.changed':
       return {
         ...state,
@@ -30,9 +35,9 @@ export function useList(initialRequest) {
     Object.assign({ query: { page: 1 } }, initialRequest)
   )
 
-  const setFilter = useCallback(
-    (filter) => {
-      dispatch({ type: 'filter.changed', payload: { filter: filter } })
+  const setSearch = useCallback(
+    (search) => {
+      dispatch({ type: 'search.changed', payload: { search: search } })
     },
     [dispatch]
   )
@@ -51,6 +56,13 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
+  const setFilter = useCallback(
+    (filter) => {
+      dispatch({ type: 'filter.changed', payload: { filter: filter } })
+    },
+    [dispatch]
+  )
+
   const setQuery = useCallback(
     (query) => {
       dispatch({ type: 'query.changed', payload: { query: query } })
@@ -58,5 +70,5 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  return [request, setFilter, setSort, setPage, setQuery]
+  return { request, setSearch, setSort, setPage, setQuery, setFilter }
 }

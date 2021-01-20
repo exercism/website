@@ -1,6 +1,61 @@
 require_relative './base_test_case'
 
 class API::SolutionsControllerTest < API::BaseTestCase
+  #####
+  # INDEX
+  #####
+  test "index should return 401 with incorrect token" do
+    get api_solutions_path, as: :json
+    assert_response 401
+    expected = { error: {
+      type: "invalid_auth_token",
+      message: I18n.t('api.errors.invalid_auth_token')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest should proxy params" do
+    setup_user
+    solution = create :concept_solution
+
+    Solution::Search.expects(:call).with(
+      @current_user,
+      criteria: "ru",
+      status: "published",
+      mentoring_status: "completed"
+    ).returns([solution])
+
+    get api_solutions_path(
+      criteria: "ru",
+      status: "published",
+      mentoring_status: "completed"
+    ), headers: @headers, as: :json
+
+    assert_response :success
+  end
+
+  test "latest should search and return solutions" do
+    setup_user
+    ruby = create :track, title: "Ruby"
+    ruby_bob = create :concept_exercise, track: ruby, title: "Bob"
+    solution = create :concept_solution,
+      user: @current_user,
+      exercise: ruby_bob,
+      published_at: Time.current,
+      mentoring_status: "completed"
+
+    get api_solutions_path(
+      criteria: "ru",
+      status: "published",
+      mentoring_status: "completed"
+    ), headers: @headers, as: :json
+
+    assert_response :success
+    serializer = SerializeSolutionsForStudent.([solution])
+    assert_equal serializer.to_json, response.body
+  end
+
   ###
   # LATEST
   ###

@@ -17,6 +17,7 @@ class Solution < ApplicationRecord
   scope :not_completed, -> { where(completed_at: nil) }
 
   scope :published, -> { where.not(published_at: nil) }
+  scope :not_published, -> { where(published_at: nil) }
 
   before_create do
     # Search engines derive meaning by using hyphens

@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class SerializeSolutionForStudentTest < ActiveSupport::TestCase
+class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
     expected = {
-      solution: {
+      solutions: [{
         id: solution.uuid,
         url: "https://test.exercism.io/tracks/ruby/exercises/bob",
         status: :started,
@@ -25,24 +25,24 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
           title: solution.track.title,
           icon_name: solution.track.icon_name
         }
-      }
+      }]
     }
 
-    assert_equal expected, SerializeSolutionForStudent.(solution)
+    assert_equal expected, SerializeSolutionsForStudent.([solution])
   end
 
   test "status - started" do
     solution = create :concept_solution
-    assert_equal :started, SerializeSolutionForStudent.(solution)[:solution][:status]
+    assert_equal :started, SerializeSolutionsForStudent.([solution])[:solutions][0][:status]
   end
 
   test "status - completed" do
     solution = create :concept_solution, completed_at: Time.current
-    assert_equal :completed, SerializeSolutionForStudent.(solution)[:solution][:status]
+    assert_equal :completed, SerializeSolutionsForStudent.([solution])[:solutions][0][:status]
   end
 
   test "status - published" do
     solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
-    assert_equal :published, SerializeSolutionForStudent.(solution)[:solution][:status]
+    assert_equal :published, SerializeSolutionsForStudent.([solution])[:solutions][0][:status]
   end
 end

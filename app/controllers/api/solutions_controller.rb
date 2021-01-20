@@ -1,6 +1,14 @@
 module API
   class SolutionsController < BaseController
-    def index; end
+    def index
+      solutions = Solution::Search.(
+        current_user,
+        criteria: params[:criteria],
+        status: params[:status],
+        mentoring_status: params[:mentoring_status]
+      )
+      render json: SerializeSolutionsForStudent.(solutions)
+    end
 
     def complete
       begin

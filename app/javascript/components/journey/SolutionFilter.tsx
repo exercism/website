@@ -1,29 +1,34 @@
 import React from 'react'
 import { usePanel } from '../../hooks/use-panel'
 import { GraphicalIcon } from '../common'
-import { SolutionFilterOption } from './SolutionsList'
+
+type SolutionFilterOption = {
+  value: string
+  title: string
+}
+
+const OPTIONS: SolutionFilterOption[] = [
+  {
+    value: 'oop',
+    title: 'OOP',
+  },
+  {
+    value: 'functional',
+    title: 'Functional',
+  },
+]
 
 export const SolutionFilter = ({
-  options,
   value,
   setFilter,
 }: {
-  options: SolutionFilterOption[]
   value: string[]
   setFilter: (value: string[]) => void
 }): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    buttonRef,
-    panelRef,
-    componentRef,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
 
   return (
-    <div ref={componentRef}>
+    <React.Fragment>
       <button
         ref={buttonRef}
         className="--filter-btn"
@@ -41,7 +46,7 @@ export const SolutionFilter = ({
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
           <div>
-            {options.map((option) => {
+            {OPTIONS.map((option) => {
               return (
                 <div key={option.value}>
                   <label htmlFor={option.value}>{option.title}</label>
@@ -58,6 +63,6 @@ export const SolutionFilter = ({
           </div>
         ) : null}
       </div>
-    </div>
+    </React.Fragment>
   )
 }

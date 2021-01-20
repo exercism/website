@@ -34,9 +34,7 @@ test('pulls solutions', async () => {
   )
   server.listen()
 
-  render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
-  )
+  render(<SolutionsList endpoint="https://exercism.test/solutions" />)
 
   expect(await screen.findByText('Showing 2 solutions')).toBeInTheDocument()
   expect(await screen.findByText('Lasagna')).toBeInTheDocument()
@@ -72,9 +70,7 @@ test('paginates solutions', async () => {
   )
   server.listen()
 
-  render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
-  )
+  render(<SolutionsList endpoint="https://exercism.test/solutions" />)
 
   userEvent.click(await screen.findByRole('button', { name: 'Go to page 2' }))
 
@@ -114,9 +110,7 @@ test('searches solutions', async () => {
   )
   server.listen()
 
-  render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
-  )
+  render(<SolutionsList endpoint="https://exercism.test/solutions" />)
 
   userEvent.type(screen.getByPlaceholderText('Search for an exercise'), 'Bob')
 
@@ -158,9 +152,7 @@ test('filters solutions', async () => {
   )
   server.listen()
 
-  render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
-  )
+  render(<SolutionsList endpoint="https://exercism.test/solutions" />)
 
   userEvent.click(screen.getByRole('button', { name: 'Filter By' }))
   userEvent.click(screen.getByLabelText('Functional'))
@@ -202,9 +194,7 @@ test('sorts solutions', async () => {
   )
   server.listen()
 
-  render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
-  )
+  render(<SolutionsList endpoint="https://exercism.test/solutions" />)
   expect(await screen.findByText('Lasagna')).toBeInTheDocument()
 
   userEvent.selectOptions(screen.getByRole('combobox'), ['newest-first'])

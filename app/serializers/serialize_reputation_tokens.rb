@@ -12,6 +12,13 @@ class SerializeReputationTokens
   end
 
   def serialize_token(token)
+    if token.track
+      track_hash = {
+        title: token.track.title,
+        icon_name: token.track.icon_name
+      }
+    end
+
     {
       value: token.value,
       description: token.description,
@@ -19,12 +26,7 @@ class SerializeReputationTokens
       internal_link: token.internal_link,
       external_link: token.external_link,
       awarded_at: token.created_at.iso8601,
-      track: if token.track
-               {
-                 title: token.track.title,
-                 icon_name: token.track.icon_name
-               }
-             end
+      track: track_hash
     }
   end
 end

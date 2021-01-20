@@ -37,10 +37,8 @@
           .info
             .title You contributed to the TwoFer exercise on the Elixir Track
             .extra
-              .exercise
-                in
-                = graphical_icon("sample-track")
-                .name Elixir
+              .generic
+                Generic
               %date 3 mins ago
           = render ViewComponents::Reputation.new("+50", flashy: true)
           = graphical_icon "chevron-right", css_class: 'action-button'

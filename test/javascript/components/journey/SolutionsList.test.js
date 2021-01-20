@@ -42,6 +42,7 @@ test('pulls solutions', async () => {
 
   server.close()
 })
+
 test('paginates solutions', async () => {
   const solutions = [
     {
@@ -78,6 +79,7 @@ test('paginates solutions', async () => {
 
   server.close()
 })
+
 test('searches solutions', async () => {
   const solutions = [
     {
@@ -118,6 +120,7 @@ test('searches solutions', async () => {
 
   server.close()
 })
+
 test('filters solutions', async () => {
   const solutions = [
     {

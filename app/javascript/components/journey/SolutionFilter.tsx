@@ -19,10 +19,10 @@ const OPTIONS: SolutionFilterOption[] = [
 ]
 
 export const SolutionFilter = ({
-  value,
+  values,
   setFilter,
 }: {
-  value: string[]
+  values: string[]
   setFilter: (value: string[]) => void
 }): JSX.Element => {
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
@@ -54,8 +54,8 @@ export const SolutionFilter = ({
                     type="checkbox"
                     id={option.value}
                     value={option.value}
-                    onChange={() => setFilter([...value, option.value])}
-                    checked={value.includes(option.value)}
+                    onChange={() => setFilter([...values, option.value])}
+                    checked={values.includes(option.value)}
                   />
                 </div>
               )

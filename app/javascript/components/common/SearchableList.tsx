@@ -14,7 +14,7 @@ type PaginatedResult = {
 
 type FilterType = {
   setFilter: (filter: string[]) => void
-  value: string[]
+  values: string[]
 }
 
 type ResultsType = {
@@ -57,7 +57,7 @@ export const SearchableList = ({
         />
         <FilterComponent
           setFilter={setFilter}
-          value={request.query.filter || []}
+          values={request.query.filter || []}
         />
         <button
           type="button"

@@ -20,42 +20,37 @@ export const AddDiscussionPost = ({
     onSuccess()
   }, [onSuccess])
 
-  return (
-    <section className="comment-section">
-      <button className="new-messages-button" type="button">
-        <GraphicalIcon icon="comment" />
-        <span>1 New Message</span>
-      </button>
-
-      {open ? (
-        <div>
-          <DiscussionPostForm
-            onSuccess={handleSuccess}
-            endpoint={endpoint}
-            method="POST"
-            contextId={contextId}
-            value={value}
-          />
-          <button
-            type="button"
-            onClick={() => {
-              setOpen(false)
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-      ) : (
+  if (open) {
+    return (
+      <div>
+        <DiscussionPostForm
+          onSuccess={handleSuccess}
+          endpoint={endpoint}
+          method="POST"
+          contextId={contextId}
+          value={value}
+        />
         <button
-          className="faux-input"
-          onClick={() => {
-            setOpen(true)
-          }}
           type="button"
+          onClick={() => {
+            setOpen(false)
+          }}
         >
-          Add a comment
+          Cancel
         </button>
-      )}
-    </section>
-  )
+      </div>
+    )
+  } else {
+    return (
+      <button
+        className="faux-input"
+        onClick={() => {
+          setOpen(true)
+        }}
+        type="button"
+      >
+        Add a comment
+      </button>
+    )
+  }
 }

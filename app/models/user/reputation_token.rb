@@ -19,6 +19,7 @@ class User::ReputationToken < ApplicationRecord
 
   belongs_to :user
   belongs_to :track, optional: true
+  belongs_to :exercise, optional: true
   belongs_to :context, polymorphic: true, optional: true
 
   validates :category, inclusion: {
@@ -45,5 +46,35 @@ class User::ReputationToken < ApplicationRecord
 
   def category
     super.to_sym
+  end
+
+  def icon_name
+    return exercise.icon_name if exercise
+    return track.icon_name if track
+  end
+
+  def description
+    case reason.split("/").first
+    when 'authored_exercise'
+      "You authored #{exercise.title}"
+    when 'contributed_to_exercise'
+      "You conributed to #{exercise.title}"
+    when 'contributed_code'
+      "You contributed code"
+    when 'mentored'
+      "You mentored @#{context.student.handle} on #{context.exercise.title}"
+    when 'reviewed_code'
+      "You reviewed a Pull Request"
+    else
+      "You contributed to Exercism"
+    end
+  rescue StandardError
+    "You contributed to Exercism"
+  end
+
+  def link_url
+    return external_link if external_link.present?
+
+    nil
   end
 end

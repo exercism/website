@@ -150,4 +150,29 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.reload.has_unlocked_pending_mentoring_request?
     refute solution.reload.has_locked_pending_mentoring_request?
   end
+
+  # The order of the sub-tests in this test are deliberately
+  # set to ensure that things are checked in a safe way.
+  test "update_mentoring_status!" do
+    solution = create :concept_solution
+    solution.update_mentoring_status!
+    assert_equal 'none', solution.mentoring_status
+
+    discussion = create :solution_mentor_discussion, solution: solution, completed_at: Time.current
+    solution.update_mentoring_status!
+    assert_equal 'completed', solution.mentoring_status
+
+    request = create :solution_mentor_request, solution: solution
+    solution.update_mentoring_status!
+    assert_equal 'requested', solution.mentoring_status
+
+    discussion.update(completed_at: nil)
+    solution.update_mentoring_status!
+    assert_equal 'in_progress', solution.mentoring_status
+
+    discussion.destroy
+    request.update(status: :cancelled)
+    solution.update_mentoring_status!
+    assert_equal 'none', solution.mentoring_status
+  end
 end

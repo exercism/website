@@ -1,5 +1,61 @@
 module API
   class SolutionsController < BaseController
+    def index
+      solutions = Solution::Search.(
+        current_user,
+        criteria: params[:criteria],
+        status: params[:status],
+        mentoring_status: params[:mentoring_status]
+      )
+      render json: SerializeSolutionsForStudent.(solutions)
+    end
+
+    def complete
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      user_track = UserTrack.for(current_user, solution.track)
+      return render_404(:track_not_joined) unless user_track
+
+      changes = UserTrack::MonitorChanges.(user_track) do
+        Solution::Complete.(solution, user_track)
+      end
+
+      output = {
+        unlocked_exercises: changes[:unlocked_exercises].map do |exercise|
+          {
+            slug: exercise.slug,
+            title: exercise.title,
+            icon_name: exercise.icon_name
+          }
+        end,
+        unlocked_concepts: changes[:unlocked_concepts].map do |concept|
+          {
+            slug: concept.slug,
+            name: concept.name
+          }
+        end,
+        concept_progressions: changes[:concept_progressions].map do |data|
+          {
+            slug: data[:concept].slug,
+            name: data[:concept].name,
+            from: data[:from],
+            to: data[:to],
+            total: data[:total]
+          }
+        end
+      }
+      render json: output, status: :ok
+    end
+
+    ##############
+    # CLI Method #
+    ##############
     def show
       begin
         solution = current_user.solutions.find_by!(uuid: params[:id])
@@ -12,6 +68,9 @@ module API
       respond_with_authored_solution(solution)
     end
 
+    ##############
+    # CLI Method #
+    ##############
     def latest
       return render_404(:track_not_found, fallback_url: tracks_url) if params[:track_id].blank?
 
@@ -44,6 +103,9 @@ module API
       respond_with_authored_solution(solution)
     end
 
+    ##############
+    # CLI Method #
+    ##############
     # This is a private CLI-only method. The "normal" path should
     # be through POST /submissions and # POST /iterations
     def update
@@ -81,9 +143,9 @@ module API
     end
 
     def respond_with_authored_solution(solution)
-      solution.update_git_info!  unless solution.downloaded?
+      solution.update_git_info! unless solution.downloaded?
 
-      render json: SerializeSolution.(solution, current_user)
+      render json: SerializeSolutionForCLI.(solution, current_user)
 
       # Only set this if we've not 500'd
       solution.update(downloaded_at: Time.current)

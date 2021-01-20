@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SerializeSolutionTest < ActiveSupport::TestCase
+class SerializeSolutionForCLITest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
@@ -26,7 +26,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       }
     }
 
-    assert_equal expected, SerializeSolution.(solution, solution.user)
+    assert_equal expected, SerializeSolutionForCLI.(solution, solution.user)
   end
 
   # TODO: I think we don't need this test any more as it was
@@ -43,7 +43,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   #   assert filepath =~ solution.track.repo.ignore_regexp
   #   Git::Exercise.any_instance.stubs(code_filepaths: [filepath])
 
-  #   output = SerializeSolution.(solution, solution.user)
+  #   output = SerializeSolutionForCLI.(solution, solution.user)
   #   refute_includes output[:solution][:files], filepath
   # end
 
@@ -62,7 +62,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   #   refute valid_filepath =~ track.repo.ignore_regexp
   #   assert ignore_filepath =~ track.repo.ignore_regexp
 
-  #   output = SerializeSolution.(solution, solution.user)
+  #   output = SerializeSolutionForCLI.(solution, solution.user)
   #   assert_includes output[:solution][:files], valid_filepath
   #   assert_includes output[:solution][:files], ignore_filepath
   # end
@@ -72,7 +72,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
 
-    output = SerializeSolution.(solution, user)
+    output = SerializeSolutionForCLI.(solution, user)
     refute output[:solution][:user][:is_requester]
   end
 
@@ -80,7 +80,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     create :user_track, anonymous_during_mentoring: true, user: solution.user, track: solution.track
 
-    output = SerializeSolution.(solution, solution.user)
+    output = SerializeSolutionForCLI.(solution, solution.user)
     assert_equal solution.anonymised_user_handle, output[:solution][:user][:handle]
   end
 
@@ -91,7 +91,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     created_at = Time.current.getutc - 1.week
     create :submission, solution: solution, created_at: created_at
 
-    output = SerializeSolution.(solution, solution.user)
+    output = SerializeSolutionForCLI.(solution, solution.user)
     assert_equal created_at.to_i, output[:solution][:submission][:submitted_at].to_i
   end
 
@@ -99,7 +99,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
     mentor = create :user
-    output = SerializeSolution.(solution, mentor)
+    output = SerializeSolutionForCLI.(solution, mentor)
 
     assert_nil output[:solution][:url]
   end

@@ -14,6 +14,8 @@ class User
             rt.external_link = external_link
             rt.reason = reason
             rt.category = :building
+
+            # TODO: Set rt.track here.
           end
 
           # Reasons are mutable and this class may be called multiple times

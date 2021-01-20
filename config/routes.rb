@@ -31,18 +31,21 @@ Rails.application.routes.draw do
 
       resources :tracks, only: %i[index show] do
         resources :exercises, only: [] do
-          patch :complete, on: :member
         end
       end
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
-      resources :solutions, only: %i[show update] do
+      resources :reputation, only: %i[index]
+      resources :solutions, only: %i[index show update] do
+        # CLI Methods
         get :latest, on: :collection
-
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
         resources :submissions, only: %i[create]
         resources :iterations, only: %i[create]
+
+        # Normal Methods
+        patch :complete, on: :member
       end
       resources :solution, only: [] do
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"

@@ -35,6 +35,11 @@ class Track < ApplicationRecord
   end
 
   # TODO: Set this properly
+  def icon_name
+    "sample-track"
+  end
+
+  # TODO: Set this properly
   def icon_url
     "https://assets.exercism.io/tracks/ruby-hex-white.png"
   end

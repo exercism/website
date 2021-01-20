@@ -1,24 +1,24 @@
 .c-published-solution
-  %header
-    .exercise
+  %header.--header
+    .--exercise
       = exercise_icon(exercise)
-      .info
-        .exercise-title= exercise_title
-        .track-title in #{track_title}
-      .counts
-        .count
+      .--info
+        .--exercise-title= exercise_title
+        .--track-title in #{track_title}
+      .--counts
+        .--count
           = graphical_icon(:star)
-          .num= num_stars
+          .--num= num_stars
 
-        .count
+        .--count
           = graphical_icon(:comment)
-          .num= num_comments
+          .--num= num_comments
 
   %pre
     %code{ class: "language-#{highlightjs_language}" }
       = snippet
 
-  %footer
+  %footer.--footer
     / TODO
     %time Submitted #{time_ago_in_words(published_at)} ago
     .locs

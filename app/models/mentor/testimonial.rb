@@ -5,4 +5,7 @@ class Mentor::Testimonial < ApplicationRecord
   has_one :solution, through: :discussion
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
+
+  # TODO
+  scope :published, -> {}
 end

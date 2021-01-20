@@ -59,6 +59,7 @@ test('displays all posts', async () => {
     <DiscussionPostList
       iterations={iterations}
       endpoint="https://exercism.test/posts"
+      onPostsChange={() => {}}
     />
   )
 

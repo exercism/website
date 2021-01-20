@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useCallback, useRef } from 'react'
 import { MentoringPanelList } from './discussion/MentoringPanelList'
 import { IterationsList } from './discussion/IterationsList'
 import { CloseButton } from './discussion/CloseButton'
@@ -7,6 +7,7 @@ import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
+import { DiscussionPostProps } from './discussion/DiscussionPost'
 
 import { Icon } from '../common/Icon'
 import { GraphicalIcon } from '../common/GraphicalIcon'
@@ -82,6 +83,44 @@ export const Discussion = ({
     iterations[iterations.length - 1]
   )
   const [tab, setTab] = useState<TabIndex>('discussion')
+  const [hasNewMessages, setHasNewMessages] = useState(false)
+  const [
+    highlightedPost,
+    setHighlightedPost,
+  ] = useState<DiscussionPostProps | null>(null)
+  const highlightedPostRef = useRef<HTMLDivElement | null>(null)
+  const hasLoadedRef = useRef(false)
+  const handlePostsChange = useCallback(
+    (posts) => {
+      if (!hasLoadedRef.current) {
+        hasLoadedRef.current = true
+        return
+      }
+
+      const lastPost = posts[posts.length - 1]
+
+      setHighlightedPost(lastPost)
+
+      if (lastPost.authorId !== userId) {
+        setHasNewMessages(true)
+      }
+    },
+    [userId]
+  )
+  const handlePostHighlight = useCallback(
+    (post) => {
+      highlightedPostRef.current = post
+
+      if (!highlightedPost) {
+        return
+      }
+
+      if (highlightedPost.authorId === userId) {
+        post.scrollIntoView()
+      }
+    },
+    [highlightedPost, userId]
+  )
   const postsKey = `posts-${discussionId}`
 
   return (
@@ -120,18 +159,38 @@ export const Discussion = ({
             setTab={setTab}
             links={links}
             student={student}
-            userId={userId}
             discussionId={discussionId}
             iterations={iterations}
+            highlightedPost={highlightedPost}
+            onPostsChange={handlePostsChange}
+            onPostHighlight={handlePostHighlight}
+            onAfterPostHighlight={() => {
+              setHasNewMessages(false)
+            }}
           />
 
-          <AddDiscussionPost
-            endpoint={links.posts}
-            onSuccess={() => {
-              setTab('discussion')
-            }}
-            contextId={`${discussionId}_new_post`}
-          />
+          <section className="comment-section">
+            {hasNewMessages ? (
+              <button
+                className="new-messages-button"
+                type="button"
+                onClick={() => {
+                  setTab('discussion')
+                  highlightedPostRef.current?.scrollIntoView()
+                }}
+              >
+                <GraphicalIcon icon="comment" />
+                <span>New Message</span>
+              </button>
+            ) : null}
+            <AddDiscussionPost
+              endpoint={links.posts}
+              onSuccess={() => {
+                setTab('discussion')
+              }}
+              contextId={`${discussionId}_new_post`}
+            />
+          </section>
         </div>
       </div>
     </CacheContext.Provider>

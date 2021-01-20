@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useContext,
-  useState,
-  useCallback,
-} from 'react'
+import React, { useEffect, useMemo, useRef, useContext } from 'react'
 import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
@@ -28,17 +21,22 @@ type IterationWithPost = {
 export const DiscussionPostList = ({
   endpoint,
   discussionId,
-  userId,
   iterations,
+  highlightedPost,
+  onPostsChange,
+  onPostHighlight,
+  onAfterPostHighlight,
 }: {
   endpoint: string
   discussionId: number
-  userId: number
   iterations: readonly Iteration[]
+  highlightedPost: DiscussionPostProps | null
+  onPostsChange: (posts: DiscussionPostProps[]) => void
+  onPostHighlight: (element: HTMLDivElement) => void
+  onAfterPostHighlight: () => void
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { posts: cacheKey } = useContext(CacheContext)
-  const [hasNewMessages, setHasNewMessages] = useState(false)
   const { status, data } = useQuery<DiscussionPostProps[]>(cacheKey, () => {
     return sendRequest({
       endpoint: endpoint,
@@ -80,33 +78,27 @@ export const DiscussionPostList = ({
       return iterationsWithPosts
     }, [])
   }, [data, iterations])
-  const lastPostRef = useRef<HTMLDivElement>(null)
+  const highlightedPostRef = useRef<HTMLDivElement>(null)
   const observer = useRef<IntersectionObserver | null>()
 
-  const scrollToLastMessage = useCallback(() => {
-    if (!lastPostRef.current) {
+  useEffect(() => {
+    if (!highlightedPostRef.current) {
       return
     }
 
-    lastPostRef.current.scrollIntoView()
-  }, [lastPostRef])
+    onPostHighlight(highlightedPostRef.current)
+  }, [highlightedPost, onPostHighlight])
 
   useEffect(() => {
     if (!data || data.length === 0) {
       return
     }
 
-    const lastPost = data[data.length - 1]
-
-    if (lastPost.authorId === userId) {
-      scrollToLastMessage()
-    } else {
-      setHasNewMessages(true)
-    }
-  }, [data, scrollToLastMessage, userId])
+    onPostsChange(data)
+  }, [data, onPostsChange])
 
   useEffect(() => {
-    if (!lastPostRef.current) {
+    if (!highlightedPostRef.current) {
       return
     }
 
@@ -115,14 +107,14 @@ export const DiscussionPostList = ({
         return
       }
 
-      setHasNewMessages(false)
+      onAfterPostHighlight()
     })
-    observer.current.observe(lastPostRef.current)
+    observer.current.observe(highlightedPostRef.current)
 
     return () => {
       observer.current?.disconnect()
     }
-  }, [data])
+  }, [data, highlightedPost, onAfterPostHighlight])
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
@@ -148,16 +140,6 @@ export const DiscussionPostList = ({
   if (data) {
     return (
       <div className="discussion">
-        {hasNewMessages ? (
-          <button
-            className="new-messages-button"
-            type="button"
-            onClick={() => scrollToLastMessage()}
-          >
-            TODO: This should be moved into the place it is in
-            AddDiscussionPost.tsx
-          </button>
-        ) : null}
         {iterationsWithPosts.map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
@@ -207,16 +189,13 @@ export const DiscussionPostList = ({
                 </div>
               </details>
               {iteration.posts.map((post) => {
-                if (
-                  iterationsWithPosts[iterationsWithPosts.length - 1] ===
-                  iteration
-                ) {
-                  return (
-                    <DiscussionPost ref={lastPostRef} key={post.id} {...post} />
-                  )
-                } else {
-                  return <DiscussionPost key={post.id} {...post} />
-                }
+                return (
+                  <DiscussionPost
+                    ref={highlightedPost === post ? highlightedPostRef : null}
+                    key={post.id}
+                    {...post}
+                  />
+                )
               })}
             </React.Fragment>
           )

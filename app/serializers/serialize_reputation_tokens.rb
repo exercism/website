@@ -16,8 +16,15 @@ class SerializeReputationTokens
       value: token.value,
       description: token.description,
       icon_name: token.icon_name,
-      link_url: token.link_url,
-      awarded_at: token.created_at.iso8601
+      internal_link: token.internal_link,
+      external_link: token.external_link,
+      awarded_at: token.created_at.iso8601,
+      track: if token.track
+               {
+                 title: token.track.title,
+                 icon_name: token.track.icon_name
+               }
+             end
     }
   end
 end

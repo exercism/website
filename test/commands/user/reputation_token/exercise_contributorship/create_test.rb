@@ -11,6 +11,8 @@ class User::ReputationToken::ExerciseContributorship::CreateTest < ActiveSupport
     rt = user.reputation_tokens.first
 
     assert_equal contributorship, rt.context
+    assert_equal contributorship.exercise, rt.exercise
+    assert_equal contributorship.exercise.track, rt.track
     assert_equal "contributed_to_exercise/#{contributorship.exercise.uuid}", rt.context_key
     assert_equal 'contributed_to_exercise', rt.reason
     assert_equal :authoring, rt.category

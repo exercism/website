@@ -1,4 +1,6 @@
 class Mentor::Testimonial < ApplicationRecord
+  self.table_name = "mentor_testimonials"
+
   belongs_to :mentor, class_name: "User"
   belongs_to :student, class_name: "User"
   belongs_to :discussion, class_name: "Solution::MentorDiscussion"

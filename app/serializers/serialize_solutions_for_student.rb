@@ -30,8 +30,8 @@ class SerializeSolutionsForStudent
       num_comments: 2, # TODO
       num_iterations: 3, # TODO
       num_locs: "9 - 18", # TODO
-      last_submitted_at: solution.submissions.last.try(&:created_at),
-      published_at: solution.published_at,
+      last_submitted_at: solution.submissions.last&.created_at&.iso8601,
+      published_at: solution.published_at&.iso8601,
       exercise: {
         title: solution.exercise.title,
         icon_name: solution.exercise.icon_name

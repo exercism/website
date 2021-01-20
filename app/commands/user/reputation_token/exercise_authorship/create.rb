@@ -14,6 +14,8 @@ class User
             rt.context = authorship
             rt.reason = :authored_exercise
             rt.category = :authoring
+            rt.exercise = authorship.exercise
+            rt.track = authorship.exercise.track
           end
         end
       end

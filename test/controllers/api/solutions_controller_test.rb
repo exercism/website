@@ -1,9 +1,9 @@
 require_relative './base_test_case'
 
 class API::SolutionsControllerTest < API::BaseTestCase
-  #####
-  # INDEX
-  #####
+  #########
+  # INDEX #
+  #########
   test "index should return 401 with incorrect token" do
     get api_solutions_path, as: :json
     assert_response 401
@@ -15,7 +15,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "latest should proxy params" do
+  test "index should proxy params" do
     setup_user
     solution = create :concept_solution
 
@@ -35,7 +35,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
   end
 
-  test "latest should search and return solutions" do
+  test "index should search and return solutions" do
     setup_user
     ruby = create :track, title: "Ruby"
     ruby_bob = create :concept_exercise, track: ruby, title: "Bob"

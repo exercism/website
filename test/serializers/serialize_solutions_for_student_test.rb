@@ -2,21 +2,23 @@ require 'test_helper'
 
 class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
   test "basic to_hash" do
-    solution = create :practice_solution
+    solution = create :practice_solution, published_at: Time.current - 1.week
+    submission = create :submission, solution: solution
+
     create :user_track, user: solution.user, track: solution.track
     expected = {
       solutions: [{
         id: solution.uuid,
         url: "https://test.exercism.io/tracks/ruby/exercises/bob",
-        status: :started,
+        status: :published,
         mentoring_status: 'none',
         num_views: 1270, # TODO
         num_stars: 10, # TODO
         num_comments: 2, # TODO
         num_iterations: 3, # TODO
         num_locs: "9 - 18", # TODO
-        last_submitted_at: solution.submissions.last.try(&:created_at),
-        published_at: solution.published_at,
+        last_submitted_at: submission.created_at.iso8601,
+        published_at: solution.published_at.iso8601,
         exercise: {
           title: solution.exercise.title,
           icon_name: solution.exercise.icon_name

@@ -14,6 +14,8 @@ class User
             rt.external_link = external_link
             rt.reason = :reviewed_code
             rt.category = :building
+
+            # TODO: Set rt.track here.
           end
         end
       end

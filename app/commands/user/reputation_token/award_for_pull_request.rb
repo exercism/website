@@ -1,5 +1,3 @@
-require 'octokit'
-
 class User
   class ReputationToken
     class AwardForPullRequest

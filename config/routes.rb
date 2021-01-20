@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
+      resources :reputation, only: %i[index]
       resources :solutions, only: %i[index show update] do
         # CLI Methods
         get :latest, on: :collection

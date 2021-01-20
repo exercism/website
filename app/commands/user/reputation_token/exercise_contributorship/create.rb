@@ -14,6 +14,8 @@ class User
             rt.context = contributorship
             rt.reason = :contributed_to_exercise
             rt.category = :authoring
+            rt.exercise = contributorship.exercise
+            rt.track = contributorship.exercise.track
           end
         end
       end

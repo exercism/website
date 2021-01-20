@@ -15,7 +15,7 @@ export const SolutionResults = ({
     <div>
       <div className="results-title-bar">
         <h3>
-          Showing {results.length} {pluralize('solutions', results.length)}
+          Showing {results.length} {pluralize('solution', results.length)}
         </h3>
         <div className="c-select order">
           <select onChange={(e) => setSort(e.target.value)} value={sort}>

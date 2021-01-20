@@ -51,6 +51,8 @@ class User::ReputationToken < ApplicationRecord
   def icon_name
     return exercise.icon_name if exercise
     return track.icon_name if track
+
+    :reputation # TODO: Choose an icon
   end
 
   def description
@@ -72,9 +74,7 @@ class User::ReputationToken < ApplicationRecord
     "You contributed to Exercism"
   end
 
-  def link_url
-    return external_link if external_link.present?
-
+  def internal_link
     nil
   end
 end

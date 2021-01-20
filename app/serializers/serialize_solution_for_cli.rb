@@ -1,4 +1,4 @@
-class SerializeSolution
+class SerializeSolutionForCLI
   include Mandate
 
   initialize_with :solution, :requester

@@ -111,7 +111,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     get latest_api_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializeSolution.(solution, @current_user)
+    serializer = SerializeSolutionForCLI.(solution, @current_user)
     assert_equal serializer.to_json, response.body
   end
 
@@ -196,7 +196,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     get api_solution_path(solution.uuid), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializeSolution.(solution, @current_user)
+    serializer = SerializeSolutionForCLI.(solution, @current_user)
     assert_equal serializer.to_json, response.body
   end
 

@@ -1,31 +1,19 @@
 require "test_helper"
 
-class Badge::CreateTest < ActiveSupport::TestCase
-  class Badges::DummyGoodBadge < Badge
-    def should_award?
-      true
-    end
-  end
-
-  class Badges::DummyBadBadge < Badge
-    def should_award?
-      false
-    end
-  end
-
+class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
   test "acquires badge for user" do
     user = create :user
 
-    badge = Badge::Create.(user, :dummy_good)
-    assert badge.persisted?
-    assert_equal user, badge.user
-    assert_equal Badges::DummyGoodBadge, badge.class
+    acquired_badge = User::AcquiredBadge::Create.(user, :member)
+    assert acquired_badge.persisted?
+    assert_equal user, acquired_badge.user
+    assert_equal Badges::MemberBadge, acquired_badge.badge.class
   end
 
   test "idempotent" do
     user = create :user
 
-    assert_idempotent_command { Badge::Create.(user, :dummy_good) }
+    assert_idempotent_command { User::AcquiredBadge::Create.(user, :member) }
     assert_equal 1, user.notifications.count
   end
 
@@ -33,19 +21,21 @@ class Badge::CreateTest < ActiveSupport::TestCase
   # but the first find shouldn't return it, triggering
   # the creation to continue as normal
   test "race conditions" do
-    user = create :user
-    badge = Badges::DummyGoodBadge.create!(user: user)
-    Badges::DummyGoodBadge.expects(:find_by).returns(nil)
-    Badges::DummyGoodBadge.expects(:find_by!).returns(badge)
+    badge = create :member_badge
 
-    new_badge = Badge::Create.(user, :dummy_good)
-    assert_equal badge, new_badge
+    user = create :user
+    acquired_badge = User::AcquiredBadge.create!(user: user, badge: badge)
+    User::AcquiredBadge.expects(:find_by).returns(nil)
+    User::AcquiredBadge.expects(:find_by!).returns(acquired_badge)
+
+    new_badge = User::AcquiredBadge::Create.(user, :member)
+    assert_equal acquired_badge, new_badge
   end
 
   test "creates notification" do
     user = create :user
 
-    badge = Badge::Create.(user, :dummy_good)
+    badge = User::AcquiredBadge::Create.(user, :member)
 
     assert_equal 1, user.notifications.size
     notification = Notification.where(user: user).first
@@ -57,7 +47,7 @@ class Badge::CreateTest < ActiveSupport::TestCase
     user = create :user
 
     assert_raises BadgeCriteriaNotFulfilledError do
-      Badge::Create.(user, :dummy_bad)
+      User::AcquiredBadge::Create.(user, :rookie)
     end
   end
 end

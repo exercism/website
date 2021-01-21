@@ -2,13 +2,17 @@ class Solution
   class Search
     include Mandate
 
-    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: 1, per: 25)
+    def self.per
+      25
+    end
+
+    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: nil, per: nil)
       @user = user
       @criteria = criteria
       @status = status
       @mentoring_status = mentoring_status
       @page = page || 1
-      @per = per || 25
+      @per = per || self.class.per
     end
 
     def call

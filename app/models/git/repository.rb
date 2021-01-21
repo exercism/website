@@ -9,20 +9,16 @@ module Git
       @repo_name = repo_name
 
       if ENV["GIT_CONTENT_REPO"].present?
-        @repo_url =
-          ENV["GIT_CONTENT_REPO"]
+        @repo_url = ENV["GIT_CONTENT_REPO"]
       elsif repo_url
-        @repo_url =
-          repo_url
+        @repo_url = repo_url
       elsif Rails.env.test?
         # TODO; Switch when we move back out of monorepo
-        @repo_url =
-          "file://#{Rails.root / 'test' / 'repos' / 'v3-monorepo'}"
+        @repo_url = "file://#{Rails.root / 'test' / 'repos' / 'v3-monorepo'}"
       else
         # TODO; Switch when we move back out of monorepo
         # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
-        @repo_url =
-          "https://github.com/exercism/v3"
+        @repo_url = "https://github.com/exercism/v3"
       end
 
       fetch! if keep_up_to_date?
@@ -104,8 +100,8 @@ module Git
 
     def repo_dir
       # TODO: Change when breaking out of monorepo
-      "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-v3"
-      # "#{repos_dir}/#{Digest::SHA1.hexdigest(repo_url)}-#{repo_name}"
+      "#{repos_dir}/v3"
+      # "#{repos_dir}/#{repo_name}"
     end
 
     memoize

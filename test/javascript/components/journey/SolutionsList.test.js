@@ -126,22 +126,27 @@ test('filters solutions', async () => {
     {
       id: 'uuid-1',
       exerciseTitle: 'Lasagna',
-      tags: ['oop'],
+      status: 'published',
+      mentoringStatus: 'in_progress',
     },
     {
       id: 'uuid-2',
       exerciseTitle: 'Bob',
-      tags: ['functional'],
+      status: 'published',
+      mentoringStatus: 'requested',
     },
   ]
 
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const filter = req.url.searchParams.get('filter[]')
+      const status = req.url.searchParams.get('status')
+      const mentoringStatus = req.url.searchParams.get('mentoring_status')
 
-      const searched = solutions.filter((solution) =>
-        solution.tags.includes(filter)
-      )
+      const searched = solutions
+        .filter((solution) => solution.status.includes(status))
+        .filter((solution) =>
+          solution.mentoringStatus.includes(mentoringStatus)
+        )
 
       const response = {
         results: searched,
@@ -157,10 +162,13 @@ test('filters solutions', async () => {
 
   render(<SolutionsList endpoint="https://exercism.test/solutions" />)
 
-  userEvent.click(screen.getByRole('button', { name: 'Filter By' }))
-  userEvent.click(screen.getByLabelText('Functional'))
+  userEvent.click(screen.getByRole('button', { name: 'Filter by' }))
+  userEvent.click(screen.getByLabelText('Completed and published'))
+  userEvent.click(screen.getByLabelText('Requested'))
+  userEvent.click(screen.getByRole('button', { name: 'Apply' }))
 
   expect(await screen.findByText('Bob')).toBeInTheDocument()
+  expect(screen.queryByText('Lasagna')).not.toBeInTheDocument()
 
   server.close()
 })

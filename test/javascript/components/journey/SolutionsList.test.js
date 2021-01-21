@@ -219,7 +219,7 @@ test('sorts solutions', async () => {
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
       const sort = req.url.searchParams.get('sort')
 
-      if (sort === 'newest-first') {
+      if (sort === 'newest_first') {
         solutions = solutions.reverse()
       }
 
@@ -238,7 +238,7 @@ test('sorts solutions', async () => {
   render(<SolutionsList endpoint="https://exercism.test/solutions" />)
   expect(await screen.findByText('Lasagna')).toBeInTheDocument()
 
-  userEvent.selectOptions(screen.getByRole('combobox'), ['newest-first'])
+  userEvent.selectOptions(screen.getByRole('combobox'), ['newest_first'])
 
   expect(await screen.findByText('Bob')).toBeInTheDocument()
 

@@ -6,13 +6,14 @@ class Solution
       25
     end
 
-    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: nil, per: nil)
+    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: nil, per: nil, sort: nil)
       @user = user
       @criteria = criteria
       @status = status
       @mentoring_status = mentoring_status
       @page = page || 1
       @per = per || self.class.per
+      @sort = sort || "oldest_first"
     end
 
     def call
@@ -20,13 +21,14 @@ class Solution
       filter_criteria
       filter_status
       filter_mentoring_status
+      sort_solutions
 
       @solutions.page(@page).per(@per)
     end
 
     private
     attr_reader :user, :criteria, :status, :mentoring_status,
-      :solutions
+      :solutions, :sort
 
     def filter_criteria
       return if criteria.blank?
@@ -68,6 +70,15 @@ class Solution
         @solutions = @solutions.mentoring_status_in_progress
       when :completed
         @solutions = @solutions.mentoring_status_completed
+      end
+    end
+
+    def sort_solutions
+      case sort.to_sym
+      when :oldest_first
+        @solutions = @solutions.order(:created_at)
+      when :newest_first
+        @solutions = @solutions.order(created_at: :desc)
       end
     end
   end

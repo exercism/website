@@ -25,7 +25,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
-      per: "25"
+      per: "25",
+      sort: "newest_first"
     ).returns(Solution.page(2))
 
     get api_solutions_path(
@@ -33,7 +34,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
-      per: "25"
+      per: "25",
+      sort: "newest_first"
     ), headers: @headers, as: :json
 
     assert_response :success

@@ -80,4 +80,20 @@ class Solution::SearchTest < ActiveSupport::TestCase
     assert_equal [solution_1, solution_2], Solution::Search.(user, page: 1, per: 2)
     assert_equal [], Solution::Search.(user, page: 2, per: 2)
   end
+
+  test "sort oldest first" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, created_at: 2.days.ago
+    solution_2 = create :concept_solution, user: user, created_at: 1.day.ago
+
+    assert_equal [solution_1, solution_2], Solution::Search.(user, sort: "oldest_first")
+  end
+
+  test "sort newest first" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, created_at: 1.day.ago
+    solution_2 = create :concept_solution, user: user, created_at: 2.days.ago
+
+    assert_equal [solution_1, solution_2], Solution::Search.(user, sort: "newest_first")
+  end
 end

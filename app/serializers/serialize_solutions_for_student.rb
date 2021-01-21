@@ -5,9 +5,11 @@ class SerializeSolutionsForStudent
 
   def call
     {
-      solutions: solutions.map do |solution|
-        serialize_solution(solution)
-      end
+      results: solutions.map { |s| serialize_solution(s) },
+      meta: {
+        current: solutions.current_page,
+        total: solutions.total_count
+      }
     }
   end
 

@@ -69,4 +69,15 @@ class Solution::SearchTest < ActiveSupport::TestCase
     assert_equal [completed], Solution::Search.(user, mentoring_status: :completed)
     assert_equal [completed], Solution::Search.(user, mentoring_status: 'completed')
   end
+
+  test "pagination" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user
+    solution_2 = create :concept_solution, user: user
+
+    assert_equal [solution_1], Solution::Search.(user, page: 1, per: 1)
+    assert_equal [solution_2], Solution::Search.(user, page: 2, per: 1)
+    assert_equal [solution_1, solution_2], Solution::Search.(user, page: 1, per: 2)
+    assert_equal [], Solution::Search.(user, page: 2, per: 2)
+  end
 end

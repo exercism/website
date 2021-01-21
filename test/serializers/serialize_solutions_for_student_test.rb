@@ -7,7 +7,7 @@ class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
 
     create :user_track, user: solution.user, track: solution.track
     expected = {
-      solutions: [{
+      results: [{
         id: solution.uuid,
         url: "https://test.exercism.io/tracks/ruby/exercises/bob",
         status: :published,
@@ -27,24 +27,28 @@ class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
           title: solution.track.title,
           icon_name: solution.track.icon_name
         }
-      }]
+      }],
+      meta: {
+        current: 1,
+        total: 1
+      }
     }
 
-    assert_equal expected, SerializeSolutionsForStudent.([solution])
+    assert_equal expected, SerializeSolutionsForStudent.(Solution.page(1).per(1))
   end
 
   test "status - started" do
-    solution = create :concept_solution
-    assert_equal :started, SerializeSolutionsForStudent.([solution])[:solutions][0][:status]
+    create :concept_solution
+    assert_equal :started, SerializeSolutionsForStudent.(Solution.page(1).per(1))[:results][0][:status]
   end
 
   test "status - completed" do
-    solution = create :concept_solution, completed_at: Time.current
-    assert_equal :completed, SerializeSolutionsForStudent.([solution])[:solutions][0][:status]
+    create :concept_solution, completed_at: Time.current
+    assert_equal :completed, SerializeSolutionsForStudent.(Solution.page(1).per(1))[:results][0][:status]
   end
 
   test "status - published" do
-    solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
-    assert_equal :published, SerializeSolutionsForStudent.([solution])[:solutions][0][:status]
+    create :concept_solution, completed_at: Time.current, published_at: Time.current
+    assert_equal :published, SerializeSolutionsForStudent.(Solution.page(1).per(1))[:results][0][:status]
   end
 end

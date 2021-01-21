@@ -94,6 +94,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
+import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
@@ -118,6 +119,9 @@ function camelizeKeysAs<T>(object: any): T {
 initReact({
   'maintaining-submissions-summary-table': (data: any) => (
     <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
+  ),
+  'journey-solutions-list': (data: any) => (
+    <Journey.SolutionsList endpoint={data.endpoint} />
   ),
   'common-notifications-icon': (data: any) => (
     <Common.NotificationsIcon count={data.count} />

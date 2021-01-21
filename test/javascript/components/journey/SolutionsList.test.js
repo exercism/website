@@ -10,11 +10,17 @@ test('pulls solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
@@ -47,11 +53,17 @@ test('paginates solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
@@ -84,11 +96,17 @@ test('searches solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
@@ -97,7 +115,7 @@ test('searches solutions', async () => {
       const search = req.url.searchParams.get('search')
 
       const searched = solutions.filter(
-        (solution) => solution.exerciseTitle === search
+        (solution) => solution.exercise.title === search
       )
 
       const response = {
@@ -125,13 +143,19 @@ test('filters solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
       status: 'published',
       mentoringStatus: 'in_progress',
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
       status: 'published',
       mentoringStatus: 'requested',
     },
@@ -177,11 +201,17 @@ test('sorts solutions', async () => {
   let solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 

@@ -5,8 +5,11 @@ module API
         current_user,
         criteria: params[:criteria],
         status: params[:status],
-        mentoring_status: params[:mentoring_status]
+        mentoring_status: params[:mentoring_status],
+        page: params[:page],
+        per: params[:per]
       )
+
       render json: SerializeSolutionsForStudent.(solutions)
     end
 

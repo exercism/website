@@ -5,6 +5,8 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { SolutionsList } from '../../../../app/javascript/components/journey/SolutionsList'
 import userEvent from '@testing-library/user-event'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { silenceConsole } from '../../support/silence-console'
 
 test('pulls solutions', async () => {
   const solutions = [
@@ -243,4 +245,45 @@ test('sorts solutions', async () => {
   expect(await screen.findByText('Bob')).toBeInTheDocument()
 
   server.close()
+})
+
+test('shows API errors', async () => {
+  silenceConsole()
+  const server = setupServer(
+    rest.get('https://exercism.test/solutions', (req, res, ctx) => {
+      return res(
+        ctx.status(422),
+        ctx.json({
+          error: {
+            message: 'Unable to fetch solutions',
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <SolutionsList endpoint="https://exercism.test/solutions" />)
+    </TestQueryCache>
+  )
+
+  expect(
+    await screen.findByText('Unable to fetch solutions')
+  ).toBeInTheDocument()
+
+  server.close()
+})
+
+test('shows generic errors', async () => {
+  silenceConsole()
+
+  render(
+    <TestQueryCache>
+      <SolutionsList endpoint="weirdendpoint" />)
+    </TestQueryCache>
+  )
+
+  expect(await screen.findByText('Unable to fetch list')).toBeInTheDocument()
 })

@@ -19,8 +19,8 @@ export const SolutionResults = ({
         </h3>
         <div className="c-select order">
           <select onChange={(e) => setSort(e.target.value)} value={sort}>
-            <option value="oldest-first">Sort by Oldest First</option>
-            <option value="newest-first">Sort by Newest First</option>
+            <option value="oldest_first">Sort by Oldest First</option>
+            <option value="newest_first">Sort by Newest First</option>
           </select>
         </div>
       </div>

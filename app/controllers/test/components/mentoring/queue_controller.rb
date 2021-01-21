@@ -51,8 +51,8 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i
 
-    if params[:search].present?
-      results = results.select { |result| result[:mentee_handle].downcase.include?(params[:search].downcase) }
+    if params[:criteria].present?
+      results = results.select { |result| result[:mentee_handle].downcase.include?(params[:criteria].downcase) }
     end
     results = sort_solutions(results) if params[:sort].present?
 

@@ -1,8 +1,11 @@
 require "application_system_test_case"
+require_relative "../../../support/capybara_helpers"
 
 module Components
   module Journey
     class SolutionsTest < ApplicationSystemTestCase
+      include CapybaraHelpers
+
       test "shows solutions" do
         user = create :user
         track = create :track, title: "Ruby"
@@ -38,6 +41,24 @@ module Components
         sign_in!(user)
         visit solutions_journey_path
         click_on "2"
+
+        assert_text "Bob"
+        assert_no_text "Lasagna"
+      end
+
+      test "searches solutions" do
+        Solution::Search.stubs(:per).returns(1)
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create :concept_solution, exercise: exercise, user: user
+        create :concept_solution, exercise: exercise_2, user: user
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          fill_in "Search for an exercise", with: "Bob"
+        end
 
         assert_text "Bob"
         assert_no_text "Lasagna"

@@ -44,7 +44,7 @@ export const SearchableList = ({
   ResultsComponent: React.ComponentType<ResultsType>
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setSearch, setQuery, setSort } = useList({
+  const { request, setPage, setCriteria, setQuery, setSort } = useList({
     endpoint: endpoint,
   })
   const { status, resolvedData, latestData } = usePaginatedRequestQuery<
@@ -64,9 +64,9 @@ export const SearchableList = ({
         <input
           className="--search"
           onChange={(e) => {
-            setSearch(e.target.value)
+            setCriteria(e.target.value)
           }}
-          value={request.query.search || ''}
+          value={request.query.criteria || ''}
           placeholder={placeholder}
         />
         <FilterPanel

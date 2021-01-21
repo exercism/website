@@ -4,6 +4,7 @@ import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FilterPanel } from './searchable-list/FilterPanel'
+import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 
 type PaginatedResult = {
   results: any[]
@@ -30,6 +31,8 @@ export type FilterCategory = {
 
 export type FilterValue = Record<string, string>
 
+const DEFAULT_ERROR = new Error('Unable to fetch list')
+
 export const SearchableList = ({
   endpoint,
   cacheKey,
@@ -47,8 +50,9 @@ export const SearchableList = ({
   const { request, setPage, setCriteria, setQuery, setSort } = useList({
     endpoint: endpoint,
   })
-  const { status, resolvedData, latestData } = usePaginatedRequestQuery<
-    PaginatedResult
+  const { status, resolvedData, latestData, error } = usePaginatedRequestQuery<
+    PaginatedResult,
+    Error | Response
   >(cacheKey, request, isMountedRef)
 
   const setFilter = useCallback(
@@ -84,9 +88,45 @@ export const SearchableList = ({
         </button>
       </div>
       {status === 'loading' ? <Loading /> : null}
+      <ErrorBoundary>
+        <Results
+          query={request.query}
+          error={error}
+          setSort={setSort}
+          setPage={setPage}
+          resolvedData={resolvedData}
+          latestData={latestData}
+          ResultsComponent={ResultsComponent}
+        />
+      </ErrorBoundary>
+    </div>
+  )
+}
+
+const Results = ({
+  query,
+  setSort,
+  setPage,
+  resolvedData,
+  latestData,
+  error,
+  ResultsComponent,
+}: {
+  query: Record<string, any>
+  setSort: (sort: string) => void
+  setPage: (page: number) => void
+  resolvedData: PaginatedResult | undefined
+  latestData: PaginatedResult | undefined
+  error: Error | Response | null
+  ResultsComponent: React.ComponentType<ResultsType>
+}) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return (
+    <React.Fragment>
       {resolvedData ? (
         <ResultsComponent
-          sort={request.query.sort}
+          sort={query.sort}
           results={resolvedData.results}
           setSort={setSort}
         />
@@ -94,12 +134,12 @@ export const SearchableList = ({
       {latestData ? (
         <footer>
           <Pagination
-            current={request.query.page}
+            current={query.page}
             total={latestData.meta.total}
             setPage={setPage}
           />
         </footer>
       ) : null}
-    </div>
+    </React.Fragment>
   )
 }

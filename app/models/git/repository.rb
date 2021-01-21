@@ -111,9 +111,8 @@ module Git
     memoize
     def repos_dir
       return "./test/tmp/git_repo_cache" if Exercism.env.test?
-      return "./tmp/git_repo_cache" if Exercism.env.development?
 
-      "/mnt/repos"
+      Exercism.config.efs_repositories_mount_point
     end
 
     memoize

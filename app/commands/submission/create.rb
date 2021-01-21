@@ -20,21 +20,11 @@ class Submission
       # This needs to be fast.
       guard!
 
-      # Kick off the threads to get things uploaded
-      # before we do anything with the database.
-
-      # These thread must *not* touch the DB or have any
-      # db models passed to them.
-      services_thread = Thread.new { init_services }
-
       create_submission!
       create_files!
+      init_test_run!
       schedule_jobs!
       submission.broadcast!
-
-      # Finally wait for everyhting to finish before
-      # we return the submission.
-      services_thread.join
 
       # End by returning the new submission
       submission
@@ -53,19 +43,6 @@ class Submission
       raise DuplicateSubmissionError if prev_files.sort == new_files.sort
     end
 
-    # TODO: Simply this once the analyse code has
-    # moved to iterations service.
-    def init_services
-      job_id = SecureRandom.uuid
-      ToolingJob::UploadFiles.(
-        job_id,
-        submitted_files,
-        exercise_files,
-        solution.track.test_regexp
-      )
-      Submission::TestRun::Init.(job_id, submission_uuid, solution.track.slug, solution.exercise.slug)
-    end
-
     def create_submission!
       @submission = solution.submissions.create!(
         uuid: submission_uuid,
@@ -82,13 +59,12 @@ class Submission
       end
     end
 
-    def schedule_jobs!
-      AwardBadgeJob.perform_later(solution.user, :rookie)
+    def init_test_run!
+      Submission::TestRun::Init.(submission)
     end
 
-    memoize
-    def exercise_files
-      Git::Exercise.for_solution(solution).non_ignored_files
+    def schedule_jobs!
+      AwardBadgeJob.perform_later(solution.user, :rookie)
     end
   end
 end

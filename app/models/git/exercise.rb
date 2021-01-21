@@ -23,6 +23,10 @@ module Git
       @git_sha = git_sha
     end
 
+    def normalised_git_sha
+      commit.oid
+    end
+
     memoize
     def instructions
       read_file_blob(".docs/instructions.md")
@@ -96,8 +100,13 @@ module Git
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil
     end
 
+    def dir
+      # TODO: Needs changing once we're out of the monorepo
+      "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}"
+    end
+
     private
-    attr_reader :repo, :track_slug, :exercise_slug, :git_sha, :exercise_type
+    attr_reader :repo, :track_slug, :exercise_slug, :exercise_type, :git_sha
 
     def full_filepath(filepath)
       "#{dir}/#{filepath}"
@@ -122,11 +131,6 @@ module Git
       # TODO: When things are exploded back into repos, do this
       # repo.fetch_tree(commit, "exercises/#{exercise_type}/#{slug}")
       repo.fetch_tree(commit, dir)
-    end
-
-    def dir
-      # TODO: Needs changing once we're out of the monorepo
-      "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}"
     end
 
     memoize

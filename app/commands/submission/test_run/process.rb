@@ -36,6 +36,7 @@ class Submission
         end
 
         submission.broadcast!
+        submission.iteration&.broadcast!
         test_run.broadcast!
       end
 

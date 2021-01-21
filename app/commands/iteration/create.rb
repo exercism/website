@@ -19,33 +19,9 @@ class Iteration
       Iteration.find_by!(solution: solution, submission: submission)
     end
 
-    # TODO: All this is very messy
     def init_services
-      submission_uuid = submission.uuid
-      submission_files = submission.files.map do |file|
-        { filename: file.filename, content: file.content }
-      end
-
-      test_regexp = solution.track.test_regexp
-      track_slug = solution.track.slug
-      exercise_slug = solution.exercise.slug
-
-      # Important: Ensure there is no DB access within the threads.
-      # Can we enforce this somehow?
-      [
-        Thread.new do
-          job_id = SecureRandom.uuid
-          ToolingJob::UploadFiles.(job_id, submission_files, [], test_regexp)
-          Submission::Representation::Init.(job_id, submission_uuid, track_slug, exercise_slug)
-        end,
-        Thread.new do
-          job_id = SecureRandom.uuid
-          ToolingJob::UploadFiles.(job_id, submission_files, [], test_regexp)
-
-          # TODO: Readd this to reenable analyses
-          # Submission::Analysis::Init.(job_id, submission_uuid, track_slug, exercise_slug)
-        end
-      ].each(&:join)
+      Submission::Representation::Init.(submission)
+      # Submission::Analysis::Init.(submission)
     end
 
     def record_activity!(iteration)

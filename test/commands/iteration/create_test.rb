@@ -50,11 +50,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     filename_2 = "barfood.rb"
     content_2 = "something = :else"
 
-    files = [
-      { filename: filename_1, content: content_1 },
-      { filename: filename_2, content: content_2 }
-    ]
-
     solution = create :concept_solution
     submission = create :submission, solution: solution
     create :submission_file, submission: submission, filename: filename_1, content: content_1
@@ -63,13 +58,10 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     job_id = SecureRandom.uuid
     SecureRandom.stubs(uuid: job_id)
 
-    ToolingJob::UploadFiles.expects(:call).with(job_id, files, [], solution.track.test_regexp)
-    Submission::Representation::Init.expects(:call).with(job_id, submission.uuid, solution.track.slug,
-      solution.exercise.slug)
+    Submission::Representation::Init.expects(:call).with(submission)
 
-    ToolingJob::UploadFiles.expects(:call).with(job_id, files, [], solution.track.test_regexp)
     # TODO: Readd this when analyses are reenabled
-    # Submission::Analysis::Init.expects(:call).with(job_id, submission.uuid, solution.track.slug, solution.exercise.slug)
+    # Submission::Analysis::Init.expects(:call).with(submission)
 
     Iteration::Create.(solution, submission)
 

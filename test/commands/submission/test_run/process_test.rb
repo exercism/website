@@ -79,7 +79,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_exceptioned?
   end
 
-  test "broadcast" do
+  test "broadcast without iteration" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results: results)
@@ -91,5 +91,19 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     Submission::TestRun::Process.(job)
 
     assert submission.test_run
+  end
+
+  test "broadcast with iteration" do
+    submission = create :submission
+    iteration = create :iteration, submission: submission
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+
+    IterationChannel.expects(:broadcast!).with(iteration)
+    SubmissionChannel.expects(:broadcast!).with(submission)
+    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
+    Submission::TestRunsChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
+
+    Submission::TestRun::Process.(job)
   end
 end

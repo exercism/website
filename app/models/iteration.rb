@@ -19,4 +19,8 @@ class Iteration < ApplicationRecord
   def viewable_by?(user)
     solution.mentors.include?(user) || solution.user == user
   end
+
+  def broadcast!
+    IterationChannel.broadcast!(self)
+  end
 end

@@ -17,7 +17,10 @@ class SubmissionFileTest < ActiveSupport::TestCase
     assert_equal filename, file.filename
     assert_equal digest, file.digest
 
-    # Note that this retreives from s3
-    assert_equal content, file.content
+    # Get a new instance from the db so that we retrieve
+    # from s3, not from the local cached version
+    reloaded_file = Submission::File.find(file.id)
+    assert_equal content, reloaded_file.content
+    assert_equal content, File.read(reloaded_file.efs_path)
   end
 end

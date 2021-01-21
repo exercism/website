@@ -40,7 +40,7 @@ class ToolingJob
   end
 
   attr_reader :id, :submission_uuid, :type, :job_status, :created_at,
-    :language, :exercise, :locked_until,
+    :language, :exercise, :locked_until, :source,
     :execution_status, :execution_metadata, :execution_output
 
   def initialize(params)
@@ -107,6 +107,6 @@ class ToolingJob
 
   private
   attr_writer :id, :submission_uuid, :type, :job_status, :created_at,
-    :language, :exercise, :locked_until,
+    :language, :exercise, :locked_until, :source,
     :execution_status, :execution_metadata, :execution_output, :s3_uri
 end

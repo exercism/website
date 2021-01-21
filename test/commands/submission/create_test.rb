@@ -93,19 +93,7 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     test_run_id = SecureRandom.uuid
     SecureRandom.stubs(uuid: test_run_id)
-
-    ToolingJob::UploadFiles.expects(:call).with(
-      test_run_id,
-      files,
-      Git::Exercise.for_solution(solution).non_ignored_files,
-      solution.track.test_regexp
-    )
-    Submission::TestRun::Init.expects(:call).with(
-      test_run_id,
-      anything,
-      solution.track.slug,
-      solution.exercise.slug
-    )
+    Submission::TestRun::Init.expects(:call).with(anything)
     submission = Submission::Create.(solution, files, :cli)
 
     assert :queued, submission.tests_status

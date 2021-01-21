@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { GraphicalIcon, Loading, Pagination } from '../common'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
+import { FilterPanel } from './searchable-list/FilterPanel'
 
 type PaginatedResult = {
   results: any[]
@@ -12,37 +13,50 @@ type PaginatedResult = {
   }
 }
 
-type FilterType = {
-  setFilter: (filter: string[]) => void
-  values: string[]
-}
-
 type ResultsType = {
   sort: string
   setSort: (sort: string) => void
   results: any[]
 }
 
+export type FilterCategory = {
+  value: string
+  label: string
+  options: {
+    value: string
+    label: string
+  }[]
+}
+
+export type FilterValue = Record<string, string>
+
 export const SearchableList = ({
   endpoint,
   cacheKey,
   placeholder,
-  FilterComponent,
+  categories,
   ResultsComponent,
 }: {
   endpoint: string
   cacheKey: string
   placeholder: string
-  FilterComponent: React.ComponentType<FilterType>
+  categories: FilterCategory[]
   ResultsComponent: React.ComponentType<ResultsType>
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setSearch, setFilter, setSort } = useList({
+  const { request, setPage, setSearch, setQuery, setSort } = useList({
     endpoint: endpoint,
   })
   const { status, resolvedData, latestData } = usePaginatedRequestQuery<
     PaginatedResult
   >(cacheKey, request, isMountedRef)
+
+  const setFilter = useCallback(
+    (filter) => {
+      setQuery({ ...request.query, ...filter })
+    },
+    [request.query, setQuery]
+  )
 
   return (
     <div className="md-container container">
@@ -55,14 +69,15 @@ export const SearchableList = ({
           value={request.query.search || ''}
           placeholder={placeholder}
         />
-        <FilterComponent
+        <FilterPanel
           setFilter={setFilter}
-          values={request.query.filter || []}
+          categories={categories}
+          value={request.query.filter || {}}
         />
         <button
           type="button"
           className="--reset-btn"
-          onClick={() => setFilter([])}
+          onClick={() => setFilter({})}
         >
           <GraphicalIcon icon="reset" />
           Reset filters

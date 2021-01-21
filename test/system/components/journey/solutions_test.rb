@@ -27,6 +27,22 @@ module Components
         assert_icon exercise.icon_name
       end
 
+      test "paginates solutions" do
+        Solution::Search.stubs(:per).returns(1)
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create :concept_solution, exercise: exercise, user: user
+        create :concept_solution, exercise: exercise_2, user: user
+
+        sign_in!(user)
+        visit solutions_journey_path
+        click_on "2"
+
+        assert_text "Bob"
+        assert_no_text "Lasagna"
+      end
+
       private
       def assert_icon(name)
         assert_css "use[*|href=\"##{name}\"]"

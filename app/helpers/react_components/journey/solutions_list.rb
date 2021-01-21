@@ -5,7 +5,7 @@ module ReactComponents
         super(
           "journey-solutions-list",
           {
-            endpoint: Exercism::Routes.api_solutions_path
+            endpoint: Exercism::Routes.api_solutions_url
           }
         )
       end

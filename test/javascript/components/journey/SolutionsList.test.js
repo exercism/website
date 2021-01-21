@@ -112,10 +112,10 @@ test('searches solutions', async () => {
 
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const search = req.url.searchParams.get('search')
+      const criteria = req.url.searchParams.get('criteria')
 
       const searched = solutions.filter(
-        (solution) => solution.exercise.title === search
+        (solution) => solution.exercise.title === criteria
       )
 
       const response = {

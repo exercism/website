@@ -8,7 +8,7 @@ import { useList } from '../../hooks/use-list'
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const {
     request: conversationsRequest,
-    setSearch,
+    setCriteria,
     setSort,
     setPage,
     setQuery,
@@ -23,8 +23,8 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
       <header className="c-search-bar">
         <TrackFilter request={tracksRequest} setTrack={setTrack} />
         <TextFilter
-          filter={conversationsRequest.query.search}
-          setFilter={setSearch}
+          filter={conversationsRequest.query.criteria}
+          setFilter={setCriteria}
           id="conversation-filter"
           placeholder="Filter by student or exercise name"
         />

@@ -74,8 +74,8 @@ class Test::Components::Mentoring::InboxController < Test::BaseController
 
     results = results.select { |c| c[:trackId] == params[:track].to_i } if params[:track].present?
 
-    if params[:search].present?
-      parts = params[:search].downcase.split(' ').map(&:strip)
+    if params[:criteria].present?
+      parts = params[:criteria].downcase.split(' ').map(&:strip)
       results = results.select do |c|
         parts.all? do |part|
           c[:exerciseTitle].downcase.include?(part) || c[:menteeHandle].downcase.include?(part)

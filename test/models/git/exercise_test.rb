@@ -17,19 +17,16 @@ module Git
     end
 
     test "non_ignored_files" do
-      exercise = Git::Exercise.new(:csharp, :datetime, "concept", "HEAD")
+      exercise = Git::Exercise.new(:ruby, :bob, "practice", "HEAD")
 
       assert_equal exercise.non_ignored_filepaths, exercise.non_ignored_files.keys
-      assert exercise.non_ignored_files[".docs/hints.md"].start_with?("## General")
+      assert exercise.non_ignored_files["README.md"].start_with?("README content")
     end
 
     test "non_ignored_filepaths" do
-      exercise = Git::Exercise.new(:csharp, :datetime, "concept", "HEAD")
+      exercise = Git::Exercise.new(:ruby, :bob, "practice", "HEAD")
 
       expected_filepaths = [
-        ".docs/hints.md",
-        ".docs/instructions.md",
-        ".docs/introduction.md",
         ".meta/config.json",
         "README.md",
         "bob.rb",

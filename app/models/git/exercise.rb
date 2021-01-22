@@ -14,7 +14,6 @@ module Git
       )
     end
 
-    # TODO: repo_url can be removed once we're out of a monorepo
     def initialize(track_slug, exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
       @repo = repo || Repository.new(track_slug, repo_url: repo_url)
       @track_slug = track_slug
@@ -101,8 +100,7 @@ module Git
     end
 
     def dir
-      # TODO: Needs changing once we're out of the monorepo
-      "languages/#{track_slug}/exercises/#{exercise_type}/#{exercise_slug}"
+      "exercises/#{exercise_type}/#{exercise_slug}"
     end
 
     private

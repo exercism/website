@@ -3,8 +3,8 @@ class Submission::Analysis < ApplicationRecord
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
-  def status
-    data[:status].try(&:to_sym)
+  def has_feedback?
+    comments.present?
   end
 
   def comments
@@ -17,18 +17,6 @@ class Submission::Analysis < ApplicationRecord
 
   def ops_errored?
     !ops_success?
-  end
-
-  def approved?
-    status == :approve
-  end
-
-  def disapproved?
-    status == :disapprove
-  end
-
-  def inconclusive?
-    status == :refer_to_mentor
   end
 
   private

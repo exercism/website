@@ -17,11 +17,14 @@ class Submission
         create_exercise_representation!
 
         begin
-          handle_generated!
+          # If any bit of this fails, we should roll back the
+          # whole thing and mark as exceptioned
+          ActiveRecord::Base.transaction do
+            handle_generated!
+          end
         rescue StandardError
-          # Reload the record here to ensure
-          # that it hasn't got in a bad state in the
-          # transaction above.
+          # Reload the record here to ensure # that it hasn't got
+          # in a bad state in the transaction above.
           submission.reload.representation_exceptioned!
         end
 

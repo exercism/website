@@ -8,6 +8,16 @@ class Submission::Representation < ApplicationRecord
   end
 
   belongs_to :submission
+  has_one :solution, through: :submission
+  has_one :exercise, through: :solution
+
+  # TOOD: We're going to need some indexes here!
+  has_one :exercise_representation,
+    ->(sr) { where("exercise_representations.exercise_id": sr.solution.exercise_id) },
+    foreign_key: :ast_digest,
+    primary_key: :ast_digest,
+    class_name: "Exercise::Representation",
+    inverse_of: :submission_representations
 
   before_create do
     # TODO: if there is no AST digest, this this
@@ -23,13 +33,5 @@ class Submission::Representation < ApplicationRecord
 
   def ops_errored?
     !ops_success?
-  end
-
-  memoize
-  def exercise_representation
-    Exercise::Representation.find_by!(
-      exercise: submission.exercise,
-      ast_digest: ast_digest
-    )
   end
 end

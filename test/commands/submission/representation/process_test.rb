@@ -109,7 +109,6 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission = create :submission, exercise: exercise
 
     SubmissionChannel.expects(:broadcast!).with(submission)
-    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
 
     job = create_representer_job!(submission, execution_status: 200, ast: ast)
     Submission::Representation::Process.(job)
@@ -127,7 +126,6 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
-    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
 
     job = create_representer_job!(submission, execution_status: 200, ast: ast)
     Submission::Representation::Process.(job)

@@ -7,24 +7,6 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_markdown_field(:exercise_representation, :feedback)
   end
 
-  test "pending?" do
-    assert create(:exercise_representation, action: :pending).pending?
-    refute create(:exercise_representation, action: :approve).pending?
-    refute create(:exercise_representation, action: :disapprove).pending?
-  end
-
-  test "approve?" do
-    refute create(:exercise_representation, action: :pending).approve?
-    assert create(:exercise_representation, action: :approve).approve?
-    refute create(:exercise_representation, action: :disapprove).approve?
-  end
-
-  test "disapprove?" do
-    refute create(:exercise_representation, action: :pending).disapprove?
-    refute create(:exercise_representation, action: :approve).disapprove?
-    assert create(:exercise_representation, action: :disapprove).disapprove?
-  end
-
   test "has_feedback?" do
     refute create(:exercise_representation, feedback_markdown: "foo", feedback_author: nil).has_feedback?
     refute create(:exercise_representation, feedback_markdown: nil, feedback_author: create(:user)).has_feedback?
@@ -32,35 +14,44 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
   end
 
   test "num_times_used" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
     ast = SecureRandom.uuid
     ast_digest = Submission::Representation.digest_ast(ast)
     exercise_representation = create(:exercise_representation,
+      exercise: exercise,
       ast: ast,
       ast_digest: ast_digest)
     assert_equal 0, exercise_representation.num_times_used
 
-    create :submission_representation
+    create :submission_representation, submission: submission
     assert_equal 0, exercise_representation.num_times_used
 
-    create :submission_representation, ast_digest: ast_digest
+    create :submission_representation, ast_digest: ast_digest, submission: submission
     assert_equal 1, exercise_representation.num_times_used
 
-    create :submission_representation, ast_digest: ast_digest
+    create :submission_representation, ast_digest: ast_digest, submission: submission
     assert_equal 2, exercise_representation.num_times_used
   end
 
   test "self.order_by_frequency" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
     rare_ast_digest = SecureRandom.uuid
     medium_ast_digest = SecureRandom.uuid
     frequent_ast_digest = SecureRandom.uuid
 
-    exercise_representation_medium = create(:exercise_representation, ast_digest: medium_ast_digest)
-    exercise_representation_rare = create(:exercise_representation, ast_digest: rare_ast_digest)
-    exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest)
+    exercise_representation_medium = create(:exercise_representation, ast_digest: medium_ast_digest, exercise: exercise)
+    exercise_representation_rare = create(:exercise_representation, ast_digest: rare_ast_digest, exercise: exercise)
+    exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest, exercise: exercise)
 
-    2.times { create :submission_representation, ast_digest: medium_ast_digest }
-    create :submission_representation, ast_digest: rare_ast_digest
-    3.times { create :submission_representation, ast_digest: frequent_ast_digest }
+    2.times { create :submission_representation, ast_digest: medium_ast_digest, submission: submission }
+    create :submission_representation, ast_digest: rare_ast_digest, submission: submission
+    3.times { create :submission_representation, ast_digest: frequent_ast_digest, submission: submission }
 
     expected = [
       exercise_representation_frequent,
@@ -71,5 +62,36 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
     # Sanity check this is changing the order.
     refute_equal expected, Exercise::Representation.all
+  end
+
+  test "submission_representation" do
+    exercise = create :concept_exercise
+    ast = "My AST"
+    ast_digest = Submission::Representation.digest_ast(ast)
+
+    representation = create :exercise_representation,
+      exercise: exercise,
+      ast_digest: ast_digest
+
+    # Wrong exercise
+    create :submission_representation,
+      submission: create(:submission),
+      ast_digest: Submission::Representation.digest_ast(ast)
+
+    assert_equal [], representation.reload.submission_representations
+
+    # Wrong ast
+    create :submission_representation,
+      submission: create(:submission, exercise: exercise),
+      ast_digest: "something"
+
+    assert_equal [], representation.reload.submission_representations
+
+    # Correct everything!
+    submission_representation = create :submission_representation,
+      submission: create(:submission, exercise: exercise),
+      ast_digest: ast_digest
+
+    assert_equal [submission_representation], representation.reload.submission_representations
   end
 end

@@ -37,10 +37,35 @@ class SubmissionTest < ActiveSupport::TestCase
     er = create :exercise_representation, exercise: submission.exercise, ast_digest: sr.ast_digest
     submission = Submission.find(submission.id)
     assert_equal er, submission.exercise_representation
+  end
 
-    # er present and ops error submission rep
-    sr.update!(ops_status: 500)
+  test "has_automated_feedback? with representation" do
+    submission = create :submission
+    refute submission.has_automated_feedback?
+
+    create :submission_representation, ast_digest: "foobar", submission: submission
     submission = Submission.find(submission.id)
-    assert_nil submission.exercise_representation
+    refute submission.has_automated_feedback?
+
+    er = create :exercise_representation, ast_digest: "foobar", exercise: submission.exercise
+    submission = Submission.find(submission.id)
+    refute submission.has_automated_feedback?
+
+    er.update!(feedback_markdown: "foobar", feedback_author: create(:user))
+    submission = Submission.find(submission.id)
+    assert submission.has_automated_feedback?
+  end
+
+  test "has_automated_feedback? with analysis" do
+    submission = create :submission
+    refute submission.has_automated_feedback?
+
+    sa = create :submission_analysis, submission: submission
+    submission = Submission.find(submission.id)
+    refute submission.reload.has_automated_feedback?
+
+    sa.update(data: { comments: ['asd'] })
+    submission = Submission.find(submission.id)
+    assert submission.reload.has_automated_feedback?
   end
 end

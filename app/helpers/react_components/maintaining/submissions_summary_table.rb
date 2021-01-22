@@ -7,7 +7,7 @@ module ReactComponents
         super(
           "maintaining-submissions-summary-table",
           {
-            submissions: submissions.map(&:serialized)
+            submissions: SerializeSubmissions.(submissions)
           }
         )
       end

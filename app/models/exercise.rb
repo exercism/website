@@ -4,6 +4,9 @@ class Exercise < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
+  has_many :solutions, dependent: :destroy
+  has_many :submissions, through: :solutions
+
   belongs_to :track
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",

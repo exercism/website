@@ -41,21 +41,19 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert basics_submission_1.reload.tests_passed?
 
     # Simulate an analysis being returned
-    # It should be inconclusive
     job = create_analyzer_job!(
       basics_submission_1,
       execution_status: 200,
       data: { status: :refer_to_mentor, comments: [] }
     )
     Submission::Analysis::Process.(job)
-    assert basics_submission_1.reload.analysis_inconclusive?
+    assert basics_submission_1.reload.analysis_completed?
 
     # Create a representation with feedback that should be given
     # It should approve with comment
     create :exercise_representation,
       exercise: concept_exercise_basics,
       ast_digest: Submission::Representation.digest_ast('some ast'),
-      action: :approve,
       feedback_markdown: "Fantastic Work!!",
       feedback_author: mentor
 

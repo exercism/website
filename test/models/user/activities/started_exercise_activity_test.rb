@@ -29,7 +29,7 @@ class User::Activities::StartedExerciseActivityTest < ActiveSupport::TestCase
       )
       assert_equal exercise.title, activity.rendering_data.exercise_title
       assert_equal exercise.icon_name, activity.rendering_data.exercise_icon_name
-      assert_equal "/tracks/csharp/exercises/datetime", activity.rendering_data.url
+      assert_equal "/tracks/csharp/exercises/strings", activity.rendering_data.url
       assert_equal "You started a new exercise", activity.rendering_data.text
       assert_equal Time.current, activity.rendering_data.occurred_at
     end

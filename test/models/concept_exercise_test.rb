@@ -28,6 +28,6 @@ class ConceptExerciseTest < ActiveSupport::TestCase
 
   test "instructions is correct" do
     exercise = create :concept_exercise
-    assert exercise.instructions.starts_with?("In this exercise you'll be working")
+    assert exercise.instructions.starts_with?("In this exercise you'll be processing log-lines")
   end
 end

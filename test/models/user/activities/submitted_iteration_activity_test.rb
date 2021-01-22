@@ -40,7 +40,7 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
 
       assert_equal exercise.title, activity.rendering_data.exercise_title
       assert_equal exercise.icon_name, activity.rendering_data.exercise_icon_name
-      assert_equal "/tracks/csharp/exercises/datetime/iterations?idx=0", activity.rendering_data.url
+      assert_equal "/tracks/csharp/exercises/strings/iterations?idx=0", activity.rendering_data.url
       assert_equal "You submitted an iteration to", activity.rendering_data.text
       assert_equal Time.current, activity.rendering_data.occurred_at
     end

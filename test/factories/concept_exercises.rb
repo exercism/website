@@ -4,7 +4,7 @@ FactoryBot.define do
       Track.find_by(slug: :csharp) || build(:track, slug: 'csharp')
     end
     uuid { SecureRandom.uuid }
-    slug { 'datetime' }
+    slug { 'strings' }
     title { slug.titleize }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }

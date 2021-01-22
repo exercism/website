@@ -8,7 +8,7 @@ class SubmissionsChannelTest < ActionCable::Channel::TestCase
 
     assert_broadcast_on(
       SubmissionsChannel.broadcasting_for(solution.id),
-      submissions: [{ id: submission_1.id, testsStatus: "queued" }, { id: submission_2.id, testsStatus: "passed" }]
+      submissions: [SerializeSubmission.(submission_1), SerializeSubmission.(submission_2)]
     ) do
       SubmissionsChannel.broadcast!(solution)
     end

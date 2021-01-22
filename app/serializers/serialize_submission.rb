@@ -7,8 +7,10 @@ class SerializeSubmission
     return unless submission
 
     {
-      uuid: submission.uuid,
+      id: submission.uuid,
       tests_status: submission.tests_status,
+      representation_status: submission.representation_status,
+      analysis_status: submission.analysis_status,
       links: {
         cancel: Exercism::Routes.api_submission_cancellations_url(submission),
         submit: Exercism::Routes.api_solution_iterations_url(submission.solution.uuid, submission_id: submission.uuid),
@@ -16,10 +18,5 @@ class SerializeSubmission
         initial_files: Exercism::Routes.api_solution_initial_files_url(submission.solution.uuid)
       }
     }
-  end
-
-  private
-  def user
-    submission.solution.user
   end
 end

@@ -15,10 +15,7 @@ class Submission::Representation < ApplicationRecord
     self.ast_digest = self.class.digest_ast(ast) unless self.ast_digest
   end
 
-  def has_feedback?
-    Rails.logger.warn "Calling has_feedback? on a submission_representation may cause n+1s"
-    exercise_representation.has_feedback?
-  end
+  delegate :has_feedback?, to: :exercise_representation
 
   def ops_success?
     ops_status == 200

@@ -12,6 +12,7 @@ class SubmissionsChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(solution)
-    broadcast_to solution.id, submissions: solution.serialized_submissions
+    broadcast_to solution.id,
+      submissions: SerializeSubmissions.(solution.submissions)
   end
 end

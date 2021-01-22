@@ -8,12 +8,16 @@ class SubmissionChannelTest < ActionCable::Channel::TestCase
     assert_broadcast_on(
       'submission',
       submission: {
-        id: submission.id,
-        track: "Ruby",
-        exercise: "Bob",
-        testsStatus: "not_queued",
-        representationStatus: "not_queued",
-        analysisStatus: "not_queued"
+        id: submission.uuid,
+        tests_status: "not_queued",
+        representation_status: "not_queued",
+        analysis_status: "not_queued",
+        links: {
+          cancel: Exercism::Routes.api_submission_cancellations_url(submission),
+          submit: Exercism::Routes.api_solution_iterations_url(submission.solution.uuid, submission_id: submission.uuid),
+          test_run: Exercism::Routes.api_submission_test_run_url(submission.uuid),
+          initial_files: Exercism::Routes.api_solution_initial_files_url(submission.solution.uuid)
+        }
       }
     ) do
       SubmissionChannel.broadcast!(submission)

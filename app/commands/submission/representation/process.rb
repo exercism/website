@@ -37,6 +37,7 @@ class Submission
         end
 
         submission.broadcast!
+        submission.iteration&.broadcast!
       end
 
       attr_reader :tooling_job, :exercise_representation, :submission_representation

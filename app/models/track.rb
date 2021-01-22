@@ -29,7 +29,7 @@ class Track < ApplicationRecord
 
   memoize
   def git
-    Git::Track.new(slug, synced_to_git_sha, repo_url: repo_url)
+    Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
   # TODO: Set this properly

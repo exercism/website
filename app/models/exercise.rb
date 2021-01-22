@@ -74,6 +74,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def git
-    Git::Exercise.new(track.slug, slug, git_type, git_sha, repo_url: track.repo_url)
+    Git::Exercise.new(slug, git_type, git_sha, repo_url: track.repo_url)
   end
 end

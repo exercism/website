@@ -5,8 +5,8 @@ module Git
   class Repository
     extend Mandate::Memoize
 
-    def initialize(repo_name, repo_url: nil)
-      @repo_name = repo_name
+    def initialize(repo_url: nil)
+      @repo_name = repo_url.split("/").last
 
       if ENV["GIT_CONTENT_REPO"].present?
         @repo_url = ENV["GIT_CONTENT_REPO"]
@@ -15,9 +15,7 @@ module Git
       elsif Rails.env.test?
         @repo_url = "file://#{Rails.root / 'test' / 'repos' / 'track-with-exercises'}"
       else
-        # TODO; Switch when we move back out of monorepo
-        # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
-        @repo_url = "https://github.com/exercism/v3"
+        @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
       end
 
       fetch! if keep_up_to_date?

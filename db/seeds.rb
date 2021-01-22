@@ -48,7 +48,7 @@ karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.
 
 # This is all temporary and horrible while we have a monorepo
 repo_url = "https://github.com/exercism/v3"
-repo = Git::Repository.new(:v3, repo_url: repo_url)
+repo = Git::Repository.new(repo_url: repo_url)
 
 # This fetches it once before we stub it below
 repo.fetch!
@@ -63,6 +63,7 @@ module Git
   end
 end
 
+# TODO: how to best retrieve all the tracks
 track_slugs = []
 tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
 tree.each_tree { |obj| track_slugs << obj[:name] }
@@ -81,7 +82,7 @@ track_slugs.each do |track_slug|
   puts "Adding Track: #{track_slug}"
 
   begin
-    git_track = Git::Track.new(track_slug, repo.head_commit.oid, repo_url: repo_url)
+    git_track = Git::Track.new(repo.head_commit.oid, repo_url: repo_url)
     track = Track::Create.(
       track_slug, 
       title: git_track.config[:language],

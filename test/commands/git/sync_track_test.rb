@@ -29,7 +29,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
+    git_track = Git::Track.new(repo_url: track.repo_url)
     assert_equal git_track.head_sha, track.synced_to_git_sha
   end
 
@@ -38,7 +38,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    git_track = Git::Track.new(track.slug, repo_url: track.repo_url)
+    git_track = Git::Track.new(repo_url: track.repo_url)
     assert_equal git_track.head_sha, track.synced_to_git_sha
   end
 

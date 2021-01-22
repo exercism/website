@@ -7,16 +7,14 @@ module Git
 
     def self.for_solution(solution)
       new(
-        solution.track.slug,
         solution.git_slug,
         solution.git_type,
         "HEAD" # TODO: Change to solution.git_sha once we let users update exercises
       )
     end
 
-    def initialize(track_slug, exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
-      @repo = repo || Repository.new(track_slug, repo_url: repo_url)
-      @track_slug = track_slug
+    def initialize(exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
+      @repo = repo || Repository.new(repo_url: repo_url)
       @exercise_slug = exercise_slug
       @exercise_type = exercise_type
       @git_sha = git_sha
@@ -104,7 +102,7 @@ module Git
     end
 
     private
-    attr_reader :repo, :track_slug, :exercise_slug, :exercise_type, :git_sha
+    attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
     def full_filepath(filepath)
       "#{dir}/#{filepath}"
@@ -145,7 +143,7 @@ module Git
 
     memoize
     def track
-      Track.new(track_slug, repo: repo)
+      Track.new(repo: repo)
     end
   end
 end

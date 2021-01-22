@@ -6,12 +6,6 @@ FactoryBot.define do
     repo_url { TestHelpers.git_repo_url("track-with-exercises") }
     synced_to_git_sha { "HEAD" }
 
-    # TODO: Readd these when we move away from monorepo
-    # At the moment they need to be hardcoded as they are
-    # above to match git
-    # repo_url { TestHelpers.git_repo_url("track-with-exercises") }
-    # slug { "slug_#{SecureRandom.hex(4)}" }
-
     trait :random_slug do
       slug { SecureRandom.hex }
     end

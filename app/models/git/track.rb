@@ -8,7 +8,6 @@ module Git
       raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
 
       @repo = repo || Repository.new(slug, repo_url: repo_url)
-      @slug = slug
       @git_sha = git_sha
     end
 
@@ -43,18 +42,15 @@ module Git
     end
 
     def about_filepath
-      # TODO: remove track-specific path when no longer in monorepo
-      "languages/#{slug}/docs/ABOUT.md"
+      "docs/ABOUT.md"
     end
 
     def snippet_filepath
-      # TODO: remove track-specific path when no longer in monorepo
-      "languages/#{slug}/docs/SNIPPET.txt"
+      "docs/SNIPPET.txt"
     end
 
     def config_filepath
-      # TODO: remove track-specific path when no longer in monorepo
-      "languages/#{slug}/config.json"
+      "config.json"
     end
 
     memoize
@@ -63,6 +59,6 @@ module Git
     end
 
     private
-    attr_reader :repo, :slug, :git_sha
+    attr_reader :repo, :git_sha
   end
 end

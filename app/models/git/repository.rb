@@ -13,8 +13,7 @@ module Git
       elsif repo_url
         @repo_url = repo_url
       elsif Rails.env.test?
-        # TODO; Switch when we move back out of monorepo
-        @repo_url = "file://#{Rails.root / 'test' / 'repos' / 'v3-monorepo'}"
+        @repo_url = "file://#{Rails.root / 'test' / 'repos' / 'track-with-exercises'}"
       else
         # TODO; Switch when we move back out of monorepo
         # @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
@@ -101,12 +100,7 @@ module Git
     def repo_dir
       return "#{repos_dir}/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Exercism.env.test?
 
-      # TODO: Remove this when breaking out of monorepo
-      return "#{repos_dir}/website-copy" if repo_url.end_with?("website-copy")
-
-      # TODO: Change when breaking out of monorepo
-      "#{repos_dir}/v3"
-      # "#{repos_dir}/#{repo_name}"
+      "#{repos_dir}/#{repo_name}"
     end
 
     memoize

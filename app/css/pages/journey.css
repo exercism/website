@@ -177,7 +177,7 @@
                     & .generic {
                         @apply text-16 text-textColor6;
                     }
-                    & date {
+                    & time {
                         @apply ml-16 text-textLight;
                     }
                 }

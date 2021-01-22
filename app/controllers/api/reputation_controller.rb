@@ -6,7 +6,10 @@ module API
         criteria: params[:criteria],
         category: params[:category]
       )
-      render json: SerializeReputationTokens.(tokens)
+
+      tokens = tokens.page(params[:page] || 1).per(params[:per] || 25)
+
+      render json: SerializePaginatedCollection.(tokens, SerializeReputationToken)
     end
   end
 end

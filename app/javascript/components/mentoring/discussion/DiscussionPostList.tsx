@@ -6,6 +6,7 @@ import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Icon } from '../../common/Icon'
 import { Avatar } from '../../common/Avatar'
+import { Reputation } from '../../common/Reputation'
 import { CacheContext, Iteration } from '../Discussion'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
@@ -176,11 +177,7 @@ export const DiscussionPostList = ({
                       handle="mentor handle"
                     />
                     <div className="name">by ErikSchierboom</div>
-                    {/* TODO: Extract to common reputation component */}
-                    <div className="c-reputation" aria-label="20 reputation">
-                      <GraphicalIcon icon="reputation" />
-                      <span>20</span>
-                    </div>
+                    <Reputation value="20" />
                   </div>
                   <a href="#" className="more">
                     Learn more about this feedback

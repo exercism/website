@@ -1,6 +1,6 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
-import { GraphicalIcon, Icon } from '../common'
+import { GraphicalIcon, Reputation } from '../common'
 
 export type ContributionProps = {
   id: string
@@ -46,12 +46,7 @@ export const Contribution = ({
           <time dateTime={awardedAt}>{fromNow(awardedAt)}</time>
         </div>
       </div>
-      <div className="c-primary-reputation" aria-label={`+${value} reputation`}>
-        <div className="--inner">
-          <Icon icon="reputation" alt="Reputation" />
-          <span>+ {value}</span>
-        </div>
-      </div>
+      <Reputation value={`+ ${value}`} type="primary" />
       <GraphicalIcon icon={linkIcon} className="action-button" />
     </a>
   )

@@ -8,3 +8,15 @@ test('renders "Generic" when track is not present', async () => {
 
   expect(screen.getByText('Generic')).toBeInTheDocument()
 })
+
+test('renders internal link over extenal link', async () => {
+  render(<Contribution internalLink="link" externalLink="external" />)
+
+  expect(screen.getByRole('link')).toHaveAttribute('href', 'link')
+})
+
+test('renders external link if no internal link', async () => {
+  render(<Contribution externalLink="link" />)
+
+  expect(screen.getByRole('link')).toHaveAttribute('href', 'link')
+})

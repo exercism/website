@@ -6,13 +6,13 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
     solution = create :concept_solution, user: user
     submission = create :submission, solution: solution,
                                      tests_status: :failed,
-                                     representation_status: :approved,
+                                     representation_status: :generated,
                                      analysis_status: :disapproved
 
     expected = {
       uuid: submission.uuid,
       tests_status: 'failed',
-      representation_status: 'approved',
+      representation_status: 'generated',
       analysis_status: 'disapproved',
       links: {
         cancel: Exercism::Routes.api_submission_cancellations_url(submission),

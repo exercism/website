@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ExerciseFlowsTest < ActiveSupport::TestCase
-  test 'start a track and submit an exercise that gets approved' do
+  test 'start a track and submit an exercise' do
     track = create :track, slug: "csharp"
     concept_exercise_basics = create :concept_exercise, track: track, slug: 'datetime', prerequisites: []
     concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
@@ -66,7 +66,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       mapping: { 'some' => 'mapping' }
     )
     Submission::Representation::Process.(job)
-    assert basics_submission_1.reload.representation_approved?
+    assert basics_submission_1.reload.representation_generated?
     assert_equal 1, basics_submission_1.automated_feedback.size
     assert_equal mentor, basics_submission_1.automated_feedback.first.feedback_author
     assert_equal "Fantastic Work!!", basics_submission_1.automated_feedback.first.feedback_markdown

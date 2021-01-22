@@ -1,5 +1,4 @@
 class Exercise::Representation < ApplicationRecord
-  enum action: { pending: 0, approve: 1, disapprove: 2 }
   has_markdown_field :feedback
 
   belongs_to :exercise

@@ -24,6 +24,6 @@ class Track::Concept < ApplicationRecord
 
   memoize
   def git
-    Git::Concept.new(slug, "HEAD")
+    Git::Concept.new(slug, "HEAD", repo_url: track.repo_url)
   end
 end

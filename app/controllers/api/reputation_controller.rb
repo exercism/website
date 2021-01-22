@@ -1,5 +1,9 @@
 module API
   class ReputationController < BaseController
+    def self.per
+      25
+    end
+
     def index
       tokens = User::ReputationToken::Search.(
         current_user,
@@ -7,7 +11,7 @@ module API
         category: params[:category]
       )
 
-      tokens = tokens.page(params[:page] || 1).per(params[:per] || 25)
+      tokens = tokens.page(params[:page] || 1).per(params[:per] || self.class.per)
 
       render json: SerializePaginatedCollection.(tokens, SerializeReputationToken)
     end

@@ -25,7 +25,7 @@ export const Contribution = ({
   awardedAt,
   track,
 }: ContributionProps): JSX.Element => {
-  const link = internalLink ? internalLink : externalLink
+  const link = internalLink || externalLink
   const linkIcon = link === internalLink ? 'chevron-right' : 'external-link'
 
   return (

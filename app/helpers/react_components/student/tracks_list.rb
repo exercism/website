@@ -41,7 +41,7 @@ module ReactComponents
 
       def tag_options
         ::Track::TAGS.map do |category, options|
-          category_prefix = category.to_s.underscore
+          category_prefix = category.to_s.underscore.tr(" ", "_")
           {
             category: category,
             options: options.map do |value, label|

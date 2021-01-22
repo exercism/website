@@ -31,6 +31,28 @@ module Components
         end
       end
 
+      test "paginates contributions" do
+        API::ReputationController.stubs(:per).returns(1)
+        user = create :user
+        create :user_reputation_token,
+          user: user,
+          reason: "contributed_code/major",
+          category: "building"
+        create :user_reputation_token,
+          user: user,
+          reason: "reviewed_code",
+          category: "authoring"
+
+        use_capybara_host do
+          sign_in!(user)
+          visit reputation_journey_path
+          click_on "2"
+        end
+
+        assert_text "You reviewed a Pull Request"
+        assert_no_text "You contributed code"
+      end
+
       test "filters contributions" do
         user = create :user
         create :user_reputation_token,

@@ -1,15 +1,14 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
 import { GraphicalIcon, Icon } from '../common'
-import pluralize from 'pluralize'
 
 export type ContributionProps = {
   id: string
   value: number
   description: string
   iconName: string
-  internalLink: string
-  externalLink: string
+  internalLink?: string
+  externalLink?: string
   awardedAt: string
   track?: {
     title: string
@@ -26,8 +25,11 @@ export const Contribution = ({
   awardedAt,
   track,
 }: ContributionProps): JSX.Element => {
+  const link = internalLink ? internalLink : externalLink
+  const linkIcon = link === internalLink ? 'chevron-right' : 'external-link'
+
   return (
-    <a href={externalLink} className="reputation-token">
+    <a href={link} className="reputation-token">
       <GraphicalIcon icon={iconName} className="primary-icon" />
       <div className="info">
         <div className="title">{description}</div>
@@ -50,7 +52,7 @@ export const Contribution = ({
           <span>+ {value}</span>
         </div>
       </div>
-      <GraphicalIcon icon="chevron-right" className="action-button" />
+      <GraphicalIcon icon={linkIcon} className="action-button" />
     </a>
   )
 }

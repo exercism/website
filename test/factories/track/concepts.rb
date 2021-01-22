@@ -11,6 +11,7 @@ FactoryBot.define do
 
     trait :with_git_data do
       slug { "strings" }
+      name { "Strings" }
     end
   end
 end

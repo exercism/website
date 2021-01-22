@@ -1,7 +1,7 @@
 class ProcessPushUpdateJob < ApplicationJob
   queue_as :default
 
-  def perform(_track)
+  def perform(track)
     Git::SyncTrack.(track)
   end
 end

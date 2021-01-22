@@ -31,6 +31,29 @@ module Components
         end
       end
 
+      test "filters contributions" do
+        user = create :user
+        create :user_reputation_token,
+          user: user,
+          reason: "contributed_code/major",
+          category: "building"
+        create :user_reputation_token,
+          user: user,
+          reason: "reviewed_code",
+          category: "authoring"
+
+        use_capybara_host do
+          sign_in!(user)
+          visit reputation_journey_path
+          click_on "Filter by"
+          choose "Contributing to Exercises"
+          click_on "Apply"
+
+          assert_text "You reviewed a Pull Request"
+          assert_no_text "You contributed code"
+        end
+      end
+
       private
       def assert_icon(name)
         assert_css "use[*|href=\"##{name}\"]"

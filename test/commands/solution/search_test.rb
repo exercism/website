@@ -93,11 +93,11 @@ class Solution::SearchTest < ActiveSupport::TestCase
     assert_equal [solution_1, solution_2], Solution::Search.(user, order: "oldest_first")
   end
 
-  test "sort newest first" do
+  test "sort newest first by default" do
     user = create :user
     solution_1 = create :concept_solution, user: user
     solution_2 = create :concept_solution, user: user
 
-    assert_equal [solution_2, solution_1], Solution::Search.(user, order: "newest_first")
+    assert_equal [solution_2, solution_1], Solution::Search.(user)
   end
 end

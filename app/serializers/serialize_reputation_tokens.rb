@@ -1,9 +1,15 @@
-class SerializeReputationToken
+class SerializeReputationTokens
   include Mandate
 
-  initialize_with :token
+  initialize_with :tokens
 
   def call
+    tokens.map do |token|
+      serialize_token(token)
+    end
+  end
+
+  def serialize_token(token)
     if token.track
       track_hash = {
         title: token.track.title,

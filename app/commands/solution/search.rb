@@ -20,7 +20,7 @@ class Solution
       filter_criteria
       filter_status
       filter_mentoring_status
-      sort_solutions
+      sort
 
       @solutions.page(page).per(per)
     end
@@ -73,7 +73,7 @@ class Solution
       end
     end
 
-    def sort_solutions
+    def sort
       case order&.to_sym
       when :oldest_first
         @solutions = @solutions.order(id: :asc)

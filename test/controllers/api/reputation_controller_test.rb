@@ -23,7 +23,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
       @current_user,
       criteria: "ru",
       category: "authoring"
-    ).returns(User::ReputationToken.all)
+    ).returns(User::ReputationToken.page(1).per(10))
 
     get api_reputation_index_path(
       criteria: "ru",
@@ -49,10 +49,10 @@ class API::ReputatationControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializeReputationToken.(token)
+    serialized = SerializeReputationTokens.([token])
     assert_equal(
       {
-        results: [serializer],
+        results: serialized,
         meta: {
           current: 1,
           total: 1

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ExerciseFlowsTest < ActiveSupport::TestCase
   test 'start a track and submit an exercise' do
-    track = create :track, slug: "csharp"
-    concept_exercise_basics = create :concept_exercise, track: track, slug: 'basics', prerequisites: []
+    track = create :track
+    concept_exercise_lasagna = create :concept_exercise, track: track, slug: 'lasagna', prerequisites: []
     concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
     create :exercise_prerequisite, exercise: concept_exercise_strings
     user = create :user
@@ -15,10 +15,10 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert_equal ut, UserTrack.for!(user, track)
 
     # Check we only have basics to start with
-    assert_equal [concept_exercise_basics], ut.available_concept_exercises
+    assert_equal [concept_exercise_lasagna], ut.available_concept_exercises
 
     # Start the exercise and get a solution
-    basics_solution = Solution::Create.(user, concept_exercise_basics)
+    basics_solution = Solution::Create.(user, concept_exercise_lasagna)
 
     # Submit an submission
     ToolingJob::Create.stubs(:call)
@@ -52,7 +52,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     # Create a representation with feedback that should be given
     # It should approve with comment
     create :exercise_representation,
-      exercise: concept_exercise_basics,
+      exercise: concept_exercise_lasagna,
       ast_digest: Submission::Representation.digest_ast('some ast'),
       feedback_markdown: "Fantastic Work!!",
       feedback_author: mentor

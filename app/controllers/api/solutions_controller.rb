@@ -10,7 +10,7 @@ module API
         order: params[:sort]
       )
 
-      render json: SerializeSolutionsForStudent.(solutions)
+      render json: SerializePaginatedCollection.(solutions, SerializeSolutionsForStudent)
     end
 
     def complete

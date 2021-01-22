@@ -4,13 +4,7 @@ class SerializeSolutionsForStudent
   initialize_with :solutions
 
   def call
-    {
-      results: solutions.map { |s| serialize_solution(s) },
-      meta: {
-        current: solutions.current_page,
-        total: solutions.total_count
-      }
-    }
+    solutions.map { |s| serialize_solution(s) }
   end
 
   def serialize_solution(solution)

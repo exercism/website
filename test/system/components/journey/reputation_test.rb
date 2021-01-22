@@ -53,6 +53,32 @@ module Components
         assert_no_text "You contributed code"
       end
 
+      test "searches contributions" do
+        user = create :user
+        track = create :track, title: "Ruby"
+        exercise = create :concept_exercise
+        create :user_reputation_token,
+          user: user,
+          reason: "contributed_code/major",
+          category: "building",
+          exercise: exercise
+        create :user_reputation_token,
+          user: user,
+          reason: "reviewed_code",
+          category: "authoring",
+          track: track,
+          exercise: exercise
+
+        use_capybara_host do
+          sign_in!(user)
+          visit reputation_journey_path
+          fill_in "Search for a contribution", with: "Ruby"
+        end
+
+        assert_no_text "You contributed code"
+        assert_text "You reviewed a Pull Request"
+      end
+
       test "filters contributions" do
         user = create :user
         create :user_reputation_token,

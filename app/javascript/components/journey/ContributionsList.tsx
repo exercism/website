@@ -22,9 +22,9 @@ export const ContributionsList = ({
 }): JSX.Element => {
   return (
     <SearchableList
-      cacheKey="journey-solutions-list"
+      cacheKey="journey-contributions-list"
       endpoint={endpoint}
-      placeholder="Search for an exercise"
+      placeholder="Search for a contribution"
       categories={CATEGORIES}
       ResultsComponent={ContributionResults}
     />

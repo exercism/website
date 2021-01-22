@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Submission::Representation::InitTest < ActiveSupport::TestCase
   test "calls to publish_message" do
-    solution = create :concept_solution
+    solution = create :practice_solution
     submission = create :submission, solution: solution
     create :submission_file, submission: submission, filename: "bob.rb" # Override old file
     create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
@@ -16,9 +16,9 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
       source: {
         submission_efs_root: submission.uuid,
         submission_filepaths: ["bob.rb", "subdir/new_file.rb"],
-        exercise_git_repo: "v3", # TODO: Monorepo: solution.track.slug,
-        exercise_git_sha: "a228a003bae74e24a36bbbd782424d52ac383867",
-        exercise_git_dir: "languages/csharp/exercises/concept/datetime",
+        exercise_git_repo: solution.track.slug,
+        exercise_git_sha: solution.track.git_head_sha,
+        exercise_git_dir: "exercises/practice/bob",
         # This should only be .meta
         exercise_filepaths: [".meta/config.json"]
       }

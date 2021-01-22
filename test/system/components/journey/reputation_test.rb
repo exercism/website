@@ -53,6 +53,30 @@ module Components
         assert_no_text "You contributed code"
       end
 
+      test "sorts contributions" do
+        API::ReputationController.stubs(:per).returns(1)
+        user = create :user
+        create :user_reputation_token,
+          user: user,
+          reason: "contributed_code/major",
+          category: "building",
+          created_at: 2.days.ago
+        create :user_reputation_token,
+          user: user,
+          reason: "reviewed_code",
+          category: "authoring",
+          created_at: 1.day.ago
+
+        use_capybara_host do
+          sign_in!(user)
+          visit reputation_journey_path
+          select "Sort by Newest First"
+
+          assert_text "You reviewed a Pull Request"
+          assert_no_text "You contributed code"
+        end
+      end
+
       test "searches contributions" do
         user = create :user
         track = create :track, title: "Ruby"

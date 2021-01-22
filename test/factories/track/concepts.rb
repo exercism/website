@@ -10,8 +10,7 @@ FactoryBot.define do
     synced_to_git_sha { "HEAD" }
 
     trait :with_git_data do
-      track { create(:track, slug: "csharp") }
-      slug { "datetimes" }
+      slug { "strings" }
     end
   end
 end

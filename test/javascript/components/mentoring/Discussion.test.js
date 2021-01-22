@@ -29,6 +29,7 @@ test('highlights currently selected iteration', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {
@@ -81,6 +82,7 @@ test('shows back button', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {
@@ -126,6 +128,7 @@ test('hides latest label if on old iteration', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {
@@ -177,6 +180,7 @@ test('switches to posts tab when comment success', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {
@@ -241,6 +245,7 @@ test('switches tabs', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {
@@ -295,6 +300,7 @@ test('go to previous iteration', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {
@@ -345,6 +351,7 @@ test('go to next iteration', async () => {
     links: {
       favorite: 'https://exercism.test/favorite',
     },
+    reputation: 10,
   }
   const iterations = [
     {

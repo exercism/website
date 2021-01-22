@@ -1,17 +1,9 @@
-class SerializeReputationTokens
+class SerializeReputationToken
   include Mandate
 
-  initialize_with :tokens
+  initialize_with :token
 
   def call
-    {
-      tokens: tokens.map do |token|
-        serialize_token(token)
-      end
-    }
-  end
-
-  def serialize_token(token)
     if token.track
       track_hash = {
         title: token.track.title,
@@ -20,6 +12,7 @@ class SerializeReputationTokens
     end
 
     {
+      id: token.uuid,
       value: token.value,
       description: token.description,
       icon_name: token.icon_name,

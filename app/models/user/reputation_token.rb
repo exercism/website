@@ -38,6 +38,10 @@ class User::ReputationToken < ApplicationRecord
     self.value = REASON_VALUES[self.reason]
   end
 
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
   after_save do
     # We're updating in a single query instead of two queries to avoid race-conditions
     summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")

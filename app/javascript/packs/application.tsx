@@ -123,6 +123,9 @@ initReact({
   'journey-solutions-list': (data: any) => (
     <Journey.SolutionsList endpoint={data.endpoint} />
   ),
+  'journey-contributions-list': (data: any) => (
+    <Journey.ContributionsList endpoint={data.endpoint} />
+  ),
   'common-notifications-icon': (data: any) => (
     <Common.NotificationsIcon count={data.count} />
   ),

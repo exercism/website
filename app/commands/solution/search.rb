@@ -2,18 +2,17 @@ class Solution
   class Search
     include Mandate
 
-    def self.per
-      25
-    end
+    DEFAULT_PAGE = 1
+    DEFAULT_PER = 25
 
-    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: nil, per: nil, sort: nil)
+    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: nil, per: nil, order: nil)
       @user = user
       @criteria = criteria
       @status = status
       @mentoring_status = mentoring_status
-      @page = page || 1
-      @per = per || self.class.per
-      @sort = sort || "oldest_first"
+      @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
+      @per = per.present? && per.to_i.positive? ? per.to_i : DEFAULT_PER # rubocop:disable Style/ConditionalAssignment
+      @order = order
     end
 
     def call
@@ -23,12 +22,13 @@ class Solution
       filter_mentoring_status
       sort_solutions
 
-      @solutions.page(@page).per(@per)
+      @solutions.page(page).per(per)
     end
 
     private
     attr_reader :user, :criteria, :status, :mentoring_status,
-      :solutions, :sort
+      :per, :page, :order,
+      :solutions
 
     def filter_criteria
       return if criteria.blank?
@@ -74,11 +74,11 @@ class Solution
     end
 
     def sort_solutions
-      case sort.to_sym
+      case order&.to_sym
       when :oldest_first
-        @solutions = @solutions.order(:created_at)
-      when :newest_first
-        @solutions = @solutions.order(created_at: :desc)
+        @solutions = @solutions.order(id: :asc)
+      else # :newest_first
+        @solutions = @solutions.order(id: :desc)
       end
     end
   end

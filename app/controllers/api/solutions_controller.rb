@@ -7,8 +7,7 @@ module API
         status: params[:status],
         mentoring_status: params[:mentoring_status],
         page: params[:page],
-        per: params[:per],
-        sort: params[:sort]
+        order: params[:sort]
       )
 
       render json: SerializeSolutionsForStudent.(solutions)

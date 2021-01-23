@@ -43,35 +43,68 @@
                 & .files {
                     @apply flex-grow px-24 py-12;
                 }
-                & .analysis {
+
+                & .automated-feedback {
                     @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
                     @apply border-l-1 border-borderLight;
 
-                    & .comment {
-                        @apply text-15 leading-paragraph;
-                        & p {
-                            @apply mb-12;
-                        }
+                    & .automated-feedback-pending {
+                        @apply flex flex-col items-center;
+                        @apply py-24;
 
-                        & + .comment {
-                            @apply border-t-1 border-lightGray mt-16 pt-16;
+                        & .c-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply mb-16 text-orange;
+                            animation: spin 3s linear infinite;
+
+                            @keyframes spin {
+                                0% {
+                                    transform: rotate(0deg);
+                                }
+                                100% {
+                                    transform: rotate(360deg);
+                                }
+                            }
+                        }
+                        & h3 {
+                            @apply text-18 leading-regular font-semibold text-black;
+                            @apply mb-12 text-center;
+                            max-width: 280px;
+                        }
+                        & p {
+                            @apply text-16 leading-huge;
                         }
                     }
-                    & .byline {
-                        @apply flex items-center;
-                        @apply text-textLight;
+                    & .automated-feedback-present {
+                        & .comment {
+                            @apply text-15 leading-paragraph;
+                            & p {
+                                @apply mb-12;
+                            }
 
-                        & .c-rounded-bg-img {
-                            height: 32px;
-                            width: 32px;
-                            @apply mr-12;
+                            & + .comment {
+                                @apply border-t-1 border-lightGray mt-16 pt-16;
+                            }
                         }
-                        & span a {
-                            @apply border-b-1 border-textLight border-opacity-50;
+                        & .byline {
+                            @apply flex items-center;
+                            @apply text-textLight;
+
+                            & .c-rounded-bg-img {
+                                height: 32px;
+                                width: 32px;
+                                @apply mr-12;
+                            }
+                            & span a {
+                                @apply border-b-1 border-textLight border-opacity-50;
+                            }
+                            & .c-reputation {
+                                @apply ml-12;
+                            }
                         }
-                        & .c-reputation {
-                            @apply ml-12;
-                        }
+                    }
+                    & .automated-feedback-absent {
                     }
                 }
             }

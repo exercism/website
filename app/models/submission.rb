@@ -12,6 +12,10 @@ class Submission < ApplicationRecord
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
 
+  # TODO: It's important that we enforce rules on these to stop things from
+  # going from the success states (passed/failed/errored/generated/completed)
+  # backwards to the pending states.
+
   # TODO: Find a better name for the 0 state for these to represent something where no action has been taken.
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests" # rubocop:disable Layout/LineLength
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation" # rubocop:disable Layout/LineLength
@@ -54,6 +58,7 @@ class Submission < ApplicationRecord
   #   end
   # end
 
+  memoize
   def automated_feedback_status
     # If they're both still waiting, then return pending
     return :pending if !representation_generated? && !analysis_completed?
@@ -95,7 +100,8 @@ class Submission < ApplicationRecord
       author: {
         name: author.name,
         reputation: author.reputation,
-        avatar_url: author.avatar_url
+        avatar_url: author.avatar_url,
+        profile_url: "#" # TODO
       }
     }
   end
@@ -106,7 +112,8 @@ class Submission < ApplicationRecord
       html: analysis.feedback_html,
       author: {
         name: "The #{track.title} Analysis Team",
-        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4" # TODO
+        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4", # TODO
+        profile_url: "#" # TODO
       }
     }
   end

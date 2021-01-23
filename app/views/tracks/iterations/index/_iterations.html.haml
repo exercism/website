@@ -10,15 +10,26 @@
               %code
                 / TODO: 🤮
                 = iteration.submission.files.first.content
-          .analysis
-            - iteration.automated_feedback.each do |feedback|
-              .comment
-                .text= raw feedback.feedback_html
-                .byline
-                  = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
-                  %span
-                    by
-                    = link_to "Erik SchierBOOM", "#"
-                  .c-reputation{ 'aria-label': "#{123 * 1} reputation" }
-                    = icon(:reputation, "Reputation")
-                    123
+          .automated-feedback
+            - case iteration.automated_feedback_status
+            - when :pending
+              .automated-feedback-pending
+                = graphical_icon :spinner
+                %h3 We’re analysing your code for suggestions
+                %p This usually takes 10-30 seconds.
+
+            - when :present
+              .automated-feedback-present
+                - feedback = iteration.automated_feedback
+                .comment
+                  .text= raw feedback[:html]
+                  .byline
+                    = rounded_bg_img(feedback[:author][:avatar_url], "Erik SchierBOOM's uploaded avatar")
+                    %span
+                      by
+                      = link_to feedback[:author][:name], feedback[:author][:profile_url]
+                    - if feedback[:author][:reputation]
+                      = render ViewComponents::Reputation.new(feedback[:author][:reputation])
+            - else
+              .automated-feedback-absent
+

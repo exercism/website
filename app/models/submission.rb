@@ -15,7 +15,7 @@ class Submission < ApplicationRecord
   # TODO: Find a better name for the 0 state for these to represent something where no action has been taken.
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests" # rubocop:disable Layout/LineLength
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation" # rubocop:disable Layout/LineLength
-  enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis" # rubocop:disable Layout/LineLength
+  enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
   before_create do
     self.git_slug = solution.git_slug
@@ -54,19 +54,60 @@ class Submission < ApplicationRecord
   #   end
   # end
 
+  def automated_feedback_status
+    # If they're both still waiting, then return pending
+    return :pending if !representation_generated? && !analysis_completed?
+
+    # If either has feedback then we're present
+    return :present if exercise_representation&.has_feedback? || analysis&.has_feedback?
+
+    # Otherwise if either are still queued then we're pending
+    return :pending if representation_queued? || representation_not_queued? ||
+                       analysis_queued? || analysis_not_queued?
+
+    # Otherwise we don't have feedback
+    :none
+  end
+
   memoize
   def has_automated_feedback?
-    exercise_representation&.has_feedback? || analysis&.has_feedback?
+    automated_feedback_status == :present
   end
 
   memoize
   def automated_feedback
-    feedback = []
-    feedback << exercise_representation if exercise_representation&.has_feedback?
-    feedback
+    return nil unless has_automated_feedback?
+
+    exercise_representation&.has_feedback? ? representer_feedback : analyzer_feedback
   end
 
   def viewable_by?(user)
     solution.mentors.include?(user)
+  end
+
+  private
+  memoize
+  def representer_feedback
+    author = exercise_representation.feedback_author
+
+    {
+      html: exercise_representation.feedback_html,
+      author: {
+        name: author.name,
+        reputation: author.reputation,
+        avatar_url: author.avatar_url
+      }
+    }
+  end
+
+  memoize
+  def analyzer_feedback
+    {
+      html: analysis.feedback_html,
+      author: {
+        name: "The #{track.title} Analysis Team",
+        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4" # TODO
+      }
+    }
   end
 end

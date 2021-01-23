@@ -39,8 +39,43 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal er, submission.exercise_representation
   end
 
+  test "automated_feedback_status without feedback" do
+    # Pending without queued
+    submission = create :submission, representation_status: :not_queued, analysis_status: :not_queued
+    assert_equal :pending, submission.automated_feedback_status
+
+    # Pending with queued
+    submission = create :submission, representation_status: :queued, analysis_status: :queued
+    assert_equal :pending, submission.automated_feedback_status
+
+    # Present only if there is acutal feedback on representation
+    submission = create :submission, representation_status: :generated, analysis_status: :queued
+    assert_equal :pending, submission.automated_feedback_status
+
+    create :submission_representation, ast_digest: "foobar", submission: submission
+    er = create :exercise_representation, ast_digest: "foobar", exercise: submission.exercise
+    assert_equal :pending, Submission.find(submission.id).automated_feedback_status
+
+    er.update!(feedback_markdown: "foobar", feedback_author: create(:user))
+    assert_equal :present, Submission.find(submission.id).automated_feedback_status
+
+    # Present only if there is acutal feedback on analysis
+    submission = create :submission, representation_status: :queued, analysis_status: :completed
+    assert_equal :pending, submission.automated_feedback_status
+
+    sa = create :submission_analysis, submission: submission
+    assert_equal :pending, Submission.find(submission.id).automated_feedback_status
+
+    sa.update(data: { comments: ['asd'] })
+    assert_equal :present, Submission.find(submission.id).automated_feedback_status
+
+    # None if they're both completed but don't have feedback
+    submission = create :submission, representation_status: :generated, analysis_status: :completed
+    assert_equal :none, submission.automated_feedback_status
+  end
+
   test "has_automated_feedback? with representation" do
-    submission = create :submission
+    submission = create :submission, representation_status: :generated
     refute submission.has_automated_feedback?
 
     create :submission_representation, ast_digest: "foobar", submission: submission
@@ -57,7 +92,7 @@ class SubmissionTest < ActiveSupport::TestCase
   end
 
   test "has_automated_feedback? with analysis" do
-    submission = create :submission
+    submission = create :submission, analysis_status: :completed
     refute submission.has_automated_feedback?
 
     sa = create :submission_analysis, submission: submission
@@ -67,5 +102,54 @@ class SubmissionTest < ActiveSupport::TestCase
     sa.update(data: { comments: ['asd'] })
     submission = Submission.find(submission.id)
     assert submission.reload.has_automated_feedback?
+  end
+
+  test "automated_feedback for representer" do
+    reputation = 50
+    author = create :user, reputation: reputation
+    markdown = "foobar"
+    ast_digest = "digest"
+    submission = create :submission, representation_status: :generated
+    create :submission_representation, ast_digest: ast_digest, submission: submission
+    create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
+                                     feedback_markdown: markdown, feedback_author: author
+
+    expected = {
+      html: "<p>foobar</p>\n",
+      author: {
+        name: author.name,
+        reputation: 50,
+        avatar_url: author.avatar_url
+      }
+    }
+    assert_equal expected, submission.automated_feedback
+  end
+
+  test "automated_feedback for analysis" do
+    reputation = 50
+    author = create :user, reputation: reputation
+    markdown = "foobar"
+    ast_digest = "digest"
+    submission = create :submission, analysis_status: :completed
+    create :submission_analysis, submission: submission, data: {
+      comments: ["TODO: this should be json in reality"]
+    }
+    create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
+                                     feedback_markdown: markdown, feedback_author: author
+
+    expected = {
+      html: "<p>TODO: this should be json in reality</p>\n",
+      author: {
+        name: "The #{submission.track.title} Analysis Team",
+        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4" # TODO
+      }
+    }
+    assert_equal expected, submission.automated_feedback
+  end
+
+  test "automated_feedback returns nil if has_automated_feedback? is false" do
+    submission = create :submission
+    refute submission.has_automated_feedback?
+    assert_nil submission.automated_feedback
   end
 end

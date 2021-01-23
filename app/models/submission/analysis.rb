@@ -1,14 +1,17 @@
 class Submission::Analysis < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
   def has_feedback?
-    comments.present?
+    markdown_comments.present?
   end
 
-  def comments
-    data[:comments]
+  def feedback_html
+    # TODO: Do this properly
+    Markdown::Parse.(markdown_comments.join("\n---\n"))
   end
 
   def ops_success?
@@ -20,7 +23,11 @@ class Submission::Analysis < ApplicationRecord
   end
 
   private
-  # TODO: Memoize
+  def markdown_comments
+    data[:comments]
+  end
+
+  memoize
   def data
     HashWithIndifferentAccess.new(super)
   end

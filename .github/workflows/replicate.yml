@@ -3,7 +3,7 @@ name: Replicate
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: 50 4 * * *
 
@@ -27,4 +27,4 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
 
           git remote add upstream git@github.com:exercism/website-deployer.git
-          git push upstream +master
+          git push upstream +main

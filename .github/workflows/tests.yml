@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   test:
@@ -50,7 +50,7 @@ jobs:
       ###
       # Caching using GitHub's caching action
 
-      # https://github.com/actions/cache/blob/master/examples.md#node---yarn
+      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -115,7 +115,7 @@ jobs:
       ###
       # Publish the coverage to CodeClimate
       - name: Publish code coverage
-        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         env:
           GIT_BRANCH: ${GITHUB_REF/refs\/heads\//}
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}

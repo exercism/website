@@ -12,8 +12,6 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
     expected = {
       id: submission.uuid,
       tests_status: 'failed',
-      representation_status: 'generated',
-      analysis_status: 'completed',
       links: {
         cancel: Exercism::Routes.api_submission_cancellations_url(submission),
         submit: Exercism::Routes.api_solution_iterations_url(submission.solution.uuid, submission_id: submission.uuid),

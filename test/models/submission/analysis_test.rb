@@ -14,6 +14,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments" do
+    skip # TODO: Add test for feedback_html instead
     comments = [{ 'status' => 'pass' }]
     data = { comments: comments }
     analysis = create :submission_analysis, data: data

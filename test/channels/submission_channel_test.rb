@@ -10,8 +10,6 @@ class SubmissionChannelTest < ActionCable::Channel::TestCase
       submission: {
         id: submission.uuid,
         tests_status: "not_queued",
-        representation_status: "not_queued",
-        analysis_status: "not_queued",
         links: {
           cancel: Exercism::Routes.api_submission_cancellations_url(submission),
           submit: Exercism::Routes.api_solution_iterations_url(submission.solution.uuid, submission_id: submission.uuid),

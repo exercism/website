@@ -119,7 +119,8 @@ class SubmissionTest < ActiveSupport::TestCase
       author: {
         name: author.name,
         reputation: 50,
-        avatar_url: author.avatar_url
+        avatar_url: author.avatar_url,
+        profile_url: "#"
       }
     }
     assert_equal expected, submission.automated_feedback
@@ -141,7 +142,8 @@ class SubmissionTest < ActiveSupport::TestCase
       html: "<p>TODO: this should be json in reality</p>\n",
       author: {
         name: "The #{submission.track.title} Analysis Team",
-        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4" # TODO
+        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4", # TODO
+        profile_url: "#"
       }
     }
     assert_equal expected, submission.automated_feedback

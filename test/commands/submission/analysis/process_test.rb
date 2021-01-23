@@ -14,7 +14,6 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
     assert_equal job.id, analysis.tooling_job_id
     assert_equal ops_status, analysis.ops_status
-    assert_equal comments, analysis.send(:comments)
     assert_equal data, analysis.send(:data)
   end
 

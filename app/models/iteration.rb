@@ -7,7 +7,6 @@ class Iteration < ApplicationRecord
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
 
-  delegate :discussion, to: :solution
   delegate :tests_status,
     :automated_feedback_status, :automated_feedback,
     to: :submission

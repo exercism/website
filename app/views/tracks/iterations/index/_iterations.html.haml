@@ -20,16 +20,23 @@
 
             - when :present
               .automated-feedback-present
+                .info
+                  = icon 'info-circle', "Extra Information"
+                  %p
+                    This is feedback written by our community, which may be of use.
+                    = link_to "Learn more.", "#"
+
                 - feedback = iteration.automated_feedback
                 .comment
-                  .text= raw feedback[:html]
+                  .c-textual-content.--small= raw feedback[:html]
                   .byline
                     = rounded_bg_img(feedback[:author][:avatar_url], "Erik SchierBOOM's uploaded avatar")
-                    %span
-                      by
-                      = link_to feedback[:author][:name], feedback[:author][:profile_url]
+                    = link_to "by #{feedback[:author][:name]}", feedback[:author][:profile_url]
                     - if feedback[:author][:reputation]
                       = render ViewComponents::Reputation.new(feedback[:author][:reputation])
             - else
               .automated-feedback-absent
-
+                = graphical_icon "graphic-conversation-1"
+                %h3 No auto suggestions? Try human mentoring.
+                %p Get real 1-to-1 human mentoring on the Leap exercise and start writing better C#.
+                = link_to "Get Mentoring", track_exercise_mentoring_index_path(iteration.track, iteration.exercise), class: 'btn-secondary'

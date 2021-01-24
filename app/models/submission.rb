@@ -61,6 +61,8 @@ class Submission < ApplicationRecord
   memoize
   def automated_feedback_status
     # If they're both still waiting, then return pending
+    # TODO: If we don't have an analyzer we may currently never get here,
+    # so we need to handle the missing analyzer sceneraio. Check this works ok.
     return :pending if !representation_generated? && !analysis_completed?
 
     # If either has feedback then we're present

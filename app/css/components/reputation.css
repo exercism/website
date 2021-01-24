@@ -2,12 +2,12 @@
     @apply border-1 border-lightGray rounded-100 shadow-sm bg-white;
 
     @apply flex px-8 items-center justify-center;
-    @apply text-13 text-unnamed16;
+    @apply text-13 text-textColor6 font-semibold;
     line-height: 28px;
 
     & svg {
         height: 24px;
         width: 24px;
-        @apply text-unnamed16 mr-6;
+        @apply mr-6;
     }
 }

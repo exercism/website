@@ -6,12 +6,24 @@ class Submission::Analysis < ApplicationRecord
   scope :ops_successful, -> { where(ops_status: 200) }
 
   def has_feedback?
-    markdown_comments.present?
+    comment_blocks.present?
   end
 
   def feedback_html
-    # TODO: Do this properly
-    Markdown::Parse.(markdown_comments.join("\n---\n"))
+    repo = Git::WebsiteCopy.new
+
+    markdown_blocks = comment_blocks.map do |data|
+      if data.is_a?(Hash)
+        template = data['comment']
+        params = data['params']
+      else
+        template = data
+      end
+
+      repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+    end
+
+    Markdown::Parse.(markdown_blocks.join("\n---\n"))
   end
 
   def ops_success?
@@ -23,7 +35,7 @@ class Submission::Analysis < ApplicationRecord
   end
 
   private
-  def markdown_comments
+  def comment_blocks
     data[:comments]
   end
 

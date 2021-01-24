@@ -133,13 +133,13 @@ class SubmissionTest < ActiveSupport::TestCase
     ast_digest = "digest"
     submission = create :submission, analysis_status: :completed
     create :submission_analysis, submission: submission, data: {
-      comments: ["TODO: this should be json in reality"]
+      comments: ["ruby.two-fer.incorrect_default_param"]
     }
     create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
                                      feedback_markdown: markdown, feedback_author: author
 
     expected = {
-      html: "<p>TODO: this should be json in reality</p>\n",
+      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n", # rubocop:disable Layout/LineLength
       author: {
         name: "The #{submission.track.title} Analysis Team",
         avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4", # TODO

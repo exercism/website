@@ -99,9 +99,14 @@ module Git
     end
 
     def repo_dir
-      # TODO: Change when breaking out of monorepo
-      "#{repos_dir}/v3"
-      # "#{repos_dir}/#{repo_name}"
+      # TODO: Remove this when breaking out of monorepo
+      if repo_url.end_with?("website-copy")
+        "#{repos_dir}/website-copy"
+      else
+        # TODO: Change when breaking out of monorepo
+        "#{repos_dir}/v3"
+        # "#{repos_dir}/#{repo_name}"
+      end
     end
 
     memoize

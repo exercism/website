@@ -13,12 +13,63 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert create(:submission_analysis, ops_status: 201).ops_errored?
   end
 
-  test "comments" do
-    skip # TODO: Add test for feedback_html instead
-    comments = [{ 'status' => 'pass' }]
-    data = { comments: comments }
-    analysis = create :submission_analysis, data: data
-    assert_equal comments, analysis.comments
+  test "feedback_html for single simple comments" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    expected = "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, analysis.feedback_html
+  end
+
+  test "feedback_html for single comment hash" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "params" => {
+        "name_variable" => "iHiD"
+      }
+    }]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    # rubocop:disable Layout/LineLength
+    expected = '<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").
+For example:</p>
+<pre><code class="language-ruby">"One for %s, one for you" % iHiD"
+</code></pre>
+'
+    # rubocop:enable Layout/LineLength
+    assert_equal expected, analysis.feedback_html
+  end
+
+  test "feedback_html for mixed comments" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = [
+      "ruby.two-fer.incorrect_default_param",
+      {
+
+        "comment" => "ruby.two-fer.string_interpolation",
+        "params" => {
+          "name_variable" => "iHiD"
+        }
+      }
+    ]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    # rubocop:disable Layout/LineLength
+    expected = '<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>
+<hr>
+<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").
+For example:</p>
+<pre><code class="language-ruby">"One for %s, one for you" % iHiD"
+</code></pre>
+'
+
+    # rubocop:enable Layout/LineLength
+    assert_equal expected, analysis.feedback_html
   end
 
   test "has_feedback?" do

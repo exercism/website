@@ -80,7 +80,7 @@ export const FilterPanel = ({
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
-        aria-label="A series of checkboxes to filter solutions"
+        aria-label="A series of checkboxes for filtering"
         className="--tag-option-list"
         {...(expanded ? {} : { hidden: true })}
       >

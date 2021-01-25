@@ -15,8 +15,8 @@ type PaginatedResult = {
 }
 
 type ResultsType = {
-  sort: string
-  setSort: (sort: string) => void
+  order: string
+  setOrder: (order: string) => void
   results: any[]
 }
 
@@ -47,7 +47,7 @@ export const SearchableList = ({
   ResultsComponent: React.ComponentType<ResultsType>
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setCriteria, setQuery, setSort } = useList({
+  const { request, setPage, setCriteria, setQuery, setOrder } = useList({
     endpoint: endpoint,
   })
   const { status, resolvedData, latestData, error } = usePaginatedRequestQuery<
@@ -92,7 +92,7 @@ export const SearchableList = ({
         <Results
           query={request.query}
           error={error}
-          setSort={setSort}
+          setOrder={setOrder}
           setPage={setPage}
           resolvedData={resolvedData}
           latestData={latestData}
@@ -105,7 +105,7 @@ export const SearchableList = ({
 
 const Results = ({
   query,
-  setSort,
+  setOrder,
   setPage,
   resolvedData,
   latestData,
@@ -113,7 +113,7 @@ const Results = ({
   ResultsComponent,
 }: {
   query: Record<string, any>
-  setSort: (sort: string) => void
+  setOrder: (order: string) => void
   setPage: (page: number) => void
   resolvedData: PaginatedResult | undefined
   latestData: PaginatedResult | undefined
@@ -126,9 +126,9 @@ const Results = ({
     <React.Fragment>
       {resolvedData ? (
         <ResultsComponent
-          sort={query.sort}
+          order={query.order}
           results={resolvedData.results}
-          setSort={setSort}
+          setOrder={setOrder}
         />
       ) : null}
       {latestData ? (

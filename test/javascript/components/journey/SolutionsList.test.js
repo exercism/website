@@ -219,9 +219,9 @@ test('sorts solutions', async () => {
 
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const sort = req.url.searchParams.get('sort')
+      const order = req.url.searchParams.get('order')
 
-      if (sort === 'newest_first') {
+      if (order === 'newest_first') {
         solutions = solutions.reverse()
       }
 

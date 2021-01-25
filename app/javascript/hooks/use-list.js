@@ -16,10 +16,10 @@ function reducer(state, action) {
         ...state,
         query: { ...state.query, filter: action.payload.filter, page: 1 },
       }
-    case 'sort.changed':
+    case 'order.changed':
       return {
         ...state,
-        query: { ...state.query, sort: action.payload.sort },
+        query: { ...state.query, order: action.payload.order },
       }
     default:
       if (process.env.NODE_ENV === 'development') {
@@ -49,9 +49,9 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  const setSort = useCallback(
-    (sort) => {
-      dispatch({ type: 'sort.changed', payload: { sort: sort } })
+  const setOrder = useCallback(
+    (order) => {
+      dispatch({ type: 'order.changed', payload: { order: order } })
     },
     [dispatch]
   )
@@ -70,5 +70,5 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  return { request, setCriteria, setSort, setPage, setQuery, setFilter }
+  return { request, setCriteria, setOrder, setPage, setQuery, setFilter }
 }

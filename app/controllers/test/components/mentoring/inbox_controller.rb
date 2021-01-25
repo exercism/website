@@ -96,7 +96,7 @@ class Test::Components::Mentoring::InboxController < Test::BaseController
 
   private
   def sort_conversations(results)
-    case params[:sort]
+    case params[:order]
     when 'exercise'
       results.sort_by { |c| c[:exerciseTitle] }
     when 'recent'

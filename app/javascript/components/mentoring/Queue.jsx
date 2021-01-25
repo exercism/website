@@ -5,7 +5,7 @@ import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
 
 export function Queue({ sortOptions, ...props }) {
-  const { request, setCriteria, setSort, setPage } = useList(props.request)
+  const { request, setCriteria, setOrder, setPage } = useList(props.request)
 
   return (
     <div className="c-mentor-queue">
@@ -18,8 +18,8 @@ export function Queue({ sortOptions, ...props }) {
         />
         <Sorter
           sortOptions={sortOptions}
-          sort={request.query.sort}
-          setSort={setSort}
+          order={request.query.order}
+          setOrder={setOrder}
           id="mentoring-queue-sorter"
         />
       </header>

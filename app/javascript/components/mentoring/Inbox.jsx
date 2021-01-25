@@ -9,7 +9,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const {
     request: conversationsRequest,
     setCriteria,
-    setSort,
+    setOrder,
     setPage,
     setQuery,
   } = useList(props.conversationsRequest)
@@ -30,8 +30,8 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
         />
         <Sorter
           sortOptions={sortOptions}
-          sort={conversationsRequest.query.sort}
-          setSort={setSort}
+          order={conversationsRequest.query.order}
+          setOrder={setOrder}
           id="conversation-sorter-sort"
         />
       </header>

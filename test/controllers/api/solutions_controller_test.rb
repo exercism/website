@@ -33,7 +33,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
-      sort: "newest_first"
+      order: "newest_first"
     ), headers: @headers, as: :json
 
     assert_response :success

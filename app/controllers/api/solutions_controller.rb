@@ -7,7 +7,7 @@ module API
         status: params[:status],
         mentoring_status: params[:mentoring_status],
         page: params[:page],
-        order: params[:sort]
+        order: params[:order]
       )
 
       render json: SerializePaginatedCollection.(solutions, SerializeSolutionsForStudent)

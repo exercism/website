@@ -4,12 +4,12 @@ import pluralize from 'pluralize'
 
 export const ContributionResults = ({
   results,
-  sort,
-  setSort,
+  order,
+  setOrder,
 }: {
   results: ContributionProps[]
-  setSort: (sort: string) => void
-  sort: string
+  setOrder: (order: string) => void
+  order: string
 }): JSX.Element => {
   return (
     <div>
@@ -18,7 +18,7 @@ export const ContributionResults = ({
           Showing {results.length} {pluralize('contribution', results.length)}
         </h3>
         <div className="c-select order">
-          <select onChange={(e) => setSort(e.target.value)} value={sort}>
+          <select onChange={(e) => setOrder(e.target.value)} value={order}>
             <option value="oldest_first">Sort by Oldest First</option>
             <option value="newest_first">Sort by Newest First</option>
           </select>

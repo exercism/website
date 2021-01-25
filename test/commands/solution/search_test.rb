@@ -87,17 +87,17 @@ class Solution::SearchTest < ActiveSupport::TestCase
 
   test "sort oldest first" do
     user = create :user
-    solution_1 = create :concept_solution, user: user
-    solution_2 = create :concept_solution, user: user
+    old_solution = create :concept_solution, user: user
+    new_solution = create :concept_solution, user: user
 
-    assert_equal [solution_1, solution_2], Solution::Search.(user, order: "oldest_first")
+    assert_equal [old_solution, new_solution], Solution::Search.(user, order: "oldest_first")
   end
 
   test "sort newest first by default" do
     user = create :user
-    solution_1 = create :concept_solution, user: user
-    solution_2 = create :concept_solution, user: user
+    old_solution = create :concept_solution, user: user
+    new_solution = create :concept_solution, user: user
 
-    assert_equal [solution_2, solution_1], Solution::Search.(user)
+    assert_equal [new_solution, old_solution], Solution::Search.(user)
   end
 end

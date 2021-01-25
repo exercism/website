@@ -81,9 +81,9 @@ module Flows
       click_on "Join The Ruby Track"
       visit new_user_registration_path
       click_on "Sign Up with GitHub"
-      check "Accept Terms of Service"
-      check "Accept Privacy Policy"
-      click_on "Submit"
+      find('label', text: "I accept Exercism's Terms of Service").click
+      find('label', text: "I accept Exercism's Privacy Policy").click
+      click_on "Save & Get Started"
 
       assert_text "Join The Ruby Track"
     ensure

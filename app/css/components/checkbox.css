@@ -1,12 +1,31 @@
 @import "../styles";
 
+label.c-checkbox-wrapper {
+    cursor: pointer;
+    @apply flex items-center;
+    @apply relative;
+
+    & input {
+        @apply absolute;
+        opacity: 0;
+    }
+
+    & input:checked + * {
+        &.c-checkbox .c-icon,
+        & .c-checkbox .c-icon {
+            transform: scale(1);
+        }
+    }
+}
 .c-checkbox {
     height: 21px;
     width: 21px;
 
+    @apply bg-backgroundColorA;
     @apply border-1 border-inputBorderColor rounded-5;
     @apply cursor-pointer;
     @apply grid place-items-center;
+    @apply text-textColor3;
 
     & .c-icon {
         height: 9px;

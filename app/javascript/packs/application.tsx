@@ -69,6 +69,7 @@ import '../../css/modals/welcome-to-v3'
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
 import '../../css/pages/editor'
+import '../../css/pages/onboarding'
 import '../../css/pages/profile'
 import '../../css/pages/staging' // TODO: Remove for launch
 import '../../css/pages/track-shared-index'

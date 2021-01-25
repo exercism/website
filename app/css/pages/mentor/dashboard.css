@@ -77,13 +77,6 @@
                     @apply mb-16;
                 }
                 & label {
-                    cursor: pointer;
-                    @apply flex;
-                    & input {
-                        opacity: 0;
-                        width: 0;
-                        height: 0;
-                    }
                     & .row {
                         @apply flex-grow flex items-center;
                         @apply py-8 px-16 mb-8;
@@ -91,7 +84,6 @@
 
                         & .c-checkbox {
                             @apply mr-24;
-                            @apply text-textColor3;
                         }
                         & .c-track-icon,
                         & .c-exercise-icon {
@@ -112,9 +104,6 @@
                     & input:checked + .row {
                         background: #f0f3f9;
 
-                        & .c-checkbox .c-icon {
-                            transform: scale(1);
-                        }
                         & .title {
                             @apply text-textColor3;
                         }

@@ -157,6 +157,12 @@ Rails.application.routes.draw do
     end
   end
 
+  get "code-of-conduct" => "docs/code_of_conduct", as: :code_of_conduct
+  get "terms-of-services" => "docs/terms_of_services", as: :terms_of_service
+  get "privacy-policy" => "docs/privacy_policy", as: :privacy_policy
+  get "licences/cc-sa-4" => "licences/cc_sa_4_licence", as: :cc_sa_4_licence
+  get "licences/mit" => "licences/mit", as: :mit_licence
+
   root to: "pages#index"
 
   ##############

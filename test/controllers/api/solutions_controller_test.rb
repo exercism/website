@@ -17,19 +17,23 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
   test "index should proxy params" do
     setup_user
-    solution = create :concept_solution
+    create :concept_solution
 
     Solution::Search.expects(:call).with(
       @current_user,
       criteria: "ru",
       status: "published",
-      mentoring_status: "completed"
-    ).returns([solution])
+      mentoring_status: "completed",
+      page: "2",
+      order: "newest_first"
+    ).returns(Solution.page(2))
 
     get api_solutions_path(
       criteria: "ru",
       status: "published",
-      mentoring_status: "completed"
+      mentoring_status: "completed",
+      page: "2",
+      order: "newest_first"
     ), headers: @headers, as: :json
 
     assert_response :success
@@ -39,7 +43,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     setup_user
     ruby = create :track, title: "Ruby"
     ruby_bob = create :concept_exercise, track: ruby, title: "Bob"
-    solution = create :concept_solution,
+    create :concept_solution,
       user: @current_user,
       exercise: ruby_bob,
       published_at: Time.current,
@@ -48,11 +52,12 @@ class API::SolutionsControllerTest < API::BaseTestCase
     get api_solutions_path(
       criteria: "ru",
       status: "published",
-      mentoring_status: "completed"
+      mentoring_status: "completed",
+      page: 1
     ), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializeSolutionsForStudent.([solution])
+    serializer = SerializePaginatedCollection.(Solution.page(1), SerializeSolutionsForStudent)
     assert_equal serializer.to_json, response.body
   end
 

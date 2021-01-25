@@ -4,11 +4,7 @@ class SerializeSolutionsForStudent
   initialize_with :solutions
 
   def call
-    {
-      solutions: solutions.map do |solution|
-        serialize_solution(solution)
-      end
-    }
+    solutions.map { |s| serialize_solution(s) }
   end
 
   def serialize_solution(solution)

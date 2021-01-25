@@ -51,10 +51,10 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i
 
-    if params[:search].present?
-      results = results.select { |result| result[:mentee_handle].downcase.include?(params[:search].downcase) }
+    if params[:criteria].present?
+      results = results.select { |result| result[:mentee_handle].downcase.include?(params[:criteria].downcase) }
     end
-    results = sort_solutions(results) if params[:sort].present?
+    results = sort_solutions(results) if params[:order].present?
 
     render json: {
       results: results[page - 1, per],
@@ -63,7 +63,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
   end
 
   def sort_solutions(results)
-    case params[:sort]
+    case params[:order]
     when 'exercise'
       results.sort_by { |c| c[:exercise_title] }
     when 'recent'

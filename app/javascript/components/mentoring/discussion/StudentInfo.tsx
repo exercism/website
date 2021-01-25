@@ -1,7 +1,6 @@
 import React from 'react'
 import { Student } from '../Discussion'
-import { Avatar } from '../../common/Avatar'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Avatar, Reputation } from '../../common'
 import { FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 
@@ -12,16 +11,7 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
         <div className="subtitle">Who you're mentoring</div>
         <div className="name-block">
           <div className="name">{student.name}</div>
-          {/* # TODO: Copy view_components/reputation.rb */}
-          <div
-            className="c-primary-reputation"
-            aria-label={student.reputation + 'reputation'}
-          >
-            <div className="--inner">
-              <GraphicalIcon icon="reputation" />
-              <span>{student.reputation}</span>
-            </div>
-          </div>
+          <Reputation value={student.reputation.toString()} type="primary" />
         </div>
         <div className="handle">@{student.handle}</div>
         <div className="bio">

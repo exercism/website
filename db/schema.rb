@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_20_183440) do
+ActiveRecord::Schema.define(version: 2021_01_22_054521) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -374,6 +374,7 @@ ActiveRecord::Schema.define(version: 2021_01_20_183440) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "exercise_id"
+    t.string "uuid", null: false
     t.index ["context_key", "user_id"], name: "index_user_reputation_tokens_on_context_key_and_user_id", unique: true
     t.index ["context_type", "context_id"], name: "context_index"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { GraphicalIcon, Loading, Pagination } from '../common'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
+import { FilterPanel } from './searchable-list/FilterPanel'
+import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 
 type PaginatedResult = {
   results: any[]
@@ -12,37 +14,53 @@ type PaginatedResult = {
   }
 }
 
-type FilterType = {
-  setFilter: (filter: string[]) => void
-  values: string[]
-}
-
 type ResultsType = {
-  sort: string
-  setSort: (sort: string) => void
+  order: string
+  setOrder: (order: string) => void
   results: any[]
 }
+
+export type FilterCategory = {
+  value: string
+  label: string
+  options: {
+    value: string
+    label: string
+  }[]
+}
+
+export type FilterValue = Record<string, string>
+
+const DEFAULT_ERROR = new Error('Unable to fetch list')
 
 export const SearchableList = ({
   endpoint,
   cacheKey,
   placeholder,
-  FilterComponent,
+  categories,
   ResultsComponent,
 }: {
   endpoint: string
   cacheKey: string
   placeholder: string
-  FilterComponent: React.ComponentType<FilterType>
+  categories: FilterCategory[]
   ResultsComponent: React.ComponentType<ResultsType>
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setSearch, setFilter, setSort } = useList({
+  const { request, setPage, setCriteria, setQuery, setOrder } = useList({
     endpoint: endpoint,
   })
-  const { status, resolvedData, latestData } = usePaginatedRequestQuery<
-    PaginatedResult
+  const { status, resolvedData, latestData, error } = usePaginatedRequestQuery<
+    PaginatedResult,
+    Error | Response
   >(cacheKey, request, isMountedRef)
+
+  const setFilter = useCallback(
+    (filter) => {
+      setQuery({ ...request.query, ...filter })
+    },
+    [request.query, setQuery]
+  )
 
   return (
     <div className="md-container container">
@@ -50,41 +68,78 @@ export const SearchableList = ({
         <input
           className="--search"
           onChange={(e) => {
-            setSearch(e.target.value)
+            setCriteria(e.target.value)
           }}
-          value={request.query.search || ''}
+          value={request.query.criteria || ''}
           placeholder={placeholder}
         />
-        <FilterComponent
+        <FilterPanel
           setFilter={setFilter}
-          values={request.query.filter || []}
+          categories={categories}
+          value={request.query.filter || {}}
         />
         <button
           type="button"
           className="--reset-btn"
-          onClick={() => setFilter([])}
+          onClick={() => setFilter({})}
         >
           <GraphicalIcon icon="reset" />
           Reset filters
         </button>
       </div>
       {status === 'loading' ? <Loading /> : null}
+      <ErrorBoundary>
+        <Results
+          query={request.query}
+          error={error}
+          setOrder={setOrder}
+          setPage={setPage}
+          resolvedData={resolvedData}
+          latestData={latestData}
+          ResultsComponent={ResultsComponent}
+        />
+      </ErrorBoundary>
+    </div>
+  )
+}
+
+const Results = ({
+  query,
+  setOrder,
+  setPage,
+  resolvedData,
+  latestData,
+  error,
+  ResultsComponent,
+}: {
+  query: Record<string, any>
+  setOrder: (order: string) => void
+  setPage: (page: number) => void
+  resolvedData: PaginatedResult | undefined
+  latestData: PaginatedResult | undefined
+  error: Error | Response | null
+  ResultsComponent: React.ComponentType<ResultsType>
+}) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return (
+    <React.Fragment>
       {resolvedData ? (
         <ResultsComponent
-          sort={request.query.sort}
+          order={query.order}
           results={resolvedData.results}
-          setSort={setSort}
+          setOrder={setOrder}
         />
       ) : null}
       {latestData ? (
         <footer>
           <Pagination
-            current={request.query.page}
+            current={query.page}
             total={latestData.meta.total}
             setPage={setPage}
           />
         </footer>
       ) : null}
-    </div>
+    </React.Fragment>
   )
 }

@@ -5,21 +5,21 @@ import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
 
 export function Queue({ sortOptions, ...props }) {
-  const { request, setSearch, setSort, setPage } = useList(props.request)
+  const { request, setCriteria, setOrder, setPage } = useList(props.request)
 
   return (
     <div className="c-mentor-queue">
       <header className="c-search-bar">
         <TextFilter
-          filter={request.query.search}
-          setFilter={setSearch}
+          filter={request.query.criteria}
+          setFilter={setCriteria}
           id="mentoring-queue-student-name-filter"
           placeholder="Filter by student name"
         />
         <Sorter
           sortOptions={sortOptions}
-          sort={request.query.sort}
-          setSort={setSort}
+          order={request.query.order}
+          setOrder={setOrder}
           id="mentoring-queue-sorter"
         />
       </header>

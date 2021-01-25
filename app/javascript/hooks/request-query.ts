@@ -6,21 +6,19 @@ import {
   usePaginatedQuery,
   useQuery,
 } from 'react-query'
-import { UrlParams } from '../utils/url-params'
 import { camelizeKeys } from 'humps'
 import { sendRequest } from '../utils/send-request'
-
-type RequestQuery = ConstructorParameters<typeof UrlParams>[0]
+import { stringify } from 'qs'
 
 export type Request = {
   endpoint: string
-  query?: RequestQuery
+  query?: Record<string, any>
   options: QueryConfig<any>
 }
 
 type PaginatedRequest = {
   endpoint: string
-  query?: RequestQuery
+  query?: Record<string, any>
   options: PaginatedQueryConfig<any>
 }
 
@@ -28,8 +26,12 @@ function handleFetch(
   request: Request,
   isMountedRef: React.MutableRefObject<boolean>
 ) {
+  const params = request.query
+    ? stringify(request.query, { arrayFormat: 'brackets' })
+    : ''
+
   return sendRequest({
-    endpoint: `${request.endpoint}?${new UrlParams(request.query).toString()}`,
+    endpoint: `${request.endpoint}?${params}`,
     body: null,
     method: 'GET',
     isMountedRef: isMountedRef,

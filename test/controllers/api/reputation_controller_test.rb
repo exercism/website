@@ -17,13 +17,13 @@ class API::ReputatationControllerTest < API::BaseTestCase
 
   test "index should proxy params" do
     setup_user
-    token = create :user_reputation_token
+    create :user_reputation_token
 
     User::ReputationToken::Search.expects(:call).with(
       @current_user,
       criteria: "ru",
       category: "authoring"
-    ).returns([token])
+    ).returns(User::ReputationToken.page(1).per(10))
 
     get api_reputation_index_path(
       criteria: "ru",
@@ -49,7 +49,16 @@ class API::ReputatationControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializeReputationTokens.([token])
-    assert_equal serializer.to_json, response.body
+    serialized = SerializeReputationTokens.([token])
+    assert_equal(
+      {
+        results: serialized,
+        meta: {
+          current: 1,
+          total: 1
+        }
+      }.to_json,
+      response.body
+    )
   end
 end

@@ -5,16 +5,24 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { SolutionsList } from '../../../../app/javascript/components/journey/SolutionsList'
 import userEvent from '@testing-library/user-event'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { silenceConsole } from '../../support/silence-console'
 
 test('pulls solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
@@ -47,11 +55,17 @@ test('paginates solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
@@ -84,20 +98,26 @@ test('searches solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const search = req.url.searchParams.get('search')
+      const criteria = req.url.searchParams.get('criteria')
 
       const searched = solutions.filter(
-        (solution) => solution.exerciseTitle === search
+        (solution) => solution.exercise.title === criteria
       )
 
       const response = {
@@ -125,23 +145,34 @@ test('filters solutions', async () => {
   const solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
-      tags: ['oop'],
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
+      status: 'published',
+      mentoringStatus: 'in_progress',
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
-      tags: ['functional'],
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
+      status: 'published',
+      mentoringStatus: 'requested',
     },
   ]
 
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const filter = req.url.searchParams.get('filter[]')
+      const status = req.url.searchParams.get('status')
+      const mentoringStatus = req.url.searchParams.get('mentoring_status')
 
-      const searched = solutions.filter((solution) =>
-        solution.tags.includes(filter)
-      )
+      const searched = solutions
+        .filter((solution) => solution.status.includes(status))
+        .filter((solution) =>
+          solution.mentoringStatus.includes(mentoringStatus)
+        )
 
       const response = {
         results: searched,
@@ -157,10 +188,13 @@ test('filters solutions', async () => {
 
   render(<SolutionsList endpoint="https://exercism.test/solutions" />)
 
-  userEvent.click(screen.getByRole('button', { name: 'Filter By' }))
-  userEvent.click(screen.getByLabelText('Functional'))
+  userEvent.click(screen.getByRole('button', { name: 'Filter by' }))
+  userEvent.click(screen.getByLabelText('Completed and published'))
+  userEvent.click(screen.getByLabelText('Requested'))
+  userEvent.click(screen.getByRole('button', { name: 'Apply' }))
 
   expect(await screen.findByText('Bob')).toBeInTheDocument()
+  expect(screen.queryByText('Lasagna')).not.toBeInTheDocument()
 
   server.close()
 })
@@ -169,19 +203,25 @@ test('sorts solutions', async () => {
   let solutions = [
     {
       id: 'uuid-1',
-      exerciseTitle: 'Lasagna',
+      exercise: {
+        title: 'Lasagna',
+      },
+      track: {},
     },
     {
       id: 'uuid-2',
-      exerciseTitle: 'Bob',
+      exercise: {
+        title: 'Bob',
+      },
+      track: {},
     },
   ]
 
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const sort = req.url.searchParams.get('sort')
+      const order = req.url.searchParams.get('order')
 
-      if (sort === 'newest-first') {
+      if (order === 'newest_first') {
         solutions = solutions.reverse()
       }
 
@@ -200,9 +240,50 @@ test('sorts solutions', async () => {
   render(<SolutionsList endpoint="https://exercism.test/solutions" />)
   expect(await screen.findByText('Lasagna')).toBeInTheDocument()
 
-  userEvent.selectOptions(screen.getByRole('combobox'), ['newest-first'])
+  userEvent.selectOptions(screen.getByRole('combobox'), ['newest_first'])
 
   expect(await screen.findByText('Bob')).toBeInTheDocument()
 
   server.close()
+})
+
+test('shows API errors', async () => {
+  silenceConsole()
+  const server = setupServer(
+    rest.get('https://exercism.test/solutions', (req, res, ctx) => {
+      return res(
+        ctx.status(422),
+        ctx.json({
+          error: {
+            message: 'Unable to fetch solutions',
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <SolutionsList endpoint="https://exercism.test/solutions" />)
+    </TestQueryCache>
+  )
+
+  expect(
+    await screen.findByText('Unable to fetch solutions')
+  ).toBeInTheDocument()
+
+  server.close()
+})
+
+test('shows generic errors', async () => {
+  silenceConsole()
+
+  render(
+    <TestQueryCache>
+      <SolutionsList endpoint="weirdendpoint" />)
+    </TestQueryCache>
+  )
+
+  expect(await screen.findByText('Unable to fetch list')).toBeInTheDocument()
 })

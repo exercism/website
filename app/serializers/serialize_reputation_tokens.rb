@@ -4,11 +4,9 @@ class SerializeReputationTokens
   initialize_with :tokens
 
   def call
-    {
-      tokens: tokens.map do |token|
-        serialize_token(token)
-      end
-    }
+    tokens.map do |token|
+      serialize_token(token)
+    end
   end
 
   def serialize_token(token)
@@ -20,6 +18,7 @@ class SerializeReputationTokens
     end
 
     {
+      id: token.uuid,
       value: token.value,
       description: token.description,
       icon_name: token.icon_name,

@@ -6,20 +6,20 @@ function reducer(state, action) {
       return { ...state, query: { ...state.query, page: action.payload.page } }
     case 'query.changed':
       return { ...state, query: action.payload.query }
-    case 'search.changed':
+    case 'criteria.changed':
       return {
         ...state,
-        query: { ...state.query, search: action.payload.search, page: 1 },
+        query: { ...state.query, criteria: action.payload.criteria, page: 1 },
       }
     case 'filter.changed':
       return {
         ...state,
         query: { ...state.query, filter: action.payload.filter, page: 1 },
       }
-    case 'sort.changed':
+    case 'order.changed':
       return {
         ...state,
-        query: { ...state.query, sort: action.payload.sort },
+        query: { ...state.query, order: action.payload.order },
       }
     default:
       if (process.env.NODE_ENV === 'development') {
@@ -35,9 +35,9 @@ export function useList(initialRequest) {
     Object.assign({ query: { page: 1 } }, initialRequest)
   )
 
-  const setSearch = useCallback(
-    (search) => {
-      dispatch({ type: 'search.changed', payload: { search: search } })
+  const setCriteria = useCallback(
+    (criteria) => {
+      dispatch({ type: 'criteria.changed', payload: { criteria: criteria } })
     },
     [dispatch]
   )
@@ -49,9 +49,9 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  const setSort = useCallback(
-    (sort) => {
-      dispatch({ type: 'sort.changed', payload: { sort: sort } })
+  const setOrder = useCallback(
+    (order) => {
+      dispatch({ type: 'order.changed', payload: { order: order } })
     },
     [dispatch]
   )
@@ -70,5 +70,5 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  return { request, setSearch, setSort, setPage, setQuery, setFilter }
+  return { request, setCriteria, setOrder, setPage, setQuery, setFilter }
 }

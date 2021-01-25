@@ -10,8 +10,9 @@ class SerializeReputationTokensTest < ActiveSupport::TestCase
       track: track,
       external_link: "https://google.com"
 
-    expected = {
-      tokens: [{
+    expected = [
+      {
+        id: token.uuid,
         value: token.value,
         description: "You authored Datetime",
         icon_name: "sample-exercise-butterflies",
@@ -22,18 +23,18 @@ class SerializeReputationTokensTest < ActiveSupport::TestCase
           title: track.title,
           icon_name: track.icon_name
         }
-      }]
-    }
+      }
+    ]
 
     assert_equal expected, SerializeReputationTokens.([token])
   end
 
   test "works with empty token" do
-    token = create :user_reputation_token,
-      created_at: Time.current - 1.week
+    token = create :user_reputation_token, created_at: Time.current - 1.week
 
-    expected = {
-      tokens: [{
+    expected = [
+      {
+        id: token.uuid,
         value: token.value,
         description: "You contributed to Exercism",
         icon_name: :reputation,
@@ -41,8 +42,8 @@ class SerializeReputationTokensTest < ActiveSupport::TestCase
         external_link: nil,
         awarded_at: token.created_at.iso8601,
         track: nil
-      }]
-    }
+      }
+    ]
 
     assert_equal expected, SerializeReputationTokens.([token])
   end

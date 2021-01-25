@@ -6,7 +6,8 @@ module API
         criteria: params[:criteria],
         category: params[:category]
       )
-      render json: SerializeReputationTokens.(tokens)
+
+      render json: SerializePaginatedCollection.(tokens, SerializeReputationTokens)
     end
   end
 end

@@ -1,9 +1,5 @@
 module API
   class ReputationController < BaseController
-    def self.per
-      25
-    end
-
     def index
       tokens = User::ReputationToken::Search.(
         current_user,

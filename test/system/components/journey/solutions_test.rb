@@ -33,10 +33,10 @@ module Components
       end
 
       test "paginates solutions" do
-        Solution::Search.stubs(:per).returns(1)
+        Solution::Search.stubs(:default_per).returns(1)
         user = create :user
-        exercise = create :concept_exercise, title: "Lasagna"
-        exercise_2 = create :concept_exercise, title: "Bob"
+        exercise = create :concept_exercise, title: "Bob"
+        exercise_2 = create :concept_exercise, title: "Lasagna"
         create :concept_solution, exercise: exercise, user: user
         create :concept_solution, exercise: exercise_2, user: user
 
@@ -51,7 +51,7 @@ module Components
       end
 
       test "searches solutions" do
-        Solution::Search.stubs(:per).returns(1)
+        Solution::Search.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
@@ -94,7 +94,7 @@ module Components
       end
 
       test "sorts solutions" do
-        Solution::Search.stubs(:per).returns(1)
+        Solution::Search.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
@@ -104,7 +104,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          select "Sort by Oldest First"
+          select "Sort by Newest First"
         end
 
         assert_text "Bob"

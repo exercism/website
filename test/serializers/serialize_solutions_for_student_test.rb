@@ -32,17 +32,17 @@ class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
   end
 
   test "status - started" do
-    create :concept_solution
+    solution = create :concept_solution
     assert_equal :started, SerializeSolutionsForStudent.([solution])[0][:status]
   end
 
   test "status - completed" do
-    create :concept_solution, completed_at: Time.current
+    solution = create :concept_solution, completed_at: Time.current
     assert_equal :completed, SerializeSolutionsForStudent.([solution])[0][:status]
   end
 
   test "status - published" do
-    create :concept_solution, completed_at: Time.current, published_at: Time.current
+    solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
     assert_equal :published, SerializeSolutionsForStudent.([solution])[0][:status]
   end
 end

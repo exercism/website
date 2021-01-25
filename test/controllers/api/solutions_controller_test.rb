@@ -25,8 +25,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
-      per: "25",
-      sort: "newest_first"
+      order: "newest_first"
     ).returns(Solution.page(2))
 
     get api_solutions_path(
@@ -34,7 +33,6 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
-      per: "25",
       sort: "newest_first"
     ), headers: @headers, as: :json
 
@@ -59,7 +57,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializeSolutionsForStudent.(Solution.page(1))
+    serializer = SerializePaginatedCollection.(Solution.page(1), SerializeSolutionsForStudent)
     assert_equal serializer.to_json, response.body
   end
 

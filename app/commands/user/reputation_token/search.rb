@@ -6,12 +6,16 @@ class User
       DEFAULT_PAGE = 1
       DEFAULT_PER = 25
 
+      def self.default_per
+        DEFAULT_PER
+      end
+
       def initialize(user, criteria: nil, category: nil, page: nil, per: nil, order: nil)
         @user = user
         @criteria = criteria
         @category = category
         @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
-        @per = per.present? && per.to_i.positive? ? per.to_i : DEFAULT_PER # rubocop:disable Style/ConditionalAssignment
+        @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
         @order = order
       end
 

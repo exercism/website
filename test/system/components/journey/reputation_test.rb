@@ -32,7 +32,7 @@ module Components
       end
 
       test "paginates contributions" do
-        API::ReputationController.stubs(:per).returns(1)
+        User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
         create :user_reputation_token,
           user: user,
@@ -54,7 +54,7 @@ module Components
       end
 
       test "sorts contributions" do
-        API::ReputationController.stubs(:per).returns(1)
+        User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
         create :user_reputation_token,
           user: user,

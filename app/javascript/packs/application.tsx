@@ -64,6 +64,7 @@ import '../../css/components/widgets/exercise'
 import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'
+import '../../css/modals/welcome-to-v3'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'

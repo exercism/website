@@ -163,6 +163,9 @@ initReact({
       tagOptions={data.tag_options}
     />
   ),
+  'student-complete-exercise-button': (data: any) => (
+    <Student.CompleteExerciseButton endpoint={data.endpoint} />
+  ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
     return (

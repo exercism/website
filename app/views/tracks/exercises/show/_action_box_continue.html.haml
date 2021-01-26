@@ -6,9 +6,7 @@
 
   .complete
     %h3 Done with the exercise?
-    = button_to complete_track_exercise_path(track, exercise), method: :patch, class: "btn" do
-      = graphical_icon("check-circle")
-      Mark as complete
+    = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
 
     .explanation By marking #{'Structs' * 1} as complete, you’ll unlock the concepts #{'Agent and Errors' * 1}.
 

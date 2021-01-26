@@ -1,8 +1,31 @@
 import React, { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { QueryStatus, useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
+import { Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
+import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+
+const DEFAULT_ERROR = new Error('Unable to complete exercise')
+
+const ConfirmButton = ({
+  status,
+  error,
+}: {
+  status: QueryStatus
+  error: unknown
+}) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  switch (status) {
+    case 'idle':
+      return <button className="confirm-button btn-large-cta">Confirm</button>
+    case 'loading':
+      return <Loading />
+    default:
+      return null
+  }
+}
 
 export const PublishExerciseForm = ({
   endpoint,
@@ -13,7 +36,7 @@ export const PublishExerciseForm = ({
 }): JSX.Element => {
   const [toPublish, setToPublish] = useState(true)
   const isMountedRef = useIsMounted()
-  const [mutation] = useMutation<ExerciseCompletion>(
+  const [mutation, { status, error }] = useMutation<ExerciseCompletion>(
     () => {
       return sendRequest({
         endpoint: endpoint,
@@ -72,7 +95,9 @@ export const PublishExerciseForm = ({
           No, I just want to mark the exercise as complete.
         </div>
       </label>
-      <button className="confirm-button btn-large-cta">Confirm</button>
+      <ErrorBoundary>
+        <ConfirmButton status={status} error={error} />
+      </ErrorBoundary>
     </form>
   )
 }

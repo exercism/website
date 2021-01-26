@@ -59,7 +59,7 @@ class SubmissionTest < ActiveSupport::TestCase
     er.update!(feedback_markdown: "foobar", feedback_author: create(:user))
     assert_equal :present, Submission.find(submission.id).automated_feedback_status
 
-    # Present only if there is acutal feedback on analysis
+    # Present only if there is actual feedback on analysis
     submission = create :submission, representation_status: :queued, analysis_status: :completed
     assert_equal :pending, submission.automated_feedback_status
 

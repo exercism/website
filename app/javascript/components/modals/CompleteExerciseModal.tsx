@@ -3,23 +3,24 @@ import { PublishExerciseModal } from './PublishExerciseModal'
 import { ExerciseCompletedModal } from './ExerciseCompletedModal'
 
 export type ExerciseCompletion = {
-  exercise: {
-    title: string
-    iconName: string
-  }
+  exercise: Exercise
   conceptProgressions: {
     name: string
     from: number
     to: number
     total: number
   }[]
-  unlockedExercises: {
-    title: string
-    iconName: string
-  }[]
-  unlockedConcepts: {
-    name: string
-  }[]
+  unlockedExercises: Exercise[]
+  unlockedConcepts: Concept[]
+}
+
+export type Exercise = {
+  title: string
+  iconName: string
+}
+
+export type Concept = {
+  name: string
 }
 
 export const CompleteExerciseModal = ({

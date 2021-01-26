@@ -56,6 +56,32 @@ test('shows information', async () => {
   expect(screen.getByText('Strings')).toBeInTheDocument()
 })
 
+test('hides unlocks section when there are no unlocked exercises and concepts', async () => {
+  const completion = {
+    exercise: { title: 'Lasagna' },
+    conceptProgressions: [
+      {
+        name: 'Arrays',
+        from: 4,
+        to: 5,
+        total: 5,
+      },
+    ],
+    unlockedConcepts: [],
+    unlockedExercises: [],
+  }
+
+  render(
+    <ExerciseCompletedModal
+      open={true}
+      completion={completion}
+      ariaHideApp={false}
+    />
+  )
+
+  expect(screen.queryByTestId('unlocks')).not.toBeInTheDocument()
+})
+
 test('hides unlocked exercises section when there are no unlocked exercises', async () => {
   const completion = {
     exercise: { title: 'Lasagna' },

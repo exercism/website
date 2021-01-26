@@ -2,10 +2,8 @@ import React from 'react'
 import { Modal } from './Modal'
 import { GraphicalIcon } from '../common'
 import { ConceptProgression } from './exercise-completed-modal/ConceptProgression'
-import { UnlockedExercise } from './exercise-completed-modal/UnlockedExercise'
-import { UnlockedConcept } from './exercise-completed-modal/UnlockedConcept'
+import { Unlocks } from './exercise-completed-modal/Unlocks'
 import { ExerciseCompletion } from './CompleteExerciseModal'
-import pluralize from 'pluralize'
 
 export const ExerciseCompletedModal = ({
   open,
@@ -42,34 +40,12 @@ export const ExerciseCompletedModal = ({
           <ConceptProgression key={progression.name} {...progression} />
         ))}
       </div>
-      <div className="unlocks">
-        {unlockedExercises.length > 0 ? (
-          <div className="unlocked-exercises">
-            <h3>
-              You&apos;ve unlocked
-              <GraphicalIcon icon="exercises" />
-              {unlockedExercises.length}{' '}
-              {pluralize('exercise', unlockedExercises.length)}
-            </h3>
-            {unlockedExercises.map((exercise) => (
-              <UnlockedExercise key={exercise.title} {...exercise} />
-            ))}
-          </div>
-        ) : null}
-        {unlockedConcepts.length > 0 ? (
-          <div className="unlocked-concepts">
-            <h3>
-              You&apos;ve unlocked
-              <GraphicalIcon icon="concepts" />
-              {unlockedConcepts.length}{' '}
-              {pluralize('concept', unlockedConcepts.length)}
-            </h3>
-            {unlockedConcepts.map((concept) => (
-              <UnlockedConcept key={concept.name} {...concept} />
-            ))}
-          </div>
-        ) : null}
-      </div>
+      {unlockedExercises.length !== 0 || unlockedConcepts.length !== 0 ? (
+        <Unlocks
+          unlockedExercises={unlockedExercises}
+          unlockedConcepts={unlockedConcepts}
+        />
+      ) : null}
       <button className="btn-cta">Continue</button>
     </Modal>
   )

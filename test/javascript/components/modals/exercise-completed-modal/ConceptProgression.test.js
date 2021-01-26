@@ -8,7 +8,7 @@ test('shows completed progress bar if mastered', async () => {
 
   expect(screen.getByRole('progressbar')).toHaveAttribute(
     'class',
-    'c-concept-progress-bar completed'
+    'c-concept-progress-bar --completed'
   )
 })
 

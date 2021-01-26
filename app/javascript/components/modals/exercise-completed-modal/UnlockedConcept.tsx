@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConceptIcon } from './ConceptIcon'
+import { ConceptIcon } from '../../common/ConceptIcon'
 
 export const UnlockedConcept = ({ name }: { name: string }): JSX.Element => {
   return (

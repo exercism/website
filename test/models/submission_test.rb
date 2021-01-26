@@ -127,6 +127,8 @@ class SubmissionTest < ActiveSupport::TestCase
   end
 
   test "automated_feedback for analysis" do
+    TestHelpers.use_website_copy_test_repo!
+
     reputation = 50
     author = create :user, reputation: reputation
     markdown = "foobar"

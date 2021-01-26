@@ -12,5 +12,8 @@
         @apply border-1 border-borderLight rounded-8;
         @apply shadow-lg;
         @apply px-32 py-16;
+
+        max-height: 80%;
+        overflow-y: auto;
     }
 }

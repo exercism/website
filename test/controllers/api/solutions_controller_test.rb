@@ -461,6 +461,11 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response 200
     assert_equal(
       {
+        "exercise" => {
+          "slug" => concept_exercise_1.slug,
+          "title" => concept_exercise_1.title,
+          "icon_name" => concept_exercise_1.icon_name
+        },
         "unlocked_exercises" => [
           {
             "slug" => practice_exercise.slug,

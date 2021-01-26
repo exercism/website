@@ -30,6 +30,11 @@ module API
       end
 
       output = {
+        exercise: {
+          slug: solution.exercise.slug,
+          title: solution.exercise.title,
+          icon_name: solution.exercise.icon_name
+        },
         unlocked_exercises: changes[:unlocked_exercises].map do |exercise|
           {
             slug: exercise.slug,

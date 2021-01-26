@@ -15,7 +15,7 @@ module Maintaining
       submission.broadcast!
 
       wait_for_websockets
-      assert_text submission.id.to_s
+      assert_text submission.uuid
     end
   end
 end

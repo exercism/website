@@ -51,7 +51,7 @@ function reducer(state: State, action: Action): State {
           ...action.payload.submission,
           testRun: {
             id: null,
-            submissionUuid: action.payload.submission.uuid,
+            submissionUuid: action.payload.submission.id,
             status: TestRunStatus.QUEUED,
             tests: [],
             message: '',

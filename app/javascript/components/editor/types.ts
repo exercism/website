@@ -1,6 +1,6 @@
 export type Submission = {
   testsStatus: SubmissionTestsStatus
-  uuid: string
+  id: string
   links: SubmissionLinks
   testRun?: TestRun
 }

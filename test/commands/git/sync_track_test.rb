@@ -6,7 +6,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncConcept.expects(:call).never
     Git::SyncConceptExercise.expects(:call).never
-    # Git::SyncPracticeExercise.expects(:call).never # TOOD
+    Git::SyncPracticeExercise.expects(:call).never
     Git::SyncTrack.(track)
 
     refute track.changed?
@@ -17,7 +17,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncConcept.expects(:call).at_least_once
     Git::SyncConceptExercise.expects(:call).at_least_once
-    # Git::SyncPracticeExercise.expects(:call).at_least_once # TOOD
+    Git::SyncPracticeExercise.expects(:call).at_least_once
 
     Git::SyncTrack.(track, force_sync: true)
 
@@ -65,8 +65,6 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA does not change when practice exercise syncing fails" do
-    skip # TODO: re-enable once we import practice exercises
-
     track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
     Git::SyncPracticeExercise.expects(:call).raises(RuntimeError)
 
@@ -184,8 +182,6 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all practice exercises" do
-    skip # TODO: re-enable once we import practice exercises
-
     track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)

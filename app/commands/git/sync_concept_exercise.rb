@@ -12,8 +12,7 @@ module Git
 
       exercise.update!(
         slug: exercise_config[:slug],
-        # TODO: Remove this dance
-        title: (exercise_config[:name].presence || exercise_config[:slug].to_s.titleize),
+        title: exercise_config[:name],
         deprecated: exercise_config[:deprecated] || false,
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,

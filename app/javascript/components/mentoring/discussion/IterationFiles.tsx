@@ -60,7 +60,7 @@ const Component = ({
 
   if (status === 'loading') {
     return (
-      <div className="iteration-content">
+      <div className="c-iteration-pane">
         <Loading />
       </div>
     )
@@ -77,7 +77,7 @@ const Component = ({
         switchToTab: (filename: string) => setTab(filename),
       }}
     >
-      <div className="iteration-content">
+      <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
           {data.files.map((file) => (
             <Tab key={file.filename} id={file.filename} context={TabsContext}>

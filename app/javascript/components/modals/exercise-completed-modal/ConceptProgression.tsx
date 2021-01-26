@@ -16,7 +16,7 @@ const ProgressBar = ({
   const classNames = ['c-concept-progress-bar']
 
   if (isMastered) {
-    classNames.push('completed')
+    classNames.push('--completed')
   }
 
   return <progress className={classNames.join(' ')} value={to} max={total} />

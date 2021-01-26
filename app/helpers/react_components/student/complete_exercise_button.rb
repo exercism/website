@@ -13,8 +13,6 @@ module ReactComponents
       end
 
       private
-      attr_reader :exercise
-
       def solution
         Solution.for(user, exercise)
       end

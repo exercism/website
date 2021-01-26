@@ -31,8 +31,7 @@ module Git
       return false unless track_config_modified?
 
       exercise_config[:slug] != exercise.slug ||
-        # TODO: enable the line underneath when (if?) practice exercises have names
-        # exercise_config[:name] != exercise.title ||
+        exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
         exercise_config[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
     end

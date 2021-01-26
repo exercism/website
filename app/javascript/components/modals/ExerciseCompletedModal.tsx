@@ -70,6 +70,7 @@ export const ExerciseCompletedModal = ({
           </div>
         ) : null}
       </div>
+      <button className="btn-cta">Continue</button>
     </Modal>
   )
 }

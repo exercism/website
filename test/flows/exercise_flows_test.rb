@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ExerciseFlowsTest < ActiveSupport::TestCase
-  test 'start a track and submit an exercise that gets approved' do
+  test 'start a track and submit an exercise' do
     track = create :track, slug: "csharp"
     concept_exercise_basics = create :concept_exercise, track: track, slug: 'datetime', prerequisites: []
     concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
@@ -41,21 +41,19 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert basics_submission_1.reload.tests_passed?
 
     # Simulate an analysis being returned
-    # It should be inconclusive
     job = create_analyzer_job!(
       basics_submission_1,
       execution_status: 200,
       data: { status: :refer_to_mentor, comments: [] }
     )
     Submission::Analysis::Process.(job)
-    assert basics_submission_1.reload.analysis_inconclusive?
+    assert basics_submission_1.reload.analysis_completed?
 
     # Create a representation with feedback that should be given
     # It should approve with comment
     create :exercise_representation,
       exercise: concept_exercise_basics,
       ast_digest: Submission::Representation.digest_ast('some ast'),
-      action: :approve,
       feedback_markdown: "Fantastic Work!!",
       feedback_author: mentor
 
@@ -66,9 +64,9 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       mapping: { 'some' => 'mapping' }
     )
     Submission::Representation::Process.(job)
-    assert basics_submission_1.reload.representation_approved?
-    assert_equal 1, basics_submission_1.automated_feedback.size
-    assert_equal mentor, basics_submission_1.automated_feedback.first.feedback_author
-    assert_equal "Fantastic Work!!", basics_submission_1.automated_feedback.first.feedback_markdown
+    assert basics_submission_1.reload.representation_generated?
+    assert basics_submission_1.automated_feedback
+    assert_equal mentor.name, basics_submission_1.automated_feedback[:author][:name]
+    assert_equal "<p>Fantastic Work!!</p>\n", basics_submission_1.automated_feedback[:html]
   end
 end

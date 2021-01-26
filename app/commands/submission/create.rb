@@ -24,7 +24,7 @@ class Submission
       create_files!
       init_test_run!
       schedule_jobs!
-      submission.broadcast!
+      solution.broadcast_submissions!
 
       # End by returning the new submission
       submission

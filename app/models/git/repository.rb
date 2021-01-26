@@ -99,6 +99,11 @@ module Git
     end
 
     def repo_dir
+      return "#{repos_dir}/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Exercism.env.test?
+
+      # TODO: Remove this when breaking out of monorepo
+      return "#{repos_dir}/website-copy" if repo_url.end_with?("website-copy")
+
       # TODO: Change when breaking out of monorepo
       "#{repos_dir}/v3"
       # "#{repos_dir}/#{repo_name}"

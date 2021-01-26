@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_054521) do
+ActiveRecord::Schema.define(version: 2021_01_22_160441) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 2021_01_22_054521) do
     t.text "feedback_html"
     t.bigint "feedback_author_id"
     t.bigint "feedback_editor_id"
-    t.integer "action", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true

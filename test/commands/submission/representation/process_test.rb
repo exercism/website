@@ -65,71 +65,19 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.representation_exceptioned?
   end
 
-  test "handle approval" do
+  test "handle generated" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      ast_digest: Submission::Representation.digest_ast(ast),
-      action: :approve
+      ast_digest: Submission::Representation.digest_ast(ast)
 
     submission = create :submission, exercise: exercise
 
     job = create_representer_job!(submission, execution_status: 200, ast: ast)
     Submission::Representation::Process.(job)
 
-    assert submission.reload.representation_approved?
-  end
-
-  test "handle disapproved" do
-    ast = "Some AST goes here..."
-    exercise = create :concept_exercise
-    create :exercise_representation,
-      exercise: exercise,
-      ast_digest: Submission::Representation.digest_ast(ast),
-      action: :disapprove
-
-    submission = create :submission, exercise: exercise
-
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
-    Submission::Representation::Process.(job)
-
-    assert submission.reload.representation_disapproved?
-  end
-
-  test "handle disapproved with comments" do
-    mentor = create :user
-    feedback = "foobar"
-
-    ast = "Some AST goes here..."
-    exercise = create :concept_exercise
-    create :exercise_representation,
-      exercise: exercise,
-      ast_digest: Submission::Representation.digest_ast(ast),
-      action: :disapprove,
-      feedback_author: mentor,
-      feedback_markdown: feedback
-
-    submission = create :submission, exercise: exercise
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
-    Submission::Representation::Process.(job)
-
-    assert submission.has_automated_feedback?
-  end
-
-  test "handle inconclusive" do
-    ast = "Some AST goes here..."
-    exercise = create :concept_exercise
-    create :exercise_representation,
-      exercise: exercise,
-      ast_digest: Submission::Representation.digest_ast(ast),
-      action: :pending
-
-    submission = create :submission, exercise: exercise
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
-    Submission::Representation::Process.(job)
-
-    assert submission.reload.representation_inconclusive?
+    assert submission.reload.representation_generated?
   end
 
   test "handle exceptions during processing" do
@@ -138,7 +86,6 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     create :exercise_representation,
       exercise: exercise,
       ast_digest: Submission::Representation.digest_ast(ast),
-      action: :disapprove,
       feedback_author: create(:user),
       feedback_markdown: "foobar"
 
@@ -146,24 +93,39 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     job = create_representer_job!(submission, execution_status: 200, ast: ast)
     cmd = Submission::Representation::Process.new(job)
-    cmd.expects(:handle_disapprove!).raises
+    cmd.expects(:handle_generated!).raises
     cmd.()
 
     assert submission.reload.representation_exceptioned?
   end
 
-  test "broadcast" do
+  test "broadcast without iteration" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
     create :exercise_representation,
       exercise: exercise,
-      ast_digest: Submission::Representation.digest_ast(ast),
-      action: :approve
+      ast_digest: Submission::Representation.digest_ast(ast)
 
     submission = create :submission, exercise: exercise
 
     SubmissionChannel.expects(:broadcast!).with(submission)
-    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
+
+    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    Submission::Representation::Process.(job)
+  end
+
+  test "broadcast with iteration" do
+    ast = "Some AST goes here..."
+    exercise = create :concept_exercise
+    create :exercise_representation,
+      exercise: exercise,
+      ast_digest: Submission::Representation.digest_ast(ast)
+
+    submission = create :submission, exercise: exercise
+    iteration = create :iteration, submission: submission
+
+    IterationChannel.expects(:broadcast!).with(iteration)
+    SubmissionChannel.expects(:broadcast!).with(submission)
 
     job = create_representer_job!(submission, execution_status: 200, ast: ast)
     Submission::Representation::Process.(job)

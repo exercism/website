@@ -3,21 +3,23 @@ require 'test_helper'
 class Submission::Analysis::InitTest < ActiveSupport::TestCase
   test "calls to publish_message" do
     solution = create :concept_solution
-    submission_uuid = SecureRandom.compact_uuid
-    job_id = SecureRandom.uuid
+    exercise_repo = Git::Exercise.for_solution(solution)
+    submission = create :submission, solution: solution
 
     ToolingJob::Create.expects(:call).with(
-      job_id,
       :analyzer,
-      submission_uuid: submission_uuid,
+      submission_uuid: submission.uuid,
       language: solution.track.slug,
-      exercise: solution.exercise.slug
+      exercise: solution.exercise.slug,
+      source: {
+        submission_efs_root: submission.uuid,
+        submission_filepaths: [],
+        exercise_git_repo: "v3",
+        exercise_git_sha: exercise_repo.normalised_git_sha,
+        exercise_git_dir: exercise_repo.dir,
+        exercise_filepaths: [".meta/config.json"]
+      }
     )
-    Submission::Analysis::Init.(
-      job_id,
-      submission_uuid,
-      solution.track.slug,
-      solution.exercise.slug
-    )
+    Submission::Analysis::Init.(submission)
   end
 end

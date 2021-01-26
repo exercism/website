@@ -85,7 +85,6 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     job = create_test_runner_job!(submission, execution_status: 200, results: results)
 
     SubmissionChannel.expects(:broadcast!).with(submission)
-    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
     Submission::TestRunsChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
 
     Submission::TestRun::Process.(job)
@@ -101,7 +100,6 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
-    SubmissionsChannel.expects(:broadcast!).with(submission.solution)
     Submission::TestRunsChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
 
     Submission::TestRun::Process.(job)

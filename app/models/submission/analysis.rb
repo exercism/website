@@ -1,14 +1,29 @@
 class Submission::Analysis < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
-  def status
-    data[:status].try(&:to_sym)
+  def has_feedback?
+    comment_blocks.present?
   end
 
-  def comments
-    data[:comments]
+  def feedback_html
+    repo = Git::WebsiteCopy.new
+
+    markdown_blocks = comment_blocks.map do |data|
+      if data.is_a?(Hash)
+        template = data['comment']
+        params = data['params']
+      else
+        template = data
+      end
+
+      repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+    end
+
+    Markdown::Parse.(markdown_blocks.join("\n---\n"))
   end
 
   def ops_success?
@@ -19,20 +34,12 @@ class Submission::Analysis < ApplicationRecord
     !ops_success?
   end
 
-  def approved?
-    status == :approve
-  end
-
-  def disapproved?
-    status == :disapprove
-  end
-
-  def inconclusive?
-    status == :refer_to_mentor
-  end
-
   private
-  # TODO: Memoize
+  def comment_blocks
+    data[:comments]
+  end
+
+  memoize
   def data
     HashWithIndifferentAccess.new(super)
   end

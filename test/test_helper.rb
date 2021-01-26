@@ -32,10 +32,15 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
-# TODO: Remove this as part of the git extraction
 module TestHelpers
   def self.git_repo_url(slug)
     "file://#{Rails.root / 'test' / 'repos' / slug.to_s}"
+  end
+
+  def self.use_website_copy_test_repo!
+    repo_url = TestHelpers.git_repo_url("website-copy")
+    repo = Git::WebsiteCopy.new(repo_url: repo_url)
+    Git::WebsiteCopy.expects(:new).returns(repo)
   end
 end
 

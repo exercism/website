@@ -102,14 +102,8 @@ class Solution < ApplicationRecord
     files
   end
 
-  # TODO: - Use an actual serializer
-  def serialized_submissions
-    submissions.map do |i|
-      {
-        id: i.id,
-        testsStatus: i.tests_status
-      }
-    end
+  def broadcast_submissions!
+    SubmissionsChannel.broadcast!(self)
   end
 
   def anonymised_user_handle

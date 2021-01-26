@@ -8,7 +8,8 @@ class SubmissionChannel < ApplicationCable::Channel
   end
 
   def self.broadcast!(submission)
-    ActionCable.server.broadcast CHANNEL_NAME, submission: submission.serialized
+    ActionCable.server.broadcast CHANNEL_NAME,
+      submission: SerializeSubmission.(submission)
   end
 
   CHANNEL_NAME = "submission".freeze

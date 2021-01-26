@@ -10,17 +10,16 @@ class Submission < ApplicationRecord
   has_one :test_run, class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
+  has_one :exercise_representation, through: :submission_representation
 
-  enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, # rubocop:disable Layout/LineLength
-       _prefix: "tests"
+  # TODO: It's important that we enforce rules on these to stop things from
+  # going from the success states (passed/failed/errored/generated/completed)
+  # backwards to the pending states.
 
-  # TODO: Find a better name for the 0 state here to represent something where no action has been taken.
-  enum representation_status: { not_queued: 0, queued: 1, approved: 2, disapproved: 3, inconclusive: 4, exceptioned: 5, cancelled: 6 }, # rubocop:disable Layout/LineLength
-       _prefix: "representation"
-
-  # TODO: Find a better name for the 0 state here to represent something where no action has been taken.
-  enum analysis_status: { not_queued: 0, queued: 1, approved: 2, disapproved: 3, inconclusive: 4, exceptioned: 5, cancelled: 6 }, # rubocop:disable Layout/LineLength
-       _prefix: "analysis"
+  # TODO: Find a better name for the 0 state for these to represent something where no action has been taken.
+  enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests" # rubocop:disable Layout/LineLength
+  enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation" # rubocop:disable Layout/LineLength
+  enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
   before_create do
     self.git_slug = solution.git_slug
@@ -32,67 +31,92 @@ class Submission < ApplicationRecord
   end
 
   def broadcast!
-    SubmissionsChannel.broadcast!(solution)
     SubmissionChannel.broadcast!(self)
   end
 
-  def serialized
-    tests_data = tests_status
-    if tests_exceptioned?
-      job = ToolingJob.find(test_run.tooling_job_id, full: true)
-      tests_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-      tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-    end
+  # TODO: Delete this
+  # def serialized
+  #   tests_data = tests_status
+  #   if tests_exceptioned?
+  #     job = ToolingJob.find(test_run.tooling_job_id, full: true)
+  #     tests_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+  #     tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+  #   end
 
-    representer_data = representation_status
-    if representation_exceptioned?
-      job = ToolingJob.find(submission_representation.tooling_job_id, full: true)
-      representer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-      representer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-    end
+  #   representer_data = representation_status
+  #   if representation_exceptioned?
+  #     job = ToolingJob.find(submission_representation.tooling_job_id, full: true)
+  #     representer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+  #     representer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+  #   end
 
-    analyzer_data = analysis_status
-    if analysis_exceptioned?
-      job = ToolingJob.find(analysis.tooling_job_id, full: true)
-      analyzer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-      analyzer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-    end
-
-    {
-      id: id,
-      track: track.title,
-      exercise: exercise.title,
-      testsStatus: tests_data,
-      representationStatus: representer_data,
-      analysisStatus: analyzer_data
-    }
-  end
+  #   analyzer_data = analysis_status
+  #   if analysis_exceptioned?
+  #     job = ToolingJob.find(analysis.tooling_job_id, full: true)
+  #     analyzer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+  #     analyzer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+  #   end
+  # end
 
   memoize
-  def exercise_representation
-    Rails.logger.warn "Calling exercise_representation on a submission may cause n+1s"
+  def automated_feedback_status
+    # If they're both still waiting, then return pending
+    # TODO: If we don't have an analyzer we may currently never get here,
+    # so we need to handle the missing analyzer sceneraio. Check this works ok.
+    return :pending if !representation_generated? && !analysis_completed?
 
-    return nil unless submission_representation&.ops_success?
+    # If either has feedback then we're present
+    return :present if exercise_representation&.has_feedback? || analysis&.has_feedback?
 
-    submission_representation&.exercise_representation
-  rescue ActiveRecord::RecordNotFound
-    nil
+    # Otherwise if either are still queued then we're pending
+    return :pending if representation_queued? || representation_not_queued? ||
+                       analysis_queued? || analysis_not_queued?
+
+    # Otherwise we don't have feedback
+    :none
   end
 
   memoize
   def has_automated_feedback?
-    Rails.logger.warn "Calling has_automated_feedback? on a submission may cause n+1s"
-    exercise_representation&.has_feedback?
+    automated_feedback_status == :present
   end
 
   memoize
   def automated_feedback
-    feedback = []
-    feedback << exercise_representation if has_automated_feedback?
-    feedback
+    return nil unless has_automated_feedback?
+
+    exercise_representation&.has_feedback? ? representer_feedback : analyzer_feedback
   end
 
   def viewable_by?(user)
     solution.mentors.include?(user)
+  end
+
+  private
+  memoize
+  def representer_feedback
+    author = exercise_representation.feedback_author
+
+    {
+      html: exercise_representation.feedback_html,
+      author: {
+        name: author.name,
+        reputation: author.reputation,
+        avatar_url: author.avatar_url,
+        profile_url: "#" # TODO
+      }
+    }
+  end
+
+  memoize
+  def analyzer_feedback
+    {
+      html: analysis.feedback_html,
+      author: {
+        name: "The #{track.title} Analysis Team",
+        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4", # TODO
+        profile_url: "#" # TODO
+      }
+    }
   end
 end

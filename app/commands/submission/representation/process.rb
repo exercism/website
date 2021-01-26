@@ -17,26 +17,19 @@ class Submission
         create_exercise_representation!
 
         begin
-          # Then all of the submethods here should
-          # action within transaction setting the
-          # status to be an error if it fails.
+          # If any bit of this fails, we should roll back the
+          # whole thing and mark as exceptioned
           ActiveRecord::Base.transaction do
-            if exercise_representation.approve?
-              handle_approve!
-            elsif exercise_representation.disapprove?
-              handle_disapprove!
-            else
-              handle_pending!
-            end
+            handle_generated!
           end
         rescue StandardError
-          # Reload the record here to ensure
-          # that it hasn't got in a bad state in the
-          # transaction above.
+          # Reload the record here to ensure # that it hasn't got
+          # in a bad state in the transaction above.
           submission.reload.representation_exceptioned!
         end
 
         submission.broadcast!
+        submission.iteration&.broadcast!
       end
 
       attr_reader :tooling_job, :exercise_representation, :submission_representation
@@ -64,18 +57,9 @@ class Submission
         submission.representation_exceptioned!
       end
 
-      def handle_approve!
-        submission.representation_approved!
+      def handle_generated!
+        submission.representation_generated!
         create_notification!
-      end
-
-      def handle_disapprove!
-        submission.representation_disapproved!
-        create_notification!
-      end
-
-      def handle_pending!
-        submission.representation_inconclusive!
       end
 
       def create_notification!

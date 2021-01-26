@@ -43,34 +43,93 @@
                 & .files {
                     @apply flex-grow px-24 py-12;
                 }
-                & .analysis {
+
+                & .automated-feedback {
                     @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
                     @apply border-l-1 border-borderLight;
 
-                    & .comment {
-                        @apply text-15 leading-paragraph;
-                        & p {
-                            @apply mb-12;
+                    & .automated-feedback-pending,
+                    & .automated-feedback-absent {
+                        @apply flex flex-col items-center;
+                        @apply py-24;
+
+                        & .c-icon {
                         }
 
-                        & + .comment {
-                            @apply border-t-1 border-lightGray mt-16 pt-16;
+                        & h3 {
+                            @apply text-18 leading-regular font-semibold text-black;
+                            @apply mb-12 text-center;
+                            max-width: 280px;
+                        }
+                        & p {
+                            @apply text-16 leading-huge text-center;
                         }
                     }
-                    & .byline {
-                        @apply flex items-center;
-                        @apply text-textLight;
+                    & .automated-feedback-pending {
+                        & .c-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply mb-16 text-orange;
+                            animation: spin 3s linear infinite;
 
-                        & .c-rounded-bg-img {
-                            height: 32px;
-                            width: 32px;
-                            @apply mr-12;
+                            @keyframes spin {
+                                0% {
+                                    transform: rotate(0deg);
+                                }
+                                100% {
+                                    transform: rotate(360deg);
+                                }
+                            }
                         }
-                        & span a {
-                            @apply border-b-1 border-textLight border-opacity-50;
+                    }
+
+                    & .automated-feedback-absent {
+                        & .c-icon {
+                            height: 70px;
+                            @apply mb-16;
                         }
-                        & .c-reputation {
-                            @apply ml-12;
+                        & p {
+                            @apply mb-24;
+                        }
+                    }
+                    & .automated-feedback-present {
+                        & .info {
+                            @apply flex items-start;
+                            @apply text-textColor6 font-medium leading-paragraph;
+                            @apply border-1 border-borderColor5 rounded-8;
+                            @apply py-8 px-16 mb-16;
+
+                            & .c-icon {
+                                height: 16px;
+                                width: 16px;
+                                @apply mr-16 flex-shrink-0 mt-4;
+                            }
+                            & a {
+                                @apply text-lightBlue;
+                            }
+                        }
+
+                        & .comment {
+                            & + .comment {
+                                @apply border-t-1 border-lightGray mt-16 pt-16;
+                            }
+                        }
+                        & .c-textual-content {
+                            @apply text-15 text-textColor3 leading-paragraph;
+                            @apply mb-12;
+                        }
+                        & .byline {
+                            @apply flex items-center;
+                            @apply text-textLight font-medium;
+
+                            & .c-rounded-bg-img {
+                                height: 32px;
+                                width: 32px;
+                                @apply mr-12;
+                            }
+                            & .c-reputation {
+                                @apply ml-12;
+                            }
                         }
                     }
                 }

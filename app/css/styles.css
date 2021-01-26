@@ -41,6 +41,9 @@
 .btn--cta {
     @apply bg-anotherPurple text-white border-anotherPurple;
 }
+.btn--secondary {
+    @apply bg-white text-anotherPurple border-anotherPurple;
+}
 .btn {
     @apply flex items-center justify-center px-20;
     @apply border-1 border-buttonBorderColor1 rounded-5;
@@ -64,6 +67,9 @@
 .btn-cta {
     @apply btn btn--cta;
 }
+.btn-secondary {
+    @apply btn btn--secondary;
+}
 
 .btn-large {
     @apply btn;
@@ -80,8 +86,7 @@
     @apply btn-large btn--cta;
 }
 .btn-large-secondary {
-    @apply btn-large;
-    @apply bg-white text-anotherPurple border-anotherPurple;
+    @apply btn-large btn--secondary;
 }
 
 .btn-small {
@@ -99,8 +104,7 @@
     @apply btn-small btn--cta;
 }
 .btn-small-secondary {
-    @apply btn-small;
-    @apply bg-white text-anotherPurple border-anotherPurple;
+    @apply btn-small btn--secondary;
 }
 .btn-keyboard-shortcut {
     @apply flex items-center;

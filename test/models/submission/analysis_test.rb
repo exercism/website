@@ -13,39 +13,69 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert create(:submission_analysis, ops_status: 201).ops_errored?
   end
 
-  test "approved?" do
-    assert create(:submission_analysis, ops_status: 200, data: { status: :approve }).approved?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :disapprove }).approved?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :refer_to_mentor }).approved?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :misc }).approved?
+  test "feedback_html for single simple comments" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    expected = "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, analysis.feedback_html
   end
 
-  test "disapproved?" do
-    refute create(:submission_analysis, ops_status: 200, data: { status: :approve }).disapproved?
-    assert create(:submission_analysis, ops_status: 200, data: { status: :disapprove }).disapproved?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :refer_to_mentor }).disapproved?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :misc }).disapproved?
+  test "feedback_html for single comment hash" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "params" => {
+        "name_variable" => "iHiD"
+      }
+    }]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    # rubocop:disable Layout/LineLength
+    expected = '<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").
+For example:</p>
+<pre><code class="language-ruby">"One for %s, one for you" % iHiD"
+</code></pre>
+'
+    # rubocop:enable Layout/LineLength
+    assert_equal expected, analysis.feedback_html
   end
 
-  test "inconclusive?" do
-    refute create(:submission_analysis, ops_status: 200, data: { status: :approve }).inconclusive?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :disapprove }).inconclusive?
-    assert create(:submission_analysis, ops_status: 200, data: { status: :refer_to_mentor }).inconclusive?
-    refute create(:submission_analysis, ops_status: 200, data: { status: :misc }).inconclusive?
+  test "feedback_html for mixed comments" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = [
+      "ruby.two-fer.incorrect_default_param",
+      {
+
+        "comment" => "ruby.two-fer.string_interpolation",
+        "params" => {
+          "name_variable" => "iHiD"
+        }
+      }
+    ]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    # rubocop:disable Layout/LineLength
+    expected = '<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>
+<hr>
+<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").
+For example:</p>
+<pre><code class="language-ruby">"One for %s, one for you" % iHiD"
+</code></pre>
+'
+
+    # rubocop:enable Layout/LineLength
+    assert_equal expected, analysis.feedback_html
   end
 
-  test "status" do
-    status = "foobar"
-    data = { status: status }
-    analysis = create :submission_analysis, data: data
-    assert_equal status.to_sym, analysis.status
-  end
-
-  test "comments" do
-    comments = [{ 'status' => 'pass' }]
-    data = { comments: comments }
-    analysis = create :submission_analysis, data: data
-    assert_equal comments, analysis.comments
+  test "has_feedback?" do
+    refute create(:submission_analysis, data: { comments: nil }).has_feedback?
+    refute create(:submission_analysis, data: { comments: [] }).has_feedback?
+    assert create(:submission_analysis, data: { comments: ['foobar'] }).has_feedback?
   end
 
   # TODO: - Add a test for if the data is empty

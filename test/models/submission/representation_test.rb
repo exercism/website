@@ -26,23 +26,21 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
     create :exercise_representation,
       exercise: create(:concept_exercise),
       ast_digest: Submission::Representation.digest_ast(ast)
-    assert_raises do
-      representation.exercise_representation
-    end
+
+    assert_nil representation.reload.exercise_representation
 
     # Wrong ast
     create :exercise_representation,
       exercise: exercise,
       ast_digest: "something"
 
-    assert_raises do
-      representation.exercise_representation
-    end
+    assert_nil representation.reload.exercise_representation
 
     # Correct everything!
     exercise_representation = create :exercise_representation,
       exercise: exercise,
       ast_digest: ast_digest
-    assert_equal exercise_representation, representation.exercise_representation
+
+    assert_equal exercise_representation, representation.reload.exercise_representation
   end
 end

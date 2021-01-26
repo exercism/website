@@ -16,26 +16,24 @@ class Submission
           data: data
         )
 
-        # Then all of the submethods here should
-        # action within transaction setting the
-        # status to be an error if it fails.
         begin
-          if analysis.ops_errored?
-            handle_ops_error!
-          elsif analysis.approved?
-            handle_approved!
-          elsif analysis.disapproved?
-            handle_disapproved!
-          elsif analysis.inconclusive?
-            handle_inconclusive!
-          else
-            raise "Unknown status"
+          # If any bit of this fails, we should roll back the
+          # whole thing and mark as exceptioned
+          ActiveRecord::Base.transaction do
+            if analysis.ops_errored?
+              handle_ops_error!
+            else
+              handle_completed!
+            end
           end
         rescue StandardError
-          submission.analysis_exceptioned!
+          # Reload the record here to ensure # that it hasn't got
+          # in a bad state in the transaction above.
+          submission.reload.analysis_exceptioned!
         end
 
         submission.broadcast!
+        submission.iteration&.broadcast!
       end
 
       private
@@ -45,16 +43,8 @@ class Submission
         submission.analysis_exceptioned!
       end
 
-      def handle_approved!
-        submission.analysis_approved!
-      end
-
-      def handle_disapproved!
-        submission.analysis_disapproved!
-      end
-
-      def handle_inconclusive!
-        submission.analysis_inconclusive!
+      def handle_completed!
+        submission.analysis_completed!
       end
 
       memoize

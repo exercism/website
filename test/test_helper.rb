@@ -40,7 +40,7 @@ module TestHelpers
   def self.use_website_copy_test_repo!
     repo_url = TestHelpers.git_repo_url("website-copy")
     repo = Git::WebsiteCopy.new(repo_url: repo_url)
-    Git::WebsiteCopy.expects(:new).returns(repo)
+    Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
   end
 end
 

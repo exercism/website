@@ -115,13 +115,16 @@ class SubmissionTest < ActiveSupport::TestCase
                                      feedback_markdown: markdown, feedback_author: author
 
     expected = {
-      html: "<p>foobar</p>\n",
-      author: {
-        name: author.name,
-        reputation: 50,
-        avatar_url: author.avatar_url,
-        profile_url: "#"
-      }
+      mentor: {
+        html: "<p>foobar</p>\n",
+        author: {
+          name: author.name,
+          reputation: 50,
+          avatar_url: author.avatar_url,
+          profile_url: "#"
+        }
+      },
+      analyzer: nil
     }
     assert_equal expected, submission.automated_feedback
   end
@@ -141,11 +144,13 @@ class SubmissionTest < ActiveSupport::TestCase
                                      feedback_markdown: markdown, feedback_author: author
 
     expected = {
-      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n", # rubocop:disable Layout/LineLength
-      author: {
-        name: "The #{submission.track.title} Analysis Team",
-        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4", # TODO
-        profile_url: "#"
+      mentor: nil,
+      analyzer: {
+        html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n", # rubocop:disable Layout/LineLength
+        team: {
+          name: "The #{submission.track.title} Analysis Team",
+          link_url: "#"
+        }
       }
     }
     assert_equal expected, submission.automated_feedback

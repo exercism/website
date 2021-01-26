@@ -66,7 +66,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     Submission::Representation::Process.(job)
     assert basics_submission_1.reload.representation_generated?
     assert basics_submission_1.automated_feedback
-    assert_equal mentor.name, basics_submission_1.automated_feedback[:author][:name]
-    assert_equal "<p>Fantastic Work!!</p>\n", basics_submission_1.automated_feedback[:html]
+    assert_equal mentor.name, basics_submission_1.automated_feedback[:mentor][:author][:name]
+    assert_equal "<p>Fantastic Work!!</p>\n", basics_submission_1.automated_feedback[:mentor][:html]
   end
 end

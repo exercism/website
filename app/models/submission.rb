@@ -77,15 +77,18 @@ class Submission < ApplicationRecord
   end
 
   memoize
-  def has_automated_feedback?
-    automated_feedback_status == :present
-  end
-
-  memoize
   def automated_feedback
     return nil unless has_automated_feedback?
 
-    exercise_representation&.has_feedback? ? representer_feedback : analyzer_feedback
+    {
+      mentor: representer_feedback,
+      analyzer: analyzer_feedback
+    }
+  end
+
+  memoize
+  def has_automated_feedback?
+    automated_feedback_status == :present
   end
 
   def viewable_by?(user)
@@ -95,6 +98,8 @@ class Submission < ApplicationRecord
   private
   memoize
   def representer_feedback
+    return nil unless exercise_representation&.has_feedback?
+
     author = exercise_representation.feedback_author
 
     {
@@ -110,12 +115,13 @@ class Submission < ApplicationRecord
 
   memoize
   def analyzer_feedback
+    return nil unless analysis&.has_feedback?
+
     {
       html: analysis.feedback_html,
-      author: {
+      team: {
         name: "The #{track.title} Analysis Team",
-        avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4", # TODO
-        profile_url: "#" # TODO
+        link_url: "#" # TODO
       }
     }
   end

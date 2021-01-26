@@ -83,9 +83,9 @@ module Flows
       fill_in "Email", with: "user@exercism.io"
       fill_in "Password", with: "password"
       click_on "Log In"
-      check "Accept Terms of Service"
-      check "Accept Privacy Policy"
-      click_on "Submit"
+      find('label', text: "I accept Exercism's Terms of Service").click
+      find('label', text: "I accept Exercism's Privacy Policy").click
+      click_on "Save & Get Started"
 
       assert_text "Join The Ruby Track"
     end

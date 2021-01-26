@@ -7,9 +7,9 @@ module Flows
       sign_in!(user)
 
       visit root_path
-      check "Accept Terms of Service"
-      check "Accept Privacy Policy"
-      click_on "Submit"
+      find('label', text: "I accept Exercism's Terms of Service").click
+      find('label', text: "I accept Exercism's Privacy Policy").click
+      click_on "Save & Get Started"
 
       assert_page :staging
     end

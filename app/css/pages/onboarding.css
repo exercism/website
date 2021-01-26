@@ -1,0 +1,101 @@
+@import "../styles";
+
+#page-onboarding {
+    & .faux-site-header {
+        @apply bg-backgroundColorA border-b-1 border-borderColor7;
+        height: 64px;
+        @apply flex items-center;
+
+        & .c-icon {
+            height: 24px;
+            width: 132px;
+        }
+    }
+
+    @apply pb-80;
+    & header {
+        @apply flex items-center;
+        @apply border-b-1 border-borderColor7;
+        @apply pt-32 pb-40 mb-32;
+
+        & .content {
+            @apply flex-grow;
+
+            & h1 {
+                @apply text-h1 mb-12;
+            }
+
+            & p {
+                @apply text-18 leading-huge text-textColor3;
+                max-width: 740px;
+
+                & strong {
+                    @apply font-medium;
+                }
+            }
+        }
+
+        & .c-icon {
+            height: 160px;
+            width: 160px;
+            @apply ml-64 flex-shrink-0;
+        }
+    }
+    & section {
+        @apply mb-32;
+
+        & h2 {
+            @apply text-h2 mb-16;
+        }
+        & .box {
+            @apply shadow-lg rounded-8 bg-backgroundColorA;
+            @apply pt-24 pb-32 px-32;
+        }
+        & p,
+        & li {
+            @apply text-16 leading-paragraph;
+            max-width: 740px;
+
+            & strong {
+                @apply font-medium;
+            }
+        }
+        & a {
+            @apply text-lightBlue font-medium inline-flex items-center;
+            & .c-icon {
+                height: 12px;
+                width: 12px;
+                @apply ml-6;
+            }
+        }
+        & ul {
+            margin-left: 14px;
+            & li {
+                margin-left: 6px;
+                @apply list-disc;
+
+                & + li {
+                    @apply mt-12;
+                }
+            }
+        }
+        & p + ul {
+            @apply mt-12;
+        }
+        & p + p {
+            @apply mt-16;
+        }
+        & ul + p {
+            @apply mt-24;
+        }
+        & label.c-checkbox-wrapper {
+            @apply bg-backgroundColorD rounded-8;
+            @apply py-12 px-24 mt-24;
+            @apply text-16 leading-paragraph font-medium;
+
+            & .c-checkbox {
+                @apply mr-16;
+            }
+        }
+    }
+}

@@ -1,15 +1,61 @@
 #page-onboarding
-  %h1 Onboarding
+  .faux-site-header
+    .md-container
+      = graphical_icon "exercism-with-logo-black"
 
-  %ul
-    - @onboarding.errors.full_messages.each do |message|
-      %li= message
+  .md-container
+    = form_with model: @onboarding, url: user_onboarding_path do |f|
+      %ul
+        - @onboarding.errors.full_messages.each do |message|
+          %li= message
 
-  = form_with model: @onboarding, url: user_onboarding_path do |f|
-    = f.check_box :terms_of_service, required: true
-    = f.label :terms_of_service, "Accept Terms of Service"
+      %header
+        .content
+          %h1 Just before you get started... 📝
+          %p
+            We’re so excited you’re here and hope that Exercism will be a valuable and fun experience for you.
+            %strong We need to get a couple of quick legal bits out of the way to ensure you get the experience you expect, and to protect our community.
 
-    = f.check_box :privacy_policy, required: true
-    = f.label :privacy_policy, "Accept Privacy Policy"
+        = graphical_icon "graphic-laptop-woman-1"
 
-    = f.button "Submit"
+      %section.terms
+        %h2 Our Terms of Service
+        .box
+          %p In summary, our Terms of Service say that:
+          %ul
+            %li
+              You must act in a way that is in line with Exercism's values of respect and empathy per our #{external_link_to 'Code of conduct', code_of_conduct_path}.
+              If you do not, we have the right to block your usage of the platform.
+            %li
+              Anything you submit to the site (e.g. your solutions, feedback, etc) remains your property, but you grant Exercism a licence to use it as we wish in perpetuity.
+            %li
+              You may use exercises (provided by Exercism) and solutions (created by users) in accordance with the
+              = external_link_to "MIT", mit_licence_path
+              and
+              = external_link_to "CC-BY-SA-4.0", cc_sa_4_licence_path
+              licences respectively.
+
+          %p You can read our full #{external_link_to 'Terms of Service', terms_of_service_path}.
+
+          %label.c-checkbox-wrapper
+            = f.check_box :terms_of_service, required: true
+            .c-checkbox
+              = graphical_icon :checkmark
+            %span I accept Exercism's Terms of Service
+
+      %section.terms
+        %h2 Privacy Policy
+        .box
+          %p
+            Our Privacy Policy is nice and simple. It says that
+            %strong we will never share your details with anyone outside of Exercism,
+            and that we don't use third-party cookies, so no-one will track you here.
+            You can #{external_link_to 'read it in full here', privacy_policy_path}.
+
+          %label.c-checkbox-wrapper
+            = f.check_box :privacy_policy, required: true
+            .c-checkbox
+              = graphical_icon :checkmark
+            %span I accept Exercism's Privacy Policy
+
+      = f.button "Save & Get Started", class: "btn-cta"

@@ -2,7 +2,7 @@ require "test_helper"
 
 class Git::SyncTrackTest < ActiveSupport::TestCase
   test "no change when git sync SHA matches HEAD SHA" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: "HEAD"
+    track = create :track, synced_to_git_sha: "HEAD"
 
     Git::SyncConcept.expects(:call).never
     Git::SyncConceptExercise.expects(:call).never
@@ -13,7 +13,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "resyncs when force_sync is passed" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: "HEAD"
+    track = create :track, synced_to_git_sha: "HEAD"
 
     Git::SyncConcept.expects(:call).at_least_once
     Git::SyncConceptExercise.expects(:call).at_least_once
@@ -25,7 +25,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are no changes" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: "72c4dc096d3f7a5c01c4545d3d6570b5aa3e4252"
+    track = create :track, synced_to_git_sha: "72c4dc096d3f7a5c01c4545d3d6570b5aa3e4252"
 
     Git::SyncTrack.(track)
 
@@ -34,7 +34,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are changes" do
-    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    track = create :track, active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
 
     Git::SyncTrack.(track)
 
@@ -43,36 +43,36 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA does not change when concept syncing fails" do
-    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncConcept.expects(:call).raises(RuntimeError)
 
     assert_raises RuntimeError do
       Git::SyncTrack.(track)
     end
 
-    assert_equal "98403713252d41babae8353793ea5ec9ad7d770f", track.synced_to_git_sha
+    assert_equal "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", track.synced_to_git_sha
   end
 
   test "git sync SHA does not change when concept exercise syncing fails" do
-    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncConceptExercise.expects(:call).raises(RuntimeError)
 
     assert_raises RuntimeError do
       Git::SyncTrack.(track)
     end
 
-    assert_equal "98403713252d41babae8353793ea5ec9ad7d770f", track.synced_to_git_sha
+    assert_equal "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", track.synced_to_git_sha
   end
 
   test "git sync SHA does not change when practice exercise syncing fails" do
-    track = create :track, slug: 'fsharp', active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncPracticeExercise.expects(:call).raises(RuntimeError)
 
     assert_raises RuntimeError do
       Git::SyncTrack.(track)
     end
 
-    assert_equal "98403713252d41babae8353793ea5ec9ad7d770f", track.synced_to_git_sha
+    assert_equal "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", track.synced_to_git_sha
   end
 
   test "track is updated when there are changes" do
@@ -108,7 +108,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "adds new concepts defined in config.json" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -118,7 +118,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "concept exercises use track concepts for taught concepts" do
     csharp_track = create :track, slug: 'charp'
     csharp_concept = create :track_concept, track: csharp_track, slug: 'basics'
-    fsharp_track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    fsharp_track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
     fsharp_concept = create :track_concept, track: fsharp_track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
 
     Git::SyncTrack.(fsharp_track)
@@ -131,7 +131,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "concept exercises use track concepts for prerequisites" do
     csharp_track = create :track, slug: 'charp'
     csharp_concept = create :track_concept, track: csharp_track, slug: 'basics'
-    fsharp_track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    fsharp_track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
     fsharp_concept = create :track_concept, track: fsharp_track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
 
     Git::SyncTrack.(fsharp_track)
@@ -142,7 +142,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "adds new concept exercises defined in config.json" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -152,7 +152,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "adds new practice exercises defined in config.json" do
     skip # TODO: re-enable once we import practice exercises
 
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -160,7 +160,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all concepts" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -171,7 +171,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all concept exercises" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -182,7 +182,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "syncs all practice exercises" do
-    track = create :track, slug: 'fsharp', synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
 
     Git::SyncTrack.(track)
 
@@ -194,7 +194,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "update is only called once" do
     # Use the first commit in the repo
-    track = create :track, slug: 'fsharp', synced_to_git_sha: '041e4efbdbc09c4c7f913e2f1259c4f1970d88ca'
+    track = create :track, synced_to_git_sha: '041e4efbdbc09c4c7f913e2f1259c4f1970d88ca'
 
     Git::Repository.any_instance.stubs(keep_up_to_date?: false)
     Git::Repository.any_instance.expects(:fetch!).once

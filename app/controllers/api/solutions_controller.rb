@@ -33,7 +33,10 @@ module API
         exercise: {
           slug: solution.exercise.slug,
           title: solution.exercise.title,
-          icon_name: solution.exercise.icon_name
+          icon_name: solution.exercise.icon_name,
+          links: {
+            self: Exercism::Routes.track_exercise_path(solution.track, solution.exercise)
+          }
         },
         unlocked_exercises: changes[:unlocked_exercises].map do |exercise|
           {

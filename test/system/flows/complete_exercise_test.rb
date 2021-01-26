@@ -42,7 +42,8 @@ module Flows
       assert_text "Basics"
       assert_text "Conditionals"
 
-      assert solution.reload.completed?
+      click_on "Continue"
+      assert_text "You've completed Lasagna."
     end
   end
 end

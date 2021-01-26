@@ -3,7 +3,7 @@ import { PublishExerciseModal } from './PublishExerciseModal'
 import { ExerciseCompletedModal } from './ExerciseCompletedModal'
 
 export type ExerciseCompletion = {
-  exercise: Exercise
+  exercise: CompletedExercise
   conceptProgressions: {
     name: string
     from: number
@@ -14,9 +14,14 @@ export type ExerciseCompletion = {
   unlockedConcepts: Concept[]
 }
 
+export type CompletedExercise = Exercise & { links: { self: string } }
+
 export type Exercise = {
   title: string
   iconName: string
+  links: {
+    self: string
+  }
 }
 
 export type Concept = {

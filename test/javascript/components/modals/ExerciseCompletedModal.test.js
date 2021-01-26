@@ -5,7 +5,10 @@ import { ExerciseCompletedModal } from '../../../../app/javascript/components/mo
 
 test('shows information', async () => {
   const completion = {
-    exercise: { title: 'Lasagna' },
+    exercise: {
+      title: 'Lasagna',
+      links: { self: 'https://exercism.test/exercise' },
+    },
     conceptProgressions: [
       {
         name: 'Arrays',
@@ -58,7 +61,10 @@ test('shows information', async () => {
 
 test('hides unlocks section when there are no unlocked exercises and concepts', async () => {
   const completion = {
-    exercise: { title: 'Lasagna' },
+    exercise: {
+      title: 'Lasagna',
+      links: { self: 'https://exercism.test/exercise' },
+    },
     conceptProgressions: [
       {
         name: 'Arrays',
@@ -84,7 +90,10 @@ test('hides unlocks section when there are no unlocked exercises and concepts', 
 
 test('hides unlocked exercises section when there are no unlocked exercises', async () => {
   const completion = {
-    exercise: { title: 'Lasagna' },
+    exercise: {
+      title: 'Lasagna',
+      links: { self: 'https://exercism.test/exercise' },
+    },
     conceptProgressions: [
       {
         name: 'Arrays',
@@ -116,7 +125,10 @@ test('hides unlocked exercises section when there are no unlocked exercises', as
 
 test('hides unlocked concepts section when there are no unlocked concepts', async () => {
   const completion = {
-    exercise: { title: 'Lasagna' },
+    exercise: {
+      title: 'Lasagna',
+      links: { self: 'https://exercism.test/exercise' },
+    },
     conceptProgressions: [
       {
         name: 'Arrays',

@@ -464,7 +464,10 @@ class API::SolutionsControllerTest < API::BaseTestCase
         "exercise" => {
           "slug" => concept_exercise_1.slug,
           "title" => concept_exercise_1.title,
-          "icon_name" => concept_exercise_1.icon_name
+          "icon_name" => concept_exercise_1.icon_name,
+          "links" => {
+            "self" => track_exercise_path(track, concept_exercise_1)
+          }
         },
         "unlocked_exercises" => [
           {

@@ -3,7 +3,7 @@ require "application_system_test_case"
 module Flows
   class StartExerciseTest < ApplicationSystemTestCase
     test "starts concept exercise succesfully" do
-      track = create :track, slug: "csharp"
+      track = create :track
       exercise = create :concept_exercise, track: track
 
       user = create :user

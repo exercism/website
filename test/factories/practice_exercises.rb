@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :practice_exercise do
     track do
-      Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
+      Track.find_by(slug: :ruby) || build(:track, slug: 'ruby')
     end
 
     uuid { SecureRandom.uuid }

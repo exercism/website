@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :concept_exercise do
     track do
-      Track.find_by(slug: :csharp) || build(:track, slug: 'csharp')
+      Track.find_by(slug: :ruby) || build(:track, slug: 'ruby')
     end
+
     uuid { SecureRandom.uuid }
     slug { 'strings' }
     title { slug.titleize }

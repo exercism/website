@@ -23,10 +23,11 @@ module Git
     def call
       fetch_git_repo!
 
+      # TODO: validate track using configlet to prevent invalid track data
+
       return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
 
       # TODO: consider raising error when slug in config is different from track slug
-      # TODO: validate track to prevent invalid track data
       track.update!(
         blurb: head_git_track.config[:blurb],
         active: head_git_track.config[:active],
@@ -50,7 +51,6 @@ module Git
     attr_reader :track, :force_sync
 
     def concepts
-      # TODO: verify that all exercise concepts and prerequisites are in the concepts section
       concepts_config.map do |concept_config|
         ::Track::Concept::Create.(
           concept_config[:uuid],
@@ -71,7 +71,6 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
-          # TODO: the DB used title, config.json used name. Consider if we want this
           title: exercise_config[:name],
           taught_concepts: find_concepts(exercise_config[:concepts]),
           prerequisites: find_concepts(exercise_config[:prerequisites]),

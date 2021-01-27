@@ -5,6 +5,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
   include Devise::Test::IntegrationHelpers
 
+  Capybara.default_max_wait_time = 5
+
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
   driven_by :selenium, using: :headless_chrome do |driver_option|
     # Without this argument, Chrome cannot be started in Docker

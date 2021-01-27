@@ -34,7 +34,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are changes" do
-    track = create :track, active: true, synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+    track = create :track, active: true, synced_to_git_sha: "aad630acfbbdef16d90105a205b957c138fa1b93"
 
     Git::SyncTrack.(track)
 
@@ -76,15 +76,15 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "track is updated when there are changes" do
-    track = create :track, slug: "fsharp",
-                           title: "F#",
+    track = create :track, slug: "ruby",
+                           title: "Ruby",
                            active: true,
-                           blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
-                           synced_to_git_sha: "98403713252d41babae8353793ea5ec9ad7d770f"
+                           blurb: "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.", # rubocop:disable Layout/LineLength
+                           synced_to_git_sha: "aad630acfbbdef16d90105a205b957c138fa1b93"
 
     Git::SyncTrack.(track)
 
-    assert_equal "F# is a strongly-typed, functional language.", track.blurb # rubocop:disable Layout/LineLength
+    assert_equal "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.", track.blurb # rubocop:disable Layout/LineLength
   end
 
   test "track is updated when tags change" do
@@ -92,101 +92,106 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
                            title: "F#",
                            active: true,
                            blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
-                           tags: ["compiles to:Bytecode", "runtime/common_language_runtime"],
-                           synced_to_git_sha: "3b0e5ae6a166dd42af27217d1868a74d42023b8b"
+                           tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"], # rubocop:disable Layout/LineLength
+                           synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52"
 
     Git::SyncTrack.(track)
 
     expected = [
-      "compiles_to/bytecode",
-      "runtime/common_language_runtime",
-      "paradigm/functional",
-      "paradigm/object_oriented",
-      "typing/static"
+      "execution_mode/interpreted",
+      "platform/windows",
+      "platform/linux",
+      "platform/mac",
+      "paradigm/declarative",
+      "paradigm/object_oriented"
     ]
     assert_equal expected, track.tags
   end
 
   test "adds new concepts defined in config.json" do
-    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24'
+
+    assert_empty track.concepts
 
     Git::SyncTrack.(track)
 
-    assert track.concepts.where(uuid: 'd0fe01c7-d94b-4d6b-92a7-a0055c5704a3').exists?
+    assert_equal 8, track.concepts.length
   end
 
   test "concept exercises use track concepts for taught concepts" do
-    csharp_track = create :track, slug: 'charp'
-    csharp_concept = create :track_concept, track: csharp_track, slug: 'basics'
-    fsharp_track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
-    fsharp_concept = create :track_concept, track: fsharp_track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    track_concept = create :track_concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    other_track = create :track, slug: 'fsharp'
+    other_track_concept = create :track_concept, track: other_track, slug: 'basics'
 
-    Git::SyncTrack.(fsharp_track)
+    Git::SyncTrack.(track)
 
-    fsharp_concept_exercise = fsharp_track.concept_exercises.find_by(uuid: '1fc8216e-6519-11ea-bc55-0242ac130003')
-    assert_includes fsharp_concept_exercise.taught_concepts, fsharp_concept
-    refute_includes fsharp_concept_exercise.taught_concepts, csharp_concept
+    track_concept_exercise = track.concept_exercises.find_by(uuid: '71ae39c4-7364-11ea-bc55-0242ac130003')
+    assert_includes track_concept_exercise.taught_concepts, track_concept
+    refute_includes track_concept_exercise.taught_concepts, other_track_concept
   end
 
   test "concept exercises use track concepts for prerequisites" do
-    csharp_track = create :track, slug: 'charp'
-    csharp_concept = create :track_concept, track: csharp_track, slug: 'basics'
-    fsharp_track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
-    fsharp_concept = create :track_concept, track: fsharp_track, slug: 'basics', uuid: 'f91b9627-803e-47fd-8bba-1a8f113b5215'
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    track_concept = create :track_concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    other_track = create :track, slug: 'fsharp'
+    other_track_concept = create :track_concept, track: other_track, slug: 'basics'
 
-    Git::SyncTrack.(fsharp_track)
+    Git::SyncTrack.(track)
 
-    fsharp_concept_exercise = fsharp_track.concept_exercises.find_by(uuid: '9c2aad8a-53ee-11ea-8d77-2e728ce88125')
-    assert_includes fsharp_concept_exercise.prerequisites, fsharp_concept
-    refute_includes fsharp_concept_exercise.prerequisites, csharp_concept
+    track_concept_exercise = track.concept_exercises.find_by(uuid: 'e5476046-5289-11ea-8d77-2e728ce88125')
+    assert_includes track_concept_exercise.prerequisites, track_concept
+    refute_includes track_concept_exercise.prerequisites, other_track_concept
   end
 
   test "adds new concept exercises defined in config.json" do
-    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24'
+
+    assert_empty track.concept_exercises
 
     Git::SyncTrack.(track)
 
-    assert track.concept_exercises.where(uuid: '6ea2765e-5885-11ea-82b4-0242ac130003').exists?
+    assert_equal 5, track.concept_exercises.length
   end
 
   test "adds new practice exercises defined in config.json" do
-    skip # TODO: re-enable once we import practice exercises
+    track = create :track, synced_to_git_sha: 'c4701190aa99d47b7e92e5c1605659a4f08d6776'
 
-    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    assert_empty track.practice_exercises
 
     Git::SyncTrack.(track)
 
-    assert track.practice_exercises.where(uuid: '2ee3cc7a-db3f-4668-9983-ed6d0fea95d1').exists?
+    assert_equal 7, track.practice_exercises.length
   end
 
   test "syncs all concepts" do
-    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concepts.length
+    assert_equal 8, track.concepts.length
     track.concepts.each do |concept|
       assert_equal track.git.head_sha, concept.synced_to_git_sha
     end
   end
 
   test "syncs all concept exercises" do
-    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
 
     Git::SyncTrack.(track)
 
-    assert_equal 4, track.concept_exercises.length
+    assert_equal 5, track.concept_exercises.length
     track.concept_exercises.each do |concept_exercise|
       assert_equal track.git.head_sha, concept_exercise.synced_to_git_sha
     end
   end
 
   test "syncs all practice exercises" do
-    track = create :track, synced_to_git_sha: 'ab0b9be3162f6ec4ed6d7c46b55a8bf2bd117ffb'
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
 
     Git::SyncTrack.(track)
 
-    assert_equal 3, track.practice_exercises.length
+    assert_equal 7, track.practice_exercises.length
     track.practice_exercises.each do |practice_exercise|
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
@@ -194,7 +199,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "update is only called once" do
     # Use the first commit in the repo
-    track = create :track, synced_to_git_sha: '041e4efbdbc09c4c7f913e2f1259c4f1970d88ca'
+    track = create :track, synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24'
 
     Git::Repository.any_instance.stubs(keep_up_to_date?: false)
     Git::Repository.any_instance.expects(:fetch!).once

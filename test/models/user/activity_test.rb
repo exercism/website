@@ -40,13 +40,13 @@ class User::ActivityTest < ActiveSupport::TestCase
     cache_data = {
       'exercise_icon_name' => exercise.icon_name,
       'exercise_title' => exercise.title,
-      'url' => "/tracks/csharp/exercises/strings",
+      'url' => "/tracks/ruby/exercises/strings",
       'text' => "You started a new exercise"
     }
     assert_equal cache_data, activity.rendering_data_cache
     assert_equal exercise.title, activity.rendering_data.exercise_title
     assert_equal exercise.icon_name, activity.rendering_data.exercise_icon_name
-    assert_equal "/tracks/csharp/exercises/strings", activity.rendering_data.url
+    assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data.url
     assert_equal "You started a new exercise", activity.rendering_data.text
     assert_equal Time.current, activity.rendering_data.occurred_at
   end
@@ -70,7 +70,7 @@ class User::ActivityTest < ActiveSupport::TestCase
       assert_equal({}, activity.rendering_data_cache)
       assert_equal exercise.title, activity.rendering_data.exercise_title
       assert_equal exercise.icon_name, activity.rendering_data.exercise_icon_name
-      assert_equal "/tracks/csharp/exercises/strings", activity.rendering_data.url
+      assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data.url
       assert_equal "You started a new exercise", activity.rendering_data.text
       assert_equal Time.current, activity.rendering_data.occurred_at
 
@@ -78,7 +78,7 @@ class User::ActivityTest < ActiveSupport::TestCase
       cache_data = {
         'exercise_icon_name' => exercise.icon_name,
         'exercise_title' => exercise.title,
-        'url' => "/tracks/csharp/exercises/strings",
+        'url' => "/tracks/ruby/exercises/strings",
         'text' => "You started a new exercise"
       }
       assert_equal cache_data, activity.rendering_data_cache

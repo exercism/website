@@ -25,7 +25,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "git sync SHA changes to HEAD SHA when there are no changes" do
-    track = create :track, synced_to_git_sha: "72c4dc096d3f7a5c01c4545d3d6570b5aa3e4252"
+    track = create :track, synced_to_git_sha: "3a2874df76154e356644425954c76b2a4c343b40"
 
     Git::SyncTrack.(track)
 

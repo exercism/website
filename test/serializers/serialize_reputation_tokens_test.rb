@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SerializeReputationTokensTest < ActiveSupport::TestCase
   test "basic to_hash" do
-    exercise = create :concept_exercise
     track = create :track
+    exercise = create :concept_exercise, track: track
     token = create :user_reputation_token,
       created_at: Time.current - 1.week,
       exercise: exercise,

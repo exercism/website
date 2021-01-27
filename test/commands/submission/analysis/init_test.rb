@@ -14,7 +14,7 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
       source: {
         submission_efs_root: submission.uuid,
         submission_filepaths: [],
-        exercise_git_repo: "v3",
+        exercise_git_repo: "ruby",
         exercise_git_sha: exercise_repo.normalised_git_sha,
         exercise_git_dir: exercise_repo.dir,
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/example.rb"]

@@ -5,7 +5,7 @@ FactoryBot.define do
 
     transient do
       track do
-        Track.find_by(slug: 'csharp') || create(:track, slug: 'csharp')
+        Track.find_by(slug: 'ruby') || create(:track, slug: 'ruby')
       end
     end
 

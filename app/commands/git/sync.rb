@@ -46,7 +46,7 @@ module Git
 
     memoize
     def concepts_config
-      config[:concepts]
+      config[:concepts] || []
     end
 
     private

@@ -46,40 +46,24 @@ karlo = User.find_by(handle: 'kntsoriano') || User.create!(
 karlo.confirm
 karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 
-# This is all temporary and horrible while we have a monorepo
-repo_url = "https://github.com/exercism/v3"
-repo = Git::Repository.new(repo_url: repo_url)
-
-# This fetches it once before we stub it below
-repo.fetch!
-repo.send(:rugged_repo)
-
-# Adding this is many OOM faster. It's horrible and temporary
-# but useful for now
-module Git
-  class Repository
-    def fetch!
-    end
-  end
-end
-
-# TODO: how to best retrieve all the tracks
-track_slugs = []
-tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
-tree.each_tree { |obj| track_slugs << obj[:name] }
-
-# Find the first commit in the repo
-first_commit = repo.head_commit
-Rugged::Walker.walk(repo.send(:rugged_repo),
-  show: repo.head_commit.oid,
-  sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
-  simplify: true
-) do |commit|
-  first_commit = commit
-end
-
+# TODO: Hard-code list of tracks before merging.
+track_slugs = %w[fsharp]
 track_slugs.each do |track_slug|
   puts "Adding Track: #{track_slug}"
+
+  # TODO: Change to exercism before merging
+  repo_url = "https://github.com/erikschierboom/#{track_slug}"
+  repo = Git::Repository.new(repo_url: repo_url)
+
+  # Find the first commit in the repo
+  first_commit = repo.head_commit
+  Rugged::Walker.walk(repo.send(:rugged_repo),
+    show: repo.head_commit.oid,
+    sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
+    simplify: true
+  ) do |commit|
+    first_commit = commit
+  end
 
   begin
     git_track = Git::Track.new(repo.head_commit.oid, repo_url: repo_url)

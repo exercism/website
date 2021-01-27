@@ -87,7 +87,7 @@ module Flows
       find('label', text: "I accept Exercism's Privacy Policy").click
       click_on "Save & Get Started"
 
-      assert_text "Join The Ruby Track", wait: 3
+      assert_text "Join The Ruby Track"
     end
   end
 end

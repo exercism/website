@@ -85,7 +85,7 @@ module Flows
       find('label', text: "I accept Exercism's Privacy Policy").click
       click_on "Save & Get Started"
 
-      assert_text "Join The Ruby Track", wait: 5
+      assert_text "Join The Ruby Track"
     ensure
       OmniAuth.config.test_mode = false
     end
@@ -104,7 +104,7 @@ module Flows
       visit new_user_registration_path
       click_on "Sign Up with GitHub"
 
-      assert_text "Sorry, we could not authenticate you from GitHub.", wait: 5
+      assert_text "Sorry, we could not authenticate you from GitHub."
 
     ensure
       OmniAuth.config.test_mode = false
@@ -122,7 +122,6 @@ module Flows
       click_on "Sign Up with GitHub"
 
       assert_text "Sorry, we could not authenticate you from GitHub."
-
     ensure
       OmniAuth.config.test_mode = false
     end

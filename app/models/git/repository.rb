@@ -146,7 +146,5 @@ module Git
       # TODO: Add a test for this.
       ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
     end
-
-    private_constant :MAIN_BRANCH_REF
   end
 end

@@ -4,11 +4,11 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
   test "should enqueue process pull request update when pr was closed" do
     action = 'closed'
     login = 'user22'
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
+    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
+    html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     state = 'closed'
-    repo = 'exercism/v3'
+    repo = 'exercism/fsharp'
     number = 4
 
     Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
@@ -22,11 +22,11 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
   test "should enqueue process pull request update when pr was labeled" do
     action = 'labeled'
     login = 'user22'
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
+    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
+    html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     state = 'closed'
-    repo = 'exercism/v3'
+    repo = 'exercism/fsharp'
     number = 4
 
     Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
@@ -40,11 +40,11 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
   test "should enqueue process pull request update when pr was unlabeled" do
     action = 'unlabeled'
     login = 'user22'
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
+    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
+    html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     state = 'closed'
-    repo = 'exercism/v3'
+    repo = 'exercism/fsharp'
     number = 4
 
     Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
@@ -58,11 +58,11 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
   test "should not enqueue process pull request update when pr was opened" do
     action = 'opened'
     login = 'user22'
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
+    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
+    html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     state = 'closed'
-    repo = 'exercism/v3'
+    repo = 'exercism/fsharp'
     number = 4
 
     Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
@@ -74,11 +74,11 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
   test "should not enqueue process pull request update when pr is open" do
     action = 'labeled'
     login = 'user22'
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
+    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
+    html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     state = 'open'
-    repo = 'exercism/v3'
+    repo = 'exercism/fsharp'
     number = 4
 
     Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,

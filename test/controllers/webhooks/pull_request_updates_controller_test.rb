@@ -8,15 +8,15 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         user: {
           login: 'user22'
         },
-        url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347',
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
         merged: true
       },
       repository: {
-        full_name: 'exercism/v3'
+        full_name: 'exercism/fsharp'
       }
     }
 
@@ -34,15 +34,15 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         user: {
           login: 'user22'
         },
-        url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347',
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
         merged: true
       },
       repository: {
-        full_name: 'exercism/v3'
+        full_name: 'exercism/fsharp'
       }
     }
 
@@ -57,23 +57,23 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         user: {
           login: 'user22'
         },
-        url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347',
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
         merged: true
       },
       repository: {
-        full_name: 'exercism/v3'
+        full_name: 'exercism/fsharp'
       }
     }
     Webhooks::ProcessPullRequestUpdate.expects(:call).with('opened', 'user22',
-      url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-      html_url: 'https://github.com/exercism/v3/pull/1347',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
       labels: %w[bug duplicate],
       state: 'open',
-      repo: 'exercism/v3',
+      repo: 'exercism/fsharp',
       pr_id: 4,
       merged: true)
 
@@ -87,15 +87,15 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         user: {
           login: 'user22'
         },
-        url: 'https://api.github.com/repos/exercism/v3/pulls/1347',
-        html_url: 'https://github.com/exercism/v3/pull/1347',
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
         merged: true
       },
       repository: {
-        full_name: 'exercism/v3'
+        full_name: 'exercism/fsharp'
       }
     }
 

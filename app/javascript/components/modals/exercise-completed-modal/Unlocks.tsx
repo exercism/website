@@ -22,9 +22,11 @@ export const Unlocks = ({
             {unlockedExercises.length}{' '}
             {pluralize('exercise', unlockedExercises.length)}
           </h3>
-          {unlockedExercises.map((exercise) => (
-            <UnlockedExercise key={exercise.title} {...exercise} />
-          ))}
+          <div className="exercises">
+            {unlockedExercises.map((exercise) => (
+              <UnlockedExercise key={exercise.title} {...exercise} />
+            ))}
+          </div>
         </div>
       ) : null}
       {unlockedConcepts.length > 0 ? (
@@ -35,9 +37,11 @@ export const Unlocks = ({
             {unlockedConcepts.length}{' '}
             {pluralize('concept', unlockedConcepts.length)}
           </h3>
-          {unlockedConcepts.map((concept) => (
-            <UnlockedConcept key={concept.name} {...concept} />
-          ))}
+          <div className="concepts">
+            {unlockedConcepts.map((concept) => (
+              <UnlockedConcept key={concept.name} {...concept} />
+            ))}
+          </div>
         </div>
       ) : null}
     </div>

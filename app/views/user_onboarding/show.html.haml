@@ -4,7 +4,7 @@
       = graphical_icon "exercism-with-logo-black"
 
   .md-container
-    = form_with model: @onboarding, url: user_onboarding_path do |f|
+    = form_with model: @onboarding, url: user_onboarding_path, remote: false do |f|
       %ul
         - @onboarding.errors.full_messages.each do |message|
           %li= message

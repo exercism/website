@@ -103,16 +103,6 @@ jobs:
           bundle exec rails test:system
           ./cc-test-reporter format-coverage -t simplecov -o codeclimate.system.json coverage/backend/.resultset.json
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        env:
-          EXERCISM_ENV: test
-          EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          CAPTURE_CODE_COVERAGE: true
-        if: ${{ always() }}
-
       - name: Run JS tests
         run: yarn test
 

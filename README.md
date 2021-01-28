@@ -1,10 +1,12 @@
+**This is the WIP website for Exercism v3. We are not currently accepting Pull Requests to this repository. The live website is now locked.**
+
+--
+
 # Exercism
 
 ![Tests](https://github.com/exercism/v3-website/workflows/Tests/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/maintainability)](https://codeclimate.com/github/exercism/v3-website/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/test_coverage)](https://codeclimate.com/github/exercism/v3-website/test_coverage)
-
-This is the WIP website for Exercism v3. We are not currently accepting Pull Requests to this repository.
 
 This is the website component of Exercism. It is Ruby on Rails app, backed by MySQL. It also relies on Redis and AnyCable.
 

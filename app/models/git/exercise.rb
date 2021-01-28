@@ -63,8 +63,8 @@ module Git
     # Files that should be transported
     # to a user for use in the editor.
     memoize
-    def editor_solution_files
-      config[:editor][:solution_files].index_with do |filepath|
+    def solution_files
+      config[:files][:solution].index_with do |filepath|
         read_file_blob(filepath)
       end
     rescue StandardError

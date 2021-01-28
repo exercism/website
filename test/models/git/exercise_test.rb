@@ -2,13 +2,13 @@ require 'test_helper'
 
 module Git
   class ExerciseTest < ActiveSupport::TestCase
-    test "editor_solution_files" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+    test "solution_files" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
-      expected_files = ["bob.rb"]
-      assert_equal expected_files, exercise.editor_solution_files.keys
-      assert exercise.editor_solution_files["bob.rb"].start_with?("stub content\n")
+      expected_files = ["log_line_parser.rb"]
+      assert_equal expected_files, exercise.solution_files.keys
+      assert exercise.solution_files["log_line_parser.rb"].start_with?("module LogLineParser")
     end
 
     test "read_file_blob" do
@@ -31,7 +31,6 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
-        ".meta/config.json",
         "README.md",
         "bob.rb",
         "bob_test.rb",

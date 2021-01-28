@@ -1,4 +1,5 @@
 - html = capture_haml do
   %h1 Hello
+  %button{ data: { modal_close: true } } Close
 
 = ReactComponents::Common::Modal.new(html)

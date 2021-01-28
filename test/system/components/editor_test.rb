@@ -7,8 +7,8 @@ module Components
 
     test "user runs tests and tests pass" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -28,8 +28,8 @@ module Components
 
     test "user runs tests and tests fail" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -49,8 +49,8 @@ module Components
 
     test "user runs tests and errors" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -72,8 +72,8 @@ module Components
 
     test "user runs tests and an ops error happens" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -95,8 +95,8 @@ module Components
 
     test "user runs tests and cancels" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)
@@ -110,8 +110,8 @@ module Components
 
     test "user sees previous test results" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
       submission = create :submission, solution: solution
       create :submission_test_run,
         submission: submission,
@@ -128,13 +128,13 @@ module Components
 
     test "user sees submission errors" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
         content: "stub content",
-        filename: "bob.rb",
+        filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("stub content")
 
       use_capybara_host do
@@ -147,13 +147,13 @@ module Components
 
     test "user reverts to original exercise solution" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
         content: "new content",
-        filename: "bob.rb",
+        filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("new content")
 
       use_capybara_host do
@@ -161,14 +161,14 @@ module Components
         find(".more-btn").click
         click_on("Revert to exercise start")
 
-        assert_text "stub content"
+        assert_text "Please implement the LogLineParser.message method"
       end
     end
 
     test "user reports a bug" do
       sign_in!
-      bob = create :practice_exercise, slug: "bob"
-      solution = create :practice_solution, user: @current_user, exercise: bob
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)

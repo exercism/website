@@ -5,7 +5,7 @@ module Git
     DEFAULT_REPO_URL = "https://github.com/exercism/website-copy".freeze
 
     def initialize(repo_url: DEFAULT_REPO_URL)
-      @repo = Repository.new(nil, repo_url: repo_url)
+      @repo = Repository.new(repo_url: repo_url)
     end
 
     def analysis_comment_for(code)

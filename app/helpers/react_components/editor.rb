@@ -17,7 +17,7 @@ module ReactComponents
             auth_token: solution.user.auth_tokens.first.to_s
           ),
           submission: SerializeSubmission.(solution.submissions.last),
-          files: SerializeFiles.(solution.editor_solution_files),
+          files: SerializeFiles.(solution.solution_files),
           language: solution.editor_language,
           storage_key: solution.uuid
         }

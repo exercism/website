@@ -3,7 +3,7 @@ require_relative "../react_component_test_case"
 class MaintainingSubmissionsSummaryTableTest < ReactComponentTestCase
   test "maintaining submissions summary table rendered correctly" do
     user = create(:user)
-    track = create(:track, slug: "ruby", title: "Ruby", repo_url: "https://github.com/exercism/v3")
+    track = create(:track)
     create(:user_track, user: user, track: track)
     concept_exercise = create(:concept_exercise, track: track, uuid: SecureRandom.uuid, slug: "numbers", prerequisites: [], title: "numbers")
     practice_exercise = create(:practice_exercise, track: track, uuid: SecureRandom.uuid, slug: "bob", prerequisites: [], title: "bob")

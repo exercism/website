@@ -10,7 +10,7 @@ module API
 
         return render_403(:solution_not_accessible) unless current_user.may_view_solution?(solution)
 
-        files = SerializeFiles.(solution.initial_files)
+        files = SerializeFiles.(solution.exercise_solution_files)
 
         render json: { files: files }
       end

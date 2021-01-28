@@ -11,8 +11,8 @@ module Components
         use_capybara_host do
           user = create :user
           create :user_auth_token, user: user
-          bob = create :practice_exercise, slug: "bob"
-          solution = create :practice_solution, user: user, exercise: bob
+          bob = create :concept_exercise
+          solution = create :concept_solution, user: user, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)

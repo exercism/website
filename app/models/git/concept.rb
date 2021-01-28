@@ -4,10 +4,8 @@ module Git
 
     delegate :head_sha, :head_commit, to: :repo
 
-    # TODO: repo_url can be removed once we're out of a monorepo
-    def initialize(track_slug, concept_slug, git_sha = "HEAD", repo_url: nil, repo: nil)
-      @repo = repo || Repository.new(track_slug, repo_url: repo_url)
-      @track_slug = track_slug
+    def initialize(concept_slug, git_sha = "HEAD", repo_url: nil, repo: nil)
+      @repo = repo || Repository.new(repo_url: repo_url)
       @concept_slug = concept_slug
       @git_sha = git_sha
     end
@@ -23,13 +21,18 @@ module Git
     end
 
     memoize
+    def introduction
+      read_file_blob('introduction.md')
+    end
+
+    memoize
     def links
       data = JSON.parse(read_file_blob('links.json'))
       data.map { |link| OpenStruct.new(link) }
     end
 
     private
-    attr_reader :repo, :track_slug, :concept_slug, :git_sha
+    attr_reader :repo, :concept_slug, :git_sha
 
     memoize
     def file_entries
@@ -43,9 +46,7 @@ module Git
 
     memoize
     def tree
-      # TODO: When things are exploded back into repos, do this
-      # repo.fetch_tree(commit, "concepts/#{slug}")
-      repo.fetch_tree(commit, "languages/#{track_slug}/concepts/#{concept_slug}")
+      repo.fetch_tree(commit, "concepts/#{concept_slug}")
     end
 
     memoize

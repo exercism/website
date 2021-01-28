@@ -14,7 +14,7 @@ class Submission
           source: {
             submission_efs_root: submission.uuid,
             submission_filepaths: submission_filepaths,
-            exercise_git_repo: "v3", # Change to solution.track.slug when we're out of the monorepo
+            exercise_git_repo: solution.track.slug,
             exercise_git_sha: exercise_repo.normalised_git_sha,
             exercise_git_dir: exercise_repo.dir,
             exercise_filepaths: exercise_filepaths

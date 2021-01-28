@@ -4,11 +4,10 @@ module Git
 
     delegate :head_sha, :fetch!, :lookup_commit, :head_commit, to: :repo
 
-    def initialize(slug, git_sha = "HEAD", repo_url: nil, repo: nil)
+    def initialize(git_sha = "HEAD", repo_url: nil, repo: nil)
       raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
 
-      @repo = repo || Repository.new(slug, repo_url: repo_url)
-      @slug = slug
+      @repo = repo || Repository.new(repo_url: repo_url)
       @git_sha = git_sha
     end
 
@@ -43,18 +42,15 @@ module Git
     end
 
     def about_filepath
-      # TODO: remove track-specific path when no longer in monorepo
-      "languages/#{slug}/docs/ABOUT.md"
+      "docs/ABOUT.md"
     end
 
     def snippet_filepath
-      # TODO: remove track-specific path when no longer in monorepo
-      "languages/#{slug}/docs/SNIPPET.txt"
+      "docs/SNIPPET.txt"
     end
 
     def config_filepath
-      # TODO: remove track-specific path when no longer in monorepo
-      "languages/#{slug}/config.json"
+      "config.json"
     end
 
     memoize
@@ -63,6 +59,6 @@ module Git
     end
 
     private
-    attr_reader :repo, :slug, :git_sha
+    attr_reader :repo, :git_sha
   end
 end

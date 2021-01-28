@@ -37,10 +37,7 @@ class Exercise < ApplicationRecord
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
 
-  delegate :editor_solution_files,
-    :cli_solution_filepaths,
-    :all_solution_files,
-    to: :git
+  delegate :solution_files, to: :git
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
@@ -74,6 +71,6 @@ class Exercise < ApplicationRecord
 
   memoize
   def git
-    Git::Exercise.new(track.slug, slug, git_type, git_sha, repo_url: track.repo_url)
+    Git::Exercise.new(slug, git_type, git_sha, repo_url: track.repo_url)
   end
 end

@@ -16,12 +16,12 @@ module Git
 
     memoize
     def git_repo
-      Git::Repository.new(track.slug, repo_url: track.repo_url)
+      Git::Repository.new(repo_url: track.repo_url)
     end
 
     memoize
     def head_git_track
-      Git::Track.new(track.slug, git_repo.head_sha, repo: git_repo)
+      Git::Track.new(git_repo.head_sha, repo: git_repo)
     end
 
     memoize
@@ -46,7 +46,7 @@ module Git
 
     memoize
     def concepts_config
-      config[:concepts]
+      config[:concepts] || []
     end
 
     private
@@ -55,7 +55,7 @@ module Git
 
     memoize
     def current_git_track
-      Git::Track.new(track.slug, synced_to_git_sha, repo: git_repo)
+      Git::Track.new(synced_to_git_sha, repo: git_repo)
     end
 
     memoize

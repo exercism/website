@@ -75,22 +75,15 @@ class Solution < ApplicationRecord
     update_column(:mentoring_status, :none)
   end
 
-  memoize
-  delegate :instructions, to: :git_exercise
-
-  memoize
-  delegate :introduction, to: :git_exercise
+  delegate :instructions, :introduction, to: :git_exercise
+  delegate :solution_files, to: :exercise, prefix: 'exercise'
 
   def editor_language
     track.slug
   end
 
-  def initial_files
-    exercise.editor_solution_files
-  end
-
-  def editor_solution_files
-    files = initial_files
+  def solution_files
+    files = exercise_solution_files
 
     submission = submissions.last
     if submission # rubocop:disable Style/SafeNavigation

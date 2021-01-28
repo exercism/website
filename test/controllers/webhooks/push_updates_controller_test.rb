@@ -3,7 +3,7 @@ require_relative './base_test_case'
 class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 403 when signature is invalid" do
     payload = {
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
       repository: { name: 'csharp' }
     }
 
@@ -16,7 +16,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
 
   test "create should return 200 when signature is valid" do
     payload = {
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
       repository: { name: 'csharp' }
     }
 
@@ -26,17 +26,17 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
 
   test "create should process repo update when signature is valid" do
     payload = {
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
       repository: { name: 'csharp' }
     }
-    Webhooks::ProcessPushUpdate.expects(:call).with('refs/heads/master', 'csharp')
+    Webhooks::ProcessPushUpdate.expects(:call).with('refs/heads/main', 'csharp')
 
     post webhooks_push_updates_path, headers: headers(payload), as: :json, params: payload
   end
 
   test "create should return 204 when ping event is sent" do
     payload = {
-      ref: 'refs/heads/master',
+      ref: 'refs/heads/main',
       repository: { name: 'csharp' }
     }
 

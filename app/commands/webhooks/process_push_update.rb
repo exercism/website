@@ -5,7 +5,7 @@ module Webhooks
     initialize_with :ref, :track_slug
 
     def call
-      return unless pushed_to_master?
+      return unless pushed_to_main?
 
       ProcessPushUpdateJob.perform_later(track)
     end
@@ -15,11 +15,8 @@ module Webhooks
       Track.find_by(slug: track_slug)
     end
 
-    def pushed_to_master?
-      ref == MASTER_REF
+    def pushed_to_main?
+      ref == Git::Repository::MAIN_BRANCH_REF
     end
-
-    MASTER_REF = "refs/heads/master".freeze
-    private_constant :MASTER_REF
   end
 end

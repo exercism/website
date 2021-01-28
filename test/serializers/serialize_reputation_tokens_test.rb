@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SerializeReputationTokensTest < ActiveSupport::TestCase
   test "basic to_hash" do
-    exercise = create :concept_exercise
     track = create :track
+    exercise = create :concept_exercise, track: track
     token = create :user_reputation_token,
       created_at: Time.current - 1.week,
       exercise: exercise,
@@ -14,8 +14,8 @@ class SerializeReputationTokensTest < ActiveSupport::TestCase
       {
         id: token.uuid,
         value: token.value,
-        description: "You authored Datetime",
-        icon_name: "sample-exercise-butterflies",
+        description: "You authored Strings",
+        icon_name: "sample-exercise-rocket",
         internal_link: nil,
         external_link: "https://google.com",
         awarded_at: token.created_at.iso8601,

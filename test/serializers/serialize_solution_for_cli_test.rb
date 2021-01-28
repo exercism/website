@@ -2,26 +2,30 @@ require 'test_helper'
 
 class SerializeSolutionForCLITest < ActiveSupport::TestCase
   test "basic to_hash" do
-    solution = create :practice_solution
+    solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
     expected = {
       solution: {
         id: solution.uuid,
-        url: "https://test.exercism.io/tracks/ruby/exercises/bob",
+        url: "https://test.exercism.io/tracks/ruby/exercises/strings",
         user: {
           handle: solution.user.handle,
           is_requester: true
         },
         exercise: {
           id: solution.exercise.slug,
-          instructions_url: "https://test.exercism.io/tracks/ruby/exercises/bob",
+          instructions_url: "https://test.exercism.io/tracks/ruby/exercises/strings",
           track: {
             id: solution.track.slug,
             language: solution.track.title
           }
         },
         file_download_base_url: "https://api.exercism.io/v1/solutions/#{solution.uuid}/files/",
-        files: Set.new([".meta/config.json", "README.md", "bob.rb", "bob_test.rb", "subdir/more_bob.rb"]),
+        files: Set.new([
+                         ".docs/hints.md", ".docs/instructions.md", ".docs/introduction.md",
+                         ".meta/config.json", ".meta/design.md", ".meta/example.rb",
+                         "log_line_parser.rb", "log_line_parser_test.rb"
+                       ]),
         submission: nil
       }
     }

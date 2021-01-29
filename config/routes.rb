@@ -233,7 +233,10 @@ Rails.application.routes.draw do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
           resource :markdown_editor, controller: "markdown_editor", only: [:show]
           resource :icons, controller: "icons", only: [:show]
-          resource :modal, controller: "modal", only: [:show]
+          resource :modal, controller: "modal", only: [] do
+            get :template
+            get :block
+          end
         end
       end
       namespace :templates do

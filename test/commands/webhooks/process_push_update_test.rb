@@ -16,4 +16,11 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
 
     assert_enqueued_jobs 0, only: ProcessPushUpdateJob
   end
+
+  test "should not enqueue sync push job when pushing to non-valid track" do
+    create :track, slug: :ruby
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'ruby')
+
+    assert_enqueued_jobs 0, only: ProcessPushUpdateJob
+  end
 end

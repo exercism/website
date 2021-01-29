@@ -6,17 +6,19 @@ module Webhooks
 
     def call
       return unless pushed_to_main?
+      return unless track
 
       ProcessPushUpdateJob.perform_later(track)
     end
 
     private
+    memoize
     def track
       Track.find_by(slug: track_slug)
     end
 
     def pushed_to_main?
-      ref == Git::Repository::MAIN_BRANCH_REF
+      ref == "refs/heads/#{Git::Repository::MAIN_BRANCH_REF}"
     end
   end
 end

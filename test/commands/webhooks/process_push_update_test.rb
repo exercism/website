@@ -21,7 +21,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     create :track, slug: :ruby
 
     assert_enqueued_jobs 0, only: ProcessPushUpdateJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/develop', 'fsharp')
+      Webhooks::ProcessPushUpdate.('refs/heads/develop', 'problem-specs')
     end
   end
 end

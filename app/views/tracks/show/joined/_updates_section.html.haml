@@ -17,18 +17,19 @@
         .faces
           = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
 
-      .update
-        - exercise = track.exercises.first
-        .icon
-          = exercise_icon(exercise)
-        .info
-          .desc
-            %strong thelostlambda, WDNeumann and 3 others
-            published a new exercise
-            %strong= exercise.title
-          %time 3 days ago
-        .faces
-          = rounded_bg_img("https://avatars3.githubusercontent.com/u/6624571?s=400&u=ca3801c9d18d8aa124738c8e8db470cbe5fd5814&v=4", "Erik SchierBOOM's uploaded avatar")
+      - exercise = track.exercises.first
+      - if exercise
+        .update
+          .icon
+            = exercise_icon(exercise)
+          .info
+            .desc
+              %strong thelostlambda, WDNeumann and 3 others
+              published a new exercise
+              %strong= exercise.title
+            %time 3 days ago
+          .faces
+            = rounded_bg_img("https://avatars3.githubusercontent.com/u/6624571?s=400&u=ca3801c9d18d8aa124738c8e8db470cbe5fd5814&v=4", "Erik SchierBOOM's uploaded avatar")
 
       .update
         .icon

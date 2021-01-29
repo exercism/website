@@ -12,7 +12,8 @@ module Git
 
       exercise.update!(
         slug: exercise_config[:slug],
-        title: exercise_config[:name],
+        # TODO: Remove the || ... once we have configlet checking things properly.
+        title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,

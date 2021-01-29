@@ -24,14 +24,20 @@ module Git
       Git::Track.new(git_repo.head_sha, repo: git_repo)
     end
 
+    # TODO: Add a test specially for this method
     memoize
     def synced_to_head?
       current_git_track.commit.oid == head_git_track.commit.oid
+    rescue Git::MissingCommitError
+      false
     end
 
+    # TODO: Add a test specially for this method
     memoize
     def track_config_modified?
       filepath_in_diff?(head_git_track.config_filepath)
+    rescue Git::MissingCommitError
+      true
     end
 
     memoize

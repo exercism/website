@@ -69,7 +69,9 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
-          title: exercise_config[:name],
+
+          # TODO: Remove the || ... once we have configlet checking things properly.
+          title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           taught_concepts: find_concepts(exercise_config[:concepts]),
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
@@ -86,7 +88,8 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
-          title: exercise_config[:name],
+          # TODO: Remove the || ... once we have configlet checking things properly.
+          title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid

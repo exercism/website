@@ -8,10 +8,13 @@ module Git
       raise NotImplementedError
     end
 
+    # TODO: Add a test specially for this method
     def filepath_in_diff?(filepath)
       diff.each_delta.any? do |delta|
         [delta.old_file[:path], delta.new_file[:path]].include?(filepath)
       end
+    rescue Git::MissingCommitError
+      true
     end
 
     memoize
@@ -32,12 +35,9 @@ module Git
       false
     end
 
-    # TODO: Add a test specially for this method
     memoize
     def track_config_modified?
       filepath_in_diff?(head_git_track.config_filepath)
-    rescue Git::MissingCommitError
-      true
     end
 
     memoize

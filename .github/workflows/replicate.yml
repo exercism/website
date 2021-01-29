@@ -10,7 +10,7 @@ on:
 jobs:
   replicate:
     # TODO: Change this to website when merging
-    if: github.repository == 'exercism/v3-website'
+    if: github.repository == 'exercism/website'
 
     name: Replicate to exercism/website-deployer
     runs-on: ubuntu-latest

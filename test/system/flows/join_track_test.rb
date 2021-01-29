@@ -4,7 +4,7 @@ module Flows
   class JoinTrackTestTest < ApplicationSystemTestCase
     test "joins track when authenticated" do
       # TODO: Unskip once this issue is resolved:
-      # https://github.com/exercism/v3-website/issues/143
+      # https://github.com/exercism/website/issues/143
       skip
 
       user = create :user

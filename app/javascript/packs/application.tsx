@@ -214,7 +214,7 @@ initReact({
   'dropdowns-prerendered-dropdown': (data: any) => (
     <Dropdowns.PrerenderedDropdown
       menuButtonHtml={data.menu_button_html}
-      menuItemsHtml={data.menu_items_html}
+      menuItems={data.menu_items}
     />
   ),
   'common-copy-to-clipboard-button': (data: any) => (

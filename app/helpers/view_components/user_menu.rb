@@ -2,7 +2,7 @@ module ViewComponents
   class UserMenu < ViewComponent
     def to_s
       ReactComponents::Dropdowns::PrerenderedDropdown.new(menu_button_html: menu_button_html,
-                                                          menu_items_html: menu_items_html)
+                                                          menu_items: menu_items)
     end
 
     private
@@ -16,16 +16,13 @@ module ViewComponents
       end
     end
 
-    def menu_items_html
-      tag.nav do
-        tag.ul do
-          # TODO: add the appropriate links once we have routes for them
-          tag.li("My Journey") +
-            tag.li("Profile") +
-            tag.li("Settings") +
-            tag.li("Sign out")
-        end
-      end
+    def menu_items
+      [
+        {  html: "My Journey" },
+        {  html: "Profile" },
+        {  html: "Settings" },
+        {  html: "Sign out" }
+      ]
     end
   end
 end

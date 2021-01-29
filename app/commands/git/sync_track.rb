@@ -25,8 +25,6 @@ module Git
 
       # TODO: validate track using configlet to prevent invalid track data
 
-      return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
-
       # TODO: consider raising error when slug in config is different from track slug
       track.update!(
         blurb: head_git_track.config[:blurb],
@@ -100,7 +98,7 @@ module Git
       return true if force_sync
       return false if synced_to_head?
 
-      track_config_modified?
+      true
     end
 
     def find_concepts(concept_slugs)

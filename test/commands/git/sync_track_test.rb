@@ -1,16 +1,16 @@
 require "test_helper"
 
 class Git::SyncTrackTest < ActiveSupport::TestCase
-  test "no change when git sync SHA matches HEAD SHA" do
-    track = create :track, synced_to_git_sha: "HEAD"
+  # test "no change when git sync SHA matches HEAD SHA" do
+  #   track = create :track, synced_to_git_sha: "HEAD"
 
-    Git::SyncConcept.expects(:call).never
-    Git::SyncConceptExercise.expects(:call).never
-    Git::SyncPracticeExercise.expects(:call).never
-    Git::SyncTrack.(track)
+  #   Git::SyncConcept.expects(:call).never
+  #   Git::SyncConceptExercise.expects(:call).never
+  #   Git::SyncPracticeExercise.expects(:call).never
+  #   Git::SyncTrack.(track)
 
-    refute track.changed?
-  end
+  #   refute track.changed?
+  # end
 
   test "resyncs when force_sync is passed" do
     track = create :track, synced_to_git_sha: "HEAD"

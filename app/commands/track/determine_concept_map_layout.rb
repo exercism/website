@@ -141,7 +141,7 @@ class Track
       end
 
       def determine_nodes
-        track.exercises.includes(:taught_concepts, :prerequisites).map.with_index do |exercise, idx|
+        track.concept_exercises.includes(:taught_concepts, :prerequisites).map.with_index do |exercise, idx|
           Node.new(
             index: idx,
             slug: exercise.slug,

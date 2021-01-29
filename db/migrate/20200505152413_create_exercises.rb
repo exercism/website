@@ -3,7 +3,7 @@ class CreateExercises < ActiveRecord::Migration[6.0]
     create_table :exercises do |t|
       t.belongs_to :track, foreign_key: true, null: false
 
-      t.string :uuid, null: false, index: { unique: true }
+      t.string :uuid, null: false, index: true
       t.string :type, null: false
 
       t.string :slug, null: false
@@ -15,6 +15,8 @@ class CreateExercises < ActiveRecord::Migration[6.0]
       t.boolean :deprecated, default: false, null: false
 
       t.timestamps
+
+      t.index [:track_id, :uuid], unique: true
     end
   end
 end

@@ -1,25 +1,29 @@
 import React from 'react'
-import { Dropdown } from './Dropdown'
-
-interface PrerenderedDropdownProps {
-  id: string
-  className: string
-  referenceElement: HTMLElement | null
-  prerenderedContent: string
-}
+import { usePanel } from '../../hooks/use-panel'
 
 export const PrerenderedDropdown = ({
-  id,
-  className,
-  referenceElement,
-  prerenderedContent,
-}: PrerenderedDropdownProps): JSX.Element | null => {
+  menuButtonHtml,
+  menuItemsHtml,
+}: {
+  menuButtonHtml: string
+  menuItemsHtml: string
+}): JSX.Element => {
+  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
+
   return (
-    <Dropdown
-      id={id}
-      className={className}
-      referenceElement={referenceElement}
-      htmlContent={prerenderedContent}
-    />
+    <React.Fragment>
+      <button
+        dangerouslySetInnerHTML={{ __html: menuButtonHtml }}
+        ref={buttonRef}
+        onClick={() => {
+          setOpen(!open)
+        }}
+      />
+      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
+        {open ? (
+          <div dangerouslySetInnerHTML={{ __html: menuItemsHtml }} />
+        ) : null}
+      </div>
+    </React.Fragment>
   )
 }

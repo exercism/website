@@ -1,7 +1,13 @@
 module ViewComponents
   class UserMenu < ViewComponent
     def to_s
-      tag.div(class: "user-menu", data: { dropdown_type: :profile, prerendered: profile_menu_dropdown }) do
+      ReactComponents::Dropdowns::PrerenderedDropdown.new(menu_button_html: menu_button_html,
+                                                          menu_items_html: menu_items_html)
+    end
+
+    private
+    def menu_button_html
+      tag.div(class: "user-menu") do
         rounded_bg_img(
           "https://avatars3.githubusercontent.com/u/135246?s=460",
           "#{current_user.name}'s uploaded avatar"
@@ -10,8 +16,7 @@ module ViewComponents
       end
     end
 
-    private
-    def profile_menu_dropdown
+    def menu_items_html
       tag.nav do
         tag.ul do
           # TODO: add the appropriate links once we have routes for them

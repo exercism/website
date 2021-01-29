@@ -1,1 +1,1 @@
-export { ProfileDropdown } from './ProfileDropdown'
+export { PrerenderedDropdown } from './PrerenderedDropdown'

@@ -211,10 +211,10 @@ initReact({
       focusRequestToShow={true}
     />
   ),
-  'profile-dropdown': (data: any, elem: HTMLElement) => (
-    <Dropdowns.ProfileDropdown
-      referenceElement={elem}
-      prerenderedContent={data.prerendered}
+  'dropdowns-prerendered-dropdown': (data: any) => (
+    <Dropdowns.PrerenderedDropdown
+      menuButtonHtml={data.menu_button_html}
+      menuItemsHtml={data.menu_items_html}
     />
   ),
   'common-copy-to-clipboard-button': (data: any) => (

@@ -11,11 +11,9 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     repo = 'exercism/fsharp'
     number = 4
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                       repo: repo, number: number)
-
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url: url, html_url: html_url, labels: labels)
+      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
+                                                         repo: repo, number: number)
     end
   end
 
@@ -29,11 +27,9 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     repo = 'exercism/fsharp'
     number = 4
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                       repo: repo, number: number)
-
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url: url, html_url: html_url, labels: labels)
+      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
+                                                         repo: repo, number: number)
     end
   end
 
@@ -47,11 +43,9 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     repo = 'exercism/fsharp'
     number = 4
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                       repo: repo, number: number)
-
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      ProcessPullRequestUpdateJob.perform_later(action, login, url: url, html_url: html_url, labels: labels)
+      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
+                                                         repo: repo, number: number)
     end
   end
 
@@ -65,10 +59,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     repo = 'exercism/fsharp'
     number = 4
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                       repo: repo, number: number)
-
-    assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob
+    assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
+      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
+                                                         repo: repo, number: number)
+    end
   end
 
   test "should not enqueue process pull request update when pr is open" do
@@ -81,9 +75,9 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     repo = 'exercism/fsharp'
     number = 4
 
-    Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                       repo: repo, number: number)
-
-    assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob
+    assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
+      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
+                                                         repo: repo, number: number)
+    end
   end
 end

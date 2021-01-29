@@ -213,7 +213,7 @@ initReact({
   ),
   'dropdowns-prerendered-dropdown': (data: any) => (
     <Dropdowns.PrerenderedDropdown
-      menuButtonHtml={data.menu_button_html}
+      menuButton={data.menu_button}
       menuItems={data.menu_items}
     />
   ),

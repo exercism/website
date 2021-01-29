@@ -1,15 +1,21 @@
 import React from 'react'
 import { usePanel } from '../../hooks/use-panel'
 
+type MenuButton = {
+  label: string
+  id: string
+  html: string
+}
+
 type MenuItem = {
   html: string
 }
 
 export const PrerenderedDropdown = ({
-  menuButtonHtml,
+  menuButton,
   menuItems,
 }: {
-  menuButtonHtml: string
+  menuButton: MenuButton
   menuItems: MenuItem[]
 }): JSX.Element => {
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
@@ -17,7 +23,11 @@ export const PrerenderedDropdown = ({
   return (
     <React.Fragment>
       <button
-        dangerouslySetInnerHTML={{ __html: menuButtonHtml }}
+        aria-controls={`${menuButton.id}-dropdown`}
+        aria-haspopup
+        aria-label={menuButton.label}
+        aria-expanded={open ? true : undefined}
+        dangerouslySetInnerHTML={{ __html: menuButton.html }}
         ref={buttonRef}
         onClick={() => {
           setOpen(!open)
@@ -25,12 +35,14 @@ export const PrerenderedDropdown = ({
       />
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         {open ? (
-          <ul>
+          <ul id={`${menuButton.id}-dropdown`} role="menu">
             {menuItems.map((item) => {
               return (
                 <li
                   key={item.html}
                   dangerouslySetInnerHTML={{ __html: item.html }}
+                  tabIndex={-1}
+                  role="menuitem"
                 />
               )
             })}

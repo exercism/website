@@ -15,12 +15,7 @@
             @apply absolute;
             left: 0;
             right: 0;
-            & .svg {
-                @apply absolute;
-                left: 0;
-                right: 0;
-                top: 0;
-            }
+
             & .bottom {
                 @apply absolute;
                 height: 180px;

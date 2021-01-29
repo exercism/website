@@ -18,7 +18,7 @@ module Webhooks
     end
 
     def pushed_to_main?
-      ref == Git::Repository::MAIN_BRANCH_REF
+      ref == "refs/heads/#{Git::Repository::MAIN_BRANCH_REF}"
     end
   end
 end

@@ -19,7 +19,7 @@ export const PrerenderedDropdown = ({
   menuItems: MenuItem[]
 }): JSX.Element => {
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
-  const [focusIndex, setFocusIndex] = useState(0)
+  const [focusIndex, setFocusIndex] = useState<number | null>(null)
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
 
   const handleButtonKeyDown = (e: React.KeyboardEvent) => {
@@ -55,6 +55,12 @@ export const PrerenderedDropdown = ({
         setOpen(false)
 
         break
+      case 'Escape':
+        e.preventDefault()
+        setOpen(false)
+        setFocusIndex(null)
+
+        break
     }
   }
 
@@ -70,8 +76,14 @@ export const PrerenderedDropdown = ({
   }
 
   useEffect(() => {
+    if (focusIndex === null) {
+      buttonRef.current?.focus()
+
+      return
+    }
+
     menuItemElementsRef.current[focusIndex].focus()
-  }, [open, focusIndex])
+  }, [open, focusIndex, buttonRef])
 
   return (
     <React.Fragment>

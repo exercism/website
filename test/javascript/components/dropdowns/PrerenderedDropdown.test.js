@@ -136,3 +136,25 @@ test('tab closes menu', async () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   )
 })
+
+test('escape closes menu', async () => {
+  const menuButton = {
+    label: 'Open menu',
+    id: 'menu',
+    html: 'Open',
+  }
+  const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
+
+  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+
+  userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+  fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
+    key: 'Escape',
+    code: 'Escape',
+  })
+
+  await waitFor(() =>
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  )
+  expect(screen.getByRole('button', { name: 'Open menu' })).toHaveFocus()
+})

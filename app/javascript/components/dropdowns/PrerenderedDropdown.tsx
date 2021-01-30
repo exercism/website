@@ -61,6 +61,17 @@ export const PrerenderedDropdown = ({
         setFocusIndex(null)
 
         break
+      case ' ':
+      case 'Enter': {
+        e.preventDefault()
+
+        setOpen(false)
+
+        const link = menuItemElementsRef.current[index]?.querySelector('a')
+        link?.click()
+
+        break
+      }
     }
   }
 

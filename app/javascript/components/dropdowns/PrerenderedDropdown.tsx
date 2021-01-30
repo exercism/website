@@ -23,15 +23,15 @@ export const PrerenderedDropdown = ({
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
 
   const handleButtonKeyDown = (e: React.KeyboardEvent) => {
-    e.preventDefault()
-
     switch (e.key) {
       case 'ArrowDown':
+        e.preventDefault()
         setOpen(true)
         setFocusIndex(0)
 
         break
       case 'ArrowUp':
+        e.preventDefault()
         setOpen(true)
         setFocusIndex(menuItems.length - 1)
 
@@ -40,15 +40,19 @@ export const PrerenderedDropdown = ({
   }
 
   const handleItemKeyDown = (e: React.KeyboardEvent, index: number) => {
-    e.preventDefault()
-
     switch (e.key) {
       case 'ArrowDown':
+        e.preventDefault()
         setFocusIndex((index + menuItems.length + 1) % menuItems.length)
 
         break
       case 'ArrowUp':
+        e.preventDefault()
         setFocusIndex((index + menuItems.length - 1) % menuItems.length)
+
+        break
+      case 'Tab':
+        setOpen(false)
 
         break
     }

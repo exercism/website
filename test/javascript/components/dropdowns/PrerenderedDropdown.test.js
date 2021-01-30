@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { PrerenderedDropdown } from '../../../../app/javascript/components/dropdowns/PrerenderedDropdown'
 import userEvent from '@testing-library/user-event'
@@ -114,4 +114,25 @@ test('up arrow wraps around menu', async () => {
   })
 
   expect(await screen.findByRole('menuitem', { name: 'Item 2' })).toHaveFocus()
+})
+
+test('tab closes menu', async () => {
+  const menuButton = {
+    label: 'Open menu',
+    id: 'menu',
+    html: 'Open',
+  }
+  const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
+
+  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+
+  userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+  fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
+    key: 'Tab',
+    code: 'Tab',
+  })
+
+  await waitFor(() =>
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  )
 })

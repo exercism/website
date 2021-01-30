@@ -211,8 +211,8 @@ initReact({
       focusRequestToShow={true}
     />
   ),
-  'dropdowns-prerendered-dropdown': (data: any) => (
-    <Dropdowns.PrerenderedDropdown
+  'dropdowns-dropdown': (data: any) => (
+    <Dropdowns.Dropdown
       menuButton={data.menu_button}
       menuItems={data.menu_items}
     />

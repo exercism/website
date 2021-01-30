@@ -1,115 +1,131 @@
-import React, { useEffect, useState } from 'react'
-import { usePopper } from 'react-popper'
+import React, { useState, useEffect, useRef } from 'react'
+import { usePanel } from '../../hooks/use-panel'
 
-interface DropdownProps {
+type MenuButton = {
+  label: string
   id: string
-  className: string
-  referenceElement: HTMLElement | null
-  htmlContent: string
+  html: string
+}
+
+type MenuItem = {
+  html: string
 }
 
 export const Dropdown = ({
-  id,
-  className,
-  referenceElement,
-  htmlContent,
-}: DropdownProps): JSX.Element | null => {
-  const [dropdownElement, setDropdownElement] = useState<HTMLElement | null>(
-    null
-  )
+  menuButton,
+  menuItems,
+}: {
+  menuButton: MenuButton
+  menuItems: MenuItem[]
+}): JSX.Element => {
+  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
+  const [focusIndex, setFocusIndex] = useState<number | null>(null)
+  const menuItemElementsRef = useRef<HTMLLIElement[]>([])
 
-  // const {
-  //   state: { showState },
-  //   dispatch,
-  //   addOpenTooltip,
-  //   removeOpenTooltip,
-  //   closeOtherOpenTooltips,
-  // } = useStatefulTooltip()
+  const handleButtonKeyDown = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setOpen(true)
+        setFocusIndex(0)
 
-  const popper = usePopper(referenceElement, dropdownElement, {
-    placement: 'bottom-end',
-    modifiers: [{ name: 'offset', options: { offset: [0, 8] } }], // offset from the tooltip's reference element
-  })
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setOpen(true)
+        setFocusIndex(menuItems.length - 1)
 
-  // // useEffect for responding to the reference element's request to show when hovered
-  // useEffect(() => {
-  //   if (hoverRequestToShow) {
-  //     return dispatchRequestShowFromRefHover(dispatch, id)
-  //   }
+        break
+    }
+  }
 
-  //   // setTimeout used to fire this dispatch AFTER the tooltip self-hover has time to fire
-  //   const timeoutRef = setTimeout(() => {
-  //     dispatchRequestHideFromRefHover(dispatch, id)
-  //   }, 0)
+  const handleItemKeyDown = (e: React.KeyboardEvent, index: number) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setFocusIndex((index + menuItems.length + 1) % menuItems.length)
 
-  //   return () => {
-  //     clearTimeout(timeoutRef)
-  //   }
-  // }, [dispatch, hoverRequestToShow, id])
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setFocusIndex((index + menuItems.length - 1) % menuItems.length)
 
-  // // useEffect for responding to the tooltips internal state
-  // useEffect(() => {
-  //   if (isError) {
-  //     removeOpenTooltip(id)
-  //     return dispatchError(dispatch, id)
-  //   }
+        break
+      case 'Tab':
+        setOpen(false)
 
-  //   switch (showState) {
-  //     case 'loading':
-  //       if (isLoading) {
-  //         return
-  //       }
-  //       dispatchLoaded(dispatch, id)
-  //       break
-  //     case 'invisible':
-  //       addOpenTooltip(id, dispatch as React.Dispatch<unknown>)
-  //       dispatchShow(dispatch, id)
-  //       break
-  //     case 'visible':
-  //       closeOtherOpenTooltips(id)
-  //       break
-  //     case 'hidden':
-  //       removeOpenTooltip(id)
-  //       break
-  //   }
+        break
+      case 'Escape':
+        e.preventDefault()
+        setOpen(false)
+        setFocusIndex(null)
 
-  //   return () => removeOpenTooltip(id)
-  // }, [
-  //   showState,
-  //   id,
-  //   isLoading,
-  //   isError,
-  //   dispatch,
-  //   removeOpenTooltip,
-  //   addOpenTooltip,
-  //   closeOtherOpenTooltips,
-  // ])
+        break
+      case ' ':
+      case 'Enter': {
+        e.preventDefault()
 
-  // // short-circuit return null if not ready to display the tooltip
-  // if ((showState !== 'visible' && showState !== 'invisible') || !htmlContent) {
-  //   return null
-  // }
+        setOpen(false)
 
-  // Get styles and classes to apply
-  const styles = { ...popper.styles.popper, zIndex: 10 }
-  const classNames = ['c-tooltip', className]
-  // if (showState === 'invisible') {
-  //   classNames.push('tw-invisible')
-  // }
-  // if (showState === 'visible') {
-  //   classNames.push('tw-pointer-events-auto')
-  // }
+        const link = menuItemElementsRef.current[index]?.querySelector('a')
+        link?.click()
+
+        break
+      }
+    }
+  }
+
+  const handleMenuItemMount = (
+    instance: HTMLLIElement | null,
+    index: number
+  ) => {
+    if (!instance) {
+      return
+    }
+
+    menuItemElementsRef.current[index] = instance
+  }
+
+  useEffect(() => {
+    if (focusIndex === null) {
+      buttonRef.current?.focus()
+
+      return
+    }
+
+    menuItemElementsRef.current[focusIndex].focus()
+  }, [open, focusIndex, buttonRef])
 
   return (
-    <div
-      ref={setDropdownElement}
-      className={classNames.join(' ')}
-      style={styles}
-      {...popper.attributes.popper}
-      role="dropdown"
-      // tabIndex={showState === 'visible' ? undefined : -1}
-      // onFocus={() => dispatchRequestShowFromFocus(dispatch, id)}
-      dangerouslySetInnerHTML={{ __html: htmlContent }}
-    ></div>
+    <React.Fragment>
+      <button
+        aria-controls={`${menuButton.id}-dropdown`}
+        aria-haspopup
+        aria-label={menuButton.label}
+        aria-expanded={open ? true : undefined}
+        dangerouslySetInnerHTML={{ __html: menuButton.html }}
+        ref={buttonRef}
+        onKeyDown={handleButtonKeyDown}
+        onClick={() => {
+          setOpen(!open)
+        }}
+      />
+      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
+        <ul id={`${menuButton.id}-dropdown`} role="menu" hidden={!open}>
+          {menuItems.map((item, i) => {
+            return (
+              <li
+                ref={(instance) => handleMenuItemMount(instance, i)}
+                key={item.html}
+                dangerouslySetInnerHTML={{ __html: item.html }}
+                onKeyDown={(e) => handleItemKeyDown(e, i)}
+                tabIndex={-1}
+                role="menuitem"
+              />
+            )
+          })}
+        </ul>
+      </div>
+    </React.Fragment>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { PrerenderedDropdown } from '../../../../app/javascript/components/dropdowns/PrerenderedDropdown'
+import { Dropdown } from '../../../../app/javascript/components/dropdowns/Dropdown'
 import userEvent from '@testing-library/user-event'
 
 test('down arrow opens menu on first item', async () => {
@@ -12,7 +12,7 @@ test('down arrow opens menu on first item', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   fireEvent.keyDown(screen.getByRole('button'), {
     key: 'ArrowDown',
@@ -30,7 +30,7 @@ test('down arrow moves down menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -49,7 +49,7 @@ test('down arrow wraps around menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 2' }), {
@@ -68,7 +68,7 @@ test('up arrow opens menu on last item', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   fireEvent.keyDown(screen.getByRole('button'), {
     key: 'ArrowUp',
@@ -86,7 +86,7 @@ test('up arrow moves up menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 2' }), {
@@ -105,7 +105,7 @@ test('up arrow wraps around menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -124,7 +124,7 @@ test('tab closes menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -145,7 +145,7 @@ test('escape closes menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -167,7 +167,7 @@ test('enter closes menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -189,7 +189,7 @@ test('space closes menu', async () => {
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
-  render(<PrerenderedDropdown menuButton={menuButton} menuItems={menuItems} />)
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {

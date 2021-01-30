@@ -1,6 +1,6 @@
 module ReactComponents
   module Dropdowns
-    class PrerenderedDropdown < ReactComponent
+    class Dropdown < ReactComponent
       def initialize(menu_button:, menu_items:)
         super()
 
@@ -9,7 +9,7 @@ module ReactComponents
       end
 
       def to_s
-        super("dropdowns-prerendered-dropdown", { menu_button: menu_button, menu_items: menu_items })
+        super("dropdowns-dropdown", { menu_button: menu_button, menu_items: menu_items })
       end
 
       private

@@ -1,1 +1,1 @@
-export { PrerenderedDropdown } from './PrerenderedDropdown'
+export { Dropdown } from './Dropdown'

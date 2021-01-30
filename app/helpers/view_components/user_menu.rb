@@ -1,7 +1,7 @@
 module ViewComponents
   class UserMenu < ViewComponent
     def to_s
-      ReactComponents::Dropdowns::PrerenderedDropdown.new(menu_button: menu_button, menu_items: menu_items)
+      ReactComponents::Dropdowns::Dropdown.new(menu_button: menu_button, menu_items: menu_items)
     end
 
     private

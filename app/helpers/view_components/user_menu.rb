@@ -21,10 +21,10 @@ module ViewComponents
 
     def menu_items
       [
-        {  html: "My Journey" },
-        {  html: "Profile" },
-        {  html: "Settings" },
-        {  html: "Sign out" }
+        { html: "My Journey" },
+        { html: "Profile" },
+        { html: "Settings" },
+        { html: "Sign out" }
       ]
     end
   end

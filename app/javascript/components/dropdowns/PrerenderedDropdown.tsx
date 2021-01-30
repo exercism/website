@@ -39,6 +39,21 @@ export const PrerenderedDropdown = ({
     }
   }
 
+  const handleItemKeyDown = (e: React.KeyboardEvent, index: number) => {
+    e.preventDefault()
+
+    switch (e.key) {
+      case 'ArrowDown':
+        setFocusIndex((index + menuItems.length + 1) % menuItems.length)
+
+        break
+      case 'ArrowUp':
+        setFocusIndex((index + menuItems.length - 1) % menuItems.length)
+
+        break
+    }
+  }
+
   const handleMenuItemMount = (
     instance: HTMLLIElement | null,
     index: number
@@ -76,6 +91,7 @@ export const PrerenderedDropdown = ({
                 ref={(instance) => handleMenuItemMount(instance, i)}
                 key={item.html}
                 dangerouslySetInnerHTML={{ __html: item.html }}
+                onKeyDown={(e) => handleItemKeyDown(e, i)}
                 tabIndex={-1}
                 role="menuitem"
               />

@@ -5,11 +5,15 @@ module ReactComponents
         super()
 
         @menu_button = menu_button
+        @menu_button[:id] = "rnd-#{SecureRandom.hex(5)}"
         @menu_items = menu_items
       end
 
       def to_s
-        super("dropdowns-dropdown", { menu_button: menu_button, menu_items: menu_items })
+        super("dropdowns-dropdown", {
+          menu_button: menu_button,
+          menu_items: menu_items
+        })
       end
 
       private

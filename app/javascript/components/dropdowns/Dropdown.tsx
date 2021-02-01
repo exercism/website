@@ -4,11 +4,13 @@ import { usePanel } from '../../hooks/use-panel'
 type MenuButton = {
   label: string
   id: string
+  className: string
   html: string
 }
 
 type MenuItem = {
   html: string
+  className: string
 }
 
 export const Dropdown = ({
@@ -99,6 +101,7 @@ export const Dropdown = ({
   return (
     <React.Fragment>
       <button
+        className={`${menuButton.className}`}
         aria-controls={`${menuButton.id}-dropdown`}
         aria-haspopup
         aria-label={menuButton.label}
@@ -111,7 +114,12 @@ export const Dropdown = ({
         }}
       />
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
-        <ul id={`${menuButton.id}-dropdown`} role="menu" hidden={!open}>
+        <ul
+          className={`${menuButton.className}-dropdown`}
+          id={`${menuButton.id}-dropdown`}
+          role="menu"
+          hidden={!open}
+        >
           {menuItems.map((item, i) => {
             return (
               <li
@@ -121,6 +129,7 @@ export const Dropdown = ({
                 onKeyDown={(e) => handleItemKeyDown(e, i)}
                 tabIndex={-1}
                 role="menuitem"
+                className={item.className}
               />
             )
           })}

@@ -1,6 +1,9 @@
 #site-header {
     @apply bg-backgroundColorA border-b-1 border-borderColor7;
 
+    /* This is needed to raise the menu above other components */
+    @apply z-menu;
+
     & .container {
         /* Should be py-12 when other components have been added */
         @apply flex items-center;
@@ -17,6 +20,8 @@
     }
 
     & nav {
+        @apply flex-grow;
+
         & ul {
             @apply flex items-center;
         }
@@ -52,7 +57,7 @@
         }
     }
     & .user-section {
-        @apply flex justify-end items-center flex-grow;
+        @apply flex justify-end items-center;
 
         & .c-notification {
             @apply mr-48;
@@ -73,6 +78,55 @@
             & .c-icon {
                 height: 16px;
                 width: 16px;
+            }
+        }
+        & .user-menu-dropdown {
+            @apply bg-backgroundColorA shadow-lg rounded-8;
+            @apply px-16 pb-20;
+            min-width: 350px;
+
+            & li.profile {
+                & a {
+                    @apply flex items-center;
+                    @apply py-12 mb-4;
+
+                    & .c-rounded-bg-img {
+                        height: 42px;
+                        width: 42px;
+
+                        @apply mr-16;
+                        box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+                    }
+                    & .info {
+                        @apply flex-grow;
+
+                        & .name {
+                            @apply text-18 leading-tight font-semibold text-textColor1;
+                        }
+                        & .handle {
+                            @apply text-16 leading-tight font-medium text-textColor6;
+                        }
+                    }
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply ml-32 text-textColor6;
+                    }
+                }
+            }
+            & li.opt {
+                & a {
+                    @apply flex;
+                    @apply px-16 py-8;
+                    @apply text-textColor6 font-medium;
+                    @apply text-16 leading-huge;
+                    @apply bg-backgroundColorA;
+
+                    &:hover {
+                        @apply bg-backgroundColorD;
+                        @apply text-textColor5;
+                    }
+                }
             }
         }
     }

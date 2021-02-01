@@ -46,42 +46,25 @@ karlo = User.find_by(handle: 'kntsoriano') || User.create!(
 karlo.confirm
 karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 
-# This is all temporary and horrible while we have a monorepo
-repo_url = "https://github.com/exercism/v3"
-repo = Git::Repository.new(:v3, repo_url: repo_url)
-
-# This fetches it once before we stub it below
-repo.fetch!
-repo.send(:rugged_repo)
-
-# Adding this is many OOM faster. It's horrible and temporary
-# but useful for now
-module Git
-  class Repository
-    def fetch!
-    end
-  end
-end
-
-track_slugs = []
-tree = repo.send(:fetch_tree, repo.head_commit, "languages/")
-tree.each_tree { |obj| track_slugs << obj[:name] }
-
-# Find the first commit in the repo
-first_commit = repo.head_commit
-Rugged::Walker.walk(repo.send(:rugged_repo),
-  show: repo.head_commit.oid,
-  sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
-  simplify: true
-) do |commit|
-  first_commit = commit
-end
-
+track_slugs = %w[05ab1e ada arm64-assembly ballerina bash c ceylon cfml clojure clojurescript coffeescript common-lisp coq cpp crystal csharp d dart delphi elixir elm emacs-lisp erlang factor forth fortran fsharp gleam gnu-apl go groovy haskell haxe idris io j java javascript julia kotlin lfe lua mips nim nix objective-c ocaml perl5 pharo-smalltalk php plsql pony powershell prolog purescript python r racket raku reasonml ruby rust scala scheme shen sml solidity swift system-verilog tcl typescript vbnet vimscript x86-64-assembly zig]
 track_slugs.each do |track_slug|
   puts "Adding Track: #{track_slug}"
 
+  repo_url = "https://github.com/exercism/#{track_slug}"
+  repo = Git::Repository.new(repo_url: repo_url)
+
+  # Find the first commit in the repo
+  first_commit = repo.head_commit
+  Rugged::Walker.walk(repo.send(:rugged_repo),
+    show: repo.head_commit.oid,
+    sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
+    simplify: true
+  ) do |commit|
+    first_commit = commit
+  end
+
   begin
-    git_track = Git::Track.new(track_slug, repo.head_commit.oid, repo_url: repo_url)
+    git_track = Git::Track.new(repo.head_commit.oid, repo_url: repo_url)
     track = Track::Create.(
       track_slug, 
       title: git_track.config[:language],

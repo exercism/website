@@ -23,26 +23,22 @@ module Git
     def call
       fetch_git_repo!
 
-      return track.update!(synced_to_git_sha: head_git_track.commit.oid) unless track_needs_updating?
+      # TODO: validate track using configlet to prevent invalid track data
 
       # TODO: consider raising error when slug in config is different from track slug
-      # TODO: validate track to prevent invalid track data
       track.update!(
         blurb: head_git_track.config[:blurb],
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
         tags: head_git_track.config[:tags].to_a,
         concepts: concepts,
-        concept_exercises: concept_exercises
-        # TODO: re-enable once we import practice exercises
-        # practice_exercises: practice_exercises
+        concept_exercises: concept_exercises,
+        practice_exercises: practice_exercises
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
       track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise) }
-
-      # TODO: re-enable once we import practice exercises
-      # track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
+      track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
 
       # Now that the concepts and exercises have synced successfully,
       # we can set the track's synced git SHA to the HEAD SHA
@@ -53,7 +49,6 @@ module Git
     attr_reader :track, :force_sync
 
     def concepts
-      # TODO: verify that all exercise concepts and prerequisites are in the concepts section
       concepts_config.map do |concept_config|
         ::Track::Concept::Create.(
           concept_config[:uuid],
@@ -74,9 +69,9 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
-          # TODO: the DB used title, config.json used name. Consider if we want this
-          # TODO: remove title option once tracks have all updated the config.json
-          title: exercise_config[:name] || exercise_config[:slug].titleize,
+
+          # TODO: Remove the || ... once we have configlet checking things properly.
+          title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           taught_concepts: find_concepts(exercise_config[:concepts]),
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
@@ -93,7 +88,8 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
-          title: exercise_config[:slug].titleize, # TODO: what to do with practice exercise names?
+          # TODO: Remove the || ... once we have configlet checking things properly.
+          title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
@@ -105,7 +101,7 @@ module Git
       return true if force_sync
       return false if synced_to_head?
 
-      track_config_modified?
+      true
     end
 
     def find_concepts(concept_slugs)

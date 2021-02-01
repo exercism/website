@@ -8,25 +8,31 @@ module Git
       raise NotImplementedError
     end
 
+    # TODO: Add a test specially for this method
     def filepath_in_diff?(filepath)
       diff.each_delta.any? do |delta|
         [delta.old_file[:path], delta.new_file[:path]].include?(filepath)
       end
+    rescue Git::MissingCommitError
+      true
     end
 
     memoize
     def git_repo
-      Git::Repository.new(track.slug, repo_url: track.repo_url)
+      Git::Repository.new(repo_url: track.repo_url)
     end
 
     memoize
     def head_git_track
-      Git::Track.new(track.slug, git_repo.head_sha, repo: git_repo)
+      Git::Track.new(git_repo.head_sha, repo: git_repo)
     end
 
+    # TODO: Add a test specially for this method
     memoize
     def synced_to_head?
       current_git_track.commit.oid == head_git_track.commit.oid
+    rescue Git::MissingCommitError
+      false
     end
 
     memoize
@@ -46,7 +52,7 @@ module Git
 
     memoize
     def concepts_config
-      config[:concepts]
+      config[:concepts] || []
     end
 
     private
@@ -55,7 +61,7 @@ module Git
 
     memoize
     def current_git_track
-      Git::Track.new(track.slug, synced_to_git_sha, repo: git_repo)
+      Git::Track.new(synced_to_git_sha, repo: git_repo)
     end
 
     memoize

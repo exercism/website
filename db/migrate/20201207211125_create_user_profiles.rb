@@ -11,7 +11,5 @@ class CreateUserProfiles < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    
-    add_column :users, :bio, :text, null: true
   end
 end

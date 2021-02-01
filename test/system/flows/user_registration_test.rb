@@ -122,7 +122,6 @@ module Flows
       click_on "Sign Up with GitHub"
 
       assert_text "Sorry, we could not authenticate you from GitHub."
-
     ensure
       OmniAuth.config.test_mode = false
     end

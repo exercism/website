@@ -2,21 +2,19 @@ require 'test_helper'
 
 class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
   test "serialize general hints" do
-    track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, slug: 'log-levels'
+    exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = [
-      "<p>The <code>string</code> class has many useful <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string?view=netcore-3.1#methods\" target=\"_blank\">built-in\nmethods</a>.</p>\n", # rubocop:disable Layout/LineLength
-      "<p>Remember that strings are immutable.</p>\n"
+      "<p>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</p>\n", # rubocop:disable Layout/LineLength
+      "<p>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\">built-in methods</a>.</p>\n" # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, serialized[:general_hints]
   end
 
   test "serialize overview" do
-    track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, slug: 'log-levels'
+    exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
 
@@ -34,8 +32,7 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
   end
 
   test "serialize task titles" do
-    track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, slug: 'log-levels'
+    exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
 
@@ -44,37 +41,34 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
   end
 
   test "serialize task text" do
-    track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, slug: 'log-levels'
+    exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = [
-      "<p>Implement the <code>message</code> function to return a log line's message:</p>\n<pre><code class=\"language-fsharp\">message \"[ERROR]: Invalid operation\"\n// =&gt; \"Invalid operation\"\n</code></pre>\n<p>Any leading or trailing white space should be removed:</p>\n<pre><code class=\"language-fsharp\">message \"[WARNING]:  Disk almost full\\r\\n\"\n// =&gt; \"Disk almost full\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
-      "<p>Implement the <code>logLevel</code> function to return a log line's log level, which should be returned in lowercase:</p>\n<pre><code class=\"language-fsharp\">logLevel \"[ERROR]: Invalid operation\"\n// =&gt; \"error\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
-      "<p>Implement the <code>reformat</code> function that reformats the log line, putting the message first and the log level after it in\nparentheses:</p>\n<pre><code class=\"language-fsharp\">reformat \"[INFO]: Operation completed\"\n// =&gt; \"Operation completed (info)\"\n</code></pre>\n" # rubocop:disable Layout/LineLength
+      "<p>Implement the <code>LogLineParser.message</code> method to return a log line's message:</p>\n<pre><code class=\"language-ruby\">LogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n</code></pre>\n<p>Any leading or trailing white space should be removed:</p>\n<pre><code class=\"language-ruby\">LogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
+      "<p>Implement the <code>LogLineParser.log_level</code> method to return a log line's log level, which should be returned in lowercase:</p>\n<pre><code class=\"language-ruby\">LogLineParser.log_level('[ERROR]: Invalid operation')\n// Returns: \"error\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
+      "<p>Implement the <code>LogLineParser.reformat</code> method that reformats the log line, putting the message first and the log level\nafter it in parentheses:</p>\n<pre><code class=\"language-ruby\">LogLineParser.reformat('[INFO]: Operation completed')\n// Returns: \"Operation completed (info)\"\n</code></pre>\n" # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:text] })
   end
 
   test "serialize task hints" do
-    track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, slug: 'log-levels'
+    exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
 
     expected = [
-      ["<p>There are <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.indexof?view=netcore-3.1\" target=\"_blank\">several methods</a> to find\nthe index at which some text occurs in a <code>string</code>.</p>\n", # rubocop:disable Layout/LineLength
-       "<p>Removing white space is <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.trim?view=netcore-3.1\" target=\"_blank\">built-in</a>.</p>\n"], # rubocop:disable Layout/LineLength
-      ["<p>A <code>string</code> can be converted to lowercase using a <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.string.tolower?view=netcore-3.1\" target=\"_blank\">built-in\nmethod</a>.</p>\n"], # rubocop:disable Layout/LineLength
-      ["<p>There are several ways to <a href=\"https://exercism.github.io/v3/#/languages/fsharp/docs/string_concatenation\" target=\"_blank\">concatenate\nstrings</a>.</p>\n"] # rubocop:disable Layout/LineLength
+      ["<p>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\">Ruby language official\ndocumentation</a>.</p>\n", # rubocop:disable Layout/LineLength
+       "<p>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\">built in methods</a> to strip white space.</p>\n"], # rubocop:disable Layout/LineLength
+      ["<p>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\">method</a> to perform this\noperation.</p>\n"], # rubocop:disable Layout/LineLength
+      ["<p>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\">concatenate\nstrings</a>, but the preferred one is usually\n<a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\">string interpolation</a></p>\n"] # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end
 
   test "serialize exercise without general hints" do
-    track = create :track, slug: 'fsharp'
-    exercise = create :concept_exercise, track: track, slug: 'cars-assemble'
+    exercise = create :concept_exercise, slug: 'numbers'
 
     serialized = SerializeExerciseInstructions.(exercise)
 
@@ -82,15 +76,13 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
   end
 
   test "serialize exercise with some tasks missing hints" do
-    track = create :track, slug: 'csharp'
-    exercise = create :concept_exercise, track: track, slug: 'datetime'
+    exercise = create :concept_exercise, slug: 'booleans'
 
     serialized = SerializeExerciseInstructions.(exercise)
 
+    assert_equal 3, serialized[:tasks].length
     assert serialized[:tasks][0][:hints].present?
     assert_empty serialized[:tasks][1][:hints]
     assert serialized[:tasks][2][:hints].present?
-    assert_empty serialized[:tasks][3][:hints]
-    assert_empty serialized[:tasks][4][:hints]
   end
 end

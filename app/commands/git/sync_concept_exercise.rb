@@ -12,8 +12,8 @@ module Git
 
       exercise.update!(
         slug: exercise_config[:slug],
-        # TODO: Remove this dance
-        title: (exercise_config[:name].presence || exercise_config[:slug].to_s.titleize),
+        # TODO: Remove the || ... once we have configlet checking things properly.
+        title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,
@@ -32,6 +32,9 @@ module Git
       authors = ::User.where(handle: author_usernames_config)
       authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
 
+      # This is required to remove authors that were already added
+      exercise.update!(authors: authors)
+
       # TODO: consider what to do with missing authors
       missing_authors = author_usernames_config - authors.map(&:handle)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
@@ -40,6 +43,9 @@ module Git
     def update_contributors!
       contributors = ::User.where(handle: contributor_usernames_config)
       contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
+
+      # This is required to remove contributors that were already added
+      exercise.update!(contributors: contributors)
 
       # TODO: consider what to do with missing contributors
       missing_contributors = contributor_usernames_config - contributors.map(&:handle)
@@ -89,7 +95,7 @@ module Git
 
     memoize
     def head_git_exercise
-      Git::Exercise.new(exercise.track.slug, exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
+      Git::Exercise.new(exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
     end
   end
 end

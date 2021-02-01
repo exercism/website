@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_160441) do
+ActiveRecord::Schema.define(version: 2021_01_15_162916) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -100,8 +100,9 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
-    t.index ["uuid"], name: "index_exercises_on_uuid", unique: true
+    t.index ["uuid"], name: "index_exercises_on_uuid"
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -120,9 +121,9 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.bigint "submission_id", null: false
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
+    t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "published", default: false, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -177,37 +178,38 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
   end
 
   create_table "solution_mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "discussion_id", null: false
     t.bigint "iteration_id", null: false
     t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "uuid", null: false
     t.boolean "seen_by_student", default: false, null: false
     t.boolean "seen_by_mentor", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["discussion_id"], name: "index_solution_mentor_discussion_posts_on_discussion_id"
     t.index ["iteration_id"], name: "index_solution_mentor_discussion_posts_on_iteration_id"
     t.index ["user_id"], name: "index_solution_mentor_discussion_posts_on_user_id"
   end
 
   create_table "solution_mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
     t.bigint "request_id"
+    t.datetime "requires_mentor_action_since"
+    t.datetime "requires_student_action_since"
     t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "requires_mentor_action_since"
-    t.datetime "requires_student_action_since"
-    t.string "uuid", null: false
     t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_solution_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"
   end
 
   create_table "solution_mentor_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "type", limit: 1, null: false
@@ -216,7 +218,6 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "uuid", null: false
     t.index ["locked_by_id"], name: "index_solution_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_solution_mentor_requests_on_solution_id"
   end
@@ -231,9 +232,9 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.datetime "downloaded_at"
     t.datetime "completed_at"
     t.datetime "published_at"
+    t.integer "mentoring_status", limit: 1, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "mentoring_status", limit: 1, default: 0, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
@@ -243,9 +244,9 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
     t.json "data"
+    t.string "tooling_job_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "tooling_job_id", null: false
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
   end
 
@@ -361,8 +362,10 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
   end
 
   create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "user_id", null: false
-    t.integer "track_id"
+    t.bigint "exercise_id"
+    t.bigint "track_id"
     t.string "context_type"
     t.bigint "context_id"
     t.string "context_key", null: false
@@ -372,11 +375,10 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.string "external_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "exercise_id"
-    t.string "uuid", null: false
     t.index ["context_key", "user_id"], name: "index_user_reputation_tokens_on_context_key_and_user_id", unique: true
     t.index ["context_type", "context_id"], name: "context_index"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
+    t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
   end
 
@@ -416,12 +418,12 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
     t.string "unconfirmed_email"
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
+    t.string "github_username"
+    t.integer "reputation", default: 0, null: false
+    t.text "bio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "featured_badge_id"
-    t.text "bio"
-    t.string "github_username"
-    t.integer "reputation", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["featured_badge_id"], name: "index_users_on_featured_badge_id"
@@ -472,6 +474,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_160441) do
   add_foreign_key "track_concepts", "tracks"
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
+  add_foreign_key "user_reputation_tokens", "tracks"
   add_foreign_key "user_reputation_tokens", "users"
   add_foreign_key "user_track_learnt_concepts", "track_concepts"
   add_foreign_key "user_track_learnt_concepts", "user_tracks"

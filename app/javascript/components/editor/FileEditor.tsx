@@ -221,13 +221,14 @@ export function FileEditor({
   }, [containerRef])
 
   return (
-    <div ref={containerRef} className="--file-editor">
+    <div ref={containerRef} className="c-iteration-pane">
       <div className="tabs">
         {files.map((file, index) => (
           <button
             key={file.filename}
             type="button"
             onClick={() => switchTab(index)}
+            className="c-tab selected"
           >
             {file.filename}
           </button>

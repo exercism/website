@@ -29,9 +29,7 @@ class Track < ApplicationRecord
 
   memoize
   def git
-    # TODO: Slug can be removed from this
-    # once we're out of the monorepo
-    Git::Track.new(slug, synced_to_git_sha, repo_url: repo_url)
+    Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
   # TODO: Set this properly

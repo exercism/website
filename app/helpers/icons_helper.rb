@@ -20,6 +20,11 @@ module IconsHelper
   end
 
   def exercise_icon(exercise, css_class: nil)
-    graphical_icon(exercise.icon_name, css_class: "c-exercise-icon #{css_class}")
+    # graphical_icon(exercise.icon_name, css_class: "c-exercise-icon #{css_class}")
+    image_pack_tag(
+      "#{exercise.icon_name}.svg",
+      role: :presentation,
+      class: "c-icon c-exercise-icon #{css_class}"
+    )
   end
 end

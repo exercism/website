@@ -1,11 +1,12 @@
 class CreateUserReputationTokens < ActiveRecord::Migration[6.1]
   def change
-    # TODO: Remove
-    drop_table :user_reputation_acquisitions, if_exists: true
-
     create_table :user_reputation_tokens do |t|
+      t.string :uuid, null: false
+
       t.belongs_to :user, foreign_key: true, null: false
-      t.integer :track_id, foreign_key: true, null: true
+      t.belongs_to :exercise, foreign_key: true, null: true
+      t.belongs_to :track, foreign_key: true, null: true
+
       t.belongs_to :context, polymorphic: true, null: true, index: { name: "context_index" }
       t.string :context_key, null: false
 
@@ -15,6 +16,7 @@ class CreateUserReputationTokens < ActiveRecord::Migration[6.1]
       t.string :category, null: false
 
       t.string :external_link, null: true
+
 
       t.timestamps
 

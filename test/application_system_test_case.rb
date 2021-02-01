@@ -5,6 +5,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
   include Devise::Test::IntegrationHelpers
 
+  Capybara.default_max_wait_time = 2
+
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
   driven_by :selenium, using: :headless_chrome do |driver_option|
     # Without this argument, Chrome cannot be started in Docker
@@ -30,6 +32,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # For example:
   # assert_text "Ruby", within: "h3.title"
   def assert_text(text, *args, **options)
+    # For reasons that none of us understand, We need to explicitely
+    # call the body method before the assertion.
+    body
+
     context = options.delete(:within)
     if context
       within(context) { assert_text(text, *args, **options) }

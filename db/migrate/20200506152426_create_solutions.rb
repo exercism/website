@@ -15,6 +15,8 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.datetime :completed_at, null: true
       t.datetime :published_at, null: true
 
+      t.column :mentoring_status, :tinyint, null: false, default: 0
+
       t.timestamps
 
       t.index %i[user_id exercise_id], unique: true

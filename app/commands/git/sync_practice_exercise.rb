@@ -12,7 +12,8 @@ module Git
 
       exercise.update!(
         slug: exercise_config[:slug],
-        title: exercise_config[:name],
+        # TODO: Remove the || ... once we have configlet checking things properly.
+        title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
         git_sha: head_git_exercise.commit.oid,
         synced_to_git_sha: head_git_exercise.commit.oid,
@@ -31,8 +32,7 @@ module Git
       return false unless track_config_modified?
 
       exercise_config[:slug] != exercise.slug ||
-        # TODO: enable the line underneath when (if?) practice exercises have names
-        # exercise_config[:name] != exercise.title ||
+        exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
         exercise_config[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
     end
@@ -56,7 +56,7 @@ module Git
 
     memoize
     def head_git_exercise
-      Git::Exercise.new(exercise.track.slug, exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
+      Git::Exercise.new(exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
     end
   end
 end

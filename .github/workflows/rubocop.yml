@@ -9,7 +9,7 @@ on:
 jobs:
   rubocop:
     # TODO: Change this to website when merging
-    if: github.repository == 'exercism/v3-website'
+    if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
 

@@ -7,6 +7,8 @@ class CreateSubmissionAnalyses < ActiveRecord::Migration[6.0]
 
       t.json :data, null: true
 
+      t.string :tooling_job_id, null: false
+
       t.timestamps
     end
   end

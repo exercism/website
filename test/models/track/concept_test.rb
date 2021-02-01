@@ -13,16 +13,26 @@ class Track::ConceptTest < ActiveSupport::TestCase
 
   test "about" do
     concept = create :track_concept, :with_git_data
-    assert concept.about.starts_with?("A `DateTime` in C#")
+
+    expected = "A String object holds and manipulates an arbitrary sequence of bytes, typically representing characters. String objects may be created using ::new or as literals.\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, concept.about
   end
 
   test "links" do
     concept = create :track_concept, :with_git_data
     links = concept.links
 
-    assert_equal 3, links.count
-    assert_equal "https://docs.microsoft.com/en-us/dotnet/api/system.datetime?view=netcore-3.1", links.first["url"]  # rubocop:disable Layout/LineLength
-    assert_equal "DateTime class", links.first["description"]
+    expected = [
+      {
+        url: "https://ruby-doc.org/core-3.0.0/String.html",
+        description: "String class"
+      },
+      {
+        url: "https://www.geeksforgeeks.org/ruby-string-basics/",
+        description: "String basics"
+      }
+    ]
+    assert_equal expected, links.map(&:to_h)
   end
 
   test "concept_exercises" do

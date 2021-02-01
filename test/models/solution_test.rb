@@ -96,11 +96,13 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal instructions, solution.instructions
   end
 
-  test "#initial_files returns exercise files" do
-    bob = create :practice_exercise, slug: "bob"
-    solution = create :practice_solution, exercise: bob
+  test "#exercise_solution_files returns exercise files" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
 
-    assert_equal({ "bob.rb" => "stub content\n" }, solution.initial_files)
+    expected_files = ["log_line_parser.rb"]
+    assert_equal expected_files, solution.exercise_solution_files.keys
+    assert solution.exercise_solution_files["log_line_parser.rb"].start_with?("module LogLineParser")
   end
 
   test "has_in_progress_mentor_discussion" do

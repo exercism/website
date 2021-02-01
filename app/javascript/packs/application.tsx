@@ -58,6 +58,7 @@ import '../../css/components/track/concept-nav'
 import '../../css/components/track/exercise-nav'
 import '../../css/components/track/icon'
 import '../../css/components/track/concept-map'
+import '../../css/components/iteration-pane'
 
 import '../../css/components/widgets/exercise'
 
@@ -134,6 +135,7 @@ initReact({
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
+  'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
       conversationsRequest={data.conversations_request}
@@ -161,6 +163,9 @@ initReact({
       statusOptions={data.status_options}
       tagOptions={data.tag_options}
     />
+  ),
+  'student-complete-exercise-button': (data: any) => (
+    <Student.CompleteExerciseButton endpoint={data.endpoint} />
   ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
@@ -224,6 +229,6 @@ document.addEventListener('turbolinks:load', () => {
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
-//
-//const images = require.context('../images', true)
-//const imagePath = (name: any) => images(name)
+
+const images = require.context('../images', true)
+const imagePath = (name: any) => images(name)

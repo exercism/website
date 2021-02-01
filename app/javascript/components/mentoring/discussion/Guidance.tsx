@@ -8,11 +8,11 @@ export const Guidance = (): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
       id: 'notes',
-      isOpen: false,
+      isOpen: true,
     },
     {
       id: 'solution',
-      isOpen: true,
+      isOpen: false,
     },
     {
       id: 'feedback',

@@ -112,6 +112,7 @@ import {
   Links as MentorDiscussionLinks,
 } from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
+import * as Dropdowns from '../components/dropdowns'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -209,6 +210,12 @@ initReact({
       referenceUserHandle={data.handle}
       hoverRequestToShow={true}
       focusRequestToShow={true}
+    />
+  ),
+  'dropdowns-dropdown': (data: any) => (
+    <Dropdowns.Dropdown
+      menuButton={data.menu_button}
+      menuItems={data.menu_items}
     />
   ),
   'common-copy-to-clipboard-button': (data: any) => (

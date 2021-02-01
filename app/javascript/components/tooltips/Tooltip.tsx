@@ -15,7 +15,7 @@ import {
   dispatchRequestShowFromHover,
   dispatchRequestShowFromFocus,
 } from '../../hooks/use-stateful-tooltip'
-import { useTooltipContentQuery } from '../../hooks/use-tooltip-content-query'
+import { useContentQuery } from '../../hooks/use-content-query'
 
 interface TooltipProps {
   id: string
@@ -49,7 +49,7 @@ export const Tooltip = ({
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }], // offset from the tooltip's reference element
   })
 
-  const { isLoading, isError, htmlContent } = useTooltipContentQuery(
+  const { isLoading, isError, htmlContent } = useContentQuery(
     contentEndpoint,
     contentEndpoint,
     showState != 'hidden' && showState != 'error'

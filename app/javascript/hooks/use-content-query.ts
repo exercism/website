@@ -27,7 +27,7 @@ function query(endpoint: string) {
   }
 }
 
-export function useTooltipContentQuery(
+export function useContentQuery(
   id: string,
   endpoint: string,
   enabled: boolean

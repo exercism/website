@@ -25,6 +25,7 @@ import '../../css/components/details'
 import '../../css/components/flash'
 import '../../css/components/icon'
 import '../../css/components/iteration-summary'
+import '../../css/components/accordion-section'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'

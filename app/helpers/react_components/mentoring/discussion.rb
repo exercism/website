@@ -9,6 +9,10 @@ module ReactComponents
           {
             discussion_id: discussion.uuid,
             user_id: current_user.id,
+            mentor: {
+              handle: mentor.handle,
+              avatar_url: mentor.avatar_url
+            },
             student: {
               name: student.name,
               handle: student.handle,
@@ -31,7 +35,8 @@ module ReactComponents
               title: exercise.title
             },
             iterations: iterations,
-            links: links
+            links: links,
+            mentor_solution: mentor_solution
           }
         )
       end
@@ -72,21 +77,22 @@ module ReactComponents
         end
       end
 
-      memoize
-      delegate :student, to: :discussion
+      def mentor_solution
+        ms = Solution.for(mentor, exercise)
+        return nil unless ms
 
-      memoize
-      delegate :mentor, to: :discussion
-
-      memoize
-      def track
-        discussion.solution.track
+        {
+          snippet: ms.snippet,
+          num_loc: ms.num_loc,
+          num_stars: ms.num_stars,
+          num_comments: ms.num_comments,
+          published_at: ms.published_at,
+          web_url: Exercism::Routes.private_solution_url(ms)
+        }
       end
 
       memoize
-      def exercise
-        discussion.solution.exercise
-      end
+      delegate :student, :mentor, :exercise, :track, to: :discussion
 
       memoize
       def scratchpad

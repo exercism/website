@@ -35,6 +35,9 @@ class Solution < ApplicationRecord
     Solution.find_by(exercise: exercise, user: user)
   end
 
+  delegate :instructions, :introduction, to: :git_exercise
+  delegate :solution_files, to: :exercise, prefix: 'exercise'
+
   def git_type
     self.class.name.sub("Solution", "").downcase
   end
@@ -75,8 +78,35 @@ class Solution < ApplicationRecord
     update_column(:mentoring_status, :none)
   end
 
-  delegate :instructions, :introduction, to: :git_exercise
-  delegate :solution_files, to: :exercise, prefix: 'exercise'
+  # TODO
+  def num_loc
+    9
+  end
+
+  # TODO
+  def num_stars
+    9
+  end
+
+  # TODO
+  def num_comments
+    9
+  end
+
+  # TODO
+  def snippet
+    '
+public class Year
+{
+  public static bool IsLeap(int year)
+  {
+      if (year % 4 != 0) return false
+      if (year % 100 == 0 && year % 400) return false
+      return true;
+  }
+}
+    '.strip
+  end
 
   def editor_language
     track.slug

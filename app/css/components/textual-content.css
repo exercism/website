@@ -6,6 +6,7 @@
             @apply text-18;
         }
         & > * {
+            @apply mt-16;
             @apply mb-16;
         }
 
@@ -28,6 +29,8 @@
     &.--small {
         & * {
             @apply text-15;
+            @apply mt-12;
+            @apply mt-12;
         }
 
         /************/
@@ -40,6 +43,9 @@
         & h3 {
             @apply text-h4 mb-8;
             @apply text-18 mb-8;
+        }
+        & * + h3 {
+            @apply mt-32;
         }
 
         /******************/
@@ -98,6 +104,7 @@
             margin-left: 14px;
             & li {
                 margin-left: 6px;
+                @apply mt-0;
                 @apply mb-8;
             }
         }

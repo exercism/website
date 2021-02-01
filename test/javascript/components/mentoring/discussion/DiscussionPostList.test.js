@@ -22,6 +22,9 @@ test('displays all posts', async () => {
       idx: 2,
     },
   ]
+  const student = {
+    handle: 'handle',
+  }
   const posts = [
     {
       id: 1,
@@ -60,6 +63,7 @@ test('displays all posts', async () => {
       iterations={iterations}
       endpoint="https://exercism.test/posts"
       onPostsChange={() => {}}
+      student={student}
     />
   )
 

@@ -24,6 +24,23 @@ type IterationWithPost = {
   automatedFeedback: AutomatedFeedback
 }
 
+const AutomatedFeedbackSummary = ({
+  automatedFeedback,
+}: {
+  automatedFeedback: AutomatedFeedback
+}) => {
+  return (
+    <React.Fragment>
+      {automatedFeedback.mentor ? (
+        <RepresenterFeedback {...automatedFeedback.mentor} />
+      ) : null}
+      {automatedFeedback.analyzer ? (
+        <AnalyzerFeedback {...automatedFeedback.analyzer} />
+      ) : null}
+    </React.Fragment>
+  )
+}
+
 export const DiscussionPostList = ({
   endpoint,
   discussionId,
@@ -155,13 +172,10 @@ export const DiscussionPostList = ({
                   />
                   <GraphicalIcon icon="chevron-down" className="--open-icon" />
                 </summary>
-                {iteration.automatedFeedback.mentor ? (
-                  <RepresenterFeedback
-                    {...iteration.automatedFeedback.mentor}
+                {iteration.automatedFeedback ? (
+                  <AutomatedFeedbackSummary
+                    automatedFeedback={iteration.automatedFeedback}
                   />
-                ) : null}
-                {iteration.automatedFeedback.analyzer ? (
-                  <AnalyzerFeedback {...iteration.automatedFeedback.analyzer} />
                 ) : null}
               </details>
               {iteration.posts.map((post) => {

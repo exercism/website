@@ -15,6 +15,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { IterationMarker } from './IterationMarker'
 import { RepresenterFeedback } from './RepresenterFeedback'
+import { AnalyzerFeedback } from './AnalyzerFeedback'
 
 type IterationWithPost = {
   idx: number
@@ -154,7 +155,14 @@ export const DiscussionPostList = ({
                   />
                   <GraphicalIcon icon="chevron-down" className="--open-icon" />
                 </summary>
-                <RepresenterFeedback {...iteration.automatedFeedback.mentor} />
+                {iteration.automatedFeedback.mentor ? (
+                  <RepresenterFeedback
+                    {...iteration.automatedFeedback.mentor}
+                  />
+                ) : null}
+                {iteration.automatedFeedback.analyzer ? (
+                  <AnalyzerFeedback {...iteration.automatedFeedback.analyzer} />
+                ) : null}
               </details>
               {iteration.posts.map((post) => {
                 return (

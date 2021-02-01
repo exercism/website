@@ -11,7 +11,7 @@
     }
 
     & .exercism-link {
-        margin-right: 96px;
+        margin-right: 88px;
 
         & .c-icon {
             height: 24px;
@@ -27,7 +27,7 @@
         }
 
         & li {
-            @apply mr-48;
+            @apply mr-32;
 
             &.selected {
                 & a {
@@ -41,6 +41,7 @@
         & a {
             @apply flex items-center relative;
             @apply text-16 font-medium;
+            @apply px-8 py-8;
         }
         & .c-icon {
             height: 24px;
@@ -51,8 +52,8 @@
                 @apply absolute;
                 height: 62px;
                 width: 62px;
-                left: -19px;
-                top: -17px;
+                left: -11px;
+                top: -9px;
             }
         }
     }

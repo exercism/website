@@ -1,18 +1,18 @@
 import React, { useLayoutEffect } from 'react'
-import { default as ReactModal } from 'react-modal'
+import { default as ReactModal, Props } from 'react-modal'
+
+type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
+  className: string
+  open: boolean
+  onClose: () => void
+}
 
 export const Modal = ({
   open,
   onClose,
-  children,
   className,
   ...props
-}: {
-  open: boolean
-  onClose: () => void
-  children?: React.ReactNode
-  className: string
-}): JSX.Element => {
+}: React.PropsWithChildren<ModalProps>): JSX.Element => {
   useLayoutEffect(() => {
     // Required for accessibility: http://reactcommunity.org/react-modal/accessibility/#app-element
     ReactModal.setAppElement(document.querySelector('body') as HTMLElement)
@@ -25,8 +25,6 @@ export const Modal = ({
   }
 
   return (
-    <ReactModal isOpen={open} onRequestClose={onClose} {...reactModalProps}>
-      {children}
-    </ReactModal>
+    <ReactModal isOpen={open} onRequestClose={onClose} {...reactModalProps} />
   )
 }

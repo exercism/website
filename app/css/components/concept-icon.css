@@ -3,7 +3,7 @@
     height: 24px;
 
     @apply flex items-end;
-    @apply border-1 border-black;
+    @apply border-1 border-borderColor1;
     vertical-align: bottom;
     line-height: 0.9;
 

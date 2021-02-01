@@ -3,7 +3,7 @@
 .c-mentor-nav {
     --nav-height: 40px;
 
-    @apply bg-white py-12 shadow-base;
+    @apply bg-backgroundColorA py-12 shadow-base;
 
     & .container {
         @apply flex items-center;

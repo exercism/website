@@ -21,7 +21,7 @@
 
         & .close-btn {
             @apply flex;
-            @apply font-semibold text-textLight text-16;
+            @apply font-semibold text-textColor6 text-16;
             & .c-icon {
                 height: 16px;
                 width: 16px;
@@ -33,11 +33,11 @@
             @apply font-semibold text-16;
 
             & .track {
-                @apply text-textLight;
+                @apply text-textColor6;
             }
 
             & .divider {
-                @apply text-textLight px-16;
+                @apply text-textColor6 px-16;
             }
 
             & .exercise {
@@ -52,7 +52,7 @@
         }
 
         & .hints-btn {
-            @apply text-14 text-textLight border-textLight mr-24;
+            @apply text-14 text-textColor6 border-borderColor4 mr-24;
         }
 
         & .hints-btn,
@@ -65,7 +65,7 @@
         & .settings-btn,
         & .more-btn {
             @apply flex justify-center items-center;
-            @apply text-textLight;
+            @apply text-textColor6;
             width: 48px;
             & .c-icon {
                 height: 24px;
@@ -74,7 +74,7 @@
         }
 
         & .settings-dialog {
-            @apply bg-white;
+            @apply bg-backgroundColorA;
             @apply flex flex-col shadow-lg;
             @apply py-24 px-32 text-left;
 
@@ -102,7 +102,7 @@
                             @apply px-12 py-6;
                             @apply cursor-pointer;
                             @apply border-1 border-borderLight rounded-100;
-                            @apply text-textLight font-mono font-bold leading-regular;
+                            @apply text-textColor6 font-mono font-bold leading-regular;
                         }
 
                         /* Keep it here so it's discoverable by touch
@@ -114,7 +114,7 @@
                             opacity: 0;
                             &:checked + .label {
                                 @apply bg-lightBlue;
-                                @apply text-white;
+                                @apply text-textColor9;
                             }
 
                             /* It would be nice to DRY this up with application.css
@@ -276,13 +276,13 @@
                         & .--status {
                             @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
                             @apply font-bold uppercase text-13 leading-huge;
-                            @apply text-white bg-darkGreen;
+                            @apply text-textColor9 bg-darkGreen;
                             width: 70px;
                         }
                         & .--summary-details {
                             @apply flex-grow;
                             & .--summary-idx {
-                                @apply font-semibold text-textLight leading-huge;
+                                @apply font-semibold text-textColor6 leading-huge;
                             }
                             & .--summary-name {
                                 @apply font-body font-semibold text-15 leading-regular;
@@ -298,7 +298,7 @@
                                 @apply font-bold text-darkGray uppercase leading-huge mb-8;
                             }
                             & pre {
-                                @apply bg-white py-16 px-20 whitespace-pre-wrap;
+                                @apply bg-backgroundColorA py-16 px-20 whitespace-pre-wrap;
                             }
                         }
                     }
@@ -307,7 +307,7 @@
                     &.fail {
                         & summary {
                             & .--status {
-                                @apply bg-red text-white;
+                                @apply bg-red text-textColor9;
                             }
                         }
                     }

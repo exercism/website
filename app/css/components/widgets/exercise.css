@@ -1,5 +1,5 @@
 .c-exercise-widget {
-    @apply flex items-center shadow-base rounded-8 bg-white;
+    @apply flex items-center shadow-base rounded-8 bg-backgroundColorA;
 
     & .c-icon {
         @apply flex-shrink-0;
@@ -18,10 +18,10 @@
         @apply cursor-default shadow-sm bg-bgGray;
         opacity: 0.8;
         & .--title {
-            @apply text-textLight;
+            @apply text-textColor6;
         }
         & .--desc {
-            @apply text-textLight;
+            @apply text-textColor6;
         }
         & .c-exercise-icon {
             opacity: 0.8;
@@ -51,10 +51,10 @@
             max-height: 50px; /* Fallback for max 2 lines */
         }
         & .--lock-icon {
-            @apply text-textLight;
+            @apply text-textColor6;
         }
         & .--chevron-icon {
-            @apply text-textLight;
+            @apply text-textColor6;
         }
     }
 
@@ -105,7 +105,7 @@
             & .--lock-icon {
                 height: 16px;
                 width: 16px;
-                @apply text-textLight;
+                @apply text-textColor6;
             }
         }
     }

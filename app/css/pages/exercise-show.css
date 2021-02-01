@@ -82,7 +82,7 @@
         }
     }
     & section.completed-info {
-        @apply bg-white py-24 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorA py-24 px-32 shadow-lg rounded-8 mb-32;
 
         & h3 {
             @apply text-h4 mb-16;
@@ -107,7 +107,7 @@
         }
     }
     & section.taught-concepts {
-        @apply bg-white py-16 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorA py-16 px-32 shadow-lg rounded-8 mb-32;
 
         & h3 {
             @apply text-18 font-medium mb-8 leading-paragraph;
@@ -120,7 +120,7 @@
 
             & .concept {
                 @apply flex items-center border-1 border-unnamed15;
-                @apply py-8 px-16 mr-8 bg-white rounded-8 shadow-base;
+                @apply py-8 px-16 mr-8 bg-backgroundColorA rounded-8 shadow-base;
                 @apply text-14 font-semibold;
                 & .c-concept-icon {
                     @apply mr-8;
@@ -141,7 +141,7 @@
     }
 
     & section.latest-iteration {
-        @apply bg-white py-24 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorA py-24 px-32 shadow-lg rounded-8 mb-32;
 
         & h2 {
             @apply text-h3;
@@ -216,7 +216,7 @@
     }
 
     & section.instructions {
-        @apply mb-32 px-32 py-24 bg-white rounded-8 shadow-lg;
+        @apply mb-32 px-32 py-24 bg-backgroundColorA rounded-8 shadow-lg;
     }
     & .action-box {
         @apply shadow-lg py-24 px-32 rounded-8;

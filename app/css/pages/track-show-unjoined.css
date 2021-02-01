@@ -41,7 +41,7 @@
         }
         & code {
             @apply flex-shrink-0 w-1-2 ml-spacedColumns;
-            @apply bg-white rounded-8 py-24 px-36;
+            @apply bg-backgroundColorA rounded-8 py-24 px-36;
             @apply shadow-base;
 
             & pre {
@@ -60,7 +60,7 @@
         }
 
         & .feature {
-            @apply py-32 px-40 rounded-8 shadow-lg bg-white;
+            @apply py-32 px-40 rounded-8 shadow-lg bg-backgroundColorA;
         }
 
         & .c-icon {

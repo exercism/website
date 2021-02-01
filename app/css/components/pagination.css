@@ -3,7 +3,7 @@
 
     & button {
         @apply py-8 px-16;
-        @apply font-mono font-semibold text-13 text-textLight leading-huge;
+        @apply font-mono font-semibold text-13 text-textColor6 leading-huge;
         @apply border-1 border-borderLight rounded-5;
     }
 

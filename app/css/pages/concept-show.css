@@ -20,7 +20,7 @@
         & h1 {
             @apply flex items-center text-h1 mb-8;
             & small {
-                @apply text-18 ml-16 mr-12 text-textBase font-normal;
+                @apply text-18 ml-16 mr-12 text-textColor5 font-normal;
             }
             & .c-track-icon {
                 /* TODO: Switch these */

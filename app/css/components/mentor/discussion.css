@@ -17,7 +17,7 @@
         & .discussion-header {
             height: var(--header-height);
             width: 100%;
-            @apply bg-white;
+            @apply bg-backgroundColorA;
 
             @apply flex items-center px-24 border-b-1 border-borderColor6;
 
@@ -73,7 +73,7 @@
                         left: 20px;
 
                         @apply absolute py-4 px-6 rounded-5;
-                        @apply border-1 border-borderLight bg-white;
+                        @apply border-1 border-borderLight bg-backgroundColorA;
                         @apply text-darkGray text-13 font-semibold font-mono;
 
                         &.unread {
@@ -413,8 +413,8 @@
                         & .tag {
                             height: 30px;
                             @apply flex items-center ml-16 rounded-100;
-                            @apply font-medium text-textLight px-12;
-                            @apply border-1 border-textLight;
+                            @apply font-medium text-textColor6 px-12;
+                            @apply border-1 border-borderColor4;
                         }
                     }
 

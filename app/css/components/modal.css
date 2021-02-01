@@ -8,7 +8,7 @@
     background: var(--modalBackgroundColor);
 
     & .--modal-content {
-        @apply bg-white;
+        @apply bg-backgroundColorA;
         @apply border-1 border-borderLight rounded-8;
         @apply shadow-lg;
         @apply px-32 py-16;

@@ -61,7 +61,7 @@
                 }
 
                 &.completed {
-                    @apply text-textBase;
+                    @apply text-textColor5;
                 }
 
                 &.hidden {

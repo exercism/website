@@ -34,7 +34,7 @@
                 @apply text-h5-mono;
             }
             & .extra {
-                @apply text-textLight leading-huge;
+                @apply text-textColor6 leading-huge;
             }
         }
 
@@ -46,13 +46,13 @@
                 width: 54px;
             }
             & .count {
-                @apply text-15 text-textLight font-semibold;
+                @apply text-15 text-textColor6 font-semibold;
                 @apply ml-12;
             }
         }
         & .journey {
             @apply flex pl-48 ml-48 items-center;
-            @apply text-textLight font-medium text-16 leading-huge;
+            @apply text-textColor6 font-medium text-16 leading-huge;
             @apply border-l-1 border-borderLight;
             & .c-icon {
                 @apply ml-32;
@@ -166,7 +166,7 @@
                 max-height: 44px; /* Fallback for max 2 lines */
             }
             & .byline {
-                @apply text-16 leading-paragraph text-textLight font-medium;
+                @apply text-16 leading-paragraph text-textColor6 font-medium;
                 & > * {
                     @apply inline;
                 }
@@ -220,11 +220,11 @@
                         }
                     }
                     & .counts {
-                        @apply text-textLight font-medium;
+                        @apply text-textColor6 font-medium;
                     }
                 }
                 & .action-icon {
-                    @apply ml-48 text-textLight;
+                    @apply ml-48 text-textColor6;
                     height: 16px;
                     width: 16px;
                 }
@@ -263,7 +263,7 @@
                     overflow: hidden;
                 }
                 & .exercise {
-                    @apply font-mono font-semibold text-textLight leading-tight;
+                    @apply font-mono font-semibold text-textColor6 leading-tight;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -284,7 +284,7 @@
                 @apply ml-24 flex-shrink-0;
             }
             & .action-icon {
-                @apply ml-24 text-textLight;
+                @apply ml-24 text-textColor6;
                 height: 16px;
                 width: 16px;
             }

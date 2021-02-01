@@ -12,8 +12,8 @@
     }
     & .--count {
         @apply rounded-100 px-12;
-        @apply text-textLight text-14 font-medium;
-        @apply border-textLight border-1;
+        @apply text-textColor6 text-14 font-medium;
+        @apply border-borderColor4 border-1;
         line-height: 28px;
     }
 }

@@ -20,7 +20,7 @@
 
     & .--count {
         @apply absolute flex items-center justify-center;
-        @apply bg-red text-white font-semibold rounded-circle;
+        @apply bg-red text-textColor9 font-semibold rounded-circle;
 
         top: -7px;
         right: -10px;
@@ -32,7 +32,7 @@
         box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
 
         /* We need the bg-none to reset the gradient */
-        @apply bg-none bg-white text-textBase;
+        @apply bg-none bg-backgroundColorA text-textColor5;
 
         & .--count {
             @apply hidden;

@@ -7,7 +7,7 @@
         @apply mr-12;
     }
     & .divider {
-        @apply text-textLight text-16 mr-12;
+        @apply text-textColor6 text-16 mr-12;
     }
     & .item {
         @apply font-mono text-16;

@@ -1,6 +1,6 @@
 .c-concept {
     @apply flex flex-col;
-    @apply bg-white rounded-8 shadow-base;
+    @apply bg-backgroundColorA rounded-8 shadow-base;
     @apply text-14 font-semibold;
 
     & .info {

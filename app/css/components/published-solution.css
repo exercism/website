@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-published-solution {
-    @apply shadow-base bg-white;
+    @apply shadow-base bg-backgroundColorA;
     @apply px-24 py-16;
 
     & > .--header {

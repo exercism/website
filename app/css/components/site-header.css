@@ -34,7 +34,7 @@
                     @apply font-semibold text-textColor1;
                 }
                 & .c-icon {
-                    @apply text-white;
+                    @apply text-textColor9;
                 }
             }
         }

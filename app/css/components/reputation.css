@@ -1,5 +1,5 @@
 .c-reputation {
-    @apply border-1 border-lightGray rounded-100 shadow-sm bg-white;
+    @apply border-1 border-lightGray rounded-100 shadow-sm bg-backgroundColorA;
 
     @apply flex px-8 items-center justify-center;
     @apply text-13 text-textColor6 font-semibold;

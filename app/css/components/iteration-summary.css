@@ -9,7 +9,7 @@
     & .--upload-method-icon {
         height: 24px;
         width: 24px;
-        @apply text-textLight mr-24;
+        @apply text-textColor6 mr-24;
     }
     & .--info {
         @apply flex-grow;
@@ -28,7 +28,7 @@
             width: 8px;
         }
         & .--latest {
-            @apply text-textLight font-medium;
+            @apply text-textColor6 font-medium;
             @apply border-1 border-borderLight rounded-5 px-8;
             font-size: 12px;
             line-height: 20px;

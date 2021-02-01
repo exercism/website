@@ -35,14 +35,14 @@
                     & .handle {
                         @apply text-h4 pr-16 mr-16;
                         @apply border-borderLight border-r-1;
-                        @apply text-20 font-semibold text-textLight;
+                        @apply text-20 font-semibold text-textColor6;
                     }
                     & .joined {
-                        @apply text-textLight text-16 font-medium;
+                        @apply text-textColor6 text-16 font-medium;
                     }
                     & .new {
                         @apply ml-12 px-12 py-4;
-                        @apply text-13 font-medium text-textLight leading-regular;
+                        @apply text-13 font-medium text-textColor6 leading-regular;
                         @apply border-borderLight border-2 rounded-100;
                     }
                 }
@@ -82,7 +82,7 @@
 
                 & .link {
                     @apply flex items-center px-16 py-6;
-                    @apply shadow-sm bg-white rounded-100 mb-12;
+                    @apply shadow-sm bg-backgroundColorA rounded-100 mb-12;
                     & .site-icon {
                         height: 16px;
                         width: 16px;
@@ -127,8 +127,8 @@
             }
             & .total-count {
                 @apply absolute px-12 flex items-center;
-                @apply font-medium text-14 text-textLight leading-regular;
-                @apply border-1 border-textLight rounded-100;
+                @apply font-medium text-14 text-textColor6 leading-regular;
+                @apply border-1 border-borderColor4 rounded-100;
 
                 right: -50px;
                 bottom: 4px;
@@ -187,10 +187,10 @@
                             @apply text-h5 mb-4;
                         }
                         & .exercise {
-                            @apply text-textLight text-16 leading-paragraph;
+                            @apply text-textColor6 text-16 leading-paragraph;
                         }
                         &.active {
-                            @apply shadow-lg bg-white;
+                            @apply shadow-lg bg-backgroundColorA;
                         }
                     }
                 }
@@ -206,7 +206,7 @@
                         }
                     }
                     & .submitted-at {
-                        @apply text-16 text-textLight;
+                        @apply text-16 text-textColor6;
                     }
                 }
             }
@@ -226,7 +226,7 @@
             }
 
             & .summary {
-                @apply shadow-lg bg-white py-24 mb-48 rounded-8;
+                @apply shadow-lg bg-backgroundColorA py-24 mb-48 rounded-8;
                 @apply flex justify-center;
 
                 & .block {
@@ -247,7 +247,7 @@
                             @apply font-semibold text-darkGray;
                         }
                         & .subtitle {
-                            @apply text-textLight;
+                            @apply text-textColor6;
                         }
                     }
                     &.common .c-icon {

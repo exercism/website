@@ -28,7 +28,7 @@
                 @apply flex items-center text-16;
 
                 & .c-icon {
-                    @apply mr-12 text-textLight;
+                    @apply mr-12 text-textColor6;
                     height: 21px;
                     width: 21px;
                 }
@@ -86,7 +86,7 @@
         }
     }
     & section.contributors {
-        @apply bg-white rounded-8 pt-24 pb-32 px-32 mb-32 shadow-lg;
+        @apply bg-backgroundColorA rounded-8 pt-24 pb-32 px-32 mb-32 shadow-lg;
 
         & .c-heading-with-count {
             @apply mb-16;
@@ -143,7 +143,7 @@
         }
     }
     & section.updates {
-        @apply bg-white rounded-8 py-24 px-32 shadow-lg;
+        @apply bg-backgroundColorA rounded-8 py-24 px-32 shadow-lg;
         & h2 {
             @apply flex items-center text-h4 mb-16;
 
@@ -198,12 +198,12 @@
         & .track-summary,
         & .start-track-cta,
         & .placeholder-activity {
-            @apply shadow-lg bg-white rounded-8;
+            @apply shadow-lg bg-backgroundColorA rounded-8;
             @apply flex;
         }
 
         & .track-summary {
-            @apply px-32 py-64 bg-white;
+            @apply px-32 py-64 bg-backgroundColorA;
         }
 
         & .start-track-cta {
@@ -218,7 +218,7 @@
             }
 
             & .info {
-                @apply text-14 leading-paragraph text-textLight;
+                @apply text-14 leading-paragraph text-textColor6;
             }
 
             & .c-icon {
@@ -248,7 +248,7 @@
                 @apply mr-24;
             }
             & p {
-                @apply text-18 leading-paragraph text-textLight;
+                @apply text-18 leading-paragraph text-textColor6;
             }
         }
         & > * {
@@ -283,7 +283,7 @@
                 @apply mr-16;
 
                 & em {
-                    @apply text-h5 not-italic text-textLight;
+                    @apply text-h5 not-italic text-textColor6;
                 }
             }
         }
@@ -299,8 +299,8 @@
     & section.concepts {
         & .header {
             & .progress {
-                @apply py-8 px-12 text-textLight font-medium;
-                @apply border-1 border-textLight rounded-100;
+                @apply py-8 px-12 text-textColor6 font-medium;
+                @apply border-1 border-borderColor4 rounded-100;
             }
         }
 
@@ -310,7 +310,7 @@
 
             & .concept {
                 @apply flex items-center py-24 px-32;
-                @apply bg-white rounded-8 shadow-lg;
+                @apply bg-backgroundColorA rounded-8 shadow-lg;
 
                 & .c-concept-icon {
                     @apply mr-24;
@@ -328,7 +328,7 @@
                         }
                     }
                     & .completion {
-                        @apply text-textLight font-medium;
+                        @apply text-textColor6 font-medium;
                     }
                 }
                 & .c-concept-progress-bar {

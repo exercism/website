@@ -42,6 +42,7 @@ module.exports = {
       backgroundColorB: 'var(--backgroundColorB)',
       backgroundColorC: 'var(--backgroundColorC)',
       backgroundColorD: 'var(--backgroundColorD)',
+      borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',
       borderColor5: 'var(--borderColor5)',
@@ -61,10 +62,6 @@ module.exports = {
       tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
       tabColorSelected: 'var(--tabColorSelected)',
       successColor: 'var(--successColor)',
-
-      /* LEGACY*/
-      textBase: 'var(--textColor5)',
-      textLight: 'var(--textColor6)',
 
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
@@ -108,9 +105,6 @@ module.exports = {
 
       commonBadge: '#F0F3F9',
       rareBadge: '#9FB4FF',
-
-      black: '#000',
-      white: '#fff',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],

@@ -1,7 +1,7 @@
 .c-user-tooltip {
     width: 460px;
 
-    @apply shadow-lg rounded-8 py-20 px-24 bg-white;
+    @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
 
     & .heading {
         @apply flex items-center mb-12;
@@ -19,7 +19,7 @@
                 @apply text-16 text-darkGray font-semibold leading-paragraph;
             }
             & .handle {
-                @apply text-15 text-textLight font-medium leading-paragraph;
+                @apply text-15 text-textColor6 font-medium leading-paragraph;
             }
         }
     }

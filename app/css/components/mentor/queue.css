@@ -1,5 +1,5 @@
 .c-mentor-queue {
-    @apply shadow-lg bg-white rounded-8;
+    @apply shadow-lg bg-backgroundColorA rounded-8;
 
     & header.c-search-bar {
         @apply py-16 px-24;

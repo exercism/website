@@ -3,7 +3,7 @@
 .c-concept-tooltip {
     max-width: 460px;
 
-    @apply shadow-lg rounded-8 py-20 px-24 bg-white;
+    @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
 
     /* TODO: add fade in transition for opacity */
 
@@ -29,7 +29,7 @@
             }
         }
         & .num-exercises {
-            @apply text-15 font-medium text-textLight;
+            @apply text-15 font-medium text-textColor6;
         }
     }
     & .blurb {

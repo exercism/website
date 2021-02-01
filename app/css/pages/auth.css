@@ -4,7 +4,7 @@
     --lhs-width: 550px;
 
     @apply flex-grow;
-    @apply flex bg-white;
+    @apply flex bg-backgroundColorA;
 
     & section.form-section {
         min-width: var(--lhs-width);
@@ -57,7 +57,7 @@
             @apply text-14 font-mono font-bold leading-code uppercase;
 
             & span {
-                @apply bg-white py-8 px-24;
+                @apply bg-backgroundColorA py-8 px-24;
                 z-index: 2;
             }
 
@@ -103,7 +103,7 @@
                     }
 
                     &:focus {
-                        @apply bg-white border-lightBlue;
+                        @apply bg-backgroundColorA border-lightBlue;
                     }
                 }
                 & .forgotten-password {
@@ -149,7 +149,7 @@
             @apply p-48;
 
             & h2 {
-                @apply text-h3 text-white mb-12;
+                @apply text-h3 text-textColor9 mb-12;
             }
             & p {
                 @apply text-18 text-veryLightBlue leading-huge;
@@ -166,7 +166,7 @@
                     @apply mr-24;
                 }
                 & .more {
-                    @apply text-white font-semibold;
+                    @apply text-textColor9 font-semibold;
                 }
             }
         }

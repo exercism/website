@@ -42,7 +42,7 @@
             @apply absolute flex flex-col;
             & .private {
                 @apply flex self-end;
-                @apply py-8 px-16 mb-12 bg-white rounded-100;
+                @apply py-8 px-16 mb-12 rounded-100 bg-backgroundColorA;
                 @apply font-medium text-15 leading-paragraph;
 
                 & .c-icon {
@@ -52,7 +52,7 @@
                 }
             }
             & .explanation {
-                @apply text-textLight text-16 font-medium leading-huge;
+                @apply text-textColor6 text-16 font-medium leading-huge;
             }
         }
 
@@ -62,7 +62,7 @@
             width: 64px;
         }
         & h1 {
-            @apply text-64 leading-tight font-bold text-black;
+            @apply text-64 leading-tight font-bold text-textColor1;
             @apply mb-8;
         }
         & .subtitle {
@@ -173,7 +173,7 @@
                         @apply text-16 text-textColor6;
                     }
                     & time {
-                        @apply ml-16 text-textLight;
+                        @apply ml-16 text-textColor6;
                     }
                 }
             }

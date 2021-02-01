@@ -26,7 +26,7 @@ class Track
 
     memoize
     def concepts
-      graph.nodes.flat_map do |exercise|
+      concepts = graph.nodes.flat_map do |exercise|
         exercise.taught_concepts.map do |concept|
           {
             slug: concept.slug,
@@ -36,6 +36,8 @@ class Track
           }
         end
       end
+
+      concepts.sort_by { |concept| concept[:slug] }
     end
 
     memoize

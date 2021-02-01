@@ -2,11 +2,14 @@ require "test_helper"
 
 # rubocop:disable Layout/LineLength
 class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
+  include IconsHelper
+  include Webpacker::Helper
+
   test "external" do
     comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, size: :large)
     expected = %(
       <div class="c-exercise-widget --large --locked">
-        #{exercise_icon}
+        #{exercise_icon(external_exercise)}
         #{info_div}
         #{lock_icon}
       </div>
@@ -18,7 +21,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, size: :large, desc: false)
     expected = %(
       <div class="c-exercise-widget --large --locked">
-        #{exercise_icon}
+        #{exercise_icon(external_exercise)}
         #{info_div desc: false}
         #{lock_icon}
       </div>
@@ -30,7 +33,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(external_exercise, user_track, size: :small)
     expected = %(
       <div class="c-exercise-widget --small --locked">
-        #{exercise_icon}
+        #{exercise_icon(external_exercise)}
         #{info_div desc: false}
         #{lock_icon}
       </div>
@@ -42,7 +45,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, size: :large)
     expected = %(
       <div class="c-exercise-widget --large --locked">
-        #{exercise_icon}
+        #{exercise_icon(locked_exercise)}
         #{info_div}
         #{lock_icon}
       </div>
@@ -54,7 +57,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, size: :large, desc: false)
     expected = %(
       <div class="c-exercise-widget --large --locked">
-        #{exercise_icon}
+        #{exercise_icon(locked_exercise)}
         #{info_div desc: false}
         #{lock_icon}
       </div>
@@ -66,7 +69,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(locked_exercise, user_track, size: :small)
     expected = %(
       <div class="c-exercise-widget --small --locked">
-        #{exercise_icon}
+        #{exercise_icon(locked_exercise)}
         #{info_div desc: false}
         #{lock_icon}
       </div>
@@ -78,7 +81,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, size: :large)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(available_exercise)}
         #{info_div}
         #{chevron_icon}
       </a>)
@@ -89,7 +92,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, size: :large, desc: false)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(available_exercise)}
         #{info_div desc: false}
         #{chevron_icon}
       </a>)
@@ -100,7 +103,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(available_exercise, user_track, size: :small)
     expected = %(
       <a class="c-exercise-widget --small" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(available_exercise)}
         #{info_div desc: false}
       </a>)
     assert_html_equal expected, comp.to_s
@@ -110,7 +113,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, size: :large)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(in_progress_exercise)}
         #{info_div}
         #{chevron_icon}
       </a>)
@@ -121,7 +124,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, size: :large, desc: false)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(in_progress_exercise)}
         #{info_div desc: false}
         #{chevron_icon}
       </a>)
@@ -132,7 +135,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(in_progress_exercise, user_track, size: :small)
     expected = %(
       <a class="c-exercise-widget --small" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(in_progress_exercise)}
         #{info_div desc: false}
       </a>)
     assert_html_equal expected, comp.to_s
@@ -142,7 +145,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, size: :large)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(completed_exercise)}
         #{info_div completed: true}
         #{chevron_icon}
       </a>)
@@ -153,7 +156,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, size: :large, desc: false)
     expected = %(
       <a class="c-exercise-widget --large" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(completed_exercise)}
         #{info_div completed: true, desc: false}
         #{chevron_icon}
       </a>)
@@ -164,7 +167,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     comp = render ViewComponents::Widgets::Exercise.new(completed_exercise, user_track, size: :small)
     expected = %(
       <a class="c-exercise-widget --small" href="/tracks/ruby/exercises/bob">
-        #{exercise_icon}
+        #{exercise_icon(completed_exercise)}
         #{info_div completed: true, desc: false}
       </a>)
     assert_html_equal expected, comp.to_s
@@ -186,8 +189,10 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   def locked_exercise
+    return @locked_exercise if @locked_exercise
+
     track = create :track
-    create(:practice_exercise, track: track).tap do |exercise|
+    @locked_exercise = create(:practice_exercise, track: track).tap do |exercise|
       create :exercise_prerequisite, exercise: exercise, concept: create(:track_concept, track: track)
       create :user_track, track: exercise.track
     end
@@ -211,10 +216,6 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
       user_track = create :user_track, track: exercise.track
       create :practice_solution, user: user_track.user, exercise: exercise, completed_at: Time.current
     end
-  end
-
-  def exercise_icon
-    %(<svg role="presentation" class="c-icon c-exercise-icon"><use xlink:href="#sample-exercise-butterflies" /></svg>)
   end
 
   def lock_icon

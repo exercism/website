@@ -135,6 +135,7 @@ initReact({
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
+  'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
       conversationsRequest={data.conversations_request}

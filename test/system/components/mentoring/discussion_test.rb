@@ -242,7 +242,8 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
@@ -260,7 +261,8 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
@@ -279,7 +281,8 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do

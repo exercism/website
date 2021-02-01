@@ -8,6 +8,7 @@ module ViewComponents
       :tag, :link_to, :button_to,
       :time_ago_in_words,
       :graphical_icon, :icon, :track_icon, :exercise_icon, :rounded_bg_img,
+      :capture_haml,
       to: :view_context
 
     # This is called when you called `render SomeComponent.new(...)`

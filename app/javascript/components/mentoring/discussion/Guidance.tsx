@@ -53,7 +53,7 @@ export const Guidance = (): JSX.Element => {
         <Accordion.Header>Mentor notes</Accordion.Header>
         <Accordion.Panel>
           <div className="c-textual-content --small">
-            {/* TODO: REPLACE THIS */}
+            {/* TODO: Replace with `notes` */}
             <h3>Talking points</h3>
             <ul>
               <li>

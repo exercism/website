@@ -20,6 +20,22 @@ export type Links = {
   markAsNothingToDo?: string
 }
 
+export type RepresenterFeedbackAuthor = {
+  avatarUrl: string
+  name: string
+  reputation: number
+  profileUrl: string
+}
+
+export type RepresenterFeedback = {
+  html: string
+  author: RepresenterFeedbackAuthor
+}
+
+export type AutomatedFeedback = {
+  mentor: RepresenterFeedback
+}
+
 export type Iteration = {
   uuid: string
   idx: number
@@ -27,6 +43,7 @@ export type Iteration = {
   unread: boolean
   createdAt: string
   testsStatus: string
+  automatedFeedback: AutomatedFeedback
   links: {
     files: string
   }

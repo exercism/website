@@ -66,6 +66,9 @@
         & .c-primary-reputation {
             @apply mr-48;
         }
+        & .c-react-wrapper-dropdowns-dropdown {
+            min-width: 74px;
+        }
         & .user-menu {
             @apply flex items-center;
 

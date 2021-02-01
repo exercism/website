@@ -17,8 +17,8 @@ module ViewComponents
           published_at: solution.published_at,
           num_stars: solution.num_stars,
           num_comments: solution.num_comments,
-          num_lines: solution.num_loc, # TODO
-          snippet: solution.snippet, # TODO
+          num_lines: solution.num_loc,
+          snippet: solution.snippet,
           highlightjs_language: "csharp" # TODO
         },
         layout: false

@@ -35,9 +35,9 @@ module ReactComponents
               title: exercise.title
             },
             iterations: iterations,
-            links: links,
             mentor_solution: mentor_solution,
-            notes: notes
+            notes: notes,
+            links: links
           }
         )
       end

@@ -63,6 +63,8 @@ module ReactComponents
             unread: ccs.reject { |(_, seen), _| seen }.present?,
             created_at: iteration.created_at.iso8601,
             tests_status: iteration.tests_status,
+            # TODO: Precalculate this to avoid n+1s
+            automated_feedback: iteration.automated_feedback,
             links: {
               files: Exercism::Routes.api_submission_files_url(iteration.submission)
             }

@@ -73,6 +73,7 @@ export const MentoringPanelList = ({
             onPostHighlight={onPostHighlight}
             onAfterPostHighlight={onAfterPostHighlight}
             highlightedPost={highlightedPost}
+            student={student}
           />
         </Tab.Panel>
         <Tab.Panel id="scratchpad" context={TabsContext}>

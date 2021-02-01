@@ -31,6 +31,57 @@ module Components
         assert_text "on Running in Ruby"
       end
 
+      test "shows representer feedback" do
+        mentor = create :user
+        student = create :user, handle: "student"
+        feedback_author = create :user, name: "Feedback Author", reputation: 50
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, idx: 1, solution: solution
+        submission = create :submission, iteration: iteration, solution: solution, analysis_status: :completed
+        create :submission_representation, submission: submission, ast_digest: "ast"
+        create :exercise_representation,
+          exercise: running,
+          feedback_markdown: "Exercise feedback",
+          ast_digest: "ast",
+          feedback_author: feedback_author
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          find("summary", text: "student received automated feedback").click
+        end
+
+        assert_text "Exercise feedback"
+        assert_text "by Feedback Author"
+        assert_css "img[src='#{feedback_author.avatar_url}']"
+        assert_text "50"
+      end
+
+      test "shows analyzer feedback" do
+        mentor = create :user
+        student = create :user, handle: "student"
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, idx: 1, solution: solution
+        submission = create :submission, iteration: iteration, analysis_status: :completed
+        create :submission_analysis, submission: submission, data: { comments: ["ruby.two-fer.incorrect_default_param"] }
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          find("summary", text: "student received automated feedback").click
+        end
+
+        assert_text "What could the default value of the parameter be set to in order to avoid having to "\
+                    "use a conditional?"
+        assert_text "by The Ruby Analysis Team"
+      end
+
       test "shows student info" do
         mentor = create :user
         student = create :user, name: "Apprentice", handle: "student", reputation: 1500

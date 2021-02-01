@@ -20,6 +20,33 @@ export type Links = {
   markAsNothingToDo?: string
 }
 
+type RepresenterFeedbackAuthor = {
+  avatarUrl: string
+  name: string
+  reputation: number
+  profileUrl: string
+}
+
+type AnalyzerFeedbackTeam = {
+  name: string
+  linkUrl: string
+}
+
+export type RepresenterFeedback = {
+  html: string
+  author: RepresenterFeedbackAuthor
+}
+
+export type AnalyzerFeedback = {
+  html: string
+  team: AnalyzerFeedbackTeam
+}
+
+export type AutomatedFeedback = {
+  mentor?: RepresenterFeedback
+  analyzer?: AnalyzerFeedback
+}
+
 export type Iteration = {
   uuid: string
   idx: number
@@ -27,6 +54,7 @@ export type Iteration = {
   unread: boolean
   createdAt: string
   testsStatus: string
+  automatedFeedback: AutomatedFeedback
   links: {
     files: string
   }

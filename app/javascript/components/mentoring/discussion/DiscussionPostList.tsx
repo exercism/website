@@ -4,19 +4,41 @@ import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { Icon } from '../../common/Icon'
-import { Avatar } from '../../common/Avatar'
-import { Reputation } from '../../common/Reputation'
-import { CacheContext, Iteration } from '../Discussion'
+import {
+  CacheContext,
+  Iteration,
+  AutomatedFeedback,
+  Student,
+} from '../Discussion'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { IterationMarker } from './IterationMarker'
+import { RepresenterFeedback } from './RepresenterFeedback'
+import { AnalyzerFeedback } from './AnalyzerFeedback'
 
 type IterationWithPost = {
   idx: number
   createdAt: string
   posts: DiscussionPostProps[]
+  automatedFeedback: AutomatedFeedback
+}
+
+const AutomatedFeedbackSummary = ({
+  automatedFeedback,
+}: {
+  automatedFeedback: AutomatedFeedback
+}) => {
+  return (
+    <React.Fragment>
+      {automatedFeedback.mentor ? (
+        <RepresenterFeedback {...automatedFeedback.mentor} />
+      ) : null}
+      {automatedFeedback.analyzer ? (
+        <AnalyzerFeedback {...automatedFeedback.analyzer} />
+      ) : null}
+    </React.Fragment>
+  )
 }
 
 export const DiscussionPostList = ({
@@ -27,6 +49,7 @@ export const DiscussionPostList = ({
   onPostsChange,
   onPostHighlight,
   onAfterPostHighlight,
+  student,
 }: {
   endpoint: string
   discussionId: number
@@ -35,6 +58,7 @@ export const DiscussionPostList = ({
   onPostsChange: (posts: DiscussionPostProps[]) => void
   onPostHighlight: (element: HTMLDivElement) => void
   onAfterPostHighlight: () => void
+  student: Student
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { posts: cacheKey } = useContext(CacheContext)
@@ -49,35 +73,23 @@ export const DiscussionPostList = ({
     })
   })
   const iterationsWithPosts = useMemo(() => {
-    if (!data) {
-      return []
-    }
-
-    return data.reduce<IterationWithPost[]>((iterationsWithPosts, post) => {
-      const iterationWithPost = iterationsWithPosts.find(
-        (iteration) => iteration.idx === post.iterationIdx
-      )
-
-      if (iterationWithPost) {
-        iterationWithPost.posts.push(post)
-      } else {
-        const iteration = iterations.find(
-          (iteration) => iteration.idx === post.iterationIdx
-        )
-
-        if (!iteration) {
-          throw new Error('Iteration idx does not exist')
-        }
+    return iterations.reduce<IterationWithPost[]>(
+      (iterationsWithPosts, iteration) => {
+        const posts = data
+          ? data.filter((post) => post.iterationIdx === iteration.idx)
+          : []
 
         iterationsWithPosts.push({
           idx: iteration.idx,
+          automatedFeedback: iteration.automatedFeedback,
           createdAt: iteration.createdAt,
-          posts: [post],
+          posts: posts,
         })
-      }
 
-      return iterationsWithPosts
-    }, [])
+        return iterationsWithPosts
+      },
+      []
+    )
   }, [data, iterations])
   const highlightedPostRef = useRef<HTMLDivElement>(null)
   const observer = useRef<IntersectionObserver | null>()
@@ -152,7 +164,7 @@ export const DiscussionPostList = ({
                 <summary>
                   <GraphicalIcon icon="alert-circle" className="info-icon" />
                   <div className="info">
-                    WDNewmann recieved automated feedback
+                    {student.handle} received automated feedback
                   </div>
                   <GraphicalIcon
                     icon="chevron-right"
@@ -160,30 +172,11 @@ export const DiscussionPostList = ({
                   />
                   <GraphicalIcon icon="chevron-down" className="--open-icon" />
                 </summary>
-                <div className="feedback">
-                  <div className="c-textual-content --small">
-                    <p>
-                      The biggest improvement you could make to this would be to
-                      use Ruby's String helper methods rather than regular
-                      expressions. That will help make it much more readable to
-                      future-you or another developer. Take a look at the String
-                      docs and check out things such as <code>strip</code> and{' '}
-                      <code>end_with?</code>.
-                    </p>
-                  </div>
-                  <div className="byline">
-                    <Avatar
-                      src="https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
-                      handle="mentor handle"
-                    />
-                    <div className="name">by ErikSchierboom</div>
-                    <Reputation value="20" />
-                  </div>
-                  <a href="#" className="more">
-                    Learn more about this feedback
-                    <Icon icon="external-link" alt="Opens in new tab" />
-                  </a>
-                </div>
+                {iteration.automatedFeedback ? (
+                  <AutomatedFeedbackSummary
+                    automatedFeedback={iteration.automatedFeedback}
+                  />
+                ) : null}
               </details>
               {iteration.posts.map((post) => {
                 return (

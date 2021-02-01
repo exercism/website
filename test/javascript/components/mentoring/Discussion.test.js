@@ -331,7 +331,9 @@ test('go to previous iteration', async () => {
     screen.getByRole('button', { name: 'Go to previous iteration' })
   )
 
-  expect(await screen.findByText('Iteration 1')).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'Iteration 1' })
+  ).toBeInTheDocument()
 })
 
 test('go to next iteration', async () => {
@@ -381,5 +383,7 @@ test('go to next iteration', async () => {
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
   userEvent.click(screen.getByRole('button', { name: 'Go to next iteration' }))
 
-  expect(await screen.findByText('Iteration 2')).toBeInTheDocument()
+  expect(
+    await screen.findByRole('heading', { name: 'Iteration 2' })
+  ).toBeInTheDocument()
 })

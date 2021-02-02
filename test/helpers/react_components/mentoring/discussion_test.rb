@@ -27,10 +27,6 @@ module Mentoring
         {
           discussion_id: discussion.uuid,
           user_id: student.id,
-          mentor: {
-            handle: mentor.handle,
-            avatar_url: mentor.avatar_url
-          },
           student: {
             name: student.name,
             handle: student.handle,

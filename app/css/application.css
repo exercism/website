@@ -75,7 +75,7 @@
 }
 
 .theme-dark {
-    --backgroundColorA: var(--c-000000);
+    --backgroundColorA: var(--c-111111);
     --backgroundColorB: var(--c-282339);
     --backgroundColorC: var(--c-322C44);
     --borderColor3: var(--c-8480A0);

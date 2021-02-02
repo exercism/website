@@ -84,6 +84,20 @@ export type Exercise = {
   title: string
 }
 
+export type MentorSolution = {
+  snippet: string
+  numLoc: string
+  numStars: string
+  numComments: string
+  publishedAt: string
+  webUrl: string
+  mentor: {
+    handle: string
+    avatarUrl: string
+  }
+  language: string
+}
+
 type DiscussionProps = {
   student: Student
   track: Track
@@ -92,6 +106,8 @@ type DiscussionProps = {
   discussionId: number
   iterations: readonly Iteration[]
   userId: number
+  notes: string
+  mentorSolution: MentorSolution
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -106,6 +122,8 @@ export const Discussion = ({
   discussionId,
   iterations,
   userId,
+  notes,
+  mentorSolution,
 }: DiscussionProps): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -195,6 +213,10 @@ export const Discussion = ({
             onAfterPostHighlight={() => {
               setHasNewMessages(false)
             }}
+            notes={notes}
+            mentorSolution={mentorSolution}
+            track={track}
+            exercise={exercise}
           />
 
           <section className="comment-section">

@@ -1,14 +1,31 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
+import { MentorNotes } from './MentorNotes'
+import {
+  MentorSolution as MentorSolutionProps,
+  Track,
+  Exercise,
+} from '../Discussion'
+import { MentorSolution } from './MentorSolution'
 
-export const Guidance = (): JSX.Element => {
+export const Guidance = ({
+  notes,
+  mentorSolution,
+  track,
+  exercise,
+}: {
+  notes: string
+  mentorSolution?: MentorSolutionProps
+  track: Track
+  exercise: Exercise
+}): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
-      id: 'solution',
+      id: 'notes',
       isOpen: true,
     },
     {
-      id: 'notes',
+      id: 'solution',
       isOpen: false,
     },
     {
@@ -21,9 +38,10 @@ export const Guidance = (): JSX.Element => {
     (id: string) => {
       setAccordionState(
         accordionState.map((state) => {
+          const isOpen = id === state.id && !state.isOpen
           return {
             id: state.id,
-            isOpen: id === state.id,
+            isOpen: isOpen,
           }
         })
       )
@@ -45,23 +63,29 @@ export const Guidance = (): JSX.Element => {
   )
 
   return (
-    <div>
-      <Accordion
-        id="solution"
-        isOpen={isOpen('solution')}
-        onClick={handleClick}
-      >
-        <Accordion.Header>How you solved the exercise</Accordion.Header>
-        <Accordion.Panel>
-          <p>Solution here</p>
-        </Accordion.Panel>
-      </Accordion>
+    <>
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <Accordion.Header>Mentor notes</Accordion.Header>
         <Accordion.Panel>
-          <p>Notes here</p>
+          <MentorNotes notes={notes} />
         </Accordion.Panel>
       </Accordion>
+      {mentorSolution ? (
+        <Accordion
+          id="solution"
+          isOpen={isOpen('solution')}
+          onClick={handleClick}
+        >
+          <Accordion.Header>How you solved the exercise</Accordion.Header>
+          <Accordion.Panel>
+            <MentorSolution
+              solution={mentorSolution}
+              track={track}
+              exercise={exercise}
+            />
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
       <Accordion
         id="feedback"
         isOpen={isOpen('feedback')}
@@ -72,6 +96,6 @@ export const Guidance = (): JSX.Element => {
           <p>Feedback here</p>
         </Accordion.Panel>
       </Accordion>
-    </div>
+    </>
   )
 }

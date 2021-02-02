@@ -15,10 +15,10 @@ module ViewComponents
           exercise_title: solution.exercise.title,
           track_title: solution.track.title,
           published_at: solution.published_at,
-          num_stars: 10, # TODO
-          num_comments: 2, # TODO
-          num_lines: 9, # TODO
-          snippet: snippet, # TODO
+          num_stars: solution.num_stars,
+          num_comments: solution.num_comments,
+          num_lines: solution.num_loc,
+          snippet: solution.snippet,
           highlightjs_language: "csharp" # TODO
         },
         layout: false
@@ -26,19 +26,5 @@ module ViewComponents
 
     private
     attr_reader :solution
-
-    def snippet
-      '
-public class Year
-{
-  public static bool IsLeap(int year)
-  {
-      if (year % 4 != 0) return false
-      if (year % 100 == 0 && year % 400) return false
-      return true;
-  }
-}
-      '.strip
-    end
   end
 end

@@ -232,149 +232,58 @@
             overflow-y: scroll;
         }
 
-        & .student-info {
-            @apply bg-backgroundColorA;
-            @apply flex;
+        & #panel-discussion {
+            & .student-info {
+                @apply bg-backgroundColorA;
+                @apply flex;
 
-            @apply py-16 px-24 mb-8;
+                @apply py-16 px-24 mb-8;
 
-            & .subtitle {
-                @apply text-textColor6 leading-paragraph mb-6;
-            }
-            & .name-block {
-                @apply flex items-center;
-                & .name {
-                    @apply text-h5 mr-12;
+                & .subtitle {
+                    @apply text-textColor6 leading-paragraph mb-6;
                 }
-            }
-            & .handle {
-                @apply text-16 text-textColor6 font-medium leading-regular;
-                @apply mb-6;
-            }
-            & .bio {
-                @apply text-15 leading-huge mr-40 mb-20;
-                & .flags {
-                    @apply ml-8;
-                }
-            }
-            & .options {
-                @apply flex items-center;
-
-                & .button-wrapper {
-                    @apply flex;
-                    width: 173px;
-                    height: 36px;
-
-                    & button {
-                        @apply flex-grow text-textColor6;
-                    }
-
-                    & button.unfavorite-button {
-                        @apply border-orange;
-                        @apply bg-lightOrange;
-                        @apply text-orange;
-                        &.hover {
-                            @apply text-red;
-                            @apply border-red;
-                            @apply bg-lightRed;
-                        }
-                    }
-                }
-                & .previous-sessions {
-                    @apply flex items-center ml-24;
-                    @apply font-semibold text-textColor6 leading-huge;
-                    & .c-icon {
-                        height: 14px;
-                        width: 14px;
-                        @apply ml-12;
-                    }
-                }
-            }
-            & .c-rounded-bg-img {
-                height: 64px;
-                width: 64px;
-                @apply ml-16;
-            }
-        }
-
-        & .discussion {
-            & .iteration-marker {
-                @apply flex items-center;
-                @apply mx-24 py-8 px-16;
-                @apply bg-backgroundColorD rounded-8;
-                @apply text-textColor6 leading-paragraph;
-
-                & .info {
-                    @apply flex-grow flex items-center;
-                    @apply text-15;
-                    & .c-icon {
-                        height: 16px;
-                        width: 16px;
-                        @apply mr-8;
-                    }
-
-                    & strong {
-                        @apply font-medium text-textColor1 mr-6;
-                    }
-                }
-                & time {
-                }
-            }
-
-            & details.auto-feedback {
-                @apply mx-24 mt-8;
-                @apply relative;
-                @apply border-1 border-borderColor6 rounded-8;
-                @apply py-8 px-16;
-
-                &:before {
-                    content: "";
-                    top: -8px;
-                    height: 8px;
-                    left: 24px;
-
-                    @apply absolute;
-                    @apply border-l-1 border-borderColor6;
-                }
-
-                & summary {
+                & .name-block {
                     @apply flex items-center;
-                    & .info-icon {
-                        height: 16px;
-                        width: 16px;
-                        @apply text-orange mr-12;
-                    }
-                    & .info {
-                        @apply flex-grow;
-                        @apply text-15 text-textColor6 font-medium leading-paragraph;
+                    & .name {
+                        @apply text-h5 mr-12;
                     }
                 }
-                & .feedback {
-                    @apply border-t-1 border-borderColor6;
-                    @apply mt-8 pt-12 mb-12;
-                    @apply flex flex-col items-start;
+                & .handle {
+                    @apply text-16 text-textColor6 font-medium leading-regular;
+                    @apply mb-6;
+                }
+                & .bio {
+                    @apply text-15 leading-huge mr-40 mb-20;
+                    & .flags {
+                        @apply ml-8;
+                    }
+                }
+                & .options {
+                    @apply flex items-center;
 
-                    & .byline {
-                        @apply flex items-center mb-12;
+                    & .button-wrapper {
+                        @apply flex;
+                        width: 173px;
+                        height: 36px;
 
-                        & .c-rounded-bg-img {
-                            @apply mr-8;
-                            height: 32px;
-                            width: 32px;
+                        & button {
+                            @apply flex-grow text-textColor6;
                         }
-                        & .name {
-                            @apply mr-12;
-                            @apply text-14 leading-paragraph text-textColor6 font-medium;
-                        }
-                        & .c-icon {
-                            @apply text-textColor6;
+
+                        & button.unfavorite-button {
+                            @apply border-orange;
+                            @apply bg-lightOrange;
+                            @apply text-orange;
+                            &.hover {
+                                @apply text-red;
+                                @apply border-red;
+                                @apply bg-lightRed;
+                            }
                         }
                     }
-                    & .more {
-                        @apply border-1 border-borderColor6 rounded-8;
-                        @apply px-16 py-6;
-                        @apply font-medium leading-huge text-textColor6;
-                        @apply flex items-center;
+                    & .previous-sessions {
+                        @apply flex items-center ml-24;
+                        @apply font-semibold text-textColor6 leading-huge;
                         & .c-icon {
                             height: 14px;
                             width: 14px;
@@ -382,59 +291,155 @@
                         }
                     }
                 }
+                & .c-rounded-bg-img {
+                    height: 64px;
+                    width: 64px;
+                    @apply ml-16;
+                }
             }
 
-            & .post {
-                @apply pt-20 pb-16 px-24 bg-backgroundColorA;
+            & .discussion {
+                & .iteration-marker {
+                    @apply flex items-center;
+                    @apply mx-24 py-8 px-16;
+                    @apply bg-backgroundColorD rounded-8;
+                    @apply text-textColor6 leading-paragraph;
 
-                &:hover {
-                    @apply bg-backgroundColorB;
-                    & .post-header {
-                        & .edit-button {
-                            @apply visible;
-                        }
-                    }
-                }
-
-                & .post-header {
-                    @apply flex items-center mb-8;
-
-                    & .author {
+                    & .info {
                         @apply flex-grow flex items-center;
-
-                        & .c-rounded-bg-img {
-                            height: 32px;
-                            width: 32px;
-                            @apply mr-12;
-                        }
-                        & .handle {
-                            @apply font-mono font-semibold text-16 text-darkGray;
-                        }
-                        & .tag {
-                            height: 30px;
-                            @apply flex items-center ml-16 rounded-100;
-                            @apply font-medium text-textColor6 px-12;
-                            @apply border-1 border-borderColor4;
-                        }
-                    }
-
-                    & .edit-button {
-                        @apply flex items-center ml-32 p-8;
-                        @apply text-textColor6 font-medium leading-huge;
-                        @apply invisible;
+                        @apply text-15;
                         & .c-icon {
-                            @apply mr-12;
                             height: 16px;
                             width: 16px;
+                            @apply mr-8;
+                        }
+
+                        & strong {
+                            @apply font-medium text-textColor1 mr-6;
+                        }
+                    }
+                    & time {
+                    }
+                }
+
+                & details.auto-feedback {
+                    @apply mx-24 mt-8;
+                    @apply relative;
+                    @apply border-1 border-borderColor6 rounded-8;
+                    @apply py-8 px-16;
+
+                    &:before {
+                        content: "";
+                        top: -8px;
+                        height: 8px;
+                        left: 24px;
+
+                        @apply absolute;
+                        @apply border-l-1 border-borderColor6;
+                    }
+
+                    & summary {
+                        @apply flex items-center;
+                        & .info-icon {
+                            height: 16px;
+                            width: 16px;
+                            @apply text-orange mr-12;
+                        }
+                        & .info {
+                            @apply flex-grow;
+                            @apply text-15 text-textColor6 font-medium leading-paragraph;
+                        }
+                    }
+                    & .feedback {
+                        @apply border-t-1 border-borderColor6;
+                        @apply mt-8 pt-12 mb-12;
+                        @apply flex flex-col items-start;
+
+                        & .byline {
+                            @apply flex items-center mb-12;
+
+                            & .c-rounded-bg-img {
+                                @apply mr-8;
+                                height: 32px;
+                                width: 32px;
+                            }
+                            & .name {
+                                @apply mr-12;
+                                @apply text-14 leading-paragraph text-textColor6 font-medium;
+                            }
+                            & .c-icon {
+                                @apply text-textColor6;
+                            }
+                        }
+                        & .more {
+                            @apply border-1 border-borderColor6 rounded-8;
+                            @apply px-16 py-6;
+                            @apply font-medium leading-huge text-textColor6;
+                            @apply flex items-center;
+                            & .c-icon {
+                                height: 14px;
+                                width: 14px;
+                                @apply ml-12;
+                            }
                         }
                     }
                 }
-                & .post-content {
-                }
-                & .post-at {
-                    @apply text-textColor6 leading-huge;
+
+                & .post {
+                    @apply pt-20 pb-16 px-24 bg-backgroundColorA;
+
+                    &:hover {
+                        @apply bg-backgroundColorB;
+                        & .post-header {
+                            & .edit-button {
+                                @apply visible;
+                            }
+                        }
+                    }
+
+                    & .post-header {
+                        @apply flex items-center mb-8;
+
+                        & .author {
+                            @apply flex-grow flex items-center;
+
+                            & .c-rounded-bg-img {
+                                height: 32px;
+                                width: 32px;
+                                @apply mr-12;
+                            }
+                            & .handle {
+                                @apply font-mono font-semibold text-16 text-darkGray;
+                            }
+                            & .tag {
+                                height: 30px;
+                                @apply flex items-center ml-16 rounded-100;
+                                @apply font-medium text-textColor6 px-12;
+                                @apply border-1 border-borderColor4;
+                            }
+                        }
+
+                        & .edit-button {
+                            @apply flex items-center ml-32 p-8;
+                            @apply text-textColor6 font-medium leading-huge;
+                            @apply invisible;
+                            & .c-icon {
+                                @apply mr-12;
+                                height: 16px;
+                                width: 16px;
+                            }
+                        }
+                    }
+                    & .post-content {
+                    }
+                    & .post-at {
+                        @apply text-textColor6 leading-huge;
+                    }
                 }
             }
+        }
+        & #panel-guidance {
+            @apply py-16 px-24;
         }
     }
 }

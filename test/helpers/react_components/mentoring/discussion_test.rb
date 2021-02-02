@@ -3,11 +3,12 @@ require_relative "../react_component_test_case"
 module Mentoring
   class DiscussionTest < ReactComponentTestCase
     test "mentoring discussion renders correctly" do
+      mentor = create :user
       student = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, user: student, track: track
-      discussion = create :solution_mentor_discussion, solution: solution
+      discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
 
       iteration_1 = create :iteration, solution: solution
       iteration_2 = create :iteration, solution: solution
@@ -85,6 +86,8 @@ module Mentoring
               }
             }
           ],
+          mentor_solution: nil,
+          notes: %{<h3>Talking points</h3>\n<ul>\n  <li>\n    <code>each_cons</code> instead of an iterator\n    <code>with_index</code>: In Ruby, you rarely have to write\n    iterators that need to keep track of the index. Enumerable has\n    powerful methods that do that for us.\n  </li>\n  <li>\n    <code>chars</code>: instead of <code>split("")</code>.\n  </li>\n</ul>}, # rubocop:disable Layout/LineLength
           links: {
             mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),

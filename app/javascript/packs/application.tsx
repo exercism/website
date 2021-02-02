@@ -25,6 +25,7 @@ import '../../css/components/details'
 import '../../css/components/flash'
 import '../../css/components/icon'
 import '../../css/components/iteration-summary'
+import '../../css/components/accordion-section'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
@@ -110,6 +111,7 @@ import {
   Track as MentorDiscussionTrack,
   Exercise as MentorDiscussionExercise,
   Links as MentorDiscussionLinks,
+  MentorSolution as MentorDiscussionMentorSolution,
 } from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -156,6 +158,10 @@ initReact({
       exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
       iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
       links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
+      notes={data.notes}
+      mentorSolution={camelizeKeysAs<MentorDiscussionMentorSolution>(
+        data.mentor_solution
+      )}
     />
   ),
   'student-tracks-list': (data: any) => (

@@ -1,6 +1,7 @@
 @import "../styles";
 
 .c-published-solution {
+    @apply flex flex-col;
     @apply shadow-base bg-backgroundColorA;
     @apply px-24 py-16;
 
@@ -10,7 +11,8 @@
         & > .--exercise {
             @apply flex flex-grow;
 
-            & > .c-exercise-icon {
+            & > .c-exercise-icon,
+            & > .c-rounded-bg-img {
                 height: 48px;
                 width: 48px;
                 @apply mr-16;

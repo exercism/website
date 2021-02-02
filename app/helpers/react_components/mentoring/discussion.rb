@@ -31,6 +31,8 @@ module ReactComponents
               title: exercise.title
             },
             iterations: iterations,
+            mentor_solution: mentor_solution,
+            notes: notes,
             links: links
           }
         )
@@ -72,21 +74,45 @@ module ReactComponents
         end
       end
 
-      memoize
-      delegate :student, to: :discussion
+      def mentor_solution
+        ms = Solution.for(mentor, exercise)
+        return nil unless ms
 
-      memoize
-      delegate :mentor, to: :discussion
+        {
+          snippet: ms.snippet,
+          num_loc: ms.num_loc,
+          num_stars: ms.num_stars,
+          num_comments: ms.num_comments,
+          published_at: ms.published_at,
+          web_url: Exercism::Routes.private_solution_url(ms),
+          mentor: {
+            handle: mentor.handle,
+            avatar_url: mentor.avatar_url
+          },
+          language: ms.editor_language
+        }
+      end
 
-      memoize
-      def track
-        discussion.solution.track
+      # TODO
+      def notes
+        '
+<h3>Talking points</h3>
+<ul>
+  <li>
+    <code>each_cons</code> instead of an iterator
+    <code>with_index</code>: In Ruby, you rarely have to write
+    iterators that need to keep track of the index. Enumerable has
+    powerful methods that do that for us.
+  </li>
+  <li>
+    <code>chars</code>: instead of <code>split("")</code>.
+  </li>
+</ul>
+        '.strip
       end
 
       memoize
-      def exercise
-        discussion.solution.exercise
-      end
+      delegate :student, :mentor, :exercise, :track, to: :discussion
 
       memoize
       def scratchpad

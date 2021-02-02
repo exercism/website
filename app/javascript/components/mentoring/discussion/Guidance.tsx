@@ -4,7 +4,7 @@ import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Avatar } from '../../common/Avatar'
 import { Icon } from '../../common/Icon'
 
-export const Guidance = (): JSX.Element => {
+export const Guidance = ({ notes }: { notes: string }): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
       id: 'notes',
@@ -53,84 +53,10 @@ export const Guidance = (): JSX.Element => {
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <Accordion.Header>Mentor notes</Accordion.Header>
         <Accordion.Panel>
-          <div className="c-textual-content --small">
-            {/* TODO: Replace with `notes` */}
-            <h3>Talking points</h3>
-            <ul>
-              <li>
-                <code>each_cons</code> instead of an iterator{' '}
-                <code>with_index</code>: In Ruby, you rarely have to write
-                iterators that need to keep track of the index. Enumerable has
-                powerful methods that do that for us.
-              </li>
-              <li>
-                <code>chars</code>: instead of <code>split('')</code>.
-              </li>
-              <li>
-                <code>each_char</code>: if an <code>Array</code> is not
-                specifically necessary or wanted.
-              </li>
-              <li>
-                <code>attr_reader</code>: instead of the instance variable,{' '}
-                <a
-                  href="https://ivoanjo.me/blog/2017/09/20/why-i-always-use-attr_reader-to-access-instance-variables"
-                  target="_blank"
-                >
-                  explained here
-                </a>
-                .
-              </li>
-              <li>
-                <code>private</code> attr_reader: Following the 'rule' for
-                encapsulation: if it doesn't need to be public, make it private.{' '}
-                <a
-                  href="http://ruby-for-beginners.rubymonstas.org/writing_classes/state_and_behaviour.html"
-                  target="_blank"
-                >
-                  This link
-                </a>{' '}
-                may come in handy for a first introduction.
-              </li>
-              <li>
-                <code>unless</code>, inline: With <code>unless</code> instead of{' '}
-                <code>if</code>, we can show what "good" looks like for the
-                conditional statement.
-              </li>
-              <li>
-                <code>error</code>: Custom error message? (Only if the first
-                submission meets the Minimal Solution.)
-              </li>
-              <li>
-                <code>map(&amp;:join)</code>: instead of map with block, but at
-                this point in the track it's okay to just accept it if students
-                use it, no need to require it or dive into the subject of{' '}
-                <code>Symbol#to_proc</code>.
-              </li>
-              <li>
-                <code>each_char</code>: may be preferable over{' '}
-                <code>chars</code> as it returns an <code>Enumerator</code> that
-                will yield each character without creating an intermediate{' '}
-                <code>Array</code>. More: <code>String#chars</code> with a block
-                has a deprecation warning in more recent Ruby versions.{' '}
-                <code>str.chars</code> is a shorthand for{' '}
-                <code>str.each_char.to_a</code>.
-              </li>
-            </ul>
-            <h3>Mentor Research</h3>
-            <ul>
-              <li>
-                The Iteration article mentioned above isn't ideal, but it's one
-                of the few I know of that does more than comparing{' '}
-                <code>each</code> and <code>map</code>, PLUS don't uses hashes
-                for examples. Other suggestions welcome.
-              </li>
-              <li>
-                <code>each_cons</code> raises an ArgumentError for arguments
-                &lt;= 0; it returns the array if the argument &gt;= the array.
-              </li>
-            </ul>
-            {/* TODO: END REPLACE */}
-          </div>
+          <div
+            className="c-textual-content --small"
+            dangerouslySetInnerHTML={{ __html: notes }}
+          />
         </Accordion.Panel>
       </Accordion>
       <Accordion

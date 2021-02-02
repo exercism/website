@@ -92,6 +92,7 @@ type DiscussionProps = {
   discussionId: number
   iterations: readonly Iteration[]
   userId: number
+  notes: string
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -106,6 +107,7 @@ export const Discussion = ({
   discussionId,
   iterations,
   userId,
+  notes,
 }: DiscussionProps): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -195,6 +197,7 @@ export const Discussion = ({
             onAfterPostHighlight={() => {
               setHasNewMessages(false)
             }}
+            notes={notes}
           />
 
           <section className="comment-section">

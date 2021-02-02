@@ -157,6 +157,7 @@ initReact({
       exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
       iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
       links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
+      notes={data.notes}
     />
   ),
   'student-tracks-list': (data: any) => (

@@ -47,3 +47,10 @@ test('only one accordion is open at a time', async () => {
     screen.getByRole('button', { name: 'Automated feedback' })
   ).toHaveAttribute('aria-expanded', 'false')
 })
+
+test('displays notes', async () => {
+  const notes = '<h2>Notes</h2>'
+  render(<Guidance notes={notes} />)
+
+  expect(screen.getByRole('heading', { name: 'Notes' })).toBeInTheDocument()
+})

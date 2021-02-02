@@ -29,6 +29,7 @@ export const MentoringPanelList = ({
   onPostHighlight,
   onAfterPostHighlight,
   highlightedPost,
+  notes,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
@@ -40,6 +41,7 @@ export const MentoringPanelList = ({
   onPostHighlight: (element: HTMLDivElement) => void
   onAfterPostHighlight: () => void
   highlightedPost: DiscussionPostProps | null
+  notes: string
 }): JSX.Element => {
   return (
     <>
@@ -80,7 +82,7 @@ export const MentoringPanelList = ({
           <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
         </Tab.Panel>
         <Tab.Panel id="guidance" context={TabsContext}>
-          <Guidance />
+          <Guidance notes={notes} />
         </Tab.Panel>
       </TabsContext.Provider>
     </>

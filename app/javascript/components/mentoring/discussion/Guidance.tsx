@@ -3,6 +3,7 @@ import { Accordion } from '../../common/Accordion'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Avatar } from '../../common/Avatar'
 import { Icon } from '../../common/Icon'
+import { MentorNotes } from './MentorNotes'
 
 export const Guidance = ({ notes }: { notes: string }): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
@@ -53,10 +54,7 @@ export const Guidance = ({ notes }: { notes: string }): JSX.Element => {
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <Accordion.Header>Mentor notes</Accordion.Header>
         <Accordion.Panel>
-          <div
-            className="c-textual-content --small"
-            dangerouslySetInnerHTML={{ __html: notes }}
-          />
+          <MentorNotes notes={notes} />
         </Accordion.Panel>
       </Accordion>
       <Accordion

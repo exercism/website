@@ -7,30 +7,42 @@ import { Guidance } from '../../../../../app/javascript/components/mentoring/dis
 test('how you solved the exercise is open by default', async () => {
   render(<Guidance />)
 
-  expect(
-    screen.getByRole('button', { name: 'How you solved the exercise' })
-  ).toHaveAttribute('aria-expanded', 'true')
   expect(screen.getByRole('button', { name: 'Mentor notes' })).toHaveAttribute(
     'aria-expanded',
-    'false'
+    'true'
   )
   expect(
+    screen.getByRole('button', { name: 'How you solved the exercise' })
+  ).toHaveAttribute('aria-expanded', 'false')
+  expect(
     screen.getByRole('button', { name: 'Automated feedback' })
+  ).toHaveAttribute('aria-expanded', 'false')
+})
+
+test('open and close same accordion', async () => {
+  render(<Guidance />)
+
+  userEvent.click(screen.getByRole('button', { name: 'Mentor notes' }))
+
+  expect(
+    await screen.findByRole('button', { name: 'Mentor notes' })
   ).toHaveAttribute('aria-expanded', 'false')
 })
 
 test('only one accordion is open at a time', async () => {
   render(<Guidance />)
 
-  userEvent.click(screen.getByRole('button', { name: 'Mentor notes' }))
-
-  expect(
+  userEvent.click(
     screen.getByRole('button', { name: 'How you solved the exercise' })
-  ).toHaveAttribute('aria-expanded', 'false')
+  )
+
   expect(screen.getByRole('button', { name: 'Mentor notes' })).toHaveAttribute(
     'aria-expanded',
-    'true'
+    'false'
   )
+  expect(
+    screen.getByRole('button', { name: 'How you solved the exercise' })
+  ).toHaveAttribute('aria-expanded', 'true')
   expect(
     screen.getByRole('button', { name: 'Automated feedback' })
   ).toHaveAttribute('aria-expanded', 'false')

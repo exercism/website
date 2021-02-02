@@ -24,9 +24,10 @@ export const Guidance = (): JSX.Element => {
     (id: string) => {
       setAccordionState(
         accordionState.map((state) => {
+          const isOpen = id === state.id && !state.isOpen
           return {
             id: state.id,
-            isOpen: id === state.id,
+            isOpen: isOpen,
           }
         })
       )

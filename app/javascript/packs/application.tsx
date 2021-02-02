@@ -111,6 +111,7 @@ import {
   Track as MentorDiscussionTrack,
   Exercise as MentorDiscussionExercise,
   Links as MentorDiscussionLinks,
+  MentorSolution as MentorDiscussionMentorSolution,
 } from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -158,6 +159,9 @@ initReact({
       iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
       links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
       notes={data.notes}
+      mentorSolution={camelizeKeysAs<MentorDiscussionMentorSolution>(
+        data.mentor_solution
+      )}
     />
   ),
   'student-tracks-list': (data: any) => (

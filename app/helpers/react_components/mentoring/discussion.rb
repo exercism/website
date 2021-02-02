@@ -9,10 +9,6 @@ module ReactComponents
           {
             discussion_id: discussion.uuid,
             user_id: current_user.id,
-            mentor: {
-              handle: mentor.handle,
-              avatar_url: mentor.avatar_url
-            },
             student: {
               name: student.name,
               handle: student.handle,
@@ -88,7 +84,12 @@ module ReactComponents
           num_stars: ms.num_stars,
           num_comments: ms.num_comments,
           published_at: ms.published_at,
-          web_url: Exercism::Routes.private_solution_url(ms)
+          web_url: Exercism::Routes.private_solution_url(ms),
+          mentor: {
+            handle: mentor.handle,
+            avatar_url: mentor.avatar_url
+          },
+          language: ms.editor_language
         }
       end
 

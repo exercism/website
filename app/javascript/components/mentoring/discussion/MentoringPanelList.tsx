@@ -5,7 +5,14 @@ import { Scratchpad } from './Scratchpad'
 import { Guidance } from './Guidance'
 import { StudentInfo } from './StudentInfo'
 import { GraphicalIcon } from '../../common'
-import { TabIndex, Student, Iteration } from '../Discussion'
+import {
+  TabIndex,
+  Student,
+  Iteration,
+  MentorSolution,
+  Track,
+  Exercise,
+} from '../Discussion'
 import { DiscussionPostProps } from './DiscussionPost'
 
 type MentoringPanelListLinks = {
@@ -30,6 +37,9 @@ export const MentoringPanelList = ({
   onAfterPostHighlight,
   highlightedPost,
   notes,
+  mentorSolution,
+  track,
+  exercise,
 }: {
   links: MentoringPanelListLinks
   discussionId: number
@@ -42,6 +52,9 @@ export const MentoringPanelList = ({
   onAfterPostHighlight: () => void
   highlightedPost: DiscussionPostProps | null
   notes: string
+  mentorSolution: MentorSolution
+  track: Track
+  exercise: Exercise
 }): JSX.Element => {
   return (
     <>
@@ -82,7 +95,12 @@ export const MentoringPanelList = ({
           <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />
         </Tab.Panel>
         <Tab.Panel id="guidance" context={TabsContext}>
-          <Guidance notes={notes} />
+          <Guidance
+            notes={notes}
+            mentorSolution={mentorSolution}
+            track={track}
+            exercise={exercise}
+          />
         </Tab.Panel>
       </TabsContext.Provider>
     </>

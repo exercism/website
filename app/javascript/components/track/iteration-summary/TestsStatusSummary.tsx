@@ -1,14 +1,13 @@
 import React from 'react'
 import { SubmissionTestsStatus } from '../../editor/types'
+import { GraphicalIcon } from '../../common'
 
 function Content({ testsStatus }: { testsStatus: SubmissionTestsStatus }) {
   switch (testsStatus) {
     case SubmissionTestsStatus.QUEUED:
       return (
         <>
-          <svg role="presentation" className="--icon">
-            <use xlinkHref="#loading" />
-          </svg>
+          <GraphicalIcon icon="spinner" />
           <div className="--status">Queued</div>
         </>
       )

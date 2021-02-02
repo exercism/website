@@ -21,7 +21,7 @@ export const Dropdown = ({
   menuItems: MenuItem[]
 }): JSX.Element => {
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
-  const [focusIndex, setFocusIndex] = useState<number | null>(null)
+  const [focusIndex, setFocusIndex] = useState<number | null | undefined>()
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
 
   const handleButtonKeyDown = (e: React.KeyboardEvent) => {
@@ -89,6 +89,10 @@ export const Dropdown = ({
   }
 
   useEffect(() => {
+    if (focusIndex === undefined) {
+      return
+    }
+
     if (focusIndex === null) {
       buttonRef.current?.focus()
 

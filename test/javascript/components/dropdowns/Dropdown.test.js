@@ -4,6 +4,19 @@ import '@testing-library/jest-dom/extend-expect'
 import { Dropdown } from '../../../../app/javascript/components/dropdowns/Dropdown'
 import userEvent from '@testing-library/user-event'
 
+test('button should not be focused on render', async () => {
+  const menuButton = {
+    label: 'Open menu',
+    id: 'menu',
+    html: 'Open',
+  }
+  const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
+
+  render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+
+  expect(screen.getByRole('button', { name: 'Open menu' })).not.toHaveFocus()
+})
+
 test('down arrow opens menu on first item', async () => {
   const menuButton = {
     label: 'Open menu',

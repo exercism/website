@@ -15,7 +15,7 @@ export const Guidance = ({
   exercise,
 }: {
   notes: string
-  mentorSolution: MentorSolutionProps
+  mentorSolution?: MentorSolutionProps
   track: Track
   exercise: Exercise
 }): JSX.Element => {
@@ -70,20 +70,22 @@ export const Guidance = ({
           <MentorNotes notes={notes} />
         </Accordion.Panel>
       </Accordion>
-      <Accordion
-        id="solution"
-        isOpen={isOpen('solution')}
-        onClick={handleClick}
-      >
-        <Accordion.Header>How you solved the exercise</Accordion.Header>
-        <Accordion.Panel>
-          <MentorSolution
-            solution={mentorSolution}
-            track={track}
-            exercise={exercise}
-          />
-        </Accordion.Panel>
-      </Accordion>
+      {mentorSolution ? (
+        <Accordion
+          id="solution"
+          isOpen={isOpen('solution')}
+          onClick={handleClick}
+        >
+          <Accordion.Header>How you solved the exercise</Accordion.Header>
+          <Accordion.Panel>
+            <MentorSolution
+              solution={mentorSolution}
+              track={track}
+              exercise={exercise}
+            />
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
       <Accordion
         id="feedback"
         isOpen={isOpen('feedback')}

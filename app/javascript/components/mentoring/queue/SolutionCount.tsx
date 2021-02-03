@@ -1,12 +1,15 @@
 import React from 'react'
 import pluralize from 'pluralize'
+import { GraphicalIcon } from '../../common'
 
 export const SolutionCount = ({
   queryTotal,
   total,
+  onResetFilter,
 }: {
   queryTotal: number
   total: number
+  onResetFilter: () => void
 }): JSX.Element => {
   return (
     <header className="filtering-header">
@@ -18,6 +21,10 @@ export const SolutionCount = ({
           {total} queued {pluralize('request', total)}
         </div>
       </div>
+      <button type="button" onClick={onResetFilter} className="reset-filters">
+        <GraphicalIcon icon="reset" />
+        Reset filter
+      </button>
     </header>
   )
 }

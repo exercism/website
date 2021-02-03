@@ -72,6 +72,15 @@ module Components
         assert_text "Zipper"
       end
 
+      test "resets filters" do
+        visit test_components_mentoring_queue_url
+        find("label", text: "C#").click
+        click_on "Reset filter"
+
+        assert_text "Showing 3 requests"
+        assert_text "3 queued requests"
+      end
+
       test "shows counts" do
         visit test_components_mentoring_queue_url
         find("label", text: "C#").click

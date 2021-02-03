@@ -9,6 +9,8 @@ import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 
+const DEFAULT_FILTER = { track: [], exercise: [] }
+
 export function Queue({ sortOptions, tracks, exercises, ...props }) {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setOrder, setFilter, setPage } = useList(
@@ -20,10 +22,9 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
     isMountedRef
   )
 
-  const filterValue = useMemo(
-    () => request.query.filter || { track: [], exercise: [] },
-    [request.query.filter]
-  )
+  const filterValue = useMemo(() => request.query.filter || DEFAULT_FILTER, [
+    request.query.filter,
+  ])
 
   return (
     <div className="queue-section-content">
@@ -55,6 +56,7 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
           <SolutionCount
             queryTotal={resolvedData.meta.queryTotal}
             total={resolvedData.meta.total}
+            onResetFilter={() => setFilter(DEFAULT_FILTER)}
           />
         ) : null}
         <TrackFilterList

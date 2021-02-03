@@ -20,7 +20,6 @@ test('button should not be focused on render', async () => {
 test('down arrow opens menu on first item', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -38,7 +37,6 @@ test('down arrow opens menu on first item', async () => {
 test('down arrow moves down menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -57,7 +55,6 @@ test('down arrow moves down menu', async () => {
 test('down arrow wraps around menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -76,7 +73,6 @@ test('down arrow wraps around menu', async () => {
 test('up arrow opens menu on last item', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -94,7 +90,6 @@ test('up arrow opens menu on last item', async () => {
 test('up arrow moves up menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -113,7 +108,6 @@ test('up arrow moves up menu', async () => {
 test('up arrow wraps around menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -132,7 +126,6 @@ test('up arrow wraps around menu', async () => {
 test('tab closes menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -153,7 +146,6 @@ test('tab closes menu', async () => {
 test('escape closes menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -175,7 +167,6 @@ test('escape closes menu', async () => {
 test('enter closes menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
@@ -197,7 +188,6 @@ test('enter closes menu', async () => {
 test('space closes menu', async () => {
   const menuButton = {
     label: 'Open menu',
-    id: 'menu',
     html: 'Open',
   }
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]

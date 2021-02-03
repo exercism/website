@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { usePanel } from '../../hooks/use-panel'
+import { v4 as uuidv4 } from 'uuid'
 
 type MenuButton = {
   label: string
-  id: string
   className: string
   html: string
 }
@@ -23,6 +23,9 @@ export const Dropdown = ({
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
   const [focusIndex, setFocusIndex] = useState<number | null | undefined>()
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
+  const id = useMemo(() => {
+    return uuidv4()
+  }, [])
 
   const handleButtonKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
@@ -106,7 +109,7 @@ export const Dropdown = ({
     <React.Fragment>
       <button
         className={`${menuButton.className}`}
-        aria-controls={`${menuButton.id}-dropdown`}
+        aria-controls={id}
         aria-haspopup
         aria-label={menuButton.label}
         aria-expanded={open ? true : undefined}
@@ -120,7 +123,7 @@ export const Dropdown = ({
       <div ref={panelRef} style={styles.popper} {...attributes.popper}>
         <ul
           className={`${menuButton.className}-dropdown`}
-          id={`${menuButton.id}-dropdown`}
+          id={id}
           role="menu"
           hidden={!open}
         >

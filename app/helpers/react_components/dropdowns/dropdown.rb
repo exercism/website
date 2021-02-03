@@ -5,7 +5,6 @@ module ReactComponents
         super()
 
         @menu_button = menu_button
-        @menu_button[:id] = "rnd-#{SecureRandom.hex(5)}"
         @menu_items = menu_items
       end
 

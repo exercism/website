@@ -16,6 +16,27 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "index proxies correctly" do
+    user = create :user
+    setup_user(user)
+    page = 15
+    track_id = 24
+    exercise_ids = [17, 19]
+
+    Solution::MentorRequest::Retrieve.expects(:call).with(
+      @current_user,
+      page,
+      track_id: track_id,
+      exercise_ids: exercise_ids
+    ).returns(Solution::MentorRequest.page(1).per(1))
+
+    get api_mentor_requests_path, params: {
+      page: page,
+      track_id: track_id,
+      exercise_ids: exercise_ids
+    }, headers: @headers, as: :json
+  end
+
   test "index retrieves requests" do
     user = create :user
     setup_user(user)
@@ -28,6 +49,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
     assert_response 200
 
     # TODO: Check JSON
+    # TODO: Check query_total
     assert_includes response.body, request.uuid
   end
 

@@ -3,9 +3,17 @@ module API
     def index
       requests = ::Solution::MentorRequest::Retrieve.(
         current_user,
-        params[:page]
+        params[:page],
+        track_id: params[:track_id],
+        exercise_ids: params[:exercise_ids]
       )
-      render json: SerializeMentorRequests.(requests)
+      render json: SerializePaginatedCollection.(
+        requests,
+        SerializeMentorRequests,
+        meta: {
+          query_total: 50
+        }
+      )
     end
 
     def lock

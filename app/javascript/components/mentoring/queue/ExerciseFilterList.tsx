@@ -59,6 +59,10 @@ export const ExerciseFilterList = ({
   return (
     <div className="exercise-filter">
       <h3>Filter by exercise</h3>
+      {/* TODO: Exercise searching */}
+      <div className="c-search-bar">
+        <input className="--search" placeholder="Search by Exercise name" />
+      </div>
       <div className="exercises">
         {exercises.map((exercise) => (
           <ExerciseFilter

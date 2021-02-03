@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { GraphicalIcon, TrackIcon } from '../../common'
 
-type Track = {
+export type Track = {
   slug: string
   title: string
   iconUrl: string

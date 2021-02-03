@@ -5,24 +5,10 @@ import { TrackFilterList } from './queue/TrackFilterList'
 import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
 
-export function Queue({ sortOptions, ...props }) {
+export function Queue({ sortOptions, tracks, ...props }) {
   const { request, setCriteria, setOrder, setFilter, setPage } = useList(
     props.request
   )
-  const tracks = [
-    {
-      slug: 'csharp',
-      title: 'C#',
-      iconUrl: 'https://assets.exercism.io/tracks/ruby-hex-white.png',
-      count: 52,
-    },
-    {
-      slug: 'ruby',
-      title: 'Ruby',
-      iconUrl: 'https://assets.exercism.io/tracks/ruby-hex-white.png',
-      count: 52,
-    },
-  ]
   const filterValue = useMemo(() => request.query.filter || { track: [] }, [
     request.query.filter,
   ])

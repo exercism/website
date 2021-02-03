@@ -96,6 +96,7 @@ import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
+import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
@@ -147,7 +148,11 @@ initReact({
     />
   ),
   'mentoring-queue': (data: any) => (
-    <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
+    <Mentoring.Queue
+      request={data.request}
+      sortOptions={data.sort_options}
+      tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
+    />
   ),
   'mentoring-discussion': (data: any) => (
     <Mentoring.Discussion

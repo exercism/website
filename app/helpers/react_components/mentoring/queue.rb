@@ -12,6 +12,7 @@ module ReactComponents
           "mentoring-queue",
           {
             request: request,
+            tracks: tracks,
             sort_options: SORT_OPTIONS
           }
         )
@@ -29,6 +30,23 @@ module ReactComponents
 
       def default_request
         { endpoint: Exercism::Routes.api_mentor_requests_path }
+      end
+
+      def tracks
+        [
+          {
+            slug: "csharp",
+            title: "C#",
+            iconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+            count: 52
+          },
+          {
+            slug: "ruby",
+            title: "Ruby",
+            iconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+            count: 52
+          }
+        ]
       end
     end
   end

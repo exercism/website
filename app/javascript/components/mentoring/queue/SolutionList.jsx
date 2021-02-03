@@ -2,20 +2,16 @@ import React, { useState } from 'react'
 import { Solution } from './Solution'
 import * as Tooltips from '../../tooltips'
 import { Pagination } from '../../common/Pagination'
-import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
 import { usePopper } from 'react-popper'
-import { useIsMounted } from 'use-is-mounted'
 
-export function SolutionList({ request, setPage }) {
-  const isMountedRef = useIsMounted()
-  const {
-    isLoading,
-    isError,
-    isSuccess,
-    resolvedData,
-    latestData,
-  } = usePaginatedRequestQuery('mentor-solutions-list', request, isMountedRef)
+export function SolutionList({
+  status,
+  resolvedData,
+  latestData,
+  page,
+  setPage,
+}) {
   const [tooltipTrigger, setTooltipTrigger] = useState(null)
   const [tooltipElement, setTooltipElement] = useState(null)
 
@@ -31,9 +27,9 @@ export function SolutionList({ request, setPage }) {
 
   return (
     <div>
-      {isLoading && <Loading />}
-      {isError && <p>Something went wrong</p>}
-      {isSuccess && (
+      {status === 'loading' && <Loading />}
+      {status === 'error' && <p>Something went wrong</p>}
+      {status === 'success' && (
         <>
           <div className="--solutions">
             {resolvedData.results.map((solution, key) => (
@@ -60,8 +56,8 @@ export function SolutionList({ request, setPage }) {
       {latestData && (
         <footer>
           <Pagination
-            current={request.query.page}
-            total={latestData.meta.total}
+            current={page}
+            total={latestData.meta.queryTotal}
             setPage={setPage}
           />
         </footer>

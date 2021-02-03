@@ -1,15 +1,25 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { TrackFilterList } from './queue/TrackFilterList'
 import { ExerciseFilterList } from './queue/ExerciseFilterList'
+import { SolutionCount } from './queue/SolutionCount'
 import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
+import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { useIsMounted } from 'use-is-mounted'
 
 export function Queue({ sortOptions, tracks, exercises, ...props }) {
+  const isMountedRef = useIsMounted()
   const { request, setCriteria, setOrder, setFilter, setPage } = useList(
     props.request
   )
+  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
+    'mentor-solutions-list',
+    request,
+    isMountedRef
+  )
+
   const filterValue = useMemo(
     () => request.query.filter || { track: [], exercise: [] },
     [request.query.filter]
@@ -32,9 +42,21 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
             id="mentoring-queue-sorter"
           />
         </header>
-        <SolutionList request={request} setPage={setPage} />
+        <SolutionList
+          status={status}
+          page={request.query.page}
+          resolvedData={resolvedData}
+          latestData={latestData}
+          setPage={setPage}
+        />
       </div>
       <div className="mentor-queue-filtering">
+        {resolvedData ? (
+          <SolutionCount
+            queryTotal={resolvedData.meta.queryTotal}
+            total={resolvedData.meta.total}
+          />
+        ) : null}
         <TrackFilterList
           tracks={tracks}
           value={filterValue.track}

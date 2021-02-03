@@ -6,7 +6,7 @@ en:
 
     submitted_iteration:
       1: >
-        You submitted an iteration to
+        You submitted <strong>iteration %{iteration_idx}</strong> to
 
     completed_exercise:
       1: >

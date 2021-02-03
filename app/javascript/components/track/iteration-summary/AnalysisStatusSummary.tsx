@@ -1,6 +1,7 @@
 import React from 'react'
 import { RepresentationStatus, AnalysisStatus } from '../IterationSummary'
 import { GraphicalIcon } from '../../common'
+import { Icon } from '../../common/Icon'
 
 function Content({
   analysisStatus,
@@ -30,8 +31,10 @@ function Content({
 
   return (
     <>
-      <div role="presentation" className="--dot"></div>
-      <div className="--status">Analysed</div>
+      <div className="--comments">
+        <Icon icon="automated-feedback" alt="Automated feedback comments" />
+        <div className="--count">5</div>
+      </div>
     </>
   )
 }

@@ -1,30 +1,23 @@
 module User::Activities
   class SubmittedIterationActivity < User::Activity
-    params :exercise, :iteration
+    params :iteration
+
+    before_create do
+      self.occurred_at = iteration.created_at
+    end
 
     def url
-      Exercism::Routes.track_exercise_iteration_path(track, exercise, iteration)
+      Exercism::Routes.track_exercise_iteration_path(track, solution.exercise, iteration)
     end
 
-    def rendering_data
-      super.tap do |data|
-        data.iteration = iteration
-      end
-    end
-
-    def cachable_rendering_data
-      super.merge(
-        exercise_title: exercise.title,
-        exercise_icon_name: exercise.icon_name
-      )
+    def i18n_params
+      {
+        iteration_idx: iteration.idx
+      }
     end
 
     def guard_params
       "Iteration##{iteration.id}"
-    end
-
-    def grouping_params
-      "Exercise##{exercise.id}"
     end
   end
 end

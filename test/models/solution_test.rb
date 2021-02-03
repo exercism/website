@@ -37,9 +37,31 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal solution.exercise.slug, solution.git_slug
   end
 
+  test "status" do
+    solution = create :concept_solution
+    assert_equal :started, solution.reload.status
+
+    create :iteration, solution: solution
+    assert_equal :in_progress, solution.reload.status
+
+    solution.update(completed_at: Time.current)
+    assert_equal :completed, solution.reload.status
+
+    solution.update(published_at: Time.current)
+    assert_equal :published, solution.reload.status
+  end
+
   test "downloaded?" do
     refute create(:concept_solution, downloaded_at: nil).downloaded?
     assert create(:concept_solution, downloaded_at: Time.current).downloaded?
+  end
+
+  test "iterated?" do
+    solution = create :concept_solution
+    refute solution.iterated?
+
+    create :iteration, solution: solution
+    assert solution.reload.iterated?
   end
 
   test "#completed?" do

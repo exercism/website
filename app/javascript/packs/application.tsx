@@ -189,6 +189,7 @@ initReact({
   'track-iteration-summary': (data: any) => (
     <Track.IterationSummary
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
+      className={data.class_name}
     />
   ),
   editor: (data: any) => (

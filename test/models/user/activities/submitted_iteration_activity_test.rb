@@ -10,16 +10,13 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
     activity = User::Activities::SubmittedIterationActivity.create!(
       user: user,
       track: exercise.track,
+      solution: solution,
       params: {
-        iteration: iteration,
-        exercise: exercise
+        iteration: iteration
       }
     )
     assert_equal "#{user.id}|submitted_iteration|Iteration##{iteration.id}",
       activity.uniqueness_key
-
-    assert_equal "#{user.id}|Exercise##{exercise.id}",
-      activity.grouping_key
   end
 
   test "rendering_data is valid" do
@@ -27,22 +24,20 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
       user = create :user
       exercise = create :concept_exercise
       solution = create :concept_solution, user: user, exercise: exercise
-      iteration = create :iteration, solution: solution
+      iteration = create :iteration, solution: solution, created_at: Time.current - 1.week, idx: 3
 
       activity = User::Activities::SubmittedIterationActivity.create!(
         user: user,
         track: exercise.track,
+        solution: solution,
         params: {
-          iteration: iteration,
-          exercise: exercise
+          iteration: iteration
         }
       )
 
-      assert_equal exercise.title, activity.rendering_data.exercise_title
-      assert_equal exercise.icon_name, activity.rendering_data.exercise_icon_name
-      assert_equal "/tracks/ruby/exercises/strings/iterations?idx=0", activity.rendering_data.url
-      assert_equal "You submitted an iteration to", activity.rendering_data.text
-      assert_equal Time.current, activity.rendering_data.occurred_at
+      assert_equal "/tracks/ruby/exercises/strings/iterations?idx=3", activity.rendering_data[:url]
+      assert_equal "You submitted <strong>iteration 3</strong> to", activity.rendering_data[:text]
+      assert_equal Time.current - 1.week, activity.rendering_data[:occurred_at]
     end
   end
 end

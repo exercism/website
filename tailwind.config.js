@@ -42,6 +42,7 @@ module.exports = {
       backgroundColorB: 'var(--backgroundColorB)',
       backgroundColorC: 'var(--backgroundColorC)',
       backgroundColorD: 'var(--backgroundColorD)',
+      backgroundColorE: 'var(--backgroundColorE)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',
@@ -135,6 +136,11 @@ module.exports = {
       paragraph: '150%',
       code: '160%',
       huge: '170%',
+
+      140: '140%',
+      150: '150%',
+      160: '160%',
+      170: '170%',
     },
     spacing: {
       auto: 'auto',

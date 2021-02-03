@@ -50,8 +50,12 @@ const SUBMISSION_METHOD_LABELS = {
   [SubmissionMethod.CLI]: 'CLI',
   [SubmissionMethod.API]: 'API',
 }
-export function IterationSummary(props: { iteration: Iteration }) {
+export function IterationSummary(props: {
+  iteration: Iteration
+  className: null
+}) {
   const [iteration, setIteration] = useState(props.iteration)
+  const [className, setClassName] = useState(props.className)
   const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
@@ -70,7 +74,7 @@ export function IterationSummary(props: { iteration: Iteration }) {
   }, [channel, iteration, setIteration])
 
   return (
-    <div className="c-iteration-summary">
+    <div className={`c-iteration-summary ${className}`}>
       <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
       <div className="--info">
         <div className="--idx">
@@ -79,6 +83,16 @@ export function IterationSummary(props: { iteration: Iteration }) {
           <div className="--latest" aria-label="Latest iteration">
             Latest
           </div>
+
+          {/* TODO: Implement this: https://github.com/exercism/v3-project-management/issues/121 */}
+          {true ? (
+            <div
+              className="--published"
+              aria-label="This iteration is published"
+            >
+              Published
+            </div>
+          ) : null}
         </div>
         <div className="--details" data-testid="details">
           Submitted via {SUBMISSION_METHOD_LABELS[iteration.submissionMethod]},{' '}
@@ -95,6 +109,13 @@ export function IterationSummary(props: { iteration: Iteration }) {
         analysisStatus={iteration.analysisStatus}
         representationStatus={iteration.representationStatus}
       />
+      <time
+        dateTime={iteration.createdAt.toString()}
+        title={iteration.createdAt.toString()}
+        className="--time"
+      >
+        {fromNow(iteration.createdAt)}
+      </time>
     </div>
   )
 }

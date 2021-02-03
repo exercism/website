@@ -8,6 +8,7 @@ class Solution < ApplicationRecord
   has_one :track, through: :exercise
   has_many :submissions, dependent: :destroy
   has_many :iterations, dependent: :destroy
+  has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
   has_many :mentor_requests, class_name: "Solution::MentorRequest", dependent: :destroy
   has_many :mentor_discussions, class_name: "Solution::MentorDiscussion", dependent: :destroy
@@ -46,6 +47,14 @@ class Solution < ApplicationRecord
     raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
   end
 
+  def status
+    return :published if published?
+    return :completed if completed?
+    return :in_progress if iterated?
+
+    :started
+  end
+
   def downloaded?
     !!downloaded_at
   end
@@ -56,6 +65,10 @@ class Solution < ApplicationRecord
 
   def published?
     !!published_at
+  end
+
+  def iterated?
+    iterations.exists?
   end
 
   def has_unlocked_pending_mentoring_request?

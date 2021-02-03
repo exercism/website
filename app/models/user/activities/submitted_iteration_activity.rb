@@ -10,6 +10,10 @@ module User::Activities
       Exercism::Routes.track_exercise_iteration_path(track, solution.exercise, iteration)
     end
 
+    def icon_name
+      "iteration"
+    end
+
     def i18n_params
       {
         iteration_idx: iteration.idx

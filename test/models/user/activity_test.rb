@@ -38,11 +38,12 @@ class User::ActivityTest < ActiveSupport::TestCase
 
       cache_data = {
         'url' => "/tracks/ruby/exercises/strings",
-        'text' => "You started a new exercise"
+        'text' => "You started <strong>Strings</strong>",
+        'icon_name' => "editor"
       }
       assert_equal cache_data, activity.rendering_data_cache
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
-      assert_equal "You started a new exercise", activity.rendering_data[:text]
+      assert_equal "You started <strong>Strings</strong>", activity.rendering_data[:text]
       assert_equal Time.current, activity.rendering_data[:occurred_at]
     end
   end
@@ -64,13 +65,14 @@ class User::ActivityTest < ActiveSupport::TestCase
       activity = User::Activity.last
       assert_equal({}, activity.rendering_data_cache)
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
-      assert_equal "You started a new exercise", activity.rendering_data[:text]
+      assert_equal "You started <strong>Strings</strong>", activity.rendering_data[:text]
       assert_equal Time.current, activity.rendering_data[:occurred_at]
 
       activity = User::Activity.last
       cache_data = {
         'url' => "/tracks/ruby/exercises/strings",
-        'text' => "You started a new exercise"
+        'text' => "You started <strong>Strings</strong>",
+        'icon_name' => "editor"
       }
       assert_equal cache_data, activity.rendering_data_cache
     end

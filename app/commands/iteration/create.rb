@@ -29,12 +29,12 @@ class Iteration
         :submitted_iteration,
         solution.user,
         track: solution.track,
-        exercise: solution.exercise,
+        solution: solution,
         iteration: iteration
       )
-    rescue StandardError => e
-      Rails.logger.error "Failed to create activity"
-      Rails.logger.error e.message
+      # rescue StandardError => e
+      #   Rails.logger.error "Failed to create activity"
+      #   Rails.logger.error e.message
     end
   end
 end

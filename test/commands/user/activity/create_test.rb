@@ -6,10 +6,12 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
   test "create db record" do
     user = create :user
     type = :started_exercise
-    exercise = create(:concept_exercise)
+    solution = create(:concept_solution)
+    exercise = solution.exercise
     params = {
       track: exercise.track,
-      exercise: exercise
+      exercise: exercise,
+      solution: solution
     }
 
     User::Activity::Create.(type, user, params)
@@ -17,11 +19,11 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
     # Reload it fresh from the db to avoid caching
     activity = User::Activity.last
     assert_equal user, activity.user
-    assert_equal exercise, activity.exercise
-    assert_equal exercise.track, activity.track
+    assert_equal solution, activity.solution
+    assert_equal solution.track, activity.track
     assert_equal User::Activities::StartedExerciseActivity, activity.class
     assert_equal 1, activity.version
-    assert_equal "#{user.id}|started_exercise|Exercise##{exercise.id}", activity.uniqueness_key
+    assert_equal "#{user.id}|started_exercise|Solution##{solution.id}", activity.uniqueness_key
   end
 
   test "broadcasts message" do

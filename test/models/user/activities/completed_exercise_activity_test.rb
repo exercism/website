@@ -27,7 +27,7 @@ class User::Activities::CompletedExerciseActivityTest < ActiveSupport::TestCase
         solution: solution
       )
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
-      assert_equal "You completed an exercise", activity.rendering_data[:text]
+      assert_equal "You completed <strong>Strings</strong>", activity.rendering_data[:text]
       assert_equal Time.current - 1.week, activity.rendering_data[:occurred_at]
     end
   end

@@ -77,13 +77,19 @@ class User::Activity < ApplicationRecord
   def cachable_rendering_data
     {
       text: text,
-      url: url
+      url: url,
+      icon_name: icon_name
     }
   end
 
   private
   def text
     I18n.t("user_activities.#{i18n_key}.#{version}", i18n_params).strip
+  end
+
+  # This should be overriden by child-classes
+  def icon_name
+    "editor"
   end
 
   def type_key

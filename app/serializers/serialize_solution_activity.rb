@@ -9,7 +9,7 @@ class SerializeSolutionActivity
         status: solution.status,
         mentoring_status: solution.mentoring_status,
         num_mentor_comments: mentor_comments[:count],
-        mentor_comments_unread: mentor_comments[:unread],
+        unread_mentor_comments: mentor_comments[:unread],
         unsubmitted_code: false # TODO
       },
       exercise: {
@@ -17,7 +17,11 @@ class SerializeSolutionActivity
         icon_name: exercise.icon_name
       },
       activities: activities_data,
-      latest_iteration: latest_iteration_data
+      latest_iteration: latest_iteration_data,
+      links: {
+        exercise_url: Exercism::Routes.track_exercise_path(solution.track, exercise),
+        editor_url: Exercism::Routes.edit_track_exercise_path(solution.track, exercise)
+      }
     }
   end
 

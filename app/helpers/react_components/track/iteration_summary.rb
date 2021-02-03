@@ -2,7 +2,7 @@ module ReactComponents
   module Track
     class IterationSummary < ReactComponent
       def initialize(iteration, slim: false)
-        super
+        super()
 
         @iteration = iteration
         @slim = slim

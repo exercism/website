@@ -11,15 +11,19 @@ class SerializeSolutionActivityTest < ActiveSupport::TestCase
         status: :started,
         mentoring_status: "none",
         num_mentor_comments: 0,
-        mentor_comments_unread: false,
+        unread_mentor_comments: false,
         unsubmitted_code: false
       },
       exercise: {
         title: exercise.title,
         icon_name: exercise.icon_name
       },
-      activities: nil,
-      latest_iteration: nil
+      activities: [],
+      latest_iteration: nil,
+      links: {
+        exercise_url: "/tracks/ruby/exercises/bob",
+        editor_url: "/tracks/ruby/exercises/bob/edit"
+      }
     }
 
     assert_equal expected, SerializeSolutionActivity.(solution)
@@ -33,17 +37,17 @@ class SerializeSolutionActivityTest < ActiveSupport::TestCase
 
     data = SerializeSolutionActivity.(solution)
     assert_equal 0, data[:solution][:num_mentor_comments]
-    refute data[:solution][:mentor_comments_unread]
+    refute data[:solution][:unread_mentor_comments]
 
     create :solution_mentor_discussion_post, discussion: discussion, seen_by_student: true
     data = SerializeSolutionActivity.(solution.reload)
     assert_equal 1, data[:solution][:num_mentor_comments]
-    refute data[:solution][:mentor_comments_unread]
+    refute data[:solution][:unread_mentor_comments]
 
     create :solution_mentor_discussion_post, discussion: discussion, seen_by_student: false
     data = SerializeSolutionActivity.(solution.reload)
     assert_equal 2, data[:solution][:num_mentor_comments]
-    assert data[:solution][:mentor_comments_unread]
+    assert data[:solution][:unread_mentor_comments]
   end
 
   test "with iteration" do

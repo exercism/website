@@ -36,7 +36,7 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
       )
 
       assert_equal "/tracks/ruby/exercises/strings/iterations?idx=3", activity.rendering_data[:url]
-      assert_equal "You submitted <strong>iteration 3</strong> to", activity.rendering_data[:text]
+      assert_equal "You submitted <strong>Iteration 3</strong>", activity.rendering_data[:text]
       assert_equal Time.current - 1.week, activity.rendering_data[:occurred_at]
     end
   end

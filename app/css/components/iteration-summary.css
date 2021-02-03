@@ -46,12 +46,12 @@
             height: 8px;
             width: 8px;
         }
-        & .--icon {
+        & .c-icon {
             height: 16px;
             width: 16px;
         }
         & .--dot,
-        & .--icon {
+        & .c-icon {
             @apply mr-16;
         }
         & .--status {

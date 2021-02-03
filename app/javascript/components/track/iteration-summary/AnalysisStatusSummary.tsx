@@ -1,5 +1,6 @@
 import React from 'react'
 import { RepresentationStatus, AnalysisStatus } from '../IterationSummary'
+import { GraphicalIcon } from '../../common'
 
 function Content({
   analysisStatus,
@@ -14,9 +15,7 @@ function Content({
   ) {
     return (
       <>
-        <svg role="presentation" className="--icon">
-          <use xlinkHref="#loading" />
-        </svg>
+        <GraphicalIcon icon="spinner" />
         <div className="--status">Analysing</div>
       </>
     )

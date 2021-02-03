@@ -64,6 +64,21 @@ module Components
 
         assert_text "Frank"
       end
+
+      test "filters by exercise" do
+        visit test_components_mentoring_queue_url
+        find("label", text: "Zipper").click
+
+        assert_text "Zipper"
+      end
+
+      test "shows counts" do
+        visit test_components_mentoring_queue_url
+        find("label", text: "C#").click
+
+        assert_text "Showing 1 request"
+        assert_text "3 queued requests"
+      end
     end
   end
 end

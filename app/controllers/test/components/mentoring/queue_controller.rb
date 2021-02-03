@@ -4,7 +4,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
   def solutions
     return head :internal_server_error if params[:state] == "Error" || params[:state] == "Loading"
 
-    results = [
+    requests = [
       {
         track_title: "Ruby",
         track_icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
@@ -36,6 +36,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
         trackId: 3,
         track_title: "C#",
         track_slug: "csharp",
+        exercise_slug: "zipper",
         track_icon_url: "https://assets.exercism.io/tracks/csharp-hex-white.png",
         mentee_avatar_url: "https://robohash.org/exercism_3",
         mentee_handle: "Frank",
@@ -49,6 +50,8 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
       }
     ]
 
+    results = requests
+
     page = params.fetch(:page, 1).to_i
     per = params.fetch(:per, 1).to_i
 
@@ -57,27 +60,11 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
     end
     results = sort_solutions(results) if params[:order].present?
 
-    results = filter_solutions(results) if params[:filter] && params[:filter][:track].present?
-
-    tracks = [
-      {
-        slug: 'csharp',
-        title: 'C#',
-        iconUrl: 'https://assets.exercism.io/tracks/ruby-hex-white.png',
-        count: 52
-      },
-      {
-        slug: 'ruby',
-        title: 'Ruby',
-        iconUrl: 'https://assets.exercism.io/tracks/ruby-hex-white.png',
-        count: 52
-      }
-    ]
+    results = filter_solutions(results) if params[:filter]
 
     render json: {
       results: results[page - 1, per],
-      tracks: tracks,
-      meta: { current: page, total: results.size }
+      meta: { current: page, queryTotal: results.size, total: requests.size }
     }
   end
 
@@ -93,7 +80,13 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
   end
 
   def filter_solutions(results)
-    selected = params[:filter][:track]
-    results.select { |c| selected.include?(c[:track_slug]) }
+    tracks = params[:filter][:track] || []
+    exercises = params[:filter][:exercise] || []
+
+    results = results.select { |c| tracks.include?(c[:track_slug]) } if tracks.any?
+
+    results = results.select { |c| exercises.include?(c[:exercise_slug]) } if exercises.any?
+
+    results
   end
 end

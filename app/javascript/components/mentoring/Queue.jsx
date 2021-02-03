@@ -2,21 +2,17 @@ import React, { useCallback, useMemo } from 'react'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { TrackFilterList } from './queue/TrackFilterList'
+import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
 
-export function Queue({ sortOptions, tracks, ...props }) {
+export function Queue({ sortOptions, tracks, exercises, ...props }) {
   const { request, setCriteria, setOrder, setFilter, setPage } = useList(
     props.request
   )
-  const filterValue = useMemo(() => request.query.filter || { track: [] }, [
-    request.query.filter,
-  ])
-  const setTrackFilter = useCallback(
-    (value) => {
-      setFilter({ ...filterValue, track: value })
-    },
-    [filterValue, setFilter]
+  const filterValue = useMemo(
+    () => request.query.filter || { track: [], exercise: [] },
+    [request.query.filter]
   )
 
   return (
@@ -38,11 +34,18 @@ export function Queue({ sortOptions, tracks, ...props }) {
         </header>
         <SolutionList request={request} setPage={setPage} />
       </div>
-      <TrackFilterList
-        tracks={tracks}
-        value={filterValue.track}
-        setValue={setTrackFilter}
-      />
+      <div className="mentor-queue-filtering">
+        <TrackFilterList
+          tracks={tracks}
+          value={filterValue.track}
+          setValue={(value) => setFilter({ ...filterValue, track: value })}
+        />
+        <ExerciseFilterList
+          exercises={exercises}
+          value={filterValue.exercise}
+          setValue={(value) => setFilter({ ...filterValue, exercise: value })}
+        />
+      </div>
     </div>
   )
 }

@@ -13,6 +13,7 @@ module ReactComponents
           {
             request: request,
             tracks: tracks,
+            exercises: exercises,
             sort_options: SORT_OPTIONS
           }
         )
@@ -43,6 +44,17 @@ module ReactComponents
           {
             slug: "ruby",
             title: "Ruby",
+            iconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+            count: 52
+          }
+        ]
+      end
+
+      def exercises
+        [
+          {
+            slug: "zipper",
+            title: "Zipper",
             iconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png",
             count: 52
           }

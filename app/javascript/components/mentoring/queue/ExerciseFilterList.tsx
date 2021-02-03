@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react'
-import { GraphicalIcon, TrackIcon } from '../../common'
+import { GraphicalIcon } from '../../common'
 
-export type Track = {
+export type Exercise = {
   slug: string
-  title: string
   iconUrl: string
+  title: string
   count: number
 }
 
-const TrackFilter = ({
+const ExerciseFilter = ({
   title,
   iconUrl,
   count,
   checked,
   onChange,
-}: Track & {
+}: Exercise & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
@@ -25,7 +25,11 @@ const TrackFilter = ({
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
-        <TrackIcon iconUrl={iconUrl} title={title} />
+        <img
+          role="presentation"
+          className="c-icon c-exercise-icon"
+          src={iconUrl}
+        />
         <div className="title">{title}</div>
         <div className="count">{count}</div>
       </div>
@@ -33,12 +37,12 @@ const TrackFilter = ({
   )
 }
 
-export const TrackFilterList = ({
-  tracks,
+export const ExerciseFilterList = ({
+  exercises,
   value,
   setValue,
 }: {
-  tracks: Track[]
+  exercises: Exercise[]
   value: string[]
   setValue: (value: string[]) => void
 }): JSX.Element => {
@@ -52,17 +56,16 @@ export const TrackFilterList = ({
     },
     [setValue, value]
   )
-
   return (
-    <div className="track-filter">
-      <h3>Filter by language track</h3>
-      <div className="tracks">
-        {tracks.map((track) => (
-          <TrackFilter
-            key={track.slug}
-            onChange={(e) => handleChange(e, track.slug)}
-            checked={value.includes(track.slug)}
-            {...track}
+    <div className="exercise-filter">
+      <h3>Filter by exercise</h3>
+      <div className="exercises">
+        {exercises.map((exercise) => (
+          <ExerciseFilter
+            key={exercise.slug}
+            onChange={(e) => handleChange(e, exercise.slug)}
+            checked={value.includes(exercise.slug)}
+            {...exercise}
           />
         ))}
       </div>

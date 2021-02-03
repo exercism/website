@@ -97,6 +97,7 @@ import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
+import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
@@ -152,6 +153,7 @@ initReact({
       request={data.request}
       sortOptions={data.sort_options}
       tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
+      exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
     />
   ),
   'mentoring-discussion': (data: any) => (

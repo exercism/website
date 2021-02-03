@@ -35,6 +35,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
       {
         trackId: 3,
         track_title: "C#",
+        track_slug: "csharp",
         track_icon_url: "https://assets.exercism.io/tracks/csharp-hex-white.png",
         mentee_avatar_url: "https://robohash.org/exercism_3",
         mentee_handle: "Frank",
@@ -56,8 +57,26 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
     end
     results = sort_solutions(results) if params[:order].present?
 
+    results = filter_solutions(results) if params[:filter] && params[:filter][:track].present?
+
+    tracks = [
+      {
+        slug: 'csharp',
+        title: 'C#',
+        iconUrl: 'https://assets.exercism.io/tracks/ruby-hex-white.png',
+        count: 52
+      },
+      {
+        slug: 'ruby',
+        title: 'Ruby',
+        iconUrl: 'https://assets.exercism.io/tracks/ruby-hex-white.png',
+        count: 52
+      }
+    ]
+
     render json: {
       results: results[page - 1, per],
+      tracks: tracks,
       meta: { current: page, total: results.size }
     }
   end
@@ -71,5 +90,10 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
     else
       results.sort_by { |c| c[:mentee_handle] }
     end
+  end
+
+  def filter_solutions(results)
+    selected = params[:filter][:track]
+    results.select { |c| selected.include?(c[:track_slug]) }
   end
 end

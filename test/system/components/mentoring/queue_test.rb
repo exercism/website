@@ -57,6 +57,13 @@ module Components
 
         assert_text "Frank"
       end
+
+      test "filters by language track" do
+        visit test_components_mentoring_queue_url
+        find("label", text: "C#").click
+
+        assert_text "Frank"
+      end
     end
   end
 end

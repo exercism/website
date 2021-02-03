@@ -1,4 +1,5 @@
 .c-mentor-queue {
+    width: 100%;
     @apply shadow-lg bg-backgroundColorA rounded-8;
 
     & header.c-search-bar {

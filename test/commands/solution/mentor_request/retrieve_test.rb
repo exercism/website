@@ -7,10 +7,10 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, track: mentored_track
 
-    # Fulfilled
+    # Cancelled
     create :solution_mentor_request, status: :cancelled, solution: solution
 
-    # Cancelled
+    # Fulfilled
     create :solution_mentor_request, status: :fulfilled, solution: solution
 
     # Locked

@@ -1,83 +1,50 @@
-import React, { useState } from 'react'
-import { Discussion } from '../EndSessionModal'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
+import React, { useReducer } from 'react'
+import { Discussion, Relationship } from '../EndSessionModal'
+import { MentorAgainStep } from './session-ended/MentorAgainStep'
+import { FavoriteStep } from './session-ended/FavoriteStep'
+import { EndStep } from './session-ended/EndStep'
 
-type ModalStep = 'mentorAgain' | 'favorite' | 'favorited'
-
-const FavoritedStep = ({
-  discussion,
-}: {
+type State = {
   discussion: Discussion
-}): JSX.Element => {
-  return <p>{discussion.student.handle} is one of your favorites.</p>
+  step: ModalStep
 }
 
-const FavoriteStep = ({
-  discussion,
-  onFavorite,
-}: {
-  discussion: Discussion
-  onFavorite: () => void
-}) => {
-  const isMountedRef = useIsMounted()
-  const [handleFavorite] = useMutation(
-    () => {
-      return sendRequest({
-        endpoint: discussion.student.links.favorite,
-        method: 'POST',
-        body: null,
-        isMountedRef: isMountedRef,
-      })
-    },
-    {
-      onSuccess: () => {
-        onFavorite()
-      },
-    }
-  )
+type ModalStep = 'mentorAgain' | 'favorite' | 'end'
 
-  return (
-    <div>
-      <p>Add {discussion.student.handle} to your favorites?</p>
-      <button type="button" onClick={() => handleFavorite()}>
-        Add to favorites
-      </button>
-    </div>
-  )
+type ActionType = 'MENTOR_AGAIN' | 'WONT_MENTOR_AGAIN' | 'FAVORITED'
+
+type Action = {
+  type: ActionType
+  payload: { relationship: Relationship }
 }
 
-const MentorAgainStep = ({
-  discussion,
-  onYes,
-}: {
-  discussion: Discussion
-  onYes: () => void
-}) => {
-  const isMountedRef = useIsMounted()
-  const [handleYes] = useMutation(
-    () => {
-      return sendRequest({
-        endpoint: discussion.student.links.mentorAgain,
-        method: 'PATCH',
-        body: null,
-        isMountedRef: isMountedRef,
-      })
-    },
-    {
-      onSuccess: () => {
-        onYes()
-      },
-    }
-  )
-
-  return (
-    <div>
-      <p>Want to mentor {discussion.student.handle} again?</p>
-      <button onClick={() => handleYes()}>Yes</button>
-    </div>
-  )
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'MENTOR_AGAIN':
+      return {
+        discussion: {
+          ...state.discussion,
+          relationship: action.payload.relationship,
+        },
+        step: 'favorite',
+      }
+    case 'WONT_MENTOR_AGAIN':
+      return {
+        discussion: {
+          ...state.discussion,
+          relationship: action.payload.relationship,
+        },
+        step: 'end',
+      }
+    case 'FAVORITED':
+      return {
+        discussion: {
+          ...state.discussion,
+          relationship: action.payload.relationship,
+        },
+        step: 'end',
+      }
+  }
 }
 
 export const SessionEnded = ({
@@ -85,30 +52,45 @@ export const SessionEnded = ({
 }: {
   discussion: Discussion
 }): JSX.Element => {
-  const [step, setStep] = useState<ModalStep>('mentorAgain')
+  const [state, dispatch] = useReducer(reducer, {
+    discussion: discussion,
+    step: 'mentorAgain',
+  })
 
   return (
     <div>
       <h1>
         You&apos;ve ended your discussion with {discussion.student.handle}.
       </h1>
-      {step === 'mentorAgain' ? (
+      {state.step === 'mentorAgain' ? (
         <MentorAgainStep
-          discussion={discussion}
-          onYes={() => {
-            setStep('favorite')
+          discussion={state.discussion}
+          onYes={(relationship) => {
+            dispatch({
+              type: 'MENTOR_AGAIN',
+              payload: { relationship: relationship },
+            })
+          }}
+          onNo={(relationship) => {
+            dispatch({
+              type: 'WONT_MENTOR_AGAIN',
+              payload: { relationship: relationship },
+            })
           }}
         />
       ) : null}
-      {step === 'favorite' ? (
+      {state.step === 'favorite' ? (
         <FavoriteStep
-          discussion={discussion}
-          onFavorite={() => {
-            setStep('favorited')
+          discussion={state.discussion}
+          onFavorite={(relationship) => {
+            dispatch({
+              type: 'FAVORITED',
+              payload: { relationship: relationship },
+            })
           }}
         />
       ) : null}
-      {step === 'favorited' ? <FavoritedStep discussion={discussion} /> : null}
+      {state.step === 'end' ? <EndStep discussion={state.discussion} /> : null}
     </div>
   )
 }

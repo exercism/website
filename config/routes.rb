@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
       resources :mentor_student_relationships, only: [] do
         patch :mark_as_mentor_again, on: :member
+        patch :mark_as_dont_mentor_again, on: :member
       end
 
       post "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#create", as: "mentor_favorite_student"

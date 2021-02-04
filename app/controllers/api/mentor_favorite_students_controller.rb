@@ -5,7 +5,10 @@ module API
       # leak whether handles exist or not
       student = User.find_by!(handle: params[:student_handle])
       Mentor::StudentRelationship::ToggleFavorite.(current_user, student, true)
-      render json: {}, status: :ok
+
+      relationship = Mentor::StudentRelationship.find_by!(mentor: current_user, student: student)
+
+      render json: { relationship: SerializeMentorStudentRelationship.(relationship) }
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end

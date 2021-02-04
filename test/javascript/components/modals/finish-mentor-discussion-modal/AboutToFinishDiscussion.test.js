@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { AboutToEndSession } from '../../../../../app/javascript/components/modals/end-session-modal/AboutToEndSession'
+import { AboutToFinishDiscussion } from '../../../../../app/javascript/components/modals/finish-mentor-discussion-modal/AboutToFinishDiscussion'
 import { silenceConsole } from '../../../support/silence-console'
 
 test('disables buttons when loading', async () => {
@@ -15,11 +15,11 @@ test('disables buttons when loading', async () => {
   )
   server.listen()
 
-  render(<AboutToEndSession endpoint="https://exercism.test/end" />)
-  userEvent.click(screen.getByRole('button', { name: 'End session' }))
+  render(<AboutToFinishDiscussion endpoint="https://exercism.test/end" />)
+  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
 
   expect(
-    await screen.findByRole('button', { name: 'End session' })
+    await screen.findByRole('button', { name: 'End discussion' })
   ).toBeDisabled()
   expect(screen.getByRole('button', { name: 'Cancel' })).toBeDisabled()
 
@@ -34,8 +34,8 @@ test('shows loading message when loading', async () => {
   )
   server.listen()
 
-  render(<AboutToEndSession endpoint="https://exercism.test/end" />)
-  userEvent.click(screen.getByRole('button', { name: 'End session' }))
+  render(<AboutToFinishDiscussion endpoint="https://exercism.test/end" />)
+  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
@@ -54,8 +54,8 @@ test('shows API errors', async () => {
   )
   server.listen()
 
-  render(<AboutToEndSession endpoint="https://exercism.test/end" />)
-  userEvent.click(screen.getByRole('button', { name: 'End session' }))
+  render(<AboutToFinishDiscussion endpoint="https://exercism.test/end" />)
+  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
 
   expect(
     await screen.findByText('Unable to end discussion')
@@ -67,8 +67,8 @@ test('shows API errors', async () => {
 test('shows generic error', async () => {
   silenceConsole()
 
-  render(<AboutToEndSession endpoint="weirdendpoint" />)
-  userEvent.click(screen.getByRole('button', { name: 'End session' }))
+  render(<AboutToFinishDiscussion endpoint="weirdendpoint" />)
+  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
 
   expect(
     await screen.findByText('Unable to end discussion')

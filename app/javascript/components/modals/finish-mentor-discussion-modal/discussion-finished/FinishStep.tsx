@@ -1,7 +1,7 @@
 import React from 'react'
-import { Discussion } from '../../EndSessionModal'
+import { Discussion } from '../../FinishMentorDiscussionModal'
 
-export const EndStep = ({
+export const FinishStep = ({
   discussion,
   onReset,
 }: {

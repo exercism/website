@@ -1,15 +1,15 @@
 import React, { useReducer } from 'react'
-import { Discussion, Relationship } from '../EndSessionModal'
-import { MentorAgainStep } from './session-ended/MentorAgainStep'
-import { FavoriteStep } from './session-ended/FavoriteStep'
-import { EndStep } from './session-ended/EndStep'
+import { Discussion, Relationship } from '../FinishMentorDiscussionModal'
+import { MentorAgainStep } from './discussion-finished/MentorAgainStep'
+import { FavoriteStep } from './discussion-finished/FavoriteStep'
+import { FinishStep } from './discussion-finished/FinishStep'
 
 type State = {
   discussion: Discussion
   step: ModalStep
 }
 
-type ModalStep = 'mentorAgain' | 'favorite' | 'end'
+type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
 
 type Action =
   | { type: 'MENTOR_AGAIN'; payload: { relationship: Relationship } }
@@ -34,7 +34,7 @@ function reducer(state: State, action: Action): State {
           ...state.discussion,
           relationship: action.payload.relationship,
         },
-        step: 'end',
+        step: 'finish',
       }
     case 'FAVORITED':
       return {
@@ -42,16 +42,16 @@ function reducer(state: State, action: Action): State {
           ...state.discussion,
           relationship: action.payload.relationship,
         },
-        step: 'end',
+        step: 'finish',
       }
     case 'SKIP_FAVORITE':
-      return { ...state, step: 'end' }
+      return { ...state, step: 'finish' }
     case 'RESET':
       return { ...state, step: 'mentorAgain' }
   }
 }
 
-export const SessionEnded = ({
+export const DiscussionFinished = ({
   discussion,
 }: {
   discussion: Discussion
@@ -64,7 +64,7 @@ export const SessionEnded = ({
   return (
     <div>
       <h1>
-        You&apos;ve ended your discussion with {discussion.student.handle}.
+        You&apos;ve finished your discussion with {discussion.student.handle}.
       </h1>
       {state.step === 'mentorAgain' ? (
         <MentorAgainStep
@@ -97,8 +97,8 @@ export const SessionEnded = ({
           }}
         />
       ) : null}
-      {state.step === 'end' ? (
-        <EndStep
+      {state.step === 'finish' ? (
+        <FinishStep
           discussion={state.discussion}
           onReset={() => {
             dispatch({ type: 'RESET' })

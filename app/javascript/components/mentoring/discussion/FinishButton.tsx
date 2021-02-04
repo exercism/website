@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { EndSessionModal } from '../../modals/EndSessionModal'
+import { FinishMentorDiscussionModal } from '../../modals/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
 
-export const EndSessionButton = ({
+export const FinishButton = ({
   endpoint,
   modalProps,
 }: {
@@ -19,9 +19,9 @@ export const EndSessionButton = ({
           setOpen(true)
         }}
       >
-        End session
+        End discussion
       </button>
-      <EndSessionModal
+      <FinishMentorDiscussionModal
         endpoint={endpoint}
         open={open}
         onCancel={() => {

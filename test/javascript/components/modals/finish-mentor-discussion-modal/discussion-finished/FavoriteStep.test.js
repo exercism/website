@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { FavoriteStep } from '../../../../../../app/javascript/components/modals/end-session-modal/session-ended/FavoriteStep'
+import { FavoriteStep } from '../../../../../../app/javascript/components/modals/finish-mentor-discussion-modal/discussion-finished/FavoriteStep'
 import { silenceConsole } from '../../../../support/silence-console'
 
 test('disables buttons when choosing to favorite', async () => {

@@ -65,7 +65,7 @@ Rails.application.routes.draw do
         get :tracks, on: :collection # TODO: Remove this
         resources :posts, only: %i[index create], controller: "mentor_discussion_posts"
         patch :mark_as_nothing_to_do, on: :member
-        patch :end, on: :member
+        patch :finish, on: :member
       end
 
       resources :mentor_discussion_posts, only: %i[update]

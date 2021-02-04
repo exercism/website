@@ -47,6 +47,7 @@ module ReactComponents
         }.tap do |links|
           if discussion.requires_mentor_action?
             links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
+            links[:end_session] = Exercism::Routes.end_api_mentor_discussion_path(discussion)
           end
         end
       end

@@ -4,6 +4,16 @@ import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { Discussion, Relationship } from '../../EndSessionModal'
 import { typecheck } from '../../../../utils/typecheck'
+import { Loading } from '../../../common'
+import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+
+const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
+
+const ErrorHandler = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
 
 export const FavoriteStep = ({
   discussion,
@@ -15,7 +25,7 @@ export const FavoriteStep = ({
   onSkip: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [handleFavorite] = useMutation(
+  const [handleFavorite, { status, error }] = useMutation(
     () => {
       return sendRequest({
         endpoint: discussion.relationship.links.favorite,
@@ -44,12 +54,26 @@ export const FavoriteStep = ({
   return (
     <div>
       <p>Add {discussion.student.handle} to your favorites?</p>
-      <button type="button" onClick={() => handleFavorite()}>
+      <button
+        type="button"
+        onClick={() => handleFavorite()}
+        disabled={status === 'loading'}
+      >
         Add to favorites
       </button>
-      <button type="button" onClick={() => onSkip()}>
+      <button
+        type="button"
+        onClick={() => onSkip()}
+        disabled={status === 'loading'}
+      >
         Skip
       </button>
+      {status === 'loading' ? <Loading /> : null}
+      {status === 'error' ? (
+        <ErrorBoundary>
+          <ErrorHandler error={error} />
+        </ErrorBoundary>
+      ) : null}
     </div>
   )
 }

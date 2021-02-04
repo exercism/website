@@ -8,9 +8,11 @@ import { typecheck } from '../../../../utils/typecheck'
 export const FavoriteStep = ({
   discussion,
   onFavorite,
+  onSkip,
 }: {
   discussion: Discussion
   onFavorite: (relationship: Relationship) => void
+  onSkip: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [handleFavorite] = useMutation(
@@ -44,6 +46,9 @@ export const FavoriteStep = ({
       <p>Add {discussion.student.handle} to your favorites?</p>
       <button type="button" onClick={() => handleFavorite()}>
         Add to favorites
+      </button>
+      <button type="button" onClick={() => onSkip()}>
+        Skip
       </button>
     </div>
   )

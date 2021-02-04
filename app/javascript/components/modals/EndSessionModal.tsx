@@ -3,14 +3,20 @@ import { Modal } from './Modal'
 import { AboutToEndSession } from './end-session-modal/AboutToEndSession'
 import { SessionEnded } from './end-session-modal/SessionEnded'
 
+export type Relationship = {
+  isFavorited: boolean
+  links: {
+    mentorAgain: string
+    dontMentorAgain: string
+    favorite: string
+  }
+}
+
 export type Discussion = {
   student: {
     handle: string
-    links: {
-      mentorAgain: string
-      favorite: string
-    }
   }
+  relationship: Relationship
 }
 
 type ModalState =

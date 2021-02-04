@@ -4,12 +4,46 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 
-type ModalStep = 'mentorAgain' | 'favorite'
+type ModalStep = 'mentorAgain' | 'favorite' | 'favorited'
 
-const FavoriteStep = ({ discussion }: { discussion: Discussion }) => {
+const FavoritedStep = ({
+  discussion,
+}: {
+  discussion: Discussion
+}): JSX.Element => {
+  return <p>{discussion.student.handle} is one of your favorites.</p>
+}
+
+const FavoriteStep = ({
+  discussion,
+  onFavorite,
+}: {
+  discussion: Discussion
+  onFavorite: () => void
+}) => {
+  const isMountedRef = useIsMounted()
+  const [handleFavorite] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: discussion.student.links.favorite,
+        method: 'POST',
+        body: null,
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: () => {
+        onFavorite()
+      },
+    }
+  )
+
   return (
     <div>
       <p>Add {discussion.student.handle} to your favorites?</p>
+      <button type="button" onClick={() => handleFavorite()}>
+        Add to favorites
+      </button>
     </div>
   )
 }
@@ -66,7 +100,15 @@ export const SessionEnded = ({
           }}
         />
       ) : null}
-      {step === 'favorite' ? <FavoriteStep discussion={discussion} /> : null}
+      {step === 'favorite' ? (
+        <FavoriteStep
+          discussion={discussion}
+          onFavorite={() => {
+            setStep('favorited')
+          }}
+        />
+      ) : null}
+      {step === 'favorited' ? <FavoritedStep discussion={discussion} /> : null}
     </div>
   )
 }

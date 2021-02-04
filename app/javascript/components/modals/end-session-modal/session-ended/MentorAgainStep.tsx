@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { Discussion, Relationship } from '../../EndSessionModal'
 import { typecheck } from '../../../../utils/typecheck'
+import { Loading } from '../../../common'
+import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+
+type SuccessFn = (relationship: Relationship) => void
+type Choice = 'yes' | 'no'
+
+const DEFAULT_ERROR = new Error('Unable to update student-mentor relationship')
+
+const ErrorHandler = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
 
 export const MentorAgainStep = ({
   discussion,
@@ -11,14 +24,20 @@ export const MentorAgainStep = ({
   onNo,
 }: {
   discussion: Discussion
-  onYes: (relationship: Relationship) => void
-  onNo: (relationship: Relationship) => void
+  onYes: SuccessFn
+  onNo: SuccessFn
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [handleYes] = useMutation(
+  const [choice, setChoice] = useState<Choice | null>(null)
+  const [mutate, { status, error }] = useMutation(
     () => {
+      const endpoint =
+        choice === 'yes'
+          ? discussion.relationship.links.mentorAgain
+          : discussion.relationship.links.dontMentorAgain
+
       return sendRequest({
-        endpoint: discussion.relationship.links.mentorAgain,
+        endpoint: endpoint,
         method: 'PATCH',
         body: null,
         isMountedRef: isMountedRef,
@@ -36,41 +55,34 @@ export const MentorAgainStep = ({
           return
         }
 
-        onYes(relationship)
+        choice === 'yes' ? onYes(relationship) : onNo(relationship)
       },
     }
   )
-  const [handleNo] = useMutation(
-    () => {
-      return sendRequest({
-        endpoint: discussion.relationship.links.dontMentorAgain,
-        method: 'PATCH',
-        body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
 
-        return typecheck<Relationship>(json, 'relationship')
-      })
-    },
-    {
-      onSuccess: (relationship) => {
-        if (!relationship) {
-          return
-        }
-
-        onNo(relationship)
-      },
+  useEffect(() => {
+    if (!choice) {
+      return
     }
-  )
+
+    mutate()
+  }, [choice, mutate])
 
   return (
     <div>
       <p>Want to mentor {discussion.student.handle} again?</p>
-      <button onClick={() => handleYes()}>Yes</button>
-      <button onClick={() => handleNo()}>No</button>
+      <button onClick={() => setChoice('yes')} disabled={status === 'loading'}>
+        Yes
+      </button>
+      <button onClick={() => setChoice('no')} disabled={status === 'loading'}>
+        No
+      </button>
+      {status === 'loading' ? <Loading /> : null}
+      {status === 'error' ? (
+        <ErrorBoundary>
+          <ErrorHandler error={error} />
+        </ErrorBoundary>
+      ) : null}
     </div>
   )
 }

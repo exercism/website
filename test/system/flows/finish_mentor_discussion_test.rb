@@ -2,10 +2,10 @@ require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
 
 module Flows
-  class EndMentorDiscussionTest < ApplicationSystemTestCase
+  class FinishMentorDiscussionTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
-    test "mentor ends the session" do
+    test "mentor finishes the session" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       exercise = create :concept_exercise
@@ -20,10 +20,10 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "End session"
-        within(".end-session-modal") { click_on "End session" }
+        click_on "End discussion"
+        within(".finish-mentor-discussion-modal") { click_on "End discussion" }
 
-        assert_text "You've ended your discussion with student."
+        assert_text "You've finished your discussion with student."
       end
     end
 
@@ -42,8 +42,8 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "End session"
-        within(".end-session-modal") { click_on "End session" }
+        click_on "End discussion"
+        within(".finish-mentor-discussion-modal") { click_on "End discussion" }
         click_on "Yes"
 
         assert_text "Add student to your favorites?"
@@ -65,8 +65,8 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "End session"
-        within(".end-session-modal") { click_on "End session" }
+        click_on "End discussion"
+        within(".finish-mentor-discussion-modal") { click_on "End discussion" }
         click_on "No"
 
         assert_text "Thanks for mentoring."
@@ -88,10 +88,10 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "End session"
-        within(".end-session-modal") { click_on "End session" }
+        click_on "End discussion"
+        within(".finish-mentor-discussion-modal") { click_on "End discussion" }
         click_on "Yes"
-        within(".end-session-modal") { click_on "Add to favorites" }
+        within(".finish-mentor-discussion-modal") { click_on "Add to favorites" }
 
         assert_text "student is one of your favorites"
       end
@@ -112,10 +112,10 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "End session"
-        within(".end-session-modal") { click_on "End session" }
+        click_on "End discussion"
+        within(".finish-mentor-discussion-modal") { click_on "End discussion" }
         click_on "Yes"
-        within(".end-session-modal") { click_on "Skip" }
+        within(".finish-mentor-discussion-modal") { click_on "Skip" }
 
         assert_text "Thanks for mentoring."
       end
@@ -136,8 +136,8 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "End session"
-        within(".end-session-modal") { click_on "End session" }
+        click_on "End discussion"
+        within(".finish-mentor-discussion-modal") { click_on "End discussion" }
         click_on "No"
         click_on "Change preferences"
 

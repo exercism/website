@@ -53,9 +53,9 @@ module API
     end
 
     # TODO: An actual implementation of this endpoint. The JSON response below is what I expect for the React component.
-    def end
+    def finish
       discussion = ::Solution::MentorDiscussion.find_by(uuid: params[:id])
-      relationship = Mentor::StudentRelationship.find_by(mentor: discussion.mentor, student: discussion.student)
+      relationship = Mentor::StudentRelationship.find_or_create_by(mentor: discussion.mentor, student: discussion.student)
 
       render json: {
         discussion: {

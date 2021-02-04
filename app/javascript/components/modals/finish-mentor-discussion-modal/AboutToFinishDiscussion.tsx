@@ -2,7 +2,7 @@ import React from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
-import { Discussion } from '../EndSessionModal'
+import { Discussion } from '../FinishMentorDiscussionModal'
 import { typecheck } from '../../../utils/typecheck'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
@@ -15,7 +15,7 @@ const ErrorHandler = ({ error }: { error: unknown }) => {
   return null
 }
 
-export const AboutToEndSession = ({
+export const AboutToFinishDiscussion = ({
   endpoint,
   onSuccess,
   onCancel,
@@ -53,13 +53,13 @@ export const AboutToEndSession = ({
 
   return (
     <div>
-      <h1>Are you sure you want to end this session</h1>
+      <h1>Are you sure you want to finish this discussion</h1>
       <button
         type="button"
         onClick={() => mutation()}
         disabled={status === 'loading'}
       >
-        End session
+        End discussion
       </button>
       <button
         type="button"

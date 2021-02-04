@@ -10,12 +10,12 @@ class Solution::MentorDiscussionTest < ActiveSupport::TestCase
     assert_equal request.solution, discussion.solution
   end
 
-  test "completed and in_progress scopes" do
-    in_progress = create :solution_mentor_discussion, completed_at: nil
-    completed = create :solution_mentor_discussion, completed_at: Time.current
+  test "finished and in_progress scopes" do
+    in_progress = create :solution_mentor_discussion, finished_at: nil
+    finished = create :solution_mentor_discussion, finished_at: Time.current
 
     assert_equal [in_progress], Solution::MentorDiscussion.in_progress
-    assert_equal [completed], Solution::MentorDiscussion.completed
+    assert_equal [finished], Solution::MentorDiscussion.finished
   end
 
   test "requires_mentor_action scopes" do
@@ -52,5 +52,13 @@ class Solution::MentorDiscussionTest < ActiveSupport::TestCase
     discussion = create :solution_mentor_discussion
 
     refute discussion.viewable_by?(user)
+  end
+
+  test "finished?" do
+    discussion = create :solution_mentor_discussion
+    refute discussion.finished?
+
+    discussion.update(finished_at: Time.current)
+    assert discussion.finished?
   end
 end

@@ -1,7 +1,7 @@
 import React, { useReducer, useCallback } from 'react'
 import { Modal } from './Modal'
-import { AboutToEndSession } from './end-session-modal/AboutToEndSession'
-import { SessionEnded } from './end-session-modal/SessionEnded'
+import { AboutToFinishDiscussion } from './finish-mentor-discussion-modal/AboutToFinishDiscussion'
+import { DiscussionFinished } from './finish-mentor-discussion-modal/DiscussionFinished'
 
 export type Relationship = {
   isFavorited: boolean
@@ -23,16 +23,19 @@ type ModalState =
   | { step: 'aboutToEnd'; discussion: null }
   | { step: 'ended'; discussion: Discussion }
 
-type Action = { type: 'SESSION_ENDED'; payload: { discussion: Discussion } }
+type Action = {
+  type: 'DISCUSSION_FINISHED'
+  payload: { discussion: Discussion }
+}
 
 function reducer(state: ModalState, action: Action): ModalState {
   switch (action.type) {
-    case 'SESSION_ENDED':
+    case 'DISCUSSION_FINISHED':
       return { step: 'ended', discussion: action.payload.discussion }
   }
 }
 
-export const EndSessionModal = ({
+export const FinishMentorDiscussionModal = ({
   endpoint,
   open,
   onCancel,
@@ -47,26 +50,29 @@ export const EndSessionModal = ({
     discussion: null,
   })
 
-  const handleSessionEnded = useCallback((discussion) => {
-    dispatch({ type: 'SESSION_ENDED', payload: { discussion: discussion } })
+  const handleDiscussionFinished = useCallback((discussion) => {
+    dispatch({
+      type: 'DISCUSSION_FINISHED',
+      payload: { discussion: discussion },
+    })
   }, [])
 
   return (
     <Modal
       open={open}
       onClose={() => {}}
-      className="end-session-modal"
+      className="finish-mentor-discussion-modal"
       {...props}
     >
       {state.step === 'aboutToEnd' ? (
-        <AboutToEndSession
+        <AboutToFinishDiscussion
           endpoint={endpoint}
-          onSuccess={handleSessionEnded}
+          onSuccess={handleDiscussionFinished}
           onCancel={onCancel}
         />
       ) : null}
       {state.step === 'ended' ? (
-        <SessionEnded discussion={state.discussion} />
+        <DiscussionFinished discussion={state.discussion} />
       ) : null}
     </Modal>
   )

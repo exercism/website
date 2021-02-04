@@ -8,6 +8,7 @@ export type Discussion = {
     handle: string
     links: {
       mentorAgain: string
+      favorite: string
     }
   }
 }

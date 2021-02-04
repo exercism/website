@@ -8,9 +8,11 @@ import { typecheck } from '../../../utils/typecheck'
 export const AboutToEndSession = ({
   endpoint,
   onSuccess,
+  onCancel,
 }: {
   endpoint: string
   onSuccess: (discussion: Discussion) => void
+  onCancel: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [mutation] = useMutation(
@@ -44,6 +46,9 @@ export const AboutToEndSession = ({
       <h1>Are you sure you want to end this session</h1>
       <button type="button" onClick={() => mutation()}>
         End session
+      </button>
+      <button type="button" onClick={() => onCancel()}>
+        Cancel
       </button>
     </div>
   )

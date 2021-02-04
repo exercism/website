@@ -29,10 +29,12 @@ function reducer(state: ModalState, action: Action): ModalState {
 export const EndSessionModal = ({
   endpoint,
   open,
+  onCancel,
   ...props
 }: {
   endpoint: string
   open: boolean
+  onCancel: () => void
 }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, {
     step: 'aboutToEnd',
@@ -51,7 +53,11 @@ export const EndSessionModal = ({
       {...props}
     >
       {state.step === 'aboutToEnd' ? (
-        <AboutToEndSession endpoint={endpoint} onSuccess={handleSessionEnded} />
+        <AboutToEndSession
+          endpoint={endpoint}
+          onSuccess={handleSessionEnded}
+          onCancel={onCancel}
+        />
       ) : null}
       {state.step === 'ended' ? (
         <SessionEnded discussion={state.discussion} />

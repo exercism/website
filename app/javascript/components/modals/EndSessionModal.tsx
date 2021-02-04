@@ -6,6 +6,9 @@ import { SessionEnded } from './end-session-modal/SessionEnded'
 export type Discussion = {
   student: {
     handle: string
+    links: {
+      mentorAgain: string
+    }
   }
 }
 

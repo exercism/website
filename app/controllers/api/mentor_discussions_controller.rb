@@ -55,5 +55,18 @@ module API
 
       render json: {}
     end
+
+    # TODO: An actual implementation of this endpoint. The JSON response below is what I expect for the React component.
+    def end
+      discussion = ::Solution::MentorDiscussion.find_by(uuid: params[:id])
+
+      render json: {
+        discussion: {
+          student: {
+            handle: discussion.student.handle
+          }
+        }
+      }
+    end
   end
 end

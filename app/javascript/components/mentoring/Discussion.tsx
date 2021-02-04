@@ -7,6 +7,7 @@ import { IterationFiles } from './discussion/IterationFiles'
 import { IterationHeader } from './discussion/IterationHeader'
 import { AddDiscussionPost } from './discussion/AddDiscussionPost'
 import { MarkAsNothingToDoButton } from './discussion/MarkAsNothingToDoButton'
+import { EndSessionButton } from './discussion/EndSessionButton'
 import { DiscussionPostProps } from './discussion/DiscussionPost'
 
 import { Icon } from '../common/Icon'
@@ -18,6 +19,7 @@ export type Links = {
   close: string
   posts: string
   markAsNothingToDo?: string
+  endSession?: string
 }
 
 type RepresenterFeedbackAuthor = {
@@ -178,6 +180,9 @@ export const Discussion = ({
             <SolutionInfo student={student} track={track} exercise={exercise} />
             {links.markAsNothingToDo ? (
               <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
+            ) : null}
+            {links.endSession ? (
+              <EndSessionButton endpoint={links.endSession} />
             ) : null}
           </header>
           <IterationHeader

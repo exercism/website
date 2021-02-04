@@ -11,13 +11,12 @@ type State = {
 
 type ModalStep = 'mentorAgain' | 'favorite' | 'end'
 
-type ActionType = 'MENTOR_AGAIN' | 'WONT_MENTOR_AGAIN' | 'FAVORITED'
-
 type Action =
   | { type: 'MENTOR_AGAIN'; payload: { relationship: Relationship } }
   | { type: 'WONT_MENTOR_AGAIN'; payload: { relationship: Relationship } }
   | { type: 'FAVORITED'; payload: { relationship: Relationship } }
   | { type: 'SKIP_FAVORITE' }
+  | { type: 'RESET' }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -47,6 +46,8 @@ function reducer(state: State, action: Action): State {
       }
     case 'SKIP_FAVORITE':
       return { ...state, step: 'end' }
+    case 'RESET':
+      return { ...state, step: 'mentorAgain' }
   }
 }
 
@@ -96,7 +97,14 @@ export const SessionEnded = ({
           }}
         />
       ) : null}
-      {state.step === 'end' ? <EndStep discussion={state.discussion} /> : null}
+      {state.step === 'end' ? (
+        <EndStep
+          discussion={state.discussion}
+          onReset={() => {
+            dispatch({ type: 'RESET' })
+          }}
+        />
+      ) : null}
     </div>
   )
 }

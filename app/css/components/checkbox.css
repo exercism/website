@@ -8,6 +8,8 @@ label.c-checkbox-wrapper {
     & input {
         @apply absolute;
         opacity: 0;
+        width: 1em;
+        height: 1em;
     }
 
     & input:checked + * {

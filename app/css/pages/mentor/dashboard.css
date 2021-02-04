@@ -38,7 +38,25 @@
             }
         }
         & .queue-section-content {
-            @apply flex;
+            @apply flex items-start;
+        }
+
+        & .c-mentor-queue {
+            @apply flex-grow;
+            @apply shadow-lg bg-backgroundColorA rounded-8;
+
+            & header.c-search-bar {
+                @apply py-16 px-24;
+
+                & .--search {
+                    @apply flex-grow;
+                    width: 100%;
+                }
+            }
+            & footer {
+                @apply px-24 py-16;
+                @apply border-lightGray border-t-1;
+            }
         }
 
         & .mentor-queue-filtering {
@@ -77,44 +95,39 @@
                     @apply mb-16;
                 }
                 & label {
-                    & .row {
-                        @apply flex-grow flex items-center;
-                        @apply py-8 px-16 mb-8;
-                        @apply rounded-8;
+                    @apply flex-grow flex items-center;
+                    @apply py-8 px-16 mb-8;
+                    @apply rounded-8;
 
-                        & .c-checkbox {
-                            @apply mr-24;
-                        }
-                        & .c-track-icon,
-                        & .c-exercise-icon {
-                            height: 32px;
-                            width: 32px;
-                            @apply mr-12;
-                        }
-                        & .title {
-                            @apply flex-grow;
-                            @apply text-16 font-medium text-textColor6 leading-regular;
-                        }
-                        & .count {
-                            @apply px-12 flex items-center ml-16;
-                            @apply font-medium text-14 text-textColor6 leading-huge;
-                            @apply border-1 border-textColor6 rounded-100;
-                        }
+                    & .c-radio {
+                        font-size: 20px;
                     }
-                    & input:checked + .row {
-                        background: #f0f3f9;
+                    & .c-track-icon,
+                    & .c-exercise-icon {
+                        height: 32px;
+                        width: 32px;
+                        @apply ml-24 mr-12;
+                    }
+                    & .title {
+                        @apply flex-grow;
+                        @apply text-16 font-medium text-textColor6 leading-regular;
+                    }
+                    & .count {
+                        @apply px-12 flex items-center ml-16;
+                        @apply font-medium text-14 text-textColor6 leading-huge;
+                        @apply border-1 border-textColor6 rounded-100;
+                    }
+                }
+                & input:checked + .row {
+                    background: #f0f3f9;
 
-                        & .title {
-                            @apply text-textColor3;
-                        }
+                    & .title {
+                        @apply text-textColor3;
                     }
                 }
             }
             & .track-filter {
                 @apply mb-32;
-
-                & .tracks {
-                }
 
                 & button.change-tracks-button {
                     @apply flex items-center;

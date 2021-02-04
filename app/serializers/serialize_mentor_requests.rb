@@ -4,7 +4,8 @@ class SerializeMentorRequests
   initialize_with :requests
 
   def call
-    requests.map { |r| serialize_request(r) }
+    requests.includes(:user, :exercise, :track).
+      map { |r| serialize_request(r) }
   end
 
   private

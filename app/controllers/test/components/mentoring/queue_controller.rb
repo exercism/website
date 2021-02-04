@@ -64,7 +64,7 @@ class Test::Components::Mentoring::QueueController < Test::BaseController
 
     render json: {
       results: results[page - 1, per],
-      meta: { current: page, queryTotal: results.size, total: requests.size }
+      meta: { current: page, unscoped_total: results.size, total: requests.size }
     }
   end
 

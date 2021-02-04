@@ -11,15 +11,13 @@
       / TODO: There's probably a11y stuff to add to this tag
       / If there's not, it can be deleted
       .form
-        %label
-          .c-radio-button
-            %input{ type: 'radio', name: "share" }
-            .radio
+        %label.c-radio-wrapper
+          %input{ type: 'radio', name: "share" }
+          .c-radio
           .label Yes, I'd like to share my solution with the community.
-        %label
-          .c-radio-button
-            %input{ type: 'radio', name: "share" }
-            .radio
+        %label.c-radio-wrapper
+          %input{ type: 'radio', name: "share" }
+          .c-radio
           .label No, I just want to mark the exercise as complete
         %button.confirm-button.btn-large-cta Confirm
 

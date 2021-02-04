@@ -5,24 +5,31 @@ class Solution
 
       REQUESTS_PER_PAGE = 10
 
-      def initialize(user, page, track_id: nil, exercise_ids: nil)
+      def initialize(user,
+                     page: 1,
+                     track_slug: nil, exercise_slugs: nil,
+                     sorted: true,
+                     paginated: true)
         @user = user
         @page = page
-        @track_id = track_id
-        @exercise_ids = exercise_ids
+        @track_slug = track_slug
+        @exercise_slugs = exercise_slugs
+        @sorted = sorted
+        @paginated = paginated
       end
 
       def call
         setup!
         filter!
-        sort!
-        paginate!
+        sort! if sorted
+        paginate! if paginated
 
         @requests
       end
 
       private
-      attr_reader :user, :page, :track_id, :exercise_ids
+      attr_reader :user, :page, :track_slug, :exercise_slugs,
+        :sorted, :paginated
 
       def setup!
         @requests = Solution::MentorRequest.
@@ -34,24 +41,29 @@ class Solution
       end
 
       def filter!
-        filter_track!
-        filter_exercises!
+        if exercise_slugs.present?
+          filter_exercises!
+        else
+          filter_track!
+        end
       end
 
       def filter_track!
-        return if track_id.blank?
+        return if track_slug.blank?
 
         @requests = @requests.
           joins(solution: :track).
-          where('exercises.track_id': track_id)
+          where('tracks.slug': track_slug)
       end
 
       def filter_exercises!
-        return if exercise_ids.blank?
+        return if track_slug.blank?
+        return if exercise_slugs.blank?
 
         @requests = @requests.
-          joins(solution: :exercise).
-          where('solutions.exercise_id': exercise_ids)
+          joins(solution: { exercise: :track }).
+          where('tracks.slug': track_slug).
+          where('exercises.slug': exercise_slugs)
       end
 
       def sort!

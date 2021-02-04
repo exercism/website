@@ -19,16 +19,17 @@ const TrackFilter = ({
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
   return (
-    <label className="c-checkbox-wrapper">
-      <input type="checkbox" onChange={onChange} checked={checked} />
-      <div className="row">
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
-        <TrackIcon iconUrl={iconUrl} title={title} />
-        <div className="title">{title}</div>
-        <div className="count">{count}</div>
-      </div>
+    <label className="c-radio-wrapper">
+      <input
+        type="radio"
+        onChange={onChange}
+        checked={checked}
+        name="queue_track"
+      />
+      <div className="c-radio" />
+      <TrackIcon iconUrl={iconUrl} title={title} />
+      <div className="title">{title}</div>
+      <div className="count">{count}</div>
     </label>
   )
 }

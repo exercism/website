@@ -52,6 +52,10 @@ Rails.application.routes.draw do
       end
 
       resources :mentor_requests, only: %i[index] do
+        collection do
+          get :tracks
+          get :exercises
+        end
         member do
           patch :lock
         end

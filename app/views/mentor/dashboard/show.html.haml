@@ -16,4 +16,4 @@
           %h2 Mentoring Queue
           .subtitle
             All of the mentoring requests on Exercism
-        = ReactComponents::Mentoring::Queue.new
+        = ReactComponents::Mentoring::Queue.new(current_user)

@@ -3,11 +3,11 @@ import pluralize from 'pluralize'
 import { GraphicalIcon } from '../../common'
 
 export const SolutionCount = ({
-  queryTotal,
+  unscopedTotal,
   total,
   onResetFilter,
 }: {
-  queryTotal: number
+  unscopedTotal: number
   total: number
   onResetFilter: () => void
 }): JSX.Element => {
@@ -15,7 +15,7 @@ export const SolutionCount = ({
     <header className="filtering-header">
       <div className="title">
         <h3>
-          Showing {queryTotal} {pluralize('request', queryTotal)}
+          Showing {unscopedTotal} {pluralize('request', unscopedTotal)}
         </h3>
         <div className="subtitle">
           {total} queued {pluralize('request', total)}

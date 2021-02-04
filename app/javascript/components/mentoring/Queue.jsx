@@ -54,7 +54,7 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
       <div className="mentor-queue-filtering">
         {resolvedData ? (
           <SolutionCount
-            queryTotal={resolvedData.meta.queryTotal}
+            unscopedTotal={resolvedData.meta.unscopedTotal}
             total={resolvedData.meta.total}
             onResetFilter={() => setFilter(DEFAULT_FILTER)}
           />

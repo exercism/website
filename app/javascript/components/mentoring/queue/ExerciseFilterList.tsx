@@ -3,14 +3,14 @@ import { GraphicalIcon } from '../../common'
 
 export type Exercise = {
   slug: string
-  iconUrl: string
+  iconName: string
   title: string
   count: number
 }
 
 const ExerciseFilter = ({
   title,
-  iconUrl,
+  iconName,
   count,
   checked,
   onChange,
@@ -21,18 +21,13 @@ const ExerciseFilter = ({
   return (
     <label className="c-checkbox-wrapper">
       <input type="checkbox" onChange={onChange} checked={checked} />
-      <div className="row">
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
-        <img
-          role="presentation"
-          className="c-icon c-exercise-icon"
-          src={iconUrl}
-        />
-        <div className="title">{title}</div>
-        <div className="count">{count}</div>
+      <div className="c-checkbox">
+        <GraphicalIcon icon="checkmark" />
       </div>
+      {/* TODO: Convert to ExerciseIcon */}
+      <GraphicalIcon icon={iconName} className="c-exercise-icon" />
+      <div className="title">{title}</div>
+      <div className="count">{count}</div>
     </label>
   )
 }
@@ -63,6 +58,20 @@ export const ExerciseFilterList = ({
       <div className="c-search-bar">
         <input className="--search" placeholder="Search by Exercise name" />
       </div>
+      <label className="c-checkbox-wrapper">
+        <input type="checkbox" checked={true} />
+        <div className="c-checkbox">
+          <GraphicalIcon icon="checkmark" />
+        </div>
+        Only show exercises that need mentoring
+      </label>
+      <label className="c-checkbox-wrapper">
+        <input type="checkbox" />
+        <div className="c-checkbox">
+          <GraphicalIcon icon="checkmark" />
+        </div>
+        Only show exercises I've completed
+      </label>
       <div className="exercises">
         {exercises.map((exercise) => (
           <ExerciseFilter

@@ -59,11 +59,15 @@ module API
     # TODO: An actual implementation of this endpoint. The JSON response below is what I expect for the React component.
     def end
       discussion = ::Solution::MentorDiscussion.find_by(uuid: params[:id])
+      relationship = Mentor::StudentRelationship.find_by(mentor: discussion.mentor, student: discussion.student)
 
       render json: {
         discussion: {
           student: {
-            handle: discussion.student.handle
+            handle: discussion.student.handle,
+            links: {
+              mentor_again: Exercism::Routes.mark_as_mentor_again_api_mentor_student_relationship_path(relationship)
+            }
           }
         }
       }

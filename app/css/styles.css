@@ -44,6 +44,9 @@
 .btn--secondary {
     @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;
 }
+.btn--discourage {
+    @apply bg-backgroundColorA text-textColor6 border-borderColor5;
+}
 .btn {
     @apply flex items-center justify-center px-20;
     @apply border-1 border-buttonBorderColor1 rounded-5;
@@ -105,6 +108,9 @@
 }
 .btn-small-secondary {
     @apply btn-small btn--secondary;
+}
+.btn-small-discourage {
+    @apply btn-small btn--discourage;
 }
 .btn-keyboard-shortcut {
     @apply flex items-center;

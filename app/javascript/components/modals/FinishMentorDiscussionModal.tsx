@@ -6,8 +6,7 @@ import { DiscussionFinished } from './finish-mentor-discussion-modal/DiscussionF
 export type Relationship = {
   isFavorited: boolean
   links: {
-    mentorAgain: string
-    dontMentorAgain: string
+    block: string
     favorite: string
   }
 }
@@ -61,7 +60,7 @@ export const FinishMentorDiscussionModal = ({
     <Modal
       open={open}
       onClose={() => {}}
-      className="finish-mentor-discussion-modal"
+      className="m-finish-mentor-discussion"
       {...props}
     >
       {state.step === 'aboutToEnd' ? (

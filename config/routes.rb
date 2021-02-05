@@ -75,8 +75,10 @@ Rails.application.routes.draw do
         patch :mark_as_dont_mentor_again, on: :member
       end
 
-      post "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#create", as: "mentor_favorite_student"
-      delete "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#destroy", as: "mentor_unfavorite_student"
+      post "mentor_student/:student_handle/block", to: "mentor_student_relationships#block", as: "mentor_block_student"
+      delete "mentor_student/:student_handle/block", to: "mentor_student_relationships#unblock", as: "mentor_unblock_student"
+      post "mentor_student/:student_handle/favorite", to: "mentor_student_relationships#favorite", as: "mentor_favorite_student"
+      delete "mentor_student/:student_handle/favorite", to: "mentor_student_relationships#unfavorite", as: "mentor_unfavorite_student"
 
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"

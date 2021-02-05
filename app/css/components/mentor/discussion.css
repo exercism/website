@@ -35,7 +35,7 @@
                 @apply mr-32;
             }
             & .student {
-                @apply flex items-center;
+                @apply flex-grow flex items-center;
                 & .c-rounded-bg-img {
                     height: 48px;
                     width: 48px;
@@ -51,6 +51,8 @@
                         @apply text-14 text-textColor6 leading-regular;
                     }
                 }
+            }
+            & .finish-button {
             }
         }
         & .discussion-footer {

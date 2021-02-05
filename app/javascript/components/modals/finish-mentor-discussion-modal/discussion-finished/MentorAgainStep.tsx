@@ -31,14 +31,11 @@ export const MentorAgainStep = ({
   const [choice, setChoice] = useState<Choice | null>(null)
   const [mutate, { status, error }] = useMutation(
     () => {
-      const endpoint =
-        choice === 'yes'
-          ? discussion.relationship.links.mentorAgain
-          : discussion.relationship.links.dontMentorAgain
+      const method = choice === 'yes' ? 'DELETE' : 'POST'
 
       return sendRequest({
-        endpoint: endpoint,
-        method: 'PATCH',
+        endpoint: discussion.relationship.links.block,
+        method: method,
         body: null,
         isMountedRef: isMountedRef,
       }).then((json) => {

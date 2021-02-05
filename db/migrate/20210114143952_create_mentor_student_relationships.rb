@@ -4,7 +4,8 @@ class CreateMentorStudentRelationships < ActiveRecord::Migration[6.1]
       t.belongs_to :mentor, null: false, foreign_key: {to_table: :users}
       t.belongs_to :student, null: false, foreign_key: {to_table: :users}
 
-      t.boolean :favorite, null: false, default: false
+      t.boolean :favorited, null: false, default: false
+      t.boolean :blocked, null: false, default: false
       t.integer :num_discussions, null: false, default: 0
 
       t.index [:mentor_id, :student_id], unique: true

@@ -5,10 +5,10 @@ class SerializeMentorStudentRelationship
 
   def call
     {
-      isFavorited: relationship.favorite,
+      isFavorited: relationship.favorited?,
+      isBlocked: relationship.blocked?,
       links: {
-        mentor_again: Exercism::Routes.mark_as_mentor_again_api_mentor_student_relationship_path(relationship),
-        dont_mentor_again: Exercism::Routes.mark_as_dont_mentor_again_api_mentor_student_relationship_path(relationship),
+        block: Exercism::Routes.api_mentor_block_student_path(student_handle: relationship.student.handle),
         favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: relationship.student.handle)
       }
     }

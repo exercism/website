@@ -1,7 +1,7 @@
 class Solution < ApplicationRecord
   extend Mandate::Memoize
 
-  enum mentoring_status: { none: 0, requested: 1, in_progress: 2, completed: 3 }, _prefix: true
+  enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: true
 
   belongs_to :user
   belongs_to :exercise
@@ -73,7 +73,7 @@ class Solution < ApplicationRecord
   def update_mentoring_status!
     return update_column(:mentoring_status, :in_progress) if mentor_discussions.in_progress.exists?
     return update_column(:mentoring_status, :requested) if mentor_requests.pending.exists?
-    return update_column(:mentoring_status, :completed) if mentor_discussions.completed.exists?
+    return update_column(:mentoring_status, :finished) if mentor_discussions.finished.exists?
 
     update_column(:mentoring_status, :none)
   end

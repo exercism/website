@@ -112,11 +112,11 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.reload.has_in_progress_mentor_discussion?
 
     # In progress discussion
-    discussion = create :solution_mentor_discussion, solution: solution, completed_at: nil
+    discussion = create :solution_mentor_discussion, solution: solution, finished_at: nil
     assert solution.reload.has_in_progress_mentor_discussion?
 
-    # Completed discussion
-    discussion.update!(completed_at: Time.current)
+    # Finished discussion
+    discussion.update!(finished_at: Time.current)
     refute solution.reload.has_in_progress_mentor_discussion?
   end
 
@@ -160,15 +160,15 @@ class SolutionTest < ActiveSupport::TestCase
     solution.update_mentoring_status!
     assert_equal 'none', solution.mentoring_status
 
-    discussion = create :solution_mentor_discussion, solution: solution, completed_at: Time.current
+    discussion = create :solution_mentor_discussion, solution: solution, finished_at: Time.current
     solution.update_mentoring_status!
-    assert_equal 'completed', solution.mentoring_status
+    assert_equal 'finished', solution.mentoring_status
 
     request = create :solution_mentor_request, solution: solution
     solution.update_mentoring_status!
     assert_equal 'requested', solution.mentoring_status
 
-    discussion.update(completed_at: nil)
+    discussion.update(finished_at: nil)
     solution.update_mentoring_status!
     assert_equal 'in_progress', solution.mentoring_status
 

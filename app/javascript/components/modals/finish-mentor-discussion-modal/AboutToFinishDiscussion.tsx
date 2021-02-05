@@ -52,28 +52,41 @@ export const AboutToFinishDiscussion = ({
   )
 
   return (
-    <div>
-      <h1>Are you sure you want to finish this discussion</h1>
-      <button
-        type="button"
-        onClick={() => mutation()}
-        disabled={status === 'loading'}
-      >
-        End discussion
-      </button>
-      <button
-        type="button"
-        onClick={() => onCancel()}
-        disabled={status === 'loading'}
-      >
-        Cancel
-      </button>
+    <>
+      <h3>Are you sure you want to end this discussion?</h3>
+      <p>
+        It's normally time to end a discussion when the student has got what
+        they wanted from the conversation, or you have taken the conversation as
+        far as you like. It's generally polite to leave the student a final
+        goodbye.
+      </p>
+      <div className="buttons">
+        <button
+          type="button"
+          className="btn-small-discourage"
+          onClick={() => onCancel()}
+          disabled={status === 'loading'}
+        >
+          Cancel
+          <div className="kb-shortcut">F2</div>
+        </button>
+        <button
+          type="button"
+          className="btn-small-cta"
+          onClick={() => mutation()}
+          disabled={status === 'loading'}
+        >
+          End discussion
+          <div className="kb-shortcut">F3</div>
+        </button>
+      </div>
+
       {status === 'loading' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>
           <ErrorHandler error={error} />
         </ErrorBoundary>
       ) : null}
-    </div>
+    </>
   )
 }

@@ -1,9 +1,9 @@
 module Mentor
   class StudentRelationship
-    class ToggleFavorite
+    class ToggleFavorited
       include Mandate
 
-      initialize_with :mentor, :student, :favorite
+      initialize_with :mentor, :student, :favorited
 
       def call
         # TODO: Don't create if they haven't had a discussion
@@ -11,7 +11,7 @@ module Mentor
           mentor: mentor,
           student: student
         )
-        relationship.update_column(:favorite, favorite)
+        relationship.update_column(:favorited, favorited)
       end
     end
   end

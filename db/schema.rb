@@ -131,7 +131,8 @@ ActiveRecord::Schema.define(version: 2021_01_15_162916) do
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "mentor_id", null: false
     t.bigint "student_id", null: false
-    t.boolean "favorite", default: false, null: false
+    t.boolean "favorited", default: false, null: false
+    t.boolean "blocked", default: false, null: false
     t.integer "num_discussions", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

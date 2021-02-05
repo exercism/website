@@ -47,12 +47,12 @@ class API::SolutionsControllerTest < API::BaseTestCase
       user: @current_user,
       exercise: ruby_bob,
       published_at: Time.current,
-      mentoring_status: "completed"
+      mentoring_status: "finished"
 
     get api_solutions_path(
       criteria: "ru",
       status: "published",
-      mentoring_status: "completed",
+      mentoring_status: "finished",
       page: 1
     ), headers: @headers, as: :json
 

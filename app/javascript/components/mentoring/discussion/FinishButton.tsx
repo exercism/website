@@ -15,6 +15,7 @@ export const FinishButton = ({
     <React.Fragment>
       <button
         type="button"
+        className="btn-small finish-button"
         onClick={() => {
           setOpen(true)
         }}

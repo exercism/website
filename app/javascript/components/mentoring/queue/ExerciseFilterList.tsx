@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { GraphicalIcon } from '../../common'
 
 export type Exercise = {
@@ -41,6 +41,18 @@ export const ExerciseFilterList = ({
   value: string[]
   setValue: (value: string[]) => void
 }): JSX.Element => {
+  const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] = useState(
+    true
+  )
+
+  const exercisesToShow = useMemo(
+    () =>
+      exercises.filter((exercise) =>
+        isShowingExercisesToMentor ? exercise.count !== 0 : true
+      ),
+    [exercises, isShowingExercisesToMentor]
+  )
+
   const handleChange = useCallback(
     (e, optionValue) => {
       if (e.target.checked) {
@@ -59,7 +71,13 @@ export const ExerciseFilterList = ({
         <input className="--search" placeholder="Search by Exercise name" />
       </div>
       <label className="c-checkbox-wrapper">
-        <input type="checkbox" checked={true} />
+        <input
+          type="checkbox"
+          checked={isShowingExercisesToMentor}
+          onChange={() =>
+            setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
+          }
+        />
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
@@ -73,7 +91,7 @@ export const ExerciseFilterList = ({
         Only show exercises I've completed
       </label>
       <div className="exercises">
-        {exercises.map((exercise) => (
+        {exercisesToShow.map((exercise) => (
           <ExerciseFilter
             key={exercise.slug}
             onChange={(e) => handleChange(e, exercise.slug)}

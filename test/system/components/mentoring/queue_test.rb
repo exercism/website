@@ -181,6 +181,23 @@ module Components
         assert_text "Showing 1 request"
         assert_text "2 queued requests"
       end
+
+      test "shows and hides exercises that require mentoring" do
+        mentor = create :user
+        ruby = create :track, title: "Ruby"
+        series = create :concept_exercise, title: "Series", track: ruby
+        create :solution_mentor_request, exercise: series
+        tournament = create :concept_exercise, title: "Tournament", track: ruby
+        create :solution_mentor_request, exercise: tournament
+        create :concept_exercise, title: "Running", track: ruby
+
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+
+        assert_no_text "Running"
+        find("label", text: "Only show exercises that need mentoring").click
+        assert_text "Running"
+      end
     end
   end
 end

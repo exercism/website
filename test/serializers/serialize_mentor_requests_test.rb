@@ -21,7 +21,7 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
 
         mentee_handle: mentee.handle,
         mentee_avatar_url: mentee.avatar_url,
-        updated_at: request.created_at.to_i,
+        updated_at: request.created_at.iso8601,
 
         is_starred: true,
         have_mentored_previously: true,

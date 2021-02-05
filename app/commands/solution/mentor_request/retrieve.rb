@@ -5,31 +5,48 @@ class Solution
 
       REQUESTS_PER_PAGE = 10
 
+      def self.requests_per_page
+        REQUESTS_PER_PAGE
+      end
+
       def initialize(user,
                      page: 1,
-                     track_slug: nil, exercise_slugs: nil,
                      sorted: true,
-                     paginated: true)
+                     paginated: true,
+                     criteria: nil,
+                     order: nil,
+                     track_slug: nil,
+                     exercise_slugs: nil)
         @user = user
         @page = page
-        @track_slug = track_slug
-        @exercise_slugs = exercise_slugs
         @sorted = sorted
         @paginated = paginated
+        @criteria = criteria
+        @order = order
+        @track_slug = track_slug
+        @exercise_slugs = exercise_slugs
       end
 
       def call
         setup!
         filter!
-        sort! if sorted
-        paginate! if paginated
+        search!
+        sort! if sorted?
+        paginate! if paginated?
 
         @requests
       end
 
       private
-      attr_reader :user, :page, :track_slug, :exercise_slugs,
-        :sorted, :paginated
+      attr_reader :user, :page, :sorted, :paginated, :criteria, :order, :track_slug, :exercise_slugs
+
+      def sorted?
+        sorted
+      end
+
+      def paginated?
+        paginated
+      end
 
       def setup!
         @requests = Solution::MentorRequest.
@@ -66,14 +83,30 @@ class Solution
           where('exercises.slug': exercise_slugs)
       end
 
+      def search!
+        return if criteria.blank?
+
+        # TODO: This is just a stub implementation
+        @requests = @requests.joins(:user).where("users.name LIKE ?", "%#{criteria}%")
+      end
+
       def sort!
-        @requests = @requests.
-          order('created_at ASC')
+        # TODO: This is just a stub implementation
+        case order
+        when "exercise"
+          @requests = @requests.joins(solution: :exercise).order("exercises.name ASC")
+        when "student"
+          @requests = @requests.joins(:user).order("users.name ASC")
+        when "recent"
+          @requests = @requests.order("solution_mentor_requests.created_at DESC")
+        else
+          @requests = @requests.order("solution_mentor_requests.created_at")
+        end
       end
 
       def paginate!
         @requests = @requests.
-          page(page).per(REQUESTS_PER_PAGE)
+          page(page).per(self.class.requests_per_page)
       end
     end
   end

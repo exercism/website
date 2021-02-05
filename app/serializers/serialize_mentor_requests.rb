@@ -22,7 +22,7 @@ class SerializeMentorRequests
       mentee_avatar_url: request.user_avatar_url,
 
       # TODO: Should this be requested_at?
-      updated_at: request.created_at.to_i,
+      updated_at: request.created_at.iso8601,
 
       # TODO: Add all these
       is_starred: true,

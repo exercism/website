@@ -6,12 +6,15 @@ module API
         page: params[:page],
         track_slug: params[:track_id],
         exercise_slugs: params[:exercise_ids],
-        sorted: false, paginated: false
+        sorted: false,
+        paginated: false
       ).count
 
       requests = ::Solution::MentorRequest::Retrieve.(
         current_user,
         page: params[:page],
+        criteria: params[:criteria],
+        order: params[:order],
         track_slug: params[:track_id],
         exercise_slugs: params[:exercise_ids]
       )
@@ -30,7 +33,7 @@ module API
     end
 
     def exercises
-      render json: Solution::MentorRequest::RetrieveExercises.(current_user, params[:track_id])
+      render json: Solution::MentorRequest::RetrieveExercises.(current_user, params[:track_slug])
     end
 
     def lock

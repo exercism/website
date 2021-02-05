@@ -57,7 +57,7 @@ export function SolutionList({
         <footer>
           <Pagination
             current={page}
-            total={latestData.meta.unscopedTotal}
+            total={latestData.meta.total}
             setPage={setPage}
           />
         </footer>

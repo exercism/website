@@ -28,18 +28,23 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
       page: page,
       track_slug: track_id,
       exercise_slugs: exercise_ids,
-      sorted: false, paginated: false
+      sorted: false,
+      paginated: false
     ).returns(mock(count: 200))
 
     Solution::MentorRequest::Retrieve.expects(:call).with(
       @current_user,
       page: page,
+      criteria: "Ruby",
+      order: "recent",
       track_slug: track_id,
       exercise_slugs: exercise_ids
     ).returns(Solution::MentorRequest.page(1).per(1))
 
     get api_mentor_requests_path, params: {
       page: page,
+      criteria: "Ruby",
+      order: "recent",
       track_id: track_id,
       exercise_ids: exercise_ids
     }, headers: @headers, as: :json
@@ -114,7 +119,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
 
     ::Solution::MentorRequest::RetrieveExercises.expects(:call).with(@current_user, slug).returns(output)
 
-    get exercises_api_mentor_requests_path, params: { track_id: slug }, headers: @headers, as: :json
+    get exercises_api_mentor_requests_path, params: { track_slug: slug }, headers: @headers, as: :json
     assert_equal output, JSON.parse(response.body)
   end
 end

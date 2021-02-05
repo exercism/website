@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { TrackFilterList } from './queue/TrackFilterList'
@@ -6,14 +6,33 @@ import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionCount } from './queue/SolutionCount'
 import { Sorter } from './Sorter'
 import { useList } from '../../hooks/use-list'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import {
+  useRequestQuery,
+  usePaginatedRequestQuery,
+} from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
+import { Loading } from '../common'
 
-export function Queue({ sortOptions, tracks, exercises, ...props }) {
+export function Queue({ sortOptions, tracks, ...props }) {
   const isMountedRef = useIsMounted()
   const defaultQuery = props.request.query
   const { request, setCriteria, setOrder, setQuery, setPage } = useList(
     props.request
+  )
+  const track = useMemo(
+    () => tracks.find((track) => request.query.trackSlug === track.slug),
+    [request.query.trackSlug, tracks]
+  )
+  const { data: exercises, status: exercisesFetchStatus } = useRequestQuery(
+    ['exercises', track.slug],
+    {
+      endpoint: track.links.exercises,
+      options: {
+        initialData:
+          request.query === defaultQuery ? props.exercises : undefined,
+      },
+    },
+    isMountedRef
   )
   const { status, resolvedData, latestData } = usePaginatedRequestQuery(
     'mentor-solutions-list',
@@ -57,15 +76,20 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
         <TrackFilterList
           tracks={tracks}
           value={request.query.trackSlug}
-          setValue={(value) => setQuery({ ...request.query, trackSlug: value })}
-        />
-        <ExerciseFilterList
-          exercises={exercises}
-          value={request.query.exerciseSlugs}
           setValue={(value) =>
-            setQuery({ ...request.query, exerciseSlugs: value })
+            setQuery({ ...request.query, trackSlug: value, exerciseSlugs: [] })
           }
         />
+        {exercisesFetchStatus === 'loading' ? <Loading /> : null}
+        {exercisesFetchStatus === 'success' ? (
+          <ExerciseFilterList
+            exercises={exercises}
+            value={request.query.exerciseSlugs}
+            setValue={(value) =>
+              setQuery({ ...request.query, exerciseSlugs: value })
+            }
+          />
+        ) : null}
       </div>
     </div>
   )

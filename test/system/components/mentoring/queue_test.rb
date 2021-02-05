@@ -1,10 +1,10 @@
 require "application_system_test_case"
-require_relative "../../../support/table_matchers"
+require_relative "../../../support/capybara_helpers"
 
 module Components
   module Mentoring
     class QueueTest < ApplicationSystemTestCase
-      include TableMatchers
+      include CapybaraHelpers
 
       test "shows correct information" do
         ruby = create :track, title: "Ruby"
@@ -123,16 +123,22 @@ module Components
         mentor = create :user
         mentee = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
+        rust = create :track, title: "Rust", slug: "rust"
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         create :solution_mentor_request, exercise: series, user: mentee
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
+        tournament = create :concept_exercise, title: "Tournament", track: rust, slug: "tournament"
+        running = create :concept_exercise, title: "Running", track: rust, slug: "running"
         create :solution_mentor_request, exercise: tournament, user: mentee
+        create :solution_mentor_request, exercise: running, user: mentee
 
-        sign_in!(mentor)
-        visit mentor_dashboard_path
-        find("label", text: "Tournament").click
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentor_dashboard_path
+          find("label", text: "Rust").click
+          find("label", text: "Running").click
 
-        assert_text "on Tournament"
+          assert_text "on Running"
+        end
       end
 
       test "resets filters" do

@@ -27,11 +27,13 @@ function handleFetch(
   isMountedRef: React.MutableRefObject<boolean>
 ) {
   const params = request.query
-    ? stringify(decamelizeKeys(request.query), { arrayFormat: 'brackets' })
+    ? `?${stringify(decamelizeKeys(request.query), {
+        arrayFormat: 'brackets',
+      })}`
     : ''
 
   return sendRequest({
-    endpoint: `${request.endpoint}?${params}`,
+    endpoint: `${request.endpoint}${params}`,
     body: null,
     method: 'GET',
     isMountedRef: isMountedRef,

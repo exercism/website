@@ -6,6 +6,9 @@ export type Track = {
   title: string
   iconUrl: string
   count: number
+  links: {
+    exercises: string
+  }
 }
 
 const TrackFilter = ({

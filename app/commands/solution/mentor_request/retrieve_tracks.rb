@@ -15,7 +15,10 @@ class Solution
             title: track.title,
             icon_url: track.icon_url,
             count: request_counts[track.id].to_i,
-            selected: track.id == selected_id
+            selected: track.id == selected_id,
+            links: {
+              exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: track.slug)
+            }
           }
         end
       end

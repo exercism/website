@@ -11,6 +11,7 @@ import { useIsMounted } from 'use-is-mounted'
 
 export function Queue({ sortOptions, tracks, exercises, ...props }) {
   const isMountedRef = useIsMounted()
+  const defaultQuery = props.request.query
   const { request, setCriteria, setOrder, setQuery, setPage } = useList(
     props.request
   )
@@ -50,9 +51,7 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
           <SolutionCount
             unscopedTotal={resolvedData.meta.unscopedTotal}
             total={resolvedData.meta.total}
-            onResetFilter={() =>
-              setQuery({ ...request.query, ...defaultQuery })
-            }
+            onResetFilter={() => setQuery(defaultQuery)}
           />
         ) : null}
         <TrackFilterList

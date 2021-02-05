@@ -136,24 +136,44 @@ module Components
       end
 
       test "resets filters" do
-        skip
+        mentor = create :user
+        mentee = create :user
+        ruby = create :track, title: "Ruby", slug: "ruby"
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        create :solution_mentor_request, exercise: series, user: mentee
+        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
+        create :solution_mentor_request, exercise: tournament, user: mentee
 
-        visit test_components_mentoring_queue_url
-        find("label", text: "C#").click
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+        find("label", text: "Tournament").click
         click_on "Reset filter"
 
-        assert_text "Showing 3 requests"
-        assert_text "3 queued requests"
+        assert_text "Showing 2 requests"
+        assert_text "2 queued requests"
       end
 
       test "shows counts" do
-        skip
+        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        mentor = create :user
+        ruby = create :track, title: "Ruby"
+        series = create :concept_exercise, title: "Series", track: ruby
+        mentee = create :user, handle: "mentee"
+        create :solution_mentor_request,
+          exercise: series,
+          user: mentee
+        tournament = create :concept_exercise, title: "Tournament", track: ruby
+        other_mentee = create :user, name: "Other"
+        create :solution_mentor_request,
+          exercise: tournament,
+          user: other_mentee
 
-        visit test_components_mentoring_queue_url
-        find("label", text: "C#").click
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+        fill_in "Filter by student name", with: "Oth"
 
         assert_text "Showing 1 request"
-        assert_text "3 queued requests"
+        assert_text "2 queued requests"
       end
     end
   end

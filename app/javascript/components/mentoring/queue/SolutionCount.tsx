@@ -15,10 +15,10 @@ export const SolutionCount = ({
     <header className="filtering-header">
       <div className="title">
         <h3>
-          Showing {unscopedTotal} {pluralize('request', unscopedTotal)}
+          Showing {total} {pluralize('request', total)}
         </h3>
         <div className="subtitle">
-          {total} queued {pluralize('request', total)}
+          {unscopedTotal} queued {pluralize('request', unscopedTotal)}
         </div>
       </div>
       <button type="button" onClick={onResetFilter} className="reset-filters">

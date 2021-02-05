@@ -11,7 +11,6 @@ import { useIsMounted } from 'use-is-mounted'
 
 export function Queue({ sortOptions, tracks, exercises, ...props }) {
   const isMountedRef = useIsMounted()
-  const defaultQuery = { trackSlug: tracks[0].slug, exerciseSlugs: [] }
   const { request, setCriteria, setOrder, setQuery, setPage } = useList(
     props.request
   )
@@ -63,7 +62,7 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
         />
         <ExerciseFilterList
           exercises={exercises}
-          value={request.query.exerciseSlugs || []}
+          value={request.query.exerciseSlugs}
           setValue={(value) =>
             setQuery({ ...request.query, exerciseSlugs: value })
           }

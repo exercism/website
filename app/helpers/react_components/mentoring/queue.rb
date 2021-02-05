@@ -3,11 +3,10 @@ module ReactComponents
     class Queue < ReactComponent
       extend Mandate::Memoize
 
-      def initialize(mentor, request = default_request)
+      def initialize(mentor)
         super()
 
         @mentor = mentor
-        @request = request
       end
 
       def to_s
@@ -30,10 +29,16 @@ module ReactComponents
       private_constant :SORT_OPTIONS
 
       private
-      attr_reader :mentor, :request
+      attr_reader :mentor
 
-      def default_request
-        { endpoint: Exercism::Routes.api_mentor_requests_path }
+      def request
+        {
+          endpoint: Exercism::Routes.api_mentor_requests_path,
+          query: {
+            track_slug: track_data.find { |track| track[:selected] }[:slug],
+            exercise_slugs: []
+          }
+        }
       end
 
       memoize

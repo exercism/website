@@ -149,7 +149,7 @@ initReact({
   ),
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue
-      request={data.request}
+      request={camelizeKeys(data.request)}
       sortOptions={data.sort_options}
       tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
       exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}

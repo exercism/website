@@ -119,12 +119,20 @@ module Components
       end
 
       test "filters by exercise" do
-        skip
+        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        mentor = create :user
+        mentee = create :user
+        ruby = create :track, title: "Ruby", slug: "ruby"
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        create :solution_mentor_request, exercise: series, user: mentee
+        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
+        create :solution_mentor_request, exercise: tournament, user: mentee
 
-        visit test_components_mentoring_queue_url
-        find("label", text: "Zipper").click
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+        find("label", text: "Tournament").click
 
-        assert_text "Zipper"
+        assert_text "on Tournament"
       end
 
       test "resets filters" do

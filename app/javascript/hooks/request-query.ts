@@ -6,7 +6,7 @@ import {
   usePaginatedQuery,
   useQuery,
 } from 'react-query'
-import { camelizeKeys } from 'humps'
+import { camelizeKeys, decamelizeKeys } from 'humps'
 import { sendRequest } from '../utils/send-request'
 import { stringify } from 'qs'
 
@@ -27,7 +27,7 @@ function handleFetch(
   isMountedRef: React.MutableRefObject<boolean>
 ) {
   const params = request.query
-    ? stringify(request.query, { arrayFormat: 'brackets' })
+    ? stringify(decamelizeKeys(request.query), { arrayFormat: 'brackets' })
     : ''
 
   return sendRequest({

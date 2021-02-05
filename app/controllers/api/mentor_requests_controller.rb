@@ -4,8 +4,8 @@ module API
       unscoped_total = ::Solution::MentorRequest::Retrieve.(
         current_user,
         page: params[:page],
-        track_slug: params[:track_id],
-        exercise_slugs: params[:exercise_ids],
+        track_slug: params[:track_slug],
+        exercise_slugs: params[:exercise_slugs],
         sorted: false,
         paginated: false
       ).count
@@ -15,8 +15,8 @@ module API
         page: params[:page],
         criteria: params[:criteria],
         order: params[:order],
-        track_slug: params[:track_id],
-        exercise_slugs: params[:exercise_ids]
+        track_slug: params[:track_slug],
+        exercise_slugs: params[:exercise_slugs]
       )
 
       render json: SerializePaginatedCollection.(

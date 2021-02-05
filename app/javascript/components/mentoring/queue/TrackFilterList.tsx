@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { GraphicalIcon, TrackIcon } from '../../common'
+import { TrackIcon } from '../../common'
 
 export type Track = {
   slug: string
@@ -40,18 +40,14 @@ export const TrackFilterList = ({
   setValue,
 }: {
   tracks: Track[]
-  value: string[]
-  setValue: (value: string[]) => void
+  value: string
+  setValue: (value: string) => void
 }): JSX.Element => {
   const handleChange = useCallback(
     (e, optionValue) => {
-      if (e.target.checked) {
-        setValue([...value, optionValue])
-      } else {
-        setValue(value.filter((v) => v !== optionValue))
-      }
+      setValue(optionValue)
     },
-    [setValue, value]
+    [setValue]
   )
 
   return (
@@ -62,7 +58,7 @@ export const TrackFilterList = ({
           <TrackFilter
             key={track.slug}
             onChange={(e) => handleChange(e, track.slug)}
-            checked={value.includes(track.slug)}
+            checked={value === track.slug}
             {...track}
           />
         ))}

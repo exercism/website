@@ -20,14 +20,14 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
     page = 15
-    track_id = 24
-    exercise_ids = [17, 19]
+    track_slug = "ruby"
+    exercise_slugs = %w[bob lasagna]
 
     ::Solution::MentorRequest::Retrieve.expects(:call).with(
       @current_user,
       page: page,
-      track_slug: track_id,
-      exercise_slugs: exercise_ids,
+      track_slug: track_slug,
+      exercise_slugs: exercise_slugs,
       sorted: false,
       paginated: false
     ).returns(mock(count: 200))
@@ -37,16 +37,16 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
       page: page,
       criteria: "Ruby",
       order: "recent",
-      track_slug: track_id,
-      exercise_slugs: exercise_ids
+      track_slug: track_slug,
+      exercise_slugs: exercise_slugs
     ).returns(Solution::MentorRequest.page(1).per(1))
 
     get api_mentor_requests_path, params: {
       page: page,
       criteria: "Ruby",
       order: "recent",
-      track_id: track_id,
-      exercise_ids: exercise_ids
+      track_slug: track_slug,
+      exercise_slugs: exercise_slugs
     }, headers: @headers, as: :json
   end
 

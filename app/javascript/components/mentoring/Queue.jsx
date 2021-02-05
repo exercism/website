@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { TrackFilterList } from './queue/TrackFilterList'
@@ -9,11 +9,10 @@ import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 
-const DEFAULT_FILTER = { track: [], exercise: [] }
-
 export function Queue({ sortOptions, tracks, exercises, ...props }) {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setOrder, setFilter, setPage } = useList(
+  const defaultQuery = { trackSlug: tracks[0].slug, exerciseSlugs: [] }
+  const { request, setCriteria, setOrder, setQuery, setPage } = useList(
     props.request
   )
   const { status, resolvedData, latestData } = usePaginatedRequestQuery(
@@ -21,10 +20,6 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
     request,
     isMountedRef
   )
-
-  const filterValue = useMemo(() => request.query.filter || DEFAULT_FILTER, [
-    request.query.filter,
-  ])
 
   return (
     <div className="queue-section-content">
@@ -56,18 +51,22 @@ export function Queue({ sortOptions, tracks, exercises, ...props }) {
           <SolutionCount
             unscopedTotal={resolvedData.meta.unscopedTotal}
             total={resolvedData.meta.total}
-            onResetFilter={() => setFilter(DEFAULT_FILTER)}
+            onResetFilter={() =>
+              setQuery({ ...request.query, ...defaultQuery })
+            }
           />
         ) : null}
         <TrackFilterList
           tracks={tracks}
-          value={filterValue.track}
-          setValue={(value) => setFilter({ ...filterValue, track: value })}
+          value={request.query.trackSlug}
+          setValue={(value) => setQuery({ ...request.query, trackSlug: value })}
         />
         <ExerciseFilterList
           exercises={exercises}
-          value={filterValue.exercise}
-          setValue={(value) => setFilter({ ...filterValue, exercise: value })}
+          value={request.query.exerciseSlugs || []}
+          setValue={(value) =>
+            setQuery({ ...request.query, exerciseSlugs: value })
+          }
         />
       </div>
     </div>

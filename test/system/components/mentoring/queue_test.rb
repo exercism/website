@@ -96,17 +96,15 @@ module Components
       end
 
       test "filters by language track" do
-        skip
-
         Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
         mentor = create :user
-        ruby = create :track, title: "Ruby"
+        ruby = create :track, title: "Ruby", slug: "ruby"
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, name: "User 2"
         create :solution_mentor_request,
           exercise: series,
           user: mentee
-        csharp = create :track, title: "C#"
+        csharp = create :track, title: "C#", slug: "csharp"
         tournament = create :concept_exercise, title: "Tournament", track: csharp
         other_mentee = create :user, name: "User 1"
         create :solution_mentor_request,

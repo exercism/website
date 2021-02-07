@@ -1,4 +1,4 @@
-class UserTrack::RetrieveActivities
+class UserTrack::RetrieveRecentlyActiveSolutions
   include Mandate
 
   initialize_with :user_track
@@ -11,15 +11,15 @@ class UserTrack::RetrieveActivities
     # submitted two iterations, this will only retrieve the latest activity
     # about the latest iteration. It achieves this by a Group/MAX(id) and then
     # an outer query to get the normal fields.
-    group_filter = User::Activity.
+    solution_ids = User::Activity.
       where(user: user, track: track).
-      group(:grouping_key).
+      group(:solution_id).
       order(id: :desc).
-      select("grouping_key, max(id) as id").
-      limit(5)
+      select("solution_id, max(id) as id").
+      limit(5).
+      pluck(:solution_id)
 
-    User::Activity.from("(#{group_filter.to_sql}) as grouped_table").
-      joins("INNER JOIN user_activities on user_activities.id = grouped_table.id").
-      order(id: :desc)
+    Solution.where(id: solution_ids).
+      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')"))
   end
 end

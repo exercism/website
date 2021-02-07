@@ -49,6 +49,7 @@ karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.
 track_slugs = %w[05ab1e ada arm64-assembly ballerina bash c ceylon cfml clojure clojurescript coffeescript common-lisp coq cpp crystal csharp d dart delphi elixir elm emacs-lisp erlang factor forth fortran fsharp gleam gnu-apl go groovy haskell haxe idris io j java javascript julia kotlin lfe lua mips nim nix objective-c ocaml perl5 pharo-smalltalk php plsql pony powershell prolog purescript python r racket raku reasonml ruby rust scala scheme shen sml solidity swift system-verilog tcl typescript vbnet vimscript x86-64-assembly zig]
 track_slugs.each do |track_slug|
   next unless track_slug == "ruby"
+
   begin
     puts "Adding Track: #{track_slug}"
 
@@ -104,11 +105,7 @@ submission.files.create!(
   content: "class Lasagna\nend",
   digest: SecureRandom.uuid
 )
-Iteration.create!(
-  submission: submission,
-  solution: solution,
-  idx: 1
-)
+Iteration::Create.(solution, submission)
 
 Solution::Publish.(solution, [])
 

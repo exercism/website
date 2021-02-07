@@ -9,8 +9,8 @@ class Solution
       solution_class.create_or_find_by!(
         user: user,
         exercise: exercise
-      ).tap do |_solution|
-        record_activity!
+      ).tap do |solution|
+        record_activity!(solution)
       end
     end
 
@@ -20,12 +20,12 @@ class Solution
       raise ExerciseUnavailableError unless user_track.exercise_available?(exercise)
     end
 
-    def record_activity!
+    def record_activity!(solution)
       User::Activity::Create.(
         :started_exercise,
         user,
         track: exercise.track,
-        exercise: exercise
+        solution: solution
       )
     rescue StandardError => e
       Rails.logger.error "Failed to create activity"

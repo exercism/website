@@ -4,8 +4,8 @@
 # Each activity is expected to define a `cachable_rendering_data`
 # method, which should call super.({...}) for any data that is
 # used in rendering and cachable. For example, you might cache an
-# exercise title or icon. This should all be data that is rarely
-# changing. Where an actual object is needed to render (e.g. an
+# exercise title or icon. This should all be data that rarely
+# changes. Where an actual object is needed to render (e.g. an
 # iteration to render the React iteration summary component) do
 # not cache it, but append it to the rendered data OpenStruct
 # (see User::Activities::SubmittedIterationActivity for an example).
@@ -39,11 +39,12 @@ class User::Activity < ApplicationRecord
 
   belongs_to :user
   belongs_to :track, optional: true
+  belongs_to :solution, optional: true
 
   before_create do
     self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
-    self.grouping_key = "#{user_id}|#{grouping_params}"
     self.occurred_at = Time.current unless self.occurred_at
+    self.params = {} unless self.params
 
     self.version = latest_i18n_version
     self.rendering_data_cache = cachable_rendering_data
@@ -56,7 +57,8 @@ class User::Activity < ApplicationRecord
       update!(rendering_data_cache: data)
     end
 
-    OpenStruct.new(data.merge(occurred_at: occurred_at))
+    data.with_indifferent_access.
+      merge('occurred_at' => occurred_at)
   end
 
   # This maps
@@ -72,16 +74,22 @@ class User::Activity < ApplicationRecord
     end
   end
 
-  private
   def cachable_rendering_data
     {
       text: text,
-      url: url
+      url: url,
+      icon_name: icon_name
     }
   end
 
+  private
   def text
     I18n.t("user_activities.#{i18n_key}.#{version}", i18n_params).strip
+  end
+
+  # This should be overriden by child-classes
+  def icon_name
+    "editor"
   end
 
   def type_key

@@ -1,24 +1,27 @@
 module User::Activities
   class CompletedExerciseActivity < User::Activity
-    params :exercise
+    before_create do
+      self.occurred_at = solution.completed_at
+    end
 
     def url
-      Exercism::Routes.track_exercise_path(track, exercise)
+      Exercism::Routes.track_exercise_path(track, solution.exercise)
     end
 
     def cachable_rendering_data
       super.merge(
-        exercise_title: exercise.title,
-        exercise_icon_name: exercise.icon_name
+        occurred_at: solution.completed_at
       )
     end
 
     def guard_params
-      "Exercise##{exercise.id}"
+      "Solution##{solution.id}"
     end
 
-    def grouping_params
-      "Exercise##{exercise.id}"
+    def i18n_params
+      {
+        exercise_title: solution.exercise.title
+      }
     end
   end
 end

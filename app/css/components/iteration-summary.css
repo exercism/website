@@ -1,41 +1,70 @@
 @import "../styles";
 
 .c-react-wrapper-track-iteration-summary {
-    min-height: 53px;
+    min-height: 48px;
+}
+
+.c-react-wrapper-track-iteration-summary-slim {
+    min-height: 30px;
 }
 .c-iteration-summary {
     @apply flex items-center flex-grow;
 
-    & .--upload-method-icon {
+    &.--slim {
+        & > .--info {
+            & > .--idx {
+                & > h3 {
+                    @apply text-15;
+                }
+                & > .--latest {
+                    @apply hidden;
+                }
+            }
+            & > .--details {
+                @apply hidden;
+            }
+        }
+        & > .--time {
+            @apply flex;
+            @apply ml-48;
+            @apply text-textColor6 text-13;
+        }
+    }
+
+    & > .--upload-method-icon {
         height: 24px;
         width: 24px;
-        @apply text-textColor6 mr-24;
+        @apply text-textColor5 mr-16;
     }
-    & .--info {
+    & > .--info {
         @apply flex-grow;
-    }
 
-    & .--idx {
-        @apply flex items-center mb-6;
+        & > .--idx {
+            @apply flex items-center;
 
-        & h3 {
-            @apply font-mono font-semibold text-16 leading-paragraph;
-            @apply mr-16;
+            & > h3 {
+                @apply font-semibold text-16 leading-170;
+                @apply mr-12;
+            }
+            & > .--dot {
+                @apply mr-16 rounded-circle bg-lightBlue;
+                height: 8px;
+                width: 8px;
+            }
+            & > .--latest,
+            & > .--published {
+                @apply text-textColor6 font-medium;
+                @apply border-1 border-borderLight rounded-5 px-8;
+                font-size: 12px;
+                line-height: 20px;
+            }
+            & > .--latest + .--published {
+                @apply ml-8;
+            }
         }
-        & .--dot {
-            @apply mr-16 rounded-circle bg-lightBlue;
-            height: 8px;
-            width: 8px;
+        & > .--details {
+            @apply text-label-timestamp;
         }
-        & .--latest {
-            @apply text-textColor6 font-medium;
-            @apply border-1 border-borderLight rounded-5 px-8;
-            font-size: 12px;
-            line-height: 20px;
-        }
-    }
-    & .--details {
-        @apply text-label-timestamp;
     }
     & .--tests,
     & .--analyzer {
@@ -105,41 +134,21 @@
         &.--queued {
             @apply text-orange;
         }
-        &.--approved {
-            @apply text-darkGreen;
-            & .--dot {
-                @apply bg-darkGreen;
+        & .--comments {
+            @apply py-6 px-12;
+            @apply border-1 border-borderColor5 rounded-5;
+            @apply flex items-center;
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-8;
+            }
+            & .--count {
+                @apply text-textColor3 font-medium;
             }
         }
-        &.--inconclusive {
-            @apply text-darkGreen;
-            & .--dot {
-                @apply bg-darkGreen;
-            }
-        }
-        &.--disapproved {
-            @apply text-red;
-            & .--dot {
-                @apply bg-red;
-            }
-        }
-        &.--cancelled {
-            @apply text-red;
-            & .--dot {
-                @apply bg-red;
-            }
-        }
-        &.--exceptioned {
-            @apply text-red;
-            & .--dot {
-                @apply bg-red;
-            }
-        }
-        &.--not_queued {
-            @apply text-orange;
-            & .--dot {
-                @apply bg-orange;
-            }
-        }
+    }
+    & > .--time {
+        @apply hidden;
     }
 }

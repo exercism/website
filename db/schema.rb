@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_15_162916) do
+ActiveRecord::Schema.define(version: 2021_02_02_231439) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -331,11 +331,11 @@ ActiveRecord::Schema.define(version: 2021_01_15_162916) do
     t.json "params", null: false
     t.datetime "occurred_at", null: false
     t.string "uniqueness_key", null: false
-    t.string "grouping_key", null: false
     t.integer "version", null: false
     t.json "rendering_data_cache", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "solution_id"
     t.index ["track_id"], name: "index_user_activities_on_track_id"
     t.index ["user_id"], name: "index_user_activities_on_user_id"
   end

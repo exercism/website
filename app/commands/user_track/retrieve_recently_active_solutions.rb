@@ -20,6 +20,6 @@ class UserTrack::RetrieveRecentlyActiveSolutions
       pluck(:solution_id)
 
     Solution.where(id: solution_ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(",")}')"))
+      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')"))
   end
 end

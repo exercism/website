@@ -177,32 +177,6 @@
                 @apply text-16 leading-paragraph text-textColor6;
                 @apply text-left;
             }
-            & .comment-form {
-                @apply border-1 border-buttonBorderColor2 rounded-5;
-                & .editor-toolbar {
-                    border-width: 0; /* Override default */
-                    @apply border-b-1 border-borderColor5;
-                }
-                /* TODO: Decide what to do with this */
-                & .editor-statusbar {
-                    display: none;
-                }
-                & .CodeMirror {
-                    height: 160px;
-                    min-height: 160px;
-                    border: none;
-                    @apply text-textColor5 text-15 leading-huge;
-
-                    & .CodeMirror-scroll {
-                        height: 140px;
-                        min-height: 140px !important;
-                    }
-                }
-                & .comment-form-footer {
-                    @apply p-16;
-                    @apply flex justify-end;
-                }
-            }
         }
 
         & .tabs {
@@ -435,6 +409,26 @@
                     & .post-at {
                         @apply text-textColor6 leading-huge;
                     }
+                }
+            }
+        }
+        & #panel-scratchpad {
+            @apply py-24 px-20;
+            & > .c-explainer {
+                @apply mb-20;
+            }
+            & > .title {
+                @apply flex items-center mb-12;
+                @apply leading-160;
+
+                & strong {
+                    @apply font-medium text-textColor3;
+                    @apply mx-4;
+                }
+                & .c-track-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mx-8;
                 }
             }
         }

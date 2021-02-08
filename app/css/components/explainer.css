@@ -1,0 +1,37 @@
+@import "../styles";
+
+.c-explainer {
+    @apply flex items-center;
+    @apply py-16 px-24;
+    @apply bg-randomBlue rounded-12;
+    /* TODO: Work out if this is correct */
+    border: 2px solid RGB(158, 0, 255);
+
+    & > .c-icon {
+        height: 48px;
+        width: 48px;
+        @apply mr-24;
+    }
+    & > .--content {
+        & h3 {
+            @apply text-h6 mb-4;
+        }
+        & p {
+            @apply leading-160;
+
+            & a {
+                @apply text-lightBlue;
+            }
+        }
+    }
+
+    & > button {
+        @apply p-8;
+        & > .c-icon {
+            height: 15px;
+            width: 15px;
+
+            @apply ml-8;
+        }
+    }
+}

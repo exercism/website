@@ -1,0 +1,39 @@
+@import "../styles";
+
+.c-markdown-editor {
+    @apply border-1 border-buttonBorderColor2 rounded-8;
+
+    & .editor-toolbar {
+        border-width: 0; /* Override default */
+        @apply border-b-1 border-borderColor5;
+    }
+    /* TODO: Decide what to do with this */
+    & .editor-statusbar {
+        display: none;
+    }
+    & .EasyMDEContainer .CodeMirror {
+        height: 160px;
+        min-height: 160px;
+        border: none;
+        @apply text-textColor5 text-15 leading-huge;
+
+        & .CodeMirror-scroll {
+            height: 140px;
+            min-height: 140px !important;
+        }
+    }
+    & .editor-footer {
+        @apply p-16;
+        @apply flex items-center justify-end;
+
+        & button {
+            @apply ml-12;
+        }
+
+        & .--warning {
+            @apply flex-grow;
+            @apply text-red font-medium;
+            @apply mr-12;
+        }
+    }
+}

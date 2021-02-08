@@ -48,14 +48,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
           <TagsFilter dispatch={dispatch} options={tagOptions} />
         </div>
       </section>
-      <section className="md-container container">
-        <Header data={latestData} query={request.query} />
-        <StatusFilter
-          value={request.query.status}
-          dispatch={dispatch}
-          options={statusOptions}
-        />
-
+      <section className="lg-container container">
         {isError && <p>Something went wrong</p>}
         {resolvedData && <List data={resolvedData} />}
       </section>

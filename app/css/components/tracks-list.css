@@ -62,32 +62,6 @@
             }
         }
     }
-    & h2 {
-        @apply text-h2;
-        @apply mb-16;
-    }
-    & .--status-filters {
-        @apply mb-24;
-
-        & button {
-            @apply py-8 px-16 rounded-100 mr-12;
-            @apply text-16 font-medium;
-
-            & .--count {
-                @apply ml-8 px-8 rounded-100 border-1 border-gray;
-                @apply text-13;
-                line-height: 170%;
-            }
-
-            &.--selected {
-                @apply bg-veryLightBlue;
-
-                & .--count {
-                    @apply text-purple border-lightPurple;
-                }
-            }
-        }
-    }
     & .--tracks {
         @apply grid gap-16;
         @screen md {
@@ -114,7 +88,7 @@
 
                 & .--title {
                     @apply mr-16;
-                    @apply text-h3-mono text-textColor1;
+                    @apply text-h4;
                 }
 
                 & .--joined {
@@ -122,8 +96,17 @@
                 }
 
                 & .--counts {
-                    @apply flex gap-12 mb-12;
-                    @apply font-medium text-16;
+                    @apply flex items-center mb-12;
+                    @apply font-medium text-15 leading-150;
+                    & li {
+                        @apply flex items-center mr-24;
+
+                        & .c-icon {
+                            height: 21px;
+                            width: 21px;
+                            @apply mr-12;
+                        }
+                    }
                 }
 
                 & .--tags {

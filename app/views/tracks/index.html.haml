@@ -1,2 +1,12 @@
 #page-tracks
+  %header.tracks-header
+    .track-icons
+      - @track_icons.each do |track|
+        = track_icon(track)
+
+    %h1 #{@num_tracks} language tracks. All free for you!
+    %p
+      Become fluent in your chosen programming languages completing these tracks created by our
+      = link_to "awesome team of contributors", "#"
+
   = ReactComponents::Student::TracksList.new(current_user, @tracks_data)

@@ -27,21 +27,30 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         title: "C#",
         icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         count: 6,
-        selected: true
+        selected: true,
+        links: {
+          exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: 'csharp')
+        }
       },
       {
         slug: "fsharp",
         title: "F#",
         icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         count: 0,
-        selected: false
+        selected: false,
+        links: {
+          exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: 'fsharp')
+        }
       },
       {
         slug: "ruby",
         title: "Ruby",
         icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         count: 3,
-        selected: false
+        selected: false,
+        links: {
+          exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: 'ruby')
+        }
       }
     ]
     actual = Solution::MentorRequest::RetrieveTracks.(user)

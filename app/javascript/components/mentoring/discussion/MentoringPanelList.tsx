@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect, useRef } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostList } from './DiscussionPostList'
 import { Scratchpad } from './Scratchpad'
@@ -62,6 +62,16 @@ export const MentoringPanelList = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
+  const finishedWizardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!finishedWizardRef.current) {
+      return
+    }
+
+    finishedWizardRef.current.scrollIntoView()
+  }, [relationship])
+
   return (
     <>
       <TabsContext.Provider
@@ -97,7 +107,11 @@ export const MentoringPanelList = ({
             student={student}
           />
           {isFinished ? (
-            <FinishedWizard student={student} relationship={relationship} />
+            <FinishedWizard
+              ref={finishedWizardRef}
+              student={student}
+              relationship={relationship}
+            />
           ) : null}
         </Tab.Panel>
         <Tab.Panel id="scratchpad" context={TabsContext}>

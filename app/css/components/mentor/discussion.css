@@ -246,6 +246,7 @@
         }
 
         & #panel-discussion {
+            @apply pb-64;
             & .student-info {
                 @apply bg-backgroundColorA;
                 @apply flex;
@@ -447,6 +448,37 @@
                     }
                     & .post-at {
                         @apply text-textColor6 leading-huge;
+                    }
+                }
+            }
+            & .finished-wizard {
+                @apply mt-24 mx-24 pt-20 pb-24 px-24;
+                @apply flex items-start;
+                @apply border-1 border-borderColor5 rounded-8;
+
+                & > .c-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mr-16;
+                }
+                & > .--details {
+                    & h3 {
+                        @apply text-h5;
+                        @apply pb-16 mb-16;
+                        @apply border-b-1 border-borderColor6;
+                    }
+                    & > .--step {
+                        /* Leading-160 */
+                        & p {
+                            @apply text-16 leading-code font-medium;
+                            @apply mb-12;
+                        }
+                        & .buttons {
+                            @apply flex items-center;
+                            & button {
+                                @apply mr-12;
+                            }
+                        }
                     }
                 }
             }

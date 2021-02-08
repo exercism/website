@@ -4,6 +4,7 @@ import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
 import { Student, StudentMentorRelationship } from '../../Discussion'
 
@@ -55,21 +56,26 @@ export const FavoriteStep = ({
 
   return (
     <div>
-      <p>Add {student.handle} to your favorites?</p>
-      <button
-        type="button"
-        onClick={() => handleFavorite()}
-        disabled={status === 'loading'}
-      >
-        Add to favorites
-      </button>
-      <button
-        type="button"
-        onClick={() => onSkip()}
-        disabled={status === 'loading'}
-      >
-        Skip
-      </button>
+      <p>Add @{student.handle} to your favorites?</p>
+      <div className="buttons">
+        <button
+          className="btn-small"
+          type="button"
+          onClick={() => handleFavorite()}
+          disabled={status === 'loading'}
+        >
+          <GraphicalIcon icon="plus" />
+          Add to favorites
+        </button>
+        <button
+          className="btn-small"
+          type="button"
+          onClick={() => onSkip()}
+          disabled={status === 'loading'}
+        >
+          Skip
+        </button>
+      </div>
       {status === 'loading' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>

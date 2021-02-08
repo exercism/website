@@ -4,6 +4,7 @@ import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
 import { Student, StudentMentorRelationship } from '../../Discussion'
 
@@ -69,13 +70,25 @@ export const MentorAgainStep = ({
 
   return (
     <div>
-      <p>Want to mentor {student.handle} again?</p>
-      <button onClick={() => setChoice('yes')} disabled={status === 'loading'}>
-        Yes
-      </button>
-      <button onClick={() => setChoice('no')} disabled={status === 'loading'}>
-        No
-      </button>
+      <p>Want to mentor @{student.handle} again?</p>
+      <div className="buttons">
+        <button
+          className="btn-small"
+          onClick={() => setChoice('yes')}
+          disabled={status === 'loading'}
+        >
+          <GraphicalIcon icon="checkmark" />
+          Yes
+        </button>
+        <button
+          className="btn-small"
+          onClick={() => setChoice('no')}
+          disabled={status === 'loading'}
+        >
+          <GraphicalIcon icon="cross" />
+          No
+        </button>
+      </div>
       {status === 'loading' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>

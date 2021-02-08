@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { GraphicalIcon } from '../../common'
 
 export type Exercise = {
@@ -97,9 +97,7 @@ export const ExerciseFilterList = ({
   }, [setValue])
 
   return (
-    <div className="exercise-filter">
-      <h3>Filter by exercise</h3>
-      {/* TODO: Exercise searching */}
+    <React.Fragment>
       <div className="c-search-bar">
         <input className="--search" placeholder="Search by Exercise name" />
       </div>
@@ -143,6 +141,6 @@ export const ExerciseFilterList = ({
           />
         ))}
       </div>
-    </div>
+    </React.Fragment>
   )
 }

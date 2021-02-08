@@ -234,6 +234,23 @@ module Components
         assert_text "on Series"
         assert_text "on Tournament"
       end
+
+      test "deselects all exercises" do
+        mentor = create :user
+        ruby = create :track, title: "Ruby"
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        create :solution_mentor_request, exercise: series
+        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
+        create :solution_mentor_request, exercise: tournament
+
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+        find("label", text: "Series").click
+        click_on "Select none"
+
+        assert_text "on Series"
+        assert_text "on Tournament"
+      end
     end
   end
 end

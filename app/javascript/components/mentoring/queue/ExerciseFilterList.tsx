@@ -92,6 +92,10 @@ export const ExerciseFilterList = ({
     setValue(exercisesToShow.map((exercise) => exercise.slug))
   }, [exercisesToShow, setValue])
 
+  const handleSelectNone = useCallback(() => {
+    setValue([])
+  }, [setValue])
+
   return (
     <div className="exercise-filter">
       <h3>Filter by exercise</h3>
@@ -101,6 +105,9 @@ export const ExerciseFilterList = ({
       </div>
       <button type="button" onClick={handleSelectAll}>
         Select all
+      </button>
+      <button type="button" onClick={handleSelectNone}>
+        Select none
       </button>
       <label className="c-checkbox-wrapper">
         <input

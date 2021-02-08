@@ -95,6 +95,7 @@
 .btn-small {
     @apply btn border-1 border-buttonBorderColor2;
     @apply text-14 rounded-5 px-16;
+    @apply text-textColor6;
     height: 36px;
 
     & svg {
@@ -136,4 +137,9 @@
     & .--hint {
         @apply text-textColor6 font-semibold;
     }
+}
+
+.btn-link {
+    @apply btn-small;
+    @apply border-0 text-lightBlue p-0;
 }

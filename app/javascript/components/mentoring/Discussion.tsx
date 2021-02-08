@@ -197,9 +197,16 @@ export const Discussion = (props: DiscussionProps): JSX.Element => {
             {links.markAsNothingToDo ? (
               <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
             ) : null}
+
+            {/* TODO: This should change when the solution is marked as finished */}
             {links.finish ? (
               <FinishButton endpoint={links.finish} onSuccess={handleFinish} />
-            ) : null}
+            ) : (
+              <div className="finished">
+                <GraphicalIcon icon="completed-check-circle" />
+                Ended
+              </div>
+            )}
           </header>
           <IterationHeader
             iteration={currentIteration}

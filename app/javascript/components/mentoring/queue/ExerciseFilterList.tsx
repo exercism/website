@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { GraphicalIcon } from '../../common'
 
 export type Exercise = {
@@ -6,6 +6,7 @@ export type Exercise = {
   iconName: string
   title: string
   count: number
+  completedByMentor: boolean
 }
 
 const ExerciseFilter = ({
@@ -44,14 +45,20 @@ export const ExerciseFilterList = ({
   const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] = useState(
     true
   )
+  const [
+    isShowingExercisesCompleted,
+    setIsShowingExercisesCompleted,
+  ] = useState(false)
 
-  const exercisesToShow = useMemo(
-    () =>
-      exercises.filter((exercise) =>
+  const exercisesToShow = useMemo(() => {
+    return exercises
+      .filter((exercise) =>
         isShowingExercisesToMentor ? exercise.count !== 0 : true
-      ),
-    [exercises, isShowingExercisesToMentor]
-  )
+      )
+      .filter((exercise) =>
+        isShowingExercisesCompleted ? exercise.completedByMentor : true
+      )
+  }, [exercises, isShowingExercisesCompleted, isShowingExercisesToMentor])
 
   const handleChange = useCallback(
     (e, optionValue) => {
@@ -63,6 +70,24 @@ export const ExerciseFilterList = ({
     },
     [setValue, value]
   )
+
+  const handleShowCompletedExercises = useCallback(
+    (e) => {
+      setIsShowingExercisesCompleted(e.target.checked)
+
+      if (!e.target.checked) {
+        setValue([])
+      }
+
+      setValue(
+        exercises
+          .filter((exercise) => exercise.completedByMentor)
+          .map((exercise) => exercise.slug)
+      )
+    },
+    [exercises, setValue]
+  )
+
   return (
     <div className="exercise-filter">
       <h3>Filter by exercise</h3>
@@ -84,7 +109,11 @@ export const ExerciseFilterList = ({
         Only show exercises that need mentoring
       </label>
       <label className="c-checkbox-wrapper">
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={isShowingExercisesCompleted}
+          onChange={handleShowCompletedExercises}
+        />
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>

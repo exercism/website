@@ -198,6 +198,42 @@ module Components
         find("label", text: "Only show exercises that need mentoring").click
         assert_text "Running"
       end
+
+      test "shows exercises that have been completed by mentor" do
+        mentor = create :user
+        ruby = create :track, title: "Ruby"
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        create :solution_mentor_request, exercise: series
+        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
+        create :solution_mentor_request, exercise: tournament
+        create :concept_exercise, title: "Running", track: ruby
+        create :concept_solution, completed_at: 2.days.ago, user: mentor, exercise: tournament
+
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+        find("label", text: "Series").click
+        find("label", text: "Only show exercises I've completed").click
+
+        assert_text "on Tournament"
+        assert_no_text "on Series"
+      end
+
+      test "selects all exercises" do
+        mentor = create :user
+        ruby = create :track, title: "Ruby"
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        create :solution_mentor_request, exercise: series
+        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
+        create :solution_mentor_request, exercise: tournament
+
+        sign_in!(mentor)
+        visit mentor_dashboard_path
+        find("label", text: "Series").click
+        click_on "Select all"
+
+        assert_text "on Series"
+        assert_text "on Tournament"
+      end
     end
   end
 end

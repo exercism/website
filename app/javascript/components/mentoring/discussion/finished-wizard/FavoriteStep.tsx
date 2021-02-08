@@ -2,10 +2,10 @@ import React from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { Discussion, Relationship } from '../../FinishMentorDiscussionModal'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { Student, StudentMentorRelationship } from '../../Discussion'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
@@ -16,19 +16,21 @@ const ErrorHandler = ({ error }: { error: unknown }) => {
 }
 
 export const FavoriteStep = ({
-  discussion,
+  student,
+  relationship,
   onFavorite,
   onSkip,
 }: {
-  discussion: Discussion
-  onFavorite: (relationship: Relationship) => void
+  student: Student
+  relationship: StudentMentorRelationship
+  onFavorite: (relationship: StudentMentorRelationship) => void
   onSkip: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [handleFavorite, { status, error }] = useMutation(
     () => {
       return sendRequest({
-        endpoint: discussion.relationship.links.favorite,
+        endpoint: relationship.links.favorite,
         method: 'POST',
         body: null,
         isMountedRef: isMountedRef,
@@ -37,7 +39,7 @@ export const FavoriteStep = ({
           return
         }
 
-        return typecheck<Relationship>(json, 'relationship')
+        return typecheck<StudentMentorRelationship>(json, 'relationship')
       })
     },
     {
@@ -53,7 +55,7 @@ export const FavoriteStep = ({
 
   return (
     <div>
-      <p>Add {discussion.student.handle} to your favorites?</p>
+      <p>Add {student.handle} to your favorites?</p>
       <button
         type="button"
         onClick={() => handleFavorite()}

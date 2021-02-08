@@ -8,7 +8,7 @@ test('clicking cancel hides modal', async () => {
   render(<FinishButton modalProps={{ ariaHideApp: false }} />)
 
   userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
-  userEvent.click(await screen.findByRole('button', { name: 'Cancel' }))
+  userEvent.click(await screen.findByRole('button', { name: 'Cancel F2' }))
 
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 })

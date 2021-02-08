@@ -64,10 +64,8 @@ module API
 
       render json: {
         discussion: {
-          student: {
-            handle: discussion.student.handle
-          },
-          relationship: SerializeMentorStudentRelationship.(relationship)
+          relationship: SerializeMentorStudentRelationship.(relationship),
+          is_finished: true
         }
       }
     end

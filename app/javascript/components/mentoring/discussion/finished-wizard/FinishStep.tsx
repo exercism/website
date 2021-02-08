@@ -1,17 +1,19 @@
 import React from 'react'
-import { Discussion } from '../../FinishMentorDiscussionModal'
+import { Student, StudentMentorRelationship } from '../../Discussion'
 
 export const FinishStep = ({
-  discussion,
+  relationship,
+  student,
   onReset,
 }: {
-  discussion: Discussion
+  relationship: StudentMentorRelationship
+  student: Student
   onReset: () => void
 }): JSX.Element => {
   return (
     <div>
-      {discussion.relationship.isFavorited ? (
-        <p>{discussion.student.handle} is one of your favorites.</p>
+      {relationship.isFavorited ? (
+        <p>{student.handle} is one of your favorites.</p>
       ) : (
         <p>Thanks for mentoring.</p>
       )}

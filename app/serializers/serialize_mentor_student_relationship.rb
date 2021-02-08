@@ -4,6 +4,8 @@ class SerializeMentorStudentRelationship
   initialize_with :relationship
 
   def call
+    return if relationship.blank?
+
     {
       isFavorited: relationship.favorited?,
       isBlocked: relationship.blocked?,

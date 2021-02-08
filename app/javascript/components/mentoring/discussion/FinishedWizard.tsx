@@ -1,20 +1,26 @@
 import React, { useReducer } from 'react'
-import { Discussion, Relationship } from '../FinishMentorDiscussionModal'
-import { MentorAgainStep } from './discussion-finished/MentorAgainStep'
-import { FavoriteStep } from './discussion-finished/FavoriteStep'
-import { FinishStep } from './discussion-finished/FinishStep'
+import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
+import { FavoriteStep } from './finished-wizard/FavoriteStep'
+import { FinishStep } from './finished-wizard/FinishStep'
+import { Student, StudentMentorRelationship } from '../Discussion'
 
 type State = {
-  discussion: Discussion
+  relationship: StudentMentorRelationship
   step: ModalStep
 }
 
 type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
 
 type Action =
-  | { type: 'MENTOR_AGAIN'; payload: { relationship: Relationship } }
-  | { type: 'WONT_MENTOR_AGAIN'; payload: { relationship: Relationship } }
-  | { type: 'FAVORITED'; payload: { relationship: Relationship } }
+  | {
+      type: 'MENTOR_AGAIN'
+      payload: { relationship: StudentMentorRelationship }
+    }
+  | {
+      type: 'WONT_MENTOR_AGAIN'
+      payload: { relationship: StudentMentorRelationship }
+    }
+  | { type: 'FAVORITED'; payload: { relationship: StudentMentorRelationship } }
   | { type: 'SKIP_FAVORITE' }
   | { type: 'RESET' }
 
@@ -22,26 +28,17 @@ function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'MENTOR_AGAIN':
       return {
-        discussion: {
-          ...state.discussion,
-          relationship: action.payload.relationship,
-        },
+        relationship: action.payload.relationship,
         step: 'favorite',
       }
     case 'WONT_MENTOR_AGAIN':
       return {
-        discussion: {
-          ...state.discussion,
-          relationship: action.payload.relationship,
-        },
+        relationship: action.payload.relationship,
         step: 'finish',
       }
     case 'FAVORITED':
       return {
-        discussion: {
-          ...state.discussion,
-          relationship: action.payload.relationship,
-        },
+        relationship: action.payload.relationship,
         step: 'finish',
       }
     case 'SKIP_FAVORITE':
@@ -51,24 +48,25 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export const DiscussionFinished = ({
-  discussion,
+export const FinishedWizard = ({
+  student,
+  relationship,
 }: {
-  discussion: Discussion
+  student: Student
+  relationship: StudentMentorRelationship
 }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, {
-    discussion: discussion,
+    relationship: relationship,
     step: 'mentorAgain',
   })
 
   return (
-    <div>
-      <h1>
-        You&apos;ve finished your discussion with {discussion.student.handle}.
-      </h1>
+    <div className="finished-wizard">
+      <h1>You&apos;ve finished your discussion with {student.handle}.</h1>
       {state.step === 'mentorAgain' ? (
         <MentorAgainStep
-          discussion={state.discussion}
+          student={student}
+          relationship={state.relationship}
           onYes={(relationship) => {
             dispatch({
               type: 'MENTOR_AGAIN',
@@ -85,7 +83,8 @@ export const DiscussionFinished = ({
       ) : null}
       {state.step === 'favorite' ? (
         <FavoriteStep
-          discussion={state.discussion}
+          student={student}
+          relationship={state.relationship}
           onFavorite={(relationship) => {
             dispatch({
               type: 'FAVORITED',
@@ -99,7 +98,8 @@ export const DiscussionFinished = ({
       ) : null}
       {state.step === 'finish' ? (
         <FinishStep
-          discussion={state.discussion}
+          student={student}
+          relationship={state.relationship}
           onReset={() => {
             dispatch({ type: 'RESET' })
           }}

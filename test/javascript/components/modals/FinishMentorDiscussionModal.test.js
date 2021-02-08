@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { AboutToFinishDiscussion } from '../../../../../app/javascript/components/modals/finish-mentor-discussion-modal/AboutToFinishDiscussion'
-import { silenceConsole } from '../../../support/silence-console'
+import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
+import { silenceConsole } from '../../support/silence-console'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(
@@ -15,13 +15,20 @@ test('disables buttons when loading', async () => {
   )
   server.listen()
 
-  render(<AboutToFinishDiscussion endpoint="https://exercism.test/end" />)
-  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
+  render(
+    <FinishMentorDiscussionModal
+      open
+      endpoint="https://exercism.test/end"
+      ariaHideApp={false}
+      onSuccess={() => {}}
+    />
+  )
+  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
   expect(
-    await screen.findByRole('button', { name: 'End discussion' })
+    await screen.findByRole('button', { name: 'End discussion F3' })
   ).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'Cancel' })).toBeDisabled()
+  expect(screen.getByRole('button', { name: 'Cancel F2' })).toBeDisabled()
 
   server.close()
 })
@@ -34,8 +41,15 @@ test('shows loading message when loading', async () => {
   )
   server.listen()
 
-  render(<AboutToFinishDiscussion endpoint="https://exercism.test/end" />)
-  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
+  render(
+    <FinishMentorDiscussionModal
+      open
+      endpoint="https://exercism.test/end"
+      ariaHideApp={false}
+      onSuccess={() => {}}
+    />
+  )
+  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
@@ -54,8 +68,15 @@ test('shows API errors', async () => {
   )
   server.listen()
 
-  render(<AboutToFinishDiscussion endpoint="https://exercism.test/end" />)
-  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
+  render(
+    <FinishMentorDiscussionModal
+      open
+      endpoint="https://exercism.test/end"
+      ariaHideApp={false}
+      onSuccess={() => {}}
+    />
+  )
+  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
   expect(
     await screen.findByText('Unable to end discussion')
@@ -67,8 +88,15 @@ test('shows API errors', async () => {
 test('shows generic error', async () => {
   silenceConsole()
 
-  render(<AboutToFinishDiscussion endpoint="weirdendpoint" />)
-  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
+  render(
+    <FinishMentorDiscussionModal
+      open
+      endpoint="https://exercism.test/end"
+      ariaHideApp={false}
+      onSuccess={() => {}}
+    />
+  )
+  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
   expect(
     await screen.findByText('Unable to end discussion')

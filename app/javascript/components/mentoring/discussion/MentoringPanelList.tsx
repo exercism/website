@@ -12,8 +12,10 @@ import {
   MentorSolution,
   Track,
   Exercise,
+  StudentMentorRelationship,
 } from '../Discussion'
 import { DiscussionPostProps } from './DiscussionPost'
+import { FinishedWizard } from './FinishedWizard'
 
 type MentoringPanelListLinks = {
   scratchpad: string
@@ -26,6 +28,8 @@ const TabsContext = createContext<TabContext>({
 })
 
 export const MentoringPanelList = ({
+  isFinished,
+  relationship,
   links,
   discussionId,
   tab,
@@ -41,6 +45,8 @@ export const MentoringPanelList = ({
   track,
   exercise,
 }: {
+  isFinished: boolean
+  relationship: StudentMentorRelationship
   links: MentoringPanelListLinks
   discussionId: number
   tab: TabIndex
@@ -90,6 +96,9 @@ export const MentoringPanelList = ({
             highlightedPost={highlightedPost}
             student={student}
           />
+          {isFinished ? (
+            <FinishedWizard student={student} relationship={relationship} />
+          ) : null}
         </Tab.Panel>
         <Tab.Panel id="scratchpad" context={TabsContext}>
           <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />

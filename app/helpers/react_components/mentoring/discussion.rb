@@ -8,6 +8,7 @@ module ReactComponents
           "mentoring-discussion",
           {
             discussion_id: discussion.uuid,
+            is_finished: discussion.finished?,
             user_id: current_user.id,
             student: {
               name: student.name,
@@ -33,7 +34,8 @@ module ReactComponents
             iterations: iterations,
             mentor_solution: mentor_solution,
             notes: notes,
-            links: links
+            links: links,
+            relationship: SerializeMentorStudentRelationship.(discussion.student_mentor_relationship)
           }
         )
       end

@@ -4,20 +4,13 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { FavoriteStep } from '../../../../../../app/javascript/components/modals/finish-mentor-discussion-modal/discussion-finished/FavoriteStep'
+import { FavoriteStep } from '../../../../../../app/javascript/components/mentoring/discussion/finished-wizard/FavoriteStep'
 import { silenceConsole } from '../../../../support/silence-console'
 
 test('disables buttons when choosing to favorite', async () => {
-  const discussion = {
-    student: {
-      handle: 'student',
-    },
-    relationship: {
-      links: {
-        favorite: 'https://exercism.test/favorite',
-      },
-    },
-  }
+  const student = { handle: 'student' }
+  const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
+
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ relationship: {} }))
@@ -25,7 +18,7 @@ test('disables buttons when choosing to favorite', async () => {
   )
   server.listen()
 
-  render(<FavoriteStep discussion={discussion} />)
+  render(<FavoriteStep student={student} relationship={relationship} />)
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(
@@ -37,16 +30,8 @@ test('disables buttons when choosing to favorite', async () => {
 })
 
 test('shows loading message when choosing to favorite', async () => {
-  const discussion = {
-    student: {
-      handle: 'student',
-    },
-    relationship: {
-      links: {
-        favorite: 'https://exercism.test/favorite',
-      },
-    },
-  }
+  const student = { handle: 'student' }
+  const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ relationship: {} }))
@@ -54,7 +39,7 @@ test('shows loading message when choosing to favorite', async () => {
   )
   server.listen()
 
-  render(<FavoriteStep discussion={discussion} />)
+  render(<FavoriteStep student={student} relationship={relationship} />)
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
@@ -64,16 +49,8 @@ test('shows loading message when choosing to favorite', async () => {
 
 test('shows API errors when choosing to favorite', async () => {
   silenceConsole()
-  const discussion = {
-    student: {
-      handle: 'student',
-    },
-    relationship: {
-      links: {
-        favorite: 'https://exercism.test/favorite',
-      },
-    },
-  }
+  const student = { handle: 'student' }
+  const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
       return res(
@@ -84,7 +61,7 @@ test('shows API errors when choosing to favorite', async () => {
   )
   server.listen()
 
-  render(<FavoriteStep discussion={discussion} />)
+  render(<FavoriteStep student={student} relationship={relationship} />)
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(
@@ -96,18 +73,10 @@ test('shows API errors when choosing to favorite', async () => {
 
 test('shows generic error when choosing to mentor again', async () => {
   silenceConsole()
-  const discussion = {
-    student: {
-      handle: 'student',
-    },
-    relationship: {
-      links: {
-        favorite: 'wrongendpoint',
-      },
-    },
-  }
+  const student = { handle: 'student' }
+  const relationship = { links: { favorite: 'wrongendpoint' } }
 
-  render(<FavoriteStep discussion={discussion} />)
+  render(<FavoriteStep student={student} relationship={relationship} />)
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(

@@ -54,6 +54,17 @@
             }
             & .finish-button {
             }
+            & .finished {
+                @apply flex items-center;
+                /* Leading-150 */
+                @apply text-16 leading-paragraph font-semibold text-textColor3;
+
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply mr-16;
+                }
+            }
         }
         & .discussion-footer {
             height: var(--footer-height);

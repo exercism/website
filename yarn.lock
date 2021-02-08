@@ -3984,9 +3984,9 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easymde@^2.10.1:
+easymde@^2.10.1, easymde@^2.13.0:
   version "2.13.0"
-  resolved "https://registry.yarnpkg.com/easymde/-/easymde-2.13.0.tgz"
+  resolved "https://registry.yarnpkg.com/easymde/-/easymde-2.13.0.tgz#bcbec4d0d02a2088511e8485705cc6bb3aec0988"
   integrity sha512-Q9cfsMzIwtXS2h/1toB404aYRkOukjVroZP2/7uItO4W5e3pC8mey2NsHlSAGRdR2pIwR2XheA4TucX0IjseBA==
   dependencies:
     codemirror "^5.58.2"

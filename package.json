@@ -12,6 +12,7 @@
     "actioncable": "^5.2.4-3",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.35",
+    "easymde": "^2.13.0",
     "focus-visible": "^5.2.0",
     "fontfaceobserver": "^2.1.0",
     "global": "^4.4.0",

@@ -1,7 +1,13 @@
 @import "../styles";
 
 .c-markdown-editor {
+    @apply flex flex-col;
     @apply border-1 border-buttonBorderColor2 rounded-8;
+    @apply overflow-hidden;
+
+    & > *:first-child {
+        @apply flex flex-col flex-grow;
+    }
 
     & .editor-toolbar {
         border-width: 0; /* Override default */
@@ -11,15 +17,19 @@
     & .editor-statusbar {
         display: none;
     }
-    & .EasyMDEContainer .CodeMirror {
-        height: 160px;
-        min-height: 160px;
-        border: none;
-        @apply text-textColor5 text-15 leading-huge;
+    & .EasyMDEContainer {
+        @apply flex flex-col flex-grow;
+        /*@apply overflow-hidden;*/
 
-        & .CodeMirror-scroll {
-            height: 140px;
-            min-height: 140px !important;
+        & .CodeMirror {
+            border: none;
+            @apply flex-grow h-1;
+            @apply text-textColor5 text-15 leading-huge;
+            @apply pt-12 pb-0 px-16;
+
+            & .CodeMirror-scroll {
+                min-height: auto !important;
+            }
         }
     }
     & .editor-footer {

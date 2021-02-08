@@ -151,6 +151,9 @@
 
             @apply px-24 py-16 bg-backgroundColorA;
 
+            & .c-markdown-editor {
+                min-height: 315px;
+            }
             & .new-messages-button {
                 @apply absolute;
                 left: 24px;
@@ -413,6 +416,10 @@
             }
         }
         & #panel-scratchpad {
+            &[hidden] {
+                @apply hidden;
+            }
+            @apply flex flex-col;
             @apply py-24 px-20;
             & > .c-explainer {
                 @apply mb-20;
@@ -430,6 +437,9 @@
                     width: 32px;
                     @apply mx-8;
                 }
+            }
+            & .c-markdown-editor {
+                @apply flex-grow;
             }
         }
         & #panel-guidance {

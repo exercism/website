@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_231439) do
+ActiveRecord::Schema.define(version: 2021_02_08_180441) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -303,7 +303,7 @@ ActiveRecord::Schema.define(version: 2021_02_02_231439) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
-    t.string "blurb", null: false
+    t.string "blurb", limit: 350, null: false
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

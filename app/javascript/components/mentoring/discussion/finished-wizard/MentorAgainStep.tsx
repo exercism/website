@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { Discussion, Relationship } from '../../FinishMentorDiscussionModal'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { Student, StudentMentorRelationship } from '../../Discussion'
 
-type SuccessFn = (relationship: Relationship) => void
+type SuccessFn = (relationship: StudentMentorRelationship) => void
 type Choice = 'yes' | 'no'
 
 const DEFAULT_ERROR = new Error('Unable to update student-mentor relationship')
@@ -19,11 +19,13 @@ const ErrorHandler = ({ error }: { error: unknown }) => {
 }
 
 export const MentorAgainStep = ({
-  discussion,
+  student,
+  relationship,
   onYes,
   onNo,
 }: {
-  discussion: Discussion
+  student: Student
+  relationship: StudentMentorRelationship
   onYes: SuccessFn
   onNo: SuccessFn
 }): JSX.Element => {
@@ -34,7 +36,7 @@ export const MentorAgainStep = ({
       const method = choice === 'yes' ? 'DELETE' : 'POST'
 
       return sendRequest({
-        endpoint: discussion.relationship.links.block,
+        endpoint: relationship.links.block,
         method: method,
         body: null,
         isMountedRef: isMountedRef,
@@ -43,7 +45,7 @@ export const MentorAgainStep = ({
           return
         }
 
-        return typecheck<Relationship>(json, 'relationship')
+        return typecheck<StudentMentorRelationship>(json, 'relationship')
       })
     },
     {
@@ -67,7 +69,7 @@ export const MentorAgainStep = ({
 
   return (
     <div>
-      <p>Want to mentor {discussion.student.handle} again?</p>
+      <p>Want to mentor {student.handle} again?</p>
       <button onClick={() => setChoice('yes')} disabled={status === 'loading'}>
         Yes
       </button>

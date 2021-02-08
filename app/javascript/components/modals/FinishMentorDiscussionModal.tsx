@@ -1,60 +1,63 @@
-import React, { useReducer, useCallback } from 'react'
+import React from 'react'
 import { Modal } from './Modal'
-import { AboutToFinishDiscussion } from './finish-mentor-discussion-modal/AboutToFinishDiscussion'
-import { DiscussionFinished } from './finish-mentor-discussion-modal/DiscussionFinished'
+import { useIsMounted } from 'use-is-mounted'
+import { useMutation } from 'react-query'
+import { sendRequest } from '../../utils/send-request'
+import { typecheck } from '../../utils/typecheck'
+import { Loading } from '../common'
+import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
+import { StudentMentorRelationship } from '../mentoring/Discussion'
 
-export type Relationship = {
-  isFavorited: boolean
-  links: {
-    block: string
-    favorite: string
-  }
+type Discussion = {
+  relationship: StudentMentorRelationship
 }
 
-export type Discussion = {
-  student: {
-    handle: string
-  }
-  relationship: Relationship
-}
+const DEFAULT_ERROR = new Error('Unable to end discussion')
 
-type ModalState =
-  | { step: 'aboutToEnd'; discussion: null }
-  | { step: 'ended'; discussion: Discussion }
+const ErrorHandler = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
-type Action = {
-  type: 'DISCUSSION_FINISHED'
-  payload: { discussion: Discussion }
-}
-
-function reducer(state: ModalState, action: Action): ModalState {
-  switch (action.type) {
-    case 'DISCUSSION_FINISHED':
-      return { step: 'ended', discussion: action.payload.discussion }
-  }
+  return null
 }
 
 export const FinishMentorDiscussionModal = ({
   endpoint,
   open,
+  onSuccess,
   onCancel,
   ...props
 }: {
   endpoint: string
   open: boolean
+  onSuccess: (discussion: Discussion) => void
   onCancel: () => void
 }): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, {
-    step: 'aboutToEnd',
-    discussion: null,
-  })
+  const isMountedRef = useIsMounted()
+  const [mutation, { status, error }] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+        isMountedRef: isMountedRef,
+      }).then((json) => {
+        if (!json) {
+          return
+        }
 
-  const handleDiscussionFinished = useCallback((discussion) => {
-    dispatch({
-      type: 'DISCUSSION_FINISHED',
-      payload: { discussion: discussion },
-    })
-  }, [])
+        return typecheck<Discussion>(json, 'discussion')
+      })
+    },
+    {
+      onSuccess: (discussion) => {
+        if (!discussion) {
+          return
+        }
+
+        onSuccess(discussion)
+      },
+    }
+  )
 
   return (
     <Modal
@@ -63,15 +66,39 @@ export const FinishMentorDiscussionModal = ({
       className="m-finish-mentor-discussion"
       {...props}
     >
-      {state.step === 'aboutToEnd' ? (
-        <AboutToFinishDiscussion
-          endpoint={endpoint}
-          onSuccess={handleDiscussionFinished}
-          onCancel={onCancel}
-        />
-      ) : null}
-      {state.step === 'ended' ? (
-        <DiscussionFinished discussion={state.discussion} />
+      <h3>Are you sure you want to end this discussion?</h3>
+      <p>
+        It&apos;s normally time to end a discussion when the student has got
+        what they wanted from the conversation, or you have taken the
+        conversation as far as you like. It&apos;s generally polite to leave the
+        student a final goodbye.
+      </p>
+      <div className="buttons">
+        <button
+          type="button"
+          className="btn-small-discourage"
+          onClick={() => onCancel()}
+          disabled={status === 'loading'}
+        >
+          Cancel
+          <div className="kb-shortcut">F2</div>
+        </button>
+        <button
+          type="button"
+          className="btn-small-cta"
+          onClick={() => mutation()}
+          disabled={status === 'loading'}
+        >
+          End discussion
+          <div className="kb-shortcut">F3</div>
+        </button>
+      </div>
+
+      {status === 'loading' ? <Loading /> : null}
+      {status === 'error' ? (
+        <ErrorBoundary>
+          <ErrorHandler error={error} />
+        </ErrorBoundary>
       ) : null}
     </Modal>
   )

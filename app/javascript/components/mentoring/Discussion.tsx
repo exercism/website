@@ -100,7 +100,16 @@ export type MentorSolution = {
   language: string
 }
 
-type DiscussionProps = {
+export type StudentMentorRelationship = {
+  isFavorited: boolean
+  links: {
+    block: string
+    favorite: string
+  }
+}
+
+export type DiscussionProps = {
+  isFinished: boolean
   student: Student
   track: Track
   exercise: Exercise
@@ -110,23 +119,24 @@ type DiscussionProps = {
   userId: number
   notes: string
   mentorSolution: MentorSolution
+  relationship: StudentMentorRelationship
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
 
 export const CacheContext = createContext({ posts: '' })
 
-export const Discussion = ({
-  student,
-  track,
-  exercise,
-  links,
-  discussionId,
-  iterations,
-  userId,
-  notes,
-  mentorSolution,
-}: DiscussionProps): JSX.Element => {
+export const Discussion = (props: DiscussionProps): JSX.Element => {
+  const [discussion, setDiscussion] = useState(props)
+  const {
+    student,
+    track,
+    exercise,
+    links,
+    discussionId,
+    iterations,
+    userId,
+  } = discussion
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
@@ -169,6 +179,12 @@ export const Discussion = ({
     },
     [highlightedPost, userId]
   )
+  const handleFinish = useCallback(
+    (newDiscussion) => {
+      setDiscussion({ ...discussion, ...newDiscussion })
+    },
+    [discussion]
+  )
   const postsKey = `posts-${discussionId}`
 
   return (
@@ -181,7 +197,9 @@ export const Discussion = ({
             {links.markAsNothingToDo ? (
               <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
             ) : null}
-            {links.finish ? <FinishButton endpoint={links.finish} /> : null}
+            {links.finish ? (
+              <FinishButton endpoint={links.finish} onSuccess={handleFinish} />
+            ) : null}
           </header>
           <IterationHeader
             iteration={currentIteration}
@@ -206,20 +224,13 @@ export const Discussion = ({
           <MentoringPanelList
             tab={tab}
             setTab={setTab}
-            links={links}
-            student={student}
-            discussionId={discussionId}
-            iterations={iterations}
             highlightedPost={highlightedPost}
             onPostsChange={handlePostsChange}
             onPostHighlight={handlePostHighlight}
             onAfterPostHighlight={() => {
               setHasNewMessages(false)
             }}
-            notes={notes}
-            mentorSolution={mentorSolution}
-            track={track}
-            exercise={exercise}
+            {...discussion}
           />
 
           <section className="comment-section">

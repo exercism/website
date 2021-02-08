@@ -26,6 +26,7 @@ module Mentoring
         "mentoring-discussion",
         {
           discussion_id: discussion.uuid,
+          is_finished: false,
           user_id: student.id,
           student: {
             name: student.name,
@@ -94,7 +95,8 @@ module Mentoring
             scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
             posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
             finish: Exercism::Routes.finish_api_mentor_discussion_path(discussion)
-          }
+          },
+          relationship: nil
         }
     end
 

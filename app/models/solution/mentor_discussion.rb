@@ -31,6 +31,10 @@ class Solution::MentorDiscussion < ApplicationRecord
   delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, to: :exercise, prefix: :exercise
 
+  def student_mentor_relationship
+    Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+  end
+
   def to_param
     uuid
   end

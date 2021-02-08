@@ -7,13 +7,14 @@ class SerializePaginatedCollectionTest < ActiveSupport::TestCase
     collection_serializer.expects(:call).returns(results)
 
     5.times { create :user }
-    collection = User.page(2).per(1)
+    collection = User.page(2).per(2)
 
     expected = {
       results: results,
       meta: {
-        current: 2,
-        total: 5
+        current_page: 2,
+        total_pages: 3,
+        total_count: 5
       }
     }
     actual = SerializePaginatedCollection.(collection, collection_serializer)
@@ -26,21 +27,22 @@ class SerializePaginatedCollectionTest < ActiveSupport::TestCase
     collection_serializer.expects(:call).returns(results)
 
     5.times { create :user }
-    collection = User.page(2).per(1)
+    collection = User.page(2).per(2)
 
     expected = {
       results: results,
       meta: {
-        current: 7,
         misc: "Hello",
-        total: 5
+        current_page: 7,
+        total_count: 5,
+        total_pages: 3
       }
     }
     actual = SerializePaginatedCollection.(
       collection,
       collection_serializer,
       meta: {
-        current: 7,
+        current_page: 7,
         misc: "Hello"
       }
     )

@@ -29,7 +29,7 @@ export function SolutionList({
     <div>
       {status === 'loading' && <Loading />}
       {status === 'error' && <p>Something went wrong</p>}
-      {status === 'success' && (
+      {status === 'success' && resolvedData.results.length > 0 ? (
         <>
           <div className="--solutions">
             {resolvedData.results.map((solution, key) => (
@@ -52,12 +52,14 @@ export function SolutionList({
             ) : null}
           </div>
         </>
+      ) : (
+        'No discussions found'
       )}
       {latestData && (
         <footer>
           <Pagination
             current={page}
-            total={latestData.meta.total}
+            total={latestData.meta.totalPages}
             setPage={setPage}
           />
         </footer>

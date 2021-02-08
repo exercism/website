@@ -53,7 +53,7 @@ export function Queue({ sortOptions, tracks, ...props }) {
             filter={request.query.criteria}
             setFilter={setCriteria}
             id="mentoring-queue-student-name-filter"
-            placeholder="Filter by student name"
+            placeholder="Filter by student handle"
           />
           <Sorter
             sortOptions={sortOptions}
@@ -74,7 +74,7 @@ export function Queue({ sortOptions, tracks, ...props }) {
         {resolvedData ? (
           <SolutionCount
             unscopedTotal={resolvedData.meta.unscopedTotal}
-            total={resolvedData.meta.total}
+            total={resolvedData.meta.totalCount}
             onResetFilter={() => setQuery(defaultQuery)}
           />
         ) : null}

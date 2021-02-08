@@ -3,20 +3,17 @@ class Solution
     class Retrieve
       include Mandate
 
-      REQUESTS_PER_PAGE = 10
-
+      # Use class method rather than constant for
+      # easier stubbing during testing
       def self.requests_per_page
-        REQUESTS_PER_PAGE
+        10
       end
 
       def initialize(user,
                      page: 1,
-                     sorted: true,
-                     paginated: true,
-                     criteria: nil,
-                     order: nil,
-                     track_slug: nil,
-                     exercise_slugs: nil)
+                     criteria: nil, order: nil,
+                     track_slug: nil, exercise_slugs: nil,
+                     sorted: true, paginated: true)
         @user = user
         @page = page
         @sorted = sorted
@@ -38,14 +35,11 @@ class Solution
       end
 
       private
-      attr_reader :user, :page, :sorted, :paginated, :criteria, :order, :track_slug, :exercise_slugs
+      attr_reader :user, :page, :criteria, :order,
+        :track_slug, :exercise_slugs
 
-      def sorted?
-        sorted
-      end
-
-      def paginated?
-        paginated
+      %i[sorted paginated].each do |attr|
+        define_method("#{attr}?") { instance_variable_get("@#{attr}") }
       end
 
       def setup!
@@ -87,7 +81,7 @@ class Solution
         return if criteria.blank?
 
         # TODO: This is just a stub implementation
-        @requests = @requests.joins(:user).where("users.name LIKE ?", "%#{criteria}%")
+        @requests = @requests.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
       end
 
       def sort!

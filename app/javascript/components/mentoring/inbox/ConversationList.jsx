@@ -39,8 +39,8 @@ export function ConversationList({ request, setPage }) {
           {latestData && (
             <footer>
               <Pagination
-                current={request.query.page}
-                total={latestData.meta.total}
+                current={request.query.currentPage}
+                total={latestData.meta.totalPages}
                 setPage={setPage}
               />
             </footer>

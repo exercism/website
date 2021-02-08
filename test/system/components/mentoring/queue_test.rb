@@ -31,7 +31,7 @@ module Components
       end
 
       test "paginates results" do
-        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         series = create :concept_exercise, title: "Series", track: ruby
@@ -52,7 +52,7 @@ module Components
       end
 
       test "filter by query" do
-        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         series = create :concept_exercise, title: "Series", track: ruby
@@ -74,7 +74,7 @@ module Components
       end
 
       test "sort by student" do
-        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         series = create :concept_exercise, title: "Series", track: ruby
@@ -96,7 +96,7 @@ module Components
       end
 
       test "filters by language track" do
-        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
         series = create :concept_exercise, title: "Series", track: ruby
@@ -119,7 +119,7 @@ module Components
       end
 
       test "filters by exercise" do
-        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         mentee = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
@@ -160,7 +160,7 @@ module Components
       end
 
       test "shows counts" do
-        Solution::MentorRequest::Retrieve.stubs(:requests_per_page).returns(1)
+        Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         series = create :concept_exercise, title: "Series", track: ruby

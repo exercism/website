@@ -11,8 +11,9 @@ class SerializePaginatedCollection
     {
       results: collection_serializer.(collection),
       meta: {
-        current: collection.current_page,
-        total: collection.total_count
+        current_page: collection.current_page,
+        total_count: collection.total_count,
+        total_pages: collection.total_pages
       }.merge(meta)
     }
   end

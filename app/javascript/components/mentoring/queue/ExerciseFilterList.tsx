@@ -42,6 +42,7 @@ export const ExerciseFilterList = ({
   value: string[]
   setValue: (value: string[]) => void
 }): JSX.Element => {
+  const [searchQuery, setSearchQuery] = useState('')
   const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] = useState(
     true
   )
@@ -58,7 +59,15 @@ export const ExerciseFilterList = ({
       .filter((exercise) =>
         isShowingExercisesCompleted ? exercise.completedByMentor : true
       )
-  }, [exercises, isShowingExercisesCompleted, isShowingExercisesToMentor])
+      .filter((exercise) =>
+        exercise.title.match(new RegExp(`^${searchQuery}`, 'i'))
+      )
+  }, [
+    exercises,
+    isShowingExercisesCompleted,
+    isShowingExercisesToMentor,
+    searchQuery,
+  ])
 
   const handleChange = useCallback(
     (e, optionValue) => {
@@ -96,10 +105,19 @@ export const ExerciseFilterList = ({
     setValue([])
   }, [setValue])
 
+  const handleSearchBarChange = useCallback((e) => {
+    setSearchQuery(e.target.value)
+  }, [])
+
   return (
     <React.Fragment>
       <div className="c-search-bar">
-        <input className="--search" placeholder="Search by Exercise name" />
+        <input
+          value={searchQuery}
+          onChange={handleSearchBarChange}
+          className="--search"
+          placeholder="Search by Exercise name"
+        />
       </div>
       <button type="button" onClick={handleSelectAll}>
         Select all

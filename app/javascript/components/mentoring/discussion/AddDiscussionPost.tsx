@@ -42,6 +42,10 @@ export const AddDiscussionPost = ({
     )
   } else {
     return (
+      /* TODO: We need to toggle here between two designs
+          based on whether the discussion has finished or not.
+          The both have the same functionality, but different styling */
+
       <button
         className="faux-input"
         onClick={() => {

@@ -67,9 +67,15 @@
             }
         }
         & .discussion-footer {
-            height: var(--footer-height);
             @apply flex items-center px-24;
-            @apply shadow-sm;
+
+            height: var(--footer-height);
+            background: linear-gradient(
+                180deg,
+                var(--backgroundColorB) 0%,
+                var(--backgroundColorA) 50%
+            );
+            box-shadow: 0px -4px 16px var(--backgroundColorB);
 
             & .iterations {
                 @apply flex flex-grow items-center;
@@ -145,7 +151,7 @@
             }
         }
         & .c-iteration-pane {
-            @apply flex-grow;
+            @apply flex-grow h-1;
         }
     }
     & .rhs {

@@ -61,14 +61,14 @@ module Components
           exercise: series,
           user: mentee
         tournament = create :concept_exercise, title: "Tournament", track: ruby
-        other_mentee = create :user, name: "Other"
+        other_mentee = create :user, handle: "Other"
         create :solution_mentor_request,
           exercise: tournament,
           user: other_mentee
 
         sign_in!(mentor)
         visit mentor_dashboard_path
-        fill_in "Filter by student name", with: "Oth"
+        fill_in "Filter by student handle", with: "Oth"
 
         assert_text "on Tournament"
       end
@@ -169,14 +169,14 @@ module Components
           exercise: series,
           user: mentee
         tournament = create :concept_exercise, title: "Tournament", track: ruby
-        other_mentee = create :user, name: "Other"
+        other_mentee = create :user, handle: "Other"
         create :solution_mentor_request,
           exercise: tournament,
           user: other_mentee
 
         sign_in!(mentor)
         visit mentor_dashboard_path
-        fill_in "Filter by student name", with: "Oth"
+        fill_in "Filter by student handle", with: "Oth"
 
         assert_text "Showing 1 request"
         assert_text "2 queued requests"

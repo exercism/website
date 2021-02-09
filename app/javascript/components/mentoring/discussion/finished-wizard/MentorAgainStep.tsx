@@ -70,7 +70,7 @@ export const MentorAgainStep = ({
 
   return (
     <div>
-      <p>Want to mentor @{student.handle} again?</p>
+      <p>Want to mentor {student.handle} again?</p>
       <div className="buttons">
         <button
           className="btn-small"

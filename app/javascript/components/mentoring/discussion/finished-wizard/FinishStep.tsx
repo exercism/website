@@ -14,11 +14,11 @@ export const FinishStep = ({
   return (
     <div>
       {relationship.isFavorited ? (
-        <p>@{student.handle} is one of your favorites.</p>
+        <p>{student.handle} is one of your favorites.</p>
       ) : relationship.isBlocked ? (
-        <p>You will not see future mentor requests from @{student.handle}.</p>
+        <p>You will not see future mentor requests from {student.handle}.</p>
       ) : (
-        <p>Thanks for mentoring @{student.handle}.</p>
+        <p>Thanks for mentoring {student.handle}.</p>
       )}
       <button className="btn-link" type="button" onClick={() => onReset()}>
         <GraphicalIcon icon="reset" />

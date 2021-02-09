@@ -65,7 +65,7 @@ export const FinishedWizard = forwardRef<HTMLDivElement, Props>(
       <div ref={ref} className="finished-wizard">
         <GraphicalIcon icon="completed-check-circle" />
         <div className="--details">
-          <h3>You&apos;ve finished your discussion with @{student.handle}.</h3>
+          <h3>You&apos;ve finished your discussion with {student.handle}.</h3>
           <div className="--step">
             {state.step === 'mentorAgain' ? (
               <MentorAgainStep

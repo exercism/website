@@ -7,7 +7,7 @@ module Flows
 
     test "mentor finishes the session" do
       mentor = create :user, handle: "author"
-      student = create :user, handle: "student"
+      student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
@@ -20,13 +20,13 @@ module Flows
         click_on "End discussion"
         within(".m-finish-mentor-discussion") { click_on "End discussion" }
 
-        assert_text "You've finished your discussion with student."
+        assert_text "You've finished your discussion with student-123."
       end
     end
 
     test "mentor chooses to mentor student again" do
       mentor = create :user, handle: "author"
-      student = create :user, handle: "student"
+      student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
@@ -38,13 +38,13 @@ module Flows
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         click_on "Yes"
 
-        assert_text "Add student to your favorites?"
+        assert_text "Add student-123 to your favorites?"
       end
     end
 
     test "mentor chooses not to mentor student again" do
       mentor = create :user, handle: "author"
-      student = create :user, handle: "student"
+      student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
@@ -56,13 +56,13 @@ module Flows
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         click_on "No"
 
-        assert_text "Thanks for mentoring."
+        assert_text "You will not see future mentor requests from student-123."
       end
     end
 
     test "mentor adds student as favorite" do
       mentor = create :user, handle: "author"
-      student = create :user, handle: "student"
+      student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
@@ -75,13 +75,13 @@ module Flows
         click_on "Yes"
         within(".finished-wizard") { click_on "Add to favorites" }
 
-        assert_text "student is one of your favorites"
+        assert_text "student-123 is one of your favorites"
       end
     end
 
     test "mentor skips adding student as favorite" do
       mentor = create :user, handle: "author"
-      student = create :user, handle: "student"
+      student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
@@ -94,13 +94,13 @@ module Flows
         click_on "Yes"
         click_on "Skip"
 
-        assert_text "Thanks for mentoring."
+        assert_text "Thanks for mentoring student-123."
       end
     end
 
     test "mentor changes preferences" do
       mentor = create :user, handle: "author"
-      student = create :user, handle: "student"
+      student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
@@ -113,7 +113,7 @@ module Flows
         click_on "No"
         click_on "Change preferences"
 
-        assert_text "Want to mentor student again?"
+        assert_text "Want to mentor student-123 again?"
       end
     end
   end

@@ -256,6 +256,7 @@ export const Discussion = (props: DiscussionProps): JSX.Element => {
               </button>
             ) : null}
             <AddDiscussionPost
+              isFinished={isFinished}
               endpoint={links.posts}
               onSuccess={() => {
                 setTab('discussion')

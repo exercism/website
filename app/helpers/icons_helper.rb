@@ -14,15 +14,18 @@ module IconsHelper
     end
   end
 
-  def track_icon(track)
-    # TODO: Change to real icons
-    icon("sample-track", track.title, css_class: 'c-track-icon')
+  def track_icon(track, css_class: nil)
+    image_pack_tag(
+      "tracks/#{track.icon_name}.svg",
+      alt: track.title,
+      class: "c-icon c-track-icon #{css_class}"
+    )
   end
 
   def exercise_icon(exercise, css_class: nil)
     # graphical_icon(exercise.icon_name, css_class: "c-exercise-icon #{css_class}")
     image_pack_tag(
-      "#{exercise.icon_name}.svg",
+      "exercises/#{exercise.icon_name}.svg",
       role: :presentation,
       class: "c-icon c-exercise-icon #{css_class}"
     )

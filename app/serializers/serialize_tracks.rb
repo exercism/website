@@ -35,7 +35,8 @@ class SerializeTracks
 
       # TODO: Set all three of these
       is_new: true,
-      tags: track.tags.to_a
+      tags: track.tags.to_a,
+      updated_at: track.updated_at
     }
   end
 

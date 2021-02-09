@@ -46,6 +46,11 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
         <div className="lg-container container">
           <Search dispatch={dispatch} />
           <TagsFilter dispatch={dispatch} options={tagOptions} />
+          <div class="c-select">
+            <select>
+              <option>Recommended</option>
+            </select>
+          </div>
         </div>
       </section>
       <section className="lg-container container">

@@ -3,7 +3,7 @@
 .c-tracks-list {
     & .c-search-bar {
         @apply bg-backgroundColorA shadow-base;
-        @apply py-12 mb-32;
+        @apply py-12 mb-56;
 
         & input.--search {
             @apply flex-grow;
@@ -61,6 +61,9 @@
                 }
             }
         }
+        & .c-select {
+            @apply ml-auto;
+        }
     }
     & .--tracks {
         @apply grid gap-16;
@@ -70,90 +73,106 @@
     }
 
     & .--track {
-        @apply flex flex-col;
         @apply bg-backgroundColorA shadow-base rounded-8;
-        & .--content {
-            @apply flex flex-grow items-start p-24;
+        @apply flex items-start py-20 px-24;
 
-            & .c-track-icon {
-                width: 57px;
-                @apply mr-28;
-            }
-            & .--info {
-                @apply flex-grow;
+        & > .c-track-icon {
+            height: 80px;
+            width: 80px;
+            @apply mr-20;
+        }
+        & .--info {
+            @apply flex-grow;
 
-                & .--heading {
-                    @apply flex items-center mb-8;
-                }
+            & .--heading {
+                @apply flex items-center mb-6;
 
                 & .--title {
-                    @apply mr-16;
+                    @apply mr-12;
                     @apply text-h4;
+                }
+                & .--v3,
+                & .--new {
+                    @apply flex items-center;
+                    @apply text-14 leading-170 font-semibold;
+                    @apply py-4 px-8 rounded-100;
+
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-8;
+                    }
+                }
+
+                & .--new {
+                    @apply text-orange bg-lightOrange;
+                }
+                & .--v3 {
+                    @apply text-darkBlue bg-veryLightBlue;
                 }
 
                 & .--joined {
-                    @apply text-14 font-medium text-textColor6;
+                    @apply text-14 leading-170 font-semibold text-lightBlue;
+                    @apply bg-veryLightBlue;
+                    @apply ml-auto;
+                    @apply py-4 px-12 rounded-5;
                 }
+            }
 
-                & .--counts {
-                    @apply flex items-center mb-12;
-                    @apply font-medium text-15 leading-150;
-                    & li {
-                        @apply flex items-center mr-24;
+            & .--counts {
+                @apply flex items-center mb-12;
+                @apply font-medium text-15 leading-150;
+                & li {
+                    @apply flex items-center mr-24;
 
-                        & .c-icon {
-                            height: 21px;
-                            width: 21px;
-                            @apply mr-12;
-                        }
-                    }
-                }
-
-                & .--tags {
-                    /* This flex behaviour and max-height combo causes 
-                     * the tags to wrap but to be hidden if they overflow 
-                     * one line. This means we only see whole tags on 
-                     * the cards but we only ever see one row. */
-                    @apply flex flex-wrap overflow-hidden gap-8;
-                    max-height: 32px;
-
-                    & li {
-                        @apply border-borderColor7 border-1 rounded-100;
-                        @apply font-medium text-14 text-textColor6 leading-none;
-                        @apply py-8 px-12;
-                        @apply whitespace-no-wrap;
+                    & .c-icon {
+                        height: 21px;
+                        width: 21px;
+                        @apply mr-12;
                     }
                 }
             }
-            & i {
-                @apply self-center;
-            }
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-                @apply text-textColor6 self-center;
-            }
-        }
 
-        & .--progress-bar {
-            height: 6px;
-            @apply flex flex-row;
+            & .--progress-bar {
+                height: 6px;
+                @apply flex flex-row;
 
-            & > * {
-                height: 100%;
+                & > * {
+                    height: 100%;
+                }
+
+                & .--cp {
+                    @apply bg-darkBlue;
+                }
+                & .--ucp {
+                    background: rgba(106, 147, 255, 0.5);
+                }
+                & .--ce {
+                    @apply bg-darkGreen;
+                }
+                & .--uce {
+                    @apply bg-lightGreen;
+                }
             }
 
-            & .--cp {
-                @apply bg-darkBlue;
+            & .--tags {
+                /* This flex behaviour and max-height combo causes 
+                 * the tags to wrap but to be hidden if they overflow 
+                 * one line. This means we only see whole tags on 
+                 * the cards but we only ever see one row. */
+                @apply flex flex-wrap overflow-hidden gap-8;
+                @apply mt-16;
+                max-height: 32px;
+
+                & li {
+                    @apply border-borderColor7 border-1 rounded-100;
+                    @apply font-medium text-14 text-textColor6 leading-none;
+                    @apply py-8 px-12;
+                    @apply whitespace-no-wrap;
+                }
             }
-            & .--ucp {
-                background: rgba(106, 147, 255, 0.5);
-            }
-            & .--ce {
-                @apply bg-darkGreen;
-            }
-            & .--uce {
-                @apply bg-lightGreen;
+            & .--last-touched {
+                @apply text-textColor6 leading-170 mt-12;
             }
         }
     }

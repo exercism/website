@@ -11,9 +11,15 @@ label.c-checkbox-wrapper {
         width: 1em;
         height: 1em;
     }
+    & .row {
+        @apply flex items-center flex-grow;
+    }
 
-    & input:checked + * {
-        &.c-checkbox .c-icon,
+    & input:checked + .row {
+        background: var(--row-selected-background-color);
+    }
+
+    & input:checked + .row {
         & .c-checkbox .c-icon {
             transform: scale(1);
         }

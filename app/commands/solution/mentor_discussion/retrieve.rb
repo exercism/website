@@ -9,20 +9,27 @@ class Solution
         REQUESTS_PER_PAGE
       end
 
-      def initialize(user, page: nil, track_slug: nil, criteria: nil, order: nil)
+      def initialize(user,
+                     page: nil,
+                     criteria: nil, order: nil,
+                     track_slug: nil,
+                     sorted: true, paginated: true)
         @user = user
         @page = page || 1
         @track_slug = track_slug
         @criteria = criteria
         @order = order
+
+        @sorted = sorted
+        @paginated = paginated
       end
 
       def call
-        retrieve!
-        filter_track! if track_slug
+        setup!
+        filter_track! if track_slug.present?
         search! if criteria
-        sort!
-        paginate!
+        sort! if sorted?
+        paginate! if paginated?
 
         @discussions
       end
@@ -30,17 +37,16 @@ class Solution
       private
       attr_reader :user, :page, :track_slug, :criteria, :order
 
-      def retrieve!
+      %i[sorted paginated].each do |attr|
+        define_method("#{attr}?") { instance_variable_get("@#{attr}") }
+      end
+
+      def setup!
         @discussions = Solution::MentorDiscussion.
           joins(solution: :exercise).
           includes(solution: [:user, { exercise: :track }]).
           where(mentor: user).
           requires_mentor_action
-
-        @discussions.tap do |res|
-          filtered_tracks = Track.where(id: @discussions.select('exercises.track_id'))
-          res.class.define_method(:tracks) { filtered_tracks }
-        end
       end
 
       # TODO: This is just a stub implementation
@@ -59,7 +65,7 @@ class Solution
         when "exercise"
           @discussions = @discussions.order("exercises.title")
         else
-          @discussions = @discussions.order(requires_mentor_action_since: :desc)
+          @discussions = @discussions.order(requires_mentor_action_since: :asc)
         end
       end
 

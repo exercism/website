@@ -16,21 +16,28 @@ module API
       )
     end
 
-    # TODO: Merge this into the query above
     def tracks
-      discussions = ::Solution::MentorDiscussion::Retrieve.(current_user, page: 1)
-      # TODO: Add "all" selector
-      # TODO: Add count attribute
-
-      tracks = discussions.tracks.map do |track|
+      track_counts = Solution::MentorDiscussion::Retrieve.(current_user).
+        group(:track_id).count
+      tracks = Track.where(id: track_counts.keys).index_by(&:id)
+      data = track_counts.map do |track_id, count|
+        track = tracks[track_id]
         {
           slug: track.slug,
           title: track.title,
-          iconUrl: track.icon_url
+          icon_url: track.icon_url,
+          count: count
         }
       end
-      response = [{ slug: nil, title: 'All', iconUrl: Track.first.icon_url }].concat(tracks)
-      render json: response
+
+      render json: [
+        {
+          slug: nil,
+          title: 'All',
+          icon_url: Track.first.icon_url,
+          count: track_counts.values.sum
+        }
+      ].concat(data)
     end
 
     def create

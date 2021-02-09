@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphicalIcon, TrackIcon } from '../../common'
+import { Icon, GraphicalIcon, TrackIcon } from '../../common'
 import { useDropdown } from '../../dropdowns/useDropdown'
 
 type Track = {
@@ -18,14 +18,14 @@ const TrackFilter = ({
 }: Track & { onChange: () => void; checked: boolean }) => {
   return (
     <React.Fragment>
-      <label className="c-checkbox-wrapper">
-        <input type="checkbox" onChange={onChange} checked={checked} />
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
+      <label className="c-radio-wrapper">
+        <input type="radio" onChange={onChange} checked={checked} />
+        <div className="row">
+          <div className="c-radio" />
+          <TrackIcon iconUrl={iconUrl} title={title} />
+          <div className="title">{title}</div>
+          <div className="count">{count}</div>
         </div>
-        <TrackIcon iconUrl={iconUrl} title={title} />
-        <div className="title">{title}</div>
-        <div className="count">{count}</div>
       </label>
     </React.Fragment>
   )
@@ -59,8 +59,13 @@ export const TrackList = ({
         {...buttonAttributes}
       >
         <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
+        <Icon
+          icon="chevron-down"
+          alt="Click to change"
+          className="action-icon"
+        />
       </button>
-      <div {...panelAttributes}>
+      <div className="dropdown" {...panelAttributes}>
         <ul {...listAttributes}>
           {tracks.map((track, i) => {
             return (

@@ -11,7 +11,15 @@
         width: 1em;
         height: 1em;
     }
-    & input:checked + .c-radio {
+    & .row {
+        @apply flex items-center flex-grow;
+    }
+
+    & input:checked + .row {
+        background: var(--row-selected-background-color);
+    }
+
+    & input:checked + .row > .c-radio {
         &:before {
             transform: scale(1);
         }

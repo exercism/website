@@ -20,7 +20,7 @@ const server = setupServer(
             haveMentoredPreviously: false,
           },
         ],
-        meta: { total: 2 },
+        meta: { totalPages: 2 },
       })
     )
   })

@@ -23,5 +23,5 @@ test('shows details', async () => {
     'Submitted via CLI, a few seconds ago'
   )
   expect(getByText('Queued')).toBeInTheDocument()
-  expect(getByText('Analysed')).toBeInTheDocument()
+  expect(getByText('Automated feedback comments')).toBeInTheDocument()
 })

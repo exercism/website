@@ -30,11 +30,9 @@
             @apply text-20;
             @apply cursor-pointer;
 
-            & .c-radio-button {
-                @apply mr-16;
-            }
             & .label {
                 @apply text-18 font-medium leading-huge;
+                @apply pl-16;
             }
         }
         & .confirm-button {

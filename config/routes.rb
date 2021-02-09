@@ -52,6 +52,10 @@ Rails.application.routes.draw do
       end
 
       resources :mentor_requests, only: %i[index] do
+        collection do
+          get :tracks
+          get :exercises
+        end
         member do
           patch :lock
         end
@@ -213,9 +217,6 @@ Rails.application.routes.draw do
         resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]
-          resource :queue, controller: "queue", only: [:show] do
-            get 'solutions', on: :member
-          end
           resource :inbox, controller: "inbox", only: [:show] do
             member do
               get 'tracks'

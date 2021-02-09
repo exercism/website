@@ -14,29 +14,26 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
 
     discussions = Solution::MentorDiscussion::Retrieve.(mentor, 1)
 
-    expected = {
-      results: [
-        {
-          id: discussion.uuid,
+    expected = [
+      {
+        id: discussion.uuid,
 
-          track_title: track.title,
-          track_icon_url: track.icon_url,
-          exercise_title: exercise.title,
+        track_title: track.title,
+        track_icon_url: track.icon_url,
+        exercise_title: exercise.title,
 
-          mentee_handle: student.handle,
-          mentee_avatar_url: student.avatar_url,
-          updated_at: discussion.created_at.to_i,
+        mentee_handle: student.handle,
+        mentee_avatar_url: student.avatar_url,
+        updated_at: discussion.created_at.to_i,
 
-          is_starred: true,
+        is_starred: true,
 
-          # TODO: Populate this
-          posts_count: 4,
+        # TODO: Populate this
+        posts_count: 4,
 
-          url: "https://test.exercism.io/mentor/discussions/#{discussion.uuid}"
-        }
-      ],
-      meta: { current: 1, total: 1 }
-    }
+        url: "https://test.exercism.io/mentor/discussions/#{discussion.uuid}"
+      }
+    ]
 
     assert_equal expected, SerializeMentorDiscussions.(discussions)
   end

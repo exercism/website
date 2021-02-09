@@ -68,7 +68,7 @@ export const PublishExerciseForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        <div className="c-radio-button">
+        <div className="c-radio-wrapper">
           <input
             type="radio"
             name="share"
@@ -82,7 +82,7 @@ export const PublishExerciseForm = ({
         </div>
       </label>
       <label>
-        <div className="c-radio-button">
+        <div className="c-radio-wrapper">
           <input
             type="radio"
             name="share"

@@ -54,8 +54,9 @@ class API::ReputatationControllerTest < API::BaseTestCase
       {
         results: serialized,
         meta: {
-          current: 1,
-          total: 1
+          current_page: 1,
+          total_count: 1,
+          total_pages: 1
         }
       }.to_json,
       response.body

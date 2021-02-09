@@ -15,7 +15,7 @@ class SerializeReputationTokensTest < ActiveSupport::TestCase
         id: token.uuid,
         value: token.value,
         description: "You authored Strings",
-        icon_name: "sample-exercise-rocket",
+        icon_name: "sample-rocket",
         internal_link: nil,
         external_link: "https://google.com",
         awarded_at: token.created_at.iso8601,

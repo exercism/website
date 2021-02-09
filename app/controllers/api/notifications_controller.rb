@@ -3,7 +3,8 @@ module API
     def index
       notifications = Notification::Retrieve.(
         current_user,
-        page: params[:page]
+        page: params[:page],
+        per: params[:per_page]
       )
 
       render json: SerializePaginatedCollection.(

@@ -32,6 +32,18 @@ class Notification::RetrieveTest < ActiveSupport::TestCase
     assert_equal 25, notifications.total_count
   end
 
+  test "per_page works" do
+    user = create :user
+
+    25.times { create :notification, user: user }
+
+    notifications = Notification::Retrieve.(user, page: 2, per_page: 4)
+    assert_equal 2, notifications.current_page
+    assert_equal 7, notifications.total_pages
+    assert_equal 4, notifications.limit_value
+    assert_equal 25, notifications.total_count
+  end
+
   test "returns relationship unless paginated" do
     user = create :user
     create :notification, user: user

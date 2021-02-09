@@ -10,9 +10,11 @@ class Notification
 
     def initialize(user,
                    page: 1,
+                   per_page: self.class.notifications_per_page,
                    sorted: true, paginated: true)
       @user = user
       @page = page
+      @per_page = per_page
 
       @sorted = sorted
       @paginated = paginated
@@ -27,7 +29,7 @@ class Notification
     end
 
     private
-    attr_reader :user, :page, :criteria, :order,
+    attr_reader :user, :page, :per_page, :criteria, :order,
       :track_slug, :exercise_slugs
 
     %i[sorted paginated].each do |attr|
@@ -44,7 +46,7 @@ class Notification
 
     def paginate!
       @notifications = @notifications.
-        page(page).per(self.class.notifications_per_page)
+        page(page).per(per_page)
     end
   end
 end

@@ -20,8 +20,7 @@
 
     & .c-track-icon {
         height: var(--nav-height);
-        /*width: calc(var(--c-track-icon-width-ratio) * var(--nav-height));*/
-        width: 40px;
+        width: var(--nav-height);
         @apply mr-20;
     }
 

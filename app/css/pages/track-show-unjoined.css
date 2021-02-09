@@ -11,7 +11,7 @@
             @apply mr-48;
 
             height: 125px;
-            width: calc(var(--c-track-icon-width-ratio) * 125px);
+            width: 125px;
         }
         & h1 {
             @apply text-h1 mb-8;

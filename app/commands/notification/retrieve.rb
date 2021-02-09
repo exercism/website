@@ -2,15 +2,9 @@ class Notification
   class Retrieve
     include Mandate
 
-    # Use class method rather than constant for
-    # easier stubbing during testing
-    def self.notifications_per_page
-      10
-    end
-
     def initialize(user,
                    page: 1,
-                   per_page: self.class.notifications_per_page,
+                   per_page: 10,
                    sorted: true, paginated: true)
       @user = user
       @page = page
@@ -45,8 +39,7 @@ class Notification
     end
 
     def paginate!
-      @notifications = @notifications.
-        page(page).per(per_page)
+      @notifications = @notifications.page(page).per(per_page)
     end
   end
 end

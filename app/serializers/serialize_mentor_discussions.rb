@@ -18,11 +18,11 @@ class SerializeMentorDiscussions
       track_icon_url: discussion.track_icon_url,
       exercise_title: discussion.exercise_title,
 
-      mentee_handle: discussion.student_handle,
-      mentee_avatar_url: discussion.student_avatar_url,
+      student_handle: discussion.student_handle,
+      student_avatar_url: discussion.student_avatar_url,
 
       # TODO: Should this be discussioned_at?
-      updated_at: discussion.created_at.to_i,
+      updated_at: discussion.created_at.iso8601,
 
       # TODO: Add all these
       is_starred: true,

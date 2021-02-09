@@ -29,7 +29,7 @@ export function TrackFilter({ request, setTrack }) {
             <option value={''}>All</option>
             {data.map((track) => {
               return (
-                <option key={track.id} value={track.id}>
+                <option key={track.slug} value={track.slug}>
                   {track.title}
                 </option>
               )

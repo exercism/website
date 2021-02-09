@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConversationList } from './inbox/ConversationList'
+import { DiscussionList } from './inbox/DiscussionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
@@ -7,12 +7,12 @@ import { useList } from '../../hooks/use-list'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const {
-    request: conversationsRequest,
+    request: discussionsRequest,
     setCriteria,
     setOrder,
     setPage,
     setQuery,
-  } = useList(props.conversationsRequest)
+  } = useList(props.discussionsRequest)
 
   const setTrack = (track) => {
     setQuery({ track: track, page: 1 })
@@ -23,19 +23,19 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
       <header className="c-search-bar">
         <TrackFilter request={tracksRequest} setTrack={setTrack} />
         <TextFilter
-          filter={conversationsRequest.query.criteria}
+          filter={discussionsRequest.query.criteria}
           setFilter={setCriteria}
-          id="conversation-filter"
+          id="discussion-filter"
           placeholder="Filter by student or exercise name"
         />
         <Sorter
           sortOptions={sortOptions}
-          order={conversationsRequest.query.order}
+          order={discussionsRequest.query.order}
           setOrder={setOrder}
-          id="conversation-sorter-sort"
+          id="discussion-sorter-sort"
         />
       </header>
-      <ConversationList request={conversationsRequest} setPage={setPage} />
+      <DiscussionList request={discussionsRequest} setPage={setPage} />
     </div>
   )
 }

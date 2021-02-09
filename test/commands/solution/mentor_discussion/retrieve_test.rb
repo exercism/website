@@ -7,7 +7,7 @@ class Solution::MentorDiscussion::RetrieveTest < ActiveSupport::TestCase
     valid = create :solution_mentor_discussion, :requires_mentor_action, mentor: user
     create :solution_mentor_discussion, :requires_mentor_action
 
-    assert_equal [valid], Solution::MentorDiscussion::Retrieve.(user, 1)
+    assert_equal [valid], Solution::MentorDiscussion::Retrieve.(user, page: 1)
   end
 
   test "only retrieves solutions requiring action" do
@@ -16,7 +16,7 @@ class Solution::MentorDiscussion::RetrieveTest < ActiveSupport::TestCase
     valid = create :solution_mentor_discussion, :requires_mentor_action, mentor: user
     create :solution_mentor_discussion, mentor: user
 
-    assert_equal [valid], Solution::MentorDiscussion::Retrieve.(user, 1)
+    assert_equal [valid], Solution::MentorDiscussion::Retrieve.(user, page: 1)
   end
 
   test "only retrieves relevant tracks" do
@@ -28,7 +28,7 @@ class Solution::MentorDiscussion::RetrieveTest < ActiveSupport::TestCase
     create :solution_mentor_discussion, :requires_mentor_action, track: ruby, mentor: user
     create :solution_mentor_discussion, :requires_mentor_action, track: js
 
-    discussions = Solution::MentorDiscussion::Retrieve.(user, 1)
+    discussions = Solution::MentorDiscussion::Retrieve.(user, page: 1)
     assert_equal [ruby], discussions.tracks
   end
 
@@ -37,7 +37,7 @@ class Solution::MentorDiscussion::RetrieveTest < ActiveSupport::TestCase
 
     25.times { create :solution_mentor_discussion, :requires_mentor_action, mentor: user }
 
-    requests = Solution::MentorDiscussion::Retrieve.(user, 2)
+    requests = Solution::MentorDiscussion::Retrieve.(user, page: 2)
     assert_equal 2, requests.current_page
     assert_equal 3, requests.total_pages
     assert_equal 10, requests.limit_value

@@ -56,7 +56,7 @@ export const FavoriteStep = ({
 
   return (
     <div>
-      <p>Add @{student.handle} to your favorites?</p>
+      <p>Add {student.handle} to your favorites?</p>
       <div className="buttons">
         <button
           className="btn-small"

@@ -13,7 +13,7 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
           <div className="name">{student.name}</div>
           <Reputation value={student.reputation.toString()} type="primary" />
         </div>
-        <div className="handle">@{student.handle}</div>
+        <div className="handle">{student.handle}</div>
         <div className="bio">
           {student.bio}
           <span

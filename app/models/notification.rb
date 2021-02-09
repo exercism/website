@@ -23,6 +23,11 @@ class Notification < ApplicationRecord
     I18n.t("notifications.#{i18n_key}.#{version}", i18n_params).strip
   end
 
+  # TODO
+  def url
+    "/"
+  end
+
   def type_key
     type.split("::").last.underscore.split("_notification").first.to_sym
   end

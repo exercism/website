@@ -8,6 +8,9 @@ import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { camelizeKeys } from 'humps'
 import { Loading } from '../../common/Loading'
+import { Icon } from '../../common/Icon'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { TrackIcon } from '../../common/TrackIcon'
 
 type ScratchpadPage = {
   contentMarkdown: string
@@ -100,21 +103,57 @@ export const Scratchpad = ({
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <>
+      <div className="c-explainer">
+        <GraphicalIcon icon="graphic-scratchpad" />
+        <div className="--content">
+          <h3>Introducing your scratchpad</h3>
+          <p>
+            A <a href="#">Markdown-supported</a> place for you to write notes
+            and add code snippets you’d like to refer to during mentoring.
+          </p>
+        </div>
+        <button>
+          <Icon icon="cross" alt="Remove this explainer section" />
+        </button>
+      </div>
+
+      <div className="title">
+        {/* TODO: Add real exercise/track for this */}
+        Your notes for <strong>Hamming</strong> in
+        <TrackIcon
+          iconUrl="https://assets.exercism.io/tracks/ruby-hex-white.png"
+          title="Ruby"
+        />
+        <strong>Ruby</strong>
+      </div>
+
+      <form onSubmit={handleSubmit} className="c-markdown-editor">
         <MarkdownEditor
           editorDidMount={handleEditorDidMount}
           onChange={handleChange}
           contextId={`scratchpad-${discussionId}`}
           options={{ status: [] }}
         />
-        <button type="submit">Save</button>
+        <footer className="editor-footer">
+          {content === page.contentMarkdown ? null : (
+            <div className="--warning">Unsaved</div>
+          )}
+
+          <button
+            className="btn-small-discourage"
+            type="button"
+            onClick={() => pullPage()}
+          >
+            Revert to saved
+          </button>
+
+          <button type="submit" className="btn-small-cta">
+            Save
+          </button>
+        </footer>
       </form>
-      <button type="button" onClick={() => pullPage()}>
-        Revert
-      </button>
-      {content === page.contentMarkdown ? null : <p>Unsaved</p>}
       {error ? <p>{error}</p> : null}
-    </div>
+    </>
   )
 }

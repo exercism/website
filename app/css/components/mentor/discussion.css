@@ -151,6 +151,9 @@
 
             @apply px-24 py-16 bg-backgroundColorA;
 
+            & .c-markdown-editor {
+                min-height: 315px;
+            }
             & .new-messages-button {
                 @apply absolute;
                 left: 24px;
@@ -176,32 +179,6 @@
                 @apply py-12 px-16;
                 @apply text-16 leading-paragraph text-textColor6;
                 @apply text-left;
-            }
-            & .comment-form {
-                @apply border-1 border-buttonBorderColor2 rounded-5;
-                & .editor-toolbar {
-                    border-width: 0; /* Override default */
-                    @apply border-b-1 border-borderColor5;
-                }
-                /* TODO: Decide what to do with this */
-                & .editor-statusbar {
-                    display: none;
-                }
-                & .CodeMirror {
-                    height: 160px;
-                    min-height: 160px;
-                    border: none;
-                    @apply text-textColor5 text-15 leading-huge;
-
-                    & .CodeMirror-scroll {
-                        height: 140px;
-                        min-height: 140px !important;
-                    }
-                }
-                & .comment-form-footer {
-                    @apply p-16;
-                    @apply flex justify-end;
-                }
             }
         }
 
@@ -436,6 +413,33 @@
                         @apply text-textColor6 leading-huge;
                     }
                 }
+            }
+        }
+        & #panel-scratchpad {
+            &[hidden] {
+                @apply hidden;
+            }
+            @apply flex flex-col;
+            @apply py-24 px-20;
+            & > .c-explainer {
+                @apply mb-20;
+            }
+            & > .title {
+                @apply flex items-center mb-12;
+                @apply leading-160;
+
+                & strong {
+                    @apply font-medium text-textColor3;
+                    @apply mx-4;
+                }
+                & .c-track-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mx-8;
+                }
+            }
+            & .c-markdown-editor {
+                @apply flex-grow;
             }
         }
         & #panel-guidance {

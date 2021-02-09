@@ -59,6 +59,8 @@ import '../../css/components/track/exercise-nav'
 import '../../css/components/track/icon'
 import '../../css/components/track/concept-map'
 import '../../css/components/iteration-pane'
+import '../../css/components/explainer'
+import '../../css/components/markdown-editor'
 
 import '../../css/components/widgets/exercise'
 

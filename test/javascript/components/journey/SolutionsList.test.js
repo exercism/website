@@ -33,8 +33,8 @@ test('pulls solutions', async () => {
         ctx.json({
           results: solutions,
           meta: {
-            current: 1,
-            total: 1,
+            currentPage: 1,
+            totalPages: 1,
           },
         })
       )
@@ -76,8 +76,8 @@ test('paginates solutions', async () => {
       const response = {
         results: [solutions[page - 1]],
         meta: {
-          current: page,
-          total: 2,
+          currentPage: page,
+          totalPages: 2,
         },
       }
       return res(ctx.status(200), ctx.json(response))
@@ -123,8 +123,8 @@ test('searches solutions', async () => {
       const response = {
         results: searched,
         meta: {
-          current: 1,
-          total: searched.length,
+          currentPage: 1,
+          totalPages: searched.length,
         },
       }
       return res(ctx.status(200), ctx.json(response))
@@ -177,8 +177,8 @@ test('filters solutions', async () => {
       const response = {
         results: searched,
         meta: {
-          current: 1,
-          total: searched.length,
+          currentPage: 1,
+          totalPages: searched.length,
         },
       }
       return res(ctx.status(200), ctx.json(response))
@@ -228,8 +228,8 @@ test('sorts solutions', async () => {
       const response = {
         results: [solutions[0]],
         meta: {
-          current: 1,
-          total: 1,
+          currentPage: 1,
+          totalPages: 1,
         },
       }
       return res(ctx.status(200), ctx.json(response))

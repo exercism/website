@@ -4,7 +4,7 @@ module API
       notifications = Notification::Retrieve.(
         current_user,
         page: params[:page],
-        per: params[:per_page]
+        per_page: params[:per_page]
       )
 
       render json: SerializePaginatedCollection.(

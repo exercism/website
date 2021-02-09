@@ -50,7 +50,7 @@ module ReactComponents
           if discussion.requires_mentor_action?
             links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
           end
-          links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion) unless discussion.finished?
+          links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion)
         end
       end
 

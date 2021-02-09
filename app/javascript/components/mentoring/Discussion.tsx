@@ -19,7 +19,7 @@ export type Links = {
   close: string
   posts: string
   markAsNothingToDo?: string
-  finish?: string
+  finish: string
 }
 
 type RepresenterFeedbackAuthor = {
@@ -137,6 +137,7 @@ export const Discussion = (props: DiscussionProps): JSX.Element => {
     discussionId,
     iterations,
     userId,
+    isFinished,
   } = discussion
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -199,14 +200,13 @@ export const Discussion = (props: DiscussionProps): JSX.Element => {
               <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
             ) : null}
 
-            {/* TODO: This should change when the solution is marked as finished */}
-            {links.finish ? (
-              <FinishButton endpoint={links.finish} onSuccess={handleFinish} />
-            ) : (
+            {isFinished ? (
               <div className="finished">
                 <GraphicalIcon icon="completed-check-circle" />
                 Ended
               </div>
+            ) : (
+              <FinishButton endpoint={links.finish} onSuccess={handleFinish} />
             )}
           </header>
           <IterationHeader

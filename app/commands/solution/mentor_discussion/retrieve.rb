@@ -27,7 +27,7 @@ class Solution
       def call
         setup!
         filter_track! if track_slug.present?
-        search! if criteria
+        search! if criteria.present?
         sort! if sorted?
         paginate! if paginated?
 

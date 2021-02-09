@@ -17,8 +17,10 @@ module API
     end
 
     def tracks
-      track_counts = Solution::MentorDiscussion::Retrieve.(current_user).
-        group(:track_id).count
+      track_counts = Solution::MentorDiscussion::Retrieve.(
+        current_user, sorted: false, paginated: false
+      ).group(:track_id).count
+
       tracks = Track.where(id: track_counts.keys).index_by(&:id)
       data = track_counts.map do |track_id, count|
         track = tracks[track_id]

@@ -60,21 +60,18 @@ module Components
 
       test "filters by track" do
         Solution::MentorDiscussion::Retrieve.stubs(:requests_per_page).returns(1)
+
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
         go = create :track, title: "Go", slug: "go"
+
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :solution_mentor_discussion,
-          solution: series_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+        create :solution_mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: mentor
+
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :solution_mentor_discussion,
-          solution: tournament_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+        create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)

@@ -30,6 +30,50 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
   end
 
   ###
+  # Tracks
+  ###
+  test "tracks should return 401 with incorrect token" do
+    get tracks_api_mentor_discussions_path, as: :json
+
+    assert_response 401
+    expected = { error: {
+      type: "invalid_auth_token",
+      message: I18n.t('api.errors.invalid_auth_token')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "tracks retrieves all tracks including those not on current page" do
+    Solution::MentorDiscussion::Retrieve.stubs(:requests_per_page).returns(1)
+
+    user = create :user
+    setup_user(user)
+
+    ruby = create :track, title: "Ruby", slug: "ruby"
+    go = create :track, title: "Go", slug: "go"
+
+    series = create :concept_exercise, title: "Series", track: ruby
+    series_solution = create :concept_solution, exercise: series
+    create :solution_mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: @current_user
+
+    tournament = create :concept_exercise, title: "Tournament", track: go
+    tournament_solution = create :concept_solution, exercise: tournament
+    create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
+    create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
+
+    get tracks_api_mentor_discussions_path, headers: @headers, as: :json
+    assert_response 200
+
+    expected = [
+      { slug: nil, title: 'All', icon_url: Track.first.icon_url, count: 3 },
+      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
+      { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
+    ]
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
+  end
+
+  ###
   # Create
   ###
   test "create should return 401 with incorrect token" do

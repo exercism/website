@@ -14,7 +14,7 @@ class TracksController < ApplicationController
     @num_tracks = Track.count
 
     # TODO: Change this to only select the fields needed for an icon
-    @track_icons = Track.order('rand()').limit(8)
+    @track_icons = Track.order('rand()').limit(8).map(&:icon_name)
   end
 
   def show

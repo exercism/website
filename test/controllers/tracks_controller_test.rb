@@ -36,9 +36,6 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
 
     # Assert only the track that matches the criteria
     # is retrieved and served.
-    #
-    # Is this going to work with React? If not,
-    # should we have this as a system test instead?
     assert_includes @response.body, ruby_1.title
     refute_includes @response.body, js.title
     refute_includes @response.body, ruby_2.title

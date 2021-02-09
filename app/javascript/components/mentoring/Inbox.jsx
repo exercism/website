@@ -21,7 +21,11 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
   return (
     <div className="c-mentor-inbox">
       <header className="c-search-bar">
-        <TrackFilter request={tracksRequest} setTrack={setTrack} />
+        <TrackFilter
+          request={tracksRequest}
+          value={discussionsRequest.query.track || null}
+          setTrack={setTrack}
+        />
         <TextFilter
           filter={discussionsRequest.query.criteria}
           setFilter={setCriteria}

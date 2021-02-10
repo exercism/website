@@ -16,4 +16,18 @@ class NotificationTest < ActiveSupport::TestCase
       assert_equal [], user.notifications.unread
     end
   end
+
+  test "text is sanitized" do
+    notification = Notification.new
+    notification.define_singleton_method(:i18n_params) do
+      { user: "<foo>d</foo>angerous" }
+    end
+
+    I18n.expects(:t).with(
+      "notifications.notification.",
+      { user: "dangerous" }
+    ).returns("")
+
+    notification.text
+  end
 end

@@ -65,9 +65,7 @@ test('page is reset to 1 when switching tracks', async () => {
       name: 'Button to open the track filter',
     })
   )
-  userEvent.click(
-    screen.getByRole('checkbox', { name: 'icon for Go track Go' })
-  )
+  userEvent.click(screen.getByRole('radio', { name: 'icon for Go track Go' }))
 
   await waitFor(() => expect(screen.getByText('First')).toBeDisabled())
 })

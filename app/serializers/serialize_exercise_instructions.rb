@@ -61,8 +61,8 @@ class SerializeExerciseInstructions
     return [] if exercise.practice_exercise?
 
     instructions_doc.each.
-      # Skip the overview part of the instructions
-      drop_while { |node| node.type != :header }.
+      # Skip the overview and h1 part of the instructions
+      drop_while { |node| node.type != :header || node.header_level == 1 }.
       # Convert to chunks that start with a header node and subsequent
       # sibling nodes up until the next header
       chunk_while { |_, nxt| nxt.type != :header }.

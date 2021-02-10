@@ -11,7 +11,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA does not change when there are no changes" do
-    head_sha = "73b8e389daac4a3e08747e6c16fd420072386e2b"
+    head_sha = "7a42b345ebfa4e74899174abb4ed6b9301cf93b9"
     exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", deprecated: false, git_sha: head_sha, synced_to_git_sha: head_sha # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 

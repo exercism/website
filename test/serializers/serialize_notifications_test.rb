@@ -18,7 +18,7 @@ class SerializeNotificationsTest < ActiveSupport::TestCase
         url: notification.url,
         text: notification.text,
         read: false,
-        created_at: notification.created_at,
+        created_at: notification.created_at.iso8601,
         image_type: :avatar,
         image_url: mentor.avatar_url
       }

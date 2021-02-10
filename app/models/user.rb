@@ -86,7 +86,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
-    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
+    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4&e_uid=#{id}"
   end
 
   # TODO

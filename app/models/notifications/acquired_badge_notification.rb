@@ -11,6 +11,16 @@ module Notifications
       }
     end
 
+    # TODO
+    def image_type
+      :avatar
+    end
+
+    # TODO
+    def image_url
+      user.avatar_url
+    end
+
     def guard_params
       "Badge##{badge.id}"
     end

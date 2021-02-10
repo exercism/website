@@ -1,5 +1,10 @@
 module Notifications
   class AcquiredBadgeNotification < Notification
+    # TODO
+    def url
+      "#"
+    end
+
     def i18n_params
       {
         badge_name: badge_name

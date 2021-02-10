@@ -1,5 +1,10 @@
 module Notifications
   class StudentRepliedToDiscussionNotification < Notification
+    # TODO
+    def url
+      "#"
+    end
+
     def i18n_params
       {
         student_name: student.handle,

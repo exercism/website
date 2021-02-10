@@ -1,5 +1,10 @@
 module Notifications
   class MentorStartedDiscussionNotification < Notification
+    # TODO
+    def url
+      "#"
+    end
+
     def i18n_params
       {
         mentor_name: mentor.handle,

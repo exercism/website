@@ -13,12 +13,12 @@ class SerializeNotifications
     {
       # TODO: Maybe expose a UUID instead?
       id: notification.id,
+      url: notification.url,
       text: notification.text,
       read: notification.read?,
       created_at: notification.created_at,
-      image_type: "avatar", # TODO: Work this out for icons
-      image_url: notification.user.avatar_url,
-      url: notification.url
+      image_type: notification.image_type,
+      image_url: notification.image_url
     }
   end
 end

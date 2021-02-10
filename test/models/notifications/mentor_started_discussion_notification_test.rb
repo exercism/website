@@ -17,7 +17,10 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
         discussion_post: discussion_post
       }
     )
+    assert_equal "#", notification.url
     assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.uniqueness_key
     assert_equal "<strong>#{mentor.handle}</strong> has started mentoring your solution to <strong>#{exercise.title}</strong> in <strong>#{track.title}</strong>", notification.text
+    assert_equal :avatar, notification.image_type
+    assert_equal mentor.avatar_url, notification.image_url
   end
 end

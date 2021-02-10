@@ -8,7 +8,10 @@ import React, {
 import { usePanel } from '../../hooks/use-panel'
 import { v4 as uuidv4 } from 'uuid'
 
-export const useDropdown = (itemLength: number) => {
+export const useDropdown = (
+  itemLength: number,
+  onItemSelect?: (index: number) => void
+) => {
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
   const [focusIndex, setFocusIndex] = useState<number | null | undefined>()
@@ -61,8 +64,13 @@ export const useDropdown = (itemLength: number) => {
 
         setOpen(false)
 
-        const link = menuItemElementsRef.current[index]?.querySelector('a')
-        link?.click()
+        if (onItemSelect) {
+          onItemSelect(index)
+        } else {
+          const link = menuItemElementsRef.current[index].querySelector('a')
+
+          link?.click()
+        }
 
         break
       }

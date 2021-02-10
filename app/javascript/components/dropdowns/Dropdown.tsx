@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { KeyboardEvent } from 'react'
 import { useDropdown } from './useDropdown'
 
 type MenuButton = {
@@ -39,7 +39,7 @@ export const Dropdown = ({
           {menuItems.map((item, i) => {
             return (
               <li
-                key={item.html}
+                key={i}
                 dangerouslySetInnerHTML={{ __html: item.html }}
                 className={item.className}
                 {...itemAttributes(i)}

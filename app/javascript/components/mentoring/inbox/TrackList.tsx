@@ -1,5 +1,5 @@
-import React from 'react'
-import { Icon, GraphicalIcon, TrackIcon } from '../../common'
+import React, { useCallback } from 'react'
+import { Icon, TrackIcon } from '../../common'
 import { useDropdown } from '../../dropdowns/useDropdown'
 
 type Track = {
@@ -40,12 +40,18 @@ export const TrackList = ({
   value: string | null
   setTrack: (value: string | null) => void
 }): JSX.Element => {
+  const handleItemSelect = useCallback(
+    (index) => {
+      setTrack(tracks[index].slug)
+    },
+    [setTrack, tracks]
+  )
   const {
     buttonAttributes,
     panelAttributes,
     listAttributes,
     itemAttributes,
-  } = useDropdown(tracks.length)
+  } = useDropdown(tracks.length, handleItemSelect)
   const selected = tracks.find((track) => track.slug === value) || tracks[0]
 
   if (!selected) {

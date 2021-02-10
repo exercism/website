@@ -23,7 +23,7 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       assert_equal exercise.non_ignored_filepaths, exercise.non_ignored_files.keys
-      assert exercise.non_ignored_files["README.md"].start_with?("README content")
+      assert exercise.non_ignored_files["bob.rb"].start_with?("stub content")
     end
 
     test "non_ignored_filepaths" do
@@ -31,7 +31,9 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
-        "README.md",
+        ".docs/instructions.md",
+        ".meta/config.json",
+        ".meta/example.rb",
         "bob.rb",
         "bob_test.rb",
         "subdir/more_bob.rb"

@@ -2,7 +2,11 @@
   .c-notifications
     - @notifications.each do |notification|
       = link_to notification[:url], class: "notification" do
-        = rounded_bg_img(notification[:image_url], nil)
+        - if notification[:image_type] == :avatar
+          = rounded_bg_img(notification[:image_url], nil)
+        - else
+          /* Use a GraphicalImage helper for this */
+          = image_tag(notification[:image_url], role: :presentation, class: "icon")
         .content
           .text= raw notification[:text]
           .created-at= time_ago_in_words(notification[:created_at])

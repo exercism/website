@@ -13,12 +13,12 @@ module Notifications
 
     # TODO
     def image_type
-      :avatar
+      :icon
     end
 
     # TODO
     def image_url
-      user.avatar_url
+      asset_pack_url("media/images/hero-journey.svg")
     end
 
     def guard_params

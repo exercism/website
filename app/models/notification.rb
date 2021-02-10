@@ -1,5 +1,8 @@
 class Notification < ApplicationRecord
   include ActionView::Helpers::SanitizeHelper
+  include ActionView::Helpers::AssetUrlHelper
+  include Webpacker::Helper
+  extend Mandate::Memoize
 
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
 
@@ -57,6 +60,7 @@ class Notification < ApplicationRecord
   #
   # Any non-object params are left as the were passed in.
   private
+  memoize
   def params
     super.each_with_object({}) do |(k, v), h|
       h[k.to_sym] = GlobalID::Locator.locate(v) || v

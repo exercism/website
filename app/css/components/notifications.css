@@ -11,11 +11,18 @@
             @apply bg-backgroundColorD;
         }
 
-        & .c-rounded-bg-img {
+        & .c-rounded-bg-img,
+        & .icon {
             height: 32px;
             width: 32px;
             @apply mr-20;
             @apply self-start;
+        }
+        & .c-rounded-bg-img {
+        }
+        & .icon {
+            /* TODO: Really this color? */
+            color: #604fcd;
         }
         & .content {
             @apply flex-grow mr-24;
@@ -43,6 +50,7 @@
         & .action-icon {
             height: 16px;
             width: 16px;
+            @apply text-textColor6;
         }
     }
 }

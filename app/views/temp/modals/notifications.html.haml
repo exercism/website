@@ -1,0 +1,14 @@
+%div{ style: "background:#ddd;padding:50px;" }
+  .c-notifications
+    - @notifications.each do |notification|
+      = link_to notification[:url], class: "notification" do
+        = rounded_bg_img(notification[:image_url], nil)
+        .content
+          .text= raw notification[:text]
+          .created-at= time_ago_in_words(notification[:created_at])
+        - if notification[:read]
+          .read
+        - else
+          .unread
+        = graphical_icon("chevron-right", css_class: "action-icon")
+

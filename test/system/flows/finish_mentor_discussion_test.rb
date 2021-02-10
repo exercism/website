@@ -36,6 +36,7 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        click_on "Change preferences"
         click_on "Yes"
 
         assert_text "Add student-123 to your favorites?"
@@ -54,6 +55,7 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        click_on "Change preferences"
         click_on "No"
 
         assert_text "You will not see future mentor requests from student-123."
@@ -72,6 +74,7 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        click_on "Change preferences"
         click_on "Yes"
         within(".finished-wizard") { click_on "Add to favorites" }
 
@@ -91,6 +94,7 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        click_on "Change preferences"
         click_on "Yes"
         click_on "Skip"
 
@@ -110,6 +114,7 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        click_on "Change preferences"
         click_on "No"
         click_on "Change preferences"
 

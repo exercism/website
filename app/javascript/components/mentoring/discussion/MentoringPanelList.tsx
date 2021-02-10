@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostList } from './DiscussionPostList'
 import { Scratchpad } from './Scratchpad'
@@ -62,6 +62,7 @@ export const MentoringPanelList = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
+  const previouslyNotFinishedRef = useRef(!isFinished)
   const finishedWizardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -111,6 +112,7 @@ export const MentoringPanelList = ({
               ref={finishedWizardRef}
               student={student}
               relationship={relationship}
+              step={previouslyNotFinishedRef.current ? 'mentorAgain' : 'finish'}
             />
           ) : null}
         </Tab.Panel>

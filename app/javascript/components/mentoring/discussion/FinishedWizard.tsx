@@ -28,6 +28,7 @@ type Action =
 type Props = {
   student: Student
   relationship: StudentMentorRelationship
+  step: ModalStep
 }
 
 function reducer(state: State, action: Action): State {
@@ -55,10 +56,10 @@ function reducer(state: State, action: Action): State {
 }
 
 export const FinishedWizard = forwardRef<HTMLDivElement, Props>(
-  ({ student, relationship }, ref) => {
+  ({ student, relationship, step }, ref) => {
     const [state, dispatch] = useReducer(reducer, {
       relationship: relationship,
-      step: 'mentorAgain',
+      step: step,
     })
 
     return (

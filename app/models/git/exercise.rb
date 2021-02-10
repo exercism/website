@@ -73,15 +73,15 @@ module Git
 
     # This includes meta files
     memoize
-    def non_ignored_files
-      non_ignored_filepaths.each.with_object({}) do |filepath, hash|
+    def tooling_files
+      tooling_filepaths.each.with_object({}) do |filepath, hash|
         hash[filepath] = read_file_blob(filepath)
       end
     end
 
     # This includes meta files
     memoize
-    def non_ignored_filepaths
+    def tooling_filepaths
       filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         !filepath.match?(track.ignore_regexp)
       end
@@ -89,8 +89,8 @@ module Git
 
     # This includes meta files
     memoize
-    def non_ignored_absolute_filepaths
-      non_ignored_filepaths.map { |filepath| full_filepath(filepath) }
+    def tooling_absolute_filepaths
+      tooling_filepaths.map { |filepath| full_filepath(filepath) }
     end
 
     def read_file_blob(filepath)

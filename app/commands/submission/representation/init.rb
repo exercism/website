@@ -41,7 +41,7 @@ class Submission
       end
 
       def exercise_filepaths
-        exercise_repo.non_ignored_filepaths.map do |filepath|
+        exercise_repo.tooling_filepaths.map do |filepath|
           next unless filepath.starts_with?(".meta")
           next if submission_filepaths.include?(filepath)
 

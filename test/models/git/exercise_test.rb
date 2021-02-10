@@ -18,15 +18,15 @@ module Git
       assert_equal "stub content\n", exercise.read_file_blob('bob.rb')
     end
 
-    test "non_ignored_files" do
+    test "tooling_files" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
-      assert_equal exercise.non_ignored_filepaths, exercise.non_ignored_files.keys
-      assert exercise.non_ignored_files["bob.rb"].start_with?("stub content")
+      assert_equal exercise.tooling_filepaths, exercise.tooling_files.keys
+      assert exercise.tooling_files["bob.rb"].start_with?("stub content")
     end
 
-    test "non_ignored_filepaths" do
+    test "tooling_filepaths" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
@@ -38,7 +38,7 @@ module Git
         "bob_test.rb",
         "subdir/more_bob.rb"
       ]
-      assert_equal expected_filepaths, exercise.non_ignored_filepaths
+      assert_equal expected_filepaths, exercise.tooling_filepaths
     end
   end
 end

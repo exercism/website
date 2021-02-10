@@ -38,7 +38,7 @@ module Git
     end
 
     def exercise_files_modified?
-      head_git_exercise.non_ignored_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
+      head_git_exercise.tooling_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
     end
 
     def find_concepts(slugs)

@@ -41,5 +41,33 @@ module Git
       ]
       assert_equal expected_filepaths, exercise.tooling_filepaths
     end
+
+    test "cli_filepaths with hints" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        "README.md",
+        "HELP.md",
+        "HINTS.md",
+        "bob.rb",
+        "bob_test.rb",
+        "subdir/more_bob.rb"
+      ]
+      assert_equal expected_filepaths, exercise.cli_filepaths
+    end
+
+    test "cli_filepaths without hints" do
+      exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        "README.md",
+        "HELP.md",
+        "anagram.rb",
+        "anagram_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.cli_filepaths
+    end
   end
 end

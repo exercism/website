@@ -93,6 +93,20 @@ module Git
       tooling_filepaths.map { |filepath| full_filepath(filepath) }
     end
 
+    memoize
+    def cli_filepaths
+      special_filepaths = ['README.md', 'HELP.md']
+      special_filepaths << 'HINTS.md' if filepaths.include?('.docs/hints.md')
+
+      filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
+        !filepath.match?(track.ignore_regexp) &&
+          !filepath.start_with?('.docs/') &&
+          !filepath.start_with?('.meta/')
+      end
+
+      special_filepaths.concat(filtered_filepaths)
+    end
+
     def read_file_blob(filepath)
       mapped = file_entries.map { |f| [f[:full], f[:oid]] }.to_h
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil

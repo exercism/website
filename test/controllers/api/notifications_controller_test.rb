@@ -20,7 +20,12 @@ class API::NotificationsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
 
-    notification = create :notification, user: user
+    mentor = create :user
+    notification = create :mentor_started_discussion_notification,
+      user: user,
+      params: {
+        discussion: create(:solution_mentor_discussion, mentor: mentor)
+      }
 
     get api_notifications_path, headers: @headers, as: :json
     assert_response 200
@@ -29,9 +34,12 @@ class API::NotificationsControllerTest < API::BaseTestCase
     expected = {
       results: [{
         id: notification.id,
+        url: notification.url,
         text: notification.text,
         read: false,
-        url: "/"
+        created_at: notification.created_at.iso8601,
+        image_type: 'avatar',
+        image_url: mentor.avatar_url
       }],
       meta: {
         current_page: 1, total_count: 1, total_pages: 1

@@ -52,7 +52,7 @@ test('allow retry after loading error', async () => {
               haveMentoredPreviously: false,
             },
           ],
-          meta: { total: 2 },
+          meta: { totalPages: 2 },
         })
       )
     })

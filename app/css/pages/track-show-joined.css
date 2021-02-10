@@ -192,18 +192,13 @@
         }
     }
 
-    & section.activities {
+    & section.start-track {
         @apply mb-64;
 
-        & .track-summary,
         & .start-track-cta,
         & .placeholder-activity {
             @apply shadow-lg bg-backgroundColorA rounded-8;
             @apply flex;
-        }
-
-        & .track-summary {
-            @apply px-32 py-64 bg-backgroundColorA;
         }
 
         & .start-track-cta {
@@ -249,6 +244,133 @@
             }
             & p {
                 @apply text-18 leading-paragraph text-textColor6;
+            }
+        }
+    }
+
+    & section.activities {
+        @apply mb-64;
+
+        & > .exercise {
+            @apply flex flex-col;
+            @apply shadow-base rounded-8 bg-backgroundColorA;
+            @apply py-16 px-24;
+
+            & > header {
+                @apply flex items-center;
+
+                & > .content {
+                    @apply flex items-center flex-grow;
+
+                    & .c-exercise-icon {
+                        height: 64px;
+                        width: 64px;
+                        @apply mr-28;
+                    }
+                    & .info {
+                        @apply flex-grow;
+
+                        & .title {
+                            @apply text-h4 mb-6;
+                        }
+                        & .tags {
+                            @apply flex;
+
+                            & .tag {
+                                @apply rounded-5;
+                                @apply border-1;
+                                @apply flex items-center px-12;
+                                @apply mr-12;
+                                height: 32px;
+
+                                &.in-progress {
+                                    @apply border-lightBlue bg-veryLightBlue;
+                                    @apply text-lightBlue font-semibold leading-code;
+                                }
+                                &.mentor-comments {
+                                    @apply text-textColor3 font-medium;
+
+                                    &.unread {
+                                        @apply border-orange bg-lightOrange;
+                                        & .c-icon {
+                                            @apply text-orange;
+                                        }
+                                    }
+                                    & .c-icon {
+                                        height: 16px;
+                                        width: 16px;
+                                        @apply mr-8;
+                                    }
+                                }
+                            }
+                            & .unsubmitted-code {
+                                @apply flex items-center px-12;
+                                @apply text-textColor6 font-medium;
+
+                                & .c-icon {
+                                    height: 16px;
+                                    width: 16px;
+                                    @apply mr-12;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            & > .latest-iteration {
+                @apply flex items-center;
+                @apply rounded-5 border-1 border-borderColor5;
+                @apply py-8 px-16;
+                @apply mt-16;
+
+                & .action-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply ml-32;
+                    @apply text-textColor6;
+                }
+            }
+            & > .activities {
+                @apply mt-8;
+
+                & > .activity {
+                    @apply flex items-center;
+                    @apply py-4 pl-8;
+                    /* Line this up with the iteration summary above */
+                    padding-right: 18px;
+
+                    &:hover {
+                        @apply bg-backgroundColorE;
+                    }
+
+                    & > .icon {
+                        @apply rounded-circle bg-backgroundColorA shadow-sm;
+                        @apply grid place-items-center;
+                        @apply py-8 px-8 mr-16;
+
+                        & > .c-icon {
+                            height: 16px;
+                            width: 16px;
+                        }
+                    }
+                    & > .description {
+                        @apply flex-grow;
+                        @apply text-15 leading-140;
+                        & strong {
+                            @apply font-medium text-textColor5;
+                        }
+                    }
+                    & > time {
+                        @apply text-13 text-textColor6;
+                        @apply ml-32;
+                    }
+                    & > .action-icon {
+                        height: 12px;
+                        width: 12px;
+                        @apply ml-32;
+                        @apply text-textColor6;
+                    }
+                }
             }
         }
         & > * {

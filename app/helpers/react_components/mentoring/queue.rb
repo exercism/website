@@ -1,10 +1,12 @@
 module ReactComponents
   module Mentoring
     class Queue < ReactComponent
-      def initialize(request = default_request)
+      extend Mandate::Memoize
+
+      def initialize(mentor)
         super()
 
-        @request = request
+        @mentor = mentor
       end
 
       def to_s
@@ -12,6 +14,8 @@ module ReactComponents
           "mentoring-queue",
           {
             request: request,
+            tracks: track_data,
+            exercises: exercise_data,
             sort_options: SORT_OPTIONS
           }
         )
@@ -25,10 +29,27 @@ module ReactComponents
       private_constant :SORT_OPTIONS
 
       private
-      attr_reader :request
+      attr_reader :mentor
 
-      def default_request
-        { endpoint: Exercism::Routes.api_mentor_requests_path }
+      def request
+        {
+          endpoint: Exercism::Routes.api_mentor_requests_path,
+          query: {
+            track_slug: track_data.find { |track| track[:selected] }[:slug],
+            exercise_slugs: []
+          }
+        }
+      end
+
+      memoize
+      def track_data
+        Solution::MentorRequest::RetrieveTracks.(mentor)
+      end
+
+      memoize
+      def exercise_data
+        selected_track_slug = track_data.find { |t| t[:selected] }[:slug]
+        Solution::MentorRequest::RetrieveExercises.(mentor, selected_track_slug)
       end
     end
   end

@@ -9,8 +9,8 @@ import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 type PaginatedResult = {
   results: any[]
   meta: {
-    current: number
-    total: number
+    currentPage: number
+    totalPages: number
   }
 }
 
@@ -135,7 +135,7 @@ const Results = ({
         <footer>
           <Pagination
             current={query.page}
-            total={latestData.meta.total}
+            total={latestData.meta.totalPages}
             setPage={setPage}
           />
         </footer>

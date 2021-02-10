@@ -6,7 +6,11 @@ module API
         current_user,
         params[:page]
       )
-      render json: SerializeMentorDiscussions.(discussions)
+
+      render json: SerializePaginatedCollection.(
+        discussions,
+        SerializeMentorDiscussions
+      )
     end
 
     # TODO: Merge this into the query above

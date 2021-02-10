@@ -17,7 +17,10 @@ class TracksController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
 
     if @user_track
-      @activities = UserTrack::RetrieveActivities.(@user_track)
+      @activities = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track).map do |solution|
+        SerializeSolutionActivity.(solution)
+      end
+
       render "tracks/show/joined"
     else
       render "tracks/show/unjoined"

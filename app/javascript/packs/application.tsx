@@ -38,7 +38,7 @@ import '../../css/components/textual-content'
 import '../../css/components/tracks-list'
 import '../../css/components/pagination'
 import '../../css/components/modal'
-import '../../css/components/radio-button'
+import '../../css/components/radio'
 import '../../css/components/checkbox'
 import '../../css/components/select'
 import '../../css/components/tooltips/concept'
@@ -49,7 +49,6 @@ import '../../css/components/published-solution'
 
 import '../../css/components/mentor/nav'
 import '../../css/components/mentor/inbox'
-import '../../css/components/mentor/queue'
 import '../../css/components/mentor/solution-row'
 import '../../css/components/mentor/discussion'
 
@@ -97,6 +96,8 @@ import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
+import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
+import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
@@ -149,7 +150,12 @@ initReact({
     />
   ),
   'mentoring-queue': (data: any) => (
-    <Mentoring.Queue request={data.request} sortOptions={data.sort_options} />
+    <Mentoring.Queue
+      request={camelizeKeys(data.request)}
+      sortOptions={data.sort_options}
+      tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
+      exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
+    />
   ),
   'mentoring-discussion': (data: any) => (
     <Mentoring.Discussion
@@ -195,6 +201,7 @@ initReact({
   'track-iteration-summary': (data: any) => (
     <Track.IterationSummary
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
+      className={data.class_name}
     />
   ),
   editor: (data: any) => (

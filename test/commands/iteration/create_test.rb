@@ -39,7 +39,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     activity = User::Activities::SubmittedIterationActivity.last
     assert_equal user, activity.user
     assert_equal exercise.track, activity.track
-    assert_equal exercise, activity.exercise
+    assert_equal solution, activity.solution
     assert_equal iteration, activity.iteration
   end
 

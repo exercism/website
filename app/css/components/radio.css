@@ -1,0 +1,39 @@
+@import "../styles";
+
+.c-radio-wrapper {
+    cursor: pointer;
+    @apply flex items-center;
+    @apply relative;
+
+    & input {
+        @apply absolute;
+        opacity: 0;
+        width: 1em;
+        height: 1em;
+    }
+    & input:checked + .c-radio {
+        &:before {
+            transform: scale(1);
+        }
+    }
+}
+.c-radio {
+    /* This keeps it relative to the font-size of the parent */
+    width: 1em;
+    height: 1em;
+    @apply rounded-circle border-1 border-inputBorderColor;
+    @apply cursor-pointer;
+    @apply grid place-items-center;
+
+    &:before {
+        content: "";
+        width: 0.5em;
+        height: 0.5em;
+        box-shadow: inset 0.5em 0.5em currentColor;
+        transition: 180ms transform ease-in-out;
+        transform: scale(0);
+        cursor: pointer;
+
+        @apply rounded-circle text-textColor5;
+    }
+}

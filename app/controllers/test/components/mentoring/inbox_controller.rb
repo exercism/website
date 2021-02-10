@@ -90,7 +90,7 @@ class Test::Components::Mentoring::InboxController < Test::BaseController
 
     render json: {
       results: results[page - 1, per],
-      meta: { current: page, total: results.size }
+      meta: { current_page: page, total_pages: results.size }
     }
   end
 

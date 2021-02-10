@@ -141,7 +141,8 @@
     }
 
     & section.latest-iteration {
-        @apply bg-backgroundColorA py-24 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorA shadow-lg rounded-8 mb-32;
+        @apply py-24 px-32;
 
         & h2 {
             @apply text-h3;
@@ -151,8 +152,8 @@
         }
 
         & a.iteration {
-            @apply rounded-5 shadow-sm border-1 border-borderLight;
-            @apply py-12 px-24 mb-16;
+            @apply rounded-8 shadow-sm border-1 border-borderLight;
+            @apply py-8 px-24 mb-16;
             @apply flex items-center;
 
             & .action-icon {

@@ -4,13 +4,8 @@ class SerializeMentorDiscussions
   initialize_with :discussions
 
   def call
-    {
-      results: discussions.map { |d| serialize_discussion(d) },
-      meta: {
-        current: discussions.current_page,
-        total: discussions.total_count
-      }
-    }
+    discussions.includes(:exercise, :track).
+      map { |r| serialize_discussion(r) }
   end
 
   private

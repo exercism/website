@@ -35,7 +35,7 @@
     @apply font-mono text-14 leading-regular uppercase text-darkGray font-bold;
 }
 .text-label-timestamp {
-    @apply font-mono font-medium text-14 text-textColor6 leading-huge;
+    @apply text-14 text-textColor6 leading-150;
 }
 
 .btn--cta {

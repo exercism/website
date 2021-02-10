@@ -2,12 +2,12 @@ en:
   user_activities:
     started_exercise:
       1: >
-        You started a new exercise
+        You started <strong>%{exercise_title}</strong>
 
     submitted_iteration:
       1: >
-        You submitted an iteration to
+        You submitted <strong>Iteration %{iteration_idx}</strong>
 
     completed_exercise:
       1: >
-        You completed an exercise
+        You completed <strong>%{exercise_title}</strong>

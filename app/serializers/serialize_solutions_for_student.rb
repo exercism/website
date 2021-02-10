@@ -8,18 +8,10 @@ class SerializeSolutionsForStudent
   end
 
   def serialize_solution(solution)
-    if solution.published?
-      status = :published
-    elsif solution.completed?
-      status = :completed
-    else
-      status = :started
-    end
-
     {
       id: solution.uuid,
       url: Exercism::Routes.private_solution_url(solution),
-      status: status,
+      status: solution.status, # TODO: This is probably going to cause n+1s
       mentoring_status: solution.mentoring_status,
       num_views: 1270, # TODO
       num_stars: 10, # TODO

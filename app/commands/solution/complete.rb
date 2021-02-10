@@ -30,7 +30,7 @@ class Solution
         :completed_exercise,
         user,
         track: exercise.track,
-        exercise: exercise
+        solution: solution
       )
     rescue StandardError => e
       Rails.logger.error "Failed to create activity"

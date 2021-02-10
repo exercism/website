@@ -37,11 +37,4 @@ class SerializeSolutionForPublic
   def track
     solution.exercise.track
   end
-
-  def status
-    return :published if solution.published?
-    return :completed if solution.completed?
-
-    :started
-  end
 end

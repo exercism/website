@@ -33,5 +33,5 @@ test('shows Analysed status when both are not queued', async () => {
     />
   )
 
-  expect(getByText('Analysed')).toBeInTheDocument()
+  expect(getByText('Automated feedback comments')).toBeInTheDocument()
 })

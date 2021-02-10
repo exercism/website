@@ -24,5 +24,29 @@ module Temp
       @student = User.second
       @discussion = Solution::MentorDiscussion.first
     end
+
+    def notifications
+      @notifications = SerializeNotifications.(
+        [
+          Notifications::AcquiredBadgeNotification.create!(
+            user: User.first,
+            version: 1,
+            params: { badge: Badge.first }
+          ),
+          Notifications::MentorStartedDiscussionNotification.create!(
+            user: User.first,
+            version: 1,
+            params: {
+              mentor: User.second,
+              track: Track.first,
+              exercise: Exercise.first,
+              discussion: Solution::MentorDiscussion.create!(mentor: User.first,
+                                                             solution: Solution.first)
+            },
+            read_at: Time.current
+          )
+        ]
+      )
+    end
   end
 end

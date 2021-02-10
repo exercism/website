@@ -15,6 +15,9 @@ class SerializeNotifications
       id: notification.id,
       text: notification.text,
       read: notification.read?,
+      created_at: notification.created_at,
+      image_type: "avatar", # TODO: Work this out for icons
+      image_url: notification.user.avatar_url,
       url: notification.url
     }
   end

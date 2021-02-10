@@ -1,10 +1,9 @@
-en: 
+en:
   notifications:
-    
     # Mentoring
     mentor_started_discussion:
       1: >
-        %{mentor_name} has started mentoring your solution to %{track_title}:%{exercise_title}
+        <strong>%{mentor_name}</strong> has started mentoring your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>.
     mentor_replied_to_discussion:
       1: >
         %{mentor_name} has added a new comment on your solution to %{track_title}:%{exercise_title}

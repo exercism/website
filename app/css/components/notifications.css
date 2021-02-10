@@ -1,0 +1,48 @@
+.c-notifications {
+    @apply shadow-lg rounded-8 bg-backgroundColorA;
+    @apply py-12 px-16;
+    max-width: 500px;
+
+    & .notification {
+        @apply flex items-center;
+        @apply py-8 px-16;
+
+        &:hover {
+            @apply bg-backgroundColorD;
+        }
+
+        & .c-rounded-bg-img {
+            height: 32px;
+            width: 32px;
+            @apply mr-20;
+            @apply self-start;
+        }
+        & .content {
+            @apply flex-grow mr-24;
+            & .text {
+                @apply text-15 leading-150;
+                & strong {
+                    @apply font-medium;
+                }
+            }
+
+            & .created-at {
+                @apply text-14 text-textColor6 leading-160;
+            }
+        }
+        & .read,
+        & .unread {
+            height: 8px;
+            width: 8px;
+            @apply flex-shrink-0 rounded-circle mr-24;
+        }
+        & .unread {
+            @apply bg-lightBlue;
+        }
+
+        & .action-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+}

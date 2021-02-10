@@ -1,4 +1,6 @@
 class Notification < ApplicationRecord
+  include ActionView::Helpers::SanitizeHelper
+
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
 
   belongs_to :user
@@ -20,7 +22,11 @@ class Notification < ApplicationRecord
   end
 
   def text
-    I18n.t("notifications.#{i18n_key}.#{version}", i18n_params).strip
+    # TODO: Add test for sanitizing here.
+    I18n.t(
+      "notifications.#{i18n_key}.#{version}",
+      i18n_params.transform_values { |v| sanitize(v) }
+    ).strip
   end
 
   # TODO

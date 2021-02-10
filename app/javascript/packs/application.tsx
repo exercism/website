@@ -29,6 +29,7 @@ import '../../css/components/accordion-section'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
+import '../../css/components/notifications'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation'
 import '../../css/components/primary-reputation'

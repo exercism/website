@@ -22,13 +22,15 @@ const ExerciseFilter = ({
   return (
     <label className="c-checkbox-wrapper">
       <input type="checkbox" onChange={onChange} checked={checked} />
-      <div className="c-checkbox">
-        <GraphicalIcon icon="checkmark" />
+      <div className="row">
+        <div className="c-checkbox">
+          <GraphicalIcon icon="checkmark" />
+        </div>
+        {/* TODO: Convert to ExerciseIcon */}
+        <GraphicalIcon icon={iconName} className="c-exercise-icon" />
+        <div className="title">{title}</div>
+        <div className="count">{count}</div>
       </div>
-      {/* TODO: Convert to ExerciseIcon */}
-      <GraphicalIcon icon={iconName} className="c-exercise-icon" />
-      <div className="title">{title}</div>
-      <div className="count">{count}</div>
     </label>
   )
 }

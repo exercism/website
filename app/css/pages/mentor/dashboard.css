@@ -14,6 +14,7 @@
             & h2 {
                 @apply text-h2;
             }
+
             & a {
                 @apply text-lightBlue text-16 font-semibold leading-code;
             }
@@ -95,9 +96,13 @@
                     @apply mb-16;
                 }
                 & label {
-                    @apply flex-grow flex items-center;
-                    @apply py-8 px-16 mb-8;
-                    @apply rounded-8;
+                    --row-selected-background-color: var(--backgroundColorD);
+
+                    & .row {
+                        @apply flex-grow flex items-center;
+                        @apply py-8 px-16 mb-8;
+                        @apply rounded-8;
+                    }
 
                     & .c-radio {
                         font-size: 20px;
@@ -119,8 +124,6 @@
                     }
                 }
                 & input:checked + .row {
-                    background: #f0f3f9;
-
                     & .title {
                         @apply text-textColor3;
                     }

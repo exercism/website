@@ -144,7 +144,7 @@ initReact({
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
-      conversationsRequest={data.conversations_request}
+      discussionsRequest={data.discussions_request}
       tracksRequest={data.tracks_request}
       sortOptions={data.sort_options}
     />

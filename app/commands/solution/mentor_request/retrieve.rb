@@ -16,12 +16,13 @@ class Solution
                      sorted: true, paginated: true)
         @user = user
         @page = page
-        @sorted = sorted
-        @paginated = paginated
         @criteria = criteria
         @order = order
         @track_slug = track_slug
         @exercise_slugs = exercise_slugs
+
+        @sorted = sorted
+        @paginated = paginated
       end
 
       def call

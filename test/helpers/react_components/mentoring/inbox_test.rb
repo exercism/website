@@ -2,18 +2,13 @@ require_relative "../react_component_test_case"
 
 class MentoringInboxTest < ReactComponentTestCase
   test "mentoring inbox rendered correctly" do
-    conversations_request = { endpoint: "conversations-endpoint" }
-    tracks_request = { endpoint: "tracks-endpoint" }
-
-    component = ReactComponents::Mentoring::Inbox.new(
-      conversations_request, tracks_request
-    )
+    component = ReactComponents::Mentoring::Inbox.new
 
     assert_component component,
       "mentoring-inbox",
       {
-        conversations_request: { endpoint: "conversations-endpoint" },
-        tracks_request: { endpoint: "tracks-endpoint" },
+        discussions_request: { endpoint: Exercism::Routes.api_mentor_discussions_path },
+        tracks_request: { endpoint: Exercism::Routes.tracks_api_mentor_discussions_path },
         sort_options: [
           { value: 'recent', label: 'Sort by Most Recent' },
           { value: 'exercise', label: 'Sort by Exercise' },

@@ -13,6 +13,14 @@ module Notifications
       }
     end
 
+    def image_type
+      :avatar
+    end
+
+    def image_url
+      mentor.avatar_url
+    end
+
     def guard_params
       "Discussion##{discussion.id}"
     end

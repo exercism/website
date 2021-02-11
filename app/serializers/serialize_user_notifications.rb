@@ -1,4 +1,4 @@
-class SerializeNotifications
+class SerializeUserNotifications
   include Mandate
 
   initialize_with :notifications

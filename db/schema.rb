@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_11_134358) do
+ActiveRecord::Schema.define(version: 2021_02_11_134714) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -154,19 +154,6 @@ ActiveRecord::Schema.define(version: 2021_02_11_134358) do
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id"
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
-  end
-
-  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "type", null: false
-    t.integer "version", null: false
-    t.json "params", null: false
-    t.integer "email_status", limit: 1, default: 0, null: false
-    t.string "uniqueness_key", null: false
-    t.datetime "read_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "scratchpad_pages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -363,6 +350,19 @@ ActiveRecord::Schema.define(version: 2021_02_11_134358) do
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
 
+  create_table "user_notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "type", null: false
+    t.integer "version", null: false
+    t.json "params", null: false
+    t.integer "email_status", limit: 1, default: 0, null: false
+    t.string "uniqueness_key", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
+  end
+
   create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "twitter"
@@ -389,7 +389,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_134358) do
     t.string "external_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "seen", null: false
+    t.boolean "seen", default: false, null: false
     t.index ["context_key", "user_id"], name: "index_user_reputation_tokens_on_context_key_and_user_id", unique: true
     t.index ["context_type", "context_id"], name: "context_index"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
@@ -466,7 +466,6 @@ ActiveRecord::Schema.define(version: 2021_02_11_134358) do
   add_foreign_key "mentor_testimonials", "solution_mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
-  add_foreign_key "notifications", "users"
   add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "solution_mentor_discussion_posts", "iterations"
   add_foreign_key "solution_mentor_discussion_posts", "solution_mentor_discussions", column: "discussion_id"
@@ -487,6 +486,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_134358) do
   add_foreign_key "user_acquired_badges", "badges"
   add_foreign_key "user_acquired_badges", "users"
   add_foreign_key "user_auth_tokens", "users"
+  add_foreign_key "user_notifications", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
   add_foreign_key "user_reputation_tokens", "tracks"
   add_foreign_key "user_reputation_tokens", "users"

@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class Notifications::AcquiredBadgeNotificationTest < ActiveSupport::TestCase
+class User::Notifications::AcquiredBadgeNotificationTest < ActiveSupport::TestCase
   test "keys are valid" do
     user = create :user
     badge = create(:badge)
 
-    notification = Notifications::AcquiredBadgeNotification.create!(
+    notification = User::Notifications::AcquiredBadgeNotification.create!(
       user: user,
       params: {
         badge: badge

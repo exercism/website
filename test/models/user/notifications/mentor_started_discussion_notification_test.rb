@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::TestCase
+class User::Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::TestCase
   test "keys are valid" do
     user = create :user
     mentor = create :user
@@ -10,7 +10,7 @@ class Notifications::MentorStartedDiscussionNotificationTest < ActiveSupport::Te
     discussion = create(:solution_mentor_discussion, mentor: mentor, solution: solution)
     discussion_post = create(:solution_mentor_discussion_post)
 
-    notification = Notifications::MentorStartedDiscussionNotification.create!(
+    notification = User::Notifications::MentorStartedDiscussionNotification.create!(
       user: user,
       params: {
         discussion: discussion,

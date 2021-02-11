@@ -102,7 +102,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
       mentor: user
 
     # Check we're calling the correet class
-    Notification::Create.expects(:call).with(
+    User::Notification::Create.expects(:call).with(
       solution.user,
       :mentor_replied_to_discussion,
       anything
@@ -150,7 +150,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     discussion = create :solution_mentor_discussion, solution: solution
 
     # Check we're calling the correet class
-    Notification::Create.expects(:call).with(
+    User::Notification::Create.expects(:call).with(
       discussion.mentor,
       :student_replied_to_discussion,
       anything

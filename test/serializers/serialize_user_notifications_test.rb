@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SerializeNotificationsTest < ActiveSupport::TestCase
+class SerializeUserNotificationsTest < ActiveSupport::TestCase
   test "basic request" do
     user = create :user
     mentor = create :user
@@ -10,7 +10,7 @@ class SerializeNotificationsTest < ActiveSupport::TestCase
         discussion: create(:solution_mentor_discussion, mentor: mentor)
       }
 
-    notifications = Notification::Retrieve.(user)
+    notifications = User::Notification::Retrieve.(user)
 
     expected = [
       {
@@ -24,6 +24,6 @@ class SerializeNotificationsTest < ActiveSupport::TestCase
       }
     ]
 
-    assert_equal expected, SerializeNotifications.(notifications)
+    assert_equal expected, SerializeUserNotifications.(notifications)
   end
 end

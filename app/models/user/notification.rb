@@ -1,4 +1,4 @@
-class Notification < ApplicationRecord
+class User::Notification < ApplicationRecord
   include ActionView::Helpers::SanitizeHelper
   include ActionView::Helpers::AssetUrlHelper
   include Webpacker::Helper

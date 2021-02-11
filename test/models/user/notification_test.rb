@@ -18,7 +18,7 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   test "text is sanitized" do
-    notification = Notification.new
+    notification = User::Notification.new
     notification.define_singleton_method(:i18n_params) do
       { user: "<foo>d</foo>angerous" }
     end

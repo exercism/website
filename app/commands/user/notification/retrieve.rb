@@ -1,4 +1,4 @@
-class Notification
+class User::Notification
   class Retrieve
     include Mandate
 

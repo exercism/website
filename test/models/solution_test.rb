@@ -164,7 +164,8 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution, exercise: exercise
 
     contents = solution.read_file('HELP.md')
-    assert_equal 'HELP', contents
+    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
   end
 
   test "read_file for practice exercise returns correct HELP.md file" do
@@ -172,7 +173,8 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = solution.read_file('HELP.md')
-    assert_equal 'HELP', contents
+    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
   end
 
   test "read_file for concept exercise returns correct HINTS.md file" do

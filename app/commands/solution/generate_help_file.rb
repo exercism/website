@@ -5,38 +5,22 @@ class Solution
     initialize_with :solution
 
     def call
-      "# Help
-
-## Running the tests
-
-#{track_tests}
-
-## Submitting your solution
-
-#{exercism_submit_solution}
-
-## Need to get help?
-
-#{exercism_help}
-
-#{track_help}"
+      "# Help\n\n#{tests}\n\n#{submitting}\n\n#{help}"
     end
 
     private
-    def track_tests
-      Markdown::Preprocess.(solution.track.git.tests, remove_level_one_headings: true)
+    def tests
+      tests_text = Markdown::Preprocess.(solution.track.git.tests).strip
+      "## Running the tests\n\n#{tests_text}"
     end
 
-    def track_help
-      Markdown::Preprocess.(solution.track.git.help, remove_level_one_headings: true)
+    def submitting
+      "## Submitting your solution\n\nTODO"
     end
 
-    def exercism_submit_solution
-      "TODO"
-    end
-
-    def exercism_help
-      "TODO"
+    def help
+      track_help_text = Markdown::Preprocess.(solution.track.git.help).strip
+      "## Need to get help?\n\nTODO\n\n#{track_help_text}"
     end
   end
 end

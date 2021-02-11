@@ -8,13 +8,13 @@ class Markdown::Parse
     new(*args, **kwargs).()
   end
 
-  def initialize(text, nofollow_links: false, remove_level_one_headings: false)
+  def initialize(text, nofollow_links: false, strip_h1: true) # rubocop:disable Naming/VariableNumber
     # TODO: We almost certainly don't want to do this!
     # but for now let's reduce the heading level of all
     # headings, as they're too high in the actual docs atm
     @text = text.to_s.gsub(/^##/, '###')
     @nofollow_links = nofollow_links
-    @remove_level_one_headings = remove_level_one_headings
+    @strip_h1 = strip_h1 # rubocop:disable Naming/VariableNumber
   end
 
   def call
@@ -24,7 +24,7 @@ class Markdown::Parse
   end
 
   private
-  attr_reader :text, :nofollow_links, :remove_level_one_headings
+  attr_reader :text, :nofollow_links, :strip_h1 # rubocop:disable Naming/VariableNumber
 
   memoize
   def sanitized_html
@@ -33,7 +33,7 @@ class Markdown::Parse
 
   memoize
   def raw_html
-    preprocessed_text = Markdown::Preprocess.(text, remove_level_one_headings: remove_level_one_headings)
+    preprocessed_text = Markdown::Preprocess.(text, strip_h1: strip_h1) # rubocop:disable Naming/VariableNumber
     doc = Markdown::RenderDoc.(preprocessed_text)
     Markdown::Render.(doc, nofollow_links)
   end

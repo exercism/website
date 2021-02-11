@@ -6,8 +6,7 @@ class Markdown::ParseTest < ActiveSupport::TestCase
   end
 
   test "converts markdown to html" do
-    expected = '<h1>OHAI</h1>
-<p>So I was split between two ways of doing this.</p>
+    expected = '<p>So I was split between two ways of doing this.</p>
 <ol>
 <li>Either method pairs with adjectives (which I did),</li>
 <li>Some sort of data structure (e.g. a hash might look like)</li>
@@ -18,8 +17,6 @@ class Markdown::ParseTest < ActiveSupport::TestCase
 </code></pre>'
 
     actual = Markdown::Parse.('
-# OHAI
-
 So I was split between two ways of doing this.
 
 1. Either method pairs with adjectives (which I did),
@@ -107,11 +104,11 @@ Done')
     assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
   end
 
-  test "does not remove level one headings by default" do
-    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent")
+  test "removes level one headings by default" do
+    assert_equal "<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent")
   end
 
-  test "can remove level one headings" do
-    assert_equal "<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", remove_level_one_headings: true)
+  test "can keep level one headings" do
+    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false) # rubocop:disable Naming/VariableNumber
   end
 end

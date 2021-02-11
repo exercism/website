@@ -7,12 +7,12 @@ class API::MarkdownControllerTest < API::BaseTestCase
     setup_user
 
     post api_parse_markdown_path,
-      params: { markdown: "# Hello" },
+      params: { markdown: "*Hello*" },
       headers: @headers,
       as: :json
 
     assert_response 200
-    expected = { html: "<h1>Hello</h1>\n" }
+    expected = { html: "<p><em>Hello</em></p>\n" }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 end

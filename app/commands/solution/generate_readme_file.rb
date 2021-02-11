@@ -24,65 +24,58 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
     def introduction
       return unless solution.git_exercise.introduction
 
-      introduction_text = Markdown::Preprocess.(solution.git_exercise.introduction, remove_level_one_headings: true)
-      introduction_append_text = Markdown::Preprocess.(solution.git_exercise.introduction_append,
-        remove_level_one_headings: true)
+      introduction_text = Markdown::Preprocess.(solution.git_exercise.introduction).strip
+      introduction_append_text = Markdown::Preprocess.(solution.git_exercise.introduction_append).strip
 
       "## Introduction\n\n#{introduction_text}\n#{introduction_append_text}".strip
     end
 
     def instructions
-      instructions_text = Markdown::Preprocess.(solution.git_exercise.instructions, remove_level_one_headings: true)
-      instructions_append_text = Markdown::Preprocess.(solution.git_exercise.instructions_append,
-        remove_level_one_headings: true)
+      instructions_text = Markdown::Preprocess.(solution.git_exercise.instructions).strip
+      instructions_append_text = Markdown::Preprocess.(solution.git_exercise.instructions_append).strip
 
       "## Instructions\n\n#{instructions_text}\n#{instructions_append_text}".strip
     end
 
     def source
-      sources = [created_by, contributed_by, based_on].compact_blank
-      return if sources.empty?
+      sources_text = [created_by, contributed_by, based_on].compact_blank.join("\n\n")
+      return if sources_text.empty?
 
-      "## Source\n\n#{sources.join("\n\n")}".strip
+      "## Source\n\n#{sources_text}".strip
     end
 
     def created_by
       return if solution.git_exercise.authors.blank?
 
-      text = "### Created by\n"
+      authors_text = users_list(solution.git_exercise.authors)
 
-      solution.git_exercise.authors.each do |author|
-        if author[:exercism_username].blank?
-          text << "\n- @#{author[:github_username]}"
-        else
-          text << "\n- #{author[:exercism_username]} (@#{author[:github_username]})"
-        end
-      end
-
-      text
+      "### Created by\n\n#{authors_text}"
     end
 
     def contributed_by
       return if solution.git_exercise.contributors.blank?
 
-      text = "### Contributed to by\n"
+      contributors_text = users_list(solution.git_exercise.contributors)
 
-      solution.git_exercise.contributors.each do |contributor|
-        if contributor[:exercism_username].blank?
-          text << "\n- @#{contributor[:github_username]}"
+      "### Contributed to by\n\n#{contributors_text}"
+    end
+
+    def users_list(users)
+      users.map do |user|
+        if user[:exercism_username].blank?
+          "- @#{user[:github_username]}"
         else
-          text << "\n- #{contributor[:exercism_username]} (@#{contributor[:github_username]})"
+          "- #{user[:exercism_username]} (@#{user[:github_username]})"
         end
-      end
-
-      text
+      end.join("\n")
     end
 
     def based_on
       return if solution.git_exercise.source.blank? && solution.git_exercise.source_url.blank?
 
-      source = [solution.git_exercise.source, solution.git_exercise.source_url].compact_blank.join(' - ')
-      "### Based on\n\n#{source}"
+      source_text = [solution.git_exercise.source, solution.git_exercise.source_url].compact_blank.join(' - ')
+
+      "### Based on\n\n#{source_text}"
     end
   end
 end

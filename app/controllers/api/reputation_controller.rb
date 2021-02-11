@@ -9,5 +9,13 @@ module API
 
       render json: SerializePaginatedCollection.(tokens, SerializeReputationTokens)
     end
+
+    def mark_as_seen
+      current_user.reputation_tokens.where(
+        uuid: params[:ids]
+      ).update_all(seen: true)
+
+      render json: {}
+    end
   end
 end

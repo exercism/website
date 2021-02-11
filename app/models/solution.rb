@@ -153,6 +153,10 @@ public class Year
     )
   end
 
+  def read_file(filepath)
+    git_exercise.read_file_blob(filepath)
+  end
+
   memoize
   def git_exercise
     Git::Exercise.for_solution(self)

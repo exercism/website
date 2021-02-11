@@ -16,7 +16,7 @@ module API
 
       unless content
         begin
-          content = solution.git_exercise.read_file_blob(params[:filepath])
+          content = solution.read_file(params[:filepath])
         rescue StandardError
           return render_file_not_found
         end

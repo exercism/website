@@ -9,7 +9,7 @@ class Badge::MemberBadgeTest < ActiveSupport::TestCase
     assert_equal "Joined Exercism", badge.description
   end
 
-  test "should_award?" do
-    assert build(:member_badge).should_award?
+  test "award_to?" do
+    assert build(:member_badge).award_to?(nil)
   end
 end

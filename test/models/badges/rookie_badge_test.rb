@@ -9,19 +9,19 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     assert_equal "Submitted an exercise", badge.description
   end
 
-  test "should_award?" do
+  test "award_to?" do
     user = create :user
-    badge = -> { build(:rookie_badge, user: user.reload) }
+    badge = create :rookie_badge
 
     # No solutions
-    refute badge.().should_award?
+    refute badge.award_to?(user.reload)
 
     # Solution but no submissions
     solution = create :practice_solution, user: user
-    refute badge.().should_award?
+    refute badge.award_to?(user.reload)
 
     # Iteartions
     create :submission, solution: solution
-    assert badge.().should_award?
+    assert badge.award_to?(user.reload)
   end
 end

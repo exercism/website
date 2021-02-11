@@ -13,12 +13,15 @@
 ActiveRecord::Schema.define(version: 2021_02_08_180441) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.string "type", null: false
+    t.string "name", null: false
+    t.string "rarity", null: false
+    t.string "icon", null: false
+    t.string "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id", "type"], name: "index_badges_on_user_id_and_type", unique: true
-    t.index ["user_id"], name: "index_badges_on_user_id"
+    t.index ["name"], name: "index_badges_on_name", unique: true
+    t.index ["type"], name: "index_badges_on_type", unique: true
   end
 
   create_table "bug_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -325,6 +328,16 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
+  create_table "user_acquired_badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "badge_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["badge_id"], name: "index_user_acquired_badges_on_badge_id"
+    t.index ["user_id", "badge_id"], name: "index_user_acquired_badges_on_user_id_and_badge_id", unique: true
+    t.index ["user_id"], name: "index_user_acquired_badges_on_user_id"
+  end
+
   create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.bigint "user_id", null: false
@@ -424,16 +437,13 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
     t.text "bio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "featured_badge_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["featured_badge_id"], name: "index_users_on_featured_badge_id"
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "badges", "users"
   add_foreign_key "bug_reports", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
@@ -473,6 +483,8 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
   add_foreign_key "submission_test_runs", "submissions"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concepts", "tracks"
+  add_foreign_key "user_acquired_badges", "badges"
+  add_foreign_key "user_acquired_badges", "users"
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
   add_foreign_key "user_reputation_tokens", "tracks"
@@ -481,5 +493,4 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
   add_foreign_key "user_track_learnt_concepts", "user_tracks"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
-  add_foreign_key "users", "badges", column: "featured_badge_id"
 end

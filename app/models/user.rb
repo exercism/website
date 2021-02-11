@@ -23,10 +23,8 @@ class User < ApplicationRecord
 
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
-  has_many :badges, dependent: :destroy
-
-  belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
-  has_one :featured_badge, through: :featured_user_badge
+  has_many :acquired_badges, dependent: :destroy
+  has_many :badges, through: :acquired_badges
 
   has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
   has_many :authored_exercises, through: :authorships, source: :exercise
@@ -72,8 +70,8 @@ class User < ApplicationRecord
   end
 
   def has_badge?(slug)
-    type = Badge.slug_to_type(slug)
-    badges.where(type: type).exists?
+    badge = Badge.find_by_slug!(slug) # rubocop:disable Rails/DynamicFindBy
+    acquired_badges.where(badge_id: badge.id).exists?
   end
 
   # TODO: This needs fleshing out for mentors

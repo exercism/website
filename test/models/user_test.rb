@@ -53,10 +53,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "has_badge?" do
+    badge = create :rookie_badge
     user = create :user
     refute user.has_badge?(:rookie)
 
-    create :rookie_badge, user: user
+    create :user_acquired_badge, badge: badge, user: user
     assert user.reload.has_badge?(:rookie)
   end
 

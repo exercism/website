@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
-import { DiscussionProps } from '../Discussion'
+import { Discussion } from '../Solution'
 
 export const FinishButton = ({
   endpoint,
@@ -10,7 +10,7 @@ export const FinishButton = ({
 }: {
   endpoint: string
   modalProps?: ModalProps
-  onSuccess: (discussion: DiscussionProps) => void
+  onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
 

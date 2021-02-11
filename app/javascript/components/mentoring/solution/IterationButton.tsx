@@ -1,5 +1,5 @@
 import React from 'react'
-import { Iteration } from '../Discussion'
+import { Iteration } from '../Solution'
 
 const formatCommentCount = (count: number) => {
   return count > 9 ? '9+' : count

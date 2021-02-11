@@ -1,5 +1,5 @@
 import React from 'react'
-import { Student } from '../Discussion'
+import { Student } from '../Solution'
 import { Avatar, Reputation } from '../../common'
 import { FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
@@ -8,7 +8,7 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
   return (
     <div className="student-info">
       <div className="info">
-        <div className="subtitle">Who you're mentoring</div>
+        <div className="subtitle">Who you&apos;re mentoring</div>
         <div className="name-block">
           <div className="name">{student.name}</div>
           <Reputation value={student.reputation.toString()} type="primary" />

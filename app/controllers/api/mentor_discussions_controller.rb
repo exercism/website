@@ -82,7 +82,10 @@ module API
       render json: {
         discussion: {
           relationship: SerializeMentorStudentRelationship.(relationship),
-          is_finished: true
+          is_finished: true,
+          links: {
+            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
+          }
         }
       }
     end

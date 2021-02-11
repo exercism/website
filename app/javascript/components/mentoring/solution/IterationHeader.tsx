@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Iteration } from '../Discussion'
-import { GraphicalIcon } from '../../common'
+import { Iteration } from '../Solution'
 import { IterationChannel } from '../../../channels/iterationChannel'
 import { fromNow } from '../../../utils/time'
 

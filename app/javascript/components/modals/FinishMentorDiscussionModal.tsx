@@ -6,7 +6,7 @@ import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
 import { Loading } from '../common'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import { StudentMentorRelationship } from '../mentoring/Discussion'
+import { StudentMentorRelationship } from '../mentoring/Solution'
 
 type Discussion = {
   relationship: StudentMentorRelationship

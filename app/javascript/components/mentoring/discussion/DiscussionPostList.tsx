@@ -3,65 +3,35 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
-import {
-  CacheContext,
-  Iteration,
-  AutomatedFeedback,
-  Student,
-} from '../Discussion'
+import { Iteration, Student } from '../Solution'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
-import { IterationMarker } from './IterationMarker'
-import { RepresenterFeedback } from './RepresenterFeedback'
-import { AnalyzerFeedback } from './AnalyzerFeedback'
+import { IterationMarker } from '../solution/IterationMarker'
+import { DiscussionContext } from './DiscussionContext'
 
-type IterationWithPost = {
-  idx: number
-  createdAt: string
-  posts: DiscussionPostProps[]
-  automatedFeedback: AutomatedFeedback
-}
-
-const AutomatedFeedbackSummary = ({
-  automatedFeedback,
-}: {
-  automatedFeedback: AutomatedFeedback
-}) => {
-  return (
-    <React.Fragment>
-      {automatedFeedback.mentor ? (
-        <RepresenterFeedback {...automatedFeedback.mentor} />
-      ) : null}
-      {automatedFeedback.analyzer ? (
-        <AnalyzerFeedback {...automatedFeedback.analyzer} />
-      ) : null}
-    </React.Fragment>
-  )
-}
+type IterationWithPost = Iteration & { posts: DiscussionPostProps[] }
 
 export const DiscussionPostList = ({
   endpoint,
   discussionId,
   iterations,
-  highlightedPost,
-  onPostsChange,
-  onPostHighlight,
-  onAfterPostHighlight,
   student,
 }: {
   endpoint: string
-  discussionId: number
+  discussionId: string
   iterations: readonly Iteration[]
-  highlightedPost: DiscussionPostProps | null
-  onPostsChange: (posts: DiscussionPostProps[]) => void
-  onPostHighlight: (element: HTMLDivElement) => void
-  onAfterPostHighlight: () => void
   student: Student
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const { posts: cacheKey } = useContext(CacheContext)
+  const {
+    posts: cacheKey,
+    handlePostsChange,
+    highlightedPost,
+    handlePostHighlight,
+    handleAfterPostHighlight,
+    highlightedPostRef,
+  } = useContext(DiscussionContext)
   const { status, data } = useQuery<DiscussionPostProps[]>(cacheKey, () => {
     return sendRequest({
       endpoint: endpoint,
@@ -80,9 +50,7 @@ export const DiscussionPostList = ({
           : []
 
         iterationsWithPosts.push({
-          idx: iteration.idx,
-          automatedFeedback: iteration.automatedFeedback,
-          createdAt: iteration.createdAt,
+          ...iteration,
           posts: posts,
         })
 
@@ -91,7 +59,6 @@ export const DiscussionPostList = ({
       []
     )
   }, [data, iterations])
-  const highlightedPostRef = useRef<HTMLDivElement>(null)
   const observer = useRef<IntersectionObserver | null>()
 
   useEffect(() => {
@@ -99,16 +66,16 @@ export const DiscussionPostList = ({
       return
     }
 
-    onPostHighlight(highlightedPostRef.current)
-  }, [highlightedPost, onPostHighlight])
+    handlePostHighlight(highlightedPostRef.current)
+  }, [handlePostHighlight, highlightedPost, highlightedPostRef])
 
   useEffect(() => {
     if (!data || data.length === 0) {
       return
     }
 
-    onPostsChange(data)
-  }, [data, onPostsChange])
+    handlePostsChange(data)
+  }, [data, handlePostsChange])
 
   useEffect(() => {
     if (!highlightedPostRef.current) {
@@ -120,14 +87,14 @@ export const DiscussionPostList = ({
         return
       }
 
-      onAfterPostHighlight()
+      handleAfterPostHighlight()
     })
     observer.current.observe(highlightedPostRef.current)
 
     return () => {
       observer.current?.disconnect()
     }
-  }, [data, highlightedPost, onAfterPostHighlight])
+  }, [data, highlightedPost, handleAfterPostHighlight, highlightedPostRef])
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
@@ -156,28 +123,7 @@ export const DiscussionPostList = ({
         {iterationsWithPosts.map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
-              <IterationMarker
-                idx={iteration.idx}
-                createdAt={iteration.createdAt}
-              />
-              <details className="c-details auto-feedback">
-                <summary>
-                  <GraphicalIcon icon="alert-circle" className="info-icon" />
-                  <div className="info">
-                    {student.handle} received automated feedback
-                  </div>
-                  <GraphicalIcon
-                    icon="chevron-right"
-                    className="--closed-icon"
-                  />
-                  <GraphicalIcon icon="chevron-down" className="--open-icon" />
-                </summary>
-                {iteration.automatedFeedback ? (
-                  <AutomatedFeedbackSummary
-                    automatedFeedback={iteration.automatedFeedback}
-                  />
-                ) : null}
-              </details>
+              <IterationMarker iteration={iteration} student={student} />
               {iteration.posts.map((post) => {
                 return (
                   <DiscussionPost

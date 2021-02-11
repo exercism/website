@@ -1,14 +1,12 @@
 module ReactComponents
   module Mentoring
-    class Discussion < ReactComponent
-      initialize_with :discussion
+    class Solution < ReactComponent
+      initialize_with :solution
 
       def to_s
         super(
-          "mentoring-discussion",
+          "mentoring-solution",
           {
-            discussion_id: discussion.uuid,
-            is_finished: discussion.finished?,
             user_id: current_user.id,
             student: {
               name: student.name,
@@ -17,8 +15,8 @@ module ReactComponents
               languages_spoken: student.languages_spoken,
               avatar_url: student.avatar_url,
               reputation: student.reputation,
-              is_favorite: student.favorited_by?(mentor),
-              num_previous_sessions: mentor.num_previous_mentor_sessions_with(student),
+              is_favorite: student.favorited_by?(current_user),
+              num_previous_sessions: current_user.num_previous_mentor_sessions_with(student),
               links: {
                 favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
               }
@@ -35,9 +33,40 @@ module ReactComponents
             mentor_solution: mentor_solution,
             notes: notes,
             links: links,
-            relationship: SerializeMentorStudentRelationship.(discussion.student_mentor_relationship)
+            relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
+            discussion: discussion_json
           }
         )
+      end
+
+      memoize
+      def discussion
+        ::Solution::MentorDiscussion.find_by(solution: solution, mentor: current_user)
+      end
+
+      def student_mentor_relationship
+        Mentor::StudentRelationship.find_by(mentor: current_user, student: student)
+      end
+
+      def discussion_json
+        return if discussion.blank?
+
+        links = { posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion) }.tap do |links|
+          if discussion.requires_mentor_action?
+            links[:mark_as_nothing_to_do] =
+              Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
+          end
+
+          unless discussion.finished?
+            links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion)
+          end
+        end
+
+        {
+          id: discussion.uuid,
+          is_finished: discussion.finished?,
+          links: links
+        }
       end
 
       def links
@@ -45,27 +74,25 @@ module ReactComponents
           mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
           scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
-          posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
-        }.tap do |links|
-          if discussion.requires_mentor_action?
-            links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
-          end
-          links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion) unless discussion.finished?
-        end
+        }
       end
 
       def iterations
-        comment_counts = Solution::MentorDiscussionPost.where(discussion: discussion).
-          group(:iteration_id, :seen_by_mentor).count
+        comment_counts = if discussion
+                           ::Solution::MentorDiscussionPost.where(discussion: discussion).
+                             group(:iteration_id, :seen_by_mentor).count
+                         end
 
-        discussion.solution.iterations.map do |iteration|
-          ccs = comment_counts.select { |(it_id, _), _| it_id == iteration.id }
+        solution.iterations.map do |iteration|
+          counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
+          num_comments = discussion ? counts.sum(&:second) : 0
+          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
 
           {
             uuid: iteration.uuid,
             idx: iteration.idx,
-            num_comments: ccs.sum(&:second),
-            unread: ccs.reject { |(_, seen), _| seen }.present?,
+            num_comments: num_comments,
+            unread: unread,
             created_at: iteration.created_at.iso8601,
             tests_status: iteration.tests_status,
             # TODO: Precalculate this to avoid n+1s
@@ -78,7 +105,8 @@ module ReactComponents
       end
 
       def mentor_solution
-        ms = Solution.for(mentor, exercise)
+        ms = ::Solution.for(current_user, exercise)
+
         return nil unless ms
 
         {
@@ -89,8 +117,8 @@ module ReactComponents
           published_at: ms.published_at,
           web_url: Exercism::Routes.private_solution_url(ms),
           mentor: {
-            handle: mentor.handle,
-            avatar_url: mentor.avatar_url
+            handle: current_user.handle,
+            avatar_url: current_user.avatar_url
           },
           language: ms.editor_language
         }
@@ -115,7 +143,11 @@ module ReactComponents
       end
 
       memoize
-      delegate :student, :mentor, :exercise, :track, to: :discussion
+      delegate :exercise, :track, to: :solution
+
+      def student
+        solution.user
+      end
 
       memoize
       def scratchpad

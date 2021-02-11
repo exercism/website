@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { IterationsList } from '../../../../../app/javascript/components/mentoring/discussion/IterationsList'
+import { IterationsList } from '../../../../../app/javascript/components/mentoring/solution/IterationsList'
 
 test('next iteration button is disabled when on last iteration', async () => {
   const current = { idx: 2 }

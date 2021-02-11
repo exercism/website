@@ -16,13 +16,7 @@ type ScratchpadPage = {
   contentMarkdown: string
 }
 
-export const Scratchpad = ({
-  endpoint,
-  discussionId,
-}: {
-  endpoint: string
-  discussionId: number
-}): JSX.Element => {
+export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const editorRef = useRef<MarkdownEditorHandle | null>()
   const [content, setContent] = useState('')
@@ -132,7 +126,7 @@ export const Scratchpad = ({
         <MarkdownEditor
           editorDidMount={handleEditorDidMount}
           onChange={handleChange}
-          contextId={`scratchpad-${discussionId}`}
+          contextId={`scratchpad-${endpoint}`}
           options={{ status: [] }}
         />
         <footer className="editor-footer">

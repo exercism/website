@@ -1,5 +1,5 @@
 import React from 'react'
-import { Iteration } from '../Discussion'
+import { Iteration } from '../Solution'
 import { IterationButton } from './IterationButton'
 import { Icon } from '../../common/Icon'
 

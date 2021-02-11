@@ -8,7 +8,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { Discussion } from '../../../../app/javascript/components/mentoring/Discussion'
+import { Solution } from '../../../../app/javascript/components/mentoring/Solution'
 import { stubRange } from '../../support/code-mirror-helpers'
 
 stubRange()
@@ -16,6 +16,12 @@ stubRange()
 test('highlights currently selected iteration', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -46,13 +52,13 @@ test('highlights currently selected iteration', async () => {
     },
   ]
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
 
@@ -65,10 +71,15 @@ test('highlights currently selected iteration', async () => {
 
 test('shows back button', async () => {
   const links = {
-    mentorDashboard: 'https://exercism.test/mentor/dashboard',
     scratchpad: 'https://exercism.test/scratchpad',
-    close: 'https://exercism.test/exercise',
-    posts: 'https://exercism.test/posts',
+    mentorDashboard: 'https://exercism.test/mentor/dashboard',
+    exercise: 'https://exercism.test/exercise',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -93,13 +104,13 @@ test('shows back button', async () => {
     },
   ]
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
 
@@ -114,7 +125,12 @@ test('hides latest label if on old iteration', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
-    posts: 'https://exercism.test/posts',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -145,13 +161,13 @@ test('hides latest label if on old iteration', async () => {
     },
   ]
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
 
@@ -166,7 +182,12 @@ test('switches to posts tab when comment success', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
-    posts: 'https://exercism.test/posts',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -198,13 +219,13 @@ test('switches to posts tab when comment success', async () => {
   server.listen()
 
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
 
@@ -231,7 +252,12 @@ test('switches tabs', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
-    posts: 'https://exercism.test/posts',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -257,13 +283,13 @@ test('switches tabs', async () => {
   ]
 
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
 
@@ -287,7 +313,12 @@ test('go to previous iteration', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
-    posts: 'https://exercism.test/posts',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -318,13 +349,13 @@ test('go to previous iteration', async () => {
   ]
 
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
   userEvent.click(
@@ -340,7 +371,12 @@ test('go to next iteration', async () => {
   const links = {
     scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
-    posts: 'https://exercism.test/posts',
+  }
+  const discussion = {
+    id: 1,
+    links: {
+      posts: 'https://exercism.test/posts',
+    },
   }
   const track = {
     title: 'Ruby',
@@ -371,13 +407,13 @@ test('go to next iteration', async () => {
   ]
 
   render(
-    <Discussion
+    <Solution
       exercise={exercise}
       links={links}
       track={track}
       student={student}
       iterations={iterations}
-      discussionId={1}
+      discussion={discussion}
     />
   )
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))

@@ -8,7 +8,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { Scratchpad } from '../../../../../app/javascript/components/mentoring/discussion/Scratchpad'
+import { Scratchpad } from '../../../../../app/javascript/components/mentoring/solution/Scratchpad'
 
 test('hides local storage autosave message', async () => {
   const server = setupServer(

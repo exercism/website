@@ -59,7 +59,7 @@ class SerializeSolutionForCLI
 
   def files
     fs = Set.new
-    Git::Exercise.for_solution(solution).tooling_filepaths.each do |filepath|
+    Git::Exercise.for_solution(solution).cli_filepaths.each do |filepath|
       fs.add(filepath)
     end
     fs += submission.files.pluck(:filename) if submission

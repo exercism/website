@@ -37,6 +37,21 @@ module Git
     end
 
     memoize
+    def debug
+      repo.read_text_blob(commit, debug_filepath)
+    end
+
+    memoize
+    def help
+      repo.read_text_blob(commit, help_filepath)
+    end
+
+    memoize
+    def tests
+      repo.read_text_blob(commit, tests_filepath)
+    end
+
+    memoize
     def config
       repo.read_json_blob(commit, config_filepath)
     end
@@ -47,6 +62,18 @@ module Git
 
     def snippet_filepath
       "docs/SNIPPET.txt"
+    end
+
+    def debug_filepath
+      "exercises/shared/.docs/debug.md"
+    end
+
+    def help_filepath
+      "exercises/shared/.docs/help.md"
+    end
+
+    def tests_filepath
+      "exercises/shared/.docs/tests.md"
     end
 
     def config_filepath

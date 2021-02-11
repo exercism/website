@@ -21,12 +21,12 @@ class NotificationsFlowsTest < ActiveSupport::TestCase
     assert_equal 2, user.notifications.count
     assert_equal 2, user.notifications.unread.count
 
-    Notification.where(user: mentor).first.read!
+    User::Notification.where(user: mentor).first.read!
     assert_equal 1, mentor.notifications.count
     assert_equal 0, mentor.notifications.unread.count
     assert_equal 1, mentor.notifications.read.count
 
-    Notification.where(user: user).first.read!
+    User::Notification.where(user: user).first.read!
     assert_equal 2, user.notifications.count
     assert_equal 1, user.notifications.unread.count
     assert_equal 1, user.notifications.read.count

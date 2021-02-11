@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Notifications::CreateTest < ActiveSupport::TestCase
+class User::Notifications::CreateTest < ActiveSupport::TestCase
   include ActionCable::TestHelper
 
   test "create db record" do
@@ -9,11 +9,11 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     discussion = create(:solution_mentor_discussion)
     params = { discussion: discussion }
 
-    notification = Notification::Create.(user, type, params)
+    notification = User::Notification::Create.(user, type, params)
 
-    assert_equal 1, Notification.count
+    assert_equal 1, User::Notification.count
     assert_equal user, notification.user
-    assert_equal Notifications::MentorStartedDiscussionNotification, notification.class
+    assert_equal User::Notifications::MentorStartedDiscussionNotification, notification.class
     assert_equal 1, notification.version
     assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.uniqueness_key
     assert_equal params, notification.send(:params)
@@ -26,6 +26,6 @@ class Notifications::CreateTest < ActiveSupport::TestCase
     params = { discussion: discussion }
     NotificationsChannel.expects(:broadcast_changed).with(user)
 
-    Notification::Create.(user, type, params)
+    User::Notification::Create.(user, type, params)
   end
 end

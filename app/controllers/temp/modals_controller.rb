@@ -26,14 +26,14 @@ module Temp
     end
 
     def notifications
-      @notifications = SerializeNotifications.(
+      @notifications = SerializeUserNotifications.(
         [
-          Notifications::AcquiredBadgeNotification.create!(
+          User::Notifications::AcquiredBadgeNotification.create!(
             user: User.first,
             version: 1,
             params: { badge: Badge.first }
           ),
-          Notifications::MentorStartedDiscussionNotification.create!(
+          User::Notifications::MentorStartedDiscussionNotification.create!(
             user: User.first,
             version: 1,
             params: {

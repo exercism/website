@@ -73,67 +73,73 @@ module Git
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
 
-    test "retrieves_instructions" do
+    test "retrieves instructions" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "# Instructions\n\nInstructions for bob\n"
       assert_equal(expected, exercise.instructions)
     end
 
-    test "retrieves_instructions_append" do
+    test "retrieves instructions_append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "# Instructions append\n\nExtra instructions for bob\n"
       assert_equal(expected, exercise.instructions_append)
     end
 
-    test "retrieves_introduction" do
+    test "retrieves introduction" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "# Introduction\n\nIntroduction for bob\n"
       assert_equal(expected, exercise.introduction)
     end
 
-    test "retrieves_introduction_append" do
+    test "retrieves introduction_append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "# Introduction append\n\nExtra introduction for bob\n"
       assert_equal(expected, exercise.introduction_append)
     end
 
-    test "retrieves_hints" do
+    test "retrieves hints" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
       assert_equal(expected, exercise.hints)
     end
 
-    test "retrieves_source" do
+    test "retrieves source" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial."
       assert_equal(expected, exercise.source)
     end
 
-    test "retrieves_source_url" do
+    test "retrieves source_url" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "http://pine.fm/LearnToProgram/?Chapter=06"
       assert_equal(expected, exercise.source_url)
     end
 
-    test "retrieves_authors" do
+    test "retrieves authors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = [{ "github_username" => "erikschierboom", "exercism_username" => "ErikSchierboom" }]
       assert_equal(expected, exercise.authors)
     end
 
-    test "retrieves_contributors" do
+    test "retrieves contributors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = [{ "github_username" => "ihid", "exercism_username" => "iHiD" }]
       assert_equal(expected, exercise.contributors)
+    end
+
+    test "retrieves contributors for exercise without contributors" do
+      exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal([], exercise.contributors)
     end
   end
 end

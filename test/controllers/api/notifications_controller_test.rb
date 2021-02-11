@@ -21,10 +21,9 @@ class API::NotificationsControllerTest < API::BaseTestCase
     get api_notifications_path, headers: @headers, as: :json
     assert_response 200
 
-    # TODO: Check JSON
     expected = {
       results: [{
-        id: notification.id,
+        id: notification.uuid,
         url: notification.url,
         text: notification.text,
         read: false,
@@ -34,7 +33,34 @@ class API::NotificationsControllerTest < API::BaseTestCase
       }],
       meta: {
         current_page: 1, total_count: 1, total_pages: 1
-      }
+      },
+      unrevealed_badges: []
+    }.with_indifferent_access
+
+    assert_equal expected, JSON.parse(response.body)
+  end
+  test "index with unrevealed_badges" do
+    user = create :user
+    setup_user(user)
+
+    badge = create :rookie_badge
+    acquired_badge = create :user_acquired_badge, revealed: false, badge: badge, user: user
+
+    get api_notifications_path, headers: @headers, as: :json
+    assert_response 200
+
+    expected = {
+      results: [],
+      meta: { current_page: 1, total_count: 0, total_pages: 0 },
+      unrevealed_badges: [{
+        id: acquired_badge.uuid,
+        revealed: false,
+        unlocked_at: acquired_badge.created_at.iso8601,
+        name: "Rookie",
+        description: "Submitted an exercise",
+        rarity: 'common',
+        icon_name: 'editor'
+      }]
     }.with_indifferent_access
 
     assert_equal expected, JSON.parse(response.body)

@@ -1,5 +1,22 @@
 %div{ style: "background:#ddd;padding:50px;" }
-  .c-notifications
+  .c-notifications-dropdown
+    - if @unrevealed_badges.present?
+      - if @unrevealed_badges.size == 1
+        = link_to badges_journey_path, class: 'unrevealed-badge' do
+          .c-badge-medallion{ class: "--#{@unrevealed_badges.first[:rarity]}" }
+          .text You've earned a new badge!
+          = graphical_icon("chevron-right", css_class: "action-icon")
+
+      - else
+        .unrevealed-badges
+          .content
+            .text You've earned new badges!
+            .medallions
+              - @unrevealed_badges.each do |badge|
+                .c-badge-medallion{ class: "--#{badge[:rarity]}" }
+          = graphical_icon("chevron-right", css_class: "action-icon")
+
+
     - @notifications.each do |notification|
       = link_to notification[:url], class: "notification" do
         - if notification[:image_type] == :avatar

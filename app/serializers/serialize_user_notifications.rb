@@ -12,7 +12,7 @@ class SerializeUserNotifications
   def serialize_notification(notification)
     {
       # TODO: Maybe expose a UUID instead?
-      id: notification.id,
+      id: notification.uuid,
       url: notification.url,
       text: notification.text,
       read: notification.read?,

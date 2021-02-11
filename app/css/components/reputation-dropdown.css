@@ -1,9 +1,9 @@
-.c-notifications {
+.c-reputation-dropdown {
     @apply shadow-lg rounded-8 bg-backgroundColorA;
     @apply py-12 px-16;
     max-width: 500px;
 
-    & .notification {
+    & .token {
         @apply flex items-center;
         @apply py-8 px-16;
 
@@ -11,31 +11,27 @@
             @apply bg-backgroundColorD;
         }
 
-        & .c-rounded-bg-img,
-        & .icon {
+        & .reason-icon {
             height: 32px;
             width: 32px;
             @apply mr-20;
             @apply self-start;
         }
-        & .c-rounded-bg-img {
-        }
-        & .icon {
-            /* TODO: Really this color? */
-            color: #604fcd;
-        }
         & .content {
-            @apply flex-grow mr-24;
-            & .text {
+            @apply flex-grow mr-16;
+            & .description {
                 @apply text-15 leading-150;
                 & strong {
                     @apply font-medium;
                 }
             }
 
-            & .created-at {
+            & .awarded-at {
                 @apply text-14 text-textColor6 leading-160;
             }
+        }
+        & .c-reputation {
+            @apply mr-24;
         }
         & .read,
         & .unread {

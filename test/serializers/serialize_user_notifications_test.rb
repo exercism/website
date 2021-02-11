@@ -14,7 +14,7 @@ class SerializeUserNotificationsTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: notification.id,
+        id: notification.uuid,
         url: notification.url,
         text: notification.text,
         read: false,

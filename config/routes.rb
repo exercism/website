@@ -208,6 +208,7 @@ Rails.application.routes.draw do
         get :completed_exercise
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
         get :notifications
+        get :reputation
       end
     end
   end

@@ -44,7 +44,7 @@ class Solution::MentorDiscussion::CreateTest < ActiveSupport::TestCase
 
     rel = Mentor::StudentRelationship.find_by!(mentor: mentor, student: student)
     assert_equal 1, rel.num_discussions
-    refute rel.favorite?
+    refute rel.favorited?
   end
 
   test "fulfils request" do

@@ -198,8 +198,13 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "update is only called once" do
+    track = create :track
+
+    # Run this once to get the track cloned onto the local machine
+    Git::SyncTrack.(track)
+
     # Use the first commit in the repo
-    track = create :track, synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24'
+    track.update(synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24')
 
     Git::Repository.any_instance.stubs(keep_up_to_date?: false)
     Git::Repository.any_instance.expects(:fetch!).once

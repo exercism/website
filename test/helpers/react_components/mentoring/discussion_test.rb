@@ -26,6 +26,7 @@ module Mentoring
         "mentoring-discussion",
         {
           discussion_id: discussion.uuid,
+          is_finished: false,
           user_id: student.id,
           student: {
             name: student.name,
@@ -92,8 +93,10 @@ module Mentoring
             mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
             scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
-            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
-          }
+            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
+            finish: Exercism::Routes.finish_api_mentor_discussion_path(discussion)
+          },
+          relationship: nil
         }
     end
 
@@ -104,6 +107,16 @@ module Mentoring
 
       assert_equal Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion),
         component.links[:mark_as_nothing_to_do]
+    end
+
+    test "links adds link to finish discussion when discussion is finished" do
+      discussion = create :solution_mentor_discussion, finished_at: nil
+      comp = ReactComponents::Mentoring::Discussion.new(discussion)
+      assert_equal Exercism::Routes.finish_api_mentor_discussion_path(discussion), comp.links[:finish]
+
+      discussion.update(finished_at: Time.current)
+      comp = ReactComponents::Mentoring::Discussion.new(discussion)
+      assert_nil comp.links[:finish]
     end
   end
 end

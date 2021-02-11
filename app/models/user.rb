@@ -104,7 +104,7 @@ class User < ApplicationRecord
   def favorited_by?(mentor)
     relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
 
-    relationship ? relationship.favorite? : false
+    relationship ? relationship.favorited? : false
   end
 
   def num_previous_mentor_sessions_with(_user)

@@ -67,6 +67,7 @@ import '../../css/components/widgets/exercise'
 import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'
+import '../../css/modals/finish-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 
 import '../../css/pages/auth'
@@ -115,6 +116,7 @@ import {
   Exercise as MentorDiscussionExercise,
   Links as MentorDiscussionLinks,
   MentorSolution as MentorDiscussionMentorSolution,
+  StudentMentorRelationship,
 } from '../components/mentoring/Discussion'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -159,6 +161,7 @@ initReact({
   ),
   'mentoring-discussion': (data: any) => (
     <Mentoring.Discussion
+      isFinished={data.is_finished}
       discussionId={data.discussion_id}
       userId={data.user_id}
       student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
@@ -166,6 +169,9 @@ initReact({
       exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
       iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
       links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
+      relationship={camelizeKeysAs<StudentMentorRelationship>(
+        data.relationship
+      )}
       notes={data.notes}
       mentorSolution={camelizeKeysAs<MentorDiscussionMentorSolution>(
         data.mentor_solution

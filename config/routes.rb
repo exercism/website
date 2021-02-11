@@ -68,12 +68,20 @@ Rails.application.routes.draw do
         get :tracks, on: :collection # TODO: Remove this
         resources :posts, only: %i[index create], controller: "mentor_discussion_posts"
         patch :mark_as_nothing_to_do, on: :member
+        patch :finish, on: :member
       end
 
       resources :mentor_discussion_posts, only: %i[update]
 
-      post "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#create", as: "mentor_favorite_student"
-      delete "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#destroy", as: "mentor_unfavorite_student"
+      resources :mentor_student_relationships, only: [] do
+        patch :mark_as_mentor_again, on: :member
+        patch :mark_as_dont_mentor_again, on: :member
+      end
+
+      post "mentor_student/:student_handle/block", to: "mentor_student_relationships#block", as: "mentor_block_student"
+      delete "mentor_student/:student_handle/block", to: "mentor_student_relationships#unblock", as: "mentor_unblock_student"
+      post "mentor_student/:student_handle/favorite", to: "mentor_student_relationships#favorite", as: "mentor_favorite_student"
+      delete "mentor_student/:student_handle/favorite", to: "mentor_student_relationships#unfavorite", as: "mentor_unfavorite_student"
 
       resources :submission, only: [] do
         resource :test_run, only: %i[show], controller: "submissions/test_runs"

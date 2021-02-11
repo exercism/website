@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect, useRef } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { DiscussionPostList } from './DiscussionPostList'
 import { Scratchpad } from './Scratchpad'
@@ -12,8 +12,10 @@ import {
   MentorSolution,
   Track,
   Exercise,
+  StudentMentorRelationship,
 } from '../Discussion'
 import { DiscussionPostProps } from './DiscussionPost'
+import { FinishedWizard } from './FinishedWizard'
 
 type MentoringPanelListLinks = {
   scratchpad: string
@@ -26,6 +28,8 @@ const TabsContext = createContext<TabContext>({
 })
 
 export const MentoringPanelList = ({
+  isFinished,
+  relationship,
   links,
   discussionId,
   tab,
@@ -41,6 +45,8 @@ export const MentoringPanelList = ({
   track,
   exercise,
 }: {
+  isFinished: boolean
+  relationship: StudentMentorRelationship
   links: MentoringPanelListLinks
   discussionId: number
   tab: TabIndex
@@ -56,6 +62,17 @@ export const MentoringPanelList = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
+  const previouslyNotFinishedRef = useRef(!isFinished)
+  const finishedWizardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!finishedWizardRef.current) {
+      return
+    }
+
+    finishedWizardRef.current.scrollIntoView()
+  }, [relationship])
+
   return (
     <>
       <TabsContext.Provider
@@ -90,6 +107,14 @@ export const MentoringPanelList = ({
             highlightedPost={highlightedPost}
             student={student}
           />
+          {isFinished ? (
+            <FinishedWizard
+              ref={finishedWizardRef}
+              student={student}
+              relationship={relationship}
+              step={previouslyNotFinishedRef.current ? 'mentorAgain' : 'finish'}
+            />
+          ) : null}
         </Tab.Panel>
         <Tab.Panel id="scratchpad" context={TabsContext}>
           <Scratchpad endpoint={links.scratchpad} discussionId={discussionId} />

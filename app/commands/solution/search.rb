@@ -72,8 +72,8 @@ class Solution
         @solutions = @solutions.mentoring_status_requested
       when :in_progress
         @solutions = @solutions.mentoring_status_in_progress
-      when :completed
-        @solutions = @solutions.mentoring_status_completed
+      when :finished
+        @solutions = @solutions.mentoring_status_finished
       end
     end
 

@@ -8,6 +8,7 @@ module ReactComponents
           "mentoring-discussion",
           {
             discussion_id: discussion.uuid,
+            is_finished: discussion.finished?,
             user_id: current_user.id,
             student: {
               name: student.name,
@@ -33,7 +34,8 @@ module ReactComponents
             iterations: iterations,
             mentor_solution: mentor_solution,
             notes: notes,
-            links: links
+            links: links,
+            relationship: SerializeMentorStudentRelationship.(discussion.student_mentor_relationship)
           }
         )
       end
@@ -48,6 +50,7 @@ module ReactComponents
           if discussion.requires_mentor_action?
             links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
           end
+          links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion) unless discussion.finished?
         end
       end
 

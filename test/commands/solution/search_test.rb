@@ -50,12 +50,12 @@ class Solution::SearchTest < ActiveSupport::TestCase
 
   test "mentoring_status" do
     user = create :user
-    completed = create :concept_solution, user: user, mentoring_status: :completed
+    finished = create :concept_solution, user: user, mentoring_status: :finished
     in_progress = create :concept_solution, user: user, mentoring_status: :in_progress
     requested = create :concept_solution, user: user, mentoring_status: :requested
     none = create :concept_solution, user: user, mentoring_status: :none
 
-    assert_equal [none, requested, in_progress, completed], Solution::Search.(user, mentoring_status: nil)
+    assert_equal [none, requested, in_progress, finished], Solution::Search.(user, mentoring_status: nil)
 
     assert_equal [none], Solution::Search.(user, mentoring_status: :none)
     assert_equal [none], Solution::Search.(user, mentoring_status: 'none')
@@ -66,8 +66,8 @@ class Solution::SearchTest < ActiveSupport::TestCase
     assert_equal [in_progress], Solution::Search.(user, mentoring_status: :in_progress)
     assert_equal [in_progress], Solution::Search.(user, mentoring_status: 'in_progress')
 
-    assert_equal [completed], Solution::Search.(user, mentoring_status: :completed)
-    assert_equal [completed], Solution::Search.(user, mentoring_status: 'completed')
+    assert_equal [finished], Solution::Search.(user, mentoring_status: :finished)
+    assert_equal [finished], Solution::Search.(user, mentoring_status: 'finished')
   end
 
   test "pagination" do

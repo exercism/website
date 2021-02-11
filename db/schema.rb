@@ -131,7 +131,8 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "mentor_id", null: false
     t.bigint "student_id", null: false
-    t.boolean "favorite", default: false, null: false
+    t.boolean "favorited", default: false, null: false
+    t.boolean "blocked", default: false, null: false
     t.integer "num_discussions", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -200,7 +201,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
     t.bigint "request_id"
     t.datetime "requires_mentor_action_since"
     t.datetime "requires_student_action_since"
-    t.datetime "completed_at"
+    t.datetime "finished_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"

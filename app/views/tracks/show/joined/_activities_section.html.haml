@@ -3,8 +3,8 @@
     - @activities.each do |solution|
       .exercise
         %header
-          =link_to solution[:links][:exericse_url], class: 'content' do
-            = exercise_icon(Exercise.first) # solution[:exercise][:icon_name]
+          = link_to solution[:links][:exericse_url], class: 'content' do
+            = exercise_icon(Exercise.first) # solution[:exercise][:icon_name]
             .info
               .title= solution[:exercise][:title]
               .tags
@@ -19,7 +19,7 @@
                 / Add unread if solution[:unread_mentor_comments] == true
                 .tag.mentor-comments.unread
                   / If unread is true, alt text should be "Mentor comments: Some are unread"
-                  = icon :mentoring, "Mentor comments #{": Some are unread" if solution[:unread_mentor_comments]}"
+                  = icon :mentoring, "Mentor comments #{': Some are unread' if solution[:unread_mentor_comments]}"
                   = solution[:num_mentor_comments]
 
                 / Only show if solution[:unsubmitted_code]
@@ -27,7 +27,7 @@
                   = graphical_icon "unsubmitted-code"
                   Unsubmitted code
 
-          / Show on the first, in-progress 
+          / Show on the first, in-progress
           = link_to "Continue in Editor", solution[:links][:editor_url], class: 'btn-small-cta'
 
         - if solution[:latest_iteration]

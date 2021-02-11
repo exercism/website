@@ -25,7 +25,7 @@ test('shows loading status', async () => {
   )
   userEvent.click(screen.getByRole('button', { name: 'Confirm' }))
 
-  expect(await screen.findByText('Loading')).toBeInTheDocument()
+  expect(screen.getByText('Loading')).toBeInTheDocument()
 
   server.close()
 })

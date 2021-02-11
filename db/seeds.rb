@@ -19,8 +19,8 @@ iHiD.create_profile(
   medium: "iHiD",
   website: "https://ihid.info"
 )
-Badges::MemberBadge.create!(user: iHiD)
-Badges::RookieBadge.create!(user: iHiD)
+User::AcquiredBadge.create!(user: iHiD, badge: Badge.find_by_slug!(:rookie)) #rubocop:disable Rails/DynamicFindBy
+User::AcquiredBadge.create!(user: iHiD, badge: Badge.find_by_slug!(:member)) #rubocop:disable Rails/DynamicFindBy
 
 puts "Creating User erikSchierboom"
 erik = User.find_by(handle: 'erikSchierboom') || User.create!(

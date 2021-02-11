@@ -20,7 +20,11 @@ class User
         Rails.logger.error "Missing author: #{github_username}" unless user
         return unless user
 
-        User::ReputationToken::CodeContribution::Create.(user, author_reputation_reason, repo, pr_id, external_link)
+        User::ReputationToken::CodeContribution::Create.(
+          user,
+          author_reputation_reason,
+          repo, pr_id, external_link
+        )
       end
 
       def award_reputation_to_reviewers

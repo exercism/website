@@ -70,6 +70,16 @@ module Git
       config[:contributors]
     end
 
+    memoize
+    def source
+      config[:source]
+    end
+
+    memoize
+    def source_url
+      config[:source_url]
+    end
+
     # Files that should be transported
     # to a user for use in the editor.
     memoize

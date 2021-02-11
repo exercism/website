@@ -107,5 +107,19 @@ module Git
       expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
       assert_equal(expected, exercise.hints)
     end
+
+    test "retrieves_source" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial."
+      assert_equal(expected, exercise.source)
+    end
+
+    test "retrieves_source_url" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "http://pine.fm/LearnToProgram/?Chapter=06"
+      assert_equal(expected, exercise.source_url)
+    end
   end
 end

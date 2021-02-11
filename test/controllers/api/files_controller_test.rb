@@ -1,10 +1,7 @@
 require_relative './base_test_case'
 
 class API::FilesControllerTest < API::BaseTestCase
-  test "show should return 401 with incorrect token" do
-    get api_solution_file_path(1, "foobar"), as: :json
-    assert_response 401
-  end
+  guard_incorrect_token! :api_solution_file_path, args: 2
 
   test "show should return 404 when solution is missing" do
     setup_user

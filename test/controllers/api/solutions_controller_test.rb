@@ -1,20 +1,14 @@
 require_relative './base_test_case'
 
 class API::SolutionsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_solutions_path
+  guard_incorrect_token! :latest_api_solutions_path
+  guard_incorrect_token! :api_solution_path, args: 1
+  guard_incorrect_token! :api_solution_path, args: 1, method: :patch
+
   #########
   # INDEX #
   #########
-  test "index should return 401 with incorrect token" do
-    get api_solutions_path, as: :json
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
   test "index should proxy params" do
     setup_user
     create :concept_solution
@@ -64,16 +58,6 @@ class API::SolutionsControllerTest < API::BaseTestCase
   ###
   # LATEST
   ###
-  test "latest should return 401 with incorrect token" do
-    get latest_api_solutions_path, as: :json
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
 
   ### Errors: Track Not Found
   test "latest should return 404 when the track doesn't exist" do
@@ -220,16 +204,6 @@ class API::SolutionsControllerTest < API::BaseTestCase
   ###
   # SHOW
   ###
-  test "show should return 401 with incorrect token" do
-    get api_solution_path(1), as: :json
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
 
   ### Errors: User is not the author
   test "show should return 404 if user is not author" do
@@ -303,11 +277,6 @@ class API::SolutionsControllerTest < API::BaseTestCase
   ###
   # UPDATE
   ###
-  test "update should return 401 with incorrect token" do
-    patch api_solution_path(1), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "update should 404 if the solution doesn't exist" do
     setup_user
     patch api_solution_path(999), headers: @headers, as: :json

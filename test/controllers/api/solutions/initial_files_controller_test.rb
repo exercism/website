@@ -3,6 +3,8 @@ require_relative '../base_test_case'
 module API
   module Solutions
     class InitialFilesControllerTest < API::BaseTestCase
+      guard_incorrect_token! :api_solution_initial_files_path, args: 1, method: :get
+
       test "renders 404 when solution not found" do
         setup_user
 

@@ -16,7 +16,8 @@ class User::Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSup
     )
     assert_equal "#", notification.url
     assert_equal "#{user.id}-mentor_replied_to_discussion-DiscussionPost##{discussion_post.id}", notification.uniqueness_key
-    assert_equal "#{mentor.handle} has added a new comment on your solution to #{track.title}:#{exercise.title}", notification.text
+    assert_equal "#{mentor.handle} has added a new comment on your solution to #{track.title}:#{exercise.title}",
+      notification.text
     assert_equal :avatar, notification.image_type
     assert_equal mentor.avatar_url, notification.image_url
   end

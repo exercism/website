@@ -1,20 +1,12 @@
 require_relative './base_test_case'
 
 class API::ReputatationControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_reputation_index_path
+  guard_incorrect_token! :mark_as_seen_api_reputation_index_path, method: :patch
+
   #########
   # INDEX #
   #########
-  test "index should return 401 with incorrect token" do
-    get api_reputation_index_path, as: :json
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
   test "index should proxy params" do
     setup_user
     create :user_reputation_token
@@ -66,16 +58,6 @@ class API::ReputatationControllerTest < API::BaseTestCase
   ################
   # mark_as_seen #
   ################
-  test "mark_as_seen should return 401 with incorrect token" do
-    get mark_as_seen_api_reputation_index_path, as: :json
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
 
   test "mark_as_seen should mark tokens as seen" do
     setup_user

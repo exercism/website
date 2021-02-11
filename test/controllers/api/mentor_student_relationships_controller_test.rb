@@ -1,14 +1,15 @@
 require_relative './base_test_case'
 
 class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_mentor_favorite_student_path, args: 1, method: :post
+  guard_incorrect_token! :api_mentor_unfavorite_student_path, args: 1, method: :delete
+
+  guard_incorrect_token! :api_mentor_block_student_path, args: 1, method: :post
+  guard_incorrect_token! :api_mentor_unblock_student_path, args: 1, method: :delete
+
   ###
   # Favorite
   ###
-  test "favorite should return 401 with incorrect token" do
-    post api_mentor_favorite_student_path(student_handle: 'xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "favorite should 404 if the student doesn't exist" do
     setup_user
 
@@ -41,11 +42,6 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   ###
   # Unfavorite
   ###
-  test "Unfavorite should return 401 with incorrect token" do
-    delete api_mentor_unfavorite_student_path(student_handle: 'xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "Unfavorite should 404 if the student doesn't exist" do
     setup_user
 
@@ -78,11 +74,6 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   ###
   # Block
   ###
-  test "block should return 401 with incorrect token" do
-    post api_mentor_block_student_path(student_handle: 'xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "block should 404 if the student doesn't exist" do
     setup_user
 
@@ -115,11 +106,6 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   ###
   # Unblock
   ###
-  test "unblock should return 401 with incorrect token" do
-    delete api_mentor_unblock_student_path(student_handle: 'xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "unblock should 404 if the student doesn't exist" do
     setup_user
 

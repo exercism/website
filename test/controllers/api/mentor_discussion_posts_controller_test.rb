@@ -1,6 +1,9 @@
 require_relative './base_test_case'
 
 class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_mentor_discussion_posts_path, args: 1, method: :post
+  guard_incorrect_token! :api_mentor_discussion_posts_path, args: 2, method: :get
+
   ###
   # Index
   ###
@@ -111,11 +114,6 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
   ###
   # Create
   ###
-  test "create should return 401 with incorrect token" do
-    post api_mentor_discussion_posts_path('xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "create should 404 if the discussion doesn't exist" do
     setup_user
     post api_mentor_discussion_posts_path('xxx'), headers: @headers, as: :json

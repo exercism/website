@@ -1,6 +1,8 @@
 require_relative './base_test_case'
 
 class API::MarkdownControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_parse_markdown_path, method: :post
+
   test "#parse parses markdown to HTML" do
     setup_user
 

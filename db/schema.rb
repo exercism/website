@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_08_180441) do
+ActiveRecord::Schema.define(version: 2021_02_11_134358) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -389,6 +389,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_180441) do
     t.string "external_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "seen", null: false
     t.index ["context_key", "user_id"], name: "index_user_reputation_tokens_on_context_key_and_user_id", unique: true
     t.index ["context_type", "context_id"], name: "context_index"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"

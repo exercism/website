@@ -31,8 +31,18 @@ module Git
     end
 
     memoize
+    def instructions_append
+      read_file_blob(".docs/instructions.append.md")
+    end
+
+    memoize
     def introduction
       read_file_blob(".docs/introduction.md")
+    end
+
+    memoize
+    def introduction_append
+      read_file_blob(".docs/introduction.append.md")
     end
 
     memoize

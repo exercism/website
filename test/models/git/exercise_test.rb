@@ -32,7 +32,10 @@ module Git
 
       expected_filepaths = [
         ".docs/hints.md",
+        ".docs/instructions.append.md",
         ".docs/instructions.md",
+        ".docs/introduction.append.md",
+        ".docs/introduction.md",
         ".meta/config.json",
         ".meta/example.rb",
         "bob.rb",
@@ -68,6 +71,41 @@ module Git
         "anagram_test.rb"
       ]
       assert_equal expected_filepaths, exercise.cli_filepaths
+    end
+
+    test "retrieves_instructions" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Instructions\n\nInstructions for bob\n"
+      assert_equal(expected, exercise.instructions)
+    end
+
+    test "retrieves_instructions_append" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Instructions append\n\nExtra instructions for bob\n"
+      assert_equal(expected, exercise.instructions_append)
+    end
+
+    test "retrieves_introduction" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Introduction\n\nIntroduction for bob\n"
+      assert_equal(expected, exercise.introduction)
+    end
+
+    test "retrieves_introduction_append" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Introduction append\n\nExtra introduction for bob\n"
+      assert_equal(expected, exercise.introduction_append)
+    end
+
+    test "retrieves_hints" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
+      assert_equal(expected, exercise.hints)
     end
   end
 end

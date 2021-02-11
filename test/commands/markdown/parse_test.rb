@@ -95,7 +95,7 @@ Done')
     assert_equal expected, Markdown::Parse.(table)
   end
 
-  test "resepects rel_nofollow" do
+  test "respects rel_nofollow" do
     normal = '<p><a href="http://example.com" target="_blank">Some link</a></p>'
     rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>'
 
@@ -105,5 +105,13 @@ Done')
 
   test "parses double tildes as strikethrough" do
     assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
+  end
+
+  test "does not remove level one headings by default" do
+    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent")
+  end
+
+  test "can remove level one headings" do
+    assert_equal "<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", remove_level_one_headings: true)
   end
 end

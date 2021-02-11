@@ -121,5 +121,19 @@ module Git
       expected = "http://pine.fm/LearnToProgram/?Chapter=06"
       assert_equal(expected, exercise.source_url)
     end
+
+    test "retrieves_authors" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [{ "github_username" => "erikschierboom", "exercism_username" => "ErikSchierboom" }]
+      assert_equal(expected, exercise.authors)
+    end
+
+    test "retrieves_contributors" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [{ "github_username" => "ihid", "exercism_username" => "iHiD" }]
+      assert_equal(expected, exercise.contributors)
+    end
   end
 end

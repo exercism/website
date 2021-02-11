@@ -50,6 +50,39 @@ class API::FilesControllerTest < API::BaseTestCase
     assert content, response.body
   end
 
+  test "show should return special README.md solution file" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :submission, solution: solution
+    content = "README"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
+    assert_response 200
+    assert content, response.body
+  end
+
+  test "show should return special HELP.md solution file" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :submission, solution: solution
+    content = "HELP"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
+    assert_response 200
+    assert content, response.body
+  end
+
+  test "show should return special HINTS.md solution file" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :submission, solution: solution
+    content = "HINTS"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
+    assert_response 200
+    assert content, response.body
+  end
+
   # test "show should return 200 if user is mentor" do
   #   skip
   #   setup_user

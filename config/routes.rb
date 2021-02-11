@@ -51,6 +51,9 @@ Rails.application.routes.draw do
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
       end
 
+      resources :notifications, only: [:index] do
+      end
+
       resources :mentor_requests, only: %i[index] do
         collection do
           get :tracks

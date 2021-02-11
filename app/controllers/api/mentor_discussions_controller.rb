@@ -4,7 +4,10 @@ module API
     def index
       discussions = ::Solution::MentorDiscussion::Retrieve.(
         current_user,
-        params[:page]
+        page: params[:page],
+        track_slug: params[:track],
+        criteria: params[:criteria],
+        order: params[:order]
       )
 
       render json: SerializePaginatedCollection.(
@@ -13,16 +16,30 @@ module API
       )
     end
 
-    # TODO: Merge this into the query above
     def tracks
-      discussions = ::Solution::MentorDiscussion::Retrieve.(current_user, 1)
-      render json: discussions.tracks.map { |track|
+      track_counts = Solution::MentorDiscussion::Retrieve.(
+        current_user, sorted: false, paginated: false
+      ).group(:track_id).count
+
+      tracks = Track.where(id: track_counts.keys).index_by(&:id)
+      data = track_counts.map do |track_id, count|
+        track = tracks[track_id]
         {
-          id: track.id, # TODO: This should probably be slug
+          slug: track.slug,
           title: track.title,
-          iconUrl: "https://assets.exercism.io/tracks/ruby-hex-white.png"
+          icon_url: track.icon_url,
+          count: count
         }
-      }
+      end
+
+      render json: [
+        {
+          slug: nil,
+          title: 'All',
+          icon_url: Track.first.icon_url,
+          count: track_counts.values.sum
+        }
+      ].concat(data)
     end
 
     def create

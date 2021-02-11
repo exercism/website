@@ -12,7 +12,7 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
       solution: solution,
       mentor: mentor
 
-    discussions = Solution::MentorDiscussion::Retrieve.(mentor, 1)
+    discussions = Solution::MentorDiscussion::Retrieve.(mentor, page: 1)
 
     expected = [
       {
@@ -22,9 +22,9 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
         track_icon_url: track.icon_url,
         exercise_title: exercise.title,
 
-        mentee_handle: student.handle,
-        mentee_avatar_url: student.avatar_url,
-        updated_at: discussion.created_at.to_i,
+        student_handle: student.handle,
+        student_avatar_url: student.avatar_url,
+        updated_at: discussion.created_at.iso8601,
 
         is_starred: true,
 

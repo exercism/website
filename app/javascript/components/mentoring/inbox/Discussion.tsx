@@ -5,50 +5,40 @@ import { Icon } from '../../common/Icon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Avatar } from '../../common/Avatar'
 
-type ConversationProps = {
+type DiscussionProps = {
   trackTitle: string
   trackIconUrl: string
-  menteeAvatarUrl: string
-  menteeHandle: string
+  studentAvatarUrl: string
+  studentHandle: string
   exerciseTitle: string
   isStarred: boolean
-  haveMentoredPreviously: boolean
-  isNewSubmission: boolean
   postsCount: number
   updatedAt: string
   url: string
 }
 
-export function Conversation({
+export function Discussion({
   trackTitle,
   trackIconUrl,
-  menteeAvatarUrl,
-  menteeHandle,
+  studentAvatarUrl,
+  studentHandle,
   exerciseTitle,
   isStarred,
-  haveMentoredPreviously,
-  isNewSubmission,
   postsCount,
   updatedAt,
   url,
-}: ConversationProps) {
+}: DiscussionProps) {
   return (
     <a className="--solution" href={url}>
       <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
-      <Avatar src={menteeAvatarUrl} handle={menteeHandle} />
+      <Avatar src={studentAvatarUrl} handle={studentHandle} />
       <div className="--info">
         <div className="--handle">
-          {menteeHandle}
+          {studentHandle}
           {isStarred ? <Icon icon="gold-star" alt="Starred student" /> : null}
         </div>
         <div className="--exercise-title">on {exerciseTitle}</div>
       </div>
-      {isNewSubmission ? (
-        <div className="--new-iteration">
-          <GraphicalIcon icon="stars" />
-          New Iteration
-        </div>
-      ) : null}
       <div className="--comments-count">
         <Icon icon="comment" alt={`{postsCount} comments`} />
         {postsCount}

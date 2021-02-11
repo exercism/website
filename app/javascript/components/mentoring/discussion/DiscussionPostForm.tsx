@@ -106,14 +106,14 @@ export const DiscussionPostForm = ({
   }, [value])
 
   return (
-    <div className="comment-form">
-      <form onSubmit={handleSubmit}>
+    <>
+      <form onSubmit={handleSubmit} className="c-markdown-editor">
         <MarkdownEditor
           contextId={contextId}
           value={value}
           editorDidMount={handleEditorMount}
         />
-        <footer className="comment-form-footer">
+        <footer className="editor-footer">
           <button
             className="btn-small-cta"
             type="submit"
@@ -127,6 +127,6 @@ export const DiscussionPostForm = ({
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
         <ErrorMessage error={error} />
       </ErrorBoundary>
-    </div>
+    </>
   )
 }

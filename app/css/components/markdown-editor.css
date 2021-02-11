@@ -1,0 +1,49 @@
+@import "../styles";
+
+.c-markdown-editor {
+    @apply flex flex-col;
+    @apply border-1 border-buttonBorderColor2 rounded-8;
+    @apply overflow-hidden;
+
+    & > *:first-child {
+        @apply flex flex-col flex-grow;
+    }
+
+    & .editor-toolbar {
+        border-width: 0; /* Override default */
+        @apply border-b-1 border-borderColor5;
+    }
+    /* TODO: Decide what to do with this */
+    & .editor-statusbar {
+        display: none;
+    }
+    & .EasyMDEContainer {
+        @apply flex flex-col flex-grow;
+        /*@apply overflow-hidden;*/
+
+        & .CodeMirror {
+            border: none;
+            @apply flex-grow h-1;
+            @apply text-textColor5 text-15 leading-huge;
+            @apply pt-12 pb-0 px-16;
+
+            & .CodeMirror-scroll {
+                min-height: auto !important;
+            }
+        }
+    }
+    & .editor-footer {
+        @apply p-16;
+        @apply flex items-center justify-end;
+
+        & button {
+            @apply ml-12;
+        }
+
+        & .--warning {
+            @apply flex-grow;
+            @apply text-red font-medium;
+            @apply mr-12;
+        }
+    }
+}

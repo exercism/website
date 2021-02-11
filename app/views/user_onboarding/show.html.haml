@@ -39,9 +39,10 @@
 
           %label.c-checkbox-wrapper
             = f.check_box :terms_of_service, required: true
-            .c-checkbox
-              = graphical_icon :checkmark
-            %span I accept Exercism's Terms of Service
+            .row
+              .c-checkbox
+                = graphical_icon :checkmark
+              %span I accept Exercism's Terms of Service
 
       %section.terms
         %h2 Privacy Policy
@@ -54,8 +55,9 @@
 
           %label.c-checkbox-wrapper
             = f.check_box :privacy_policy, required: true
-            .c-checkbox
-              = graphical_icon :checkmark
-            %span I accept Exercism's Privacy Policy
+            .row
+              .c-checkbox
+                = graphical_icon :checkmark
+              %span I accept Exercism's Privacy Policy
 
       = f.button "Save & Get Started", class: "btn-cta"

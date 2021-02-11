@@ -1,4 +1,6 @@
 .c-icon {
+    @apply flex-shrink-0;
+
     &.--hex {
         background-repeat: no-repeat;
         background-size: 100%;

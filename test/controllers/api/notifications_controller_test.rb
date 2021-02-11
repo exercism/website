@@ -1,21 +1,12 @@
 require_relative './base_test_case'
 
 class API::NotificationsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_notifications_path
+  guard_incorrect_token! :api_solution_iterations_path, args: 1, method: :post
+
   ###
   # Index
   ###
-  test "index should return 401 with incorrect token" do
-    get api_notifications_path, as: :json
-
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
   test "index retrieves notifications" do
     user = create :user
     setup_user(user)

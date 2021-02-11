@@ -19,7 +19,7 @@ class User::Notifications::MentorStartedDiscussionNotificationTest < ActiveSuppo
     )
     assert_equal "#", notification.url
     assert_equal "#{user.id}-mentor_started_discussion-Discussion##{discussion.id}", notification.uniqueness_key
-    assert_equal "<strong>#{mentor.handle}</strong> has started mentoring your solution to <strong>#{exercise.title}</strong> in <strong>#{track.title}</strong>", notification.text
+    assert_equal "<strong>#{mentor.handle}</strong> has started mentoring your solution to <strong>#{exercise.title}</strong> in <strong>#{track.title}</strong>", notification.text # rubocop:disable Layout/LineLength
     assert_equal :avatar, notification.image_type
     assert_equal mentor.avatar_url, notification.image_url
   end

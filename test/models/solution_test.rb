@@ -127,7 +127,73 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.exercise_solution_files["log_line_parser.rb"].start_with?("module LogLineParser")
   end
 
-  test "in_progress_mentor_discussion" do
+  test "read_file for concept exercise returns exercise file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('log_line_parser.rb')
+    assert contents.start_with?('module LogLineParser')
+  end
+
+  test "read_file for practice exercise returns exercise file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('bob.rb')
+    assert contents.start_with?('stub content')
+  end
+
+  test "read_file for concept exercise returns correct README.md file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('README.md')
+    assert_equal 'README', contents
+  end
+
+  test "read_file for practice exercise returns correct README.md file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('README.md')
+    assert_equal 'README', contents
+  end
+
+  test "read_file for concept exercise returns correct HELP.md file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('HELP.md')
+    assert_equal 'HELP', contents
+  end
+
+  test "read_file for practice exercise returns correct HELP.md file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('HELP.md')
+    assert_equal 'HELP', contents
+  end
+
+  test "read_file for concept exercise returns correct HINTS.md file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('HINTS.md')
+    expected = "# Hints\n\n## General\n\n- The [rubymostas strings guide][ruby-for-beginners.rubymonstas.org-strings] has a nice introduction to Ruby strings.\n- The `String` object has many useful [built-in methods][docs-string-methods].\n\n## 1. Get message from a log line\n\n- There are different ways to search for text in a string, which can be found on the [Ruby language official documentation][docs-string-methods].\n- There are [built in methods][strip-white-space] to strip white space.\n\n## 2. Get log level from a log line\n\n- Ruby `String` objects have a [method][downcase] to perform this operation.\n\n## 3. Reformat a log line\n\n- There are several ways to [concatenate strings][ruby-for-beginners.rubymonstas.org-strings], but the preferred one is usually [string interpolation][ruby-for-beginners.rubymonstas.org-strings]\n\n[ruby-for-beginners.rubymonstas.org-strings]: http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\n[ruby-for-beginners.rubymonstas.org-interpolation]: http://ruby-for-beginners.rubymonstas.org/bonus/string_interpolation.html\n[docs-string-methods]: https://ruby-doc.org/core-2.7.0/String.html\n[strip-white-space]: https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\n[downcase]: https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
+  end
+
+  test "read_file for practice exercise returns correct HINTS.md file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('HINTS.md')
+    expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
+    assert_equal expected, contents
+  end
+
+  test "has_in_progress_mentor_discussion" do
     solution = create :concept_solution
 
     # No discussion

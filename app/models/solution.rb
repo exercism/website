@@ -154,9 +154,9 @@ public class Year
   end
 
   def read_file(filepath)
-    return readme_file if filepath == 'README.md'
-    return help_file if filepath == 'HELP.md'
-    return hints_file if filepath == 'HINTS.md'
+    return Solution::GenerateReadmeFile.(self) if filepath == 'README.md'
+    return Solution::GenerateHelpFile.(self) if filepath == 'HELP.md'
+    return Solution::GenerateHintsFile.(self) if filepath == 'HINTS.md'
 
     git_exercise.read_file_blob(filepath)
   end
@@ -164,18 +164,5 @@ public class Year
   memoize
   def git_exercise
     Git::Exercise.for_solution(self)
-  end
-
-  private
-  def readme_file
-    'README'
-  end
-
-  def help_file
-    'HELP'
-  end
-
-  def hints_file
-    'HINTS'
   end
 end

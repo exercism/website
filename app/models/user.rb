@@ -69,6 +69,10 @@ class User < ApplicationRecord
     !!UserTrack.for(self, track)
   end
 
+  def unrevealed_badges
+    acquired_badges.unrevealed.joins(:badge)
+  end
+
   def has_badge?(slug)
     badge = Badge.find_by_slug!(slug) # rubocop:disable Rails/DynamicFindBy
     acquired_badges.where(badge_id: badge.id).exists?

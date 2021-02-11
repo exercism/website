@@ -60,16 +60,16 @@ class User::ReputationToken < ApplicationRecord
   end
 
   def description
-    case reason.split("/").first
-    when 'authored_exercise'
+    case reason.split("/").first.to_sym
+    when :authored_exercise
       "You authored #{exercise.title}"
-    when 'contributed_to_exercise'
+    when :contributed_to_exercise
       "You conributed to #{exercise.title}"
-    when 'contributed_code'
+    when :contributed_code
       "You contributed code"
-    when 'mentored'
+    when :mentored
       "You mentored @#{context.student.handle} on #{context.exercise.title}"
-    when 'reviewed_code'
+    when :reviewed_code
       "You reviewed a Pull Request"
     else
       "You contributed to Exercism"

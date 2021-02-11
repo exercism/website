@@ -53,6 +53,7 @@ module.exports = {
       textColor3: 'var(--textColor3)',
       textColor5: 'var(--textColor5)',
       textColor6: 'var(--textColor6)',
+      textColor7: 'var(--textColor7)',
       textColor9: 'var(--textColor9)',
 
       buttonBorderColor1: 'var(--buttonBorderColor1)',

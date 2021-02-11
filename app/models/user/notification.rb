@@ -14,6 +14,7 @@ class User::Notification < ApplicationRecord
   before_create do
     self.version = latest_i18n_version
     self.uniqueness_key = "#{user_id}-#{type_key}-#{guard_params}"
+    self.uuid = SecureRandom.compact_uuid
   end
 
   def read?

@@ -4,7 +4,7 @@ module API
   class BaseTestCase < ActionDispatch::IntegrationTest
     def self.guard_incorrect_token!(path, args: 0, method: :get)
       test "index should return 401 with incorrect token for #{method} #{path}" do
-        url = Array.new(args, 'a') # Lint/RedundantSplatExpansion
+        url = send(path, *Array.new(args, 'a')) # rubocop:disable Lint/RedundantSplatExpansion
         send(method, url, as: :json)
 
         assert_response 401

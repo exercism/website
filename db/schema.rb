@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_11_134714) do
+ActiveRecord::Schema.define(version: 2021_02_11_194536) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -320,9 +320,12 @@ ActiveRecord::Schema.define(version: 2021_02_11_134714) do
     t.bigint "badge_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "revealed", default: false, null: false
+    t.string "uuid", null: false
     t.index ["badge_id"], name: "index_user_acquired_badges_on_badge_id"
     t.index ["user_id", "badge_id"], name: "index_user_acquired_badges_on_user_id_and_badge_id", unique: true
     t.index ["user_id"], name: "index_user_acquired_badges_on_user_id"
+    t.index ["uuid"], name: "index_user_acquired_badges_on_uuid", unique: true
   end
 
   create_table "user_activities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -360,7 +363,9 @@ ActiveRecord::Schema.define(version: 2021_02_11_134714) do
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
+    t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end
 
   create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

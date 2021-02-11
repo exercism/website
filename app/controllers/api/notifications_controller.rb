@@ -7,10 +7,15 @@ module API
         per_page: params[:per_page]
       )
 
-      render json: SerializePaginatedCollection.(
+      serialized = SerializePaginatedCollection.(
         notifications,
         SerializeUserNotifications
       )
+
+      # This feels pretty gross.
+      serialized[:unrevealed_badges] = SerializeUserAcquiredBadges.(current_user.unrevealed_badges)
+
+      render json: serialized
     end
   end
 end

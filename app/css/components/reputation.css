@@ -2,7 +2,7 @@
     @apply border-1 border-lightGray rounded-100 shadow-sm bg-backgroundColorA;
 
     @apply flex px-8 items-center justify-center;
-    @apply text-13 text-textColor6 font-semibold;
+    @apply text-13 text-textColor7 font-semibold;
     line-height: 28px;
 
     & svg {

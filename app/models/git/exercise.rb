@@ -119,9 +119,11 @@ module Git
       special_filepaths << 'HINTS.md' if filepaths.include?('.docs/hints.md')
 
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
-        !filepath.match?(track.ignore_regexp) &&
-          !filepath.start_with?('.docs/') &&
-          !filepath.start_with?('.meta/')
+        next if filepath.match?(track.ignore_regexp)
+        next if filepath.start_with?('.docs/')
+        next if filepath.start_with?('.meta/')
+
+        true
       end
 
       special_filepaths.concat(filtered_filepaths)

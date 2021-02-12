@@ -50,7 +50,7 @@ module ReactComponents
 
         {
           comment: request.comment,
-          updated_at: request.updated_at
+          updated_at: request.updated_at.iso8601
         }
       end
 

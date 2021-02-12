@@ -1,14 +1,15 @@
 require_relative "../react_component_test_case"
 
 module Mentoring
-  class DiscussionTest < ReactComponentTestCase
-    test "mentoring discussion renders correctly" do
+  class SolutionTest < ReactComponentTestCase
+    test "mentoring solution renders correctly" do
       mentor = create :user
       student = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, user: student, track: track
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+      create :solution_mentor_request, solution: solution, comment: "Hello", updated_at: Time.utc(2016, 12, 25)
 
       iteration_1 = create :iteration, solution: solution
       iteration_2 = create :iteration, solution: solution
@@ -18,16 +19,14 @@ module Mentoring
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
-      component = ReactComponents::Mentoring::Discussion.new(discussion)
-      component.stubs(current_user: student)
+      component = ReactComponents::Mentoring::Solution.new(solution)
+      component.stubs(current_user: mentor)
       scratchpad = ScratchpadPage.new(about: exercise)
 
       assert_component component,
-        "mentoring-discussion",
+        "mentoring-solution",
         {
-          discussion_id: discussion.uuid,
-          is_finished: false,
-          user_id: student.id,
+          user_id: mentor.id,
           student: {
             name: student.name,
             handle: student.handle,
@@ -93,30 +92,21 @@ module Mentoring
             mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
             scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
-            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
-            finish: Exercism::Routes.finish_api_mentor_discussion_path(discussion)
           },
-          relationship: nil
+          relationship: nil,
+          request: {
+            comment: "Hello",
+            updated_at: Time.utc(2016, 12, 25).iso8601
+          },
+          discussion: {
+            id: discussion.uuid,
+            is_finished: false,
+            links: {
+              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
+              finish: Exercism::Routes.finish_api_mentor_discussion_path(discussion)
+            }
+          },
         }
-    end
-
-    test "#links adds link to mark as nothing to do when discussion requires mentor action" do
-      discussion = create :solution_mentor_discussion, requires_mentor_action_since: 2.days.ago
-
-      component = ReactComponents::Mentoring::Discussion.new(discussion)
-
-      assert_equal Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion),
-        component.links[:mark_as_nothing_to_do]
-    end
-
-    test "links adds link to finish discussion when discussion is finished" do
-      discussion = create :solution_mentor_discussion, finished_at: nil
-      comp = ReactComponents::Mentoring::Discussion.new(discussion)
-      assert_equal Exercism::Routes.finish_api_mentor_discussion_path(discussion), comp.links[:finish]
-
-      discussion.update(finished_at: Time.current)
-      comp = ReactComponents::Mentoring::Discussion.new(discussion)
-      assert_nil comp.links[:finish]
     end
   end
 end

@@ -40,21 +40,21 @@ class API::FilesControllerTest < API::BaseTestCase
 
   test "show should return solution file" do
     setup_user
-    solution = create :concept_solution, user: @current_user
+    solution = create :practice_solution, user: @current_user
     submission = create :submission, solution: solution
     content = "foobar!!"
     file = create :submission_file, submission: submission, content: content
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
     assert_response 200
-    assert_includes response.body, content
+    assert_equal response.body, content
   end
 
   test "show should return special README.md solution file" do
     setup_user
-    solution = create :concept_solution, user: @current_user
+    solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "Strings are manipulated by calling the string's methods."
+    content = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)\n\n### Contributed to by\n\n- iHiD (@ihid)\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
     assert_response 200
@@ -63,24 +63,24 @@ class API::FilesControllerTest < API::BaseTestCase
 
   test "show should return special HELP.md solution file" do
     setup_user
-    solution = create :concept_solution, user: @current_user
+    solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "Stuck? Try the Ruby gitter channel."
+    content = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
     assert_response 200
-    assert_includes response.body, content
+    assert_equal response.body, content
   end
 
   test "show should return special HINTS.md solution file" do
     setup_user
-    solution = create :concept_solution, user: @current_user
+    solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "There are different ways to search for text in a string"
+    content = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
     assert_response 200
-    assert_includes response.body, content
+    assert_equal response.body, content
   end
 
   # test "show should return 200 if user is mentor" do

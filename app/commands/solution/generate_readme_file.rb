@@ -22,7 +22,7 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
     end
 
     def introduction
-      return unless solution.git_exercise.introduction.present?
+      return if solution.git_exercise.introduction.blank?
 
       introduction_text = Markdown::Preprocess.(solution.git_exercise.introduction).strip
       introduction_append_text = Markdown::Preprocess.(solution.git_exercise.introduction_append).strip
@@ -71,7 +71,7 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
     end
 
     def based_on
-      return if solution.git_exercise.source.blank? && solution.git_exercise.source_url.blank?
+      return unless solution.git_exercise.source.present? || solution.git_exercise.source_url.present?
 
       source_text = [solution.git_exercise.source, solution.git_exercise.source_url].compact_blank.join(' - ')
 

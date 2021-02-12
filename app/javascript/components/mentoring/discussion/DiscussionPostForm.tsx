@@ -41,7 +41,7 @@ export const DiscussionPostForm = ({
 }: ComponentProps): JSX.Element => {
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
-  const { posts: cacheKey } = useContext(DiscussionContext)
+  const { cacheKey } = useContext(DiscussionContext)
   const [mutation, { status, error }] = useMutation<
     DiscussionPostProps | undefined
   >(

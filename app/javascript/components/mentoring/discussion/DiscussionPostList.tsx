@@ -25,7 +25,7 @@ export const DiscussionPostList = ({
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const {
-    posts: cacheKey,
+    cacheKey,
     handlePostsChange,
     highlightedPost,
     handlePostHighlight,

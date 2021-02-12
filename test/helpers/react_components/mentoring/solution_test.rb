@@ -9,7 +9,10 @@ module Mentoring
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, user: student, track: track
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-      create :solution_mentor_request, solution: solution, comment: "Hello", updated_at: Time.utc(2016, 12, 25)
+      mentor_request = create :solution_mentor_request,
+        solution: solution,
+        comment: "Hello",
+        updated_at: Time.utc(2016, 12, 25)
 
       iteration_1 = create :iteration, solution: solution
       iteration_2 = create :iteration, solution: solution
@@ -91,12 +94,18 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
-            scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
+            scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
           },
           relationship: nil,
           request: {
+            id: mentor_request.uuid,
             comment: "Hello",
-            updated_at: Time.utc(2016, 12, 25).iso8601
+            updated_at: Time.utc(2016, 12, 25).iso8601,
+            is_locked: false,
+            links: {
+              lock: Exercism::Routes.lock_api_mentor_request_path(mentor_request),
+              discussion: Exercism::Routes.api_mentor_discussions_path
+            }
           },
           discussion: {
             id: discussion.uuid,
@@ -105,7 +114,7 @@ module Mentoring
               posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
               finish: Exercism::Routes.finish_api_mentor_discussion_path(discussion)
             }
-          },
+          }
         }
     end
   end

@@ -9,7 +9,7 @@ import { Discussion, SolutionProps } from '../Solution'
 import { DiscussionPostProps } from './DiscussionPost'
 
 type DiscussionContextType = {
-  posts: string
+  cacheKey: string
   hasNewMessages: boolean
   handlePostsChange: (posts: DiscussionPostProps[]) => void
   handlePostHighlight: (element: HTMLDivElement) => void
@@ -22,7 +22,7 @@ type DiscussionContextType = {
 }
 
 export const DiscussionContext = createContext<DiscussionContextType>({
-  posts: '',
+  cacheKey: '',
   hasNewMessages: false,
   handlePostsChange: () => {},
   handlePostHighlight: () => {},
@@ -109,7 +109,7 @@ export const DiscussionWrapper = ({
   return (
     <DiscussionContext.Provider
       value={{
-        posts: `posts-${solution.discussion.id}`,
+        cacheKey: `posts-${solution.discussion.id}`,
         hasNewMessages: hasNewMessages,
         highlightedPost: highlightedPost,
         handleAfterPostHighlight: handleAfterPostHighlight,

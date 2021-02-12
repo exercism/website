@@ -15,6 +15,7 @@ import { DiscussionActions } from './discussion/DiscussionActions'
 import { AddDiscussionPostPanel } from './discussion/AddDiscussionPostPanel'
 
 import { RequestDetails } from './request/RequestDetails'
+import { MentoringRequestPanel } from './request/MentoringRequestPanel'
 
 import { Tab, TabContext } from '../common/Tab'
 import { Icon } from '../common/Icon'
@@ -123,8 +124,14 @@ export type Discussion = {
 }
 
 export type MentoringRequest = {
+  id: string
   comment: string
   updatedAt: string
+  links: {
+    lock: string
+    discussion: string
+  }
+  isLocked: boolean
 }
 
 export type SolutionProps = {
@@ -195,13 +202,13 @@ export const Solution = (props: SolutionProps): JSX.Element => {
             </button>
           </footer>
         </div>
-        <div className="rhs">
-          <TabsContext.Provider
-            value={{
-              current: tab,
-              switchToTab: (id: string) => setTab(id as TabIndex),
-            }}
-          >
+        <TabsContext.Provider
+          value={{
+            current: tab,
+            switchToTab: (id: string) => setTab(id as TabIndex),
+          }}
+        >
+          <div className="rhs">
             <div className="tabs" role="tablist">
               <Tab id="discussion" context={TabsContext}>
                 <GraphicalIcon icon="comment" />
@@ -244,11 +251,14 @@ export const Solution = (props: SolutionProps): JSX.Element => {
                 exercise={exercise}
               />
             </Tab.Panel>
-            {discussion ? (
-              <AddDiscussionPostPanel discussion={discussion} />
-            ) : null}
-          </TabsContext.Provider>
-        </div>
+          </div>
+          {/* TODO: Move this block to the right place. Sorry man, I don't know how to fix the CSS :( */}
+          {discussion ? (
+            <AddDiscussionPostPanel discussion={discussion} />
+          ) : (
+            <MentoringRequestPanel iterations={iterations} request={request} />
+          )}
+        </TabsContext.Provider>
       </div>
     </SolutionContext>
   )

@@ -10,6 +10,8 @@ type DiscussionPostLinks = {
 
 export type DiscussionPostProps = {
   id: number
+  authorId: number
+  iterationIdx: number
   links: DiscussionPostLinks
   authorHandle: string
   authorAvatarUrl: string

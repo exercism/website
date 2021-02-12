@@ -19,6 +19,8 @@ export const RequestDetails = ({
       <IterationMarker iteration={latestIteration} student={student} />
       <DiscussionPost
         id={-1}
+        authorId={-1}
+        iterationIdx={latestIteration.idx}
         authorHandle={student.handle}
         authorAvatarUrl={student.avatarUrl}
         byStudent

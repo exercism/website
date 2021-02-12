@@ -49,8 +49,14 @@ module ReactComponents
         return if request.blank?
 
         {
+          id: request.uuid,
           comment: request.comment,
-          updated_at: request.updated_at.iso8601
+          updated_at: request.updated_at.iso8601,
+          is_locked: request.locked?,
+          links: {
+            lock: Exercism::Routes.lock_api_mentor_request_path(request),
+            discussion: Exercism::Routes.api_mentor_discussions_path
+          }
         }
       end
 

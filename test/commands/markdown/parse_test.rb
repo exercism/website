@@ -109,6 +109,6 @@ Done')
   end
 
   test "can keep level one headings" do
-    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false) # rubocop:disable Naming/VariableNumber
+    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
   end
 end

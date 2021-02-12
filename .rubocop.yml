@@ -95,6 +95,8 @@ Style/ClassAndModuleChildren:
 
 Naming/VariableNumber:
   EnforcedStyle: snake_case
+  AllowedIdentifiers:
+    - "strip_h1"
 
 Style/LambdaCall:
   EnforcedStyle: braces

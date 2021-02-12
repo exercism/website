@@ -22,7 +22,7 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
     end
 
     def introduction
-      return unless solution.git_exercise.introduction
+      return unless solution.git_exercise.introduction.present?
 
       introduction_text = Markdown::Preprocess.(solution.git_exercise.introduction).strip
       introduction_append_text = Markdown::Preprocess.(solution.git_exercise.introduction_append).strip

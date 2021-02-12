@@ -9,6 +9,20 @@ import {
   MarkdownEditor,
   MarkdownEditorHandle,
 } from '../../common/MarkdownEditor'
+import { Loading } from '../../common'
+import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+
+const DEFAULT_ERROR = new Error('Unable to start discussion')
+
+const ErrorMessage = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
+
+const ErrorFallback = ({ error }: { error: Error }) => {
+  return <p>{error.message}</p>
+}
 
 export const StartDiscussionPanel = ({
   iterations,
@@ -29,7 +43,7 @@ export const StartDiscussionPanel = ({
     [editorRef]
   )
 
-  const [mutation, { status }] = useMutation<Discussion | undefined>(
+  const [mutation, { status, error }] = useMutation<Discussion | undefined>(
     () => {
       return sendRequest({
         endpoint: request.links.discussion,
@@ -84,6 +98,10 @@ export const StartDiscussionPanel = ({
             Send
           </button>
         </footer>
+        {status === 'loading' ? <Loading /> : null}
+        <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
+          <ErrorMessage error={error} />
+        </ErrorBoundary>
       </form>
     </section>
   )

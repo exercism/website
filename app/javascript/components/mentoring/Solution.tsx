@@ -14,10 +14,11 @@ import { DiscussionDetails } from './discussion/DiscussionDetails'
 import { DiscussionActions } from './discussion/DiscussionActions'
 import { AddDiscussionPostPanel } from './discussion/AddDiscussionPostPanel'
 
+import { RequestDetails } from './request/RequestDetails'
+
 import { Tab, TabContext } from '../common/Tab'
 import { Icon } from '../common/Icon'
 import { GraphicalIcon } from '../common/GraphicalIcon'
-import { IterationMarker } from './solution/IterationMarker'
 
 export type Links = {
   mentorDashboard: string
@@ -121,6 +122,11 @@ export type Discussion = {
   }
 }
 
+export type MentoringRequest = {
+  comment: string
+  updatedAt: string
+}
+
 export type SolutionProps = {
   student: Student
   track: Track
@@ -132,6 +138,7 @@ export type SolutionProps = {
   notes: string
   mentorSolution: MentorSolution
   relationship: StudentMentorRelationship
+  request: MentoringRequest
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -153,6 +160,7 @@ export const Solution = (props: SolutionProps): JSX.Element => {
     relationship,
     notes,
     mentorSolution,
+    request,
   } = solution
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -218,13 +226,11 @@ export const Solution = (props: SolutionProps): JSX.Element => {
                   relationship={relationship}
                 />
               ) : (
-                /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */
-                <div className="discussion">
-                  <IterationMarker
-                    iteration={iterations[iterations.length - 1]}
-                    student={student}
-                  />
-                </div>
+                <RequestDetails
+                  iterations={iterations}
+                  student={student}
+                  request={request}
+                />
               )}
             </Tab.Panel>
             <Tab.Panel id="scratchpad" context={TabsContext}>

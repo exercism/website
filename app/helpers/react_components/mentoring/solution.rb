@@ -34,12 +34,26 @@ module ReactComponents
             notes: notes,
             links: links,
             relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
+            request: request_json,
             discussion: discussion_json
           }
         )
       end
 
       memoize
+      def request
+        ::Solution::MentorRequest.find_by(solution: solution)
+      end
+
+      def request_json
+        return if request.blank?
+
+        {
+          comment: request.comment,
+          updated_at: request.updated_at
+        }
+      end
+
       def discussion
         ::Solution::MentorDiscussion.find_by(solution: solution, mentor: current_user)
       end
@@ -51,21 +65,17 @@ module ReactComponents
       def discussion_json
         return if discussion.blank?
 
-        links = { posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion) }.tap do |links|
-          if discussion.requires_mentor_action?
-            links[:mark_as_nothing_to_do] =
-              Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
-          end
-
-          unless discussion.finished?
-            links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion)
-          end
-        end
-
         {
           id: discussion.uuid,
           is_finished: discussion.finished?,
-          links: links
+          links: { posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion) }.tap do |links|
+            if discussion.requires_mentor_action?
+              links[:mark_as_nothing_to_do] =
+                Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
+            end
+
+            links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion) unless discussion.finished?
+          end
         }
       end
 
@@ -73,7 +83,7 @@ module ReactComponents
         {
           mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title),
+          scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
         }
       end
 
@@ -84,9 +94,9 @@ module ReactComponents
                          end
 
         solution.iterations.map do |iteration|
-          counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
-          num_comments = discussion ? counts.sum(&:second) : 0
-          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
+          discussion ? counts = comment_counts.select { |(it_id, _), _| it_id == iteration.id } : counts = nil
+          discussion ? num_comments = counts.sum(&:second) : num_comments = 0
+          discussion ? unread = counts.reject { |(_, seen), _| seen }.present? : unread = 0
 
           {
             uuid: iteration.uuid,

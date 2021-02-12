@@ -118,6 +118,7 @@ import {
   MentorSolution as MentoringSolutionMentorSolution,
   Discussion as MentoringSolutionDiscussion,
   StudentMentorRelationship,
+  MentoringRequest,
 } from '../components/mentoring/Solution'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -172,6 +173,7 @@ initReact({
       exercise={camelizeKeysAs<MentoringSolutionExercise>(data.exercise)}
       iterations={camelizeKeysAs<MentoringSolutionIteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSolutionLinks>(data.links)}
+      request={camelizeKeysAs<MentoringRequest>(data.request)}
       relationship={camelizeKeysAs<StudentMentorRelationship>(
         data.relationship
       )}

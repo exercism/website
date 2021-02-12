@@ -62,12 +62,12 @@ module Git
 
     memoize
     def authors
-      config[:authors] || []
+      config[:authors].to_a
     end
 
     memoize
     def contributors
-      config[:contributors] || []
+      config[:contributors].to_a
     end
 
     memoize

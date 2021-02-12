@@ -5,7 +5,15 @@ class Solution
     initialize_with :solution
 
     def call
-      "# Help\n\n#{tests}\n\n#{submitting}\n\n#{help}"
+      <<~HELP.strip
+        # Help
+
+        #{tests}
+
+        #{submitting}
+
+        #{help}
+      HELP
     end
 
     private

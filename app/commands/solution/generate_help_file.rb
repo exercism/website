@@ -5,7 +5,7 @@ class Solution
     initialize_with :solution
 
     def call
-      <<~HELP.strip
+      <<~TEXT.strip
         # Help
 
         #{tests}
@@ -13,22 +13,38 @@ class Solution
         #{submitting}
 
         #{help}
-      HELP
+      TEXT
     end
 
     private
     def tests
       tests_text = Markdown::Preprocess.(solution.track.git.tests).strip
-      "## Running the tests\n\n#{tests_text}"
+
+      <<~TEXT.strip
+        ## Running the tests
+
+        #{tests_text}
+      TEXT
     end
 
     def submitting
-      "## Submitting your solution\n\nTODO"
+      <<~TEXT.strip
+        ## Submitting your solution
+
+        TODO
+      TEXT
     end
 
     def help
       track_help_text = Markdown::Preprocess.(solution.track.git.help).strip
-      "## Need to get help?\n\nTODO\n\n#{track_help_text}"
+
+      <<~TEXT.strip
+        ## Need to get help?
+
+        TODO
+
+        #{track_help_text}
+      TEXT
     end
   end
 end

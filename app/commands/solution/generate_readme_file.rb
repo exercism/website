@@ -14,11 +14,13 @@ class Solution
         hints_text = "If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)" # rubocop:disable Layout/LineLength
       end
 
-      "# #{solution.exercise.title}
+      <<~TEXT.strip
+        # #{solution.exercise.title}
 
-Welcome to #{solution.exercise.title} on Exercism's #{solution.track.title} Track.
-If you need help running the tests or submitting your code, check out `HELP.md`.
-#{hints_text}".strip
+        Welcome to #{solution.exercise.title} on Exercism's #{solution.track.title} Track.
+        If you need help running the tests or submitting your code, check out `HELP.md`.
+        #{hints_text}
+      TEXT
     end
 
     def introduction
@@ -27,21 +29,35 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
       introduction_text = Markdown::Preprocess.(solution.git_exercise.introduction).strip
       introduction_append_text = Markdown::Preprocess.(solution.git_exercise.introduction_append).strip
 
-      "## Introduction\n\n#{introduction_text}\n#{introduction_append_text}".strip
+      <<~TEXT.strip
+        ## Introduction
+
+        #{introduction_text}
+        #{introduction_append_text}
+      TEXT
     end
 
     def instructions
       instructions_text = Markdown::Preprocess.(solution.git_exercise.instructions).strip
       instructions_append_text = Markdown::Preprocess.(solution.git_exercise.instructions_append).strip
 
-      "## Instructions\n\n#{instructions_text}\n#{instructions_append_text}".strip
+      <<~TEXT.strip
+        ## Instructions
+
+        #{instructions_text}
+        #{instructions_append_text}
+      TEXT
     end
 
     def source
       sources_text = [created_by, contributed_by, based_on].compact_blank.join("\n\n")
       return if sources_text.empty?
 
-      "## Source\n\n#{sources_text}".strip
+      <<~TEXT.strip
+        ## Source
+
+        #{sources_text}
+      TEXT
     end
 
     def created_by
@@ -49,7 +65,11 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
 
       authors_text = users_list(solution.git_exercise.authors)
 
-      "### Created by\n\n#{authors_text}"
+      <<~TEXT.strip
+        ### Created by
+
+        #{authors_text}
+      TEXT
     end
 
     def contributed_by
@@ -57,7 +77,11 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
 
       contributors_text = users_list(solution.git_exercise.contributors)
 
-      "### Contributed to by\n\n#{contributors_text}"
+      <<~TEXT.strip
+        ### Contributed to by
+
+        #{contributors_text}
+      TEXT
     end
 
     def users_list(users)
@@ -75,7 +99,11 @@ If you need help running the tests or submitting your code, check out `HELP.md`.
 
       source_text = [solution.git_exercise.source, solution.git_exercise.source_url].compact_blank.join(' - ')
 
-      "### Based on\n\n#{source_text}"
+      <<~TEXT.strip
+        ### Based on
+
+        #{source_text}
+      TEXT
     end
   end
 end

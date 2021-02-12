@@ -27,27 +27,27 @@ module Git
 
     memoize
     def instructions
-      read_file_blob(".docs/instructions.md")
+      read_file_blob(FILEPATHS[:instructions])
     end
 
     memoize
     def instructions_append
-      read_file_blob(".docs/instructions.append.md")
+      read_file_blob(FILEPATHS[:instructions_append])
     end
 
     memoize
     def introduction
-      read_file_blob(".docs/introduction.md")
+      read_file_blob(FILEPATHS[:introduction])
     end
 
     memoize
     def introduction_append
-      read_file_blob(".docs/introduction.append.md")
+      read_file_blob(FILEPATHS[:introduction_append])
     end
 
     memoize
     def hints
-      read_file_blob(".docs/hints.md")
+      read_file_blob(FILEPATHS[:hints])
     rescue StandardError
       nil
     end
@@ -115,8 +115,8 @@ module Git
 
     memoize
     def cli_filepaths
-      special_filepaths = ['README.md', 'HELP.md']
-      special_filepaths << 'HINTS.md' if filepaths.include?('.docs/hints.md')
+      special_filepaths = [SPECIAL_FILEPATHS[:readme], SPECIAL_FILEPATHS[:help]]
+      special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(FILEPATHS[:hints])
 
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         next if filepath.match?(track.ignore_regexp)
@@ -169,7 +169,7 @@ module Git
     memoize
     def config
       HashWithIndifferentAccess.new(
-        JSON.parse(read_file_blob('.meta/config.json'))
+        JSON.parse(read_file_blob(FILEPATHS[:config]))
       )
     end
 
@@ -182,5 +182,20 @@ module Git
     def track
       Track.new(repo: repo)
     end
+
+    FILEPATHS = {
+      instructions: ".docs/instructions.md",
+      instructions_append: ".docs/instructions.append.md",
+      introduction: ".docs/introduction.md",
+      introduction_append: ".docs/introduction.append.md",
+      hints: ".docs/hints.md",
+      config: ".meta/config.json"
+    }.freeze
+
+    SPECIAL_FILEPATHS = {
+      readme: 'README.md',
+      hints: 'HINTS.md',
+      help: 'HELP.md'
+    }.freeze
   end
 end

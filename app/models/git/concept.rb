@@ -17,17 +17,17 @@ module Git
 
     memoize
     def about
-      read_file_blob('about.md')
+      read_file_blob(FILEPATHS[:about])
     end
 
     memoize
     def introduction
-      read_file_blob('introduction.md')
+      read_file_blob(FILEPATHS[:introduction])
     end
 
     memoize
     def links
-      data = JSON.parse(read_file_blob('links.json'))
+      data = JSON.parse(read_file_blob(FILEPATHS[:links]))
       data.map { |link| OpenStruct.new(link) }
     end
 
@@ -53,5 +53,11 @@ module Git
     def commit
       repo.lookup_commit(git_sha)
     end
+
+    FILEPATHS = {
+      about: "about.md",
+      introduction: "introduction.md",
+      links: "links.json"
+    }.freeze
   end
 end

@@ -28,56 +28,32 @@ module Git
 
     memoize
     def about
-      repo.read_text_blob(commit, about_filepath)
+      repo.read_text_blob(commit, FILEPATHS[:about])
     end
 
     memoize
     def snippet
-      repo.read_text_blob(commit, snippet_filepath)
+      repo.read_text_blob(commit, FILEPATHS[:snippet])
     end
 
     memoize
     def debug
-      repo.read_text_blob(commit, debug_filepath)
+      repo.read_text_blob(commit, FILEPATHS[:debug])
     end
 
     memoize
     def help
-      repo.read_text_blob(commit, help_filepath)
+      repo.read_text_blob(commit, FILEPATHS[:help])
     end
 
     memoize
     def tests
-      repo.read_text_blob(commit, tests_filepath)
+      repo.read_text_blob(commit, FILEPATHS[:tests])
     end
 
     memoize
     def config
-      repo.read_json_blob(commit, config_filepath)
-    end
-
-    def about_filepath
-      "docs/ABOUT.md"
-    end
-
-    def snippet_filepath
-      "docs/SNIPPET.txt"
-    end
-
-    def debug_filepath
-      "exercises/shared/.docs/debug.md"
-    end
-
-    def help_filepath
-      "exercises/shared/.docs/help.md"
-    end
-
-    def tests_filepath
-      "exercises/shared/.docs/tests.md"
-    end
-
-    def config_filepath
-      "config.json"
+      repo.read_json_blob(commit, FILEPATHS[:config])
     end
 
     memoize
@@ -87,5 +63,14 @@ module Git
 
     private
     attr_reader :repo, :git_sha
+
+    FILEPATHS = {
+      about: "docs/ABOUT.md",
+      snippet: "docs/SNIPPET.txt",
+      debug: "exercises/shared/.docs/debug.md",
+      help: "exercises/shared/.docs/help.md",
+      tests: "exercises/shared/.docs/tests.md",
+      config: "config.json"
+    }.freeze
   end
 end

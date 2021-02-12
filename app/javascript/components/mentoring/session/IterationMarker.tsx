@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { timeFormat } from '../../../utils/time'
-import { Iteration, Student } from '../Solution'
+import { Iteration, Student } from '../Session'
 import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 
 export const IterationMarker = ({

@@ -1,5 +1,5 @@
 import React, { useCallback, createContext } from 'react'
-import { MentoringRequest, Discussion, SolutionProps } from '../Solution'
+import { MentoringRequest, Discussion, SessionProps } from '../Session'
 
 type RequestContextType = {
   handleRequestLock: (request: MentoringRequest) => void
@@ -12,25 +12,25 @@ export const RequestContext = createContext<RequestContextType>({
 })
 
 export const RequestWrapper = ({
-  solution,
-  setSolution,
+  session,
+  setSession,
   children,
 }: React.PropsWithChildren<{
-  solution: SolutionProps
-  setSolution: (solution: SolutionProps) => void
+  session: SessionProps
+  setSession: (session: SessionProps) => void
 }>): JSX.Element => {
   const handleRequestLock = useCallback(
     (request) => {
-      setSolution({ ...solution, request: request })
+      setSession({ ...session, request: request })
     },
-    [setSolution, solution]
+    [setSession, session]
   )
 
   const handleDiscussionStart = useCallback(
     (discussion) => {
-      setSolution({ ...solution, discussion: discussion })
+      setSession({ ...session, discussion: discussion })
     },
-    [setSolution, solution]
+    [setSession, session]
   )
 
   return (

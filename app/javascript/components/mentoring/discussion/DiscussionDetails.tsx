@@ -4,7 +4,7 @@ import {
   Iteration,
   Student,
   StudentMentorRelationship,
-} from '../Solution'
+} from '../Session'
 import { FinishedWizard } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 

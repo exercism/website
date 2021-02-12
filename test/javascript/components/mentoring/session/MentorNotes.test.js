@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { MentorNotes } from '../../../../../app/javascript/components/mentoring/solution/MentorNotes'
+import { MentorNotes } from '../../../../../app/javascript/components/mentoring/session/MentorNotes'
 
 test('shows CTA to contribute notes when notes isnt present', async () => {
   render(<MentorNotes />)

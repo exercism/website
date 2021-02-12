@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { IterationButton } from '../../../../../app/javascript/components/mentoring/solution/IterationButton'
+import { IterationButton } from '../../../../../app/javascript/components/mentoring/session/IterationButton'
 
 test('applies correct properties to selected button', async () => {
   const iteration = { idx: 1 }

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
-import { Discussion } from '../Solution'
+import { Discussion } from '../Session'
 
 export const FinishButton = ({
   endpoint,

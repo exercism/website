@@ -2,7 +2,7 @@ import React, { useReducer, useContext } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
-import { Student, StudentMentorRelationship } from '../Solution'
+import { Student, StudentMentorRelationship } from '../Session'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { DiscussionContext } from './DiscussionContext'
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddFavoriteButton } from './AddFavoriteButton'
-import { RemoveFavoriteButton } from '../solution/RemoveFavoriteButton'
+import { RemoveFavoriteButton } from '../session/RemoveFavoriteButton'
 
 export const FavoriteButton = ({
   endpoint,

@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { Discussion, SolutionProps } from '../Solution'
+import { Discussion, SessionProps } from '../Session'
 import { DiscussionPostProps } from './DiscussionPost'
 
 type DiscussionContextType = {
@@ -35,12 +35,12 @@ export const DiscussionContext = createContext<DiscussionContextType>({
 })
 
 export const DiscussionWrapper = ({
-  solution,
-  setSolution,
+  session,
+  setSession,
   children,
 }: React.PropsWithChildren<{
-  solution: SolutionProps
-  setSolution: (solution: SolutionProps) => void
+  session: SessionProps
+  setSession: (session: SessionProps) => void
 }>): JSX.Element => {
   const [hasNewMessages, setHasNewMessages] = useState(false)
   const [
@@ -50,7 +50,7 @@ export const DiscussionWrapper = ({
   const highlightedPostRef = useRef<HTMLDivElement | null>(null)
   const hasLoadedRef = useRef(false)
 
-  const previouslyNotFinishedRef = useRef(!solution.discussion.isFinished)
+  const previouslyNotFinishedRef = useRef(!session.discussion.isFinished)
   const finishedWizardRef = useRef<HTMLDivElement>(null)
 
   const handlePostsChange = useCallback(
@@ -65,11 +65,11 @@ export const DiscussionWrapper = ({
 
       setHighlightedPost(lastPost)
 
-      if (lastPost.authorId !== solution.userId) {
+      if (lastPost.authorId !== session.userId) {
         setHasNewMessages(true)
       }
     },
-    [solution.userId]
+    [session.userId]
   )
 
   const handlePostHighlight = useCallback(
@@ -80,11 +80,11 @@ export const DiscussionWrapper = ({
         return
       }
 
-      if (highlightedPost.authorId === solution.userId) {
+      if (highlightedPost.authorId === session.userId) {
         post.scrollIntoView()
       }
     },
-    [highlightedPost, solution.userId]
+    [highlightedPost, session.userId]
   )
 
   const handleAfterPostHighlight = useCallback(() => {
@@ -93,9 +93,9 @@ export const DiscussionWrapper = ({
 
   const handleFinish = useCallback(
     (discussion) => {
-      setSolution({ ...solution, discussion: discussion })
+      setSession({ ...session, discussion: discussion })
     },
-    [setSolution, solution]
+    [setSession, session]
   )
 
   useEffect(() => {
@@ -104,12 +104,12 @@ export const DiscussionWrapper = ({
     }
 
     finishedWizardRef.current.scrollIntoView()
-  }, [solution.relationship])
+  }, [session.relationship])
 
   return (
     <DiscussionContext.Provider
       value={{
-        cacheKey: `posts-${solution.discussion.id}`,
+        cacheKey: `posts-${session.discussion.id}`,
         hasNewMessages: hasNewMessages,
         highlightedPost: highlightedPost,
         handleAfterPostHighlight: handleAfterPostHighlight,

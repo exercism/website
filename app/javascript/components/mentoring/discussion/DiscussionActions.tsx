@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
 import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
-import { Discussion } from '../Solution'
+import { Discussion } from '../Session'
 import { DiscussionContext } from './DiscussionContext'
 
 export const DiscussionActions = ({

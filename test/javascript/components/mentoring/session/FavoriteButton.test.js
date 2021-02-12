@@ -7,7 +7,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { FavoriteButton } from '../../../../../app/javascript/components/mentoring/solution/FavoriteButton'
+import { FavoriteButton } from '../../../../../app/javascript/components/mentoring/session/FavoriteButton'
 import userEvent from '@testing-library/user-event'
 import { silenceConsole } from '../../../support/silence-console'
 

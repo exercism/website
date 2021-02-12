@@ -7,7 +7,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { IterationFiles } from '../../../../../app/javascript/components/mentoring/solution/IterationFiles'
+import { IterationFiles } from '../../../../../app/javascript/components/mentoring/session/IterationFiles'
 import userEvent from '@testing-library/user-event'
 import { silenceConsole } from '../../../support/silence-console'
 import { TestQueryCache } from '../../../support/TestQueryCache'

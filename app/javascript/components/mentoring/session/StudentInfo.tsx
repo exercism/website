@@ -1,5 +1,5 @@
 import React from 'react'
-import { Student } from '../Solution'
+import { Student } from '../Session'
 import { Avatar, Reputation } from '../../common'
 import { FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'

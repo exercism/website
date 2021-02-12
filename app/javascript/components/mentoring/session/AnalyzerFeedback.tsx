@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnalyzerFeedback as AnalyzerFeedbackProps } from '../Solution'
+import { AnalyzerFeedback as AnalyzerFeedbackProps } from '../Session'
 
 export const AnalyzerFeedback = ({
   html,

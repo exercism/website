@@ -8,7 +8,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { Solution } from '../../../../app/javascript/components/mentoring/Solution'
+import { Session } from '../../../../app/javascript/components/mentoring/Session'
 import { stubRange } from '../../support/code-mirror-helpers'
 
 stubRange()
@@ -52,7 +52,7 @@ test('highlights currently selected iteration', async () => {
     },
   ]
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}
@@ -104,7 +104,7 @@ test('shows back button', async () => {
     },
   ]
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}
@@ -161,7 +161,7 @@ test('hides latest label if on old iteration', async () => {
     },
   ]
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}
@@ -219,7 +219,7 @@ test('switches to posts tab when comment success', async () => {
   server.listen()
 
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}
@@ -283,7 +283,7 @@ test('switches tabs', async () => {
   ]
 
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}
@@ -349,7 +349,7 @@ test('go to previous iteration', async () => {
   ]
 
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}
@@ -407,7 +407,7 @@ test('go to next iteration', async () => {
   ]
 
   render(
-    <Solution
+    <Session
       exercise={exercise}
       links={links}
       track={track}

@@ -5,7 +5,7 @@ import {
   MentorSolution as MentorSolutionProps,
   Track,
   Exercise,
-} from '../Solution'
+} from '../Session'
 import { MentorSolution } from './MentorSolution'
 
 export const Guidance = ({

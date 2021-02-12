@@ -161,42 +161,6 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal expected, contents
   end
 
-  test "read_file for practice exercise without introduction returns correct README.md file" do
-    exercise = create :practice_exercise, slug: 'anagram'
-    solution = create :practice_solution, exercise: exercise
-
-    contents = solution.read_file('README.md')
-    expected = "# Anagram\n\nWelcome to Anagram on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\n\n## Instructions\n\nInstructions for the anagram exercise.\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)\n- Tai (@taiyab)" # rubocop:disable Layout/LineLength
-    assert_equal expected, contents
-  end
-
-  test "read_file for practice exercise without hints returns correct README.md file" do
-    exercise = create :practice_exercise, slug: 'space-age'
-    solution = create :practice_solution, exercise: exercise
-
-    contents = solution.read_file('README.md')
-    expected = "# Space Age\n\nWelcome to Space Age on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\n\n## Introduction\n\nIntroduction for space-age\n\n## Instructions\n\nInstructions for space-age\n\n## Source\n\n### Created by\n\n- @erikschierboom\n\n### Contributed to by\n\n- @ihid" # rubocop:disable Layout/LineLength
-    assert_equal expected, contents
-  end
-
-  test "read_file for practice exercise without contributors returns correct README.md file" do
-    exercise = create :practice_exercise, slug: 'allergies'
-    solution = create :practice_solution, exercise: exercise
-
-    contents = solution.read_file('README.md')
-    expected = "# Allergies\n\nWelcome to Allergies on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\n\n## Instructions\n\nInstructions for allergies\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)" # rubocop:disable Layout/LineLength
-    assert_equal expected, contents
-  end
-
-  test "read_file for practice exercise without source returns correct README.md file" do
-    exercise = create :practice_exercise, slug: 'isogram'
-    solution = create :practice_solution, exercise: exercise
-
-    contents = solution.read_file('README.md')
-    expected = "# Isogram\n\nWelcome to Isogram on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\n\n## Instructions\n\nInstructions for isogram" # rubocop:disable Layout/LineLength
-    assert_equal expected, contents
-  end
-
   test "read_file for concept exercise returns correct HELP.md file" do
     exercise = create :concept_exercise
     solution = create :concept_solution, exercise: exercise

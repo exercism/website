@@ -17,6 +17,7 @@ import { AddDiscussionPostPanel } from './discussion/AddDiscussionPostPanel'
 import { Tab, TabContext } from '../common/Tab'
 import { Icon } from '../common/Icon'
 import { GraphicalIcon } from '../common/GraphicalIcon'
+import { IterationMarker } from './solution/IterationMarker'
 
 export type Links = {
   mentorDashboard: string
@@ -216,7 +217,15 @@ export const Solution = (props: SolutionProps): JSX.Element => {
                   student={student}
                   relationship={relationship}
                 />
-              ) : null}
+              ) : (
+                /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */
+                <div className="discussion">
+                  <IterationMarker
+                    iteration={iterations[iterations.length - 1]}
+                    student={student}
+                  />
+                </div>
+              )}
             </Tab.Panel>
             <Tab.Panel id="scratchpad" context={TabsContext}>
               <Scratchpad endpoint={links.scratchpad} />

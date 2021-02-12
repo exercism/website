@@ -47,40 +47,40 @@ class API::FilesControllerTest < API::BaseTestCase
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
     assert_response 200
-    assert content, response.body
+    assert_includes response.body, content
   end
 
   test "show should return special README.md solution file" do
     setup_user
     solution = create :concept_solution, user: @current_user
     create :submission, solution: solution
-    content = "README"
+    content = "Strings are manipulated by calling the string's methods."
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
     assert_response 200
-    assert content, response.body
+    assert_includes response.body, content
   end
 
   test "show should return special HELP.md solution file" do
     setup_user
     solution = create :concept_solution, user: @current_user
     create :submission, solution: solution
-    content = "HELP"
+    content = "Stuck? Try the Ruby gitter channel."
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
     assert_response 200
-    assert content, response.body
+    assert_includes response.body, content
   end
 
   test "show should return special HINTS.md solution file" do
     setup_user
     solution = create :concept_solution, user: @current_user
     create :submission, solution: solution
-    content = "HINTS"
+    content = "There are different ways to search for text in a string"
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
     assert_response 200
-    assert content, response.body
+    assert_includes response.body, content
   end
 
   # test "show should return 200 if user is mentor" do

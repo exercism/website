@@ -5,10 +5,16 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
   # Index
   ###
   test "index returns posts for discussion and iteration" do
+    student = create :user, handle: "student"
     mentor = create :user, handle: "author"
     setup_user(mentor)
-    discussion = create :solution_mentor_discussion, mentor: mentor
-    iteration = create :iteration, idx: 1
+    solution = create :concept_solution, user: student
+    mentor_request = create :solution_mentor_request,
+      solution: solution,
+      comment: "Hello",
+      updated_at: Time.utc(2016, 12, 25)
+    discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    iteration = create :iteration, idx: 2, solution: solution
     discussion_post = create(:solution_mentor_discussion_post,
       discussion: discussion,
       iteration: iteration,
@@ -16,11 +22,23 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 
-    get api_mentor_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
+    get api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
 
     assert_response 200
     expected = {
       posts: [
+        {
+          id: "uuid",
+          author_id: student.id,
+          author_handle: "student",
+          author_avatar_url: student.avatar_url,
+          by_student: true,
+          content_markdown: "Hello",
+          content_html: "Hello",
+          updated_at: Time.utc(2016, 12, 25).iso8601,
+          iteration_idx: 2,
+          links: {}
+        },
         {
           id: discussion_post.uuid,
           author_id: mentor.id,
@@ -30,10 +48,44 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_markdown: "Hello",
           content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
-          iteration_idx: 1,
+          iteration_idx: 2,
           links: {
             update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
           }
+        }
+      ]
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "index returns mentor request comment for the last iteration if no posts exist yet" do
+    student = create :user, handle: "student"
+    mentor = create :user, handle: "author"
+    setup_user(mentor)
+    solution = create :concept_solution, user: student
+    mentor_request = create :solution_mentor_request,
+      solution: solution,
+      comment: "Hello",
+      updated_at: Time.utc(2016, 12, 25)
+    discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    create :iteration, idx: 7, solution: solution
+
+    get api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
+
+    assert_response 200
+    expected = {
+      posts: [
+        {
+          id: "uuid",
+          author_id: student.id,
+          author_handle: "student",
+          author_avatar_url: student.avatar_url,
+          by_student: true,
+          content_markdown: "Hello",
+          content_html: "Hello",
+          updated_at: Time.utc(2016, 12, 25).iso8601,
+          iteration_idx: 7,
+          links: {}
         }
       ]
     }

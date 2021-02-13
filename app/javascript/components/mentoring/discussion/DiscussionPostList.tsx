@@ -3,11 +3,11 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
-import { Iteration, Student } from '../Solution'
+import { Iteration, Student } from '../Session'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
-import { IterationMarker } from '../solution/IterationMarker'
+import { IterationMarker } from '../session/IterationMarker'
 import { DiscussionContext } from './DiscussionContext'
 
 type IterationWithPost = Iteration & { posts: DiscussionPostProps[] }

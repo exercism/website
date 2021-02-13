@@ -1,14 +1,14 @@
 import React, { useState, createContext } from 'react'
 
-import { IterationsList } from './solution/IterationsList'
-import { CloseButton } from './solution/CloseButton'
-import { SolutionInfo } from './solution/SolutionInfo'
-import { IterationFiles } from './solution/IterationFiles'
-import { IterationHeader } from './solution/IterationHeader'
-import { Guidance } from './solution/Guidance'
-import { Scratchpad } from './solution/Scratchpad'
-import { StudentInfo } from './solution/StudentInfo'
-import { SolutionContext } from './solution/SolutionContext'
+import { IterationsList } from './session/IterationsList'
+import { CloseButton } from './session/CloseButton'
+import { SessionInfo } from './session/SessionInfo'
+import { IterationFiles } from './session/IterationFiles'
+import { IterationHeader } from './session/IterationHeader'
+import { Guidance } from './session/Guidance'
+import { Scratchpad } from './session/Scratchpad'
+import { StudentInfo } from './session/StudentInfo'
+import { SessionContext } from './session/SessionContext'
 
 import { DiscussionDetails } from './discussion/DiscussionDetails'
 import { DiscussionActions } from './discussion/DiscussionActions'
@@ -134,7 +134,7 @@ export type MentoringRequest = {
   isLocked: boolean
 }
 
-export type SolutionProps = {
+export type SessionProps = {
   student: Student
   track: Track
   exercise: Exercise
@@ -155,8 +155,8 @@ export const TabsContext = createContext<TabContext>({
   switchToTab: () => {},
 })
 
-export const Solution = (props: SolutionProps): JSX.Element => {
-  const [solution, setSolution] = useState(props)
+export const Session = (props: SessionProps): JSX.Element => {
+  const [session, setSession] = useState(props)
   const {
     student,
     track,
@@ -168,19 +168,19 @@ export const Solution = (props: SolutionProps): JSX.Element => {
     notes,
     mentorSolution,
     request,
-  } = solution
+  } = session
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
   const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
-    <SolutionContext solution={solution} setSolution={setSolution}>
+    <SessionContext session={session} setSession={setSession}>
       <div className="c-mentor-discussion">
         <div className="lhs">
           <header className="discussion-header">
             <CloseButton url={links.mentorDashboard} />
-            <SolutionInfo student={student} track={track} exercise={exercise} />
+            <SessionInfo student={student} track={track} exercise={exercise} />
             {discussion ? <DiscussionActions {...discussion} /> : null}
           </header>
           <IterationHeader
@@ -260,6 +260,6 @@ export const Solution = (props: SolutionProps): JSX.Element => {
           )}
         </TabsContext.Provider>
       </div>
-    </SolutionContext>
+    </SessionContext>
   )
 }

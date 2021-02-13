@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Discussion, TabsContext } from '../Solution'
+import { Discussion, TabsContext } from '../Session'
 import { AddDiscussionPost } from './AddDiscussionPost'
 import { NewMessageAlert } from './NewMessageAlert'
 

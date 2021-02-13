@@ -1,7 +1,7 @@
 import React from 'react'
 import { DiscussionPost } from '../discussion/DiscussionPost'
-import { Iteration, Student, MentoringRequest } from '../Solution'
-import { IterationMarker } from '../solution/IterationMarker'
+import { Iteration, Student, MentoringRequest } from '../Session'
+import { IterationMarker } from '../session/IterationMarker'
 
 export const RequestDetails = ({
   iterations,

@@ -6,7 +6,7 @@ import {
   MentorSolution as MentorSolutionProps,
   Track,
   Exercise,
-} from '../Solution'
+} from '../Session'
 import { useHighlighting } from '../../../utils/highlight'
 
 const PublishDetails = ({ solution }: { solution: MentorSolutionProps }) => {

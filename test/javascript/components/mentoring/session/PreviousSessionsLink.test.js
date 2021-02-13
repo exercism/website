@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { PreviousSessionsLink } from '../../../../../app/javascript/components/mentoring/solution/PreviousSessionsLink'
+import { PreviousSessionsLink } from '../../../../../app/javascript/components/mentoring/session/PreviousSessionsLink'
 
 test('shows number of sessions', async () => {
   render(<PreviousSessionsLink numSessions={10} />)

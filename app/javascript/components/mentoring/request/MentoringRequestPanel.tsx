@@ -1,5 +1,5 @@
 import React from 'react'
-import { MentoringRequest, Iteration } from '../Solution'
+import { MentoringRequest, Iteration } from '../Session'
 import { StartMentoringPanel } from './StartMentoringPanel'
 import { StartDiscussionPanel } from './StartDiscussionPanel'
 

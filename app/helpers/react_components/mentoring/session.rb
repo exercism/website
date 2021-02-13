@@ -1,11 +1,11 @@
 module ReactComponents
   module Mentoring
-    class Solution < ReactComponent
+    class Session < ReactComponent
       initialize_with :solution
 
       def to_s
         super(
-          "mentoring-solution",
+          "mentoring-session",
           {
             user_id: current_user.id,
             student: {

@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useCallback } from 'react'
-import { Iteration, Discussion, MentoringRequest } from '../Solution'
+import { Iteration, Discussion, MentoringRequest } from '../Session'
 import { RequestContext } from './RequestContext'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'

@@ -2,7 +2,7 @@ import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
-import { Student, AutomatedFeedback } from '../Solution'
+import { Student, AutomatedFeedback } from '../Session'
 
 export const AutomatedFeedbackSummary = ({
   automatedFeedback,

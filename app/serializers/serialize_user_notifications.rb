@@ -15,7 +15,7 @@ class SerializeUserNotifications
       id: notification.uuid,
       url: notification.url,
       text: notification.text,
-      read: notification.read?,
+      is_read: notification.read?,
       created_at: notification.created_at.iso8601,
       image_type: notification.image_type,
       image_url: notification.image_url

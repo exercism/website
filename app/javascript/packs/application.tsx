@@ -100,6 +100,10 @@ import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
+import {
+  Notification,
+  UnrevealedBadgeList,
+} from '../components/common/NotificationsMenu'
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
@@ -141,6 +145,14 @@ initReact({
   ),
   'common-notifications-icon': (data: any) => (
     <Common.NotificationsIcon count={data.count} />
+  ),
+  'common-notifications-menu': (data: any) => (
+    <Common.NotificationsMenu
+      notifications={camelizeKeysAs<Notification[]>(data.notifications)}
+      unrevealedBadges={camelizeKeysAs<UnrevealedBadgeList>(
+        data.unrevealed_badges
+      )}
+    />
   ),
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />

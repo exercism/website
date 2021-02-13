@@ -1,7 +1,7 @@
 require_relative "../react_component_test_case"
 
 module Mentoring
-  class SolutionTest < ReactComponentTestCase
+  class SessionTest < ReactComponentTestCase
     test "mentoring solution renders correctly" do
       mentor = create :user
       student = create :user
@@ -22,12 +22,12 @@ module Mentoring
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
       create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
-      component = ReactComponents::Mentoring::Solution.new(solution)
+      component = ReactComponents::Mentoring::Session.new(solution)
       component.stubs(current_user: mentor)
       scratchpad = ScratchpadPage.new(about: exercise)
 
       assert_component component,
-        "mentoring-solution",
+        "mentoring-session",
         {
           user_id: mentor.id,
           student: {

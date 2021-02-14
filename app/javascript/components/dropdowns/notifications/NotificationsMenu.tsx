@@ -1,10 +1,10 @@
 import React from 'react'
 import { UnrevealedBadgesContainer } from './notifications-menu/UnrevealedBadgesContainer'
 import { NotificationsContainer } from './notifications-menu/NotificationsContainer'
-import { useRequestQuery } from '../../hooks/request-query'
+import { useRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
-import { Loading } from './Loading'
-import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
+import { Loading } from '../../common/Loading'
+import { useErrorHandler, ErrorBoundary } from '../../ErrorBoundary'
 
 type BadgeRarity = 'common' | 'rare' | 'ultimate' | 'legendary'
 

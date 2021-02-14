@@ -1,9 +1,9 @@
 module ReactComponents
-  module Common
-    class NotificationsMenu < ReactComponent
+  module Dropdowns
+    class Notifications < ReactComponent
       def to_s
         super(
-          "common-notifications-menu",
+          "dropdowns-notifications",
           { endpoint: Exercism::Routes.api_notifications_url }
         )
       end

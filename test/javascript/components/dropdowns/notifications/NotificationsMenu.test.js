@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { NotificationsMenu } from '../../../../app/javascript/components/common/NotificationsMenu'
-import { TestQueryCache } from '../../support/TestQueryCache'
-import { silenceConsole } from '../../support/silence-console'
+import { NotificationsMenu } from '../../../../../app/javascript/components/dropdowns/notifications/NotificationsMenu'
+import { TestQueryCache } from '../../../support/TestQueryCache'
+import { silenceConsole } from '../../../support/silence-console'
 
 test('shows loading message', async () => {
   const server = setupServer(

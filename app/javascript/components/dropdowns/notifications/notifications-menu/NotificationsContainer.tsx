@@ -1,7 +1,7 @@
 import React from 'react'
 import { Notification } from '../NotificationsMenu'
-import { fromNow } from '../../../utils/time'
-import { GraphicalIcon } from '../../common'
+import { fromNow } from '../../../../utils/time'
+import { GraphicalIcon } from '../../../common'
 
 export const NotificationsContainer = ({
   notifications,

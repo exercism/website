@@ -12,7 +12,8 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit notifications_temp_modals_path
+        visit dashboard_path
+        find(".c-notification").click
 
         assert_text "You have been awarded the Rookie badge."
       end

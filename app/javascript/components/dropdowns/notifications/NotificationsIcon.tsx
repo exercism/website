@@ -1,6 +1,6 @@
-import React, { useReducer, useEffect, useMemo } from 'react'
-import consumer from '../../utils/action-cable-consumer'
-import { Icon } from './Icon'
+import React, { useReducer, useEffect, useMemo, forwardRef } from 'react'
+import consumer from '../../../utils/action-cable-consumer'
+import { Icon } from '../../common/Icon'
 
 type NotificationsIconProps = {
   count: number
@@ -21,7 +21,11 @@ function reducer(
   }
 }
 
-export function NotificationsIcon({ count }: NotificationsIconProps) {
+export const NotificationsIcon = forwardRef<
+  HTMLButtonElement,
+  NotificationsIconProps
+>((props, ref) => {
+  const { count, ...buttonProps } = props
   const [state, dispatch] = useReducer(reducer, { count: count })
   const variantClass = useMemo(() => {
     switch (true) {
@@ -49,12 +53,16 @@ export function NotificationsIcon({ count }: NotificationsIconProps) {
   }, [])
 
   return (
-    <div className={`c-notification ${variantClass}`}>
+    <button
+      ref={ref}
+      className={`c-notification ${variantClass}`}
+      {...buttonProps}
+    >
       <Icon
         icon="notifications"
         alt={`You have ${state.count} notifications`}
       />
       <div className="--count">{state.count}</div>
-    </div>
+    </button>
   )
-}
+})

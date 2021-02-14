@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { NotificationsIcon } from '../../../../app/javascript/components/common/NotificationsIcon'
+import { NotificationsIcon } from '../../../../../app/javascript/components/dropdowns/notifications/NotificationsIcon'
 
 test('assigns the --none variant when count is 0', async () => {
   const { container } = render(<NotificationsIcon count={0} />)

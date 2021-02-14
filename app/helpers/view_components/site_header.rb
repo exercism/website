@@ -68,7 +68,7 @@ module ViewComponents
     def signed_in_section
       tag.div(class: "user-section") do
         safe_join([
-                    ReactComponents::Common::NotificationsIcon.new(current_user).to_s,
+                    ReactComponents::Dropdowns::Notifications.new.to_s,
                     render(ViewComponents::PrimaryReputation.new(current_user, has_notification: true)),
                     render(ViewComponents::UserMenu.new)
                   ])

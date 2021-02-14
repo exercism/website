@@ -25,33 +25,6 @@ module Temp
       @discussion = Solution::MentorDiscussion.first
     end
 
-    def notifications
-      if current_user.notifications.unread.size < 2
-        User::Notifications::AcquiredBadgeNotification.create!(
-          user: User.first,
-          version: 1,
-          params: { badge: Badge.first }
-        )
-        User::Notifications::MentorStartedDiscussionNotification.create!(
-          user: User.first,
-          version: 1,
-          params: {
-            mentor: User.second,
-            track: Track.first,
-            exercise: Exercise.first,
-            discussion: Solution::MentorDiscussion.create!(
-              mentor: User.first,
-              solution: Solution.first
-            )
-          },
-          read_at: Time.current
-        )
-      end
-
-      @notifications = SerializeUserNotifications.(current_user.notifications.unread.limit(5))
-      @unrevealed_badges = SerializeUserAcquiredBadges.(current_user.unrevealed_badges)
-    end
-
     def reputation
       if current_user.reputation_tokens.size < 2
         User::ReputationToken.create!(

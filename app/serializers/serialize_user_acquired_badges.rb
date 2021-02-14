@@ -4,8 +4,12 @@ class SerializeUserAcquiredBadges
   initialize_with :acquired_badges
 
   def call
-    acquired_badges.includes(:badge).
-      map { |ab| serialize_badge(ab) }
+    {
+      badges: acquired_badges.includes(:badge).map { |ab| serialize_badge(ab) },
+      links: {
+        badges: Exercism::Routes.badges_journey_url
+      }
+    }
   end
 
   private

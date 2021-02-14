@@ -8,10 +8,39 @@ import React, {
 import { usePanel } from '../../hooks/use-panel'
 import { v4 as uuidv4 } from 'uuid'
 
+export type DropdownAttributes = {
+  buttonAttributes: ButtonAttributes
+  panelAttributes: any
+  itemAttributes: (index: number) => ItemAttributes
+  listAttributes: ListAttributes
+}
+
+type ButtonAttributes = {
+  'aria-controls': string
+  'aria-haspopup': true
+  'aria-expanded': boolean | undefined
+  ref: React.MutableRefObject<HTMLButtonElement | null>
+  onKeyDown: (e: KeyboardEvent) => void
+  onClick: () => void
+}
+
+type ItemAttributes = {
+  ref: (instance: HTMLLIElement) => void
+  onKeyDown: (e: KeyboardEvent) => void
+  tabIndex: -1
+  role: 'menuitem'
+}
+
+type ListAttributes = {
+  id: string
+  role: 'menu'
+  hidden: boolean
+}
+
 export const useDropdown = (
   itemLength: number,
   onItemSelect?: (index: number) => void
-) => {
+): DropdownAttributes => {
   const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
   const [focusIndex, setFocusIndex] = useState<number | null | undefined>()

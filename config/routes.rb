@@ -120,6 +120,8 @@ Rails.application.routes.draw do
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
 
+  resources :notifications, only: [:index]
+
   resources :profiles, only: [:show] do
     member do
       get :tooltip
@@ -207,7 +209,6 @@ Rails.application.routes.draw do
         get :publish_exercise
         get :completed_exercise
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
-        get :notifications
         get :reputation
       end
     end
@@ -229,7 +230,6 @@ Rails.application.routes.draw do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
 
-        resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]
           resource :inbox, controller: "inbox", only: [:show] do

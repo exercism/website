@@ -1,9 +1,6 @@
 class NotificationsChannel < ApplicationCable::Channel
-  def self.broadcast_changed(user, count: user.notifications.unread.count)
-    NotificationsChannel.broadcast_to(user, {
-                                        type: "notifications.changed",
-                                        payload: { count: count }
-                                      })
+  def self.broadcast_changed(user)
+    NotificationsChannel.broadcast_to(user, { type: "notifications.changed" })
   end
 
   def subscribed

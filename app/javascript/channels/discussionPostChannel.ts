@@ -4,7 +4,7 @@ export class DiscussionPostChannel {
   subscription: ActionCable.Channel
 
   constructor(
-    { discussionId }: { discussionId: number },
+    { discussionId }: { discussionId: string },
     onReceive: () => void
   ) {
     this.subscription = consumer.subscriptions.create(

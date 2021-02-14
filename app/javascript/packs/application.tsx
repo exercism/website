@@ -110,14 +110,16 @@ import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
 import {
-  Iteration as MentorDiscussionIteration,
-  Student as MentorDiscussionStudent,
-  Track as MentorDiscussionTrack,
-  Exercise as MentorDiscussionExercise,
-  Links as MentorDiscussionLinks,
-  MentorSolution as MentorDiscussionMentorSolution,
+  Iteration as MentoringSessionIteration,
+  Student as MentoringSessionStudent,
+  Track as MentoringSessionTrack,
+  Exercise as MentoringSessionExercise,
+  Links as MentoringSessionLinks,
+  MentorSolution as MentoringSessionMentorSolution,
+  Discussion as MentoringSessionDiscussion,
   StudentMentorRelationship,
-} from '../components/mentoring/Discussion'
+  MentoringRequest,
+} from '../components/mentoring/Session'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -159,23 +161,23 @@ initReact({
       exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
     />
   ),
-  'mentoring-discussion': (data: any) => (
-    <Mentoring.Discussion
-      isFinished={data.is_finished}
-      discussionId={data.discussion_id}
+  'mentoring-session': (data: any) => (
+    <Mentoring.Session
       userId={data.user_id}
-      student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
-      track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
-      iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
-      links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
+      discussion={camelizeKeysAs<MentoringSessionDiscussion>(data.discussion)}
+      mentorSolution={camelizeKeysAs<MentoringSessionMentorSolution>(
+        data.mentor_solution
+      )}
+      student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
+      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
+      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
+      request={camelizeKeysAs<MentoringRequest>(data.request)}
       relationship={camelizeKeysAs<StudentMentorRelationship>(
         data.relationship
       )}
       notes={data.notes}
-      mentorSolution={camelizeKeysAs<MentorDiscussionMentorSolution>(
-        data.mentor_solution
-      )}
     />
   ),
   'student-tracks-list': (data: any) => (

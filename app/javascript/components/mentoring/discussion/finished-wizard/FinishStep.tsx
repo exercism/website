@@ -1,5 +1,5 @@
 import React from 'react'
-import { Student, StudentMentorRelationship } from '../../Discussion'
+import { Student, StudentMentorRelationship } from '../../Session'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 
 export const FinishStep = ({

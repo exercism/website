@@ -47,7 +47,7 @@ module API
       return render_404(:mentor_request_not_found) unless mentor_request
 
       begin
-        Solution::MentorDiscussion::Create.(
+        discussion = Solution::MentorDiscussion::Create.(
           current_user,
           mentor_request,
           params[:iteration_idx],
@@ -57,8 +57,17 @@ module API
         return render_400(:mentor_request_locked)
       end
 
-      # TODO: Return the discussion here
-      head 200
+      render json: {
+        discussion: {
+          id: discussion.uuid,
+          is_finished: discussion.finished?,
+          links: {
+            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
+            mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_url(discussion),
+            finish: Exercism::Routes.finish_api_mentor_discussion_url(discussion)
+          }
+        }
+      }
     end
 
     def mark_as_nothing_to_do
@@ -82,7 +91,10 @@ module API
       render json: {
         discussion: {
           relationship: SerializeMentorStudentRelationship.(relationship),
-          is_finished: true
+          is_finished: true,
+          links: {
+            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
+          }
         }
       }
     end

@@ -111,14 +111,16 @@ module Components
 
       test "shows posts" do
         mentor = create :user, handle: "author"
-        solution = create :concept_solution
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        student = create :user, handle: "student"
+        solution = create :concept_solution, user: student
+        request = create :solution_mentor_request, solution: solution, comment: "Hello, Mentor", updated_at: 2.days.ago
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
         iteration = create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
         create(:solution_mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
           author: mentor,
-          content_markdown: "Hello",
+          content_markdown: "Hello, student",
           updated_at: Time.current)
 
         use_capybara_host do
@@ -126,13 +128,16 @@ module Components
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         end
 
-        assert_css "img[src='#{mentor.avatar_url}']"
-        assert_css ".comments.unread", text: "1"
         within(".discussion") { assert_text "Iteration 1" }
         assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
+        assert_css "img[src='#{student.avatar_url}']"
+        assert_text "Hello, Mentor"
+        assert_text "student"
+        assert_text "2 days ago"
+        assert_css "img[src='#{mentor.avatar_url}']"
+        assert_css ".comments.unread", text: "1"
         assert_text "author"
-        refute_text "Student"
-        assert_text "Hello"
+        assert_text "Hello, student"
       end
 
       test "shows iteration information" do
@@ -202,7 +207,6 @@ module Components
 
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_text "author"
-        refute_text "Student"
         assert_text "Hello"
       end
 
@@ -223,7 +227,6 @@ module Components
 
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_text "author"
-        refute_text "Student"
         assert_text "Hello"
       end
 
@@ -242,7 +245,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          find(".post").hover
+          find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
           click_on "Send"

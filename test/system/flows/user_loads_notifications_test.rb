@@ -38,5 +38,19 @@ module Flows
         assert_text "You have been awarded the Rookie badge."
       end
     end
+
+    test "user views unrevealed badges" do
+      user = create :user
+      badge = create :rookie_badge
+      create :user_acquired_badge, user: user, badge: badge, revealed: false
+
+      use_capybara_host do
+        sign_in!(user)
+        visit dashboard_path
+        find(".c-notification").click
+
+        assert_link "You've earned a new badge", href: badges_journey_url
+      end
+    end
   end
 end

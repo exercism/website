@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
-import { NotificationsMenu } from './notifications/NotificationsMenu'
+import { UnrevealedBadgesContainer } from './notifications/UnrevealedBadgesContainer'
+import { NotificationMenuItem } from './notifications/NotificationMenuItem'
 import { Notification, UnrevealedBadgeList } from './notifications/types'
-import { useDropdown } from './useDropdown'
+import { useDropdown, DropdownAttributes } from './useDropdown'
 import { useRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
@@ -34,29 +35,38 @@ const DropdownContent = ({
   data,
   status,
   error,
-  id,
-  role,
-  hidden,
+  listAttributes,
+  itemAttributes,
 }: {
   data: APIResponse | undefined
   status: QueryStatus
   error: unknown
-  id: string
-  role: string
-  hidden: boolean
-}) => {
+} & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
   if (data) {
+    const startIndex = data.unrevealedBadges ? 1 : 0
+
     return (
-      <ul id={id} role={role} hidden={hidden}>
-        {data ? (
-          <NotificationsMenu
-            unrevealedBadges={data.unrevealedBadges}
-            notifications={data.results}
-          />
+      <ul className="c-notifications-dropdown" {...listAttributes}>
+        {data.unrevealedBadges ? (
+          <li {...itemAttributes(0)}>
+            <UnrevealedBadgesContainer
+              badges={data.unrevealedBadges.badges}
+              url={data.unrevealedBadges.links.badges}
+            />
+          </li>
         ) : null}
+        {data.results.map((notification, i) => {
+          return (
+            <li {...itemAttributes(startIndex + i)} key={i}>
+              <NotificationMenuItem {...notification} />
+            </li>
+          )
+        })}
       </ul>
     )
   } else {
+    const { id, hidden } = listAttributes
+
     return (
       <div id={id} hidden={hidden}>
         {status === 'loading' ? <Loading /> : null}
@@ -79,7 +89,15 @@ export const Notifications = ({
     { endpoint: endpoint, options: {} },
     isMountedRef
   )
-  const { buttonAttributes, panelAttributes, listAttributes } = useDropdown(0)
+  const dropdownLength = data
+    ? data.results.length + (data.unrevealedBadges ? 1 : 0)
+    : 0
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+  } = useDropdown(dropdownLength)
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(
@@ -101,7 +119,8 @@ export const Notifications = ({
           data={data}
           status={status}
           error={error}
-          {...listAttributes}
+          itemAttributes={itemAttributes}
+          listAttributes={listAttributes}
         />
       </div>
     </div>

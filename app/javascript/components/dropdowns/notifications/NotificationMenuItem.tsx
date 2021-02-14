@@ -1,21 +1,7 @@
 import React from 'react'
-import { Notification } from '../types'
-import { fromNow } from '../../../../utils/time'
-import { GraphicalIcon } from '../../../common'
-
-export const NotificationsContainer = ({
-  notifications,
-}: {
-  notifications: Notification[]
-}): JSX.Element => {
-  return (
-    <React.Fragment>
-      {notifications.map((notification, i) => (
-        <NotificationMenuItem key={i} {...notification} />
-      ))}
-    </React.Fragment>
-  )
-}
+import { Notification } from './types'
+import { fromNow } from '../../../utils/time'
+import { GraphicalIcon } from '../../common'
 
 const NotificationImage = ({
   imageType,
@@ -52,14 +38,14 @@ const NotificationContent = ({
   )
 }
 
-const NotificationMenuItem = ({
+export const NotificationMenuItem = ({
   url,
   imageType,
   imageUrl,
   text,
   createdAt,
   isRead,
-}: Notification) => {
+}: Notification): JSX.Element => {
   return (
     <a href={url} className="notification">
       <NotificationImage imageType={imageType} imageUrl={imageUrl} />

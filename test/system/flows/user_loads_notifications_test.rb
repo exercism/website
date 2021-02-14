@@ -19,15 +19,5 @@ module Flows
         assert_text "You have been awarded the Rookie badge."
       end
     end
-
-    test "user views unrevealed badges" do
-      # user = create :user
-
-      # sign_in!(user)
-      # visit dashboard_path
-      # find(".c-notification").click
-
-      # assert_text "You have been awarded the Rookie badge."
-    end
   end
 end

@@ -3,9 +3,10 @@ import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { NotificationsMenu } from '../../../../../app/javascript/components/dropdowns/notifications/NotificationsMenu'
-import { TestQueryCache } from '../../../support/TestQueryCache'
-import { silenceConsole } from '../../../support/silence-console'
+import { Notifications } from '../../../../app/javascript/components/dropdowns/Notifications'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { silenceConsole } from '../../support/silence-console'
+import userEvent from '@testing-library/user-event'
 
 test('shows loading message', async () => {
   const server = setupServer(
@@ -15,9 +16,10 @@ test('shows loading message', async () => {
   )
   server.listen()
 
-  render(<NotificationsMenu endpoint="https://exercism.test/notifications" />)
+  render(<Notifications endpoint="https://exercism.test/notifications" />)
+  userEvent.click(screen.getByRole('button', { name: 'Open notifications' }))
 
-  expect(screen.getByText('Loading')).toBeInTheDocument()
+  expect(await screen.findByText('Loading')).toBeInTheDocument()
 
   server.close()
 })
@@ -38,9 +40,10 @@ test('shows API error message', async () => {
 
   render(
     <TestQueryCache>
-      <NotificationsMenu endpoint="https://exercism.test/notifications" />
+      <Notifications endpoint="https://exercism.test/notifications" />
     </TestQueryCache>
   )
+  userEvent.click(screen.getByRole('button', { name: 'Open notifications' }))
 
   expect(await screen.findByText('Unable to load')).toBeInTheDocument()
 
@@ -52,9 +55,10 @@ test('shows generic error message', async () => {
 
   render(
     <TestQueryCache>
-      <NotificationsMenu endpoint="weirdendpoint" />
+      <Notifications endpoint="https://exercism.test/notifications" />
     </TestQueryCache>
   )
+  userEvent.click(screen.getByRole('button', { name: 'Open notifications' }))
 
   expect(
     await screen.findByText('Unable to load notifications')

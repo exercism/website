@@ -25,8 +25,6 @@ module Temp
       @discussion = Solution::MentorDiscussion.first
     end
 
-    def notifications; end
-
     def reputation
       if current_user.reputation_tokens.size < 2
         User::ReputationToken.create!(

@@ -32,7 +32,13 @@ class API::NotificationsControllerTest < API::BaseTestCase
         image_url: mentor.avatar_url
       }],
       meta: {
-        current_page: 1, total_count: 1, total_pages: 1, unread_count: 1
+        current_page: 1,
+        total_count: 1,
+        total_pages: 1,
+        unread_count: 1,
+        links: {
+          all: Exercism::Routes.notifications_url
+        }
       },
       unrevealed_badges: { badges: [], links: { badges: Exercism::Routes.badges_journey_url } }
     }.with_indifferent_access
@@ -51,7 +57,15 @@ class API::NotificationsControllerTest < API::BaseTestCase
 
     expected = {
       results: [],
-      meta: { current_page: 1, total_count: 0, total_pages: 0, unread_count: 0 },
+      meta: {
+        current_page: 1,
+        total_count: 0,
+        total_pages: 0,
+        unread_count: 0,
+        links: {
+          all: Exercism::Routes.notifications_url
+        }
+      },
       unrevealed_badges: {
         badges: [{
           id: acquired_badge.uuid,

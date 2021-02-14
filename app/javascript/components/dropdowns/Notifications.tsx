@@ -4,18 +4,23 @@ import { NotificationsIcon } from './notifications/NotificationsIcon'
 import { UnrevealedBadgesContainer } from './notifications/UnrevealedBadgesContainer'
 import { NotificationMenuItem } from './notifications/NotificationMenuItem'
 import { Notification, UnrevealedBadgeList } from './notifications/types'
-import { useDropdown, DropdownAttributes } from './useDropdown'
+import { useNotificationDropdown } from './notifications/useNotificationDropdown'
+import { DropdownAttributes } from './useDropdown'
 import { useRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { QueryStatus } from 'react-query'
 
-type APIResponse = {
+export type APIResponse = {
   results: Notification[]
   unrevealedBadges: UnrevealedBadgeList
   meta: {
+    total: number
     unreadCount: number
+    links: {
+      all: string
+    }
   }
 }
 
@@ -62,6 +67,9 @@ const DropdownContent = ({
             </li>
           )
         })}
+        <li {...itemAttributes(startIndex + data.results.length)}>
+          <a href={data.meta.links.all}>See all your notifications</a>
+        </li>
       </ul>
     )
   } else {
@@ -78,6 +86,8 @@ const DropdownContent = ({
   }
 }
 
+const MAX_NOTIFICATIONS = 5
+
 export const Notifications = ({
   endpoint,
 }: {
@@ -86,18 +96,15 @@ export const Notifications = ({
   const isMountedRef = useIsMounted()
   const { data, error, status, refetch } = useRequestQuery<APIResponse>(
     'notifications',
-    { endpoint: endpoint, options: {} },
+    { endpoint: endpoint, query: { per: MAX_NOTIFICATIONS }, options: {} },
     isMountedRef
   )
-  const dropdownLength = data
-    ? data.results.length + (data.unrevealedBadges ? 1 : 0)
-    : 0
   const {
     buttonAttributes,
     panelAttributes,
     listAttributes,
     itemAttributes,
-  } = useDropdown(dropdownLength)
+  } = useNotificationDropdown(data)
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(

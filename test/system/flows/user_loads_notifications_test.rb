@@ -19,6 +19,7 @@ module Flows
         find(".c-notification").click
 
         assert_text "You have been awarded the Rookie badge."
+        assert_link "View more notifications", href: notifications_url
       end
     end
 

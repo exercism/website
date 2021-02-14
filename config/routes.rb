@@ -120,6 +120,8 @@ Rails.application.routes.draw do
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
 
+  resources :notifications, only: [:index]
+
   resources :profiles, only: [:show] do
     member do
       get :tooltip

@@ -11,6 +11,9 @@ module API
         notifications,
         SerializeUserNotifications,
         meta: {
+          links: {
+            all: Exercism::Routes.notifications_url
+          },
           unread_count: current_user.notifications.unread.count
         }
       )

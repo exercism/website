@@ -1,24 +1,8 @@
-import React, { useReducer, useEffect, useMemo, forwardRef } from 'react'
-import consumer from '../../../utils/action-cable-consumer'
+import React, { useMemo, forwardRef } from 'react'
 import { Icon } from '../../common/Icon'
 
 type NotificationsIconProps = {
   count: number
-}
-
-type NotificationsIconAction = {
-  type: 'notifications.changed'
-  payload: NotificationsIconProps
-}
-
-function reducer(
-  state: NotificationsIconProps,
-  action: NotificationsIconAction
-) {
-  switch (action.type) {
-    case 'notifications.changed':
-      return { count: action.payload.count }
-  }
 }
 
 export const NotificationsIcon = forwardRef<
@@ -26,31 +10,18 @@ export const NotificationsIcon = forwardRef<
   NotificationsIconProps
 >((props, ref) => {
   const { count, ...buttonProps } = props
-  const [state, dispatch] = useReducer(reducer, { count: count })
   const variantClass = useMemo(() => {
     switch (true) {
-      case state.count === 0:
+      case count === 0:
         return '--none'
-      case state.count >= 1 && state.count <= 9:
+      case count >= 1 && count <= 9:
         return '--single-digit'
-      case state.count >= 10 && state.count <= 99:
+      case count >= 10 && count <= 99:
         return '--double-digit'
-      case state.count >= 100:
+      case count >= 100:
         return '--triple-digit'
     }
-  }, [state.count])
-
-  useEffect(() => {
-    const received = (data: NotificationsIconAction) => {
-      dispatch(data)
-    }
-
-    const subscription = consumer.subscriptions.create(
-      { channel: 'NotificationsChannel' },
-      { received }
-    )
-    return () => subscription.unsubscribe()
-  }, [])
+  }, [count])
 
   return (
     <button
@@ -58,11 +29,8 @@ export const NotificationsIcon = forwardRef<
       className={`c-notification ${variantClass}`}
       {...buttonProps}
     >
-      <Icon
-        icon="notifications"
-        alt={`You have ${state.count} notifications`}
-      />
-      <div className="--count">{state.count}</div>
+      <Icon icon="notifications" alt={`You have ${count} notifications`} />
+      <div className="--count">{count}</div>
     </button>
   )
 })

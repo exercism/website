@@ -9,7 +9,10 @@ module API
 
       serialized = SerializePaginatedCollection.(
         notifications,
-        SerializeUserNotifications
+        SerializeUserNotifications,
+        meta: {
+          unread_count: current_user.notifications.unread.count
+        }
       )
 
       # This feels pretty gross.

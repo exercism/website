@@ -1,5 +1,5 @@
 import React from 'react'
-import { UnrevealedBadge } from '../NotificationsMenu'
+import { UnrevealedBadge } from '../types'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 
 export const UnrevealedBadgesContainer = ({

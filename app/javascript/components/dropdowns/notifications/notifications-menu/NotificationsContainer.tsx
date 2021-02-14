@@ -1,5 +1,5 @@
 import React from 'react'
-import { Notification } from '../NotificationsMenu'
+import { Notification } from '../types'
 import { fromNow } from '../../../../utils/time'
 import { GraphicalIcon } from '../../../common'
 

@@ -229,7 +229,6 @@ Rails.application.routes.draw do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
 
-        resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]
           resource :inbox, controller: "inbox", only: [:show] do

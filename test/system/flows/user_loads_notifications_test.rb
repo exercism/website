@@ -13,6 +13,7 @@ module Flows
       use_capybara_host do
         sign_in!(user)
         visit dashboard_path
+        within(".c-notification") { assert_text "1" }
         find(".c-notification").click
 
         assert_text "You have been awarded the Rookie badge."

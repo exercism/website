@@ -33,29 +33,25 @@ export const PostsContext = createContext<PostsContextType>({
   highlightedPostRef: { current: null },
 })
 
-const PostsWrapper = ({
-  discussion,
+export const PostsWrapper = ({
+  cacheKey,
   children,
-}: React.PropsWithChildren<{ discussion: Discussion }>): JSX.Element => {
+}: React.PropsWithChildren<{ cacheKey: string }>): JSX.Element => {
   const [hasNewMessages, setHasNewMessages] = useState(false)
   const highlightedPostRef = useRef<HTMLDivElement | null>(null)
 
-  if (discussion) {
-    return (
-      <PostsContext.Provider
-        value={{
-          cacheKey: `posts-${discussion.id}`,
-          hasNewMessages,
-          setHasNewMessages,
-          highlightedPostRef,
-        }}
-      >
-        {children}
-      </PostsContext.Provider>
-    )
-  } else {
-    return <React.Fragment>{children}</React.Fragment>
-  }
+  return (
+    <PostsContext.Provider
+      value={{
+        cacheKey,
+        hasNewMessages,
+        setHasNewMessages,
+        highlightedPostRef,
+      }}
+    >
+      {children}
+    </PostsContext.Provider>
+  )
 }
 
 export const DiscussionWrapper = ({
@@ -92,7 +88,9 @@ export const DiscussionWrapper = ({
         finishedWizardRef,
       }}
     >
-      <PostsWrapper discussion={session.discussion}>{children}</PostsWrapper>
+      <PostsWrapper cacheKey={`posts-discussion-${session.discussion.id}`}>
+        {children}
+      </PostsWrapper>
     </DiscussionContext.Provider>
   )
 }

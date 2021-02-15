@@ -3,9 +3,9 @@ import { PostsContext } from './DiscussionContext'
 import { GraphicalIcon } from '../../common'
 
 export const NewMessageAlert = ({
-  onClick,
+  onClick = () => {},
 }: {
-  onClick: () => void
+  onClick?: () => void
 }): JSX.Element | null => {
   const { hasNewMessages, highlightedPostRef } = useContext(PostsContext)
 

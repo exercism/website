@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import consumer from '../../utils/action-cable-consumer'
+import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
 import { UnrevealedBadgesContainer } from './notifications/UnrevealedBadgesContainer'
 import { NotificationMenuItem } from './notifications/NotificationMenuItem'
@@ -51,7 +52,7 @@ const DropdownContent = ({
     const startIndex = data.unrevealedBadges ? 1 : 0
 
     return (
-      <ul className="c-notifications-dropdown" {...listAttributes}>
+      <ul {...listAttributes}>
         {data.unrevealedBadges ? (
           <li {...itemAttributes(0)}>
             <UnrevealedBadgesContainer
@@ -68,7 +69,10 @@ const DropdownContent = ({
           )
         })}
         <li {...itemAttributes(startIndex + data.results.length)}>
-          <a href={data.meta.links.all}>See all your notifications</a>
+          <a href={data.meta.links.all} className="c-prominent-link">
+            <span>See all your notifications</span>
+            <GraphicalIcon icon="arrow-right" />
+          </a>
         </li>
       </ul>
     )
@@ -115,13 +119,13 @@ export const Notifications = ({
   }, [refetch])
 
   return (
-    <div>
+    <React.Fragment>
       <NotificationsIcon
         count={data?.meta?.unreadCount || 0}
         aria-label="Open notifications"
         {...buttonAttributes}
       />
-      <div {...panelAttributes}>
+      <div className="c-notifications-dropdown" {...panelAttributes}>
         <DropdownContent
           data={data}
           status={status}
@@ -130,6 +134,6 @@ export const Notifications = ({
           listAttributes={listAttributes}
         />
       </div>
-    </div>
+    </React.Fragment>
   )
 }

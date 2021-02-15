@@ -1,110 +1,117 @@
 .c-notifications-dropdown {
-    @apply shadow-lg rounded-8 bg-backgroundColorA;
-    @apply py-12 px-16;
+    width: 100%;
     max-width: 500px;
 
-    & .unrevealed-badges,
-    & .unrevealed-badge {
-        @apply bg-lightOrange;
-        @apply border-1 border-lightGold rounded-8;
-        @apply py-12 px-24 mb-16;
-    }
-    & .unrevealed-badges {
-        @apply flex items-center;
+    & ul {
+        @apply shadow-lg rounded-8 bg-backgroundColorA;
+        @apply py-12 px-16;
 
-        & .content {
-            @apply flex-grow;
+        & .unrevealed-badges,
+        & .unrevealed-badge {
+            @apply bg-lightOrange;
+            @apply border-1 border-lightGold rounded-8;
+            @apply py-12 px-24 mb-16;
+        }
+        & .unrevealed-badges {
+            @apply flex items-center;
 
+            & .content {
+                @apply flex-grow;
+
+                & .text {
+                    @apply flex-grow;
+                    @apply text-16 leading-150 font-semibold;
+                    @apply mb-8;
+                }
+                & .medallions {
+                    @apply flex;
+                    & .c-badge-medallion {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-8;
+                    }
+                }
+            }
+
+            & .action-icon {
+                height: 24px;
+                width: 24px;
+                @apply text-textColor3;
+            }
+        }
+
+        & .unrevealed-badge {
+            @apply flex items-center;
+
+            & .c-badge-medallion {
+                height: 48px;
+                width: 48px;
+                @apply mr-20;
+            }
             & .text {
                 @apply flex-grow;
                 @apply text-16 leading-150 font-semibold;
-                @apply mb-8;
             }
-            & .medallions {
-                @apply flex;
-                & .c-badge-medallion {
-                    height: 48px;
-                    width: 48px;
-                    @apply mr-8;
+
+            & .action-icon {
+                height: 24px;
+                width: 24px;
+                @apply text-textColor3;
+            }
+        }
+
+        & .notification {
+            @apply flex items-center;
+            @apply py-8 px-16;
+
+            &:hover {
+                @apply bg-backgroundColorD;
+            }
+
+            & .c-rounded-bg-img,
+            & .icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-20;
+                @apply self-start;
+            }
+            & .c-rounded-bg-img {
+            }
+            & .icon {
+                /* TODO: Really this color? */
+                color: #604fcd;
+            }
+            & .content {
+                @apply flex-grow mr-24;
+                & .text {
+                    @apply text-15 leading-150;
+                    & strong {
+                        @apply font-medium;
+                    }
+                }
+
+                & .created-at {
+                    @apply text-14 text-textColor6 leading-160;
                 }
             }
-        }
-
-        & .action-icon {
-            height: 24px;
-            width: 24px;
-            @apply text-textColor3;
-        }
-    }
-
-    & .unrevealed-badge {
-        @apply flex items-center;
-
-        & .c-badge-medallion {
-            height: 48px;
-            width: 48px;
-            @apply mr-20;
-        }
-        & .text {
-            @apply flex-grow;
-            @apply text-16 leading-150 font-semibold;
-        }
-
-        & .action-icon {
-            height: 24px;
-            width: 24px;
-            @apply text-textColor3;
-        }
-    }
-
-    & .notification {
-        @apply flex items-center;
-        @apply py-8 px-16;
-
-        &:hover {
-            @apply bg-backgroundColorD;
-        }
-
-        & .c-rounded-bg-img,
-        & .icon {
-            height: 32px;
-            width: 32px;
-            @apply mr-20;
-            @apply self-start;
-        }
-        & .c-rounded-bg-img {
-        }
-        & .icon {
-            /* TODO: Really this color? */
-            color: #604fcd;
-        }
-        & .content {
-            @apply flex-grow mr-24;
-            & .text {
-                @apply text-15 leading-150;
-                & strong {
-                    @apply font-medium;
-                }
+            & .read,
+            & .unread {
+                height: 8px;
+                width: 8px;
+                @apply flex-shrink-0 rounded-circle mr-24;
+            }
+            & .unread {
+                @apply bg-lightBlue;
             }
 
-            & .created-at {
-                @apply text-14 text-textColor6 leading-160;
+            & .action-icon {
+                height: 16px;
+                width: 16px;
+                @apply text-textColor6;
             }
         }
-        & .read,
-        & .unread {
-            height: 8px;
-            width: 8px;
-            @apply flex-shrink-0 rounded-circle mr-24;
-        }
-        & .unread {
-            @apply bg-lightBlue;
-        }
-
-        & .action-icon {
-            height: 16px;
-            width: 16px;
-            @apply text-textColor6;
+        & .c-prominent-link {
+            @apply mt-12;
         }
     }
 }

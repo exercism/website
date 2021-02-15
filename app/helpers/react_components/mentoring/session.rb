@@ -94,15 +94,15 @@ module ReactComponents
       end
 
       def iterations
-        comment_counts = if discussion
-                           ::Solution::MentorDiscussionPost.where(discussion: discussion).
-                             group(:iteration_id, :seen_by_mentor).count
-                         end
+        if discussion
+          comment_counts = ::Solution::MentorDiscussionPost.where(discussion: discussion).
+            group(:iteration_id, :seen_by_mentor).count
+        end
 
         solution.iterations.map do |iteration|
-          discussion ? counts = comment_counts.select { |(it_id, _), _| it_id == iteration.id } : counts = nil
-          discussion ? num_comments = counts.sum(&:second) : num_comments = 0
-          discussion ? unread = counts.reject { |(_, seen), _| seen }.present? : unread = 0
+          counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
+          num_comments = discussion ? counts.sum(&:second) : 0
+          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
 
           {
             uuid: iteration.uuid,

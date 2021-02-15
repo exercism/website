@@ -21,7 +21,7 @@ module API
 
       render json: SerializePaginatedCollection.(
         requests,
-        SerializeMentorRequests,
+        serializer: SerializeMentorRequests,
         meta: {
           unscoped_total: unscoped_total
         }

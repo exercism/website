@@ -12,7 +12,7 @@ module API
 
       render json: SerializePaginatedCollection.(
         discussions,
-        SerializeMentorDiscussions
+        serializer: SerializeMentorDiscussions
       )
     end
 

@@ -1,15 +1,16 @@
 class SerializePaginatedCollection
   include Mandate
 
-  def initialize(collection, collection_serializer, meta: {})
+  def initialize(collection, data: nil, serializer: nil, meta: {})
     @collection = collection
-    @collection_serializer = collection_serializer
+    @data = data
+    @serializer = serializer
     @meta = meta
   end
 
   def call
     {
-      results: results,
+      results: data || serializer.(collection),
       meta: {
         current_page: collection.current_page,
         total_count: collection.total_count,
@@ -18,12 +19,6 @@ class SerializePaginatedCollection
     }
   end
 
-  def results
-    return collection_serializer unless collection_serializer.respond_to?(:call)
-
-    collection_serializer.(collection)
-  end
-
   private
-  attr_reader :collection, :collection_serializer, :meta
+  attr_reader :collection, :serializer, :data, :meta
 end

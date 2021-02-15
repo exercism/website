@@ -8,12 +8,6 @@ module User::Activities
       Exercism::Routes.track_exercise_path(track, solution.exercise)
     end
 
-    def cachable_rendering_data
-      super.merge(
-        occurred_at: solution.completed_at
-      )
-    end
-
     def guard_params
       "Solution##{solution.id}"
     end

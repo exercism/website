@@ -10,15 +10,6 @@ class SerializeUserNotifications
 
   private
   def serialize_notification(notification)
-    {
-      # TODO: Maybe expose a UUID instead?
-      id: notification.uuid,
-      url: notification.url,
-      text: notification.text,
-      is_read: notification.read?,
-      created_at: notification.created_at.iso8601,
-      image_type: notification.image_type,
-      image_url: notification.image_url
-    }
+    notification.rendering_data
   end
 end

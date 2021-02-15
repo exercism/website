@@ -22,6 +22,23 @@ class User::Notification < ApplicationRecord
     update_column(:read_at, Time.current)
   end
 
+  def cachable_rendering_data
+    {
+      id: uuid,
+      url: url,
+      text: text,
+      created_at: created_at.iso8601,
+      image_type: image_type,
+      image_url: image_url
+    }
+  end
+
+  def non_cachable_rendering_data
+    {
+      is_read: read?
+    }
+  end
+
   # TODO
   def url
     "/"

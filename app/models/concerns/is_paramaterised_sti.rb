@@ -9,13 +9,17 @@
 ## This class uses some caching logic to avoid n+1 lookups when
 # rendering the models (notifications, activities, etc) in the browser.
 #
-# Each child class is expected to define a `cachable_rendering_data`
+# Each implementing class is expected to define a `cachable_rendering_data`
+# which contains any data that can be safely cached for rendering.
+# For example, you might cache an exercise title or icon. This should
+# all be data that rarely changes. Where an actual object is needed
+# to render (e.g. an iteration to render the React iteration summary
+# component) do not cache it, but override non_cachable_rendering_data
+# instead.
+#
+# Each child class can also override the `cachable_rendering_data`
 # method, which should call super.({...}) for any data that is
-# used in rendering and cachable. For example, you might cache an
-# exercise title or icon. This should all be data that rarely
-# changes. Where an actual object is needed to render (e.g. an
-# iteration to render the React iteration summary component) do
-# not cache it, but override non_cachable_rendering_data in the child
+# used in rendering and cachable.
 #
 # Caches can be expired by setting rendering_data_cache to {}
 # Objects will then rebuild the cache next time they load.
@@ -65,6 +69,7 @@ module IsParamaterisedSTI
       self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
       self.params = {} if self.params.blank?
       self.version = latest_i18n_version
+      self.rendering_data_cache = cachable_rendering_data
     end
   end
 
@@ -82,6 +87,22 @@ module IsParamaterisedSTI
         end
       end
     end
+  end
+
+  def rendering_data
+    data = rendering_data_cache
+    if data.blank?
+      data = cachable_rendering_data
+      update!(rendering_data_cache: data)
+    end
+
+    data.with_indifferent_access.
+      merge(non_cachable_rendering_data)
+  end
+
+  # Save each class from manually overriding this
+  def non_cachable_rendering_data
+    {}
   end
 
   def text
@@ -121,8 +142,6 @@ module IsParamaterisedSTI
   #
   # Any non-object params are left as the were passed in.
   def retrieve_param(key)
-    return @input_params[key] if @input_params
-
     value = self.params[key.to_s]
     GlobalID::Locator.locate(value) || value
   end

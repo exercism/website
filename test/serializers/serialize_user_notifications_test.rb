@@ -21,7 +21,7 @@ class SerializeUserNotificationsTest < ActiveSupport::TestCase
         created_at: notification.created_at.iso8601,
         image_type: :avatar,
         image_url: mentor.avatar_url
-      }
+      }.with_indifferent_access
     ]
 
     assert_equal expected, SerializeUserNotifications.(notifications)

@@ -1,4 +1,6 @@
 class User::ReputationToken < ApplicationRecord
+  belongs_to :user
+
   before_create do
     self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
 

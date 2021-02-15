@@ -14,39 +14,6 @@ class User::Activity < ApplicationRecord
   belongs_to :track, optional: true
   belongs_to :solution, optional: true
 
-  before_create do
-    self.rendering_data_cache = cachable_rendering_data
-  end
-
-  def rendering_data
-    data = rendering_data_cache
-    if data.blank?
-      data = cachable_rendering_data
-      update!(rendering_data_cache: data)
-    end
-
-    data.with_indifferent_access.
-      # This is not cachable as it is set in the before_create
-      # However, we don't put it in non_cachable_rendering_data
-      # so that that method can be overriden without consequence
-      # or the need to call super and merge
-      merge('occurred_at' => occurred_at).
-      merge(non_cachable_rendering_data)
-  end
-
-  # This maps
-  # {discussion: Solution::MentorDiscussion.find(186)}
-  # to
-  # {discussion: "gid://exercism/Solution::MentorDiscussion/186"}
-  #
-  # Any non-object params are left as the were passed in.
-  def params=(hash)
-    @input_params = hash
-    self[:params] = hash.transform_values do |v|
-      v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
-    end
-  end
-
   def cachable_rendering_data
     {
       text: text,
@@ -56,7 +23,7 @@ class User::Activity < ApplicationRecord
   end
 
   def non_cachable_rendering_data
-    {}
+    super.merge('occurred_at' => occurred_at)
   end
 
   private

@@ -40,10 +40,9 @@ class API::ReputatationControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
 
     assert_response :success
-    serialized = SerializeReputationTokens.([token])
     assert_equal(
       {
-        results: serialized,
+        results: [token.rendering_data],
         meta: {
           current_page: 1,
           total_count: 1,

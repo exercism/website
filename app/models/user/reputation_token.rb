@@ -51,6 +51,7 @@ class User::ReputationToken < ApplicationRecord
   def determine_value
     return self.class.instance_variable_get("@value") if self.class.instance_variable_defined?("@value")
 
+    # TODO: Test this
     raise ReputationTokenLevelUndefined if level.blank?
 
     values = self.class.instance_variable_get("@values")

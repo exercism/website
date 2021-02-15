@@ -9,13 +9,19 @@ class SerializePaginatedCollection
 
   def call
     {
-      results: collection_serializer.(collection),
+      results: results,
       meta: {
         current_page: collection.current_page,
         total_count: collection.total_count,
         total_pages: collection.total_pages
       }.merge(meta)
     }
+  end
+
+  def results
+    return collection_serializer unless collection_serializer.respond_to?(:call)
+
+    collection_serializer.(collection)
   end
 
   private

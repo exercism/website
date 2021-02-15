@@ -43,7 +43,7 @@ module Temp
         )
       end
 
-      @tokens = SerializeReputationTokens.(User::ReputationToken::Search.(current_user))
+      @tokens = User::ReputationToken::Search.(current_user).map(&:rendering_data)
     end
   end
 end

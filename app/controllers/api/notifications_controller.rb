@@ -9,7 +9,7 @@ module API
 
       serialized = SerializePaginatedCollection.(
         notifications,
-        SerializeUserNotifications,
+        notifications.map(&:rendering_data),
         meta: {
           links: {
             all: Exercism::Routes.notifications_url

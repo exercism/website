@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { MentoringRequest } from '../Session'
-import { RequestContext } from '../request/RequestContext'
 import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
@@ -22,11 +21,12 @@ const ErrorFallback = ({ error }: { error: Error }) => {
 
 export const StartMentoringPanel = ({
   request,
+  setRequest,
 }: {
   request: MentoringRequest
+  setRequest: (request: MentoringRequest) => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { handleRequestLock } = useContext(RequestContext)
   const [lock, { status, error }] = useMutation<MentoringRequest | undefined>(
     () => {
       return sendRequest({
@@ -48,7 +48,7 @@ export const StartMentoringPanel = ({
           return
         }
 
-        handleRequestLock(request)
+        setRequest(request)
       },
     }
   )

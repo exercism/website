@@ -256,7 +256,12 @@ export const Session = (props: SessionProps): JSX.Element => {
           {discussion ? (
             <AddDiscussionPostPanel discussion={discussion} />
           ) : (
-            <MentoringRequestPanel iterations={iterations} request={request} />
+            <MentoringRequestPanel
+              iterations={iterations}
+              request={request}
+              session={session}
+              setSession={setSession}
+            />
           )}
         </TabsContext.Provider>
       </div>

@@ -1,6 +1,5 @@
-import React, { useContext, useRef, useCallback } from 'react'
+import React, { useRef, useCallback } from 'react'
 import { Iteration, Discussion, MentoringRequest } from '../Session'
-import { RequestContext } from './RequestContext'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
@@ -27,13 +26,14 @@ const ErrorFallback = ({ error }: { error: Error }) => {
 export const StartDiscussionPanel = ({
   iterations,
   request,
+  setDiscussion,
 }: {
   iterations: readonly Iteration[]
   request: MentoringRequest
+  setDiscussion: (discussion: Discussion) => void
 }): JSX.Element => {
   const lastIteration = iterations[iterations.length - 1]
   const isMountedRef = useIsMounted()
-  const { handleDiscussionStart } = useContext(RequestContext)
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
 
   const handleEditorMount = useCallback(
@@ -68,7 +68,7 @@ export const StartDiscussionPanel = ({
           return
         }
 
-        handleDiscussionStart(discussion)
+        setDiscussion(discussion)
       },
     }
   )

@@ -1,7 +1,6 @@
 import React from 'react'
 import { SessionProps } from '../Session'
 import { DiscussionWrapper } from '../discussion/DiscussionContext'
-import { RequestWrapper } from '../request/RequestContext'
 
 export const SessionContext = ({
   session,
@@ -11,11 +10,20 @@ export const SessionContext = ({
   session: SessionProps
   setSession: (session: SessionProps) => void
 }>): JSX.Element => {
-  const Wrapper = session.discussion ? DiscussionWrapper : RequestWrapper
+  const Wrapper = session.discussion ? DiscussionWrapper : GenericWrapper
 
   return (
     <Wrapper session={session} setSession={setSession}>
       {children}
     </Wrapper>
   )
+}
+
+const GenericWrapper = ({
+  children,
+}: React.PropsWithChildren<{
+  session: SessionProps
+  setSession: (session: SessionProps) => void
+}>) => {
+  return <React.Fragment>{children}</React.Fragment>
 }

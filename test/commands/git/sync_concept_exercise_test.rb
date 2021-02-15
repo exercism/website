@@ -161,10 +161,11 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     new_authorship = exercise.authorships.find_by(author: new_author)
-    new_author_rep_token = new_author.reputation_tokens.find_by(context: new_authorship)
+    new_author_rep_token = new_author.reputation_tokens.last
     assert_equal :authoring, new_author_rep_token.category
-    assert_equal 'authored_exercise', new_author_rep_token.reason
+    assert_equal :authored_exercise, new_author_rep_token.reason
     assert_equal 10, new_author_rep_token.value
+    assert_equal new_authorship, new_author_rep_token.authorship
   end
 
   test "does not add reputation token for existing author" do
@@ -173,7 +174,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
     existing_author_authorship = create :exercise_authorship, exercise: exercise, author: existing_author
-    create :user_reputation_token, user: existing_author, context: existing_author_authorship, value: 10, reason: "authored_exercise", category: "authoring" # rubocop:disable Layout/LineLength
+    create :user_exercise_author_reputation_token, user: existing_author, params: { authorship: existing_author_authorship }
 
     Git::SyncConceptExercise.(exercise)
 
@@ -216,10 +217,11 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     new_contributorship = exercise.contributorships.find_by(contributor: new_contributor)
-    new_contributor_rep_token = new_contributor.reputation_tokens.find_by(context: new_contributorship)
-    assert_equal 'contributed_to_exercise', new_contributor_rep_token.reason
+    new_contributor_rep_token = new_contributor.reputation_tokens.last
+    assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
     assert_equal 5, new_contributor_rep_token.value
+    assert_equal new_contributorship, new_author_rep_token.contributorship
   end
 
   test "does not add reputation token for existing contributor" do
@@ -228,7 +230,8 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
     existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
-    create :user_reputation_token, user: existing_contributor, context: existing_contributorship, value: 5, reason: "contributed_to_exercise", category: "authoring" # rubocop:disable Layout/LineLength
+    create :user_exercise_contribution_reputation_token, user: existing_contributor,
+                                                         params: { contributorship: existing_contributorship }
 
     Git::SyncConceptExercise.(exercise)
 

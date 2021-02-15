@@ -9,12 +9,8 @@ class User
         def call
           User::ReputationToken::Create.(
             contributorship.contributor,
-            "contributed_to_exercise/#{contributorship.exercise.uuid}",
-            :authoring,
-            :contributed_to_exercise,
-            context: contributorship,
-            exercise: contributorship.exercise,
-            track: contributorship.exercise.track
+            :exercise_contribution,
+            contributorship: contributorship
           )
         end
       end

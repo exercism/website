@@ -10,8 +10,6 @@ class User::Activity < ApplicationRecord
   self.class_suffix = :activity
   self.i18n_category = :user_activities
 
-  belongs_to :user
-  belongs_to :track, optional: true
   belongs_to :solution, optional: true
 
   def cachable_rendering_data

@@ -30,4 +30,24 @@ class NotificationTest < ActiveSupport::TestCase
 
     notification.text
   end
+
+  test "rendering_data" do
+    mentor = create :user
+    notification = create :mentor_started_discussion_notification,
+      params: {
+        discussion: create(:solution_mentor_discussion, mentor: mentor)
+      }
+
+    expected = {
+      id: notification.uuid,
+      url: notification.url,
+      text: notification.text,
+      is_read: false,
+      created_at: notification.created_at.iso8601,
+      image_type: 'avatar',
+      image_url: mentor.avatar_url
+    }.with_indifferent_access
+
+    assert_equal expected, notification.rendering_data
+  end
 end

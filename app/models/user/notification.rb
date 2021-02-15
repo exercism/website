@@ -5,12 +5,10 @@ class User::Notification < ApplicationRecord
 
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
 
-  belongs_to :user
-
   scope :read, -> { where.not(read_at: nil) }
   scope :unread, -> { where(read_at: nil) }
 
-  before_create do
+  before_validation do
     self.uuid = SecureRandom.compact_uuid
   end
 

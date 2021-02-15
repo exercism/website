@@ -65,6 +65,10 @@ module IsParamaterisedSTI
   included do
     cattr_accessor :class_suffix, :i18n_category
 
+    belongs_to :user
+    belongs_to :track, optional: true
+    belongs_to :exercise, optional: true
+
     before_create do
       self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
       self.params = {} if self.params.blank?
@@ -82,7 +86,7 @@ module IsParamaterisedSTI
       keys.each do |key|
         define_method key do
           iv = "@params_#{key}"
-          instance_variable_get(iv) ||
+          instance_variable_get(iv).presence ||
             instance_variable_set(iv, retrieve_param(key))
         end
       end
@@ -130,6 +134,11 @@ module IsParamaterisedSTI
   #
   # Any non-object params are left as the were passed in.
   def params=(hash)
+    @initial_params = hash
+
+    self.track = hash.delete(:track) if hash.key?(:track)
+    self.exercise = hash.delete(:exercise) if hash.key?(:exercise)
+
     self[:params] = hash.transform_values do |v|
       v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
     end
@@ -142,6 +151,10 @@ module IsParamaterisedSTI
   #
   # Any non-object params are left as the were passed in.
   def retrieve_param(key)
+    # If we've just set them, we don't need to look things
+    # up again via globalid
+    return @initial_params[key] if @initial_params&.key?(key)
+
     value = self.params[key.to_s]
     GlobalID::Locator.locate(value) || value
   end

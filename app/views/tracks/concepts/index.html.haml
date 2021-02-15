@@ -9,7 +9,7 @@
           .info
             %h2 Master #{@track.concepts.count} key concepts in #{@track.title}
             %p
-              All the concepts covered are explained in the context of language-specific paradigms and conventions.
+              All the concepts covered are explained in the context of language-specific paradigms and conventions.
 
           = button_to join_track_path(@track), method: :post, class: "btn-cta" do
             = graphical_icon(:plus)

@@ -9,7 +9,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
   #########
   test "index should proxy params" do
     setup_user
-    create :user_reputation_token
+    create :user_code_contribution_reputation_token
 
     User::ReputationToken::Search.expects(:call).with(
       @current_user,
@@ -29,9 +29,8 @@ class API::ReputatationControllerTest < API::BaseTestCase
     setup_user
     ruby = create :track, title: "Ruby"
     ruby_bob = create :concept_exercise, track: ruby, title: "Bob"
-    token = create :user_reputation_token,
+    token = create :user_code_contribution_reputation_token,
       user: @current_user,
-      category: :building,
       exercise: ruby_bob,
       track: ruby
 
@@ -50,8 +49,8 @@ class API::ReputatationControllerTest < API::BaseTestCase
           total_count: 1,
           total_pages: 1
         }
-      }.to_json,
-      response.body
+      }.with_indifferent_access,
+      JSON.parse(response.body).with_indifferent_access
     )
   end
 
@@ -61,14 +60,14 @@ class API::ReputatationControllerTest < API::BaseTestCase
 
   test "mark_as_seen should mark tokens as seen" do
     setup_user
-    token_1 = create :user_reputation_token, user: @current_user
-    token_2 = create :user_reputation_token, user: @current_user
+    token_1 = create :user_code_contribution_reputation_token, user: @current_user
+    token_2 = create :user_code_contribution_reputation_token, user: @current_user
 
     # Token we don't want to mark as seen
-    token_3 = create :user_reputation_token, user: @current_user
+    token_3 = create :user_code_contribution_reputation_token, user: @current_user
 
     # A token for a different user
-    token_4 = create :user_reputation_token
+    token_4 = create :user_code_contribution_reputation_token
 
     patch mark_as_seen_api_reputation_index_path(
       ids: [token_1.uuid, token_2.uuid]

@@ -12,7 +12,11 @@ class Exercise
           return nil
         end
 
-        User::ReputationToken::ExerciseAuthorship::Create.(authorship)
+        User::ReputationToken::Create.(
+          author,
+          :exercise_author,
+          authorship: authorship
+        )
       end
     end
   end

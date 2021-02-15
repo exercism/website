@@ -1,15 +1,15 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { timeFormat } from '../../../utils/time'
-import { Iteration, Student } from '../Session'
+import { Iteration } from '../Session'
 import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 
 export const IterationMarker = ({
   iteration,
-  student,
+  userIsStudent,
 }: {
   iteration: Iteration
-  student: Student
+  userIsStudent: boolean
 }): JSX.Element => {
   return (
     <React.Fragment>
@@ -23,7 +23,7 @@ export const IterationMarker = ({
       </div>
       {iteration.automatedFeedback ? (
         <AutomatedFeedbackSummary
-          student={student}
+          userIsStudent={userIsStudent}
           automatedFeedback={iteration.automatedFeedback}
         />
       ) : null}

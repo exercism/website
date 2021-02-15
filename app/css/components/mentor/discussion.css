@@ -23,16 +23,22 @@
 
             & .close-btn {
                 @apply flex;
+                @apply p-16;
+                @apply mr-8;
                 & .c-icon {
                     height: 24px;
                     width: 24px;
-                    @apply mr-32;
                 }
             }
             & .c-track-icon {
                 height: 42px;
                 width: 42px;
-                @apply mr-32;
+                @apply mr-12;
+            }
+            & .c-exercise-icon {
+                height: 48px;
+                width: 48px;
+                @apply mr-16;
             }
             & .student {
                 @apply flex-grow flex items-center;
@@ -50,6 +56,15 @@
                     & .exercise {
                         @apply text-14 text-textColor6 leading-regular;
                     }
+                }
+            }
+            & .info-for-student {
+                @apply text-14 leading-150 text-textColor6;
+                & strong {
+                    @apply font-medium text-textColor3;
+                }
+                & .exercise-title {
+                    @apply text-16 font-medium text-textColor3;
                 }
             }
             & .finish-button {
@@ -229,8 +244,14 @@
         }
 
         & #panel-discussion {
+            /* Specify this again for the student view
+             * where we don't use tabs so can't rely on tab-panel */
+            @apply flex-grow;
+            overflow-y: scroll;
+
             @apply pb-64;
-            & .student-info {
+            & .student-info,
+            & .mentor-info {
                 @apply bg-backgroundColorA;
                 @apply flex;
 
@@ -262,6 +283,7 @@
                         @apply flex;
                         width: 173px;
                         height: 36px;
+                        @apply mr-24;
 
                         & button {
                             @apply flex-grow text-textColor6;
@@ -279,7 +301,7 @@
                         }
                     }
                     & .previous-sessions {
-                        @apply flex items-center ml-24;
+                        @apply flex items-center;
                         @apply font-semibold text-textColor6 leading-huge;
                         & .c-icon {
                             height: 14px;

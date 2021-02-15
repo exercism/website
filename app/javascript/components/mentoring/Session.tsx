@@ -1,14 +1,11 @@
 import React, { useState, createContext } from 'react'
 
-import { IterationsList } from './session/IterationsList'
 import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
-import { IterationFiles } from './session/IterationFiles'
-import { IterationHeader } from './session/IterationHeader'
 import { Guidance } from './session/Guidance'
 import { Scratchpad } from './session/Scratchpad'
 import { StudentInfo } from './session/StudentInfo'
-import { SessionContext } from './session/SessionContext'
+import { IterationView } from './session/IterationView'
 
 import { DiscussionDetails } from './discussion/DiscussionDetails'
 import { DiscussionActions } from './discussion/DiscussionActions'
@@ -18,8 +15,8 @@ import { RequestDetails } from './request/RequestDetails'
 import { MentoringRequestPanel } from './request/MentoringRequestPanel'
 
 import { Tab, TabContext } from '../common/Tab'
-import { Icon } from '../common/Icon'
 import { GraphicalIcon } from '../common/GraphicalIcon'
+import { PostsWrapper } from './discussion/PostsContext'
 
 export type Links = {
   mentorDashboard: string
@@ -67,15 +64,16 @@ export type Iteration = {
 }
 
 export type Student = {
+  id: number
   avatarUrl: string
   name: string
   bio: string
   languagesSpoken: string[]
   handle: string
   reputation: number
-  isFavorite: boolean
+  isFavorite?: boolean
   numPreviousSessions: number
-  links: {
+  links?: {
     favorite: string
   }
 }
@@ -88,6 +86,7 @@ export type Track = {
 
 export type Exercise = {
   title: string
+  iconName: string
 }
 
 export type MentorSolution = {
@@ -168,46 +167,36 @@ export const Session = (props: SessionProps): JSX.Element => {
     notes,
     mentorSolution,
     request,
+    userId,
   } = session
-  const [currentIteration, setCurrentIteration] = useState(
-    iterations[iterations.length - 1]
-  )
   const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
-    <SessionContext session={session} setSession={setSession}>
-      <div className="c-mentor-discussion">
-        <div className="lhs">
-          <header className="discussion-header">
-            <CloseButton url={links.mentorDashboard} />
-            <SessionInfo student={student} track={track} exercise={exercise} />
-            {discussion ? <DiscussionActions {...discussion} /> : null}
-          </header>
-          <IterationHeader
-            iteration={currentIteration}
-            latest={iterations[iterations.length - 1] === currentIteration}
-          />
-          <IterationFiles
-            endpoint={currentIteration.links.files}
-            language={track.highlightjsLanguage}
-          />
-          <footer className="discussion-footer">
-            <IterationsList
-              iterations={iterations}
-              onClick={setCurrentIteration}
-              current={currentIteration}
+    <div className="c-mentor-discussion">
+      <div className="lhs">
+        <header className="discussion-header">
+          <CloseButton url={links.mentorDashboard} />
+          <SessionInfo student={student} track={track} exercise={exercise} />
+          {discussion ? (
+            <DiscussionActions
+              {...discussion}
+              session={session}
+              setSession={setSession}
             />
-            <button className="settings-button btn-keyboard-shortcut">
-              <Icon icon="settings" alt="Mentor settings" />
-            </button>
-          </footer>
-        </div>
-        <TabsContext.Provider
-          value={{
-            current: tab,
-            switchToTab: (id: string) => setTab(id as TabIndex),
-          }}
-        >
+          ) : null}
+        </header>
+        <IterationView
+          iterations={iterations}
+          language={track.highlightjsLanguage}
+        />
+      </div>
+      <TabsContext.Provider
+        value={{
+          current: tab,
+          switchToTab: (id: string) => setTab(id as TabIndex),
+        }}
+      >
+        <PostsWrapper discussionId={session.discussion?.id}>
           <div className="rhs">
             <div className="tabs" role="tablist">
               <Tab id="discussion" context={TabsContext}>
@@ -231,12 +220,14 @@ export const Session = (props: SessionProps): JSX.Element => {
                   iterations={iterations}
                   student={student}
                   relationship={relationship}
+                  userId={userId}
                 />
               ) : (
                 <RequestDetails
                   iterations={iterations}
                   student={student}
                   request={request}
+                  userId={userId}
                 />
               )}
             </Tab.Panel>
@@ -251,15 +242,19 @@ export const Session = (props: SessionProps): JSX.Element => {
                 exercise={exercise}
               />
             </Tab.Panel>
+            {discussion ? (
+              <AddDiscussionPostPanel discussion={discussion} />
+            ) : (
+              <MentoringRequestPanel
+                iterations={iterations}
+                request={request}
+                session={session}
+                setSession={setSession}
+              />
+            )}
           </div>
-          {/* TODO: Move this block to the right place. Sorry man, I don't know how to fix the CSS :( */}
-          {discussion ? (
-            <AddDiscussionPostPanel discussion={discussion} />
-          ) : (
-            <MentoringRequestPanel iterations={iterations} request={request} />
-          )}
-        </TabsContext.Provider>
-      </div>
-    </SessionContext>
+        </PostsWrapper>
+      </TabsContext.Provider>
+    </div>
   )
 }

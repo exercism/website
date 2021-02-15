@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { GraphicalIcon } from '../../common'
+import { ExerciseIcon, GraphicalIcon } from '../../common'
 
 export type Exercise = {
   slug: string
@@ -26,8 +26,7 @@ const ExerciseFilter = ({
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
-        {/* TODO: Convert to ExerciseIcon */}
-        <GraphicalIcon icon={iconName} className="c-exercise-icon" />
+        <ExerciseIcon icon={iconName} />
         <div className="title">{title}</div>
         <div className="count">{count}</div>
       </div>

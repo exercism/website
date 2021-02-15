@@ -1,5 +1,5 @@
-- if @solution.has_in_progress_mentor_discussion?
-  In progress discussion
+- if @solution.in_progress_mentor_discussion.present?
+  = link_to "In progress discussion", track_exercise_mentor_discussion_path(@track, @exercise, @solution.in_progress_mentor_discussion)
 - elsif @solution.has_unlocked_pending_mentoring_request?
   Mentor request pending
 - elsif @solution.has_locked_pending_mentoring_request?

@@ -79,8 +79,8 @@ class Solution < ApplicationRecord
     mentor_requests.pending.locked.exists?
   end
 
-  def has_in_progress_mentor_discussion?
-    mentor_discussions.in_progress.exists?
+  def in_progress_mentor_discussion
+    mentor_discussions.in_progress.first
   end
 
   def update_mentoring_status!

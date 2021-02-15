@@ -100,8 +100,8 @@ module Components
           assert_text student.name
           assert_text student.handle.to_s
           assert_text student.bio
-          # assert_text "english, spanish" # TODO: Renable
           assert_text student.reputation
+          # assert_text "english, spanish" # TODO: Renable
           assert_text "15 previous sessions"
           assert_css "img[src='#{student.avatar_url}']"\
             "[alt=\"Uploaded avatar of student\"]"

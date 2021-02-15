@@ -31,6 +31,7 @@ module Mentoring
         {
           user_id: mentor.id,
           student: {
+            id: student.id,
             name: student.name,
             handle: student.handle,
             bio: student.bio,

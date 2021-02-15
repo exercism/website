@@ -79,5 +79,9 @@ module API
     def by_student?
       by_student
     end
+
+    def links
+      {}
+    end
   end
 end

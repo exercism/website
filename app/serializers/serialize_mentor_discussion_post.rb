@@ -14,7 +14,7 @@ class SerializeMentorDiscussionPost
       content_markdown: post.content_markdown,
       content_html: post.content_html,
       updated_at: post.updated_at.iso8601,
-      links: links
+      links: post.try(:links) || links
     }
   end
 

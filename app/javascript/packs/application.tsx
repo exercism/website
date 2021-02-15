@@ -189,6 +189,15 @@ initReact({
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
   ),
+  'student-mentoring-session': (data: any) => (
+    <Student.MentoringSession
+      id={data.id}
+      isFinished={data.is_finished}
+      student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
+      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      links={data.links}
+    />
+  ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
     return (

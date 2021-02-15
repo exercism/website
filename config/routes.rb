@@ -219,6 +219,7 @@ Rails.application.routes.draw do
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
         namespace :student do
+          resource :mentoring_session, only: [:show], controller: "mentoring_session"
           resource :concept_map, only: [:show], controller: 'concept_map'
           resource :tracks_list, only: [:show], controller: "tracks_list" do
             member do

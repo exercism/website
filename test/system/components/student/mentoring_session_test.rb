@@ -111,6 +111,31 @@ module Components
         assert_css "h1", text: "Edited"
         assert_no_css "h1", text: "Hello"
       end
+
+      test "shows files per iteration" do
+        mentor = create :user
+        student = create :user
+        ruby = create :track, slug: "ruby"
+        bob = create :concept_exercise, track: ruby
+        solution = create :concept_solution, exercise: bob, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        submission_1 = create :submission, solution: solution
+        create :submission_file,
+          submission: submission_1,
+          content: "class Bob\nend",
+          filename: "bob.rb"
+        submission_2 = create :submission, solution: solution
+        create :iteration, idx: 1, solution: solution, submission: submission_1
+        create :iteration, idx: 2, solution: solution, submission: submission_2
+
+        use_capybara_host do
+          sign_in!(student)
+          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          click_on "1"
+        end
+
+        assert_text "class Bob"
+      end
     end
   end
 end

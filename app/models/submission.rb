@@ -92,7 +92,7 @@ class Submission < ApplicationRecord
   end
 
   def viewable_by?(user)
-    solution.mentors.include?(user)
+    solution.mentors.include?(user) || solution.user == user
   end
 
   private

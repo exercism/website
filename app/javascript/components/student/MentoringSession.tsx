@@ -2,7 +2,8 @@ import React from 'react'
 import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
 import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
-import { Iteration, Student } from '../mentoring/Session'
+import { Iteration, Student, Track } from '../mentoring/Session'
+import { IterationView } from '../mentoring/session/IterationView'
 import { PostsWrapper } from '../mentoring/discussion/DiscussionContext'
 
 type Links = {
@@ -15,6 +16,7 @@ export const MentoringSession = ({
   links,
   iterations,
   student,
+  track,
   userId,
 }: {
   id: string
@@ -22,11 +24,18 @@ export const MentoringSession = ({
   links: Links
   iterations: readonly Iteration[]
   student: Student
+  track: Track
   userId: number
 }): JSX.Element => {
   return (
     <div className="c-mentor-discussion">
-      <div className="lhs" />
+      <div className="lhs">
+        <header className="discussion-header"></header>
+        <IterationView
+          iterations={iterations}
+          language={track.highlightjsLanguage}
+        />
+      </div>
       <div className="rhs">
         <PostsWrapper cacheKey={`posts-discussion-${id}`}>
           <div id="panel-discussion">

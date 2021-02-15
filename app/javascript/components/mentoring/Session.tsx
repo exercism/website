@@ -1,14 +1,12 @@
 import React, { useState, createContext } from 'react'
 
-import { IterationsList } from './session/IterationsList'
 import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
-import { IterationFiles } from './session/IterationFiles'
-import { IterationHeader } from './session/IterationHeader'
 import { Guidance } from './session/Guidance'
 import { Scratchpad } from './session/Scratchpad'
 import { StudentInfo } from './session/StudentInfo'
 import { SessionContext } from './session/SessionContext'
+import { IterationView } from './session/IterationView'
 
 import { DiscussionDetails } from './discussion/DiscussionDetails'
 import { DiscussionActions } from './discussion/DiscussionActions'
@@ -18,7 +16,6 @@ import { RequestDetails } from './request/RequestDetails'
 import { MentoringRequestPanel } from './request/MentoringRequestPanel'
 
 import { Tab, TabContext } from '../common/Tab'
-import { Icon } from '../common/Icon'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 
 export type Links = {
@@ -170,9 +167,6 @@ export const Session = (props: SessionProps): JSX.Element => {
     request,
     userId,
   } = session
-  const [currentIteration, setCurrentIteration] = useState(
-    iterations[iterations.length - 1]
-  )
   const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
@@ -184,24 +178,10 @@ export const Session = (props: SessionProps): JSX.Element => {
             <SessionInfo student={student} track={track} exercise={exercise} />
             {discussion ? <DiscussionActions {...discussion} /> : null}
           </header>
-          <IterationHeader
-            iteration={currentIteration}
-            latest={iterations[iterations.length - 1] === currentIteration}
-          />
-          <IterationFiles
-            endpoint={currentIteration.links.files}
+          <IterationView
+            iterations={iterations}
             language={track.highlightjsLanguage}
           />
-          <footer className="discussion-footer">
-            <IterationsList
-              iterations={iterations}
-              onClick={setCurrentIteration}
-              current={currentIteration}
-            />
-            <button className="settings-button btn-keyboard-shortcut">
-              <Icon icon="settings" alt="Mentor settings" />
-            </button>
-          </footer>
         </div>
         <TabsContext.Provider
           value={{

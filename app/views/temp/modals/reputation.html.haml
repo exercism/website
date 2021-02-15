@@ -4,7 +4,7 @@
       = link_to token[:url], class: "token" do
         = graphical_icon token[:icon_name], css_class: "reason-icon"
         .content
-          .description= raw token[:description]
+          .description= raw token[:text]
           .awarded-at= time_ago_in_words(token[:awarded_at])
         = render ViewComponents::Reputation.new("+#{token[:value]}")
         - if token[:read]

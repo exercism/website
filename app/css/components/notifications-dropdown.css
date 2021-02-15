@@ -112,6 +112,7 @@
         }
         & .c-prominent-link {
             @apply mt-12;
+            @apply px-16 py-8;
         }
     }
 }

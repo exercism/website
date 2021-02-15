@@ -1,15 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useCallback } from 'react'
 import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
 import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
-import { Discussion } from '../Session'
-import { DiscussionContext } from './DiscussionContext'
+import { Discussion, SessionProps } from '../Session'
 
 export const DiscussionActions = ({
   links,
+  session,
+  setSession,
   isFinished,
-}: Discussion): JSX.Element => {
-  const { handleFinish } = useContext(DiscussionContext)
+}: Discussion & {
+  session: SessionProps
+  setSession: (session: SessionProps) => void
+}): JSX.Element => {
+  const setDiscussion = useCallback(
+    (discussion) => {
+      setSession({ ...session, discussion: discussion })
+    },
+    [setSession, session]
+  )
 
   return (
     <div>
@@ -23,7 +32,7 @@ export const DiscussionActions = ({
           Ended
         </div>
       ) : (
-        <FinishButton endpoint={links.finish} onSuccess={handleFinish} />
+        <FinishButton endpoint={links.finish} onSuccess={setDiscussion} />
       )}
     </div>
   )

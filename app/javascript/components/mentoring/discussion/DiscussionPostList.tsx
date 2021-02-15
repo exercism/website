@@ -9,7 +9,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { IterationMarker } from '../session/IterationMarker'
-import { PostsContext } from './DiscussionContext'
+import { PostsContext } from './PostsContext'
 
 type IterationWithPost = Iteration & { posts: DiscussionPostProps[] }
 

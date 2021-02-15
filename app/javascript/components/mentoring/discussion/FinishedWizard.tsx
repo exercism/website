@@ -1,10 +1,9 @@
-import React, { useReducer, useContext } from 'react'
+import React, { useReducer, useEffect, useRef } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
 import { Student, StudentMentorRelationship } from '../Session'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { DiscussionContext } from './DiscussionContext'
 
 type State = {
   relationship: StudentMentorRelationship
@@ -29,6 +28,7 @@ type Action =
 type Props = {
   student: Student
   relationship: StudentMentorRelationship
+  defaultStep: ModalStep
 }
 
 function reducer(state: State, action: Action): State {
@@ -55,14 +55,24 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export const FinishedWizard = ({ student, relationship }: Props) => {
-  const { finishedWizardRef, previouslyNotFinishedRef } = useContext(
-    DiscussionContext
-  )
+export const FinishedWizard = ({
+  student,
+  relationship,
+  defaultStep,
+}: Props) => {
+  const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     relationship: relationship,
-    step: previouslyNotFinishedRef.current ? 'mentorAgain' : 'finish',
+    step: defaultStep,
   })
+
+  useEffect(() => {
+    if (!finishedWizardRef.current) {
+      return
+    }
+
+    finishedWizardRef.current.scrollIntoView()
+  }, [relationship])
 
   return (
     <div ref={finishedWizardRef} className="finished-wizard">

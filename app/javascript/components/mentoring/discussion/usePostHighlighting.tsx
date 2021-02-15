@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
-import { PostsContext } from '../discussion/DiscussionContext'
+import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 
 export const usePostHighlighting = (

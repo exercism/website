@@ -5,7 +5,6 @@ import { SessionInfo } from './session/SessionInfo'
 import { Guidance } from './session/Guidance'
 import { Scratchpad } from './session/Scratchpad'
 import { StudentInfo } from './session/StudentInfo'
-import { SessionContext } from './session/SessionContext'
 import { IterationView } from './session/IterationView'
 
 import { DiscussionDetails } from './discussion/DiscussionDetails'
@@ -17,6 +16,7 @@ import { MentoringRequestPanel } from './request/MentoringRequestPanel'
 
 import { Tab, TabContext } from '../common/Tab'
 import { GraphicalIcon } from '../common/GraphicalIcon'
+import { PostsWrapper } from './discussion/PostsContext'
 
 export type Links = {
   mentorDashboard: string
@@ -170,25 +170,31 @@ export const Session = (props: SessionProps): JSX.Element => {
   const [tab, setTab] = useState<TabIndex>('discussion')
 
   return (
-    <SessionContext session={session} setSession={setSession}>
-      <div className="c-mentor-discussion">
-        <div className="lhs">
-          <header className="discussion-header">
-            <CloseButton url={links.mentorDashboard} />
-            <SessionInfo student={student} track={track} exercise={exercise} />
-            {discussion ? <DiscussionActions {...discussion} /> : null}
-          </header>
-          <IterationView
-            iterations={iterations}
-            language={track.highlightjsLanguage}
-          />
-        </div>
-        <TabsContext.Provider
-          value={{
-            current: tab,
-            switchToTab: (id: string) => setTab(id as TabIndex),
-          }}
-        >
+    <div className="c-mentor-discussion">
+      <div className="lhs">
+        <header className="discussion-header">
+          <CloseButton url={links.mentorDashboard} />
+          <SessionInfo student={student} track={track} exercise={exercise} />
+          {discussion ? (
+            <DiscussionActions
+              {...discussion}
+              session={session}
+              setSession={setSession}
+            />
+          ) : null}
+        </header>
+        <IterationView
+          iterations={iterations}
+          language={track.highlightjsLanguage}
+        />
+      </div>
+      <TabsContext.Provider
+        value={{
+          current: tab,
+          switchToTab: (id: string) => setTab(id as TabIndex),
+        }}
+      >
+        <PostsWrapper discussionId={session.discussion?.id}>
           <div className="rhs">
             <div className="tabs" role="tablist">
               <Tab id="discussion" context={TabsContext}>
@@ -245,8 +251,8 @@ export const Session = (props: SessionProps): JSX.Element => {
               setSession={setSession}
             />
           )}
-        </TabsContext.Provider>
-      </div>
-    </SessionContext>
+        </PostsWrapper>
+      </TabsContext.Provider>
+    </div>
   )
 }

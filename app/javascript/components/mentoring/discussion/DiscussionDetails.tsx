@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Discussion,
   Iteration,
@@ -7,6 +7,7 @@ import {
 } from '../Session'
 import { FinishedWizard } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
+import { PostsWrapper } from './PostsContext'
 
 export const DiscussionDetails = ({
   discussion,
@@ -21,6 +22,9 @@ export const DiscussionDetails = ({
   relationship: StudentMentorRelationship
   userId: number
 }): JSX.Element => {
+  const previouslyNotFinishedRef = useRef(!discussion.isFinished)
+  const step = previouslyNotFinishedRef.current ? 'mentorAgain' : 'finish'
+
   return (
     <React.Fragment>
       <DiscussionPostList
@@ -31,7 +35,11 @@ export const DiscussionDetails = ({
         userId={userId}
       />
       {discussion.isFinished ? (
-        <FinishedWizard student={student} relationship={relationship} />
+        <FinishedWizard
+          student={student}
+          relationship={relationship}
+          defaultStep={step}
+        />
       ) : null}
     </React.Fragment>
   )

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { PostsContext } from './DiscussionContext'
+import { PostsContext } from './PostsContext'
 import { GraphicalIcon } from '../../common'
 
 export const NewMessageAlert = ({

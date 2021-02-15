@@ -8,7 +8,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../../common/Loading'
 import { useMutation, queryCache } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { PostsContext } from './DiscussionContext'
+import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 import { typecheck } from '../../../utils/typecheck'
 

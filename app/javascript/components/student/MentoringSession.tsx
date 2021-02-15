@@ -4,7 +4,7 @@ import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
 import { Iteration, Student, Track } from '../mentoring/Session'
 import { IterationView } from '../mentoring/session/IterationView'
-import { PostsWrapper } from '../mentoring/discussion/DiscussionContext'
+import { PostsWrapper } from '../mentoring/discussion/PostsContext'
 
 type Links = {
   posts: string
@@ -37,7 +37,7 @@ export const MentoringSession = ({
         />
       </div>
       <div className="rhs">
-        <PostsWrapper cacheKey={`posts-discussion-${id}`}>
+        <PostsWrapper discussionId={id}>
           <div id="panel-discussion">
             <DiscussionPostList
               endpoint={links.posts}

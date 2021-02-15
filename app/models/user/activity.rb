@@ -21,7 +21,7 @@ class User::Activity < ApplicationRecord
   end
 
   def non_cachable_rendering_data
-    super.merge('occurred_at' => occurred_at)
+    super.merge(occurred_at: occurred_at)
   end
 
   private

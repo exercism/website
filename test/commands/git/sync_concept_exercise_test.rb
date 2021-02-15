@@ -221,7 +221,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
     assert_equal 5, new_contributor_rep_token.value
-    assert_equal new_contributorship, new_author_rep_token.contributorship
+    assert_equal new_contributorship, new_contributor_rep_token.contributorship
   end
 
   test "does not add reputation token for existing contributor" do

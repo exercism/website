@@ -86,8 +86,7 @@ module IsParamaterisedSTI
       keys.each do |key|
         define_method key do
           iv = "@params_#{key}"
-          instance_variable_get(iv).presence ||
-            instance_variable_set(iv, retrieve_param(key))
+          instance_variable_get(iv).presence || instance_variable_set(iv, retrieve_param(key))
         end
       end
     end
@@ -100,8 +99,7 @@ module IsParamaterisedSTI
       update!(rendering_data_cache: data)
     end
 
-    data.with_indifferent_access.
-      merge(non_cachable_rendering_data)
+    data.with_indifferent_access.merge(non_cachable_rendering_data)
   end
 
   # Save each class from manually overriding this
@@ -110,7 +108,6 @@ module IsParamaterisedSTI
   end
 
   def text
-    # TODO: Add test for sanitizing here.
     I18n.t(
       "#{i18n_category}.#{i18n_key}.#{version}",
       i18n_params.transform_values { |v| sanitize(v.to_s) }

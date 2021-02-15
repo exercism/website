@@ -12,11 +12,9 @@ class User
           user: user,
           params: params
         ).tap do |token|
-          token.save
+          token.save!
         rescue ActiveRecord::RecordNotUnique
           return klass.find_by!(user: user, uniqueness_key: token.uniqueness_key)
-
-          # ...
         end
       end
     end

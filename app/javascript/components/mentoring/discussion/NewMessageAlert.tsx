@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DiscussionContext } from './DiscussionContext'
+import { PostsContext } from './DiscussionContext'
 import { GraphicalIcon } from '../../common'
 
 export const NewMessageAlert = ({
@@ -7,7 +7,7 @@ export const NewMessageAlert = ({
 }: {
   onClick: () => void
 }): JSX.Element | null => {
-  const { hasNewMessages, highlightedPostRef } = useContext(DiscussionContext)
+  const { hasNewMessages, highlightedPostRef } = useContext(PostsContext)
 
   if (!hasNewMessages) {
     return null

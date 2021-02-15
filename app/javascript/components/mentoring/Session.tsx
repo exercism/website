@@ -168,6 +168,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     notes,
     mentorSolution,
     request,
+    userId,
   } = session
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -231,6 +232,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   iterations={iterations}
                   student={student}
                   relationship={relationship}
+                  userId={userId}
                 />
               ) : (
                 <RequestDetails

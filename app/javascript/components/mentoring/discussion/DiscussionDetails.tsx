@@ -13,11 +13,13 @@ export const DiscussionDetails = ({
   iterations,
   student,
   relationship,
+  userId,
 }: {
   discussion: Discussion
   iterations: readonly Iteration[]
   student: Student
   relationship: StudentMentorRelationship
+  userId: number
 }): JSX.Element => {
   return (
     <React.Fragment>
@@ -26,6 +28,7 @@ export const DiscussionDetails = ({
         iterations={iterations}
         student={student}
         discussionId={discussion.id}
+        userId={userId}
       />
       {discussion.isFinished ? (
         <FinishedWizard student={student} relationship={relationship} />

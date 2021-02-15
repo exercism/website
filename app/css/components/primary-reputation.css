@@ -6,9 +6,12 @@
 
     & .--inner {
         @apply flex px-8 items-center justify-center;
-        @apply text-13 text-unnamed16;
+        @apply text-13 text-textColor7;
         @apply flex-grow bg-unnamed10 px-16 rounded-100;
-        @apply text-textColor9 font-semibold text-16;
+        @apply font-semibold text-16;
+
+        /* This shouldn't change for theme */
+        color: #fff;
 
         line-height: 28px;
     }

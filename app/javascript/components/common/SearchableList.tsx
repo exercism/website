@@ -132,13 +132,11 @@ const Results = ({
         />
       ) : null}
       {latestData ? (
-        <footer>
-          <Pagination
-            current={query.page}
-            total={latestData.meta.totalPages}
-            setPage={setPage}
-          />
-        </footer>
+        <Pagination
+          current={query.page}
+          total={latestData.meta.totalPages}
+          setPage={setPage}
+        />
       ) : null}
     </React.Fragment>
   )

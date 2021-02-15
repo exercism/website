@@ -11,6 +11,17 @@ FactoryBot.define do
     end
   end
 
+  factory :user_code_review_reputation_token, class: 'User::ReputationTokens::CodeReviewToken' do
+    user
+
+    params do
+      {
+        repo: "exercism/ruby",
+        pr_id: SecureRandom.uuid
+      }
+    end
+  end
+
   factory :user_exercise_contribution_reputation_token, class: 'User::ReputationTokens::ExerciseContributionToken' do
     user
 

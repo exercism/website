@@ -32,9 +32,9 @@
           %ul
             - @concept.links.each do |link|
               %li
-                = link_to link.url do
+                = link_to link[:url] do
                   = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
-                  = link.description
+                  = link[:description]
                   = icon(:external_link, "(external link)")
         - else
           / TODO: Remove this from launch

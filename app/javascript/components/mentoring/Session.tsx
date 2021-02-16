@@ -64,6 +64,7 @@ export type Iteration = {
 }
 
 export type Partner = {
+  id: number
   avatarUrl: string
   name: string
   bio: string
@@ -226,6 +227,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   iterations={iterations}
                   student={partner}
                   request={request}
+                  userId={userId}
                 />
               )}
             </Tab.Panel>

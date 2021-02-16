@@ -88,7 +88,11 @@ export const DiscussionPostList = ({
         {iterationsWithPosts.map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
-              <IterationMarker iteration={iteration} student={student} />
+              <IterationMarker
+                iteration={iteration}
+                student={student}
+                userId={userId}
+              />
               {iteration.posts.map((post) => {
                 return (
                   <DiscussionPost

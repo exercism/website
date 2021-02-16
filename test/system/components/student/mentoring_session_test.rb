@@ -180,6 +180,35 @@ module Components
             "[alt=\"Uploaded avatar of mentor\"]"
         end
       end
+
+      test "shows automated feedback" do
+        mentor = create :user
+        student = create :user
+        feedback_author = create :user, name: "Feedback Author", reputation: 50
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, idx: 1, solution: solution
+        submission = create :submission, iteration: iteration, solution: solution, analysis_status: :completed
+        create :submission_representation, submission: submission, ast_digest: "ast"
+        create :exercise_representation,
+          exercise: running,
+          feedback_markdown: "Exercise feedback",
+          ast_digest: "ast",
+          feedback_author: feedback_author
+
+        use_capybara_host do
+          sign_in!(student)
+          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          find("summary", text: "You received automated feedback").click
+        end
+
+        assert_text "Exercise feedback"
+        assert_text "by Feedback Author"
+        assert_css "img[src='#{feedback_author.avatar_url}']"
+        assert_text "50"
+      end
     end
   end
 end

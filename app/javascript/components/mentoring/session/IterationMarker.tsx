@@ -7,9 +7,11 @@ import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 export const IterationMarker = ({
   iteration,
   student,
+  userId,
 }: {
   iteration: Iteration
   student: Partner
+  userId: number
 }): JSX.Element => {
   return (
     <React.Fragment>
@@ -25,6 +27,7 @@ export const IterationMarker = ({
         <AutomatedFeedbackSummary
           student={student}
           automatedFeedback={iteration.automatedFeedback}
+          userId={userId}
         />
       ) : null}
     </React.Fragment>

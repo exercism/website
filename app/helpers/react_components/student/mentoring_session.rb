@@ -11,9 +11,11 @@ module ReactComponents
             is_finished: discussion.finished?,
             user_id: current_user.id,
             student: {
+              id: student.id,
               handle: student.handle
             },
             partner: {
+              id: mentor.id,
               name: mentor.name,
               handle: mentor.handle,
               bio: mentor.bio,

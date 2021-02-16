@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_11_194536) do
+ActiveRecord::Schema.define(version: 2021_02_15_134656) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -340,6 +340,8 @@ ActiveRecord::Schema.define(version: 2021_02_11_194536) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "solution_id"
+    t.bigint "exercise_id"
+    t.index ["exercise_id"], name: "index_user_activities_on_exercise_id"
     t.index ["track_id"], name: "index_user_activities_on_track_id"
     t.index ["user_id"], name: "index_user_activities_on_user_id"
   end
@@ -364,6 +366,11 @@ ActiveRecord::Schema.define(version: 2021_02_11_194536) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "uuid", null: false
+    t.json "rendering_data_cache", null: false
+    t.bigint "track_id"
+    t.bigint "exercise_id"
+    t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
+    t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end
@@ -385,9 +392,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_194536) do
     t.bigint "user_id", null: false
     t.bigint "exercise_id"
     t.bigint "track_id"
-    t.string "context_type"
-    t.bigint "context_id"
-    t.string "context_key", null: false
+    t.string "uniqueness_key", null: false
     t.integer "value", null: false
     t.string "reason", null: false
     t.string "category", null: false
@@ -395,10 +400,14 @@ ActiveRecord::Schema.define(version: 2021_02_11_194536) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "seen", default: false, null: false
-    t.index ["context_key", "user_id"], name: "index_user_reputation_tokens_on_context_key_and_user_id", unique: true
-    t.index ["context_type", "context_id"], name: "context_index"
+    t.string "level"
+    t.json "params", null: false
+    t.string "type", null: false
+    t.integer "version", null: false
+    t.json "rendering_data_cache", null: false
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
+    t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
   end
 
@@ -490,7 +499,10 @@ ActiveRecord::Schema.define(version: 2021_02_11_194536) do
   add_foreign_key "track_concepts", "tracks"
   add_foreign_key "user_acquired_badges", "badges"
   add_foreign_key "user_acquired_badges", "users"
+  add_foreign_key "user_activities", "exercises"
   add_foreign_key "user_auth_tokens", "users"
+  add_foreign_key "user_notifications", "exercises"
+  add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
   add_foreign_key "user_reputation_tokens", "tracks"

@@ -1,6 +1,8 @@
 class User
   module Notifications
     class StudentRepliedToDiscussionNotification < Notification
+      params :discussion_post
+
       # TODO
       def url
         "#"
@@ -41,10 +43,6 @@ class User
 
       def solution
         discussion_post.solution
-      end
-
-      def discussion_post
-        params[:discussion_post]
       end
     end
   end

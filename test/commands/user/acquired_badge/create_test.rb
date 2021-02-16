@@ -40,7 +40,10 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
     assert_equal 1, user.notifications.size
     notification = User::Notification.where(user: user).first
     assert_equal User::Notifications::AcquiredBadgeNotification, notification.class
-    assert_equal({ badge: badge }, notification.send(:params))
+    assert_equal(
+      { badge: badge.to_global_id.to_s }.with_indifferent_access,
+      notification.send(:params)
+    )
   end
 
   test "raises if the badge shouldn't be awarded" do

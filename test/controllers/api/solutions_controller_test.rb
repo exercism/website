@@ -51,7 +51,10 @@ class API::SolutionsControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
 
     assert_response :success
-    serializer = SerializePaginatedCollection.(Solution.page(1), SerializeSolutionsForStudent)
+    serializer = SerializePaginatedCollection.(
+      Solution.page(1),
+      serializer: SerializeSolutionsForStudent
+    )
     assert_equal serializer.to_json, response.body
   end
 

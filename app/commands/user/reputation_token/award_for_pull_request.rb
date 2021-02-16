@@ -20,7 +20,15 @@ class User
         Rails.logger.error "Missing author: #{github_username}" unless user
         return unless user
 
-        User::ReputationToken::CodeContribution::Create.(user, author_reputation_reason, repo, pr_id, external_link)
+        token = User::ReputationToken::Create.(
+          user,
+          :code_contribution,
+          level: author_reputation_level,
+          repo: repo,
+          pr_id: pr_id,
+          external_link: external_link
+        )
+        token.update!(level: author_reputation_level)
       end
 
       def award_reputation_to_reviewers
@@ -31,7 +39,13 @@ class User
 
         reviewers = ::User.where(handle: reviewer_usernames)
         reviewers.find_each do |reviewer|
-          User::ReputationToken::CodeReview::Create.(reviewer, repo, pr_id, external_link)
+          User::ReputationToken::Create.(
+            reviewer,
+            :code_review,
+            repo: repo,
+            pr_id: pr_id,
+            external_link: external_link
+          )
         end
 
         # TODO: consider what to do with missing reviewers
@@ -59,11 +73,11 @@ class User
         params[:pr_id]
       end
 
-      def author_reputation_reason
-        return :'contributed_code/major' if params[:labels].include?('reputation/contributed_code/major')
-        return :'contributed_code/minor' if params[:labels].include?('reputation/contributed_code/minor')
+      def author_reputation_level
+        return :major if params[:labels].include?('reputation/contributed_code/major')
+        return :minor if params[:labels].include?('reputation/contributed_code/minor')
 
-        :'contributed_code/regular'
+        :regular
       end
 
       memoize

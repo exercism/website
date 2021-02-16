@@ -1,0 +1,14 @@
+en:
+  user_reputation_tokens:
+    exercise_author:
+      1: >
+        You authored <strong>%{exercise_title}</strong>
+    exercise_contribution:
+      1: >
+        You contributed to <strong>%{exercise_title}</strong>
+    code_contribution:
+      1: >
+        You contributed code via <strong>PR#%{pr_id}</strong> on <strong>%{repo}</strong>
+    code_review:
+      1: >
+        You reviewed <strong>PR#%{pr_id}</strong> on <strong>%{repo}</strong>

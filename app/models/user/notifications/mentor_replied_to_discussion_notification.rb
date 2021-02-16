@@ -1,6 +1,8 @@
 class User
   module Notifications
     class MentorRepliedToDiscussionNotification < Notification
+      params :discussion_post
+
       # TODO
       def url
         "#"
@@ -41,10 +43,6 @@ class User
 
       def mentor
         discussion_post.author
-      end
-
-      def discussion_post
-        params[:discussion_post]
       end
     end
   end

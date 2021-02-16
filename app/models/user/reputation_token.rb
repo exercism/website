@@ -1,45 +1,30 @@
 class User::ReputationToken < ApplicationRecord
-  CATEGORIES = %i[
-    building
-    authoring
-    mentoring
-  ].freeze
-  private_constant :CATEGORIES
+  include IsParamaterisedSTI
+  self.class_suffix = :token
+  self.i18n_category = :user_reputation_tokens
 
-  REASON_VALUES = {
-    'authored_exercise': 10,
-    'contributed_to_exercise': 5,
-    'contributed_code/minor': 5,
-    'contributed_code/regular': 10,
-    'contributed_code/major': 15,
-    'mentored': 10,
-    'reviewed_code': 3
-  }.with_indifferent_access.freeze
-  private_constant :REASON_VALUES
-
-  belongs_to :user
-  belongs_to :track, optional: true
-  belongs_to :exercise, optional: true
-  belongs_to :context, polymorphic: true, optional: true
-
-  validates :category, inclusion: {
-    in: CATEGORIES,
-    message: "%<value>s is not a valid category",
-    strict: ReputationTokenCategoryInvalid
-  }
-
-  validates :reason, inclusion: {
-    in: REASON_VALUES.keys,
-    message: "%<value>s is not a valid reason",
-    strict: ReputationTokenReasonInvalid
-  }
-
-  before_save do
-    self.value = REASON_VALUES[self.reason]
+  # Reason, category and value can be set statically in
+  # children. The determine_reason, etc methods can be overriden
+  # in child classes for situations where logic is required.
+  %i[reason category levels value values].each do |attr|
+    define_singleton_method attr do |val|
+      instance_variable_set("@#{attr}", val)
+    end
   end
 
-  before_create do
+  before_validation on: :create do
     self.uuid = SecureRandom.compact_uuid
+
+    # TODO: What's a nicer way of doing this double lookup?
+    self.reason = self.class.instance_variable_get("@reason")
+    self.category = self.class.instance_variable_get("@category")
+
+    # TODO: Validate level is in levels if present
+  end
+
+  before_validation do
+    # Value is mutable if the level changes
+    self.value = self.determine_value
   end
 
   after_save do
@@ -48,10 +33,54 @@ class User::ReputationToken < ApplicationRecord
     User.where(id: user.id).update_all(reputation: summing_sql)
   end
 
-  def category
-    super.to_sym
+  def params=(hash)
+    self.level = hash.delete(:level) if hash.key?(:level)
+    self.external_link = hash.delete(:external_link) if hash.key?(:external_link)
+
+    super(hash)
   end
 
+  # Set these methods to be returned as symbols
+  %i[category reason level].each do |attr|
+    define_method attr do
+      super().try(&:to_sym)
+    end
+  end
+
+  protected
+  def determine_value
+    return self.class.instance_variable_get("@value") if self.class.instance_variable_defined?("@value")
+
+    # TODO: Test this
+    raise ReputationTokenLevelUndefined if level.blank?
+
+    values = self.class.instance_variable_get("@values")
+    values[level.to_sym]
+  end
+
+  private
+  def cacheable_rendering_data
+    data = {
+      id: uuid,
+      value: value,
+      text: text,
+      icon_name: icon_name,
+      internal_link: internal_link,
+      external_link: external_link,
+      awarded_at: created_at.iso8601
+    }
+
+    if track
+      data[:track] = {
+        title: track.title,
+        icon_name: track.icon_name
+      }
+    end
+
+    data
+  end
+
+  # TODO: Override in children classes
   def icon_name
     return exercise.icon_name if exercise
     return track.icon_name if track
@@ -59,25 +88,7 @@ class User::ReputationToken < ApplicationRecord
     :reputation # TODO: Choose an icon
   end
 
-  def description
-    case reason.split("/").first.to_sym
-    when :authored_exercise
-      "You authored #{exercise.title}"
-    when :contributed_to_exercise
-      "You conributed to #{exercise.title}"
-    when :contributed_code
-      "You contributed code"
-    when :mentored
-      "You mentored @#{context.student.handle} on #{context.exercise.title}"
-    when :reviewed_code
-      "You reviewed a Pull Request"
-    else
-      "You contributed to Exercism"
-    end
-  rescue StandardError
-    "You contributed to Exercism"
-  end
-
+  # TODO: Override in children classes
   def internal_link
     nil
   end

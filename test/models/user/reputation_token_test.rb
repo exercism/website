@@ -1,33 +1,50 @@
 require 'test_helper'
 
 class User::ReputationTokenTest < ActiveSupport::TestCase
-  test "creates with category and reason" do
-    category = :mentoring
-    reason = 'mentored'
-    context = create :concept_solution
+  test "text is sanitized" do
+    token = User::ReputationToken.new
+    token.define_singleton_method(:i18n_params) do
+      { user: "<foo>d</foo>angerous" }
+    end
 
-    acq = create :user_reputation_token, category: category, reason: reason, context: context
-    assert_equal category, acq.category
-    assert_equal reason, acq.reason
-    assert_equal context, acq.context
+    I18n.expects(:t).with(
+      "user_reputation_tokens.reputation.",
+      { user: "dangerous" }
+    ).returns("")
+
+    token.text
   end
 
-  test "raises when no value specified for reason" do
-    reason = 'some_other_reason'
-    context = create :concept_solution
+  test "rendering_data" do
+    repo = "foo/bar"
+    pr_id = 12_312
 
-    assert_raises ReputationTokenReasonInvalid do
-      create :user_reputation_token, reason: reason, context: context, value: nil
-    end
-  end
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    token = create :user_code_contribution_reputation_token,
+      created_at: Time.current - 1.week,
+      exercise: exercise,
+      track: track,
+      external_link: "https://google.com",
+      params: {
+        repo: repo,
+        pr_id: pr_id
+      }
 
-  test "raises when invalid category specified" do
-    category = :some_other_category
-    reason = 'authored_exercise'
-    context = create :concept_solution
+    expected = {
+      id: token.uuid,
+      value: token.value,
+      text: "You contributed code via <strong>PR##{pr_id}</strong> on <strong>#{repo}</strong>",
+      icon_name: "sample-exercise-rocket",
+      internal_link: nil,
+      external_link: "https://google.com",
+      awarded_at: token.created_at.iso8601,
+      track: {
+        title: track.title,
+        icon_name: track.icon_name
+      }
+    }.with_indifferent_access
 
-    assert_raises ReputationTokenCategoryInvalid do
-      create :user_reputation_token, category: category, reason: reason, context: context
-    end
+    assert_equal expected, token.rendering_data
   end
 end

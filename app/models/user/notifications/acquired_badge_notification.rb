@@ -1,6 +1,8 @@
 class User
   module Notifications
     class AcquiredBadgeNotification < Notification
+      params :badge
+
       # TODO
       def url
         "#"
@@ -29,10 +31,6 @@ class User
       private
       def badge_name
         badge.name
-      end
-
-      def badge
-        params[:badge]
       end
     end
   end

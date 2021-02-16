@@ -86,6 +86,7 @@
     --textColor1: var(--c-FFFFFF);
     --textColor5: var(--c-CBC9D9);
     --textColor6: var(--c-A9A6BD);
+    --textColor7: #ccc;
     --textColor9: var(--c-000000);
 
     --inputBackgroundColor: var(--c-322C44);

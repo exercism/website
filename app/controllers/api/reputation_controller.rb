@@ -7,7 +7,10 @@ module API
         category: params[:category]
       )
 
-      render json: SerializePaginatedCollection.(tokens, SerializeReputationTokens)
+      render json: SerializePaginatedCollection.(
+        tokens,
+        data: tokens.map(&:rendering_data)
+      )
     end
 
     def mark_as_seen

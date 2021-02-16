@@ -5,7 +5,12 @@ class Solution
     initialize_with :solution
 
     def call
-      [preamble, introduction, instructions, source].compact_blank.join("\n\n")
+      [
+        preamble,
+        introduction,
+        instructions,
+        source
+      ].compact_blank.join("\n\n")
     end
 
     private

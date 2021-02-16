@@ -13,6 +13,15 @@ module ReactComponents
             student: {
               handle: student.handle
             },
+            partner: {
+              name: mentor.name,
+              handle: mentor.handle,
+              bio: mentor.bio,
+              languages_spoken: mentor.languages_spoken,
+              avatar_url: mentor.avatar_url,
+              reputation: mentor.reputation,
+              num_previous_sessions: current_user.num_previous_mentor_sessions_with(mentor)
+            },
             track: {
               title: track.title,
               highlightjs_language: track.highlightjs_language,
@@ -27,7 +36,7 @@ module ReactComponents
       end
 
       private
-      delegate :student, :track, to: :discussion
+      delegate :student, :mentor, :track, to: :discussion
 
       def iterations
         comment_counts = ::Solution::MentorDiscussionPost.

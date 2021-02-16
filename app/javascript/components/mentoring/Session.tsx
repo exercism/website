@@ -70,9 +70,9 @@ export type Partner = {
   languagesSpoken: string[]
   handle: string
   reputation: number
-  isFavorite: boolean
+  isFavorite?: boolean
   numPreviousSessions: number
-  links: {
+  links?: {
     favorite: string
   }
 }

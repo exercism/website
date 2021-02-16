@@ -5,6 +5,7 @@ import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
 import { Iteration, Partner, Track } from '../mentoring/Session'
 import { IterationView } from '../mentoring/session/IterationView'
 import { PostsWrapper } from '../mentoring/discussion/PostsContext'
+import { PartnerInfo } from '../mentoring/session/PartnerInfo'
 
 type Links = {
   posts: string
@@ -16,6 +17,7 @@ export const MentoringSession = ({
   links,
   iterations,
   student,
+  partner,
   track,
   userId,
 }: {
@@ -24,6 +26,7 @@ export const MentoringSession = ({
   links: Links
   iterations: readonly Iteration[]
   student: Partner
+  partner: Partner
   track: Track
   userId: number
 }): JSX.Element => {
@@ -39,6 +42,7 @@ export const MentoringSession = ({
       <div className="rhs">
         <PostsWrapper discussionId={id}>
           <div id="panel-discussion">
+            <PartnerInfo partner={partner} />
             <DiscussionPostList
               endpoint={links.posts}
               iterations={iterations}

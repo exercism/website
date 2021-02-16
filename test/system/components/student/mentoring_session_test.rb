@@ -136,6 +136,31 @@ module Components
 
         assert_text "class Bob"
       end
+
+      test "shows mentor info" do
+        student = create :user
+        mentor = create :user, name: "Mentor", handle: "mentor", reputation: 1500
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        create :iteration, idx: 1, solution: solution
+
+        use_capybara_host do
+          sign_in!(student)
+          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+        end
+
+        within(".student-info") do
+          assert_text mentor.name
+          assert_text mentor.handle.to_s
+          assert_text mentor.bio
+          assert_text mentor.reputation
+          assert_text "15 previous sessions"
+          assert_css "img[src='#{mentor.avatar_url}']"\
+            "[alt=\"Uploaded avatar of mentor\"]"
+        end
+      end
     end
   end
 end

@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import {
   Discussion,
   Iteration,
-  Partner,
+  Student,
   StudentMentorRelationship,
 } from '../Session'
 import { FinishedWizard } from './FinishedWizard'
@@ -17,7 +17,7 @@ export const DiscussionDetails = ({
 }: {
   discussion: Discussion
   iterations: readonly Iteration[]
-  student: Partner
+  student: Student
   relationship: StudentMentorRelationship
   userId: number
 }): JSX.Element => {
@@ -29,7 +29,7 @@ export const DiscussionDetails = ({
       <DiscussionPostList
         endpoint={discussion.links.posts}
         iterations={iterations}
-        student={student}
+        userIsStudent={false}
         discussionId={discussion.id}
         userId={userId}
       />

@@ -4,10 +4,10 @@ import { CloseButton } from '../mentoring/session/CloseButton'
 import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
 import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
-import { Iteration, Partner, Track, Exercise } from '../mentoring/Session'
+import { Iteration, Track, Exercise } from '../mentoring/Session'
 import { IterationView } from '../mentoring/session/IterationView'
 import { PostsWrapper } from '../mentoring/discussion/PostsContext'
-import { PartnerInfo } from '../mentoring/session/PartnerInfo'
+import { MentorInfo } from './mentoring-session/MentorInfo'
 import { SessionInfo } from './mentoring-session/SessionInfo'
 
 type Links = {
@@ -15,13 +15,22 @@ type Links = {
   exercise: string
 }
 
+export type Mentor = {
+  id: number
+  avatarUrl: string
+  name: string
+  bio: string
+  handle: string
+  reputation: number
+  numPreviousSessions: number
+}
+
 export const MentoringSession = ({
   id,
   isFinished,
   links,
   iterations,
-  student,
-  partner,
+  mentor,
   track,
   exercise,
   userId,
@@ -30,8 +39,7 @@ export const MentoringSession = ({
   isFinished: boolean
   links: Links
   iterations: readonly Iteration[]
-  student: Partner
-  partner: Partner
+  mentor: Mentor
   track: Track
   exercise: Exercise
   userId: number
@@ -41,7 +49,7 @@ export const MentoringSession = ({
       <div className="lhs">
         <header className="discussion-header">
           <CloseButton url={links.exercise} />
-          <SessionInfo track={track} exercise={exercise} mentor={partner} />
+          <SessionInfo track={track} exercise={exercise} mentor={mentor} />
         </header>
         <IterationView
           iterations={iterations}
@@ -51,11 +59,11 @@ export const MentoringSession = ({
       <div className="rhs">
         <PostsWrapper discussionId={id}>
           <div id="panel-discussion">
-            <PartnerInfo partner={partner} />
+            <MentorInfo mentor={mentor} />
             <DiscussionPostList
               endpoint={links.posts}
               iterations={iterations}
-              student={student}
+              userIsStudent={true}
               discussionId={id}
               userId={userId}
             />

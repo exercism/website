@@ -2,18 +2,16 @@ import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
-import { Partner, AutomatedFeedback } from '../Session'
+import { Student, AutomatedFeedback } from '../Session'
 
 export const AutomatedFeedbackSummary = ({
   automatedFeedback,
-  student,
-  userId,
+  userIsStudent,
 }: {
   automatedFeedback: AutomatedFeedback
-  student: Partner
-  userId: number
+  userIsStudent: boolean
 }): JSX.Element => {
-  const addressedTo = userId === student.id ? 'You' : student.handle
+  const addressedTo = userIsStudent ? 'You' : 'Your student'
 
   return (
     <details className="c-details auto-feedback">

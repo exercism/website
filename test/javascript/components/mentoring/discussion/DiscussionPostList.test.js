@@ -63,7 +63,7 @@ test('displays all posts', async () => {
       iterations={iterations}
       endpoint="https://exercism.test/posts"
       onPostsChange={() => {}}
-      student={student}
+      userIsStudent={true}
     />
   )
 

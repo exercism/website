@@ -8,7 +8,7 @@ module ReactComponents
           "mentoring-session",
           {
             user_id: current_user.id,
-            partner: {
+            student: {
               id: student.id,
               name: student.name,
               handle: student.handle,

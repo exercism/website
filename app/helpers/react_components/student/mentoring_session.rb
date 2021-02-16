@@ -10,11 +10,7 @@ module ReactComponents
             id: discussion.uuid,
             is_finished: discussion.finished?,
             user_id: current_user.id,
-            student: {
-              id: student.id,
-              handle: student.handle
-            },
-            partner: {
+            mentor: {
               id: mentor.id,
               name: mentor.name,
               handle: mentor.handle,
@@ -43,7 +39,7 @@ module ReactComponents
       end
 
       private
-      delegate :student, :mentor, :track, :exercise, to: :discussion
+      delegate :mentor, :track, :exercise, to: :discussion
 
       def iterations
         comment_counts = ::Solution::MentorDiscussionPost.

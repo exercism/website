@@ -6,7 +6,7 @@ import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Partner, StudentMentorRelationship } from '../../Session'
+import { Student, StudentMentorRelationship } from '../../Session'
 
 type SuccessFn = (relationship: StudentMentorRelationship) => void
 type Choice = 'yes' | 'no'
@@ -25,7 +25,7 @@ export const MentorAgainStep = ({
   onYes,
   onNo,
 }: {
-  student: Partner
+  student: Student
   relationship: StudentMentorRelationship
   onYes: SuccessFn
   onNo: SuccessFn

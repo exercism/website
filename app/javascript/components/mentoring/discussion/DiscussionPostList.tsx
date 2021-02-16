@@ -4,7 +4,7 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
-import { Iteration, Partner } from '../Session'
+import { Iteration, Student } from '../Session'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
@@ -17,14 +17,14 @@ export const DiscussionPostList = ({
   endpoint,
   discussionId,
   iterations,
-  student,
   userId,
+  userIsStudent,
 }: {
   endpoint: string
   discussionId: string
   iterations: readonly Iteration[]
-  student: Partner
   userId: number
+  userIsStudent: boolean
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
@@ -90,8 +90,7 @@ export const DiscussionPostList = ({
             <React.Fragment key={iteration.idx}>
               <IterationMarker
                 iteration={iteration}
-                student={student}
-                userId={userId}
+                userIsStudent={userIsStudent}
               />
               {iteration.posts.map((post) => {
                 return (

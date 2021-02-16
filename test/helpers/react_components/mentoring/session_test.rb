@@ -30,7 +30,7 @@ module Mentoring
         "mentoring-session",
         {
           user_id: mentor.id,
-          partner: {
+          student: {
             id: student.id,
             name: student.name,
             handle: student.handle,

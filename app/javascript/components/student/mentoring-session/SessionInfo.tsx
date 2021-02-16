@@ -1,14 +1,15 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
 import { ExerciseIcon } from '../../common/ExerciseIcon'
-import { Partner, Track, Exercise } from '../../mentoring/Session'
+import { Mentor } from '../MentoringSession'
+import { Track, Exercise } from '../../mentoring/Session'
 
 export const SessionInfo = ({
   mentor,
   track,
   exercise,
 }: {
-  mentor: Partner
+  mentor: Mentor
   track: Track
   exercise: Exercise
 }): JSX.Element => {

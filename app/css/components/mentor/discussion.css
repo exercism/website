@@ -250,7 +250,8 @@
             overflow-y: scroll;
 
             @apply pb-64;
-            & .student-info {
+            & .student-info,
+            & .mentor-info {
                 @apply bg-backgroundColorA;
                 @apply flex;
 

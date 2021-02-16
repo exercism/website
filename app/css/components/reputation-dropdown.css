@@ -45,13 +45,13 @@
             & .c-reputation {
                 @apply mr-24;
             }
-            & .read,
-            & .unread {
+            & .seen,
+            & .unseen {
                 height: 8px;
                 width: 8px;
                 @apply flex-shrink-0 rounded-circle mr-24;
             }
-            & .unread {
+            & .unseen {
                 @apply bg-lightBlue;
                 animation: fade 1s ease-out forwards;
                 animation-delay: 1.5s;

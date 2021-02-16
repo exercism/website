@@ -2,7 +2,7 @@ require_relative './base_test_case'
 
 class API::ReputatationControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_reputation_index_path
-  guard_incorrect_token! :mark_as_seen_api_reputation_index_path, method: :patch
+  guard_incorrect_token! :mark_as_seen_api_reputation_path, args: 1, method: :patch
 
   #########
   # INDEX #
@@ -42,11 +42,19 @@ class API::ReputatationControllerTest < API::BaseTestCase
     assert_response :success
     assert_equal(
       {
-        results: [token.rendering_data],
+        results: [
+          token.rendering_data.merge(links: {
+                                       mark_as_seen: Exercism::Routes.mark_as_seen_api_reputation_url(token.uuid)
+                                     })
+        ],
         meta: {
           current_page: 1,
           total_count: 1,
-          total_pages: 1
+          total_pages: 1,
+          links: {
+            tokens: Exercism::Routes.reputation_journey_url
+          },
+          total_reputation: @current_user.reload.reputation
         }
       }.with_indifferent_access,
       JSON.parse(response.body).with_indifferent_access
@@ -60,23 +68,19 @@ class API::ReputatationControllerTest < API::BaseTestCase
   test "mark_as_seen should mark tokens as seen" do
     setup_user
     token_1 = create :user_code_contribution_reputation_token, user: @current_user
-    token_2 = create :user_code_contribution_reputation_token, user: @current_user
 
     # Token we don't want to mark as seen
-    token_3 = create :user_code_contribution_reputation_token, user: @current_user
+    token_2 = create :user_code_contribution_reputation_token, user: @current_user
 
     # A token for a different user
-    token_4 = create :user_code_contribution_reputation_token
+    token_3 = create :user_code_contribution_reputation_token
 
-    patch mark_as_seen_api_reputation_index_path(
-      ids: [token_1.uuid, token_2.uuid]
-    ), headers: @headers, as: :json
+    patch mark_as_seen_api_reputation_path(token_1.uuid), headers: @headers, as: :json
 
     assert_response :success
 
     assert token_1.reload.seen?
-    assert token_2.reload.seen?
+    refute token_2.reload.seen?
     refute token_3.reload.seen?
-    refute token_4.reload.seen?
   end
 end

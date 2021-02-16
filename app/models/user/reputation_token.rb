@@ -3,6 +3,8 @@ class User::ReputationToken < ApplicationRecord
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens
 
+  scope :unseen, -> { where(seen: false) }
+
   # Reason, category and value can be set statically in
   # children. The determine_reason, etc methods can be overriden
   # in child classes for situations where logic is required.
@@ -62,11 +64,13 @@ class User::ReputationToken < ApplicationRecord
   def cacheable_rendering_data
     data = {
       id: uuid,
+      url: "#", # TODO: Fill this in
       value: value,
       text: text,
       icon_name: icon_name,
       internal_link: internal_link,
       external_link: external_link,
+      is_seen: seen,
       awarded_at: created_at.iso8601
     }
 

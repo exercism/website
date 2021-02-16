@@ -33,12 +33,14 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
     expected = {
       id: token.uuid,
+      url: "#",
       value: token.value,
       text: "You contributed code via <strong>PR##{pr_id}</strong> on <strong>#{repo}</strong>",
       icon_name: exercise.icon_name,
       internal_link: nil,
       external_link: "https://google.com",
       awarded_at: token.created_at.iso8601,
+      is_seen: false,
       track: {
         title: track.title,
         icon_name: track.icon_name

@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       resources :notifications, only: [:index]
 
       resources :reputation, only: %i[index] do
-        collection do
+        member do
           patch :mark_as_seen
         end
       end

@@ -197,7 +197,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal expected, contents
   end
 
-  test "has_in_progress_mentor_discussion" do
+  test "in_progress_mentor_discussion" do
     solution = create :concept_solution
 
     # No discussion

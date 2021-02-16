@@ -76,7 +76,7 @@ class API::FilesControllerTest < API::BaseTestCase
     setup_user
     solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
+    content = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
     assert_response 200

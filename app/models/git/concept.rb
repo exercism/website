@@ -15,11 +15,6 @@ module Git
       @git_sha = git_sha
     end
 
-    def read_file_blob(path)
-      mapped = file_entries.map { |f| [f[:full], f[:oid]] }.to_h
-      mapped[path] ? repo.read_blob(mapped[path]) : nil
-    end
-
     memoize
     def links
       data = read_json_blob(commit, links_filepath)
@@ -28,16 +23,6 @@ module Git
 
     private
     attr_reader :repo, :concept_slug, :git_sha
-
-    memoize
-    def file_entries
-      tree.walk(:preorder).map do |root, entry|
-        next if entry[:type] == :tree
-
-        entry[:full] = "#{root}#{entry[:name]}"
-        entry
-      end.compact
-    end
 
     def read_json_blob(commit, path)
       repo.read_json_blob(commit, full_filepath(path))

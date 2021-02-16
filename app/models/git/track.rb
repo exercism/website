@@ -39,6 +39,10 @@ module Git
       repo.lookup_commit(git_sha)
     end
 
+    def full_filepath(filepath)
+      filepath
+    end
+
     private
     attr_reader :repo, :git_sha
 

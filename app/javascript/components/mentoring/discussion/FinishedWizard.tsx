@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useRef } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
-import { Student, StudentMentorRelationship } from '../Session'
+import { Partner, StudentMentorRelationship } from '../Session'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 type State = {
@@ -26,7 +26,7 @@ type Action =
   | { type: 'RESET' }
 
 type Props = {
-  student: Student
+  student: Partner
   relationship: StudentMentorRelationship
   defaultStep: ModalStep
 }

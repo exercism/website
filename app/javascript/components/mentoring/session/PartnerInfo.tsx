@@ -1,21 +1,21 @@
 import React from 'react'
-import { Student } from '../Session'
+import { Partner } from '../Session'
 import { Avatar, Reputation } from '../../common'
 import { FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 
-export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
+export const PartnerInfo = ({ partner }: { partner: Partner }): JSX.Element => {
   return (
     <div className="student-info">
       <div className="info">
         <div className="subtitle">Who you&apos;re mentoring</div>
         <div className="name-block">
-          <div className="name">{student.name}</div>
-          <Reputation value={student.reputation.toString()} type="primary" />
+          <div className="name">{partner.name}</div>
+          <Reputation value={partner.reputation.toString()} type="primary" />
         </div>
-        <div className="handle">{student.handle}</div>
+        <div className="handle">{partner.handle}</div>
         <div className="bio">
-          {student.bio}
+          {partner.bio}
           <span
             className="flags"
             dangerouslySetInnerHTML={{
@@ -26,13 +26,13 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
         </div>
         <div className="options">
           <FavoriteButton
-            isFavorite={student.isFavorite}
-            endpoint={student.links.favorite}
+            isFavorite={partner.isFavorite}
+            endpoint={partner.links.favorite}
           />
-          <PreviousSessionsLink numSessions={student.numPreviousSessions} />
+          <PreviousSessionsLink numSessions={partner.numPreviousSessions} />
         </div>
       </div>
-      <Avatar src={student.avatarUrl} handle={student.handle} />
+      <Avatar src={partner.avatarUrl} handle={partner.handle} />
     </div>
   )
 }

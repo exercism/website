@@ -2,7 +2,7 @@ import React from 'react'
 import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
 import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
-import { Iteration, Student, Track } from '../mentoring/Session'
+import { Iteration, Partner, Track } from '../mentoring/Session'
 import { IterationView } from '../mentoring/session/IterationView'
 import { PostsWrapper } from '../mentoring/discussion/PostsContext'
 
@@ -23,7 +23,7 @@ export const MentoringSession = ({
   isFinished: boolean
   links: Links
   iterations: readonly Iteration[]
-  student: Student
+  student: Partner
   track: Track
   userId: number
 }): JSX.Element => {

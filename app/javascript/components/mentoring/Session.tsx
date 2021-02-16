@@ -4,7 +4,7 @@ import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
 import { Guidance } from './session/Guidance'
 import { Scratchpad } from './session/Scratchpad'
-import { StudentInfo } from './session/StudentInfo'
+import { PartnerInfo } from './session/PartnerInfo'
 import { IterationView } from './session/IterationView'
 
 import { DiscussionDetails } from './discussion/DiscussionDetails'
@@ -63,7 +63,7 @@ export type Iteration = {
   }
 }
 
-export type Student = {
+export type Partner = {
   avatarUrl: string
   name: string
   bio: string
@@ -132,7 +132,7 @@ export type MentoringRequest = {
 }
 
 export type SessionProps = {
-  student: Student
+  partner: Partner
   track: Track
   exercise: Exercise
   links: Links
@@ -155,7 +155,7 @@ export const TabsContext = createContext<TabContext>({
 export const Session = (props: SessionProps): JSX.Element => {
   const [session, setSession] = useState(props)
   const {
-    student,
+    partner,
     track,
     exercise,
     links,
@@ -174,7 +174,7 @@ export const Session = (props: SessionProps): JSX.Element => {
       <div className="lhs">
         <header className="discussion-header">
           <CloseButton url={links.mentorDashboard} />
-          <SessionInfo student={student} track={track} exercise={exercise} />
+          <SessionInfo student={partner} track={track} exercise={exercise} />
           {discussion ? (
             <DiscussionActions
               {...discussion}
@@ -211,19 +211,19 @@ export const Session = (props: SessionProps): JSX.Element => {
               </Tab>
             </div>
             <Tab.Panel id="discussion" context={TabsContext}>
-              <StudentInfo student={student} />
+              <PartnerInfo partner={partner} />
               {discussion ? (
                 <DiscussionDetails
                   discussion={discussion}
                   iterations={iterations}
-                  student={student}
+                  student={partner}
                   relationship={relationship}
                   userId={userId}
                 />
               ) : (
                 <RequestDetails
                   iterations={iterations}
-                  student={student}
+                  student={partner}
                   request={request}
                 />
               )}

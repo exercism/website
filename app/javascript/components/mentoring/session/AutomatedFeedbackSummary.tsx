@@ -2,14 +2,14 @@ import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
-import { Student, AutomatedFeedback } from '../Session'
+import { Partner, AutomatedFeedback } from '../Session'
 
 export const AutomatedFeedbackSummary = ({
   automatedFeedback,
   student,
 }: {
   automatedFeedback: AutomatedFeedback
-  student: Student
+  student: Partner
 }): JSX.Element => {
   return (
     <details className="c-details auto-feedback">

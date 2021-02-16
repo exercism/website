@@ -56,7 +56,7 @@ test('highlights currently selected iteration', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />
@@ -108,7 +108,7 @@ test('shows back button', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />
@@ -165,7 +165,7 @@ test('hides latest label if on old iteration', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />
@@ -223,7 +223,7 @@ test('switches to posts tab when comment success', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />
@@ -287,7 +287,7 @@ test('switches tabs', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />
@@ -353,7 +353,7 @@ test('go to previous iteration', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />
@@ -411,7 +411,7 @@ test('go to next iteration', async () => {
       exercise={exercise}
       links={links}
       track={track}
-      student={student}
+      partner={student}
       iterations={iterations}
       discussion={discussion}
     />

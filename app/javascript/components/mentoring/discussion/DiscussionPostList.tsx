@@ -4,7 +4,7 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
-import { Iteration, Student } from '../Session'
+import { Iteration, Partner } from '../Session'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
@@ -23,7 +23,7 @@ export const DiscussionPostList = ({
   endpoint: string
   discussionId: string
   iterations: readonly Iteration[]
-  student: Student
+  student: Partner
   userId: number
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()

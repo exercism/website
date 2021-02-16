@@ -2,12 +2,11 @@ import React, { useRef } from 'react'
 import {
   Discussion,
   Iteration,
-  Student,
+  Partner,
   StudentMentorRelationship,
 } from '../Session'
 import { FinishedWizard } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
-import { PostsWrapper } from './PostsContext'
 
 export const DiscussionDetails = ({
   discussion,
@@ -18,7 +17,7 @@ export const DiscussionDetails = ({
 }: {
   discussion: Discussion
   iterations: readonly Iteration[]
-  student: Student
+  student: Partner
   relationship: StudentMentorRelationship
   userId: number
 }): JSX.Element => {

@@ -6,7 +6,7 @@ import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student, StudentMentorRelationship } from '../../Session'
+import { Partner, StudentMentorRelationship } from '../../Session'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
@@ -22,7 +22,7 @@ export const FavoriteStep = ({
   onFavorite,
   onSkip,
 }: {
-  student: Student
+  student: Partner
   relationship: StudentMentorRelationship
   onFavorite: (relationship: StudentMentorRelationship) => void
   onSkip: () => void

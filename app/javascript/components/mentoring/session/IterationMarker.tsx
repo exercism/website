@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { timeFormat } from '../../../utils/time'
-import { Iteration, Student } from '../Session'
+import { Iteration, Partner } from '../Session'
 import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 
 export const IterationMarker = ({
@@ -9,7 +9,7 @@ export const IterationMarker = ({
   student,
 }: {
   iteration: Iteration
-  student: Student
+  student: Partner
 }): JSX.Element => {
   return (
     <React.Fragment>

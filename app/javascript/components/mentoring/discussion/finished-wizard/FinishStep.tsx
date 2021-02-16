@@ -1,5 +1,5 @@
 import React from 'react'
-import { Student, StudentMentorRelationship } from '../../Session'
+import { Partner, StudentMentorRelationship } from '../../Session'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 
 export const FinishStep = ({
@@ -8,7 +8,7 @@ export const FinishStep = ({
   onReset,
 }: {
   relationship: StudentMentorRelationship
-  student: Student
+  student: Partner
   onReset: () => void
 }): JSX.Element => {
   return (

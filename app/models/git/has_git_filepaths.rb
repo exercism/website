@@ -14,7 +14,7 @@ module Git
           iv = "@__#{field}__"
           return instance_variable_get(iv) if instance_variable_defined?(iv)
 
-          instance_variable_set(iv, repo.send(read_method, commit, send("absolute_filepath", filepath)))
+          instance_variable_set(iv, repo.send(read_method, commit, absolute_filepath(filepath)))
         end
 
         # Define a <field>_filepath method to allow easy access to the filepath

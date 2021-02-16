@@ -17,20 +17,12 @@ module Git
 
     memoize
     def links
-      data = read_json_blob(commit, links_filepath)
+      data = repo.read_json_blob(commit, full_filepath(links_filepath))
       data.map { |link| OpenStruct.new(link) }
     end
 
     private
     attr_reader :repo, :concept_slug, :git_sha
-
-    def read_json_blob(commit, path)
-      repo.read_json_blob(commit, full_filepath(path))
-    end
-
-    def read_text_blob(commit, path)
-      repo.read_text_blob(commit, full_filepath(path))
-    end
 
     def full_filepath(filepath)
       "#{dir}/#{filepath}"
@@ -38,11 +30,6 @@ module Git
 
     def dir
       "concepts/#{concept_slug}"
-    end
-
-    memoize
-    def tree
-      repo.fetch_tree(commit, dir)
     end
 
     memoize

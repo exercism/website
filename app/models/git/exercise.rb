@@ -115,14 +115,6 @@ module Git
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil
     end
 
-    def read_json_blob(commit, path)
-      repo.read_json_blob(commit, full_filepath(path))
-    end
-
-    def read_text_blob(commit, path)
-      repo.read_text_blob(commit, full_filepath(path))
-    end
-
     def dir
       "exercises/#{exercise_type}/#{exercise_slug}"
     end

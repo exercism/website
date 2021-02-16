@@ -34,7 +34,7 @@ class User::ActivityTest < ActiveSupport::TestCase
 
       # Reload it to check nothing is memoized
       activity = User::Activity.last
-      activity.expects(:cachable_rendering_data).never
+      activity.expects(:cacheable_rendering_data).never
 
       cache_data = {
         'url' => "/tracks/ruby/exercises/strings",

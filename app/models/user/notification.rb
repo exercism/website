@@ -20,7 +20,7 @@ class User::Notification < ApplicationRecord
     update_column(:read_at, Time.current)
   end
 
-  def cachable_rendering_data
+  def cacheable_rendering_data
     {
       id: uuid,
       url: url,
@@ -31,7 +31,7 @@ class User::Notification < ApplicationRecord
     }
   end
 
-  def non_cachable_rendering_data
+  def non_cacheable_rendering_data
     {
       is_read: read?
     }

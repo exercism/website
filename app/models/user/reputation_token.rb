@@ -59,7 +59,7 @@ class User::ReputationToken < ApplicationRecord
   end
 
   private
-  def cachable_rendering_data
+  def cacheable_rendering_data
     data = {
       id: uuid,
       value: value,

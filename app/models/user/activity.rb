@@ -12,7 +12,7 @@ class User::Activity < ApplicationRecord
 
   belongs_to :solution, optional: true
 
-  def cachable_rendering_data
+  def cacheable_rendering_data
     {
       text: text,
       url: url,
@@ -20,7 +20,7 @@ class User::Activity < ApplicationRecord
     }
   end
 
-  def non_cachable_rendering_data
+  def non_cacheable_rendering_data
     super.merge(occurred_at: occurred_at)
   end
 

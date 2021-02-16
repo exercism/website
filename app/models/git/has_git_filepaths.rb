@@ -1,7 +1,6 @@
 module Git
   module HasGitFilepaths
     def git_filepaths(**fields_to_filepaths)
-      fields_to_filepaths = Hash(fields_to_filepaths)
       fields_to_filepaths.each do |field, filepath|
         filepath.end_with?('.json') ? read_method = "read_json_blob" : read_method = "read_text_blob"
 

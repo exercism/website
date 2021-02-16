@@ -15,15 +15,17 @@ class Solution
 
     private
     def preamble
-      if solution.git_exercise.hints.present?
-        hints_text = "If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)" # rubocop:disable Layout/LineLength
-      end
+      hints_text = I18n.t("exercises.documents.hints_reference").strip if solution.git_exercise.hints.present?
+
+      welcome_text = I18n.t("exercises.documents.welcome",
+        { exercise_title: solution.exercise.title, track_title: solution.track.title }).strip
+      help_text = I18n.t("exercises.documents.help_reference").strip
 
       <<~TEXT.strip
         # #{solution.exercise.title}
 
-        Welcome to #{solution.exercise.title} on Exercism's #{solution.track.title} Track.
-        If you need help running the tests or submitting your code, check out `HELP.md`.
+        #{welcome_text}
+        #{help_text}
         #{hints_text}
       TEXT
     end

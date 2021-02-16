@@ -19,17 +19,20 @@ class Solution
     private
     def tests
       tests_text = Markdown::Preprocess.(solution.track.git.tests).strip
+      tests_intro_text = I18n.t("exercises.documents.tests_intro").strip
 
       <<~TEXT.strip
-        ## Running the tests
+        ## #{tests_intro_text}
 
         #{tests_text}
       TEXT
     end
 
     def submitting
+      submitting_solution_intro_text = I18n.t("exercises.documents.submitting_solution_intro").strip
+
       <<~TEXT.strip
-        ## Submitting your solution
+        ## #{submitting_solution_intro_text}
 
         TODO
       TEXT
@@ -37,9 +40,10 @@ class Solution
 
     def help
       track_help_text = Markdown::Preprocess.(solution.track.git.help).strip
+      help_intro_text = I18n.t("exercises.documents.help_intro").strip
 
       <<~TEXT.strip
-        ## Need to get help?
+        ## #{help_intro_text}
 
         TODO
 

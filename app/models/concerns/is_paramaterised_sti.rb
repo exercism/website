@@ -1,25 +1,25 @@
 # ** Introduction  **
 #
-# This class allows for the creation of paramaterised
-# STI classes, with guards for uniquness, i18n versioning
-# and cachablity. This powers notifications, user activities
+# This class allows for the creation of parameterized
+# STI classes, with guards for uniqueness, i18n versioning
+# and cacheability. This powers notifications, user activities
 # and reputation tokens throughout Exercism.
 #
 # ** Caching  **
 ## This class uses some caching logic to avoid n+1 lookups when
 # rendering the models (notifications, activities, etc) in the browser.
 #
-# Each implementing class is expected to define a `cachable_rendering_data`
+# Each implementing class is expected to define a `cacheable_rendering_data`
 # which contains any data that can be safely cached for rendering.
 # For example, you might cache an exercise title or icon. This should
 # all be data that rarely changes. Where an actual object is needed
-# to render (e.g. an iteration to render the React iteration summary
-# component) do not cache it, but override non_cachable_rendering_data
+# to render (e.g., an iteration to render the React iteration summary
+# component) do not cache it, but override non_cacheable_rendering_data
 # instead.
 #
-# Each child class can also override the `cachable_rendering_data`
+# Each child class can also override the `cacheable_rendering_data`
 # method, which should call super.({...}) for any data that is
-# used in rendering and cachable.
+# used in rendering and cacheable.
 #
 # Caches can be expired by setting rendering_data_cache to {}
 # Objects will then rebuild the cache next time they load.
@@ -27,7 +27,7 @@
 # ** Params **
 # A params hash can be set at creation time. Any objects specified
 # in it will be stored using Rails' GlobalID functionality.
-# Chldren can specify the following in their classes:
+# Children can specify the following in their classes:
 # params :foo, :bar
 #
 # This will define methods for the params, load and memoize them on-demand
@@ -35,8 +35,8 @@
 # ** Uniqueness **
 # This supports uniqueness via a uniqueness_key. This is automatically
 # populated by using children's guard_params. The combination of those
-# guard_params are merged with a users's id and the type of the object
-# to create a unique identifier. Children can override the uniquness_key
+# guard_params are merged with a users' id and the type of the object
+# to create a unique identifier. Children can override the uniqueness_key
 # if they need to, but this is discouraged
 #
 # ** Usage **
@@ -48,10 +48,10 @@
 #
 # The class suffix is the final repetitive part of the child models
 # For example, we use it to remove "_activity" from
-# user/activities/submittied_iteration_activity to give us
-# "submibtted_iteration"
+# user/activities/submitted_iteration_activity to give us
+# "submitted_iteration"
 #
-# The i18n category is the file in the the config/locales containing
+# The i18n category is the file in the config/locales containing
 # the translation data for the text of each object
 
 module IsParamaterisedSTI
@@ -73,7 +73,7 @@ module IsParamaterisedSTI
       self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
       self.params = {} if self.params.blank?
       self.version = latest_i18n_version
-      self.rendering_data_cache = cachable_rendering_data
+      self.rendering_data_cache = cacheable_rendering_data
     end
   end
 
@@ -95,15 +95,15 @@ module IsParamaterisedSTI
   def rendering_data
     data = rendering_data_cache
     if data.blank?
-      data = cachable_rendering_data
+      data = cacheable_rendering_data
       update!(rendering_data_cache: data)
     end
 
-    data.with_indifferent_access.merge(non_cachable_rendering_data)
+    data.with_indifferent_access.merge(non_cacheable_rendering_data)
   end
 
   # Save each class from manually overriding this
-  def non_cachable_rendering_data
+  def non_cacheable_rendering_data
     {}
   end
 

@@ -17,14 +17,14 @@ module Git
 
     memoize
     def links
-      data = repo.read_json_blob(commit, full_filepath(links_filepath))
+      data = repo.read_json_blob(commit, absolute_filepath(links_filepath))
       data.map { |link| OpenStruct.new(link) }
     end
 
     private
     attr_reader :repo, :concept_slug, :git_sha
 
-    def full_filepath(filepath)
+    def absolute_filepath(filepath)
       "#{dir}/#{filepath}"
     end
 

@@ -91,7 +91,7 @@ module Git
     # This includes meta files
     memoize
     def tooling_absolute_filepaths
-      tooling_filepaths.map { |filepath| full_filepath(filepath) }
+      tooling_filepaths.map { |filepath| absolute_filepath(filepath) }
     end
 
     memoize
@@ -122,7 +122,7 @@ module Git
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
-    def full_filepath(filepath)
+    def absolute_filepath(filepath)
       "#{dir}/#{filepath}"
     end
 

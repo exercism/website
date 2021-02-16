@@ -2,8 +2,8 @@ module Git
   module HasGitFilepaths
     # To be able to include this module, the including class must have:
     # - A member named "repo" of type Git::Repository
-    # - A method name "full_filepath" that takes a (relative) path to
-    #   a (git) file and returns its full (git) file path
+    # - A method named "absolute_filepath" that takes a relative path
+    #   to a git file and returns its absolute path
     def git_filepaths(**fields_to_filepaths)
       fields_to_filepaths.each do |field, filepath|
         filepath.end_with?('.json') ? read_method = "read_json_blob" : read_method = "read_text_blob"
@@ -14,7 +14,7 @@ module Git
           iv = "@__#{field}__"
           return instance_variable_get(iv) if instance_variable_defined?(iv)
 
-          instance_variable_set(iv, repo.send(read_method, commit, send("full_filepath", filepath)))
+          instance_variable_set(iv, repo.send(read_method, commit, send("absolute_filepath", filepath)))
         end
 
         # Define a <field>_filepath method to allow easy access to the filepath

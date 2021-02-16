@@ -42,7 +42,7 @@ module Git
     private
     attr_reader :repo, :git_sha
 
-    def full_filepath(filepath)
+    def absolute_filepath(filepath)
       filepath
     end
   end

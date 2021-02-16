@@ -125,14 +125,14 @@ module Git
     test "retrieves authors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = [{ "github_username" => "erikschierboom", "exercism_username" => "ErikSchierboom" }]
+      expected = [{ github_username: "erikschierboom", exercism_username: "ErikSchierboom" }]
       assert_equal(expected, exercise.authors)
     end
 
     test "retrieves contributors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = [{ "github_username" => "ihid", "exercism_username" => "iHiD" }]
+      expected = [{ github_username: "ihid", exercism_username: "iHiD" }]
       assert_equal(expected, exercise.contributors)
     end
 

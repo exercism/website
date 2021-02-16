@@ -2,8 +2,16 @@ module Git
   class Exercise
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
+    extend Git::HasGitFilepaths
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
+
+    git_filepaths instructions: ".docs/instructions.md",
+                  instructions_append: ".docs/instructions.append.md",
+                  introduction: ".docs/introduction.md",
+                  introduction_append: ".docs/introduction.append.md",
+                  hints: ".docs/hints.md",
+                  config: ".meta/config.json"
 
     def self.for_solution(solution)
       new(
@@ -23,33 +31,6 @@ module Git
 
     def normalised_git_sha
       commit.oid
-    end
-
-    memoize
-    def instructions
-      read_file_blob(FILEPATHS[:instructions])
-    end
-
-    memoize
-    def instructions_append
-      read_file_blob(FILEPATHS[:instructions_append])
-    end
-
-    memoize
-    def introduction
-      read_file_blob(FILEPATHS[:introduction])
-    end
-
-    memoize
-    def introduction_append
-      read_file_blob(FILEPATHS[:introduction_append])
-    end
-
-    memoize
-    def hints
-      read_file_blob(FILEPATHS[:hints])
-    rescue StandardError
-      nil
     end
 
     # TODO: This is stub code
@@ -116,7 +97,7 @@ module Git
     memoize
     def cli_filepaths
       special_filepaths = [SPECIAL_FILEPATHS[:readme], SPECIAL_FILEPATHS[:help]]
-      special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(FILEPATHS[:hints])
+      special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(hints_filepath)
 
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         next if filepath.match?(track.ignore_regexp) # TODO: remove this
@@ -132,6 +113,14 @@ module Git
     def read_file_blob(filepath)
       mapped = file_entries.map { |f| [f[:full], f[:oid]] }.to_h
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil
+    end
+
+    def read_json_blob(commit, path)
+      repo.read_json_blob(commit, full_filepath(path))
+    end
+
+    def read_text_blob(commit, path)
+      repo.read_text_blob(commit, full_filepath(path))
     end
 
     def dir
@@ -161,16 +150,7 @@ module Git
 
     memoize
     def tree
-      # TODO: When things are exploded back into repos, do this
-      # repo.fetch_tree(commit, "exercises/#{exercise_type}/#{slug}")
       repo.fetch_tree(commit, dir)
-    end
-
-    memoize
-    def config
-      HashWithIndifferentAccess.new(
-        JSON.parse(read_file_blob(FILEPATHS[:config]))
-      )
     end
 
     memoize
@@ -182,15 +162,6 @@ module Git
     def track
       Track.new(repo: repo)
     end
-
-    FILEPATHS = {
-      instructions: ".docs/instructions.md",
-      instructions_append: ".docs/instructions.append.md",
-      introduction: ".docs/introduction.md",
-      introduction_append: ".docs/introduction.append.md",
-      hints: ".docs/hints.md",
-      config: ".meta/config.json"
-    }.freeze
 
     SPECIAL_FILEPATHS = {
       readme: 'README.md',

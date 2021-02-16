@@ -40,7 +40,7 @@ module Mentoring
             is_favorite: false,
             num_previous_sessions: 15,
             links: {
-              favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
+              favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
             }
           },
           track: {
@@ -61,7 +61,7 @@ module Mentoring
               tests_status: iteration_1.tests_status,
               automated_feedback: iteration_1.automated_feedback,
               links: {
-                files: Exercism::Routes.api_submission_files_url(iteration_1.submission)
+                files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_1.submission)
               }
             },
             {
@@ -73,7 +73,7 @@ module Mentoring
               tests_status: iteration_2.tests_status,
               automated_feedback: iteration_2.automated_feedback,
               links: {
-                files: Exercism::Routes.api_submission_files_url(iteration_2.submission)
+                files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_2.submission)
               }
             },
             {
@@ -85,7 +85,7 @@ module Mentoring
               tests_status: iteration_3.tests_status,
               automated_feedback: iteration_3.automated_feedback,
               links: {
-                files: Exercism::Routes.api_submission_files_url(iteration_3.submission)
+                files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_3.submission)
               }
             }
           ],
@@ -103,16 +103,16 @@ module Mentoring
             updated_at: Time.utc(2016, 12, 25).iso8601,
             is_locked: false,
             links: {
-              lock: Exercism::Routes.lock_api_mentor_request_path(mentor_request),
-              discussion: Exercism::Routes.api_mentor_discussions_path
+              lock: Exercism::Routes.lock_api_mentoring_request_path(mentor_request),
+              discussion: Exercism::Routes.api_mentoring_discussions_path
             }
           },
           discussion: {
             id: discussion.uuid,
             is_finished: false,
             links: {
-              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
-              finish: Exercism::Routes.finish_api_mentor_discussion_path(discussion)
+              posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
+              finish: Exercism::Routes.finish_api_mentoring_discussion_path(discussion)
             }
           }
         }

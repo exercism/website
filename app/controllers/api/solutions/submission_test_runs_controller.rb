@@ -1,6 +1,6 @@
 module API
-  module Submissions
-    class TestRunsController < BaseController
+  module Solutions
+    class SubmissionTestRunsController < BaseController
       def show
         submission = current_user.submissions.find_by!(uuid: params[:submission_id])
 

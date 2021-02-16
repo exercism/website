@@ -1,37 +1,37 @@
-require_relative './base_test_case'
+require_relative '../base_test_case'
 
-class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_mentor_discussion_posts_path, args: 1, method: :post
-  guard_incorrect_token! :api_mentor_discussion_posts_path, args: 2, method: :get
+class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_solution_discussion_posts_path, args: 2, method: :post
+  guard_incorrect_token! :api_solution_discussion_posts_path, args: 3, method: :get
 
   ###
   # Index
   ###
   test "index returns posts for discussion and iteration" do
     student = create :user, handle: "student"
-    mentor = create :user, handle: "author"
-    setup_user(mentor)
+    setup_user(student)
     solution = create :concept_solution, user: student
     mentor_request = create :solution_mentor_request,
       solution: solution,
       comment: "Hello",
       updated_at: Time.utc(2016, 12, 25)
-    discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    discussion = create :solution_mentor_discussion, solution: solution, request: mentor_request
     iteration = create :iteration, idx: 2, solution: solution
     discussion_post = create(:solution_mentor_discussion_post,
       discussion: discussion,
       iteration: iteration,
-      author: mentor,
+      author: student,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 
-    get api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
+    get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
     assert_response 200
     expected = {
       posts: [
         {
-          id: "uuid",
+          id: "",
+          iteration_idx: 2,
           author_id: student.id,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
@@ -39,21 +39,21 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_markdown: "Hello",
           content_html: "Hello",
           updated_at: Time.utc(2016, 12, 25).iso8601,
-          iteration_idx: 2,
-          links: {}
+          links: {
+          }
         },
         {
           id: discussion_post.uuid,
-          author_id: mentor.id,
-          author_handle: "author",
-          author_avatar_url: mentor.avatar_url,
-          by_student: false,
+          iteration_idx: 2,
+          author_id: student.id,
+          author_handle: "student",
+          author_avatar_url: student.avatar_url,
+          by_student: true,
           content_markdown: "Hello",
           content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
-          iteration_idx: 2,
           links: {
-            update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+            update: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
           }
         }
       ]
@@ -63,8 +63,9 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
   test "index returns mentor request comment for the last iteration if no posts exist yet" do
     student = create :user, handle: "student"
-    mentor = create :user, handle: "author"
-    setup_user(mentor)
+    setup_user(student)
+
+    mentor = create :user, handle: "mentor"
     solution = create :concept_solution, user: student
     mentor_request = create :solution_mentor_request,
       solution: solution,
@@ -73,13 +74,13 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     create :iteration, idx: 7, solution: solution
 
-    get api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
+    get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
     assert_response 200
     expected = {
       posts: [
         {
-          id: "uuid",
+          id: "",
           author_id: student.id,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
@@ -100,7 +101,8 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     discussion = create :solution_mentor_discussion
     iteration = create :iteration
 
-    get api_mentor_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
+    get api_solution_discussion_posts_path(discussion.solution.uuid, discussion, iteration_idx: iteration.idx),
+      headers: @headers, as: :json
 
     assert_response 403
     expected = { error: {
@@ -115,8 +117,13 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
   # Create
   ###
   test "create should 404 if the discussion doesn't exist" do
-    setup_user
-    post api_mentor_discussion_posts_path('xxx'), headers: @headers, as: :json
+    student = create :user
+    setup_user(student)
+
+    post api_solution_discussion_posts_path(
+      create(:concept_solution, user: student).uuid, 'xxx'
+    ), headers: @headers, as: :json
+
     assert_response 404
     expected = { error: {
       type: "mentor_discussion_not_found",
@@ -130,7 +137,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     setup_user
     discussion = create :solution_mentor_discussion
 
-    post api_mentor_discussion_posts_path(discussion), headers: @headers, as: :json
+    post api_solution_discussion_posts_path(discussion.solution.uuid, discussion), headers: @headers, as: :json
 
     assert_response 403
     expected = { error: {
@@ -141,57 +148,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "create should create correctly for mentor" do
-    user = create :user
-    setup_user(user)
-    solution = create :concept_solution
-    create :iteration, solution: solution, idx: 1
-    it_2 = create :iteration, solution: solution, idx: 2
-    discussion = create :solution_mentor_discussion,
-      solution: solution,
-      mentor: user
-
-    # Check we're calling the correet class
-    User::Notification::Create.expects(:call).with(
-      solution.user,
-      :mentor_replied_to_discussion,
-      anything
-    )
-
-    content = "foo to the baaar"
-
-    post api_mentor_discussion_posts_path(discussion),
-      params: {
-        iteration_idx: 2,
-        content: content
-      },
-      headers: @headers, as: :json
-
-    assert_response :success
-    post = discussion.posts.last
-    assert_equal user, post.author
-    assert_equal content, post.content_markdown
-    assert_equal it_2, post.iteration
-    expected = {
-      post: {
-        id: post.uuid,
-        author_id: user.id,
-        author_handle: user.handle,
-        author_avatar_url: user.avatar_url,
-        by_student: false,
-        content_markdown: content,
-        content_html: "<p>#{content}</p>\n",
-        updated_at: post.updated_at.iso8601,
-        iteration_idx: 2,
-        links: {
-          update: Exercism::Routes.api_mentor_discussion_post_url(post)
-        }
-      }
-    }
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
-  end
-
-  test "create should create correctly for student" do
+  test "create should create correctly" do
     user = create :user
     setup_user(user)
     solution = create :concept_solution, user: user
@@ -207,7 +164,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     )
 
     content = "foo to the baaar"
-    post api_mentor_discussion_posts_path(discussion),
+    post api_solution_discussion_posts_path(solution.uuid, discussion),
       params: {
         iteration_idx: 2,
         content: content
@@ -232,7 +189,7 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
         updated_at: post.updated_at.iso8601,
         iteration_idx: 2,
         links: {
-          update: Exercism::Routes.api_mentor_discussion_post_url(post)
+          update: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, post)
         }
       }
     }
@@ -243,9 +200,12 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
   # Update
   ###
   test "returns 404 error when post not found" do
-    setup_user
+    student = create(:user)
+    setup_user(student)
+    solution = create :concept_solution, user: student
+    discussion = create :solution_mentor_discussion, solution: solution
 
-    patch api_mentor_discussion_post_path(1), headers: @headers, as: :json
+    patch api_solution_discussion_post_path(solution.uuid, discussion, 1), headers: @headers, as: :json
 
     assert_response 404
     expected = { error: {
@@ -255,26 +215,50 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
-  test "returns 403 error when post cannot be accessed" do
-    setup_user
+  test "returns 403 error when discussion cannot be accessed" do
+    student = create(:user)
+    setup_user(student)
     discussion_post = create(:solution_mentor_discussion_post)
 
-    patch api_mentor_discussion_post_path(discussion_post), headers: @headers, as: :json
+    patch api_solution_discussion_post_path(
+      discussion_post.discussion.solution.uuid,
+      discussion_post.discussion,
+      discussion_post
+    ), headers: @headers, as: :json
 
     assert_response 403
     expected = { error: {
-      type: "permission_denied",
-      message: I18n.t("api.errors.permission_denied")
+      type: "mentor_discussion_not_accessible",
+      message: I18n.t("api.errors.mentor_discussion_not_accessible")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "returns 403 error when post cannot be accessed" do
+    student = create(:user)
+    setup_user(student)
+    solution = create :concept_solution, user: student
+    discussion = create :solution_mentor_discussion, solution: solution
+    discussion_post = create(:solution_mentor_discussion_post, discussion: discussion, author: create(:user))
+
+    patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "mentor_discussion_post_not_accessible",
+      message: I18n.t("api.errors.mentor_discussion_post_not_accessible")
     } }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
   test "returns 400 when validations fail" do
-    author = create(:user)
-    setup_user(author)
-    discussion_post = create(:solution_mentor_discussion_post, author: author)
+    student = create(:user)
+    setup_user(student)
+    solution = create :concept_solution, user: student
+    discussion = create :solution_mentor_discussion, solution: solution
+    discussion_post = create(:solution_mentor_discussion_post, author: student, discussion: discussion)
 
-    patch api_mentor_discussion_post_path(discussion_post),
+    patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post),
       params: { content: '' },
       headers: @headers,
       as: :json
@@ -289,16 +273,20 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
   end
 
   test "updates a post" do
-    author = create(:user, handle: "author")
+    student = create(:user, handle: "student")
+    setup_user(student)
+    solution = create :concept_solution, user: student
+    discussion = create :solution_mentor_discussion, solution: solution
+
     iteration = create :iteration, idx: 1
     discussion_post = create(:solution_mentor_discussion_post,
-      author: author,
+      discussion: discussion,
+      author: student,
       iteration: iteration,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
-    setup_user(author)
 
-    patch api_mentor_discussion_post_path(discussion_post),
+    patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post),
       params: { content: "content" },
       headers: @headers,
       as: :json
@@ -309,16 +297,16 @@ class API::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       post: {
         id: discussion_post.uuid,
-        author_id: author.id,
-        author_handle: "author",
-        author_avatar_url: author.avatar_url,
-        by_student: false,
+        author_id: student.id,
+        author_handle: "student",
+        author_avatar_url: student.avatar_url,
+        by_student: true,
         content_markdown: "content",
         content_html: "<p>content</p>\n",
         updated_at: discussion_post.updated_at.iso8601,
         iteration_idx: 1,
         links: {
-          update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+          update: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
         }
       }
     }

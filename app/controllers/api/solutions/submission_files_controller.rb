@@ -1,6 +1,6 @@
 module API
-  module Submissions
-    class FilesController < BaseController
+  module Solutions
+    class SubmissionFilesController < BaseController
       def index
         submission = Submission.find_by(uuid: params[:submission_id])
 

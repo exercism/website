@@ -21,7 +21,7 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
       updated_at: Time.utc(2016, 12, 25).iso8601,
       iteration_idx: 1,
       links: {
-        update: Exercism::Routes.api_mentor_discussion_post_url(discussion_post)
+        update: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
       }
     }
     assert_equal expected, SerializeMentorDiscussionPost.(discussion_post, author)

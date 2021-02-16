@@ -7,8 +7,8 @@ class MentoringInboxTest < ReactComponentTestCase
     assert_component component,
       "mentoring-inbox",
       {
-        discussions_request: { endpoint: Exercism::Routes.api_mentor_discussions_path },
-        tracks_request: { endpoint: Exercism::Routes.tracks_api_mentor_discussions_path },
+        discussions_request: { endpoint: Exercism::Routes.api_mentoring_discussions_path },
+        tracks_request: { endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path },
         sort_options: [
           { value: 'recent', label: 'Sort by Most Recent' },
           { value: 'exercise', label: 'Sort by Exercise' },

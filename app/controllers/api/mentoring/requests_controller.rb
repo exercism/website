@@ -1,5 +1,5 @@
 module API
-  class MentorRequestsController < BaseController
+  class Mentoring::RequestsController < BaseController
     def index
       unscoped_total = ::Solution::MentorRequest::Retrieve.(
         current_user,
@@ -49,8 +49,8 @@ module API
           updated_at: mentor_request.updated_at.iso8601,
           is_locked: mentor_request.locked?,
           links: {
-            lock: Exercism::Routes.lock_api_mentor_request_path(mentor_request),
-            discussion: Exercism::Routes.api_mentor_discussions_path
+            lock: Exercism::Routes.lock_api_mentoring_request_path(mentor_request),
+            discussion: Exercism::Routes.api_mentoring_discussions_path
           }
         }
       }

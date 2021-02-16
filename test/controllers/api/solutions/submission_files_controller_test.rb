@@ -1,7 +1,7 @@
 require_relative '../base_test_case'
 
-class API::Submissions::FilesControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_submission_files_path, args: 1
+class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_solution_submission_files_path, args: 2
 
   ###
   # INDEX
@@ -10,7 +10,7 @@ class API::Submissions::FilesControllerTest < API::BaseTestCase
   test "index should return 404 when submission doesnt exist" do
     setup_user
 
-    get api_submission_files_path(1),
+    get api_solution_submission_files_path(create(:concept_solution).uuid, 1),
       headers: @headers,
       as: :json
 
@@ -27,7 +27,7 @@ class API::Submissions::FilesControllerTest < API::BaseTestCase
     setup_user
     submission = create :submission
 
-    get api_submission_files_path(submission),
+    get api_solution_submission_files_path(submission.solution.uuid, submission),
       headers: @headers,
       as: :json
 
@@ -48,7 +48,7 @@ class API::Submissions::FilesControllerTest < API::BaseTestCase
     submission = create :submission, solution: solution
     create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
 
-    get api_submission_files_path(submission),
+    get api_solution_submission_files_path(solution.uuid, submission),
       headers: @headers,
       as: :json
 

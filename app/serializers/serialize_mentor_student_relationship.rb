@@ -10,8 +10,8 @@ class SerializeMentorStudentRelationship
       isFavorited: relationship.favorited?,
       isBlocked: relationship.blocked?,
       links: {
-        block: Exercism::Routes.api_mentor_block_student_path(student_handle: relationship.student.handle),
-        favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: relationship.student.handle)
+        block: Exercism::Routes.block_api_mentoring_student_path(relationship.student.handle),
+        favorite: Exercism::Routes.favorite_api_mentoring_student_path(relationship.student.handle)
       }
     }
   end

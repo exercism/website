@@ -33,7 +33,7 @@ module ReactComponents
 
       def request
         {
-          endpoint: Exercism::Routes.api_mentor_requests_path,
+          endpoint: Exercism::Routes.api_mentoring_requests_path,
           query: {
             track_slug: track_data.find { |track| track[:selected] }[:slug],
             exercise_slugs: []

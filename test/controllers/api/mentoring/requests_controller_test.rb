@@ -1,8 +1,8 @@
-require_relative './base_test_case'
+require_relative '../base_test_case'
 
-class API::MentorRequestsControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_mentor_requests_path
-  guard_incorrect_token! :lock_api_mentor_request_path, args: 1, method: :patch
+class API::Mentoring::RequestsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_mentoring_requests_path
+  guard_incorrect_token! :lock_api_mentoring_request_path, args: 1, method: :patch
 
   ###
   # Index
@@ -32,7 +32,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
       exercise_slugs: exercise_slugs
     ).returns(Solution::MentorRequest.page(1).per(1))
 
-    get api_mentor_requests_path, params: {
+    get api_mentoring_requests_path, params: {
       page: page,
       criteria: "Ruby",
       order: "recent",
@@ -50,7 +50,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
     request = create :solution_mentor_request, created_at: Time.current - 2.minutes, solution: solution
     50.times { create :solution_mentor_request, solution: solution }
 
-    get api_mentor_requests_path, headers: @headers, as: :json
+    get api_mentoring_requests_path, headers: @headers, as: :json
     assert_response 200
 
     # TODO: Check JSON
@@ -63,7 +63,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
   ###
   test "lock should 404 if the request doesn't exist" do
     setup_user
-    patch lock_api_mentor_request_path('xxx'), headers: @headers, as: :json
+    patch lock_api_mentoring_request_path('xxx'), headers: @headers, as: :json
     assert_response 404
   end
 
@@ -72,7 +72,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
     setup_user(user)
     request = create :solution_mentor_request
 
-    patch lock_api_mentor_request_path(request.uuid), headers: @headers, as: :json
+    patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
     assert_response :success
 
@@ -90,7 +90,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
 
     ::Solution::MentorRequest::RetrieveTracks.expects(:call).with(@current_user).returns(output)
 
-    get tracks_api_mentor_requests_path, headers: @headers, as: :json
+    get tracks_api_mentoring_requests_path, headers: @headers, as: :json
     assert_equal output, JSON.parse(response.body)
   end
 
@@ -105,7 +105,7 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
 
     ::Solution::MentorRequest::RetrieveExercises.expects(:call).with(@current_user, slug).returns(output)
 
-    get exercises_api_mentor_requests_path, params: { track_slug: slug }, headers: @headers, as: :json
+    get exercises_api_mentoring_requests_path, params: { track_slug: slug }, headers: @headers, as: :json
     assert_equal output, JSON.parse(response.body)
   end
 end

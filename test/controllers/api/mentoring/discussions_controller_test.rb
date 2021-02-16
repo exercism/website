@@ -1,10 +1,10 @@
-require_relative './base_test_case'
+require_relative '../base_test_case'
 
-class API::MentorDiscussionsControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_mentor_discussions_path
-  guard_incorrect_token! :tracks_api_mentor_discussions_path
-  guard_incorrect_token! :api_mentor_discussions_path, method: :post
-  guard_incorrect_token! :mark_as_nothing_to_do_api_mentor_discussion_path, args: 1, method: :patch
+class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_mentoring_discussions_path
+  guard_incorrect_token! :tracks_api_mentoring_discussions_path
+  guard_incorrect_token! :api_mentoring_discussions_path, method: :post
+  guard_incorrect_token! :mark_as_nothing_to_do_api_mentoring_discussion_path, args: 1, method: :patch
 
   ###
   # Index
@@ -15,7 +15,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
 
     discussion = create :solution_mentor_discussion, :requires_mentor_action, mentor: user
 
-    get api_mentor_discussions_path, headers: @headers, as: :json
+    get api_mentoring_discussions_path, headers: @headers, as: :json
     assert_response 200
 
     # TODO: Check JSON
@@ -44,7 +44,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
     create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
     create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
 
-    get tracks_api_mentor_discussions_path, headers: @headers, as: :json
+    get tracks_api_mentoring_discussions_path, headers: @headers, as: :json
     assert_response 200
 
     expected = [
@@ -62,7 +62,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
   test "create should 404 if the request doesn't exist" do
     setup_user
 
-    post api_mentor_discussions_path(mentor_request_id: 'xxx'), headers: @headers, as: :json
+    post api_mentoring_discussions_path(mentor_request_id: 'xxx'), headers: @headers, as: :json
     assert_response 404
     expected = { error: {
       type: "mentor_request_not_found",
@@ -76,7 +76,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
     setup_user
 
     mentor_request = create :solution_mentor_request, :locked
-    post api_mentor_discussions_path(mentor_request_id: mentor_request), headers: @headers, as: :json
+    post api_mentoring_discussions_path(mentor_request_id: mentor_request), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
       type: "mentor_request_locked",
@@ -96,7 +96,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
 
     content = "foo to the baaar"
 
-    post api_mentor_discussions_path,
+    post api_mentoring_discussions_path,
       params: {
         iteration_idx: 2,
         mentor_request_id: mentor_request.uuid,
@@ -123,7 +123,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
   test "mark_as_nothing_to_do should return 404 when the discussion does not exist" do
     setup_user
 
-    patch mark_as_nothing_to_do_api_mentor_discussion_path(1), headers: @headers, as: :json
+    patch mark_as_nothing_to_do_api_mentoring_discussion_path(1), headers: @headers, as: :json
 
     assert_response 404
     expected = { error: {
@@ -138,7 +138,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
     setup_user
     discussion = create :solution_mentor_discussion
 
-    patch mark_as_nothing_to_do_api_mentor_discussion_path(discussion), headers: @headers, as: :json
+    patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
     assert_response 403
     expected = { error: {
@@ -154,7 +154,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     discussion = create :solution_mentor_discussion, solution: solution
 
-    patch mark_as_nothing_to_do_api_mentor_discussion_path(discussion), headers: @headers, as: :json
+    patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
     assert_response 403
     expected = { error: {
@@ -169,7 +169,7 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
     setup_user
     discussion = create :solution_mentor_discussion, mentor: @current_user
 
-    patch mark_as_nothing_to_do_api_mentor_discussion_path(discussion), headers: @headers, as: :json
+    patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
     assert_response 200
     discussion.reload

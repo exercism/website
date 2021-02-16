@@ -5,7 +5,13 @@ class Solution
     initialize_with :solution
 
     def call
-      solution.git_exercise.hints
+      hints_text = Markdown::Preprocess.(solution.git_exercise.hints).strip
+
+      <<~TEXT.strip
+        # Hints
+
+        #{hints_text}
+      TEXT
     end
   end
 end

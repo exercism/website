@@ -22,6 +22,10 @@ module ReactComponents
               reputation: mentor.reputation,
               num_previous_sessions: current_user.num_previous_mentor_sessions_with(mentor)
             },
+            exercise: {
+              title: exercise.title,
+              icon_name: exercise.icon_name
+            },
             track: {
               title: track.title,
               highlightjs_language: track.highlightjs_language,
@@ -36,7 +40,7 @@ module ReactComponents
       end
 
       private
-      delegate :student, :mentor, :track, to: :discussion
+      delegate :student, :mentor, :track, :exercise, to: :discussion
 
       def iterations
         comment_counts = ::Solution::MentorDiscussionPost.

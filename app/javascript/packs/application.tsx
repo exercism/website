@@ -197,6 +197,7 @@ initReact({
       partner={camelizeKeysAs<MentoringSessionPartner>(data.partner)}
       iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
       track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
       links={data.links}
       userId={data.user_id}
     />

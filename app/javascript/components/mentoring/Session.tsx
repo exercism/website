@@ -85,6 +85,7 @@ export type Track = {
 
 export type Exercise = {
   title: string
+  iconName: string
 }
 
 export type MentorSolution = {

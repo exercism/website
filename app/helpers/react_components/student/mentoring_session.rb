@@ -35,7 +35,8 @@ module ReactComponents
             },
             iterations: iterations,
             links: {
-              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
+              posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
+              exercise: Exercism::Routes.track_exercise_url(track, exercise)
             }
           }
         )

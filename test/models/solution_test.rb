@@ -127,19 +127,19 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.exercise_solution_files["log_line_parser.rb"].start_with?("module LogLineParser")
   end
 
-  test "has_in_progress_mentor_discussion" do
+  test "in_progress_mentor_discussion" do
     solution = create :concept_solution
 
     # No discussion
-    refute solution.reload.has_in_progress_mentor_discussion?
+    assert_nil solution.reload.in_progress_mentor_discussion
 
     # In progress discussion
     discussion = create :solution_mentor_discussion, solution: solution, finished_at: nil
-    assert solution.reload.has_in_progress_mentor_discussion?
+    assert_equal discussion, solution.reload.in_progress_mentor_discussion
 
     # Finished discussion
     discussion.update!(finished_at: Time.current)
-    refute solution.reload.has_in_progress_mentor_discussion?
+    assert_nil solution.reload.in_progress_mentor_discussion
   end
 
   test "has_pending_mentoring_requests" do

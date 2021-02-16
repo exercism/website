@@ -12,7 +12,7 @@ export const PreviousSessionsLink = ({
 
   return (
     <div className="previous-sessions">
-      {numSessions} previous sessions
+      See {numSessions} previous discussions
       <Icon icon="modal" alt="Opens in modal" />
     </div>
   )

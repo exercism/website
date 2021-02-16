@@ -16,9 +16,10 @@ export const SessionInfo = ({
     <>
       <TrackIcon title={track.title} iconUrl={track.iconUrl} />
       <ExerciseIcon icon={exercise.iconName} />
-      <p>
-        You&apos;re being mentored by {mentor.handle} on {exercise.title}
-      </p>
+      <div className="info-for-student">
+        You&apos;re being mentored by <strong>{mentor.handle}</strong> on
+        <div className="exercise-title">{exercise.title}</div>
+      </div>
     </>
   )
 }

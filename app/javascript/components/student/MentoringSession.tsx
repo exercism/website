@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { CloseButton } from '../mentoring/session/CloseButton'
 import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
 import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
@@ -10,6 +12,7 @@ import { SessionInfo } from './mentoring-session/SessionInfo'
 
 type Links = {
   posts: string
+  exercise: string
 }
 
 export const MentoringSession = ({
@@ -37,6 +40,7 @@ export const MentoringSession = ({
     <div className="c-mentor-discussion">
       <div className="lhs">
         <header className="discussion-header">
+          <CloseButton url={links.exercise} />
           <SessionInfo track={track} exercise={exercise} mentor={partner} />
         </header>
         <IterationView

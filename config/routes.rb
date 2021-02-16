@@ -160,6 +160,7 @@ Rails.application.routes.draw do
 
       resources :mentoring, only: [:index], controller: "tracks/mentoring"
       resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
+      resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
     end
 
     member do

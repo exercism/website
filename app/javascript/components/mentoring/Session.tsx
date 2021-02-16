@@ -242,18 +242,17 @@ export const Session = (props: SessionProps): JSX.Element => {
                 exercise={exercise}
               />
             </Tab.Panel>
+            {discussion ? (
+              <AddDiscussionPostPanel discussion={discussion} />
+            ) : (
+              <MentoringRequestPanel
+                iterations={iterations}
+                request={request}
+                session={session}
+                setSession={setSession}
+              />
+            )}
           </div>
-          {/* TODO: Move this block to the right place. Sorry man, I don't know how to fix the CSS :( */}
-          {discussion ? (
-            <AddDiscussionPostPanel discussion={discussion} />
-          ) : (
-            <MentoringRequestPanel
-              iterations={iterations}
-              request={request}
-              session={session}
-              setSession={setSession}
-            />
-          )}
         </PostsWrapper>
       </TabsContext.Provider>
     </div>

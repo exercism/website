@@ -17,8 +17,7 @@ module Git
 
     memoize
     def links
-      data = repo.read_json_blob(commit, absolute_filepath(links_filepath))
-      data.map { |link| OpenStruct.new(link) }
+      repo.read_json_blob(commit, absolute_filepath(links_filepath))
     end
 
     private

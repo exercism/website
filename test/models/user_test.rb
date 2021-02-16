@@ -101,4 +101,16 @@ class UserTest < ActiveSupport::TestCase
 
     assert student.favorited_by?(mentor)
   end
+
+  test "unrevealed_badges" do
+    user = create :user
+    rookie_badge = create :rookie_badge
+    member_badge = create :member_badge
+
+    create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user
+    create :user_acquired_badge, revealed: false, badge: rookie_badge
+    unrevealed = create :user_acquired_badge, revealed: false, badge: member_badge, user: user
+
+    assert_equal [unrevealed], user.unrevealed_badges
+  end
 end

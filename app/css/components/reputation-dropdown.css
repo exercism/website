@@ -1,0 +1,63 @@
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.c-reputation-dropdown {
+    @apply shadow-lg rounded-8 bg-backgroundColorA;
+    @apply py-12 px-16;
+    max-width: 500px;
+
+    & .token {
+        @apply flex items-center;
+        @apply py-8 px-16;
+
+        &:hover {
+            @apply bg-backgroundColorD;
+        }
+
+        & .reason-icon {
+            height: 32px;
+            width: 32px;
+            @apply mr-20;
+            @apply self-start;
+        }
+        & .content {
+            @apply flex-grow mr-16;
+            & .description {
+                @apply text-15 leading-150;
+                & strong {
+                    @apply font-medium;
+                }
+            }
+
+            & .awarded-at {
+                @apply text-14 text-textColor6 leading-160;
+            }
+        }
+        & .c-reputation {
+            @apply mr-24;
+        }
+        & .read,
+        & .unread {
+            height: 8px;
+            width: 8px;
+            @apply flex-shrink-0 rounded-circle mr-24;
+        }
+        & .unread {
+            @apply bg-lightBlue;
+            animation: fade 1s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        & .action-icon {
+            height: 16px;
+            width: 16px;
+            @apply text-textColor6;
+        }
+    }
+}

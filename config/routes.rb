@@ -29,14 +29,10 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show] do
-        resources :exercises, only: [] do
-        end
-      end
+      resources :tracks, only: %i[index show]
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
       resources :bug_reports, only: %i[create]
-      resources :reputation, only: %i[index]
       resources :solutions, only: %i[index show update] do
         # CLI Methods
         get :latest, on: :collection
@@ -52,6 +48,12 @@ Rails.application.routes.draw do
       end
 
       resources :notifications, only: [:index] do
+      end
+
+      resources :reputation, only: %i[index] do
+        collection do
+          patch :mark_as_seen
+        end
       end
 
       resources :mentor_requests, only: %i[index] do
@@ -117,6 +119,8 @@ Rails.application.routes.draw do
   # Normal pages #
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
+
+  resources :notifications, only: [:index]
 
   resources :profiles, only: [:show] do
     member do
@@ -205,6 +209,7 @@ Rails.application.routes.draw do
         get :publish_exercise
         get :completed_exercise
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
+        get :reputation
       end
     end
   end
@@ -225,7 +230,6 @@ Rails.application.routes.draw do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
 
-        resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]
           resource :inbox, controller: "inbox", only: [:show] do

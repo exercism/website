@@ -14,7 +14,7 @@ class Solution
           seen_by_mentor: true
         )
 
-        Notification::Create.(
+        User::Notification::Create.(
           iteration.solution.user,
           :mentor_replied_to_discussion,
           { discussion_post: discussion_post }

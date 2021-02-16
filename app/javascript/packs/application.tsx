@@ -29,6 +29,8 @@ import '../../css/components/accordion-section'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
+import '../../css/components/notifications-dropdown'
+import '../../css/components/reputation-dropdown'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation'
 import '../../css/components/primary-reputation'
@@ -139,9 +141,6 @@ initReact({
   'journey-contributions-list': (data: any) => (
     <Journey.ContributionsList endpoint={data.endpoint} />
   ),
-  'common-notifications-icon': (data: any) => (
-    <Common.NotificationsIcon count={data.count} />
-  ),
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
@@ -240,6 +239,9 @@ initReact({
       menuButton={data.menu_button}
       menuItems={data.menu_items}
     />
+  ),
+  'dropdowns-notifications': (data: any) => (
+    <Dropdowns.Notifications endpoint={data.endpoint} />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

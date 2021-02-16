@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :iterations, through: :solutions
 
   has_many :activities, class_name: "User::Activity", dependent: :destroy
-  has_many :notifications, dependent: :destroy, class_name: "::Notification"
+  has_many :notifications, dependent: :destroy
   has_many :mentor_discussion_posts, as: :author, dependent: :destroy
   has_many :mentor_testimonials, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
                                  class_name: "Mentor::Testimonial"
@@ -69,6 +69,10 @@ class User < ApplicationRecord
     !!UserTrack.for(self, track)
   end
 
+  def unrevealed_badges
+    acquired_badges.unrevealed.joins(:badge)
+  end
+
   def has_badge?(slug)
     badge = Badge.find_by_slug!(slug) # rubocop:disable Rails/DynamicFindBy
     acquired_badges.where(badge_id: badge.id).exists?
@@ -86,7 +90,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
-    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
+    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4&e_uid=#{id}"
   end
 
   # TODO

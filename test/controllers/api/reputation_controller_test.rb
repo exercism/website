@@ -1,20 +1,12 @@
 require_relative './base_test_case'
 
 class API::ReputatationControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_reputation_index_path
+  guard_incorrect_token! :mark_as_seen_api_reputation_index_path, method: :patch
+
   #########
   # INDEX #
   #########
-  test "index should return 401 with incorrect token" do
-    get api_reputation_index_path, as: :json
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
   test "index should proxy params" do
     setup_user
     create :user_reputation_token
@@ -61,5 +53,32 @@ class API::ReputatationControllerTest < API::BaseTestCase
       }.to_json,
       response.body
     )
+  end
+
+  ################
+  # mark_as_seen #
+  ################
+
+  test "mark_as_seen should mark tokens as seen" do
+    setup_user
+    token_1 = create :user_reputation_token, user: @current_user
+    token_2 = create :user_reputation_token, user: @current_user
+
+    # Token we don't want to mark as seen
+    token_3 = create :user_reputation_token, user: @current_user
+
+    # A token for a different user
+    token_4 = create :user_reputation_token
+
+    patch mark_as_seen_api_reputation_index_path(
+      ids: [token_1.uuid, token_2.uuid]
+    ), headers: @headers, as: :json
+
+    assert_response :success
+
+    assert token_1.reload.seen?
+    assert token_2.reload.seen?
+    refute token_3.reload.seen?
+    refute token_4.reload.seen?
   end
 end

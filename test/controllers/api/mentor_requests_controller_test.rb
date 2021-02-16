@@ -1,21 +1,12 @@
 require_relative './base_test_case'
 
 class API::MentorRequestsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_mentor_requests_path
+  guard_incorrect_token! :lock_api_mentor_request_path, args: 1, method: :patch
+
   ###
   # Index
   ###
-  test "index should return 401 with incorrect token" do
-    get api_mentor_requests_path, as: :json
-
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
   test "index proxies correctly" do
     user = create :user
     setup_user(user)
@@ -70,11 +61,6 @@ class API::MentorRequestsControllerTest < API::BaseTestCase
   ###
   # Lock
   ###
-  test "lock should return 401 with incorrect token" do
-    patch lock_api_mentor_request_path('xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "lock should 404 if the request doesn't exist" do
     setup_user
     patch lock_api_mentor_request_path('xxx'), headers: @headers, as: :json

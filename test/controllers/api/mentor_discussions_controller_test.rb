@@ -1,21 +1,14 @@
 require_relative './base_test_case'
 
 class API::MentorDiscussionsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_mentor_discussions_path
+  guard_incorrect_token! :tracks_api_mentor_discussions_path
+  guard_incorrect_token! :api_mentor_discussions_path, method: :post
+  guard_incorrect_token! :mark_as_nothing_to_do_api_mentor_discussion_path, args: 1, method: :patch
+
   ###
   # Index
   ###
-  test "index should return 401 with incorrect token" do
-    get api_mentor_discussions_path, as: :json
-
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
-
   test "index retrieves discussions" do
     user = create :user
     setup_user(user)
@@ -32,17 +25,6 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
   ###
   # Tracks
   ###
-  test "tracks should return 401 with incorrect token" do
-    get tracks_api_mentor_discussions_path, as: :json
-
-    assert_response 401
-    expected = { error: {
-      type: "invalid_auth_token",
-      message: I18n.t('api.errors.invalid_auth_token')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
-  end
 
   test "tracks retrieves all tracks including those not on current page" do
     Solution::MentorDiscussion::Retrieve.stubs(:requests_per_page).returns(1)
@@ -76,10 +58,6 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
   ###
   # Create
   ###
-  test "create should return 401 with incorrect token" do
-    post api_mentor_discussions_path(mentor_request_id: 'xxx'), headers: @headers, as: :json
-    assert_response 401
-  end
 
   test "create should 404 if the request doesn't exist" do
     setup_user
@@ -141,11 +119,6 @@ class API::MentorDiscussionsControllerTest < API::BaseTestCase
   ###
   # MARK AS NOTHING TO DO
   ###
-  test "mark_as_nothing_to_do should return 401 with incorrect token" do
-    patch mark_as_nothing_to_do_api_mentor_discussion_path(1), as: :json
-
-    assert_response 401
-  end
 
   test "mark_as_nothing_to_do should return 404 when the discussion does not exist" do
     setup_user

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :notification, class: "Notifications::MentorStartedDiscussionNotification" do
+  factory :notification, class: "User::Notifications::MentorStartedDiscussionNotification" do
     user
     params do
       {

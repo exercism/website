@@ -63,7 +63,7 @@
     &.--large,
     &.--small {
         & * {
-            @apply leading-code;
+            @apply leading-160;
         }
 
         /******************/

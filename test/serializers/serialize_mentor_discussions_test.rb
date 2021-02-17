@@ -31,7 +31,7 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
         # TODO: Populate this
         posts_count: 4,
 
-        url: "https://test.exercism.io/mentor/discussions/#{discussion.uuid}"
+        url: Exercism::Routes.mentoring_discussion_url(discussion)
       }
     ]
 

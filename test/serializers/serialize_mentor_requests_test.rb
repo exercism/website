@@ -28,7 +28,7 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
         status: "First timer",
         tooltip_url: "#",
 
-        url: "https://test.exercism.io/mentor/requests/#{request.uuid}"
+        url: Exercism::Routes.mentoring_request_url(request)
       }
     ]
 

@@ -1,18 +1,6 @@
 module API
-  class MentorStudentRelationshipsController < BaseController
+  class Mentoring::StudentsController < BaseController
     before_action :use_student
-    def use_student
-      @student = User.find_by!(handle: params[:student_handle])
-    rescue StandardError
-      render_400(:invalid_mentor_student_relationship)
-    end
-
-    def render_relationship
-      relationship = Mentor::StudentRelationship.find_by!(mentor: current_user, student: @student)
-      render json: { relationship: SerializeMentorStudentRelationship.(relationship) }
-    rescue StandardError
-      render_400(:invalid_mentor_student_relationship)
-    end
 
     def favorite
       # Both of these lines should return the same error so we don't
@@ -43,6 +31,20 @@ module API
     def unblock
       Mentor::StudentRelationship::ToggleBlocked.(current_user, @student, false)
       render_relationship
+    rescue StandardError
+      render_400(:invalid_mentor_student_relationship)
+    end
+
+    private
+    def use_student
+      @student = User.find_by!(handle: params[:id])
+    rescue StandardError
+      render_400(:invalid_mentor_student_relationship)
+    end
+
+    def render_relationship
+      relationship = Mentor::StudentRelationship.find_by!(mentor: current_user, student: @student)
+      render json: { relationship: SerializeMentorStudentRelationship.(relationship) }
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end

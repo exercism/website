@@ -1,5 +1,5 @@
 module API
-  class SubmissionsController < BaseController
+  class Solutions::SubmissionsController < BaseController
     def create
       begin
         solution = Solution.find_by!(uuid: params[:solution_id])

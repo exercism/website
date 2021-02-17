@@ -1,6 +1,6 @@
-require_relative './base_test_case'
+require_relative '../base_test_case'
 
-class API::SubmissionsControllerTest < API::BaseTestCase
+class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_solution_submissions_path, args: 1, method: :post
 
   ###
@@ -42,12 +42,12 @@ class API::SubmissionsControllerTest < API::BaseTestCase
         id: Submission.last.uuid,
         tests_status: 'queued',
         links: {
-          cancel: Exercism::Routes.api_submission_cancellations_url(Submission.last),
+          cancel: Exercism::Routes.api_solution_submission_cancellations_url(solution.uuid, Submission.last),
           submit: Exercism::Routes.api_solution_iterations_url(
             Submission.last.solution.uuid,
             submission_id: Submission.last.uuid
           ),
-          test_run: Exercism::Routes.api_submission_test_run_url(Submission.last.uuid),
+          test_run: Exercism::Routes.api_solution_submission_test_run_url(solution.uuid, Submission.last.uuid),
           initial_files: Exercism::Routes.api_solution_initial_files_url(solution.uuid)
         }
       }

@@ -29,7 +29,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         count: 6,
         selected: true,
         links: {
-          exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: 'csharp')
+          exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'csharp')
         }
       },
       {
@@ -39,7 +39,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         count: 0,
         selected: false,
         links: {
-          exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: 'fsharp')
+          exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'fsharp')
         }
       },
       {
@@ -49,7 +49,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         count: 3,
         selected: false,
         links: {
-          exercises: Exercism::Routes.exercises_api_mentor_requests_url(track_slug: 'ruby')
+          exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'ruby')
         }
       }
     ]

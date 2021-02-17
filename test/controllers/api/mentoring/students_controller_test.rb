@@ -1,11 +1,11 @@
-require_relative './base_test_case'
+require_relative '../base_test_case'
 
-class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_mentor_favorite_student_path, args: 1, method: :post
-  guard_incorrect_token! :api_mentor_unfavorite_student_path, args: 1, method: :delete
+class API::Mentoring::StudentsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :favorite_api_mentoring_student_path, args: 1, method: :post
+  guard_incorrect_token! :favorite_api_mentoring_student_path, args: 1, method: :delete
 
-  guard_incorrect_token! :api_mentor_block_student_path, args: 1, method: :post
-  guard_incorrect_token! :api_mentor_unblock_student_path, args: 1, method: :delete
+  guard_incorrect_token! :block_api_mentoring_student_path, args: 1, method: :post
+  guard_incorrect_token! :block_api_mentoring_student_path, args: 1, method: :delete
 
   ###
   # Favorite
@@ -13,7 +13,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   test "favorite should 404 if the student doesn't exist" do
     setup_user
 
-    post api_mentor_favorite_student_path(student_handle: 'xxx'), headers: @headers, as: :json
+    post favorite_api_mentoring_student_path('xxx'), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
       type: "invalid_mentor_student_relationship",
@@ -33,7 +33,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
     create :solution_mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
-    post api_mentor_favorite_student_path(student_handle: student.handle), headers: @headers, as: :json
+    post favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
     assert Mentor::StudentRelationship.where(mentor: mentor, student: student, favorited: true).exists?
@@ -45,7 +45,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   test "Unfavorite should 404 if the student doesn't exist" do
     setup_user
 
-    delete api_mentor_unfavorite_student_path(student_handle: 'xxx'), headers: @headers, as: :json
+    delete favorite_api_mentoring_student_path('xxx'), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
       type: "invalid_mentor_student_relationship",
@@ -65,7 +65,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
     create :solution_mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
-    delete api_mentor_unfavorite_student_path(student_handle: student.handle), headers: @headers, as: :json
+    delete favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
     assert Mentor::StudentRelationship.where(mentor: mentor, student: student, favorited: false).exists?
@@ -77,7 +77,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   test "block should 404 if the student doesn't exist" do
     setup_user
 
-    post api_mentor_block_student_path(student_handle: 'xxx'), headers: @headers, as: :json
+    post block_api_mentoring_student_path('xxx'), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
       type: "invalid_mentor_student_relationship",
@@ -97,7 +97,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
     create :solution_mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
-    post api_mentor_block_student_path(student_handle: student.handle), headers: @headers, as: :json
+    post block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
     assert Mentor::StudentRelationship.where(mentor: mentor, student: student, blocked: true).exists?
@@ -109,7 +109,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
   test "unblock should 404 if the student doesn't exist" do
     setup_user
 
-    delete api_mentor_unblock_student_path(student_handle: 'xxx'), headers: @headers, as: :json
+    delete block_api_mentoring_student_path('xxx'), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
       type: "invalid_mentor_student_relationship",
@@ -129,7 +129,7 @@ class API::MentorStudentRelationshipsControllerTest < API::BaseTestCase
     create :solution_mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
-    delete api_mentor_unblock_student_path(student_handle: student.handle), headers: @headers, as: :json
+    delete block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
     assert Mentor::StudentRelationship.where(mentor: mentor, student: student, blocked: false).exists?

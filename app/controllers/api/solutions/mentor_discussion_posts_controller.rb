@@ -1,6 +1,8 @@
+# TODO: Check to see which parts of this and
+# api/mentoring/discussion_posts can be DRYed up
 module API
-  class MentorDiscussionPostsController < BaseController
-    before_action :use_mentor_discussion, only: %i[index create]
+  class Solutions::MentorDiscussionPostsController < BaseController
+    before_action :use_mentor_discussion
 
     def index
       mentor_request_comment = MentorRequestComment.from(@discussion)
@@ -14,18 +16,11 @@ module API
     end
 
     def create
-      attrs = [
+      post = Solution::MentorDiscussion::ReplyByStudent.(
         @discussion,
         @discussion.iterations.last,
         params[:content]
-      ]
-
-      post = case current_user
-             when @discussion.mentor
-               Solution::MentorDiscussion::ReplyByMentor.(*attrs)
-             when @discussion.student
-               Solution::MentorDiscussion::ReplyByStudent.(*attrs)
-             end
+      )
 
       DiscussionPostListChannel.notify!(@discussion)
 
@@ -36,7 +31,7 @@ module API
       post = Solution::MentorDiscussionPost.find_by(uuid: params[:id])
 
       return render_404(:mentor_discussion_post_not_found) if post.blank?
-      return render_403(:permission_denied) unless post.author == current_user
+      return render_403(:mentor_discussion_post_not_accessible) unless post.author == current_user
 
       if post.update(content_markdown: params[:content])
         DiscussionPostListChannel.notify!(post.discussion)
@@ -48,16 +43,18 @@ module API
 
     private
     def use_mentor_discussion
-      @discussion = Solution::MentorDiscussion.find_by(uuid: params[:mentor_discussion_id])
+      @discussion = Solution::MentorDiscussion.find_by(uuid: params[:discussion_id])
       return render_404(:mentor_discussion_not_found) unless @discussion
-      return render_403(:mentor_discussion_not_accessible) unless @discussion.viewable_by?(current_user)
+
+      @solution = @discussion.solution
+      return render_403(:mentor_discussion_not_accessible) unless @solution.user_id == current_user.id
     end
   end
 
   class MentorRequestComment
     include ActiveModel::Model
 
-    attr_accessor :uuid, :author, :by_student, :content_markdown, :content_html, :iteration_idx, :updated_at
+    attr_accessor :uuid, :author, :by_student, :content_markdown, :content_html, :iteration_idx, :updated_at, :discussion
 
     def self.from(discussion)
       mentor_request = discussion.request
@@ -68,13 +65,14 @@ module API
       end
 
       new(
-        uuid: "uuid",
+        uuid: "",
         iteration_idx: iteration_idx,
         author: mentor_request.user,
         by_student: true,
         content_markdown: mentor_request.comment,
         content_html: mentor_request.comment,
-        updated_at: mentor_request.updated_at
+        updated_at: mentor_request.updated_at,
+        discussion: discussion
       )
     end
 

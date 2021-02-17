@@ -7,8 +7,8 @@ class SerializeMentorDiscussionPost
     {
       id: post.uuid,
       iteration_idx: post.iteration_idx,
-      author_handle: post.author.handle,
       author_id: post.author.id,
+      author_handle: post.author.handle,
       author_avatar_url: post.author.avatar_url,
       by_student: post.by_student?,
       content_markdown: post.content_markdown,
@@ -20,12 +20,17 @@ class SerializeMentorDiscussionPost
 
   private
   def links
-    if post.author == user
+    return {} if post.uuid.blank?
+    return {} unless post.author == user
+
+    if post.by_student?
       {
-        update: Exercism::Routes.api_mentor_discussion_post_url(post)
+        update: Exercism::Routes.api_solution_discussion_post_url(post.discussion.solution.uuid, post.discussion, post)
       }
     else
-      {}
+      {
+        update: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
+      }
     end
   end
 end

@@ -1,5 +1,5 @@
 module API
-  class MentorDiscussionsController < BaseController
+  class Mentoring::DiscussionsController < BaseController
     # TODO: Add filters
     def index
       discussions = ::Solution::MentorDiscussion::Retrieve.(
@@ -62,9 +62,9 @@ module API
           id: discussion.uuid,
           is_finished: discussion.finished?,
           links: {
-            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion),
-            mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_url(discussion),
-            finish: Exercism::Routes.finish_api_mentor_discussion_url(discussion)
+            posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
+            mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion),
+            finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion)
           }
         }
       }
@@ -82,9 +82,10 @@ module API
       render json: {}
     end
 
-    # TODO: An actual implementation of this endpoint. The JSON response below is what I expect for the React component.
+    # TODO: An actual implementation of this endpoint.
+    # The JSON response below is what I expect for the React component.
     def finish
-      discussion = ::Solution::MentorDiscussion.find_by(uuid: params[:id])
+      discussion = current_user.mentor_discussions.find_by(uuid: params[:id])
       discussion.update!(finished_at: Time.current)
       relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
 
@@ -93,7 +94,7 @@ module API
           relationship: SerializeMentorStudentRelationship.(relationship),
           is_finished: true,
           links: {
-            posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion)
+            posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion)
           }
         }
       }

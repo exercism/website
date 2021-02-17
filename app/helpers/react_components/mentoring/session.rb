@@ -18,7 +18,7 @@ module ReactComponents
               is_favorite: student.favorited_by?(current_user),
               num_previous_sessions: current_user.num_previous_mentor_sessions_with(student),
               links: {
-                favorite: Exercism::Routes.api_mentor_favorite_student_path(student_handle: student.handle)
+                favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
               }
             },
             track: {
@@ -54,8 +54,8 @@ module ReactComponents
           updated_at: request.updated_at.iso8601,
           is_locked: request.locked?,
           links: {
-            lock: Exercism::Routes.lock_api_mentor_request_path(request),
-            discussion: Exercism::Routes.api_mentor_discussions_path
+            lock: Exercism::Routes.lock_api_mentoring_request_path(request),
+            discussion: Exercism::Routes.api_mentoring_discussions_path
           }
         }
       end
@@ -74,13 +74,13 @@ module ReactComponents
         {
           id: discussion.uuid,
           is_finished: discussion.finished?,
-          links: { posts: Exercism::Routes.api_mentor_discussion_posts_url(discussion) }.tap do |links|
+          links: { posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion) }.tap do |links|
             if discussion.requires_mentor_action?
               links[:mark_as_nothing_to_do] =
-                Exercism::Routes.mark_as_nothing_to_do_api_mentor_discussion_path(discussion)
+                Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_path(discussion)
             end
 
-            links[:finish] = Exercism::Routes.finish_api_mentor_discussion_path(discussion) unless discussion.finished?
+            links[:finish] = Exercism::Routes.finish_api_mentoring_discussion_path(discussion) unless discussion.finished?
           end
         }
       end
@@ -114,7 +114,7 @@ module ReactComponents
             # TODO: Precalculate this to avoid n+1s
             automated_feedback: iteration.automated_feedback,
             links: {
-              files: Exercism::Routes.api_submission_files_url(iteration.submission)
+              files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
             }
           }
         end

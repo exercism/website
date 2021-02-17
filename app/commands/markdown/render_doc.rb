@@ -1,11 +1,11 @@
 class Markdown::RenderDoc
   include Mandate
 
-  initialize_with :preprocessed_text
+  initialize_with :text
 
   def call
     CommonMarker.render_doc(
-      preprocessed_text,
+      text,
       :DEFAULT,
       %i[table tagfilter strikethrough]
     )

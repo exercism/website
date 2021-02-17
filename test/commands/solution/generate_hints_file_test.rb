@@ -15,7 +15,6 @@ class Solution::GenerateHintsFileTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = Solution::GenerateHintsFile.(solution)
-    puts contents.inspect
     expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
     assert_equal expected, contents
   end

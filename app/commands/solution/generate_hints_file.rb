@@ -5,7 +5,7 @@ class Solution
     initialize_with :solution
 
     def call
-      hints_text = Markdown::Preprocess.(solution.git_exercise.hints).strip
+      hints_text = Markdown::RenderMarkdown.(solution.git_exercise.hints).strip
 
       <<~TEXT.strip
         # Hints

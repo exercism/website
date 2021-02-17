@@ -90,7 +90,7 @@ class SerializeExerciseInstructions
   end
 
   def render_doc(text)
-    preprocessed_text = Markdown::Preprocess.(text)
-    Markdown::RenderDoc.(preprocessed_text)
+    doc = Markdown::RenderDoc.(text)
+    Markdown::Preprocess.(doc)
   end
 end

@@ -33,8 +33,8 @@ class Solution
     def introduction
       return if solution.git_exercise.introduction.blank?
 
-      introduction_text = Markdown::Preprocess.(solution.git_exercise.introduction).strip
-      introduction_append_text = Markdown::Preprocess.(solution.git_exercise.introduction_append).strip
+      introduction_text = Markdown::RenderMarkdown.(solution.git_exercise.introduction).strip
+      introduction_append_text = Markdown::RenderMarkdown.(solution.git_exercise.introduction_append).strip
 
       <<~TEXT.strip
         ## Introduction
@@ -45,8 +45,8 @@ class Solution
     end
 
     def instructions
-      instructions_text = Markdown::Preprocess.(solution.git_exercise.instructions).strip
-      instructions_append_text = Markdown::Preprocess.(solution.git_exercise.instructions_append).strip
+      instructions_text = Markdown::RenderMarkdown.(solution.git_exercise.instructions).strip
+      instructions_append_text = Markdown::RenderMarkdown.(solution.git_exercise.instructions_append).strip
 
       <<~TEXT.strip
         ## Instructions

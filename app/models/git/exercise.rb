@@ -54,6 +54,15 @@ module Git
     end
 
     memoize
+    def exemplar_files
+      config[:files][:exemplar].index_with do |filepath|
+        read_file_blob(filepath)
+      end
+    rescue StandardError
+      {}
+    end
+
+    memoize
     def example_files
       config[:files][:example].index_with do |filepath|
         read_file_blob(filepath)

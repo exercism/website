@@ -22,21 +22,27 @@ export const InstructionsPanel = ({
         <div dangerouslySetInnerHTML={{ __html: introduction }} />
 
         <Instructions instructions={instructions} />
-
-        <h3 className="text-h3 tw-mt-20">Example files</h3>
-        {exampleFiles.map((exampleFile) => (
-          <>
-            <h4 key={exampleFile.filename}>{exampleFile.filename}</h4>
-            <pre
-              key={exampleFile.content}
-              dangerouslySetInnerHTML={{ __html: exampleFile.content }}
-            />
-          </>
-        ))}
+        <ExampleFiles files={exampleFiles} />
       </div>
     </section>
   </Tab.Panel>
 )
+
+const ExampleFiles = ({ files }: { files: File[] }) =>
+  files.length === 0 ? null : (
+    <>
+      <h3 className="text-h3 tw-mt-20">Example files</h3>
+      {files.map((file) => (
+        <>
+          <h4 key={file.filename}>{file.filename}</h4>
+          <pre
+            key={file.content}
+            dangerouslySetInnerHTML={{ __html: file.content }}
+          />
+        </>
+      ))}
+    </>
+  )
 
 const Instructions = ({
   instructions,

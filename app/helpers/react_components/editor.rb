@@ -11,7 +11,7 @@ module ReactComponents
           exercise_title: solution.exercise.title,
           introduction: introduction,
           instructions: SerializeExerciseInstructions.(solution.exercise),
-          example_files: SerializeFiles.(solution.exercise.send(:git).example_files),
+          example_files: SerializeFiles.(example_files),
           endpoint: Exercism::Routes.api_solution_submissions_path(
             solution.uuid,
             auth_token: solution.user.auth_tokens.first.to_s
@@ -33,6 +33,12 @@ module ReactComponents
     memoize
     def instructions
       Markdown::Parse.(solution.instructions)
+    end
+
+    def example_files
+      return solution.exercise.send(:git).exemplar_files if solution.exercise.concept_exercise?
+
+      solution.exercise.send(:git).example_files
     end
   end
 end

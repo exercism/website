@@ -148,5 +148,12 @@ module Git
       expected = { ".meta/example.rb" => "example content for bob\n" }
       assert_equal(expected, exercise.example_files)
     end
+
+    test "retrieves exemplar files" do
+      exercise = Git::Exercise.new(:lasagna, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = { ".meta/exemplar.rb" => "class Lasagna\n  EXPECTED_MINUTES_IN_OVEN = 40\n  PREPARATION_MINUTES_PER_LAYER = 2\n\n  def remaining_minutes_in_oven(actual_minutes_in_oven)\n    EXPECTED_MINUTES_IN_OVEN - actual_minutes_in_oven\n  end\n\n  def preparation_time_in_minutes(layers)\n    layers * PREPARATION_MINUTES_PER_LAYER\n  end\n\n  def total_time_in_minutes(number_of_layers:, actual_minutes_in_oven:)\n    preparation_time_in_minutes(number_of_layers) + actual_minutes_in_oven\n  end\nend\n" } # rubocop:disable Layout/LineLength
+      assert_equal(expected, exercise.exemplar_files)
+    end
   end
 end

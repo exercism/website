@@ -20,9 +20,7 @@ class User
           User::AcquiredBadge.create!(
             user: user,
             badge: badge
-          ).tap do |badge|
-            Notification::Create.(user, :acquired_badge, { badge: badge })
-          end
+          )
 
         # Guard against the race condition
         # and return the badge if it's been created

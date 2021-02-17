@@ -32,7 +32,7 @@ export const InstructionsPanel = ({
 )
 
 const ExampleFiles = ({ files }: { files: File[] }) => {
-  if (files.length === 0) {
+  if (files === null || files === undefined || files.length === 0) {
     return null
   }
 

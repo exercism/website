@@ -3,6 +3,4 @@ class PracticeExercise < Exercise
     joins(:exercise_prerequisites).
       where('exercise_prerequisites.track_concept_id': concept)
   end
-
-  delegate :introduction, :instructions, to: :git
 end

@@ -30,4 +30,16 @@ class Tracks::ShowExternalTest < ActionDispatch::IntegrationTest
     get "/tracks/ruby/exercises/allergies/"
     assert_select ".introduction", false
   end
+
+  test "the source is shown" do
+    create :practice_exercise
+    get "/tracks/ruby/exercises/bob/"
+    assert_select ".source", text: /Inspired by the 'Deaf Grandma' exercise/
+  end
+
+  test "the source_url is shown" do
+    create :practice_exercise
+    get "/tracks/ruby/exercises/bob/"
+    assert_select ".source", text: %r{http://pine.fm/LearnToProgram/\?Chapter=06}
+  end
 end

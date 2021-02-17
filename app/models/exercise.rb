@@ -37,7 +37,7 @@ class Exercise < ApplicationRecord
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
 
-  delegate :solution_files, to: :git
+  delegate :solution_files, :introduction, :instructions, :source, :source_url, to: :git
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha

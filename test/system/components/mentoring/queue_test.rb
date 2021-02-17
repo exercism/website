@@ -25,7 +25,7 @@ module Components
         assert_text "on Series"
         assert_text "First timer"
         assert_text "a year ago"
-        assert_link "", href: Exercism::Routes.mentor_request_url(request)
+        assert_link "", href: Exercism::Routes.mentoring_request_url(request)
         assert_css "title", text: "Starred student", visible: false
         assert_css ".dot"
       end

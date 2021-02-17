@@ -116,10 +116,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "mentor?" do
-    user = create :user
+    user = create :user, became_mentor_at: nil
     refute user.mentor?
 
-    user.update(become_mentor_at: Time.current)
+    user.update(became_mentor_at: Time.current)
     assert user.mentor?
   end
 end

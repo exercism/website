@@ -29,7 +29,7 @@ class SerializeMentorDiscussions
       posts_count: 4,
 
       # TODO: Rename this to web_url
-      url: Exercism::Routes.mentor_discussion_url(discussion)
+      url: Exercism::Routes.mentoring_discussion_url(discussion)
     }
   end
 end

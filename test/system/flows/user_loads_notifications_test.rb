@@ -9,8 +9,9 @@ module Flows
 
     test "user views notifications" do
       user = create :user
-      badge = create :rookie_badge
-      create :acquired_badge_notification, user: user, params: { badge: badge }
+      mentor = create :user, handle: "mr-mentor"
+      discussion = create :solution_mentor_discussion, mentor: mentor
+      create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
 
       use_capybara_host do
         sign_in!(user)
@@ -18,25 +19,28 @@ module Flows
         within(".c-notification") { assert_text "1" }
         find(".c-notification").click
 
-        assert_text "You have been awarded the Rookie badge."
+        assert_text "mr-mentor has started mentoring your solution to Bob in Ruby"
         assert_link "See all your notifications", href: notifications_url
       end
     end
 
     test "refetches on websocket notification" do
       user = create :user
-      badge = create :rookie_badge
+      mentor = create :user, handle: "mrs-mentor"
+      discussion = create :solution_mentor_discussion, mentor: mentor
 
       use_capybara_host do
         sign_in!(user)
         visit dashboard_path
         wait_for_websockets
-        create :acquired_badge_notification, user: user, params: { badge: badge }
+
+        create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
+
         NotificationsChannel.broadcast_changed(user)
         within(".c-notification") { assert_text "1" }
         find(".c-notification").click
 
-        assert_text "You have been awarded the Rookie badge."
+        assert_text "mrs-mentor has started mentoring your solution to Bob in Ruby"
       end
     end
 

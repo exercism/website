@@ -48,6 +48,5 @@ module API
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end
-
   end
 end

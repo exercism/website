@@ -16,11 +16,11 @@ module API
     end
 
     def create
-     post = Solution::MentorDiscussion::ReplyByStudent.(
+      post = Solution::MentorDiscussion::ReplyByStudent.(
         @discussion,
         @discussion.iterations.last,
         params[:content]
-     )
+      )
 
       DiscussionPostListChannel.notify!(@discussion)
 
@@ -81,4 +81,3 @@ module API
     end
   end
 end
-

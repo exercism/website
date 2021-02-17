@@ -82,7 +82,7 @@ module API
       render json: {}
     end
 
-    # TODO: An actual implementation of this endpoint. 
+    # TODO: An actual implementation of this endpoint.
     # The JSON response below is what I expect for the React component.
     def finish
       discussion = current_user.mentor_discussions.find_by(uuid: params[:id])

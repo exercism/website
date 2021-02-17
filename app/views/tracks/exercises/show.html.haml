@@ -75,6 +75,13 @@
                 = render ViewComponents::ConceptIcon.new(concept, :small)
                 = concept.name
 
+      - if @exercise.practice_exercise?
+        - introduction = @solution ? @solution.introduction : @exercise.introduction
+        - if introduction.present?
+          %section.introduction.c-textual-content.--large
+            %h2 Introduction
+            = raw Markdown::Parse.(introduction)
+
       %section.instructions.c-textual-content.--large
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions

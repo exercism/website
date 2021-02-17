@@ -10,10 +10,12 @@ export const InstructionsPanel = ({
   introduction,
   instructions,
   exampleFiles,
+  debugging,
 }: {
   introduction: string
   instructions: ExerciseInstructions
   exampleFiles: File[]
+  debugging?: string
 }) => (
   <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
@@ -22,14 +24,19 @@ export const InstructionsPanel = ({
         <div dangerouslySetInnerHTML={{ __html: introduction }} />
 
         <Instructions instructions={instructions} />
+        <Debug debugging={debugging} />
         <ExampleFiles files={exampleFiles} />
       </div>
     </section>
   </Tab.Panel>
 )
 
-const ExampleFiles = ({ files }: { files: File[] }) =>
-  files.length === 0 ? null : (
+const ExampleFiles = ({ files }: { files: File[] }) => {
+  if (files.length === 0) {
+    return null
+  }
+
+  return (
     <>
       <h3 className="text-h3 tw-mt-20">Example files</h3>
       {files.map((file) => (
@@ -43,6 +50,7 @@ const ExampleFiles = ({ files }: { files: File[] }) =>
       ))}
     </>
   )
+}
 
 const Instructions = ({
   instructions,
@@ -102,5 +110,18 @@ const InstructionsTask = ({
         </button>
       </div>
     </details>
+  )
+}
+
+const Debug = ({ debugging }: { debugging?: string }) => {
+  if (debugging === undefined || debugging === null || debugging.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      <h2>How to debug</h2>
+      <div dangerouslySetInnerHTML={{ __html: debugging }} />
+    </>
   )
 }

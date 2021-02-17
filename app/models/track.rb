@@ -15,6 +15,7 @@ class Track < ApplicationRecord
     to: :git
 
   delegate :head_sha, to: :git, prefix: :git
+  delegate :debug, to: :git
 
   def self.for!(param)
     return param if param.is_a?(Track)

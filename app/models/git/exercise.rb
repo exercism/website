@@ -33,14 +33,6 @@ module Git
       commit.oid
     end
 
-    # TODO: This is stub code
-    memoize
-    def example
-      read_file_blob(filepaths.find { |fp| fp.downcase.include?("example.") })
-    rescue StandardError
-      "No example code found"
-    end
-
     memoize
     def authors
       config[:authors].to_a
@@ -59,6 +51,15 @@ module Git
     memoize
     def source_url
       config[:source_url]
+    end
+
+    memoize
+    def example_files
+      config[:files][:example].index_with do |filepath|
+        read_file_blob(filepath)
+      end
+    rescue StandardError
+      {}
     end
 
     # Files that should be transported

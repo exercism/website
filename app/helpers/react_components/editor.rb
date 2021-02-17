@@ -11,7 +11,7 @@ module ReactComponents
           exercise_title: solution.exercise.title,
           introduction: introduction,
           instructions: SerializeExerciseInstructions.(solution.exercise),
-          example_solution: solution.exercise.send(:git).example,
+          example_files: SerializeFiles.(solution.exercise.send(:git).example_files),
           endpoint: Exercism::Routes.api_solution_submissions_path(
             solution.uuid,
             auth_token: solution.user.auth_tokens.first.to_s

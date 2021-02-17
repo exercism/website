@@ -70,7 +70,7 @@ export function Editor({
   exerciseTitle,
   introduction,
   instructions,
-  exampleSolution,
+  exampleFiles,
   storageKey,
 }: {
   endpoint: string
@@ -83,7 +83,7 @@ export function Editor({
   exerciseTitle: string
   introduction: string
   instructions: ExerciseInstructions
-  exampleSolution: string
+  exampleFiles: File[]
   storageKey: string
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
@@ -402,7 +402,7 @@ export function Editor({
           <InstructionsPanel
             introduction={introduction}
             instructions={instructions}
-            exampleSolution={exampleSolution}
+            exampleFiles={exampleFiles}
           />
           <TestsPanel />
           <ResultsPanel

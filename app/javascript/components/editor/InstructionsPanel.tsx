@@ -4,15 +4,16 @@ import { TabsContext } from '../Editor'
 import { ExerciseInstructions, ExerciseInstructionsTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon } from '../common/GraphicalIcon'
+import { File } from '../types'
 
 export const InstructionsPanel = ({
   introduction,
   instructions,
-  exampleSolution,
+  exampleFiles,
 }: {
   introduction: string
   instructions: ExerciseInstructions
-  exampleSolution: string
+  exampleFiles: File[]
 }) => (
   <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
@@ -22,8 +23,16 @@ export const InstructionsPanel = ({
 
         <Instructions instructions={instructions} />
 
-        <h3 className="text-h3 tw-mt-20">Example solution</h3>
-        <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
+        <h3 className="text-h3 tw-mt-20">Example files</h3>
+        {exampleFiles.map((exampleFile) => (
+          <>
+            <h4 key={exampleFile.filename}>{exampleFile.filename}</h4>
+            <pre
+              key={exampleFile.content}
+              dangerouslySetInnerHTML={{ __html: exampleFile.content }}
+            />
+          </>
+        ))}
       </div>
     </section>
   </Tab.Panel>

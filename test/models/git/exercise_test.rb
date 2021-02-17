@@ -141,5 +141,12 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal([], exercise.contributors)
     end
+
+    test "retrieves example files" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = { ".meta/example.rb" => "example content for bob\n" }
+      assert_equal(expected, exercise.example_files)
+    end
   end
 end

@@ -233,7 +233,7 @@ initReact({
       exerciseTitle={data.exercise_title}
       introduction={data.introduction}
       instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
-      exampleSolution={data.example_solution}
+      exampleFiles={data.example_files}
       storageKey={data.storage_key}
     />
   ),

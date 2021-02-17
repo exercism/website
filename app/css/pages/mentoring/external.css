@@ -2,7 +2,7 @@
 
 #mentor-external-page {
     & .top-section {
-        @apply pt-32 pb-48;
+        @apply pt-40 pb-48;
         @apply bg-backgroundColorA;
         @apply flex flex-col items-center;
         @apply text-center;
@@ -10,7 +10,7 @@
         & .c-icon {
             width: 160px;
             height: 160px;
-            @apply mb-8;
+            @apply mb-20;
         }
         & h1 {
             @apply text-h1 mb-16;

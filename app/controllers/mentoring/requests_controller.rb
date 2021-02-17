@@ -1,4 +1,6 @@
-class Mentor::RequestsController < ApplicationController
+class Mentoring::RequestsController < ApplicationController
+  before_action :ensure_mentor!
+
   before_action :use_mentor_request
 
   def show

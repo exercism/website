@@ -1,0 +1,79 @@
+@import "../../styles";
+
+#mentor-external-page {
+    & .top-section {
+        @apply pt-32 pb-48;
+        @apply bg-backgroundColorA;
+        @apply flex flex-col items-center;
+        @apply text-center;
+
+        & .c-icon {
+            width: 160px;
+            height: 160px;
+            @apply mb-8;
+        }
+        & h1 {
+            @apply text-h1 mb-16;
+        }
+        & p {
+            max-width: 770px;
+
+            @apply text-18 leading-170;
+
+            & a {
+                @apply text-anotherPurple font-medium;
+            }
+        }
+        & p.unsure {
+            max-width: none;
+            @apply mt-24 mb-40;
+
+            @apply py-8 px-24 rounded-8;
+            @apply bg-veryLightBlue;
+            @apply font-medium;
+
+            & a {
+                @apply text-lightBlue;
+            }
+        }
+    }
+
+    & .reasons-section {
+        @apply pt-64 pb-80;
+
+        & h2 {
+            @apply text-h2;
+            @apply mb-48;
+            @apply flex flex-col items-center;
+
+            &:after {
+                content: "";
+                width: 50px;
+
+                @apply mt-24;
+                @apply border-b-3 border-purple;
+            }
+        }
+        & .reasons {
+            @apply grid grid-cols-3 gap-x-48;
+
+            & .reason {
+                @apply flex flex-col items-center;
+                @apply text-center;
+
+                & .c-icon {
+                    height: 64px;
+                    width: 64px;
+                    @apply mb-24;
+                }
+
+                & h3 {
+                    @apply text-h5 mb-8;
+                }
+                & p {
+                    @apply text-16 leading-160;
+                }
+            }
+        }
+    }
+}

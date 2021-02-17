@@ -10,6 +10,18 @@ class ApplicationController < ActionController::Base
     redirect_to user_onboarding_path
   end
 
+  def ensure_mentor!
+    return if current_user&.mentor?
+
+    redirect_to mentoring_path
+  end
+
+  def ensure_not_mentor!
+    return unless current_user&.mentor?
+
+    redirect_to mentoring_dashboard_path
+  end
+
   def self.allow_unauthenticated!(*actions)
     skip_before_action(:authenticate_user!, only: actions)
 

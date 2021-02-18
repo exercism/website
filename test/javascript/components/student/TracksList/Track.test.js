@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Track } from '../../../../../app/javascript/components/student/tracks-list/Track'
 
@@ -79,4 +79,34 @@ test('shows number of practice exercises if track is unjoined', () => {
   )
 
   expect(queryByText('5 exercises')).toBeInTheDocument()
+})
+
+test('shows new tag if track is new', () => {
+  render(
+    <Track
+      track={{
+        isJoined: false,
+        isNew: true,
+        tags: [],
+        numPracticeExercises: 5,
+      }}
+    />
+  )
+
+  expect(screen.getByText('New')).toBeInTheDocument()
+})
+
+test('hides new tag if track is not new', () => {
+  render(
+    <Track
+      track={{
+        isJoined: false,
+        isNew: false,
+        tags: [],
+        numPracticeExercises: 5,
+      }}
+    />
+  )
+
+  expect(screen.queryByText('New')).not.toBeInTheDocument()
 })

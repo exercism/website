@@ -15,10 +15,12 @@ export function Track({ track }) {
             <Icon icon="concepts" alt="This track has Concepts" />
             V3
           </div>
-          <div className="--new">
-            <Icon icon="stars" alt="This track is new" />
-            New
-          </div>
+          {track.isNew ? (
+            <div className="--new">
+              <Icon icon="stars" alt="This track is new" />
+              New
+            </div>
+          ) : null}
           {track.isJoined && <div className="--joined">Joined</div>}
         </div>
         <ul className="--counts">

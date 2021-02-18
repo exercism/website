@@ -87,13 +87,13 @@
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw Markdown::Parse.(instructions)
 
-    -# TODO: add styling
-    - if @exercise.source.present? || @exercise.source_url.present?
-      %section.source
-        %h2 Based on
-        - source = @solution ? @solution.source : @exercise.source
-        - source_url = @solution ? @solution.source_url : @exercise.source_url
-        = [source, source_url].compact_blank.join(' - ')
+      -# TODO: add styling
+      - if @exercise.source.present? || @exercise.source_url.present?
+        %section.source
+          %h2 Based on
+          - source = @solution ? @solution.source : @exercise.source
+          - source_url = @solution ? @solution.source_url : @exercise.source_url
+          = [source, source_url].compact_blank.join(' - ')
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
       - if @solution

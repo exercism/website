@@ -30,6 +30,7 @@ module.exports = {
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
       lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',
+      lgZ1: '0px 4px 42px 0px rgba(79, 114, 205, 0.3)',
     },
     colors: {
       transparent: 'transparent',

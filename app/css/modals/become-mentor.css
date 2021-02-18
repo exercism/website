@@ -1,0 +1,134 @@
+@import "../styles";
+
+.m-become-mentor {
+    @apply pt-48;
+    & header {
+        @apply flex items-center justify-between;
+        @apply mb-8;
+
+        & .steps {
+            @apply flex items-center;
+            & .step {
+                height: 16px;
+                width: 16px;
+                @apply rounded-circle;
+                @apply border-2 border-buttonBorderColor2;
+
+                &.selected {
+                    @apply border-buttonBorderColor1;
+                    background: rgba(231, 236, 252);
+                }
+
+                & + .step {
+                    display: flex;
+                    align-items: center;
+                    @apply ml-24;
+                    &:before {
+                        content: " ";
+                        width: 24px;
+                        @apply border-b-2 border-buttonBorderColor2;
+                        margin-left: -26px;
+                        @apply block;
+                    }
+                }
+            }
+        }
+        & .close-btn {
+            @apply p-8;
+            & .c-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+    & h2 {
+        @apply text-h1 mb-16;
+    }
+    & p {
+        max-width: 800px;
+
+        @apply text-18 leading-170 mb-24;
+
+        & strong {
+            @apply font-medium;
+        }
+    }
+    & .c-search-bar {
+        @apply mb-32;
+
+        & .--search {
+            width: 480px;
+            margin-right: auto;
+        }
+
+        & .selected {
+            @apply text-16 font-medium;
+            @apply mr-48;
+
+            &.none {
+                @apply text-textColor6;
+            }
+        }
+    }
+
+    & .tracks {
+        @apply mb-40;
+        @apply grid gap-20;
+        grid-template-columns: repeat(4, auto);
+
+        & .track {
+            @apply bg-backgroundColorB shadow-lg rounded-8;
+            @apply py-24;
+            @apply flex flex-col items-center;
+            @apply relative;
+
+            cursor: pointer;
+            transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
+
+            &:hover {
+                @apply shadow-lgZ1;
+                @apply bg-backgroundColorA;
+            }
+
+            &.selected {
+                @apply border-2 border-darkBlue;
+                @apply bg-veryLightBlue;
+
+                & .selected-icon {
+                    position: absolute;
+                    top: -20px;
+                    right: -20px;
+
+                    @apply grid place-items-center;
+                    @apply bg-darkBlue rounded-circle;
+                    width: 40px;
+                    height: 40px;
+
+                    & .c-icon {
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+            }
+
+            & .selected-icon {
+                @apply hidden;
+            }
+
+            & .c-track-icon {
+                height: 64px;
+                width: 64px;
+                @apply mb-12;
+            }
+
+            & .title {
+                @apply text-18 leading-140 text-textColor3 font-semibold;
+                @apply mb-6;
+            }
+
+            & .info {
+                @apply text-14 leading-160 text-textColor6;
+            }
+        }
+    }
+}

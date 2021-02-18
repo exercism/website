@@ -221,6 +221,9 @@ Rails.application.routes.draw do
         get :completed_exercise
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
         get :reputation
+        get :become_a_mentor_1
+        get :become_a_mentor_2
+        get :become_a_mentor_3
       end
     end
   end

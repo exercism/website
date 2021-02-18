@@ -53,10 +53,15 @@
     @apply text-16 font-semibold;
     height: 48px;
 
-    & svg {
-        @apply mr-12;
+    & .c-icon {
         height: 18px;
         width: 18px;
+        &:first-child {
+            @apply mr-12;
+        }
+        &:last-child {
+            @apply ml-12;
+        }
     }
 
     & .kb-shortcut {
@@ -79,8 +84,7 @@
     @apply px-32 border-3 text-18;
     height: 54px;
 
-    & svg {
-        @apply mr-12;
+    & .c-icon {
         height: 16px;
         width: 16px;
     }
@@ -98,8 +102,7 @@
     @apply text-textColor6;
     height: 36px;
 
-    & svg {
-        @apply mr-12;
+    & .c-icon {
         height: 14px;
         width: 14px;
     }

@@ -44,7 +44,7 @@ test('displays debugging information', async () => {
   render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      debugging="To debug, print to the console"
+      debuggingInstructions="To debug, print to the console"
       instructions={{
         overview: '',
         generalHints: [],

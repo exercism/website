@@ -11,7 +11,7 @@ module ReactComponents
           exercise_title: solution.exercise.title,
           introduction: introduction,
           instructions: SerializeExerciseInstructions.(solution.exercise),
-          debugging: debugging,
+          debugging_instructions: debugging_instructions,
           example_files: SerializeFiles.(example_files),
           endpoint: Exercism::Routes.api_solution_submissions_path(
             solution.uuid,
@@ -37,7 +37,7 @@ module ReactComponents
     end
 
     memoize
-    def debugging
+    def debugging_instructions
       return if solution.track.debug.blank?
 
       Markdown::Parse.(solution.track.debug)

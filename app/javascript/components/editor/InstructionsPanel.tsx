@@ -10,12 +10,12 @@ export const InstructionsPanel = ({
   introduction,
   instructions,
   exampleFiles,
-  debugging,
+  debuggingInstructions,
 }: {
   introduction: string
   instructions: ExerciseInstructions
   exampleFiles: File[]
-  debugging?: string
+  debuggingInstructions?: string
 }) => (
   <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
@@ -24,7 +24,7 @@ export const InstructionsPanel = ({
         <div dangerouslySetInnerHTML={{ __html: introduction }} />
 
         <Instructions instructions={instructions} />
-        <Debug debugging={debugging} />
+        <Debug debuggingInstructions={debuggingInstructions} />
         <ExampleFiles files={exampleFiles} />
       </div>
     </section>
@@ -110,15 +110,23 @@ const InstructionsTask = ({
   )
 }
 
-const Debug = ({ debugging }: { debugging?: string }) => {
-  if (debugging === undefined || debugging === null || debugging.length === 0) {
+const Debug = ({
+  debuggingInstructions,
+}: {
+  debuggingInstructions?: string
+}) => {
+  if (
+    debuggingInstructions === undefined ||
+    debuggingInstructions === null ||
+    debuggingInstructions.length === 0
+  ) {
     return null
   }
 
   return (
     <>
       <h2>How to debug</h2>
-      <div dangerouslySetInnerHTML={{ __html: debugging }} />
+      <div dangerouslySetInnerHTML={{ __html: debuggingInstructions }} />
     </>
   )
 }

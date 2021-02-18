@@ -235,7 +235,7 @@ initReact({
       instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
       exampleFiles={data.example_files}
       storageKey={data.storage_key}
-      debugging={data.debugging}
+      debuggingInstructions={data.debugging_instructions}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

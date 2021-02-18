@@ -72,7 +72,7 @@ export function Editor({
   instructions,
   exampleFiles,
   storageKey,
-  debugging,
+  debuggingInstructions,
 }: {
   endpoint: string
   timeout?: number
@@ -86,7 +86,7 @@ export function Editor({
   instructions: ExerciseInstructions
   exampleFiles: File[]
   storageKey: string
-  debugging?: string
+  debuggingInstructions?: string
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
   const [theme, setTheme] = useState(Themes.LIGHT)
@@ -405,7 +405,7 @@ export function Editor({
             introduction={introduction}
             instructions={instructions}
             exampleFiles={exampleFiles}
-            debugging={debugging}
+            debuggingInstructions={debuggingInstructions}
           />
           <TestsPanel />
           <ResultsPanel

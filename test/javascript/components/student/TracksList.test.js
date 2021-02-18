@@ -13,7 +13,7 @@ test('shows stale data while fetching', async () => {
   )
   server.listen()
   const statusOptions = [{ label: 'All', value: 'all' }]
-  const { findByText, getByPlaceholderText } = render(
+  const { getByText, getByPlaceholderText } = render(
     <TracksList
       request={{
         endpoint: 'https://exercism.test/tracks',
@@ -31,7 +31,7 @@ test('shows stale data while fetching', async () => {
     target: { value: 'Go' },
   })
 
-  expect(await findByText('Ruby')).toBeInTheDocument()
+  expect(getByText('Ruby')).toBeInTheDocument()
 
   server.close()
 })

@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { useRequestQuery } from '../../hooks/request-query'
+import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { Search } from './tracks-list/Search'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
@@ -32,20 +32,22 @@ function reducer(state, action) {
 export function TracksList({ statusOptions, tagOptions, ...props }) {
   const isMountedRef = useIsMounted()
   const [request, dispatch] = useReducer(reducer, props.request)
-  const { data, isError, isFetching } = useRequestQuery(
-    'track-list',
-    request,
-    isMountedRef
-  )
+  const {
+    resolvedData,
+    latestData,
+    isError,
+    isFetching,
+  } = usePaginatedRequestQuery('track-list', request, isMountedRef)
 
   return (
     <div className="c-tracks-list">
       <section className="c-search-bar">
         <div className="lg-container container">
           <Search dispatch={dispatch} />
-          {data && (
+          {resolvedData && (
             <p>
-              Showing {data.tracks.length} {pluralize('track', data.length)}
+              Showing {resolvedData.tracks.length}{' '}
+              {pluralize('track', resolvedData.length)}
             </p>
           )}
           <TagsFilter dispatch={dispatch} options={tagOptions} />
@@ -58,7 +60,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       </section>
       <section className="lg-container container">
         {isError && <p>Something went wrong</p>}
-        {data && <List data={data} />}
+        {resolvedData && <List data={resolvedData} />}
       </section>
     </div>
   )

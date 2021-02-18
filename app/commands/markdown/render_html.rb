@@ -1,4 +1,4 @@
-class Markdown::RenderHtml
+class Markdown::RenderHTML
   include Mandate
 
   initialize_with :doc, :nofollow_links

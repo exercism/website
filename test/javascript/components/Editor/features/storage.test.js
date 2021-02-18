@@ -37,7 +37,7 @@ test('populates files', async () => {
           testRun: 'https://exercism.test/test_run',
         },
       }}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],
@@ -62,7 +62,7 @@ test('loads data from storage', async () => {
     <Editor
       storageKey="files"
       files={[{ filename: 'file', content: '' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -77,7 +77,7 @@ test('saves data to storage when data changed', async () => {
     <Editor
       storageKey="files"
       files={[{ filename: 'file', content: '' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -118,7 +118,7 @@ test('revert to last submission', async () => {
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'file', content: 'other' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -178,7 +178,7 @@ test('revert to exercise start', async () => {
           initialFiles: 'https://exercism.test/files',
         },
       }}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],
@@ -229,7 +229,7 @@ test('revert to exercise start fails', async () => {
           initialFiles: 'https://exercism.test/files',
         },
       }}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],

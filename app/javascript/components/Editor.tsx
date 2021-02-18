@@ -13,7 +13,7 @@ import {
   Keybindings,
   WrapSetting,
   Themes,
-  ExerciseInstructions,
+  Assignment,
 } from './editor/types'
 import { File } from './types'
 import { Iteration } from './track/IterationSummary'
@@ -69,7 +69,7 @@ export function Editor({
   trackTitle,
   exerciseTitle,
   introduction,
-  instructions,
+  assignment,
   exampleFiles,
   storageKey,
   debuggingInstructions,
@@ -83,7 +83,7 @@ export function Editor({
   trackTitle: string
   exerciseTitle: string
   introduction: string
-  instructions: ExerciseInstructions
+  assignment: Assignment
   exampleFiles: File[]
   storageKey: string
   debuggingInstructions?: string
@@ -364,7 +364,7 @@ export function Editor({
         <div className="header">
           <Header.Back exercisePath={exercisePath} />
           <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
-          <Header.ActionHints instructions={instructions} />
+          <Header.ActionHints assignment={assignment} />
           <Header.ActionKeyboardShortcuts
             ref={keyboardShortcutsRef}
             onClick={toggleKeyboardShortcuts}
@@ -403,7 +403,7 @@ export function Editor({
         <div className="main-rhs">
           <InstructionsPanel
             introduction={introduction}
-            instructions={instructions}
+            assignment={assignment}
             exampleFiles={exampleFiles}
             debuggingInstructions={debuggingInstructions}
           />

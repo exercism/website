@@ -12,7 +12,7 @@ test('switches tabs', async () => {
   render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],
@@ -40,7 +40,7 @@ test('opens instructions tab by default', async () => {
   render(
     <Editor
       files={[{ filename: 'file', content: 'file' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -80,7 +80,7 @@ test('opens results tab by default if tests have previously ran', async () => {
           testRun: 'https://exercism.test/test_run',
         },
       }}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],

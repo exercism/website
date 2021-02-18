@@ -10,7 +10,7 @@ test('displays introduction', async () => {
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       introduction="Ruby is a nice and concise language"
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],
@@ -27,7 +27,7 @@ test('displays introductions overview', async () => {
   render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{
+      assignment={{
         overview: 'There are a couple of tasks to work on',
         generalHints: [],
         tasks: [],
@@ -45,7 +45,7 @@ test('displays debugging information', async () => {
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       debuggingInstructions="To debug, print to the console"
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],

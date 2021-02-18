@@ -44,7 +44,7 @@ test('shows message when test times out', async () => {
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       timeout={0}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
   fireEvent.click(getByText('Run Tests'))
@@ -73,7 +73,7 @@ test('cancels a pending submission', async () => {
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
   fireEvent.click(getByText('Run Tests'))
@@ -116,7 +116,7 @@ test('disables submit button unless tests passed', async () => {
           testRun: 'https://exercism.test/test_run',
         },
       }}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: [],
         tasks: [],

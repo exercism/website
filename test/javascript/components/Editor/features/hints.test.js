@@ -9,7 +9,7 @@ test('show hints', async () => {
   const { queryByText } = render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{
+      assignment={{
         overview: '',
         generalHints: ['Please use the docs'],
         tasks: [{ title: 'Do complex task', hints: ['Really you should!'] }],

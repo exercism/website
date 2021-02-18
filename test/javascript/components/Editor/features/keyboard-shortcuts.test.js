@@ -9,7 +9,7 @@ test('toggle command palette when clicking on button', async () => {
   const { getByTitle, queryByText } = render(
     <Editor
       files={[{ filename: 'file', content: 'file' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 

@@ -69,13 +69,13 @@ export enum Themes {
   DARK = 'dark',
 }
 
-export type ExerciseInstructions = {
+export type Assignment = {
   overview: string
   generalHints: string[]
-  tasks: ExerciseInstructionsTask[]
+  tasks: AssignmentTask[]
 }
 
-export type ExerciseInstructionsTask = {
+export type AssignmentTask = {
   title: string
   text: string
   hints: string[]

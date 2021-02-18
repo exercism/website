@@ -112,7 +112,7 @@ import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
-import { ExerciseInstructions, Submission } from '../components/editor/types'
+import { Assignment, Submission } from '../components/editor/types'
 import {
   Iteration as MentoringSessionIteration,
   Student as MentoringSessionStudent,
@@ -232,7 +232,7 @@ initReact({
       trackTitle={data.track_title}
       exerciseTitle={data.exercise_title}
       introduction={data.introduction}
-      instructions={camelizeKeysAs<ExerciseInstructions>(data.instructions)}
+      assignment={camelizeKeysAs<Assignment>(data.assignment)}
       exampleFiles={data.example_files}
       storageKey={data.storage_key}
       debuggingInstructions={data.debugging_instructions}

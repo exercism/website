@@ -1,9 +1,10 @@
 import React, { useReducer } from 'react'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { useRequestQuery } from '../../hooks/request-query'
 import { Search } from './tracks-list/Search'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
 import { useIsMounted } from 'use-is-mounted'
+import pluralize from 'pluralize'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -31,18 +32,22 @@ function reducer(state, action) {
 export function TracksList({ statusOptions, tagOptions, ...props }) {
   const isMountedRef = useIsMounted()
   const [request, dispatch] = useReducer(reducer, props.request)
-  const {
-    resolvedData,
-    latestData,
-    isError,
-    isFetching,
-  } = usePaginatedRequestQuery('track-list', request, isMountedRef)
+  const { data, isError, isFetching } = useRequestQuery(
+    'track-list',
+    request,
+    isMountedRef
+  )
 
   return (
     <div className="c-tracks-list">
       <section className="c-search-bar">
         <div className="lg-container container">
           <Search dispatch={dispatch} />
+          {data && (
+            <p>
+              Showing {data.tracks.length} {pluralize('track', data.length)}
+            </p>
+          )}
           <TagsFilter dispatch={dispatch} options={tagOptions} />
           <div className="c-select">
             <select>
@@ -53,7 +58,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       </section>
       <section className="lg-container container">
         {isError && <p>Something went wrong</p>}
-        {resolvedData && <List data={resolvedData} />}
+        {data && <List data={data} />}
       </section>
     </div>
   )

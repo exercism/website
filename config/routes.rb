@@ -139,8 +139,8 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :mentor do
-    get "/", to: redirect("mentor/dashboard")
+  namespace :mentoring do
+    get "/", to: "external#show"
     resource :dashboard, only: [:show], controller: "dashboard"
     resources :requests, only: [:show] do
       get :unavailable, on: :member

@@ -106,6 +106,10 @@ class User < ApplicationRecord
     %w[english spanish]
   end
 
+  def mentor?
+    became_mentor_at.present?
+  end
+
   def favorited_by?(mentor)
     relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
 

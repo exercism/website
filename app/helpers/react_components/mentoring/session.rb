@@ -87,7 +87,7 @@ module ReactComponents
 
       def links
         {
-          mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
+          mentor_dashboard: Exercism::Routes.mentoring_dashboard_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
           scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
         }

@@ -31,7 +31,7 @@ class SerializeMentorRequests
       tooltip_url: "#",
 
       # TODO: Rename this to web_url
-      url: Exercism::Routes.mentor_request_url(request)
+      url: Exercism::Routes.mentoring_request_url(request)
     }
   end
 end

@@ -6,6 +6,11 @@ FactoryBot.define do
     handle { "handle-#{SecureRandom.hex(4)}" }
     accepted_terms_at { Date.new(2016, 12, 25) }
     accepted_privacy_policy_at { Date.new(2016, 12, 25) }
+    became_mentor_at { Date.new(2016, 12, 25) }
+
+    trait :not_mentor do
+      became_mentor_at { nil }
+    end
 
     trait :not_onboarded do
       accepted_terms_at { nil }

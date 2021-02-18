@@ -23,7 +23,7 @@ module ViewComponents
     end
 
     def nav
-      if namespace_name == "mentor"
+      if namespace_name == "mentoring"
         selected = :mentoring
       elsif controller_name == "dashboard"
         selected = :dashboard
@@ -35,7 +35,7 @@ module ViewComponents
         tag.ul do
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
             nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
-            nav_li("Mentoring", :mentoring, Exercism::Routes.mentor_dashboard_path, selected == :mentoring) +
+            nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_dashboard_path, selected == :mentoring) +
             nav_li("Contribute", :logo, "#", false)
         end
       end
@@ -67,11 +67,13 @@ module ViewComponents
 
     def signed_in_section
       tag.div(class: "user-section") do
-        safe_join([
-                    ReactComponents::Dropdowns::Notifications.new.to_s,
-                    render(ViewComponents::PrimaryReputation.new(current_user, has_notification: true)),
-                    render(ViewComponents::UserMenu.new)
-                  ])
+        safe_join(
+          [
+            ReactComponents::Dropdowns::Notifications.new.to_s,
+            render(ViewComponents::PrimaryReputation.new(current_user, has_notification: true)),
+            render(ViewComponents::UserMenu.new)
+          ]
+        )
       end
     end
 

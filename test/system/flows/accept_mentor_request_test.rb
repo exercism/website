@@ -14,7 +14,7 @@ module Flows
 
       use_capybara_host do
         sign_in!
-        visit mentor_request_path(request)
+        visit mentoring_request_path(request)
 
         assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
       end
@@ -28,7 +28,7 @@ module Flows
 
       use_capybara_host do
         sign_in!
-        visit mentor_request_path(request)
+        visit mentoring_request_path(request)
 
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "How to do this?"
@@ -46,7 +46,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit mentor_request_path(request)
+        visit mentoring_request_path(request)
 
         click_on "Start mentoring"
         fill_in_editor "# Hello", within: ".comment-section"

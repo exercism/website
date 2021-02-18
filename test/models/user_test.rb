@@ -114,4 +114,12 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal [unrevealed], user.unrevealed_badges
   end
+
+  test "mentor?" do
+    user = create :user, became_mentor_at: nil
+    refute user.mentor?
+
+    user.update(became_mentor_at: Time.current)
+    assert user.mentor?
+  end
 end

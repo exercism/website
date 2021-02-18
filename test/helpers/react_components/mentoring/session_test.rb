@@ -92,7 +92,7 @@ module Mentoring
           mentor_solution: nil,
           notes: %{<h3>Talking points</h3>\n<ul>\n  <li>\n    <code>each_cons</code> instead of an iterator\n    <code>with_index</code>: In Ruby, you rarely have to write\n    iterators that need to keep track of the index. Enumerable has\n    powerful methods that do that for us.\n  </li>\n  <li>\n    <code>chars</code>: instead of <code>split("")</code>.\n  </li>\n</ul>}, # rubocop:disable Layout/LineLength
           links: {
-            mentor_dashboard: Exercism::Routes.mentor_dashboard_path,
+            mentor_dashboard: Exercism::Routes.mentoring_dashboard_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
             scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
           },

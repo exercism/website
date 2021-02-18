@@ -22,7 +22,7 @@ module ViewComponents
       def tabs
         [
           link_to(
-            Exercism::Routes.mentor_dashboard_path,
+            Exercism::Routes.mentoring_dashboard_path,
             class: tab_class(:dashboard)
           ) do
             graphical_icon(:mentoring) +
@@ -38,7 +38,7 @@ module ViewComponents
           end,
 
           link_to(
-            Exercism::Routes.mentor_testimonials_path,
+            Exercism::Routes.mentoring_testimonials_path,
             class: tab_class(:testimonials)
           ) do
             graphical_icon(:testimonials) +

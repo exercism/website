@@ -2,8 +2,7 @@ require 'test_helper'
 
 class SerializeTracksTest < ActiveSupport::TestCase
   test "without user" do
-    tags = ["Foo: Bar", "Abc: Xyz"]
-    track = create :track, tags: tags
+    track = create :track, tags: ["execution_mode/compiled", "runtime/clr"]
 
     num_concept_exercises = 3
     num_concepts = num_concept_exercises + 1
@@ -33,7 +32,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
           # TODO: Set all three of these
           icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
           is_new: true,
-          tags: tags,
+          tags: ["Compiled", "Common Language Runtime (.NET)"],
           updated_at: track.updated_at.iso8601
         }
       ]

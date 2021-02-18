@@ -43,6 +43,7 @@ module ReactComponents
       Markdown::Parse.(solution.track.debug)
     end
 
+    # TODO: remove this before launch
     def example_files
       return solution.exercise.send(:git).exemplar_files if solution.exercise.concept_exercise?
 

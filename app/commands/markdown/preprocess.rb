@@ -20,13 +20,17 @@ class Markdown::Preprocess
 
   def strip_h1_headings!
     doc.each do |node|
-      mutations << { type: :delete, node: node } if node.type == :header && node.header_level == 1
+      next unless node.type == :header && node.header_level == 1
+
+      mutations << { type: :delete, node: node }
     end
   end
 
   def apply_mutations!
     @lines = text.lines(chomp: true)
 
+    # As we'll possibly be deleting lines too, we have to process the
+    # mutations in reverse order
     mutations_in_reverse_line_order.each do |mutation|
       case mutation[:type]
       when :delete

@@ -16,7 +16,7 @@ class Solution::GenerateReadmeFileTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = Solution::GenerateReadmeFile.(solution)
-    expected = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)\n\n### Contributed to by\n\n- iHiD (@ihid)\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
+    expected = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\n\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\n\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)\n\n### Contributed to by\n\n- iHiD (@ihid)\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
     assert_equal expected, contents
   end
 

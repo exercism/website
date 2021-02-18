@@ -75,7 +75,7 @@ class SerializeExerciseInstructions
     [
       Markdown::RenderMarkdown.(exercise.git.instructions).strip,
       Markdown::RenderMarkdown.(exercise.git.instructions_append).strip
-    ].join("\n").strip
+    ].join("\n\n").strip
   end
 
   memoize

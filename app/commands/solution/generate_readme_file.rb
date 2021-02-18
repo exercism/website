@@ -40,6 +40,7 @@ class Solution
         ## Introduction
 
         #{introduction_text}
+
         #{introduction_append_text}
       TEXT
     end
@@ -52,6 +53,7 @@ class Solution
         ## Instructions
 
         #{instructions_text}
+
         #{instructions_append_text}
       TEXT
     end

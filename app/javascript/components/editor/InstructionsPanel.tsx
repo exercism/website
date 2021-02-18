@@ -39,14 +39,11 @@ const ExampleFiles = ({ files }: { files: File[] }) => {
   return (
     <>
       <h3 className="text-h3 tw-mt-20">Example files</h3>
-      {files.map((file) => (
-        <>
-          <h4 key={file.filename}>{file.filename}</h4>
-          <pre
-            key={file.content}
-            dangerouslySetInnerHTML={{ __html: file.content }}
-          />
-        </>
+      {files.map((file, i) => (
+        <React.Fragment key={i}>
+          <h4>{file.filename}</h4>
+          <pre dangerouslySetInnerHTML={{ __html: file.content }} />
+        </React.Fragment>
       ))}
     </>
   )

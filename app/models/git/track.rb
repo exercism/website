@@ -7,7 +7,7 @@ module Git
 
     git_filepaths about: "docs/ABOUT.md",
                   snippet: "docs/SNIPPET.txt",
-                  debug: "exercises/shared/.docs/debug.md",
+                  debugging_instructions: "exercises/shared/.docs/debug.md",
                   help: "exercises/shared/.docs/help.md",
                   tests: "exercises/shared/.docs/tests.md",
                   config: "config.json"

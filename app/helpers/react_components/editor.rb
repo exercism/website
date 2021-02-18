@@ -38,9 +38,9 @@ module ReactComponents
 
     memoize
     def debugging_instructions
-      return if solution.track.debug.blank?
+      return if solution.track.debugging_instructions.blank?
 
-      Markdown::Parse.(solution.track.debug)
+      Markdown::Parse.(solution.track.debugging_instructions)
     end
 
     # TODO: remove this before launch

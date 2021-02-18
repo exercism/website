@@ -63,10 +63,10 @@ module Git
       assert_equal(expected, track.key_features.map { |f| f[:title] })
     end
 
-    test "retrieves_debug" do
+    test "retrieves_debugging_instructions" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = "# Debug\n\nYou can debug by printing to the console.\n"
-      assert_equal expected, track.debug
+      assert_equal expected, track.debugging_instructions
     end
 
     test "retrieves_help" do

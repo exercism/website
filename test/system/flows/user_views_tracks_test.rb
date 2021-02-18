@@ -6,6 +6,19 @@ module Flows
       sign_in!
     end
 
+    test "separates tracks into joined and unjoined" do
+      user = create :user
+      ruby = create :track, :random_slug, title: "Ruby"
+      create :track, :random_slug, title: "Go"
+      create :user_track, track: ruby, user: user
+
+      sign_in!(user)
+      visit tracks_path
+
+      within(".joined-tracks") { assert_text "Ruby" }
+      within(".unjoined-tracks") { assert_text "Go" }
+    end
+
     test "filter by track title" do
       create :track, :random_slug, title: "Ruby"
       create :track, :random_slug, title: "Go"

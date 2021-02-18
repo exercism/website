@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
-  test "serialize general hints" do
+  test "serialize general hints for concept exercise" do
     exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -13,7 +13,24 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert_equal expected, serialized[:general_hints]
   end
 
-  test "serialize overview" do
+  test "serialize general hints for practice exercise" do
+    exercise = create :practice_exercise
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    expected = ["<p>There are many useful string methods built-in</p>\n"]
+    assert_equal expected, serialized[:general_hints]
+  end
+
+  test "serialize general hints for practice exercise without hints" do
+    exercise = create :practice_exercise, slug: 'allergies'
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    assert_empty serialized[:general_hints]
+  end
+
+  test "serialize overview for concept exercise" do
     exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -31,7 +48,25 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert_equal expected, serialized[:overview]
   end
 
-  test "serialize task titles" do
+  test "serialize overview for practice exercise without appends" do
+    exercise = create :practice_exercise, slug: 'allergies'
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    expected = "Instructions for allergies"
+    assert_equal expected, serialized[:overview]
+  end
+
+  test "serialize overview for practice exercise with appends" do
+    exercise = create :practice_exercise
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    expected = "Instructions for bob\nExtra instructions for bob"
+    assert_equal expected, serialized[:overview]
+  end
+
+  test "serialize concept exercise task titles" do
     exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -40,7 +75,7 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert_equal expected, (serialized[:tasks].map { |task| task[:title] })
   end
 
-  test "serialize task text" do
+  test "serialize concept exercise task text" do
     exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -53,7 +88,7 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert_equal expected, (serialized[:tasks].map { |task| task[:text] })
   end
 
-  test "serialize task hints" do
+  test "serialize concept exercise task hints" do
     exercise = create :concept_exercise
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -67,7 +102,7 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end
 
-  test "serialize exercise without general hints" do
+  test "serialize concept exercise without general hints" do
     exercise = create :concept_exercise, slug: 'numbers'
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -75,7 +110,7 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert_empty serialized[:general_hints]
   end
 
-  test "serialize exercise with some tasks missing hints" do
+  test "serialize concept exercise with some tasks missing hints" do
     exercise = create :concept_exercise, slug: 'booleans'
 
     serialized = SerializeExerciseInstructions.(exercise)
@@ -84,5 +119,13 @@ class SerializeExerciseInstructionsTest < ActiveSupport::TestCase
     assert serialized[:tasks][0][:hints].present?
     assert_empty serialized[:tasks][1][:hints]
     assert serialized[:tasks][2][:hints].present?
+  end
+
+  test "practice exercise does not have any tasks" do
+    exercise = create :practice_exercise
+
+    serialized = SerializeExerciseInstructions.(exercise)
+
+    assert_empty serialized[:tasks]
   end
 end

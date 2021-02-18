@@ -13,8 +13,7 @@ class SerializeExerciseInstructions
 
   private
   def overview
-    # TODO: remove once we figured out how to handle practice exercises
-    return '' if exercise.practice_exercise?
+    return instructions if exercise.practice_exercise?
 
     # Instructions documents are structured as a series of headers and lists:
     # e.g.
@@ -31,9 +30,6 @@ class SerializeExerciseInstructions
   end
 
   def general_hints
-    # TODO: remove once we figured out how to handle practice exercises
-    return [] if exercise.practice_exercise?
-
     hints["general"].to_a
   end
 
@@ -57,7 +53,7 @@ class SerializeExerciseInstructions
   end
 
   def tasks
-    # TODO: remove once we figured out how to handle practice exercises
+    # Practice exercises don't have any tasks
     return [] if exercise.practice_exercise?
 
     instructions_doc.each.
@@ -75,9 +71,16 @@ class SerializeExerciseInstructions
       end
   end
 
+  def instructions
+    [
+      Markdown::RenderMarkdown.(exercise.git.instructions).strip,
+      Markdown::RenderMarkdown.(exercise.git.instructions_append).strip
+    ].join("\n").strip
+  end
+
   memoize
   def instructions_doc
-    Markdown::RenderDoc.(exercise.git.instructions || '')
+    Markdown::RenderDoc.(instructions)
   end
 
   memoize

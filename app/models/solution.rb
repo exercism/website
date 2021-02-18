@@ -36,7 +36,7 @@ class Solution < ApplicationRecord
     Solution.find_by(exercise: exercise, user: user)
   end
 
-  delegate :instructions, :introduction, to: :git_exercise
+  delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
 
   def git_type

@@ -89,6 +89,8 @@ class SerializeExerciseInstructions
   end
 
   def parse_title(header)
+    # Extract everything after the task number
+    # "## 2. Do stuff" becomes "Do stuff"
     header.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2')
   end
 end

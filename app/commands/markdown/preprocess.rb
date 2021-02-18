@@ -29,9 +29,6 @@ class Markdown::Preprocess
   end
 
   def lower_heading_levels!
-    # TODO: We almost certainly don't want to do this!
-    # but for now let's reduce the heading level of all
-    # headings, as they're too high in the actual docs atm
     doc.each do |node|
       next unless node.type == :header && node.header_level > 1
 

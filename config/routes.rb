@@ -204,11 +204,6 @@ Rails.application.routes.draw do
         resource :editor, only: [:show], controller: "editor"
         namespace :student do
           resource :concept_map, only: [:show], controller: 'concept_map'
-          resource :tracks_list, only: [:show], controller: "tracks_list" do
-            member do
-              get 'tracks'
-            end
-          end
         end
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'

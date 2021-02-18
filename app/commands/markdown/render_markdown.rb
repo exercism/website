@@ -8,7 +8,7 @@ class Markdown::RenderMarkdown
   end
 
   def call
-    doc = Markdown::RenderDoc.(text)
+    doc = Markdown::ParseDoc.(text)
     preprocessed = Markdown::Preprocess.(doc, text, strip_h1: strip_h1, lower_heading_levels_by: lower_heading_levels_by)
     preprocessed[:text]
   end

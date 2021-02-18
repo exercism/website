@@ -47,8 +47,17 @@ class Track < ApplicationRecord
     slug
   end
 
+  CATGEORIES = {
+    paradigm: "Paradigm",
+    typing: "Typing",
+    execution_mode: "Execution mode",
+    platform: "Platform",
+    runtime: "Runtime",
+    used_for: "Used for"
+  }.with_indifferent_access.freeze
+
   TAGS = {
-    "Paradigm": {
+    paradigm: {
       declarative: "Declarative",
       functional: "Functional",
       imperative: "Imperative",
@@ -56,17 +65,17 @@ class Track < ApplicationRecord
       object_oriented: "Object-oriented",
       procedural: "Procedural"
     },
-    "Typing": {
+    typing: {
       static: "Static",
       dynamic: "Dynamic",
       strong: "Strong",
       weak: "Weak"
     },
-    "Execution mode": {
+    execution_mode: {
       compiled: "Compiled",
       interpreted: "Interpreted"
     },
-    "Platform": {
+    platform: {
       windows: "Windows",
       mac: "Mac OSX",
       linux: "Linux",
@@ -74,14 +83,14 @@ class Track < ApplicationRecord
       android: "Android",
       web: "Web Browser"
     },
-    "Runtime": {
+    runtime: {
       standalone_executable: "Standalone executable",
       language_specific: "Language-specific runtime",
       clr: "Common Language Runtime (.NET)",
       jvm: "JVM (Java)",
       beam: "BEAM (Erlang)"
     },
-    "Used for": {
+    used_for: {
       artificial_intelligence: "Artificial Intelligence",
       backends: "Backends",
       cross_platform_development: "Cross-platform development",
@@ -96,5 +105,5 @@ class Track < ApplicationRecord
       scripts: "Scripts",
       web_development: "Web development"
     }
-  }.freeze
+  }.with_indifferent_access.freeze
 end

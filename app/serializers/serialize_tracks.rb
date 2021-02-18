@@ -35,9 +35,17 @@ class SerializeTracks
 
       # TODO: Set all three of these
       is_new: true,
-      tags: track.tags.to_a,
+      tags: map_tags(track.tags),
       updated_at: track.updated_at.iso8601
     }
+  end
+
+  def map_tags(tags)
+    tags.to_a.map do |tag|
+      Track::TAGS.dig(*tag.split('/'))
+    rescue StandardError
+      nil
+    end.compact
   end
 
   def user_data_for_track(track)

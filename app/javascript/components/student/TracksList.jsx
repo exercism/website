@@ -1,10 +1,8 @@
 import React, { useReducer } from 'react'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { Search } from './tracks-list/Search'
-import { StatusFilter } from './tracks-list/StatusFilter'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
-import { Header } from './tracks-list/Header'
 import { useIsMounted } from 'use-is-mounted'
 
 function reducer(state, action) {
@@ -46,7 +44,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
         <div className="lg-container container">
           <Search dispatch={dispatch} />
           <TagsFilter dispatch={dispatch} options={tagOptions} />
-          <div class="c-select">
+          <div className="c-select">
             <select>
               <option>Recommended</option>
             </select>

@@ -26,7 +26,8 @@ module Components
           assert_text "Ruby"
           assert_text "a day ago"
           assert_text "+ 15"
-          assert_icon track.icon_name
+          # TODO: Fix how icons are rendered
+          within(".reputation-token > .primary-icon") { assert_icon track.icon_name }
         end
       end
 
@@ -108,7 +109,7 @@ module Components
 
       private
       def assert_icon(name)
-        assert_css "use[*|href=\"##{name}\"]"
+        assert_css "use[*|href=\"##{name}\"]", visible: false
       end
     end
   end

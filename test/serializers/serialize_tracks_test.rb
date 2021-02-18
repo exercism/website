@@ -33,7 +33,8 @@ class SerializeTracksTest < ActiveSupport::TestCase
           # TODO: Set all three of these
           icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
           is_new: true,
-          tags: tags
+          tags: tags,
+          updated_at: track.updated_at.iso8601
         }
       ]
     }

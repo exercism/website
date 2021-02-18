@@ -34,7 +34,7 @@ class Track < ApplicationRecord
 
   # TODO: Set this properly
   def icon_name
-    "sample-track"
+    "ruby"
   end
 
   # TODO: Set this properly

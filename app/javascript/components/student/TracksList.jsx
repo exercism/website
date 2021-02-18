@@ -1,10 +1,8 @@
 import React, { useReducer } from 'react'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { Search } from './tracks-list/Search'
-import { StatusFilter } from './tracks-list/StatusFilter'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
-import { Header } from './tracks-list/Header'
 import { useIsMounted } from 'use-is-mounted'
 
 function reducer(state, action) {
@@ -45,17 +43,20 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       <section className="c-search-bar">
         <div className="lg-container container">
           <Search dispatch={dispatch} />
-          <TagsFilter dispatch={dispatch} options={tagOptions} />
+
+          <TagsFilter
+            dispatch={dispatch}
+            options={tagOptions}
+            numTracks={resolvedData ? resolvedData.tracks.length : 0}
+          />
+          <div className="c-select">
+            <select>
+              <option>Recommended</option>
+            </select>
+          </div>
         </div>
       </section>
-      <section className="md-container container">
-        <Header data={latestData} query={request.query} />
-        <StatusFilter
-          value={request.query.status}
-          dispatch={dispatch}
-          options={statusOptions}
-        />
-
+      <section className="lg-container container">
         {isError && <p>Something went wrong</p>}
         {resolvedData && <List data={resolvedData} />}
       </section>

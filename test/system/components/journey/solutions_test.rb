@@ -27,6 +27,7 @@ module Components
           assert_text "9 - 18 lines"
           assert_text "Last submitted 2 days ago"
           assert_link "Lasagna", href: Exercism::Routes.private_solution_url(solution)
+          # TODO: Fix how icons are rendered
           assert_icon track.icon_name
           assert_icon exercise.icon_name
         end
@@ -113,7 +114,7 @@ module Components
 
       private
       def assert_icon(name)
-        assert_css "use[*|href=\"##{name}\"]"
+        assert_css "use[*|href=\"##{name}\"]", visible: false
       end
     end
   end

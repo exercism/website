@@ -1,0 +1,31 @@
+@import "../styles";
+
+#page-tracks {
+    & header.tracks-header {
+        @apply bg-backgroundColorA;
+        @apply pt-28 pb-32;
+        @apply flex flex-col items-center;
+        @apply text-center;
+
+        & .track-icons {
+            @apply relative flex mb-12;
+
+            & .c-track-icon {
+                height: 64px;
+                width: 64px;
+                margin-left: -18px;
+            }
+        }
+        & h1 {
+            @apply text-h1 mb-8;
+        }
+        & p {
+            @apply text-18 leading-170;
+            max-width: 740px;
+
+            & a {
+                @apply text-lightBlue;
+            }
+        }
+    }
+}

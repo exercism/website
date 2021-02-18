@@ -16,7 +16,6 @@
 
             height: 125px;
             width: 125px;
-            /*width: calc(var(--c-track-icon-width-ratio) * 125px);*/
         }
         & .info {
             @apply flex-grow;

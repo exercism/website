@@ -44,6 +44,7 @@
     }
     & .--reset-btn {
         @apply border-transparent;
+        @apply text-lightBlue;
         & .c-icon {
             @apply mr-12;
             height: 18px;

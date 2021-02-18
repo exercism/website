@@ -28,21 +28,21 @@ class Solution::MentorRequest::RetrieveExercisesTest < ActiveSupport::TestCase
       {
         slug: "bob",
         title: "Bob",
-        icon_name: "sample-exercise-butterflies",
+        icon_name: "sample-butterflies",
         count: 4,
         completed_by_mentor: false
       },
       {
         slug: "fred",
         title: "Fred",
-        icon_name: "sample-exercise-butterflies",
+        icon_name: "sample-butterflies",
         count: 0,
         completed_by_mentor: false
       },
       {
         slug: "zipper",
         title: "Zipper",
-        icon_name: "sample-exercise-rocket",
+        icon_name: "sample-rocket",
         count: 2,
         completed_by_mentor: true
       }

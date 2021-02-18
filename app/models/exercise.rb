@@ -62,7 +62,7 @@ class Exercise < ApplicationRecord
   # TODO: Implement this properly
   def icon_name
     title[0].ord < 78 ? suffix = "butterflies" : suffix = "rocket"
-    "sample-exercise-#{suffix}"
+    "sample-#{suffix}"
   end
 
   def prerequisite_exercises

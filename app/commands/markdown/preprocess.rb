@@ -59,6 +59,6 @@ class Markdown::Preprocess
   end
 
   def mutations_in_reverse_line_order
-    mutations.sort_by { |mutation| -mutation[:node].sourcepos[:start_line] }
+    mutations.sort_by { |mutation| mutation[:node].sourcepos[:start_line] }.reverse
   end
 end

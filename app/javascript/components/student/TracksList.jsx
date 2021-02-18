@@ -4,7 +4,6 @@ import { Search } from './tracks-list/Search'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
 import { useIsMounted } from 'use-is-mounted'
-import pluralize from 'pluralize'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -44,13 +43,12 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       <section className="c-search-bar">
         <div className="lg-container container">
           <Search dispatch={dispatch} />
-          {resolvedData && (
-            <p>
-              Showing {resolvedData.tracks.length}{' '}
-              {pluralize('track', resolvedData.length)}
-            </p>
-          )}
-          <TagsFilter dispatch={dispatch} options={tagOptions} />
+
+          <TagsFilter
+            dispatch={dispatch}
+            options={tagOptions}
+            numTracks={resolvedData ? resolvedData.tracks.length : 0}
+          />
           <div className="c-select">
             <select>
               <option>Recommended</option>

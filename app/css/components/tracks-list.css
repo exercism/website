@@ -1,9 +1,12 @@
 @import "../styles";
 
 .c-tracks-list {
+    /* TODO: Remove this once we're out of pre-launch */
+    min-height: 1000px;
+
     & .c-search-bar {
         @apply bg-backgroundColorA shadow-base;
-        @apply py-12 mb-56;
+        @apply py-12 mb-32;
 
         & input.--search {
             @apply flex-grow;
@@ -61,11 +64,29 @@
                 }
             }
         }
+        & .--state {
+            @apply flex items-center;
+            @apply px-20;
+            @apply bg-lightOrange rounded-5;
+            @apply mr-48;
+
+            & p {
+                @apply mr-24;
+                @apply text-16 font-medium text-textColor3;
+            }
+        }
         & .c-select {
             @apply ml-auto;
         }
     }
-    & .--tracks {
+    & .joined-tracks {
+        @apply mb-64;
+    }
+    & .unjoined-tracks {
+        @apply mb-40;
+    }
+    & .joined-tracks,
+    & .unjoined-tracks {
         @apply grid gap-16;
         @screen md {
             @apply grid-cols-2;
@@ -75,6 +96,11 @@
     & .--track {
         @apply bg-backgroundColorA shadow-base rounded-8;
         @apply flex items-start py-20 px-24;
+        transition: box-shadow 0.2s ease-out;
+
+        &:hover {
+            @apply shadow-lgZ1;
+        }
 
         & > .c-track-icon {
             height: 80px;
@@ -85,7 +111,7 @@
             @apply flex-grow;
 
             & .--heading {
-                @apply flex items-center mb-6;
+                @apply flex items-center mb-8;
 
                 & .--title {
                     @apply mr-12;
@@ -96,6 +122,7 @@
                     @apply flex items-center;
                     @apply text-14 leading-170 font-semibold;
                     @apply py-4 px-8 rounded-100;
+                    @apply mr-12;
 
                     & .c-icon {
                         height: 16px;
@@ -134,6 +161,7 @@
             }
 
             & .--progress-bar {
+                @apply mb-16;
                 height: 6px;
                 @apply flex flex-row;
 
@@ -161,13 +189,12 @@
                  * one line. This means we only see whole tags on 
                  * the cards but we only ever see one row. */
                 @apply flex flex-wrap overflow-hidden gap-8;
-                @apply mt-16;
                 max-height: 32px;
 
                 & li {
                     @apply border-borderColor7 border-1 rounded-100;
-                    @apply font-medium text-14 text-textColor6 leading-none;
-                    @apply py-8 px-12;
+                    @apply font-medium text-13 text-textColor6 leading-200;
+                    @apply px-12;
                     @apply whitespace-no-wrap;
                 }
             }

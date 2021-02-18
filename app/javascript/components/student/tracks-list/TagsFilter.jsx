@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TagOptionList } from './TagOptionList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
+import pluralize from 'pluralize'
 
-export function TagsFilter({ options, dispatch }) {
+export function TagsFilter({ options, dispatch, numTracks }) {
   const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState([])
   const [hasExpandedEver, markAsExpanded] = useState(false)
@@ -88,10 +89,15 @@ export function TagsFilter({ options, dispatch }) {
           />
         </div>
       </div>
-      <button onClick={resetFilters} className="--reset-btn">
-        <GraphicalIcon icon="reset" />
-        Reset filters
-      </button>
+      <div className="--state">
+        <p>
+          Showing {numTracks} {pluralize('track', numTracks)}
+        </p>
+        <button onClick={resetFilters} className="--reset-btn">
+          <GraphicalIcon icon="reset" />
+          Reset filters
+        </button>
+      </div>
     </>
   )
 }

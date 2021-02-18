@@ -35,7 +35,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       id: token.uuid,
       value: token.value,
       text: "You contributed code via <strong>PR##{pr_id}</strong> on <strong>#{repo}</strong>",
-      icon_name: "sample-exercise-rocket",
+      icon_name: exercise.icon_name,
       internal_link: nil,
       external_link: "https://google.com",
       awarded_at: token.created_at.iso8601,

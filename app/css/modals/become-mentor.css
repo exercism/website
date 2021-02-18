@@ -219,4 +219,15 @@
             }
         }
     }
+    & .celebrate-section {
+        @apply flex flex-col items-center;
+
+        & h3 {
+            @apply text-h3 mb-20;
+        }
+
+        & p {
+            @apply text-center mb-32;
+        }
+    }
 }

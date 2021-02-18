@@ -110,3 +110,33 @@ test('hides new tag if track is not new', () => {
 
   expect(screen.queryByText('New')).not.toBeInTheDocument()
 })
+
+test('shows v3 tag if track has more than 5 concepts', () => {
+  render(
+    <Track
+      track={{
+        isJoined: false,
+        isNew: true,
+        tags: [],
+        numConcepts: 6,
+      }}
+    />
+  )
+
+  expect(screen.getByText('V3')).toBeInTheDocument()
+})
+
+test('hides v3 tag if track has less than 5 concepts', () => {
+  render(
+    <Track
+      track={{
+        isJoined: false,
+        isNew: true,
+        tags: [],
+        numConcepts: 5,
+      }}
+    />
+  )
+
+  expect(screen.queryByText('V3')).not.toBeInTheDocument()
+})

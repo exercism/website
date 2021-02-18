@@ -11,10 +11,12 @@ export function Track({ track }) {
       <div className="--info">
         <div className="--heading">
           <h3 className="--title">{track.title}</h3>
-          <div className="--v3">
-            <Icon icon="concepts" alt="This track has Concepts" />
-            V3
-          </div>
+          {track.numConcepts > 5 ? (
+            <div className="--v3">
+              <Icon icon="concepts" alt="This track has Concepts" />
+              V3
+            </div>
+          ) : null}
           {track.isNew ? (
             <div className="--new">
               <Icon icon="stars" alt="This track is new" />

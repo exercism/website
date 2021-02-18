@@ -116,4 +116,13 @@ Done')
   test "can keep level one headings" do
     assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
   end
+
+  test "increment level of headings with greater than one" do
+    puts Markdown::Parse.("## Level two\n\n### Level three\n\n#### Level four").inspect
+    assert_equal "<h3>Level two</h3>\n<h4>Level three</h4>\n", Markdown::Parse.("## Level two\n\n### Level three")
+  end
+
+  test "does not increment level of level one headings" do
+    assert_equal "<h1>Level one</h1>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
+  end
 end

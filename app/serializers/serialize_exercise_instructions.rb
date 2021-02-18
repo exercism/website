@@ -91,6 +91,7 @@ class SerializeExerciseInstructions
 
   def render_doc(text)
     doc = Markdown::RenderDoc.(text)
-    Markdown::Preprocess.(doc)
+    preprocessed = Markdown::Preprocess.(doc, text)
+    preprocessed[:doc]
   end
 end

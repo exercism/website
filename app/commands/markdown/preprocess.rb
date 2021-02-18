@@ -39,10 +39,6 @@ class Markdown::Preprocess
   end
 
   def apply_deletions_to_text!
-    deletions.reverse_each do |deletion|
-      line_idx = deletion.sourcepos[:start_line] - 1
-      lines.delete_at(line_idx)
-      lines.delete_at(line_idx) if lines[line_idx].blank? # Remove trailing empty lines
-    end
+    deletions.reverse_each { |deletion| lines.delete_at(deletion.sourcepos[:start_line] - 1) }
   end
 end

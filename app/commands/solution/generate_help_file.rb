@@ -18,7 +18,7 @@ class Solution
 
     private
     def tests
-      tests_text = Markdown::RenderMarkdown.(solution.track.git.tests).strip
+      tests_text = Markdown::Render.(solution.track.git.tests, :text).strip
       tests_intro_text = I18n.t("exercises.documents.tests_intro").strip
 
       <<~TEXT.strip
@@ -39,7 +39,7 @@ class Solution
     end
 
     def help
-      track_help_text = Markdown::RenderMarkdown.(solution.track.git.help).strip
+      track_help_text = Markdown::Render.(solution.track.git.help, :text).strip
       help_intro_text = I18n.t("exercises.documents.help_intro").strip
 
       <<~TEXT.strip

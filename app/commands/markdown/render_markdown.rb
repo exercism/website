@@ -1,4 +1,4 @@
-class Markdown::RenderMarkdown
+class Markdown::Render
   include Mandate
 
   def initialize(text, strip_h1: true, lower_heading_levels_by: 0)

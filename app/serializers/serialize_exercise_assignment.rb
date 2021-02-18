@@ -75,19 +75,19 @@ class SerializeExerciseAssignment
 
   def instructions
     [
-      Markdown::RenderMarkdown.(exercise.git.instructions).strip,
-      Markdown::RenderMarkdown.(exercise.git.instructions_append).strip
+      Markdown::Render.(exercise.git.instructions, :text).strip,
+      Markdown::Render.(exercise.git.instructions_append, :text).strip
     ].join("\n\n").strip
   end
 
   memoize
   def instructions_doc
-    Markdown::RenderDoc.(instructions)
+    Markdown::Render.(instructions, :doc)
   end
 
   memoize
   def hints_doc
-    Markdown::RenderDoc.(exercise.git.hints || '')
+    Markdown::Render.(exercise.git.hints, :doc)
   end
 
   def parse_title(header)

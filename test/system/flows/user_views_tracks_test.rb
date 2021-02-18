@@ -6,6 +6,17 @@ module Flows
       sign_in!
     end
 
+    test "shows track information" do
+      user = create :user
+      ruby = create :track, :random_slug, updated_at: 2.days.ago
+      create :user_track, track: ruby, user: user
+
+      sign_in!(user)
+      visit tracks_path
+
+      assert_text "Last Touched 2 days ago"
+    end
+
     test "separates tracks into joined and unjoined" do
       user = create :user
       ruby = create :track, :random_slug, title: "Ruby"

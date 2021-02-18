@@ -1,8 +1,8 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Icon } from '../../common/Icon'
 import { ProgressBar } from './ProgressBar'
+import { fromNow } from '../../../utils/time'
 
 export function Track({ track }) {
   return (
@@ -59,7 +59,9 @@ export function Track({ track }) {
         </ul>
 
         {track.isJoined && (
-          <div className="--last-touched">Last Touched 5 days ago</div>
+          <div className="--last-touched">
+            Last Touched {fromNow(track.updatedAt)}
+          </div>
         )}
       </div>
     </a>

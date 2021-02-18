@@ -6,16 +6,18 @@ import { Student, AutomatedFeedback } from '../Session'
 
 export const AutomatedFeedbackSummary = ({
   automatedFeedback,
-  student,
+  userIsStudent,
 }: {
   automatedFeedback: AutomatedFeedback
-  student: Student
+  userIsStudent: boolean
 }): JSX.Element => {
+  const addressedTo = userIsStudent ? 'You' : 'Your student'
+
   return (
     <details className="c-details auto-feedback">
       <summary>
         <GraphicalIcon icon="alert-circle" className="info-icon" />
-        <div className="info">{student.handle} received automated feedback</div>
+        <div className="info">{addressedTo} received automated feedback</div>
         <GraphicalIcon icon="chevron-right" className="--closed-icon" />
         <GraphicalIcon icon="chevron-down" className="--open-icon" />
       </summary>

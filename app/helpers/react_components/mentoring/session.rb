@@ -9,6 +9,7 @@ module ReactComponents
           {
             user_id: current_user.id,
             student: {
+              id: student.id,
               name: student.name,
               handle: student.handle,
               bio: student.bio,

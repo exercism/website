@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon } from '../../common/Icon'
+import pluralize from 'pluralize'
 
 export const PreviousSessionsLink = ({
   numSessions,
@@ -12,7 +13,7 @@ export const PreviousSessionsLink = ({
 
   return (
     <div className="previous-sessions">
-      {numSessions} previous sessions
+      See {numSessions} previous {pluralize('session', numSessions)}
       <Icon icon="modal" alt="Opens in modal" />
     </div>
   )

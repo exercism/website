@@ -6,11 +6,11 @@ import { PreviousSessionsLink } from '../../../../../app/javascript/components/m
 test('shows number of sessions', async () => {
   render(<PreviousSessionsLink numSessions={10} />)
 
-  expect(screen.getByText('10 previous sessions')).toBeInTheDocument()
+  expect(screen.getByText('See 10 previous sessions')).toBeInTheDocument()
 })
 
 test('shows nothing when sessions = 0', async () => {
   render(<PreviousSessionsLink numSessions={0} />)
 
-  expect(screen.queryByText('0 previous sessions')).not.toBeInTheDocument()
+  expect(screen.queryByText('See 0 previous sessions')).not.toBeInTheDocument()
 })

@@ -124,6 +124,7 @@ import {
   StudentMentorRelationship,
   MentoringRequest,
 } from '../components/mentoring/Session'
+import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -190,6 +191,18 @@ initReact({
   ),
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
+  ),
+  'student-mentoring-session': (data: any) => (
+    <Student.MentoringSession
+      id={data.id}
+      isFinished={data.is_finished}
+      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
+      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
+      links={data.links}
+      userId={data.user_id}
+    />
   ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)

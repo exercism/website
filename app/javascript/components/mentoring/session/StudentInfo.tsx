@@ -25,14 +25,24 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
           {/*TODO: Map these to codes like above {student.languagesSpoken.join(', ')}*/}
         </div>
         <div className="options">
-          <FavoriteButton
-            isFavorite={student.isFavorite}
-            endpoint={student.links.favorite}
-          />
+          {student.links ? <StudentInfoActions student={student} /> : null}
           <PreviousSessionsLink numSessions={student.numPreviousSessions} />
         </div>
       </div>
       <Avatar src={student.avatarUrl} handle={student.handle} />
+    </div>
+  )
+}
+
+const StudentInfoActions = ({ student }: { student: Student }) => {
+  return (
+    <div className="options">
+      {student.isFavorite !== undefined && student.links?.favorite ? (
+        <FavoriteButton
+          isFavorite={student.isFavorite}
+          endpoint={student.links.favorite}
+        />
+      ) : null}
     </div>
   )
 }

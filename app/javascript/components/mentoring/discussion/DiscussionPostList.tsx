@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useRef, useContext } from 'react'
+import React, { useEffect, useMemo, useContext } from 'react'
+import { usePostHighlighting } from './usePostHighlighting'
 import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
@@ -8,7 +9,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { IterationMarker } from '../session/IterationMarker'
-import { DiscussionContext } from './DiscussionContext'
+import { PostsContext } from './PostsContext'
 
 type IterationWithPost = Iteration & { posts: DiscussionPostProps[] }
 
@@ -16,22 +17,17 @@ export const DiscussionPostList = ({
   endpoint,
   discussionId,
   iterations,
-  student,
+  userId,
+  userIsStudent,
 }: {
   endpoint: string
   discussionId: string
   iterations: readonly Iteration[]
-  student: Student
+  userId: number
+  userIsStudent: boolean
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const {
-    cacheKey,
-    handlePostsChange,
-    highlightedPost,
-    handlePostHighlight,
-    handleAfterPostHighlight,
-    highlightedPostRef,
-  } = useContext(DiscussionContext)
+  const { cacheKey } = useContext(PostsContext)
   const { status, data } = useQuery<DiscussionPostProps[]>(cacheKey, () => {
     return sendRequest({
       endpoint: endpoint,
@@ -59,42 +55,11 @@ export const DiscussionPostList = ({
       []
     )
   }, [data, iterations])
-  const observer = useRef<IntersectionObserver | null>()
 
-  useEffect(() => {
-    if (!highlightedPostRef.current) {
-      return
-    }
-
-    handlePostHighlight(highlightedPostRef.current)
-  }, [handlePostHighlight, highlightedPost, highlightedPostRef])
-
-  useEffect(() => {
-    if (!data || data.length === 0) {
-      return
-    }
-
-    handlePostsChange(data)
-  }, [data, handlePostsChange])
-
-  useEffect(() => {
-    if (!highlightedPostRef.current) {
-      return
-    }
-
-    observer.current = new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting) {
-        return
-      }
-
-      handleAfterPostHighlight()
-    })
-    observer.current.observe(highlightedPostRef.current)
-
-    return () => {
-      observer.current?.disconnect()
-    }
-  }, [data, highlightedPost, handleAfterPostHighlight, highlightedPostRef])
+  const { highlightedPost, highlightedPostRef } = usePostHighlighting(
+    data,
+    userId
+  )
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
@@ -123,7 +88,10 @@ export const DiscussionPostList = ({
         {iterationsWithPosts.map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
-              <IterationMarker iteration={iteration} student={student} />
+              <IterationMarker
+                iteration={iteration}
+                userIsStudent={userIsStudent}
+              />
               {iteration.posts.map((post) => {
                 return (
                   <DiscussionPost

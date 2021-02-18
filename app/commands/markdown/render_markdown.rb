@@ -8,8 +8,8 @@ class Markdown::RenderMarkdown
 
   def call
     doc = Markdown::RenderDoc.(text)
-    preprocessed_doc = Markdown::Preprocess.(doc, strip_h1: strip_h1)
-    preprocessed_doc.to_commonmark(:DEFAULT, 0)
+    preprocessed = Markdown::Preprocess.(doc, text, strip_h1: strip_h1)
+    preprocessed[:text]
   end
 
   private

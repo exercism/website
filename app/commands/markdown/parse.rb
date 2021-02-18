@@ -34,7 +34,7 @@ class Markdown::Parse
   memoize
   def raw_html
     doc = Markdown::RenderDoc.(text)
-    preprocessed_doc = Markdown::Preprocess.(doc, strip_h1: strip_h1)
-    Markdown::Render.(preprocessed_doc, nofollow_links)
+    preprocessed = Markdown::Preprocess.(doc, text, strip_h1: strip_h1)
+    Markdown::Render.(preprocessed[:doc], nofollow_links)
   end
 end

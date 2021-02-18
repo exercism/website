@@ -1,11 +1,11 @@
 .c-primary-reputation {
-    @apply border-1 border-lightGray rounded-100 shadow-sm bg-backgroundColorA;
-    @apply relative flex px-8 items-center justify-center border-none;
+    @apply rounded-100 shadow-sm bg-backgroundColorA;
+    @apply relative flex px-8 items-center justify-center;
     background: linear-gradient(180deg, #cc00ff 0%, #3300ff 100%);
     padding: 3px;
 
     & .--inner {
-        @apply flex px-8 items-center justify-center;
+        @apply flex items-center justify-center;
         @apply text-13 text-textColor7;
         @apply flex-grow bg-unnamed10 px-16 rounded-100;
         @apply font-semibold text-16;
@@ -13,7 +13,7 @@
         /* This shouldn't change for theme */
         color: #fff;
 
-        line-height: 28px;
+        line-height: 30px;
     }
 
     & svg {

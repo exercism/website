@@ -1,7 +1,7 @@
 @import "../styles";
 
 .m-become-mentor {
-    @apply pt-48;
+    @apply pt-48 pb-48;
     & header {
         @apply flex items-center justify-between;
         @apply mb-8;
@@ -41,6 +41,7 @@
             }
         }
     }
+
     & h2 {
         @apply text-h1 mb-16;
     }
@@ -53,81 +54,168 @@
             @apply font-medium;
         }
     }
-    & .c-search-bar {
-        @apply mb-32;
 
-        & .--search {
-            width: 480px;
-            margin-right: auto;
+    & section.tracks-section {
+        & .c-search-bar {
+            @apply mb-32;
+
+            & .--search {
+                width: 480px;
+                margin-right: auto;
+            }
+
+            & .selected {
+                @apply text-16 font-medium;
+                @apply mr-48;
+
+                &.none {
+                    @apply text-textColor6;
+                }
+            }
         }
 
-        & .selected {
-            @apply text-16 font-medium;
-            @apply mr-48;
+        & .tracks {
+            @apply mb-40;
+            @apply grid gap-20;
+            grid-template-columns: repeat(4, auto);
 
-            &.none {
-                @apply text-textColor6;
+            & .track {
+                @apply bg-backgroundColorB shadow-lg rounded-8;
+                @apply py-24;
+                @apply flex flex-col items-center;
+                @apply relative;
+
+                cursor: pointer;
+                transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
+
+                &:hover {
+                    @apply shadow-lgZ1;
+                    @apply bg-backgroundColorA;
+                }
+
+                &.selected {
+                    @apply border-2 border-darkBlue;
+                    @apply bg-veryLightBlue;
+
+                    & .selected-icon {
+                        position: absolute;
+                        top: -20px;
+                        right: -20px;
+
+                        @apply grid place-items-center;
+                        @apply bg-darkBlue rounded-circle;
+                        width: 40px;
+                        height: 40px;
+
+                        & .c-icon {
+                            height: 20px;
+                            width: 20px;
+                        }
+                    }
+                }
+
+                & .selected-icon {
+                    @apply hidden;
+                }
+
+                & .c-track-icon {
+                    height: 64px;
+                    width: 64px;
+                    @apply mb-12;
+                }
+
+                & .title {
+                    @apply text-18 leading-140 text-textColor3 font-semibold;
+                    @apply mb-6;
+                }
+
+                & .info {
+                    @apply text-14 leading-160 text-textColor6;
+                }
             }
         }
     }
-
-    & .tracks {
-        @apply mb-40;
-        @apply grid gap-20;
-        grid-template-columns: repeat(4, auto);
-
-        & .track {
-            @apply bg-backgroundColorB shadow-lg rounded-8;
-            @apply py-24;
-            @apply flex flex-col items-center;
-            @apply relative;
-
-            cursor: pointer;
-            transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
-
-            &:hover {
-                @apply shadow-lgZ1;
-                @apply bg-backgroundColorA;
+    & section.commit-section {
+        @apply flex;
+        & .rhs {
+            margin-left: 160px;
+            & .c-icon {
+                width: 240px;
+                height: 240px;
             }
+        }
 
-            &.selected {
-                @apply border-2 border-darkBlue;
-                @apply bg-veryLightBlue;
+        & .reputation-info {
+            background: linear-gradient(180deg, #cc00ff 0%, #3300ff 100%);
 
-                & .selected-icon {
-                    position: absolute;
-                    top: -20px;
-                    right: -20px;
+            @apply rounded-12 shadow-baseZ1;
+            @apply relative flex px-8 items-center justify-center border-none;
+            @apply mb-28 p-6;
 
-                    @apply grid place-items-center;
-                    @apply bg-darkBlue rounded-circle;
-                    width: 40px;
-                    height: 40px;
+            & .inner {
+                @apply flex py-16 px-32 items-center justify-center;
+                @apply text-13 text-textColor7;
+                @apply flex-grow bg-darkGray rounded-8;
+                @apply font-semibold text-16;
 
-                    & .c-icon {
-                        height: 20px;
-                        width: 20px;
+                /* This shouldn't change for theme */
+                color: #fff;
+
+                line-height: 28px;
+
+                & .c-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply text-gold mr-32;
+                }
+                & h3 {
+                    @apply text-h4 text-textColor9 mb-4;
+                }
+                & p {
+                    @apply text-16 leading-160 font-normal text-textColor8;
+                    @apply mb-0;
+
+                    & strong {
+                        @apply text-textColor9 font-medium;
                     }
                 }
             }
+        }
+        & .commitment {
+            --row-selected-background-color: var(--c-E1EBFF);
+            --row-selected-border-color: var(--c-6A93FF);
 
-            & .selected-icon {
-                @apply hidden;
+            @apply mb-24;
+
+            & h3 {
+                @apply text-h3 mb-20;
             }
-
-            & .c-track-icon {
-                height: 64px;
-                width: 64px;
+            & .c-checkbox-wrapper {
                 @apply mb-12;
-            }
 
-            & .title {
-                @apply text-18 leading-140 text-textColor3 font-semibold;
-                @apply mb-6;
-            }
+                & .row {
+                    @apply bg-backgroundColorA;
+                    @apply shadow-base;
+                    @apply py-16 px-32;
+                    @apply border-2 border-borderColor9 rounded-8;
 
-            & .info {
-                @apply text-14 leading-160 text-textColor6;
+                    & .c-checkbox {
+                        @apply text-20 mr-24;
+                    }
+                    & span {
+                        @apply text-18 leading-170;
+
+                        & a {
+                            @apply inline-flex items-center;
+                            @apply text-lightBlue font-medium;
+                            & .c-icon {
+                                height: 16px;
+                                width: 16px;
+                                @apply ml-6;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

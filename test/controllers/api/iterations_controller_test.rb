@@ -1,14 +1,11 @@
 require_relative './base_test_case'
 
 class API::IterationsControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_solution_iterations_path, args: 1, method: :post
+
   ###
   # CREATE
   ###
-  test "create should return 401 with incorrect token" do
-    post api_solution_iterations_path(1, submission_id: 1), headers: @headers, as: :json
-    assert_response 401
-  end
-
   test "create should 404 if the solution doesn't exist" do
     setup_user
     post api_solution_iterations_path(999, submission_id: create(:submission)), headers: @headers, as: :json

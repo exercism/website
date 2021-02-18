@@ -13,8 +13,8 @@ class Solution::MentorDiscussion < ApplicationRecord
                    inverse_of: :discussion
   has_many :iterations, through: :solution
 
-  scope :completed, -> { where.not(completed_at: nil) }
-  scope :in_progress, -> { where(completed_at: nil) }
+  scope :finished, -> { where.not(finished_at: nil) }
+  scope :in_progress, -> { where(finished_at: nil) }
 
   scope :requires_mentor_action, -> { where.not(requires_mentor_action_since: nil) }
   scope :requires_student_action, -> { where.not(requires_student_action_since: nil) }
@@ -31,8 +31,16 @@ class Solution::MentorDiscussion < ApplicationRecord
   delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, to: :exercise, prefix: :exercise
 
+  def student_mentor_relationship
+    Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+  end
+
   def to_param
     uuid
+  end
+
+  def finished?
+    finished_at.present?
   end
 
   def viewable_by?(user)

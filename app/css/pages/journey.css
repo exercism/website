@@ -153,6 +153,10 @@
                 @apply flex-grow;
                 & .title {
                     @apply text-h5 mb-6;
+                    @apply font-medium;
+                    & strong {
+                        @apply font-semibold;
+                    }
                 }
                 & .extra {
                     @apply flex items-center;
@@ -182,6 +186,9 @@
                 width: 24px;
                 @apply ml-96;
             }
+        }
+        & .c-pagination {
+            @apply mt-16;
         }
     }
 

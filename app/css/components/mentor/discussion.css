@@ -35,7 +35,7 @@
                 @apply mr-32;
             }
             & .student {
-                @apply flex items-center;
+                @apply flex-grow flex items-center;
                 & .c-rounded-bg-img {
                     height: 48px;
                     width: 48px;
@@ -52,11 +52,30 @@
                     }
                 }
             }
+            & .finish-button {
+            }
+            & .finished {
+                @apply flex items-center;
+                /* Leading-150 */
+                @apply text-16 leading-paragraph font-semibold text-textColor3;
+
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply mr-16;
+                }
+            }
         }
         & .discussion-footer {
-            height: var(--footer-height);
             @apply flex items-center px-24;
-            @apply shadow-sm;
+
+            height: var(--footer-height);
+            background: linear-gradient(
+                180deg,
+                var(--backgroundColorB) 0%,
+                var(--backgroundColorA) 50%
+            );
+            box-shadow: 0px -4px 16px var(--backgroundColorB);
 
             & .iterations {
                 @apply flex flex-grow items-center;
@@ -132,7 +151,7 @@
             }
         }
         & .c-iteration-pane {
-            @apply flex-grow;
+            @apply flex-grow h-1;
         }
     }
     & .rhs {
@@ -210,6 +229,7 @@
         }
 
         & #panel-discussion {
+            @apply pb-64;
             & .student-info {
                 @apply bg-backgroundColorA;
                 @apply flex;
@@ -411,6 +431,37 @@
                     }
                     & .post-at {
                         @apply text-textColor6 leading-huge;
+                    }
+                }
+            }
+            & .finished-wizard {
+                @apply mt-24 mx-24 pt-20 pb-24 px-24;
+                @apply flex items-start;
+                @apply border-1 border-borderColor5 rounded-8;
+
+                & > .c-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mr-16;
+                }
+                & > .--details {
+                    & h3 {
+                        @apply text-h5;
+                        @apply pb-16 mb-16;
+                        @apply border-b-1 border-borderColor6;
+                    }
+                    & > .--step {
+                        /* Leading-160 */
+                        & p {
+                            @apply text-16 leading-code font-medium;
+                            @apply mb-12;
+                        }
+                        & .buttons {
+                            @apply flex items-center;
+                            & button {
+                                @apply mr-12;
+                            }
+                        }
                     }
                 }
             }

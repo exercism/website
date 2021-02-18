@@ -10,7 +10,7 @@ class CreateSolutionMentorDiscussions < ActiveRecord::Migration[6.0]
       t.datetime :requires_mentor_action_since, null: true
       t.datetime :requires_student_action_since, null: true
 
-      t.datetime :completed_at, null: true
+      t.datetime :finished_at, null: true
 
       t.timestamps
     end

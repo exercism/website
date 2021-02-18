@@ -17,16 +17,17 @@ class User < ApplicationRecord
 
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
-  has_many :mentor_discussion_posts, as: :author, dependent: :destroy
+  has_many :mentor_discussions, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
+                                class_name: "Solution::MentorDiscussion"
+  has_many :mentor_discussion_posts, as: :author, dependent: :destroy,
+                                     class_name: "Solution::MentorDiscussionPost"
   has_many :mentor_testimonials, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
                                  class_name: "Mentor::Testimonial"
 
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
-  has_many :badges, dependent: :destroy
-
-  belongs_to :featured_user_badge, class_name: "User::Badge", optional: true
-  has_one :featured_badge, through: :featured_user_badge
+  has_many :acquired_badges, dependent: :destroy
+  has_many :badges, through: :acquired_badges
 
   has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
   has_many :authored_exercises, through: :authorships, source: :exercise
@@ -71,9 +72,13 @@ class User < ApplicationRecord
     !!UserTrack.for(self, track)
   end
 
+  def unrevealed_badges
+    acquired_badges.unrevealed.joins(:badge)
+  end
+
   def has_badge?(slug)
-    type = Badge.slug_to_type(slug)
-    badges.where(type: type).exists?
+    badge = Badge.find_by_slug!(slug) # rubocop:disable Rails/DynamicFindBy
+    acquired_badges.where(badge_id: badge.id).exists?
   end
 
   # TODO: This needs fleshing out for mentors
@@ -88,7 +93,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
-    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4"
+    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4&e_uid=#{id}"
   end
 
   # TODO
@@ -104,7 +109,7 @@ class User < ApplicationRecord
   def favorited_by?(mentor)
     relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
 
-    relationship ? relationship.favorite? : false
+    relationship ? relationship.favorited? : false
   end
 
   def num_previous_mentor_sessions_with(_user)

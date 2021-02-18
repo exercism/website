@@ -29,6 +29,8 @@ import '../../css/components/accordion-section'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
+import '../../css/components/notifications-dropdown'
+import '../../css/components/reputation-dropdown'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation'
 import '../../css/components/primary-reputation'
@@ -66,7 +68,9 @@ import '../../css/components/widgets/exercise'
 import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'
+import '../../css/modals/finish-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
+import '../../css/modals/become-mentor'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
@@ -109,13 +113,16 @@ import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/track/IterationSummary'
 import { ExerciseInstructions, Submission } from '../components/editor/types'
 import {
-  Iteration as MentorDiscussionIteration,
-  Student as MentorDiscussionStudent,
-  Track as MentorDiscussionTrack,
-  Exercise as MentorDiscussionExercise,
-  Links as MentorDiscussionLinks,
-  MentorSolution as MentorDiscussionMentorSolution,
-} from '../components/mentoring/Discussion'
+  Iteration as MentoringSessionIteration,
+  Student as MentoringSessionStudent,
+  Track as MentoringSessionTrack,
+  Exercise as MentoringSessionExercise,
+  Links as MentoringSessionLinks,
+  MentorSolution as MentoringSessionMentorSolution,
+  Discussion as MentoringSessionDiscussion,
+  StudentMentorRelationship,
+  MentoringRequest,
+} from '../components/mentoring/Session'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -135,16 +142,13 @@ initReact({
   'journey-contributions-list': (data: any) => (
     <Journey.ContributionsList endpoint={data.endpoint} />
   ),
-  'common-notifications-icon': (data: any) => (
-    <Common.NotificationsIcon count={data.count} />
-  ),
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
-      conversationsRequest={data.conversations_request}
+      discussionsRequest={data.discussions_request}
       tracksRequest={data.tracks_request}
       sortOptions={data.sort_options}
     />
@@ -157,19 +161,23 @@ initReact({
       exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
     />
   ),
-  'mentoring-discussion': (data: any) => (
-    <Mentoring.Discussion
-      discussionId={data.discussion_id}
+  'mentoring-session': (data: any) => (
+    <Mentoring.Session
       userId={data.user_id}
-      student={camelizeKeysAs<MentorDiscussionStudent>(data.student)}
-      track={camelizeKeysAs<MentorDiscussionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentorDiscussionExercise>(data.exercise)}
-      iterations={camelizeKeysAs<MentorDiscussionIteration[]>(data.iterations)}
-      links={camelizeKeysAs<MentorDiscussionLinks>(data.links)}
-      notes={data.notes}
-      mentorSolution={camelizeKeysAs<MentorDiscussionMentorSolution>(
+      discussion={camelizeKeysAs<MentoringSessionDiscussion>(data.discussion)}
+      mentorSolution={camelizeKeysAs<MentoringSessionMentorSolution>(
         data.mentor_solution
       )}
+      student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
+      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
+      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
+      request={camelizeKeysAs<MentoringRequest>(data.request)}
+      relationship={camelizeKeysAs<StudentMentorRelationship>(
+        data.relationship
+      )}
+      notes={data.notes}
     />
   ),
   'student-tracks-list': (data: any) => (
@@ -232,6 +240,9 @@ initReact({
       menuButton={data.menu_button}
       menuItems={data.menu_items}
     />
+  ),
+  'dropdowns-notifications': (data: any) => (
+    <Dropdowns.Notifications endpoint={data.endpoint} />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

@@ -8,7 +8,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../../common/Loading'
 import { useMutation, queryCache } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { CacheContext } from '../Discussion'
+import { DiscussionContext } from './DiscussionContext'
 import { DiscussionPostProps } from './DiscussionPost'
 import { typecheck } from '../../../utils/typecheck'
 
@@ -41,7 +41,7 @@ export const DiscussionPostForm = ({
 }: ComponentProps): JSX.Element => {
   const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
-  const { posts: cacheKey } = useContext(CacheContext)
+  const { cacheKey } = useContext(DiscussionContext)
   const [mutation, { status, error }] = useMutation<
     DiscussionPostProps | undefined
   >(

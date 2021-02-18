@@ -64,6 +64,8 @@ Naming/PredicateName:
 
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
+  SingleLineConditionsOnly: false
+  IncludeTernaryExpressions: false
 
 Style/StringLiterals:
   Enabled: false

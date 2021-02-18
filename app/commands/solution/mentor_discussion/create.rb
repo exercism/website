@@ -32,7 +32,7 @@ class Solution
             content_markdown: content_markdown
           )
 
-          Notification::Create.(
+          User::Notification::Create.(
             student,
             :mentor_started_discussion,
             {

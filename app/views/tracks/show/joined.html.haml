@@ -22,7 +22,7 @@
   %article
     .lg-container.container
       .lhs
-        -if @user_track.solutions.present?
+        - if @user_track.solutions.present?
           = render "tracks/show/joined/activities_section", activities: @activities, track: @track
         - else
           = render "tracks/show/joined/start_track_section", activities: @activities

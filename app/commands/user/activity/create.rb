@@ -15,7 +15,6 @@ class User::Activity
 
       klass.create!(
         user: user,
-        track: params.delete(:track),
         solution: params.delete(:solution),
         params: params
       ).tap do

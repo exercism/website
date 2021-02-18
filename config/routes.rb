@@ -29,57 +29,81 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show] do
-        resources :exercises, only: [] do
-        end
-      end
+      resources :tracks, only: %i[index show]
+
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
+
       resources :bug_reports, only: %i[create]
-      resources :reputation, only: %i[index]
-      resources :solutions, only: %i[index show update] do
-        # CLI Methods
-        get :latest, on: :collection
-        get 'files/*filepath', to: 'files#show', format: false, as: "file"
-        resources :submissions, only: %i[create]
-        resources :iterations, only: %i[create]
 
-        # Normal Methods
-        patch :complete, on: :member
-      end
-      resources :solution, only: [] do
-        resources :initial_files, only: %i[index], controller: "solutions/initial_files"
-      end
+      resources :notifications, only: [:index]
 
-      resources :mentor_requests, only: %i[index] do
+      resources :reputation, only: %i[index] do
         collection do
-          get :tracks
-          get :exercises
+          patch :mark_as_seen
         end
-        member do
-          patch :lock
-        end
-      end
-
-      resources :mentor_discussions, only: %i[index create] do
-        get :tracks, on: :collection # TODO: Remove this
-        resources :posts, only: %i[index create], controller: "mentor_discussion_posts"
-        patch :mark_as_nothing_to_do, on: :member
-      end
-
-      resources :mentor_discussion_posts, only: %i[update]
-
-      post "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#create", as: "mentor_favorite_student"
-      delete "mentor_favourite_student/:student_handle", to: "mentor_favorite_students#destroy", as: "mentor_unfavorite_student"
-
-      resources :submission, only: [] do
-        resource :test_run, only: %i[show], controller: "submissions/test_runs"
-        resources :cancellations, only: %i[create], controller: "submissions/cancellations"
-        resources :files, only: %i[index], controller: "submissions/files"
       end
 
       resources :profiles, only: [] do
         get :summary, on: :member
+      end
+
+      resources :solutions, only: %i[index show update] do
+        # CLI Methods
+        get :latest, on: :collection
+        get 'files/*filepath', to: 'files#show', format: false, as: "file"
+
+        # Normal Methods
+        member do
+          patch :complete
+        end
+
+        resources :submissions, only: %i[create], controller: "solutions/submissions" do
+          resource :test_run, only: %i[show], controller: "solutions/submission_test_runs"
+          resources :cancellations, only: %i[create], controller: "solutions/submission_cancellations"
+          resources :files, only: %i[index], controller: "solutions/submission_files"
+        end
+
+        resources :iterations, only: %i[create]
+        resources :initial_files, only: %i[index], controller: "solutions/initial_files"
+
+        resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
+          resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
+        end
+      end
+
+      namespace :mentoring do
+        resources :requests, only: %i[index] do
+          collection do
+            get :tracks
+            get :exercises
+          end
+          member do
+            patch :lock
+          end
+        end
+
+        resources :discussions, only: %i[index create] do
+          member do
+            patch :mark_as_nothing_to_do
+            patch :finish
+          end
+
+          collection do
+            get :tracks # TODO: Remove this
+          end
+
+          resources :posts, only: %i[index create update], controller: "discussion_posts"
+        end
+
+        resources :students, only: [] do
+          member do
+            post :block
+            delete :block, to: "students#unblock"
+            post :favorite
+            delete :favorite, to: "students#unfavorite"
+          end
+        end
       end
 
       post "markdown/parse" => "markdown#parse", as: "parse_markdown"
@@ -106,6 +130,8 @@ Rails.application.routes.draw do
   # Normal pages #
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
+
+  resources :notifications, only: [:index]
 
   resources :profiles, only: [:show] do
     member do
@@ -194,6 +220,10 @@ Rails.application.routes.draw do
         get :publish_exercise
         get :completed_exercise
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
+        get :reputation
+        get :become_a_mentor_1
+        get :become_a_mentor_2
+        get :become_a_mentor_3
       end
     end
   end
@@ -209,7 +239,6 @@ Rails.application.routes.draw do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
 
-        resource :notifications_icon, only: %i[show update]
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]
           resource :inbox, controller: "inbox", only: [:show] do

@@ -1,11 +1,11 @@
 module Badges
   class MemberBadge < Badge
-    badge "Member",
+    seed "Member",
       :common,
       :logo,
       "Joined Exercism"
 
-    def should_award?
+    def award_to?(_user)
       true
     end
   end

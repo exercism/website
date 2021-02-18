@@ -5,7 +5,7 @@ import { GraphicalIcon, Reputation } from '../common'
 export type ContributionProps = {
   id: string
   value: number
-  description: string
+  text: string
   iconName: string
   internalLink?: string
   externalLink?: string
@@ -18,7 +18,7 @@ export type ContributionProps = {
 
 export const Contribution = ({
   value,
-  description,
+  text,
   iconName,
   internalLink,
   externalLink,
@@ -32,7 +32,7 @@ export const Contribution = ({
     <a href={link} className="reputation-token">
       <GraphicalIcon icon={iconName} className="primary-icon" />
       <div className="info">
-        <div className="title">{description}</div>
+        <div className="title" dangerouslySetInnerHTML={{ __html: text }} />
         <div className="extra">
           {track ? (
             <div className="exercise">

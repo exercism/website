@@ -24,5 +24,26 @@ module Temp
       @student = User.second
       @discussion = Solution::MentorDiscussion.first
     end
+
+    def reputation
+      if current_user.reputation_tokens.size < 2
+        User::ReputationToken::Create.(
+          current_user,
+          :code_review,
+          external_link: "https://github.com/exercism/ruby/pulls/120",
+          repo: "ruby/pulls",
+          pr_id: 120
+        )
+        User::ReputationToken::Create.(
+          current_user,
+          :code_review,
+          external_link: "https://github.com/exercism/ruby/pulls/125",
+          repo: "ruby/pulls",
+          pr_id: 125
+        )
+      end
+
+      @tokens = User::ReputationToken::Search.(current_user).map(&:rendering_data)
+    end
   end
 end

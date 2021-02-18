@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :solution_mentor_discussion, class: 'Solution::MentorDiscussion' do
     mentor { create :user }
     request { create :solution_mentor_request }
+    solution { create :practice_solution, track: track }
 
     transient do
       track do

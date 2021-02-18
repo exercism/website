@@ -7,7 +7,18 @@ module API
         category: params[:category]
       )
 
-      render json: SerializePaginatedCollection.(tokens, SerializeReputationTokens)
+      render json: SerializePaginatedCollection.(
+        tokens,
+        data: tokens.map(&:rendering_data)
+      )
+    end
+
+    def mark_as_seen
+      current_user.reputation_tokens.where(
+        uuid: params[:ids]
+      ).update_all(seen: true)
+
+      render json: {}
     end
   end
 end

@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { default as ReactModal, Props } from 'react-modal'
 
-type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
+export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   className: string
   open: boolean
   onClose: () => void

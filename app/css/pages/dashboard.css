@@ -3,8 +3,8 @@
 .theme-light #page-dashboard {
     background: linear-gradient(
         180deg,
-        #e1ebff 0%,
-        rgba(225, 235, 255, 0) 220px
+        #e1ebff 70px,
+        rgba(225, 235, 255, 0) 290px
     );
 }
 .theme-dark #page-dashboard {
@@ -16,7 +16,7 @@
         @apply flex-grow-0 flex-shrink-0 ml-48;
     }
     & .summary-bar {
-        @apply block bg-backgroundColorA shadow-lg py-12;
+        @apply block bg-backgroundColorA shadow-lg py-8;
 
         & .container {
             @apply flex items-center;
@@ -99,6 +99,29 @@
                 }
             }
         }
+        & .rhs {
+            @apply flex justify-end;
+            & a {
+                height: 96px;
+                width: 96px;
+                transition: box-shadow 0.2s;
+                @apply bg-backgroundColorA shadow-sm rounded-circle;
+                @apply flex flex-col items-center justify-center;
+                @apply ml-16;
+
+                @apply text-textColor3 font-medium leading-140;
+
+                &:hover {
+                    @apply shadow-lg;
+                }
+
+                & .c-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mb-8;
+                }
+            }
+        }
     }
 
     & article {
@@ -118,6 +141,8 @@
             @apply flex flex-col items-center justify-start;
             @apply p-24 text-16 leading-paragraph text-center;
             @apply border-r-1 border-borderColor7;
+            transition: box-shadow 0.2s ease-out;
+
             &:last-child {
                 @apply border-r-0;
             }
@@ -238,10 +263,10 @@
             @apply mb-12;
         }
 
-        & .conversations {
+        & .discsusions {
             @apply mb-24;
         }
-        & .conversation {
+        & .discsusion {
             @apply flex items-center;
 
             & .c-rounded-bg-img {
@@ -254,24 +279,25 @@
                 @apply flex flex-col;
                 overflow: hidden;
                 max-width: 180px;
+                @apply leading-150 font-medium;
 
                 & .handle {
                     @apply flex items-center;
-                    @apply font-mono font-semibold text-16 leading-huge;
+                    @apply text-16 text-textColor3;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
                 }
                 & .exercise {
-                    @apply font-mono font-semibold text-textColor6 leading-tight;
+                    @apply text-14 text-textColor6;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
                 }
             }
             & .comments {
-                @apply flex flex-shrink-0 items-center justify-center ml-24;
-                @apply font-semibold text-14 leading-code;
+                @apply flex flex-shrink-0 items-center justify-center ml-32;
+                @apply font-medium text-14 leading-150 text-textColor1;
                 @apply py-4 px-12 border-orange border-1 rounded-5 bg-lightOrange;
 
                 & .c-icon {
@@ -281,7 +307,7 @@
                 }
             }
             & time {
-                @apply ml-24 flex-shrink-0;
+                @apply ml-24 flex-shrink-0 font-medium text-textColor7;
             }
             & .action-icon {
                 @apply ml-24 text-textColor6;

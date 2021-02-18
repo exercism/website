@@ -5,7 +5,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     user = mock
     slug = mock
 
-    Badge::Create.expects(:call).with(user, slug)
+    User::AcquiredBadge::Create.expects(:call).with(user, slug)
     AwardBadgeJob.perform_now(user, slug)
   end
 
@@ -13,7 +13,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     user = mock
     slug = mock
 
-    Badge::Create.expects(:call).with(user, slug).raises(BadgeCriteriaNotFulfilledError)
+    User::AcquiredBadge::Create.expects(:call).with(user, slug).raises(BadgeCriteriaNotFulfilledError)
     AwardBadgeJob.perform_now(user, slug)
   end
 end

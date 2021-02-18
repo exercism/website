@@ -4,10 +4,16 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Inbox } from '../../../../app/javascript/components/mentoring/Inbox.jsx'
+import userEvent from '@testing-library/user-event'
 
 const server = setupServer(
   rest.get('https://exercism.test/tracks', (req, res, ctx) => {
-    return res(ctx.json([{ id: 2 }]))
+    return res(
+      ctx.json([
+        { slug: 'ruby', title: 'Ruby' },
+        { slug: 'go', title: 'Go' },
+      ])
+    )
   }),
   rest.get('https://exercism.test/conversations', (req, res, ctx) => {
     return res(
@@ -34,7 +40,7 @@ test('page is set to 1 automatically', async () => {
   render(
     <Inbox
       tracksRequest={{ endpoint: 'https://exercism.test/tracks' }}
-      conversationsRequest={{ endpoint: 'https://exercism.test/conversations' }}
+      discussionsRequest={{ endpoint: 'https://exercism.test/conversations' }}
       sortOptions={[]}
     />
   )
@@ -46,7 +52,7 @@ test('page is reset to 1 when switching tracks', async () => {
   render(
     <Inbox
       tracksRequest={{ endpoint: 'https://exercism.test/tracks' }}
-      conversationsRequest={{
+      discussionsRequest={{
         endpoint: 'https://exercism.test/conversations',
         query: { page: 2 },
       }}
@@ -54,10 +60,12 @@ test('page is reset to 1 when switching tracks', async () => {
     />
   )
 
-  await waitFor(() =>
-    fireEvent.change(screen.getByTestId('track-filter'), {
-      target: { value: '2' },
+  userEvent.click(
+    await screen.findByRole('button', {
+      name: 'Button to open the track filter',
     })
   )
+  userEvent.click(screen.getByRole('radio', { name: 'icon for Go track Go' }))
+
   await waitFor(() => expect(screen.getByText('First')).toBeDisabled())
 })

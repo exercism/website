@@ -33,8 +33,11 @@ class Solution::MentorDiscussion::ReplyByStudentTest < ActiveSupport::TestCase
       "foobar"
     )
     assert_equal 1, mentor.notifications.size
-    notification = Notification.where(user: mentor).first
-    assert_equal Notifications::StudentRepliedToDiscussionNotification, notification.class
-    assert_equal({ discussion_post: Solution::MentorDiscussionPost.first }, notification.send(:params))
+    notification = User::Notification.where(user: mentor).first
+    assert_equal User::Notifications::StudentRepliedToDiscussionNotification, notification.class
+    assert_equal(
+      { discussion_post: Solution::MentorDiscussionPost.first.to_global_id.to_s }.with_indifferent_access,
+      notification.send(:params)
+    )
   end
 end

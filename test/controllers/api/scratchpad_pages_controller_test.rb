@@ -2,20 +2,12 @@ require_relative './base_test_case'
 
 module API
   class ScratchpadPagesControllerTest < API::BaseTestCase
+    guard_incorrect_token! :api_scratchpad_page_path, args: 2
+    guard_incorrect_token! :api_scratchpad_page_path, args: 2, method: :patch
+
     ###
     # SHOW
     ###
-    test "show should return 401 with incorrect token" do
-      get api_scratchpad_page_path("mentoring:exercise", "ruby:lasagna"), as: :json
-
-      assert_response 401
-      expected = { error: {
-        type: "invalid_auth_token",
-        message: I18n.t("api.errors.invalid_auth_token")
-      } }
-      actual = JSON.parse(response.body, symbolize_names: true)
-      assert_equal expected, actual
-    end
 
     test "show should return 404 with unknown category" do
       setup_user
@@ -89,17 +81,6 @@ module API
     ###
     # UPDATE
     ###
-    test "update should return 401 with incorrect token" do
-      patch api_scratchpad_page_path("mentoring:exercise", "ruby:lasagna"), as: :json
-
-      assert_response 401
-      expected = { error: {
-        type: "invalid_auth_token",
-        message: I18n.t("api.errors.invalid_auth_token")
-      } }
-      actual = JSON.parse(response.body, symbolize_names: true)
-      assert_equal expected, actual
-    end
 
     test "update should return 404 with unknown category" do
       setup_user

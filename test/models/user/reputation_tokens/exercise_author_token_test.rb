@@ -1,0 +1,28 @@
+require "test_helper"
+
+class User::ReputationTokens::ExerciseAuthorTokenTest < ActiveSupport::TestCase
+  test "creates authorship reputation token" do
+    user = create :user, handle: "User22", github_username: "user22"
+    authorship = create :exercise_authorship, author: user
+    exercise = authorship.exercise
+    track = exercise.track
+
+    User::ReputationToken::Create.(
+      user,
+      :exercise_author,
+      authorship: authorship
+    )
+
+    assert_equal 1, user.reputation_tokens.size
+    rt = user.reputation_tokens.first
+
+    assert_equal User::ReputationTokens::ExerciseAuthorToken, rt.class
+    assert_equal "You authored <strong>#{exercise.title}</strong>", rt.text
+    assert_equal exercise, rt.exercise
+    assert_equal track, rt.track
+    assert_equal "#{user.id}|exercise_author|Exercise##{exercise.id}", rt.uniqueness_key
+    assert_equal :authored_exercise, rt.reason
+    assert_equal :authoring, rt.category
+    assert_equal 10, rt.value
+  end
+end

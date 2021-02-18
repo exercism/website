@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import { DiscussionPostForm } from './DiscussionPostForm'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const AddDiscussionPost = ({
+  isFinished,
   endpoint,
   contextId,
   onSuccess = () => {},
 }: {
+  isFinished: boolean
   endpoint: string
   contextId: string
   onSuccess?: () => void
@@ -41,16 +42,32 @@ export const AddDiscussionPost = ({
       </div>
     )
   } else {
-    return (
-      <button
-        className="faux-input"
-        onClick={() => {
-          setOpen(true)
-        }}
-        type="button"
-      >
-        Add a comment
-      </button>
-    )
+    if (isFinished) {
+      return (
+        <div>
+          This discussion has ended. Have more to say? You can
+          <button
+            onClick={() => {
+              setOpen(true)
+            }}
+            type="button"
+          >
+            still post.
+          </button>
+        </div>
+      )
+    } else {
+      return (
+        <button
+          className="faux-input"
+          onClick={() => {
+            setOpen(true)
+          }}
+          type="button"
+        >
+          Add a comment
+        </button>
+      )
+    }
   }
 }

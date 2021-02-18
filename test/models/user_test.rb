@@ -29,13 +29,14 @@ class UserTest < ActiveSupport::TestCase
 
   test "reputation sums correctly" do
     user = create :user
-    create :user_reputation_token
-    create :user_reputation_token, user: user, category: "authoring", reason: 'authored_exercise'
-    create :user_reputation_token, user: user, category: "authoring", reason: 'contributed_to_exercise'
-    create :user_reputation_token, user: user, category: "building", reason: 'contributed_code/regular'
-    create :user_reputation_token, user: user, category: "mentoring", reason: 'contributed_code/regular'
+    create :user_code_contribution_reputation_token # Random token for different user
 
-    assert_equal 35, user.reload.reputation
+    create :user_exercise_contribution_reputation_token, user: user
+    create :user_exercise_author_reputation_token, user: user
+    create :user_code_contribution_reputation_token, user: user, level: :major
+    create :user_code_contribution_reputation_token, user: user, level: :regular
+
+    assert_equal 40, user.reload.reputation
     # assert_equal 20, user.reputation(track_slug: :ruby)
     assert_equal 15, user.reputation(category: :authoring)
   end
@@ -53,10 +54,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "has_badge?" do
+    badge = create :rookie_badge
     user = create :user
     refute user.has_badge?(:rookie)
 
-    create :rookie_badge, user: user
+    create :user_acquired_badge, badge: badge, user: user
     assert user.reload.has_badge?(:rookie)
   end
 
@@ -88,7 +90,7 @@ class UserTest < ActiveSupport::TestCase
   test "#favorited_by? returns false if relationship is not a favorite" do
     mentor = create :user
     student = create :user
-    create :mentor_student_relationship, mentor: mentor, student: student, favorite: false
+    create :mentor_student_relationship, mentor: mentor, student: student, favorited: false
 
     refute student.favorited_by?(mentor)
   end
@@ -96,8 +98,20 @@ class UserTest < ActiveSupport::TestCase
   test "#favorited_by? returns true if relationship is a favorite" do
     mentor = create :user
     student = create :user
-    create :mentor_student_relationship, mentor: mentor, student: student, favorite: true
+    create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
 
     assert student.favorited_by?(mentor)
+  end
+
+  test "unrevealed_badges" do
+    user = create :user
+    rookie_badge = create :rookie_badge
+    member_badge = create :member_badge
+
+    create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user
+    create :user_acquired_badge, revealed: false, badge: rookie_badge
+    unrevealed = create :user_acquired_badge, revealed: false, badge: member_badge, user: user
+
+    assert_equal [unrevealed], user.unrevealed_badges
   end
 end

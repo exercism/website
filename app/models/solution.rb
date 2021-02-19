@@ -36,7 +36,7 @@ class Solution < ApplicationRecord
     Solution.find_by(exercise: exercise, user: user)
   end
 
-  delegate :instructions, :introduction, to: :git_exercise
+  delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
 
   def git_type
@@ -151,6 +151,14 @@ public class Year
       git_slug: exercise.slug,
       git_sha: track.git_head_sha
     )
+  end
+
+  def read_file(filepath)
+    return Solution::GenerateReadmeFile.(self) if filepath == 'README.md'
+    return Solution::GenerateHelpFile.(self) if filepath == 'HELP.md'
+    return Solution::GenerateHintsFile.(self) if filepath == 'HINTS.md'
+
+    git_exercise.read_file_blob(filepath)
   end
 
   memoize

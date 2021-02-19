@@ -1,40 +1,30 @@
 class Markdown::Render
   include Mandate
 
-  initialize_with :doc, :nofollow_links
+  def initialize(text, output_type, strip_h1: true, lower_heading_levels_by: 0)
+    raise "Invalid output type" unless OUTPUT_TYPES.include?(output_type)
+
+    @text = text
+    @output_type = output_type
+    @strip_h1 = strip_h1
+    @lower_heading_levels_by = lower_heading_levels_by
+  end
 
   def call
-    renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
-    renderer.render(doc)
-  end
+    doc = Markdown::ParseDoc.(text)
+    preprocessed = Markdown::Preprocess.(doc, text, strip_h1: strip_h1, lower_heading_levels_by: lower_heading_levels_by)
 
-  class Renderer < CommonMarker::HtmlRenderer
-    def initialize(options:, nofollow_links: false)
-      super(options: options)
-      @nofollow_links = nofollow_links
-    end
-
-    private
-    attr_reader :nofollow_links
-
-    def link(node)
-      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
-      out(' title="', escape_html(node.title), '"') if node.title.present?
-      out(' rel="nofollow"') if nofollow_links
-      out('>', :children, '</a>')
-    end
-
-    def code_block(node)
-      block do
-        out("<pre#{sourcepos(node)}><code")
-        if node.fence_info.present?
-          out(' class="language-', node.fence_info.split(/\s+/)[0], '">')
-        else
-          out(' class="language-plain">')
-        end
-        out(escape_html(node.string_content))
-        out('</code></pre>')
-      end
+    case output_type
+    when :doc
+      preprocessed[:doc]
+    when :text
+      preprocessed[:text]
     end
   end
+
+  private
+  attr_reader :text, :output_type, :strip_h1, :lower_heading_levels_by
+
+  OUTPUT_TYPES = %i[doc text].freeze
+  private_constant :OUTPUT_TYPES
 end

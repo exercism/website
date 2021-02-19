@@ -1,5 +1,6 @@
 %w[
   api
+  exercises
   notifications
   user_activities
   user_reputation_tokens

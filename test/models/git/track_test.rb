@@ -62,5 +62,23 @@ module Git
       expected = ["Modern", "Fun", "Full-featured", "Easy to learn", "Dynamic", "Expressive"]
       assert_equal(expected, track.key_features.map { |f| f[:title] })
     end
+
+    test "retrieves_debugging_instructions" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Debug\n\nYou can debug by printing to the console.\n"
+      assert_equal expected, track.debugging_instructions
+    end
+
+    test "retrieves_help" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Help\n\nStuck? Try the Ruby gitter channel.\n"
+      assert_equal expected, track.help
+    end
+
+    test "retrieves_tests" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Tests\n\nRun the tests using `ruby test`.\n"
+      assert_equal expected, track.tests
+    end
   end
 end

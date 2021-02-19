@@ -10,8 +10,9 @@ module ReactComponents
           track_title: solution.track.title,
           exercise_title: solution.exercise.title,
           introduction: introduction,
-          instructions: SerializeExerciseInstructions.(solution.exercise),
-          example_solution: solution.exercise.send(:git).example,
+          assignment: SerializeExerciseAssignment.(solution.exercise),
+          debugging_instructions: debugging_instructions,
+          example_files: SerializeFiles.(example_files),
           endpoint: Exercism::Routes.api_solution_submissions_path(
             solution.uuid,
             auth_token: solution.user.auth_tokens.first.to_s
@@ -33,6 +34,20 @@ module ReactComponents
     memoize
     def instructions
       Markdown::Parse.(solution.instructions)
+    end
+
+    memoize
+    def debugging_instructions
+      return if solution.track.debugging_instructions.blank?
+
+      Markdown::Parse.(solution.track.debugging_instructions)
+    end
+
+    # TODO: remove this before launch
+    def example_files
+      return solution.exercise.send(:git).exemplar_files if solution.exercise.concept_exercise?
+
+      solution.exercise.send(:git).example_files
     end
   end
 end

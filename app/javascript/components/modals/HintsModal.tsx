@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExerciseInstructions } from '../editor/types'
+import { Assignment } from '../editor/types'
 import { Modal } from './Modal'
 
 const Hints = ({
@@ -26,12 +26,12 @@ const Hints = ({
 }
 
 export const HintsModal = ({
-  instructions,
+  assignment,
   open,
   onClose,
   ...props
 }: {
-  instructions: ExerciseInstructions
+  assignment: Assignment
   open: boolean
   onClose: () => void
 }): JSX.Element => {
@@ -42,8 +42,8 @@ export const HintsModal = ({
       className="modal-editor-hints"
       {...props}
     >
-      <Hints hints={instructions.generalHints} heading="General" />
-      {instructions.tasks.map((task, idx) => (
+      <Hints hints={assignment.generalHints} heading="General" />
+      {assignment.tasks.map((task, idx) => (
         <Hints key={idx} hints={task.hints} heading={task.title} />
       ))}
     </Modal>

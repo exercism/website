@@ -2,8 +2,16 @@ module Git
   class Exercise
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
+    extend Git::HasGitFilepaths
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
+
+    git_filepaths instructions: ".docs/instructions.md",
+                  instructions_append: ".docs/instructions.append.md",
+                  introduction: ".docs/introduction.md",
+                  introduction_append: ".docs/introduction.append.md",
+                  hints: ".docs/hints.md",
+                  config: ".meta/config.json"
 
     def self.for_solution(solution)
       new(
@@ -26,38 +34,41 @@ module Git
     end
 
     memoize
-    def instructions
-      read_file_blob(".docs/instructions.md")
-    end
-
-    memoize
-    def introduction
-      read_file_blob(".docs/introduction.md")
-    end
-
-    memoize
-    def hints
-      read_file_blob(".docs/hints.md")
-    rescue StandardError
-      nil
-    end
-
-    # TODO: This is stub code
-    memoize
-    def example
-      read_file_blob(filepaths.find { |fp| fp.downcase.include?("example.") })
-    rescue StandardError
-      "No example code found"
-    end
-
-    memoize
     def authors
-      config[:authors]
+      config[:authors].to_a
     end
 
     memoize
     def contributors
-      config[:contributors]
+      config[:contributors].to_a
+    end
+
+    memoize
+    def source
+      config[:source]
+    end
+
+    memoize
+    def source_url
+      config[:source_url]
+    end
+
+    memoize
+    def exemplar_files
+      config[:files][:exemplar].index_with do |filepath|
+        read_file_blob(filepath)
+      end
+    rescue StandardError
+      {}
+    end
+
+    memoize
+    def example_files
+      config[:files][:example].index_with do |filepath|
+        read_file_blob(filepath)
+      end
+    rescue StandardError
+      {}
     end
 
     # Files that should be transported
@@ -73,15 +84,15 @@ module Git
 
     # This includes meta files
     memoize
-    def non_ignored_files
-      non_ignored_filepaths.each.with_object({}) do |filepath, hash|
+    def tooling_files
+      tooling_filepaths.each.with_object({}) do |filepath, hash|
         hash[filepath] = read_file_blob(filepath)
       end
     end
 
     # This includes meta files
     memoize
-    def non_ignored_filepaths
+    def tooling_filepaths
       filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         !filepath.match?(track.ignore_regexp)
       end
@@ -89,8 +100,24 @@ module Git
 
     # This includes meta files
     memoize
-    def non_ignored_absolute_filepaths
-      non_ignored_filepaths.map { |filepath| full_filepath(filepath) }
+    def tooling_absolute_filepaths
+      tooling_filepaths.map { |filepath| absolute_filepath(filepath) }
+    end
+
+    memoize
+    def cli_filepaths
+      special_filepaths = [SPECIAL_FILEPATHS[:readme], SPECIAL_FILEPATHS[:help]]
+      special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(hints_filepath)
+
+      filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
+        next if filepath.match?(track.ignore_regexp) # TODO: remove this
+        next if filepath.start_with?('.docs/')
+        next if filepath.start_with?('.meta/')
+
+        true
+      end
+
+      special_filepaths.concat(filtered_filepaths)
     end
 
     def read_file_blob(filepath)
@@ -105,7 +132,7 @@ module Git
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
-    def full_filepath(filepath)
+    def absolute_filepath(filepath)
       "#{dir}/#{filepath}"
     end
 
@@ -125,16 +152,7 @@ module Git
 
     memoize
     def tree
-      # TODO: When things are exploded back into repos, do this
-      # repo.fetch_tree(commit, "exercises/#{exercise_type}/#{slug}")
       repo.fetch_tree(commit, dir)
-    end
-
-    memoize
-    def config
-      HashWithIndifferentAccess.new(
-        JSON.parse(read_file_blob('.meta/config.json'))
-      )
     end
 
     memoize
@@ -146,5 +164,11 @@ module Git
     def track
       Track.new(repo: repo)
     end
+
+    SPECIAL_FILEPATHS = {
+      readme: 'README.md',
+      hints: 'HINTS.md',
+      help: 'HELP.md'
+    }.freeze
   end
 end

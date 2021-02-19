@@ -1,18 +1,21 @@
 import React, { useRef, useState } from 'react'
 import { Tab } from '../common/Tab'
 import { TabsContext } from '../Editor'
-import { ExerciseInstructions, ExerciseInstructionsTask } from './types'
+import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon } from '../common/GraphicalIcon'
+import { File } from '../types'
 
 export const InstructionsPanel = ({
   introduction,
-  instructions,
-  exampleSolution,
+  assignment,
+  exampleFiles,
+  debuggingInstructions,
 }: {
   introduction: string
-  instructions: ExerciseInstructions
-  exampleSolution: string
+  assignment: Assignment
+  exampleFiles: File[]
+  debuggingInstructions?: string
 }) => (
   <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
@@ -20,37 +23,44 @@ export const InstructionsPanel = ({
         <h2>Introduction</h2>
         <div dangerouslySetInnerHTML={{ __html: introduction }} />
 
-        <Instructions instructions={instructions} />
-
-        <h3 className="text-h3 tw-mt-20">Example solution</h3>
-        <pre dangerouslySetInnerHTML={{ __html: exampleSolution }} />
+        <Instructions assignment={assignment} />
+        <Debug debuggingInstructions={debuggingInstructions} />
+        <ExampleFiles files={exampleFiles} />
       </div>
     </section>
   </Tab.Panel>
 )
 
-const Instructions = ({
-  instructions,
-}: {
-  instructions: ExerciseInstructions
-}) => (
+const ExampleFiles = ({ files }: { files: File[] }) => {
+  if (files === null || files === undefined || files.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      <h3 className="text-h3 tw-mt-20">Example files</h3>
+      {files.map((file, i) => (
+        <React.Fragment key={i}>
+          <h4>{file.filename}</h4>
+          <pre dangerouslySetInnerHTML={{ __html: file.content }} />
+        </React.Fragment>
+      ))}
+    </>
+  )
+}
+
+const Instructions = ({ assignment }: { assignment: Assignment }) => (
   <>
     <h2>Instructions</h2>
-    <div dangerouslySetInnerHTML={{ __html: instructions.overview }} />
+    <div dangerouslySetInnerHTML={{ __html: assignment.overview }} />
 
-    {instructions.tasks.map((task, idx) => (
-      <InstructionsTask key={idx} task={task} open={idx === 0} />
+    {assignment.tasks.map((task, idx) => (
+      <Task key={idx} task={task} open={idx === 0} />
     ))}
   </>
 )
 
-const InstructionsTask = ({
-  task,
-  open,
-}: {
-  task: ExerciseInstructionsTask
-  open?: boolean
-}) => {
+const Task = ({ task, open }: { task: AssignmentTask; open?: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
@@ -87,5 +97,26 @@ const InstructionsTask = ({
         </button>
       </div>
     </details>
+  )
+}
+
+const Debug = ({
+  debuggingInstructions,
+}: {
+  debuggingInstructions?: string
+}) => {
+  if (
+    debuggingInstructions === undefined ||
+    debuggingInstructions === null ||
+    debuggingInstructions.length === 0
+  ) {
+    return null
+  }
+
+  return (
+    <>
+      <h2>How to debug</h2>
+      <div dangerouslySetInnerHTML={{ __html: debuggingInstructions }} />
+    </>
   )
 }

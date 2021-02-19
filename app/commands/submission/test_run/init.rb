@@ -41,7 +41,7 @@ class Submission
       end
 
       def exercise_filepaths
-        exercise_repo.non_ignored_filepaths.map do |filepath|
+        exercise_repo.tooling_filepaths.map do |filepath|
           # Skip non-functional files
           next if filepath.starts_with?(".docs")
           next if filepath == "README.md"

@@ -9,7 +9,7 @@ test('change theme', async () => {
   const { getByTitle, getByLabelText, queryByText } = render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -25,7 +25,7 @@ test('change keybindings', async () => {
   const { getByTitle, getByLabelText, queryByText } = render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 
@@ -42,7 +42,7 @@ test('change wrapping', async () => {
   const { getByTitle, getByLabelText, queryByText } = render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      instructions={{ overview: '', generalHints: [], tasks: [] }}
+      assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
 

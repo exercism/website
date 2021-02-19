@@ -1,12 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { HintsModal } from '../../modals/HintsModal'
-import { ExerciseInstructions } from '../types'
+import { Assignment } from '../types'
 
-export function Hints({
-  instructions,
-}: {
-  instructions: ExerciseInstructions
-}) {
+export function Hints({ assignment }: { assignment: Assignment }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
@@ -14,7 +10,7 @@ export function Hints({
   return (
     <div ref={componentRef}>
       <HintsModal
-        instructions={instructions}
+        assignment={assignment}
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />

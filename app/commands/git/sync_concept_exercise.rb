@@ -67,7 +67,7 @@ module Git
     end
 
     def exercise_files_modified?
-      head_git_exercise.non_ignored_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
+      head_git_exercise.tooling_absolute_filepaths.any? { |filepath| filepath_in_diff?(filepath) }
     end
 
     def find_concepts(slugs)
@@ -79,12 +79,12 @@ module Git
 
     memoize
     def author_usernames_config
-      head_git_exercise.authors.to_a.map { |a| a["exercism_username"] }
+      head_git_exercise.authors.to_a.map { |a| a[:exercism_username] }
     end
 
     memoize
     def contributor_usernames_config
-      head_git_exercise.contributors.to_a.map { |a| a["exercism_username"] }
+      head_git_exercise.contributors.to_a.map { |a| a[:exercism_username] }
     end
 
     memoize

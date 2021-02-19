@@ -20,7 +20,7 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         exercise_git_sha: solution.track.git_head_sha,
         exercise_git_dir: "exercises/concept/strings",
         # Check we exclude .docs, README and the overriden source file
-        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/example.rb", "log_line_parser_test.rb"]
+        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
       }
     )
 

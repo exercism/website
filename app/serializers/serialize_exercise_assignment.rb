@@ -1,4 +1,4 @@
-class SerializeExerciseInstructions
+class SerializeExerciseAssignment
   include Mandate
 
   initialize_with :exercise
@@ -13,8 +13,9 @@ class SerializeExerciseInstructions
 
   private
   def overview
-    # TODO: remove once we figured out how to handle practice exercises
-    return '' if exercise.practice_exercise?
+    # Practice exercises don't have any tasks, so we can just return
+    # the entire instructions without doing any parsing
+    return instructions if exercise.practice_exercise?
 
     # Instructions documents are structured as a series of headers and lists:
     # e.g.
@@ -31,9 +32,6 @@ class SerializeExerciseInstructions
   end
 
   def general_hints
-    # TODO: remove once we figured out how to handle practice exercises
-    return [] if exercise.practice_exercise?
-
     hints["general"].to_a
   end
 
@@ -57,7 +55,7 @@ class SerializeExerciseInstructions
   end
 
   def tasks
-    # TODO: remove once we figured out how to handle practice exercises
+    # Practice exercises don't have any tasks
     return [] if exercise.practice_exercise?
 
     instructions_doc.each.
@@ -75,22 +73,26 @@ class SerializeExerciseInstructions
       end
   end
 
+  def instructions
+    [
+      Markdown::Render.(exercise.git.instructions, :text).strip,
+      Markdown::Render.(exercise.git.instructions_append, :text).strip
+    ].join("\n\n").strip
+  end
+
   memoize
   def instructions_doc
-    render_doc(exercise.git.instructions || '')
+    Markdown::Render.(instructions, :doc)
   end
 
   memoize
   def hints_doc
-    render_doc(exercise.git.hints || '')
+    Markdown::Render.(exercise.git.hints, :doc)
   end
 
   def parse_title(header)
+    # Extract everything after the task number
+    # "## 2. Do stuff" becomes "Do stuff"
     header.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2')
-  end
-
-  def render_doc(text)
-    preprocessed_text = Markdown::Preprocess.(text)
-    Markdown::RenderDoc.(preprocessed_text)
   end
 end

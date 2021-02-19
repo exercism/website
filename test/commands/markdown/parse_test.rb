@@ -6,8 +6,7 @@ class Markdown::ParseTest < ActiveSupport::TestCase
   end
 
   test "converts markdown to html" do
-    expected = '<h1>OHAI</h1>
-<p>So I was split between two ways of doing this.</p>
+    expected = '<p>So I was split between two ways of doing this.</p>
 <ol>
 <li>Either method pairs with adjectives (which I did),</li>
 <li>Some sort of data structure (e.g. a hash might look like)</li>
@@ -18,8 +17,6 @@ class Markdown::ParseTest < ActiveSupport::TestCase
 </code></pre>'
 
     actual = Markdown::Parse.('
-# OHAI
-
 So I was split between two ways of doing this.
 
 1. Either method pairs with adjectives (which I did),
@@ -95,7 +92,7 @@ Done')
     assert_equal expected, Markdown::Parse.(table)
   end
 
-  test "resepects rel_nofollow" do
+  test "respects rel_nofollow" do
     normal = '<p><a href="http://example.com" target="_blank">Some link</a></p>'
     rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>'
 
@@ -105,5 +102,26 @@ Done')
 
   test "parses double tildes as strikethrough" do
     assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
+  end
+
+  test "does not remove level one headings by default" do
+    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent")
+  end
+
+  test "can remove level one headings" do
+    assert_equal "<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: true)
+  end
+
+  test "does not remove level one headings in code blocks" do
+    assert_equal "<pre><code class=\"language-ruby\"># Top heading\n</code></pre>\n",
+      Markdown::Parse.("```ruby\n# Top heading\n```", strip_h1: true)
+  end
+
+  test "increment level of headings with greater than one" do
+    assert_equal "<h3>Level two</h3>\n<h4>Level three</h4>\n", Markdown::Parse.("## Level two\n\n### Level three")
+  end
+
+  test "does not increment level of level one headings" do
+    assert_equal "<h1>Level one</h1>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
   end
 end

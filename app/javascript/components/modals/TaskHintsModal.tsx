@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExerciseInstructionsTask } from '../editor/types'
+import { AssignmentTask } from '../editor/types'
 import { Modal } from './Modal'
 
 export const TaskHintsModal = ({
@@ -8,7 +8,7 @@ export const TaskHintsModal = ({
   onClose,
   ...props
 }: {
-  task: ExerciseInstructionsTask
+  task: AssignmentTask
   open: boolean
   onClose: () => void
 }): JSX.Element => {

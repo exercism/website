@@ -127,7 +127,77 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.exercise_solution_files["log_line_parser.rb"].start_with?("module LogLineParser")
   end
 
-  test "in_progress_mentor_discussion" do
+  test "read_file for concept exercise returns exercise file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('log_line_parser.rb')
+    assert contents.start_with?('module LogLineParser')
+  end
+
+  test "read_file for practice exercise returns exercise file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('bob.rb')
+    assert contents.start_with?('stub content')
+  end
+
+  test "read_file for concept exercise returns correct README.md file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('README.md')
+    expected = "# Strings\n\nWelcome to Strings on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nA `String` in Ruby is an object that holds and manipulates an arbitrary sequence of bytes, typically representing characters. Strings are manipulated by calling the string's methods.\n\n## Instructions\n\nIn this exercise you'll be processing log-lines.\n\nEach log line is a string formatted as follows: `\"[<LEVEL>]: <MESSAGE>\"`.\n\nThere are three different log levels:\n\n- `INFO`\n- `WARNING`\n- `ERROR`\n\nYou have three tasks, each of which will take a log line and ask you to do something with it.\n\n## 1. Get message from a log line\n\nImplement the `LogLineParser.message` method to return a log line's message:\n\n```ruby\nLogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n```\n\nAny leading or trailing white space should be removed:\n\n```ruby\nLogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n```\n\n## 2. Get log level from a log line\n\nImplement the `LogLineParser.log_level` method to return a log line's log level, which should be returned in lowercase:\n\n```ruby\nLogLineParser.log_level('[ERROR]: Invalid operation')\n// Returns: \"error\"\n```\n\n## 3. Reformat a log line\n\nImplement the `LogLineParser.reformat` method that reformats the log line, putting the message first and the log level after it in parentheses:\n\n```ruby\nLogLineParser.reformat('[INFO]: Operation completed')\n// Returns: \"Operation completed (info)\"\n```\n\n## Source\n\n### Created by\n\n- pvcarrera (@pvcarrera)" # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
+  end
+
+  test "read_file for practice exercise with hints returns correct README.md file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('README.md')
+    expected = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\n\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\n\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)\n\n### Contributed to by\n\n- iHiD (@ihid)\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
+  end
+
+  test "read_file for concept exercise returns correct HELP.md file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('HELP.md')
+    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
+  end
+
+  test "read_file for practice exercise returns correct HELP.md file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('HELP.md')
+    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
+  end
+
+  test "read_file for concept exercise returns correct HINTS.md file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = solution.read_file('HINTS.md')
+    expected = "# Hints\n\n## General\n\n- The [rubymostas strings guide][ruby-for-beginners.rubymonstas.org-strings] has a nice introduction to Ruby strings.\n- The `String` object has many useful [built-in methods][docs-string-methods].\n\n## 1. Get message from a log line\n\n- There are different ways to search for text in a string, which can be found on the [Ruby language official documentation][docs-string-methods].\n- There are [built in methods][strip-white-space] to strip white space.\n\n## 2. Get log level from a log line\n\n- Ruby `String` objects have a [method][downcase] to perform this operation.\n\n## 3. Reformat a log line\n\n- There are several ways to [concatenate strings][ruby-for-beginners.rubymonstas.org-strings], but the preferred one is usually [string interpolation][ruby-for-beginners.rubymonstas.org-strings]\n\n[ruby-for-beginners.rubymonstas.org-strings]: http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\n[ruby-for-beginners.rubymonstas.org-interpolation]: http://ruby-for-beginners.rubymonstas.org/bonus/string_interpolation.html\n[docs-string-methods]: https://ruby-doc.org/core-2.7.0/String.html\n[strip-white-space]: https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\n[downcase]: https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase" # rubocop:disable Layout/LineLength
+    assert_equal expected, contents
+  end
+
+  test "read_file for practice exercise returns correct HINTS.md file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = solution.read_file('HINTS.md')
+    expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
+    assert_equal expected, contents
+  end
+
+  test "has_in_progress_mentor_discussion" do
     solution = create :concept_solution
 
     # No discussion

@@ -7,7 +7,7 @@ test('general hints are shown when clicked on heading', async () => {
   const { getByText } = render(
     <div>
       <HintsModal
-        instructions={{
+        assignment={{
           generalHints: ['Please use the docs', 'It is recommended'],
           tasks: [],
         }}
@@ -29,7 +29,7 @@ test('task hints are shown when clicked on heading', async () => {
   const { getByText } = render(
     <div>
       <HintsModal
-        instructions={{
+        assignment={{
           generalHints: [],
           tasks: [
             {

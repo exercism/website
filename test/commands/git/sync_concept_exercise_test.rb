@@ -11,13 +11,14 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA does not change when there are no changes" do
-    head_sha = "73b8e389daac4a3e08747e6c16fd420072386e2b"
-    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", deprecated: false, git_sha: head_sha, synced_to_git_sha: head_sha # rubocop:disable Layout/LineLength
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    previous_head_sha = repo.head_commit.parents.first.oid
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", deprecated: false, git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
     Git::SyncConceptExercise.(exercise)
 
-    assert_equal head_sha, exercise.git_sha
+    assert_equal previous_head_sha, exercise.git_sha
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do

@@ -19,6 +19,7 @@ class PracticeExerciseTest < ActiveSupport::TestCase
 
   test "instructions is correct" do
     exercise = create :practice_exercise
-    assert exercise.instructions.starts_with?("Bob is a lackadaisical teenager")
+    expected = "# Instructions\n\nInstructions for bob\n"
+    assert_equal expected, exercise.instructions
   end
 end

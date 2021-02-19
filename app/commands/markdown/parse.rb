@@ -8,12 +8,11 @@ class Markdown::Parse
     new(*args, **kwargs).()
   end
 
-  def initialize(text, nofollow_links: false)
-    # TODO: We almost certainly don't want to do this!
-    # but for now let's reduce the heading level of all
-    # headings, as they're too high in the actual docs atm
-    @text = text.to_s.gsub(/^##/, '###')
+  def initialize(text, nofollow_links: false, strip_h1: false, lower_heading_levels_by: 1)
+    @text = text
     @nofollow_links = nofollow_links
+    @strip_h1 = strip_h1
+    @lower_heading_levels_by = lower_heading_levels_by
   end
 
   def call
@@ -23,7 +22,7 @@ class Markdown::Parse
   end
 
   private
-  attr_reader :text, :nofollow_links
+  attr_reader :text, :nofollow_links, :strip_h1, :lower_heading_levels_by
 
   memoize
   def sanitized_html
@@ -32,8 +31,7 @@ class Markdown::Parse
 
   memoize
   def raw_html
-    preprocessed_text = Markdown::Preprocess.(text)
-    doc = Markdown::RenderDoc.(preprocessed_text)
-    Markdown::Render.(doc, nofollow_links)
+    doc = Markdown::Render.(text, :doc, strip_h1: strip_h1, lower_heading_levels_by: lower_heading_levels_by)
+    Markdown::RenderHTML.(doc, nofollow_links)
   end
 end

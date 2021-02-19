@@ -75,10 +75,25 @@
                 = render ViewComponents::ConceptIcon.new(concept, :small)
                 = concept.name
 
+      - if @exercise.practice_exercise?
+        - introduction = @solution ? @solution.introduction : @exercise.introduction
+        - if introduction.present?
+          %section.introduction.c-textual-content.--large
+            %h2 Introduction
+            = raw Markdown::Parse.(introduction)
+
       %section.instructions.c-textual-content.--large
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw Markdown::Parse.(instructions)
+
+      -# TODO: add styling
+      - if @exercise.source.present? || @exercise.source_url.present?
+        %section.source
+          %h2 Based on
+          - source = @solution ? @solution.source : @exercise.source
+          - source_url = @solution ? @solution.source_url : @exercise.source_url
+          = [source, source_url].compact_blank.join(' - ')
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
       - if @solution

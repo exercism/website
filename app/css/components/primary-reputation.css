@@ -29,12 +29,18 @@
         width: 21px;
         top: -7px;
         right: -7px;
+        transform: scale(0);
+        transition: transform 0.5s ease-out;
 
         &:after {
             @apply rounded-circle bg-red;
             content: "";
             width: 15px;
             height: 15px;
+        }
+
+        &.unseen {
+            transform: scale(1);
         }
     }
 }

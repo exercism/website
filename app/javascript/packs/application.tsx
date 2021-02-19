@@ -259,6 +259,13 @@ initReact({
   'dropdowns-notifications': (data: any) => (
     <Dropdowns.Notifications endpoint={data.endpoint} />
   ),
+  'dropdowns-reputation': (data: any) => (
+    <Dropdowns.Reputation
+      endpoint={data.endpoint}
+      defaultIsSeen={data.is_seen}
+      defaultReputation={data.reputation}
+    />
+  ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),

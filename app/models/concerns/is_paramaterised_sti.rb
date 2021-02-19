@@ -75,6 +75,13 @@ module IsParamaterisedSTI
       self.version = latest_i18n_version
       self.rendering_data_cache = cacheable_rendering_data
     end
+
+    before_save unless: :new_record? do
+      # If any attributes have changed since the last time
+      # this was saved, then rebuild the cache.
+      non_cache_changes = (changed_attributes.keys - [rendering_data_cache]).present?
+      self.rendering_data_cache = cacheable_rendering_data if non_cache_changes
+    end
   end
 
   class_methods do

@@ -60,7 +60,7 @@ export function useRequestQuery<TResult = unknown, TError = unknown>(
   isMountedRef: React.MutableRefObject<boolean>
 ): QueryResult<TResult, TError> {
   return useQuery<TResult, TError>(
-    [key, request.endpoint, request.query],
+    key,
     () => {
       return handleFetch(request, isMountedRef)
     },

@@ -13,10 +13,12 @@ label.c-checkbox-wrapper {
     }
     & .row {
         @apply flex items-center flex-grow;
+        transition: background 0.2s ease-out, border-color 0.2s ease-out;
     }
 
     & input:checked + .row {
-        background: var(--row-selected-background-color);
+        background: var(--row-selected-background-color) !important;
+        border-color: var(--row-selected-border-color) !important;
     }
 
     & input:checked + .row {

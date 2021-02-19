@@ -33,7 +33,6 @@
     --c-FBFCFE: #fbfcfe;
     --c-282339: #282339;
     --c-A9A6BD: #a9a6bd;
-    --c-E1EBFF: #e1ebff;
     --c-604FCD: #604fcd;
     --c-B0A8E3: #b0a8e3;
     --c-433F56: #433f56;
@@ -41,6 +40,7 @@
     --c-F0F3F9: #f0f3f9;
     --c-D5D8E4: #d5d8e4;
     --c-F4F7FD: #f4f7fd;
+    --c-E1EBFF: #e1ebff;
 
     --darkThemeBackgroundColor: var(--c-282339);
 }
@@ -57,11 +57,13 @@
     --borderColor5: var(--c-CBC9D9);
     --borderColor6: var(--c-D5D8E4);
     --borderColor7: var(--c-EAECF3);
+    --borderColor9: var(--c-FFFFFF);
     --textColor1: var(--c-000000);
     --textColor3: var(--c-26282D);
     --textColor5: var(--c-343741);
     --textColor6: var(--c-6D6986);
     --textColor7: var(--c-8480A0);
+    --textColor8: var(--c-E1EBFF);
     --textColor9: var(--c-FFFFFF);
 
     --buttonBorderColor1: var(--c-26282D);

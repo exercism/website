@@ -104,17 +104,17 @@ Done')
     assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
   end
 
-  test "removes level one headings by default" do
-    assert_equal "<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent")
+  test "does not remove level one headings by default" do
+    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent")
+  end
+
+  test "can remove level one headings" do
+    assert_equal "<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: true)
   end
 
   test "does not remove level one headings in code blocks" do
     assert_equal "<pre><code class=\"language-ruby\"># Top heading\n</code></pre>\n",
-      Markdown::Parse.("```ruby\n# Top heading\n```")
-  end
-
-  test "can keep level one headings" do
-    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
+      Markdown::Parse.("```ruby\n# Top heading\n```", strip_h1: true)
   end
 
   test "increment level of headings with greater than one" do

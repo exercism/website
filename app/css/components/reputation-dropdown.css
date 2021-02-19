@@ -45,16 +45,17 @@
             & .c-reputation {
                 @apply mr-24;
             }
-            & .seen,
-            & .unseen {
+            & .indicator {
                 height: 8px;
                 width: 8px;
                 @apply flex-shrink-0 rounded-circle mr-24;
-            }
-            & .unseen {
                 @apply bg-lightBlue;
-                animation: fade 1s ease-out forwards;
-                animation-delay: 1.5s;
+                opacity: 0;
+                transition: opacity 0.8s ease-out;
+
+                &.unseen {
+                    opacity: 1;
+                }
             }
 
             & .action-icon {

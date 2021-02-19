@@ -23,7 +23,7 @@ export const ReputationIcon = forwardRef<
         <Icon icon="reputation" alt="Reputation" />
         <span>{reputation}</span>
       </div>
-      {isSeen ? null : <div className="--notification" />}
+      <div className={'--notification ' + (isSeen ? '' : 'unseen')} />
     </button>
   )
 })

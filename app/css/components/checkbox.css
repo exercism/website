@@ -40,7 +40,7 @@ label.c-checkbox-wrapper {
     & .c-icon {
         height: 9px;
         width: 9px;
-        transition: 200ms transform linear;
+        transition: transform 0.2s linear;
         transform: scale(0);
     }
 }

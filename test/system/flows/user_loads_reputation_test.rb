@@ -53,8 +53,8 @@ module Flows
         find('li[role="menuitem"]').hover
       end
 
-      assert_no_css ".unseen"
-      assert_css ".seen"
+      assert_no_css ".indicator.unseen"
+      assert_css ".indicator.seen"
     end
 
     test "mark token as seen on focus" do
@@ -78,8 +78,8 @@ module Flows
         find(".c-primary-reputation").send_keys(:arrow_down)
       end
 
-      assert_no_css ".unseen"
-      assert_css ".seen"
+      assert_no_css ".indicator.unseen"
+      assert_css ".indicator.seen"
     end
 
     test "refetches on websocket notification" do
@@ -98,7 +98,7 @@ module Flows
           }
         ReputationChannel.broadcast_changed(user)
         within(".c-primary-reputation") { assert_text "3" }
-        assert_css ".--notification"
+        assert_css ".--notification.unseen"
         find(".c-primary-reputation").click
 
         assert_text "You reviewed PR#120 on ruby/pulls"

@@ -22,7 +22,7 @@ export const ReputationMenuItem = ({
         <div className="awarded-at">{fromNow(awardedAt)}</div>
       </div>
       <Reputation value={value} />
-      {isSeen ? <div className="seen" /> : <div className="unseen" />}
+      <div className={'indicator ' + (isSeen ? 'seen' : 'unseen')} />
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

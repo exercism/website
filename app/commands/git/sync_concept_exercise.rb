@@ -74,7 +74,9 @@ module Git
       slugs.map do |slug|
         concept_config = concepts_config.find { |e| e[:slug] == slug }
         ::Track::Concept.find_by!(uuid: concept_config[:uuid])
-      end
+      rescue StandardError
+        # TODO: Remove this rescue when configlet works
+      end.compact
     end
 
     memoize

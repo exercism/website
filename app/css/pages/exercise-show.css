@@ -145,11 +145,58 @@
         @apply bg-backgroundColorA shadow-lg rounded-8 mb-32;
         @apply py-24 px-32;
 
-        & h2 {
-            @apply text-h3;
-        }
-        & p {
-            @apply text-16 leading-paragraph;
+        & header {
+            @apply flex mb-20;
+
+            & .info {
+                & h2 {
+                    @apply text-h3 mb-6;
+                }
+                & p {
+                    @apply text-16 leading-160;
+                    & .essential {
+                        @apply text-red font-semibold;
+                    }
+                    & .actionable {
+                        @apply text-textColor3 font-semibold;
+                    }
+                    & .non-actionable {
+                        @apply text-textColor6 font-semibold;
+                    }
+                    & strong {
+                        @apply font-semibold;
+                    }
+                    & a {
+                        @apply inline-flex items-center;
+                        @apply font-medium text-lightBlue;
+                        & .c-icon {
+                            height: 12px;
+                            width: 12px;
+                            @apply ml-8;
+                        }
+                    }
+                }
+            }
+            & > .c-icon.spinner {
+                @apply ml-24;
+                height: 24px;
+                width: 24px;
+                animation: spin 3s linear infinite;
+            }
+            & .status {
+                @apply mt-16 mr-16 rounded-circle;
+                @apply flex-shrink-0;
+                height: 8px;
+                width: 8px;
+                overflow: hidden;
+
+                &.passed {
+                    @apply text-darkGreen bg-darkGreen;
+                }
+                &.failed {
+                    @apply bg-darkGreen bg-red;
+                }
+            }
         }
 
         & a.iteration {
@@ -164,15 +211,6 @@
             }
         }
 
-        & h2 + p {
-            @apply mt-8;
-        }
-        & h2 + a.iteration {
-            @apply mt-16;
-        }
-        & p + a.iteration {
-            @apply mt-24;
-        }
         & .next-steps {
             @apply border-t-1 border-borderColor7 mt-32;
             @apply grid grid-cols-2;

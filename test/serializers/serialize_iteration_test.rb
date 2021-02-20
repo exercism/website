@@ -9,19 +9,26 @@ class SerializeIterationTest < ActiveSupport::TestCase
       submission = create :submission, solution: solution
       iteration = create :iteration, solution: solution, submission: submission
       iteration.stubs(
-        automated_feedback_status: :present,
-        automated_feedback: "foobar"
+        representer_feedback: "foobar",
+        analyzer_feedback: "barfoo",
+        num_essential_automated_comments: 5,
+        num_actionable_automated_comments: 2,
+        num_non_actionable_automated_comments: 1
       )
 
       expected = {
         uuid: iteration.uuid,
         submission_uuid: submission.uuid,
         idx: 0,
+        status: "testing",
+        num_essential_automated_comments: 5,
+        num_actionable_automated_comments: 2,
+        num_non_actionable_automated_comments: 1,
         submission_method: "cli",
         created_at: Time.current.iso8601,
         tests_status: "not_queued",
-        automated_feedback_status: "present",
-        automated_feedback: "foobar",
+        representer_feedback: "foobar",
+        analyzer_feedback: "barfoo",
         links: {
           self: "https://test.exercism.io/tracks/ruby/exercises/bob/iterations?idx=0"
         }

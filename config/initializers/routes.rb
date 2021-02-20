@@ -11,13 +11,19 @@ class Exercism::Routes
     Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: iteration.idx)
   end
 
-  def self.private_solution_url(solution)
+  def self.private_solution_path(solution)
     [
-      host,
       "tracks",
       solution.track.slug,
       "exercises",
       solution.exercise.slug
+    ].join("/")
+  end
+
+  def self.private_solution_url(solution)
+    [
+      host,
+      private_solution_path(solution)
     ].join("/")
   end
 

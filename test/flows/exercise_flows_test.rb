@@ -55,7 +55,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       exercise: concept_exercise_lasagna,
       ast_digest: Submission::Representation.digest_ast('some ast'),
       feedback_markdown: "Fantastic Work!!",
-      feedback_author: mentor
+      feedback_author: mentor,
+      feedback_type: :actionable
 
     job = create_representer_job!(
       basics_submission_1,
@@ -65,8 +66,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     )
     Submission::Representation::Process.(job)
     assert basics_submission_1.reload.representation_generated?
-    assert basics_submission_1.automated_feedback
-    assert_equal mentor.name, basics_submission_1.automated_feedback[:mentor][:author][:name]
-    assert_equal "<p>Fantastic Work!!</p>\n", basics_submission_1.automated_feedback[:mentor][:html]
+    assert basics_submission_1.representer_feedback
+    assert_equal mentor.name, basics_submission_1.representer_feedback[:author][:name]
+    assert_equal "<p>Fantastic Work!!</p>\n", basics_submission_1.representer_feedback[:html]
   end
 end

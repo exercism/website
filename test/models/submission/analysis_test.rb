@@ -72,10 +72,89 @@ For example:</p>
     assert_equal expected, analysis.feedback_html
   end
 
-  test "has_feedback?" do
-    refute create(:submission_analysis, data: { comments: nil }).has_feedback?
-    refute create(:submission_analysis, data: { comments: [] }).has_feedback?
-    assert create(:submission_analysis, data: { comments: ['foobar'] }).has_feedback?
+  test "has_comments?" do
+    refute create(:submission_analysis, data: { comments: nil }).has_comments?
+    refute create(:submission_analysis, data: { comments: [] }).has_comments?
+    assert create(:submission_analysis, data: { comments: ['foobar'] }).has_comments?
+  end
+
+  test "informative comments: none" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 0, analysis.num_informative_comments
+    refute analysis.has_informative_comments?
+  end
+
+  test "informative comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "informative"
+    }] }
+
+    assert_equal 1, analysis.num_informative_comments
+    assert analysis.has_informative_comments?
+  end
+
+  test "celebratory comments: none" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 0, analysis.num_celebratory_comments
+    refute analysis.has_celebratory_comments?
+  end
+
+  test "celebratory comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "celebratory"
+    }] }
+
+    assert_equal 1, analysis.num_celebratory_comments
+    assert analysis.has_celebratory_comments?
+  end
+
+  test "essential comments: none" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 0, analysis.num_essential_comments
+    refute analysis.has_essential_comments?
+  end
+
+  test "essential comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "essential"
+    }] }
+
+    assert_equal 1, analysis.num_essential_comments
+    assert analysis.has_essential_comments?
+  end
+
+  test "actionable comments: none" do
+    analysis = create :submission_analysis, data: { comments: [] }
+
+    assert_equal 0, analysis.num_actionable_comments
+    refute analysis.has_actionable_comments?
+  end
+
+  test "actionable comments: short-syntax" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 1, analysis.num_actionable_comments
+    assert analysis.has_actionable_comments?
+  end
+
+  test "actionable comments: long-syntax" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "actionable"
+    }] }
+
+    assert_equal 1, analysis.num_actionable_comments
+    assert analysis.has_actionable_comments?
   end
 
   # TODO: - Add a test for if the data is empty

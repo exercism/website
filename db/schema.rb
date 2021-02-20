@@ -75,8 +75,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "feedback_essential"
-    t.boolean "feedback_actionable"
+    t.integer "feedback_type", limit: 1
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"

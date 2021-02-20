@@ -39,72 +39,90 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal er, submission.exercise_representation
   end
 
-  test "automated_feedback_status without feedback" do
+  test "automated_feedback_pending without feedback" do
     # Pending without queued
     submission = create :submission, representation_status: :not_queued, analysis_status: :not_queued
-    assert_equal :pending, submission.automated_feedback_status
+    assert submission.automated_feedback_pending?
 
     # Pending with queued
     submission = create :submission, representation_status: :queued, analysis_status: :queued
-    assert_equal :pending, submission.automated_feedback_status
+    assert submission.automated_feedback_pending?
 
-    # Present only if there is acutal feedback on representation
+    # Present only if there is actual feedback on representation
     submission = create :submission, representation_status: :generated, analysis_status: :queued
-    assert_equal :pending, submission.automated_feedback_status
+    assert submission.automated_feedback_pending?
 
     create :submission_representation, ast_digest: "foobar", submission: submission
     er = create :exercise_representation, ast_digest: "foobar", exercise: submission.exercise
-    assert_equal :pending, Submission.find(submission.id).automated_feedback_status
+    assert Submission.find(submission.id).automated_feedback_pending?
 
-    er.update!(feedback_markdown: "foobar", feedback_author: create(:user))
-    assert_equal :present, Submission.find(submission.id).automated_feedback_status
+    er.update!(feedback_markdown: "foobar", feedback_author: create(:user), feedback_type: :non_actionable)
+    submission = Submission.find(submission.id)
+    refute submission.automated_feedback_pending?
+    refute submission.has_essential_automated_feedback?
+    refute submission.has_actionable_automated_feedback?
+    assert submission.has_non_actionable_automated_feedback?
+
+    er.update!(feedback_type: :actionable)
+    submission = Submission.find(submission.id)
+    refute submission.automated_feedback_pending?
+    refute submission.has_essential_automated_feedback?
+    assert submission.has_actionable_automated_feedback?
+    refute submission.has_non_actionable_automated_feedback?
+
+    er.update!(feedback_type: :essential)
+    submission = Submission.find(submission.id)
+    refute submission.automated_feedback_pending?
+    assert submission.has_essential_automated_feedback?
+    refute submission.has_actionable_automated_feedback?
+    refute submission.has_non_actionable_automated_feedback?
 
     # Present only if there is actual feedback on analysis
     submission = create :submission, representation_status: :queued, analysis_status: :completed
-    assert_equal :pending, submission.automated_feedback_status
+    assert submission.automated_feedback_pending?
 
     sa = create :submission_analysis, submission: submission
-    assert_equal :pending, Submission.find(submission.id).automated_feedback_status
+    assert Submission.find(submission.id).automated_feedback_pending?
 
     sa.update(data: { comments: ['asd'] })
-    assert_equal :present, Submission.find(submission.id).automated_feedback_status
+    assert Submission.find(submission.id).has_automated_feedback?
 
-    # None if they're both completed but don't have feedback
+    # Finally, check if they're both completed but don't have feedback
     submission = create :submission, representation_status: :generated, analysis_status: :completed
-    assert_equal :none, submission.automated_feedback_status
+    refute submission.has_automated_feedback?
   end
 
-  test "has_automated_feedback? with representation" do
+  test "representer_feedback is correctly nil" do
     submission = create :submission, representation_status: :generated
-    refute submission.has_automated_feedback?
+    assert_nil submission.representer_feedback
 
     create :submission_representation, ast_digest: "foobar", submission: submission
     submission = Submission.find(submission.id)
-    refute submission.has_automated_feedback?
+    assert_nil submission.representer_feedback
 
     er = create :exercise_representation, ast_digest: "foobar", exercise: submission.exercise
     submission = Submission.find(submission.id)
-    refute submission.has_automated_feedback?
+    assert_nil submission.representer_feedback
 
-    er.update!(feedback_markdown: "foobar", feedback_author: create(:user))
+    er.update!(feedback_markdown: "foobar", feedback_author: create(:user), feedback_type: :essential)
     submission = Submission.find(submission.id)
-    assert submission.has_automated_feedback?
+    assert submission.representer_feedback
   end
 
-  test "has_automated_feedback? with analysis" do
+  test "analyzer_feedback is correctly nil" do
     submission = create :submission, analysis_status: :completed
-    refute submission.has_automated_feedback?
+    assert_nil submission.analyzer_feedback
 
     sa = create :submission_analysis, submission: submission
     submission = Submission.find(submission.id)
-    refute submission.reload.has_automated_feedback?
+    assert_nil submission.reload.analyzer_feedback
 
     sa.update(data: { comments: ['asd'] })
     submission = Submission.find(submission.id)
-    assert submission.reload.has_automated_feedback?
+    assert submission.reload.analyzer_feedback
   end
 
-  test "automated_feedback for representer" do
+  test "representer_feedback is populated correctly" do
     reputation = 50
     author = create :user, reputation: reputation
     markdown = "foobar"
@@ -112,24 +130,21 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :generated
     create :submission_representation, ast_digest: ast_digest, submission: submission
     create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
-                                     feedback_markdown: markdown, feedback_author: author
+                                     feedback_markdown: markdown, feedback_author: author, feedback_type: :essential
 
     expected = {
-      mentor: {
-        html: "<p>foobar</p>\n",
-        author: {
-          name: author.name,
-          reputation: 50,
-          avatar_url: author.avatar_url,
-          profile_url: "#"
-        }
-      },
-      analyzer: nil
+      html: "<p>foobar</p>\n",
+      author: {
+        name: author.name,
+        reputation: 50,
+        avatar_url: author.avatar_url,
+        profile_url: "#"
+      }
     }
-    assert_equal expected, submission.automated_feedback
+    assert_equal expected, submission.representer_feedback
   end
 
-  test "automated_feedback for analysis" do
+  test "analyzer_feedback is populated correctly" do
     TestHelpers.use_website_copy_test_repo!
 
     reputation = 50
@@ -144,21 +159,12 @@ class SubmissionTest < ActiveSupport::TestCase
                                      feedback_markdown: markdown, feedback_author: author
 
     expected = {
-      mentor: nil,
-      analyzer: {
-        html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n", # rubocop:disable Layout/LineLength
-        team: {
-          name: "The #{submission.track.title} Analysis Team",
-          link_url: "#"
-        }
+      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n", # rubocop:disable Layout/LineLength
+      team: {
+        name: "The #{submission.track.title} Analysis Team",
+        link_url: "#"
       }
     }
-    assert_equal expected, submission.automated_feedback
-  end
-
-  test "automated_feedback returns nil if has_automated_feedback? is false" do
-    submission = create :submission
-    refute submission.has_automated_feedback?
-    assert_nil submission.automated_feedback
+    assert_equal expected, submission.analyzer_feedback
   end
 end

@@ -45,11 +45,6 @@ export type AnalyzerFeedback = {
   team: AnalyzerFeedbackTeam
 }
 
-export type AutomatedFeedback = {
-  mentor?: RepresenterFeedback
-  analyzer?: AnalyzerFeedback
-}
-
 export type Iteration = {
   uuid: string
   idx: number
@@ -57,7 +52,8 @@ export type Iteration = {
   unread: boolean
   createdAt: string
   testsStatus: string
-  automatedFeedback: AutomatedFeedback
+  analyzerFeedback?: AnalyzerFeedback
+  representerFeedback?: RepresenterFeedback
   links: {
     files: string
   }

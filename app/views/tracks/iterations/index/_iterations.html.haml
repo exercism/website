@@ -11,14 +11,20 @@
                 / TODO: 🤮
                 = iteration.submission.files.first.content
           .automated-feedback
-            - case iteration.automated_feedback_status
-            - when :pending
+            - if iteration.status.to_sym == :testing || iteration.status.to_sym == :analyzing
               .automated-feedback-pending
                 = graphical_icon :spinner
                 %h3 We’re analysing your code for suggestions
                 %p This usually takes 10-30 seconds.
 
-            - when :present
+            - elsif iteration.status.to_sym == :no_automated_feedback
+              .automated-feedback-absent
+                = graphical_icon "graphic-conversation-1"
+                %h3 No auto suggestions? Try human mentoring.
+                %p Get real 1-to-1 human mentoring on the Leap exercise and start writing better C#.
+                = link_to "Get Mentoring", track_exercise_mentoring_index_path(iteration.track, iteration.exercise), class: 'btn-secondary'
+
+            - else
               .automated-feedback-present
                 .info
                   = icon 'info-circle', "Extra Information"
@@ -26,17 +32,14 @@
                     This is feedback written by our community, which may be of use.
                     = link_to "Learn more.", "#"
 
-                - feedback = iteration.automated_feedback
-                .comment
-                  .c-textual-content.--small= raw feedback[:html]
-                  .byline
-                    = rounded_bg_img(feedback[:author][:avatar_url], "Erik SchierBOOM's uploaded avatar")
-                    = link_to "by #{feedback[:author][:name]}", feedback[:author][:profile_url]
-                    - if feedback[:author][:reputation]
-                      = render ViewComponents::Reputation.new(feedback[:author][:reputation])
-            - else
-              .automated-feedback-absent
-                = graphical_icon "graphic-conversation-1"
-                %h3 No auto suggestions? Try human mentoring.
-                %p Get real 1-to-1 human mentoring on the Leap exercise and start writing better C#.
-                = link_to "Get Mentoring", track_exercise_mentoring_index_path(iteration.track, iteration.exercise), class: 'btn-secondary'
+                - if iteration.representer_feedback.present?
+                  - feedback = iteration.representer_feedback
+                  .comment
+                    .c-textual-content.--small= raw feedback[:html]
+                    .byline
+                      = rounded_bg_img(feedback[:author][:avatar_url], "Erik SchierBOOM's uploaded avatar")
+                      = link_to "by #{feedback[:author][:name]}", feedback[:author][:profile_url]
+                      - if feedback[:author][:reputation]
+                        = render ViewComponents::Reputation.new(feedback[:author][:reputation])
+
+                / TODO: Add analyzer feedback

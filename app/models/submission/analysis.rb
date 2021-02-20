@@ -5,8 +5,33 @@ class Submission::Analysis < ApplicationRecord
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
-  def has_feedback?
+  def has_comments?
     comment_blocks.present?
+  end
+
+  memoize
+  def num_comments_by_type
+    {
+      essential: 0,
+      actionable: 0,
+      informative: 0,
+      celebratory: 0
+    }.tap do |vals|
+      comment_blocks.count do |block|
+        type = block.try(:fetch, 'type').try(:to_sym) || :actionable
+        vals[type] += 1
+      end
+    end
+  end
+
+  %i[essential actionable informative celebratory].each do |type|
+    define_method "num_#{type}_comments" do
+      num_comments_by_type[type]
+    end
+
+    define_method "has_#{type}_comments?" do
+      send("num_#{type}_comments").positive?
+    end
   end
 
   def feedback_html
@@ -36,7 +61,7 @@ class Submission::Analysis < ApplicationRecord
 
   private
   def comment_blocks
-    data[:comments]
+    data[:comments].to_a
   end
 
   memoize

@@ -2,13 +2,19 @@ import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
-import { Student, AutomatedFeedback } from '../Session'
+import {
+  Student,
+  AnalyzerFeedback as AnalyzerFeedbackProps,
+  RepresenterFeedback as RepresenterFeedbackProps,
+} from '../Session'
 
 export const AutomatedFeedbackSummary = ({
-  automatedFeedback,
+  analyzerFeedback,
+  representerFeedback,
   userIsStudent,
 }: {
-  automatedFeedback: AutomatedFeedback
+  analyzerFeedback?: AnalyzerFeedbackProps
+  representerFeedback?: RepresenterFeedbackProps
   userIsStudent: boolean
 }): JSX.Element => {
   const addressedTo = userIsStudent ? 'You' : 'Your student'
@@ -21,12 +27,10 @@ export const AutomatedFeedbackSummary = ({
         <GraphicalIcon icon="chevron-right" className="--closed-icon" />
         <GraphicalIcon icon="chevron-down" className="--open-icon" />
       </summary>
-      {automatedFeedback.mentor ? (
-        <RepresenterFeedback {...automatedFeedback.mentor} />
+      {representerFeedback ? (
+        <RepresenterFeedback {...representerFeedback} />
       ) : null}
-      {automatedFeedback.analyzer ? (
-        <AnalyzerFeedback {...automatedFeedback.analyzer} />
-      ) : null}
+      {analyzerFeedback ? <AnalyzerFeedback {...analyzerFeedback} /> : null}
     </details>
   )
 }

@@ -81,7 +81,7 @@
         }
         & .--dot,
         & .c-icon {
-            @apply mr-16;
+            @apply mr-12;
         }
         & .--status {
             @apply font-mono font-bold;

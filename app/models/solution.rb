@@ -38,6 +38,14 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
+  # delegate :tests_status,
+  #   :representer_feedback, :analyzer_feedback,
+  #   to: :latest_iteration
+
+  memoize
+  def latest_iteration
+    iterations.last
+  end
 
   def git_type
     self.class.name.sub("Solution", "").downcase

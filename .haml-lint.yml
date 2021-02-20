@@ -4,7 +4,6 @@ linters:
 
   LineLength:
     enabled: false
-    max: 100
 
   ViewLength:
     enabled: false
@@ -41,5 +40,5 @@ linters:
       - Style/IfUnlessModifier
       - Style/Next
       - Style/WhileUntilModifier
-
+      - Style/CaseLikeIf
       - Layout/EmptyLineAfterGuardClause

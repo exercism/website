@@ -1,6 +1,8 @@
 @import "../styles";
 
 .m-become-mentor {
+    --inner-width: 800px;
+
     @apply pt-48 pb-48;
     & header {
         @apply flex items-center justify-between;
@@ -46,7 +48,7 @@
         @apply text-h1 mb-16;
     }
     & p {
-        max-width: 800px;
+        max-width: var(--inner-width);
 
         @apply text-18 leading-170 mb-24;
 
@@ -226,8 +228,42 @@
             @apply text-h3 mb-20;
         }
 
-        & p {
+        & p.welcome {
             @apply text-center mb-32;
+        }
+        & .video-frame {
+            @apply px-32 pt-16 pb-32 mb-32;
+            @apply bg-backgroundColorA rounded-8 shadow-lg;
+            width: 100%;
+            max-width: var(--inner-width);
+
+            & .video-header {
+                @apply flex items-center justify-start;
+                @apply mb-16;
+                & .c-icon {
+                    width: 32px;
+                    height: 32px;
+                    @apply mr-24;
+                    @apply text-textColor6;
+                }
+
+                & .info {
+                    & h3 {
+                        @apply text-h4 mb-0;
+                    }
+                    & p {
+                        @apply text-textColor6 text-16 leading-170;
+                        @apply mb-0;
+                    }
+                }
+            }
+            & .video {
+                width: 100%;
+            }
+        }
+        & button {
+            width: 100%;
+            max-width: var(--inner-width);
         }
     }
 }

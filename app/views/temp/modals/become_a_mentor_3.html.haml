@@ -12,6 +12,17 @@
       = graphical_icon "confetti"
       %h2 You’re now a mentor!
       %h3 Thank you - we’re so grateful for your commitment  🙏
-      %p
+      %p.welcome
         We want to make getting started with mentoring as easy as possible.
-        Give the video below a quick watch to learn more.
+        Watch the video below to learn how to get started.
+
+      .video-frame
+        %header.video-header
+          = icon :video, "This is a video"
+          .info
+            %h3 Getting started with Mentoring on Exercism
+            %p Video · 2:30
+
+        <div class="video" style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+      %button.btn-cta I'm ready to get started!

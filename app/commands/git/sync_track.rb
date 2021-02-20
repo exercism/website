@@ -63,8 +63,6 @@ module Git
 
     def concept_exercises
       concept_exercises_config.map do |exercise_config|
-        next if exercise_config[:uuid].blank? # TODO: decide if we want to allow null as the uuid
-
         ::ConceptExercise::Create.(
           exercise_config[:uuid],
           track,
@@ -82,8 +80,6 @@ module Git
 
     def practice_exercises
       practice_exercises_config.map do |exercise_config|
-        next if exercise_config[:uuid].blank? # TODO: decide if we want to allow null as the uuid
-
         ::PracticeExercise::Create.(
           exercise_config[:uuid],
           track,

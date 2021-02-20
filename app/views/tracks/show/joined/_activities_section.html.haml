@@ -3,7 +3,7 @@
     - @activities.each do |solution|
       .exercise
         %header
-          = link_to solution[:links][:exericse_url], class: 'content' do
+          = link_to solution[:links][:exercise_url], class: 'content' do
             = exercise_icon(Exercise.first) # solution[:exercise][:icon_name]
             .info
               .title= solution[:exercise][:title]

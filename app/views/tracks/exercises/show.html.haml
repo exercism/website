@@ -25,55 +25,16 @@
   .lg-container.tw-flex
     .tw-w-arbitary.tw-flex-grow
       - if @solution&.completed?
-        = render "tracks/exercises/show/completed_sections", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
+        %section.completed-heading
+          = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
+          .text You've completed #{exercise.title}.
+          = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(track))
 
-      - elsif @iteration
+      = render "tracks/exercises/show/nudge_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
+      = render "tracks/exercises/show/iteration_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
 
-        %section.latest-iteration
-          %h2 You’ve submitted an iteration.
-          %p We'll automatically analyze your solution and suggest potential improvements.
-
-          = link_to Exercism::Routes.track_exercise_iteration_path(@track, @exercise, @iteration), class: "iteration" do
-            = ReactComponents::Track::IterationSummary.new(@iteration)
-            = graphical_icon 'chevron-right', css_class: 'action-icon'
-
-          = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(@track))
-
-          .next-steps
-            .header-bar
-              %h3 What can I do from here?
-              / TODO: Implement
-              %button.btn-small
-                = graphical_icon :close
-                Dismiss
-
-            .steps
-              = link_to track_exercise_iterations_path(@track, @exercise), class: 'action' do
-                = graphical_icon "graphic-bookworm"
-                Review any automated feedback
-
-              = link_to "#", class: 'action' do
-                = graphical_icon "graphic-phone-chat"
-                Learn from alternative approaches
-
-              = link_to track_exercise_mentoring_index_path(@track, @exercise), class: 'action' do
-                = graphical_icon "graphic-hacker-boy"
-                Get free mentoring on your solution
-
-              = link_to "#", class: 'action' do
-                = graphical_icon "graphic-floating-cash"
-                Mark the exercise as complete
-
-      - if @exercise.concept_exercise? && !@solution&.completed?
-        %section.taught-concepts
-          %h3
-            Completing #{@track.title} teaches
-            %strong= pluralize @exercise.taught_concepts.size, 'concept'
-          .concepts
-            - @exercise.taught_concepts.each.each do |concept|
-              = link_to track_concept_path(@track, concept), class: 'concept' do
-                = render ViewComponents::ConceptIcon.new(concept, :small)
-                = concept.name
+      - if @exercise.concept_exercise?
+        = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
 
       - if @exercise.practice_exercise?
         - introduction = @solution ? @solution.introduction : @exercise.introduction

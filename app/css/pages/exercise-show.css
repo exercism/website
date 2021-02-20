@@ -91,15 +91,16 @@
             @apply flex flex-wrap mb-16;
 
             & .c-concept {
-                @appl ymr-8;
+                @apply mr-8;
             }
         }
         & .c-prominent-link {
-            @apply mb-24;
+            @apply mb-16;
         }
         & .explanation {
-            @apply bg-unnamed15 py-12 px-24 rounded-8;
-            @apply text-16 leading-paragraph font-medium;
+            @apply bg-lightOrange border-1 border-lightGold rounded-8;
+            @apply py-8 px-16;
+            @apply text-14 leading-160 font-medium;
 
             & a {
                 @apply text-lightBlue font-medium;
@@ -173,43 +174,51 @@
             @apply mt-24;
         }
         & .next-steps {
-            @apply border-t-1 border-borderColor7 pt-24 mt-32;
-            & .header-bar {
-                @apply flex items-center mb-24;
-                & h3 {
-                    @apply flex-grow;
-                    @apply text-h4;
+            @apply border-t-1 border-borderColor7 mt-32;
+            @apply grid grid-cols-2;
+
+            & .community-solutions,
+            & .mentoring {
+                @apply pt-24;
+                @apply flex flex-col items-center;
+                @apply text-center;
+
+                & .header-icon {
+                    width: 48px;
+                    height: 48px;
+                    @apply mb-12;
                 }
-                & .btn {
+                & h3 {
+                    @apply text-h4 mb-6;
+                }
+
+                & p {
+                    @apply text-16 leading-160 mb-20;
+                }
+            }
+            & .community-solutions {
+                @apply pr-32;
+                @apply border-r-1 border-borderColor7;
+                & p {
+                    @apply mb-20;
                 }
             }
 
-            & .steps {
-                height: 216px;
-                @apply flex;
-                @apply rounded-8 bg-backgroundColorA;
-
-                box-shadow: 0px 4px 42px rgba(79, 114, 205, 0.15);
-
-                & a {
-                    width: 25%;
-
-                    @apply flex flex-col items-center justify-start;
-                    @apply px-16 py-32 text-14 leading-paragraph text-center;
-                    @apply border-r-1 border-borderColor7;
-                    &:last-child {
-                        @apply border-r-0;
-                    }
-
-                    &:hover {
-                        @apply shadow-lg;
-                    }
-
+            & .mentoring {
+                @apply pl-32;
+                & p {
+                    @apply mb-16;
+                }
+                & .btn-cta {
+                    @apply mb-16;
+                }
+                & .learn-more {
+                    @apply flex items-center;
+                    @apply font-semibold text-lightBlue text-14 leading-170;
                     & .c-icon {
-                        height: 96px;
-                        width: 96px;
-
-                        @apply mb-12;
+                        height: 14px;
+                        width: 14px;
+                        @apply ml-8;
                     }
                 }
             }

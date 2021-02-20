@@ -1,0 +1,31 @@
+/ TODO: Convert everything to React
+
+:ruby
+  return unless iteration
+  track = user_track.track
+  exercise = iteration.exercise
+
+%section.latest-iteration
+  %h2 You’ve submitted an iteration.
+  %p We'll automatically analyze your solution and suggest potential improvements.
+
+  = link_to Exercism::Routes.track_exercise_iteration_path(track, exercise, iteration), class: "iteration" do
+    = ReactComponents::Track::IterationSummary.new(iteration)
+    = graphical_icon 'chevron-right', css_class: 'action-icon'
+
+  = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(track))
+
+  .next-steps
+    .community-solutions
+      = graphical_icon "graphic-community-solutions", css_class: "header-icon"
+      %h3 Learn from others' solutions
+      %p Explore their approaches to learn new tips and tricks. Discover popular solutions to this exercise.
+      = link_to "View community solutions", "#", class: 'btn'
+    .mentoring
+      = graphical_icon "graphic-mentoring-screen", css_class: "header-icon"
+      %h3 Get mentored by a human
+      %p On average, students iterate a further 3.5 times when mentored on a solution.
+      = link_to "Request Mentoring", "#", class: 'btn-cta'
+      = link_to "#", class: 'learn-more' do
+        Learn more
+        = icon "external-link", "Opens in new tab"

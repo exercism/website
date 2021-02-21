@@ -1,7 +1,7 @@
 jest.mock('../../../../../app/javascript/components/editor/FileEditor')
 
 import React from 'react'
-import { render, waitFor, act, await, screen } from '@testing-library/react'
+import { render, fireEvent, waitFor, act, await, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
@@ -127,5 +127,56 @@ test('disables submit button unless tests passed', async () => {
   waitFor(() => {
     expect(screen.getByText('Submit')).toBeDisabled()
   })
+  server.close()
+})
+
+test('disables submit button when files changed', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/test_run', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          test_run: {
+            id: null,
+            submission_uuid: '123',
+            status: 'pass',
+            message: '',
+            tests: [],
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <Editor
+      endpoint="https://exercism.test/submissions"
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+      initialSubmission={{
+        uuid: '123',
+        testsStatus: 'passed',
+        links: {
+          cancel: 'https://exercism.test/cancel',
+          testRun: 'https://exercism.test/test_run',
+        },
+      }}
+      assignment={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
+      }}
+    />
+  )
+
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: 'Submit F3' })).not.toBeDisabled()
+  })
+  fireEvent.change(screen.getByTestId('editor-value'), {
+    target: { value: 'class' },
+  })
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: 'Submit F3' })).toBeDisabled()
+  })
+
   server.close()
 })

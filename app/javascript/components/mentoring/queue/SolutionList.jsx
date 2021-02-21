@@ -55,7 +55,7 @@ export function SolutionList({
       ) : (
         'No discussions found'
       )}
-      {latestData && (
+      {latestData && latestData.meta.totalPages > 1 && (
         <footer>
           <Pagination
             current={page}

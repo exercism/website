@@ -32,7 +32,7 @@ export function DiscussionList({ request, setPage }) {
           {resolvedData.results.map((conversation, key) => (
             <Discussion key={key} {...conversation} />
           ))}
-          {latestData && (
+          {latestData & (latestData.meta.totalPages > 1) && (
             <footer>
               <Pagination
                 current={request.query.currentPage}

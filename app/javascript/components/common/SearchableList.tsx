@@ -131,7 +131,7 @@ const Results = ({
           setOrder={setOrder}
         />
       ) : null}
-      {latestData ? (
+      {latestData && latestData.meta.totalPages > 1 ? (
         <Pagination
           current={query.page}
           total={latestData.meta.totalPages}

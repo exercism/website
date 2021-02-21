@@ -24,3 +24,16 @@ test('previous iteration button is disabled when on first iteration', async () =
     screen.getByRole('button', { name: 'Go to previous iteration' })
   ).toBeDisabled()
 })
+
+test('previous and next buttons are hidden when there is only one iteration in the list', async () => {
+  const iterations = [{ idx: 1 }]
+
+  render(<IterationsList current={iterations[0]} iterations={iterations} />)
+
+  expect(
+    screen.queryByRole('button', { name: 'Go to previous iteration' })
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', { name: 'Go to next iteration' })
+  ).not.toBeInTheDocument()
+})

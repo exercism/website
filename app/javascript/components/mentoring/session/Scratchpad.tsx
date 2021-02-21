@@ -134,13 +134,15 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
             <div className="--warning">Unsaved</div>
           )}
 
-          <button
-            className="btn-small-discourage"
-            type="button"
-            onClick={() => pullPage()}
-          >
-            Revert to saved
-          </button>
+          {content === page.contentMarkdown ? null : (
+            <button
+              className="btn-small-discourage"
+              type="button"
+              onClick={() => pullPage()}
+            >
+              Revert to saved
+            </button>
+          )}
 
           <button type="submit" className="btn-small-cta">
             Save

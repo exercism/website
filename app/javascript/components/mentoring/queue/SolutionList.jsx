@@ -32,16 +32,18 @@ export function SolutionList({
       {status === 'success' && resolvedData.results.length > 0 ? (
         <>
           <div className="--solutions">
-            {resolvedData.results.map((solution, key) => (
-              <Solution
-                key={key}
-                {...solution}
-                showMoreInformation={(e) =>
-                  showTooltip(e.target, solution.tooltipUrl)
-                }
-                hideMoreInformation={() => hideTooltip()}
-              />
-            ))}
+            {resolvedData.results.length > 0
+              ? resolvedData.results.map((solution, key) => (
+                  <Solution
+                    key={key}
+                    {...solution}
+                    showMoreInformation={(e) =>
+                      showTooltip(e.target, solution.tooltipUrl)
+                    }
+                    hideMoreInformation={() => hideTooltip()}
+                  />
+                ))
+              : 'No discussions found'}
           </div>
           <div ref={setTooltipElement}>
             {tooltipTrigger ? (
@@ -51,19 +53,16 @@ export function SolutionList({
               />
             ) : null}
           </div>
+          <footer>
+            <Pagination
+              disabled={latestData === undefined}
+              current={page}
+              total={resolvedData.meta.totalPages}
+              setPage={setPage}
+            />
+          </footer>
         </>
-      ) : (
-        'No discussions found'
-      )}
-      {latestData && (
-        <footer>
-          <Pagination
-            current={page}
-            total={latestData.meta.totalPages}
-            setPage={setPage}
-          />
-        </footer>
-      )}
+      ) : null}
     </div>
   )
 }

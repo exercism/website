@@ -4,19 +4,26 @@ import '@testing-library/jest-dom/extend-expect'
 import { usePanel } from '../../../app/javascript/hooks/use-panel'
 
 const TestComponent = () => {
-  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
+  const {
+    open,
+    setOpen,
+    setButtonElement,
+    setPanelElement,
+    styles,
+    attributes,
+  } = usePanel()
 
   return (
     <React.Fragment>
       <button
-        ref={buttonRef}
+        ref={setButtonElement}
         onClick={() => {
           setOpen(!open)
         }}
       >
         Open panel
       </button>
-      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
+      <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
         {open ? <div>Opened</div> : null}
       </div>
     </React.Fragment>

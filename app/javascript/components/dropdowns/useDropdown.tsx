@@ -19,7 +19,7 @@ type ButtonAttributes = {
   'aria-controls': string
   'aria-haspopup': true
   'aria-expanded': boolean | undefined
-  ref: React.MutableRefObject<HTMLButtonElement | null>
+  ref: (element: HTMLButtonElement) => void
   onKeyDown: (e: KeyboardEvent) => void
   onClick: () => void
 }
@@ -41,7 +41,16 @@ export const useDropdown = (
   itemLength: number,
   onItemSelect?: (index: number) => void
 ): DropdownAttributes => {
-  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
+  const {
+    open,
+    setOpen,
+    buttonElement,
+    setButtonElement,
+    panelElement,
+    setPanelElement,
+    styles,
+    attributes,
+  } = usePanel()
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
   const [focusIndex, setFocusIndex] = useState<number | null | undefined>()
   const id = useMemo(() => {
@@ -123,27 +132,27 @@ export const useDropdown = (
     }
 
     if (focusIndex === null) {
-      buttonRef.current?.focus()
+      buttonElement?.focus()
 
       return
     }
 
     menuItemElementsRef.current[focusIndex].focus()
-  }, [open, focusIndex, buttonRef])
+  }, [open, focusIndex, buttonElement])
 
   return {
     buttonAttributes: {
       'aria-controls': id,
       'aria-haspopup': true,
       'aria-expanded': open ? true : undefined,
-      ref: buttonRef,
+      ref: setButtonElement,
       onKeyDown: handleButtonKeyDown,
       onClick: () => {
         setOpen(!open)
       },
     },
     panelAttributes: {
-      ref: panelRef,
+      ref: setPanelElement,
       style: styles.popper,
       ...attributes.popper,
     },

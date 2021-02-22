@@ -13,7 +13,14 @@ export const ActionMore = ({
   isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { open, setOpen, buttonRef, panelRef, styles, attributes } = usePanel()
+  const {
+    open,
+    setOpen,
+    setButtonElement,
+    setPanelElement,
+    styles,
+    attributes,
+  } = usePanel()
 
   const handleRevertToLastIteration = useCallback(() => {
     onRevertToLastIteration()
@@ -39,7 +46,7 @@ export const ActionMore = ({
         onClose={() => setIsModalOpen(false)}
       />
       <button
-        ref={buttonRef}
+        ref={setButtonElement}
         className="more-btn"
         onClick={() => {
           setOpen(!open)
@@ -47,7 +54,7 @@ export const ActionMore = ({
       >
         <Icon icon="more-horizontal" alt="Open more options" />
       </button>
-      <div ref={panelRef} style={styles.popper} {...attributes.popper}>
+      <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
         {open ? (
           <div>
             <button type="button" onClick={handleRevertToExerciseStart}>

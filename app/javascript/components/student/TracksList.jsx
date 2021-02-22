@@ -43,7 +43,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       <section className="c-search-bar">
         <div className="lg-container container">
           <Search dispatch={dispatch} />
-
+          {isFetching ? <p>Fetching</p> : null}
           <TagsFilter
             dispatch={dispatch}
             options={tagOptions}

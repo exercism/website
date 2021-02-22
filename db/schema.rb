@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_160352) do
+ActiveRecord::Schema.define(version: 2021_02_22_135113) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 2021_02_17_160352) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "feedback_essential"
+    t.boolean "feedback_actionable"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
@@ -420,6 +422,16 @@ ActiveRecord::Schema.define(version: 2021_02_17_160352) do
     t.index ["user_track_id"], name: "index_user_track_learnt_concepts_on_user_track_id"
   end
 
+  create_table "user_track_mentorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
+    t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
+    t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
+  end
+
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
@@ -510,6 +522,8 @@ ActiveRecord::Schema.define(version: 2021_02_17_160352) do
   add_foreign_key "user_reputation_tokens", "users"
   add_foreign_key "user_track_learnt_concepts", "track_concepts"
   add_foreign_key "user_track_learnt_concepts", "user_tracks"
+  add_foreign_key "user_track_mentorships", "tracks"
+  add_foreign_key "user_track_mentorships", "users"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
 end

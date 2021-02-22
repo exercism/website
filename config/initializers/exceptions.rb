@@ -4,6 +4,17 @@ class DuplicateSubmissionError < RuntimeError; end
 
 class ExerciseUnavailableError < RuntimeError; end
 
+class InvalidTrackSlugsError < RuntimeError
+  attr_reader :track_slugs
+
+  def initialize(track_slugs)
+    super("Some track slugs were invalid")
+    @track_slugs = track_slugs
+  end
+end
+
+class MissingTracksError < RuntimeError; end
+
 class SubmissionFileTooLargeError < RuntimeError; end
 
 class SolutionLockedByAnotherMentorError < RuntimeError; end

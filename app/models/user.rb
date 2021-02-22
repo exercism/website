@@ -36,6 +36,9 @@ class User < ApplicationRecord
   has_many :contributed_exercises, through: :contributorships, source: :exercise
   has_many :scratchpad_pages, dependent: :destroy
 
+  has_many :track_mentorships, dependent: :destroy
+  has_many :mentored_tracks, through: :track_mentorships, source: :track
+
   # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true

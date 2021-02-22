@@ -16,6 +16,7 @@ gem 'puma', '~> 4.1'
 
 # Helper gems for Rails
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bugsnag'
 
 # Interaction gems
 gem 'rugged' # Git

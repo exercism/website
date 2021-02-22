@@ -9,6 +9,10 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Scratchpad } from '../../../../../app/javascript/components/mentoring/session/Scratchpad'
+import { stubRange } from '../../../support/code-mirror-helpers'
+import { act } from 'react-dom/test-utils'
+
+stubRange()
 
 test('hides local storage autosave message', async () => {
   const server = setupServer(
@@ -88,6 +92,52 @@ test('clears errors when resubmitting', async () => {
   userEvent.click(screen.getByRole('button', { name: 'Save' }))
 
   expect(screen.queryByText('Unable to save page')).not.toBeInTheDocument()
+
+  server.close()
+})
+
+test('revert to saved button shows if content changed', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
+      return res(ctx.json({ scratchpad_page: { content_markdown: '' } }))
+    })
+  )
+  server.listen()
+
+  render(
+    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
+  )
+
+  await waitForElementToBeRemoved(screen.queryByText('Loading'))
+
+  act(() => {
+    document.querySelector('.CodeMirror').CodeMirror.setValue('#Hello')
+  })
+
+  expect(
+    await screen.findByRole('button', { name: 'Revert to saved' })
+  ).toBeInTheDocument()
+
+  server.close()
+})
+
+test('revert to saved button is hidden', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
+      return res(ctx.json({ scratchpad_page: { content_markdown: '' } }))
+    })
+  )
+  server.listen()
+
+  render(
+    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
+  )
+
+  await waitForElementToBeRemoved(screen.queryByText('Loading'))
+
+  expect(
+    screen.queryByRole('button', { name: 'Revert to saved' })
+  ).not.toBeInTheDocument()
 
   server.close()
 })

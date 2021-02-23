@@ -181,6 +181,9 @@
                     }
                 }
             }
+            & .c-primary-reputation {
+                @apply flex-shrink-0;
+            }
             & .action-button {
                 height: 24px;
                 width: 24px;

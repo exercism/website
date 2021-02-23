@@ -4,6 +4,8 @@ import { useIsMounted } from 'use-is-mounted'
 import { TracksList } from './choose-track-step/TracksList'
 import { SelectedTracksMessage } from './choose-track-step/SelectedTracksMessage'
 import { ContinueButton } from './choose-track-step/ContinueButton'
+import { SearchBar } from './choose-track-step/SearchBar'
+import { useList } from '../../../hooks/use-list'
 
 export type APIResponse = {
   tracks: readonly Track[]
@@ -24,9 +26,10 @@ export const ChooseTrackStep = ({
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [selected, setSelected] = useState<string[]>([])
+  const { request, setCriteria } = useList({ endpoint: endpoint, options: {} })
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
-  >('tracks', { endpoint: endpoint, options: {} }, isMountedRef)
+  >('tracks', request, isMountedRef)
 
   return (
     <section className="tracks-section">
@@ -38,7 +41,10 @@ export const ChooseTrackStep = ({
         </strong>
       </p>
       <div className="c-search-bar">
-        <input className="--search" />
+        <SearchBar
+          value={request.query.criteria || ''}
+          setValue={setCriteria}
+        />
         {isFetching ? <span>Fetching</span> : null}
         <SelectedTracksMessage numSelected={selected.length} />
         <ContinueButton disabled={selected.length === 0} />

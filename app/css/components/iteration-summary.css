@@ -85,6 +85,12 @@
         & .--status {
             @apply font-mono font-bold;
         }
+        &.--processing {
+            @apply text-orange;
+            & .c-icon {
+                animation: spin 3s linear infinite;
+            }
+        }
         &.--passed {
             @apply text-darkGreen;
             & .--dot {

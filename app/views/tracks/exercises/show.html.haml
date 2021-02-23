@@ -28,7 +28,7 @@
         %section.completed-heading
           = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
           .text You've completed #{@exercise.title}.
-          = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(track))
+          = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(@track))
 
       = render "tracks/exercises/show/nudge_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
       = render "tracks/exercises/show/iteration_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration

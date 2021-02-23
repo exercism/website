@@ -2,7 +2,7 @@ import React from 'react'
 import { IterationStatus } from '../IterationSummary'
 import { GraphicalIcon } from '../../common'
 
-function Content({ iterationStatus }: { iterationStatus: IterationStatus }) {
+function Content({ status }: { status: string }) {
   switch (status) {
     case 'processing':
       return (
@@ -22,7 +22,7 @@ function Content({ iterationStatus }: { iterationStatus: IterationStatus }) {
       return (
         <>
           <div role="presentation" className="--dot"></div>
-          <div className="--status">Tests Passed</div>
+          <div className="--status">Passed</div>
         </>
       )
   }
@@ -53,7 +53,7 @@ export function ProcessingStatusSummary({
       role="status"
       aria-label="Processing status"
     >
-      <Content iterationStatus={iterationStatus} />
+      <Content status={status} />
     </div>
   )
 }

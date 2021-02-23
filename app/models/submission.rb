@@ -114,11 +114,8 @@ class Submission < ApplicationRecord
     return nil unless analysis&.has_comments?
 
     {
-      html: analysis.feedback_html,
-      team: {
-        name: "The #{track.title} Analysis Team",
-        link_url: "#" # TODO
-      }
+      summary: analysis.summary,
+      comments: analysis.comments
     }
   end
 

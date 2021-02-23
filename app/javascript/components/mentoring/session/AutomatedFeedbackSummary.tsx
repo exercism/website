@@ -1,5 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Icon } from '../../common/Icon'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
 import {
@@ -31,6 +32,11 @@ export const AutomatedFeedbackSummary = ({
         <RepresenterFeedback {...representerFeedback} />
       ) : null}
       {analyzerFeedback ? <AnalyzerFeedback {...analyzerFeedback} /> : null}
+      {/* TODO: Fill out this URL */}
+      <a href="#" className="more-info">
+        Learn more about this feedback
+        <Icon icon="external-link" alt="Opens in new tab" />
+      </a>
     </details>
   )
 }

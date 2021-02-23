@@ -30,19 +30,18 @@ type RepresenterFeedbackAuthor = {
   profileUrl: string
 }
 
-type AnalyzerFeedbackTeam = {
-  name: string
-  linkUrl: string
-}
-
 export type RepresenterFeedback = {
   html: string
   author: RepresenterFeedbackAuthor
 }
 
-export type AnalyzerFeedback = {
+export type AnalyzerFeedbackComment = {
+  type: string
   html: string
-  team: AnalyzerFeedbackTeam
+}
+export type AnalyzerFeedback = {
+  summary: string
+  comments: AnalyzerFeedbackComment[]
 }
 
 export type Iteration = {

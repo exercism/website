@@ -8,6 +8,7 @@ module API
 
       serialized_posts = [mentor_request_comment, posts].
         flatten.
+        compact.
         map { |post| SerializeMentorDiscussionPost.(post, current_user) }
 
       render json: { posts: serialized_posts }
@@ -70,6 +71,8 @@ module API
         updated_at: mentor_request.updated_at,
         discussion: discussion
       )
+    rescue StandardError
+      nil
     end
 
     def by_student?

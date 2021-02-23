@@ -29,8 +29,14 @@
     &.--small {
         & * {
             @apply text-15;
-            @apply mt-12;
-            @apply mt-12;
+        }
+        & > * {
+            &:not(:first-child) {
+                @apply mt-12;
+            }
+            &:last-child {
+                @apply mb-0;
+            }
         }
 
         /************/

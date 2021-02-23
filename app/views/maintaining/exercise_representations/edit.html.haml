@@ -32,13 +32,11 @@
     = form_for @representation, url: maintaining_exercise_representation_path(@representation) do |f|
       %h3.text-h4.tw-mb-8 Feedback
       = f.text_area :feedback_markdown, style: "width:400px;height:400px;"
-      = label do
-        = f.checkbox :feedback_actionable
-        Is this feedback actionable?
 
-      = label do
-        = f.checkbox :feedback_essential
-        Is this feedback essential for a user to act upon?
+      %div
+        = f.label :feedback_type, "Type of feedback"
+        .c-select
+          = f.select :feedback_type, %i[essential actionable non_actionable]
 
       = f.button "Let's go!", class: "btn-cta"
 

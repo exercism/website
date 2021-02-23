@@ -10,7 +10,7 @@
               %code
                 / TODO: 🤮
                 = iteration.submission.files.first.content
-          .automated-feedback
+          .information
             - if iteration.status.to_sym == :testing || iteration.status.to_sym == :analyzing
               .automated-feedback-pending
                 = graphical_icon :spinner
@@ -25,21 +25,41 @@
                 = link_to "Get Mentoring", track_exercise_mentoring_index_path(iteration.track, iteration.exercise), class: 'btn-secondary'
 
             - else
-              .automated-feedback-present
-                .info
-                  = icon 'info-circle', "Extra Information"
-                  %p
-                    This is feedback written by our community, which may be of use.
-                    = link_to "Learn more.", "#"
-
-                - if iteration.representer_feedback.present?
+              - if iteration.representer_feedback
+                .representer-feedback
                   - feedback = iteration.representer_feedback
+                  .feedback-header
+                    = rounded_bg_img(feedback[:author][:avatar_url], "Erik SchierBOOM's uploaded avatar")
+                    .info
+                      %strong= feedback[:author][:name]
+                      gave this feedback on a solution very similar to yours:
+
                   .comment
                     .c-textual-content.--small= raw feedback[:html]
-                    .byline
-                      = rounded_bg_img(feedback[:author][:avatar_url], "Erik SchierBOOM's uploaded avatar")
-                      = link_to "by #{feedback[:author][:name]}", feedback[:author][:profile_url]
-                      - if feedback[:author][:reputation]
-                        = render ViewComponents::Reputation.new(feedback[:author][:reputation])
 
-                / TODO: Add analyzer feedback
+              - if iteration.analyzer_feedback
+                - feedback = iteration.analyzer_feedback
+                .analyzer-feedback
+                  .feedback-header
+                    = track_icon iteration.track
+                    .info
+                      Our
+                      %strong #{iteration.track.title} Analyzer
+                      has some comments on your solution which may be useful for you:
+
+                  - if feedback[:summary].present?
+                    .summary= feedback[:summary]
+
+                  - feedback[:comments].each do |comment|
+                    .comment
+                      - if comment[:type] == :essential
+                        .tag.essential Essential
+                      - elsif comment[:type] == :actionable
+                        .tag.recommended Recommended
+                      .c-textual-content.--small= raw comment[:html]
+
+                  .explanation
+                    Exercism provides automated feedback using a number of intelligent tools and systems developed by our community.
+                    = link_to "#" do
+                      Learn more
+                      = icon "external-link", "Opens in a new tab"

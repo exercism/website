@@ -5,20 +5,16 @@ class Submission::Analysis < ApplicationRecord
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
+  memoize
   def has_comments?
     comment_blocks.present?
   end
 
   memoize
   def num_comments_by_type
-    {
-      essential: 0,
-      actionable: 0,
-      informative: 0,
-      celebratory: 0
-    }.tap do |vals|
+    TYPES.index_with { |_t| 0 }.tap do |vals|
       comment_blocks.count do |block|
-        type = block.try(:fetch, 'type').try(:to_sym) || :actionable
+        type = block.try(:fetch, 'type', DEFAULT_TYPE).try(:to_sym) || DEFAULT_TYPE
         vals[type] += 1
       end
     end
@@ -34,21 +30,32 @@ class Submission::Analysis < ApplicationRecord
     end
   end
 
-  def feedback_html
+  def summary
+    data[:summary].presence
+  end
+
+  memoize
+  def comments
     repo = Git::WebsiteCopy.new
 
-    markdown_blocks = comment_blocks.map do |data|
-      if data.is_a?(Hash)
-        template = data['comment']
-        params = data['params']
+    comments = comment_blocks.map do |block|
+      if block.is_a?(Hash)
+        template = block['comment']
+        params = block['params']
+        type = block['type']
       else
-        template = data
+        template = block
       end
 
-      repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+      markdown = repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+
+      {
+        type: type&.to_sym || DEFAULT_TYPE,
+        html: Markdown::Parse.(markdown)
+      }
     end
 
-    Markdown::Parse.(markdown_blocks.join("\n---\n"))
+    comments.sort_by { |c| TYPES.index(c[:type]) }
   end
 
   def ops_success?
@@ -68,4 +75,8 @@ class Submission::Analysis < ApplicationRecord
   def data
     HashWithIndifferentAccess.new(super)
   end
+
+  TYPES = %i[essential actionable informative celebratory].freeze
+  DEFAULT_TYPE = :informative
+  private_constant :TYPES, :DEFAULT_TYPE
 end

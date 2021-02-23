@@ -108,9 +108,12 @@ module.exports = {
       lightRed: '#fdeaea',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
+      brown: '#47300C',
 
       commonBadge: '#F0F3F9',
       rareBadge: '#9FB4FF',
+
+      white: '#fff',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],

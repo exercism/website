@@ -153,17 +153,20 @@ class SubmissionTest < ActiveSupport::TestCase
     ast_digest = "digest"
     submission = create :submission, analysis_status: :completed
     create :submission_analysis, submission: submission, data: {
+      summary: "Some summary",
       comments: ["ruby.two-fer.incorrect_default_param"]
     }
     create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
                                      feedback_markdown: markdown, feedback_author: author
 
     expected = {
-      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n", # rubocop:disable Layout/LineLength
-      team: {
-        name: "The #{submission.track.title} Analysis Team",
-        link_url: "#"
-      }
+      summary: "Some summary",
+      comments: [
+        {
+          type: :informative,
+          html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
+        }
+      ]
     }
     assert_equal expected, submission.analyzer_feedback
   end

@@ -81,21 +81,12 @@
             @apply grid gap-20;
             grid-template-columns: repeat(4, auto);
 
-            & .track {
-                @apply bg-backgroundColorB shadow-lg rounded-8;
-                @apply py-24;
-                @apply flex flex-col items-center;
-                @apply relative;
-
-                cursor: pointer;
-                transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
-
-                &:hover {
-                    @apply shadow-lgZ1;
-                    @apply bg-backgroundColorA;
+            & .track-checkbox {
+                & input[type="checkbox"] {
+                    opacity: 0;
                 }
 
-                &.selected {
+                & input[type="checkbox"]:checked + label {
                     @apply border-2 border-darkBlue;
                     @apply bg-veryLightBlue;
 
@@ -116,27 +107,48 @@
                     }
                 }
 
-                & .selected-icon {
-                    @apply hidden;
+                & input[type="checkbox"].focus-visible + label {
+                    @apply border-2 border-inputBorderColorFocus;
                 }
 
-                & .c-track-icon {
-                    height: 64px;
-                    width: 64px;
-                    @apply mb-12;
-                }
+                & label {
+                    @apply bg-backgroundColorB shadow-lg rounded-8;
+                    @apply py-24;
+                    @apply flex flex-col items-center;
+                    @apply relative;
 
-                & .title {
-                    @apply text-18 leading-140 text-textColor3 font-semibold;
-                    @apply mb-6;
-                }
+                    cursor: pointer;
+                    transition: background 0.2s ease-out,
+                        box-shadow 0.2s ease-out;
 
-                & .info {
-                    @apply text-14 leading-160 text-textColor6;
+                    &:hover {
+                        @apply shadow-lgZ1;
+                        @apply bg-backgroundColorA;
+                    }
+
+                    & .selected-icon {
+                        @apply hidden;
+                    }
+
+                    & .c-track-icon {
+                        height: 64px;
+                        width: 64px;
+                        @apply mb-12;
+                    }
+
+                    & .title {
+                        @apply text-18 leading-140 text-textColor3 font-semibold;
+                        @apply mb-6;
+                    }
+
+                    & .info {
+                        @apply text-14 leading-160 text-textColor6;
+                    }
                 }
             }
         }
     }
+
     & section.commit-section {
         @apply flex;
         & .rhs {

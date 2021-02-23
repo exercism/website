@@ -6,6 +6,7 @@ import { setupServer } from 'msw/node'
 import { ChooseTrackStep } from '../../../../../app/javascript/components/modals/mentor-registration-modal/ChooseTrackStep'
 import userEvent from '@testing-library/user-event'
 import { TestQueryCache } from '../../../support/TestQueryCache'
+import { silenceConsole } from '../../../support/silence-console'
 
 test('pulls track information', async () => {
   const server = setupServer(
@@ -43,6 +44,43 @@ test('pulls track information', async () => {
     'src',
     'https://exercism.test/tracks/ruby.png'
   )
+})
+
+test('shows errors when pulling tracks', async () => {
+  silenceConsole()
+  const server = setupServer(
+    rest.get('https://exercism.test/tracks', (req, res, ctx) => {
+      return res(
+        ctx.status(422),
+        ctx.json({
+          error: {
+            message: 'Unable to pull tracks',
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <ChooseTrackStep endpoint="https://exercism.test/tracks" />
+    </TestQueryCache>
+  )
+
+  expect(await screen.findByText('Unable to pull tracks')).toBeInTheDocument()
+})
+
+test('shows generic errors when pulling tracks', async () => {
+  silenceConsole()
+
+  render(
+    <TestQueryCache>
+      <ChooseTrackStep endpoint="wrong" />
+    </TestQueryCache>
+  )
+
+  expect(await screen.findByText('Unable to fetch tracks')).toBeInTheDocument()
 })
 
 test('selects tracks', async () => {

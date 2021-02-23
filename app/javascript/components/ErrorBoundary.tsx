@@ -26,7 +26,7 @@ export const ErrorBoundary = ({
   )
 }
 
-const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
+export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   useEffect(() => {
     setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT_IN_MS)
   }, [resetErrorBoundary])

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { QueryStatus } from 'react-query'
 import { APIResponse, Track } from '../ChooseTrackStep'
-import { Loading } from '../../../common'
 import { TrackCheckbox } from './TrackCheckbox'
+import { FetchingBoundary } from '../../../FetchingBoundary'
 
 const NoTracksFoundMessage = () => {
   return <p>No tracks found</p>
@@ -44,19 +44,27 @@ const TrackOptions = ({
   )
 }
 
+const DEFAULT_ERROR = new Error('Unable to fetch tracks')
+
 export const TracksList = ({
   status,
+  error,
   selected,
   setSelected,
   data,
 }: {
   status: QueryStatus
+  error: Error | unknown
   selected: readonly string[]
   setSelected: (selected: string[]) => void
   data: APIResponse | undefined
 }): JSX.Element | null => {
   return (
-    <FetchingBoundary status={status}>
+    <FetchingBoundary
+      status={status}
+      error={error}
+      defaultError={DEFAULT_ERROR}
+    >
       {data === undefined || data.tracks.length === 0 ? (
         <NoTracksFoundMessage />
       ) : (
@@ -68,23 +76,4 @@ export const TracksList = ({
       )}
     </FetchingBoundary>
   )
-}
-
-const FetchingBoundary = ({
-  status,
-  children,
-  LoadingComponent = Loading,
-}: React.PropsWithChildren<{
-  status: QueryStatus
-  LoadingComponent?: React.ComponentType
-}>) => {
-  switch (status) {
-    case 'loading':
-      return <LoadingComponent />
-    case 'success': {
-      return <React.Fragment>{children}</React.Fragment>
-    }
-    default:
-      return null
-  }
 }

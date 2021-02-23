@@ -24,7 +24,7 @@ export const ChooseTrackStep = ({
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [selected, setSelected] = useState<string[]>([])
-  const { status, resolvedData, isFetching } = usePaginatedRequestQuery<
+  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
   >('tracks', { endpoint: endpoint, options: {} }, isMountedRef)
 
@@ -49,6 +49,7 @@ export const ChooseTrackStep = ({
           selected={selected}
           setSelected={setSelected}
           data={resolvedData}
+          error={error}
         />
       </div>
     </section>

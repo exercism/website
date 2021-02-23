@@ -126,3 +126,70 @@ test('unselects tracks', async () => {
     })
   ).not.toBeChecked()
 })
+test('continue button is disabled', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/tracks', (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          tracks: [
+            {
+              id: 'ruby',
+              title: 'Ruby',
+              icon_url: 'https://exercism.test/tracks/ruby.png',
+              avg_wait_time: '2 days',
+              num_solutions_queued: 550,
+            },
+          ],
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <ChooseTrackStep endpoint="https://exercism.test/tracks" />
+    </TestQueryCache>
+  )
+
+  expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled()
+})
+
+test('continue button is enabled when a track is checked', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/tracks', (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          tracks: [
+            {
+              id: 'ruby',
+              title: 'Ruby',
+              icon_url: 'https://exercism.test/tracks/ruby.png',
+              avg_wait_time: '2 days',
+              num_solutions_queued: 550,
+            },
+          ],
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <ChooseTrackStep endpoint="https://exercism.test/tracks" />
+    </TestQueryCache>
+  )
+
+  userEvent.click(
+    await screen.findByRole('checkbox', {
+      name: 'Ruby Avg. wait time ~ 2 days 550 solutions queued',
+    })
+  )
+
+  expect(
+    await screen.findByRole('button', { name: 'Continue' })
+  ).not.toBeDisabled()
+})

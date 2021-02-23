@@ -3,6 +3,7 @@ import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { TracksList } from './choose-track-step/TracksList'
 import { SelectedTracksMessage } from './choose-track-step/SelectedTracksMessage'
+import { ContinueButton } from './choose-track-step/ContinueButton'
 
 export type APIResponse = {
   tracks: readonly Track[]
@@ -40,9 +41,7 @@ export const ChooseTrackStep = ({
         <input className="--search" />
         {isFetching ? <span>Fetching</span> : null}
         <SelectedTracksMessage numSelected={selected.length} />
-        <button className="btn-cta">
-          <span>Continue</span>
-        </button>
+        <ContinueButton disabled={selected.length === 0} />
       </div>
       <div className="tracks">
         <TracksList

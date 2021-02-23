@@ -79,9 +79,7 @@ module Components
           find("summary", text: "student received automated feedback").click
         end
 
-        assert_text "What could the default value of the parameter be set to in order to avoid having to "\
-                    "use a conditional?"
-        assert_text "by The Ruby Analysis Team"
+        assert_text "What could the default value of the parameter be set to in order to avoid having to use a conditional?"
       end
 
       test "shows student info" do

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { TracksList } from './choose-track-step/TracksList'
+import { SelectedTracksMessage } from './choose-track-step/SelectedTracksMessage'
 
 export type APIResponse = {
   tracks: readonly Track[]
@@ -21,6 +22,7 @@ export const ChooseTrackStep = ({
   endpoint: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
+  const [selected, setSelected] = useState<string[]>([])
   const { status, resolvedData, isFetching } = usePaginatedRequestQuery<
     APIResponse
   >('tracks', { endpoint: endpoint, options: {} }, isMountedRef)
@@ -37,13 +39,18 @@ export const ChooseTrackStep = ({
       <div className="c-search-bar">
         <input className="--search" />
         {isFetching ? <span>Fetching</span> : null}
-        <div className="selected none">No tracks selected</div>
+        <SelectedTracksMessage numSelected={selected.length} />
         <button className="btn-cta">
           <span>Continue</span>
         </button>
       </div>
       <div className="tracks">
-        <TracksList status={status} data={resolvedData} />
+        <TracksList
+          status={status}
+          selected={selected}
+          setSelected={setSelected}
+          data={resolvedData}
+        />
       </div>
     </section>
   )

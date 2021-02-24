@@ -48,6 +48,10 @@
                 @apply text-lightBlue;
             }
         }
+
+        & .c-react-wrapper-mentoring-try-mentoring-button {
+            @apply flex flex-col items-center;
+        }
     }
 
     & .reasons-section {

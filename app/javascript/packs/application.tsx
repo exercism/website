@@ -187,6 +187,9 @@ initReact({
       notes={data.notes}
     />
   ),
+  'mentoring-try-mentoring-button': (data: any) => (
+    <Mentoring.TryMentoringButton links={data.links} />
+  ),
   'student-tracks-list': (data: any) => (
     <Student.TracksList
       request={data.request}

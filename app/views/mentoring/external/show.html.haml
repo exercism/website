@@ -10,7 +10,7 @@
         Not sure if you can mentor effectively?
         = link_to "Some of our best mentors worried too.", "#"
 
-      = button_tag "Try mentoring now", class: "btn-cta"
+      = ReactComponents::Mentoring::TryMentoringButton.new.to_s
 
 
     %section.reasons-section

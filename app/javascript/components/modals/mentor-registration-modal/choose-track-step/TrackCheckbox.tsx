@@ -1,6 +1,7 @@
 import React from 'react'
 import pluralize from 'pluralize'
 import { Track } from '../ChooseTrackStep'
+import { Icon } from '../../../common'
 
 export const TrackCheckbox = ({
   id,
@@ -23,8 +24,11 @@ export const TrackCheckbox = ({
         onChange={onChange}
         aria-labelledby={`${id}-label`}
       />
-      <label className="track" htmlFor={title} id={`${id}-label`}>
-        <div className="selected-icon" />
+      <label className="track" htmlFor={id} id={`${id}-label`}>
+        <div className="selected-icon">
+          <Icon icon="checkmark" alt="Track selected" />
+        </div>
+        {/* TODO: @iHiD I'm confused what to use here. icon URL or icon name? */}
         <img
           src={iconUrl}
           className="c-icon c-track-icon"

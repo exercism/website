@@ -14,12 +14,16 @@ class API::ReputatationControllerTest < API::BaseTestCase
     User::ReputationToken::Search.expects(:call).with(
       @current_user,
       criteria: "ru",
-      category: "authoring"
+      category: "authoring",
+      page: "5",
+      per: "20"
     ).returns(User::ReputationToken.page(1).per(10))
 
     get api_reputation_index_path(
       criteria: "ru",
-      category: "authoring"
+      category: "authoring",
+      page: 5,
+      per: 20
     ), headers: @headers, as: :json
 
     assert_response :success

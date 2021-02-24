@@ -23,6 +23,9 @@ module Git
 
       update_authors!
       update_contributors!
+    rescue Rugged::TreeError => e
+      # TODO: remove once configlet validates file structure of exercises
+      Rails.logger.info e.message
     end
 
     private

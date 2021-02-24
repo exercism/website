@@ -19,6 +19,9 @@ module Git
         synced_to_git_sha: head_git_exercise.commit.oid,
         prerequisites: find_concepts(exercise_config[:prerequisites])
       )
+    rescue Rugged::TreeError => e
+      # TODO: remove once configlet validates file structure of exercises
+      Rails.logger.info e.message
     end
 
     private

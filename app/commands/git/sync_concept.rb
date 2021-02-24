@@ -17,6 +17,9 @@ module Git
         blurb: concept_config[:blurb],
         synced_to_git_sha: head_git_concept.commit.oid
       )
+    rescue Rugged::TreeError => e
+      # TODO: remove once configlet validates file structure of exercises
+      Rails.logger.info e.message
     end
 
     private

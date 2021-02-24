@@ -54,4 +54,20 @@ class Track::ConceptTest < ActiveSupport::TestCase
     assert_equal [ce_1], concept.concept_exercises
     assert_equal [pe_1, pe_2], concept.practice_exercises
   end
+
+  test "can be deleted" do
+    track = create :track
+
+    concept = create :track_concept, track: track
+    ce = create :concept_exercise, track: track
+    ce.prerequisites << concept
+    ce.taught_concepts << concept
+    pe = create :concept_exercise, track: track
+    pe.prerequisites << concept
+    create :user_track_learnt_concept, concept: concept,
+                                       user_track: create(:user_track, track: track)
+
+    concept.destroy
+    refute Track::Concept.where(id: concept.id).exists?
+  end
 end

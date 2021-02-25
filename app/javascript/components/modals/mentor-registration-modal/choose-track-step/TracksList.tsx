@@ -18,11 +18,11 @@ const TrackOptions = ({
   setSelected: (selected: string[]) => void
 }) => {
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    (e: React.ChangeEvent<HTMLInputElement>, slug: string) => {
       if (e.target.checked) {
-        setSelected([...selected, id])
+        setSelected([...selected, slug])
       } else {
-        setSelected(selected.filter((v) => v !== id))
+        setSelected(selected.filter((v) => v !== slug))
       }
     },
     [selected, setSelected]
@@ -33,10 +33,10 @@ const TrackOptions = ({
       {tracks.map((track) => {
         return (
           <TrackCheckbox
-            key={track.id}
+            key={track.slug}
             {...track}
-            checked={selected.includes(track.id)}
-            onChange={(e) => handleChange(e, track.id)}
+            checked={selected.includes(track.slug)}
+            onChange={(e) => handleChange(e, track.slug)}
           />
         )
       })}

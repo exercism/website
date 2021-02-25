@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { TracksList } from './choose-track-step/TracksList'
@@ -12,7 +12,7 @@ export type APIResponse = {
 }
 
 export type Track = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   avgWaitTime: string

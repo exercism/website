@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { CommitStep } from '../../../../../app/javascript/components/modals/mentor-registration-modal/CommitStep'
 import userEvent from '@testing-library/user-event'
+import { TestQueryCache } from '../../../support/TestQueryCache'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { silenceConsole } from '../../../support/silence-console'
 
 test('continue button is disabled when not everything is checked', async () => {
   render(<CommitStep links={{}} />)
@@ -37,4 +41,123 @@ test('continue button is enabled when all checkboxes have been checked', async (
   expect(
     await screen.findByRole('button', { name: 'Continue' })
   ).not.toBeDisabled()
+})
+
+test('continue and back button are disabled while request is sending', async () => {
+  const links = {
+    registration: 'https://exercism.test/registration',
+  }
+  const server = setupServer(
+    rest.post('https://exercism.test/registration', (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({}))
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <CommitStep links={links} onContinue={() => {}} />
+    </TestQueryCache>
+  )
+
+  userEvent.click(
+    screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /Be patient, empathic and kind to those you're mentoring/,
+    })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', { name: /Demonstrate intellectual humility/ })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /Not use Exercism to promote personal agendas/,
+    })
+  )
+  userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+
+  expect(await screen.findByRole('button', { name: /Continue/ })).toBeDisabled()
+  expect(screen.getByRole('button', { name: /Back/ })).toBeDisabled()
+})
+test('shows API errors', async () => {
+  silenceConsole()
+  const links = {
+    registration: 'https://exercism.test/registration',
+  }
+  const server = setupServer(
+    rest.post('https://exercism.test/registration', (req, res, ctx) => {
+      return res(
+        ctx.status(422),
+        ctx.json({
+          error: {
+            message: 'Unable to register',
+          },
+        })
+      )
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <CommitStep links={links} onContinue={() => {}} />
+    </TestQueryCache>
+  )
+
+  userEvent.click(
+    screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /Be patient, empathic and kind to those you're mentoring/,
+    })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', { name: /Demonstrate intellectual humility/ })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /Not use Exercism to promote personal agendas/,
+    })
+  )
+  userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+
+  expect(await screen.findByText('Unable to register')).toBeInTheDocument()
+})
+
+test('shows generic errors', async () => {
+  silenceConsole()
+  const links = {
+    registration: 'wrong',
+  }
+
+  render(
+    <TestQueryCache>
+      <CommitStep links={links} onContinue={() => {}} />
+    </TestQueryCache>
+  )
+
+  userEvent.click(
+    screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /Be patient, empathic and kind to those you're mentoring/,
+    })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', { name: /Demonstrate intellectual humility/ })
+  )
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /Not use Exercism to promote personal agendas/,
+    })
+  )
+  userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+
+  expect(
+    await screen.findByText('Unable to complete registration')
+  ).toBeInTheDocument()
 })

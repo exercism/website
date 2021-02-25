@@ -13,7 +13,8 @@ module ReactComponents
           },
           commit_step: {
             code_of_conduct: Exercism::Routes.code_of_conduct_url,
-            intellectual_humility: "https://en.wikipedia.org/wiki/Intellectual_humility"
+            intellectual_humility: "https://en.wikipedia.org/wiki/Intellectual_humility",
+            registration: Exercism::Routes.api_mentoring_registration_url
           }
         }
       end

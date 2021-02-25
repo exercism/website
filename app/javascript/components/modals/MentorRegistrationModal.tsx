@@ -4,9 +4,10 @@ import { StepIndicator } from './mentor-registration-modal/StepIndicator'
 import { CloseButton } from './mentor-registration-modal/CloseButton'
 import { ChooseTrackStep } from './mentor-registration-modal/ChooseTrackStep'
 import { CommitStep } from './mentor-registration-modal/CommitStep'
+import { CongratulationsStep } from './mentor-registration-modal/CongratulationsStep'
 import { Links } from '../mentoring/TryMentoringButton'
 
-export type ModalStep = 'CHOOSE_TRACK' | 'COMMIT'
+export type ModalStep = 'CHOOSE_TRACK' | 'COMMIT' | 'CONGRATULATIONS'
 
 export type StepProps = {
   id: ModalStep
@@ -21,6 +22,10 @@ const STEPS: StepProps[] = [
   {
     id: 'COMMIT',
     label: 'Commit to being a good mentor',
+  },
+  {
+    id: 'CONGRATULATIONS',
+    label: 'Congratulations',
   },
 ]
 
@@ -56,7 +61,16 @@ const ModalBody = ({
         />
       )
     case 'COMMIT':
-      return <CommitStep links={links.commitStep} onBack={onBack} />
+      return (
+        <CommitStep
+          links={links.commitStep}
+          selected={selected}
+          onContinue={onContinue}
+          onBack={onBack}
+        />
+      )
+    case 'CONGRATULATIONS':
+      return <CongratulationsStep />
   }
 }
 

@@ -2,23 +2,53 @@ import React, { useState, useCallback } from 'react'
 import { Icon, GraphicalIcon } from '../../common'
 import { ReputationInfo } from './commit-step/ReputationInfo'
 import { Checkbox } from './commit-step/Checkbox'
+import { FormButton } from './commit-step/FormButton'
+import { useMutation } from 'react-query'
+import { sendRequest } from '../../../utils/send-request'
+import { useIsMounted } from 'use-is-mounted'
+import { ErrorMessage, ErrorBoundary } from '../../ErrorBoundary'
 
 export type Links = {
   codeOfConduct: string
   intellectualHumility: string
+  registration: string
 }
 
 const NUM_TO_CHECK = 4
+const DEFAULT_ERROR = new Error('Unable to complete registration')
 
 export const CommitStep = ({
   links,
+  selected,
+  onContinue,
   onBack,
 }: {
   links: Links
+  selected: string[]
+  onContinue: () => void
   onBack: () => void
 }): JSX.Element => {
-  const [numChecked, setNumChecked] = useState(0)
+  const isMountedRef = useIsMounted()
+  const [mutation, { status, error }] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: links.registration,
+        method: 'POST',
+        body: JSON.stringify({
+          track_ids: selected,
+          accept_terms: true,
+        }),
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: () => {
+        onContinue()
+      },
+    }
+  )
 
+  const [numChecked, setNumChecked] = useState(0)
   const handleChange = useCallback(
     (e) => {
       if (e.target.checked) {
@@ -29,6 +59,10 @@ export const CommitStep = ({
     },
     [numChecked]
   )
+
+  const handleSubmit = useCallback(() => {
+    mutation()
+  }, [mutation])
 
   return (
     <section className="commit-section">
@@ -74,13 +108,21 @@ export const CommitStep = ({
             <span>Not use Exercism to promote personal agendas</span>
           </Checkbox>
         </div>
-        <button type="button" onClick={onBack}>
+        <FormButton onClick={onBack} status={status}>
           Back
-        </button>
-        <button className="btn-cta" disabled={numChecked !== NUM_TO_CHECK}>
+        </FormButton>
+        <FormButton
+          className="btn-cta"
+          onClick={handleSubmit}
+          status={status}
+          disabled={numChecked !== NUM_TO_CHECK}
+        >
           <span>Continue</span>
           <GraphicalIcon icon="arrow-right" />
-        </button>
+        </FormButton>
+        <ErrorBoundary>
+          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        </ErrorBoundary>
       </div>
       <div className="rhs">
         <GraphicalIcon icon="graphic-mentoring-screen" />

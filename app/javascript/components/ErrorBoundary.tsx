@@ -14,6 +14,18 @@ type ErrorBoundaryType = Omit<
   'FallbackComponent'
 > & { FallbackComponent?: React.ComponentType<FallbackProps> }
 
+export const ErrorMessage = ({
+  error,
+  defaultError,
+}: {
+  error: Error | unknown
+  defaultError: Error
+}) => {
+  useErrorHandler(error, { defaultError: defaultError })
+
+  return null
+}
+
 export const ErrorBoundary = ({
   children,
   FallbackComponent = ErrorFallback,

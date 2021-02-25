@@ -67,32 +67,32 @@ export const PublishExerciseForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        <div className="c-radio-wrapper">
-          <input
-            type="radio"
-            name="share"
-            checked={toPublish}
-            onChange={() => setToPublish(true)}
-          />
-          <div className="radio" />
-        </div>
-        <div className="label">
-          Yes, I'd like to share my solution with the community.
+      <label className="c-radio-wrapper">
+        <input
+          type="radio"
+          name="share"
+          checked={toPublish}
+          onChange={() => setToPublish(true)}
+        />
+        <div className="row">
+          <div className="c-radio" />
+          <div className="label">
+            Yes, I'd like to share my solution with the community.
+          </div>
         </div>
       </label>
-      <label>
-        <div className="c-radio-wrapper">
-          <input
-            type="radio"
-            name="share"
-            checked={!toPublish}
-            onChange={() => setToPublish(false)}
-          />
-          <div className="radio" />
-        </div>
-        <div className="label">
-          No, I just want to mark the exercise as complete.
+      <label className="c-radio-wrapper">
+        <input
+          type="radio"
+          name="share"
+          checked={!toPublish}
+          onChange={() => setToPublish(false)}
+        />
+        <div className="row">
+          <div className="c-radio" />
+          <div className="label">
+            No, I just want to mark the exercise as complete.
+          </div>
         </div>
       </label>
       <ErrorBoundary>

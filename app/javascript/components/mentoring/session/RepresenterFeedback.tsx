@@ -22,10 +22,6 @@ export const RepresenterFeedback = ({
         <div className="name">by {author.name}</div>
         <Reputation value={author.reputation.toString()} />
       </div>
-      <a href={author.profileUrl} className="more">
-        Learn more about this feedback
-        <Icon icon="external-link" alt="Opens in new tab" />
-      </a>
     </div>
   )
 }

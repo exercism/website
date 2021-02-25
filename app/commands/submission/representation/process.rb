@@ -10,13 +10,13 @@ class Submission
       def call
         create_submission_representation!
 
-        # If we had an error then handle the error and leave
-        return handle_ops_error! if submission_representation.ops_errored?
-
-        # Otherwise, lets retrieve or create the version of this.
-        create_exercise_representation!
-
         begin
+          # If we had an error then handle the error and leave
+          return handle_ops_error! if submission_representation.ops_errored?
+
+          # Otherwise, lets retrieve or create the version of this.
+          create_exercise_representation!
+
           # If any bit of this fails, we should roll back the
           # whole thing and mark as exceptioned
           ActiveRecord::Base.transaction do
@@ -35,6 +35,8 @@ class Submission
       attr_reader :tooling_job, :exercise_representation, :submission_representation
 
       def create_submission_representation!
+        # return unless ast_digest
+
         @submission_representation = submission.create_submission_representation!(
           tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,

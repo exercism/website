@@ -390,16 +390,15 @@
                                 @apply text-textColor6;
                             }
                         }
-                        & .more {
-                            @apply border-1 border-borderColor6 rounded-8;
-                            @apply px-16 py-6;
-                            @apply font-medium leading-huge text-textColor6;
-                            @apply flex items-center;
-                            & .c-icon {
-                                height: 14px;
-                                width: 14px;
-                                @apply ml-12;
-                            }
+                    }
+                    & .more-info {
+                        @apply border-t-2 border-borderColor6 pt-16 mt-24;
+                        @apply flex items-center;
+                        @apply text-lightBlue font-medium leading-huge;
+                        & .c-icon {
+                            height: 14px;
+                            width: 14px;
+                            @apply ml-12;
                         }
                     }
                 }

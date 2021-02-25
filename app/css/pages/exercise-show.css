@@ -1,73 +1,6 @@
 @import "../styles";
 
 #page-exercise-show {
-    & .exercise-header {
-        & .container {
-            @apply flex items-center py-32;
-            height: 190px;
-        }
-        background: linear-gradient(
-            180deg,
-            #e1ebff 0%,
-            rgba(225, 235, 255, 0) 100%
-        );
-        & .c-exercise-icon {
-            @apply mr-32;
-            width: 118px;
-            height: 118px;
-        }
-        & .info {
-            @apply flex-grow;
-        }
-        & h1 {
-            @apply flex items-center text-h1 mb-12;
-            & .c-icon {
-                height: 32px;
-                width: 32px;
-                @apply ml-16;
-            }
-        }
-        & .difficulty {
-            @apply inline-flex py-8 px-12 rounded-100;
-            @apply text-darkGreen font-medium;
-            @apply border-1 border-darkGreen;
-        }
-        & .makers {
-            @apply flex items-center;
-
-            & .faces {
-                @apply relative flex;
-                height: 32px;
-                padding-left: 16px;
-
-                & .author {
-                    margin-left: -16px;
-                    transition: margin 0.2s ease-out;
-                    cursor: pointer;
-
-                    & .c-rounded-bg-img {
-                        height: 32px;
-                        width: 32px;
-                    }
-                }
-
-                &:hover {
-                    & .author {
-                        margin-left: 4px;
-                    }
-                }
-            }
-            & .stats {
-                @apply ml-16;
-                & .authors {
-                    @apply font-semibold;
-                }
-                & .contributors {
-                    @apply font-medium mt-8;
-                }
-            }
-        }
-    }
     & section.completed-heading {
         @apply flex items-center py-16 px-32 shadow-lg rounded-8 mb-24;
         @apply border-2 border-darkGreen bg-mediumGreen;
@@ -91,15 +24,16 @@
             @apply flex flex-wrap mb-16;
 
             & .c-concept {
-                @appl ymr-8;
+                @apply mr-8;
             }
         }
         & .c-prominent-link {
-            @apply mb-24;
+            @apply mb-16;
         }
         & .explanation {
-            @apply bg-unnamed15 py-12 px-24 rounded-8;
-            @apply text-16 leading-paragraph font-medium;
+            @apply bg-lightOrange border-1 border-lightGold rounded-8;
+            @apply py-8 px-16;
+            @apply text-14 leading-160 font-medium;
 
             & a {
                 @apply text-lightBlue font-medium;
@@ -140,15 +74,142 @@
         }
     }
 
+    & section.completion-nudge {
+        @apply flex items-center;
+        @apply mb-24;
+        @apply bg-backgroundColorA shadow-baseZ1 rounded-12;
+        @apply py-24 pl-32 pr-40;
+
+        & > .c-icon {
+            height: 64px;
+            width: 64px;
+            @apply mr-24;
+            @apply self-start;
+        }
+
+        & > .info {
+            & h3 {
+                @apply text-h4 mb-4;
+            }
+            & p {
+                @apply text-16 leading-160;
+
+                & strong {
+                    @apply font-medium;
+                }
+            }
+        }
+        & .c-react-component,
+        & .c-react-wrapper-student-complete-exercise-button {
+            @apply flex-shrink-0;
+            @apply ml-40;
+            &,
+            & .btn {
+                width: 260px;
+            }
+        }
+    }
+
+    & section.mentoring-nudge {
+        @apply flex items-center;
+        @apply mb-24;
+
+        @apply border-2 border-anotherPurple rounded-12;
+
+        @apply shadow-baseZ1;
+        @apply bg-backgroundColorF;
+        @apply py-24 px-40;
+
+        & > .c-icon {
+            height: 120px;
+            width: 120px;
+            @apply mr-24;
+        }
+
+        & .info {
+            & h3 {
+                @apply text-h4 mb-4;
+            }
+            & p {
+                @apply text-16 leading-160;
+                @apply mb-16;
+            }
+            & .options {
+                @apply flex items-center;
+                & .btn-small-cta {
+                    @apply mr-32;
+                }
+                & a.more-info {
+                    @apply text-16 text-lightBlue leading-170 font-semibold;
+                    @apply flex items-center;
+
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply ml-8;
+                    }
+                }
+            }
+        }
+    }
     & section.latest-iteration {
         @apply bg-backgroundColorA shadow-lg rounded-8 mb-32;
         @apply py-24 px-32;
 
-        & h2 {
-            @apply text-h3;
-        }
-        & p {
-            @apply text-16 leading-paragraph;
+        & header {
+            @apply flex mb-20;
+
+            & .info {
+                @apply flex-grow;
+
+                & h2 {
+                    @apply text-h3 mb-6;
+                }
+                & p {
+                    @apply text-16 leading-160;
+                    & .essential {
+                        @apply text-red font-semibold;
+                    }
+                    & .actionable {
+                        @apply text-textColor3 font-semibold;
+                    }
+                    & .non-actionable {
+                        @apply text-textColor6 font-semibold;
+                    }
+                    & strong {
+                        @apply font-semibold;
+                    }
+                    & a {
+                        @apply inline-flex items-center;
+                        @apply font-medium text-lightBlue;
+                        & .c-icon {
+                            height: 12px;
+                            width: 12px;
+                            @apply ml-8;
+                        }
+                    }
+                }
+            }
+            & > .c-icon.spinner {
+                @apply ml-24;
+                height: 24px;
+                width: 24px;
+                animation: spin 3s linear infinite;
+            }
+            & .status {
+                @apply mt-16 mr-16 rounded-circle;
+                @apply flex-shrink-0;
+                height: 8px;
+                width: 8px;
+                overflow: hidden;
+
+                &.passed {
+                    @apply text-darkGreen bg-darkGreen;
+                }
+                &.failed {
+                    @apply bg-darkGreen bg-red;
+                }
+            }
         }
 
         & a.iteration {
@@ -163,53 +224,52 @@
             }
         }
 
-        & h2 + p {
-            @apply mt-8;
-        }
-        & h2 + a.iteration {
-            @apply mt-16;
-        }
-        & p + a.iteration {
-            @apply mt-24;
-        }
         & .next-steps {
-            @apply border-t-1 border-borderColor7 pt-24 mt-32;
-            & .header-bar {
-                @apply flex items-center mb-24;
-                & h3 {
-                    @apply flex-grow;
-                    @apply text-h4;
+            @apply border-t-1 border-borderColor7 mt-32;
+            @apply grid grid-cols-2;
+
+            & .community-solutions,
+            & .mentoring {
+                @apply pt-24;
+                @apply flex flex-col items-center;
+                @apply text-center;
+
+                & .header-icon {
+                    width: 48px;
+                    height: 48px;
+                    @apply mb-12;
                 }
-                & .btn {
+                & h3 {
+                    @apply text-h4 mb-6;
+                }
+
+                & p {
+                    @apply text-16 leading-160 mb-20;
+                }
+            }
+            & .community-solutions {
+                @apply pr-32;
+                @apply border-r-1 border-borderColor7;
+                & p {
+                    @apply mb-20;
                 }
             }
 
-            & .steps {
-                height: 216px;
-                @apply flex;
-                @apply rounded-8 bg-backgroundColorA;
-
-                box-shadow: 0px 4px 42px rgba(79, 114, 205, 0.15);
-
-                & a {
-                    width: 25%;
-
-                    @apply flex flex-col items-center justify-start;
-                    @apply px-16 py-32 text-14 leading-paragraph text-center;
-                    @apply border-r-1 border-borderColor7;
-                    &:last-child {
-                        @apply border-r-0;
-                    }
-
-                    &:hover {
-                        @apply shadow-lg;
-                    }
-
+            & .mentoring {
+                @apply pl-32;
+                & p {
+                    @apply mb-16;
+                }
+                & button {
+                    @apply mb-16;
+                }
+                & .learn-more {
+                    @apply flex items-center;
+                    @apply font-semibold text-lightBlue text-14 leading-170;
                     & .c-icon {
-                        height: 96px;
-                        width: 96px;
-
-                        @apply mb-12;
+                        height: 14px;
+                        width: 14px;
+                        @apply ml-8;
                     }
                 }
             }

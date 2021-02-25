@@ -27,6 +27,7 @@ module.exports = {
       '4': '4px',
     },
     boxShadow: {
+      xsZ1: '0px 4px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
@@ -45,6 +46,7 @@ module.exports = {
       backgroundColorC: 'var(--backgroundColorC)',
       backgroundColorD: 'var(--backgroundColorD)',
       backgroundColorE: 'var(--backgroundColorE)',
+      backgroundColorF: 'var(--backgroundColorF)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',
@@ -67,6 +69,7 @@ module.exports = {
       inputBorderColorFocus: 'var(--inputBorderColorFocus)',
       tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
       tabColorSelected: 'var(--tabColorSelected)',
+      tabIconColorSelected: 'var(--tabIconColorSelected)',
       successColor: 'var(--successColor)',
 
       unnamed10: '#3D3B45',
@@ -96,6 +99,7 @@ module.exports = {
       mediumGreen: '#B8EADB',
       lightGreen: '#ABDBCC',
       veryLightGreen: 'rgba(79,205,167,0.15)',
+      veryLightGreen2: '#E7FDF6',
 
       tooManyGreens: '#59D2AE',
       literallySoManyGreens: '#4FCDA7',
@@ -108,9 +112,15 @@ module.exports = {
       lightRed: '#fdeaea',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
+      brown: '#47300C',
+
+      muddy: '#6E82AA',
+      color22: '#C8D5EF',
 
       commonBadge: '#F0F3F9',
       rareBadge: '#9FB4FF',
+
+      white: '#fff',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],

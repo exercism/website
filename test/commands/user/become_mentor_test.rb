@@ -4,12 +4,12 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
   test "creates correctly" do
     user = create :user, :not_mentor
     create :track, slug: :ruby
-    fsharp = create :track, slug: :fsharp
     csharp = create :track, slug: :csharp
+    fsharp = create :track, slug: :fsharp
 
     User::BecomeMentor.(user, %w[csharp fsharp])
     assert user.mentor?
-    assert_equal [csharp, fsharp], user.mentored_tracks
+    assert_equal [csharp, fsharp], user.mentored_tracks.sort
   end
 
   test "skips if user is a mentor already" do

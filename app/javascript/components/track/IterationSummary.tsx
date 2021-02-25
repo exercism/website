@@ -2,23 +2,35 @@ import React, { useEffect, useState, useRef } from 'react'
 import { SubmissionTestsStatus } from '../editor/types'
 import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
-import { TestsStatusSummary } from './iteration-summary/TestsStatusSummary'
+import { ProcessingStatusSummary } from './iteration-summary/ProcessingStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 import { IterationChannel } from '../../channels/iterationChannel'
 
 export type Iteration = {
   uuid: string
   idx: number
+  status: IterationStatus
+  numEssentialAutomatedComments: number
+  numActionableAutomatedComments: number
+  numNonActionableAutomatedComments: number
   submissionMethod: SubmissionMethod
   createdAt: Date
   testsStatus: SubmissionTestsStatus
-  representationStatus: RepresentationStatus
-  analysisStatus: AnalysisStatus
   links: IterationLinks
 }
 
 type IterationLinks = {
   self: string
+}
+
+export enum IterationStatus {
+  TESTING = 'testing',
+  TESTS_FAILED = 'tests_failed',
+  ANALYZING = 'analyzing',
+  ESSENTIAL_AUTOMATED_FEEDBACK = 'essential_automated_feedback',
+  ACTIONABLE_AUTOMATED_FEEDBACK = 'actionable_automated_feedback',
+  NON_ACTIONABLE_AUTOMATED_FEEDBACK = 'non_actionable_automated_feedback',
+  NO_AUTOMATED_FEEDBACK = 'no_automated_feedback',
 }
 
 export enum SubmissionMethod {
@@ -104,10 +116,15 @@ export function IterationSummary(props: {
           </time>
         </div>
       </div>
-      <TestsStatusSummary testsStatus={iteration.testsStatus} />
+      <ProcessingStatusSummary iterationStatus={iteration.status} />
       <AnalysisStatusSummary
-        analysisStatus={iteration.analysisStatus}
-        representationStatus={iteration.representationStatus}
+        numEssentialAutomatedComments={iteration.numEssentialAutomatedComments}
+        numActionableAutomatedComments={
+          iteration.numActionableAutomatedComments
+        }
+        numNonActionableAutomatedComments={
+          iteration.numNonActionableAutomatedComments
+        }
       />
       <time
         dateTime={iteration.createdAt.toString()}

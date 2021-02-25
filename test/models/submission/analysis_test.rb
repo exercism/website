@@ -13,17 +13,31 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert create(:submission_analysis, ops_status: 201).ops_errored?
   end
 
-  test "feedback_html for single simple comments" do
+  test "summary returns data" do
+    summary = "foobar"
+    analysis = create :submission_analysis, data: { summary: summary }
+    assert_equal summary, analysis.summary
+  end
+
+  test "summary is nil if empty" do
+    analysis = create :submission_analysis, data: { summary: "" }
+    assert_nil analysis.summary
+  end
+
+  test "comments for single simple comments" do
     TestHelpers.use_website_copy_test_repo!
 
     comments = ["ruby.two-fer.incorrect_default_param"]
     analysis = create :submission_analysis, data: { comments: comments }
 
-    expected = "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
-    assert_equal expected, analysis.feedback_html
+    expected = [{
+      type: :informative,
+      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
+    }]
+    assert_equal expected, analysis.comments
   end
 
-  test "feedback_html for single comment hash" do
+  test "comments for single comment hash" do
     TestHelpers.use_website_copy_test_repo!
 
     comments = [{
@@ -34,17 +48,16 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     }]
     analysis = create :submission_analysis, data: { comments: comments }
 
-    # rubocop:disable Layout/LineLength
-    expected = '<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").
-For example:</p>
-<pre><code class="language-ruby">"One for %s, one for you" % iHiD"
-</code></pre>
-'
-    # rubocop:enable Layout/LineLength
-    assert_equal expected, analysis.feedback_html
+    expected = [
+      {
+        type: :informative,
+        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
+      }
+    ]
+    assert_equal expected, analysis.comments
   end
 
-  test "feedback_html for mixed comments" do
+  test "comments orders correctly for mixed comments" do
     TestHelpers.use_website_copy_test_repo!
 
     comments = [
@@ -52,6 +65,7 @@ For example:</p>
       {
 
         "comment" => "ruby.two-fer.string_interpolation",
+        "type" => "essential",
         "params" => {
           "name_variable" => "iHiD"
         }
@@ -59,23 +73,104 @@ For example:</p>
     ]
     analysis = create :submission_analysis, data: { comments: comments }
 
-    # rubocop:disable Layout/LineLength
-    expected = '<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>
-<hr>
-<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").
-For example:</p>
-<pre><code class="language-ruby">"One for %s, one for you" % iHiD"
-</code></pre>
-'
+    expected = [
+      {
+        type: :essential,
+        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
+      },
+      {
+        type: :informative,
+        html: %(<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n) # rubocop:disable Layout/LineLength
+      }
+    ]
 
-    # rubocop:enable Layout/LineLength
-    assert_equal expected, analysis.feedback_html
+    assert_equal expected, analysis.comments
   end
 
-  test "has_feedback?" do
-    refute create(:submission_analysis, data: { comments: nil }).has_feedback?
-    refute create(:submission_analysis, data: { comments: [] }).has_feedback?
-    assert create(:submission_analysis, data: { comments: ['foobar'] }).has_feedback?
+  test "has_comments?" do
+    refute create(:submission_analysis, data: { comments: nil }).has_comments?
+    refute create(:submission_analysis, data: { comments: [] }).has_comments?
+    assert create(:submission_analysis, data: { comments: ['foobar'] }).has_comments?
+  end
+
+  test "informative comments: short-syntax" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 1, analysis.num_informative_comments
+    assert analysis.has_informative_comments?
+  end
+
+  test "informative comments: long-syntax" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "informative"
+    }] }
+
+    assert_equal 1, analysis.num_informative_comments
+    assert analysis.has_informative_comments?
+  end
+
+  test "informative comments: long-syntax without type" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation"
+    }] }
+
+    assert_equal 1, analysis.num_informative_comments
+    assert analysis.has_informative_comments?
+  end
+
+  test "celebratory comments: none" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 0, analysis.num_celebratory_comments
+    refute analysis.has_celebratory_comments?
+  end
+
+  test "celebratory comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "celebratory"
+    }] }
+
+    assert_equal 1, analysis.num_celebratory_comments
+    assert analysis.has_celebratory_comments?
+  end
+
+  test "essential comments: none" do
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    assert_equal 0, analysis.num_essential_comments
+    refute analysis.has_essential_comments?
+  end
+
+  test "essential comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "essential"
+    }] }
+
+    assert_equal 1, analysis.num_essential_comments
+    assert analysis.has_essential_comments?
+  end
+
+  test "actionable comments: none" do
+    analysis = create :submission_analysis, data: { comments: [] }
+
+    assert_equal 0, analysis.num_actionable_comments
+    refute analysis.has_actionable_comments?
+  end
+
+  test "actionable comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "actionable"
+    }] }
+
+    assert_equal 1, analysis.num_actionable_comments
+    assert analysis.has_actionable_comments?
   end
 
   # TODO: - Add a test for if the data is empty

@@ -12,7 +12,8 @@ class Maintaining::ExerciseRepresentationsController < ApplicationController
     @representation = Exercise::Representation.find(params[:id])
     @representation.update(
       feedback_markdown: params[:exercise_representation][:feedback_markdown],
-      feedback_author: User.first
+      feedback_type: params[:exercise_representation][:feedback_type],
+      feedback_author: current_user
     )
     redirect_to action: :index
   end

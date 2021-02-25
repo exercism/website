@@ -1,0 +1,23 @@
+- if exercise.concept_exercise?
+  %section.completed-info
+    %h3 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
+    .concepts
+      - exercise.taught_concepts.each do |concept|
+        = render ViewComponents::Concept.new(concept, user_track, :small)
+
+    = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track))
+    .explanation
+      To master the concepts, you can try completing more exercises for them.
+      %br
+      Or, you can continue to broaden your knowledge and #{link_to 'explore new concepts', track_concepts_path(track)}.
+
+- else
+  %section.taught-concepts
+    %h3
+      Completing #{track.title} teaches
+      %strong= pluralize exercise.taught_concepts.size, 'concept'
+    .concepts
+      - exercise.taught_concepts.each.each do |concept|
+        = link_to track_concept_path(track, concept), class: 'concept' do
+          = render ViewComponents::ConceptIcon.new(concept, :small)
+          = concept.name

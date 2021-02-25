@@ -17,11 +17,11 @@ module Flows
       visit track_exercise_iterations_url(track, exercise)
 
       assert_text "Iteration 2"
-      assert_text "Queued"
+      assert_text "Processing"
 
-      submission.update!(tests_status: :passed)
+      submission.update!(tests_status: :failed)
       IterationChannel.broadcast!(iteration)
-      assert_text "Passed"
+      assert_text "Failed"
     end
   end
 end

@@ -49,7 +49,9 @@ export const FavoriteStep = ({
           return
         }
 
-        onFavorite(relationship)
+        if (onFavorite) {
+          onFavorite(relationship)
+        }
       },
     }
   )

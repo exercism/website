@@ -8,9 +8,30 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
   end
 
   test "has_feedback?" do
+    user = create :user
     refute create(:exercise_representation, feedback_markdown: "foo", feedback_author: nil).has_feedback?
-    refute create(:exercise_representation, feedback_markdown: nil, feedback_author: create(:user)).has_feedback?
-    assert create(:exercise_representation, feedback_markdown: "foo", feedback_author: create(:user)).has_feedback?
+    refute create(:exercise_representation, feedback_markdown: nil, feedback_author: user).has_feedback?
+    refute create(:exercise_representation, feedback_markdown: "foo", feedback_author: user).has_feedback?
+    assert create(:exercise_representation, feedback_markdown: "foo", feedback_author: user,
+                                            feedback_type: :non_actionable).has_feedback?
+  end
+
+  test "has_essential_feedback?" do
+    refute create(:exercise_representation, feedback_type: :essential).has_essential_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_essential_feedback?
+    assert create(:exercise_representation, :with_feedback, feedback_type: :essential).has_essential_feedback?
+  end
+
+  test "has_actionable_feedback?" do
+    refute create(:exercise_representation, feedback_type: :actionable).has_actionable_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :essential).has_actionable_feedback?
+    assert create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_actionable_feedback?
+  end
+
+  test "has_non_actionable_feedback?" do
+    refute create(:exercise_representation, feedback_type: :non_actionable).has_non_actionable_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_non_actionable_feedback?
+    assert create(:exercise_representation, :with_feedback, feedback_type: :non_actionable).has_non_actionable_feedback?
   end
 
   test "num_times_used" do

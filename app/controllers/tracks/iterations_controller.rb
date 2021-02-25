@@ -1,7 +1,9 @@
 class Tracks::IterationsController < ApplicationController
   before_action :use_solution
 
-  def index; end
+  def index
+    @iterations = @solution.iterations.order(id: :desc)
+  end
 
   private
   def use_solution

@@ -108,6 +108,7 @@ export const CommitStep = ({
             <span>Not use Exercism to promote personal agendas</span>
           </Checkbox>
         </div>
+        {/*TODO: Style this */}
         <FormButton onClick={onBack} status={status}>
           Back
         </FormButton>

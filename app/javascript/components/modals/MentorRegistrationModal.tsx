@@ -70,7 +70,7 @@ const ModalBody = ({
         />
       )
     case 'CONGRATULATIONS':
-      return <CongratulationsStep />
+      return <CongratulationsStep links={links.congratulationsStep} />
   }
 }
 

@@ -100,16 +100,18 @@ export const MentorRegistrationModal = ({
       className="m-become-mentor"
       cover={true}
     >
-      <ModalHeader>
-        <StepIndicator steps={STEPS} currentStep={currentStep} />
-        <CloseButton onClick={onClose} />
-      </ModalHeader>
-      <ModalBody
-        currentStep={currentStep}
-        links={links}
-        onContinue={moveForward}
-        onBack={moveBack}
-      />
+      <div className="md-container">
+        <ModalHeader>
+          <StepIndicator steps={STEPS} currentStep={currentStep} />
+          <CloseButton onClick={onClose} />
+        </ModalHeader>
+        <ModalBody
+          currentStep={currentStep}
+          links={links}
+          onContinue={moveForward}
+          onBack={moveBack}
+        />
+      </div>
     </Modal>
   )
 }

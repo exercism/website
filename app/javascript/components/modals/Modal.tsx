@@ -24,7 +24,7 @@ export const Modal = ({
 
   const reactModalProps = {
     ...props,
-    className: cover ? 'md-container' : '--modal-content',
+    className: '--modal-content',
     overlayClassName: overlayClassNames.join(' '),
   }
 

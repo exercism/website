@@ -4,7 +4,7 @@ import { Track } from '../ChooseTrackStep'
 import { Icon } from '../../../common'
 
 export const TrackCheckbox = ({
-  id,
+  slug,
   title,
   iconUrl,
   avgWaitTime,
@@ -16,15 +16,15 @@ export const TrackCheckbox = ({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }): JSX.Element => {
   return (
-    <div className="track-checkbox">
+    <div className="track">
       <input
         type="checkbox"
-        id={id}
+        id={slug}
         checked={checked}
         onChange={onChange}
-        aria-labelledby={`${id}-label`}
+        aria-labelledby={`${slug}-label`}
       />
-      <label className="track" htmlFor={id} id={`${id}-label`}>
+      <label className="track" htmlFor={slug} id={`${slug}-label`}>
         <div className="selected-icon">
           <Icon icon="checkmark" alt="Track selected" />
         </div>

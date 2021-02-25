@@ -3,7 +3,9 @@
 .m-become-mentor {
     --inner-width: 800px;
 
-    @apply pt-48 pb-48;
+    & .--modal-content {
+        @apply py-48;
+    }
     & header {
         @apply flex items-center justify-between;
         @apply mb-8;
@@ -81,41 +83,13 @@
             @apply grid gap-20;
             grid-template-columns: repeat(4, auto);
 
-            & .track-checkbox {
-                & input[type="checkbox"] {
-                    opacity: 0;
-                }
-
-                & input[type="checkbox"]:checked + label {
-                    @apply border-2 border-darkBlue;
-                    @apply bg-veryLightBlue;
-
-                    & .selected-icon {
-                        position: absolute;
-                        top: -20px;
-                        right: -20px;
-
-                        @apply grid place-items-center;
-                        @apply bg-darkBlue rounded-circle;
-                        width: 40px;
-                        height: 40px;
-
-                        & .c-icon {
-                            height: 20px;
-                            width: 20px;
-                        }
-                    }
-                }
-
-                & input[type="checkbox"].focus-visible + label {
-                    @apply border-2 border-inputBorderColorFocus;
-                }
-
+            & .track {
                 & label {
                     @apply bg-backgroundColorB shadow-lg rounded-8;
                     @apply py-24;
                     @apply flex flex-col items-center;
                     @apply relative;
+                    @apply border-2 border-transparent;
 
                     cursor: pointer;
                     transition: background 0.2s ease-out,
@@ -127,7 +101,21 @@
                     }
 
                     & .selected-icon {
+                        position: absolute;
+                        top: -20px;
+                        right: -20px;
+
+                        @apply grid place-items-center;
+                        @apply bg-darkBlue rounded-circle;
+                        width: 40px;
+                        height: 40px;
+
                         @apply hidden;
+
+                        & .c-icon {
+                            height: 20px;
+                            width: 20px;
+                        }
                     }
 
                     & .c-track-icon {
@@ -143,6 +131,22 @@
 
                     & .info {
                         @apply text-14 leading-160 text-textColor6;
+                    }
+                }
+
+                & input[type="checkbox"] {
+                    opacity: 0;
+                    &:checked + label {
+                        @apply border-darkBlue;
+                        @apply bg-veryLightBlue;
+
+                        & .selected-icon {
+                            @apply grid;
+                        }
+                    }
+
+                    &.focus-visible + label {
+                        @apply border-2 border-inputBorderColorFocus;
                     }
                 }
             }

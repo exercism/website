@@ -12,8 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       ###
-      # Caching using GitHub's caching action
+      # Checkout using GitHub's checkout action
+      - uses: actions/checkout@v2#
+      ###
 
+      # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path

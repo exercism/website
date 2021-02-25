@@ -10,7 +10,13 @@ export type Links = {
 
 const NUM_TO_CHECK = 4
 
-export const CommitStep = ({ links }: { links: Links }): JSX.Element => {
+export const CommitStep = ({
+  links,
+  onBack,
+}: {
+  links: Links
+  onBack: () => void
+}): JSX.Element => {
   const [numChecked, setNumChecked] = useState(0)
 
   const handleChange = useCallback(
@@ -68,6 +74,9 @@ export const CommitStep = ({ links }: { links: Links }): JSX.Element => {
             <span>Not use Exercism to promote personal agendas</span>
           </Checkbox>
         </div>
+        <button type="button" onClick={onBack}>
+          Back
+        </button>
         <button className="btn-cta" disabled={numChecked !== NUM_TO_CHECK}>
           <span>Continue</span>
           <GraphicalIcon icon="arrow-right" />

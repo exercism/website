@@ -25,13 +25,16 @@ export type Links = {
 
 export const ChooseTrackStep = ({
   links,
+  selected,
+  setSelected,
   onContinue,
 }: {
   links: Links
+  selected: string[]
+  setSelected: (selected: string[]) => void
   onContinue: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [selected, setSelected] = useState<string[]>([])
   const { request, setCriteria } = useList({
     endpoint: links.tracks,
     options: {},

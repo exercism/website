@@ -36,21 +36,27 @@ const ModalBody = ({
   currentStep,
   links,
   onContinue,
+  onBack,
 }: {
   currentStep: ModalStep
   links: Links
   onContinue: () => void
+  onBack: () => void
 }): JSX.Element => {
+  const [selected, setSelected] = useState<string[]>([])
+
   switch (currentStep) {
     case 'CHOOSE_TRACK':
       return (
         <ChooseTrackStep
           links={links.chooseTrackStep}
+          selected={selected}
+          setSelected={setSelected}
           onContinue={onContinue}
         />
       )
     case 'COMMIT':
-      return <CommitStep links={links.commitStep} />
+      return <CommitStep links={links.commitStep} onBack={onBack} />
   }
 }
 
@@ -61,11 +67,18 @@ export const MentorRegistrationModal = ({
 }: Omit<ModalProps, 'className'> & { links: Links }): JSX.Element => {
   const [currentStep, setCurrentStep] = useState<ModalStep>('CHOOSE_TRACK')
 
-  const moveToNextStep = useCallback(() => {
+  const moveForward = useCallback(() => {
     const nextStep = STEPS.findIndex((step) => step.id === currentStep) + 1
 
     setCurrentStep(STEPS[nextStep].id)
   }, [currentStep])
+
+  const moveBack = useCallback(() => {
+    const prevStep = STEPS.findIndex((step) => step.id === currentStep) - 1
+
+    setCurrentStep(STEPS[prevStep].id)
+  }, [currentStep])
+
   return (
     <Modal
       {...props}
@@ -80,7 +93,8 @@ export const MentorRegistrationModal = ({
       <ModalBody
         currentStep={currentStep}
         links={links}
-        onContinue={moveToNextStep}
+        onContinue={moveForward}
+        onBack={moveBack}
       />
     </Modal>
   )

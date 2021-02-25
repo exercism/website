@@ -103,6 +103,7 @@ import { initReact } from './react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
+import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
@@ -188,7 +189,9 @@ initReact({
     />
   ),
   'mentoring-try-mentoring-button': (data: any) => (
-    <Mentoring.TryMentoringButton links={data.links} />
+    <Mentoring.TryMentoringButton
+      links={camelizeKeysAs<TryMentoringButtonLinks>(data.links)}
+    />
   ),
   'student-tracks-list': (data: any) => (
     <Student.TracksList

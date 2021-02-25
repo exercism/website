@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { TracksList } from './choose-track-step/TracksList'
@@ -19,17 +19,30 @@ export type Track = {
   numSolutionsQueued: number
 }
 
+export type Links = {
+  tracks: string
+}
+
 export const ChooseTrackStep = ({
-  endpoint,
+  links,
+  onContinue,
 }: {
-  endpoint: string
+  links: Links
+  onContinue: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [selected, setSelected] = useState<string[]>([])
-  const { request, setCriteria } = useList({ endpoint: endpoint, options: {} })
+  const { request, setCriteria } = useList({
+    endpoint: links.tracks,
+    options: {},
+  })
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
   >('tracks', request, isMountedRef)
+
+  const handleContinue = useCallback(() => {
+    onContinue()
+  }, [onContinue])
 
   return (
     <section className="tracks-section">
@@ -47,7 +60,10 @@ export const ChooseTrackStep = ({
         />
         {isFetching ? <span>Fetching</span> : null}
         <SelectedTracksMessage numSelected={selected.length} />
-        <ContinueButton disabled={selected.length === 0} />
+        <ContinueButton
+          disabled={selected.length === 0}
+          onClick={handleContinue}
+        />
       </div>
       <div className="tracks">
         <TracksList

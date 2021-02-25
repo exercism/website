@@ -207,6 +207,10 @@
             & .c-checkbox-wrapper {
                 @apply mb-12;
 
+                & input[type="checkbox"].focus-visible + .row {
+                    @apply border-2 border-inputBorderColorFocus;
+                }
+
                 & .row {
                     @apply bg-backgroundColorA;
                     @apply shadow-base;

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { MentorRegistrationModal } from '../modals/MentorRegistrationModal'
+import { Links as ChooseTrackStepLinks } from '../modals/mentor-registration-modal/ChooseTrackStep'
+import { Links as CommitStepLinks } from '../modals/mentor-registration-modal/CommitStep'
 
 export type Links = {
-  tracks: string
+  chooseTrackStep: ChooseTrackStepLinks
+  commitStep: CommitStepLinks
 }
 
 export const TryMentoringButton = ({

@@ -197,6 +197,90 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     end
   end
 
+  test "syncs with nil concepts" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:concepts] = nil
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_empty track.concepts
+  end
+
+  test "syncs with nil concept exercises" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept] = nil
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_empty track.concept_exercises
+  end
+
+  test "syncs with nil practice exercises" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice] = nil
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_empty track.practice_exercises
+  end
+
+  test "syncs concept exercises with nil concepts" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept].each { |exercise| exercise[:concepts] = nil }
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_equal 5, track.concept_exercises.length
+  end
+
+  test "syncs concept exercises with nil prerequisites" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept].each { |exercise| exercise[:prerequisites] = nil }
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_equal 5, track.concept_exercises.length
+  end
+
+  test "syncs practice exercises with nil prerequisites" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice].each { |exercise| exercise[:prerequisites] = nil }
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_equal 7, track.practice_exercises.length
+  end
+
+  test "syncs practice exercises with nil practices" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice].each { |exercise| exercise[:practices] = nil }
+    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Git::SyncTrack.(track)
+
+    assert_equal 7, track.practice_exercises.length
+  end
+
   test "update is only called once" do
     track = create :track
 

@@ -17,12 +17,12 @@ require 'mocha/minitest'
 require 'minitest/pride'
 require 'webmock/minitest'
 
-# Configure mocach to be safe
+# Configure mocha to be safe
 Mocha.configure do |c|
-  # c.stubbing_method_unnecessarily = :prevent
+  c.stubbing_method_unnecessarily = :prevent
   c.stubbing_non_existent_method = :prevent
-  c.stubbing_non_public_method = :warn
   c.stubbing_method_on_nil = :prevent
+  c.stubbing_non_public_method = :prevent
 end
 
 # Require the support helper files
@@ -80,7 +80,12 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   def setup
-    RestClient.stubs(:post)
+    # We do it like this (rather than stub/unstub) so that we
+    # can have this method globally without disabling mocha's
+    # protections against unstubbing unecessary methods.
+    return if @__skip_stubbing_rest_client__
+
+    RestClient.define_method(:post) {}
   end
 
   # Create a few models and return a random one.

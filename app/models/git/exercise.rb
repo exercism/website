@@ -136,6 +136,11 @@ module Git
       "#{dir}/#{filepath}"
     end
 
+    memoize
+    def commit
+      repo.lookup_commit(git_sha)
+    end
+
     def filepaths
       file_entries.map { |defn| defn[:full] }
     end
@@ -153,11 +158,6 @@ module Git
     memoize
     def tree
       repo.fetch_tree(commit, dir)
-    end
-
-    memoize
-    def commit
-      repo.lookup_commit(git_sha)
     end
 
     memoize

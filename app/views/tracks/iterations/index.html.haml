@@ -1,5 +1,5 @@
 #page-iterations-index
-  = render ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :iterations)
+  = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :iterations)
 
   - if @iterations.present?
     = render "tracks/iterations/index/iterations", iterations: @iterations

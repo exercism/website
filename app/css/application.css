@@ -41,6 +41,7 @@
     --c-D5D8E4: #d5d8e4;
     --c-F4F7FD: #f4f7fd;
     --c-E1EBFF: #e1ebff;
+    --c-C8D5EF: #c8d5ef;
 
     --darkThemeBackgroundColor: var(--c-282339);
 }
@@ -73,6 +74,7 @@
     --inputBorderColorFocus: var(--c-6A93FF);
     --tabBackgroundColorSelected: var(--c-E1EBFF);
     --tabColorSelected: var(--c-000000);
+    --tabIconColorSelected: var(--c-604FCD);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);
 
     @apply text-textColor5 bg-backgroundColorB;

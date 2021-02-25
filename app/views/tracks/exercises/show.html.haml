@@ -1,26 +1,5 @@
 #page-exercise-show
-  = render ViewComponents::Track::ExerciseNav.new(@track, @exercise, @solution, :about)
-
-  %header.exercise-header
-    .lg-container.container
-      = exercise_icon @exercise
-      .info
-        %h1
-          = @exercise.title
-          - if @solution&.completed?
-            = icon 'completed-check-circle', "Exercise is completed"
-        .difficulty Easy
-
-      / TODO: Cache this
-      .makers
-        .faces
-          - @exercise.authors.each do |author|
-            .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(author.handle), "data-handle": author.handle }
-              = rounded_bg_img(author.avatar_url, "#{author.name} uploaded avatar")
-        .stats
-          .authors= pluralize @exercise.authors.size, "author"
-          - if @exercise.contributors.present?
-            .contributors= pluralize @exercise.contributors.size, "contributor"
+  = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :overview)
 
   .lg-container.tw-flex
     .tw-w-arbitary.tw-flex-grow

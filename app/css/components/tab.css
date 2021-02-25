@@ -23,7 +23,7 @@
             @apply text-tabColorSelected border-lightPurple;
         }
         & svg {
-            @apply mr-12 text-tabColorSelected;
+            @apply mr-12 text-tabIconColorSelected;
         }
     }
     /* This functionality stops the tab resizing when the

@@ -27,6 +27,7 @@ module.exports = {
       '4': '4px',
     },
     boxShadow: {
+      xsZ1: '0px 4px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
@@ -45,6 +46,7 @@ module.exports = {
       backgroundColorC: 'var(--backgroundColorC)',
       backgroundColorD: 'var(--backgroundColorD)',
       backgroundColorE: 'var(--backgroundColorE)',
+      backgroundColorF: 'var(--backgroundColorF)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',

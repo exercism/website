@@ -19,7 +19,7 @@
 
             - elsif iteration.status.to_sym == :no_automated_feedback
               .automated-feedback-absent
-                = graphical_icon "graphic-conversation-1"
+                = graphical_icon "graphic-mentoring-header"
                 %h3 No auto suggestions? Try human mentoring.
                 %p Get real 1-to-1 human mentoring on the Leap exercise and start writing better C#.
                 = link_to "Get Mentoring", track_exercise_mentoring_index_path(iteration.track, iteration.exercise), class: 'btn-secondary'

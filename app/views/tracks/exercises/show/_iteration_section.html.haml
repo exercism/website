@@ -1,9 +1,6 @@
 / TODO: Convert everything to React
 
-:ruby
-  return unless iteration
-  track = user_track.track
-  exercise = iteration.exercise
+- return unless iteration
 
 %section.latest-iteration
   %header
@@ -109,12 +106,13 @@
       = graphical_icon "graphic-community-solutions", css_class: "header-icon"
       %h3 Learn from others' solutions
       %p Explore their approaches to learn new tips and tricks. Discover popular solutions to this exercise.
-      = link_to "View community solutions", "#", class: 'btn'
+      = link_to "View community solutions", "#", class: 'btn-small-discourage'
+
     .mentoring
       = graphical_icon "graphic-mentoring-screen", css_class: "header-icon"
       %h3 Get mentored by a human
       %p On average, students iterate a further 3.5 times when mentored on a solution.
-      = link_to "Request Mentoring", "#", class: 'btn-cta'
+      = button_tag "Request Mentoring", class: 'btn-small-cta'
       = link_to "#", class: 'learn-more' do
         Learn more
         = icon "external-link", "Opens in new tab"

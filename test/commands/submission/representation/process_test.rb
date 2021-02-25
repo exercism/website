@@ -65,6 +65,16 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.representation_exceptioned?
   end
 
+  test "handle invalid ast" do
+    exercise = create :concept_exercise
+    submission = create :submission, exercise: exercise
+
+    job = create_representer_job!(submission, execution_status: 200, ast: "")
+    Submission::Representation::Process.(job)
+
+    assert submission.reload.representation_exceptioned?
+  end
+
   test "handle generated" do
     ast = "Some AST goes here..."
     exercise = create :concept_exercise

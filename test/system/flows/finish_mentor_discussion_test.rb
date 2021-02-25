@@ -40,6 +40,7 @@ module Flows
 
         sleep(0.1)
         click_on "Yes"
+        sleep(0.1)
 
         assert_text "Add student-123 to your favorites?"
       end
@@ -61,6 +62,7 @@ module Flows
 
         sleep(0.1)
         click_on "No"
+        sleep(0.1)
 
         assert_text "You will not see future mentor requests from student-123."
       end
@@ -79,7 +81,9 @@ module Flows
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         click_on "Change preferences"
+        sleep(0.1)
         click_on "Yes"
+        sleep(0.1)
         within(".finished-wizard") { click_on "Add to favorites" }
 
         assert_text "student-123 is one of your favorites"
@@ -99,7 +103,9 @@ module Flows
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         click_on "Change preferences"
+        sleep(0.1)
         click_on "Yes"
+        sleep(0.1)
         click_on "Skip"
 
         assert_text "Thanks for mentoring student-123."
@@ -119,7 +125,9 @@ module Flows
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         click_on "Change preferences"
+        sleep(0.1)
         click_on "No"
+        sleep(0.1)
         click_on "Change preferences"
 
         assert_text "Want to mentor student-123 again?"

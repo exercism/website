@@ -93,7 +93,8 @@
 
                     & .automated-feedback-absent {
                         & .c-icon {
-                            height: 70px;
+                            height: 120px;
+                            width: 120px;
                             @apply mb-16;
                         }
                         & p {

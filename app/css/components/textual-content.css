@@ -6,8 +6,13 @@
             @apply text-18;
         }
         & > * {
-            @apply mt-16;
+            &:not(:first-child) {
+                @apply mt-16;
+            }
             @apply mb-16;
+            &:last-child {
+                @apply mb-0;
+            }
         }
 
         /************/

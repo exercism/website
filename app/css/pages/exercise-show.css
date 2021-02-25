@@ -74,6 +74,84 @@
         }
     }
 
+    & section.completion-nudge {
+        @apply flex items-center;
+        @apply mb-24;
+        @apply bg-backgroundColorA shadow-baseZ1 rounded-12;
+        @apply py-24 pl-32 pr-40;
+
+        & > .c-icon {
+            height: 64px;
+            width: 64px;
+            @apply mr-24;
+            @apply self-start;
+        }
+
+        & > .info {
+            & h3 {
+                @apply text-h4 mb-4;
+            }
+            & p {
+                @apply text-16 leading-160;
+
+                & strong {
+                    @apply font-medium;
+                }
+            }
+        }
+        & .c-react-component,
+        & .c-react-wrapper-student-complete-exercise-button {
+            @apply flex-shrink-0;
+            @apply ml-40;
+            &,
+            & .btn {
+                width: 260px;
+            }
+        }
+    }
+
+    & section.mentoring-nudge {
+        @apply flex items-center;
+        @apply mb-24;
+
+        @apply border-2 border-anotherPurple rounded-12;
+
+        @apply shadow-baseZ1;
+        @apply bg-backgroundColorF;
+        @apply py-24 px-40;
+
+        & > .c-icon {
+            height: 120px;
+            width: 120px;
+            @apply mr-24;
+        }
+
+        & .info {
+            & h3 {
+                @apply text-h4 mb-4;
+            }
+            & p {
+                @apply text-16 leading-160;
+                @apply mb-16;
+            }
+            & .options {
+                @apply flex items-center;
+                & .btn-small-cta {
+                    @apply mr-32;
+                }
+                & a.more-info {
+                    @apply text-16 text-lightBlue leading-170 font-semibold;
+                    @apply flex items-center;
+
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply ml-8;
+                    }
+                }
+            }
+        }
+    }
     & section.latest-iteration {
         @apply bg-backgroundColorA shadow-lg rounded-8 mb-32;
         @apply py-24 px-32;
@@ -82,6 +160,8 @@
             @apply flex mb-20;
 
             & .info {
+                @apply flex-grow;
+
                 & h2 {
                     @apply text-h3 mb-6;
                 }
@@ -180,7 +260,7 @@
                 & p {
                     @apply mb-16;
                 }
-                & .btn-cta {
+                & button {
                     @apply mb-16;
                 }
                 & .learn-more {

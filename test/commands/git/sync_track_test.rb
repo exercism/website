@@ -202,7 +202,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:concepts] = nil
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 
@@ -214,7 +217,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:exercises][:concept] = nil
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 
@@ -226,7 +232,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:exercises][:practice] = nil
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 
@@ -238,7 +247,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:exercises][:concept].each { |exercise| exercise[:concepts] = nil }
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 
@@ -250,7 +262,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:exercises][:concept].each { |exercise| exercise[:prerequisites] = nil }
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 
@@ -262,7 +277,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:exercises][:practice].each { |exercise| exercise[:prerequisites] = nil }
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 
@@ -274,7 +292,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
     config = git_track.config
     config[:exercises][:practice].each { |exercise| exercise[:practices] = nil }
-    Git::Track.any_instance.stubs(:config).returns(config)
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
 
     Git::SyncTrack.(track)
 

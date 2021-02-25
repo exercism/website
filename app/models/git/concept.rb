@@ -20,7 +20,7 @@ module Git
       repo.read_json_blob(commit, absolute_filepath(links_filepath)).map { |link| OpenStruct.new(link) }
     end
 
-    def normalised_git_sha
+    def synced_git_sha
       commit.oid
     end
 

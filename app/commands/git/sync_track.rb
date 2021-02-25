@@ -101,9 +101,9 @@ module Git
     end
 
     def find_concepts(concept_slugs)
-      track.concepts.where(slug: concept_slugs).tap do |concepts|
+      track.concepts.where(slug: concept_slugs.to_a).tap do |concepts|
         # TODO: We should be able to remove this once configlet is in place
-        missing_concepts = concept_slugs - concepts.map(&:slug)
+        missing_concepts = concept_slugs.to_a - concepts.map(&:slug)
         Rails.logger.error "Missing concepts: #{missing_concepts.join(', ')}" if missing_concepts.present?
       end
     end

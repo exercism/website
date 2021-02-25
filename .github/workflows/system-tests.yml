@@ -1,0 +1,84 @@
+name: System Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  system-tests:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_USER: exercism_v3
+          MYSQL_PASSWORD: exercism_v3
+          MYSQL_DATABASE: exercism_v3_test
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306
+
+      redis:
+        image: redis
+        ports:
+          - 6379/tcp
+
+      aws:
+        image: "localstack/localstack:0.12.3"
+        ports:
+          - 4566
+
+    steps:
+      ###
+      # Checkout using GitHub's checkout action
+      - uses: actions/checkout@v2
+
+      ###
+      # Setup Ruby - this needs to match the version in the Gemfile
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@a699edbce608a2c128dedad88e3b6a0e28687b3c
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      ###
+      # Caching using GitHub's caching action
+      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache yarn
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      ###
+      # Install bundler and yarn dependencies
+      - name: Install dependencies
+        env:
+          EXERCISM_ENV: test
+          EXERCISM_CI: true
+          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
+          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+        run: |
+          yarn install
+          bundle exec setup_exercism_config
+          bundle exec setup_exercism_local_aws
+
+      ###
+      # Run the tests
+      - name: Run Ruby system tests
+        env:
+          EXERCISM_ENV: test
+          EXERCISM_CI: true
+          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
+          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+        run: bundle exec rails test:system

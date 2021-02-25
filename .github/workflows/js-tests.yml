@@ -1,0 +1,34 @@
+name: JS Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  js-test:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-latest
+    steps:
+      ###
+      # Caching using GitHub's caching action
+
+      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache yarn
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      ###
+      # Run the tests
+      - name: Run JS tests
+        run: yarn test

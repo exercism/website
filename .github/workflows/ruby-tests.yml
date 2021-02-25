@@ -1,4 +1,4 @@
-name: Tests
+name: Ruby Tests
 
 on:
   push:
@@ -6,8 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
-    # TODO: Change this to website when merging
+  ruby-tests:
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
@@ -48,7 +47,6 @@ jobs:
 
       ###
       # Caching using GitHub's caching action
-
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -77,14 +75,6 @@ jobs:
           bundle exec setup_exercism_local_aws
 
       ###
-      # Setup code climate
-      - name: Setup Code Climate test-reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
-
-      ###
       # Run the tests
       - name: Run Ruby tests
         env:
@@ -92,32 +82,6 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          CAPTURE_CODE_COVERAGE: true
         run: |
           bundle exec rails test:zeitwerk
-
           bundle exec rails test
-          ./cc-test-reporter format-coverage -t simplecov -o codeclimate.backend.json coverage/backend/.resultset.json
-
-          bundle exec rails test:system
-          ./cc-test-reporter format-coverage -t simplecov -o codeclimate.system.json coverage/backend/.resultset.json
-
-      - name: Run JS tests
-        run: yarn test
-
-      - name: Run asset tests
-        env:
-          EXERCISM_ENV: test
-          EXERCISM_CI: true
-        run: bundle exec bin/webpack
-
-      ###
-      # Publish the coverage to CodeClimate
-      - name: Publish code coverage
-        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        env:
-          GIT_BRANCH: ${GITHUB_REF/refs\/heads\//}
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        run: |
-          ./cc-test-reporter sum-coverage codeclimate.*.json -p 2 -o codeclimate.total.json
-          ./cc-test-reporter upload-coverage -i codeclimate.total.json

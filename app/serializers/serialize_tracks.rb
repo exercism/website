@@ -25,9 +25,7 @@ class SerializeTracks
 
   def data_for_track(track)
     {
-      # TODO: Should this be the ID or slug? I'll put in the slug for now.
-      id: track.id,
-      slug: track.slug,
+      id: track.slug,
       title: track.title,
       num_concepts: concept_counts[track.id].to_i,
       num_concept_exercises: concept_exercise_counts[track.id].to_i,

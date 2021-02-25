@@ -22,7 +22,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
     expected = {
       tracks: [
         {
-          id: track.id,
+          id: track.slug,
           title: track.title,
           num_concepts: num_concepts,
           num_concept_exercises: num_concept_exercises,
@@ -33,7 +33,9 @@ class SerializeTracksTest < ActiveSupport::TestCase
           icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
           is_new: true,
           tags: ["Compiled", "Common Language Runtime (.NET)"],
-          updated_at: track.updated_at.iso8601
+          updated_at: track.updated_at.iso8601,
+          avg_wait_time: "2 days", # TODO: For "become a mentor modal"
+          num_solutions_queued: 550 # TODO: For "become a mentor modal"
         }
       ]
     }

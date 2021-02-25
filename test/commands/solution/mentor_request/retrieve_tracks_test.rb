@@ -4,9 +4,14 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
   test "retrieves correctly" do
     user = create :user
 
-    create :track, slug: "fsharp", title: "F#" # Has no requests
+    fsharp = create :track, slug: "fsharp", title: "F#" # Has no requests
     ruby = create :track, slug: "ruby", title: "Ruby"
     csharp = create :track, slug: "csharp", title: "C#"
+    elixir = create :track, slug: "elixir", title: "Elixir" # Is not mentored
+
+    create :user_track_mentorship, user: user, track: fsharp
+    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: csharp
 
     # This shouldn't be included
     strings = create :concept_exercise, track: ruby
@@ -16,10 +21,14 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
     bob = create :practice_exercise, track: csharp, slug: :bob, title: "Bob"
     create :practice_exercise, track: csharp, slug: :fred, title: "Fred"
 
+    # This shouldn't be included
+    elixir_exercise = create :practice_exercise, track: elixir, slug: :erik, title: "Erik"
+
     # Make some requests for each except fred
     3.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: strings) }
     2.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: zipper) }
     4.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: bob) }
+    4.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: elixir_exercise) }
 
     expected = [
       {

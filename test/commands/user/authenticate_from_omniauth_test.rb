@@ -75,7 +75,6 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "does not change password if user confirmed" do
-    SecureRandom.stubs(:uuid).returns("12345678")
     user = create :user, email: "user@exercism.io", github_username: "user22", confirmed_at: Date.new(2016, 12, 25)
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
 

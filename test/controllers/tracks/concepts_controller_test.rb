@@ -42,8 +42,9 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     user = create :user
     create :user_track, track: concept.track, user: user
 
-    UserTrack.any_instance.stubs(concept_learnt?: false)
-    UserTrack.any_instance.stubs(concept_available?: true)
+    # TODO: Remove if not uncommented at launch
+    # UserTrack.any_instance.stubs(concept_learnt?: false)
+    # UserTrack.any_instance.stubs(concept_available?: true)
 
     sign_in!(user)
 
@@ -56,8 +57,9 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     user = create :user
     ut = create :user_track, track: concept.track, user: user
 
-    UserTrack.any_instance.stubs(concept_learnt?: true)
-    UserTrack.any_instance.stubs(concept_available?: true)
+    # TODO: Remove if not uncommented at launch
+    # UserTrack.any_instance.stubs(concept_learnt?: true)
+    # UserTrack.any_instance.stubs(concept_available?: true)
 
     sign_in!(user)
 
@@ -70,8 +72,9 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     user = create :user
     ut = create :user_track, track: concept.track, user: user
 
-    UserTrack.any_instance.stubs(concept_learnt?: false)
-    UserTrack.any_instance.stubs(concept_available?: false)
+    # TODO: Remove if not uncommented at launch
+    # UserTrack.any_instance.stubs(concept_learnt?: false)
+    # UserTrack.any_instance.stubs(concept_available?: false)
 
     sign_in!(user)
 

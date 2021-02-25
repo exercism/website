@@ -24,7 +24,7 @@ gem 'rest-client' # http
 gem 'octokit' # GitHub
 
 # General-purpose gems
-gem 'mandate', '0.4.0.beta.1'
+gem 'mandate', '1.0.0.beta1'
 gem 'kaminari'
 
 # Setup dependencies

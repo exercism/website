@@ -20,6 +20,10 @@ module Git
       repo.read_json_blob(commit, absolute_filepath(links_filepath)).map { |link| OpenStruct.new(link) }
     end
 
+    def synced_git_sha
+      commit.oid
+    end
+
     private
     attr_reader :repo, :concept_slug, :git_sha
 

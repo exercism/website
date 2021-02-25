@@ -8,15 +8,15 @@ module Git
     end
 
     def call
-      return exercise.update!(synced_to_git_sha: head_git_exercise.commit.oid) unless exercise_needs_updating?
+      return exercise.update!(synced_to_git_sha: head_git_exercise.synced_git_sha) unless exercise_needs_updating?
 
       exercise.update!(
         slug: exercise_config[:slug],
         # TODO: Remove the || ... once we have configlet checking things properly.
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
-        git_sha: head_git_exercise.commit.oid,
-        synced_to_git_sha: head_git_exercise.commit.oid,
+        git_sha: head_git_exercise.synced_git_sha,
+        synced_to_git_sha: head_git_exercise.synced_git_sha,
         prerequisites: find_concepts(exercise_config[:prerequisites])
       )
     end

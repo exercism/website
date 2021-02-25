@@ -29,7 +29,7 @@ module Git
       @git_sha = git_sha
     end
 
-    def normalised_git_sha
+    def synced_git_sha
       commit.oid
     end
 

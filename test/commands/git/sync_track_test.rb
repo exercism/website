@@ -206,7 +206,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     # Use the first commit in the repo
     track.update(synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24')
 
-    Git::Repository.any_instance.stubs(keep_up_to_date?: false)
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Repository.any_instance.stubs(keep_up_to_date?: false)
+    end
+
     Git::Repository.any_instance.expects(:fetch!).once
     Git::SyncTrack.(track)
   end

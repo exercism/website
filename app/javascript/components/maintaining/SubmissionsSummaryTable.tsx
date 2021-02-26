@@ -65,6 +65,7 @@ export function SubmissionsSummaryTable({
     )
     return () => subscription.unsubscribe()
   })
+  console.log(submissions)
 
   return (
     <table>

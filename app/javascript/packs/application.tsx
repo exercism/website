@@ -137,7 +137,11 @@ function camelizeKeysAs<T>(object: any): T {
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
   'maintaining-submissions-summary-table': (data: any) => (
-    <Maintaining.SubmissionsSummaryTable submissions={data.submissions} />
+    <Maintaining.SubmissionsSummaryTable
+      submissions={data.submissions.map((s: any) => {
+        return camelizeKeys(s)
+      })}
+    />
   ),
   'journey-solutions-list': (data: any) => (
     <Journey.SolutionsList endpoint={data.endpoint} />

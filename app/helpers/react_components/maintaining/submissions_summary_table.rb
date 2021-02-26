@@ -7,9 +7,67 @@ module ReactComponents
         super(
           "maintaining-submissions-summary-table",
           {
-            submissions: SerializeSubmissions.(submissions)
+            submissions: submissions.includes(:solution).
+              map { |s| SerializeSubmissionForTable.(s) }
           }
         )
+      end
+
+      class SerializeSubmissionForTable
+        include Mandate
+
+        initialize_with :submission
+
+        def call
+          return unless submission
+
+          solution_uuid = submission.solution.uuid
+
+          {
+            id: submission.uuid,
+            track: submission.track.title,
+            exercise: submission.exercise.title,
+            tests_status: tests_data,
+            representation_status: representer_data,
+            analysis_status: analyzer_data,
+            links: {
+              cancel: Exercism::Routes.api_solution_submission_cancellations_url(solution_uuid, submission),
+              submit: Exercism::Routes.api_solution_iterations_url(solution_uuid, submission_id: submission.uuid),
+              test_run: Exercism::Routes.api_solution_submission_test_run_url(solution_uuid, submission.uuid),
+              initial_files: Exercism::Routes.api_solution_initial_files_url(solution_uuid)
+            }
+          }
+        end
+
+        def tests_data
+          data = submission.tests_status
+          if submission.tests_exceptioned?
+            job = ToolingJob.find(submission.test_run.tooling_job_id, full: true)
+            data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+            data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+          end
+          data
+        end
+
+        def representer_data
+          data = submission.representation_status
+          if submission.representation_exceptioned?
+            job = ToolingJob.find(submission.submission_representation.tooling_job_id, full: true)
+            data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+            data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+          end
+          data
+        end
+
+        def analyzer_data
+          data = submission.analysis_status
+          if submission.analysis_exceptioned?
+            job = ToolingJob.find(submission.analysis.tooling_job_id, full: true)
+            data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
+            data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+          end
+          data
+        end
       end
     end
   end

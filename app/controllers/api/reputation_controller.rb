@@ -4,7 +4,9 @@ module API
       tokens = User::ReputationToken::Search.(
         current_user,
         criteria: params[:criteria],
-        category: params[:category]
+        category: params[:category],
+        per: params[:per],
+        page: params[:page]
       )
 
       data = tokens.map do |token|

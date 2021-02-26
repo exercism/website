@@ -48,7 +48,7 @@ const Component = ({
           className="btn-small"
         >
           <GraphicalIcon icon="plus" />
-          Add to favorites
+          <span>Add to favorites</span>
         </button>
       )
     case 'loading':

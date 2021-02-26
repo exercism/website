@@ -60,7 +60,8 @@ module ReactComponents
             created_at: iteration.created_at.iso8601,
             tests_status: iteration.tests_status,
             # TODO: Precalculate this to avoid n+1s
-            automated_feedback: iteration.automated_feedback,
+            representer_feedback: iteration.representer_feedback,
+            analyzer_feedback: iteration.analyzer_feedback,
             links: {
               files: Exercism::Routes.api_solution_submission_files_url(discussion.solution.uuid, iteration.submission)
             }

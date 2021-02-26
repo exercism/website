@@ -1,0 +1,26 @@
+/ TODO: Convert everything to React
+
+- return unless iteration
+
+- if iteration.status.to_sym == :non_actionable_automated_feedback || iteration.status.to_sym == :no_automated_feedback
+  - if exercise.concept_exercise?
+    %section.completion-nudge
+      = graphical_icon "graphic-complete"
+      .info
+        %h3 Hey, looks like you’re done here!
+        %p
+          Complete the exercise to unlock new concepts and exercises.
+          %strong Remember, you can get mentored even after you’ve completed the exercise.
+
+      = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
+  - else
+    %section.mentoring-nudge
+      = graphical_icon "graphic-mentoring-screen"
+      .info
+        %h3 Improve your solution with mentoring
+        %p On average, students that get mentoring iterate a further 3.5 times on their solution. It’s a great way to discover what you don’t know about your language.
+        .options
+          .btn-small-cta Request mentoring
+          = link_to "#", class: 'more-info' do
+            What is Mentoring?
+            = icon "external-link", "Opens in a new tab"

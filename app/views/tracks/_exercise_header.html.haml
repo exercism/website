@@ -1,0 +1,30 @@
+.breadcrumbs
+  .lg-container.container
+    = track_icon track
+    = link_to track.title, track
+    .seperator /
+    = link_to "Exercises", track_exercises_path(track)
+    .seperator /
+    .exercise-title= exercise.title
+
+.content.lg-container.container
+  = exercise_icon exercise
+  .info
+    %h1
+      = exercise.title
+      - if solution&.completed?
+        = icon 'completed-check-circle', "Exercise is completed"
+    .difficulty Easy
+
+  .decorations
+
+  / TODO: Cache this
+  .makers
+    .faces
+      - exercise.authors.each do |author|
+        .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(author.handle), "data-handle": author.handle }
+          = rounded_bg_img(author.avatar_url, "#{author.name} uploaded avatar")
+    .stats
+      .authors= pluralize exercise.authors.size, "author"
+      - if exercise.contributors.present?
+        .contributors= pluralize exercise.contributors.size, "contributor"

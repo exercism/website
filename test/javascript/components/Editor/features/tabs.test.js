@@ -7,6 +7,10 @@ import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { Editor } from '../../../../../app/javascript/components/Editor'
+import { awaitPopper } from '../../../support/await-popper'
+import { actionCableMock } from '../../../support/action-cable-mock'
+
+actionCableMock()
 
 test('switches tabs', async () => {
   render(
@@ -43,6 +47,7 @@ test('opens instructions tab by default', async () => {
       assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
+  await awaitPopper()
 
   expect(
     screen.getByRole('tab', { name: 'Instructions', selected: true })
@@ -87,6 +92,7 @@ test('opens results tab by default if tests have previously ran', async () => {
       }}
     />
   )
+  await awaitPopper()
 
   expect(
     await screen.findByRole('tab', { name: 'Results', selected: true })

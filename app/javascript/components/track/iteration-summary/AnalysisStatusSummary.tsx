@@ -3,59 +3,45 @@ import { RepresentationStatus, AnalysisStatus } from '../IterationSummary'
 import { GraphicalIcon } from '../../common'
 import { Icon } from '../../common/Icon'
 
-function Content({
-  analysisStatus,
-  representationStatus,
+export function AnalysisStatusSummary({
+  numEssentialAutomatedComments,
+  numActionableAutomatedComments,
+  numNonActionableAutomatedComments,
 }: {
-  analysisStatus: AnalysisStatus
-  representationStatus: RepresentationStatus
+  numEssentialAutomatedComments: number
+  numActionableAutomatedComments: number
+  numNonActionableAutomatedComments: number
 }) {
   if (
-    analysisStatus === AnalysisStatus.QUEUED ||
-    representationStatus === RepresentationStatus.QUEUED
-  ) {
-    return (
-      <>
-        <GraphicalIcon icon="spinner" />
-        <div className="--status">Analysing</div>
-      </>
-    )
-  }
-
-  if (
-    analysisStatus === AnalysisStatus.NOT_QUEUED &&
-    representationStatus === RepresentationStatus.NOT_QUEUED
+    numEssentialAutomatedComments === 0 &&
+    numActionableAutomatedComments === 0 &&
+    numNonActionableAutomatedComments === 0
   ) {
     return null
   }
 
   return (
-    <>
-      <div className="--comments">
-        <Icon icon="automated-feedback" alt="Automated feedback comments" />
-        <div className="--count">5</div>
-      </div>
-    </>
-  )
-}
+    <div className="--feedback" role="status" aria-label="Analysis status">
+      {numEssentialAutomatedComments > 0 ? (
+        <div className="--count --essential">
+          <Icon icon="alert-circle" alt="Essential automated comments" />
+          {numEssentialAutomatedComments}
+        </div>
+      ) : null}
 
-export function AnalysisStatusSummary({
-  analysisStatus,
-  representationStatus,
-}: {
-  analysisStatus: AnalysisStatus
-  representationStatus: RepresentationStatus
-}) {
-  return (
-    <div
-      className={`--analyzer --${analysisStatus}`}
-      role="status"
-      aria-label="Analysis status"
-    >
-      <Content
-        analysisStatus={analysisStatus}
-        representationStatus={representationStatus}
-      />
+      {numActionableAutomatedComments > 0 ? (
+        <div className="--count --actionable">
+          <Icon icon="info-circle" alt="Recommended automated comments" />
+          {numActionableAutomatedComments}
+        </div>
+      ) : null}
+
+      {numNonActionableAutomatedComments > 0 ? (
+        <div className="--count --non-actionable">
+          <Icon icon="automated-feedback" alt="Other automated comments" />
+          {numNonActionableAutomatedComments}
+        </div>
+      ) : null}
     </div>
   )
 }

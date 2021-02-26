@@ -40,11 +40,13 @@ module Components
         solution = create :concept_solution, exercise: running, user: student
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         iteration = create :iteration, idx: 1, solution: solution
-        submission = create :submission, iteration: iteration, solution: solution, analysis_status: :completed
+        submission = create :submission, iteration: iteration, solution: solution,
+                                         analysis_status: :completed, representation_status: :generated
         create :submission_representation, submission: submission, ast_digest: "ast"
         create :exercise_representation,
           exercise: running,
           feedback_markdown: "Exercise feedback",
+          feedback_type: :essential,
           ast_digest: "ast",
           feedback_author: feedback_author
 
@@ -77,9 +79,7 @@ module Components
           find("summary", text: "student received automated feedback").click
         end
 
-        assert_text "What could the default value of the parameter be set to in order to avoid having to "\
-                    "use a conditional?"
-        assert_text "by The Ruby Analysis Team"
+        assert_text "What could the default value of the parameter be set to in order to avoid having to use a conditional?"
       end
 
       test "shows student info" do

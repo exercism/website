@@ -34,8 +34,8 @@ module Components
       test "paginates contributions" do
         User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
-        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :major
         review_token = create :user_code_review_reputation_token, user: user
+        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :major
 
         use_capybara_host do
           sign_in!(user)

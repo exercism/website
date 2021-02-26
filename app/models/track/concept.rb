@@ -6,6 +6,24 @@ class Track::Concept < ApplicationRecord
 
   belongs_to :track
 
+  has_many :exercise_prerequisites,
+    class_name: "Exercise::Prerequisite",
+    foreign_key: :track_concept_id,
+    inverse_of: :concept,
+    dependent: :destroy
+
+  has_many :exercise_taught_concepts,
+    class_name: "Exercise::TaughtConcept",
+    foreign_key: :track_concept_id,
+    inverse_of: :concept,
+    dependent: :destroy
+
+  has_many :user_track_learnt_concepts,
+    class_name: "UserTrack::LearntConcept",
+    foreign_key: :track_concept_id,
+    inverse_of: :concept,
+    dependent: :destroy
+
   scope :not_taught, lambda {
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }

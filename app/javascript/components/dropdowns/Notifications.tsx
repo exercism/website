@@ -115,6 +115,7 @@ export const Notifications = ({
       { channel: 'NotificationsChannel' },
       { received: refetch }
     )
+
     return () => subscription.unsubscribe()
   }, [refetch])
 

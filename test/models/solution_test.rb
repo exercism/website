@@ -269,4 +269,21 @@ class SolutionTest < ActiveSupport::TestCase
     solution.update_mentoring_status!
     assert_equal 'none', solution.mentoring_status
   end
+
+  test "latest iteration" do
+    solution = create :concept_solution
+    create :iteration, solution: solution
+    iteration = create :iteration, solution: solution
+
+    assert_equal iteration, solution.latest_iteration
+  end
+
+  # test "tests and feedback statuses proxy to latest iteration" do
+  #   solution = create :concept_solution
+  #   create :iteration, solution: solution
+
+  #   solution.latest_iteration.expects(status: :failed)
+
+  #   assert_equal :failed, solution.status
+  # end
 end

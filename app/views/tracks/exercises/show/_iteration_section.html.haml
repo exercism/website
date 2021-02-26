@@ -1,0 +1,118 @@
+/ TODO: Convert everything to React
+
+- return unless iteration
+
+%section.latest-iteration
+  %header
+    - if iteration.status.to_sym == :testing || iteration.status.to_sym == :analyzing
+      .info
+        %h2 Your solution is being processed…
+        %p
+          Your solution is currently being tested, analysed, and compared to other solutions to find for potential improvements.
+          This should only take a few seconds.
+      = graphical_icon :spinner, css_class: "spinner"
+
+    - elsif iteration.status.to_sym == :tests_failed
+      .info
+        %h2 Your solution failed the tests.
+        %p
+          Hmmm, it looks like your solution isn't working.
+          Please check that the tests pass locally on your machine.
+          If they do pass for you, please read
+          = link_to "#" do
+            this article
+            = icon "external-link", "Opens in a new tab"
+      .status.failed Tests Failed
+
+    - elsif iteration.status.to_sym == :essential_automated_feedback
+      .info
+        %h2 Your solution worked, but you can take it further…
+        %p
+          = succeed(".") do
+            We’ve analysed your solution and have
+            %span.essential= pluralize iteration.num_essential_automated_comments, "essential improvements"
+            - if iteration.has_actionable_automated_feedback?
+              - if iteration.has_non_actionable_automated_feedback?
+                ,
+              - else
+                and
+              %span.actionable= pluralize iteration.num_actionable_automated_comments, "recommendation"
+            - if iteration.has_non_actionable_automated_feedback?
+              and
+              %span.non-actionable= pluralize iteration.num_non_actionable_automated_comments, "additional comment"
+
+          Address the essential improvements before proceeding.
+
+      .status.passed Tests Passed
+
+    - elsif iteration.status.to_sym == :actionable_automated_feedback
+      - if exercise.concept_exercise?
+        .info
+          %h2 Your solution is good enough to continue!
+          %p
+            = succeed(".") do
+              We’ve analysed your solution and have
+              %span.actionable= pluralize iteration.num_actionable_automated_comments, "recommendation"
+              - if iteration.has_non_actionable_automated_feedback?
+                and
+                %span.non-actionable= pluralize iteration.num_non_actionable_automated_comments, "additional comment"
+
+            You can either continue or address the recommendations first - your choice!
+        .status.passed Tests Passed
+      - else
+        .info
+          %h2 Your solution worked, but you can take it further…
+          %p
+            = succeed(".") do
+              We’ve analysed your solution and have
+              %span.actionable= pluralize iteration.num_actionable_automated_comments, "recommendation"
+              - if iteration.has_non_actionable_automated_feedback?
+                and
+                %span.non-actionable= pluralize iteration.num_non_actionable_automated_comments, "additional comment"
+
+            We suggest addressing the recommendations before proceeding.
+        .status.passed Tests Passed
+
+    - elsif iteration.status.to_sym == :non_actionable_automated_feedback
+      .info
+        %h2 Your solution looks great!
+        %p
+          We’ve analysed your solution and not found anything that needs changing.
+          We do have
+          %span.non-actionable= pluralize iteration.num_non_actionable_automated_comments, "additional comment"
+          that you might like to check.
+          - if exercise.practice_exercise?
+            Consider working with a mentor to make it even better.
+          %strong Great Job! 🎉
+      .status.passed Tests Passed
+    - else
+      .info
+        %h2 Your solution looks great!
+        %p
+          Your solution passed the tests and we've not got any recommendations.
+          - if exercise.practice_exercise?
+            You might want to work with a mentor to make it even better.
+          %strong Great Job! 🎉
+      .status.passed Tests Passed
+
+  = link_to Exercism::Routes.track_exercise_iteration_path(track, exercise, iteration), class: "iteration" do
+    = ReactComponents::Track::IterationSummary.new(iteration)
+    = graphical_icon 'chevron-right', css_class: 'action-icon'
+
+  = render ViewComponents::ProminentLink.new("See all of your iterations", track_concepts_path(track))
+
+  .next-steps
+    .community-solutions
+      = graphical_icon "graphic-community-solutions", css_class: "header-icon"
+      %h3 Learn from others' solutions
+      %p Explore their approaches to learn new tips and tricks. Discover popular solutions to this exercise.
+      = link_to "View community solutions", "#", class: 'btn-small-discourage'
+
+    .mentoring
+      = graphical_icon "graphic-mentoring-screen", css_class: "header-icon"
+      %h3 Get mentored by a human
+      %p On average, students iterate a further 3.5 times when mentored on a solution.
+      = button_tag "Request Mentoring", class: 'btn-small-cta'
+      = link_to "#", class: 'learn-more' do
+        Learn more
+        = icon "external-link", "Opens in new tab"

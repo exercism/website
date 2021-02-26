@@ -3,6 +3,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPost'
 import { stubRange } from '../../../support/code-mirror-helpers'
+import { awaitPopper } from '../../../support/await-popper'
 
 stubRange()
 
@@ -21,6 +22,7 @@ test('does not display student tag if author is mentor', async () => {
   }
 
   const { queryByText } = render(<DiscussionPost {...post} />)
+  await awaitPopper()
 
   expect(queryByText('Student')).not.toBeInTheDocument()
 })
@@ -64,6 +66,7 @@ test('highlights code blocks', async () => {
   }
 
   render(<DiscussionPost {...post} />)
+  await awaitPopper()
 
   expect(screen.getByText('class')).toHaveAttribute('class', 'hljs-keyword')
   expect(screen.getByText('Hello')).toHaveAttribute('class', 'hljs-title')

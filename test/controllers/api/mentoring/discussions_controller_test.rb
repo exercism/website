@@ -27,8 +27,6 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   ###
 
   test "tracks retrieves all tracks including those not on current page" do
-    Solution::MentorDiscussion::Retrieve.stubs(:requests_per_page).returns(1)
-
     user = create :user
     setup_user(user)
 
@@ -44,7 +42,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
     create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
 
-    get tracks_api_mentoring_discussions_path, headers: @headers, as: :json
+    get tracks_api_mentoring_discussions_path(per: 1), headers: @headers, as: :json
     assert_response 200
 
     expected = [

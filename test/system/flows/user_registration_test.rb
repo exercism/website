@@ -2,6 +2,10 @@ require "application_system_test_case"
 
 module Flows
   class UserRegistrationTest < ApplicationSystemTestCase
+    setup do
+      @__skip_stubbing_rest_client__ = true
+    end
+
     test "user registers successfully" do
       allow_captcha_request do
         visit new_user_registration_path
@@ -128,13 +132,10 @@ module Flows
 
     private
     def allow_captcha_request
-      RestClient.unstub(:post)
       stub_request(:post, "https://hcaptcha.com/siteverify").
         to_return(body: { success: true }.to_json)
 
       yield
-    ensure
-      RestClient.stubs(:post)
     end
   end
 end

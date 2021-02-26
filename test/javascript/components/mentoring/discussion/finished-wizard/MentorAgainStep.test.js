@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -18,11 +18,26 @@ test('disables buttons when choosing to mentor again', async () => {
   )
   server.listen()
 
-  render(<MentorAgainStep student={student} relationship={relationship} />)
-  userEvent.click(screen.getByRole('button', { name: 'Yes' }))
+  render(
+    <MentorAgainStep
+      student={student}
+      relationship={relationship}
+      onYes={() => null}
+      onNo={() => null}
+    />
+  )
 
-  expect(await screen.findByRole('button', { name: 'Yes' })).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'No' })).toBeDisabled()
+  const yesBtn = await screen.findByRole('button', { name: 'Yes' })
+  const noBtn = await screen.findByRole('button', { name: 'No' })
+
+  userEvent.click(yesBtn)
+
+  await waitFor(() => {
+    expect(yesBtn).toBeDisabled()
+  })
+  await waitFor(() => {
+    expect(noBtn).toBeDisabled()
+  })
 
   server.close()
 })
@@ -37,7 +52,14 @@ test('shows loading message when choosing to mentor again', async () => {
   )
   server.listen()
 
-  render(<MentorAgainStep student={student} relationship={relationship} />)
+  render(
+    <MentorAgainStep
+      student={student}
+      relationship={relationship}
+      onYes={() => null}
+      onNo={() => null}
+    />
+  )
   userEvent.click(screen.getByRole('button', { name: 'Yes' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
@@ -61,7 +83,14 @@ test('shows API errors when choosing to mentor again', async () => {
   )
   server.listen()
 
-  render(<MentorAgainStep student={student} relationship={relationship} />)
+  render(
+    <MentorAgainStep
+      student={student}
+      relationship={relationship}
+      onYes={() => null}
+      onNo={() => null}
+    />
+  )
   userEvent.click(screen.getByRole('button', { name: 'Yes' }))
 
   expect(
@@ -94,10 +123,16 @@ test('disables buttons when choosing to not mentor again', async () => {
   server.listen()
 
   render(<MentorAgainStep student={student} relationship={relationship} />)
-  userEvent.click(screen.getByRole('button', { name: 'No' }))
+  const yesButton = screen.getByRole('button', { name: 'Yes' })
+  const noButton = screen.getByRole('button', { name: 'No' })
+  userEvent.click(noButton)
 
-  expect(await screen.findByRole('button', { name: 'Yes' })).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'No' })).toBeDisabled()
+  await waitFor(() => {
+    expect(yesButton).toBeDisabled()
+  })
+  await waitFor(() => {
+    expect(noButton).toBeDisabled()
+  })
 
   server.close()
 })

@@ -66,8 +66,7 @@
             @apply text-label-timestamp;
         }
     }
-    & .--tests,
-    & .--analyzer {
+    & .--processing-status {
         @apply flex items-center;
 
         & .--dot {
@@ -81,17 +80,16 @@
         }
         & .--dot,
         & .c-icon {
-            @apply mr-16;
+            @apply mr-12;
         }
         & .--status {
             @apply font-mono font-bold;
         }
-    }
-    & .--tests {
-        @apply mr-32 text-darkGreen;
-
-        &.--queued {
+        &.--processing {
             @apply text-orange;
+            & .c-icon {
+                animation: spin 3s linear infinite;
+            }
         }
         &.--passed {
             @apply text-darkGreen;
@@ -105,46 +103,33 @@
                 @apply bg-red;
             }
         }
-        &.--errored {
-            @apply text-red;
-            & .--dot {
-                @apply bg-red;
-            }
-        }
-        &.--exceptioned {
-            @apply text-red;
-            & .--dot {
-                @apply bg-red;
-            }
-        }
-        &.--cancelled {
-            @apply text-red;
-            & .--dot {
-                @apply bg-red;
-            }
-        }
-        &.--not_queued {
-            @apply text-orange;
-            & .--dot {
-                @apply bg-orange;
-            }
-        }
     }
-    & .--analyzer {
-        &.--queued {
-            @apply text-orange;
-        }
-        & .--comments {
-            @apply py-6 px-12;
-            @apply border-1 border-borderColor5 rounded-5;
+    & .--feedback {
+        @apply border-1 border-borderColor5 rounded-5;
+        @apply flex items-center;
+        @apply py-4 ml-32;
+
+        & .--count {
+            @apply text-textColor3 font-bold font-mono;
             @apply flex items-center;
+            @apply py-4 px-12;
+
+            &.--essential {
+                @apply text-red;
+            }
+
+            &.--actionable {
+                @apply text-orange;
+            }
+
             & .c-icon {
                 height: 16px;
                 width: 16px;
                 @apply mr-8;
             }
-            & .--count {
-                @apply text-textColor3 font-medium;
+
+            & + .--count {
+                @apply border-l-1 border-borderColor5;
             }
         }
     }

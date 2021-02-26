@@ -7,22 +7,9 @@ import { Notifications } from '../../../../app/javascript/components/dropdowns/N
 import { TestQueryCache } from '../../support/TestQueryCache'
 import { silenceConsole } from '../../support/silence-console'
 import userEvent from '@testing-library/user-event'
+import { actionCableMock } from '../../support/action-cable-mock'
 
-test('shows loading message', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/notifications', (req, res, ctx) => {
-      return res(ctx.status(200))
-    })
-  )
-  server.listen()
-
-  render(<Notifications endpoint="https://exercism.test/notifications" />)
-  userEvent.click(screen.getByRole('button', { name: 'Open notifications' }))
-
-  expect(await screen.findByText('Loading')).toBeInTheDocument()
-
-  server.close()
-})
+actionCableMock()
 
 test('shows API error message', async () => {
   silenceConsole()

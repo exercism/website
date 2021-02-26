@@ -45,9 +45,10 @@ test('send button should be disabled while sending', async () => {
       contextId="test"
     />
   )
-  fireEvent.click(getByText('Send'))
+  const button = getByText('Send')
+  fireEvent.click(button)
 
-  expect(getByText('Send')).toBeDisabled()
+  await waitFor(() => expect(button).toBeDisabled())
 
   server.close()
 })

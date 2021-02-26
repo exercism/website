@@ -1,13 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { usePopper } from 'react-popper'
 
 export function usePanel() {
   const [open, setOpen] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const { styles, attributes, update: updatePanelPosition } = usePopper(
-    buttonRef.current,
-    panelRef.current,
+  const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(
+    null
+  )
+  const [panelElement, setPanelElement] = useState<HTMLDivElement | null>(null)
+  const { styles, attributes, update } = usePopper(
+    buttonElement,
+    panelElement,
     {
       placement: 'bottom-end',
       modifiers: [
@@ -24,8 +26,8 @@ export function usePanel() {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const clickedOutsideComponent = !(
-        panelRef.current?.contains(e.target as Node) ||
-        buttonRef.current?.contains(e.target as Node)
+        panelElement?.contains(e.target as Node) ||
+        buttonElement?.contains(e.target as Node)
       )
 
       if (clickedOutsideComponent) {
@@ -38,21 +40,25 @@ export function usePanel() {
     return () => {
       document.removeEventListener('click', handleClick)
     }
-  }, [])
+  }, [buttonElement, panelElement])
 
   useEffect(() => {
-    if (!open || !updatePanelPosition) {
+    if (!update) {
       return
     }
 
-    updatePanelPosition()
-  }, [open, updatePanelPosition])
+    if (open) {
+      update()
+    }
+  }, [update, open])
 
   return {
     open,
     setOpen,
-    buttonRef,
-    panelRef,
+    buttonElement,
+    setButtonElement,
+    panelElement,
+    setPanelElement,
     styles,
     attributes,
   }

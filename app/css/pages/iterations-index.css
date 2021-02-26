@@ -32,19 +32,27 @@
     & section.iterations {
         & .iteration {
             @apply mb-24 shadow-lg rounded-8;
+            @apply flex flex-col;
+            max-height: 98vh;
 
             & .header {
                 @apply flex items-center py-12 px-24;
                 @apply border-b-1 border-borderLight border-opacity-50;
             }
             & .content {
+                @apply flex-grow overflow-hidden;
                 @apply flex items-stretch;
+
+                & .files,
+                & .information {
+                    @apply overflow-auto;
+                }
 
                 & .files {
                     @apply flex-grow px-24 py-12;
                 }
 
-                & .automated-feedback {
+                & .information {
                     @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
                     @apply border-l-1 border-borderLight;
 
@@ -85,33 +93,72 @@
 
                     & .automated-feedback-absent {
                         & .c-icon {
-                            height: 70px;
+                            height: 120px;
+                            width: 120px;
                             @apply mb-16;
                         }
                         & p {
                             @apply mb-24;
                         }
                     }
-                    & .automated-feedback-present {
-                        & .info {
-                            @apply flex items-start;
-                            @apply text-textColor6 font-medium leading-paragraph;
-                            @apply border-1 border-borderColor5 rounded-8;
+                    & .analyzer-feedback {
+                        & .summary {
+                            @apply bg-lightOrange rounded-8;
+                            @apply text-brown text-15 leading-160 font-medium;
                             @apply py-8 px-16 mb-16;
-
-                            & .c-icon {
-                                height: 16px;
-                                width: 16px;
-                                @apply mr-16 flex-shrink-0 mt-4;
-                            }
-                            & a {
-                                @apply text-lightBlue;
-                            }
                         }
-
                         & .comment {
                             & + .comment {
                                 @apply border-t-1 border-lightGray mt-16 pt-16;
+                            }
+
+                            @apply flex flex-col items-start;
+
+                            & .tag {
+                                @apply text-13 leading-170 font-mono font-bold;
+                                @apply px-8 mb-8;
+                                &.essential {
+                                    @apply bg-red text-white;
+                                }
+                            }
+                        }
+                        & .explanation {
+                            @apply border-t-2 border-borderColor6 pt-16 mt-16;
+                            @apply text-15 leading-160;
+                            & a {
+                                @apply inline-flex items-center;
+                                @apply text-lightBlue font-semibold;
+                                @apply mr-8;
+                                & .c-icon {
+                                    height: 12px;
+                                    width: 12px;
+                                    @apply ml-6;
+                                }
+                            }
+                        }
+                    }
+                    & .representer-feedback + .analyzer-feedback {
+                        @apply border-t-2 border-borderColor6 pt-16 mt-24;
+                        @apply mt-16 pt-16;
+                    }
+
+                    & .representer-feedback,
+                    & .analyzer-feedback {
+                        & .feedback-header {
+                            @apply flex items-center;
+                            @apply mb-12;
+
+                            & > .c-rounded-bg-img,
+                            & > .c-icon {
+                                height: 32px;
+                                width: 32px;
+                                @apply mr-16;
+                            }
+                            & .info {
+                                @apply text-15 leading-160 font-medium text-textColor6;
+                                & strong {
+                                    @apply text-textColor3 font-semibold;
+                                }
                             }
                         }
                         & .c-textual-content {

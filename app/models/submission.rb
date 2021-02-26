@@ -58,44 +58,40 @@ class Submission < ApplicationRecord
   #   end
   # end
 
-  memoize
-  def automated_feedback_status
-    # If they're both still waiting, then return pending
-    # TODO: If we don't have an analyzer we may currently never get here,
-    # so we need to handle the missing analyzer sceneraio. Check this works ok.
-    return :pending if !representation_generated? && !analysis_completed?
-
-    # If either has feedback then we're present
-    return :present if exercise_representation&.has_feedback? || analysis&.has_feedback?
-
-    # Otherwise if either are still queued then we're pending
-    return :pending if representation_queued? || representation_not_queued? ||
-                       analysis_queued? || analysis_not_queued?
-
-    # Otherwise we don't have feedback
-    :none
+  def tests_pending?
+    %w[not_queued queued].include?(tests_status)
   end
 
-  memoize
-  def automated_feedback
-    return nil unless has_automated_feedback?
-
-    {
-      mentor: representer_feedback,
-      analyzer: analyzer_feedback
-    }
+  def tests_passed?
+    tests_status == "passed"
   end
 
-  memoize
+  def automated_feedback_pending?
+    return true if !representation_generated? && !analysis_completed?
+    return false if has_automated_feedback?
+    return true if representation_queued? || representation_not_queued?
+    return true if analysis_queued? || analysis_not_queued?
+
+    false
+  end
+
   def has_automated_feedback?
-    automated_feedback_status == :present
+    num_automated_comments_by_type.values.sum.positive?
+  end
+
+  %i[essential actionable non_actionable].each do |type|
+    define_method "num_#{type}_automated_comments" do
+      num_automated_comments_by_type[type]
+    end
+    define_method "has_#{type}_automated_feedback?" do
+      send("num_#{type}_automated_comments").positive?
+    end
   end
 
   def viewable_by?(user)
     solution.mentors.include?(user) || solution.user == user
   end
 
-  private
   memoize
   def representer_feedback
     return nil unless exercise_representation&.has_feedback?
@@ -115,14 +111,30 @@ class Submission < ApplicationRecord
 
   memoize
   def analyzer_feedback
-    return nil unless analysis&.has_feedback?
+    return nil unless analysis&.has_comments?
 
     {
-      html: analysis.feedback_html,
-      team: {
-        name: "The #{track.title} Analysis Team",
-        link_url: "#" # TODO
-      }
+      summary: analysis.summary,
+      comments: analysis.comments
     }
+  end
+
+  private
+  memoize
+  def num_automated_comments_by_type
+    {
+      essential: analysis&.num_essential_comments.to_i,
+      actionable: analysis&.num_actionable_comments.to_i,
+      non_actionable: analysis&.num_informative_comments.to_i +
+        analysis&.num_celebratory_comments.to_i
+    }.tap do |values|
+      if exercise_representation&.has_essential_feedback?
+        values[:essential] += 1
+      elsif exercise_representation&.has_actionable_feedback?
+        values[:actionable] += 1
+      elsif exercise_representation&.has_feedback?
+        values[:non_actionable] += 1
+      end
+    end
   end
 end

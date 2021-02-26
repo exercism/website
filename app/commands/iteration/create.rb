@@ -21,7 +21,7 @@ class Iteration
 
     def init_services
       Submission::Representation::Init.(submission)
-      # Submission::Analysis::Init.(submission)
+      Submission::Analysis::Init.(submission)
     end
 
     def record_activity!(iteration)

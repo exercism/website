@@ -60,7 +60,8 @@ module Mentoring
               unread: false,
               created_at: iteration_1.created_at.iso8601,
               tests_status: iteration_1.tests_status,
-              automated_feedback: iteration_1.automated_feedback,
+              representer_feedback: iteration_1.representer_feedback,
+              analyzer_feedback: iteration_1.analyzer_feedback,
               links: {
                 files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_1.submission)
               }
@@ -72,7 +73,8 @@ module Mentoring
               unread: false,
               created_at: iteration_2.created_at.iso8601,
               tests_status: iteration_2.tests_status,
-              automated_feedback: iteration_2.automated_feedback,
+              representer_feedback: iteration_2.representer_feedback,
+              analyzer_feedback: iteration_2.analyzer_feedback,
               links: {
                 files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_2.submission)
               }
@@ -84,7 +86,8 @@ module Mentoring
               unread: true,
               created_at: iteration_3.created_at.iso8601,
               tests_status: iteration_3.tests_status,
-              automated_feedback: iteration_3.automated_feedback,
+              representer_feedback: iteration_3.representer_feedback,
+              analyzer_feedback: iteration_3.analyzer_feedback,
               links: {
                 files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_3.submission)
               }

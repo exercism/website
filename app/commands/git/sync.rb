@@ -42,17 +42,17 @@ module Git
 
     memoize
     def concept_exercises_config
-      config[:exercises][:concept]
+      config[:exercises][:concept].to_a
     end
 
     memoize
     def practice_exercises_config
-      config[:exercises][:practice]
+      config[:exercises][:practice].to_a
     end
 
     memoize
     def concepts_config
-      config[:concepts] || []
+      config[:concepts].to_a
     end
 
     private

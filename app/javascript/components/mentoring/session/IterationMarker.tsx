@@ -21,10 +21,11 @@ export const IterationMarker = ({
         </div>
         <time>{timeFormat(iteration.createdAt, 'DD MMM YYYY')}</time>
       </div>
-      {iteration.automatedFeedback ? (
+      {iteration.analyzerFeedback || iteration.representerFeedback ? (
         <AutomatedFeedbackSummary
           userIsStudent={userIsStudent}
-          automatedFeedback={iteration.automatedFeedback}
+          analyzerFeedback={iteration.analyzerFeedback}
+          representerFeedback={iteration.representerFeedback}
         />
       ) : null}
     </React.Fragment>

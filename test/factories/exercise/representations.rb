@@ -5,5 +5,11 @@ FactoryBot.define do
     mapping { { foo: 'bar' } }
     ast { SecureRandom.uuid }
     ast_digest { SecureRandom.uuid }
+
+    trait :with_feedback do
+      feedback_markdown { "foo" }
+      feedback_author { create(:user) }
+      feedback_type { :actionable }
+    end
   end
 end

@@ -5,25 +5,57 @@ class Submission::Analysis < ApplicationRecord
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
-  def has_feedback?
+  memoize
+  def has_comments?
     comment_blocks.present?
   end
 
-  def feedback_html
-    repo = Git::WebsiteCopy.new
-
-    markdown_blocks = comment_blocks.map do |data|
-      if data.is_a?(Hash)
-        template = data['comment']
-        params = data['params']
-      else
-        template = data
+  memoize
+  def num_comments_by_type
+    TYPES.index_with { |_t| 0 }.tap do |vals|
+      comment_blocks.count do |block|
+        type = block.try(:fetch, 'type', DEFAULT_TYPE).try(:to_sym) || DEFAULT_TYPE
+        vals[type] += 1
       end
+    end
+  end
 
-      repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+  %i[essential actionable informative celebratory].each do |type|
+    define_method "num_#{type}_comments" do
+      num_comments_by_type[type]
     end
 
-    Markdown::Parse.(markdown_blocks.join("\n---\n"))
+    define_method "has_#{type}_comments?" do
+      send("num_#{type}_comments").positive?
+    end
+  end
+
+  def summary
+    data[:summary].presence
+  end
+
+  memoize
+  def comments
+    repo = Git::WebsiteCopy.new
+
+    comments = comment_blocks.map do |block|
+      if block.is_a?(Hash)
+        template = block['comment']
+        params = block['params']
+        type = block['type']
+      else
+        template = block
+      end
+
+      markdown = repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+
+      {
+        type: type&.to_sym || DEFAULT_TYPE,
+        html: Markdown::Parse.(markdown)
+      }
+    end
+
+    comments.sort_by { |c| TYPES.index(c[:type]) }
   end
 
   def ops_success?
@@ -36,11 +68,15 @@ class Submission::Analysis < ApplicationRecord
 
   private
   def comment_blocks
-    data[:comments]
+    data[:comments].to_a
   end
 
   memoize
   def data
     HashWithIndifferentAccess.new(super)
   end
+
+  TYPES = %i[essential actionable informative celebratory].freeze
+  DEFAULT_TYPE = :informative
+  private_constant :TYPES, :DEFAULT_TYPE
 end

@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { Editor } from '../../../../../app/javascript/components/Editor'
+import { awaitPopper } from '../../../support/await-popper'
 
 test('populates files', async () => {
   const server = setupServer(
@@ -65,6 +66,7 @@ test('loads data from storage', async () => {
       assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
+  await awaitPopper()
 
   expect(queryByText('Value: class')).toBeInTheDocument()
 

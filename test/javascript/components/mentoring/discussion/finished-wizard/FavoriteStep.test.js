@@ -6,6 +6,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { FavoriteStep } from '../../../../../../app/javascript/components/mentoring/discussion/finished-wizard/FavoriteStep'
 import { silenceConsole } from '../../../../support/silence-console'
+import { awaitPopper } from '../../../../support/await-popper'
 
 test('disables buttons when choosing to favorite', async () => {
   const student = { handle: 'student' }
@@ -40,6 +41,8 @@ test('shows loading message when choosing to favorite', async () => {
   server.listen()
 
   render(<FavoriteStep student={student} relationship={relationship} />)
+  await awaitPopper()
+
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()

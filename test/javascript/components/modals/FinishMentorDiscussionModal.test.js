@@ -1,11 +1,12 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
 import { silenceConsole } from '../../support/silence-console'
+import { queryCache } from 'react-query'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(
@@ -20,16 +21,25 @@ test('disables buttons when loading', async () => {
       open
       endpoint="https://exercism.test/end"
       ariaHideApp={false}
-      onSuccess={() => {}}
+      onSuccess={() => null}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
-  expect(
-    await screen.findByRole('button', { name: 'End discussion F3' })
-  ).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'Cancel F2' })).toBeDisabled()
+  const endBtn = await screen.findByRole('button', {
+    name: 'End discussion F3',
+  })
+  const cancelBtn = await screen.findByRole('button', { name: 'Cancel F2' })
 
+  userEvent.click(endBtn)
+
+  await waitFor(() => {
+    expect(endBtn).toBeDisabled()
+  })
+  await waitFor(() => {
+    expect(cancelBtn).toBeDisabled()
+  })
+
+  queryCache.cancelQueries()
   server.close()
 })
 
@@ -49,7 +59,9 @@ test('shows loading message when loading', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'End discussion F3' })
+  )
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
@@ -76,7 +88,9 @@ test('shows API errors', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'End discussion F3' })
+  )
 
   expect(
     await screen.findByText('Unable to end discussion')
@@ -87,18 +101,17 @@ test('shows API errors', async () => {
 
 test('shows generic error', async () => {
   silenceConsole()
-
   render(
     <FinishMentorDiscussionModal
       open
-      endpoint="https://exercism.test/end"
+      endpoint="weirdendpoint"
       ariaHideApp={false}
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'End discussion F3' })
+  )
 
-  expect(
-    await screen.findByText('Unable to end discussion')
-  ).toBeInTheDocument()
+  expect(await screen.findByText('Unable to end discussion'))
 })

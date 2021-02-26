@@ -10,12 +10,13 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Session } from '../../../../app/javascript/components/mentoring/Session'
 import { stubRange } from '../../support/code-mirror-helpers'
+import { queryCache } from 'react-query'
 
 stubRange()
 
 test('highlights currently selected iteration', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
+    scratchpad: 'http://exercism.test/scratchpad',
   }
   const discussion = {
     id: 1,
@@ -63,6 +64,7 @@ test('highlights currently selected iteration', async () => {
   )
 
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  queryCache.cancelQueries()
 
   expect(
     await screen.findByRole('button', { name: 'Go to iteration 1' })
@@ -103,6 +105,7 @@ test('shows back button', async () => {
       },
     },
   ]
+
   render(
     <Session
       exercise={exercise}
@@ -113,6 +116,7 @@ test('shows back button', async () => {
       discussion={discussion}
     />
   )
+  queryCache.cancelQueries()
 
   expect(
     await screen.findByRole('link', {
@@ -160,6 +164,7 @@ test('hides latest label if on old iteration', async () => {
       },
     },
   ]
+
   render(
     <Session
       exercise={exercise}
@@ -170,8 +175,9 @@ test('hides latest label if on old iteration', async () => {
       discussion={discussion}
     />
   )
-
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  queryCache.cancelQueries()
+
   expect(
     await screen.findByRole('button', { name: 'Go to iteration 1' })
   ).toBeDisabled()
@@ -234,9 +240,11 @@ test('switches to posts tab when comment success', async () => {
   document
     .querySelector('.comment-section .CodeMirror')
     .CodeMirror.setValue('#Hello')
-  userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  const button = screen.getByRole('button', { name: 'Send' })
+  userEvent.click(button)
 
-  await waitForElementToBeRemoved(screen.getByRole('button', { name: 'Send' }))
+  await waitForElementToBeRemoved(button)
+  queryCache.cancelQueries()
 
   expect(
     await screen.findByRole('tab', { name: 'Discussion' })
@@ -292,8 +300,8 @@ test('switches tabs', async () => {
       discussion={discussion}
     />
   )
-
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
+  queryCache.cancelQueries()
 
   expect(
     await screen.findByRole('tab', { name: 'Scratchpad', selected: true })
@@ -361,6 +369,7 @@ test('go to previous iteration', async () => {
   userEvent.click(
     screen.getByRole('button', { name: 'Go to previous iteration' })
   )
+  queryCache.cancelQueries()
 
   expect(
     await screen.findByRole('heading', { name: 'Iteration 1' })
@@ -418,6 +427,7 @@ test('go to next iteration', async () => {
   )
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
   userEvent.click(screen.getByRole('button', { name: 'Go to next iteration' }))
+  queryCache.cancelQueries()
 
   expect(
     await screen.findByRole('heading', { name: 'Iteration 2' })

@@ -9,6 +9,9 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
 import { TestQueryCache } from '../../../support/TestQueryCache'
+import { actionCableMock } from '../../../support/action-cable-mock'
+
+actionCableMock()
 
 window.IntersectionObserver = jest.fn(() => ({
   observe: jest.fn(),

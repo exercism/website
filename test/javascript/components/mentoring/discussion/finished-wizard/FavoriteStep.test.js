@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -20,12 +20,16 @@ test('disables buttons when choosing to favorite', async () => {
   server.listen()
 
   render(<FavoriteStep student={student} relationship={relationship} />)
-  userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
+  const favoriteButton = await screen.findByRole('button', {
+    name: 'Add to favorites',
+  })
+  const skipButton = await screen.findByRole('button', { name: 'Skip' })
+  userEvent.click(favoriteButton)
 
-  expect(
-    await screen.findByRole('button', { name: 'Add to favorites' })
-  ).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'Skip' })).toBeDisabled()
+  await waitFor(() => {
+    expect(favoriteButton).toBeDisabled()
+    expect(skipButton).toBeDisabled()
+  })
 
   server.close()
 })

@@ -96,6 +96,9 @@
     ],
     "setupFiles": [
       "./test/javascript/test_helper.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/javascript/setupTests.js"
     ]
   },
   "husky": {

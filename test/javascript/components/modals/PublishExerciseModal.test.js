@@ -20,12 +20,12 @@ test('shows loading status', async () => {
       endpoint="https://exercism.test/publish"
       open={true}
       ariaHideApp={false}
-      onSuccess={() => {}}
+      onSuccess={() => null}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'Confirm' }))
+  userEvent.click(await screen.findByRole('button', { name: 'Confirm' }))
 
-  expect(screen.getByText('Loading')).toBeInTheDocument()
+  expect(await screen.findByText('Loading')).toBeInTheDocument()
 
   server.close()
 })

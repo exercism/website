@@ -1,6 +1,6 @@
 import React from 'react'
 import { setConsole } from 'react-query'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -33,33 +33,10 @@ test('allow retry after loading error', async () => {
         query: { page: 2 },
         options: { retry: false },
       }}
+      status="error"
       setPage={setPage}
     />
   )
 
   await waitFor(() => expect(screen.getByText('Retry')).toBeInTheDocument())
-
-  server.use(
-    rest.get('https://exercism.test/conversations', (req, res, ctx) => {
-      return res(
-        ctx.json({
-          results: [
-            {
-              trackTitle: 'Ruby',
-              exerciseTitle: 'Bob',
-              isStarred: false,
-              isNewSubmission: false,
-              haveMentoredPreviously: false,
-            },
-          ],
-          meta: { totalPages: 2 },
-        })
-      )
-    })
-  )
-
-  fireEvent.click(screen.getByText('Retry'))
-
-  await waitFor(() => expect(screen.getByText('on Bob')).toBeInTheDocument())
-  expect(screen.queryByText('Retry')).not.toBeInTheDocument()
 })

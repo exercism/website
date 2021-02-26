@@ -1,6 +1,7 @@
 import React from 'react'
 
 type PaginationProps = {
+  disabled?: boolean
   current: number
   total: number
   around?: number
@@ -8,6 +9,7 @@ type PaginationProps = {
 }
 
 export function Pagination({
+  disabled = false,
   current = 1,
   total,
   setPage,
@@ -30,7 +32,7 @@ export function Pagination({
         onClick={() => {
           setPage(1)
         }}
-        disabled={current === 1}
+        disabled={disabled || current === 1}
         aria-label="Go to first page"
         aria-current={current === 1 ? 'page' : undefined}
       >
@@ -44,7 +46,7 @@ export function Pagination({
               onClick={() => {
                 setPage(page)
               }}
-              disabled={page === current}
+              disabled={disabled || page === current}
               aria-label={`Go to page ${page}`}
               aria-current={page === current ? 'page' : undefined}
             >
@@ -57,7 +59,7 @@ export function Pagination({
         onClick={() => {
           setPage(total)
         }}
-        disabled={current === total}
+        disabled={disabled || current === total}
         aria-label="Go to last page"
         aria-current={current === total ? 'page' : undefined}
       >

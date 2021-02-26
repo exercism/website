@@ -50,10 +50,17 @@ export const SearchableList = ({
   const { request, setPage, setCriteria, setQuery, setOrder } = useList({
     endpoint: endpoint,
   })
-  const { status, resolvedData, latestData, error } = usePaginatedRequestQuery<
-    PaginatedResult,
-    Error | Response
-  >(cacheKey, request, isMountedRef)
+  const {
+    status,
+    resolvedData,
+    latestData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+    cacheKey,
+    request,
+    isMountedRef
+  )
 
   const setFilter = useCallback(
     (filter) => {
@@ -73,6 +80,7 @@ export const SearchableList = ({
           value={request.query.criteria || ''}
           placeholder={placeholder}
         />
+        {isFetching ? <span>Fetching</span> : null}
         <FilterPanel
           setFilter={setFilter}
           categories={categories}
@@ -122,22 +130,23 @@ const Results = ({
 }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
+  if (!resolvedData) {
+    return null
+  }
+
   return (
     <React.Fragment>
-      {resolvedData ? (
-        <ResultsComponent
-          order={query.order}
-          results={resolvedData.results}
-          setOrder={setOrder}
-        />
-      ) : null}
-      {latestData ? (
-        <Pagination
-          current={query.page}
-          total={latestData.meta.totalPages}
-          setPage={setPage}
-        />
-      ) : null}
+      <ResultsComponent
+        order={query.order}
+        results={resolvedData.results}
+        setOrder={setOrder}
+      />
+      <Pagination
+        disabled={latestData === undefined}
+        current={query.page}
+        total={resolvedData.meta.totalPages}
+        setPage={setPage}
+      />
     </React.Fragment>
   )
 }

@@ -39,11 +39,12 @@ export function Queue({ sortOptions, tracks, ...props }) {
     },
     isMountedRef
   )
-  const { status, resolvedData, latestData } = usePaginatedRequestQuery(
-    'mentor-solutions-list',
-    request,
-    isMountedRef
-  )
+  const {
+    status,
+    isFetching,
+    resolvedData,
+    latestData,
+  } = usePaginatedRequestQuery('mentor-solutions-list', request, isMountedRef)
 
   return (
     <div className="queue-section-content">
@@ -55,6 +56,7 @@ export function Queue({ sortOptions, tracks, ...props }) {
             id="mentoring-queue-student-name-filter"
             placeholder="Filter by student handle"
           />
+          {isFetching ? <span>Fetching...</span> : null}
           <Sorter
             sortOptions={sortOptions}
             order={request.query.order}

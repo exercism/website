@@ -1,25 +1,20 @@
 import React from 'react'
 import { Pagination } from '../../common/Pagination'
 import { Discussion } from './Discussion'
-import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
-import { useIsMounted } from 'use-is-mounted'
 
-export function DiscussionList({ request, setPage }) {
-  const isMountedRef = useIsMounted()
-  const {
-    isLoading,
-    isError,
-    isSuccess,
-    resolvedData,
-    latestData,
-    refetch,
-  } = usePaginatedRequestQuery('mentor-discussion-list', request, isMountedRef)
-
+export function DiscussionList({
+  resolvedData,
+  latestData,
+  request,
+  refetch,
+  status,
+  setPage,
+}) {
   return (
     <div>
-      {isLoading && <Loading />}
-      {isError && (
+      {status === 'loading' && <Loading />}
+      {status === 'error' && (
         <>
           <p>Something went wrong</p>
           <button onClick={() => refetch()} aria-label="Retry">
@@ -27,20 +22,19 @@ export function DiscussionList({ request, setPage }) {
           </button>
         </>
       )}
-      {isSuccess && (
+      {status === 'success' && (
         <div className="--conversations">
           {resolvedData.results.map((conversation, key) => (
             <Discussion key={key} {...conversation} />
           ))}
-          {latestData && (
-            <footer>
-              <Pagination
-                current={request.query.currentPage}
-                total={latestData.meta.totalPages}
-                setPage={setPage}
-              />
-            </footer>
-          )}
+          <footer>
+            <Pagination
+              disabled={latestData === undefined}
+              current={request.query.currentPage}
+              total={resolvedData.meta.totalPages}
+              setPage={setPage}
+            />
+          </footer>
         </div>
       )}
     </div>

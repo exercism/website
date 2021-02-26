@@ -21,10 +21,16 @@ test('shows loading message while locking mentoring request', async () => {
   )
   server.listen()
 
-  render(<StartDiscussionPanel request={request} iterations={iterations} />)
-  userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  render(
+    <StartDiscussionPanel
+      request={request}
+      iterations={iterations}
+      setDiscussion={() => null}
+    />
+  )
+  userEvent.click(await screen.findByRole('button', { name: 'Send' }))
 
-  expect(screen.getByText('Loading')).toBeInTheDocument()
+  expect(await screen.findByText('Loading')).toBeInTheDocument()
 
   server.close()
 })

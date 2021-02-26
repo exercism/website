@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { StartDiscussionPanel } from '../../../../../app/javascript/components/mentoring/request/StartDiscussionPanel'
 import { silenceConsole } from '../../../support/silence-console'
 import userEvent from '@testing-library/user-event'
+import flushPromises from 'flush-promises'
 
 test('shows loading message while locking mentoring request', async () => {
   const request = {
@@ -28,6 +29,7 @@ test('shows loading message while locking mentoring request', async () => {
       setDiscussion={() => null}
     />
   )
+  await flushPromises()
   userEvent.click(await screen.findByRole('button', { name: 'Send' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()

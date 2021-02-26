@@ -55,7 +55,9 @@ export const DiscussionPostList = ({
       []
     )
   }, [data, iterations])
-
+  const startIteration = iterationsWithPosts.findIndex(
+    (iteration) => iteration.posts.length !== 0
+  )
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(
     data,
     userId
@@ -85,7 +87,7 @@ export const DiscussionPostList = ({
   if (data) {
     return (
       <div className="discussion">
-        {iterationsWithPosts.map((iteration) => {
+        {iterationsWithPosts.slice(startIteration).map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
               <IterationMarker

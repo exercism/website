@@ -8,7 +8,7 @@ import { TracksList } from '../../../../app/javascript/components/student/Tracks
 test('shows stale data while fetching', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/tracks', (req, res, ctx) => {
-      return res(ctx.delay())
+      return res(ctx.status(200), ctx.json({ tracks: [] }))
     })
   )
   server.listen()

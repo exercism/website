@@ -52,7 +52,14 @@ test('shows loading message when choosing to mentor again', async () => {
   )
   server.listen()
 
-  render(<MentorAgainStep student={student} relationship={relationship} />)
+  render(
+    <MentorAgainStep
+      student={student}
+      relationship={relationship}
+      onYes={() => null}
+      onNo={() => null}
+    />
+  )
   userEvent.click(screen.getByRole('button', { name: 'Yes' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
@@ -116,10 +123,16 @@ test('disables buttons when choosing to not mentor again', async () => {
   server.listen()
 
   render(<MentorAgainStep student={student} relationship={relationship} />)
-  userEvent.click(screen.getByRole('button', { name: 'No' }))
+  const yesButton = screen.getByRole('button', { name: 'Yes' })
+  const noButton = screen.getByRole('button', { name: 'No' })
+  userEvent.click(noButton)
 
-  expect(await screen.findByRole('button', { name: 'Yes' })).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'No' })).toBeDisabled()
+  await waitFor(() => {
+    expect(yesButton).toBeDisabled()
+  })
+  await waitFor(() => {
+    expect(noButton).toBeDisabled()
+  })
 
   server.close()
 })

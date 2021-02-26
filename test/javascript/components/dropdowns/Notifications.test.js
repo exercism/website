@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -11,7 +11,10 @@ import userEvent from '@testing-library/user-event'
 test('shows loading message', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/notifications', (req, res, ctx) => {
-      return res(ctx.status(200))
+      return res(
+        ctx.status(200),
+        ctx.json({ results: [], meta: { links: {} } })
+      )
     })
   )
   server.listen()

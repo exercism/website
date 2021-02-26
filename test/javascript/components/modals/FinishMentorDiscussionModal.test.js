@@ -6,6 +6,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
 import { silenceConsole } from '../../support/silence-console'
+import { queryCache } from 'react-query'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(
@@ -20,7 +21,7 @@ test('disables buttons when loading', async () => {
       open
       endpoint="https://exercism.test/end"
       ariaHideApp={false}
-      onSuccess={() => {}}
+      onSuccess={() => null}
     />
   )
 
@@ -38,6 +39,7 @@ test('disables buttons when loading', async () => {
     expect(cancelBtn).toBeDisabled()
   })
 
+  queryCache.cancelQueries()
   server.close()
 })
 
@@ -94,10 +96,11 @@ test('shows API errors', async () => {
 })
 
 test('shows generic error', async () => {
+  silenceConsole()
   render(
     <FinishMentorDiscussionModal
       open
-      endpoint="https://exercism.test/end"
+      endpoint="weirdendpoint"
       ariaHideApp={false}
       onSuccess={() => {}}
     />

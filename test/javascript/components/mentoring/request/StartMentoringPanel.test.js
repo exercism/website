@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -41,10 +41,13 @@ test('disables button while locking mentoring request', async () => {
   )
   server.listen()
 
-  render(<StartMentoringPanel request={request} />)
-  userEvent.click(screen.getByRole('button', { name: 'Start mentoring' }))
+  render(<StartMentoringPanel request={request} setRequest={() => null} />)
+  const button = screen.getByRole('button', { name: 'Start mentoring' })
+  userEvent.click(button)
 
-  expect(screen.getByRole('button', { name: 'Start mentoring' })).toBeDisabled()
+  await waitFor(() => {
+    expect(button).toBeDisabled()
+  })
 
   server.close()
 })

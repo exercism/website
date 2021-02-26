@@ -3,6 +3,7 @@ class Track < ApplicationRecord
   extend Mandate::Memoize
   friendly_id :slug, use: [:history]
 
+  # TODO: remove dependent: :destroy before release
   has_many :concepts, class_name: "Track::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
 

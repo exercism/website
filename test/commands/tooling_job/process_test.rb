@@ -1,6 +1,19 @@
 require 'test_helper'
 
 class ToolingJob::ProcessTest < ActiveSupport::TestCase
+  test "retry looking up the job 4 times" do
+    id = SecureRandom.uuid
+    cmd = ToolingJob::Process.new(id)
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      cmd.expects(:sleep).with(0.5).times(4)
+    end
+    ToolingJob.expects(:find).with(id, full: true, strongly_consistent: true).times(5).raises(StandardError)
+
+    assert_raises do
+      cmd.()
+    end
+  end
+
   test "proxies to test run" do
     submission = create :submission
     execution_status = "job-status"

@@ -7,10 +7,11 @@ class ToolingJob
     job_status
   ].freeze
 
-  def self.find(id, full: false)
+  def self.find(id, full: false, strongly_consistent: false)
     params = {
       table_name: dynamodb_table_name,
-      key: { id: id }
+      key: { id: id },
+      consistent_read: strongly_consistent
     }
     params[:attributes_to_get] = BASIC_ATTRIBUTES unless full
 

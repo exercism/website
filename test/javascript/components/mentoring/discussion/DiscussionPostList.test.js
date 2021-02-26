@@ -157,7 +157,7 @@ test('shows first ieration with posts', async () => {
 
   server.close()
 })
-test('shows latest ieration if there are no posts', async () => {
+test('shows latest iteration if there are no posts', async () => {
   stubScroll()
   const iterations = [
     {

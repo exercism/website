@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -23,12 +23,20 @@ test('disables buttons when loading', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
-  expect(
-    await screen.findByRole('button', { name: 'End discussion F3' })
-  ).toBeDisabled()
-  expect(screen.getByRole('button', { name: 'Cancel F2' })).toBeDisabled()
+  const endBtn = await screen.findByRole('button', {
+    name: 'End discussion F3',
+  })
+  const cancelBtn = await screen.findByRole('button', { name: 'Cancel F2' })
+
+  userEvent.click(endBtn)
+
+  await waitFor(() => {
+    expect(endBtn).toBeDisabled()
+  })
+  await waitFor(() => {
+    expect(cancelBtn).toBeDisabled()
+  })
 
   server.close()
 })
@@ -86,8 +94,6 @@ test('shows API errors', async () => {
 })
 
 test('shows generic error', async () => {
-  silenceConsole()
-
   render(
     <FinishMentorDiscussionModal
       open
@@ -98,7 +104,5 @@ test('shows generic error', async () => {
   )
   userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
 
-  expect(
-    await screen.findByText('Unable to end discussion')
-  ).toBeInTheDocument()
+  expect(await screen.findByText('Unable to end discussion'))
 })

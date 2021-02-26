@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Dropdown } from '../../../../app/javascript/components/dropdowns/Dropdown'
 import userEvent from '@testing-library/user-event'
+import { awaitPopper } from '../../support/await-popper'
 
 test('button should not be focused on render', async () => {
   const menuButton = {
@@ -13,6 +14,7 @@ test('button should not be focused on render', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   expect(screen.getByRole('button', { name: 'Open menu' })).not.toHaveFocus()
 })
@@ -25,6 +27,7 @@ test('down arrow opens menu on first item', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   fireEvent.keyDown(screen.getByRole('button'), {
     key: 'ArrowDown',
@@ -42,6 +45,7 @@ test('down arrow moves down menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -60,6 +64,7 @@ test('down arrow wraps around menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 2' }), {
@@ -78,6 +83,7 @@ test('up arrow opens menu on last item', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   fireEvent.keyDown(screen.getByRole('button'), {
     key: 'ArrowUp',
@@ -95,6 +101,7 @@ test('up arrow moves up menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 2' }), {
@@ -113,6 +120,7 @@ test('up arrow wraps around menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -131,6 +139,7 @@ test('tab closes menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -151,6 +160,7 @@ test('escape closes menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -172,6 +182,7 @@ test('enter closes menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {
@@ -193,6 +204,7 @@ test('space closes menu', async () => {
   const menuItems = [{ html: 'Item 1' }, { html: 'Item 2' }]
 
   render(<Dropdown menuButton={menuButton} menuItems={menuItems} />)
+  await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Open menu' }))
   fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Item 1' }), {

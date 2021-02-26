@@ -25,6 +25,9 @@ module Git
 
       # TODO: validate track using configlet to prevent invalid track data
 
+      # TODO: remove this before release
+      delete_exercises_no_longer_in_config!
+
       # TODO: consider raising error when slug in config is different from track slug
       track.update!(
         blurb: head_git_track.config[:blurb],
@@ -48,6 +51,7 @@ module Git
     private
     attr_reader :track, :force_sync
 
+    memoize
     def concepts
       concepts_config.map do |concept_config|
         ::Track::Concept::Create.(
@@ -61,6 +65,7 @@ module Git
       end
     end
 
+    memoize
     def concept_exercises
       concept_exercises_config.map do |exercise_config|
         ::ConceptExercise::Create.(
@@ -78,6 +83,7 @@ module Git
       end
     end
 
+    memoize
     def practice_exercises
       practice_exercises_config.map do |exercise_config|
         ::PracticeExercise::Create.(
@@ -110,6 +116,13 @@ module Git
 
     def fetch_git_repo!
       git_repo.fetch!
+    end
+
+    # TODO: remove this before release
+    def delete_exercises_no_longer_in_config!
+      old_exercise_ids = track.exercises.map(&:id)
+      new_exercise_ids = concept_exercises.map(&:id) + practice_exercises.map(&:id)
+      ::Exercise.where(id: (old_exercise_ids - new_exercise_ids)).destroy_all
     end
   end
 end

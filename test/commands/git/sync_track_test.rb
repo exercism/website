@@ -302,6 +302,36 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     assert_equal 7, track.practice_exercises.length
   end
 
+  test "delete concept exercises no longer in config.json" do
+    # TODO: remove this test before release
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    exercise = create :concept_exercise, track: track
+
+    Git::SyncTrack.(track)
+
+    refute track.concept_exercises.where(id: exercise.id).exists?
+  end
+
+  test "delete practice exercises no longer in config.json" do
+    # TODO: remove this test before release
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    exercise = create :practice_exercise, track: track
+
+    Git::SyncTrack.(track)
+
+    refute track.practice_exercises.where(id: exercise.id).exists?
+  end
+
+  test "delete concepts no longer in config.json" do
+    # TODO: remove this test before release
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    concept = create :track_concept, track: track
+
+    Git::SyncTrack.(track)
+
+    refute track.concepts.where(id: concept.id).exists?
+  end
+
   test "update is only called once" do
     track = create :track
 

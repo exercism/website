@@ -25,9 +25,6 @@ module Git
 
       # TODO: validate track using configlet to prevent invalid track data
 
-      # TODO: remove this before release
-      delete_exercises_no_longer_in_config!
-
       # TODO: consider raising error when slug in config is different from track slug
       track.update!(
         blurb: head_git_track.config[:blurb],
@@ -35,8 +32,7 @@ module Git
         title: head_git_track.config[:language],
         tags: head_git_track.config[:tags].to_a,
         concepts: concepts,
-        concept_exercises: concept_exercises,
-        practice_exercises: practice_exercises
+        exercises: concept_exercises + practice_exercises
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
@@ -116,13 +112,6 @@ module Git
 
     def fetch_git_repo!
       git_repo.fetch!
-    end
-
-    # TODO: remove this before release
-    def delete_exercises_no_longer_in_config!
-      old_exercise_ids = track.exercises.map(&:id)
-      new_exercise_ids = concept_exercises.map(&:id) + practice_exercises.map(&:id)
-      ::Exercise.where(id: (old_exercise_ids - new_exercise_ids)).destroy_all
     end
   end
 end

@@ -8,6 +8,9 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 import { awaitPopper } from '../../../support/await-popper'
+import { actionCableMock } from '../../../support/action-cable-mock'
+
+actionCableMock()
 
 test('switches tabs', async () => {
   render(

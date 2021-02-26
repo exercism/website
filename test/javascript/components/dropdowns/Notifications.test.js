@@ -30,7 +30,9 @@ test('shows API error message', async () => {
       <Notifications endpoint="https://exercism.test/notifications" />
     </TestQueryCache>
   )
-  userEvent.click(screen.getByRole('button', { name: 'Open notifications' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'Open notifications' })
+  )
 
   expect(await screen.findByText('Unable to load')).toBeInTheDocument()
 
@@ -45,7 +47,9 @@ test('shows generic error message', async () => {
       <Notifications endpoint="https://exercism.test/notifications" />
     </TestQueryCache>
   )
-  userEvent.click(screen.getByRole('button', { name: 'Open notifications' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'Open notifications' })
+  )
 
   expect(
     await screen.findByText('Unable to load notifications')

@@ -59,7 +59,9 @@ test('shows loading message when loading', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'End discussion F3' })
+  )
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
@@ -86,7 +88,9 @@ test('shows API errors', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'End discussion F3' })
+  )
 
   expect(
     await screen.findByText('Unable to end discussion')
@@ -105,7 +109,9 @@ test('shows generic error', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
+  userEvent.click(
+    await screen.findByRole('button', { name: 'End discussion F3' })
+  )
 
   expect(await screen.findByText('Unable to end discussion'))
 })

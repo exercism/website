@@ -23,8 +23,9 @@ test('switches tabs', async () => {
       }}
     />
   )
+  await awaitPopper()
 
-  userEvent.click(screen.getByRole('tab', { name: 'Results' }))
+  userEvent.click(await screen.findByRole('tab', { name: 'Results' }))
 
   expect(
     await screen.findByRole('tab', { name: 'Results', selected: true })

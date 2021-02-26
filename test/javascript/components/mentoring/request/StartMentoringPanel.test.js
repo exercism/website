@@ -44,7 +44,7 @@ test('disables button while locking mentoring request', async () => {
   server.listen()
 
   render(<StartMentoringPanel request={request} setRequest={() => null} />)
-  const button = screen.getByRole('button', { name: 'Start mentoring' })
+  const button = await screen.findByRole('button', { name: 'Start mentoring' })
   userEvent.click(button)
 
   await waitFor(() => {

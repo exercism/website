@@ -20,16 +20,14 @@ test('disables buttons when choosing to favorite', async () => {
   server.listen()
 
   render(<FavoriteStep student={student} relationship={relationship} />)
-  const favoriteButton = screen.getByRole('button', {
+  const favoriteButton = await screen.findByRole('button', {
     name: 'Add to favorites',
   })
-  const skipButton = screen.getByRole('button', { name: 'Skip' })
+  const skipButton = await screen.findByRole('button', { name: 'Skip' })
   userEvent.click(favoriteButton)
 
   await waitFor(() => {
     expect(favoriteButton).toBeDisabled()
-  })
-  await waitFor(() => {
     expect(skipButton).toBeDisabled()
   })
 

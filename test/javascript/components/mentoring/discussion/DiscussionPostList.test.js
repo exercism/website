@@ -1,9 +1,17 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
+import { TestQueryCache } from '../../../support/TestQueryCache'
+import { actionCableMock } from '../../../support/action-cable-mock'
+
+actionCableMock()
 
 window.IntersectionObserver = jest.fn(() => ({
   observe: jest.fn(),
@@ -59,12 +67,14 @@ test('displays all posts', async () => {
   server.listen()
 
   render(
-    <DiscussionPostList
-      iterations={iterations}
-      endpoint="https://exercism.test/posts"
-      onPostsChange={() => {}}
-      userIsStudent={true}
-    />
+    <TestQueryCache>
+      <DiscussionPostList
+        iterations={iterations}
+        endpoint="https://exercism.test/posts"
+        onPostsChange={() => {}}
+        userIsStudent={true}
+      />
+    </TestQueryCache>
   )
 
   expect(
@@ -92,6 +102,100 @@ test('displays all posts', async () => {
       name: 'Discussion post list loading indicator',
     })
   ).not.toBeInTheDocument()
+
+  server.close()
+})
+
+test('shows first iteration with posts', async () => {
+  stubScroll()
+  const twoDaysAgo = new Date(new Date() - 1000 * 60 * 60 * 24 * 2)
+  const iterations = [
+    {
+      idx: 1,
+    },
+    {
+      idx: 2,
+    },
+  ]
+  const posts = [
+    {
+      id: 2,
+      author_handle: 'other-author',
+      author_avatar_url: 'http://exercism.test/other-image',
+      by_student: false,
+      content_html: '<p>Goodbye</p>',
+      updated_at: twoDaysAgo.toISOString(),
+      iteration_idx: 2,
+      links: {
+        self: 'https://exercism.test/posts/2',
+      },
+    },
+  ]
+  const server = setupServer(
+    rest.get('https://exercism.test/posts', (req, res, ctx) => {
+      return res(ctx.json({ posts: posts }))
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <DiscussionPostList
+        iterations={iterations}
+        endpoint="https://exercism.test/posts"
+        onPostsChange={() => {}}
+        userIsStudent={true}
+      />
+    </TestQueryCache>
+  )
+
+  await waitForElementToBeRemoved(() =>
+    screen.getByRole('status', {
+      name: 'Discussion post list loading indicator',
+    })
+  )
+
+  expect(screen.queryByText('Iteration 1')).not.toBeInTheDocument()
+  expect(screen.getByText('Iteration 2')).toBeInTheDocument()
+
+  server.close()
+})
+test('shows latest iteration if there are no posts', async () => {
+  stubScroll()
+  const iterations = [
+    {
+      idx: 1,
+    },
+    {
+      idx: 2,
+    },
+  ]
+  const server = setupServer(
+    rest.get('https://exercism.test/posts', (req, res, ctx) => {
+      return res(ctx.json({ posts: [] }))
+    })
+  )
+  server.listen()
+
+  render(
+    <TestQueryCache>
+      <DiscussionPostList
+        iterations={iterations}
+        endpoint="https://exercism.test/posts"
+        onPostsChange={() => {}}
+        userIsStudent={true}
+      />
+    </TestQueryCache>
+  )
+
+  await waitForElementToBeRemoved(() =>
+    screen.getByRole('status', {
+      name: 'Discussion post list loading indicator',
+    })
+  )
+
+  expect(screen.queryByText('Iteration 1')).not.toBeInTheDocument()
+  expect(screen.getByText('Iteration 2')).toBeInTheDocument()
 
   server.close()
 })

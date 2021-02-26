@@ -4,7 +4,7 @@ import { useQuery, queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
-import { Iteration, Student } from '../Session'
+import { Iteration } from '../Session'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
@@ -55,7 +55,9 @@ export const DiscussionPostList = ({
       []
     )
   }, [data, iterations])
-
+  const startIteration = iterationsWithPosts.findIndex(
+    (iteration) => iteration.posts.length !== 0
+  )
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(
     data,
     userId
@@ -85,7 +87,7 @@ export const DiscussionPostList = ({
   if (data) {
     return (
       <div className="discussion">
-        {iterationsWithPosts.map((iteration) => {
+        {iterationsWithPosts.slice(startIteration).map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
               <IterationMarker

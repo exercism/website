@@ -8,6 +8,9 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 import { awaitPopper } from '../../../support/await-popper'
+import { actionCableMock } from '../../../support/action-cable-mock'
+
+actionCableMock()
 
 test('switches tabs', async () => {
   render(
@@ -20,8 +23,9 @@ test('switches tabs', async () => {
       }}
     />
   )
+  await awaitPopper()
 
-  userEvent.click(screen.getByRole('tab', { name: 'Results' }))
+  userEvent.click(await screen.findByRole('tab', { name: 'Results' }))
 
   expect(
     await screen.findByRole('tab', { name: 'Results', selected: true })

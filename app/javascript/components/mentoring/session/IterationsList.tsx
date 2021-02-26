@@ -3,7 +3,7 @@ import { Iteration } from '../Session'
 import { IterationButton } from './IterationButton'
 import { Icon } from '../../common/Icon'
 
-export const IterationsList = ({
+const NavigationButtons = ({
   iterations,
   current,
   onClick,
@@ -11,23 +11,11 @@ export const IterationsList = ({
   iterations: readonly Iteration[]
   current: Iteration
   onClick: (iteration: Iteration) => void
-}): JSX.Element => {
+}) => {
   const currentIndex = iterations.indexOf(current)
 
   return (
-    <>
-      <nav className="iterations">
-        {iterations.map((iteration) => (
-          <IterationButton
-            key={iteration.idx}
-            iteration={iteration}
-            onClick={() => onClick(iteration)}
-            selected={current === iteration}
-          />
-        ))}
-      </nav>
-
-      {/* TODO: Move this into a component that can take either an icon or a character as the contents of --kb */}
+    <React.Fragment>
       <button
         type="button"
         aria-label="Go to previous iteration"
@@ -52,6 +40,40 @@ export const IterationsList = ({
           <Icon icon="arrow-right" alt="Right arrow" />
         </div>
       </button>
+    </React.Fragment>
+  )
+}
+
+export const IterationsList = ({
+  iterations,
+  current,
+  onClick,
+}: {
+  iterations: readonly Iteration[]
+  current: Iteration
+  onClick: (iteration: Iteration) => void
+}): JSX.Element => {
+  return (
+    <>
+      <nav className="iterations">
+        {iterations.map((iteration) => (
+          <IterationButton
+            key={iteration.idx}
+            iteration={iteration}
+            onClick={() => onClick(iteration)}
+            selected={current === iteration}
+          />
+        ))}
+      </nav>
+
+      {/* TODO: Move this into a component that can take either an icon or a character as the contents of --kb */}
+      {iterations.length > 1 ? (
+        <NavigationButtons
+          iterations={iterations}
+          current={current}
+          onClick={onClick}
+        />
+      ) : null}
     </>
   )
 }

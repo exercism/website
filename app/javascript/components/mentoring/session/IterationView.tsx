@@ -23,6 +23,7 @@ export const IterationView = ({
         latest={iterations[iterations.length - 1] === currentIteration}
       />
       <IterationFiles
+        key={currentIteration.idx}
         endpoint={currentIteration.links.files}
         language={language}
       />

@@ -32,8 +32,7 @@ module Git
         title: head_git_track.config[:language],
         tags: head_git_track.config[:tags].to_a,
         concepts: concepts,
-        concept_exercises: concept_exercises,
-        practice_exercises: practice_exercises
+        exercises: concept_exercises + practice_exercises
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
@@ -48,6 +47,7 @@ module Git
     private
     attr_reader :track, :force_sync
 
+    memoize
     def concepts
       concepts_config.map do |concept_config|
         ::Track::Concept::Create.(
@@ -61,6 +61,7 @@ module Git
       end
     end
 
+    memoize
     def concept_exercises
       concept_exercises_config.map do |exercise_config|
         ::ConceptExercise::Create.(
@@ -78,6 +79,7 @@ module Git
       end
     end
 
+    memoize
     def practice_exercises
       practice_exercises_config.map do |exercise_config|
         ::PracticeExercise::Create.(

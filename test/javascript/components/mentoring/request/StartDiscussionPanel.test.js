@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -21,10 +21,16 @@ test('shows loading message while locking mentoring request', async () => {
   )
   server.listen()
 
-  render(<StartDiscussionPanel request={request} iterations={iterations} />)
-  userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  render(
+    <StartDiscussionPanel
+      request={request}
+      iterations={iterations}
+      setDiscussion={() => null}
+    />
+  )
+  userEvent.click(await screen.findByRole('button', { name: 'Send' }))
 
-  expect(screen.getByText('Loading')).toBeInTheDocument()
+  expect(await screen.findByText('Loading')).toBeInTheDocument()
 
   server.close()
 })
@@ -43,10 +49,17 @@ test('disables button while locking mentoring request', async () => {
   )
   server.listen()
 
-  render(<StartDiscussionPanel request={request} iterations={iterations} />)
-  userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  render(
+    <StartDiscussionPanel
+      request={request}
+      iterations={iterations}
+      setDiscussion={() => {}}
+    />
+  )
+  const sendButton = screen.getByRole('button', { name: 'Send' })
+  userEvent.click(sendButton)
 
-  expect(screen.getByRole('button', { name: 'Send' })).toBeDisabled()
+  await waitFor(() => expect(sendButton).toBeDisabled())
 
   server.close()
 })

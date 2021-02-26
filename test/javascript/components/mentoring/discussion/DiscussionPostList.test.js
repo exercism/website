@@ -103,7 +103,7 @@ test('displays all posts', async () => {
   server.close()
 })
 
-test('shows first ieration with posts', async () => {
+test('shows first iteration with posts', async () => {
   stubScroll()
   const twoDaysAgo = new Date(new Date() - 1000 * 60 * 60 * 24 * 2)
   const iterations = [

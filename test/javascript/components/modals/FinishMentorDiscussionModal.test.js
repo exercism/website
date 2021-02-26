@@ -7,6 +7,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
 import { silenceConsole } from '../../support/silence-console'
 import { queryCache } from 'react-query'
+import flushPromises from 'flush-promises'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(
@@ -24,6 +25,7 @@ test('disables buttons when loading', async () => {
       onSuccess={() => null}
     />
   )
+  await flushPromises()
 
   const endBtn = await screen.findByRole('button', {
     name: 'End discussion F3',
@@ -59,6 +61,7 @@ test('shows loading message when loading', async () => {
       onSuccess={() => {}}
     />
   )
+  await flushPromises()
   userEvent.click(
     await screen.findByRole('button', { name: 'End discussion F3' })
   )

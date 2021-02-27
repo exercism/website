@@ -17,7 +17,7 @@ test('disables buttons when loading', async () => {
   )
   server.listen()
 
-  render(
+  const { getByRole, findByRole } = render(
     <FinishMentorDiscussionModal
       open
       endpoint="https://exercism.test/end"
@@ -30,15 +30,15 @@ test('disables buttons when loading', async () => {
   const endBtn = await screen.findByRole('button', {
     name: 'End discussion F3',
   })
-  const cancelBtn = await screen.findByRole('button', { name: 'Cancel F2' })
-
   userEvent.click(endBtn)
 
   await waitFor(() => {
-    expect(endBtn).toBeDisabled()
+    expect(
+      screen.getByRole('button', { name: 'End discussion F3' })
+    ).toBeDisabled()
   })
   await waitFor(() => {
-    expect(cancelBtn).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Cancel F2' })).toBeDisabled()
   })
 
   queryCache.cancelQueries()
@@ -53,7 +53,7 @@ test('shows loading message when loading', async () => {
   )
   server.listen()
 
-  render(
+  const { findByRole, findByText } = render(
     <FinishMentorDiscussionModal
       open
       endpoint="https://exercism.test/end"
@@ -62,11 +62,9 @@ test('shows loading message when loading', async () => {
     />
   )
   await flushPromises()
-  userEvent.click(
-    await screen.findByRole('button', { name: 'End discussion F3' })
-  )
+  userEvent.click(await findByRole('button', { name: 'End discussion F3' }))
 
-  expect(await screen.findByText('Loading')).toBeInTheDocument()
+  expect(await findByText('Loading')).toBeInTheDocument()
 
   server.close()
 })

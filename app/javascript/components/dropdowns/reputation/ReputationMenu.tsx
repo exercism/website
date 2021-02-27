@@ -64,8 +64,6 @@ export const ReputationMenu = ({
             return oldToken.id === token.id ? token : oldToken
           }),
         })
-
-        console.log(queryCache.getQueryData<APIResponse>(cacheKey))
       },
     }
   )

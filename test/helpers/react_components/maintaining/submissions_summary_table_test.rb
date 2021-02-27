@@ -13,13 +13,14 @@ class MaintainingSubmissionsSummaryTableTest < ReactComponentTestCase
     submission_2 = create(:submission, solution: concept_solution, submitted_via: "cli", tests_status: :passed)
     submission_3 = create(:submission, solution: practice_solution, submitted_via: "script", representation_status: :generated)
 
-    assert_component ReactComponents::Maintaining::SubmissionsSummaryTable.new(Submission.all),
+    serializer = ReactComponents::Maintaining::SubmissionsSummaryTable::SerializeSubmissionForTable
+    assert_component ReactComponents::Maintaining::SubmissionsSummaryTable.new(Submission.limit(10)),
       "maintaining-submissions-summary-table",
       {
         submissions: [
-          SerializeSubmission.(submission_1),
-          SerializeSubmission.(submission_2),
-          SerializeSubmission.(submission_3)
+          serializer.(submission_1),
+          serializer.(submission_2),
+          serializer.(submission_3)
         ]
       }
   end

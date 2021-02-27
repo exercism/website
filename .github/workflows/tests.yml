@@ -67,7 +67,7 @@ jobs:
       ###
       # Run the tests
       - name: Run JS tests
-        run: yarn test
+        run: yarn test --runInBand
 
   #####################
   ##### RUBY TESTS ####

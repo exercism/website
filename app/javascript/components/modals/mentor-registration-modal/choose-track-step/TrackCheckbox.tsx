@@ -25,9 +25,11 @@ export const TrackCheckbox = ({
         aria-labelledby={`${id}-label`}
       />
       <label className="track" htmlFor={id} id={`${id}-label`}>
-        <div className="selected-icon">
-          <Icon icon="checkmark" alt="Track selected" />
-        </div>
+        {checked ? (
+          <div className="selected-icon">
+            <Icon icon="checkmark" alt="Track selected" />
+          </div>
+        ) : null}
         {/* TODO: @iHiD I'm confused what to use here. icon URL or icon name? */}
         <img
           src={iconUrl}

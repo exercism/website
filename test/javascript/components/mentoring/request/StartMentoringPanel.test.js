@@ -27,7 +27,9 @@ test('shows loading message while locking mentoring request', async () => {
     await screen.findByRole('button', { name: 'Start mentoring' })
   )
 
-  expect(await screen.findByText('Loading')).toBeInTheDocument()
+  await waitFor(() => {
+    expect(screen.getByText('Loading')).toBeInTheDocument()
+  })
 
   server.close()
 })

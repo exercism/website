@@ -17,7 +17,7 @@ test('disables buttons when loading', async () => {
   )
   server.listen()
 
-  const { getByRole, findByRole } = render(
+  render(
     <FinishMentorDiscussionModal
       open
       endpoint="https://exercism.test/end"

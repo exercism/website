@@ -13,5 +13,6 @@ afterEach(async () => {
   await waitFor(() => expect(queryCache.isFetching).toBe(0))
 
   await flushPromises()
-  // return act(async () => await null)
+
+  await act(async () => await null)
 })

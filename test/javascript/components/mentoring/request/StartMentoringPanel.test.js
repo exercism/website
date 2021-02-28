@@ -27,9 +27,7 @@ test('shows loading message while locking mentoring request', async () => {
     await screen.findByRole('button', { name: 'Start mentoring' })
   )
 
-  await waitFor(() => {
-    expect(screen.getByText('Loading')).toBeInTheDocument()
-  })
+  expect(await screen.findByText('Loading')).toBeInTheDocument()
 
   server.close()
 })
@@ -52,6 +50,8 @@ test('disables button while locking mentoring request', async () => {
   act(() => {
     render(<StartMentoringPanel request={request} setRequest={() => null} />)
   })
+  await awaitPopper()
+
   const button = await screen.findByRole('button', { name: 'Start mentoring' })
   userEvent.click(button)
 

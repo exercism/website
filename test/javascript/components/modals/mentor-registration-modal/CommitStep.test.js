@@ -6,7 +6,9 @@ import userEvent from '@testing-library/user-event'
 import { TestQueryCache } from '../../../support/TestQueryCache'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { silenceConsole } from '../../../support/silence-console'
+import { expectConsoleError } from '../../../support/silence-console'
+import { queryCache } from 'react-query'
+import flushPromises from 'flush-promises'
 
 test('continue button is disabled when not everything is checked', async () => {
   render(<CommitStep links={{}} />)
@@ -80,9 +82,12 @@ test('continue and back button are disabled while request is sending', async () 
 
   expect(await screen.findByRole('button', { name: /Continue/ })).toBeDisabled()
   expect(screen.getByRole('button', { name: /Back/ })).toBeDisabled()
+
+  flushPromises()
+  queryCache.cancelQueries()
+  server.close()
 })
 test('shows API errors', async () => {
-  silenceConsole()
   const links = {
     registration: 'https://exercism.test/registration',
   }
@@ -122,13 +127,19 @@ test('shows API errors', async () => {
       name: /Not use Exercism to promote personal agendas/,
     })
   )
-  userEvent.click(screen.getByRole('button', { name: /Continue/ }))
 
-  expect(await screen.findByText('Unable to register')).toBeInTheDocument()
+  await expectConsoleError(async () => {
+    userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+
+    expect(await screen.findByText('Unable to register')).toBeInTheDocument()
+  })
+
+  flushPromises()
+  queryCache.cancelQueries()
+  server.close()
 })
 
 test('shows generic errors', async () => {
-  silenceConsole()
   const links = {
     registration: 'wrong',
   }
@@ -155,9 +166,12 @@ test('shows generic errors', async () => {
       name: /Not use Exercism to promote personal agendas/,
     })
   )
-  userEvent.click(screen.getByRole('button', { name: /Continue/ }))
 
-  expect(
-    await screen.findByText('Unable to complete registration')
-  ).toBeInTheDocument()
+  await expectConsoleError(async () => {
+    userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+
+    expect(
+      await screen.findByText('Unable to complete registration')
+    ).toBeInTheDocument()
+  })
 })

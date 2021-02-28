@@ -13,6 +13,8 @@ import { Session } from '../../../../app/javascript/components/mentoring/Session
 import { stubRange } from '../../support/code-mirror-helpers'
 import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
+import flushPromises from 'flush-promises'
+import { expectConsoleError } from '../../support/silence-console'
 
 stubRange()
 
@@ -54,23 +56,27 @@ test('highlights currently selected iteration', async () => {
       },
     },
   ]
-  render(
-    <Session
-      exercise={exercise}
-      links={links}
-      track={track}
-      student={student}
-      iterations={iterations}
-      discussion={discussion}
-    />
-  )
+  expectConsoleError(async () => {
+    render(
+      <Session
+        exercise={exercise}
+        links={links}
+        track={track}
+        student={student}
+        iterations={iterations}
+        discussion={discussion}
+      />
+    )
+    await flushPromises()
+    await awaitPopper()
 
-  userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
-  queryCache.cancelQueries()
+    userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+    queryCache.cancelQueries()
 
-  expect(
-    await screen.findByRole('button', { name: 'Go to iteration 1' })
-  ).toHaveAttribute('aria-current', 'true')
+    expect(
+      await screen.findByRole('button', { name: 'Go to iteration 1' })
+    ).toHaveAttribute('aria-current', 'true')
+  })
 })
 
 test('shows back button', async () => {
@@ -258,6 +264,8 @@ test('switches to posts tab when comment success', async () => {
     screen.queryByRole('tabpanel', { name: 'Discussion' })
   ).toBeInTheDocument()
 
+  await flushPromises()
+  queryCache.cancelQueries()
   server.close()
 })
 

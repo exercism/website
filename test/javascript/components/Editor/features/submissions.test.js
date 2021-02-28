@@ -1,7 +1,7 @@
 jest.mock('../../../../../app/javascript/components/editor/FileEditor')
 
 import React from 'react'
-import { render, waitFor, act, await } from '@testing-library/react'
+import { render, waitFor, act, await, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
@@ -40,7 +40,7 @@ test('shows message when test times out', async () => {
   )
   server.listen()
 
-  const { findByText, queryByText } = render(
+  render(
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
@@ -48,16 +48,12 @@ test('shows message when test times out', async () => {
       assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
-  userEvent.click(await findByText('Run Tests'))
-  await waitFor(() =>
-    expect(
-      queryByText("We've queued your code and will run it shortly.")
-    ).toBeInTheDocument()
-  )
+  userEvent.click(await screen.findByText('Run Tests'))
 
-  await waitFor(() =>
-    expect(queryByText('Tests timed out')).toBeInTheDocument()
-  )
+  expect(
+    await screen.findByText("We've queued your code and will run it shortly.")
+  ).toBeInTheDocument()
+  expect(await screen.findByText('Tests timed out')).toBeInTheDocument()
 
   server.close()
 })
@@ -65,23 +61,23 @@ test('shows message when test times out', async () => {
 test('cancels a pending submission', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/submissions', (req, res, ctx) => {
-      return res(ctx.delay(), ctx.json({}))
+      return res(ctx.delay(10), ctx.json({}))
     })
   )
   server.listen()
 
-  const { findByText, queryByText } = render(
+  render(
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
-  userEvent.click(await findByText('Run Tests'))
-  userEvent.click(await findByText('Cancel'))
+  userEvent.click(await screen.findByText('Run Tests'))
+  userEvent.click(await screen.findByText('Cancel'))
 
   await waitFor(() =>
-    expect(queryByText('Running tests...')).not.toBeInTheDocument()
+    expect(screen.queryByText('Running tests...')).not.toBeInTheDocument()
   )
 
   server.close()
@@ -91,6 +87,7 @@ test('disables submit button unless tests passed', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/test_run', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.json({
           test_run: {
             id: null,
@@ -105,7 +102,7 @@ test('disables submit button unless tests passed', async () => {
   )
   server.listen()
 
-  const { findByText } = render(
+  render(
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
@@ -125,10 +122,8 @@ test('disables submit button unless tests passed', async () => {
     />
   )
 
-  const submitBtn = await findByText('Submit')
-  await waitFor(() => {
-    expect(submitBtn).toBeDisabled()
+  waitFor(() => {
+    expect(screen.getByText('Submit')).toBeDisabled()
   })
-
   server.close()
 })

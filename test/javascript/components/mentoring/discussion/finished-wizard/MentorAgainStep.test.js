@@ -6,6 +6,9 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentorAgainStep } from '../../../../../../app/javascript/components/mentoring/discussion/finished-wizard/MentorAgainStep'
 import { silenceConsole } from '../../../../support/silence-console'
+import { TestQueryCache } from '../../../../support/TestQueryCache'
+import { awaitPopper } from '../../../../support/await-popper'
+import flushPromises from 'flush-promises'
 
 test('disables buttons when choosing to mentor again', async () => {
   const student = { handle: 'student' }
@@ -19,12 +22,14 @@ test('disables buttons when choosing to mentor again', async () => {
   server.listen()
 
   render(
+    <TestQueryCache>
     <MentorAgainStep
       student={student}
       relationship={relationship}
       onYes={() => null}
       onNo={() => null}
     />
+    </TestQueryCache>
   )
 
   const yesBtn = await screen.findByRole('button', { name: 'Yes' })
@@ -39,6 +44,8 @@ test('disables buttons when choosing to mentor again', async () => {
     expect(noBtn).toBeDisabled()
   })
 
+  await flushPromises()
+  await awaitPopper()
   server.close()
 })
 

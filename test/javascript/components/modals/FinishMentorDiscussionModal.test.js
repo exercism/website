@@ -8,6 +8,7 @@ import { FinishMentorDiscussionModal } from '../../../../app/javascript/componen
 import { expectConsoleError } from '../../support/silence-console'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
+import { TestQueryCache } from '../../../support/TestQueryCache'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(
@@ -66,6 +67,7 @@ test('shows loading message when loading', async () => {
 
   expect(await findByText('Loading')).toBeInTheDocument()
 
+  queryCache.cancelQueries()
   server.close()
 })
 
@@ -98,6 +100,7 @@ test('shows API errors', async () => {
     ).toBeInTheDocument()
   })
 
+  queryCache.cancelQueries()
   server.close()
 })
 

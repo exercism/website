@@ -5,6 +5,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Inbox } from '../../../../app/javascript/components/mentoring/Inbox.jsx'
 import userEvent from '@testing-library/user-event'
+import { awaitPopper } from '../../support/await-popper'
 
 const server = setupServer(
   rest.get('https://exercism.test/tracks', (req, res, ctx) => {
@@ -59,6 +60,7 @@ test('page is reset to 1 when switching tracks', async () => {
       sortOptions={[]}
     />
   )
+  await awaitPopper()
 
   userEvent.click(
     await screen.findByRole('button', {

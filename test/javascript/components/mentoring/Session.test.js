@@ -10,6 +10,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Session } from '../../../../app/javascript/components/mentoring/Session'
 import { stubRange } from '../../support/code-mirror-helpers'
+import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 
 stubRange()
@@ -175,6 +176,7 @@ test('hides latest label if on old iteration', async () => {
       discussion={discussion}
     />
   )
+  await awaitPopper()
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
   queryCache.cancelQueries()
 
@@ -366,6 +368,7 @@ test('go to previous iteration', async () => {
       discussion={discussion}
     />
   )
+  await awaitPopper()
   userEvent.click(
     screen.getByRole('button', { name: 'Go to previous iteration' })
   )

@@ -88,6 +88,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
+    "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
     "test-watch": "jest --watchAll"
   },

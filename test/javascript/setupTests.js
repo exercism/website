@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
-import { waitFor } from '@testing-library/react'
+import { waitFor, act } from '@testing-library/react'
 import { queryCache } from 'react-query'
+import flushPromises from 'flush-promises'
 
 afterEach(async () => {
   queryCache.cancelQueries()
@@ -10,4 +11,7 @@ afterEach(async () => {
   // the end of the test and we continue on to the next test before waiting for
   // them to finalize, the tests can impact each other in strange ways.
   await waitFor(() => expect(queryCache.isFetching).toBe(0))
+
+  await flushPromises()
+  // return act(async () => await null)
 })

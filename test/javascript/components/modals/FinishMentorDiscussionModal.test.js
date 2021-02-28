@@ -5,7 +5,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
-import { silenceConsole } from '../../support/silence-console'
+import { expectConsoleError } from '../../support/silence-console'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
 
@@ -72,7 +72,6 @@ test('shows loading message when loading', async () => {
 })
 
 test('shows API errors', async () => {
-  silenceConsole()
   const server = setupServer(
     rest.patch('https://exercism.test/end', (req, res, ctx) => {
       return res(
@@ -91,30 +90,34 @@ test('shows API errors', async () => {
       onSuccess={() => {}}
     />
   )
-  userEvent.click(
-    await screen.findByRole('button', { name: 'End discussion F3' })
-  )
+  await expectConsoleError(async () => {
+    userEvent.click(
+      await screen.findByRole('button', { name: 'End discussion F3' })
+    )
 
-  expect(
-    await screen.findByText('Unable to end discussion')
-  ).toBeInTheDocument()
+    expect(
+      await screen.findByText('Unable to end discussion')
+    ).toBeInTheDocument()
+  })
 
   server.close()
 })
 
 test('shows generic error', async () => {
-  silenceConsole()
   render(
     <FinishMentorDiscussionModal
       open
-      endpoint="weirdendpoint"
+      endpoint="https://weirdendpoint"
       ariaHideApp={false}
       onSuccess={() => {}}
     />
   )
-  userEvent.click(
-    await screen.findByRole('button', { name: 'End discussion F3' })
-  )
-
-  expect(await screen.findByText('Unable to end discussion'))
+  await expectConsoleError(async () => {
+    userEvent.click(
+      await screen.findByRole('button', { name: 'End discussion F3' })
+    )
+    expect(
+      await screen.findByText('Unable to end discussion')
+    ).toBeInTheDocument()
+  })
 })

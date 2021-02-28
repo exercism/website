@@ -1,7 +1,8 @@
 jest.mock('../../../../../app/javascript/components/editor/FileEditor')
 
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, waitFor, act, await } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -39,7 +40,7 @@ test('shows message when test times out', async () => {
   )
   server.listen()
 
-  const { getByText, queryByText } = render(
+  const { findByText, queryByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
@@ -47,7 +48,7 @@ test('shows message when test times out', async () => {
       assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
-  fireEvent.click(getByText('Run Tests'))
+  userEvent.click(await findByText('Run Tests'))
   await waitFor(() =>
     expect(
       queryByText("We've queued your code and will run it shortly.")
@@ -69,15 +70,15 @@ test('cancels a pending submission', async () => {
   )
   server.listen()
 
-  const { getByText, queryByText } = render(
+  const { findByText, queryByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       assignment={{ overview: '', generalHints: [], tasks: [] }}
     />
   )
-  fireEvent.click(getByText('Run Tests'))
-  fireEvent.click(getByText('Cancel'))
+  userEvent.click(await findByText('Run Tests'))
+  userEvent.click(await findByText('Cancel'))
 
   await waitFor(() =>
     expect(queryByText('Running tests...')).not.toBeInTheDocument()
@@ -104,7 +105,7 @@ test('disables submit button unless tests passed', async () => {
   )
   server.listen()
 
-  const { getByText } = render(
+  const { findByText } = render(
     <Editor
       endpoint="https://exercism.test/submissions"
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
@@ -124,8 +125,9 @@ test('disables submit button unless tests passed', async () => {
     />
   )
 
+  const submitBtn = await findByText('Submit')
   await waitFor(() => {
-    expect(getByText('Submit')).toBeDisabled()
+    expect(submitBtn).toBeDisabled()
   })
 
   server.close()

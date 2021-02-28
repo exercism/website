@@ -1,11 +1,13 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, act } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { StartMentoringPanel } from '../../../../../app/javascript/components/mentoring/request/StartMentoringPanel'
 import { silenceConsole } from '../../../support/silence-console'
 import userEvent from '@testing-library/user-event'
+import flushPromises from 'flush-promises'
+import { awaitPopper } from '../../../support/await-popper'
 
 test('shows loading message while locking mentoring request', async () => {
   const request = {
@@ -42,8 +44,12 @@ test('disables button while locking mentoring request', async () => {
     })
   )
   server.listen()
+  await flushPromises()
+  await awaitPopper()
 
-  render(<StartMentoringPanel request={request} setRequest={() => null} />)
+  act(() => {
+    render(<StartMentoringPanel request={request} setRequest={() => null} />)
+  })
   const button = await screen.findByRole('button', { name: 'Start mentoring' })
   userEvent.click(button)
 

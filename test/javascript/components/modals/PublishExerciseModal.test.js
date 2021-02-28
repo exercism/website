@@ -10,7 +10,7 @@ import { silenceConsole } from '../../support/silence-console'
 test('shows loading status', async () => {
   const server = setupServer(
     rest.patch('https://exercism.test/publish', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({}))
     })
   )
   server.listen()

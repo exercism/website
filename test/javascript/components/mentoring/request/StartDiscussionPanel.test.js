@@ -5,6 +5,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { StartDiscussionPanel } from '../../../../../app/javascript/components/mentoring/request/StartDiscussionPanel'
 import { silenceConsole } from '../../../support/silence-console'
+import { TestQueryCache } from '../../../support/TestQueryCache'
 import userEvent from '@testing-library/user-event'
 import flushPromises from 'flush-promises'
 
@@ -23,11 +24,13 @@ test('shows loading message while locking mentoring request', async () => {
   server.listen()
 
   render(
-    <StartDiscussionPanel
-      request={request}
-      iterations={iterations}
-      setDiscussion={() => null}
-    />
+    <TestQueryCache>
+      <StartDiscussionPanel
+        request={request}
+        iterations={iterations}
+        setDiscussion={() => null}
+      />
+    </TestQueryCache>
   )
   await flushPromises()
   userEvent.click(await screen.findByRole('button', { name: 'Send' }))

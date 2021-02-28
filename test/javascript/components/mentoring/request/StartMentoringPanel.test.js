@@ -15,7 +15,7 @@ test('shows loading message while locking mentoring request', async () => {
   }
   const server = setupServer(
     rest.patch('https://exercism.test/lock', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ request: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ request: {} }))
     })
   )
   server.listen()

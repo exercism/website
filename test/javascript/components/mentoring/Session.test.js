@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import {
   render,
   screen,
+  act,
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 import { rest } from 'msw'
@@ -10,6 +11,7 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Session } from '../../../../app/javascript/components/mentoring/Session'
 import { stubRange } from '../../support/code-mirror-helpers'
+import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 
 stubRange()
@@ -175,7 +177,10 @@ test('hides latest label if on old iteration', async () => {
       discussion={discussion}
     />
   )
-  userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  await awaitPopper()
+  act(() => {
+    userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  })
   queryCache.cancelQueries()
 
   expect(
@@ -356,19 +361,24 @@ test('go to previous iteration', async () => {
     },
   ]
 
-  render(
-    <Session
-      exercise={exercise}
-      links={links}
-      track={track}
-      student={student}
-      iterations={iterations}
-      discussion={discussion}
-    />
-  )
-  userEvent.click(
-    screen.getByRole('button', { name: 'Go to previous iteration' })
-  )
+  act(() => {
+    render(
+      <Session
+        exercise={exercise}
+        links={links}
+        track={track}
+        student={student}
+        iterations={iterations}
+        discussion={discussion}
+      />
+    )
+  })
+  await awaitPopper()
+  act(() => {
+    userEvent.click(
+      screen.getByRole('button', { name: 'Go to previous iteration' })
+    )
+  })
   queryCache.cancelQueries()
 
   expect(

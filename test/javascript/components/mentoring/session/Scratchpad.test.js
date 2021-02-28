@@ -85,7 +85,9 @@ test('clears errors when resubmitting', async () => {
     <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
   )
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
-  userEvent.click(screen.getByRole('button', { name: 'Save' }))
+  act(() => {
+    userEvent.click(screen.getByRole('button', { name: 'Save' }))
+  })
 
   expect(await screen.findByText('Unable to save page')).toBeInTheDocument()
 

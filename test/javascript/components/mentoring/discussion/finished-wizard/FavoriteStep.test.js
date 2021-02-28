@@ -7,6 +7,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { FavoriteStep } from '../../../../../../app/javascript/components/mentoring/discussion/finished-wizard/FavoriteStep'
 import { silenceConsole } from '../../../../support/silence-console'
 import { awaitPopper } from '../../../../support/await-popper'
+import { TestQueryCache } from '../../../../support/TestQueryCache'
 
 test('disables buttons when choosing to favorite', async () => {
   const student = { handle: 'student' }
@@ -19,7 +20,11 @@ test('disables buttons when choosing to favorite', async () => {
   )
   server.listen()
 
-  render(<FavoriteStep student={student} relationship={relationship} />)
+  render(
+    <TestQueryCache>
+      <FavoriteStep student={student} relationship={relationship} />
+    </TestQueryCache>
+  )
   const favoriteButton = await screen.findByRole('button', {
     name: 'Add to favorites',
   })

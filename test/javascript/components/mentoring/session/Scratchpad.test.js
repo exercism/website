@@ -4,13 +4,15 @@ import {
   render,
   screen,
   waitForElementToBeRemoved,
+  act,
 } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Scratchpad } from '../../../../../app/javascript/components/mentoring/session/Scratchpad'
 import { stubRange } from '../../../support/code-mirror-helpers'
-import { act } from 'react-dom/test-utils'
+import flushPromises from 'flush-promises'
+import { awaitPopper } from '../../../support/await-popper'
 
 stubRange()
 
@@ -80,10 +82,17 @@ test('clears errors when resubmitting', async () => {
     })
   )
   server.listen()
+  await flushPromises()
+  await awaitPopper()
 
-  render(
-    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
-  )
+  act(() => {
+    render(
+      <Scratchpad
+        endpoint="https://exercism.test/scratchpad"
+        discussionId={1}
+      />
+    )
+  })
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
   act(() => {
     userEvent.click(screen.getByRole('button', { name: 'Save' }))

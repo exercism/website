@@ -12,7 +12,7 @@ import flushPromises from 'flush-promises'
 test('disables buttons when loading', async () => {
   const server = setupServer(
     rest.patch('https://exercism.test/end', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ discussion: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ discussion: {} }))
     })
   )
   server.listen()
@@ -48,7 +48,7 @@ test('disables buttons when loading', async () => {
 test('shows loading message when loading', async () => {
   const server = setupServer(
     rest.patch('https://exercism.test/end', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ discussion: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ discussion: {} }))
     })
   )
   server.listen()

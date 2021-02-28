@@ -17,7 +17,7 @@ test('shows loading message while locking mentoring request', async () => {
   const iterations = [{ idx: 1 }]
   const server = setupServer(
     rest.post('https://exercism.test/discussion', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ discussion: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ discussion: {} }))
     })
   )
   server.listen()

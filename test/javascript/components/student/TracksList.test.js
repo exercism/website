@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
+import { awaitPopper } from '../../support/await-popper'
 import { TracksList } from '../../../../app/javascript/components/student/TracksList'
 
 test('shows stale data while fetching', async () => {
@@ -13,7 +14,7 @@ test('shows stale data while fetching', async () => {
   )
   server.listen()
   const statusOptions = [{ label: 'All', value: 'all' }]
-  const { getByText, getByPlaceholderText } = render(
+  render(
     <TracksList
       request={{
         endpoint: 'https://exercism.test/tracks',
@@ -26,12 +27,13 @@ test('shows stale data while fetching', async () => {
       statusOptions={statusOptions}
     />
   )
+  await awaitPopper()
 
-  fireEvent.change(getByPlaceholderText('Search language tracks'), {
+  fireEvent.change(screen.getByPlaceholderText('Search language tracks'), {
     target: { value: 'Go' },
   })
 
-  expect(getByText('Ruby')).toBeInTheDocument()
+  expect(screen.getByText('Ruby')).toBeInTheDocument()
 
   server.close()
 })

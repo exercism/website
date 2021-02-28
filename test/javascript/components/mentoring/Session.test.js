@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import {
   render,
   screen,
+  act,
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 import { rest } from 'msw'
@@ -177,7 +178,9 @@ test('hides latest label if on old iteration', async () => {
     />
   )
   await awaitPopper()
-  userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  act(() => {
+    userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
+  })
   queryCache.cancelQueries()
 
   expect(
@@ -358,20 +361,24 @@ test('go to previous iteration', async () => {
     },
   ]
 
-  render(
-    <Session
-      exercise={exercise}
-      links={links}
-      track={track}
-      student={student}
-      iterations={iterations}
-      discussion={discussion}
-    />
-  )
+  act(() => {
+    render(
+      <Session
+        exercise={exercise}
+        links={links}
+        track={track}
+        student={student}
+        iterations={iterations}
+        discussion={discussion}
+      />
+    )
+  })
   await awaitPopper()
-  userEvent.click(
-    screen.getByRole('button', { name: 'Go to previous iteration' })
-  )
+  act(() => {
+    userEvent.click(
+      screen.getByRole('button', { name: 'Go to previous iteration' })
+    )
+  })
   queryCache.cancelQueries()
 
   expect(

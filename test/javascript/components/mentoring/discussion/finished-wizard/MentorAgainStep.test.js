@@ -47,7 +47,7 @@ test('shows loading message when choosing to mentor again', async () => {
   const relationship = { links: { block: 'https://exercism.test/block' } }
   const server = setupServer(
     rest.delete('https://exercism.test/block', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ relationship: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ relationship: {} }))
     })
   )
   server.listen()
@@ -142,7 +142,7 @@ test('shows loading message when choosing to not mentor again', async () => {
   const relationship = { links: { block: 'https://exercism.test/block' } }
   const server = setupServer(
     rest.post('https://exercism.test/block', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ relationship: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ relationship: {} }))
     })
   )
   server.listen()

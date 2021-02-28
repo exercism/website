@@ -39,7 +39,7 @@ test('shows loading message when choosing to favorite', async () => {
   const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ relationship: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ relationship: {} }))
     })
   )
   server.listen()

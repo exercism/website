@@ -27,7 +27,6 @@ test('disables buttons when loading', async () => {
       onSuccess={() => null}
     />
   )
-  await flushPromises()
 
   const endBtn = await screen.findByRole('button', {
     name: 'End discussion F3',
@@ -43,7 +42,6 @@ test('disables buttons when loading', async () => {
     expect(screen.getByRole('button', { name: 'Cancel F2' })).toBeDisabled()
   })
 
-  await flushPromises()
   await awaitPopper()
   queryCache.cancelQueries()
   server.close()
@@ -67,7 +65,6 @@ test('shows loading message when loading', async () => {
       />
     </TestQueryCache>
   )
-  await flushPromises()
   userEvent.click(await findByRole('button', { name: 'End discussion F3' }))
 
   expect(await findByText('Loading')).toBeInTheDocument()

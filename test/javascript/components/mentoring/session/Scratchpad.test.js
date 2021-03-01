@@ -11,7 +11,6 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Scratchpad } from '../../../../../app/javascript/components/mentoring/session/Scratchpad'
 import { stubRange } from '../../../support/code-mirror-helpers'
-import flushPromises from 'flush-promises'
 import { awaitPopper } from '../../../support/await-popper'
 import { TestQueryCache } from '../../../support/TestQueryCache'
 
@@ -94,7 +93,6 @@ test('clears errors when resubmitting', async () => {
     })
   )
   server.listen()
-  await flushPromises()
   await awaitPopper()
 
   act(() => {
@@ -107,7 +105,6 @@ test('clears errors when resubmitting', async () => {
       </TestQueryCache>
     )
   })
-  await flushPromises()
   await awaitPopper()
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
   act(() => {

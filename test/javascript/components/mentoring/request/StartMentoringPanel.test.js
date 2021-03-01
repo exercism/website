@@ -29,6 +29,7 @@ test('shows loading message while locking mentoring request', async () => {
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
+  await flushPromises()
   server.close()
 })
 
@@ -44,7 +45,6 @@ test('disables button while locking mentoring request', async () => {
     })
   )
   server.listen()
-  await flushPromises()
   await awaitPopper()
 
   act(() => {

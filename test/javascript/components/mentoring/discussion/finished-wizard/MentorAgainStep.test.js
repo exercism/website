@@ -8,7 +8,6 @@ import { MentorAgainStep } from '../../../../../../app/javascript/components/men
 import { silenceConsole } from '../../../../support/silence-console'
 import { TestQueryCache } from '../../../../support/TestQueryCache'
 import { awaitPopper } from '../../../../support/await-popper'
-import flushPromises from 'flush-promises'
 
 test('disables buttons when choosing to mentor again', async () => {
   const student = { handle: 'student' }
@@ -23,12 +22,12 @@ test('disables buttons when choosing to mentor again', async () => {
 
   render(
     <TestQueryCache>
-    <MentorAgainStep
-      student={student}
-      relationship={relationship}
-      onYes={() => null}
-      onNo={() => null}
-    />
+      <MentorAgainStep
+        student={student}
+        relationship={relationship}
+        onYes={() => null}
+        onNo={() => null}
+      />
     </TestQueryCache>
   )
 
@@ -44,7 +43,6 @@ test('disables buttons when choosing to mentor again', async () => {
     expect(noBtn).toBeDisabled()
   })
 
-  await flushPromises()
   await awaitPopper()
   server.close()
 })

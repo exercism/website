@@ -58,7 +58,6 @@ test('populates files', async () => {
 
   expect(await screen.findByText('class Lasagna')).toBeInTheDocument()
 
-  await flushPromises()
   await awaitPopper()
   queryCache.cancelQueries()
   server.close()

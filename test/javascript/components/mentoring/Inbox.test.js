@@ -9,7 +9,6 @@ import {
   silenceConsole,
   expectConsoleError,
 } from '../../support/silence-console'
-import flushPromises from 'flush-promises'
 import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 
@@ -56,7 +55,6 @@ test('page is set to 1 automatically', async () => {
 })
 
 test('page is reset to 1 when switching tracks', async () => {
-  await flushPromises()
   await awaitPopper()
 
   await expectConsoleError(async () => {
@@ -84,7 +82,6 @@ test('page is reset to 1 when switching tracks', async () => {
     await waitFor(() => expect(screen.getByText('First')).toBeDisabled())
 
     queryCache.cancelQueries()
-    await flushPromises()
     await awaitPopper()
   })
 })

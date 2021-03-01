@@ -36,7 +36,6 @@ test('shows errors from API', async () => {
       await screen.findByRole('button', { name: 'Mark as nothing to do' })
     ).toBeInTheDocument()
 
-    await flushPromises()
     queryCache.cancelQueries()
     server.close()
   })

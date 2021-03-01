@@ -1,7 +1,17 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Pagination } from '../../../../app/javascript/components/common/Pagination'
+
+test('shows nothing if total is <= 1', () => {
+  const setPage = jest.fn()
+
+  render(<Pagination current={2} total={1} setPage={setPage} />)
+
+  expect(
+    screen.queryByRole('button', { name: 'Go to first page' })
+  ).not.toBeInTheDocument()
+})
 
 test('clicking on "First" sets page to 1', () => {
   const setPage = jest.fn()
@@ -15,7 +25,7 @@ test('clicking on "First" sets page to 1', () => {
 })
 
 test('"First" button has correct aria-label tag', () => {
-  const { getByText } = render(<Pagination current={1} total={1} />)
+  const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('First')
 
@@ -23,7 +33,7 @@ test('"First" button has correct aria-label tag', () => {
 })
 
 test('"First" button has an aria-current tag if on the first page', () => {
-  const { getByText } = render(<Pagination current={1} total={1} />)
+  const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('First')
 
@@ -70,7 +80,7 @@ test('"Last" button is disabled when current = total', () => {
 })
 
 test('"Last" button has correct aria-label tag', () => {
-  const { getByText } = render(<Pagination current={1} total={1} />)
+  const { getByText } = render(<Pagination current={2} total={2} />)
 
   const button = getByText('Last')
 
@@ -78,7 +88,7 @@ test('"Last" button has correct aria-label tag', () => {
 })
 
 test('"Last" button has an aria-current tag if on the last page', () => {
-  const { getByText } = render(<Pagination current={1} total={1} />)
+  const { getByText } = render(<Pagination current={2} total={2} />)
 
   const button = getByText('Last')
 
@@ -105,7 +115,7 @@ test('clicking on page button sets page', () => {
 })
 
 test('page button has correct aria-label tag', () => {
-  const { getByText } = render(<Pagination current={1} total={1} />)
+  const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('1')
 
@@ -113,7 +123,7 @@ test('page button has correct aria-label tag', () => {
 })
 
 test('page button has an aria-current tag if on the page', () => {
-  const { getByText } = render(<Pagination current={1} total={1} />)
+  const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('1')
 

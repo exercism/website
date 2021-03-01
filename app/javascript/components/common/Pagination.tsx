@@ -15,6 +15,10 @@ export function Pagination({
   setPage,
   around = 3,
 }: PaginationProps) {
+  if (total <= 1) {
+    return null
+  }
+
   const range = createRange(
     Math.max(current - around, 1),
     Math.min(current + around, total)

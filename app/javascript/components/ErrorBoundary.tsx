@@ -14,6 +14,18 @@ type ErrorBoundaryType = Omit<
   'FallbackComponent'
 > & { FallbackComponent?: React.ComponentType<FallbackProps> }
 
+export const ErrorMessage = ({
+  error,
+  defaultError,
+}: {
+  error: Error | unknown
+  defaultError: Error
+}) => {
+  useErrorHandler(error, { defaultError: defaultError })
+
+  return null
+}
+
 export const ErrorBoundary = ({
   children,
   FallbackComponent = ErrorFallback,
@@ -26,7 +38,7 @@ export const ErrorBoundary = ({
   )
 }
 
-const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
+export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   useEffect(() => {
     setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT_IN_MS)
   }, [resetErrorBoundary])

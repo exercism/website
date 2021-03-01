@@ -10,15 +10,23 @@
     &.--cover {
         @apply bg-backgroundColorB items-start;
         overflow-y: auto;
+
+        & .--modal-content {
+            @apply py-48;
+            width: 100%;
+            min-height: 100%;
+        }
     }
 
-    & .--modal-content {
-        @apply bg-backgroundColorA;
-        @apply border-1 border-borderLight rounded-8;
-        @apply shadow-lg;
-        @apply px-32 py-16;
+    &:not(.--cover) {
+        & .--modal-content {
+            @apply bg-backgroundColorA;
+            @apply border-1 border-borderLight rounded-8;
+            @apply shadow-lg;
+            @apply px-32 py-16;
 
-        max-height: 80%;
-        overflow-y: auto;
+            max-height: 80%;
+            overflow-y: auto;
+        }
     }
 }

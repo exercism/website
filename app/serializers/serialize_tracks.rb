@@ -25,7 +25,7 @@ class SerializeTracks
 
   def data_for_track(track)
     {
-      id: track.id,
+      id: track.slug,
       title: track.title,
       num_concepts: concept_counts[track.id].to_i,
       num_concept_exercises: concept_exercise_counts[track.id].to_i,
@@ -36,7 +36,11 @@ class SerializeTracks
       # TODO: Set all three of these
       is_new: true,
       tags: map_tags(track.tags),
-      updated_at: track.updated_at.iso8601
+      updated_at: track.updated_at.iso8601,
+
+      # TODO: For "become a mentor modal"
+      avg_wait_time: "2 days",
+      num_solutions_queued: 550
     }
   end
 

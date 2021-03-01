@@ -6,8 +6,10 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
 import { expectConsoleError } from '../../support/silence-console'
+import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
+import { TestQueryCache } from '../../support/TestQueryCache'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(
@@ -30,17 +32,19 @@ test('disables buttons when loading', async () => {
   const endBtn = await screen.findByRole('button', {
     name: 'End discussion F3',
   })
-  const cancelBtn = await screen.findByRole('button', { name: 'Cancel F2' })
-
   userEvent.click(endBtn)
 
   await waitFor(() => {
-    expect(endBtn).toBeDisabled()
+    expect(
+      screen.getByRole('button', { name: 'End discussion F3' })
+    ).toBeDisabled()
   })
   await waitFor(() => {
-    expect(cancelBtn).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Cancel F2' })).toBeDisabled()
   })
 
+  await flushPromises()
+  await awaitPopper()
   queryCache.cancelQueries()
   server.close()
 })
@@ -53,21 +57,23 @@ test('shows loading message when loading', async () => {
   )
   server.listen()
 
-  render(
-    <FinishMentorDiscussionModal
-      open
-      endpoint="https://exercism.test/end"
-      ariaHideApp={false}
-      onSuccess={() => {}}
-    />
+  const { findByRole, findByText } = render(
+    <TestQueryCache>
+      <FinishMentorDiscussionModal
+        open
+        endpoint="https://exercism.test/end"
+        ariaHideApp={false}
+        onSuccess={() => {}}
+      />
+    </TestQueryCache>
   )
   await flushPromises()
-  userEvent.click(
-    await screen.findByRole('button', { name: 'End discussion F3' })
-  )
+  userEvent.click(await findByRole('button', { name: 'End discussion F3' }))
 
-  expect(await screen.findByText('Loading')).toBeInTheDocument()
+  expect(await findByText('Loading')).toBeInTheDocument()
 
+  await flushPromises()
+  queryCache.cancelQueries()
   server.close()
 })
 
@@ -83,12 +89,14 @@ test('shows API errors', async () => {
   server.listen()
 
   render(
-    <FinishMentorDiscussionModal
-      open
-      endpoint="https://exercism.test/end"
-      ariaHideApp={false}
-      onSuccess={() => {}}
-    />
+    <TestQueryCache>
+      <FinishMentorDiscussionModal
+        open
+        endpoint="https://exercism.test/end"
+        ariaHideApp={false}
+        onSuccess={() => {}}
+      />
+    </TestQueryCache>
   )
   await expectConsoleError(async () => {
     userEvent.click(
@@ -100,6 +108,7 @@ test('shows API errors', async () => {
     ).toBeInTheDocument()
   })
 
+  queryCache.cancelQueries()
   server.close()
 })
 

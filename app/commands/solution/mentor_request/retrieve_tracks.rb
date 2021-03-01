@@ -53,8 +53,7 @@ class Solution
 
       memoize
       def mentored_tracks
-        # TODO: Set this to just the tracks someone mentors
-        ::Track.order(title: :asc).to_a
+        mentor.mentored_tracks.order(title: :asc).to_a
       end
     end
   end

@@ -7,10 +7,11 @@ module Components
       include CapybaraHelpers
 
       test "shows correct information" do
+        mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, handle: "mentee"
-        mentor = create :user
         request = create :solution_mentor_request,
           exercise: series,
           user: mentee,
@@ -34,6 +35,7 @@ module Components
         Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, handle: "mentee"
         create :solution_mentor_request,
@@ -55,6 +57,7 @@ module Components
         Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, handle: "mentee"
         create :solution_mentor_request,
@@ -77,6 +80,7 @@ module Components
         Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, name: "User 2"
         create :solution_mentor_request,
@@ -99,12 +103,14 @@ module Components
         Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, name: "User 2"
         create :solution_mentor_request,
           exercise: series,
           user: mentee
         csharp = create :track, title: "C#", slug: "csharp"
+        create :user_track_mentorship, track: csharp, user: mentor
         tournament = create :concept_exercise, title: "Tournament", track: csharp
         other_mentee = create :user, name: "User 1"
         create :solution_mentor_request,
@@ -123,7 +129,9 @@ module Components
         mentor = create :user
         mentee = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         rust = create :track, title: "Rust", slug: "rust"
+        create :user_track_mentorship, track: rust, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         create :solution_mentor_request, exercise: series, user: mentee
         tournament = create :concept_exercise, title: "Tournament", track: rust, slug: "tournament"
@@ -145,6 +153,7 @@ module Components
         mentor = create :user
         mentee = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         create :solution_mentor_request, exercise: series, user: mentee
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
@@ -163,6 +172,7 @@ module Components
         Solution::MentorRequest::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         mentee = create :user, handle: "mentee"
         create :solution_mentor_request,
@@ -185,6 +195,7 @@ module Components
       test "shows and hides exercises that require mentoring" do
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         create :solution_mentor_request, exercise: series
         tournament = create :concept_exercise, title: "Tournament", track: ruby
@@ -202,6 +213,7 @@ module Components
       test "shows exercises that have been completed by mentor" do
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         create :solution_mentor_request, exercise: series
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
@@ -221,6 +233,7 @@ module Components
       test "selects all exercises" do
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         create :solution_mentor_request, exercise: series
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
@@ -238,6 +251,7 @@ module Components
       test "deselects all exercises" do
         mentor = create :user
         ruby = create :track, title: "Ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         create :solution_mentor_request, exercise: series
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"

@@ -13,13 +13,17 @@ import { Scratchpad } from '../../../../../app/javascript/components/mentoring/s
 import { stubRange } from '../../../support/code-mirror-helpers'
 import flushPromises from 'flush-promises'
 import { awaitPopper } from '../../../support/await-popper'
+import { TestQueryCache } from '../../../support/TestQueryCache'
 
 stubRange()
 
 test('hides local storage autosave message', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json({ scratchpad_page: { content_markdown: null } }))
+      return res(
+        ctx.delay(10),
+        ctx.json({ scratchpad_page: { content_markdown: null } })
+      )
     })
   )
   server.listen()
@@ -37,10 +41,14 @@ test('hides local storage autosave message', async () => {
 test('shows errors from API', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json({ scratchpad_page: { content_markdown: null } }))
+      return res(
+        ctx.delay(10),
+        ctx.json({ scratchpad_page: { content_markdown: null } })
+      )
     }),
     rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(404),
         ctx.json({
           error: {
@@ -67,10 +75,14 @@ test('shows errors from API', async () => {
 test('clears errors when resubmitting', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json({ scratchpad_page: { content_markdown: null } }))
+      return res(
+        ctx.delay(10),
+        ctx.json({ scratchpad_page: { content_markdown: null } })
+      )
     }),
     rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(404),
         ctx.json({
           error: {
@@ -87,12 +99,16 @@ test('clears errors when resubmitting', async () => {
 
   act(() => {
     render(
-      <Scratchpad
-        endpoint="https://exercism.test/scratchpad"
-        discussionId={1}
-      />
+      <TestQueryCache>
+        <Scratchpad
+          endpoint="https://exercism.test/scratchpad"
+          discussionId={1}
+        />
+      </TestQueryCache>
     )
   })
+  await flushPromises()
+  await awaitPopper()
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
   act(() => {
     userEvent.click(screen.getByRole('button', { name: 'Save' }))
@@ -110,7 +126,10 @@ test('clears errors when resubmitting', async () => {
 test('revert to saved button shows if content changed', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json({ scratchpad_page: { content_markdown: '' } }))
+      return res(
+        ctx.delay(10),
+        ctx.json({ scratchpad_page: { content_markdown: '' } })
+      )
     })
   )
   server.listen()
@@ -135,7 +154,10 @@ test('revert to saved button shows if content changed', async () => {
 test('revert to saved button is hidden', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(ctx.json({ scratchpad_page: { content_markdown: '' } }))
+      return res(
+        ctx.delay(10),
+        ctx.json({ scratchpad_page: { content_markdown: '' } })
+      )
     })
   )
   server.listen()

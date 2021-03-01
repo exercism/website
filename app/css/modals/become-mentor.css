@@ -3,7 +3,9 @@
 .m-become-mentor {
     --inner-width: 800px;
 
-    @apply pt-48 pb-48;
+    & .--modal-content {
+        @apply py-48;
+    }
     & header {
         @apply flex items-center justify-between;
         @apply mb-8;
@@ -82,22 +84,21 @@
             grid-template-columns: repeat(4, auto);
 
             & .track {
-                @apply bg-backgroundColorB shadow-lg rounded-8;
-                @apply py-24;
-                @apply flex flex-col items-center;
-                @apply relative;
+                & label {
+                    @apply bg-backgroundColorB shadow-lg rounded-8;
+                    @apply py-24;
+                    @apply flex flex-col items-center;
+                    @apply relative;
+                    @apply border-2 border-transparent;
 
-                cursor: pointer;
-                transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
+                    cursor: pointer;
+                    transition: background 0.2s ease-out,
+                        box-shadow 0.2s ease-out;
 
-                &:hover {
-                    @apply shadow-lgZ1;
-                    @apply bg-backgroundColorA;
-                }
-
-                &.selected {
-                    @apply border-2 border-darkBlue;
-                    @apply bg-veryLightBlue;
+                    &:hover {
+                        @apply shadow-lgZ1;
+                        @apply bg-backgroundColorA;
+                    }
 
                     & .selected-icon {
                         position: absolute;
@@ -109,34 +110,49 @@
                         width: 40px;
                         height: 40px;
 
+                        @apply hidden;
+
                         & .c-icon {
                             height: 20px;
                             width: 20px;
                         }
                     }
+
+                    & .c-track-icon {
+                        height: 64px;
+                        width: 64px;
+                        @apply mb-12;
+                    }
+
+                    & .title {
+                        @apply text-18 leading-140 text-textColor3 font-semibold;
+                        @apply mb-6;
+                    }
+
+                    & .info {
+                        @apply text-14 leading-160 text-textColor6;
+                    }
                 }
 
-                & .selected-icon {
-                    @apply hidden;
-                }
+                & input[type="checkbox"] {
+                    opacity: 0;
+                    &:checked + label {
+                        @apply border-darkBlue;
+                        @apply bg-veryLightBlue;
 
-                & .c-track-icon {
-                    height: 64px;
-                    width: 64px;
-                    @apply mb-12;
-                }
+                        & .selected-icon {
+                            @apply grid;
+                        }
+                    }
 
-                & .title {
-                    @apply text-18 leading-140 text-textColor3 font-semibold;
-                    @apply mb-6;
-                }
-
-                & .info {
-                    @apply text-14 leading-160 text-textColor6;
+                    &.focus-visible + label {
+                        @apply border-2 border-inputBorderColorFocus;
+                    }
                 }
             }
         }
     }
+
     & section.commit-section {
         @apply flex;
         & .rhs {
@@ -194,6 +210,10 @@
             }
             & .c-checkbox-wrapper {
                 @apply mb-12;
+
+                & input[type="checkbox"].focus-visible + .row {
+                    @apply border-2 border-inputBorderColorFocus;
+                }
 
                 & .row {
                     @apply bg-backgroundColorA;

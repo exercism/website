@@ -50,6 +50,8 @@ test('disables button while locking mentoring request', async () => {
   act(() => {
     render(<StartMentoringPanel request={request} setRequest={() => null} />)
   })
+  await awaitPopper()
+
   const button = await screen.findByRole('button', { name: 'Start mentoring' })
   userEvent.click(button)
 

@@ -23,10 +23,6 @@ module Git
     def call
       fetch_git_repo!
 
-      old_exercise_ids = track.exercises.map(&:id)
-      new_exercise_ids = concept_exercises.map(&:id) + practice_exercises.map(&:id)
-      Exercise.where(id: (old_exercise_ids - new_exercise_ids)).destroy
-
       # TODO: validate track using configlet to prevent invalid track data
 
       # TODO: consider raising error when slug in config is different from track slug

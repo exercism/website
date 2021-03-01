@@ -8,6 +8,7 @@ import { FavoriteStep } from '../../../../../../app/javascript/components/mentor
 import { silenceConsole } from '../../../../support/silence-console'
 import { awaitPopper } from '../../../../support/await-popper'
 import { TestQueryCache } from '../../../../support/TestQueryCache'
+import flushPromises from 'flush-promises'
 
 test('disables buttons when choosing to favorite', async () => {
   const student = { handle: 'student' }
@@ -25,6 +26,9 @@ test('disables buttons when choosing to favorite', async () => {
       <FavoriteStep student={student} relationship={relationship} />
     </TestQueryCache>
   )
+  await flushPromises()
+  await awaitPopper()
+
   const favoriteButton = await screen.findByRole('button', {
     name: 'Add to favorites',
   })

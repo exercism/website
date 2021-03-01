@@ -6,6 +6,9 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentorRegistrationModal } from '../../../../app/javascript/components/modals/MentorRegistrationModal'
 import { TestQueryCache } from '../../support/TestQueryCache'
+import flushPromises from 'flush-promises'
+import { awaitPopper } from '../../support/await-popper'
+import { queryCache } from 'react-query'
 
 test('preserves chosen tracks when moving through steps', async () => {
   const links = {
@@ -17,6 +20,7 @@ test('preserves chosen tracks when moving through steps', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/tracks', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(200),
         ctx.json({
           tracks: [
@@ -45,4 +49,9 @@ test('preserves chosen tracks when moving through steps', async () => {
   userEvent.click(await screen.findByRole('button', { name: /Back/ }))
 
   expect(await screen.findByRole('checkbox', { name: /Ruby/ })).toBeChecked()
+
+  await flushPromises()
+  await awaitPopper()
+  queryCache.cancelQueries()
+  server.close()
 })

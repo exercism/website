@@ -3,6 +3,8 @@ import { waitFor, act } from '@testing-library/react'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
 
+jest.mock('../../app/javascript/utils/action-cable-consumer')
+
 afterEach(async () => {
   queryCache.cancelQueries()
   queryCache.clear()
@@ -13,6 +15,5 @@ afterEach(async () => {
   await waitFor(() => expect(queryCache.isFetching).toBe(0))
 
   await flushPromises()
-
   await act(async () => await null)
 })

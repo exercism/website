@@ -10,11 +10,8 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
 import { TestQueryCache } from '../../../support/TestQueryCache'
-import { actionCableMock } from '../../../support/action-cable-mock'
 import flushPromises from 'flush-promises'
 import { queryCache } from 'react-query'
-
-actionCableMock()
 
 window.IntersectionObserver = jest.fn(() => ({
   observe: jest.fn(),
@@ -64,7 +61,7 @@ test('displays all posts', async () => {
   ]
   const server = setupServer(
     rest.get('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.json({ posts: posts }))
+      return res(ctx.delay(10), ctx.json({ posts: posts }))
     })
   )
   server.listen()
@@ -106,6 +103,8 @@ test('displays all posts', async () => {
     })
   ).not.toBeInTheDocument()
 
+  await flushPromises()
+  queryCache.cancelQueries()
   server.close()
 })
 
@@ -136,7 +135,7 @@ test('shows first iteration with posts', async () => {
   ]
   const server = setupServer(
     rest.get('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.json({ posts: posts }))
+      return res(ctx.delay(10), ctx.json({ posts: posts }))
     })
   )
   server.listen()
@@ -163,10 +162,11 @@ test('shows first iteration with posts', async () => {
     expect(screen.queryByText('Iteration 1')).not.toBeInTheDocument()
   })
 
-  flushPromises()
+  await flushPromises()
   queryCache.cancelQueries()
   server.close()
 })
+
 test('shows latest iteration if there are no posts', async () => {
   stubScroll()
   const iterations = [
@@ -179,7 +179,7 @@ test('shows latest iteration if there are no posts', async () => {
   ]
   const server = setupServer(
     rest.get('https://exercism.test/posts', (req, res, ctx) => {
-      return res(ctx.json({ posts: [] }))
+      return res(ctx.delay(10), ctx.json({ posts: [] }))
     })
   )
   server.listen()
@@ -201,9 +201,13 @@ test('shows latest iteration if there are no posts', async () => {
     })
   )
 
-  expect(screen.queryByText('Iteration 1')).not.toBeInTheDocument()
-  expect(screen.getByText('Iteration 2')).toBeInTheDocument()
+  waitFor(() => {
+    expect(screen.getByText('Iteration 1')).not.toBeInTheDocument()
+  })
+  expect(await screen.findByText('Iteration 2')).toBeInTheDocument()
 
+  await flushPromises()
+  queryCache.cancelQueries()
   server.close()
 })
 

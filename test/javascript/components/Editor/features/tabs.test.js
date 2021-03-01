@@ -8,9 +8,6 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 import { awaitPopper } from '../../../support/await-popper'
-import { actionCableMock } from '../../../support/action-cable-mock'
-
-actionCableMock()
 
 test('switches tabs', async () => {
   render(
@@ -62,6 +59,7 @@ test('opens results tab by default if tests have previously ran', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/test_run', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.json({
           test_run: {
             id: null,

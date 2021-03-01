@@ -7,9 +7,6 @@ import { Notifications } from '../../../../app/javascript/components/dropdowns/N
 import { TestQueryCache } from '../../support/TestQueryCache'
 import { expectConsoleError } from '../../support/silence-console'
 import userEvent from '@testing-library/user-event'
-import { actionCableMock } from '../../support/action-cable-mock'
-
-actionCableMock()
 
 test('shows API error message', async () => {
   expectConsoleError(async () => {

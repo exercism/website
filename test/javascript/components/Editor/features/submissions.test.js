@@ -12,6 +12,7 @@ test('shows message when test times out', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/submissions', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.json({
           submission: {
             id: 2,
@@ -27,6 +28,7 @@ test('shows message when test times out', async () => {
     }),
     rest.get('https://exercism.test/test_run', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.json({
           test_run: {
             submission_uuid: '123',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { CommitStep } from '../../../../../app/javascript/components/modals/mentor-registration-modal/CommitStep'
 import userEvent from '@testing-library/user-event'
@@ -9,6 +9,7 @@ import { setupServer } from 'msw/node'
 import { expectConsoleError } from '../../../support/silence-console'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
+import { awaitPopper } from '../../../support/await-popper'
 
 test('continue button is disabled when not everything is checked', async () => {
   render(<CommitStep links={{}} />)
@@ -51,7 +52,7 @@ test('continue and back button are disabled while request is sending', async () 
   }
   const server = setupServer(
     rest.post('https://exercism.test/registration', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({}))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({}))
     })
   )
   server.listen()
@@ -63,27 +64,38 @@ test('continue and back button are disabled while request is sending', async () 
   )
 
   userEvent.click(
-    screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })
+    await screen.findByRole('checkbox', {
+      name: /Abide by the Code of Conduct/,
+    })
   )
   userEvent.click(
-    screen.getByRole('checkbox', {
+    await screen.findByRole('checkbox', {
       name: /Be patient, empathic and kind to those you're mentoring/,
     })
   )
   userEvent.click(
-    screen.getByRole('checkbox', { name: /Demonstrate intellectual humility/ })
+    await screen.findByRole('checkbox', {
+      name: /Demonstrate intellectual humility/,
+    })
   )
   userEvent.click(
-    screen.getByRole('checkbox', {
+    await screen.findByRole('checkbox', {
       name: /Not use Exercism to promote personal agendas/,
     })
   )
-  userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+  await act(async () => {
+    userEvent.click(await screen.findByRole('button', { name: /Continue/ }))
+  })
+  await flushPromises()
+  await awaitPopper()
 
-  expect(await screen.findByRole('button', { name: /Continue/ })).toBeDisabled()
-  expect(screen.getByRole('button', { name: /Back/ })).toBeDisabled()
+  waitFor(() => {
+    expect(screen.getByRole('button', { name: /Continue/ })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /Back/ })).toBeDisabled()
+  })
 
-  flushPromises()
+  await flushPromises()
+  await awaitPopper()
   queryCache.cancelQueries()
   server.close()
 })
@@ -144,11 +156,7 @@ test('shows generic errors', async () => {
     registration: 'wrong',
   }
 
-  render(
-    <TestQueryCache>
-      <CommitStep links={links} onContinue={() => {}} />
-    </TestQueryCache>
-  )
+  render(<CommitStep links={links} onContinue={() => {}} />)
 
   userEvent.click(
     screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })
@@ -168,7 +176,7 @@ test('shows generic errors', async () => {
   )
 
   await expectConsoleError(async () => {
-    userEvent.click(screen.getByRole('button', { name: /Continue/ }))
+    userEvent.click(await screen.findByRole('button', { name: /Continue/ }))
 
     expect(
       await screen.findByText('Unable to complete registration')

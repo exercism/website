@@ -53,14 +53,31 @@ class Submission::TestRun < ApplicationRecord
 
   class TestResult
     def initialize(test)
-      @name = test[:name]
-      @status = test[:status].to_sym
-      @test_code = test[:test_code]
-      @message = test[:message]
-      @expected = test[:expected]
-      @output = test[:output]
-      @output_html = Ansi::To::Html.new(test[:output]).to_html if test[:output].present?
+      @test = test
     end
+
+    def to_h
+      {
+        name: test[:name],
+        status: test[:status].to_sym,
+        test_code: test[:test_code],
+        message: test[:message],
+        expected: test[:expected],
+        output: test[:output],
+        output_html: test[:output].present? ? Ansi::To::Html.new(test[:output]).to_html : nil
+      }
+    end
+
+    def to_json(*_args)
+      to_h.to_json
+    end
+
+    def as_json(*_args)
+      to_h
+    end
+
+    private
+    attr_reader :test
   end
   private_constant :TestResult
 end

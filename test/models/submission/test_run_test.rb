@@ -71,17 +71,18 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal 1, tr.test_results.size
     result = tr.test_results.first
 
-    json = {
-      'name' => name,
-      'status' => status,
-      'test_code' => test_code,
-      'message' => message,
-      'expected' => expected,
-      'output' => output,
-      'output_html' => "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>"
-    }.to_json
+    test_as_hash = {
+      name: name,
+      status: status.to_sym,
+      test_code: test_code,
+      message: message,
+      expected: expected,
+      output: output,
+      output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>"
+    }
 
-    assert_equal json, result.to_json
+    assert_equal test_as_hash, result.to_h
+    assert_equal test_as_hash.to_json, result.to_json
   end
 
   # TODO: - Add a test for if the raw_results is empty

@@ -11,7 +11,7 @@ class SerializeSubmissionTestRun
       submission_uuid: test_run.submission.uuid,
       status: status,
       message: message,
-      tests: tests
+      tests: test_run.test_results
     }
   end
 
@@ -30,10 +30,6 @@ class SerializeSubmissionTestRun
     # TODO: Decide how this is corrolated with the
     # errors upstream and move into i18n.
     "Some error occurred"
-  end
-
-  def tests
-    test_run.tests
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

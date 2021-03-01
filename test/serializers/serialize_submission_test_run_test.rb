@@ -19,9 +19,19 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
       submission_uuid: test_run.submission.uuid,
       status: :pass,
       message: test_run.message,
-      tests: [test]
+      tests: [
+        {
+          name: 'test_a_name_given',
+          status: 'pass',
+          test_code: nil,
+          message: nil,
+          expected: nil,
+          output: 'foobar',
+          output_html: "foobar"
+        }
+      ]
     }
-    assert_equal expected, actual
+    assert_equal expected.to_json, actual.to_json
   end
 
   test "status: proxies fail" do

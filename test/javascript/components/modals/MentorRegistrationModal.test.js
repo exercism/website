@@ -6,7 +6,6 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentorRegistrationModal } from '../../../../app/javascript/components/modals/MentorRegistrationModal'
 import { TestQueryCache } from '../../support/TestQueryCache'
-import flushPromises from 'flush-promises'
 import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 
@@ -50,7 +49,6 @@ test('preserves chosen tracks when moving through steps', async () => {
 
   expect(await screen.findByRole('checkbox', { name: /Ruby/ })).toBeChecked()
 
-  await flushPromises()
   await awaitPopper()
   queryCache.cancelQueries()
   server.close()

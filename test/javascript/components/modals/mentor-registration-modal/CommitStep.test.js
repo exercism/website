@@ -86,7 +86,6 @@ test('continue and back button are disabled while request is sending', async () 
   await act(async () => {
     userEvent.click(await screen.findByRole('button', { name: /Continue/ }))
   })
-  await flushPromises()
   await awaitPopper()
 
   waitFor(() => {

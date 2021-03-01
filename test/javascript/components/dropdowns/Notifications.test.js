@@ -33,7 +33,6 @@ test('shows API error message', async () => {
 
     expect(await screen.findByText('Unable to load')).toBeInTheDocument()
 
-    await flushPromises()
     await awaitPopper()
     server.close()
   })
@@ -54,7 +53,6 @@ test('shows generic error message', async () => {
       await screen.findByText('Unable to load notifications')
     ).toBeInTheDocument()
 
-    await flushPromises()
     await awaitPopper()
   })
 })

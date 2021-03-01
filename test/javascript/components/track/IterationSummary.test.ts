@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import flushPromises from 'flush-promises'
 
 /* @kntsoriano - Please can you fix these tests */
 /*

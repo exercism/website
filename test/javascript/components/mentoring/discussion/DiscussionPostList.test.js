@@ -10,7 +10,6 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
 import { TestQueryCache } from '../../../support/TestQueryCache'
-import flushPromises from 'flush-promises'
 import { queryCache } from 'react-query'
 
 window.IntersectionObserver = jest.fn(() => ({
@@ -103,7 +102,6 @@ test('displays all posts', async () => {
     })
   ).not.toBeInTheDocument()
 
-  await flushPromises()
   queryCache.cancelQueries()
   server.close()
 })
@@ -162,7 +160,6 @@ test('shows first iteration with posts', async () => {
     expect(screen.queryByText('Iteration 1')).not.toBeInTheDocument()
   })
 
-  await flushPromises()
   queryCache.cancelQueries()
   server.close()
 })
@@ -206,7 +203,6 @@ test('shows latest iteration if there are no posts', async () => {
   })
   expect(await screen.findByText('Iteration 2')).toBeInTheDocument()
 
-  await flushPromises()
   queryCache.cancelQueries()
   server.close()
 })

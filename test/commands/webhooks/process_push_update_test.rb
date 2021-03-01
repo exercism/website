@@ -9,6 +9,12 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     end
   end
 
+  test "should enqueue sync push job when pushing website-copy" do
+    assert_enqueued_jobs 1, only: ProcessPushUpdateJob do
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'website-copy')
+    end
+  end
+
   test "should not enqueue sync push job when pushing to non-main branch" do
     create :track, slug: :ruby
 
@@ -21,7 +27,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     create :track, slug: :ruby
 
     assert_enqueued_jobs 0, only: ProcessPushUpdateJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/develop', 'problem-specs')
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'problem-specs')
     end
   end
 end

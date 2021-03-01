@@ -83,6 +83,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
 
     assert_equal test_as_hash, result.to_h
     assert_equal test_as_hash.to_json, result.to_json
+    assert_equal test_as_hash, result.as_json(1, 2, 3) # Test with arbitary args
   end
 
   # TODO: - Add a test for if the raw_results is empty

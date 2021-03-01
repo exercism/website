@@ -424,7 +424,10 @@ export function Editor({
           <RunTestsButton onClick={runTests} />
           <SubmitButton
             onClick={submit}
-            disabled={submission?.testRun?.status !== TestRunStatus.PASS}
+            disabled={
+              submission?.testRun?.status !== TestRunStatus.PASS ||
+              !isEqual(submissionFilesRef.current, files)
+            }
           />
         </div>
 

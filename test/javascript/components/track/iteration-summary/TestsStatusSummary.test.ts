@@ -42,5 +42,3 @@ test('shows Cancelled status when testsStatus is cancelled', async () => {
   expect(getByText('Cancelled')).toBeInTheDocument()
 })
 */
-/* @kntsoriano - please delete this */
-test('placeholder', async () => {})

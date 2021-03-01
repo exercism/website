@@ -53,7 +53,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
   test "test_results" do
     name = "some name"
     status = "some status"
-    cmd = "some cmd"
+    test_code = "some cmd"
     message = "some message"
     expected = "Some expected"
     output = "\e[31mHello\e[0m\e[34mWorld\e[0"
@@ -61,7 +61,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     tests = [{
       'name' => name,
       'status' => status,
-      'cmd' => cmd,
+      'test_code' => test_code,
       'message' => message,
       'expected' => expected,
       'output' => output
@@ -71,12 +71,17 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal 1, tr.test_results.size
     result = tr.test_results.first
 
-    assert_equal name, result.name
-    assert_equal status.to_sym, result.status
-    assert_equal cmd, result.cmd
-    assert_equal message, result.message
-    assert_equal expected, result.expected
-    assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", result.output_html
+    json = {
+      'name' => name,
+      'status' => status,
+      'test_code' => test_code,
+      'message' => message,
+      'expected' => expected,
+      'output' => output,
+      'output_html' => "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>"
+    }.to_json
+
+    assert_equal json, result.to_json
   end
 
   # TODO: - Add a test for if the raw_results is empty

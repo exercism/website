@@ -1,4 +1,6 @@
 class Submission::TestRun < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }
@@ -33,9 +35,9 @@ class Submission::TestRun < ApplicationRecord
     status == :fail
   end
 
-  # TODO: Memoize
+  memoize
   def test_results
-    tests.map do |test|
+    tests.to_a.map do |test|
       TestResult.new(HashWithIndifferentAccess.new(test))
     end
   end
@@ -45,29 +47,20 @@ class Submission::TestRun < ApplicationRecord
   end
 
   private
-  # TODO: Memoize
   def raw_results
     HashWithIndifferentAccess.new(super)
   end
 
   class TestResult
-    attr_reader :name, :status, :cmd, :message, :expected
-
     def initialize(test)
       @name = test[:name]
       @status = test[:status].to_sym
-      @cmd = test[:cmd]
+      @test_code = test[:test_code]
       @message = test[:message]
       @expected = test[:expected]
       @output = test[:output]
+      @output_html = Ansi::To::Html.new(test[:output]).to_html if test[:output].present?
     end
-
-    def output_html
-      output ? Ansi::To::Html.new(output).to_html : nil
-    end
-
-    private
-    attr_reader :output
   end
   private_constant :TestResult
 end

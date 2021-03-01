@@ -33,7 +33,7 @@ class SerializeSubmissionTestRun
   end
 
   def tests
-    test_run.tests
+    test_run.test_results
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

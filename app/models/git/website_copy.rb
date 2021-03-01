@@ -4,6 +4,10 @@ module Git
 
     DEFAULT_REPO_URL = "https://github.com/exercism/website-copy".freeze
 
+    def self.update!
+      new.update!
+    end
+
     def initialize(repo_url: DEFAULT_REPO_URL)
       @repo = Repository.new(repo_url: repo_url)
     end
@@ -11,6 +15,10 @@ module Git
     def analysis_comment_for(code)
       filepath = "analyzer-comments/#{code.tr('.', '/')}.md"
       repo.read_text_blob(head_commit, filepath)
+    end
+
+    def update!
+      repo.fetch!
     end
 
     private

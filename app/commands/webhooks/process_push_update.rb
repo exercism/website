@@ -6,9 +6,12 @@ module Webhooks
 
     def call
       return unless pushed_to_main?
-      return unless website_copy? || track
 
-      ProcessPushUpdateJob.perform_later(track)
+      if website_copy?
+        UpdateWebsiteCopyJob.perform_later
+      elsif track
+        SyncTrackJob.perform_later(track)
+      end
     end
 
     private

@@ -5,6 +5,6 @@ class ProcessPushUpdateJobTest < ActiveJob::TestCase
     track = create :track, slug: 'csharp'
 
     Git::SyncTrack.expects(:call).with(track)
-    ProcessPushUpdateJob.perform_now(track)
+    SyncTrackJob.perform_now(track)
   end
 end

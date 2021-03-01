@@ -28,6 +28,3 @@ test('shows details', async () => {
   expect(getByText('Queued')).toBeInTheDocument()
   expect(getByText('Automated feedback comments')).toBeInTheDocument()
 })*/
-
-/* @kntsoriano - please delete this */
-test('placeholder', async () => {})

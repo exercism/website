@@ -33,6 +33,3 @@ test('shows counts when comments exist', async () => {
   expect(getByText('Other automated comments 3')).not.toBeInTheDocument()
 })
 */
-
-/* @kntsoriano - please delete this */
-test('placeholder', async () => {})

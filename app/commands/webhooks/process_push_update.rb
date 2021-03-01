@@ -2,19 +2,26 @@ module Webhooks
   class ProcessPushUpdate
     include Mandate
 
-    initialize_with :ref, :track_slug
+    initialize_with :ref, :repo_name
 
     def call
       return unless pushed_to_main?
-      return unless track
 
-      ProcessPushUpdateJob.perform_later(track)
+      if website_copy?
+        UpdateWebsiteCopyJob.perform_later
+      elsif track
+        SyncTrackJob.perform_later(track)
+      end
     end
 
     private
+    def website_copy?
+      repo_name == "website-copy"
+    end
+
     memoize
     def track
-      Track.find_by(slug: track_slug)
+      Track.find_by(slug: repo_name)
     end
 
     def pushed_to_main?

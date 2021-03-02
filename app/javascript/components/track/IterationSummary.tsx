@@ -13,7 +13,7 @@ const SUBMISSION_METHOD_LABELS = {
 
 export function IterationSummary(props: {
   iteration: Iteration
-  className: null
+  className?: string
 }): JSX.Element {
   const [iteration, setIteration] = useState(props.iteration)
   const [className, setClassName] = useState(props.className)

@@ -1,9 +1,12 @@
 .lg-container.container
   %section.iterations
-    - iterations.each do |iteration|
-      .iteration
-        .header
+    - iterations.each.with_index do |iteration, idx|
+      %details.iteration.c-details{ open: idx.zero? }
+        %summary.header
           = ReactComponents::Track::IterationSummary.new(iteration)
+          .opener
+            .--closed-icon= graphical_icon 'chevron-right'
+            .--open-icon= graphical_icon 'chevron-down'
         .content
           .files
             %pre

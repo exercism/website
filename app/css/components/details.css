@@ -16,7 +16,7 @@
 
     &[open] {
         & > summary {
-            & > .--closed-icon {
+            & .--closed-icon {
                 @apply hidden !important;
             }
         }
@@ -24,7 +24,7 @@
 
     &:not([open]) {
         & > summary {
-            & > .--open-icon {
+            & .--open-icon {
                 @apply hidden !important;
             }
         }

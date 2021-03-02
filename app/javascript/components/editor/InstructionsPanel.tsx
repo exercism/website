@@ -20,9 +20,7 @@ export const InstructionsPanel = ({
   <Tab.Panel id="instructions" context={TabsContext}>
     <section className="instructions">
       <div className="c-textual-content --small">
-        <h2>Introduction</h2>
-        <div dangerouslySetInnerHTML={{ __html: introduction }} />
-
+        <Introduction introduction={introduction} />
         <Instructions assignment={assignment} />
         <Debug debuggingInstructions={debuggingInstructions} />
         <ExampleFiles files={exampleFiles} />
@@ -45,6 +43,23 @@ const ExampleFiles = ({ files }: { files: File[] }) => {
           <pre dangerouslySetInnerHTML={{ __html: file.content }} />
         </React.Fragment>
       ))}
+    </>
+  )
+}
+
+const Introduction = ({ introduction }: { introduction: string }) => {
+  if (
+    introduction === undefined ||
+    introduction === null ||
+    introduction.length === 0
+  ) {
+    return null
+  }
+
+  return (
+    <>
+      <h2>Introduction</h2>
+      <div dangerouslySetInnerHTML={{ __html: introduction }} />
     </>
   )
 }

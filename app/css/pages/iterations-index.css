@@ -38,6 +38,25 @@
             & .header {
                 @apply flex items-center py-12 px-24;
                 @apply border-b-1 border-borderLight border-opacity-50;
+
+                & .opener {
+                    @apply pl-24 ml-32;
+                    @apply border-l-1 border-borderColor5;
+                }
+                & .--closed-icon,
+                & .--open-icon {
+                    height: 32px;
+                    width: 32px;
+
+                    @apply flex flex-shrink-0 items-center justify-center;
+                    @apply border-borderColor4 border-1 rounded-circle;
+                    @apply text-textColor6;
+
+                    & .c-icon {
+                        height: 14px;
+                        width: 14px;
+                    }
+                }
             }
             & .content {
                 @apply flex-grow overflow-hidden;

@@ -1,7 +1,7 @@
 jest.mock('../../../../../app/javascript/components/editor/FileEditor')
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 
@@ -21,6 +21,24 @@ test('displays introduction', async () => {
   expect(
     await screen.findByText('Ruby is a nice and concise language')
   ).toBeInTheDocument()
+})
+
+test('does not display introduction if not specified', async () => {
+  render(
+    <Editor
+      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+      introduction=""
+      assignment={{
+        overview: '',
+        generalHints: [],
+        tasks: [],
+      }}
+    />
+  )
+
+  await waitFor(() =>
+    expect(screen.queryByText('Introduction')).not.toBeInTheDocument()
+  )
 })
 
 test('displays introductions overview', async () => {

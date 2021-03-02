@@ -16,7 +16,7 @@ import {
   Assignment,
 } from './editor/types'
 import { File } from './types'
-import { Iteration } from './track/IterationSummary'
+import { Iteration } from './types'
 import { Header } from './editor/Header'
 import { FileEditor, FileEditorHandle } from './editor/FileEditor'
 import { InstructionsPanel } from './editor/InstructionsPanel'

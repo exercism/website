@@ -1,3 +1,5 @@
+import { SubmissionTestsStatus } from '../types'
+
 export type Submission = {
   testsStatus: SubmissionTestsStatus
   id: string
@@ -10,16 +12,6 @@ type SubmissionLinks = {
   submit: string
   testRun: string
   initialFiles: string
-}
-
-export enum SubmissionTestsStatus {
-  NOT_QUEUED = 'not_queued',
-  QUEUED = 'queued',
-  PASSED = 'passed',
-  FAILED = 'failed',
-  ERRORED = 'errored',
-  EXCEPTIONED = 'exceptioned',
-  CANCELLED = 'cancelled',
 }
 
 export type TestRun = {

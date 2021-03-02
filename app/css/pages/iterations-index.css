@@ -5,26 +5,31 @@
         @apply mb-32;
     }
     & section.zero-state {
-        @apply flex flex-col items-center mt-56;
+        @apply flex flex-col items-center;
+        @apply rounded-8;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23C8D5EF' stroke-width='3' stroke-dasharray='16%2c16' stroke-dashoffset='4' stroke-linecap='round'/%3e%3c/svg%3e");
+        @apply py-48 px-32 mb-32;
 
         & h2 {
-            @apply text-h3 mb-16 text-center;
+            @apply text-h2 mb-12 text-center;
         }
         & p {
-            @apply text-16 leading-paragraph text-center mb-32;
+            @apply text-18 leading-170 text-center mb-28;
             max-width: 640px;
         }
         & .box {
             @apply flex;
             @apply border-2 border-purple rounded-12 bg-randomBlue;
             @apply py-24 px-32 mb-24;
+            width: 100%;
+            max-width: 640px;
             & h4 {
                 @apply text-label-code-caps mb-12;
             }
             & .editor {
-                @apply mr-48;
+                @apply mr-32;
             }
-            .c-copy-text-to-clipboard {
+            & .c-copy-text-to-clipboard {
                 width: 370px;
             }
         }

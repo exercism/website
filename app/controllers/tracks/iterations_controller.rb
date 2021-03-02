@@ -2,7 +2,7 @@ class Tracks::IterationsController < ApplicationController
   before_action :use_solution
 
   def index
-    @iterations = @solution.iterations.order(id: :desc)
+    @iterations = @solution.iterations.order(id: :desc) if @solution
   end
 
   private

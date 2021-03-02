@@ -1,0 +1,28 @@
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+import { ProcessingStatusSummary } from '../../../../../app/javascript/components/track/iteration-summary/ProcessingStatusSummary'
+
+test('shows Processing status when iterationStatus is analyzing', async () => {
+  render(<ProcessingStatusSummary iterationStatus="analyzing" />)
+
+  expect(screen.getByText('Processing')).toBeInTheDocument()
+})
+
+test('shows Processing status when iterationStatus is testing', async () => {
+  render(<ProcessingStatusSummary iterationStatus="testing" />)
+
+  expect(screen.getByText('Processing')).toBeInTheDocument()
+})
+
+test('shows Tests Failed status when iterationStatus is failed', async () => {
+  render(<ProcessingStatusSummary iterationStatus="tests_failed" />)
+
+  expect(screen.getByText('Tests Failed')).toBeInTheDocument()
+})
+
+test('shows Passed status when iterationStatus is another status', async () => {
+  render(<ProcessingStatusSummary iterationStatus="no_automated_feedback" />)
+
+  expect(screen.getByText('Passed')).toBeInTheDocument()
+})

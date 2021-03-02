@@ -30,8 +30,6 @@ import '../../css/components/accordion-section'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
-import '../../css/components/notifications-dropdown'
-import '../../css/components/reputation-dropdown'
 import '../../css/components/prominent-link'
 import '../../css/components/reputation'
 import '../../css/components/primary-reputation'
@@ -63,6 +61,8 @@ import '../../css/components/track/concept-map'
 import '../../css/components/iteration-pane'
 import '../../css/components/explainer'
 import '../../css/components/markdown-editor'
+import '../../css/components/mentor-discussion-summary'
+import '../../css/components/tag'
 
 import '../../css/components/widgets/exercise'
 
@@ -72,6 +72,10 @@ import '../../css/modals/mentoring-sessions'
 import '../../css/modals/finish-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
+
+import '../../css/dropdowns/notifications'
+import '../../css/dropdowns/reputation'
+import '../../css/dropdowns/mentoring'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'

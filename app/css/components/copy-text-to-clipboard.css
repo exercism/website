@@ -5,15 +5,14 @@
 }
 .c-copy-text-to-clipboard {
     @apply border-1 border-borderColor4 rounded-5;
-    @apply py-16 px-20 bg-backgroundColorA text-left;
-    @apply font-mono font-normal text-14;
+    @apply py-12 px-20 bg-backgroundColorA text-left;
+    @apply font-mono font-normal text-14 text-textColor3;
 
-    @apply flex items-center;
+    @apply flex items-center w-100;
 
     & .text {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        @apply flex-grow;
+        @apply truncate;
     }
     & .c-icon {
         height: 24px;

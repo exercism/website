@@ -1,0 +1,15 @@
+@import "../styles";
+
+.c-tag {
+    @apply rounded-100;
+    @apply text-12 leading-170;
+    @apply font-semibold;
+    @apply px-12;
+    white-space: nowrap;
+    @apply border-1;
+
+    &.--in-progress {
+        @apply border-darkBlue;
+        @apply text-darkBlue bg-veryLightBlue;
+    }
+}

@@ -114,8 +114,8 @@
             %h3.--text.text-h3 Mentoring
             .--count{ 'aria-label': "#{@mentoring_inbox_size} of your solutions need responses" }= @mentoring_inbox_size
 
-          .discsusions
-            = link_to "#", "aria-label": "View profile of Erik Schierboom", class: 'discsusion' do
+          .discussions
+            = link_to "#", "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
               = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
               .info
                 .handle @ErikSchierboom

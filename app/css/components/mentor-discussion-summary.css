@@ -1,0 +1,60 @@
+@import "../styles";
+
+.c-mentor-discussion-summary {
+    @apply flex items-center;
+    & .c-rounded-bg-img {
+        height: 42px;
+        width: 42px;
+
+        @apply mr-16 flex-shrink-0;
+    }
+    & .info {
+        @apply flex flex-col;
+        overflow: hidden;
+        max-width: 180px;
+        @apply leading-150 font-medium;
+
+        & .handle {
+            @apply flex items-center;
+            @apply text-16 text-textColor3;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        & .exercise {
+            @apply text-14 text-textColor6;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+    & .c-tag {
+        @apply ml-8;
+    }
+    & .comments {
+        @apply flex flex-shrink-0 items-center justify-center ml-auto;
+        @apply font-medium text-14 leading-150 text-textColor1;
+        @apply py-4 px-12 border-orange border-1 rounded-5 bg-lightOrange;
+
+        & .c-icon {
+            @apply mr-6 text-orange;
+            height: 16px;
+            width: 16px;
+        }
+    }
+    & time {
+        @apply ml-24 flex-shrink-0 font-medium text-textColor7;
+    }
+    & .action-icon {
+        @apply ml-24 text-textColor6;
+        height: 16px;
+        width: 16px;
+    }
+
+    &.--slim {
+        & .c-rounded-bg-img {
+            height: 32px;
+            width: 32px;
+        }
+    }
+}

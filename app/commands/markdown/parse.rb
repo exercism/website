@@ -26,7 +26,11 @@ class Markdown::Parse
 
   memoize
   def sanitized_html
-    Loofah.fragment(raw_html).scrub!(:escape).to_s
+    remove_comments = Loofah::Scrubber.new do |node|
+      node.remove if node.name == "comment"
+    end
+
+    Loofah.fragment(raw_html).scrub!(remove_comments).scrub!(:escape).to_s
   end
 
   memoize

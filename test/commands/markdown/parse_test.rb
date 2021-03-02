@@ -124,4 +124,8 @@ Done')
   test "does not increment level of level one headings" do
     assert_equal "<h1>Level one</h1>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
   end
+
+  test "removes html comments" do
+    assert_equal "\n<p>Regular text</p>\n", Markdown::Parse.("<!-- Comment text -->\n\nRegular text\n", strip_h1: false)
+  end
 end

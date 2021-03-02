@@ -15,26 +15,39 @@ module ViewComponents
 
       private
       def tabs
-        tag.div(class: "tabs lg-container") do
-          safe_join(
-            [
-              link_to(
-                graphical_icon('overview') +
-                tag.span("Overview", "data-text": "Overview"),
-                Exercism::Routes.track_exercise_path(track, exercise),
-                class: tab_class(:overview)
-              ),
+        tag.div(class: "lg-container navbar") do
+          tag.div(class: "tabs") do
+            safe_join(
+              [
+                link_to(
+                  graphical_icon('overview') +
+                  tag.span("Overview", "data-text": "Overview"),
+                  Exercism::Routes.track_exercise_path(track, exercise),
+                  class: tab_class(:overview)
+                ),
 
-              iterations_tab,
+                iterations_tab,
 
+                link_to(
+                  graphical_icon('community-solutions') +
+                  tag.span("Community Solutions", "data-text": "Community Solutions"),
+                  "#",
+                  class: tab_class(:community_solutions)
+                )
+              ]
+            )
+          end +
+            tag.div(class: "c-combo-button") do
               link_to(
-                graphical_icon('community-solutions') +
-                tag.span("Community Solutions", "data-text": "Community Solutions"),
-                "#",
-                class: tab_class(:community_solutions)
-              )
-            ]
-          )
+                "Open Editor",
+                Exercism::Routes.start_track_exercise_path(track, exercise),
+                method: :patch,
+                class: "--editor-segment"
+              ) +
+                tag.button(class: "--dropdown-segment") do
+                  graphical_icon('chevron-down')
+                end
+            end
         end
       end
 

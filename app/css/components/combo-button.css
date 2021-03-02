@@ -1,0 +1,22 @@
+@import "../styles";
+
+.c-combo-button {
+    @apply btn-small-cta;
+
+    @apply flex;
+    @apply p-0;
+
+    & .--editor-segment {
+        @apply font-semibold;
+        @apply py-8 px-16;
+        @apply border-r-1 border-borderColor3;
+    }
+    & .--dropdown-segment {
+        @apply px-12;
+        & .c-icon {
+            height: 13px;
+            width: 13px;
+            color: #cbc9d9;
+        }
+    }
+}

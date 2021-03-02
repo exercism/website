@@ -112,7 +112,11 @@
       = graphical_icon "graphic-mentoring-screen", css_class: "header-icon"
       %h3 Get mentored by a human
       %p On average, students iterate a further 3.5 times when mentored on a solution.
-      = button_tag "Request Mentoring", class: 'btn-small-cta'
+      .c-combo-button
+        = link_to "Request Mentoring", "#", class: "--editor-segment"
+        %button.--dropdown-segment
+          = graphical_icon('chevron-down')
+
       = link_to "#", class: 'learn-more' do
         Learn more
         = icon "external-link", "Opens in new tab"

@@ -53,7 +53,7 @@
     @apply text-16 font-semibold;
     height: 48px;
 
-    & .c-icon {
+    & > .c-icon {
         height: 18px;
         width: 18px;
         &:first-child {
@@ -64,7 +64,7 @@
         }
     }
 
-    & .kb-shortcut {
+    & > .kb-shortcut {
         @apply ml-8;
     }
 
@@ -84,7 +84,7 @@
     @apply px-32 border-3 text-18;
     height: 54px;
 
-    & .c-icon {
+    & > .c-icon {
         height: 16px;
         width: 16px;
     }
@@ -102,7 +102,7 @@
     @apply text-textColor6;
     height: 36px;
 
-    & .c-icon {
+    & > .c-icon {
         height: 14px;
         width: 14px;
     }
@@ -120,9 +120,6 @@
 .btn-keyboard-shortcut {
     @apply flex items-center;
     @apply py-6 px-12;
-
-    &:hover {
-    }
 
     & > :first-child {
         @apply mr-12;

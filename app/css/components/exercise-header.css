@@ -109,11 +109,18 @@
             }
         }
     }
-    & .tabs {
+    & .navbar {
         @apply flex items-center;
 
-        & .c-tab {
-            line-height: 40px;
+        & .tabs {
+            @apply flex items-center;
+            @apply flex-grow;
+
+            & .c-tab {
+                line-height: 40px;
+            }
+        }
+        & .c-editor-button {
         }
     }
 }

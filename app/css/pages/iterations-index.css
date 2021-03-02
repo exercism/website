@@ -31,7 +31,7 @@
     }
     & section.iterations {
         & .iteration {
-            @apply mb-24 shadow-lg rounded-8;
+            @apply mb-16 shadow-lg rounded-8;
             @apply flex flex-col;
             max-height: 98vh;
 
@@ -61,6 +61,7 @@
             & .content {
                 @apply flex-grow overflow-hidden;
                 @apply flex items-stretch;
+                @apply mb-32;
 
                 & .files,
                 & .information {

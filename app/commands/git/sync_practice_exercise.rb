@@ -19,6 +19,9 @@ module Git
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         prerequisites: find_concepts(exercise_config[:prerequisites])
       )
+
+      SyncAuthors.(exercise)
+      SyncContributors.(exercise)
     end
 
     private

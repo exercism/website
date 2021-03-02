@@ -1,5 +1,5 @@
 import React from 'react'
-import { RepresentationStatus, AnalysisStatus } from '../IterationSummary'
+import { RepresentationStatus, AnalysisStatus } from '../../types'
 import { GraphicalIcon } from '../../common'
 import { Icon } from '../../common/Icon'
 

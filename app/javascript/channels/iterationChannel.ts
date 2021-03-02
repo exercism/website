@@ -1,6 +1,6 @@
 import consumer from '../utils/action-cable-consumer'
 import { camelizeKeys } from 'humps'
-import { Iteration } from '../components/track/IterationSummary'
+import { Iteration } from '../components/types'
 import { typecheck } from '../utils/typecheck'
 
 export class IterationChannel {

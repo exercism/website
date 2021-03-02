@@ -1,5 +1,5 @@
 import React from 'react'
-import { SubmissionMethod } from '../IterationSummary'
+import { SubmissionMethod } from '../../types'
 
 export function SubmissionMethodIcon({
   submissionMethod,

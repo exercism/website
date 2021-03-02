@@ -62,10 +62,11 @@ const SUBMISSION_METHOD_LABELS = {
   [SubmissionMethod.CLI]: 'CLI',
   [SubmissionMethod.API]: 'API',
 }
+
 export function IterationSummary(props: {
   iteration: Iteration
   className: null
-}) {
+}): JSX.Element {
   const [iteration, setIteration] = useState(props.iteration)
   const [className, setClassName] = useState(props.className)
   const channel = useRef<IterationChannel | undefined>()

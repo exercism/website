@@ -14,7 +14,7 @@
             - if iteration.status.to_sym == :testing || iteration.status.to_sym == :analyzing
               .automated-feedback-pending
                 = graphical_icon :spinner
-                %h3 We’re analysing your code for suggestions
+                %h3 We're analysing your code for suggestions
                 %p This usually takes 10-30 seconds.
 
             - elsif iteration.status.to_sym == :no_automated_feedback

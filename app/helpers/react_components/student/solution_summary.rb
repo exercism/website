@@ -14,7 +14,10 @@ module ReactComponents
       private
       def links
         {
-          tests_passed_locally_article: "TODO"
+          tests_passed_locally_article: "#",
+          all_iterations: Exercism::Routes.track_concepts_path(iteration.track),
+          community_solutions: "#",
+          learn_more_about_mentoring_article: "#"
         }
       end
     end

@@ -1,9 +1,6 @@
 @import "../styles";
 
 #page-iterations-index {
-    & .c-track-exercise-nav {
-        @apply mb-32;
-    }
     & section.zero-state {
         @apply flex flex-col items-center mt-56;
 

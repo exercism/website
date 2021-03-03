@@ -16,6 +16,25 @@ module API
       )
     end
 
+    def show
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      output = {
+        solution: SerializeSolutionForStudent.(solution)
+      }
+      if sideload?(:latest_iteration)
+        iteration = solution.latest_iteration
+        output[:latest_iteration] = iteration ? SerializeIteration.(iteration) : nil
+      end
+      render json: output
+    end
+
     def complete
       begin
         solution = Solution.find_by!(uuid: params[:id])

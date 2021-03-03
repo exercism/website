@@ -2,6 +2,7 @@ require_relative './base_test_case'
 
 class API::SolutionsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_solutions_path
+  guard_incorrect_token! :api_solution_path, args: 1
 
   #########
   # INDEX #
@@ -53,6 +54,80 @@ class API::SolutionsControllerTest < API::BaseTestCase
       serializer: SerializeSolutionsForStudent
     )
     assert_equal serializer.to_json, response.body
+  end
+
+  ############
+  # Show #
+  ############
+  test "Show renders 404 when solution not found" do
+    setup_user
+
+    get api_solution_path("xxx"),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_not_found",
+          "message" => I18n.t("api.errors.solution_not_found")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "Show should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    get api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "Show should return solution by default" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    get api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 200
+    expected = {
+      solution: SerializeSolutionForStudent.(solution)
+    }
+    assert_equal expected.to_json, response.body
+  end
+
+  test "Show should return iteration if requested" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    iteration = create :iteration, solution: solution
+    get api_solution_path(solution.uuid, sideloads: [:latest_iteration]), headers: @headers, as: :json
+
+    assert_response 200
+    expected = {
+      solution: SerializeSolutionForStudent.(solution),
+      latest_iteration: SerializeIteration.(iteration)
+    }
+    assert_equal expected.to_json, response.body
+  end
+
+  test "Show should return null iteration if non-existant but requested" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    get api_solution_path(solution.uuid, sideloads: [:latest_iteration]), headers: @headers, as: :json
+
+    assert_response 200
+    expected = {
+      solution: SerializeSolutionForStudent.(solution),
+      latest_iteration: nil
+    }
+    assert_equal expected.to_json, response.body
   end
 
   ############

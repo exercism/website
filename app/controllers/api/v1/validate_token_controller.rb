@@ -1,5 +1,5 @@
 module API
-  class ValidateTokenController < BaseController
+  class V1::ValidateTokenController < BaseController
     def index
       render json: {
         status: {

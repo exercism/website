@@ -1,5 +1,5 @@
 module API
-  class PingController < BaseController
+  class V1::PingController < BaseController
     skip_before_action :authenticate_user!
 
     def index

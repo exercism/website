@@ -57,7 +57,7 @@ export const SearchableList = ({
     isFetching,
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    cacheKey,
+    [cacheKey, request.endpoint, request.query],
     request,
     isMountedRef
   )

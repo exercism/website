@@ -6,13 +6,24 @@ module ReactComponents
       def to_s
         super("student-solution-summary", {
           solution_id: iteration.solution.uuid,
-          iteration: SerializeIteration.(iteration),
+          request: request,
           is_practice_exercise: iteration.exercise.practice_exercise?,
           links: links
         })
       end
 
       private
+      def request
+        {
+          endpoint: Exercism::Routes.temp_solution_url(iteration.solution.uuid),
+          options: {
+            initialData: {
+              latest_iteration: SerializeIteration.(iteration)
+            }
+          }
+        }
+      end
+
       def links
         {
           tests_passed_locally_article: "#",

@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { Iteration } from '../types'
+import React, { useEffect } from 'react'
 import { Header } from './solution-summary/Header'
 import { IterationLink } from './solution-summary/IterationLink'
 import { CommunitySolutions } from './solution-summary/CommunitySolutions'
 import { Mentoring } from './solution-summary/Mentoring'
-import { ProminentLink } from '../common'
+import { Loading, ProminentLink } from '../common'
 import { SolutionChannel } from '../../channels/solutionChannel'
+import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { useIsMounted } from 'use-is-mounted'
+import { queryCache } from 'react-query'
+import { Iteration } from '../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -14,40 +17,57 @@ export type SolutionSummaryLinks = {
   learnMoreAboutMentoringArticle: string
 }
 
+export type SolutionSummaryRequest = {
+  endpoint: string
+  options: {
+    initialData: {
+      latestIteration: Iteration
+    }
+  }
+}
+
 export const SolutionSummary = ({
   solutionId,
-  iteration: initialIteration,
+  request,
   isPracticeExercise,
   links,
 }: {
   solutionId: string
-  iteration: Iteration
+  request: SolutionSummaryRequest
   isPracticeExercise: boolean
   links: SolutionSummaryLinks
 }): JSX.Element => {
-  const [iteration, setIteration] = useState(initialIteration)
+  const isMountedRef = useIsMounted()
+  const CACHE_KEY = `solution-${solutionId}-summary`
+  const { resolvedData } = usePaginatedRequestQuery<{
+    latestIteration: Iteration
+  }>(CACHE_KEY, request, isMountedRef)
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
       { id: solutionId },
       (response) => {
-        setIteration(response.latestIteration)
+        queryCache.setQueryData(CACHE_KEY, response)
       }
     )
 
     return () => {
       solutionChannel.disconnect()
     }
-  }, [iteration, setIteration, solutionId])
+  }, [CACHE_KEY, solutionId])
+
+  if (!resolvedData) {
+    return <Loading />
+  }
 
   return (
     <section className="latest-iteration">
       <Header
-        iteration={iteration}
+        iteration={resolvedData.latestIteration}
         isPracticeExercise={isPracticeExercise}
         links={links}
       />
-      <IterationLink iteration={iteration} />
+      <IterationLink iteration={resolvedData.latestIteration} />
       <ProminentLink
         link={links.allIterations}
         text="See all of your iterations"

@@ -18,7 +18,11 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     latestData,
     isFetching,
     refetch,
-  } = usePaginatedRequestQuery('mentor-discussion-list', request, isMountedRef)
+  } = usePaginatedRequestQuery(
+    ['mentor-discussion-list', request.endpoint, request.query],
+    request,
+    isMountedRef
+  )
 
   const setTrack = (track) => {
     setQuery({ track: track, page: 1 })

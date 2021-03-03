@@ -107,7 +107,10 @@ import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMen
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
-import { SolutionSummaryLinks } from '../components/student/SolutionSummary'
+import {
+  SolutionSummaryLinks,
+  SolutionSummaryRequest,
+} from '../components/student/SolutionSummary'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
@@ -207,7 +210,7 @@ initReact({
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
       solutionId={data.solution_id}
-      iteration={camelizeKeysAs<Iteration>(data.iteration)}
+      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       isPracticeExercise={data.is_practice_exercise}
     />

@@ -408,4 +408,27 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     assert_empty reviewer.reputation_tokens
   end
+
+  test "pull request authors are not awarded reputation for reviewing their own pull request" do
+    action = 'closed'
+    login = 'user22'
+    repo = 'exercism/v3'
+    pr_id = 1347
+    merged = true
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    user = create :user, handle: "User22", github_username: "user22"
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
+      to_return(status: 200, body: [
+        { user: { login: 'user22' } }
+      ].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    User::ReputationToken::AwardForPullRequest.(action, login,
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+
+    refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
+  end
 end

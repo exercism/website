@@ -236,7 +236,7 @@ initReact({
     )
   },
   'track-iteration-summary': (data: any) => (
-    <Track.IterationSummary
+    <Track.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       className={data.class_name}
     />

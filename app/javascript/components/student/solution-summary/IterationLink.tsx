@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
-import { IterationSummary } from '../../track'
+import { IterationSummary } from '../../track/IterationSummary'
 import { Iteration } from '../../types'
 
 export const IterationLink = ({

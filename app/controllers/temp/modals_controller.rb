@@ -45,5 +45,10 @@ module Temp
 
       @tokens = User::ReputationToken::Search.(current_user).map(&:rendering_data)
     end
+
+    def mentoring_dropdown
+      @active_mentoring_discussion = false
+      @discussions = Solution::MentorDiscussion.limit(2)
+    end
   end
 end

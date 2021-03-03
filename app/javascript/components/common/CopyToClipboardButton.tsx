@@ -10,10 +10,6 @@ const KEY_NAMES_LEGACY = Object.freeze({
 })
 
 export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
-  if (window.navigator.clipboard === undefined) {
-    return null
-  }
-
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [justCopied, setJustCopied] = useState(false)
 

@@ -32,9 +32,9 @@ module API
     end
 
     def sideload?(item)
-      return false unless params[:sideloads]
+      return false unless params[:sideload]
 
-      params[:sideloads].include?(item.to_s)
+      params[:sideload].include?(item.to_s)
     end
 
     def render_400(type, data = {})

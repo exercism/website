@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Iteration } from '../types'
 import { Header } from './solution-summary/Header'
 import { IterationLink } from './solution-summary/IterationLink'
 import { CommunitySolutions } from './solution-summary/CommunitySolutions'
 import { Mentoring } from './solution-summary/Mentoring'
 import { ProminentLink } from '../common'
+import { SolutionChannel } from '../../channels/solutionChannel'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -14,14 +15,31 @@ export type SolutionSummaryLinks = {
 }
 
 export const SolutionSummary = ({
-  iteration,
+  solutionId,
+  iteration: initialIteration,
   isPracticeExercise,
   links,
 }: {
+  solutionId: string
   iteration: Iteration
   isPracticeExercise: boolean
   links: SolutionSummaryLinks
 }): JSX.Element => {
+  const [iteration, setIteration] = useState(initialIteration)
+
+  useEffect(() => {
+    const solutionChannel = new SolutionChannel(
+      { id: solutionId },
+      (response) => {
+        setIteration(response.latestIteration)
+      }
+    )
+
+    return () => {
+      solutionChannel.disconnect()
+    }
+  }, [iteration, setIteration, solutionId])
+
   return (
     <section className="latest-iteration">
       <Header

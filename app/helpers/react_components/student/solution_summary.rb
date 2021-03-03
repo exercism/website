@@ -5,6 +5,7 @@ module ReactComponents
 
       def to_s
         super("student-solution-summary", {
+          solution_id: iteration.solution.uuid,
           iteration: SerializeIteration.(iteration),
           is_practice_exercise: iteration.exercise.practice_exercise?,
           links: links

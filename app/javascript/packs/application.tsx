@@ -206,6 +206,7 @@ initReact({
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
+      solutionId={data.solution_id}
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       isPracticeExercise={data.is_practice_exercise}

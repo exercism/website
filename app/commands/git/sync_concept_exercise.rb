@@ -21,8 +21,8 @@ module Git
         prerequisites: find_concepts(exercise_config[:prerequisites])
       )
 
-      update_authors!
-      update_contributors!
+      SyncAuthors.(exercise)
+      SyncContributors.(exercise)
     end
 
     private

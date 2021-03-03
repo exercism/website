@@ -39,6 +39,9 @@ class User
 
         reviewers = ::User.where(handle: reviewer_usernames)
         reviewers.find_each do |reviewer|
+          # Don't award reputation for reviews by the PR author
+          next if reviewer.github_username == github_username
+
           User::ReputationToken::Create.(
             reviewer,
             :code_review,

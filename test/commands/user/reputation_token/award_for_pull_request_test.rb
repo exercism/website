@@ -10,7 +10,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -31,7 +31,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
     create :user_code_contribution_reputation_token, user: user
 
     RestClient.unstub(:get)
@@ -73,7 +73,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -94,7 +94,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -115,7 +115,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/regular']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -136,7 +136,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -157,7 +157,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/major']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -178,7 +178,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor', 'reputation/contributed_code/major']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -199,7 +199,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
@@ -220,7 +220,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token,
       user: user,
       level: :regular,
@@ -252,7 +252,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/major']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token, user: user, level: :minor,
                                                                         params: { repo: repo, pr_id: pr_id }
 
@@ -272,7 +272,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token, user: user, level: :minor,
                                                                         params: { repo: repo, pr_id: pr_id }
 
@@ -292,7 +292,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/major']
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
@@ -309,7 +309,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
@@ -326,14 +326,14 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    reviewer_1 = create :user, handle: "Reviewer71", github_username: "Reviewer71"
-    reviewer_2 = create :user, handle: "Reviewer13", github_username: "Reviewer13"
+    reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
       to_return(status: 200, body: [
-        { user: { login: "Reviewer71" } },
-        { user: { login: "Reviewer13" } }
+        { user: { login: "reviewer71" } },
+        { user: { login: "reviewer13" } }
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
@@ -355,14 +355,14 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    reviewer_1 = create :user, handle: "Reviewer71", github_username: "Reviewer71"
-    reviewer_2 = create :user, handle: "Reviewer13", github_username: "Reviewer13"
+    reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
       to_return(status: 200, body: [
-        { user: { login: "Reviewer71" } },
-        { user: { login: "Reviewer13" } }
+        { user: { login: "reviewer71" } },
+        { user: { login: "reviewer13" } }
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
@@ -384,7 +384,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    reviewer = create :user, handle: "Reviewer71", github_username: "Reviewer71"
+    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
@@ -401,7 +401,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    reviewer = create :user, handle: "Reviewer71", github_username: "Reviewer71"
+    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
@@ -418,7 +418,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
-    user = create :user, handle: "User22", github_username: "user22"
+    user = create :user, handle: "User-22", github_username: "user22"
 
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").

@@ -37,7 +37,7 @@ class User
         reviews = octokit_client.pull_request_reviews(repo, pr_id)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
 
-        reviewers = ::User.where(handle: reviewer_usernames)
+        reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|
           # Don't award reputation for reviews by the PR author
           next if reviewer.github_username == github_username

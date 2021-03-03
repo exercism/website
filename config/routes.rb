@@ -25,7 +25,19 @@ Rails.application.routes.draw do
   # API #
   # ### #
   namespace :api do
-    scope :v1 do # rubocop:disable Naming/VariableNumber
+    namespace :v1 do # rubocop:disable Naming/VariableNumber
+      get "ping" => "ping#index"
+      get "validate_token" => "validate_token#index"
+
+      resources :solutions, only: %i[show update] do
+        get :latest, on: :collection
+        get 'files/*filepath', to: 'files#show', format: false, as: "file"
+      end
+
+      resources :tracks, only: [:show]
+    end
+
+    scope :v2 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
@@ -49,10 +61,6 @@ Rails.application.routes.draw do
       end
 
       resources :solutions, only: %i[index show update] do
-        # CLI Methods
-        get :latest, on: :collection
-        get 'files/*filepath', to: 'files#show', format: false, as: "file"
-
         # Normal Methods
         member do
           patch :complete

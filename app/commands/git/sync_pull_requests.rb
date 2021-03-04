@@ -22,22 +22,28 @@ module Git
     end
 
     def fetch!
-      # TODO: support rate limiting
       after_cursor = nil
       @pull_requests = []
 
       loop do
-        response = fetch_for_cursor(after_cursor)
-        @pull_requests += pull_requests_from_response(response)
+        page_data = fetch_page(after_cursor)
+        @pull_requests += pull_requests_from_response(page_data)
 
-        page_info = response[:data][:repository][:pullRequests][:pageInfo]
+        page_info = page_data[:data][:repository][:pullRequests][:pageInfo]
+        after_cursor = page_info[:endCursor]
         break unless page_info[:hasNextPage]
 
-        after_cursor = page_info[:endCursor]
+        # If the rate limit was exceeded, sleep until it resets
+        rate_limit = page_data[:data][:rateLimit]
+        next unless rate_limit[:remaining] <= 0
+
+        reset_at = Time.zone.parse(rate_limit[:resetAt])
+        seconds_until_reset = reset_at - Time.zone.now
+        sleep(seconds_until_reset.ceil)
       end
     end
 
-    def fetch_for_cursor(after_cursor)
+    def fetch_page(after_cursor)
       after_cursor_argument = after_cursor.nil? ? '' : ", after: \"#{after_cursor}\""
 
       query = "{

@@ -130,6 +130,11 @@ import {
   StudentMentorRelationship,
   MentoringRequest,
 } from '../components/mentoring/Session'
+import {
+  Track as IterationPageTrack,
+  Exercise as IterationPageExercise,
+  Links as IterationPageLinks,
+} from '../components/student/IterationPage'
 import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -213,6 +218,14 @@ initReact({
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       isPracticeExercise={data.is_practice_exercise}
+    />
+  ),
+  'student-iteration-report': (data: any) => (
+    <Student.IterationPage
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      exercise={camelizeKeysAs<IterationReportExercise>(data.exercise)}
+      track={camelizeKeysAs<IterationReportTrack>(data.track)}
+      links={camelizeKeysAs<IterationReportLinks>(data.links)}
     />
   ),
   'student-mentoring-session': (data: any) => (

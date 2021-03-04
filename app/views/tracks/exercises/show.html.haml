@@ -9,7 +9,7 @@
           .text You've completed #{@exercise.title}.
           = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(@track))
 
-      = ReactComponents::Student::SolutionSummary.new(@solution)
+      = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
       - if @exercise.concept_exercise?
         = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration

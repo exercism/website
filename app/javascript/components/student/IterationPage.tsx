@@ -75,7 +75,7 @@ export const IterationPage = ({
   }
 
   return (
-    <div className="lg-container.container">
+    <div className="lg-container container">
       <section className="iterations">
         {resolvedData.iterations.map((iteration, i) => {
           return (

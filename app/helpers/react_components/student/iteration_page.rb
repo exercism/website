@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super(
-          "student-iteration-report",
+          "student-iteration-page",
           {
             solution_id: solution.uuid,
             request: request,

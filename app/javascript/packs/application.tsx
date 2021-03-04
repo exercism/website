@@ -221,7 +221,7 @@ initReact({
       isPracticeExercise={data.is_practice_exercise}
     />
   ),
-  'student-iteration-report': (data: any) => (
+  'student-iteration-page': (data: any) => (
     <Student.IterationPage
       solutionId={data.solution_id}
       request={camelizeKeysAs<IterationPageRequest>(data.request)}

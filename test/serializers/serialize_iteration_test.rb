@@ -30,7 +30,8 @@ class SerializeIterationTest < ActiveSupport::TestCase
         representer_feedback: "foobar",
         analyzer_feedback: "barfoo",
         links: {
-          self: "https://test.exercism.io/tracks/ruby/exercises/bob/iterations?idx=0"
+          self: "https://test.exercism.io/tracks/ruby/exercises/bob/iterations?idx=0",
+          files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, submission.uuid)
         }
       }
 

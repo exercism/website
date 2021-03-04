@@ -29,7 +29,7 @@ export type SolutionSummaryRequest = {
   }
 }
 
-export type Solution = {
+export type SolutionSummarySolution = {
   id: string
   completedAt?: string
 }
@@ -40,7 +40,7 @@ export const SolutionSummary = ({
   isPracticeExercise,
   links,
 }: {
-  solution: Solution
+  solution: SolutionSummarySolution
   request: SolutionSummaryRequest
   isPracticeExercise: boolean
   links: SolutionSummaryLinks

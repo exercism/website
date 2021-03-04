@@ -120,6 +120,18 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+<<<<<<< HEAD
+=======
+  create_table "github_pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "github_id", null: false
+    t.string "github_username", null: false
+    t.json "github_event", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_id"], name: "index_github_pull_requests_on_github_id", unique: true
+  end
+
+>>>>>>> Import pull requests
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "submission_id", null: false

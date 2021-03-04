@@ -34,6 +34,7 @@ class User
       def award_reputation_to_reviewers
         return unless just_closed?
 
+        # TODO: support retrieving reviewers from params
         reviews = octokit_client.pull_request_reviews(repo, pr_id)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
 

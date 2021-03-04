@@ -21,7 +21,7 @@ export const IterationReport = ({
 }): JSX.Element => {
   return (
     <details open={isOpen} className="iteration c-details">
-      <summary className="header">
+      <summary className="header" role="button">
         <IterationSummary iteration={iteration} />
         <div className="opener">
           <div className="--closed-icon">

@@ -7,6 +7,26 @@ import {
   Exercise,
 } from '../Session'
 import { MentorSolution } from './MentorSolution'
+import { GraphicalIcon } from '../../common'
+
+const AccordionHeader = ({
+  isOpen,
+  title,
+}: {
+  isOpen: boolean
+  title: string
+}) => {
+  return (
+    <Accordion.Header>
+      {isOpen ? (
+        <GraphicalIcon icon="minus-circle" />
+      ) : (
+        <GraphicalIcon icon="plus-circle" />
+      )}
+      <div className="--title">{title}</div>
+    </Accordion.Header>
+  )
+}
 
 export const Guidance = ({
   notes,
@@ -65,7 +85,7 @@ export const Guidance = ({
   return (
     <>
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
-        <Accordion.Header>Mentor notes</Accordion.Header>
+        <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
         <Accordion.Panel>
           <MentorNotes notes={notes} />
         </Accordion.Panel>
@@ -76,7 +96,10 @@ export const Guidance = ({
           isOpen={isOpen('solution')}
           onClick={handleClick}
         >
-          <Accordion.Header>How you solved the exercise</Accordion.Header>
+          <AccordionHeader
+            isOpen={isOpen('solution')}
+            title="How you solved the exercise"
+          />
           <Accordion.Panel>
             <MentorSolution
               solution={mentorSolution}
@@ -91,7 +114,10 @@ export const Guidance = ({
         isOpen={isOpen('feedback')}
         onClick={handleClick}
       >
-        <Accordion.Header>Automated feedback</Accordion.Header>
+        <AccordionHeader
+          isOpen={isOpen('feedback')}
+          title="Automated feedback"
+        />
         <Accordion.Panel>
           <p>Feedback here</p>
         </Accordion.Panel>

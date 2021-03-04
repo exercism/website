@@ -114,6 +114,7 @@ import * as Student from '../components/student'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
+  SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
@@ -219,7 +220,7 @@ initReact({
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
-      solutionId={data.solution_id}
+      solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       isPracticeExercise={data.is_practice_exercise}

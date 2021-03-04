@@ -29,26 +29,31 @@ export type SolutionSummaryRequest = {
   }
 }
 
+export type Solution = {
+  id: string
+  completedAt?: string
+}
+
 export const SolutionSummary = ({
-  solutionId,
+  solution,
   request,
   isPracticeExercise,
   links,
 }: {
-  solutionId: string
+  solution: Solution
   request: SolutionSummaryRequest
   isPracticeExercise: boolean
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const CACHE_KEY = `solution-${solutionId}-summary`
+  const CACHE_KEY = `solution-${solution.id}-summary`
   const { resolvedData, status } = usePaginatedRequestQuery<{
     latestIteration: Iteration
   }>(CACHE_KEY, request, isMountedRef)
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
-      { id: solutionId },
+      { id: solution.id },
       (response) => {
         queryCache.setQueryData(CACHE_KEY, response)
       }
@@ -57,7 +62,7 @@ export const SolutionSummary = ({
     return () => {
       solutionChannel.disconnect()
     }
-  }, [CACHE_KEY, solutionId])
+  }, [CACHE_KEY, solution])
 
   if (status === 'loading') {
     return <Loading />
@@ -69,11 +74,13 @@ export const SolutionSummary = ({
 
   return (
     <React.Fragment>
-      <Nudge
-        iteration={resolvedData.latestIteration}
-        isPracticeExercise={isPracticeExercise}
-        links={links}
-      />
+      {solution.completedAt ? null : (
+        <Nudge
+          iteration={resolvedData.latestIteration}
+          isPracticeExercise={isPracticeExercise}
+          links={links}
+        />
+      )}
       <section className="latest-iteration">
         <Header
           iteration={resolvedData.latestIteration}

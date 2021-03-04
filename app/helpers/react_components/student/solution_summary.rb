@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super("student-solution-summary", {
-          solution_id: solution.uuid,
+          solution: SerializeSolutionForStudent.(solution),
           request: request,
           is_practice_exercise: solution.exercise.practice_exercise?,
           links: links

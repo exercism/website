@@ -1,4 +1,3 @@
 #page-iterations-index
   = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :iterations)
-  = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
   = ReactComponents::Student::IterationPage.new(@solution)

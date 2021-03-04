@@ -75,19 +75,25 @@ export const IterationPage = ({
   }
 
   return (
-    <div className="lg-container.container">
+    <div className="lg-container container">
       <section className="iterations">
-        {resolvedData.iterations.map((iteration, i) => {
-          return (
-            <IterationReport
-              key={i}
-              iteration={iteration}
-              exercise={exercise}
-              track={track}
-              links={links}
-            />
-          )
-        })}
+        {resolvedData.iterations
+          .slice()
+          .sort((it1: Iteration, it2: Iteration) => {
+            return it2.idx > it1.idx ? 1 : -1
+          })
+          .map((iteration, i) => {
+            return (
+              <IterationReport
+                key={i}
+                iteration={iteration}
+                exercise={exercise}
+                track={track}
+                links={links}
+                isOpen={i == 0}
+              />
+            )
+          })}
       </section>
     </div>
   )

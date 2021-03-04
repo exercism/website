@@ -2,17 +2,39 @@ module Git
   class SyncPullRequests
     include Mandate
 
-    initialize_with :track
-
     def call
-      fetch!
-      import!
+      repos.each do |repo|
+        @repo = repo
+        begin
+          sync!
+        rescue StandardError => e
+          Rails.logger.error "Error syncing pull requests for #{repo}: #{e}"
+        end
+      end
     end
 
     private
-    attr_reader :pull_requests
+    attr_reader :repo, :pull_requests, :cursor
 
-    def import!
+    def repos
+      page = 1
+      fetched = []
+
+      loop do
+        response = octokit_client.search_repositories("org:exercism is:public", page: page, per_page: 100)
+        fetched += response[:items].map { |item| item[:full_name] }
+        page += 1
+
+        break fetched if fetched.size >= response[:total_count]
+      end
+    end
+
+    def sync!
+      fetch!
+      create!
+    end
+
+    def create!
       pull_requests.each do |pr|
         ::GithubPullRequest.create_or_find_by!(github_id: pr[:pull_request][:id]) do |p|
           p.github_username = pr[:pull_request][:user][:login]
@@ -23,15 +45,15 @@ module Git
     end
 
     def fetch!
-      after_cursor = nil
+      @cursor = nil
       @pull_requests = []
 
       loop do
-        page_data = fetch_page(after_cursor)
+        page_data = fetch_page!
         @pull_requests += pull_requests_from_response(page_data)
 
         page_info = page_data[:data][:repository][:pullRequests][:pageInfo]
-        after_cursor = page_info[:endCursor]
+        @cursor = page_info[:endCursor]
         break unless page_info[:hasNextPage]
 
         # If the rate limit was exceeded, sleep until it resets
@@ -44,13 +66,13 @@ module Git
       end
     end
 
-    def fetch_page(after_cursor)
-      after_cursor_argument = after_cursor.nil? ? '' : ", after: \"#{after_cursor}\""
+    def fetch_page!
+      after_argument = cursor.nil? ? '' : ", after: \"#{cursor}\""
 
       query = "{
-        repository(owner: \"exercism\", name: \"#{track.slug}\") {
+        repository(owner: \"#{repo_owner}\", name: \"#{repo_name}\") {
           nameWithOwner
-          pullRequests(first: 100, states:[CLOSED, MERGED]#{after_cursor_argument}) {
+          pullRequests(first: 100, states:[CLOSED, MERGED] #{after_argument}) {
             nodes {
               url
               databaseId
@@ -117,6 +139,16 @@ module Git
           }
         }
       end.compact
+    end
+
+    memoize
+    def repo_owner
+      repo.split('/')[0]
+    end
+
+    memoize
+    def repo_name
+      repo.split('/')[1]
     end
 
     memoize

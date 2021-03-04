@@ -2,7 +2,7 @@
   = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :iterations)
 
   - if @iterations.present?
-    = render "tracks/iterations/index/iterations", iterations: @iterations, track: @track, exercise: @exercise
+    = render "tracks/iterations/index/iterations", solution: @solution
   - else
     .md-container.container
       %section.zero-state

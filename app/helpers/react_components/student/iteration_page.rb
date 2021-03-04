@@ -1,13 +1,14 @@
 module ReactComponents
   module Student
     class IterationPage < ReactComponent
-      initialize_with :iterations, :track, :exercise
+      initialize_with :solution
 
       def to_s
         super(
           "student-iteration-report",
           {
-            iterations: iterations.map { |iteration| SerializeIteration.(iteration) },
+            solution_id: solution.uuid,
+            request: request,
             exercise: {
               title: exercise.title
             },
@@ -22,6 +23,23 @@ module ReactComponents
             }
           }
         )
+      end
+
+      private
+      delegate :exercise, :track, to: :solution
+
+      def request
+        {
+          endpoint: Exercism::Routes.temp_solution_url(solution.uuid),
+          options: {
+            initialData: {
+              iterations: solution.
+                iterations.
+                order(id: :desc).
+                map { |iteration| SerializeIteration.(iteration) }
+            }
+          }
+        }
       end
     end
   end

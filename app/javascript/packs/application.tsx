@@ -134,6 +134,7 @@ import {
   Track as IterationPageTrack,
   Exercise as IterationPageExercise,
   Links as IterationPageLinks,
+  IterationPageRequest,
 } from '../components/student/IterationPage'
 import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
@@ -222,10 +223,11 @@ initReact({
   ),
   'student-iteration-report': (data: any) => (
     <Student.IterationPage
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      exercise={camelizeKeysAs<IterationReportExercise>(data.exercise)}
-      track={camelizeKeysAs<IterationReportTrack>(data.track)}
-      links={camelizeKeysAs<IterationReportLinks>(data.links)}
+      solutionId={data.solution_id}
+      request={camelizeKeysAs<IterationPageRequest>(data.request)}
+      exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
+      track={camelizeKeysAs<IterationPageTrack>(data.track)}
+      links={camelizeKeysAs<IterationPageLinks>(data.links)}
     />
   ),
   'student-mentoring-session': (data: any) => (

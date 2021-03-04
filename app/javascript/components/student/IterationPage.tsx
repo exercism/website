@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iteration-page/IterationReport'
+import { useIsMounted } from 'use-is-mounted'
+import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { SolutionChannel } from '../../channels/solutionChannel'
+import { queryCache } from 'react-query'
 
 export type Exercise = {
   title: string
@@ -17,20 +22,54 @@ export type Links = {
   automatedFeedbackInfo: string
 }
 
+export type IterationPageRequest = {
+  endpoint: string
+  options: {
+    initialData: {
+      iterations: readonly Iteration[]
+    }
+  }
+}
+
 export const IterationPage = ({
-  iterations,
+  solutionId,
+  request,
   exercise,
   track,
   links,
 }: {
-  iterations: readonly Iteration[]
+  solutionId: string
+  request: IterationPageRequest
   exercise: Exercise
   track: Track
   links: Links
 }): JSX.Element => {
+  const isMountedRef = useIsMounted()
+  const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
+  const { resolvedData } = usePaginatedRequestQuery<{
+    iterations: readonly Iteration[]
+  }>(CACHE_KEY, request, isMountedRef)
+
+  useEffect(() => {
+    const solutionChannel = new SolutionChannel(
+      { id: solutionId },
+      (response) => {
+        queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
+      }
+    )
+
+    return () => {
+      solutionChannel.disconnect()
+    }
+  }, [CACHE_KEY, solutionId])
+
+  if (!resolvedData) {
+    return <Loading />
+  }
+
   return (
     <section className="iterations">
-      {iterations.map((iteration, i) => {
+      {resolvedData.iterations.map((iteration, i) => {
         return (
           <IterationReport
             key={i}

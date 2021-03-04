@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iteration-page/IterationReport'
+import { EmptyIterations } from './iteration-page/EmptyIterations'
 import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
@@ -20,6 +21,8 @@ export type Track = {
 export type Links = {
   getMentoring: string
   automatedFeedbackInfo: string
+  startExercise: string
+  solvingExercisesLocally: string
 }
 
 export type IterationPageRequest = {
@@ -67,19 +70,25 @@ export const IterationPage = ({
     return <Loading />
   }
 
+  if (resolvedData.iterations.length === 0) {
+    return <EmptyIterations links={links} />
+  }
+
   return (
-    <section className="iterations">
-      {resolvedData.iterations.map((iteration, i) => {
-        return (
-          <IterationReport
-            key={i}
-            iteration={iteration}
-            exercise={exercise}
-            track={track}
-            links={links}
-          />
-        )
-      })}
-    </section>
+    <div className="lg-container.container">
+      <section className="iterations">
+        {resolvedData.iterations.map((iteration, i) => {
+          return (
+            <IterationReport
+              key={i}
+              iteration={iteration}
+              exercise={exercise}
+              track={track}
+              links={links}
+            />
+          )
+        })}
+      </section>
+    </div>
   )
 }

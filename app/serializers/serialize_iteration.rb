@@ -4,6 +4,8 @@ class SerializeIteration
   initialize_with :iteration
 
   def call
+    return if iteration.blank?
+
     {
       uuid: iteration.uuid,
       submission_uuid: iteration.submission.uuid,

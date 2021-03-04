@@ -27,6 +27,37 @@ module Flows
       assert_text "Failed"
     end
 
+    test "user sees zero state" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      create :concept_solution, exercise: exercise, user: user
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
+
+        assert_text "You haven’t submitted any iterations yet."
+      end
+    end
+
+    test "user starts exercise in zero state" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      create :concept_solution, exercise: exercise, user: user
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
+        click_on "Start in Editor"
+
+        assert_text "Introduction"
+      end
+    end
+
     test "user views iteration files" do
       user = create :user
       track = create :track
@@ -93,6 +124,7 @@ module Flows
                                        analysis_status: :completed
       create :exercise_representation,
         exercise: exercise,
+        source_submission: submission,
         feedback_author: author,
         feedback_markdown: "Good job",
         feedback_type: :essential,
@@ -104,7 +136,7 @@ module Flows
       create :submission_file, submission: submission
 
       sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      visit track_exercise_iterations_path(track, exercise)
 
       assert_text "Feedback author gave this feedback on a solution very similar to yours"
       assert_text "Good job"

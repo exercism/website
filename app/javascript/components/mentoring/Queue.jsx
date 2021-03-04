@@ -44,7 +44,11 @@ export function Queue({ sortOptions, tracks, ...props }) {
     isFetching,
     resolvedData,
     latestData,
-  } = usePaginatedRequestQuery('mentor-solutions-list', request, isMountedRef)
+  } = usePaginatedRequestQuery(
+    ['mentor-solutions-list', request.endpoint, request.query],
+    request,
+    isMountedRef
+  )
 
   return (
     <div className="queue-section-content">

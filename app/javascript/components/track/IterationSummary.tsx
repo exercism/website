@@ -11,12 +11,16 @@ const SUBMISSION_METHOD_LABELS = {
   api: 'API',
 }
 
-export function IterationSummary(props: {
+type IterationSummaryProps = {
   iteration: Iteration
   className?: string
-}): JSX.Element {
-  const [iteration, setIteration] = useState(props.iteration)
-  const [className, setClassName] = useState(props.className)
+}
+
+export const IterationSummaryWithWebsockets = ({
+  iteration: initialIteration,
+  ...props
+}: IterationSummaryProps): JSX.Element => {
+  const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
@@ -34,6 +38,13 @@ export function IterationSummary(props: {
     }
   }, [channel, iteration, setIteration])
 
+  return <IterationSummary iteration={iteration} {...props} />
+}
+
+export function IterationSummary({
+  iteration,
+  className,
+}: IterationSummaryProps): JSX.Element {
   return (
     <div className={`c-iteration-summary ${className}`}>
       <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />

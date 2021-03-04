@@ -36,7 +36,11 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
     latestData,
     isError,
     isFetching,
-  } = usePaginatedRequestQuery('track-list', request, isMountedRef)
+  } = usePaginatedRequestQuery(
+    ['track-list', request.endpoint, request.query],
+    request,
+    isMountedRef
+  )
 
   return (
     <div className="c-tracks-list">

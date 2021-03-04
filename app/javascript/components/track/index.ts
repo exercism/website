@@ -1,1 +1,1 @@
-export { IterationSummary } from './IterationSummary'
+export { IterationSummaryWithWebsockets } from './IterationSummary'

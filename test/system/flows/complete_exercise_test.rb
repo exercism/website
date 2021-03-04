@@ -88,6 +88,7 @@ module Flows
 
       click_on "Continue"
       assert_text "You've completed Strings."
+      assert_no_css("section.completion-nudge")
     end
   end
 end

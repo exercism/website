@@ -2,6 +2,7 @@ import {
   PaginatedQueryConfig,
   PaginatedQueryResult,
   QueryConfig,
+  QueryKey,
   QueryResult,
   usePaginatedQuery,
   useQuery,
@@ -41,12 +42,12 @@ function handleFetch(
 }
 
 export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
-  key: string,
+  key: QueryKey,
   request: PaginatedRequest,
   isMountedRef: React.MutableRefObject<boolean>
 ): PaginatedQueryResult<TResult, TError> {
   return usePaginatedQuery<TResult, TError>(
-    [key, request.endpoint, request.query],
+    key,
     () => {
       return handleFetch(request, isMountedRef)
     },

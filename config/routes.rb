@@ -224,6 +224,7 @@ Rails.application.routes.draw do
 
   # TODO: Remove these before launching
   namespace :temp do
+    resources :solutions, only: [:show]
     resources :tracks, only: [:create]
     resources :modals, only: [] do
       collection do

@@ -516,6 +516,25 @@
         }
         & #panel-guidance {
             @apply py-16 px-24;
+
+            & .c-details {
+                @apply border-t-1 border-b-1 border-borderColor7;
+                @apply py-16;
+                & > summary {
+                    @apply flex items-center;
+                    & > .c-icon {
+                        height: 24px;
+                        width: 24px;
+                        @apply mr-24;
+                    }
+                    & > .--title {
+                        @apply text-16 font-semibold leading-paragraph;
+                    }
+                }
+                & > div {
+                    @apply pt-16;
+                }
+            }
         }
     }
 }

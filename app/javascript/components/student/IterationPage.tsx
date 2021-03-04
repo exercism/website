@@ -85,6 +85,7 @@ export const IterationPage = ({
               exercise={exercise}
               track={track}
               links={links}
+              isOpen={i == 0}
             />
           )
         })}

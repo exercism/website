@@ -4,54 +4,56 @@ import { Iteration } from '../../types'
 import { IterationFiles } from '../../mentoring/session/IterationFiles'
 import { Information } from './Information'
 import { Exercise, Track, Links } from '../IterationPage'
-import { Accordion } from '../../common/Accordion'
+import { Details } from '../../common/Details'
+import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const IterationReport = ({
   iteration,
   exercise,
   track,
   links,
+  isOpen,
 }: {
   iteration: Iteration
   exercise: Exercise
   track: Track
   links: Links
+  isOpen: boolean
 }): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(true)
-
   return (
-    <Accordion
-      id="notes"
+    <Details
+      className="iteration"
       isOpen={isOpen}
-      onClick={() => {
-        setIsOpen(!isOpen)
-      }}
+      label={`Details of ${iteration.idx}`}
     >
-      <div className="iteration">
-        <Accordion.Header label={`View iteration ${iteration.idx} details`}>
-          <div className="header">
-            <IterationSummary iteration={iteration} />
+      <Details.Summary className="header">
+        <IterationSummary iteration={iteration} />
+        <div className="opener">
+          <div className="--closed-icon">
+            <GraphicalIcon icon="chevron-right" />
           </div>
-        </Accordion.Header>
-        <Accordion.Panel>
-          <div className="content">
-            <div className="files">
-              <IterationFiles
-                endpoint={iteration.links.files}
-                language={track.highlightJsLanguage}
-              />
-            </div>
-            <div className="information">
-              <Information
-                iteration={iteration}
-                exercise={exercise}
-                track={track}
-                links={links}
-              />
-            </div>
+          <div className="--open-icon">
+            <GraphicalIcon icon="chevron-down" />
           </div>
-        </Accordion.Panel>
+        </div>
+      </Details.Summary>
+
+      <div className="content">
+        <div className="files">
+          <IterationFiles
+            endpoint={iteration.links.files}
+            language={track.highlightJsLanguage}
+          />
+        </div>
+        <div className="information">
+          <Information
+            iteration={iteration}
+            exercise={exercise}
+            track={track}
+            links={links}
+          />
+        </div>
       </div>
-    </Accordion>
+    </Details>
   )
 }

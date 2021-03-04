@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Accordion } from '../../common/Accordion'
+import { Details } from '../../common/Details'
 import { MentorNotes } from './MentorNotes'
 import {
   MentorSolution as MentorSolutionProps,
@@ -9,22 +9,19 @@ import {
 import { MentorSolution } from './MentorSolution'
 import { GraphicalIcon } from '../../common'
 
-const AccordionHeader = ({
-  isOpen,
+const Summary = ({
   title,
+  onClick,
 }: {
-  isOpen: boolean
   title: string
+  onClick: () => void
 }) => {
   return (
-    <Accordion.Header>
-      {isOpen ? (
-        <GraphicalIcon icon="minus-circle" />
-      ) : (
-        <GraphicalIcon icon="plus-circle" />
-      )}
+    <Details.Summary onClick={onClick}>
+      <GraphicalIcon icon="minus-circle" className="--closed-icon" />
+      <GraphicalIcon icon="plus-circle" className="--open-icon" />
       <div className="--title">{title}</div>
-    </Accordion.Header>
+    </Details.Summary>
   )
 }
 
@@ -56,15 +53,17 @@ export const Guidance = ({
 
   const handleClick = useCallback(
     (id: string) => {
-      setAccordionState(
-        accordionState.map((state) => {
-          const isOpen = id === state.id && !state.isOpen
-          return {
-            id: state.id,
-            isOpen: isOpen,
-          }
-        })
-      )
+      setTimeout(() => {
+        setAccordionState(
+          accordionState.map((state) => {
+            const isOpen = id === state.id && !state.isOpen
+            return {
+              id: state.id,
+              isOpen: isOpen,
+            }
+          })
+        )
+      }, 0)
     },
     [accordionState]
   )
@@ -84,44 +83,45 @@ export const Guidance = ({
 
   return (
     <>
-      <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
-        <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
-        <Accordion.Panel>
-          <MentorNotes notes={notes} />
-        </Accordion.Panel>
-      </Accordion>
-      {mentorSolution ? (
-        <Accordion
-          id="solution"
-          isOpen={isOpen('solution')}
-          onClick={handleClick}
-        >
-          <AccordionHeader
-            isOpen={isOpen('solution')}
-            title="How you solved the exercise"
-          />
-          <Accordion.Panel>
-            <MentorSolution
-              solution={mentorSolution}
-              track={track}
-              exercise={exercise}
-            />
-          </Accordion.Panel>
-        </Accordion>
-      ) : null}
-      <Accordion
-        id="feedback"
-        isOpen={isOpen('feedback')}
-        onClick={handleClick}
-      >
-        <AccordionHeader
-          isOpen={isOpen('feedback')}
-          title="Automated feedback"
+      <Details isOpen={isOpen('notes')} label="Collapsable mentor notes">
+        <Summary
+          title="Mentor notes"
+          onClick={() => {
+            handleClick('notes')
+          }}
         />
-        <Accordion.Panel>
-          <p>Feedback here</p>
-        </Accordion.Panel>
-      </Accordion>
+        <MentorNotes notes={notes} />
+      </Details>
+      {mentorSolution ? (
+        <Details
+          isOpen={isOpen('solution')}
+          label="Collapsable information on how you solved the exercise"
+        >
+          <Summary
+            title="How you solved the exercise"
+            onClick={() => {
+              handleClick('solution')
+            }}
+          />
+          <MentorSolution
+            solution={mentorSolution}
+            track={track}
+            exercise={exercise}
+          />
+        </Details>
+      ) : null}
+      <Details
+        isOpen={isOpen('feedback')}
+        label="Collapsable information on automated feedback"
+      >
+        <Summary
+          title="Automated feedback"
+          onClick={() => {
+            handleClick('feedback')
+          }}
+        />
+        <p>Feedback here</p>
+      </Details>
     </>
   )
 }

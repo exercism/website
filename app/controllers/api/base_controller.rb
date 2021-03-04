@@ -31,6 +31,12 @@ module API
       render_401 unless user_signed_in?
     end
 
+    def sideload?(item)
+      return false unless params[:sideload]
+
+      params[:sideload].include?(item.to_s)
+    end
+
     def render_400(type, data = {})
       render_error(400, type, data)
     end

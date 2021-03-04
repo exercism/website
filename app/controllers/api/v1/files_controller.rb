@@ -1,5 +1,5 @@
 module API
-  class FilesController < BaseController
+  class V1::FilesController < BaseController
     def show
       begin
         solution = Solution.find_by!(uuid: params[:solution_id])

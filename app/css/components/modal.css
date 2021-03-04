@@ -23,7 +23,7 @@
             @apply bg-backgroundColorA;
             @apply border-1 border-borderLight rounded-8;
             @apply shadow-lg;
-            @apply px-32 py-16;
+            @apply px-48 py-32;
 
             max-height: 80%;
             overflow-y: auto;

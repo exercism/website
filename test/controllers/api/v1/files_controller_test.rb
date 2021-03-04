@@ -1,11 +1,11 @@
-require_relative './base_test_case'
+require_relative '../base_test_case'
 
-class API::FilesControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_solution_file_path, args: 2
+class API::V1::FilesControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_v1_solution_file_path, args: 2
 
   test "show should return 404 when solution is missing" do
     setup_user
-    get api_solution_file_path(999, "foobar"), headers: @headers, as: :json
+    get api_v1_solution_file_path(999, "foobar"), headers: @headers, as: :json
     assert_response 404
     expected = { error: {
       type: "solution_not_found",
@@ -19,7 +19,7 @@ class API::FilesControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution, user: @current_user
 
-    get api_solution_file_path(solution.uuid, "missing.rb"), headers: @headers, as: :json
+    get api_v1_solution_file_path(solution.uuid, "missing.rb"), headers: @headers, as: :json
 
     assert_response 404
     expected = { error: {
@@ -34,7 +34,7 @@ class API::FilesControllerTest < API::BaseTestCase
     setup_user
     solution = create :practice_solution, user: @current_user
 
-    get api_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
+    get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
     assert_response :success
   end
 
@@ -91,7 +91,7 @@ class API::FilesControllerTest < API::BaseTestCase
   #   create :track_mentorship, user: @current_user, track: track
   #   solution = create :concept_solution, exercise: exercise
   #
-  #   get api_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
+  #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
   #   assert_response :success
   # end
 
@@ -102,7 +102,7 @@ class API::FilesControllerTest < API::BaseTestCase
   #   track = exercise.track
   #   solution = create :concept_solution, exercise: exercise, published_at: DateTime.yesterday
   #
-  #   get api_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
+  #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
   #   assert_response :success
   # end
 
@@ -113,7 +113,7 @@ class API::FilesControllerTest < API::BaseTestCase
   #   track = exercise.track
   #   solution = create :concept_solution, exercise: exercise
   #
-  #   get api_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
+  #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
   #   assert_response 403
   # end
 end

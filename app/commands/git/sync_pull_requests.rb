@@ -16,6 +16,7 @@ module Git
       pull_requests.each do |pr|
         ::GithubPullRequest.create_or_find_by!(github_id: pr[:pull_request][:id]) do |p|
           p.github_username = pr[:pull_request][:user][:login]
+          p.github_repo = pr[:repository][:full_name]
           p.github_event = pr
         end
       end

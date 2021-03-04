@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
 =======
   create_table "github_pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "github_id", null: false
+    t.string "github_repo", null: false
     t.string "github_username", null: false
     t.json "github_event", null: false
     t.datetime "created_at", precision: 6, null: false

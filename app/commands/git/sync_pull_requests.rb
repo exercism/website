@@ -90,6 +90,8 @@ module Git
       # We're transforming the GraphQL response to the format used by the REST API.
       # This allows us to work with pull requests using a single code path.
       response[:data][:repository][:pullRequests][:nodes].map do |pr|
+        next if pr[:author].nil? # In rare cases the PR author is null
+
         {
           action: 'closed',
           pull_request: {
@@ -103,13 +105,17 @@ module Git
             state: 'closed',
             number: pr[:number],
             merged: pr[:merged],
-            reviews: pr[:reviews][:nodes].map { |node| { user: { login: node[:author][:login] } } }
+            reviews: pr[:reviews][:nodes].map do |node|
+              next if node[:author].nil? # In rare cases the review author is null
+
+              { user: { login: node[:author][:login] } }
+            end
           },
           repository: {
             full_name: response[:data][:repository][:nameWithOwner]
           }
         }
-      end
+      end.compact
     end
 
     memoize

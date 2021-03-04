@@ -7,6 +7,7 @@ module Temp
 
       render json: {
         solution: SerializeSolutionForStudent.(solution),
+        iterations: solution.iterations.map { |iteration| SerializeIteration.(iteration) },
         latest_iteration: SerializeIteration.(solution.latest_iteration)
       }
     end

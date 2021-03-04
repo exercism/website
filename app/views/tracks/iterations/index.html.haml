@@ -1,22 +1,4 @@
 #page-iterations-index
   = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :iterations)
-
-  - if @iterations.present?
-    = render "tracks/iterations/index/iterations", iterations: @iterations
-  - else
-    .lg-container.container
-      %section.zero-state
-        %h2 You haven’t submitted any iterations yet.
-        %p You’ll get to see all your iterations with test results and automated feedback once you submit a solution.
-        .box
-          .editor
-            %h4 Via Exercism Editor
-            = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn-cta" do
-              = graphical_icon :editor
-              Start in Editor
-
-          .cli
-            %h4 Work locally (via CLI)
-            = ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
-
-        = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
+  = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
+  = ReactComponents::Student::IterationPage.new(@solution)

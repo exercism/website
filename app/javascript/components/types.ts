@@ -16,11 +16,34 @@ export type Iteration = {
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
   submissionMethod: SubmissionMethod
+  representerFeedback: RepresenterFeedback
+  analyzerFeedback: AnalyzerFeedback
   createdAt: Date
   testsStatus: SubmissionTestsStatus
   links: {
     self: string
+    files: string
   }
+}
+
+export type RepresenterFeedback = {
+  html: string
+  author: {
+    name: string
+    reputation: number
+    avatarUrl: string
+    profileUrl: string
+  }
+}
+
+export type AnalyzerFeedback = {
+  summary: string
+  comments: readonly AnalyzerFeedbackComment[]
+}
+
+export type AnalyzerFeedbackComment = {
+  type: 'essential' | 'actionable' | 'informative' | 'celebratory'
+  html: string
 }
 
 export enum SubmissionTestsStatus {

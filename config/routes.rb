@@ -236,6 +236,13 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
       end
     end
+    resources :tracks, only: [] do
+      resources :exercises, only: [], controller: "tracks/exercises" do
+        member do
+          patch :start
+        end
+      end
+    end
   end
 
   unless Rails.env.production?

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IterationStatus } from '../IterationSummary'
+import { IterationStatus } from '../../types'
 import { GraphicalIcon } from '../../common'
 
 function Content({ status }: { status: string }) {

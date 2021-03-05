@@ -1,73 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { SubmissionTestsStatus } from '../editor/types'
 import { fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { ProcessingStatusSummary } from './iteration-summary/ProcessingStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 import { IterationChannel } from '../../channels/iterationChannel'
-
-export type Iteration = {
-  uuid: string
-  idx: number
-  status: IterationStatus
-  numEssentialAutomatedComments: number
-  numActionableAutomatedComments: number
-  numNonActionableAutomatedComments: number
-  submissionMethod: SubmissionMethod
-  createdAt: Date
-  testsStatus: SubmissionTestsStatus
-  links: IterationLinks
-}
-
-type IterationLinks = {
-  self: string
-}
-
-export enum IterationStatus {
-  TESTING = 'testing',
-  TESTS_FAILED = 'tests_failed',
-  ANALYZING = 'analyzing',
-  ESSENTIAL_AUTOMATED_FEEDBACK = 'essential_automated_feedback',
-  ACTIONABLE_AUTOMATED_FEEDBACK = 'actionable_automated_feedback',
-  NON_ACTIONABLE_AUTOMATED_FEEDBACK = 'non_actionable_automated_feedback',
-  NO_AUTOMATED_FEEDBACK = 'no_automated_feedback',
-}
-
-export enum SubmissionMethod {
-  CLI = 'cli',
-  API = 'api',
-}
-
-export enum RepresentationStatus {
-  NOT_QUEUED = 'not_queued',
-  QUEUED = 'queued',
-  APPROVED = 'approved',
-  DISAPPROVED = 'disapproved',
-  INCONCLUSIVE = 'inconclusive',
-  EXCEPTIONED = 'exceptioned',
-  CANCELLED = 'cancelled',
-}
-
-export enum AnalysisStatus {
-  NOT_QUEUED = 'not_queued',
-  QUEUED = 'queued',
-  APPROVED = 'approved',
-  DISAPPROVED = 'disapproved',
-  INCONCLUSIVE = 'inconclusive',
-  EXCEPTIONED = 'exceptioned',
-  CANCELLED = 'cancelled',
-}
+import { Iteration } from '../types'
 
 const SUBMISSION_METHOD_LABELS = {
-  [SubmissionMethod.CLI]: 'CLI',
-  [SubmissionMethod.API]: 'API',
+  cli: 'CLI',
+  api: 'API',
 }
-export function IterationSummary(props: {
+
+type IterationSummaryProps = {
   iteration: Iteration
-  className: null
-}) {
-  const [iteration, setIteration] = useState(props.iteration)
-  const [className, setClassName] = useState(props.className)
+  className?: string
+}
+
+export const IterationSummaryWithWebsockets = ({
+  iteration: initialIteration,
+  ...props
+}: IterationSummaryProps): JSX.Element => {
+  const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
 
   useEffect(() => {
@@ -85,6 +38,13 @@ export function IterationSummary(props: {
     }
   }, [channel, iteration, setIteration])
 
+  return <IterationSummary iteration={iteration} {...props} />
+}
+
+export function IterationSummary({
+  iteration,
+  className,
+}: IterationSummaryProps): JSX.Element {
   return (
     <div className={`c-iteration-summary ${className}`}>
       <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />

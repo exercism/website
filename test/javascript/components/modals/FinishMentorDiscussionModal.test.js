@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -119,9 +119,11 @@ test('shows generic error', async () => {
     />
   )
   await expectConsoleError(async () => {
-    userEvent.click(
-      await screen.findByRole('button', { name: 'End discussion F3' })
-    )
+    await act(async () => {
+      userEvent.click(
+        await screen.findByRole('button', { name: 'End discussion F3' })
+      )
+    })
     expect(
       await screen.findByText('Unable to end discussion')
     ).toBeInTheDocument()

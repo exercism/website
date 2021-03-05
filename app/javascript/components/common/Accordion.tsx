@@ -1,5 +1,4 @@
 import React from 'react'
-import { GraphicalIcon } from './GraphicalIcon'
 
 export type AccordionContext = {
   id: string
@@ -32,8 +31,10 @@ export const Accordion = ({
 }
 
 const AccordionHeader = ({
+  label,
   children,
 }: {
+  label?: string
   children?: React.ReactNode
 }): JSX.Element => {
   const { isOpen, id, onClick } = React.useContext(Context)
@@ -44,14 +45,10 @@ const AccordionHeader = ({
       onClick={() => onClick(id)}
       aria-expanded={isOpen}
       aria-controls={`accordion-panel-${id}`}
+      aria-label={label}
       id={`accordion-header-${id}`}
     >
-      {isOpen ? (
-        <GraphicalIcon icon="minus-circle" />
-      ) : (
-        <GraphicalIcon icon="plus-circle" />
-      )}
-      <div className="--title">{children}</div>
+      {children}
     </button>
   )
 }

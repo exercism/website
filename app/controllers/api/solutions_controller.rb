@@ -28,10 +28,7 @@ module API
       output = {
         solution: SerializeSolutionForStudent.(solution)
       }
-      if sideload?(:latest_iteration)
-        iteration = solution.latest_iteration
-        output[:latest_iteration] = iteration ? SerializeIteration.(iteration) : nil
-      end
+      output[:iterations] = solution.iterations.map { |iteration| SerializeIteration.(iteration) } if sideload?(:iterations)
       render json: output
     end
 

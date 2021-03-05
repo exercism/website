@@ -146,8 +146,8 @@ public class Year
     files
   end
 
-  def broadcast_submissions!
-    SubmissionsChannel.broadcast!(self)
+  def broadcast!
+    SolutionChannel.broadcast!(self)
   end
 
   def anonymised_user_handle

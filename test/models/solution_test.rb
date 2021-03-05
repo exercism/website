@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class SolutionTest < ActiveSupport::TestCase
+  test "broadcast broadcasts self" do
+    solution = create :concept_solution
+
+    SolutionChannel.expects(:broadcast!).with(solution)
+
+    solution.broadcast!
+  end
+
   %i[concept_solution practice_solution].each do |solution_type|
     test "#{solution_type}: sets uuid" do
       solution = build solution_type, uuid: nil

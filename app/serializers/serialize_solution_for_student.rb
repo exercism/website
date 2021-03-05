@@ -16,6 +16,7 @@ class SerializeSolutionForStudent
       num_locs: "9 - 18", # TODO
       last_submitted_at: solution.submissions.last&.created_at&.iso8601,
       published_at: solution.published_at&.iso8601,
+      completed_at: solution.completed_at&.iso8601,
       exercise: {
         title: solution.exercise.title,
         icon_name: solution.exercise.icon_name

@@ -111,13 +111,18 @@ import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMen
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
+import {
+  SolutionSummaryLinks,
+  SolutionSummaryRequest,
+  SolutionSummarySolution,
+} from '../components/student/SolutionSummary'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { Iteration } from '../components/track/IterationSummary'
+import { Iteration } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Iteration as MentoringSessionIteration,
@@ -130,6 +135,12 @@ import {
   StudentMentorRelationship,
   MentoringRequest,
 } from '../components/mentoring/Session'
+import {
+  Track as IterationPageTrack,
+  Exercise as IterationPageExercise,
+  Links as IterationPageLinks,
+  IterationPageRequest,
+} from '../components/student/IterationPage'
 import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -207,6 +218,23 @@ initReact({
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
   ),
+  'student-solution-summary': (data: any) => (
+    <Student.SolutionSummary
+      solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
+      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
+      links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
+      isConceptExercise={data.is_concept_exercise}
+    />
+  ),
+  'student-iteration-page': (data: any) => (
+    <Student.IterationPage
+      solutionId={data.solution_id}
+      request={camelizeKeysAs<IterationPageRequest>(data.request)}
+      exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
+      track={camelizeKeysAs<IterationPageTrack>(data.track)}
+      links={camelizeKeysAs<IterationPageLinks>(data.links)}
+    />
+  ),
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
       id={data.id}
@@ -232,7 +260,7 @@ initReact({
     )
   },
   'track-iteration-summary': (data: any) => (
-    <Track.IterationSummary
+    <Track.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       className={data.class_name}
     />

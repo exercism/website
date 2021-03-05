@@ -32,6 +32,8 @@ module Git
 
         loop do
           page_data = fetch_page!
+
+          # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
           @pull_requests += pull_requests_from_response(page_data)
 
           page_info = page_data.dig(:data, :repository, :pullRequests, :pageInfo)
@@ -63,6 +65,7 @@ module Git
                 }
                 merged
                 number
+                title
                 author {
                   login
                 }

@@ -14,13 +14,22 @@ module Git
 
     def create!
       pull_requests.each do |pr|
-        ::Git::PullRequest.create!(
+        pull_request = ::Git::PullRequest.new(
           node_id: pr[:pr_id],
           number: pr[:pr_number],
           author: pr[:author],
           repo: pr[:repo],
           event: pr
         )
+
+        pull_request.reviews = pr[:reviews].map do |review|
+          pull_request.reviews.build(
+            node_id: review[:node_id],
+            reviewer: review[:user][:login]
+          )
+        end
+
+        pull_request.save!
       rescue ActiveRecord::RecordNotUnique
         nil
       end
@@ -71,6 +80,7 @@ module Git
               }
               reviews(first: 100) {
                 nodes {
+                  id
                   author {
                     login
                   }
@@ -114,7 +124,10 @@ module Git
           reviews: pr[:reviews][:nodes].map do |node|
             next if node[:author].nil? # In rare cases the review author is null
 
-            { user: { login: node[:author][:login] } }
+            {
+              node_id: node[:id],
+              user: { login: node[:author][:login] }
+            }
           end.compact
         }
       end.compact

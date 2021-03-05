@@ -41,7 +41,7 @@ class Iteration < ApplicationRecord
 
   def broadcast!
     IterationChannel.broadcast!(self)
-    SolutionChannel.broadcast!(solution)
+    solution.broadcast!
   end
 
   class Status

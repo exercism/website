@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IterationSummary } from '../../track/IterationSummary'
 import { Iteration } from '../../types'
 import { IterationFiles } from '../../mentoring/session/IterationFiles'
@@ -11,17 +11,37 @@ export const IterationReport = ({
   exercise,
   track,
   links,
-  isOpen,
+  defaultIsOpen,
+  onExpanded,
+  onCompressed,
 }: {
   iteration: Iteration
   exercise: Exercise
   track: Track
   links: Links
-  isOpen: boolean
+  defaultIsOpen: boolean
+  onExpanded: () => void
+  onCompressed: () => void
 }): JSX.Element => {
+  const [isOpen, setIsOpen] = useState(defaultIsOpen)
+
+  useEffect(() => {
+    if (isOpen) {
+      onExpanded()
+    } else {
+      onCompressed()
+    }
+  }, [isOpen])
+
   return (
-    <details open={isOpen} className="iteration c-details">
-      <summary className="header" role="button">
+    <details open={defaultIsOpen} className="iteration c-details">
+      <summary
+        className="header"
+        role="button"
+        onClick={() => {
+          setIsOpen((prev) => !prev)
+        }}
+      >
         <IterationSummary iteration={iteration} />
         <div className="opener">
           <div className="--closed-icon">

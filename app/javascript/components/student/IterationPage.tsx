@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iteration-page/IterationReport'
@@ -47,6 +47,7 @@ export const IterationPage = ({
   track: Track
   links: Links
 }): JSX.Element => {
+  const [numIterationsExpanded, setNumIterationsExpanded] = useState(0)
   const isMountedRef = useIsMounted()
   const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
   const { resolvedData } = usePaginatedRequestQuery<{
@@ -66,6 +67,13 @@ export const IterationPage = ({
     }
   }, [CACHE_KEY, solutionId])
 
+  /* Only run this the first time that the component loads */
+  useEffect(() => {
+    setNumIterationsExpanded(
+      resolvedData && resolvedData.iterations.length > 0 ? 1 : 0
+    )
+  }, [])
+
   if (!resolvedData) {
     return <Loading />
   }
@@ -73,6 +81,10 @@ export const IterationPage = ({
   if (resolvedData.iterations.length === 0) {
     return <EmptyIterations links={links} />
   }
+
+  useEffect(() => {
+    console.log(numIterationsExpanded)
+  }, [numIterationsExpanded])
 
   return (
     <div className="lg-container container">
@@ -90,7 +102,13 @@ export const IterationPage = ({
                 exercise={exercise}
                 track={track}
                 links={links}
-                isOpen={i == 0}
+                defaultIsOpen={i == 0}
+                onExpanded={() => {
+                  setNumIterationsExpanded((prev) => prev + 1)
+                }}
+                onCompressed={() => {
+                  setNumIterationsExpanded((prev) => prev - 1)
+                }}
               />
             )
           })}

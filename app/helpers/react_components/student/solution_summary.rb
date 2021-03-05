@@ -7,7 +7,7 @@ module ReactComponents
         super("student-solution-summary", {
           solution: SerializeSolutionForStudent.(solution),
           request: request,
-          is_practice_exercise: solution.exercise.practice_exercise?,
+          is_concept_exercise: solution.exercise.concept_exercise?,
           links: links
         })
       end
@@ -15,10 +15,13 @@ module ReactComponents
       private
       def request
         {
-          endpoint: Exercism::Routes.temp_solution_url(solution.uuid),
+          endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
           options: {
             initialData: {
-              latest_iteration: SerializeIteration.(solution.latest_iteration)
+              iterations: solution.
+                iterations.
+                order(id: :desc).
+                map { |iteration| SerializeIteration.(iteration) }
             }
           }
         }
@@ -27,7 +30,7 @@ module ReactComponents
       def links
         {
           tests_passed_locally_article: "#",
-          all_iterations: Exercism::Routes.track_concepts_path(solution.track),
+          all_iterations: Exercism::Routes.track_exercise_iterations_path(solution.track, solution.exercise),
           community_solutions: "#",
           learn_more_about_mentoring_article: "#",
           mentoring_info: "#",

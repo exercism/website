@@ -24,7 +24,7 @@ export type SolutionSummaryRequest = {
   endpoint: string
   options: {
     initialData: {
-      latestIteration: Iteration
+      iterations: readonly Iteration[]
     }
   }
 }
@@ -37,18 +37,18 @@ export type SolutionSummarySolution = {
 export const SolutionSummary = ({
   solution,
   request,
-  isPracticeExercise,
+  isConceptExercise,
   links,
 }: {
   solution: SolutionSummarySolution
   request: SolutionSummaryRequest
-  isPracticeExercise: boolean
+  isConceptExercise: boolean
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const CACHE_KEY = `solution-${solution.id}-summary`
-  const { resolvedData, status } = usePaginatedRequestQuery<{
-    latestIteration: Iteration
+  const { resolvedData } = usePaginatedRequestQuery<{
+    iterations: Iteration[]
   }>(CACHE_KEY, request, isMountedRef)
 
   useEffect(() => {
@@ -72,31 +72,32 @@ export const SolutionSummary = ({
     return null
   }
 
+  const latestIteration =
+    resolvedData.iterations[resolvedData.iterations.length - 1]
+
   return (
-    <React.Fragment>
+    <section className="latest-iteration">
       {solution.completedAt ? null : (
         <Nudge
-          iteration={resolvedData.latestIteration}
-          isPracticeExercise={isPracticeExercise}
+          iteration={latestIteration}
+          isConceptExercise={isConceptExercise}
           links={links}
         />
       )}
-      <section className="latest-iteration">
-        <Header
-          iteration={resolvedData.latestIteration}
-          isPracticeExercise={isPracticeExercise}
-          links={links}
-        />
-        <IterationLink iteration={resolvedData.latestIteration} />
-        <ProminentLink
-          link={links.allIterations}
-          text="See all of your iterations"
-        />
-        <div className="next-steps">
-          <CommunitySolutions link={links.communitySolutions} />
-          <Mentoring link={links.learnMoreAboutMentoringArticle} />
-        </div>
-      </section>
-    </React.Fragment>
+      <Header
+        iteration={latestIteration}
+        isConceptExercise={isConceptExercise}
+        links={links}
+      />
+      <IterationLink iteration={latestIteration} />
+      <ProminentLink
+        link={links.allIterations}
+        text="See all of your iterations"
+      />
+      <div className="next-steps">
+        <CommunitySolutions link={links.communitySolutions} />
+        <Mentoring link={links.learnMoreAboutMentoringArticle} />
+      </div>
+    </section>
   )
 }

@@ -10,20 +10,20 @@ type Links = {
 
 export const Nudge = ({
   iteration,
-  isPracticeExercise,
+  isConceptExercise,
   links,
 }: {
   iteration: Iteration
-  isPracticeExercise: boolean
+  isConceptExercise: boolean
   links: Links
 }): JSX.Element | null => {
   switch (iteration.status) {
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
     case IterationStatus.NO_AUTOMATED_FEEDBACK: {
-      return isPracticeExercise ? (
-        <MentoringNudge mentoringInfoLink={links.mentoringInfo} />
-      ) : (
+      return isConceptExercise ? (
         <CompleteExerciseNudge completeExerciseLink={links.completeExercise} />
+      ) : (
+        <MentoringNudge mentoringInfoLink={links.mentoringInfo} />
       )
     }
     default:

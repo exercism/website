@@ -22,6 +22,7 @@ export type Iteration = {
   testsStatus: SubmissionTestsStatus
   links: {
     self: string
+    solution: string
     files: string
   }
 }

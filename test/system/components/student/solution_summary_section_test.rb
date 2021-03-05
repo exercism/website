@@ -30,7 +30,7 @@ module Components::Student
 
       assert_text "Iteration 1"
       within "section.latest-iteration header" do
-        assert_text "Your solution is being processed..."
+        assert_text "Your solution is being processed…"
       end
       assert_no_css "section.completion-nudge"
       assert_no_css "section.mentoring-nudge"
@@ -47,7 +47,7 @@ module Components::Student
       end
 
       within "section.latest-iteration header" do
-        assert_text "Your solution is being processed..."
+        assert_text "Your solution is being processed…"
       end
 
       submission = create :submission, solution: solution, tests_status: :failed
@@ -99,7 +99,7 @@ module Components::Student
       assert_text "Iteration 1"
       within "section.latest-iteration header" do
         assert_text "Your solution looks great!"
-        assert_text "Your solution passed the tests and we've not got any recommendations."
+        assert_text "Your solution passed the tests and we don't have any recommendations."
         assert_text "You might want to work with a mentor to make it even better."
         assert_css ".status.passed"
       end
@@ -126,7 +126,7 @@ module Components::Student
       assert_text "Iteration 1"
       within "section.latest-iteration header" do
         assert_text "Your solution looks great!"
-        assert_text "Your solution passed the tests and we've not got any recommendations."
+        assert_text "Your solution passed the tests and we don't have any recommendations."
         refute_text "mentor" # Keep this as a wide search so it doesn't go out of date
         assert_css ".status.passed"
       end
@@ -227,7 +227,7 @@ module Components::Student
 
       assert_text "Iteration 1"
       within "section.latest-iteration header" do
-        assert_text "Your solution worked, but you can take it further..."
+        assert_text "Your solution worked, but you can take it further…"
         assert_text "We’ve analysed your solution and have 1 recommendation and 2 additional comments"
         assert_text "We suggest addressing the recommendations before proceeding."
         assert_css ".status.passed"
@@ -296,7 +296,7 @@ module Components::Student
 
       assert_text "Iteration 1"
       within "section.latest-iteration header" do
-        assert_text "Your solution worked, but you can take it further..."
+        assert_text "Your solution worked, but you can take it further…"
         assert_text "We’ve analysed your solution and have 3 essential improvements, 1 recommendation and 2 additional comments" # rubocop:disable Layout/LineLength
         assert_text "Address the essential improvements before proceeding."
         assert_css ".status.passed"

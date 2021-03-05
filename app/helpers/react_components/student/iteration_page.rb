@@ -32,7 +32,7 @@ module ReactComponents
 
       def request
         {
-          endpoint: Exercism::Routes.temp_solution_url(solution.uuid),
+          endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
           options: {
             initialData: {
               iterations: solution.

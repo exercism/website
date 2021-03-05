@@ -4,7 +4,6 @@ import { Iteration } from '../components/types'
 
 export type ChannelResponse = {
   solution: Solution
-  latestIteration: Iteration
   iterations: readonly Iteration[]
 }
 
@@ -27,7 +26,6 @@ export class SolutionChannel {
         received: (response: {
           solution: Solution
           iterations: readonly Iteration[]
-          latest_iteration: Iteration
         }) => {
           onReceive(camelizeKeys(response) as ChannelResponse)
         },

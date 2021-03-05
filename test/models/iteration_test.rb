@@ -1,6 +1,15 @@
 require "test_helper"
 
 class IterationTest < ActiveSupport::TestCase
+  test "broadcast broadcasts self and solution" do
+    iteration = create :iteration
+
+    IterationChannel.expects(:broadcast!).with(iteration)
+    SolutionChannel.expects(:broadcast!).with(iteration.solution)
+
+    iteration.broadcast!
+  end
+
   test "tests_pending?" do
     assert create(:submission, tests_status: :not_queued).tests_pending?
     assert create(:submission, tests_status: :queued).tests_pending?

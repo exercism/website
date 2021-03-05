@@ -27,7 +27,7 @@ module ReactComponents
       def links
         {
           tests_passed_locally_article: "#",
-          all_iterations: Exercism::Routes.track_concepts_path(iteration.track),
+          all_iterations: Exercism::Routes.track_exercise_iterations_path(iteration.track, iteration.exercise),
           community_solutions: "#",
           learn_more_about_mentoring_article: "#"
         }

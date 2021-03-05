@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   create_table "github_pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "github_id", null: false
@@ -138,6 +139,18 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
 =======
 >>>>>>> Restructured structure of stored pull requests
 =======
+=======
+  create_table "git_pull_request_reviews", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "git_pull_request_id", null: false
+    t.string "node_id", null: false
+    t.string "reviewer", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["git_pull_request_id"], name: "index_git_pull_request_reviews_on_git_pull_request_id"
+    t.index ["node_id"], name: "index_git_pull_request_reviews_on_node_id", unique: true
+  end
+
+>>>>>>> Create table for pull request reviews
   create_table "git_pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "node_id", null: false
     t.integer "number", null: false
@@ -515,6 +528,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
+  add_foreign_key "git_pull_request_reviews", "git_pull_requests"
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"
   add_foreign_key "mentor_student_relationships", "users", column: "mentor_id"

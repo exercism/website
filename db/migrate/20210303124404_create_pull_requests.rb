@@ -9,5 +9,14 @@ class CreatePullRequests < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    create_table :git_pull_request_reviews do |t|
+      t.belongs_to :git_pull_request, null: false, foreign_key: true
+
+      t.string :node_id, null: false, index: { unique: true }
+      t.string :reviewer, null: false
+
+      t.timestamps
+    end
   end
 end

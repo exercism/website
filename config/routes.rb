@@ -235,6 +235,9 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
       end
     end
+    resource :mentoring, only: [], controller: "mentoring" do
+      get :student_request
+    end
     resources :tracks, only: [] do
       resources :exercises, only: [], controller: "tracks/exercises" do
         member do

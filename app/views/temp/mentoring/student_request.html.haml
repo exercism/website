@@ -1,0 +1,35 @@
+.c-mentor-discussion
+  .lhs
+  .rhs
+    .mentoring-request-section
+      .direct
+        %h3
+          Use this link to get mentoring directly.
+          = link_to "Learn more.", "#"
+        = ReactComponents::Common::CopyToClipboardButton.new("https://some.link/we/need/to-decide-on")
+
+      .community
+        .heading
+          .info
+            %h2 It’s time to deepen your knowledge.
+            %p
+              Start a mentoring discussion on
+              %strong= @solution.exercise.title
+              to discover new and exciting ways to approach it. Expand and deepen your knowledge.
+          = graphical_icon "graphic-mentoring-header"
+
+        -#
+          .first-time
+            = graphical_icon "graphic-gratitude"
+            .info
+              %h3 Looks like it’s your first time getting mentoring
+              %p Awesome! We’re so happy you’re checking out mentoring, and hope it proves super beneficial for you.
+
+        .question
+          %h3 Give your mentor a starting point for the conversation
+          %textarea{ required: true, placeholder: "This will be your first comment on during the session. Is there anything you are stuck on or have found challenging? Are there any questions you'd like to ask a mentor?" }
+
+        %button.btn-cta Submit mentoring request
+        %p.flow-explanation
+          Once you submit, your request will be open for a mentor to join and start providing feedback.
+          Average mentor wait time ~ 6 hrs

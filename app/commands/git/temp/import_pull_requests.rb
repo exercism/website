@@ -13,13 +13,11 @@ module Git
 
       private
       def repos
-        page = 1
         fetched = []
 
-        loop do
-          response = octokit_client.search_repositories("org:exercism is:public", page: page, per_page: 100)
+        loop.with_index do |_, page|
+          response = octokit_client.search_repositories("org:exercism is:public", page: page + 1, per_page: 100)
           fetched += response[:items].map { |item| item[:full_name] }
-          page += 1
 
           break fetched if fetched.size >= response[:total_count]
         end

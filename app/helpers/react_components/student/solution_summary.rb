@@ -7,7 +7,7 @@ module ReactComponents
         super("student-solution-summary", {
           solution_id: iteration.solution.uuid,
           request: request,
-          is_practice_exercise: iteration.exercise.practice_exercise?,
+          is_concept_exercise: iteration.exercise.concept_exercise?,
           links: links
         })
       end

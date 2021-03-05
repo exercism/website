@@ -9,11 +9,11 @@ export type SolutionSummaryLinks = {
 
 export const Header = ({
   iteration,
-  isPracticeExercise,
+  isConceptExercise,
   links,
 }: {
   iteration: Iteration
-  isPracticeExercise: boolean
+  isConceptExercise: boolean
   links: SolutionSummaryLinks
 }): JSX.Element => {
   switch (iteration.status) {
@@ -97,9 +97,9 @@ export const Header = ({
             <p>
               Your solution passed the tests and we don&apos;t have any
               recommendations.
-              {isPracticeExercise
-                ? 'You might want to work with a mentor to make it even better.'
-                : null}{' '}
+              {isConceptExercise
+                ? null
+                : 'You might want to work with a mentor to make it even better.'}{' '}
               <strong>Great Job! 🎉</strong>
             </p>
           </div>
@@ -122,9 +122,9 @@ export const Header = ({
                 )}
               </span>{' '}
               that you might like to check.{' '}
-              {isPracticeExercise
-                ? 'Consider working with a mentor to make it even better. '
-                : ' '}
+              {isConceptExercise
+                ? ' '
+                : 'Consider working with a mentor to make it even better. '}
               <strong>Great Job! 🎉</strong>
             </p>
           </div>
@@ -147,14 +147,15 @@ export const Header = ({
           : '',
       ].filter((comment) => comment.length > 0)
 
-      if (isPracticeExercise) {
+      if (isConceptExercise) {
         return (
           <header>
             <div className="info">
-              <h2>Your solution worked, but you can take it further…</h2>
+              <h2>Your solution is good enough to continue!</h2>
               <p>
-                We’ve analysed your solution and have {toSentence(comments)}. We
-                suggest addressing the recommendations before proceeding.
+                We’ve analysed your solution and have {toSentence(comments)}.
+                You can either continue or address the recommendations first -
+                your choice!
               </p>
             </div>
             <div className="status passed">Tests Passed</div>
@@ -164,11 +165,10 @@ export const Header = ({
         return (
           <header>
             <div className="info">
-              <h2>Your solution is good enough to continue!</h2>
+              <h2>Your solution worked, but you can take it further…</h2>
               <p>
-                We’ve analysed your solution and have {toSentence(comments)}.
-                You can either continue or address the recommendations first -
-                your choice!
+                We’ve analysed your solution and have {toSentence(comments)}. We
+                suggest addressing the recommendations before proceeding.
               </p>
             </div>
             <div className="status passed">Tests Passed</div>

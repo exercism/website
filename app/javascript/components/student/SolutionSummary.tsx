@@ -29,12 +29,12 @@ export type SolutionSummaryRequest = {
 export const SolutionSummary = ({
   solutionId,
   request,
-  isPracticeExercise,
+  isConceptExercise,
   links,
 }: {
   solutionId: string
   request: SolutionSummaryRequest
-  isPracticeExercise: boolean
+  isConceptExercise: boolean
   links: SolutionSummaryLinks
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -64,7 +64,7 @@ export const SolutionSummary = ({
     <section className="latest-iteration">
       <Header
         iteration={resolvedData.latestIteration}
-        isPracticeExercise={isPracticeExercise}
+        isConceptExercise={isConceptExercise}
         links={links}
       />
       <IterationLink iteration={resolvedData.latestIteration} />

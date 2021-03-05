@@ -14,7 +14,7 @@ module Student
         component,
         "student-solution-summary",
         {
-          solution_id: solution.uuid,
+          solution: SerializeSolutionForStudent.(solution),
           request: {
             endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
             options: {
@@ -28,7 +28,9 @@ module Student
             tests_passed_locally_article: "#",
             all_iterations: Exercism::Routes.track_exercise_iterations_path(track, exercise),
             community_solutions: "#",
-            learn_more_about_mentoring_article: "#"
+            learn_more_about_mentoring_article: "#",
+            mentoring_info: "#",
+            complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid)
           }
         }
       )

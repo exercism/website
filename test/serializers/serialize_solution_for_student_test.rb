@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SerializeSolutionForStudentTest < ActiveSupport::TestCase
   test "basic to_hash" do
-    solution = create :practice_solution, published_at: Time.current - 1.week
+    solution = create :practice_solution, published_at: Time.current - 1.week, completed_at: Time.current
     submission = create :submission, solution: solution
 
     create :user_track, user: solution.user, track: solution.track
@@ -18,6 +18,7 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
       num_locs: "9 - 18", # TODO
       last_submitted_at: submission.created_at.iso8601,
       published_at: solution.published_at.iso8601,
+      completed_at: solution.completed_at.iso8601,
       exercise: {
         title: solution.exercise.title,
         icon_name: solution.exercise.icon_name

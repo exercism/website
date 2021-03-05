@@ -3,7 +3,7 @@ module Git
     include Mandate
 
     def call
-      ::Exercise.all.each do |exercise|
+      ::Exercise.all.find_each do |exercise|
         begin
           SyncAuthors.(exercise)
         rescue StandardError => e

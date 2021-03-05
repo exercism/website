@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
 
   create_table "pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "node_id", null: false
+    t.integer "number", null: false
     t.string "repo", null: false
     t.string "author", null: false
     t.json "event", null: false

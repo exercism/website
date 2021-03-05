@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
   create_table "git_pull_request_reviews", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "git_pull_request_id", null: false
     t.string "node_id", null: false
-    t.string "reviewer", null: false
+    t.string "reviewer_github_username", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["git_pull_request_id"], name: "index_git_pull_request_reviews_on_git_pull_request_id"
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
     t.string "node_id", null: false
     t.integer "number", null: false
     t.string "repo", null: false
-    t.string "author", null: false
+    t.string "author_github_username", null: false
     t.json "event", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

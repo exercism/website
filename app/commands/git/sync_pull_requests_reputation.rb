@@ -4,7 +4,7 @@ module Git
 
     def call
       ::Git::PullRequest.find_each do |pr|
-        User::ReputationToken::AwardForPullRequest.(pr.data[:action], pr.author, pr.data)
+        User::ReputationToken::AwardForPullRequest.(pr.data[:action], pr.author_github_username, pr.data)
       rescue StandardError => e
         Rails.logger.error "Error syncing pull request reputation for #{pr.repo}/#{pr.number}: #{e}"
       end

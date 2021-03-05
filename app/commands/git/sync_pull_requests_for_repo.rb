@@ -17,13 +17,13 @@ module Git
         ::Git::PullRequest.new(
           node_id: pr[:pr_id],
           number: pr[:pr_number],
-          author: pr[:author],
+          author_github_username: pr[:author],
           repo: pr[:repo],
           event: pr,
           reviews: pr[:reviews].map do |review|
             ::Git::PullRequestReview.new(
               node_id: review[:node_id],
-              reviewer: review[:user][:login]
+              reviewer_github_username: review[:user][:login]
             )
           end
         ).save!

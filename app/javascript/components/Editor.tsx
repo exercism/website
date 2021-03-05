@@ -192,7 +192,7 @@ export function Editor({
         }
 
         const iteration = typecheck<Iteration>(json, 'iteration')
-        location.assign(iteration.links.self)
+        location.assign(iteration.links.solution)
       })
       .finally(() => {
         controllerRef.current = undefined

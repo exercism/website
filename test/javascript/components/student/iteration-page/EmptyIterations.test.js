@@ -7,6 +7,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { EmptyIterations } from '../../../../../app/javascript/components/student/iteration-page/EmptyIterations'
 import { expectConsoleError } from '../../../support/silence-console'
 import { TestQueryCache } from '../../../support/TestQueryCache'
+import { awaitPopper } from '../../../support/await-popper'
 
 const oldWindowLocation = window.location
 
@@ -50,6 +51,7 @@ test('disables buttons when loading', async () => {
       />
     </TestQueryCache>
   )
+  await awaitPopper()
   const startBtn = await screen.findByRole('button', {
     name: 'Start in Editor',
   })

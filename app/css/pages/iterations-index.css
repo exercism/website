@@ -71,7 +71,7 @@
                 }
 
                 & .files {
-                    @apply flex-grow px-24 py-12;
+                    @apply flex-grow;
                 }
 
                 & .information {

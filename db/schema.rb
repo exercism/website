@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
   end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   create_table "github_pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "github_id", null: false
@@ -133,6 +134,8 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
   end
 
 >>>>>>> Import pull requests
+=======
+>>>>>>> Restructured structure of stored pull requests
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "submission_id", null: false
@@ -168,6 +171,16 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id"
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
+  end
+
+  create_table "pull_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "node_id", null: false
+    t.string "repo", null: false
+    t.string "author", null: false
+    t.json "event", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["node_id"], name: "index_pull_requests_on_node_id", unique: true
   end
 
   create_table "scratchpad_pages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

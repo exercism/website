@@ -11,33 +11,33 @@ module Git
       end
 
       private
-      attr_reader :repo, :pull_requests, :cursor
+      attr_reader :pull_requests
 
       def create!
         pull_requests.each do |pr|
           ::Git::PullRequest.create!(
-            github_id: pr[:pull_request][:id],
-            github_username: pr[:pull_request][:user][:login],
-            github_repo: pr[:repository][:full_name],
-            github_event: pr
+            node_id: pr[:pull_request][:id],
+            author: pr[:pull_request][:user][:login],
+            repo: pr[:repository][:full_name],
+            event: pr
           )
         rescue ActiveRecord::RecordNotUnique
-          return nil
+          nil
         end
       end
 
       def fetch!
-        @cursor = nil
+        cursor = nil
         @pull_requests = []
 
         loop do
-          page_data = fetch_page!
+          page_data = fetch_page(cursor)
 
           # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
-          @pull_requests += pull_requests_from_response(page_data)
+          @pull_requests += pull_requests_from_page_data(page_data)
 
-          page_info = page_data.dig(:data, :repository, :pullRequests, :pageInfo)
-          @cursor = page_info[:endCursor]
+          page_info = page_data[:data][:repository][:pullRequests][:pageInfo]
+          cursor = page_info[:endCursor]
           break unless page_info[:hasNextPage]
 
           # If the rate limit was exceeded, sleep until it resets
@@ -50,22 +50,21 @@ module Git
         end
       end
 
-      def fetch_page!
+      def fetch_page(cursor)
         query = "{
           repository(owner: \"#{repo_owner}\", name: \"#{repo_name}\") {
             nameWithOwner
             pullRequests(first: 100, states:[CLOSED, MERGED] #{", after: \"#{cursor}\"" if cursor}) {
               nodes {
+                id
                 url
-                databaseId
+                title
+                merged
                 labels(first: 100) {
                   nodes {
                     name
                   }
                 }
-                merged
-                number
-                title
                 author {
                   login
                 }
@@ -92,7 +91,7 @@ module Git
         octokit_client.post("https://api.github.com/graphql", { query: query }.to_json)
       end
 
-      def pull_requests_from_response(response)
+      def pull_requests_from_page_data(response)
         # We're transforming the GraphQL response to the format used by the REST API.
         # This allows us to work with pull requests using a single code path.
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
@@ -101,7 +100,7 @@ module Git
           {
             action: 'closed',
             pull_request: {
-              id: pr[:databaseId],
+              id: pr[:id],
               user: {
                 login: pr[:author][:login]
               },
@@ -109,7 +108,6 @@ module Git
               html_url: pr[:url],
               labels: pr[:labels][:nodes].map { |node| node[:name] },
               state: 'closed',
-              number: pr[:number],
               merged: pr[:merged],
               reviews: pr[:reviews][:nodes].map do |node|
                 next if node[:author].nil? # In rare cases the review author is null

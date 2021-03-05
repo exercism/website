@@ -52,7 +52,7 @@ module Git
         page_data = fetch_page!
         @pull_requests += pull_requests_from_response(page_data)
 
-        page_info = page_data[:data][:repository][:pullRequests][:pageInfo]
+        page_info = page_data.dig(:data, :repository, :pullRequests, :pageInfo)
         @cursor = page_info[:endCursor]
         break unless page_info[:hasNextPage]
 

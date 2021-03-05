@@ -22,7 +22,7 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution is being processed...</h2>
+            <h2>Your solution is being processed…</h2>
             <p>
               Your solution is currently being tested, analysed, and compared to
               other solutions to find for potential improvements. This should
@@ -79,7 +79,7 @@ export const Header = ({
       return (
         <header>
           <div className="info">
-            <h2>Your solution worked, but you can take it further...</h2>
+            <h2>Your solution worked, but you can take it further…</h2>
             <p>
               We’ve analysed your solution and have {toSentence(comments)}.
               Address the essential improvements before proceeding.
@@ -95,7 +95,7 @@ export const Header = ({
           <div className="info">
             <h2>Your solution looks great!</h2>
             <p>
-              Your solution passed the tests and we&apos;ve not got any
+              Your solution passed the tests and we don&apos;t have any
               recommendations.
               {isPracticeExercise
                 ? 'You might want to work with a mentor to make it even better.'
@@ -151,7 +151,7 @@ export const Header = ({
         return (
           <header>
             <div className="info">
-              <h2>Your solution worked, but you can take it further...</h2>
+              <h2>Your solution worked, but you can take it further…</h2>
               <p>
                 We’ve analysed your solution and have {toSentence(comments)}. We
                 suggest addressing the recommendations before proceeding.

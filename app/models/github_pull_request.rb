@@ -1,2 +1,0 @@
-class GithubPullRequest < ApplicationRecord
-end

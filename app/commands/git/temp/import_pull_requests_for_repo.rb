@@ -15,7 +15,7 @@ module Git
 
       def create!
         pull_requests.each do |pr|
-          ::GithubPullRequest.create!(
+          ::Git::PullRequest.create!(
             github_id: pr[:pull_request][:id],
             github_username: pr[:pull_request][:user][:login],
             github_repo: pr[:repository][:full_name],

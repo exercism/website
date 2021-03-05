@@ -10,7 +10,7 @@
           = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(@track))
 
       = render "tracks/exercises/show/nudge_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
-      = ReactComponents::Student::SolutionSummary.new(@iteration) if @iteration
+      = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
       - if @exercise.concept_exercise?
         = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration

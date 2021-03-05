@@ -1,14 +1,14 @@
 require_relative "../react_component_test_case"
 
 module Student
-  class ConceptMapTest < ReactComponentTestCase
+  class SolutionSummaryTest < ReactComponentTestCase
     test "component renders correctly" do
       track = create :track
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, exercise: exercise
       iteration = create :iteration, solution: solution
 
-      component = ReactComponents::Student::SolutionSummary.new(iteration).to_s
+      component = ReactComponents::Student::SolutionSummary.new(solution).to_s
 
       assert_component(
         component,
@@ -16,10 +16,10 @@ module Student
         {
           solution_id: solution.uuid,
           request: {
-            endpoint: Exercism::Routes.temp_solution_url(solution.uuid),
+            endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
             options: {
               initialData: {
-                latest_iteration: SerializeIteration.(iteration)
+                iterations: [SerializeIteration.(iteration)]
               }
             }
           },

@@ -103,29 +103,16 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected.to_json, response.body
   end
 
-  test "Show should return iteration if requested" do
+  test "Show should return iterations if requested" do
     setup_user
     solution = create :concept_solution, user: @current_user
     iteration = create :iteration, solution: solution
-    get api_solution_path(solution.uuid, sideload: [:latest_iteration]), headers: @headers, as: :json
+    get api_solution_path(solution.uuid, sideload: [:iterations]), headers: @headers, as: :json
 
     assert_response 200
     expected = {
       solution: SerializeSolutionForStudent.(solution),
-      latest_iteration: SerializeIteration.(iteration)
-    }
-    assert_equal expected.to_json, response.body
-  end
-
-  test "Show should return null iteration if non-existant but requested" do
-    setup_user
-    solution = create :concept_solution, user: @current_user
-    get api_solution_path(solution.uuid, sideload: [:latest_iteration]), headers: @headers, as: :json
-
-    assert_response 200
-    expected = {
-      solution: SerializeSolutionForStudent.(solution),
-      latest_iteration: nil
+      iterations: [SerializeIteration.(iteration)]
     }
     assert_equal expected.to_json, response.body
   end

@@ -21,7 +21,7 @@ export type SolutionSummaryRequest = {
   endpoint: string
   options: {
     initialData: {
-      latestIteration: Iteration
+      iterations: readonly Iteration[]
     }
   }
 }
@@ -40,7 +40,7 @@ export const SolutionSummary = ({
   const isMountedRef = useIsMounted()
   const CACHE_KEY = `solution-${solutionId}-summary`
   const { resolvedData } = usePaginatedRequestQuery<{
-    latestIteration: Iteration
+    iterations: Iteration[]
   }>(CACHE_KEY, request, isMountedRef)
 
   useEffect(() => {
@@ -60,14 +60,17 @@ export const SolutionSummary = ({
     return <Loading />
   }
 
+  const latestIteration =
+    resolvedData.iterations[resolvedData.iterations.length - 1]
+
   return (
     <section className="latest-iteration">
       <Header
-        iteration={resolvedData.latestIteration}
+        iteration={latestIteration}
         isConceptExercise={isConceptExercise}
         links={links}
       />
-      <IterationLink iteration={resolvedData.latestIteration} />
+      <IterationLink iteration={latestIteration} />
       <ProminentLink
         link={links.allIterations}
         text="See all of your iterations"

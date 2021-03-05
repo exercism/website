@@ -16,9 +16,10 @@ module Git
       def create!
         pull_requests.each do |pr|
           ::Git::PullRequest.create!(
-            node_id: pr[:pull_request][:id],
-            author: pr[:pull_request][:user][:login],
-            repo: pr[:repository][:full_name],
+            node_id: pr[:pr_id],
+            number: pr[:pr_number],
+            author: pr[:author],
+            repo: pr[:repo],
             event: pr
           )
         rescue ActiveRecord::RecordNotUnique
@@ -60,6 +61,7 @@ module Git
                 url
                 title
                 merged
+                number
                 labels(first: 100) {
                   nodes {
                     name
@@ -92,32 +94,29 @@ module Git
       end
 
       def pull_requests_from_page_data(response)
-        # We're transforming the GraphQL response to the format used by the REST API.
+        # We're transforming the GraphQL response to the format used to call
+        # User::ReputationToken::AwardForPullRequest that is called when the
+        # pull request update webhook fires.
         # This allows us to work with pull requests using a single code path.
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
           next if pr[:author].nil? # In rare cases the PR author is null
 
           {
             action: 'closed',
-            pull_request: {
-              id: pr[:id],
-              user: {
-                login: pr[:author][:login]
-              },
-              url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
-              html_url: pr[:url],
-              labels: pr[:labels][:nodes].map { |node| node[:name] },
-              state: 'closed',
-              merged: pr[:merged],
-              reviews: pr[:reviews][:nodes].map do |node|
-                next if node[:author].nil? # In rare cases the review author is null
+            author: pr[:author][:login],
+            url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
+            html_url: pr[:url],
+            labels: pr[:labels][:nodes].map { |node| node[:name] },
+            state: 'closed',
+            pr_id: pr[:id],
+            pr_number: pr[:number],
+            repo: response[:data][:repository][:nameWithOwner],
+            merged: pr[:merged],
+            reviews: pr[:reviews][:nodes].map do |node|
+              next if node[:author].nil? # In rare cases the review author is null
 
-                { user: { login: node[:author][:login] } }
-              end.compact
-            },
-            repository: {
-              full_name: response[:data][:repository][:nameWithOwner]
-            }
+              { user: { login: node[:author][:login] } }
+            end.compact
           }
         end.compact
       end

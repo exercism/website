@@ -520,6 +520,7 @@
 
         & .mentoring-request-section {
             @apply py-24;
+            @apply overflow-auto;
 
             & .direct,
             & .community {
@@ -588,24 +589,25 @@
                 }
 
                 & .question {
+                    @apply mb-20;
                     & h3 {
                         @apply text-16 leading-150 font-semibold text-textColor3;
+                        @apply mb-4;
+                    }
+                    & p {
+                        @apply text-15 leading-160 text-textColor6;
                         @apply mb-8;
                     }
                     & textarea {
                         @apply bg-backgroundColorD;
                         @apply rounded-5;
-                        @apply w-100 py-12 px-16 mb-8;
-                        height: 120px;
+                        @apply w-100 py-12 px-16;
+                        @apply text-14 leading-160;
+                        height: 100px;
 
                         &::placeholder {
                             @apply text-textColor7;
-                            @apply text-16 leading-160 font-medium;
                         }
-                    }
-                    & p {
-                        @apply text-p-small text-textColor6;
-                        @apply mb-16;
                     }
                 }
                 & .btn-cta {

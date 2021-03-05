@@ -5,6 +5,8 @@ module Temp
 
     def student_request
       @solution = Solution.first
+      @first_time_on_track = true
+      @first_time_mentoring = true
     end
   end
 end

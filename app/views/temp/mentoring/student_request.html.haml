@@ -19,15 +19,25 @@
           = graphical_icon "graphic-mentoring-header"
 
         -#
-          .first-time
-            = graphical_icon "graphic-gratitude"
-            .info
-              %h3 Looks like it’s your first time getting mentoring
-              %p Awesome! We’re so happy you’re checking out mentoring, and hope it proves super beneficial for you.
+          -if @first_time_mentoring
+            .first-time
+              = graphical_icon "graphic-gratitude"
+              .info
+                %h3 Looks like it’s your first time getting mentoring
+                %p Awesome! We’re so happy you’re checking out mentoring, and hope it proves super beneficial for you.
+
+        - if @first_time_on_track
+          .question
+            %h3 What are you hoping to learn from this track?
+            %p Tell our mentors a little about your programming background and what you're aiming to learn from #{@solution.track.title}.
+            %textarea{ required: true, placeholder: "" }
+            /Are you wanting to learn new techniques (e.g. Functional Programming, or OOP)? Is there some particular domain you want to apply your knowledge to? What language(s) do you already know?
 
         .question
-          %h3 Give your mentor a starting point for the conversation
-          %textarea{ required: true, placeholder: "This will be your first comment on during the session. Is there anything you are stuck on or have found challenging? Are there any questions you'd like to ask a mentor?" }
+          %h3 How can a mentor help you with this solution?
+          %p Give your mentor a starting point for the conversation. This will be your first comment on during the session.
+          %textarea{ required: true, placeholder: "" }
+          /Is there anything you are stuck on or have found challenging? Are there any questions you'd like to ask a mentor?
 
         %button.btn-cta Submit mentoring request
         %p.flow-explanation

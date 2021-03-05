@@ -5,7 +5,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -17,7 +18,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert User::ReputationTokens::CodeContributionToken.where(user: user).exists?
   end
@@ -26,7 +27,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -39,7 +41,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 2, user.reputation_tokens.size
   end
@@ -48,7 +50,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -59,7 +62,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     refute User::ReputationToken.exists?
   end
@@ -68,7 +71,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -80,7 +84,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_empty user.reputation_tokens
   end
@@ -89,7 +93,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -101,7 +106,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 10, user.reputation_tokens.last.value
   end
@@ -110,7 +115,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -122,7 +128,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 10, user.reputation_tokens.last.value
   end
@@ -131,7 +137,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -143,7 +150,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 5, user.reputation_tokens.last.value
   end
@@ -152,7 +159,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -164,7 +172,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 15, user.reputation_tokens.last.value
   end
@@ -173,7 +181,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -185,7 +194,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 15, user.reputation_tokens.last.value
   end
@@ -194,7 +203,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -206,7 +216,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 10, user.reputation_tokens.last.value
   end
@@ -215,7 +225,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'labeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -235,7 +246,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     User::ReputationToken::AwardForPullRequest.(
       action, login,
       url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, merged: merged
+      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -247,7 +258,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'labeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -257,7 +269,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
                                                                         params: { repo: repo, pr_id: pr_id }
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 1, user.reputation_tokens.size
     assert_equal 15, reputation_token.reload.value
@@ -267,7 +279,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'labeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -277,7 +290,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
                                                                         params: { repo: repo, pr_id: pr_id }
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 1, user.reputation_tokens.size
     assert_equal 10, reputation_token.reload.value
@@ -287,7 +300,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'labeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -295,7 +309,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_empty user.reputation_tokens
   end
@@ -304,7 +318,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'unlabeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -312,7 +327,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_empty user.reputation_tokens
   end
@@ -321,7 +336,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -337,7 +353,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
     assert_equal 3, reputation_token_1.value
@@ -350,7 +366,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -366,7 +383,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
     assert_equal 3, reputation_token_1.value
@@ -379,7 +396,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'labeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -387,7 +405,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_empty reviewer.reputation_tokens
   end
@@ -396,7 +414,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'unlabeled'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -404,7 +423,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_empty reviewer.reputation_tokens
   end
@@ -413,7 +432,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_id = 1347
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -427,7 +447,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, merged: merged)
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
   end

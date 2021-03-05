@@ -13,6 +13,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },
       repository: {
@@ -39,6 +40,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },
       repository: {
@@ -62,6 +64,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },
       repository: {
@@ -74,7 +77,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       labels: %w[bug duplicate],
       state: 'open',
       repo: 'exercism/fsharp',
-      pr_id: 4,
+      pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      pr_number: 4,
       merged: true)
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
@@ -92,6 +96,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },
       repository: {

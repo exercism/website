@@ -26,6 +26,7 @@ class User
           level: author_reputation_level,
           repo: repo,
           pr_id: pr_id,
+          pr_number: pr_number,
           external_link: external_link
         )
         token.update!(level: author_reputation_level)
@@ -34,9 +35,8 @@ class User
       def award_reputation_to_reviewers
         return unless just_closed?
 
-        # TODO: use node_id instead of PR id
         # TODO: support retrieving reviewers from params
-        reviews = octokit_client.pull_request_reviews(repo, pr_id)
+        reviews = octokit_client.pull_request_reviews(repo, pr_number)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
 
         reviewers = ::User.where(github_username: reviewer_usernames)
@@ -49,6 +49,7 @@ class User
             :code_review,
             repo: repo,
             pr_id: pr_id,
+            pr_number: pr_number,
             external_link: external_link
           )
         end
@@ -76,6 +77,10 @@ class User
 
       def pr_id
         params[:pr_id]
+      end
+
+      def pr_number
+        params[:pr_number]
       end
 
       def author_reputation_level

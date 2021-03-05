@@ -17,7 +17,8 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_number: 120
         }
 
       use_capybara_host do
@@ -43,7 +44,8 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_number: 120
         }
 
       use_capybara_host do
@@ -67,7 +69,8 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_number: 120
         }
 
       use_capybara_host do
@@ -94,7 +97,8 @@ module Flows
           created_at: 2.days.ago,
           params: {
             repo: "ruby/pulls",
-            pr_id: 120
+            pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+            pr_number: 120
           }
         ReputationChannel.broadcast_changed(user)
         within(".c-primary-reputation") { assert_text "3" }

@@ -9,7 +9,8 @@ module Webhooks
         html_url: params[:pull_request][:html_url],
         labels: params[:pull_request][:labels].map { |label| label[:name] },
         state: params[:pull_request][:state],
-        pr_id: params[:pull_request][:number],
+        pr_id: params[:pull_request][:node_id],
+        pr_number: params[:pull_request][:number],
         repo: params[:repository][:full_name],
         merged: params[:pull_request][:merged]
       )

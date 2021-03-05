@@ -14,22 +14,19 @@ module Git
 
     def create!
       pull_requests.each do |pr|
-        pull_request = ::Git::PullRequest.new(
+        ::Git::PullRequest.new(
           node_id: pr[:pr_id],
           number: pr[:pr_number],
           author: pr[:author],
           repo: pr[:repo],
-          event: pr
-        )
-
-        pull_request.reviews = pr[:reviews].map do |review|
-          pull_request.reviews.build(
-            node_id: review[:node_id],
-            reviewer: review[:user][:login]
-          )
-        end
-
-        pull_request.save!
+          event: pr,
+          reviews: pr[:reviews].map do |review|
+            ::Git::PullRequestReview.new(
+              node_id: review[:node_id],
+              reviewer: review[:user][:login]
+            )
+          end
+        ).save!
       rescue ActiveRecord::RecordNotUnique
         nil
       end

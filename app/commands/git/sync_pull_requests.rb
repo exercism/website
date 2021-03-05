@@ -67,12 +67,10 @@ module Git
     end
 
     def fetch_page!
-      after_argument = cursor.nil? ? '' : ", after: \"#{cursor}\""
-
       query = "{
         repository(owner: \"#{repo_owner}\", name: \"#{repo_name}\") {
           nameWithOwner
-          pullRequests(first: 100, states:[CLOSED, MERGED] #{after_argument}) {
+          pullRequests(first: 100, states:[CLOSED, MERGED] #{", after: \"#{cursor}\"" if cursor}) {
             nodes {
               url
               databaseId
@@ -104,7 +102,7 @@ module Git
           remaining
           resetAt
         }
-      }"
+      }".freeze
 
       octokit_client.post("https://api.github.com/graphql", { query: query }.to_json)
     end
@@ -132,7 +130,7 @@ module Git
               next if node[:author].nil? # In rare cases the review author is null
 
               { user: { login: node[:author][:login] } }
-            end
+            end.compact
           },
           repository: {
             full_name: response[:data][:repository][:nameWithOwner]
@@ -143,21 +141,17 @@ module Git
 
     memoize
     def repo_owner
-      repo.split('/')[0]
+      repo.split('/').first
     end
 
     memoize
     def repo_name
-      repo.split('/')[1]
+      repo.split('/').second
     end
 
     memoize
     def octokit_client
-      Octokit::Client.new(access_token: github_access_token)
-    end
-
-    def github_access_token
-      Exercism.secrets.github_access_token
+      Octokit::Client.new(access_token: Exercism.secrets.github_access_token)
     end
   end
 end

@@ -86,11 +86,7 @@ class User
 
       memoize
       def octokit_client
-        Octokit::Client.new(access_token: github_access_token)
-      end
-
-      def github_access_token
-        Exercism.secrets.github_access_token
+        Octokit::Client.new(access_token: Exercism.secrets.github_access_token)
       end
     end
   end

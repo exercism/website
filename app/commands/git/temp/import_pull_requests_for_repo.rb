@@ -44,8 +44,8 @@ module Git
           rate_limit = page_data[:data][:rateLimit]
           next unless rate_limit[:remaining] <= 0
 
-          reset_at = Time.zone.parse(rate_limit[:resetAt])
-          seconds_until_reset = reset_at - Time.zone.now
+          reset_at = Time.parse(rate_limit[:resetAt]).utc
+          seconds_until_reset = reset_at - Time.now.utc
           sleep(seconds_until_reset.ceil)
         end
       end

@@ -36,11 +36,14 @@ module Git
 
     def create!
       pull_requests.each do |pr|
-        ::GithubPullRequest.create_or_find_by!(github_id: pr[:pull_request][:id]) do |p|
-          p.github_username = pr[:pull_request][:user][:login]
-          p.github_repo = pr[:repository][:full_name]
-          p.github_event = pr
-        end
+        ::GithubPullRequest.create!(
+          github_id: pr[:pull_request][:id],
+          github_username: pr[:pull_request][:user][:login],
+          github_repo: pr[:repository][:full_name],
+          github_event: pr
+        )
+      rescue ActiveRecord::RecordNotUnique
+        return nil
       end
     end
 

@@ -35,15 +35,11 @@ class User
       def award_reputation_to_reviewers
         return unless just_closed?
 
-        # TODO: support retrieving reviewers from params
-        reviews = octokit_client.pull_request_reviews(repo, pr_number)
         reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }.uniq
+        reviewer_usernames.delete(github_username) # Don't award reviewer reputation to the PR author
 
         reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|
-          # Don't award reputation for reviews by the PR author
-          next if reviewer.github_username == github_username
-
           User::ReputationToken::Create.(
             reviewer,
             :code_review,
@@ -88,6 +84,12 @@ class User
         return :minor if params[:labels].include?('reputation/contributed_code/minor')
 
         :regular
+      end
+
+      def reviews
+        return params[:reviews] if params[:reviews].present?
+
+        octokit_client.pull_request_reviews(repo, pr_number)
       end
 
       memoize

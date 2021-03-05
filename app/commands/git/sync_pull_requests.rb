@@ -1,12 +1,12 @@
 module Git
-  class ImportPullRequests
+  class SyncPullRequests
     include Mandate
 
     def call
       repos.each do |repo|
-        ImportPullRequestsForRepo.(repo)
+        SyncPullRequestsForRepo.(repo)
       rescue StandardError => e
-        Rails.logger.error "Error importing pull requests for #{repo}: #{e}"
+        Rails.logger.error "Error syncing pull requests for #{repo}: #{e}"
       end
     end
 

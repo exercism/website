@@ -1,5 +1,5 @@
 module Git
-  class ImportPullRequestsForRepo
+  class SyncPullRequestsForRepo
     include Mandate
 
     initialize_with :repo

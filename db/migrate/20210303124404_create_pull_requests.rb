@@ -1,6 +1,6 @@
 class CreatePullRequests < ActiveRecord::Migration[6.1]
   def change
-    create_table :pull_requests do |t|
+    create_table :git_pull_requests do |t|
       t.string :node_id, null: false, index: { unique: true }
       t.integer :number, null: false
       t.string :repo, null: false

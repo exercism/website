@@ -3,6 +3,7 @@ import { Header } from './solution-summary/Header'
 import { IterationLink } from './solution-summary/IterationLink'
 import { CommunitySolutions } from './solution-summary/CommunitySolutions'
 import { Mentoring } from './solution-summary/Mentoring'
+import { Nudge } from './solution-summary/Nudge'
 import { Loading, ProminentLink } from '../common'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
@@ -15,6 +16,8 @@ export type SolutionSummaryLinks = {
   allIterations: string
   communitySolutions: string
   learnMoreAboutMentoringArticle: string
+  mentoringInfo: string
+  completeExercise: string
 }
 
 export type SolutionSummaryRequest = {
@@ -26,26 +29,31 @@ export type SolutionSummaryRequest = {
   }
 }
 
+export type SolutionSummarySolution = {
+  id: string
+  completedAt?: string
+}
+
 export const SolutionSummary = ({
-  solutionId,
+  solution,
   request,
   isConceptExercise,
   links,
 }: {
-  solutionId: string
+  solution: SolutionSummarySolution
   request: SolutionSummaryRequest
   isConceptExercise: boolean
   links: SolutionSummaryLinks
-}): JSX.Element => {
+}): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const CACHE_KEY = `solution-${solutionId}-summary`
+  const CACHE_KEY = `solution-${solution.id}-summary`
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: Iteration[]
   }>(CACHE_KEY, request, isMountedRef)
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
-      { id: solutionId },
+      { id: solution.id },
       (response) => {
         queryCache.setQueryData(CACHE_KEY, response)
       }
@@ -54,10 +62,14 @@ export const SolutionSummary = ({
     return () => {
       solutionChannel.disconnect()
     }
-  }, [CACHE_KEY, solutionId])
+  }, [CACHE_KEY, solution])
+
+  if (status === 'loading') {
+    return <Loading />
+  }
 
   if (!resolvedData) {
-    return <Loading />
+    return null
   }
 
   const latestIteration =
@@ -65,6 +77,13 @@ export const SolutionSummary = ({
 
   return (
     <section className="latest-iteration">
+      {solution.completedAt ? null : (
+        <Nudge
+          iteration={latestIteration}
+          isConceptExercise={isConceptExercise}
+          links={links}
+        />
+      )}
       <Header
         iteration={latestIteration}
         isConceptExercise={isConceptExercise}

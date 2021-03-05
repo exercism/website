@@ -451,4 +451,34 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
   end
+
+  test "pull request reviewers are only awarded reputation once per pull request" do
+    action = 'closed'
+    login = 'user22'
+    repo = 'exercism/v3'
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
+    merged = false
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/v3/pulls/1347/reviews").
+      to_return(status: 200, body: [
+        { user: { login: "reviewer71" } },
+        { user: { login: "reviewer13" } },
+        { user: { login: "reviewer71" } },
+        { user: { login: "reviewer13" } },
+        { user: { login: "reviewer13" } }
+      ].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    User::ReputationToken::AwardForPullRequest.(action, login,
+      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
+
+    assert_equal 1, reviewer_1.reputation_tokens.size
+    assert_equal 1, reviewer_2.reputation_tokens.size
+  end
 end

@@ -37,7 +37,7 @@ class User
 
         # TODO: support retrieving reviewers from params
         reviews = octokit_client.pull_request_reviews(repo, pr_number)
-        reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }
+        reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }.uniq
 
         reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|

@@ -1,3 +1,9 @@
+# To test ETL:
+# rake db:migrate:reset; rails test test/lib/v2_etl/migrate_test.rb
+#
+# To Test everything:
+# rake db:migrate:reset; rails test
+
 ENV['RAILS_ENV'] ||= 'test'
 
 # This must happen above the env require below
@@ -21,6 +27,25 @@ require_relative './helpers/turbo_assertions_helper'
 
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
+
+#======
+Rails.logger.debug "#####\n#####\n#####\nStarting Migration\n#####\n#####\n#####\n"
+
+require_relative '../lib/v2_etl/migrate'
+`cp db/schema.v2.rb db/schema.rb`
+
+tables = ActiveRecord::Base.connection.select_values('SELECT table_name FROM information_schema.tables WHERE TABLE_SCHEMA = "exercism_v3_test"') # rubocop:disable Layout/LineLength
+ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS=0;")
+tables.each { |table| ActiveRecord::Base.connection.drop_table(table) }
+ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS=1;")
+
+`RAILS_ENV=test rake db:schema:load`
+
+V2ETL::Migrate.()
+
+Rails.logger.debug "#####\n#####\n#####\nFinished Migration\n#####\n#####\n#####\n"
+
+#======
 
 # Configure mocha to be safe
 Mocha.configure do |c|

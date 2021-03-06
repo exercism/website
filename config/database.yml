@@ -17,7 +17,7 @@ default: &default
 development:
   primary:
     <<: *default
-    database: exercism_v3_development
+    database: :website_etl2
 
 test:
   primary:

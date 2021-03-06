@@ -14,6 +14,7 @@ AllCops:
     - "db/seeds.rb"
     - "node_modules/**/*"
     - "lib/solargraph-rails.rb"
+    - "lib/v2_etl/**/*"
     - "scripts/**/*"
 
 Bundler/OrderedGems:

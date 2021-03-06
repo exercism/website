@@ -63,6 +63,8 @@ class Exercise < ApplicationRecord
 
   before_update do
     self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) if git_sha_changed?
+  rescue StandardError
+    # TODO: Remove after ETL
   end
 
   def status

@@ -76,7 +76,7 @@ export const SolutionSummary = ({
     resolvedData.iterations[resolvedData.iterations.length - 1]
 
   return (
-    <section className="latest-iteration">
+    <>
       {solution.completedAt ? null : (
         <Nudge
           iteration={latestIteration}
@@ -84,20 +84,22 @@ export const SolutionSummary = ({
           links={links}
         />
       )}
-      <Header
-        iteration={latestIteration}
-        isConceptExercise={isConceptExercise}
-        links={links}
-      />
-      <IterationLink iteration={latestIteration} />
-      <ProminentLink
-        link={links.allIterations}
-        text="See all of your iterations"
-      />
-      <div className="next-steps">
-        <CommunitySolutions link={links.communitySolutions} />
-        <Mentoring link={links.learnMoreAboutMentoringArticle} />
-      </div>
-    </section>
+      <section className="latest-iteration">
+        <Header
+          iteration={latestIteration}
+          isConceptExercise={isConceptExercise}
+          links={links}
+        />
+        <IterationLink iteration={latestIteration} />
+        <ProminentLink
+          link={links.allIterations}
+          text="See all of your iterations"
+        />
+        <div className="next-steps">
+          <CommunitySolutions link={links.communitySolutions} />
+          <Mentoring link={links.learnMoreAboutMentoringArticle} />
+        </div>
+      </section>
+    </>
   )
 }

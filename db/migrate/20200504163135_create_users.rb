@@ -1,5 +1,11 @@
 class CreateUsers < ActiveRecord::Migration[6.0]
   def change
+    # TODO: Add avatar_url
+    # TODO: Add admin 
+    # TODO: Add dark_code_theme
+    # TOOD: Add deleted_at
+    # TODO: Add joined_research_at
+
     create_table :users do |t|
       t.string :handle, null: false, index: {unique: true}
       t.string :name, null: false

@@ -1,5 +1,7 @@
 class CreateTracks < ActiveRecord::Migration[6.0]
   def change
+    # TODO: Add median_wait_time
+    # TODO: syntax_highlighter_language ?
     create_table :tracks do |t|
       t.string :slug, null: false, index: { unique: true }
       t.string :title, null: false

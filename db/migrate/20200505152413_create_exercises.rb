@@ -1,5 +1,9 @@
 class CreateExercises < ActiveRecord::Migration[6.0]
   def change
+    # TODO: Add blurb
+    # TODO: Add difficulty
+    # TODO: Add position
+    # TODO: Add median_wait_time
     create_table :exercises do |t|
       t.belongs_to :track, foreign_key: true, null: false
 

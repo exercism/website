@@ -17,6 +17,8 @@ test('opens and closes detail blocks', async () => {
       iteration={iteration}
       track={{}}
       exercise={{}}
+      onExpanded={() => {}}
+      onCompressed={() => {}}
     />
   )
   const details = screen.getByRole('group')

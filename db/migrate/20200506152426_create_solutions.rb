@@ -6,7 +6,7 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.belongs_to :user, foreign_key: true, null: false
       t.belongs_to :exercise, foreign_key: true, null: false
 
-      t.string :uuid, null: false, unique: true
+      t.string :uuid, null: false, index: {unique: true}
 
       t.string :git_slug, null: false
       t.string :git_sha, null: false

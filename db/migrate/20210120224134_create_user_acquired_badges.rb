@@ -1,5 +1,5 @@
 class CreateUserAcquiredBadges < ActiveRecord::Migration[6.1]
-  def up
+  def change
     create_table :user_acquired_badges do |t|
 
       t.string :uuid, null: false
@@ -15,9 +15,5 @@ class CreateUserAcquiredBadges < ActiveRecord::Migration[6.1]
 
       t.index :uuid, unique: true
     end
-  end
-
-  def down
-    drop_table :user_acquired_badges
   end
 end

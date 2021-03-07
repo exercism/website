@@ -10,9 +10,12 @@ export const Mentoring = ({ link }: { link: string }): JSX.Element => {
         On average, students iterate a further 3.5 times when mentored on a
         solution.
       </p>
-      <button type="button" className="btn-small-cta">
-        Request Mentoring
-      </button>
+      <div className="c-combo-button">
+        <button className="--editor-segment">Request Mentoring</button>
+        <button className="--dropdown-segment">
+          <GraphicalIcon icon="chevron-down" />
+        </button>
+      </div>
       <a href={link} className="learn-more">
         Learn more
         <Icon icon="external-link" alt="Opens in new tab" />

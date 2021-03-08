@@ -1,13 +1,10 @@
-class Tracks::MentoringRequestsController < ApplicationController
+class Tracks::MentorRequestsController < ApplicationController
+  before_action :disable_site_header!
   before_action :use_solution
 
-  def create
-    Solution::MentorRequest::Create.(
-      @solution,
-      :code_review,
-      params[:comment]
-    )
-    redirect_to track_exercise_mentoring_index_path(@track, @exercise)
+  def new
+    @first_time_on_track = true
+    @first_time_mentoring = true
   end
 
   private

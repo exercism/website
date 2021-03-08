@@ -4,16 +4,14 @@ class Solution::MentorRequest::CreateTest < ActiveSupport::TestCase
   test "creates request" do
     user = create :user
     solution = create :practice_solution, user: user
-    type = :code_review
     comment = "Please help with this"
 
-    Solution::MentorRequest::Create.(solution, type, comment)
+    Solution::MentorRequest::Create.(solution, comment)
 
     assert_equal 1, Solution::MentorRequest.count
 
     request = Solution::MentorRequest.last
     assert_equal solution, request.solution
-    assert_equal type, request.type
     assert_equal comment, request.comment
   end
 
@@ -27,7 +25,7 @@ class Solution::MentorRequest::CreateTest < ActiveSupport::TestCase
 
   test "creates new request if there is a fulfilled one" do
     existing_request = create :solution_mentor_request, status: :fulfilled
-    new_request = Solution::MentorRequest::Create.(existing_request.solution, :code_review, "")
+    new_request = Solution::MentorRequest::Create.(existing_request.solution, "")
     refute_equal existing_request, new_request
   end
 end

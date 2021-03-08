@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         resources :iterations, only: %i[create]
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
 
+        resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
           resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
         end
@@ -179,8 +180,8 @@ Rails.application.routes.draw do
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
 
-      resources :mentoring, only: [:index], controller: "tracks/mentoring"
-      resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
+      resources :mentor_discussions, only: [:index], controller: "tracks/mentor_requests"
+      resource :mentor_request, only: [:new], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
     end
 

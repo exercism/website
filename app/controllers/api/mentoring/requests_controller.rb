@@ -42,10 +42,12 @@ module API
 
       Solution::MentorRequest::Lock.(mentor_request, current_user)
 
+      # TODO: This should use a serializer
       render json: {
         request: {
           id: mentor_request.uuid,
-          comment: mentor_request.comment,
+          # TODO: Should we not be passing HTML?
+          comment: mentor_request.comment_markdown,
           updated_at: mentor_request.updated_at.iso8601,
           is_locked: mentor_request.locked?,
           links: {

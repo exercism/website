@@ -74,7 +74,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       className={`c-copy-text-to-clipboard ${justCopied ? 'copied' : ''}`}
       aria-label={`Copy ${textToCopy} to the cliboard`}
     >
-      <div className="text">exercism download --exercise=pattern</div>
+      <div className="text">{textToCopy}</div>
       <Icon icon="clipboard" alt="Copy to clipboard" />
     </button>
   )

@@ -91,3 +91,18 @@ export enum AnalysisStatus {
   EXCEPTIONED = 'exceptioned',
   CANCELLED = 'cancelled',
 }
+
+export type MentorDiscussion = {
+  id: string
+  mentor: {
+    avatarUrl: string
+    handle: string
+  }
+  isFinished: boolean
+  isUnread: boolean
+  postsCount: number
+  createdAt: string
+  links: {
+    self: string
+  }
+}

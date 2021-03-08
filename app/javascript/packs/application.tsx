@@ -111,6 +111,7 @@ import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMen
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
+import { Links as MentoringDropdownLinks } from '../components/student/MentoringDropdown'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
@@ -122,7 +123,7 @@ import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { Iteration } from '../components/types'
+import { Iteration, MentorDiscussion } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Iteration as MentoringSessionIteration,
@@ -245,6 +246,13 @@ initReact({
       exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
       links={data.links}
       userId={data.user_id}
+    />
+  ),
+  'student-mentoring-dropdown': (data: any) => (
+    <Student.MentoringDropdown
+      hasMentorDiscussionInProgress={data.has_mentor_discussion_in_progress}
+      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
+      links={camelizeKeysAs<MentoringDropdownLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

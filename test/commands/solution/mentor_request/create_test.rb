@@ -12,20 +12,20 @@ class Solution::MentorRequest::CreateTest < ActiveSupport::TestCase
 
     request = Solution::MentorRequest.last
     assert_equal solution, request.solution
-    assert_equal comment, request.comment
+    assert_equal comment, request.comment_markdown
   end
 
   test "returns existing in progress request" do
     user = create :user
     solution = create :practice_solution, user: user
     existing_request = create :solution_mentor_request, status: :pending, solution: solution
-    new_request = Solution::MentorRequest::Create.(solution, nil, nil)
+    new_request = Solution::MentorRequest::Create.(solution, "foobar")
     assert_equal existing_request, new_request
   end
 
   test "creates new request if there is a fulfilled one" do
     existing_request = create :solution_mentor_request, status: :fulfilled
-    new_request = Solution::MentorRequest::Create.(existing_request.solution, "")
+    new_request = Solution::MentorRequest::Create.(existing_request.solution, "some copy")
     refute_equal existing_request, new_request
   end
 end

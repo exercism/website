@@ -404,7 +404,7 @@
                 }
 
                 & .post {
-                    @apply pt-20 pb-16 px-24 bg-backgroundColorA;
+                    @apply pt-20 pb-16 px-24;
 
                     &:hover {
                         @apply bg-backgroundColorB;
@@ -615,8 +615,15 @@
             }
         }
         & #panel-discussion.mentoring-requested-section {
-            @apply py-16;
-            @apply overflow-auto;
+            @apply pb-0;
+            @apply relative overflow-hidden;
+            @apply flex flex-col;
+
+            & .content {
+                @apply flex-grow;
+                overflow-y: scroll;
+                @apply pt-16 pb-32;
+            }
 
             & .status {
                 @apply flex items-center;
@@ -683,7 +690,7 @@
                 }
             }
             & .waiting-box {
-                @apply py-16 px-24 mx-24 mt-32;
+                @apply py-16 px-24 mx-24 mt-16;
                 @apply border-1 border-borderColor6 rounded-8;
                 @apply shadow-sm;
 
@@ -714,6 +721,9 @@
                     & .video {
                         @apply flex items-center;
                         @apply py-12 px-16;
+                        &:hover {
+                            @apply bg-backgroundColorE;
+                        }
                         & .img {
                             @apply flex-shrink-0;
                             height: 48px;
@@ -738,6 +748,18 @@
                             @apply ml-20;
                         }
                     }
+                }
+            }
+            & .direct {
+                box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+
+                @apply px-24 py-16 bg-backgroundColorA;
+
+                & h3 {
+                    @apply text-h6 mb-4;
+                }
+                & p {
+                    @apply text-p-small mb-12;
                 }
             }
         }

@@ -11,7 +11,7 @@ module Mentoring
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
       mentor_request = create :solution_mentor_request,
         solution: solution,
-        comment: "Hello",
+        comment_markdown: "Hello",
         updated_at: Time.utc(2016, 12, 25)
 
       iteration_1 = create :iteration, solution: solution
@@ -103,7 +103,7 @@ module Mentoring
           relationship: nil,
           request: {
             id: mentor_request.uuid,
-            comment: "Hello",
+            comment: "<p>Hello</p>\n",
             updated_at: Time.utc(2016, 12, 25).iso8601,
             is_locked: false,
             links: {

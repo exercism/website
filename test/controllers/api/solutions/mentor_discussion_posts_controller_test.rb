@@ -13,7 +13,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: student
     mentor_request = create :solution_mentor_request,
       solution: solution,
-      comment: "Hello",
+      comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
     discussion = create :solution_mentor_discussion, solution: solution, request: mentor_request
     iteration = create :iteration, idx: 2, solution: solution
@@ -37,7 +37,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Hello",
-          content_html: "Hello",
+          content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           links: {
           }
@@ -69,7 +69,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: student
     mentor_request = create :solution_mentor_request,
       solution: solution,
-      comment: "Hello",
+      comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
     discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     create :iteration, idx: 7, solution: solution
@@ -86,7 +86,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Hello",
-          content_html: "Hello",
+          content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 7,
           links: {}

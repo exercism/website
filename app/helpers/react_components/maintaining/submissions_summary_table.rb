@@ -66,7 +66,7 @@ module ReactComponents
             data += "\n\nSTDOUT:\n------\n#{job.stdout}"
             data += "\n\nSTDERR:\n------\n#{job.stderr}"
           elsif submission.analysis
-            data += "\n#{submission.analysis.send(:data)}"
+            data += "\n\n#{submission.analysis.send(:data)}"
           end
           data
         end

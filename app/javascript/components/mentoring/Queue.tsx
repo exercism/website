@@ -15,10 +15,18 @@ import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { Loading } from '../common'
 import { QueryStatus } from 'react-query'
+import { ChangeTracksButton } from './queue/ChangeTracksButton'
+
+const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
 type SortOption = {
   value: string
   label: string
+}
+
+export type Links = {
+  tracks: string
+  updateTracks: string
 }
 
 export const Queue = ({
@@ -26,13 +34,16 @@ export const Queue = ({
   tracksRequest,
   defaultTrack,
   sortOptions,
+  links,
 }: {
   queueRequest: Request
   tracksRequest: Request
   defaultTrack: MentoredTrack
   sortOptions: SortOption[]
+  links: Links
 }): JSX.Element => {
   const { tracks, isFetching: isTrackListFetching } = useTrackList({
+    cacheKey: TRACKS_LIST_CACHE_KEY,
     request: tracksRequest,
   })
   const [selectedTrack, setSelectedTrack] = useState<MentoredTrack | null>(
@@ -62,6 +73,7 @@ export const Queue = ({
     track: selectedTrack,
     exercises: selectedExercises,
   })
+
   const handleReset = useCallback(() => {
     setSelectedTrack(defaultTrack)
     setSelectedExercises([])
@@ -94,6 +106,7 @@ export const Queue = ({
         />
       </div>
       <div className="mentor-queue-filtering">
+        <ChangeTracksButton links={links} cacheKey={TRACKS_LIST_CACHE_KEY} />
         {resolvedData ? (
           <SolutionCount
             unscopedTotal={resolvedData.meta.unscopedTotal}

@@ -114,6 +114,7 @@ import {
   SolutionSummaryRequest,
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
+import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import { MentoredTrack } from '../components/mentoring/queue/useTrackList'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
@@ -180,6 +181,7 @@ initReact({
       queueRequest={camelizeKeysAs<Request>(data.queue_request)}
       tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
       defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
+      links={camelizeKeysAs<MentoringQueueLinks>(data.links)}
       sortOptions={data.sort_options}
     />
   ),

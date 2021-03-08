@@ -2,6 +2,14 @@ module Temp
   class MentoredTracksController < ApplicationController
     before_action :authenticate_user!
 
+    def update
+      tracks = Track.where(slug: params[:track_slugs])
+
+      current_user.mentored_tracks = tracks
+
+      render json: { mentored_tracks: ::Solution::MentorRequest::RetrieveTracks.(current_user) }
+    end
+
     def show
       tracks = ::Solution::MentorRequest::RetrieveTracks.(current_user)
 

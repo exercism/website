@@ -12,13 +12,13 @@ import { sendRequest } from '../utils/send-request'
 import { stringify } from 'qs'
 
 export type Request = {
-  endpoint: string
+  endpoint: string | undefined
   query?: Record<string, any>
   options: QueryConfig<any>
 }
 
 type PaginatedRequest = {
-  endpoint: string
+  endpoint: string | undefined
   query?: Record<string, any>
   options: PaginatedQueryConfig<any>
 }
@@ -56,7 +56,7 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
 }
 
 export function useRequestQuery<TResult = unknown, TError = unknown>(
-  key: string,
+  key: QueryKey,
   request: Request,
   isMountedRef: React.MutableRefObject<boolean>
 ): QueryResult<TResult, TError> {

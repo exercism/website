@@ -28,11 +28,15 @@ export const sendRequest = ({
   method,
   isMountedRef,
 }: {
-  endpoint: string
+  endpoint: string | undefined
   body: any
   method: string
   isMountedRef: React.MutableRefObject<Boolean>
 }) => {
+  if (!endpoint) {
+    return Promise.reject()
+  }
+
   const cancel = new AbortController()
 
   return fetchJSON(endpoint, {

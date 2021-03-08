@@ -3,9 +3,8 @@ class Solution
     class RetrieveTracks
       include Mandate
 
-      def initialize(mentor, selected_id: nil)
+      def initialize(mentor)
         @mentor = mentor
-        @selected_id = selected_id || default_selected_id
       end
 
       def call
@@ -15,7 +14,6 @@ class Solution
             title: track.title,
             icon_url: track.icon_url,
             count: request_counts[track.id].to_i,
-            selected: track.id == selected_id,
             links: {
               exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: track.slug)
             }
@@ -24,7 +22,7 @@ class Solution
       end
 
       private
-      attr_reader :mentor, :selected_id
+      attr_reader :mentor
 
       memoize
       def completed_by_mentor
@@ -42,13 +40,6 @@ class Solution
         ).joins(solution: :exercise).
           group('exercises.track_id').
           count
-      end
-
-      memoize
-      def default_selected_id
-        # TODO: Record last mentored track as the preference
-        # and use it here
-        mentored_tracks.first.id
       end
 
       memoize

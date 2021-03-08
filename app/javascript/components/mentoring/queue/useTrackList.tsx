@@ -13,16 +13,30 @@ export type MentoredTrack = {
   }
 }
 
+export type APIResponse = {
+  mentoredTracks: MentoredTrack[]
+}
+
 export const useTrackList = ({
+  cacheKey,
   request,
 }: {
+  cacheKey: string
   request: Request
-}): { tracks: MentoredTrack[]; isFetching: boolean } => {
+}): {
+  tracks: MentoredTrack[]
+  isFetching: boolean
+} => {
   const isMountedRef = useIsMounted()
 
-  const { resolvedData, isFetching } = usePaginatedRequestQuery<{
-    mentoredTracks: MentoredTrack[]
-  }>('mentored-tracks', request, isMountedRef)
+  const { resolvedData, isFetching } = usePaginatedRequestQuery<APIResponse>(
+    cacheKey,
+    request,
+    isMountedRef
+  )
 
-  return { tracks: resolvedData ? resolvedData.mentoredTracks : [], isFetching }
+  return {
+    tracks: resolvedData ? resolvedData.mentoredTracks : [],
+    isFetching,
+  }
 }

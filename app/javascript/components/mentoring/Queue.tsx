@@ -5,16 +5,10 @@ import { useMentoringQueue } from './queue/useMentoringQueue'
 import { TrackFilterList } from './queue/TrackFilterList'
 import { Request } from '../../hooks/request-query'
 import { SolutionCount } from './queue/SolutionCount'
-import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import {
-  ExerciseFilterList,
-  Props as ExerciseFilterListProps,
-} from './queue/ExerciseFilterList'
+import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
-import { Loading } from '../common'
-import { QueryStatus } from 'react-query'
 import { ChangeTracksButton } from './queue/ChangeTracksButton'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
@@ -42,7 +36,12 @@ export const Queue = ({
   sortOptions: SortOption[]
   links: Links
 }): JSX.Element => {
-  const { tracks, isFetching: isTrackListFetching } = useTrackList({
+  const {
+    tracks,
+    status: trackListStatus,
+    error: trackListError,
+    isFetching: isTrackListFetching,
+  } = useTrackList({
     cacheKey: TRACKS_LIST_CACHE_KEY,
     request: tracksRequest,
   })
@@ -68,6 +67,7 @@ export const Queue = ({
     page,
     setPage,
     status,
+    error,
   } = useMentoringQueue({
     request: queueRequest,
     track: selectedTrack,
@@ -99,6 +99,7 @@ export const Queue = ({
         </header>
         <SolutionList
           status={status}
+          error={error}
           page={page}
           resolvedData={resolvedData}
           latestData={latestData}
@@ -115,6 +116,8 @@ export const Queue = ({
           />
         ) : null}
         <TrackFilterList
+          status={trackListStatus}
+          error={trackListError}
           tracks={tracks}
           isFetching={isTrackListFetching}
           value={selectedTrack}
@@ -122,40 +125,15 @@ export const Queue = ({
         />
         <div className="exercise-filter">
           <h3>Filter by exercise</h3>
-          <ErrorBoundary>
-            <ExerciseFilterListContainer
-              status={exerciseListStatus}
-              exercises={exercises}
-              value={selectedExercises}
-              setValue={setSelectedExercises}
-              error={exerciseListError}
-            />
-          </ErrorBoundary>
+          <ExerciseFilterList
+            status={exerciseListStatus}
+            exercises={exercises}
+            value={selectedExercises}
+            setValue={setSelectedExercises}
+            error={exerciseListError}
+          />
         </div>
       </div>
     </div>
   )
-}
-
-const DEFAULT_ERROR = new Error('Unable to fetch exercises')
-
-const ExerciseFilterListContainer = ({
-  status,
-  error,
-  ...props
-}: ExerciseFilterListProps & {
-  status: QueryStatus
-  error: unknown
-}): JSX.Element | null => {
-  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
-
-  switch (status) {
-    case 'loading':
-      return <Loading />
-    case 'success': {
-      return <ExerciseFilterList {...props} />
-    }
-    default:
-      return null
-  }
 }

@@ -10,7 +10,9 @@ test('searches for exercises', async () => {
     { slug: 'series', title: 'Series' },
   ]
 
-  render(<ExerciseFilterList exercises={exercises} value={[]} />)
+  render(
+    <ExerciseFilterList status="success" exercises={exercises} value={[]} />
+  )
 
   userEvent.type(screen.getByRole('textbox'), 'tour')
 

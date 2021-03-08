@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { ExerciseIcon, GraphicalIcon } from '../../common'
+import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrackExercise } from './useExerciseList'
+import { QueryStatus } from 'react-query'
 
 export type Props = {
   exercises: MentoredTrackExercise[] | undefined
@@ -33,11 +35,25 @@ const ExerciseFilter = ({
   )
 }
 
+const DEFAULT_ERROR = new Error('Unable to fetch exercises')
+
 export const ExerciseFilterList = ({
-  exercises,
-  value,
-  setValue,
-}: Props): JSX.Element => {
+  status,
+  error,
+  ...props
+}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState('')
   const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] = useState(
     true

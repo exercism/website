@@ -51,7 +51,7 @@ module ReactComponents
 
         {
           id: request.uuid,
-          comment: request.comment,
+          comment: request.comment_html,
           updated_at: request.updated_at.iso8601,
           is_locked: request.locked?,
           links: {

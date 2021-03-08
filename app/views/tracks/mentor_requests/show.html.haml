@@ -1,0 +1,52 @@
+.c-mentor-discussion
+  .lhs
+  .rhs
+    #panel-discussion.mentoring-requested-section
+      .status
+        .info
+          %h3 Waiting on a mentor...
+          %p Recent median waiting time: ~2 hours
+        = link_to "Cancel Request", "#"
+
+      .placeholder
+        .info
+          .title
+            .name
+            .rep
+          .desc
+        .avatar
+          = graphical_icon 'avatar-placeholder'
+
+      / @kntsoriano This is the discussion component used in React
+      <div class="discussion"><div class="iteration-marker"><div class="info"><svg class="c-icon" role="presentation"><use xlink:href="#iteration"></use></svg><strong>Iteration 1</strong>was submitted</div><time>08 Mar 2021</time></div><div class="post"><header class="post-header"><div class="author"><div class="c-rounded-bg-img" style="background-image: url(&quot;https://avatars2.githubusercontent.com/u/5337876?s=460&amp;v=4&amp;e_uid=2&quot;);"><img src="https://avatars2.githubusercontent.com/u/5337876?s=460&amp;v=4&amp;e_uid=2" alt="Uploaded avatar of erikSchierboom" class="tw-sr-only"></div><div class="handle">erikSchierboom</div></div></header><div class="post-content c-textual-content --small"><p>Foobar</p></div><time class="post-at">31 minutes ago</time></div></div>
+
+      .waiting-box
+        %h3 Waiting on a mentor?
+        %h4 Learn how to get the most out of mentoring
+        %p
+          Mentoring relies on mentors and students having a shared understanding of how it works.
+          = external_link_to "Read our guide", "#"
+          or watch the videos below to get that understanding.
+        .videos
+          = link_to "#", class: "video" do
+            .img
+            .info
+              .title Start mentoring on Exercism..
+              .date 24 Jan 2020
+            = icon "external-link", "The link opens in a new window or tab"
+
+          = link_to "#", class: "video" do
+            .img
+            .info
+              .title
+                Best practices writing feedback trrrrrruuuuunnnncaaatteeee
+              .date 24 Jan 2020
+            = icon "external-link", "The link opens in a new window or tab"
+
+          = link_to "#", class: "video" do
+            .img
+            .info
+              .title Beginners’ Guide to Mentoring
+              .date 24 Jan 2020
+            = icon "external-link", "The link opens in a new window or tab"
+

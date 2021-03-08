@@ -181,7 +181,7 @@ Rails.application.routes.draw do
       resources :iterations, only: [:index], controller: "tracks/iterations"
 
       resources :mentor_discussions, only: [:index], controller: "tracks/mentor_requests"
-      resource :mentor_request, only: [:new], controller: "tracks/mentor_requests"
+      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
     end
 

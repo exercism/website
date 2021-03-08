@@ -1,6 +1,7 @@
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { MentoredTrackExercise } from './useExerciseList'
+import { QueryStatus } from 'react-query'
 
 export type MentoredTrack = {
   slug: string
@@ -25,18 +26,20 @@ export const useTrackList = ({
   request: Request
 }): {
   tracks: MentoredTrack[]
+  status: QueryStatus
+  error: unknown
   isFetching: boolean
 } => {
   const isMountedRef = useIsMounted()
 
-  const { resolvedData, isFetching } = usePaginatedRequestQuery<APIResponse>(
-    cacheKey,
-    request,
-    isMountedRef
-  )
+  const { resolvedData, isFetching, status, error } = usePaginatedRequestQuery<
+    APIResponse
+  >(cacheKey, request, isMountedRef)
 
   return {
     tracks: resolvedData ? resolvedData.mentoredTracks : [],
+    status,
+    error,
     isFetching,
   }
 }

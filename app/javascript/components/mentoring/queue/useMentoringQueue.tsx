@@ -49,6 +49,7 @@ export const useMentoringQueue = ({
   latestData: APIResponse | undefined
   isFetching: boolean
   status: QueryStatus
+  error: unknown
 } => {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
@@ -59,6 +60,7 @@ export const useMentoringQueue = ({
     latestData,
     isFetching,
     status,
+    error,
   } = usePaginatedRequestQuery<APIResponse>(
     ['mentoring-request', request.query, trackSlug, exerciseSlugs],
     {
@@ -83,5 +85,6 @@ export const useMentoringQueue = ({
     setOrder,
     page: request.query.page,
     setPage,
+    error,
   }
 }

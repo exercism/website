@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import { TrackIcon } from '../../common'
+import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrack } from './useTrackList'
+import { QueryStatus } from 'react-query'
 
 const TrackFilter = ({
   title,
@@ -30,17 +32,37 @@ const TrackFilter = ({
   )
 }
 
+const DEFAULT_ERROR = new Error('Unable to fetch tracks')
+
 export const TrackFilterList = ({
-  tracks,
-  isFetching,
-  value,
-  setValue,
-}: {
+  status,
+  error,
+  ...props
+}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+type Props = {
   tracks: MentoredTrack[] | undefined
   isFetching: boolean
   value: MentoredTrack | null
   setValue: (value: MentoredTrack) => void
-}): JSX.Element => {
+}
+
+const Component = ({
+  tracks,
+  isFetching,
+  value,
+  setValue,
+}: Props): JSX.Element => {
   const handleChange = useCallback(
     (e, optionValue) => {
       setValue(optionValue)

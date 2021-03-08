@@ -36,7 +36,6 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         title: "C#",
         icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         count: 6,
-        selected: true,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'csharp')
         }
@@ -46,7 +45,6 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         title: "F#",
         icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         count: 0,
-        selected: false,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'fsharp')
         }
@@ -56,7 +54,6 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         title: "Ruby",
         icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
         count: 3,
-        selected: false,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'ruby')
         }

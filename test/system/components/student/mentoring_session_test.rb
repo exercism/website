@@ -14,7 +14,8 @@ module Components
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
         solution = create :concept_solution, user: student
-        request = create :solution_mentor_request, solution: solution, comment: "Hello, Mentor", updated_at: 2.days.ago
+        request = create :solution_mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
+                                                   updated_at: 2.days.ago
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission, solution: solution
         iteration = create :iteration,

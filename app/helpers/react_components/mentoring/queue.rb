@@ -13,10 +13,14 @@ module ReactComponents
         super(
           "mentoring-queue",
           {
-            request: request,
-            tracks: track_data,
-            exercises: exercise_data,
-            sort_options: SORT_OPTIONS
+            queue_request: queue_request,
+            tracks_request: tracks_request,
+            default_track: default_track,
+            sort_options: SORT_OPTIONS,
+            links: {
+              tracks: Exercism::Routes.api_tracks_url,
+              update_tracks: Exercism::Routes.temp_mentored_tracks_url
+            }
           }
         )
       end
@@ -31,25 +35,34 @@ module ReactComponents
       private
       attr_reader :mentor
 
-      def request
+      def tracks_request
         {
-          endpoint: Exercism::Routes.api_mentoring_requests_path,
-          query: {
-            track_slug: track_data.find { |track| track[:selected] }[:slug],
-            exercise_slugs: []
+          endpoint: Exercism::Routes.temp_mentored_tracks_url,
+          options: {
+            initial_data: {
+              mentored_tracks: track_data
+            }
           }
+        }
+      end
+
+      def default_track
+        track = track_data.first
+
+        track.merge(
+          exercises: ::Solution::MentorRequest::RetrieveExercises.(mentor, track[:slug])
+        )
+      end
+
+      def queue_request
+        {
+          endpoint: Exercism::Routes.api_mentoring_requests_path
         }
       end
 
       memoize
       def track_data
         ::Solution::MentorRequest::RetrieveTracks.(mentor)
-      end
-
-      memoize
-      def exercise_data
-        selected_track_slug = track_data.find { |t| t[:selected] }[:slug]
-        ::Solution::MentorRequest::RetrieveExercises.(mentor, selected_track_slug)
       end
     end
   end

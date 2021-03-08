@@ -1,15 +1,6 @@
 import React, { useCallback } from 'react'
 import { TrackIcon } from '../../common'
-
-export type Track = {
-  slug: string
-  title: string
-  iconUrl: string
-  count: number
-  links: {
-    exercises: string
-  }
-}
+import { MentoredTrack } from './useTrackList'
 
 const TrackFilter = ({
   title,
@@ -17,7 +8,7 @@ const TrackFilter = ({
   count,
   checked,
   onChange,
-}: Track & {
+}: MentoredTrack & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
@@ -41,12 +32,14 @@ const TrackFilter = ({
 
 export const TrackFilterList = ({
   tracks,
+  isFetching,
   value,
   setValue,
 }: {
-  tracks: Track[]
-  value: string
-  setValue: (value: string) => void
+  tracks: MentoredTrack[] | undefined
+  isFetching: boolean
+  value: MentoredTrack | null
+  setValue: (value: MentoredTrack) => void
 }): JSX.Element => {
   const handleChange = useCallback(
     (e, optionValue) => {
@@ -57,17 +50,22 @@ export const TrackFilterList = ({
 
   return (
     <div className="track-filter">
+      {isFetching ? <span>Fetching</span> : null}
       <h3>Filter by language track</h3>
-      <div className="tracks">
-        {tracks.map((track) => (
-          <TrackFilter
-            key={track.slug}
-            onChange={(e) => handleChange(e, track.slug)}
-            checked={value === track.slug}
-            {...track}
-          />
-        ))}
-      </div>
+      {tracks && tracks.length > 0 ? (
+        <div className="tracks">
+          {tracks.map((track) => (
+            <TrackFilter
+              key={track.slug}
+              onChange={(e) => handleChange(e, track)}
+              checked={value?.slug === track.slug}
+              {...track}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>No tracks found</p>
+      )}
     </div>
   )
 }

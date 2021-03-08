@@ -108,14 +108,13 @@ import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
-import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
-import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
+import { MentoredTrack } from '../components/mentoring/queue/useTrackList'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
@@ -178,10 +177,10 @@ initReact({
   ),
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue
-      request={camelizeKeys(data.request)}
+      queueRequest={camelizeKeysAs<Request>(data.queue_request)}
+      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
+      defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
       sortOptions={data.sort_options}
-      tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
-      exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
     />
   ),
   'mentoring-session': (data: any) => (
@@ -319,6 +318,7 @@ initReact({
 })
 
 import { highlightAll } from '../utils/highlight'
+import { Request } from '../hooks/request-query'
 
 document.addEventListener('turbolinks:load', () => {
   highlightAll()

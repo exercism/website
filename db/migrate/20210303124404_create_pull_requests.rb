@@ -6,6 +6,7 @@ class CreatePullRequests < ActiveRecord::Migration[6.1]
       t.string :repo, null: false
       t.string :author_github_username, null: false
       t.json :event, null: false
+      t.boolean :processed, default: false, null: false
 
       t.timestamps
     end

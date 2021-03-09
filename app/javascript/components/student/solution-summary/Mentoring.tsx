@@ -8,6 +8,7 @@ import { MentorDiscussion } from '../../types'
 type Links = {
   learnMoreAboutMentoringArticle: string
   shareMentoring: string
+  requestMentoring: string
 }
 
 export const Mentoring = ({
@@ -30,7 +31,7 @@ export const Mentoring = ({
       <MentoringComboButton
         hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
         discussions={discussions}
-        shareLink={links.shareMentoring}
+        links={links}
       />
       <a href={links.learnMoreAboutMentoringArticle} className="learn-more">
         Learn more
@@ -43,11 +44,14 @@ export const Mentoring = ({
 const MentoringComboButton = ({
   hasMentorDiscussionInProgress,
   discussions,
-  shareLink,
+  links,
 }: {
   hasMentorDiscussionInProgress: boolean
   discussions: readonly MentorDiscussion[]
-  shareLink: string
+  links: {
+    requestMentoring: string
+    shareMentoring: string
+  }
 }) => {
   const {
     open,
@@ -71,7 +75,15 @@ const MentoringComboButton = ({
   return (
     /* TODO: Extract into a common component in the future */
     <div className="c-combo-button">
-      <button className="--editor-segment">Request Mentoring</button>
+      {discussions.length > 0 ? (
+        <a href={discussions[0].links.self} className="--editor-segment">
+          Continue mentoring
+        </a>
+      ) : (
+        <a href={links.requestMentoring} className="--editor-segment">
+          Request mentoring
+        </a>
+      )}
       <button
         className="--dropdown-segment"
         onClick={() => {
@@ -90,7 +102,7 @@ const MentoringComboButton = ({
         <MentoringDropdown
           hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
           discussions={discussions}
-          links={{ share: shareLink }}
+          links={{ share: links.shareMentoring }}
         />
       </MentoringPanel>
     </div>

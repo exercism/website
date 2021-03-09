@@ -6,8 +6,8 @@ module ReactComponents
       def to_s
         super("student-solution-summary", {
           solution: SerializeSolutionForStudent.(solution),
-          discussions: discussions,
           request: request,
+          discussions: discussions,
           is_concept_exercise: solution.exercise.concept_exercise?,
           links: links
         })
@@ -36,7 +36,8 @@ module ReactComponents
           learn_more_about_mentoring_article: "#",
           mentoring_info: "#",
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
-          share_mentoring: "https://some.link/we/need/to-decide-on"
+          share_mentoring: "https://some.link/we/need/to-decide-on",
+          request_mentoring: "#"
         }
       end
 

@@ -19,6 +19,7 @@ export type SolutionSummaryLinks = {
   mentoringInfo: string
   completeExercise: string
   shareMentoring: string
+  requestMentoring: string
 }
 
 export type SolutionSummaryRequest = {

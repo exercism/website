@@ -51,46 +51,47 @@ module Git
     end
 
     def fetch_page(cursor)
-      query = "{
-        repository(owner: \"#{repo_owner}\", name: \"#{repo_name}\") {
-          nameWithOwner
-          pullRequests(first: 100,
-                       states:[CLOSED, MERGED]
-                       #{cursor ? ", after: \"#{cursor}\"" : ''}) {
-            nodes {
-              id
-              url
-              title
-              merged
-              number
-              labels(first: 100) {
-                nodes {
-                  name
+      query = <<~QUERY.strip
+          repository(owner: "#{repo_owner}", name: "#{repo_name}") {
+            nameWithOwner
+            pullRequests(first: 100,
+                         states:[CLOSED, MERGED]
+                         #{cursor ? ", after: \"#{cursor}\"" : ''}) {
+              nodes {
+                id
+                url
+                title
+                merged
+                number
+                labels(first: 100) {
+                  nodes {
+                    name
+                  }
                 }
-              }
-              author {
-                login
-              }
-              reviews(first: 100) {
-                nodes {
-                  id
-                  author {
-                    login
+                author {
+                  login
+                }
+                reviews(first: 100) {
+                  nodes {
+                    id
+                    author {
+                      login
+                    }
                   }
                 }
               }
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
             }
           }
+          rateLimit {
+            remaining
+            resetAt
+          }
         }
-        rateLimit {
-          remaining
-          resetAt
-        }
-      }".freeze
+      QUERY
 
       octokit_client.post("https://api.github.com/graphql", { query: query }.to_json)
     end

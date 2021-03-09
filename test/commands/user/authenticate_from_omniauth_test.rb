@@ -102,7 +102,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     refute_equal "user22", user.handle
   end
 
-  test "awards pull request reputation for uid matches" do
+  test "queues award pull request reputation job for uid matches" do
     user = create :user, provider: "github", uid: "111"
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
@@ -111,11 +111,27 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     end
   end
 
-  test "awards pull request reputation for email matches" do
+  test "queues award pull request reputation job for email matches" do
     user = create :user, email: "user@exercism.io"
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
 
     assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
+      User::AuthenticateFromOmniauth.(auth)
+    end
+  end
+
+  test "queues award pull request reputation job for bootstrapped user" do
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(
+        email: "user@exercism.io",
+        name: "Name",
+        nickname: "user22"
+      )
+    )
+
+    assert_enqueued_jobs 1, only: AwardPullRequestReputationJob, queue: 'reputation' do
       User::AuthenticateFromOmniauth.(auth)
     end
   end

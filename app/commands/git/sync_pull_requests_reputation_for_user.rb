@@ -7,7 +7,7 @@ module Git
     def call
       return if user.github_username.empty?
 
-      authored_pull_requests.or(reviewed_pull_requests).find_each do |pr|
+      pull_requests.find_each do |pr|
         User::ReputationToken::AwardForPullRequest.(pr.data[:action], user.github_username, pr.data)
       rescue StandardError => e
         Rails.logger.error "Error syncing pull request reputation for user #{user.handle}: #{e}"
@@ -15,6 +15,10 @@ module Git
     end
 
     private
+    def pull_requests
+      authored_pull_requests.or(reviewed_pull_requests)
+    end
+
     def authored_pull_requests
       ::Git::PullRequest.joins(:reviews).where(author_github_username: user.handle)
     end

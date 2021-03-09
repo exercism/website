@@ -145,7 +145,6 @@ module Git
     end
 
     def fetch_next_page?(pull_requests_data)
-      return false if pull_requests_data[:nodes].empty?
       return false if too_old?(pull_requests_data[:nodes].last)
 
       pull_requests_data[:pageInfo][:hasNextPage]
@@ -161,6 +160,7 @@ module Git
     end
 
     def too_old?(pull_request_data)
+      return true if pull_request_data.nil?
       return false if created_after.nil?
 
       Time.parse(pull_request_data[:createdAt]).utc < created_after.utc

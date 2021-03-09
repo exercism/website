@@ -75,7 +75,7 @@ import '../../css/modals/become-mentor'
 
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
-import '../../css/dropdowns/mentoring'
+import '../../css/dropdowns/request-mentoring'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'

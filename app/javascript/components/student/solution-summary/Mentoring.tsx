@@ -61,7 +61,7 @@ const MentoringComboButton = ({
     styles,
     attributes,
   } = usePanel({
-    placement: 'bottom',
+    placement: 'bottom-end',
     modifiers: [
       {
         name: 'offset',

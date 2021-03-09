@@ -3,7 +3,7 @@ FactoryBot.define do
     node_id { "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz" }
     number { 2 }
     repo { "exercism/ruby" }
-    author { "iHiD" }
+    author_github_username { "iHiD" }
     event do
       {
         url: "https://api.github.com/repos/exercism/ruby/pulls/2",

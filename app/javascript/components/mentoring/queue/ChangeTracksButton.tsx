@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
+import { MentoredTrack } from './useTrackList'
 
 export type Links = {
   tracks: string
@@ -8,9 +9,11 @@ export type Links = {
 
 export const ChangeTracksButton = ({
   links,
+  tracks,
   cacheKey,
 }: {
   links: Links
+  tracks: readonly MentoredTrack[]
   cacheKey: string
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
@@ -31,6 +34,7 @@ export const ChangeTracksButton = ({
       </button>
       <MentorChangeTracksModal
         open={open}
+        tracks={tracks}
         cacheKey={cacheKey}
         links={links}
         onClose={() => setOpen(false)}

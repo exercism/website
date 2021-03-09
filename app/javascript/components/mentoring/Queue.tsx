@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useTrackList, MentoredTrack } from './queue/useTrackList'
 import { useExerciseList, MentoredTrackExercise } from './queue/useExerciseList'
 import { useMentoringQueue } from './queue/useMentoringQueue'
@@ -75,9 +75,17 @@ export const Queue = ({
   })
 
   const handleReset = useCallback(() => {
-    setSelectedTrack(defaultTrack)
+    setSelectedTrack(tracks[0])
     setSelectedExercises([])
-  }, [defaultTrack])
+  }, [tracks])
+
+  useEffect(() => {
+    setSelectedTrack(tracks[0])
+  }, [tracks])
+
+  useEffect(() => {
+    setSelectedExercises([])
+  }, [selectedTrack])
 
   return (
     <div className="queue-section-content">
@@ -107,7 +115,11 @@ export const Queue = ({
         />
       </div>
       <div className="mentor-queue-filtering">
-        <ChangeTracksButton links={links} cacheKey={TRACKS_LIST_CACHE_KEY} />
+        <ChangeTracksButton
+          links={links}
+          tracks={tracks}
+          cacheKey={TRACKS_LIST_CACHE_KEY}
+        />
         {resolvedData ? (
           <SolutionCount
             unscopedTotal={resolvedData.meta.unscopedTotal}

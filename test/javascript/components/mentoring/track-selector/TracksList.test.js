@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TracksList } from '../../../../../../app/javascript/components/modals/mentor-registration-modal/choose-track-step/TracksList'
+import { TracksList } from '../../../../../app/javascript/components/mentoring/track-selector/TracksList'
 
 test('shows message when no tracks have been found', async () => {
   render(<TracksList status="success" data={{ tracks: [] }} />)

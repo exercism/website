@@ -53,6 +53,7 @@ test('shows API errors when fetching queue', async () => {
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>
@@ -99,6 +100,7 @@ test('shows generic errors when fetching queue', async () => {
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>
@@ -144,6 +146,7 @@ test('shows API errors when fetching tracks', async () => {
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>
@@ -179,6 +182,7 @@ test('shows generic errors when fetching tracks', async () => {
         tracksRequest={{
           endpoint: 'weirdendpoitn',
         }}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>
@@ -224,6 +228,7 @@ test('shows API errors when fetching tracks', async () => {
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>
@@ -277,6 +282,7 @@ test('shows API errors when fetching exercises', async () => {
           endpoint: 'https://exercism.test/tracks',
         }}
         defaultTrack={track}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>
@@ -320,6 +326,7 @@ test('shows generic errors when fetching exercises', async () => {
           endpoint: 'https://exercism.test/tracks',
         }}
         defaultTrack={track}
+        links={{ tracks: 'https://exercism.test/tracks' }}
         sortOptions={[]}
       />
     </TestQueryCache>

@@ -6,44 +6,24 @@ module Git
       initialize_with :repo
 
       def call
-        fetch!
-        create!
-      end
-
-      private
-      attr_reader :pull_requests
-
-      def create!
         pull_requests.each do |pr|
-          ::Git::PullRequest.new(
-            node_id: pr[:pr_id],
-            number: pr[:pr_number],
-            author_github_username: pr[:author],
-            repo: pr[:repo],
-            data: pr,
-            reviews: pr[:reviews].map do |review|
-              ::Git::PullRequestReview.new(
-                node_id: review[:node_id],
-                reviewer_github_username: review[:user][:login]
-              )
-            end
-          ).save!
-        rescue ActiveRecord::RecordNotUnique
-          nil
+          Git::PullRequest::CreateOrUpdate.(pr)
         end
       end
 
-      def fetch!
+      private
+      memoize
+      def pull_requests
         cursor = nil
-        @pull_requests = []
+        results = []
 
         loop do
           page_data = fetch_page(cursor)
 
           # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
-          @pull_requests += pull_requests_from_page_data(page_data)
+          results += pull_requests_from_page_data(page_data)
 
-          break unless pull_requests_data[:pageInfo][:hasNextPage]
+          break results unless pull_requests_data[:pageInfo][:hasNextPage]
 
           cursor = page_data[:data][:repository][:pullRequests][:pageInfo][:endCursor]
 

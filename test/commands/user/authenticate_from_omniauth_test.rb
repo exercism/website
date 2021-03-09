@@ -101,4 +101,22 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     assert user.persisted?
     refute_equal "user22", user.handle
   end
+
+  test "awards pull request reputation for uid matches" do
+    user = create :user, provider: "github", uid: "111"
+    auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
+
+    Git::SyncPullRequestsReputationForUser.expects(:call).with(user)
+
+    User::AuthenticateFromOmniauth.(auth)
+  end
+
+  test "awards pull request reputation for email matches" do
+    user = create :user, email: "user@exercism.io"
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+
+    Git::SyncPullRequestsReputationForUser.expects(:call).with(user)
+
+    User::AuthenticateFromOmniauth.(auth)
+  end
 end

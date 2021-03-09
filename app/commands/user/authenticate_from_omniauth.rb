@@ -20,7 +20,9 @@ class User
       end
 
       user.update_column(:github_username, auth.info.nickname)
-      user
+      user.tap do
+        Git::SyncPullRequestsReputationForUser.(user)
+      end
     end
 
     def find_by_email
@@ -47,8 +49,9 @@ class User
       end
 
       user.save
-
-      user
+      user.tap do
+        Git::SyncPullRequestsReputationForUser.(user)
+      end
     end
 
     def create

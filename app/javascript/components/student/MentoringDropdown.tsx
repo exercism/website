@@ -13,7 +13,7 @@ export const MentoringDropdown = ({
   links,
 }: {
   hasMentorDiscussionInProgress: boolean
-  discussions: MentorDiscussion[]
+  discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element => {
   return (

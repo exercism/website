@@ -9,7 +9,7 @@ import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
-import { Iteration } from '../types'
+import { Iteration, MentorDiscussion } from '../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -18,6 +18,7 @@ export type SolutionSummaryLinks = {
   learnMoreAboutMentoringArticle: string
   mentoringInfo: string
   completeExercise: string
+  shareMentoring: string
 }
 
 export type SolutionSummaryRequest = {
@@ -31,16 +32,19 @@ export type SolutionSummaryRequest = {
 
 export type SolutionSummarySolution = {
   id: string
+  hasMentorDiscussionInProgress: boolean
   completedAt?: string
 }
 
 export const SolutionSummary = ({
   solution,
+  discussions,
   request,
   isConceptExercise,
   links,
 }: {
   solution: SolutionSummarySolution
+  discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
   isConceptExercise: boolean
   links: SolutionSummaryLinks
@@ -97,7 +101,13 @@ export const SolutionSummary = ({
         />
         <div className="next-steps">
           <CommunitySolutions link={links.communitySolutions} />
-          <Mentoring link={links.learnMoreAboutMentoringArticle} />
+          <Mentoring
+            hasMentorDiscussionInProgress={
+              solution.hasMentorDiscussionInProgress
+            }
+            discussions={discussions}
+            links={links}
+          />
         </div>
       </section>
     </>

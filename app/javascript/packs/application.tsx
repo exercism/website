@@ -221,6 +221,7 @@ initReact({
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
+      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
       solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
@@ -246,13 +247,6 @@ initReact({
       exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
       links={data.links}
       userId={data.user_id}
-    />
-  ),
-  'student-mentoring-dropdown': (data: any) => (
-    <Student.MentoringDropdown
-      hasMentorDiscussionInProgress={data.has_mentor_discussion_in_progress}
-      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
-      links={camelizeKeysAs<MentoringDropdownLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

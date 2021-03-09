@@ -5,7 +5,7 @@ import { MentorDiscussionSummary } from '../../common/MentorDiscussionSummary'
 export const DiscussionList = ({
   discussions,
 }: {
-  discussions: MentorDiscussion[]
+  discussions: readonly MentorDiscussion[]
 }): JSX.Element => {
   if (discussions.length === 0) {
     return (

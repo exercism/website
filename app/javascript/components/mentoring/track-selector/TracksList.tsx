@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { QueryStatus } from 'react-query'
-import { APIResponse, Track } from '../ChooseTrackStep'
+import { APIResponse, Track } from '../TrackSelector'
 import { TrackCheckbox } from './TrackCheckbox'
-import { FetchingBoundary } from '../../../FetchingBoundary'
+import { FetchingBoundary } from '../../FetchingBoundary'
 
 const NoTracksFoundMessage = () => {
   return <p>No tracks found</p>

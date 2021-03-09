@@ -82,6 +82,9 @@ Rails.application.routes.draw do
 
       namespace :mentoring do
         resource :registration, only: %i[create], controller: 'registration'
+        resource :tracks, only: %i[show update] do
+          get :mentored
+        end
 
         resources :requests, only: %i[index] do
           collection do
@@ -235,6 +238,7 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
       end
     end
+    resource :mentored_tracks, only: %i[show update]
     resources :tracks, only: [] do
       resources :exercises, only: [], controller: "tracks/exercises" do
         member do

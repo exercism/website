@@ -38,7 +38,7 @@ class Solution
       def request_counts
         # Use the inner query for this
         Solution::MentorRequest::Retrieve.(
-          mentor,
+          mentor: mentor,
           track_slug: track.slug,
           sorted: false, paginated: false
         ).group('solutions.exercise_id').

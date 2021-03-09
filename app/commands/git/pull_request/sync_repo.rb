@@ -7,7 +7,12 @@ module Git
 
       def call
         pull_requests.each do |pr|
-          Git::PullRequest::CreateOrUpdate.(pr)
+          Git::PullRequest::CreateOrUpdate.(pr[:pr_id],
+            number: pr[:pr_number],
+            author_github_username: pr[:author],
+            repo: pr[:repo],
+            data: pr,
+            reviews: pr[:reviews])
         end
       end
 

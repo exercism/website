@@ -1,7 +1,7 @@
 import React from 'react'
 import pluralize from 'pluralize'
-import { Track } from '../ChooseTrackStep'
-import { Icon } from '../../../common'
+import { Track } from '../TrackSelector'
+import { Icon } from '../../common'
 
 export const TrackCheckbox = ({
   id,

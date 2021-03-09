@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, ModalProps } from './Modal'
-import { ChooseTrackStep } from './mentor-registration-modal/ChooseTrackStep'
+import { TrackSelector } from '../mentoring/TrackSelector'
 import { CloseButton } from './mentor-registration-modal/CloseButton'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
@@ -56,20 +56,24 @@ export const MentorChangeTracksModal = ({
     <Modal
       {...props}
       onClose={onClose}
-      className="m-become-mentor"
-      cover={true}
+      className="m-change-mentor-tracks"
+      cover={false}
     >
-      <div className="md-container">
-        <header>
-          <CloseButton onClick={onClose} />
-        </header>
-        <ChooseTrackStep
-          selected={selected}
-          setSelected={setSelected}
-          links={links}
-          onContinue={() => mutation()}
-        />
-      </div>
+      <header>
+        <div className="info">
+          <h2>Change the Tracks you mentor</h2>
+          <p>
+            You will still be able to continue any existing discussions on other
+            tracks.
+          </p>
+        </div>
+      </header>
+      <TrackSelector
+        selected={selected}
+        setSelected={setSelected}
+        tracksEndpoint={links.tracks}
+        onContinue={() => mutation()}
+      />
     </Modal>
   )
 }

@@ -2,7 +2,10 @@ module Git
   class SyncPullRequestsForRepo
     include Mandate
 
-    initialize_with :repo
+    def initialize(repo, created_after: nil)
+      @repo = repo
+      @created_after = created_after
+    end
 
     def call
       fetch!
@@ -10,7 +13,7 @@ module Git
     end
 
     private
-    attr_reader :pull_requests
+    attr_reader :pull_requests, :repo, :created_after
 
     def create!
       pull_requests.each do |pr|
@@ -42,31 +45,31 @@ module Git
         # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
         @pull_requests += pull_requests_from_page_data(page_data)
 
-        page_info = page_data[:data][:repository][:pullRequests][:pageInfo]
-        cursor = page_info[:endCursor]
-        break unless page_info[:hasNextPage]
+        break unless fetch_next_page?(page_data[:data][:repository][:pullRequests])
 
-        # If the rate limit was exceeded, sleep until it resets
-        rate_limit = page_data[:data][:rateLimit]
-        next unless rate_limit[:remaining] <= 0
+        cursor = page_data[:data][:repository][:pullRequests][:pageInfo][:endCursor]
 
-        reset_at = Time.parse(rate_limit[:resetAt]).utc
-        seconds_until_reset = reset_at - Time.now.utc
-        sleep(seconds_until_reset.ceil)
+        handle_rate_limit(page_data[:data][:rateLimit])
       end
     end
 
     def fetch_page(cursor)
+      # The pull requests are fetched in the order of their creation data,
+      # from most recent to oldest
       query = "{
         repository(owner: \"#{repo_owner}\", name: \"#{repo_name}\") {
           nameWithOwner
-          pullRequests(first: 100, states:[CLOSED, MERGED] #{", after: \"#{cursor}\"" if cursor}) {
+          pullRequests(first: 100,
+                       orderBy: {field: CREATED_AT, direction: DESC},
+                       states:[CLOSED, MERGED]
+                       #{cursor ? ", after: \"#{cursor}\"" : ''}) {
             nodes {
               id
               url
               title
               merged
               number
+              createdAt
               labels(first: 100) {
                 nodes {
                   name
@@ -106,6 +109,7 @@ module Git
       # This allows us to work with pull requests using a single code path.
       response[:data][:repository][:pullRequests][:nodes].map do |pr|
         next if pr[:author].nil? # In rare cases the PR author is null
+        next if too_old?(pr)
 
         {
           action: 'closed',
@@ -138,6 +142,28 @@ module Git
     memoize
     def repo_name
       repo.split('/').second
+    end
+
+    def fetch_next_page?(pull_requests_data)
+      return false if pull_requests_data[:nodes].empty?
+      return false if too_old?(pull_requests_data[:nodes].last)
+
+      pull_requests_data[:pageInfo][:hasNextPage]
+    end
+
+    def handle_rate_limit(rate_limit_data)
+      # If the rate limit was exceeded, sleep until it resets
+      return if rate_limit_data[:remaining].positive?
+
+      reset_at = Time.parse(rate_limit_data[:resetAt]).utc
+      seconds_until_reset = reset_at - Time.now.utc
+      sleep(seconds_until_reset.ceil)
+    end
+
+    def too_old?(pull_request_data)
+      return false if created_after.nil?
+
+      Time.parse(pull_request_data[:createdAt]).utc < created_after.utc
     end
 
     memoize

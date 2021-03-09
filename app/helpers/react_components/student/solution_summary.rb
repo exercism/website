@@ -37,7 +37,7 @@ module ReactComponents
           mentoring_info: "#",
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
           share_mentoring: "https://some.link/we/need/to-decide-on",
-          request_mentoring: "#"
+          request_mentoring: "#" # TODO
         }
       end
 

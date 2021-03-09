@@ -1,8 +1,7 @@
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useList } from '../../../hooks/use-list'
 import { useIsMounted } from 'use-is-mounted'
-import { MentoredTrack } from './useTrackList'
-import { MentoredTrackExercise } from './useExerciseList'
+import { MentoredTrack, MentoredTrackExercise } from '../../types'
 import { QueryStatus } from 'react-query'
 
 type MentoringRequest = {
@@ -53,7 +52,7 @@ export const useMentoringQueue = ({
 } => {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
-  const trackSlug = track?.slug
+  const trackSlug = track?.id
   const exerciseSlugs = exercises.map((e) => e.slug)
   const {
     resolvedData,

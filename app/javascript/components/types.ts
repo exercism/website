@@ -106,3 +106,22 @@ export type MentorDiscussion = {
     self: string
   }
 }
+
+export type MentoredTrackExercise = {
+  slug: string
+  title: string
+  iconName: string
+  count: number
+  completedByMentor: boolean
+}
+
+export type MentoredTrack = {
+  id: string
+  title: string
+  iconUrl: string
+  num_solutions_queued: number
+  exercises: MentoredTrackExercise[] | undefined
+  links: {
+    exercises: string
+  }
+}

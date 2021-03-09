@@ -15,9 +15,9 @@ test('shows API errors when fetching queue', async () => {
       return res(
         ctx.status(200),
         ctx.json({
-          mentored_tracks: [
+          tracks: [
             {
-              slug: 'ruby',
+              id: 'ruby',
               title: 'Ruby',
               links: {
                 exercises: 'https://exercism.test/exercises/ruby',
@@ -72,9 +72,9 @@ test('shows generic errors when fetching queue', async () => {
       return res(
         ctx.status(200),
         ctx.json({
-          mentored_tracks: [
+          tracks: [
             {
-              slug: 'ruby',
+              id: 'ruby',
               title: 'Ruby',
               links: {
                 exercises: 'https://exercism.test/exercises/ruby',
@@ -243,7 +243,7 @@ test('shows API errors when fetching exercises', async () => {
   silenceConsole()
 
   const track = {
-    slug: 'ruby',
+    id: 'ruby',
     title: 'Ruby',
     links: {
       exercises: 'https://exercism.test/exercises/ruby',
@@ -254,7 +254,7 @@ test('shows API errors when fetching exercises', async () => {
       return res(
         ctx.status(200),
         ctx.json({
-          mentored_tracks: [track],
+          tracks: [track],
         })
       )
     }),
@@ -297,7 +297,7 @@ test('shows generic errors when fetching exercises', async () => {
   silenceConsole()
 
   const track = {
-    slug: 'ruby',
+    id: 'ruby',
     title: 'Ruby',
     links: {
       exercises: 'weirdendpoint',
@@ -308,7 +308,7 @@ test('shows generic errors when fetching exercises', async () => {
       return res(
         ctx.status(200),
         ctx.json({
-          mentored_tracks: [track],
+          tracks: [track],
         })
       )
     })

@@ -118,14 +118,13 @@ import {
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
-import { MentoredTrack } from '../components/mentoring/queue/useTrackList'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { Iteration, MentorDiscussion } from '../components/types'
+import { MentorDiscussion, MentoredTrack, Iteration } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Iteration as MentoringSessionIteration,

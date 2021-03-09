@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { ExerciseIcon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
-import { MentoredTrackExercise } from './useExerciseList'
+import { MentoredTrackExercise } from '../../types'
 import { QueryStatus } from 'react-query'
 
 export type Props = {

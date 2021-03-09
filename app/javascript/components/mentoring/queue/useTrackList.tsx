@@ -1,21 +1,10 @@
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
-import { MentoredTrackExercise } from './useExerciseList'
+import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 
-export type MentoredTrack = {
-  slug: string
-  title: string
-  iconUrl: string
-  count: number
-  exercises: MentoredTrackExercise[] | undefined
-  links: {
-    exercises: string
-  }
-}
-
 export type APIResponse = {
-  mentoredTracks: MentoredTrack[]
+  tracks: MentoredTrack[]
 }
 
 export const useTrackList = ({
@@ -37,7 +26,7 @@ export const useTrackList = ({
   >(cacheKey, request, isMountedRef)
 
   return {
-    tracks: resolvedData ? resolvedData.mentoredTracks : [],
+    tracks: resolvedData ? resolvedData.tracks : [],
     status,
     error,
     isFetching,

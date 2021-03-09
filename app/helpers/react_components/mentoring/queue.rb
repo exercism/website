@@ -18,8 +18,8 @@ module ReactComponents
             default_track: default_track,
             sort_options: SORT_OPTIONS,
             links: {
-              tracks: Exercism::Routes.api_tracks_url,
-              update_tracks: Exercism::Routes.temp_mentored_tracks_url
+              tracks: Exercism::Routes.api_mentoring_tracks_url,
+              update_tracks: Exercism::Routes.api_mentoring_tracks_url
             }
           }
         )
@@ -37,10 +37,10 @@ module ReactComponents
 
       def tracks_request
         {
-          endpoint: Exercism::Routes.temp_mentored_tracks_url,
+          endpoint: Exercism::Routes.mentored_api_mentoring_tracks_url,
           options: {
             initial_data: {
-              mentored_tracks: track_data
+              tracks: track_data
             }
           }
         }
@@ -52,7 +52,7 @@ module ReactComponents
         track = track_data.first
 
         track.merge(
-          exercises: ::Solution::MentorRequest::RetrieveExercises.(mentor, track[:slug])
+          exercises: ::Solution::MentorRequest::RetrieveExercises.(mentor, track[:id])
         )
       end
 
@@ -64,7 +64,7 @@ module ReactComponents
 
       memoize
       def track_data
-        ::Solution::MentorRequest::RetrieveTracks.(mentor)
+        SerializeTracksForMentoring.(mentor.mentored_tracks, mentor: mentor)[:tracks]
       end
     end
   end

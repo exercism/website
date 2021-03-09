@@ -5,10 +5,8 @@ import { CloseButton } from './mentor-registration-modal/CloseButton'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import {
-  APIResponse as TrackListAPIResponse,
-  MentoredTrack,
-} from '../mentoring/queue/useTrackList'
+import { MentoredTrack } from '../types'
+import { APIResponse as TrackListAPIResponse } from '../mentoring/queue/useTrackList'
 import { queryCache } from 'react-query'
 
 type Links = {
@@ -30,7 +28,7 @@ export const MentorChangeTracksModal = ({
   onSuccess: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
+  const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.id))
 
   const [mutation] = useMutation<TrackListAPIResponse>(
     () => {

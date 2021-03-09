@@ -82,6 +82,9 @@ Rails.application.routes.draw do
 
       namespace :mentoring do
         resource :registration, only: %i[create], controller: 'registration'
+        resource :tracks, only: %i[show update] do
+          get :mentored
+        end
 
         resources :requests, only: %i[index] do
           collection do

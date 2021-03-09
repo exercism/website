@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
-import { MentoredTrack } from './useTrackList'
+import { MentoredTrack } from '../../types'
 
 export type Links = {
   tracks: string

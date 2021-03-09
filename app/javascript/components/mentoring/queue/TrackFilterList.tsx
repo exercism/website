@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import { TrackIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
-import { MentoredTrack } from './useTrackList'
+import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 
 const TrackFilter = ({
   title,
   iconUrl,
-  count,
+  num_solutions_queued,
   checked,
   onChange,
 }: MentoredTrack & {
@@ -26,7 +26,7 @@ const TrackFilter = ({
         <div className="c-radio" />
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{count}</div>
+        <div className="count">{num_solutions_queued}</div>
       </div>
     </label>
   )
@@ -78,9 +78,9 @@ const Component = ({
         <div className="tracks">
           {tracks.map((track) => (
             <TrackFilter
-              key={track.slug}
+              key={track.id}
               onChange={(e) => handleChange(e, track)}
-              checked={value?.slug === track.slug}
+              checked={value?.id === track.id}
               {...track}
             />
           ))}

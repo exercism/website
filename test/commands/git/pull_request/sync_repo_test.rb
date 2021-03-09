@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Git::SyncPullRequestsForRepoTest < ActiveSupport::TestCase
+class Git::PullRequest::SyncRepoTest < ActiveSupport::TestCase
   # test "syncs all repos" do
 
   # end

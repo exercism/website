@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Git::SyncPullRequestsTest < ActiveSupport::TestCase
+class Git::PullRequest::SyncReposTest < ActiveSupport::TestCase
   test "syncs all repos" do
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/search/repositories?per_page=100&q=org:exercism%20is:public").
@@ -23,9 +23,9 @@ class Git::SyncPullRequestsTest < ActiveSupport::TestCase
         }
       )
 
-    Git::SyncPullRequestsForRepo.expects(:call).with('exercism/csharp')
-    Git::SyncPullRequestsForRepo.expects(:call).with('exercism/ruby')
+    Git::PullRequest::SyncRepo.expects(:call).with('exercism/csharp')
+    Git::PullRequest::SyncRepo.expects(:call).with('exercism/ruby')
 
-    Git::SyncPullRequests.()
+    Git::PullRequest::SyncRepos.()
   end
 end

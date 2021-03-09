@@ -70,6 +70,9 @@ export const useMentoringQueue = ({
         trackSlug: trackSlug,
         exerciseSlugs: exerciseSlugs,
       },
+      options: {
+        enabled: !!track,
+      },
     },
     isMountedRef
   )

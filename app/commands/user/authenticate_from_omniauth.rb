@@ -21,7 +21,7 @@ class User
 
       user.update_column(:github_username, auth.info.nickname)
       user.tap do
-        Git::SyncPullRequestsReputationForUser.(user)
+        AwardPullRequestReputationJob.perform_later(user)
       end
     end
 
@@ -50,7 +50,7 @@ class User
 
       user.save
       user.tap do
-        Git::SyncPullRequestsReputationForUser.(user)
+        AwardPullRequestReputationJob.perform_later(user)
       end
     end
 

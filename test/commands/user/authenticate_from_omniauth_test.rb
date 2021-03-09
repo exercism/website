@@ -106,17 +106,17 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     user = create :user, provider: "github", uid: "111"
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
-    Git::SyncPullRequestsReputationForUser.expects(:call).with(user)
-
-    User::AuthenticateFromOmniauth.(auth)
+    assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
+      User::AuthenticateFromOmniauth.(auth)
+    end
   end
 
   test "awards pull request reputation for email matches" do
     user = create :user, email: "user@exercism.io"
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
 
-    Git::SyncPullRequestsReputationForUser.expects(:call).with(user)
-
-    User::AuthenticateFromOmniauth.(auth)
+    assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
+      User::AuthenticateFromOmniauth.(auth)
+    end
   end
 end

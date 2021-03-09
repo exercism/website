@@ -8,7 +8,7 @@ module Git
       return if user.github_username.empty?
 
       pull_requests.find_each do |pr|
-        User::ReputationToken::AwardForPullRequest.(pr.data[:action], user.github_username, pr.data)
+        User::ReputationToken::AwardForPullRequest.(pr.data[:action], pr.data[:author], pr.data)
       rescue StandardError => e
         Rails.logger.error "Error syncing pull request reputation for user #{user.handle}: #{e}"
       end

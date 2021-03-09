@@ -22,7 +22,7 @@ module Git
           number: pr[:pr_number],
           author_github_username: pr[:author],
           repo: pr[:repo],
-          event: pr,
+          data: pr,
           reviews: pr[:reviews].map do |review|
             ::Git::PullRequestReview.new(
               node_id: review[:node_id],

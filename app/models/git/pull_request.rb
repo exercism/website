@@ -9,6 +9,6 @@ class Git::PullRequest < ApplicationRecord
 
   memoize
   def data
-    event.deep_symbolize_keys
+    super.deep_symbolize_keys
   end
 end

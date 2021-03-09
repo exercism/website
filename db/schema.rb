@@ -156,8 +156,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
     t.integer "number", null: false
     t.string "repo", null: false
     t.string "author_github_username", null: false
-    t.json "event", null: false
-    t.boolean "processed", default: false, null: false
+    t.json "data", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["node_id"], name: "index_git_pull_requests_on_node_id", unique: true

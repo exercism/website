@@ -75,7 +75,7 @@ import '../../css/modals/become-mentor'
 
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
-import '../../css/dropdowns/mentoring'
+import '../../css/dropdowns/request-mentoring'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
@@ -111,6 +111,7 @@ import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMen
 import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
 import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
+import { Links as MentoringDropdownLinks } from '../components/student/MentoringDropdown'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
@@ -122,7 +123,7 @@ import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { Iteration } from '../components/types'
+import { Iteration, MentorDiscussion } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Iteration as MentoringSessionIteration,
@@ -220,6 +221,7 @@ initReact({
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
+      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
       solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}

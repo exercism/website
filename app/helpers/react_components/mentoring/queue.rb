@@ -48,7 +48,7 @@ module ReactComponents
 
       def default_track
         # TODO: This should be whatever the mentor last viewed.
-        # Store that value somewhere and retrieve it here.
+        # Store that value somewhere and retrieve it here.
         track = track_data.first
 
         track.merge(

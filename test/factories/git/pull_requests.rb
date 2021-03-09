@@ -4,7 +4,7 @@ FactoryBot.define do
     number { 2 }
     repo { "exercism/ruby" }
     author_github_username { "iHiD" }
-    event do
+    data do
       {
         url: "https://api.github.com/repos/exercism/ruby/pulls/2",
         repo: "exercism/ruby",

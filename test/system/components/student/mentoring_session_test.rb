@@ -207,13 +207,17 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
-        submission = create :submission, iteration: iteration, solution: solution,
-                                         analysis_status: :completed, representation_status: :generated
+        request = create :solution_mentor_request, solution: solution
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission,
+          solution: solution,
+          analysis_status: :completed,
+          representation_status: :generated
+        create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_representation, submission: submission, ast_digest: "ast"
         create :exercise_representation,
           exercise: running,
+          source_submission: submission,
           feedback_markdown: "Exercise feedback",
           feedback_type: :essential,
           ast_digest: "ast",

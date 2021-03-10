@@ -36,7 +36,7 @@ module ReactComponents
             links: links,
             relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
             request: SerializeMentorRequest.(request),
-            discussion: discussion_json
+            discussion: SerializeMentorDiscussion.(discussion, current_user)
           }
         )
       end
@@ -54,23 +54,6 @@ module ReactComponents
         Mentor::StudentRelationship.find_by(mentor: current_user, student: student)
       end
 
-      def discussion_json
-        return if discussion.blank?
-
-        {
-          id: discussion.uuid,
-          is_finished: discussion.finished?,
-          links: { posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion) }.tap do |links|
-            if discussion.requires_mentor_action?
-              links[:mark_as_nothing_to_do] =
-                Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_path(discussion)
-            end
-
-            links[:finish] = Exercism::Routes.finish_api_mentoring_discussion_path(discussion) unless discussion.finished?
-          end
-        }
-      end
-
       def links
         {
           mentor_dashboard: Exercism::Routes.mentoring_dashboard_path,
@@ -81,8 +64,10 @@ module ReactComponents
 
       def iterations
         if discussion
-          comment_counts = ::Solution::MentorDiscussionPost.where(discussion: discussion).
-            group(:iteration_id, :seen_by_mentor).count
+          comment_counts = ::Solution::MentorDiscussionPost.
+            where(discussion: discussion).
+            group(:iteration_id, :seen_by_student).
+            count
         end
 
         solution.iterations.map do |iteration|
@@ -90,20 +75,7 @@ module ReactComponents
           num_comments = discussion ? counts.sum(&:second) : 0
           unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
 
-          {
-            uuid: iteration.uuid,
-            idx: iteration.idx,
-            num_comments: num_comments,
-            unread: unread,
-            created_at: iteration.created_at.iso8601,
-            tests_status: iteration.tests_status,
-            # TODO: Precalculate this to avoid n+1s
-            representer_feedback: iteration.representer_feedback,
-            analyzer_feedback: iteration.analyzer_feedback,
-            links: {
-              files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
-            }
-          }
+          SerializeIteration.(iteration).merge(num_comments: num_comments, unread: unread)
         end
       end
 

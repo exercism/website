@@ -44,7 +44,7 @@ module ReactComponents
       def iterations
         comment_counts = ::Solution::MentorDiscussionPost.
           where(discussion: discussion).
-          group(:iteration_id, :seen_by_mentor).
+          group(:iteration_id, :seen_by_student).
           count
 
         discussion.iterations.map do |iteration|

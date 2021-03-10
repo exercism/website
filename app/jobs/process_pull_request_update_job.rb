@@ -1,16 +1,18 @@
 class ProcessPullRequestUpdateJob < ApplicationJob
+  include Mandate
+
   queue_as :default
 
   def perform(action, github_username, params)
-    # Fetch the reviews, as GitHub pull request events don't contain them
-    params[:reviews] = reviews
+    # Fetch and add the pull request's reviews as they are not returned in the pull request event
+    params[:reviews] = reviews(params[:repo], params[:number])
 
     User::ReputationToken::AwardForPullRequest.(action, github_username, params)
   end
 
   private
-  def reviews
-    octokit_client.pull_request_reviews(repo, pr_number)
+  def reviews(repo, number)
+    octokit_client.pull_request_reviews(repo, number)
   end
 
   memoize

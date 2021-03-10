@@ -1,25 +1,37 @@
 module Git
-  module PullRequest
+  class PullRequest
     class CreateOrUpdate
       include Mandate
 
       initialize_with :node_id, :attributes
 
       def call
-        pr = ::Git::PullRequest.create_or_find_by!(node_id: pr[:pr_id]) do |p|
-          p.attributes = attributes
+        pr = ::Git::PullRequest.create_or_find_by!(node_id: node_id) do |p|
+          p.number = attributes[:pr_number]
+          p.repo = attributes[:repo]
+          p.author_github_username = attributes[:author]
+          p.data = attributes
         end
 
-        # This will remove any reviews that have been dismissed
-        pr.update!(reviews: reviews)
-        end
+        pr.update!(
+          number: attributes[:pr_number],
+          repo: attributes[:repo],
+          author_github_username: attributes[:author],
+          data: attributes,
+          reviews: reviews(pr)
+        )
+
+        pr
       end
 
       private
-      def reviews
-        reviews.map do |review|
-          ::Git::PullRequestReview::CreateOrUpdate(review[:node_id],
-            reviewer_github_username: review[:user][:login])
+      def reviews(pull_request)
+        attributes[:reviews].to_a.map do |review|
+          Git::PullRequestReview::CreateOrUpdate.(
+            pull_request,
+            review[:node_id],
+            reviewer_github_username: review[:user][:login]
+          )
         end
       end
     end

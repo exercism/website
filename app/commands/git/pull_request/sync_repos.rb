@@ -1,5 +1,5 @@
 module Git
-  module PullRequest
+  class PullRequest
     class SyncRepos
       include Mandate
 

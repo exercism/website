@@ -50,7 +50,7 @@ class User
       end
 
       def reviews
-        params[:reviews]
+        params[:reviews].to_a
       end
     end
   end

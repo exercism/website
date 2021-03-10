@@ -7,6 +7,7 @@ class User
 
       def call
         # TODO: update pull request
+        # TODO: award pull request merger
 
         User::ReputationToken::AwardForPullRequestAuthor.(action, github_username, params)
         User::ReputationToken::AwardForPullRequestReviewers.(action, github_username, params)

@@ -15,7 +15,7 @@ FactoryBot.define do
         author: "iHiD",
         labels: [],
         merged: true,
-        reviews: [{ user: { login: "ErikSchierboom" } }],
+        reviews: [],
         html_url: "https://github.com/exercism/ruby/pull/2"
       }
     end

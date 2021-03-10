@@ -12,3 +12,6 @@ en:
     code_review:
       1: >
         You reviewed <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>
+    code_merge:
+      1: >
+        You merged <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>

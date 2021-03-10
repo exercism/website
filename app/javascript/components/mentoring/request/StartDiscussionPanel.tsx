@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
-import { Iteration, Discussion } from '../Session'
-import { MentoringRequest } from '../../types'
+import { Discussion } from '../Session'
+import { Iteration, MentoringRequest } from '../../types'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'

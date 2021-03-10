@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnalyzerFeedback as AnalyzerFeedbackProps } from '../Session'
+import { AnalyzerFeedback as AnalyzerFeedbackProps } from '../../types'
 
 export const AnalyzerFeedback = ({
   summary,
@@ -7,8 +7,8 @@ export const AnalyzerFeedback = ({
 }: AnalyzerFeedbackProps): JSX.Element => {
   return (
     <div className="feedback">
-      {comments.map((comment) => (
-        <div className="comment">
+      {comments.map((comment, i) => (
+        <div key={i} className="comment">
           <div
             key={comment.html}
             className="c-textual-content --small"

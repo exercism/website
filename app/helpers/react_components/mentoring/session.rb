@@ -35,7 +35,7 @@ module ReactComponents
             notes: notes,
             links: links,
             relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
-            request: request_json,
+            request: SerializeMentorRequest.(request),
             discussion: discussion_json
           }
         )
@@ -44,21 +44,6 @@ module ReactComponents
       memoize
       def request
         ::Solution::MentorRequest.find_by(solution: solution)
-      end
-
-      def request_json
-        return if request.blank?
-
-        {
-          id: request.uuid,
-          comment: request.comment_html,
-          updated_at: request.updated_at.iso8601,
-          is_locked: request.locked?,
-          links: {
-            lock: Exercism::Routes.lock_api_mentoring_request_path(request),
-            discussion: Exercism::Routes.api_mentoring_discussions_path
-          }
-        }
       end
 
       def discussion

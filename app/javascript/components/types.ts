@@ -12,13 +12,15 @@ export type Iteration = {
   uuid: string
   idx: number
   status: IterationStatus
+  numComments: number
+  unread: boolean
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
   submissionMethod: SubmissionMethod
-  representerFeedback: RepresenterFeedback
-  analyzerFeedback: AnalyzerFeedback
-  createdAt: Date
+  representerFeedback?: RepresenterFeedback
+  analyzerFeedback?: AnalyzerFeedback
+  createdAt: string
   testsStatus: SubmissionTestsStatus
   links: {
     self: string
@@ -96,6 +98,10 @@ export type MentoringRequest = {
   id: string
   comment: string
   updatedAt: string
+  user: {
+    handle: string
+    avatarUrl: string
+  }
   links: {
     lock: string
     discussion: string

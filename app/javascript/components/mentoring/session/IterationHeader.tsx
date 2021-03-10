@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Iteration } from '../Session'
+import { Iteration } from '../../types'
 import { IterationChannel } from '../../../channels/iterationChannel'
 import { fromNow } from '../../../utils/time'
 

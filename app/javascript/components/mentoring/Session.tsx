@@ -18,46 +18,11 @@ import { Tab, TabContext } from '../common/Tab'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { PostsWrapper } from './discussion/PostsContext'
 
-import { MentoringRequest } from '../types'
+import { MentoringRequest, Iteration } from '../types'
 
 export type Links = {
   mentorDashboard: string
   scratchpad: string
-}
-
-type RepresenterFeedbackAuthor = {
-  avatarUrl: string
-  name: string
-  reputation: number
-  profileUrl: string
-}
-
-export type RepresenterFeedback = {
-  html: string
-  author: RepresenterFeedbackAuthor
-}
-
-export type AnalyzerFeedbackComment = {
-  type: string
-  html: string
-}
-export type AnalyzerFeedback = {
-  summary: string
-  comments: AnalyzerFeedbackComment[]
-}
-
-export type Iteration = {
-  uuid: string
-  idx: number
-  numComments: number
-  unread: boolean
-  createdAt: string
-  testsStatus: string
-  analyzerFeedback?: AnalyzerFeedback
-  representerFeedback?: RepresenterFeedback
-  links: {
-    files: string
-  }
 }
 
 export type Student = {
@@ -210,10 +175,8 @@ export const Session = (props: SessionProps): JSX.Element => {
                 />
               ) : (
                 <RequestDetails
-                  iterations={iterations}
-                  student={student}
+                  iteration={iterations[iterations.length - 1]}
                   request={request}
-                  userId={userId}
                 />
               )}
             </Tab.Panel>

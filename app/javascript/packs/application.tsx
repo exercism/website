@@ -125,7 +125,6 @@ import { camelizeKeys } from 'humps'
 import { Iteration, MentoringRequest } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
-  Iteration as MentoringSessionIteration,
   Student as MentoringSessionStudent,
   Track as MentoringSessionTrack,
   Exercise as MentoringSessionExercise,
@@ -193,7 +192,7 @@ initReact({
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
-      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentoringRequest>(data.request)}
       relationship={camelizeKeysAs<StudentMentorRelationship>(
@@ -239,7 +238,7 @@ initReact({
       id={data.id}
       isFinished={data.is_finished}
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
-      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
       links={data.links}

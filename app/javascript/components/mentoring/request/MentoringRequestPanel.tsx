@@ -1,10 +1,6 @@
 import React, { useCallback } from 'react'
-import {
-  MentoringRequest,
-  Iteration,
-  Discussion,
-  SessionProps,
-} from '../Session'
+import { Discussion, SessionProps } from '../Session'
+import { MentoringRequest, Iteration } from '../../types'
 import { StartMentoringPanel } from './StartMentoringPanel'
 import { StartDiscussionPanel } from './StartDiscussionPanel'
 

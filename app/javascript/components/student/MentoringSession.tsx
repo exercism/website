@@ -4,11 +4,13 @@ import { CloseButton } from '../mentoring/session/CloseButton'
 import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
 import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
-import { Iteration, Track, Exercise } from '../mentoring/Session'
+import { Track, Exercise } from '../mentoring/Session'
 import { IterationView } from '../mentoring/session/IterationView'
 import { PostsWrapper } from '../mentoring/discussion/PostsContext'
 import { MentorInfo } from './mentoring-session/MentorInfo'
 import { SessionInfo } from './mentoring-session/SessionInfo'
+
+import { Iteration } from '../types'
 
 type Links = {
   posts: string

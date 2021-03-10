@@ -1,10 +1,6 @@
 import React, { useRef } from 'react'
-import {
-  Discussion,
-  Iteration,
-  Student,
-  StudentMentorRelationship,
-} from '../Session'
+import { Discussion, Student, StudentMentorRelationship } from '../Session'
+import { Iteration } from '../../types'
 import { FinishedWizard } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 

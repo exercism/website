@@ -1,9 +1,9 @@
 import React from 'react'
-import { CopyToClipboardButton, GraphicalIcon, Icon } from '../../common'
-import { RequestDetails } from '../../mentoring/request/RequestDetails'
-import { MentoringRequest, Iteration } from '../../types'
-import { timeFormat } from '../../../utils/time'
-import { Track, Video as VideoProps } from '../MentoringRequest'
+import { CopyToClipboardButton, GraphicalIcon, Icon } from '../../../common'
+import { RequestDetails } from '../../../mentoring/request/RequestDetails'
+import { MentoringRequest, Iteration } from '../../../types'
+import { timeFormat } from '../../../../utils/time'
+import { Track, Video as VideoProps } from '../../MentoringSession'
 
 type Links = {
   privateMentoring: string

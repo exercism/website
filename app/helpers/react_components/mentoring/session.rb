@@ -66,7 +66,7 @@ module ReactComponents
         if discussion
           comment_counts = ::Solution::MentorDiscussionPost.
             where(discussion: discussion).
-            group(:iteration_id, :seen_by_student).
+            group(:iteration_id, :seen_by_mentor).
             count
         end
 

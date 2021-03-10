@@ -11,11 +11,22 @@ export type APIError = {
 export type MentorDiscussion = {
   id: string
   isFinished: boolean
+  mentor: MentorDiscussionMentor
   links: {
     posts: string
     markAsNothingToDo?: string
     finish?: string
   }
+}
+
+export type MentorDiscussionMentor = {
+  id: number
+  avatarUrl: string
+  name: string
+  bio: string
+  handle: string
+  reputation: number
+  numPreviousSessions: number
 }
 
 export type Iteration = {

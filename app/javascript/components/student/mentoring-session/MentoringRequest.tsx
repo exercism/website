@@ -1,27 +1,16 @@
 import React from 'react'
 import { MentoringRequestForm } from './mentoring-request/MentoringRequestForm'
 import { MentoringRequestInfo } from './mentoring-request/MentoringRequestInfo'
-import { Iteration, MentoringRequest as MentoringRequestProps } from '../types'
+import {
+  Iteration,
+  MentoringRequest as MentoringRequestProps,
+} from '../../types'
+import { Track, Exercise, Video } from '../MentoringSession'
 
-export type Track = {
-  title: string
-  medianWaitTime: string
-}
-
-export type Exercise = {
-  title: string
-}
-
-export type Links = {
+type Links = {
   learnMoreAboutPrivateMentoring: string
   privateMentoring: string
   mentoringGuide: string
-}
-
-export type Video = {
-  url: string
-  title: string
-  date: string
 }
 
 export const MentoringRequest = ({

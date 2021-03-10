@@ -116,12 +116,6 @@ import {
   SolutionSummaryRequest,
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
-import {
-  Track as StudentMentoringRequestTrack,
-  Exercise as StudentMentoringRequestExercise,
-  Links as StudentMentoringRequestLinks,
-  Video as StudentMentoringRequestVideo,
-} from '../components/student/MentoringRequest'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
@@ -143,12 +137,17 @@ import {
   StudentMentorRelationship,
 } from '../components/mentoring/Session'
 import {
+  Track as StudentMentoringSessionTrack,
+  Exercise as StudentMentoringSessionExercise,
+  Video as StudentMentoringSessionVideo,
+  Links as StudentMentoringSessionLinks,
+} from '../components/student/MentoringSession'
+import {
   Track as IterationPageTrack,
   Exercise as IterationPageExercise,
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -244,25 +243,15 @@ initReact({
   ),
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
-      id={data.id}
-      isFinished={data.is_finished}
-      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
-      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
-      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
-      links={data.links}
       userId={data.user_id}
-    />
-  ),
-  'student-mentoring-request': (data: any) => (
-    <Student.MentoringRequest
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
+      track={camelizeKeysAs<StudentMentoringSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<StudentMentoringSessionExercise>(data.exercise)}
       isFirstTimeOnTrack={data.is_first_time_on_track}
-      latestIteration={camelizeKeysAs<Iteration>(data.latest_iteration)}
+      videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentoringRequest>(data.request)}
-      videos={camelizeKeysAs<StudentMentoringRequestVideo[]>(data.videos)}
-      track={camelizeKeysAs<StudentMentoringRequestTrack>(data.track)}
-      exercise={camelizeKeysAs<StudentMentoringRequestExercise>(data.exercise)}
-      links={camelizeKeysAs<StudentMentoringRequestLinks>(data.links)}
+      links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

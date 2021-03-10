@@ -1,6 +1,6 @@
 import React from 'react'
-import { CopyToClipboardButton, GraphicalIcon } from '../../common'
-import { Track, Exercise } from '../MentoringRequest'
+import { CopyToClipboardButton, GraphicalIcon } from '../../../common'
+import { Track, Exercise } from '../../MentoringSession'
 
 type Links = {
   learnMoreAboutPrivateMentoring: string

@@ -10,6 +10,7 @@ module Git
           Git::PullRequest::CreateOrUpdate.(pr[:pr_id],
             pr_number: pr[:pr_number],
             author: pr[:author],
+            merged_by: pr[:merged_by],
             repo: pr[:repo],
             reviews: pr[:reviews],
             data: pr)
@@ -28,7 +29,7 @@ module Git
           # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
           results += pull_requests_from_page_data(page_data)
 
-          break results unless pull_requests_data[:pageInfo][:hasNextPage]
+          break results unless page_data[:data][:repository][:pullRequests][:pageInfo][:hasNextPage]
 
           cursor = page_data[:data][:repository][:pullRequests][:pageInfo][:endCursor]
 
@@ -104,7 +105,7 @@ module Git
             pr_number: pr[:number],
             repo: response[:data][:repository][:nameWithOwner],
             merged: pr[:merged],
-            merged_by: pr[:mergedBy],
+            merged_by: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,
             reviews: pr[:reviews][:nodes].map do |node|
               next if node[:author].nil? # In rare cases the review author is null
 

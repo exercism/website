@@ -8,6 +8,16 @@ export type APIError = {
   message: string
 }
 
+export type MentorDiscussion = {
+  id: string
+  isFinished: boolean
+  links: {
+    posts: string
+    markAsNothingToDo?: string
+    finish?: string
+  }
+}
+
 export type Iteration = {
   uuid: string
   idx: number

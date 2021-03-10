@@ -2,14 +2,15 @@ import React, { useCallback } from 'react'
 import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
 import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
-import { Discussion, SessionProps } from '../Session'
+import { SessionProps } from '../Session'
+import { MentorDiscussion } from '../../types'
 
 export const DiscussionActions = ({
   links,
   session,
   setSession,
   isFinished,
-}: Discussion & {
+}: MentorDiscussion & {
   session: SessionProps
   setSession: (session: SessionProps) => void
 }): JSX.Element => {
@@ -31,9 +32,9 @@ export const DiscussionActions = ({
           <GraphicalIcon icon="completed-check-circle" />
           Ended
         </div>
-      ) : (
+      ) : links.finish ? (
         <FinishButton endpoint={links.finish} onSuccess={setDiscussion} />
-      )}
+      ) : null}
     </div>
   )
 }

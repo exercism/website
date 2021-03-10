@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import { Discussion, SessionProps } from '../Session'
-import { MentoringRequest, Iteration } from '../../types'
+import { SessionProps } from '../Session'
+import { MentorDiscussion, MentoringRequest, Iteration } from '../../types'
 import { StartMentoringPanel } from './StartMentoringPanel'
 import { StartDiscussionPanel } from './StartDiscussionPanel'
 
@@ -16,7 +16,7 @@ export const MentoringRequestPanel = ({
   setSession: (session: SessionProps) => void
 }): JSX.Element => {
   const setDiscussion = useCallback(
-    (discussion: Discussion) => {
+    (discussion: MentorDiscussion) => {
       setSession({ ...session, discussion: discussion })
     },
     [session, setSession]

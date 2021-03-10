@@ -1,6 +1,5 @@
 import React, { useRef, useCallback } from 'react'
-import { Discussion } from '../Session'
-import { Iteration, MentoringRequest } from '../../types'
+import { MentorDiscussion, Iteration, MentoringRequest } from '../../types'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
@@ -31,7 +30,7 @@ export const StartDiscussionPanel = ({
 }: {
   iterations: readonly Iteration[]
   request: MentoringRequest
-  setDiscussion: (discussion: Discussion) => void
+  setDiscussion: (discussion: MentorDiscussion) => void
 }): JSX.Element => {
   const lastIteration = iterations[iterations.length - 1]
   const isMountedRef = useIsMounted()
@@ -44,7 +43,9 @@ export const StartDiscussionPanel = ({
     [editorRef]
   )
 
-  const [mutation, { status, error }] = useMutation<Discussion | undefined>(
+  const [mutation, { status, error }] = useMutation<
+    MentorDiscussion | undefined
+  >(
     () => {
       return sendRequest({
         endpoint: request.links.discussion,
@@ -60,7 +61,7 @@ export const StartDiscussionPanel = ({
           return
         }
 
-        return typecheck<Discussion>(json, 'discussion')
+        return typecheck<MentorDiscussion>(json, 'discussion')
       })
     },
     {

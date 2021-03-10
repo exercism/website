@@ -18,7 +18,7 @@ import { Tab, TabContext } from '../common/Tab'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { PostsWrapper } from './discussion/PostsContext'
 
-import { MentoringRequest, Iteration } from '../types'
+import { MentoringRequest, Iteration, MentorDiscussion } from '../types'
 
 export type Links = {
   mentorDashboard: string
@@ -74,22 +74,12 @@ export type StudentMentorRelationship = {
   }
 }
 
-export type Discussion = {
-  isFinished: boolean
-  id: string
-  links: {
-    posts: string
-    markAsNothingToDo?: string
-    finish: string
-  }
-}
-
 export type SessionProps = {
   student: Student
   track: Track
   exercise: Exercise
   links: Links
-  discussion: Discussion
+  discussion: MentorDiscussion
   iterations: readonly Iteration[]
   userId: number
   notes: string

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { Discussion, Student, StudentMentorRelationship } from '../Session'
-import { Iteration } from '../../types'
+import { Student, StudentMentorRelationship } from '../Session'
+import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 
@@ -11,7 +11,7 @@ export const DiscussionDetails = ({
   relationship,
   userId,
 }: {
-  discussion: Discussion
+  discussion: MentorDiscussion
   iterations: readonly Iteration[]
   student: Student
   relationship: StudentMentorRelationship

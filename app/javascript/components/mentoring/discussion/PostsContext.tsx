@@ -1,5 +1,4 @@
 import React, { createContext, useRef, useState } from 'react'
-import { Discussion } from '../Session'
 
 type PostsContextType = {
   cacheKey: string

@@ -46,9 +46,12 @@ module Git
                 nodes {
                   id
                   url
-                  title
-                  merged
+                  title#{'                  '}
                   number
+                  merged
+                  mergedBy {
+                    login
+                  }
                   labels(first: 100) {
                     nodes {
                       name
@@ -101,6 +104,7 @@ module Git
             pr_number: pr[:number],
             repo: response[:data][:repository][:nameWithOwner],
             merged: pr[:merged],
+            merged_by: pr[:mergedBy],
             reviews: pr[:reviews][:nodes].map do |node|
               next if node[:author].nil? # In rare cases the review author is null
 

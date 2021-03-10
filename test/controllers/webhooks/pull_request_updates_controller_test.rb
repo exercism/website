@@ -52,7 +52,43 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     assert_response 204
   end
 
-  test "create should process repo update when signature is valid" do
+  test "create for merged pr should process pr update when signature is valid" do
+    payload = {
+      action: 'closed',
+      pull_request: {
+        user: {
+          login: 'user22'
+        },
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
+        labels: [{ name: "bug" }, { name: "duplicate" }],
+        state: 'open',
+        number: 4,
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        merged: true,
+        merged_by: {
+          login: 'merger68'
+        }
+      },
+      repository: {
+        full_name: 'exercism/fsharp'
+      }
+    }
+    Webhooks::ProcessPullRequestUpdate.expects(:call).with('closed', 'user22',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
+      labels: %w[bug duplicate],
+      state: 'open',
+      repo: 'exercism/fsharp',
+      pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      pr_number: 4,
+      merged: true,
+      merged_by: 'merger68')
+
+    post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
+  end
+
+  test "create for unmerged pr should process pr update when signature is valid" do
     payload = {
       action: 'opened',
       pull_request: {
@@ -65,7 +101,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         state: 'open',
         number: 4,
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
-        merged: true
+        merged: false
       },
       repository: {
         full_name: 'exercism/fsharp'
@@ -79,7 +115,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       repo: 'exercism/fsharp',
       pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 4,
-      merged: true)
+      merged: false,
+      merged_by: nil)
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
   end

@@ -12,7 +12,8 @@ module Webhooks
         pr_id: params[:pull_request][:node_id],
         pr_number: params[:pull_request][:number],
         repo: params[:repository][:full_name],
-        merged: params[:pull_request][:merged]
+        merged: params[:pull_request][:merged],
+        merged_by: params[:pull_request][:merged_by].present? ? params[:pull_request][:merged_by][:login] : nil
       )
 
       head :no_content

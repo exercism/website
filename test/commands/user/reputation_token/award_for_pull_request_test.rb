@@ -32,8 +32,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
     reviews = [
-      { user: { login: reviewer_1.github_username } },
-      { user: { login: reviewer_2.github_username } }
+      { reviewer: reviewer_1.github_username },
+      { reviewer: reviewer_2.github_username }
     ]
 
     User::ReputationToken::AwardForPullRequest.(action, login,

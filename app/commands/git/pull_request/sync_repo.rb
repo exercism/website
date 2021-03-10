@@ -8,11 +8,11 @@ module Git
       def call
         pull_requests.each do |pr|
           Git::PullRequest::CreateOrUpdate.(pr[:pr_id],
-            number: pr[:pr_number],
-            author_github_username: pr[:author],
+            pr_number: pr[:pr_number],
+            author: pr[:author],
             repo: pr[:repo],
-            data: pr,
-            reviews: pr[:reviews])
+            reviews: pr[:reviews],
+            data: pr)
         end
       end
 
@@ -110,7 +110,7 @@ module Git
 
               {
                 node_id: node[:id],
-                user: { login: node[:author][:login] }
+                reviewer: node[:author][:login]
               }
             end.compact
           }

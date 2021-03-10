@@ -8,7 +8,7 @@ class User
       def call
         return unless just_closed?
 
-        reviewer_usernames = reviews.map { |reviewer| reviewer[:user][:login] }.uniq
+        reviewer_usernames = reviews.map { |reviewer| reviewer[:reviewer] }.uniq
         reviewer_usernames.delete(github_username) # Don't award reviewer reputation to the PR author
 
         reviewers = ::User.where(github_username: reviewer_usernames)

@@ -10,18 +10,16 @@ module Git
           p.number = attributes[:pr_number]
           p.repo = attributes[:repo]
           p.author_github_username = attributes[:author]
-          p.data = attributes
+          p.data = attributes[:data]
         end
 
         pr.update!(
           number: attributes[:pr_number],
           repo: attributes[:repo],
           author_github_username: attributes[:author],
-          data: attributes,
+          data: attributes[:data],
           reviews: reviews(pr)
         )
-
-        pr
       end
 
       private
@@ -30,9 +28,26 @@ module Git
           Git::PullRequestReview::CreateOrUpdate.(
             pull_request,
             review[:node_id],
-            reviewer_github_username: review[:user][:login]
+            reviewer_github_username: review[:reviewer]
           )
         end
+      end
+
+      def data
+        {
+          action: attributes[:action],
+          author: attributes[:login],
+          url: attributes[:url],
+          html_url: attributes[:html_url],
+          labels: attributes[:labels],
+          repo: attributes[:repo],
+          pr_id: attributes[:pr_id],
+          pr_number: attributes[:pr_number],
+          merged: attributes[:merged],
+          merged_by: attributes[:merged_by],
+          state: attributes[:state],
+          reviews: attributes[:reviews]
+        }
       end
     end
   end

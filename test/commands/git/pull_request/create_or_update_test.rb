@@ -12,7 +12,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       author: "iHiD",
       labels: [],
       merged: true,
-      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", user: { login: "ErikSchierboom" } }],
+      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer: "ErikSchierboom" }],
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
@@ -71,4 +71,6 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     assert_equal updated_at_before_call, pr.reload.updated_at
   end
+
+  # TODO: add tests for adding/removing reviewers
 end

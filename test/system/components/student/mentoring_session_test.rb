@@ -13,7 +13,9 @@ module Components
       test "shows posts" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         request = create :solution_mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
                                                    updated_at: 2.days.ago
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
@@ -32,7 +34,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
         end
 
         within(".discussion") { assert_text "Iteration 1" }
@@ -49,14 +51,16 @@ module Components
       test "refetches when new post comes in" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           create(:solution_mentor_discussion_post,
             discussion: discussion,
             iteration: iteration,
@@ -75,14 +79,16 @@ module Components
       test "submit a new post" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           wait_for_websockets
           click_on "Add a comment"
           fill_in_editor "# Hello", within: ".comment-section"
@@ -97,7 +103,9 @@ module Components
       test "edit an existing post" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
@@ -110,7 +118,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
@@ -139,7 +147,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, bob, discussion)
           click_on "1"
         end
 
@@ -158,7 +166,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
 
           assert_css "img[src='#{ruby.icon_url}'][alt=\"icon for Ruby track\"]"
           assert_css "svg.c-exercise-icon"
@@ -178,7 +186,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
         end
 
         within(".mentor-info") do
@@ -213,7 +221,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
           find("summary", text: "You received automated feedback").click
         end
 

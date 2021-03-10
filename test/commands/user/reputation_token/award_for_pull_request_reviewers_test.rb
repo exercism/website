@@ -18,7 +18,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { user: { login: "reviewer13" } }
     ]
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestReviewers.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -45,7 +45,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { user: { login: "reviewer13" } }
     ]
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestReviewers.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -68,7 +68,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviews = [{ user: { login: "reviewer71" } }]
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestReviewers.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     assert_empty reviewer.reputation_tokens
@@ -87,7 +87,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviews = [{ user: { login: "reviewer71" } }]
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestReviewers.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     assert_empty reviewer.reputation_tokens
@@ -106,7 +106,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     user = create :user, handle: "User-22", github_username: "user22"
     reviews = [{ user: { login: "user22" } }]
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestReviewers.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
@@ -132,7 +132,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { user: { login: "reviewer13" } }
     ]
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestReviewers.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     assert_equal 1, reviewer_1.reputation_tokens.size

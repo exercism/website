@@ -12,6 +12,18 @@ FactoryBot.define do
     end
   end
 
+  factory :user_code_merge_reputation_token, class: 'User::ReputationTokens::CodeMergeToken' do
+    user
+
+    params do
+      {
+        repo: "exercism/ruby",
+        pr_id: SecureRandom.uuid,
+        pr_number: SecureRandom.uuid
+      }
+    end
+  end
+
   factory :user_code_review_reputation_token, class: 'User::ReputationTokens::CodeReviewToken' do
     user
 

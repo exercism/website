@@ -13,7 +13,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert User::ReputationTokens::CodeContributionToken.where(user: user).exists?
@@ -30,12 +30,18 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
-    create :user_code_contribution_reputation_token, user: user
+    create :user_code_contribution_reputation_token,
+      user: user,
+      level: :regular,
+      params: {
+        repo: repo,
+        pr_id: pr_id
+      }
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
-    assert_equal 2, user.reputation_tokens.size
+    assert_equal 1, User::ReputationTokens::CodeContributionToken.where(user: user).size
   end
 
   test "reputation not awarded to pull request author if author is not known" do
@@ -49,10 +55,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
-    refute User::ReputationToken.exists?
+    refute User::ReputationTokens::CodeContributionToken.exists?
   end
 
   test "reputation not awarded to pull request author if pull request is closed but not merged" do
@@ -67,10 +73,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
-    assert_empty user.reputation_tokens
+    assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
   end
 
   test "pull request without labels adds reputation token with default value" do
@@ -85,7 +91,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 10, user.reputation_tokens.last.value
@@ -103,7 +109,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['reputation/contributed_code/regular']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 10, user.reputation_tokens.last.value
@@ -121,7 +127,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['reputation/contributed_code/minor']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 5, user.reputation_tokens.last.value
@@ -139,7 +145,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['reputation/contributed_code/major']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 15, user.reputation_tokens.last.value
@@ -157,7 +163,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['reputation/contributed_code/minor', 'reputation/contributed_code/major']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 15, user.reputation_tokens.last.value
@@ -175,7 +181,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = %w[bug duplicate]
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 10, user.reputation_tokens.last.value
@@ -203,7 +209,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     assert_equal :regular, reputation_token.level # Sanity
     assert_equal 10, reputation_token.value # Sanity
 
-    User::ReputationToken::AwardForPullRequest.(
+    User::ReputationToken::AwardForPullRequestAuthor.(
       action, login,
       url: url, html_url: html_url, labels: labels,
       repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged
@@ -228,7 +234,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     reputation_token = create :user_code_contribution_reputation_token, user: user, level: :minor,
                                                                         params: { repo: repo, pr_id: pr_id }
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 1, user.reputation_tokens.size
@@ -249,7 +255,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     reputation_token = create :user_code_contribution_reputation_token, user: user, level: :minor,
                                                                         params: { repo: repo, pr_id: pr_id }
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
     assert_equal 1, user.reputation_tokens.size
@@ -268,10 +274,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['reputation/contributed_code/major']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
-    assert_empty user.reputation_tokens
+    assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
   end
 
   test "pull request authors are not awarded reputation on unlabeled action when pull request has not been merged" do
@@ -286,9 +292,9 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequest.(action, login,
+    User::ReputationToken::AwardForPullRequestAuthor.(action, login,
       url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
 
-    assert_empty user.reputation_tokens
+    assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
   end
 end

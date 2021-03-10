@@ -137,6 +137,7 @@ import {
   StudentMentorRelationship,
 } from '../components/mentoring/Session'
 import {
+  Mentor as StudentMentoringSessionMentor,
   Video as StudentMentoringSessionVideo,
   Links as StudentMentoringSessionLinks,
 } from '../components/student/MentoringSession'
@@ -244,6 +245,7 @@ initReact({
       userId={data.user_id}
       discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
+      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
       isFirstTimeOnTrack={data.is_first_time_on_track}

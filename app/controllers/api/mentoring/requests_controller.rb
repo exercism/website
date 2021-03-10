@@ -43,7 +43,7 @@ module API
       Solution::MentorRequest::Lock.(mentor_request, current_user)
 
       render json: {
-        request: SerializeMentorRequest.(mentor_request)
+        request: SerializeMentorSessionRequest.(mentor_request)
       }
     end
   end

@@ -1,13 +1,9 @@
 import React from 'react'
 import { Avatar, Reputation } from '../../common'
 import { PreviousSessionsLink } from '../../mentoring/session/PreviousSessionsLink'
-import { MentorDiscussionMentor } from '../../types'
+import { Mentor } from '../MentoringSession'
 
-export const MentorInfo = ({
-  mentor,
-}: {
-  mentor: MentorDiscussionMentor
-}): JSX.Element => {
+export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
   return (
     <div className="mentor-info">
       <div className="info">

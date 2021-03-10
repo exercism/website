@@ -3,9 +3,11 @@ import { MentoringRequestForm } from './mentoring-request/MentoringRequestForm'
 import { MentoringRequestInfo } from './mentoring-request/MentoringRequestInfo'
 import {
   Iteration,
-  MentoringRequest as MentoringRequestProps,
+  MentorSessionRequest as Request,
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
 } from '../../types'
-import { Track, Exercise, Video } from '../MentoringSession'
+import { Video } from '../MentoringSession'
 
 type Links = {
   learnMoreAboutPrivateMentoring: string
@@ -27,11 +29,11 @@ export const MentoringRequest = ({
   isFirstTimeOnTrack: boolean
   track: Track
   exercise: Exercise
-  request?: MentoringRequestProps
+  request?: Request
   latestIteration: Iteration
   videos: Video[]
   links: Links
-  onCreate: (mentorRequest: MentoringRequestProps) => void
+  onCreate: (mentorRequest: Request) => void
 }): JSX.Element => {
   return request ? (
     <MentoringRequestInfo

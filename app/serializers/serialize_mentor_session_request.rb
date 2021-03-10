@@ -1,7 +1,4 @@
-# This is a serializer for the mentor request in the context of the mentoring session
-# TODO: Name this better?
-
-class SerializeMentorRequest
+class SerializeMentorSessionRequest
   include Mandate
 
   initialize_with :request

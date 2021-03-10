@@ -1,28 +1,21 @@
 module ReactComponents
   module Student
     class MentoringSession < ReactComponent
-      initialize_with :solution
+      initialize_with :solution, :request, :discussion
 
       def to_s
         super(
           "student-mentoring-session",
           {
-            user_id: current_user.id,
-            discussion: SerializeMentorDiscussion.(discussion, current_user),
+            user_id: student.id,
+            request: SerializeMentorSessionRequest.(request),
+            discussion: SerializeMentorSessionDiscussion.(discussion, student),
+            track: SerializeMentorSessionTrack.(track),
+            exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
-            track: {
-              title: track.title,
-              highlightjs_language: track.highlightjs_language,
-              median_wait_time: track.median_wait_time,
-              icon_url: track.icon_url
-            },
-            exercise: {
-              title: exercise.title,
-              icon_name: exercise.icon_name
-            },
+            mentor: mentor_data,
             is_first_time_on_track: true, # TODO
             videos: videos,
-            request: SerializeMentorRequest.(request),
             links: {
               exercise: Exercism::Routes.track_exercise_url(track, exercise),
               create_mentor_request: Exercism::Routes.api_solution_mentor_request_path(solution.uuid),
@@ -37,12 +30,29 @@ module ReactComponents
       private
       delegate :track, :exercise, to: :solution
 
-      def request
-        solution.mentor_requests.last
+      memoize
+      def student
+        solution.user
       end
 
-      def discussion
-        solution.mentor_discussions.last
+      memoize
+      def mentor
+        discussion&.mentor
+      end
+
+      def mentor_data
+        return nil unless mentor
+
+        {
+          id: mentor.id,
+          name: mentor.name,
+          handle: mentor.handle,
+          bio: mentor.bio,
+          languages_spoken: mentor.languages_spoken,
+          avatar_url: mentor.avatar_url,
+          reputation: mentor.reputation,
+          num_previous_sessions: student.num_previous_mentor_sessions_with(mentor)
+        }
       end
 
       def videos

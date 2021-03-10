@@ -1,9 +1,10 @@
 import React from 'react'
 import { CopyToClipboardButton, GraphicalIcon, Icon } from '../../../common'
 import { RequestDetails } from '../../../mentoring/request/RequestDetails'
-import { MentoringRequest, Iteration } from '../../../types'
+import { MentorSessionRequest as Request, Iteration } from '../../../types'
 import { timeFormat } from '../../../../utils/time'
-import { Track, Video as VideoProps } from '../../MentoringSession'
+import { Video as VideoProps } from '../../MentoringSession'
+import { MentorSessionTrack as Track } from '../../../types'
 
 type Links = {
   privateMentoring: string
@@ -20,7 +21,7 @@ export const MentoringRequestInfo = ({
   track: Track
   links: Links
   videos: VideoProps[]
-  request: MentoringRequest
+  request: Request
   iteration: Iteration
 }): JSX.Element => {
   return (

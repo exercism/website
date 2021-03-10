@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
-import {
-  MentorSolution as MentorSolutionProps,
-  Track,
-  Exercise,
-} from '../Session'
+import { MentorSolution as MentorSolutionProps } from '../Session'
 import { MentorSolution } from './MentorSolution'
 import { GraphicalIcon } from '../../common'
+import {
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../../types'
 
 const AccordionHeader = ({
   isOpen,

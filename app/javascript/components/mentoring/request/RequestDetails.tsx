@@ -1,6 +1,6 @@
 import React from 'react'
 import { DiscussionPost } from '../discussion/DiscussionPost'
-import { MentoringRequest, Iteration } from '../../types'
+import { MentorSessionRequest as Request, Iteration } from '../../types'
 import { IterationMarker } from '../session/IterationMarker'
 
 export const RequestDetails = ({
@@ -8,7 +8,7 @@ export const RequestDetails = ({
   request,
 }: {
   iteration: Iteration
-  request: MentoringRequest
+  request: Request
 }): JSX.Element => {
   return (
     /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */

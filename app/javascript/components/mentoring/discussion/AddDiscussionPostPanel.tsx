@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 import { TabsContext } from '../Session'
 import { AddDiscussionPost } from './AddDiscussionPost'
 import { NewMessageAlert } from './NewMessageAlert'
-import { MentorDiscussion } from '../../types'
+import { MentorSessionDiscussion as Discussion } from '../../types'
 
 export const AddDiscussionPostPanel = ({
   discussion,
 }: {
-  discussion: MentorDiscussion
+  discussion: Discussion
 }): JSX.Element => {
   const { switchToTab } = useContext(TabsContext)
 

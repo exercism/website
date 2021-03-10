@@ -18,7 +18,13 @@ import { Tab, TabContext } from '../common/Tab'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { PostsWrapper } from './discussion/PostsContext'
 
-import { MentoringRequest, Iteration, MentorDiscussion } from '../types'
+import {
+  MentorSessionRequest as Request,
+  Iteration,
+  MentorSessionDiscussion as Discussion,
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../types'
 
 export type Links = {
   mentorDashboard: string
@@ -38,17 +44,6 @@ export type Student = {
   links?: {
     favorite: string
   }
-}
-
-export type Track = {
-  title: string
-  iconUrl: string
-  highlightjsLanguage: string
-}
-
-export type Exercise = {
-  title: string
-  iconName: string
 }
 
 export type MentorSolution = {
@@ -79,13 +74,13 @@ export type SessionProps = {
   track: Track
   exercise: Exercise
   links: Links
-  discussion: MentorDiscussion
+  discussion: Discussion
   iterations: readonly Iteration[]
   userId: number
   notes: string
   mentorSolution: MentorSolution
   relationship: StudentMentorRelationship
-  request: MentoringRequest
+  request: Request
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'

@@ -51,6 +51,11 @@ class Track < ApplicationRecord
     slug
   end
 
+  # TODO: Set this properly
+  def median_wait_time
+    "6 hrs"
+  end
+
   CATGEORIES = {
     paradigm: "Paradigm",
     typing: "Typing",

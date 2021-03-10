@@ -116,6 +116,12 @@ import {
   SolutionSummaryRequest,
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
+import {
+  Track as StudentMentoringRequestTrack,
+  Exercise as StudentMentoringRequestExercise,
+  Links as StudentMentoringRequestLinks,
+  Video as StudentMentoringRequestVideo,
+} from '../components/student/MentoringRequest'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
@@ -243,6 +249,17 @@ initReact({
       exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
       links={data.links}
       userId={data.user_id}
+    />
+  ),
+  'student-mentoring-request': (data: any) => (
+    <Student.MentoringRequest
+      isFirstTimeOnTrack={data.is_first_time_on_track}
+      latestIteration={camelizeKeysAs<Iteration>(data.latest_iteration)}
+      request={camelizeKeysAs<MentoringRequest>(data.request)}
+      videos={camelizeKeysAs<StudentMentoringRequestVideo[]>(data.videos)}
+      track={camelizeKeysAs<StudentMentoringRequestTrack>(data.track)}
+      exercise={camelizeKeysAs<StudentMentoringRequestExercise>(data.exercise)}
+      links={camelizeKeysAs<StudentMentoringRequestLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

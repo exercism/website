@@ -18,6 +18,8 @@ import { Tab, TabContext } from '../common/Tab'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { PostsWrapper } from './discussion/PostsContext'
 
+import { MentoringRequest } from '../types'
+
 export type Links = {
   mentorDashboard: string
   scratchpad: string
@@ -115,17 +117,6 @@ export type Discussion = {
     markAsNothingToDo?: string
     finish: string
   }
-}
-
-export type MentoringRequest = {
-  id: string
-  comment: string
-  updatedAt: string
-  links: {
-    lock: string
-    discussion: string
-  }
-  isLocked: boolean
 }
 
 export type SessionProps = {

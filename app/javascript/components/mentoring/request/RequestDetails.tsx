@@ -1,13 +1,13 @@
 import React from 'react'
 import { DiscussionPost } from '../discussion/DiscussionPost'
-import { Iteration, Student, MentoringRequest } from '../Session'
+import { Iteration, Student } from '../Session'
+import { MentoringRequest } from '../../types'
 import { IterationMarker } from '../session/IterationMarker'
 
 export const RequestDetails = ({
   iterations,
   student,
   request,
-  userId,
 }: {
   iterations: readonly Iteration[]
   student: Student

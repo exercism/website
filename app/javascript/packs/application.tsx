@@ -122,7 +122,7 @@ import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { Iteration } from '../components/types'
+import { Iteration, MentoringRequest } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Iteration as MentoringSessionIteration,
@@ -133,7 +133,6 @@ import {
   MentorSolution as MentoringSessionMentorSolution,
   Discussion as MentoringSessionDiscussion,
   StudentMentorRelationship,
-  MentoringRequest,
 } from '../components/mentoring/Session'
 import {
   Track as IterationPageTrack,

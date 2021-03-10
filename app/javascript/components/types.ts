@@ -91,3 +91,14 @@ export enum AnalysisStatus {
   EXCEPTIONED = 'exceptioned',
   CANCELLED = 'cancelled',
 }
+
+export type MentoringRequest = {
+  id: string
+  comment: string
+  updatedAt: string
+  links: {
+    lock: string
+    discussion: string
+  }
+  isLocked: boolean
+}

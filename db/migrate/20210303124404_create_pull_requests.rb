@@ -5,6 +5,7 @@ class CreatePullRequests < ActiveRecord::Migration[6.1]
       t.integer :number, null: false
       t.string :repo, null: false
       t.string :author_github_username, null: false
+      t.string :merged_by_github_username, null: true
       t.json :data, null: false
 
       t.timestamps

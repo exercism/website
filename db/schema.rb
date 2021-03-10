@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
     t.integer "number", null: false
     t.string "repo", null: false
     t.string "author_github_username", null: false
+    t.string "merged_by_github_username"
     t.json "data", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

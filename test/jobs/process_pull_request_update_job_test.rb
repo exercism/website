@@ -105,6 +105,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     assert_equal pr_number, pr.number
     assert_equal repo, pr.repo
     assert_equal login, pr.author_github_username
+    assert_nil pr.merged_by_github_username
     assert_equal expected_data, pr.data
   end
 end

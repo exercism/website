@@ -2,6 +2,6 @@ class AwardPullRequestReputationJob < ApplicationJob
   queue_as :reputation
 
   def perform(user)
-    Git::SyncPullRequestsReputationForUser.(user)
+    User::ReputationToken::AwardForPullRequests.(user)
   end
 end

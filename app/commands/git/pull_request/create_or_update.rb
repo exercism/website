@@ -10,6 +10,7 @@ module Git
           pr.number = attributes[:pr_number]
           pr.repo = attributes[:repo]
           pr.author_github_username = attributes[:author]
+          pr.merged_by_github_username = attributes[:merged_by]
           pr.data = attributes[:data]
         end
 
@@ -17,8 +18,9 @@ module Git
           number: attributes[:pr_number],
           repo: attributes[:repo],
           author_github_username: attributes[:author],
+          merged_by_github_username: attributes[:merged_by],
           data: attributes[:data],
-          reviews: reviews(pr)
+          reviews: reviews(pull_request)
         )
 
         pull_request

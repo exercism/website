@@ -6,6 +6,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr_number = 2
     repo = "exercism/ruby"
     author = "iHiD"
+    merged_by = "ErikSchierboom"
     reviews = [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer: "ErikSchierboom" }]
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
@@ -17,6 +18,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       author: author,
       labels: [],
       merged: true,
+      merged_by: merged_by,
       reviews: reviews,
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
@@ -24,6 +26,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr = Git::PullRequest::CreateOrUpdate.(pr_id,
       pr_number: pr_number,
       author: author,
+      merged_by: merged_by,
       repo: repo,
       reviews: reviews,
       data: data)
@@ -32,6 +35,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 2, pr.number
     assert_equal "exercism/ruby", pr.repo
     assert_equal "iHiD", pr.author_github_username
+    assert_equal "ErikSchierboom", pr.merged_by_github_username
     assert_equal data, pr.data
     assert_equal 1, pr.reviews.size
     assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", pr.reviews.first.node_id
@@ -43,6 +47,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr_number = 2
     repo = "exercism/ruby"
     author = "iHiD"
+    merged_by = "ErikSchierboom"
     reviews = []
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
@@ -54,6 +59,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       author: author,
       labels: [],
       merged: true,
+      merged_by: merged_by,
       reviews: reviews,
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
@@ -61,6 +67,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr = Git::PullRequest::CreateOrUpdate.(pr_id,
       pr_number: pr_number,
       author: author,
+      merged_by: merged_by,
       repo: repo,
       reviews: reviews,
       data: data)
@@ -69,6 +76,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 2, pr.number
     assert_equal "exercism/ruby", pr.repo
     assert_equal "iHiD", pr.author_github_username
+    assert_equal "ErikSchierboom", pr.merged_by_github_username
     assert_equal data, pr.data
     assert_empty pr.reviews
   end
@@ -78,23 +86,25 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     changed_data = pr.data
     changed_data[:labels] = ["new-label"]
 
-    pr = Git::PullRequest::CreateOrUpdate.(pr.node_id,
+    Git::PullRequest::CreateOrUpdate.(pr.node_id,
       pr_number: pr.number,
       author: pr.author_github_username,
+      merged_by: pr.merged_by_github_username,
       repo: pr.repo,
       reviews: pr.reviews,
       data: changed_data)
 
-    assert_equal changed_data, pr.data
+    assert_equal changed_data, pr.reload.data
   end
 
   test "does not update pull request if data has not changed" do
     pr = create :git_pull_request
     updated_at_before_call = pr.updated_at
 
-    pr = Git::PullRequest::CreateOrUpdate.(pr.node_id,
+    Git::PullRequest::CreateOrUpdate.(pr.node_id,
       pr_number: pr.number,
       author: pr.author_github_username,
+      merged_by: pr.merged_by_github_username,
       repo: pr.repo,
       reviews: pr.reviews,
       data: pr.data)
@@ -103,16 +113,17 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "removes reviewers if no longer present" do
-    pull_request = create :git_pull_request
-    create :git_pull_request_review, pull_request: pull_request
+    pr = create :git_pull_request
+    create :git_pull_request_review, pull_request: pr
 
-    Git::PullRequest::CreateOrUpdate.(pull_request.node_id,
-      pr_number: pull_request.number,
-      author: pull_request.author_github_username,
-      repo: pull_request.repo,
+    Git::PullRequest::CreateOrUpdate.(pr.node_id,
+      pr_number: pr.number,
+      author: pr.author_github_username,
+      merged_by: pr.merged_by_github_username,
+      repo: pr.repo,
       reviews: [],
-      data: pull_request.data)
+      data: pr.data)
 
-    assert_empty pull_request.reload.reviews
+    assert_empty pr.reload.reviews
   end
 end

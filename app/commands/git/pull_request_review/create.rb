@@ -1,6 +1,6 @@
 module Git
   class PullRequestReview
-    class CreateOrUpdate
+    class Create
       include Mandate
 
       initialize_with :pull_request, :node_id, :attributes

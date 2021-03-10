@@ -25,7 +25,7 @@ module ReactComponents
             request: SerializeMentorRequest.(request),
             links: {
               exercise: Exercism::Routes.track_exercise_url(track, exercise),
-              create_request: Exercism::Routes.api_solution_mentor_request_path(solution.uuid),
+              create_mentor_request: Exercism::Routes.api_solution_mentor_request_path(solution.uuid),
               learn_more_about_private_mentoring: "#",
               private_mentoring: "https://some.link/we/need/to-decide-on",
               mentoring_guide: "#"

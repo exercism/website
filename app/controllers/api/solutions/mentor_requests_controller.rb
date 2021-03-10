@@ -3,11 +3,14 @@ module API
     before_action :use_solution
 
     def create
-      Solution::MentorRequest::Create.(
+      mentor_request = Solution::MentorRequest::Create.(
         @solution,
         params[:comment]
       )
-      render json: {}
+
+      render json: {
+        mentor_request: SerializeMentorRequest.(mentor_request)
+      }
     end
 
     private

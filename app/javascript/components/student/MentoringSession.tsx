@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { CloseButton } from '../mentoring/session/CloseButton'
 import { IterationView } from '../mentoring/session/IterationView'
@@ -17,6 +17,7 @@ export type Links = {
   learnMoreAboutPrivateMentoring: string
   privateMentoring: string
   mentoringGuide: string
+  createMentorRequest: string
 }
 
 export type Track = {
@@ -45,7 +46,7 @@ export const MentoringSession = ({
   isFirstTimeOnTrack,
   videos,
   track,
-  request,
+  request: initialRequest,
   links,
 }: {
   userId: number
@@ -58,6 +59,12 @@ export const MentoringSession = ({
   request?: MentoringRequestProps
   links: Links
 }): JSX.Element => {
+  const [mentorRequest, setMentorRequest] = useState(initialRequest)
+
+  const handleCreateMentorRequest = useCallback((mentorRequest) => {
+    setMentorRequest(mentorRequest)
+  }, [])
+
   return (
     <div className="c-mentor-discussion">
       <div className="lhs">
@@ -86,10 +93,11 @@ export const MentoringSession = ({
             isFirstTimeOnTrack={isFirstTimeOnTrack}
             track={track}
             exercise={exercise}
-            request={request}
+            request={mentorRequest}
             latestIteration={iterations[iterations.length - 1]}
             videos={videos}
             links={links}
+            onCreate={handleCreateMentorRequest}
           />
         )}
       </div>

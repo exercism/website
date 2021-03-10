@@ -11,6 +11,7 @@ type Links = {
   learnMoreAboutPrivateMentoring: string
   privateMentoring: string
   mentoringGuide: string
+  createMentorRequest: string
 }
 
 export const MentoringRequest = ({
@@ -21,6 +22,7 @@ export const MentoringRequest = ({
   latestIteration,
   videos,
   links,
+  onCreate,
 }: {
   isFirstTimeOnTrack: boolean
   track: Track
@@ -29,6 +31,7 @@ export const MentoringRequest = ({
   latestIteration: Iteration
   videos: Video[]
   links: Links
+  onCreate: (mentorRequest: MentoringRequestProps) => void
 }): JSX.Element => {
   return request ? (
     <MentoringRequestInfo
@@ -43,6 +46,7 @@ export const MentoringRequest = ({
       isFirstTimeOnTrack={isFirstTimeOnTrack}
       track={track}
       exercise={exercise}
+      onSuccess={onCreate}
       links={links}
     />
   )

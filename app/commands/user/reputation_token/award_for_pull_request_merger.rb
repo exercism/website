@@ -7,6 +7,7 @@ class User
 
       def call
         return unless merged?
+        return if merged_by_author?
 
         user = User.find_by(github_username: params[:merged_by])
 
@@ -29,6 +30,10 @@ class User
       private
       def merged?
         params[:merged].present? && params[:merged_by].present?
+      end
+
+      def merged_by_author?
+        params[:merged_by] == params[:author]
       end
     end
   end

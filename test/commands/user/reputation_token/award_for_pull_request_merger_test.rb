@@ -97,8 +97,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     repo = 'exercism/v3'
     pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
-    merged = false
-    merged_by = nil
+    merged = true
+    merged_by = 'user22'
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []

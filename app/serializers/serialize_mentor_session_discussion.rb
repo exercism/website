@@ -17,16 +17,18 @@ class SerializeMentorSessionDiscussion
   delegate :mentor, to: :discussion
 
   def links
-    {
-      posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion)
-    }.tap do |links|
-      if user == mentor
+    if user == mentor
+      {
+        posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion)
+      }.tap do |links|
         links[:finish] = Exercism::Routes.finish_api_mentoring_discussion_path(discussion) unless discussion.finished?
 
-        if discussion.requires_mentor_action?
-          links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_path(discussion)
-        end
+        links[:mark_as_nothing_to_do] = Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_path(discussion)
       end
+    else
+      {
+        posts: Exercism::Routes.api_solution_discussion_posts_url(discussion.solution.uuid, discussion)
+      }
     end
   end
 end

@@ -42,7 +42,7 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
       id: discussion.uuid,
       is_finished: true,
       links: {
-        posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion)
+        posts: Exercism::Routes.api_solution_discussion_posts_url(solution.uuid, discussion)
       }
     }
 

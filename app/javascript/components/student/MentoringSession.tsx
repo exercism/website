@@ -80,10 +80,10 @@ export const MentoringSession = ({
         />
       </div>
       <div className="rhs">
-        {discussion ? (
+        {discussion && mentor ? (
           <DiscussionInfo
             discussion={discussion}
-            mentor={mentor!}
+            mentor={mentor}
             userId={userId}
             iterations={iterations}
           />

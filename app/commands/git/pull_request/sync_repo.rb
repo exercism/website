@@ -43,7 +43,7 @@ module Git
               nameWithOwner
               pullRequests(first: 100,
                           states:[CLOSED, MERGED]
-                          #{cursor ? ", after: \"#{cursor}\"" : ''}) {
+                          #{%(, after: "#{cursor}") if cursor}) {
                 nodes {
                   id
                   url

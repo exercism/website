@@ -4,7 +4,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
   test "creates code contribution reputation token" do
     external_link = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     level = :major
     user = create :user, handle: "User22", github_username: "user22"
@@ -14,7 +14,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       :code_contribution,
       repo: repo,
       level: level,
-      pr_id: pr_id,
+      pr_node_id: pr_node_id,
       pr_number: pr_number,
       external_link: external_link
     )

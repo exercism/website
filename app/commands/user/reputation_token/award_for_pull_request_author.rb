@@ -22,7 +22,7 @@ class User
           :code_contribution,
           level: author_reputation_level,
           repo: params[:repo],
-          pr_id: params[:pr_id],
+          pr_node_id: params[:pr_node_id],
           pr_number: params[:pr_number],
           external_link: params[:html_url]
         )

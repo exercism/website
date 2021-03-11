@@ -2,7 +2,7 @@ require "test_helper"
 
 class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   test "create pull request with reviewers" do
-    pr_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
+    pr_node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
     pr_number = 2
     repo = "exercism/ruby"
     author = "iHiD"
@@ -11,7 +11,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
       repo: repo,
-      pr_id: pr_id,
+      pr_node_id: pr_node_id,
       pr_number: pr_number,
       state: "closed",
       action: "closed",
@@ -24,7 +24,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      pr_id,
+      pr_node_id,
       pr_number: pr_number,
       author: author,
       merged_by: merged_by,
@@ -45,7 +45,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "create pull request without reviewers" do
-    pr_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
+    pr_node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
     pr_number = 2
     repo = "exercism/ruby"
     author = "iHiD"
@@ -54,7 +54,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
       repo: repo,
-      pr_id: pr_id,
+      pr_node_id: pr_node_id,
       pr_number: pr_number,
       state: "closed",
       action: "closed",
@@ -67,7 +67,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      pr_id,
+      pr_node_id,
       pr_number: pr_number,
       author: author,
       merged_by: merged_by,

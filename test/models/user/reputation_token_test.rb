@@ -17,7 +17,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
   test "rendering_data" do
     repo = "foo/bar"
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 12_312
 
     track = create :track
@@ -29,7 +29,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       external_link: "https://google.com",
       params: {
         repo: repo,
-        pr_id: pr_id,
+        pr_node_id: pr_node_id,
         pr_number: pr_number
       }
 

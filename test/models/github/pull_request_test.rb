@@ -6,6 +6,6 @@ class Github::PullRequestTest < ActiveSupport::TestCase
 
     assert_equal "exercism/ruby", pr.data[:repo]
     assert_equal 2, pr.data[:pr_number]
-    assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.data[:pr_id]
+    assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.data[:pr_node_id]
   end
 end

@@ -7,7 +7,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     @params = params
 
     Github::PullRequest::CreateOrUpdate.(
-      data[:pr_id],
+      data[:pr_node_id],
       pr_number: data[:pr_number],
       author: data[:author],
       repo: data[:repo],
@@ -30,7 +30,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       html_url: params[:html_url],
       labels: params[:labels],
       state: params[:state],
-      pr_id: params[:pr_id],
+      pr_node_id: params[:pr_node_id],
       pr_number: params[:pr_number],
       repo: params[:repo],
       merged: params[:merged],

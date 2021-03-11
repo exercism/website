@@ -17,7 +17,7 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120
         }
 
@@ -44,7 +44,7 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120
         }
 
@@ -69,7 +69,7 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120
         }
 
@@ -97,7 +97,7 @@ module Flows
           created_at: 2.days.ago,
           params: {
             repo: "ruby/pulls",
-            pr_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+            pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
             pr_number: 120
           }
         ReputationChannel.broadcast_changed(user)

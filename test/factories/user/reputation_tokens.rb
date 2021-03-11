@@ -6,7 +6,7 @@ FactoryBot.define do
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid,
+        pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.uuid
       }
     end
@@ -18,7 +18,7 @@ FactoryBot.define do
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid,
+        pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.uuid
       }
     end
@@ -30,7 +30,7 @@ FactoryBot.define do
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid,
+        pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.uuid
       }
     end

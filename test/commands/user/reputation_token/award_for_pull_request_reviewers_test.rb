@@ -5,7 +5,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     action = 'closed'
     author = 'user22'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
@@ -20,7 +20,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -34,7 +34,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     action = 'closed'
     author = 'user22'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
@@ -49,7 +49,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -63,7 +63,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     action = 'labeled'
     author = 'user22'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
@@ -74,7 +74,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
     assert_empty reviewer.reputation_tokens
@@ -84,7 +84,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     action = 'unlabeled'
     author = 'user22'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
@@ -95,7 +95,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
     assert_empty reviewer.reputation_tokens
@@ -105,7 +105,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     action = 'closed'
     author = 'user22'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
@@ -116,7 +116,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
     refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
@@ -126,7 +126,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     action = 'closed'
     author = 'user22'
     repo = 'exercism/v3'
-    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
@@ -144,7 +144,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
     assert_equal 1, reviewer_1.reputation_tokens.size

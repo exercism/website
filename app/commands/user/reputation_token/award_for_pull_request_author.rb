@@ -18,10 +18,10 @@ class User
           user,
           :code_contribution,
           level: author_reputation_level,
-          repo: repo,
-          pr_id: pr_id,
-          pr_number: pr_number,
-          external_link: external_link
+          repo: params[:repo],
+          pr_id: params[:pr_id],
+          pr_number: params[:pr_number],
+          external_link: params[:html_url]
         )
         token.update!(level: author_reputation_level)
       end
@@ -29,22 +29,6 @@ class User
       private
       def merged?
         params[:merged].present?
-      end
-
-      def external_link
-        params[:html_url]
-      end
-
-      def repo
-        params[:repo]
-      end
-
-      def pr_id
-        params[:pr_id]
-      end
-
-      def pr_number
-        params[:pr_number]
       end
 
       def author_reputation_level

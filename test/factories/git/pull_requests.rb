@@ -7,33 +7,40 @@ FactoryBot.define do
     merged_by_github_username { "ErikSchierboom" }
     data do
       {
-        pr_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
-        pr_number: 2,
-        repo: "exercism/ruby",
-        url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-        html_url: "https://github.com/exercism/ruby/pull/2",
+        pr_id: node_id,
+        pr_number: number,
+        repo: repo,
+        url: "https://api.github.com/repos/exercism/ruby/pulls/#{number}",
+        html_url: "https://github.com/exercism/ruby/pull/#{number}",
         state: "closed",
         action: "closed",
-        author: "iHiD",
+        author: author_github_username,
         labels: [],
         merged: true,
-        merged_by: "ErikSchierboom",
+        merged_by: merged_by_github_username,
         reviews: []
       }
     end
 
     trait :random do
-      after(:build) do |pr|
-        random_node_id = SecureRandom.hex
-        random_number = SecureRandom.random_number(100_000)
-        pr.update!(
-          node_id: random_node_id,
-          number: random_number,
-          data: pr.data.tap do |d|
-            d[:pr_id] = random_node_id
-            d[:pr_number] = random_number
-          end
-        )
+      node_id { SecureRandom.hex }
+      number { SecureRandom.random_number(100_000) }
+
+      data do
+        {
+          pr_id: node_id,
+          pr_number: number,
+          repo: repo,
+          url: "https://api.github.com/repos/exercism/ruby/pulls/#{number}",
+          html_url: "https://github.com/exercism/ruby/pull/#{number}",
+          state: "closed",
+          action: "closed",
+          author: author_github_username,
+          labels: [],
+          merged: true,
+          merged_by: merged_by_github_username,
+          reviews: []
+        }
       end
     end
   end

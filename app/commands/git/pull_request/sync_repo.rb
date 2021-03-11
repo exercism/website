@@ -39,6 +39,7 @@ module Git
 
       def fetch_page(cursor)
         query = <<~QUERY.strip
+          query {
             repository(owner: "#{repo_owner}", name: "#{repo_name}") {
               nameWithOwner
               pullRequests(first: 100,

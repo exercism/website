@@ -116,8 +116,13 @@ class Git::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       }
     }
 
+    RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' }).
+      with { |request| !request.body.include?("after:") }.
+      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
       to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     Git::PullRequest::SyncRepo.('exercism/ruby')

@@ -49,7 +49,7 @@ export function ProcessingStatusSummary({
 
   return (
     <div
-      className={`--processing-status --${status}`}
+      className={`c-iteration-processing-status --${status}`}
       role="status"
       aria-label="Processing status"
     >

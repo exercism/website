@@ -1,0 +1,38 @@
+.c-iteration-processing-status {
+    @apply flex items-center;
+
+    & .--dot {
+        @apply rounded-circle;
+        height: 8px;
+        width: 8px;
+    }
+    & .c-icon {
+        height: 16px;
+        width: 16px;
+    }
+    & .--dot,
+    & .c-icon {
+        @apply mr-12;
+    }
+    & .--status {
+        @apply font-mono font-bold;
+    }
+    &.--processing {
+        @apply text-orange;
+        & .c-icon {
+            animation: spin 3s linear infinite;
+        }
+    }
+    &.--passed {
+        @apply text-darkGreen;
+        & .--dot {
+            @apply bg-darkGreen;
+        }
+    }
+    &.--failed {
+        @apply text-red;
+        & .--dot {
+            @apply bg-red;
+        }
+    }
+}

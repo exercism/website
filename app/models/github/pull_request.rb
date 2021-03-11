@@ -1,11 +1,11 @@
-class Git::PullRequest < ApplicationRecord
+class Github::PullRequest < ApplicationRecord
   extend Mandate::Memoize
 
   has_many :reviews,
     dependent: :destroy,
     inverse_of: :pull_request,
-    class_name: "Git::PullRequestReview",
-    foreign_key: "git_pull_request_id"
+    class_name: "Github::PullRequestReview",
+    foreign_key: "github_pull_request_id"
 
   memoize
   def data

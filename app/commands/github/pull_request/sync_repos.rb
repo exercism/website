@@ -1,4 +1,4 @@
-module Git
+module Github
   class PullRequest
     class SyncRepos
       include Mandate

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
+class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   test "create pull request with reviewers" do
     pr_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
     pr_number = 2
@@ -23,7 +23,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
-    pr = Git::PullRequest::CreateOrUpdate.(
+    pr = Github::PullRequest::CreateOrUpdate.(
       pr_id,
       pr_number: pr_number,
       author: author,
@@ -36,12 +36,12 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
     assert_equal 2, pr.number
     assert_equal "exercism/ruby", pr.repo
-    assert_equal "iHiD", pr.author_github_username
-    assert_equal "ErikSchierboom", pr.merged_by_github_username
+    assert_equal "iHiD", pr.author_username
+    assert_equal "ErikSchierboom", pr.merged_by_username
     assert_equal data, pr.data
     assert_equal 1, pr.reviews.size
     assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", pr.reviews.first.node_id
-    assert_equal "ErikSchierboom", pr.reviews.first.reviewer_github_username
+    assert_equal "ErikSchierboom", pr.reviews.first.reviewer_username
   end
 
   test "create pull request without reviewers" do
@@ -66,7 +66,7 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
-    pr = Git::PullRequest::CreateOrUpdate.(
+    pr = Github::PullRequest::CreateOrUpdate.(
       pr_id,
       pr_number: pr_number,
       author: author,
@@ -79,22 +79,22 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
     assert_equal 2, pr.number
     assert_equal "exercism/ruby", pr.repo
-    assert_equal "iHiD", pr.author_github_username
-    assert_equal "ErikSchierboom", pr.merged_by_github_username
+    assert_equal "iHiD", pr.author_username
+    assert_equal "ErikSchierboom", pr.merged_by_username
     assert_equal data, pr.data
     assert_empty pr.reviews
   end
 
   test "update pull request if data has changed" do
-    pr = create :git_pull_request
+    pr = create :github_pull_request
     changed_data = pr.data
     changed_data[:labels] = ["new-label"]
 
-    Git::PullRequest::CreateOrUpdate.(
+    Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
       pr_number: pr.number,
-      author: pr.author_github_username,
-      merged_by: pr.merged_by_github_username,
+      author: pr.author_username,
+      merged_by: pr.merged_by_username,
       repo: pr.repo,
       reviews: pr.reviews,
       data: changed_data
@@ -104,14 +104,14 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "does not update pull request if data has not changed" do
-    pr = create :git_pull_request
+    pr = create :github_pull_request
     updated_at_before_call = pr.updated_at
 
-    Git::PullRequest::CreateOrUpdate.(
+    Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
       pr_number: pr.number,
-      author: pr.author_github_username,
-      merged_by: pr.merged_by_github_username,
+      author: pr.author_username,
+      merged_by: pr.merged_by_username,
       repo: pr.repo,
       reviews: pr.reviews,
       data: pr.data
@@ -121,14 +121,14 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "removes reviewers if no longer present" do
-    pr = create :git_pull_request
-    create :git_pull_request_review, pull_request: pr
+    pr = create :github_pull_request
+    create :github_pull_request_review, pull_request: pr
 
-    Git::PullRequest::CreateOrUpdate.(
+    Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
       pr_number: pr.number,
-      author: pr.author_github_username,
-      merged_by: pr.merged_by_github_username,
+      author: pr.author_username,
+      merged_by: pr.merged_by_username,
       repo: pr.repo,
       reviews: [],
       data: pr.data

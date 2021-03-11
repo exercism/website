@@ -1,4 +1,4 @@
-module Git
+module Github
   class PullRequest
     class SyncRepo
       include Mandate
@@ -7,7 +7,7 @@ module Git
 
       def call
         pull_requests.each do |pr|
-          Git::PullRequest::CreateOrUpdate.(
+          Github::PullRequest::CreateOrUpdate.(
             pr[:pr_id],
             pr_number: pr[:pr_number],
             author: pr[:author],

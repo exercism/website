@@ -1,8 +1,8 @@
 require "test_helper"
 
-class Git::PullRequestTest < ActiveSupport::TestCase
+class Github::PullRequestTest < ActiveSupport::TestCase
   test "data can be accessed using symbols" do
-    pr = create :git_pull_request
+    pr = create :github_pull_request
 
     assert_equal "exercism/ruby", pr.data[:repo]
     assert_equal 2, pr.data[:pr_number]

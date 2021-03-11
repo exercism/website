@@ -1,10 +1,10 @@
 FactoryBot.define do
-  factory :git_pull_request, class: 'Git::PullRequest' do
+  factory :github_pull_request, class: 'Github::PullRequest' do
     node_id { "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz" }
     number { 2 }
     repo { "exercism/ruby" }
-    author_github_username { "iHiD" }
-    merged_by_github_username { "ErikSchierboom" }
+    author_username { "iHiD" }
+    merged_by_username { "ErikSchierboom" }
     data do
       {
         pr_id: node_id,
@@ -14,10 +14,10 @@ FactoryBot.define do
         html_url: "https://github.com/exercism/ruby/pull/#{number}",
         state: "closed",
         action: "closed",
-        author: author_github_username,
+        author: author_username,
         labels: [],
         merged: true,
-        merged_by: merged_by_github_username,
+        merged_by: merged_by_username,
         reviews: []
       }
     end

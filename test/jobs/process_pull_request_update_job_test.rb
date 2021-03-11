@@ -93,7 +93,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       merged_by: merged_by
     )
 
-    pr = Git::PullRequest.find_by(node_id: pr_id)
+    pr = Github::PullRequest.find_by(node_id: pr_id)
     expected_data = {
       action: action,
       author: author,
@@ -111,8 +111,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     assert_equal pr_id, pr.node_id
     assert_equal pr_number, pr.number
     assert_equal repo, pr.repo
-    assert_equal author, pr.author_github_username
-    assert_nil pr.merged_by_github_username
+    assert_equal author, pr.author_username
+    assert_nil pr.merged_by_username
     assert_equal expected_data, pr.data
   end
 
@@ -169,6 +169,6 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       merged_by: merged_by
     )
 
-    assert_equal 3, Git::PullRequestReview.find_each.size
+    assert_equal 3, Github::PullRequestReview.find_each.size
   end
 end

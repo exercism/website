@@ -13,7 +13,7 @@ class User
 
       private
       def pull_requests
-        ::Git::PullRequest.left_joins(:reviews)
+        ::Github::PullRequest.left_joins(:reviews)
       end
     end
   end

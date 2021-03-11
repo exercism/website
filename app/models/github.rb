@@ -1,5 +1,5 @@
-module Git
+module Github
   def self.table_name_prefix
-    'git_'
+    'github_'
   end
 end

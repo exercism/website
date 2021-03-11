@@ -6,7 +6,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
   def perform(params)
     @params = params
 
-    Git::PullRequest::CreateOrUpdate.(
+    Github::PullRequest::CreateOrUpdate.(
       data[:pr_id],
       pr_number: data[:pr_number],
       author: data[:author],

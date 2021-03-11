@@ -1,5 +1,5 @@
 class ProcessPullRequestUpdateJob < ApplicationJob
-  include Mandate
+  extend Mandate::Memoize
 
   queue_as :default
 

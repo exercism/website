@@ -3,26 +3,29 @@ class ProcessPullRequestUpdateJob < ApplicationJob
 
   queue_as :default
 
-  def perform(action, github_username, params)
-    pr_data = data(action, github_username, params)
+  def perform(params)
+    @params = params
 
     Git::PullRequest::CreateOrUpdate.(
-      pr_data[:pr_id],
-      pr_number: pr_data[:pr_number],
-      author: pr_data[:author],
-      repo: pr_data[:repo],
-      reviews: pr_data[:reviews],
-      data: pr_data
+      data[:pr_id],
+      pr_number: data[:pr_number],
+      author: data[:author],
+      repo: data[:repo],
+      reviews: data[:reviews],
+      data: data
     )
 
-    User::ReputationToken::AwardForPullRequest.(action, github_username, pr_data)
+    User::ReputationToken::AwardForPullRequest.(data)
   end
 
   private
-  def data(action, github_username, params)
+  attr_reader :params
+
+  memoize
+  def data
     {
-      action: action,
-      author: github_username,
+      action: params[:action],
+      author: params[:author],
       url: params[:url],
       html_url: params[:html_url],
       labels: params[:labels],

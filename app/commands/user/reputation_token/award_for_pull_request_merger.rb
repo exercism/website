@@ -3,7 +3,7 @@ class User
     class AwardForPullRequestMerger
       include Mandate
 
-      initialize_with :action, :github_username, :params
+      initialize_with :params
 
       def call
         return unless merged?
@@ -28,7 +28,7 @@ class User
 
       private
       def merged?
-        params[:merged].present?
+        params[:merged].present? && params[:merged_by].present?
       end
     end
   end

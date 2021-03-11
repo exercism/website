@@ -3,12 +3,12 @@ class User
     class AwardForPullRequest
       include Mandate
 
-      initialize_with :action, :github_username, :params
+      initialize_with :params
 
       def call
-        User::ReputationToken::AwardForPullRequestAuthor.(action, github_username, params) if params[:author].present?
-        User::ReputationToken::AwardForPullRequestReviewers.(action, github_username, params) if params[:reviews].present?
-        User::ReputationToken::AwardForPullRequestMerger.(action, github_username, params) if params[:merged_by].present?
+        User::ReputationToken::AwardForPullRequestAuthor.(params)
+        User::ReputationToken::AwardForPullRequestReviewers.(params)
+        User::ReputationToken::AwardForPullRequestMerger.(params)
       end
     end
   end

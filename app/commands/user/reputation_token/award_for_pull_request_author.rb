@@ -3,16 +3,17 @@ class User
     class AwardForPullRequestAuthor
       include Mandate
 
-      initialize_with :action, :github_username, :params
+      initialize_with :params
 
       def call
+        return unless has_author?
         return unless merged?
 
-        user = User.find_by(github_username: github_username)
+        user = User.find_by(github_username: params[:author])
 
         unless user
           # TODO: decide what to do with user that cannot be found
-          Rails.logger.error "Missing author: #{github_username}"
+          Rails.logger.error "Missing author: #{params[:author]}"
           return
         end
 
@@ -31,6 +32,10 @@ class User
       private
       def merged?
         params[:merged].present?
+      end
+
+      def has_author?
+        params[:author].present?
       end
 
       def author_reputation_level

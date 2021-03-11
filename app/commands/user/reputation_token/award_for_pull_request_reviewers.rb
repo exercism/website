@@ -3,13 +3,14 @@ class User
     class AwardForPullRequestReviewers
       include Mandate
 
-      initialize_with :action, :github_username, :params
+      initialize_with :params
 
       def call
+        return unless has_reviews?
         return unless just_closed?
 
         reviewer_usernames = params[:reviews].to_a.map { |reviewer| reviewer[:reviewer] }.uniq
-        reviewer_usernames.delete(github_username) # Don't award reviewer reputation to the PR author
+        reviewer_usernames.delete(params[:author]) # Don't award reviewer reputation to the PR author
 
         reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|
@@ -29,8 +30,12 @@ class User
       end
 
       private
+      def has_reviews?
+        params[:reviews].present?
+      end
+
       def just_closed?
-        action == 'closed'
+        params[:action] == 'closed'
       end
     end
   end

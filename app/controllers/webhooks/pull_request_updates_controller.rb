@@ -3,8 +3,8 @@ module Webhooks
     def create
       ::Webhooks::ProcessPullRequestUpdate.(
         # params[:action] does not work as it is populated by Rails with the action method name
-        request.request_parameters[:action],
-        params[:pull_request][:user][:login],
+        action: request.request_parameters[:action],
+        author: params[:pull_request][:user][:login],
         url: params[:pull_request][:url],
         html_url: params[:pull_request][:html_url],
         labels: params[:pull_request][:labels].map { |label| label[:name] },

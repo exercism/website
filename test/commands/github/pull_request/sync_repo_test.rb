@@ -18,7 +18,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 19,
                 state: 'MERGED',
-                author: {
+                author_username: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: {
@@ -28,7 +28,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author: {
+                      author_username: {
                         login: 'iHiD'
                       }
                     }
@@ -45,7 +45,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 8,
                 state: 'MERGED',
-                author: {
+                author_username: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: {
@@ -55,7 +55,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
-                      author: {
+                      author_username: {
                         login: 'ErikSchierboom'
                       }
                     }
@@ -92,7 +92,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 2,
                 state: 'MERGED',
-                author: {
+                author_username: {
                   login: 'porkostomus'
                 },
                 mergedBy: {
@@ -144,11 +144,11 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       pr_number: 19,
       state: "closed",
       action: "closed",
-      author: "ErikSchierboom",
+      author_username: "ErikSchierboom",
       labels: [],
       merged: true,
-      merged_by: "iHiD",
-      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx", reviewer: "iHiD" }]
+      merged_by_username: "iHiD",
+      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx", reviewer_username: "iHiD" }]
     }
     assert_equal expected_first_data, prs.first.data
     assert_equal 1, prs.first.reviews.size
@@ -169,11 +169,11 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       pr_number: 8,
       state: "closed",
       action: "closed",
-      author: "ErikSchierboom",
+      author_username: "ErikSchierboom",
       labels: [],
       merged: true,
-      merged_by: "iHiD",
-      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0", reviewer: "ErikSchierboom" }]
+      merged_by_username: "iHiD",
+      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0", reviewer_username: "ErikSchierboom" }]
     }
     assert_equal expected_first_data, prs.second.data
     assert_equal 1, prs.second.reviews.size
@@ -194,10 +194,10 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       pr_number: 2,
       state: "closed",
       action: "closed",
-      author: "porkostomus",
+      author_username: "porkostomus",
       labels: [],
       merged: true,
-      merged_by: "ErikSchierboom",
+      merged_by_username: "ErikSchierboom",
       reviews: []
     }
     assert_equal expected_third_data, prs.third.data
@@ -221,7 +221,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 19,
                 state: 'MERGED',
-                author: nil,
+                author_username: nil,
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -229,7 +229,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author: {
+                      author_username: {
                         login: 'iHiD'
                       }
                     }
@@ -277,7 +277,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: false,
                 number: 19,
                 state: 'MERGED',
-                author: {
+                author_username: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: nil,
@@ -285,7 +285,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author: {
+                      author_username: {
                         login: 'iHiD'
                       }
                     }
@@ -333,7 +333,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 19,
                 state: 'MERGED',
-                author: {
+                author_username: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: {
@@ -343,7 +343,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author: nil
+                      author_username: nil
                     }
                   ]
                 }

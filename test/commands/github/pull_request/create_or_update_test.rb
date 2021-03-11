@@ -7,7 +7,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     repo = "exercism/ruby"
     author = "iHiD"
     merged_by = "ErikSchierboom"
-    reviews = [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer: "ErikSchierboom" }]
+    reviews = [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer_username: "ErikSchierboom" }]
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
       repo: repo,
@@ -15,10 +15,10 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       pr_number: pr_number,
       state: "closed",
       action: "closed",
-      author: author,
+      author_username: author,
       labels: [],
       merged: true,
-      merged_by: merged_by,
+      merged_by_username: merged_by,
       reviews: reviews,
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
@@ -26,8 +26,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr = Github::PullRequest::CreateOrUpdate.(
       pr_node_id,
       pr_number: pr_number,
-      author: author,
-      merged_by: merged_by,
+      author_username: author,
+      merged_by_username: merged_by,
       repo: repo,
       reviews: reviews,
       data: data
@@ -58,10 +58,10 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       pr_number: pr_number,
       state: "closed",
       action: "closed",
-      author: author,
+      author_username: author,
       labels: [],
       merged: true,
-      merged_by: merged_by,
+      merged_by_username: merged_by,
       reviews: reviews,
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
@@ -69,8 +69,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr = Github::PullRequest::CreateOrUpdate.(
       pr_node_id,
       pr_number: pr_number,
-      author: author,
-      merged_by: merged_by,
+      author_username: author,
+      merged_by_username: merged_by,
       repo: repo,
       reviews: reviews,
       data: data
@@ -93,8 +93,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
       pr_number: pr.number,
-      author: pr.author_username,
-      merged_by: pr.merged_by_username,
+      author_username: pr.author_username,
+      merged_by_username: pr.merged_by_username,
       repo: pr.repo,
       reviews: pr.reviews,
       data: changed_data
@@ -110,8 +110,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
       pr_number: pr.number,
-      author: pr.author_username,
-      merged_by: pr.merged_by_username,
+      author_username: pr.author_username,
+      merged_by_username: pr.merged_by_username,
       repo: pr.repo,
       reviews: pr.reviews,
       data: pr.data
@@ -127,8 +127,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
       pr_number: pr.number,
-      author: pr.author_username,
-      merged_by: pr.merged_by_username,
+      author_username: pr.author_username,
+      merged_by_username: pr.merged_by_username,
       repo: pr.repo,
       reviews: [],
       data: pr.data

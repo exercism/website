@@ -9,11 +9,11 @@ class User
         return unless has_author?
         return unless merged?
 
-        user = User.find_by(github_username: params[:author])
+        user = User.find_by(github_username: params[:author_username])
 
         unless user
           # TODO: decide what to do with user that cannot be found
-          Rails.logger.error "Missing author: #{params[:author]}"
+          Rails.logger.error "Missing author: #{params[:author_username]}"
           return
         end
 
@@ -35,7 +35,7 @@ class User
       end
 
       def has_author?
-        params[:author].present?
+        params[:author_username].present?
       end
 
       def author_reputation_level

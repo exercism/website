@@ -12,7 +12,7 @@ FactoryBot.define do
     before(:create) do |r|
       r.pull_request.update!(
         data: r.pull_request.data.tap do |d|
-          d[:reviews] = [{ node_id: r.node_id, reviewer: r.reviewer_username }]
+          d[:reviews] = [{ node_id: r.node_id, reviewer_username: r.reviewer_username }]
         end
       )
     end

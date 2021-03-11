@@ -15,8 +15,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merged_by
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merged_by
     )
 
     assert User::ReputationTokens::CodeMergeToken.where(user: user).exists?
@@ -43,8 +43,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
       }
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merged_by
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merged_by
     )
 
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user).size
@@ -63,8 +63,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merged_by
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
@@ -84,8 +84,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merged_by
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.where(user: user).exists?
@@ -105,8 +105,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merged_by
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.where(user: user).exists?
@@ -126,8 +126,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merged_by
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merged_by
     )
 
     assert_equal 2, user.reputation_tokens.last.value

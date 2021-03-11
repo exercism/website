@@ -14,8 +14,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     merged_by = nil
     state = 'open'
     reviews = [
-      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer: "reviewer71" },
-      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer: "reviewer13" }
+      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71" },
+      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer_username: "reviewer13" }
     ]
 
     RestClient.unstub(:get)
@@ -27,7 +27,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
 
     User::ReputationToken::AwardForPullRequest.expects(:call).with(
       action: action,
-      author: author,
+      author_username: author,
       url: url,
       html_url: html_url,
       labels: labels,
@@ -35,14 +35,14 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       merged: merged,
-      merged_by: merged_by,
+      merged_by_username: merged_by,
       state: state,
       reviews: reviews
     )
 
     ProcessPullRequestUpdateJob.perform_now(
       action: action,
-      author: author,
+      author_username: author,
       url: url,
       html_url: html_url,
       labels: labels,
@@ -50,7 +50,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       merged: merged,
-      merged_by: merged_by,
+      merged_by_username: merged_by,
       state: state
     )
   end
@@ -68,8 +68,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     merged_by = nil
     state = 'open'
     reviews = [
-      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer: "reviewer71" },
-      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer: "reviewer13" }
+      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71" },
+      { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer_username: "reviewer13" }
     ]
 
     RestClient.unstub(:get)
@@ -81,7 +81,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
 
     ProcessPullRequestUpdateJob.perform_now(
       action: action,
-      author: author,
+      author_username: author,
       url: url,
       html_url: html_url,
       labels: labels,
@@ -90,13 +90,13 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       pr_number: pr_number,
       state: state,
       merged: merged,
-      merged_by: merged_by
+      merged_by_username: merged_by
     )
 
     pr = Github::PullRequest.find_by(node_id: pr_node_id)
     expected_data = {
       action: action,
-      author: author,
+      author_username: author,
       url: url,
       html_url: html_url,
       labels: labels,
@@ -104,7 +104,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       merged: merged,
-      merged_by: merged_by,
+      merged_by_username: merged_by,
       state: state,
       reviews: reviews
     }
@@ -157,7 +157,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
 
     ProcessPullRequestUpdateJob.perform_now(
       action: action,
-      author: author,
+      author_username: author,
       url: url,
       html_url: html_url,
       labels: labels,
@@ -166,7 +166,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       pr_number: pr_number,
       state: state,
       merged: merged,
-      merged_by: merged_by
+      merged_by_username: merged_by
     )
 
     assert_equal 3, Github::PullRequestReview.find_each.size

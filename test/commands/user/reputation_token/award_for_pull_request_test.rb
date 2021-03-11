@@ -14,7 +14,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequest.(
-      action: action, author: login, url: url, html_url: html_url,
+      action: action, author_username: login, url: url, html_url: html_url,
       labels: labels, repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -34,12 +34,12 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
     reviews = [
-      { reviewer: reviewer_1.github_username },
-      { reviewer: reviewer_2.github_username }
+      { reviewer_username: reviewer_1.github_username },
+      { reviewer_username: reviewer_2.github_username }
     ]
 
     User::ReputationToken::AwardForPullRequest.(
-      action: action, author: login, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: login, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -60,7 +60,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     reviews = []
 
     User::ReputationToken::AwardForPullRequest.(
-      action: action, author: login, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: login, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -80,8 +80,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     merger = create :user, handle: "Merged-88", github_username: "merger88"
 
     User::ReputationToken::AwardForPullRequest.(
-      action: action, author: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by: merger.github_username
+      action: action, author_username: login, url: url, html_url: html_url, labels: labels,
+      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merger.github_username
     )
 
     assert User::ReputationTokens::CodeMergeToken.where(user: merger).exists?
@@ -99,7 +99,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     labels = []
 
     User::ReputationToken::AwardForPullRequest.(
-      action: action, author: login, url: url, html_url: html_url,
+      action: action, author_username: login, url: url, html_url: html_url,
       labels: labels, repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 

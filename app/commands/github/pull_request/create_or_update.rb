@@ -9,16 +9,16 @@ module Github
         pull_request = ::Github::PullRequest.create_or_find_by!(node_id: node_id) do |pr|
           pr.number = attributes[:pr_number]
           pr.repo = attributes[:repo]
-          pr.author_username = attributes[:author]
-          pr.merged_by_username = attributes[:merged_by]
+          pr.author_username = attributes[:author_username]
+          pr.merged_by_username = attributes[:merged_by_username]
           pr.data = attributes[:data]
         end
 
         pull_request.update!(
           number: attributes[:pr_number],
           repo: attributes[:repo],
-          author_username: attributes[:author],
-          merged_by_username: attributes[:merged_by],
+          author_username: attributes[:author_username],
+          merged_by_username: attributes[:merged_by_username],
           data: attributes[:data],
           reviews: reviews(pull_request)
         )
@@ -29,7 +29,7 @@ module Github
       private
       def reviews(pull_request)
         attributes[:reviews].to_a.map do |review|
-          Github::PullRequestReview::CreateOrUpdate.(pull_request, review[:node_id], review[:reviewer])
+          Github::PullRequestReview::CreateOrUpdate.(pull_request, review[:node_id], review[:reviewer_username])
         end
       end
     end

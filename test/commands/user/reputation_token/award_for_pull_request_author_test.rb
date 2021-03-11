@@ -14,7 +14,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -41,7 +41,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       }
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -60,7 +60,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -80,7 +80,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -100,7 +100,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -120,7 +120,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -140,7 +140,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -160,7 +160,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -180,7 +180,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -200,7 +200,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -230,7 +230,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     assert_equal 10, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -254,7 +254,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
                                                                         params: { repo: repo, pr_node_id: pr_node_id }
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -277,7 +277,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
                                                                         params: { repo: repo, pr_node_id: pr_node_id }
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -298,7 +298,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 
@@ -318,7 +318,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
     )
 

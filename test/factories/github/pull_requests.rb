@@ -14,10 +14,10 @@ FactoryBot.define do
         html_url: "https://github.com/exercism/ruby/pull/#{number}",
         state: "closed",
         action: "closed",
-        author: author_username,
+        author_username: author_username,
         labels: [],
         merged: true,
-        merged_by: merged_by_username,
+        merged_by_username: merged_by_username,
         reviews: []
       }
     end

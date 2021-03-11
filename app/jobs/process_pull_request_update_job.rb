@@ -9,7 +9,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     Github::PullRequest::CreateOrUpdate.(
       data[:pr_node_id],
       pr_number: data[:pr_number],
-      author: data[:author],
+      author_username: data[:author_username],
       repo: data[:repo],
       reviews: data[:reviews],
       data: data
@@ -25,7 +25,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
   def data
     {
       action: params[:action],
-      author: params[:author],
+      author_username: params[:author_username],
       url: params[:url],
       html_url: params[:html_url],
       labels: params[:labels],
@@ -34,7 +34,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       pr_number: params[:pr_number],
       repo: params[:repo],
       merged: params[:merged],
-      merged_by: params[:merged_by],
+      merged_by_username: params[:merged_by_username],
       # Fetch and add the pull request's reviews as they are not returned in the pull request event
       reviews: reviews(params[:repo], params[:pr_number])
     }
@@ -44,7 +44,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     octokit_client.pull_request_reviews(repo, number).map do |r|
       {
         node_id: r[:node_id],
-        reviewer: r[:user][:login]
+        reviewer_username: r[:user][:login]
       }
     end
   end

@@ -10,8 +10,8 @@ module Github
           Github::PullRequest::CreateOrUpdate.(
             pr[:pr_node_id],
             pr_number: pr[:pr_number],
-            author: pr[:author],
-            merged_by: pr[:merged_by],
+            author_username: pr[:author_username],
+            merged_by_username: pr[:merged_by_username],
             repo: pr[:repo],
             reviews: pr[:reviews],
             data: pr
@@ -95,7 +95,7 @@ module Github
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
           {
             action: 'closed',
-            author: pr[:author].present? ? pr[:author][:login] : nil,
+            author_username: pr[:author_username].present? ? pr[:author_username][:login] : nil,
             url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
             html_url: pr[:url],
             labels: pr[:labels][:nodes].map { |node| node[:name] },
@@ -104,11 +104,11 @@ module Github
             pr_number: pr[:number],
             repo: response[:data][:repository][:nameWithOwner],
             merged: pr[:merged],
-            merged_by: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,
+            merged_by_username: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,
             reviews: pr[:reviews][:nodes].map do |node|
               {
                 node_id: node[:id],
-                reviewer: node[:author].present? ? node[:author][:login] : nil
+                reviewer_username: node[:author_username].present? ? node[:author_username][:login] : nil
               }
             end
           }

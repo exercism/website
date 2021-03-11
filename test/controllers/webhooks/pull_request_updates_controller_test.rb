@@ -66,7 +66,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         number: 4,
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true,
-        merged_by: {
+        merged_by_username: {
           login: 'merger68'
         }
       },
@@ -76,7 +76,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     }
     Webhooks::ProcessPullRequestUpdate.expects(:call).with(
       action: 'closed',
-      author: 'user22',
+      author_username: 'user22',
       url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
       html_url: 'https://github.com/exercism/fsharp/pull/1347',
       labels: %w[bug duplicate],
@@ -85,7 +85,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 4,
       merged: true,
-      merged_by: 'merger68'
+      merged_by_username: 'merger68'
     )
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
@@ -112,7 +112,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     }
     Webhooks::ProcessPullRequestUpdate.expects(:call).with(
       action: 'opened',
-      author: 'user22',
+      author_username: 'user22',
       url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
       html_url: 'https://github.com/exercism/fsharp/pull/1347',
       labels: %w[bug duplicate],
@@ -121,7 +121,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 4,
       merged: false,
-      merged_by: nil
+      merged_by_username: nil
     )
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload

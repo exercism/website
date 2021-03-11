@@ -14,12 +14,12 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
     reviews = [
-      { reviewer: "reviewer71" },
-      { reviewer: "reviewer13" }
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" }
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -43,12 +43,12 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
     reviews = [
-      { reviewer: "reviewer71" },
-      { reviewer: "reviewer13" }
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" }
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -70,10 +70,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
-    reviews = [{ reviewer: "reviewer71" }]
+    reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -91,10 +91,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
-    reviews = [{ reviewer: "reviewer71" }]
+    reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -112,10 +112,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
-    reviews = [{ reviewer: "user22" }]
+    reviews = [{ reviewer_username: "user22" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 
@@ -135,15 +135,15 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
     reviews = [
-      { reviewer: "reviewer71" },
-      { reviewer: "reviewer13" },
-      { reviewer: "reviewer71" },
-      { reviewer: "reviewer13" },
-      { reviewer: "reviewer13" }
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" },
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" },
+      { reviewer_username: "reviewer13" }
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
       repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
     )
 

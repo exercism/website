@@ -9,8 +9,8 @@ class User
         return unless has_reviews?
         return unless just_closed?
 
-        reviewer_usernames = params[:reviews].to_a.map { |reviewer| reviewer[:reviewer] }.uniq
-        reviewer_usernames.delete(params[:author]) # Don't award reviewer reputation to the PR author
+        reviewer_usernames = params[:reviews].to_a.map { |reviewer| reviewer[:reviewer_username] }.uniq
+        reviewer_usernames.delete(params[:author_username]) # Don't award reviewer reputation to the PR author
 
         reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|

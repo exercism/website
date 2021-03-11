@@ -43,16 +43,7 @@ module API
       Solution::MentorRequest::Lock.(mentor_request, current_user)
 
       render json: {
-        request: {
-          id: mentor_request.uuid,
-          comment: mentor_request.comment,
-          updated_at: mentor_request.updated_at.iso8601,
-          is_locked: mentor_request.locked?,
-          links: {
-            lock: Exercism::Routes.lock_api_mentoring_request_path(mentor_request),
-            discussion: Exercism::Routes.api_mentoring_discussions_path
-          }
-        }
+        request: SerializeMentorSessionRequest.(mentor_request)
       }
     end
   end

@@ -1,18 +1,31 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { CloseButton } from '../mentoring/session/CloseButton'
-import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
-import { AddDiscussionPost } from '../mentoring/discussion/AddDiscussionPost'
-import { NewMessageAlert } from '../mentoring/discussion/NewMessageAlert'
-import { Iteration, Track, Exercise } from '../mentoring/Session'
 import { IterationView } from '../mentoring/session/IterationView'
-import { PostsWrapper } from '../mentoring/discussion/PostsContext'
-import { MentorInfo } from './mentoring-session/MentorInfo'
 import { SessionInfo } from './mentoring-session/SessionInfo'
+import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
 
-type Links = {
-  posts: string
+import {
+  Iteration,
+  MentorSessionDiscussion as Discussion,
+  MentorSessionRequest as Request,
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../types'
+import { MentoringRequest } from './mentoring-session/MentoringRequest'
+
+export type Links = {
   exercise: string
+  learnMoreAboutPrivateMentoring: string
+  privateMentoring: string
+  mentoringGuide: string
+  createMentorRequest: string
+}
+
+export type Video = {
+  url: string
+  title: string
+  date: string
 }
 
 export type Mentor = {
@@ -26,24 +39,34 @@ export type Mentor = {
 }
 
 export const MentoringSession = ({
-  id,
-  isFinished,
-  links,
-  iterations,
-  mentor,
-  track,
-  exercise,
   userId,
+  discussion,
+  mentor,
+  iterations,
+  exercise,
+  isFirstTimeOnTrack,
+  videos,
+  track,
+  request: initialRequest,
+  links,
 }: {
-  id: string
-  isFinished: boolean
-  links: Links
-  iterations: readonly Iteration[]
-  mentor: Mentor
-  track: Track
-  exercise: Exercise
   userId: number
+  discussion?: Discussion
+  mentor?: Mentor
+  iterations: readonly Iteration[]
+  exercise: Exercise
+  isFirstTimeOnTrack: boolean
+  videos: Video[]
+  track: Track
+  request?: Request
+  links: Links
 }): JSX.Element => {
+  const [mentorRequest, setMentorRequest] = useState(initialRequest)
+
+  const handleCreateMentorRequest = useCallback((mentorRequest) => {
+    setMentorRequest(mentorRequest)
+  }, [])
+
   return (
     <div className="c-mentor-discussion">
       <div className="lhs">
@@ -57,26 +80,25 @@ export const MentoringSession = ({
         />
       </div>
       <div className="rhs">
-        <PostsWrapper discussionId={id}>
-          <div id="panel-discussion">
-            <MentorInfo mentor={mentor} />
-            <DiscussionPostList
-              endpoint={links.posts}
-              iterations={iterations}
-              userIsStudent={true}
-              discussionId={id}
-              userId={userId}
-            />
-          </div>
-          <section className="comment-section">
-            <NewMessageAlert />
-            <AddDiscussionPost
-              isFinished={isFinished}
-              endpoint={links.posts}
-              contextId={`discussion-${id}_new_post`}
-            />
-          </section>
-        </PostsWrapper>
+        {discussion && mentor ? (
+          <DiscussionInfo
+            discussion={discussion}
+            mentor={mentor}
+            userId={userId}
+            iterations={iterations}
+          />
+        ) : (
+          <MentoringRequest
+            isFirstTimeOnTrack={isFirstTimeOnTrack}
+            track={track}
+            exercise={exercise}
+            request={mentorRequest}
+            latestIteration={iterations[iterations.length - 1]}
+            videos={videos}
+            links={links}
+            onCreate={handleCreateMentorRequest}
+          />
+        )}
       </div>
     </div>
   )

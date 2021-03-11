@@ -2,7 +2,6 @@ class Solution::MentorRequest < ApplicationRecord
   disable_sti!
 
   enum status: { pending: 0, fulfilled: 1, cancelled: 2 }
-  enum type: { code_review: 0, question: 1 }, _prefix: true
 
   belongs_to :solution
   has_one :user, through: :solution
@@ -16,6 +15,10 @@ class Solution::MentorRequest < ApplicationRecord
     where(locked_until: nil).
       or(where("locked_until < ?", Time.current))
   }
+
+  validates :comment_markdown, presence: true
+
+  has_markdown_field :comment
 
   delegate :title, :icon_url, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :user, prefix: :user

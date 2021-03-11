@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { Discussion, TabsContext } from '../Session'
+import { TabsContext } from '../Session'
 import { AddDiscussionPost } from './AddDiscussionPost'
 import { NewMessageAlert } from './NewMessageAlert'
+import { MentorSessionDiscussion as Discussion } from '../../types'
 
 export const AddDiscussionPostPanel = ({
   discussion,

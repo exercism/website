@@ -58,6 +58,7 @@ module API
 
     def self.from(discussion)
       mentor_request = discussion.request
+
       if discussion.posts.any?
         iteration_idx = discussion.posts.first.iteration_idx
       else
@@ -69,8 +70,8 @@ module API
         iteration_idx: iteration_idx,
         author: mentor_request.user,
         by_student: true,
-        content_markdown: mentor_request.comment,
-        content_html: mentor_request.comment,
+        content_markdown: mentor_request.comment_markdown,
+        content_html: mentor_request.comment_html,
         updated_at: mentor_request.updated_at,
         discussion: discussion
       )

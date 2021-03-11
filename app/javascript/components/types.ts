@@ -8,17 +8,57 @@ export type APIError = {
   message: string
 }
 
+export type MentorSessionRequest = {
+  id: string
+  comment: string
+  updatedAt: string
+  isLocked: boolean
+  user: {
+    handle: string
+    avatarUrl: string
+  }
+  links: {
+    lock: string
+    discussion: string
+  }
+}
+export type MentorSessionTrack = {
+  id: string
+  title: string
+  iconUrl: string
+  highlightjsLanguage: string
+  medianWaitTime: string
+}
+
+export type MentorSessionExercise = {
+  id: string
+  title: string
+  iconName: string
+}
+
+export type MentorSessionDiscussion = {
+  id: string
+  isFinished: boolean
+  links: {
+    posts: string
+    markAsNothingToDo?: string
+    finish?: string
+  }
+}
+
 export type Iteration = {
   uuid: string
   idx: number
   status: IterationStatus
+  numComments: number
+  unread: boolean
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
   submissionMethod: SubmissionMethod
-  representerFeedback: RepresenterFeedback
-  analyzerFeedback: AnalyzerFeedback
-  createdAt: Date
+  representerFeedback?: RepresenterFeedback
+  analyzerFeedback?: AnalyzerFeedback
+  createdAt: string
   testsStatus: SubmissionTestsStatus
   links: {
     self: string

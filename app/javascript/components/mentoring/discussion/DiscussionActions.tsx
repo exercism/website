@@ -2,7 +2,8 @@ import React, { useCallback } from 'react'
 import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
 import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
-import { Discussion, SessionProps } from '../Session'
+import { SessionProps } from '../Session'
+import { MentorSessionDiscussion as Discussion } from '../../types'
 
 export const DiscussionActions = ({
   links,
@@ -31,9 +32,9 @@ export const DiscussionActions = ({
           <GraphicalIcon icon="completed-check-circle" />
           Ended
         </div>
-      ) : (
+      ) : links.finish ? (
         <FinishButton endpoint={links.finish} onSuccess={setDiscussion} />
-      )}
+      ) : null}
     </div>
   )
 }

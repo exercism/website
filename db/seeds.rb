@@ -115,7 +115,7 @@ solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasag
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!( submission: submission, solution: solution, idx: 1)
-Solution::MentorRequest.create!(solution: solution, type: :code_review)
+Solution::MentorRequest.create!(solution: solution)
 
 ## Create mentoring solutions
 UserTrack.create!(user: karlo, track: ruby)
@@ -128,7 +128,7 @@ submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, su
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\n\nend", digest: SecureRandom.uuid)
 Iteration.create!( submission: submission, solution: solution, idx: 2)
 
-req = Solution::MentorRequest.create!(solution: solution, type: :code_review)
+req = Solution::MentorRequest.create!(solution: solution)
 discussion = Solution::MentorDiscussion.create!(
   request: req, solution: solution, mentor: iHiD,
   requires_mentor_action_since: Time.current

@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         resources :iterations, only: %i[create]
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
 
+        resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
           resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
         end
@@ -182,8 +183,8 @@ Rails.application.routes.draw do
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
 
-      resources :mentoring, only: [:index], controller: "tracks/mentoring"
-      resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
+      resources :mentor_discussions, only: [:index], controller: "tracks/mentor_requests"
+      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
     end
 
@@ -238,6 +239,9 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
       end
     end
+    resource :mentoring, only: [], controller: "mentoring" do
+      get :student_request
+    end
     resource :mentored_tracks, only: %i[show update]
     resources :tracks, only: [] do
       resources :exercises, only: [], controller: "tracks/exercises" do
@@ -253,7 +257,6 @@ Rails.application.routes.draw do
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
         namespace :student do
-          resource :mentoring_session, only: [:show], controller: "mentoring_session"
           resource :concept_map, only: [:show], controller: 'concept_map'
         end
         namespace :maintaining do

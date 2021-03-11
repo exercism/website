@@ -111,7 +111,6 @@ import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
 import * as Student from '../components/student'
-import { Links as MentoringDropdownLinks } from '../components/student/MentoringDropdown'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
@@ -124,26 +123,33 @@ import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { MentorDiscussion, MentoredTrack, Iteration } from '../components/types'
+import {
+  Iteration,
+  MentorSessionRequest,
+  MentorSessionDiscussion,
+  MentorSessionTrack,
+  MentorSessionExercise,
+  MentorDiscussion,
+  MentoredTrack,
+} from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
-  Iteration as MentoringSessionIteration,
   Student as MentoringSessionStudent,
-  Track as MentoringSessionTrack,
-  Exercise as MentoringSessionExercise,
   Links as MentoringSessionLinks,
   MentorSolution as MentoringSessionMentorSolution,
-  Discussion as MentoringSessionDiscussion,
   StudentMentorRelationship,
-  MentoringRequest,
 } from '../components/mentoring/Session'
+import {
+  Mentor as StudentMentoringSessionMentor,
+  Video as StudentMentoringSessionVideo,
+  Links as StudentMentoringSessionLinks,
+} from '../components/student/MentoringSession'
 import {
   Track as IterationPageTrack,
   Exercise as IterationPageExercise,
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -190,16 +196,16 @@ initReact({
   'mentoring-session': (data: any) => (
     <Mentoring.Session
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentoringSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<MentoringSessionMentorSolution>(
         data.mentor_solution
       )}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
-      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
-      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      track={camelizeKeysAs<MentorSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
-      request={camelizeKeysAs<MentoringRequest>(data.request)}
+      request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       relationship={camelizeKeysAs<StudentMentorRelationship>(
         data.relationship
       )}
@@ -241,14 +247,16 @@ initReact({
   ),
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
-      id={data.id}
-      isFinished={data.is_finished}
-      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
-      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
-      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
-      links={data.links}
       userId={data.user_id}
+      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
+      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
+      track={camelizeKeysAs<MentorSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
+      isFirstTimeOnTrack={data.is_first_time_on_track}
+      videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
+      request={camelizeKeysAs<MentorSessionRequest>(data.request)}
+      links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

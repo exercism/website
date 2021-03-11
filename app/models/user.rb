@@ -119,6 +119,7 @@ class User < ApplicationRecord
     relationship ? relationship.favorited? : false
   end
 
+  # TODO
   def num_previous_mentor_sessions_with(_user)
     15
   end

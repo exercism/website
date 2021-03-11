@@ -3,7 +3,7 @@ class Solution
     class Create
       include Mandate
 
-      initialize_with :solution, :type, :comment
+      initialize_with :solution, :comment_markdown
 
       def call
         create_request
@@ -15,8 +15,7 @@ class Solution
       def create_request
         request = Solution::MentorRequest.new(
           solution: solution,
-          type: type,
-          comment: comment
+          comment_markdown: comment_markdown
         )
 
         ActiveRecord::Base.transaction do

@@ -1,5 +1,9 @@
 import React, { useRef, useCallback } from 'react'
-import { Iteration, Discussion, MentoringRequest } from '../Session'
+import {
+  MentorSessionDiscussion as Discussion,
+  Iteration,
+  MentorSessionRequest as Request,
+} from '../../types'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
@@ -29,7 +33,7 @@ export const StartDiscussionPanel = ({
   setDiscussion,
 }: {
   iterations: readonly Iteration[]
-  request: MentoringRequest
+  request: Request
   setDiscussion: (discussion: Discussion) => void
 }): JSX.Element => {
   const lastIteration = iterations[iterations.length - 1]

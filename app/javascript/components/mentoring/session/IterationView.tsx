@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Iteration } from '../Session'
+import { Iteration } from '../../types'
 import { IterationsList } from './IterationsList'
 import { IterationFiles } from './IterationFiles'
 import { IterationHeader } from './IterationHeader'

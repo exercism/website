@@ -20,6 +20,7 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,
       has_mentor_discussion_in_progress: false,
+      has_mentor_request_pending: false,
       exercise: {
         title: solution.exercise.title,
         icon_name: solution.exercise.icon_name
@@ -46,5 +47,23 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
   test "status - published" do
     solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
     assert_equal :published, SerializeSolutionForStudent.(solution)[:status]
+  end
+
+  test "mentoring discussion in progress" do
+    solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
+    discussion = create :solution_mentor_discussion, solution: solution
+    assert SerializeSolutionForStudent.(solution)[:has_mentor_discussion_in_progress]
+
+    discussion.update!(finished_at: Time.current)
+    refute SerializeSolutionForStudent.(solution)[:has_mentor_discussion_in_progress]
+  end
+
+  test "mentoring request pending" do
+    solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
+    request = create :solution_mentor_request, solution: solution
+    assert SerializeSolutionForStudent.(solution)[:has_mentor_request_pending]
+
+    request.update!(status: :fulfilled)
+    refute SerializeSolutionForStudent.(solution)[:has_mentor_request_pending]
   end
 end

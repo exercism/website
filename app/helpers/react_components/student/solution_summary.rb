@@ -37,8 +37,15 @@ module ReactComponents
           mentoring_info: "#",
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
           share_mentoring: "https://some.link/we/need/to-decide-on", # TODO
-          request_mentoring: "#" # TODO
-        }
+          request_mentoring: Exercism::Routes.new_track_exercise_mentor_request_path(solution.track, solution.exercise),
+          pending_mentor_request: Exercism::Routes.track_exercise_mentor_request_path(solution.track, solution.exercise)
+        }.tap do |links|
+          in_progress_discussion = solution.mentor_discussions.in_progress.first
+          if in_progress_discussion
+            links[:in_progress_discussion] =
+              Exercism::Routes.mentoring_discussion_url(in_progress_discussion.uuid)
+          end
+        end
       end
 
       def discussions

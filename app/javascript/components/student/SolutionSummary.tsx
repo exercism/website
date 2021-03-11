@@ -20,6 +20,8 @@ export type SolutionSummaryLinks = {
   completeExercise: string
   shareMentoring: string
   requestMentoring: string
+  pendingMentorRequest: string
+  inProgressDiscussion?: string
 }
 
 export type SolutionSummaryRequest = {
@@ -34,6 +36,7 @@ export type SolutionSummaryRequest = {
 export type SolutionSummarySolution = {
   id: string
   hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
   completedAt?: string
 }
 
@@ -106,6 +109,7 @@ export const SolutionSummary = ({
             hasMentorDiscussionInProgress={
               solution.hasMentorDiscussionInProgress
             }
+            hasMentorRequestPending={solution.hasMentorRequestPending}
             discussions={discussions}
             links={links}
           />

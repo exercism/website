@@ -14,7 +14,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged)
+      author: login, url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged) # rubocop:disable Layout/LineLength
 
     assert User::ReputationTokens::CodeContributionToken.where(user: user).exists?
   end
@@ -37,7 +37,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     ]
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
+      author: login, url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     assert User::ReputationTokens::CodeReviewToken.where(user: reviewer_1).exists?
     assert User::ReputationTokens::CodeReviewToken.where(user: reviewer_2).exists?
@@ -56,7 +56,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     reviews = []
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
+      author: login, url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, reviews: reviews) # rubocop:disable Layout/LineLength
 
     refute User::ReputationTokens::CodeReviewToken.exists?
   end
@@ -74,7 +74,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     merger = create :user, handle: "Merged-88", github_username: "merger88"
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, merged_by: merger.github_username) # rubocop:disable Layout/LineLength
+      author: login, url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged, merged_by: merger.github_username) # rubocop:disable Layout/LineLength
 
     assert User::ReputationTokens::CodeMergeToken.where(user: merger).exists?
   end
@@ -91,7 +91,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     labels = []
 
     User::ReputationToken::AwardForPullRequest.(action, login,
-      url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged) # rubocop:disable Layout/LineLength
+      author: login, url: url, html_url: html_url, labels: labels, repo: repo, pr_id: pr_id, pr_number: pr_number, merged: merged) # rubocop:disable Layout/LineLength
 
     refute User::ReputationTokens::CodeMergeToken.exists?
   end

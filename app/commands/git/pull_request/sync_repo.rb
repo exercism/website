@@ -92,11 +92,9 @@ module Git
         # pull request update webhook fires.
         # This allows us to work with pull requests using a single code path.
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
-          next if pr[:author].nil? # In rare cases the PR author is null
-
           {
             action: 'closed',
-            author: pr[:author][:login],
+            author: pr[:author].present? ? pr[:author][:login] : nil,
             url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
             html_url: pr[:url],
             labels: pr[:labels][:nodes].map { |node| node[:name] },
@@ -107,15 +105,13 @@ module Git
             merged: pr[:merged],
             merged_by: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,
             reviews: pr[:reviews][:nodes].map do |node|
-              next if node[:author].nil? # In rare cases the review author is null
-
               {
                 node_id: node[:id],
-                reviewer: node[:author][:login]
+                reviewer: node[:author].present? ? node[:author][:login] : nil
               }
-            end.compact
+            end
           }
-        end.compact
+        end
       end
 
       memoize

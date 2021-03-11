@@ -203,4 +203,172 @@ class Git::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal expected_third_data, prs.third.data
     assert_empty prs.third.reviews
   end
+
+  test "imports pull request without author" do
+    response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/19',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
+                createdAt: '2021-02-05T15:29:25Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 19,
+                state: 'MERGED',
+                author: nil,
+                mergedBy: {
+                  login: 'iHiD'
+                },
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      author: {
+                        login: 'iHiD'
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orabc'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4991,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    Git::PullRequest::SyncRepo.('exercism/ruby')
+
+    pr = ::Git::PullRequest.find_by(node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4')
+    assert pr.author_github_username.nil?
+  end
+
+  test "imports pull request that wasn't merged" do
+    response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/19',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
+                createdAt: '2021-02-05T15:29:25Z',
+                labels: {
+                  nodes: []
+                },
+                merged: false,
+                number: 19,
+                state: 'MERGED',
+                author: {
+                  login: 'ErikSchierboom'
+                },
+                mergedBy: nil,
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      author: {
+                        login: 'iHiD'
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orabc'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4991,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    Git::PullRequest::SyncRepo.('exercism/ruby')
+
+    pr = ::Git::PullRequest.find_by(node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4')
+    assert pr.merged_by_github_username.nil?
+  end
+
+  test "imports pull request review without reviewer" do
+    response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/19',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
+                createdAt: '2021-02-05T15:29:25Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 19,
+                state: 'MERGED',
+                author: {
+                  login: 'ErikSchierboom'
+                },
+                mergedBy: {
+                  login: 'iHiD'
+                },
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      author: nil
+                    }
+                  ]
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orabc'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4991,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    Git::PullRequest::SyncRepo.('exercism/ruby')
+
+    review = ::Git::PullRequestReview.find_by(node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx')
+    assert review.reviewer_github_username.nil?
+  end
 end

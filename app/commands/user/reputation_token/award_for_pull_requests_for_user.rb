@@ -1,6 +1,6 @@
 class User
   class ReputationToken
-    class AwardForPullRequests
+    class AwardForPullRequestsForUser
       include Mandate
 
       initialize_with :user

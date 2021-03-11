@@ -102,35 +102,33 @@ export const MentoringRequestForm = ({
         </div>
         {isFirstTimeOnTrack ? (
           <div className="question">
-            <h3 id="request-mentoring-form-track-title">
+            <label htmlFor="request-mentoring-form-track-comment">
               What are you hoping to learn from this track?
-            </h3>
+            </label>
             <p id="request-mentoring-form-track-description">
               Tell our mentors a little about your programming background and
               what you’re aiming to learn from {track.title}.
             </p>
             <textarea
               ref={trackCommentRef}
-              id="track-comment"
+              id="request-mentoring-form-track-comment"
               required
-              aria-labelledby="request-mentoring-form-track-title"
               aria-describedby="request-mentoring-form-track-description"
             />
           </div>
         ) : null}
         <div className="question">
-          <h3 id="request-mentoring-form-solution-title">
+          <label htmlFor="request-mentoring-form-solution-comment">
             How can a mentor help you with this solution?
-          </h3>
+          </label>
           <p id="request-mentoring-form-solution-description">
             Give your mentor a starting point for the conversation. This will be
             your first comment on during the session.
           </p>
           <textarea
             ref={solutionCommentRef}
-            id="solution-comment"
+            id="request-mentoring-form-solution-comment"
             required
-            aria-labelledby="request-mentoring-form-solution-title"
             aria-describedby="request-mentoring-form-solution-description"
           />
         </div>

@@ -4,7 +4,7 @@ class CreatePullRequests < ActiveRecord::Migration[6.1]
       t.string :node_id, null: false, index: { unique: true }
       t.integer :number, null: false
       t.string :repo, null: false
-      t.string :author_github_username, null: false
+      t.string :author_github_username, null: true
       t.string :merged_by_github_username, null: true
       t.json :data, null: false
 
@@ -15,7 +15,7 @@ class CreatePullRequests < ActiveRecord::Migration[6.1]
       t.belongs_to :git_pull_request, null: false, foreign_key: true
 
       t.string :node_id, null: false, index: { unique: true }
-      t.string :reviewer_github_username, null: false
+      t.string :reviewer_github_username, null: true
 
       t.timestamps
     end

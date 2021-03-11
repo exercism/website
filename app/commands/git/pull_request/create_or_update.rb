@@ -29,7 +29,7 @@ module Git
       private
       def reviews(pull_request)
         attributes[:reviews].to_a.map do |review|
-          Git::PullRequestReview::Create.(
+          Git::PullRequestReview::CreateOrUpdate.(
             pull_request,
             review[:node_id],
             reviewer_github_username: review[:reviewer]

@@ -6,7 +6,7 @@ class Git::PullRequestReview::CreateOrUpdateTest < ActiveSupport::TestCase
     node_id = "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4"
     reviewer = "ErikSchierboom"
 
-    review = Git::PullRequestReview::CreateOrUpdate.(pr, node_id, reviewer_github_username: reviewer)
+    review = Git::PullRequestReview::CreateOrUpdate.(pr, node_id, reviewer)
 
     assert_equal pr, review.pull_request
     assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", review.node_id
@@ -17,8 +17,7 @@ class Git::PullRequestReview::CreateOrUpdateTest < ActiveSupport::TestCase
     review = create :git_pull_request_review
     new_reviewer = "new-reviewer"
 
-    review = Git::PullRequestReview::CreateOrUpdate.(review.pull_request, review.node_id,
-      reviewer_github_username: new_reviewer)
+    review = Git::PullRequestReview::CreateOrUpdate.(review.pull_request, review.node_id, new_reviewer)
 
     assert_equal "new-reviewer", review.reviewer_github_username
   end

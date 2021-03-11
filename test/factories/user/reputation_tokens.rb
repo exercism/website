@@ -7,7 +7,7 @@ FactoryBot.define do
       {
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
-        pr_number: SecureRandom.uuid
+        pr_number: SecureRandom.random_number(100_000)
       }
     end
   end
@@ -19,7 +19,7 @@ FactoryBot.define do
       {
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
-        pr_number: SecureRandom.uuid
+        pr_number: SecureRandom.random_number(100_000)
       }
     end
   end
@@ -31,7 +31,7 @@ FactoryBot.define do
       {
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
-        pr_number: SecureRandom.uuid
+        pr_number: SecureRandom.random_number(100_000)
       }
     end
   end

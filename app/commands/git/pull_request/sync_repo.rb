@@ -30,12 +30,10 @@ module Git
 
           # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
           results += pull_requests_from_page_data(page_data)
+          break results unless page_data.dig(:data, :repository, :pullRequests, :pageInfo, :hasNextPage)
 
-          break results unless page_data[:data][:repository][:pullRequests][:pageInfo][:hasNextPage]
-
-          cursor = page_data[:data][:repository][:pullRequests][:pageInfo][:endCursor]
-
-          handle_rate_limit(page_data[:data][:rateLimit])
+          cursor = page_data.dig(:data, :repository, :pullRequests, :pageInfo, :endCursor)
+          handle_rate_limit(page_data.dig(:data, :rateLimit))
         end
       end
 
@@ -85,7 +83,7 @@ module Git
           }
         QUERY
 
-        octokit_client.post("https://api.github.com/graphql", { query: query }.to_json)
+        octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
       end
 
       def pull_requests_from_page_data(response)

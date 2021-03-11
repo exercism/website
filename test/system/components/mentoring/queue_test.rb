@@ -17,18 +17,20 @@ module Components
           user: mentee,
           created_at: 1.year.ago
 
-        sign_in!(mentor)
-        visit mentoring_dashboard_path
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_dashboard_path
 
-        assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
-        assert_css "img[src='#{mentee.avatar_url}'][alt=\"Uploaded avatar of mentee\"]"
-        assert_text "mentee"
-        assert_text "on Series"
-        assert_text "First timer"
-        assert_text "a year ago"
-        assert_link "", href: Exercism::Routes.mentoring_request_url(request)
-        assert_css "title", text: "Starred student", visible: false
-        assert_css ".dot"
+          assert_css "img[src='https://assets.exercism.io/tracks/ruby-hex-white.png'][alt='icon for Ruby track']"
+          assert_css "img[src='#{mentee.avatar_url}'][alt=\"Uploaded avatar of mentee\"]"
+          assert_text "mentee"
+          assert_text "on Series"
+          assert_text "First timer"
+          assert_text "a year ago"
+          assert_link "", href: Exercism::Routes.mentoring_request_url(request)
+          assert_css "title", text: "Starred student", visible: false
+          assert_css ".dot"
+        end
       end
 
       test "paginates results" do

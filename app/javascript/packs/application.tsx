@@ -62,6 +62,7 @@ import '../../css/components/iteration-pane'
 import '../../css/components/explainer'
 import '../../css/components/markdown-editor'
 import '../../css/components/mentor-discussion-summary'
+import '../../css/components/mentor-track-selector'
 import '../../css/components/tag'
 
 import '../../css/components/widgets/exercise'
@@ -72,10 +73,11 @@ import '../../css/modals/mentoring-sessions'
 import '../../css/modals/finish-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
+import '../../css/modals/change-mentor-tracks'
 
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
-import '../../css/dropdowns/mentoring'
+import '../../css/dropdowns/request-mentoring'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
@@ -108,14 +110,14 @@ import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
-import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
-import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
+import { Links as MentoringDropdownLinks } from '../components/student/MentoringDropdown'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
+import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
@@ -128,6 +130,8 @@ import {
   MentorSessionDiscussion,
   MentorSessionTrack,
   MentorSessionExercise,
+  MentorDiscussion,
+  MentoredTrack,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -183,10 +187,11 @@ initReact({
   ),
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue
-      request={camelizeKeys(data.request)}
+      queueRequest={camelizeKeysAs<Request>(data.queue_request)}
+      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
+      defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
+      links={camelizeKeysAs<MentoringQueueLinks>(data.links)}
       sortOptions={data.sort_options}
-      tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
-      exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
     />
   ),
   'mentoring-session': (data: any) => (
@@ -225,6 +230,7 @@ initReact({
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
+      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
       solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
@@ -326,6 +332,7 @@ initReact({
 })
 
 import { highlightAll } from '../utils/highlight'
+import { Request } from '../hooks/request-query'
 
 document.addEventListener('turbolinks:load', () => {
   highlightAll()

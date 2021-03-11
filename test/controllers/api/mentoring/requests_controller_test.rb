@@ -15,7 +15,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     exercise_slugs = %w[bob lasagna]
 
     ::Solution::MentorRequest::Retrieve.expects(:call).with(
-      @current_user,
+      mentor: user,
       page: page,
       track_slug: track_slug,
       exercise_slugs: exercise_slugs,
@@ -24,7 +24,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     ).returns(mock(count: 200))
 
     Solution::MentorRequest::Retrieve.expects(:call).with(
-      @current_user,
+      mentor: user,
       page: page,
       criteria: "Ruby",
       order: "recent",
@@ -78,20 +78,6 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     assert request.reload.locked?
     assert_equal user, request.reload.locked_by
-  end
-
-  ###
-  # Tracks
-  ###
-  test "tracks proxies correctly" do
-    user = create :user
-    setup_user(user)
-    output = { 'foo' => 'bar' }
-
-    ::Solution::MentorRequest::RetrieveTracks.expects(:call).with(@current_user).returns(output)
-
-    get tracks_api_mentoring_requests_path, headers: @headers, as: :json
-    assert_equal output, JSON.parse(response.body)
   end
 
   ###

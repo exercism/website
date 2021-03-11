@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { ExerciseIcon, GraphicalIcon } from '../../common'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { MentoredTrackExercise } from '../../types'
+import { QueryStatus } from 'react-query'
 
-export type Exercise = {
-  slug: string
-  iconName: string
-  title: string
-  count: number
-  completedByMentor: boolean
+export type Props = {
+  exercises: MentoredTrackExercise[] | undefined
+  value: MentoredTrackExercise[]
+  setValue: (value: MentoredTrackExercise[]) => void
 }
 
 const ExerciseFilter = ({
@@ -15,7 +16,7 @@ const ExerciseFilter = ({
   count,
   checked,
   onChange,
-}: Exercise & {
+}: MentoredTrackExercise & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
@@ -34,15 +35,25 @@ const ExerciseFilter = ({
   )
 }
 
+const DEFAULT_ERROR = new Error('Unable to fetch exercises')
+
 export const ExerciseFilterList = ({
-  exercises,
-  value,
-  setValue,
-}: {
-  exercises: Exercise[]
-  value: string[]
-  setValue: (value: string[]) => void
-}): JSX.Element => {
+  status,
+  error,
+  ...props
+}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState('')
   const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] = useState(
     true
@@ -53,6 +64,10 @@ export const ExerciseFilterList = ({
   ] = useState(false)
 
   const exercisesToShow = useMemo(() => {
+    if (!exercises) {
+      return []
+    }
+
     return exercises
       .filter((exercise) =>
         isShowingExercisesToMentor ? exercise.count !== 0 : true
@@ -83,23 +98,23 @@ export const ExerciseFilterList = ({
 
   const handleShowCompletedExercises = useCallback(
     (e) => {
+      if (!exercises) {
+        return
+      }
+
       setIsShowingExercisesCompleted(e.target.checked)
 
       if (!e.target.checked) {
         setValue([])
       }
 
-      setValue(
-        exercises
-          .filter((exercise) => exercise.completedByMentor)
-          .map((exercise) => exercise.slug)
-      )
+      setValue(exercises.filter((exercise) => exercise.completedByMentor))
     },
     [exercises, setValue]
   )
 
   const handleSelectAll = useCallback(() => {
-    setValue(exercisesToShow.map((exercise) => exercise.slug))
+    setValue(exercisesToShow)
   }, [exercisesToShow, setValue])
 
   const handleSelectNone = useCallback(() => {
@@ -154,8 +169,8 @@ export const ExerciseFilterList = ({
         {exercisesToShow.map((exercise) => (
           <ExerciseFilter
             key={exercise.slug}
-            onChange={(e) => handleChange(e, exercise.slug)}
-            checked={value.includes(exercise.slug)}
+            onChange={(e) => handleChange(e, exercise)}
+            checked={value.includes(exercise)}
             {...exercise}
           />
         ))}

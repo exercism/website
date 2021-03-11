@@ -1,23 +1,16 @@
 import React, { useCallback } from 'react'
 import { TrackIcon } from '../../common'
-
-export type Track = {
-  slug: string
-  title: string
-  iconUrl: string
-  count: number
-  links: {
-    exercises: string
-  }
-}
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { MentoredTrack } from '../../types'
+import { QueryStatus } from 'react-query'
 
 const TrackFilter = ({
   title,
   iconUrl,
-  count,
+  num_solutions_queued,
   checked,
   onChange,
-}: Track & {
+}: MentoredTrack & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
@@ -33,21 +26,43 @@ const TrackFilter = ({
         <div className="c-radio" />
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{count}</div>
+        <div className="count">{num_solutions_queued}</div>
       </div>
     </label>
   )
 }
 
+const DEFAULT_ERROR = new Error('Unable to fetch tracks')
+
 export const TrackFilterList = ({
+  status,
+  error,
+  ...props
+}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+  return (
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+type Props = {
+  tracks: MentoredTrack[] | undefined
+  isFetching: boolean
+  value: MentoredTrack | null
+  setValue: (value: MentoredTrack) => void
+}
+
+const Component = ({
   tracks,
+  isFetching,
   value,
   setValue,
-}: {
-  tracks: Track[]
-  value: string
-  setValue: (value: string) => void
-}): JSX.Element => {
+}: Props): JSX.Element => {
   const handleChange = useCallback(
     (e, optionValue) => {
       setValue(optionValue)
@@ -57,17 +72,22 @@ export const TrackFilterList = ({
 
   return (
     <div className="track-filter">
+      {isFetching ? <span>Fetching</span> : null}
       <h3>Filter by language track</h3>
-      <div className="tracks">
-        {tracks.map((track) => (
-          <TrackFilter
-            key={track.slug}
-            onChange={(e) => handleChange(e, track.slug)}
-            checked={value === track.slug}
-            {...track}
-          />
-        ))}
-      </div>
+      {tracks && tracks.length > 0 ? (
+        <div className="tracks">
+          {tracks.map((track) => (
+            <TrackFilter
+              key={track.id}
+              onChange={(e) => handleChange(e, track)}
+              checked={value?.id === track.id}
+              {...track}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>No tracks found</p>
+      )}
     </div>
   )
 }

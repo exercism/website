@@ -19,6 +19,7 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
       last_submitted_at: submission.created_at.iso8601,
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,
+      has_mentor_discussion_in_progress: false,
       exercise: {
         title: solution.exercise.title,
         icon_name: solution.exercise.icon_name

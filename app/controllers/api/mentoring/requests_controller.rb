@@ -2,7 +2,7 @@ module API
   class Mentoring::RequestsController < BaseController
     def index
       unscoped_total = ::Solution::MentorRequest::Retrieve.(
-        current_user,
+        mentor: current_user,
         page: params[:page],
         track_slug: params[:track_slug],
         exercise_slugs: params[:exercise_slugs],
@@ -11,7 +11,7 @@ module API
       ).count
 
       requests = ::Solution::MentorRequest::Retrieve.(
-        current_user,
+        mentor: current_user,
         page: params[:page],
         criteria: params[:criteria],
         order: params[:order],

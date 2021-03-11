@@ -4,19 +4,22 @@ class Exercise < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
+  belongs_to :track
+
+  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
 
-  belongs_to :track
+  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
     inverse_of: :exercise,
     dependent: :destroy
-
   has_many :prerequisites,
     through: :exercise_prerequisites,
     source: :concept
 
+  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
   has_many :authorships,
     class_name: "Exercise::Authorship",
     inverse_of: :exercise,
@@ -25,6 +28,7 @@ class Exercise < ApplicationRecord
     through: :authorships,
     source: :author
 
+  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
   has_many :contributorships,
     class_name: "Exercise::Contributorship",
     inverse_of: :exercise,

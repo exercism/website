@@ -131,3 +131,37 @@ export enum AnalysisStatus {
   EXCEPTIONED = 'exceptioned',
   CANCELLED = 'cancelled',
 }
+
+export type MentorDiscussion = {
+  id: string
+  mentor: {
+    avatarUrl: string
+    handle: string
+  }
+  isFinished: boolean
+  isUnread: boolean
+  postsCount: number
+  createdAt: string
+  links: {
+    self: string
+  }
+}
+
+export type MentoredTrackExercise = {
+  slug: string
+  title: string
+  iconName: string
+  count: number
+  completedByMentor: boolean
+}
+
+export type MentoredTrack = {
+  id: string
+  title: string
+  iconUrl: string
+  num_solutions_queued: number
+  exercises: MentoredTrackExercise[] | undefined
+  links: {
+    exercises: string
+  }
+}

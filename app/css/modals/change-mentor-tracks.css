@@ -1,0 +1,42 @@
+@import "../styles";
+
+.m-change-mentor-tracks {
+    & .--modal-content {
+        width: 1000px;
+        max-width: 95%;
+    }
+    & .c-mentor-track-selector {
+        & .selected {
+            @apply ml-48 mr-12;
+        }
+    }
+
+    & header {
+        @apply flex items-center justify-between;
+        @apply mb-8;
+        & .info {
+            @apply flex-grow;
+            @apply text-center;
+        }
+        & h2 {
+            @apply text-h2 mb-8;
+        }
+        & p {
+            max-width: var(--inner-width);
+
+            @apply text-18 leading-170 mb-24;
+
+            & strong {
+                @apply font-medium;
+            }
+        }
+
+        & .close-btn {
+            @apply p-8;
+            & .c-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+}

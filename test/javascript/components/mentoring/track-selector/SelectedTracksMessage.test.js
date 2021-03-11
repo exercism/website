@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { SelectedTracksMessage } from '../../../../../../app/javascript/components/modals/mentor-registration-modal/choose-track-step/SelectedTracksMessage'
+import { SelectedTracksMessage } from '../../../../../app/javascript/components/mentoring/track-selector/SelectedTracksMessage.tsx'
 
 test('shows message for numSelected = 0', async () => {
   render(<SelectedTracksMessage numSelected={0} />)

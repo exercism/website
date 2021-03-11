@@ -70,7 +70,7 @@ module Benchmarks
       builder.(:pending, loads[:pending], {})
 
       t = Time.now.to_f
-      results = Solution::MentorRequest::Retrieve.(mentor, page: 7).to_a
+      results = Solution::MentorRequest::Retrieve.(mentor: mentor, page: 7).to_a
       time_taken = Time.now.to_f - t
 
       assert_equal 10, results.size # Sanity

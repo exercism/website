@@ -47,7 +47,7 @@ module Git
                 nodes {
                   id
                   url
-                  title#{'                  '}
+                  title
                   number
                   merged
                   mergedBy {

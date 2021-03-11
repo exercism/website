@@ -8,6 +8,12 @@ module ReactComponents
           "mentoring-session",
           {
             user_id: current_user.id,
+            relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
+            request: SerializeMentorSessionRequest.(request),
+            discussion: SerializeMentorSessionDiscussion.(discussion, current_user),
+            track: SerializeMentorSessionTrack.(track),
+            exercise: SerializeMentorSessionExercise.(exercise),
+            iterations: iterations,
             student: {
               id: student.id,
               name: student.name,
@@ -22,21 +28,9 @@ module ReactComponents
                 favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
               }
             },
-            track: {
-              title: track.title,
-              highlightjs_language: track.highlightjs_language,
-              icon_url: track.icon_url
-            },
-            exercise: {
-              title: exercise.title
-            },
-            iterations: iterations,
             mentor_solution: mentor_solution,
             notes: notes,
-            links: links,
-            relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
-            request: SerializeMentorRequest.(request),
-            discussion: SerializeMentorDiscussion.(discussion, current_user)
+            links: links
           }
         )
       end
@@ -46,10 +40,12 @@ module ReactComponents
         ::Solution::MentorRequest.find_by(solution: solution)
       end
 
+      memoize
       def discussion
         ::Solution::MentorDiscussion.find_by(solution: solution, mentor: current_user)
       end
 
+      memoize
       def student_mentor_relationship
         Mentor::StudentRelationship.find_by(mentor: current_user, student: student)
       end

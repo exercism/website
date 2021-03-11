@@ -2,11 +2,11 @@ import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Avatar } from '../../common/Avatar'
 import { Icon } from '../../common/Icon'
+import { MentorSolution as MentorSolutionProps } from '../Session'
 import {
-  MentorSolution as MentorSolutionProps,
-  Track,
-  Exercise,
-} from '../Session'
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../../types'
 import { useHighlighting } from '../../../utils/highlight'
 
 const PublishDetails = ({ solution }: { solution: MentorSolutionProps }) => {

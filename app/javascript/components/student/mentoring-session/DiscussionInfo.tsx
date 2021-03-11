@@ -4,21 +4,24 @@ import { AddDiscussionPost } from '../../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../../mentoring/discussion/NewMessageAlert'
 import { PostsWrapper } from '../../mentoring/discussion/PostsContext'
 import { MentorInfo } from './MentorInfo'
-import { MentorDiscussion, Iteration } from '../../types'
+import { MentorSessionDiscussion as Discussion, Iteration } from '../../types'
+import { Mentor } from '../MentoringSession'
 
 export const DiscussionInfo = ({
   discussion,
+  mentor,
   userId,
   iterations,
 }: {
-  discussion: MentorDiscussion
+  discussion: Discussion
+  mentor: Mentor
   userId: number
   iterations: readonly Iteration[]
 }): JSX.Element => {
   return (
     <PostsWrapper discussionId={discussion.id}>
       <div id="panel-discussion">
-        <MentorInfo mentor={discussion.mentor} />
+        <MentorInfo mentor={mentor} />
         <DiscussionPostList
           endpoint={discussion.links.posts}
           iterations={iterations}

@@ -9,7 +9,7 @@ module API
       )
 
       render json: {
-        mentor_request: SerializeMentorRequest.(mentor_request)
+        mentor_request: SerializeMentorSessionRequest.(mentor_request)
       }
     end
 

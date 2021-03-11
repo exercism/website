@@ -2,7 +2,7 @@ import React from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
-import { MentoringRequest } from '../../types'
+import { MentorSessionRequest as Request } from '../../types'
 import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
@@ -23,11 +23,11 @@ export const StartMentoringPanel = ({
   request,
   setRequest,
 }: {
-  request: MentoringRequest
-  setRequest: (request: MentoringRequest) => void
+  request: Request
+  setRequest: (request: Request) => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [lock, { status, error }] = useMutation<MentoringRequest | undefined>(
+  const [lock, { status, error }] = useMutation<Request | undefined>(
     () => {
       return sendRequest({
         endpoint: request.links.lock,
@@ -39,7 +39,7 @@ export const StartMentoringPanel = ({
           return
         }
 
-        return typecheck<MentoringRequest>(json, 'request')
+        return typecheck<Request>(json, 'request')
       })
     },
     {

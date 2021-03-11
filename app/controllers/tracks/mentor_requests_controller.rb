@@ -5,6 +5,12 @@ class Tracks::MentorRequestsController < ApplicationController
   def new
     @first_time_on_track = true
     @first_time_mentoring = true
+
+    return redirect_to action: :show if @solution.mentor_requests.pending.exists?
+  end
+
+  def show
+    @mentor_request = @solution.mentor_requests.last
   end
 
   private

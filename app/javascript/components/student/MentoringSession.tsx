@@ -7,8 +7,10 @@ import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
 
 import {
   Iteration,
-  MentorDiscussion,
-  MentoringRequest as MentoringRequestProps,
+  MentorSessionDiscussion as Discussion,
+  MentorSessionRequest as Request,
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 
@@ -20,27 +22,26 @@ export type Links = {
   createMentorRequest: string
 }
 
-export type Track = {
-  title: string
-  highlightjsLanguage: string
-  medianWaitTime: string
-  iconUrl: string
-}
-
-export type Exercise = {
-  title: string
-  iconName: string
-}
-
 export type Video = {
   url: string
   title: string
   date: string
 }
 
+export type Mentor = {
+  id: number
+  avatarUrl: string
+  name: string
+  bio: string
+  handle: string
+  reputation: number
+  numPreviousSessions: number
+}
+
 export const MentoringSession = ({
   userId,
   discussion,
+  mentor,
   iterations,
   exercise,
   isFirstTimeOnTrack,
@@ -50,13 +51,14 @@ export const MentoringSession = ({
   links,
 }: {
   userId: number
-  discussion?: MentorDiscussion
+  discussion?: Discussion
+  mentor?: Mentor
   iterations: readonly Iteration[]
   exercise: Exercise
   isFirstTimeOnTrack: boolean
   videos: Video[]
   track: Track
-  request?: MentoringRequestProps
+  request?: Request
   links: Links
 }): JSX.Element => {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
@@ -70,11 +72,7 @@ export const MentoringSession = ({
       <div className="lhs">
         <header className="discussion-header">
           <CloseButton url={links.exercise} />
-          <SessionInfo
-            track={track}
-            exercise={exercise}
-            mentor={discussion?.mentor}
-          />
+          <SessionInfo track={track} exercise={exercise} mentor={mentor} />
         </header>
         <IterationView
           iterations={iterations}
@@ -82,9 +80,10 @@ export const MentoringSession = ({
         />
       </div>
       <div className="rhs">
-        {discussion ? (
+        {discussion && mentor ? (
           <DiscussionInfo
             discussion={discussion}
+            mentor={mentor}
             userId={userId}
             iterations={iterations}
           />

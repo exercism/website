@@ -1,15 +1,18 @@
-import React, { useRef } from 'react'
+import React, { useRef, useCallback } from 'react'
 import {
   CopyToClipboardButton,
   FormButton,
   GraphicalIcon,
 } from '../../../common'
-import { Track, Exercise } from '../../MentoringSession'
+import {
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../../../types'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { typecheck } from '../../../../utils/typecheck'
 import { useIsMounted } from 'use-is-mounted'
-import { MentoringRequest } from '../../../types'
+import { MentorSessionRequest as Request } from '../../../types'
 import { FetchingBoundary } from '../../../FetchingBoundary'
 
 type Links = {
@@ -32,12 +35,10 @@ export const MentoringRequestForm = ({
   track: Track
   exercise: Exercise
   links: Links
-  onSuccess: (mentorRequest: MentoringRequest) => void
+  onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation<
-    MentoringRequest | undefined
-  >(
+  const [mutation, { status, error }] = useMutation<Request | undefined>(
     () => {
       return sendRequest({
         endpoint: links.createMentorRequest,
@@ -49,7 +50,7 @@ export const MentoringRequestForm = ({
           return
         }
 
-        return typecheck<MentoringRequest>(json, 'mentorRequest')
+        return typecheck<Request>(json, 'mentorRequest')
       })
     },
     {
@@ -61,6 +62,15 @@ export const MentoringRequestForm = ({
         onSuccess(mentorRequest)
       },
     }
+  )
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
   )
 
   const trackCommentRef = useRef<HTMLTextAreaElement>(null)
@@ -75,7 +85,7 @@ export const MentoringRequestForm = ({
         </h3>
         <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
-      <form className="community" onSubmit={() => mutation()}>
+      <form className="community" onSubmit={handleSubmit}>
         <div className="heading">
           <div className="info">
             <h2>It’s time to deepen your knowledge.</h2>

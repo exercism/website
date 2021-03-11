@@ -8,25 +8,42 @@ export type APIError = {
   message: string
 }
 
-export type MentorDiscussion = {
+export type MentorSessionRequest = {
+  id: string
+  comment: string
+  updatedAt: string
+  isLocked: boolean
+  user: {
+    handle: string
+    avatarUrl: string
+  }
+  links: {
+    lock: string
+    discussion: string
+  }
+}
+export type MentorSessionTrack = {
+  id: string
+  title: string
+  iconUrl: string
+  highlightjsLanguage: string
+  medianWaitTime: string
+}
+
+export type MentorSessionExercise = {
+  id: string
+  title: string
+  iconName: string
+}
+
+export type MentorSessionDiscussion = {
   id: string
   isFinished: boolean
-  mentor: MentorDiscussionMentor
   links: {
     posts: string
     markAsNothingToDo?: string
     finish?: string
   }
-}
-
-export type MentorDiscussionMentor = {
-  id: number
-  avatarUrl: string
-  name: string
-  bio: string
-  handle: string
-  reputation: number
-  numPreviousSessions: number
 }
 
 export type Iteration = {
@@ -113,19 +130,4 @@ export enum AnalysisStatus {
   INCONCLUSIVE = 'inconclusive',
   EXCEPTIONED = 'exceptioned',
   CANCELLED = 'cancelled',
-}
-
-export type MentoringRequest = {
-  id: string
-  comment: string
-  updatedAt: string
-  user: {
-    handle: string
-    avatarUrl: string
-  }
-  links: {
-    lock: string
-    discussion: string
-  }
-  isLocked: boolean
 }

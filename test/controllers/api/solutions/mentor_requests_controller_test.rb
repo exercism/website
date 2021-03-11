@@ -45,7 +45,9 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     assert_response :success
 
     # TODO: Assert correct JSON
-    expected = {}
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    expected = {
+      mentor_request: SerializeMentorSessionRequest.(req)
+    }.to_json
+    assert_equal expected, response.body
   end
 end

@@ -87,7 +87,9 @@ const Video = ({ title, date, url }: VideoProps) => {
       <div className="img" />
       <div className="info">
         <div className="title">{title}</div>
-        <div className="date">{timeFormat(date, 'DD MMM YYYY')}</div>
+        <time dateTime={date} className="date">
+          {timeFormat(date, 'DD MMM YYYY')}
+        </time>
       </div>
       <Icon icon="external-link" alt="The link opens in a new window or tab" />
     </a>

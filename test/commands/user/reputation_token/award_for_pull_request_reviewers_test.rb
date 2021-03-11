@@ -150,4 +150,30 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal 1, reviewer_1.reputation_tokens.size
     assert_equal 1, reviewer_2.reputation_tokens.size
   end
+
+  test "skip over reviews with missing reviewer username" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    merged = false
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    reviews = [
+      { reviewer_username: nil },
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" }
+    ]
+
+    User::ReputationToken::AwardForPullRequestReviewers.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+    )
+
+    assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size
+  end
 end

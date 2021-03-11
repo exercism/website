@@ -6,12 +6,14 @@ class ProcessPullRequestUpdateJob < ApplicationJob
   def perform(action, github_username, params)
     pr_data = data(action, github_username, params)
 
-    Git::PullRequest::CreateOrUpdate.(pr_data[:pr_id],
+    Git::PullRequest::CreateOrUpdate.(
+      pr_data[:pr_id],
       pr_number: pr_data[:pr_number],
       author: pr_data[:author],
       repo: pr_data[:repo],
       reviews: pr_data[:reviews],
-      data: pr_data)
+      data: pr_data
+    )
 
     User::ReputationToken::AwardForPullRequest.(action, github_username, pr_data)
   end

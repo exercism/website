@@ -40,7 +40,7 @@ module Git
       def data
         {
           action: attributes[:action],
-          author: attributes[:login],
+          author: attributes[:author],
           url: attributes[:url],
           html_url: attributes[:html_url],
           labels: attributes[:labels],

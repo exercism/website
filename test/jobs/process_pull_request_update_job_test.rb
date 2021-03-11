@@ -19,7 +19,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     ]
 
     RestClient.unstub(:get)
-    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews").
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
       to_return(status: 200, body: [
         { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', user: { login: "reviewer71" } },
         { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', user: { login: "reviewer13" } }
@@ -69,7 +69,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     ]
 
     RestClient.unstub(:get)
-    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews").
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
       to_return(status: 200, body: [
         { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', user: { login: "reviewer71" } },
         { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', user: { login: "reviewer13" } }
@@ -107,5 +107,58 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     assert_equal login, pr.author_github_username
     assert_nil pr.merged_by_github_username
     assert_equal expected_data, pr.data
+  end
+
+  test "retrieves all reviews" do
+    action = 'closed'
+    login = 'user22'
+    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
+    html_url = 'https://github.com/exercism/fsharp/pull/1347'
+    labels = %w[bug duplicate]
+    repo = 'exercism/fsharp'
+    pr_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
+    merged = false
+    merged_by = nil
+    state = 'open'
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
+      to_return(
+        status: 200,
+        body: [
+          { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', user: { login: "reviewer71" } },
+          { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', user: { login: "reviewer13" } }
+        ].to_json,
+        headers: {
+          'Link': "<https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?page=2&per_page=100>; rel=\"next\", <https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?page=2&per_page=100>; rel=\"last\"", # rubocop:disable Layout/LineLength
+          'Content-Type': 'application/json'
+        }
+      )
+
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?page=2&per_page=100").
+      to_return(
+        status: 200,
+        body: [
+          { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI6', user: { login: "reviewer71" } }
+        ].to_json,
+        headers: {
+          'Link': "<https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?page=2&per_page=100>; rel=\"last\"", # rubocop:disable Layout/LineLength
+          'Content-Type': 'application/json'
+        }
+      )
+
+    ProcessPullRequestUpdateJob.perform_now(action, login,
+      url: url,
+      html_url: html_url,
+      labels: labels,
+      repo: repo,
+      pr_id: pr_id,
+      pr_number: pr_number,
+      state: state,
+      merged: merged,
+      merged_by: merged_by)
+
+    assert_equal 3, Git::PullRequestReview.find_each.size
   end
 end

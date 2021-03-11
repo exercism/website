@@ -48,6 +48,8 @@ class ProcessPullRequestUpdateJob < ApplicationJob
 
   memoize
   def octokit_client
-    Octokit::Client.new(access_token: Exercism.secrets.github_access_token)
+    Octokit::Client.new(access_token: Exercism.secrets.github_access_token).tap do |c|
+      c.auto_paginate = true
+    end
   end
 end

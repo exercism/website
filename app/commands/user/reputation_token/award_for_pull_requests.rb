@@ -28,8 +28,6 @@ class User
         ::Git::PullRequest.left_joins(:reviews).where(merged_by_github_username: user.github_username)
       end
 
-      # TODO: add merged pull requests
-
       def reviewed_pull_requests
         ::Git::PullRequest.left_joins(:reviews).where(reviews: { reviewer_github_username: user.github_username })
       end

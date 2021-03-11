@@ -111,7 +111,6 @@ import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
 import * as Student from '../components/student'
-import { Links as MentoringDropdownLinks } from '../components/student/MentoringDropdown'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,

@@ -7,8 +7,8 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     @params = params
 
     Github::PullRequest::CreateOrUpdate.(
-      data[:pr_node_id],
-      pr_number: data[:pr_number],
+      data[:node_id],
+      number: data[:number],
       author_username: data[:author_username],
       repo: data[:repo],
       reviews: data[:reviews],
@@ -30,13 +30,13 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       html_url: params[:html_url],
       labels: params[:labels],
       state: params[:state],
-      pr_node_id: params[:pr_node_id],
-      pr_number: params[:pr_number],
+      node_id: params[:node_id],
+      number: params[:number],
       repo: params[:repo],
       merged: params[:merged],
       merged_by_username: params[:merged_by_username],
       # Fetch and add the pull request's reviews as they are not returned in the pull request event
-      reviews: reviews(params[:repo], params[:pr_number])
+      reviews: reviews(params[:repo], params[:number])
     }
   end
 

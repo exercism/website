@@ -5,8 +5,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -15,7 +15,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url,
-      labels: labels, repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
+      labels: labels, repo: repo, node_id: node_id, number: number, merged: merged
     )
 
     assert User::ReputationTokens::CodeContributionToken.where(user: user).exists?
@@ -25,8 +25,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -40,7 +40,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
     )
 
     assert User::ReputationTokens::CodeReviewToken.where(user: reviewer_1).exists?
@@ -51,8 +51,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -61,7 +61,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
     )
 
     refute User::ReputationTokens::CodeReviewToken.exists?
@@ -71,8 +71,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -81,7 +81,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged, merged_by_username: merger.github_username
+      repo: repo, node_id: node_id, number: number, merged: merged, merged_by_username: merger.github_username
     )
 
     assert User::ReputationTokens::CodeMergeToken.where(user: merger).exists?
@@ -91,8 +91,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     action = 'closed'
     login = 'user22'
     repo = 'exercism/v3'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -100,7 +100,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url,
-      labels: labels, repo: repo, pr_node_id: pr_node_id, pr_number: pr_number, merged: merged
+      labels: labels, repo: repo, node_id: node_id, number: number, merged: merged
     )
 
     refute User::ReputationTokens::CodeMergeToken.exists?

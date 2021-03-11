@@ -82,8 +82,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       labels: %w[bug duplicate],
       state: 'open',
       repo: 'exercism/fsharp',
-      pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
-      pr_number: 4,
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      number: 4,
       merged: true,
       merged_by_username: 'merger68'
     )
@@ -118,8 +118,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       labels: %w[bug duplicate],
       state: 'open',
       repo: 'exercism/fsharp',
-      pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
-      pr_number: 4,
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      number: 4,
       merged: false,
       merged_by_username: nil
     )

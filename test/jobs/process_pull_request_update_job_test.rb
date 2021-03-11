@@ -8,8 +8,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     repo = 'exercism/fsharp'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = false
     merged_by = nil
     state = 'open'
@@ -32,8 +32,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       html_url: html_url,
       labels: labels,
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       merged: merged,
       merged_by_username: merged_by,
       state: state,
@@ -47,8 +47,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       html_url: html_url,
       labels: labels,
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       merged: merged,
       merged_by_username: merged_by,
       state: state
@@ -62,8 +62,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     repo = 'exercism/fsharp'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = false
     merged_by = nil
     state = 'open'
@@ -86,14 +86,14 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       html_url: html_url,
       labels: labels,
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       state: state,
       merged: merged,
       merged_by_username: merged_by
     )
 
-    pr = Github::PullRequest.find_by(node_id: pr_node_id)
+    pr = Github::PullRequest.find_by(node_id: node_id)
     expected_data = {
       action: action,
       author_username: author,
@@ -101,15 +101,15 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       html_url: html_url,
       labels: labels,
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       merged: merged,
       merged_by_username: merged_by,
       state: state,
       reviews: reviews
     }
-    assert_equal pr_node_id, pr.node_id
-    assert_equal pr_number, pr.number
+    assert_equal node_id, pr.node_id
+    assert_equal number, pr.number
     assert_equal repo, pr.repo
     assert_equal author, pr.author_username
     assert_nil pr.merged_by_username
@@ -123,8 +123,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     html_url = 'https://github.com/exercism/fsharp/pull/1347'
     labels = %w[bug duplicate]
     repo = 'exercism/fsharp'
-    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    pr_number = 1347
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
     merged = false
     merged_by = nil
     state = 'open'
@@ -162,8 +162,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       html_url: html_url,
       labels: labels,
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       state: state,
       merged: merged,
       merged_by_username: merged_by

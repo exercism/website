@@ -9,8 +9,8 @@ module Webhooks
         html_url: params[:pull_request][:html_url],
         labels: params[:pull_request][:labels].map { |label| label[:name] },
         state: params[:pull_request][:state],
-        pr_node_id: params[:pull_request][:node_id],
-        pr_number: params[:pull_request][:number],
+        node_id: params[:pull_request][:node_id],
+        number: params[:pull_request][:number],
         repo: params[:repository][:full_name],
         merged: params[:pull_request][:merged],
         merged_by_username: params[:pull_request][:merged_by_username].present? ? params[:pull_request][:merged_by_username][:login] : nil # rubocop:disable Layout/LineLength

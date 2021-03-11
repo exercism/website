@@ -2,8 +2,8 @@ require "test_helper"
 
 class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   test "create pull request with reviewers" do
-    pr_node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
-    pr_number = 2
+    node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
+    number = 2
     repo = "exercism/ruby"
     author = "iHiD"
     merged_by = "ErikSchierboom"
@@ -11,8 +11,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       state: "closed",
       action: "closed",
       author_username: author,
@@ -24,8 +24,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      pr_node_id,
-      pr_number: pr_number,
+      node_id,
+      number: number,
       author_username: author,
       merged_by_username: merged_by,
       repo: repo,
@@ -45,8 +45,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "create pull request without reviewers" do
-    pr_node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
-    pr_number = 2
+    node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
+    number = 2
     repo = "exercism/ruby"
     author = "iHiD"
     merged_by = "ErikSchierboom"
@@ -54,8 +54,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
       repo: repo,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
+      node_id: node_id,
+      number: number,
       state: "closed",
       action: "closed",
       author_username: author,
@@ -67,8 +67,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      pr_node_id,
-      pr_number: pr_number,
+      node_id,
+      number: number,
       author_username: author,
       merged_by_username: merged_by,
       repo: repo,
@@ -92,7 +92,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
-      pr_number: pr.number,
+      number: pr.number,
       author_username: pr.author_username,
       merged_by_username: pr.merged_by_username,
       repo: pr.repo,
@@ -109,7 +109,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
-      pr_number: pr.number,
+      number: pr.number,
       author_username: pr.author_username,
       merged_by_username: pr.merged_by_username,
       repo: pr.repo,
@@ -126,7 +126,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,
-      pr_number: pr.number,
+      number: pr.number,
       author_username: pr.author_username,
       merged_by_username: pr.merged_by_username,
       repo: pr.repo,

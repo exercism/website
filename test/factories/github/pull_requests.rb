@@ -7,8 +7,8 @@ FactoryBot.define do
     merged_by_username { "ErikSchierboom" }
     data do
       {
-        pr_node_id: node_id,
-        pr_number: number,
+        node_id: node_id,
+        number: number,
         repo: repo,
         url: "https://api.github.com/repos/exercism/ruby/pulls/#{number}",
         html_url: "https://github.com/exercism/ruby/pull/#{number}",

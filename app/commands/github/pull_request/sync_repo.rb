@@ -8,8 +8,8 @@ module Github
       def call
         pull_requests.each do |pr|
           Github::PullRequest::CreateOrUpdate.(
-            pr[:pr_node_id],
-            pr_number: pr[:pr_number],
+            pr[:node_id],
+            number: pr[:number],
             author_username: pr[:author_username],
             merged_by_username: pr[:merged_by_username],
             repo: pr[:repo],
@@ -100,8 +100,8 @@ module Github
             html_url: pr[:url],
             labels: pr[:labels][:nodes].map { |node| node[:name] },
             state: 'closed',
-            pr_node_id: pr[:id],
-            pr_number: pr[:number],
+            node_id: pr[:id],
+            number: pr[:number],
             repo: response[:data][:repository][:nameWithOwner],
             merged: pr[:merged],
             merged_by_username: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,

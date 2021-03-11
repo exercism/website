@@ -69,8 +69,11 @@ class User
       )
 
       user.skip_confirmation!
-      User::Bootstrap.(user) if user.save
-      AwardPullRequestReputationJob.perform_later(user)
+
+      if user.save
+        User::Bootstrap.(user)
+        AwardPullRequestReputationJob.perform_later(user)
+      end
 
       user
     end

@@ -35,6 +35,7 @@
         @apply flex flex-shrink-0 items-center justify-center ml-auto;
         @apply font-medium text-14 leading-150 text-textColor1;
         @apply py-4 px-12 border-orange border-1 rounded-5 bg-lightOrange;
+        @apply ml-32;
 
         & .c-icon {
             @apply mr-6 text-orange;

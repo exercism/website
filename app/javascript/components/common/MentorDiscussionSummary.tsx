@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, GraphicalIcon, Icon } from './index'
 import pluralize from 'pluralize'
-import { fromNow } from '../../utils/time'
+import { shortFromNow } from '../../utils/time'
 import { MentorDiscussion } from '../types'
 
 export const MentorDiscussionSummary = ({
@@ -30,7 +30,7 @@ export const MentorDiscussionSummary = ({
         />
         {postsCount}
       </div>
-      <time dateTime={createdAt}>{fromNow(createdAt)}</time>
+      <time dateTime={createdAt}>{shortFromNow(createdAt)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

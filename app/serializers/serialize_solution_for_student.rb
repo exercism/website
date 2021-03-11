@@ -18,6 +18,7 @@ class SerializeSolutionForStudent
       published_at: solution.published_at&.iso8601,
       completed_at: solution.completed_at&.iso8601,
       has_mentor_discussion_in_progress: solution.mentor_discussions.in_progress.any?,
+      has_mentor_request_pending: solution.mentor_requests.pending.any?,
       exercise: {
         title: solution.exercise.title,
         icon_name: solution.exercise.icon_name

@@ -9,14 +9,18 @@ type Links = {
   learnMoreAboutMentoringArticle: string
   shareMentoring: string
   requestMentoring: string
+  pendingMentorRequest: string
+  inProgressDiscussion?: string
 }
 
 export const Mentoring = ({
   hasMentorDiscussionInProgress,
+  hasMentorRequestPending,
   discussions,
   links,
 }: {
   hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
   discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element => {
@@ -30,6 +34,7 @@ export const Mentoring = ({
       </p>
       <MentoringComboButton
         hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+        hasMentorRequestPending={hasMentorRequestPending}
         discussions={discussions}
         links={links}
       />
@@ -43,14 +48,18 @@ export const Mentoring = ({
 
 const MentoringComboButton = ({
   hasMentorDiscussionInProgress,
+  hasMentorRequestPending,
   discussions,
   links,
 }: {
   hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
   discussions: readonly MentorDiscussion[]
   links: {
     requestMentoring: string
     shareMentoring: string
+    pendingMentorRequest: string
+    inProgressDiscussion?: string
   }
 }) => {
   const {
@@ -75,9 +84,13 @@ const MentoringComboButton = ({
   return (
     /* TODO: Extract into a common component in the future */
     <div className="c-combo-button">
-      {discussions.length > 0 ? (
-        <a href={discussions[0].links.self} className="--editor-segment">
+      {hasMentorDiscussionInProgress && links.inProgressDiscussion ? (
+        <a href={links.inProgressDiscussion} className="--editor-segment">
           Continue mentoring
+        </a>
+      ) : hasMentorRequestPending ? (
+        <a href={links.pendingMentorRequest} className="--editor-segment">
+          View mentoring request
         </a>
       ) : (
         <a href={links.requestMentoring} className="--editor-segment">

@@ -585,7 +585,7 @@
 
                 & .question {
                     @apply mb-20;
-                    & h3 {
+                    & label {
                         @apply text-16 leading-150 font-semibold text-textColor3;
                         @apply mb-4;
                     }

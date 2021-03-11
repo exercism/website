@@ -2,7 +2,7 @@
 
 .c-tag {
     @apply rounded-100;
-    @apply text-12 leading-170;
+    @apply text-12 leading-190;
     @apply font-semibold;
     @apply px-12;
     white-space: nowrap;
@@ -10,6 +10,6 @@
 
     &.--in-progress {
         @apply border-darkBlue;
-        @apply text-darkBlue bg-veryLightBlue;
+        @apply text-lightBlue bg-veryLightBlue;
     }
 }

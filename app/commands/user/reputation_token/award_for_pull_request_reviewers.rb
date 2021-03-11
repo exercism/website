@@ -24,7 +24,7 @@ class User
         end
 
         # TODO: consider what to do with missing reviewers
-        missing_reviewers = reviewer_usernames - reviewers.map(&:handle)
+        missing_reviewers = reviewer_usernames - reviewers.pluck(:handle)
         Rails.logger.error "Missing reviewers: #{missing_reviewers.join(', ')}" if missing_reviewers.present?
       end
 

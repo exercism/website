@@ -32,23 +32,6 @@ module Git
           Git::PullRequestReview::CreateOrUpdate.(pull_request, review[:node_id], review[:reviewer])
         end
       end
-
-      def data
-        {
-          action: attributes[:action],
-          author: attributes[:author],
-          url: attributes[:url],
-          html_url: attributes[:html_url],
-          labels: attributes[:labels],
-          repo: attributes[:repo],
-          pr_id: attributes[:pr_id],
-          pr_number: attributes[:pr_number],
-          merged: attributes[:merged],
-          merged_by: attributes[:merged_by],
-          state: attributes[:state],
-          reviews: attributes[:reviews]
-        }
-      end
     end
   end
 end

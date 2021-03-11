@@ -102,8 +102,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     refute_equal "user22", user.handle
   end
 
-  test "queues award pull request reputation job for uid matches" do
-    user = create :user, provider: "github", uid: "111"
+  test "recalculate pull request reputation for uid matches that change the github_username" do
+    user = create :user, provider: "github", uid: "111", github_username: nil
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
     assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
@@ -111,8 +111,17 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     end
   end
 
-  test "queues award pull request reputation job for email matches" do
-    user = create :user, email: "user@exercism.io"
+  test "don't recalculate pull request reputation for uid matches that don't change the github_username" do
+    create :user, provider: "github", uid: "111", github_username: "user22"
+    auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_no_enqueued_jobs(only: AwardPullRequestReputationJob)
+  end
+
+  test "recalculate pull request reputation for email matches that change the github_username" do
+    user = create :user, email: "user@exercism.io", github_username: nil
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
 
     assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
@@ -120,7 +129,16 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     end
   end
 
-  test "queues award pull request reputation job for bootstrapped user" do
+  test "don't recalculate pull request reputation for email matches that don't change the github_username" do
+    create :user, email: "user@exercism.io", github_username: "user22"
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_no_enqueued_jobs(only: AwardPullRequestReputationJob)
+  end
+
+  test "calculate pull request reputation for bootstrapped user" do
     auth = stub(
       provider: "github",
       uid: "111",

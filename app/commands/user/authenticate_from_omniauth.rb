@@ -19,15 +19,19 @@ class User
         user.save
       end
 
-      user.update_column(:github_username, auth.info.nickname)
-      user.tap do
+      if user.github_username != auth.info.nickname
+        user.update_column(:github_username, auth.info.nickname)
         AwardPullRequestReputationJob.perform_later(user)
       end
+
+      user
     end
 
     def find_by_email
       user = User.find_by(email: auth.info.email)
       return nil unless user
+
+      github_username_changed = user.github_username != auth.info.nickname
 
       user.provider = auth.provider
       user.uid = auth.uid
@@ -49,9 +53,8 @@ class User
       end
 
       user.save
-      user.tap do
-        AwardPullRequestReputationJob.perform_later(user)
-      end
+      AwardPullRequestReputationJob.perform_later(user) if github_username_changed
+      user
     end
 
     def create

@@ -3,8 +3,15 @@ import type { ConfigType } from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(RelativeTime)
 
-export function fromNow(dateTime: ConfigType) {
-  return dayjs(dateTime).fromNow()
+// The short flag turns "2 days ago" into "2d ago"
+export function fromNow(dateTime: ConfigType, short?: boolean) {
+  const relative = dayjs(dateTime).fromNow()
+  if (short) {
+    const parts = relative.split(' ')
+    return `${parts[0]}${parts[1][0]} ${parts[2]}`
+  } else {
+    return relative
+  }
 }
 
 export function timeFormat(dateTime: ConfigType, template: string) {

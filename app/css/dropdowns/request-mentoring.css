@@ -8,8 +8,7 @@
     @apply py-16 px-24;
     @apply shadow-baseZ1 rounded-8;
 
-    & .mentoring-request,
-    & .discussions {
+    & .mentoring-request {
         & h3 {
             @apply text-h5 mb-4;
         }
@@ -17,6 +16,15 @@
             @apply text-16 leading-160 mb-12;
         }
     }
+    & .discussions {
+        & h3 {
+            @apply text-h6 mb-4;
+        }
+        & p {
+            @apply text-16 leading-160 mb-12;
+        }
+    }
+
     & .mentoring-request,
     & .discussion-in-progress {
         @apply mb-16;

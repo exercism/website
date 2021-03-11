@@ -30,7 +30,7 @@ export const MentorDiscussionSummary = ({
         />
         {postsCount}
       </div>
-      <time dateTime={createdAt}>{fromNow(createdAt)}</time>
+      <time dateTime={createdAt}>{fromNow(createdAt, true)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

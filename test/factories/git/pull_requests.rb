@@ -25,23 +25,6 @@ FactoryBot.define do
     trait :random do
       node_id { SecureRandom.hex }
       number { SecureRandom.random_number(100_000) }
-
-      data do
-        {
-          pr_id: node_id,
-          pr_number: number,
-          repo: repo,
-          url: "https://api.github.com/repos/exercism/ruby/pulls/#{number}",
-          html_url: "https://github.com/exercism/ruby/pull/#{number}",
-          state: "closed",
-          action: "closed",
-          author: author_github_username,
-          labels: [],
-          merged: true,
-          merged_by: merged_by_github_username,
-          reviews: []
-        }
-      end
     end
   end
 end

@@ -7,14 +7,14 @@ FactoryBot.define do
     trait :random do
       pull_request { create :git_pull_request, :random }
       node_id { SecureRandom.hex }
+    end
 
-      after(:build) do |r|
-        r.pull_request.update!(
-          data: r.pull_request.data.tap do |d|
-            d[:reviews] = [{ node_id: r.node_id, reviewer: r.reviewer_github_username }]
-          end
-        )
-      end
+    before(:create) do |r|
+      r.pull_request.update!(
+        data: r.pull_request.data.tap do |d|
+          d[:reviews] = [{ node_id: r.node_id, reviewer: r.reviewer_github_username }]
+        end
+      )
     end
   end
 end

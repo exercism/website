@@ -23,13 +23,15 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
-    pr = Git::PullRequest::CreateOrUpdate.(pr_id,
+    pr = Git::PullRequest::CreateOrUpdate.(
+      pr_id,
       pr_number: pr_number,
       author: author,
       merged_by: merged_by,
       repo: repo,
       reviews: reviews,
-      data: data)
+      data: data
+    )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
     assert_equal 2, pr.number
@@ -64,13 +66,15 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
-    pr = Git::PullRequest::CreateOrUpdate.(pr_id,
+    pr = Git::PullRequest::CreateOrUpdate.(
+      pr_id,
       pr_number: pr_number,
       author: author,
       merged_by: merged_by,
       repo: repo,
       reviews: reviews,
-      data: data)
+      data: data
+    )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
     assert_equal 2, pr.number
@@ -86,13 +90,15 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     changed_data = pr.data
     changed_data[:labels] = ["new-label"]
 
-    Git::PullRequest::CreateOrUpdate.(pr.node_id,
+    Git::PullRequest::CreateOrUpdate.(
+      pr.node_id,
       pr_number: pr.number,
       author: pr.author_github_username,
       merged_by: pr.merged_by_github_username,
       repo: pr.repo,
       reviews: pr.reviews,
-      data: changed_data)
+      data: changed_data
+    )
 
     assert_equal changed_data, pr.reload.data
   end
@@ -101,13 +107,15 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr = create :git_pull_request
     updated_at_before_call = pr.updated_at
 
-    Git::PullRequest::CreateOrUpdate.(pr.node_id,
+    Git::PullRequest::CreateOrUpdate.(
+      pr.node_id,
       pr_number: pr.number,
       author: pr.author_github_username,
       merged_by: pr.merged_by_github_username,
       repo: pr.repo,
       reviews: pr.reviews,
-      data: pr.data)
+      data: pr.data
+    )
 
     assert_equal updated_at_before_call, pr.reload.updated_at
   end
@@ -116,13 +124,15 @@ class Git::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     pr = create :git_pull_request
     create :git_pull_request_review, pull_request: pr
 
-    Git::PullRequest::CreateOrUpdate.(pr.node_id,
+    Git::PullRequest::CreateOrUpdate.(
+      pr.node_id,
       pr_number: pr.number,
       author: pr.author_github_username,
       merged_by: pr.merged_by_github_username,
       repo: pr.repo,
       reviews: [],
-      data: pr.data)
+      data: pr.data
+    )
 
     assert_empty pr.reload.reviews
   end

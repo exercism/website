@@ -95,7 +95,7 @@ module Github
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
           {
             action: 'closed',
-            author_username: pr[:author_username].present? ? pr[:author_username][:login] : nil,
+            author_username: pr[:author].present? ? pr[:author][:login] : nil,
             url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
             html_url: pr[:url],
             labels: pr[:labels][:nodes].map { |node| node[:name] },
@@ -108,7 +108,7 @@ module Github
             reviews: pr[:reviews][:nodes].map do |node|
               {
                 node_id: node[:id],
-                reviewer_username: node[:author_username].present? ? node[:author_username][:login] : nil
+                reviewer_username: node[:author].present? ? node[:author][:login] : nil
               }
             end
           }

@@ -18,7 +18,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 19,
                 state: 'MERGED',
-                author_username: {
+                author: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: {
@@ -28,7 +28,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author_username: {
+                      author: {
                         login: 'iHiD'
                       }
                     }
@@ -45,7 +45,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 8,
                 state: 'MERGED',
-                author_username: {
+                author: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: {
@@ -55,7 +55,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
-                      author_username: {
+                      author: {
                         login: 'ErikSchierboom'
                       }
                     }
@@ -92,7 +92,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 2,
                 state: 'MERGED',
-                author_username: {
+                author: {
                   login: 'porkostomus'
                 },
                 mergedBy: {
@@ -229,7 +229,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author_username: {
+                      author: {
                         login: 'iHiD'
                       }
                     }
@@ -277,7 +277,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: false,
                 number: 19,
                 state: 'MERGED',
-                author_username: {
+                author: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: nil,
@@ -285,7 +285,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author_username: {
+                      author: {
                         login: 'iHiD'
                       }
                     }
@@ -333,7 +333,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 merged: true,
                 number: 19,
                 state: 'MERGED',
-                author_username: {
+                author: {
                   login: 'ErikSchierboom'
                 },
                 mergedBy: {

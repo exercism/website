@@ -3,43 +3,23 @@ class ProcessPullRequestUpdateJob < ApplicationJob
 
   queue_as :default
 
-  def perform(params)
-    @params = params
+  def perform(pr_data)
+    # Fetch and append the reviews which the pull request data does not contain
+    pr_data[:reviews] = reviews(pr_data[:repo], pr_data[:number])
 
     Github::PullRequest::CreateOrUpdate.(
-      data[:node_id],
-      number: data[:number],
-      author_username: data[:author_username],
-      repo: data[:repo],
-      reviews: data[:reviews],
-      data: data
+      pr_data[:node_id],
+      number: pr_data[:number],
+      author_username: pr_data[:author_username],
+      repo: pr_data[:repo],
+      reviews: pr_data[:reviews],
+      data: pr_data
     )
 
-    User::ReputationToken::AwardForPullRequest.(data)
+    User::ReputationToken::AwardForPullRequest.(pr_data)
   end
 
   private
-  attr_reader :params
-
-  memoize
-  def data
-    {
-      action: params[:action],
-      author_username: params[:author_username],
-      url: params[:url],
-      html_url: params[:html_url],
-      labels: params[:labels],
-      state: params[:state],
-      node_id: params[:node_id],
-      number: params[:number],
-      repo: params[:repo],
-      merged: params[:merged],
-      merged_by_username: params[:merged_by_username],
-      # Fetch and add the pull request's reviews as they are not returned in the pull request event
-      reviews: reviews(params[:repo], params[:number])
-    }
-  end
-
   def reviews(repo, number)
     octokit_client.pull_request_reviews(repo, number).map do |r|
       {

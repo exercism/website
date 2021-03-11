@@ -35,7 +35,7 @@ class User
       user.uid = auth.uid
       user.github_username = auth.info.nickname
 
-      github_username_changed = user.github_username_changed?
+      AwardPullRequestReputationJob.perform_later(user) if user.github_username_changed?
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -53,7 +53,6 @@ class User
       end
 
       user.save
-      AwardPullRequestReputationJob.perform_later(user) if github_username_changed
       user
     end
 

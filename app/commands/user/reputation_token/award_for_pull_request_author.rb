@@ -10,9 +10,11 @@ class User
 
         user = User.find_by(github_username: github_username)
 
-        # TODO: decide what to do with user that cannot be found
-        Rails.logger.error "Missing author: #{github_username}" unless user
-        return unless user
+        unless user
+          # TODO: decide what to do with user that cannot be found
+          Rails.logger.error "Missing author: #{github_username}"
+          return
+        end
 
         token = User::ReputationToken::Create.(
           user,

@@ -10,9 +10,11 @@ class User
 
         user = User.find_by(github_username: params[:merged_by])
 
-        # TODO: decide what to do with user that cannot be found
-        Rails.logger.error "Missing merged by user: #{params[:merged_by]}" unless user
-        return unless user
+        unless user
+          # TODO: decide what to do with user that cannot be found
+          Rails.logger.error "Missing merged by user: #{params[:merged_by]}"
+          return
+        end
 
         User::ReputationToken::Create.(
           user,

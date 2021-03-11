@@ -75,7 +75,7 @@ const MentoringComboButton = ({
   return (
     /* TODO: Extract into a common component in the future */
     <div className="c-combo-button">
-      {discussions.length > 0 ? (
+      {hasMentorDiscussionInProgress ? (
         <a href={discussions[0].links.self} className="--editor-segment">
           Continue mentoring
         </a>

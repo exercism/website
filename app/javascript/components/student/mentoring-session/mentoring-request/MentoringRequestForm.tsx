@@ -43,7 +43,10 @@ export const MentoringRequestForm = ({
       return sendRequest({
         endpoint: links.createMentorRequest,
         method: 'POST',
-        body: JSON.stringify({ comment: solutionCommentRef.current?.value }),
+        body: JSON.stringify({
+          comment: solutionCommentRef.current?.value,
+          track_comment: trackCommentRef.current?.value,
+        }),
         isMountedRef: isMountedRef,
       }).then((json) => {
         if (!json) {

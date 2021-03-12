@@ -11,6 +11,12 @@ class Tracks::MentorRequestsController < ApplicationController
 
   def show
     @mentor_request = @solution.mentor_requests.last
+
+    if @mentor_request.fulfilled?
+      redirect_to track_exercise_mentor_discussion_path(@track, @exercise, @mentor_request.discussion)
+    elsif @mentor_request.cancelled?
+      # TODO: Handle cancelled requests
+    end
   end
 
   private

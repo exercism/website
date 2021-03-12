@@ -16,7 +16,7 @@ class Mentoring::DiscussionsController < ApplicationController
   def use_mentor_discussion
     @mentor_discussion = Solution::MentorDiscussion.find_by!(uuid: params[:id])
 
-    # TODO: Redirect/show a page here
-    return render(head: 403) unless @mentor_discussion.mentor_id == current_user.id
+    # TODO: Do we want an unauthorised page here?
+    redirect_to mentoring_path unless @mentor_discussion.mentor_id == current_user.id
   end
 end

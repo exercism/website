@@ -27,13 +27,11 @@ test('shows errors from API', async () => {
       </TestQueryCache>
     )
 
-    userEvent.click(
-      screen.getByRole('button', { name: 'Mark as nothing to do' })
-    )
+    userEvent.click(screen.getByRole('button', { name: 'Remove from Inbox' }))
 
     expect(await screen.findByText('Unable to run action')).toBeInTheDocument()
     expect(
-      await screen.findByRole('button', { name: 'Mark as nothing to do' })
+      await screen.findByRole('button', { name: 'Remove from Inbox' })
     ).toBeInTheDocument()
 
     queryCache.cancelQueries()
@@ -45,15 +43,13 @@ test('shows generic error message for unexpected errors', async () => {
   expectConsoleError(async () => {
     render(<MarkAsNothingToDoButton endpoint="wrong" />)
 
-    userEvent.click(
-      screen.getByRole('button', { name: 'Mark as nothing to do' })
-    )
+    userEvent.click(screen.getByRole('button', { name: 'Remove from Inbox' }))
 
     expect(
       await screen.findByText('Unable to mark discussion as nothing to do')
     ).toBeInTheDocument()
     expect(
-      await screen.findByRole('button', { name: 'Mark as nothing to do' })
+      await screen.findByRole('button', { name: 'Remove from Inbox' })
     ).toBeInTheDocument()
   })
 })

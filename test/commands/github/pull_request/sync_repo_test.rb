@@ -371,4 +371,264 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     review = ::Github::PullRequestReview.find_by(node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx')
     assert review.reviewer_username.nil?
   end
+
+  test "fetch all pull requests even if rate limit is reached" do
+    first_response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/19',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
+                createdAt: '2021-02-05T15:29:25Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 19,
+                state: 'MERGED',
+                author: {
+                  login: 'ErikSchierboom'
+                },
+                mergedBy: {
+                  login: 'iHiD'
+                },
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      author: {
+                        login: 'iHiD'
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                url: 'https://github.com/exercism/ruby/pull/8',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw',
+                createdAt: '2021-01-29T13:20:35Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 8,
+                state: 'MERGED',
+                author: {
+                  login: 'ErikSchierboom'
+                },
+                mergedBy: {
+                  login: 'iHiD'
+                },
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
+                      author: {
+                        login: 'ErikSchierboom'
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: true,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 0,
+          resetAt: 5.seconds.from_now.utc.iso8601
+        }
+      }
+    }
+
+    second_response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/2',
+                id: 'MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz',
+                createdAt: '2020-03-27T06:39:20Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 2,
+                state: 'MERGED',
+                author: {
+                  login: 'porkostomus'
+                },
+                mergedBy: {
+                  login: 'ErikSchierboom'
+                },
+                reviews: {
+                  nodes: []
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAyMC0wMy0yN1QwNzozOToyMCswMTowMM4XhMuR'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4989,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| !request.body.include?("after:") }.
+      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
+      to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    Github::PullRequest::SyncRepo.('exercism/ruby')
+
+    assert_equal 3, ::Github::PullRequest.find_each.size
+  end
+
+  test "waits for rate limit to reset if rate limit was reached while fetching" do
+    first_response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/19',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
+                createdAt: '2021-02-05T15:29:25Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 19,
+                state: 'MERGED',
+                author: {
+                  login: 'ErikSchierboom'
+                },
+                mergedBy: {
+                  login: 'iHiD'
+                },
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      author: {
+                        login: 'iHiD'
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                url: 'https://github.com/exercism/ruby/pull/8',
+                id: 'MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw',
+                createdAt: '2021-01-29T13:20:35Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 8,
+                state: 'MERGED',
+                author: {
+                  login: 'ErikSchierboom'
+                },
+                mergedBy: {
+                  login: 'iHiD'
+                },
+                reviews: {
+                  nodes: [
+                    {
+                      id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
+                      author: {
+                        login: 'ErikSchierboom'
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: true,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 0,
+          resetAt: 5.seconds.from_now.utc.iso8601
+        }
+      }
+    }
+
+    second_response = {
+      data: {
+        repository: {
+          nameWithOwner: 'exercism/ruby',
+          pullRequests: {
+            nodes: [
+              {
+                url: 'https://github.com/exercism/ruby/pull/2',
+                id: 'MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz',
+                createdAt: '2020-03-27T06:39:20Z',
+                labels: {
+                  nodes: []
+                },
+                merged: true,
+                number: 2,
+                state: 'MERGED',
+                author: {
+                  login: 'porkostomus'
+                },
+                mergedBy: {
+                  login: 'ErikSchierboom'
+                },
+                reviews: {
+                  nodes: []
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAyMC0wMy0yN1QwNzozOToyMCswMTowMM4XhMuR'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4989,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| !request.body.include?("after:") }.
+      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
+      to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    start = Time.now.utc
+    Github::PullRequest::SyncRepo.('exercism/ruby')
+    elapsed = Time.now.utc - start
+
+    assert elapsed > 5.seconds
+  end
 end

@@ -44,7 +44,7 @@ export function ProcessingStatusSummary({
   iterationStatus,
 }: {
   iterationStatus: IterationStatus
-}) {
+}): JSX.Element {
   const status = transformStatus(iterationStatus)
 
   return (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Iteration } from '../../types'
 import { IterationChannel } from '../../../channels/iterationChannel'
 import { fromNow } from '../../../utils/time'
+import { ProcessingStatusSummary } from '../../common/ProcessingStatusSummary'
 
 export const IterationHeader = ({
   iteration,
@@ -10,13 +11,13 @@ export const IterationHeader = ({
   iteration: Iteration
   latest: boolean
 }): JSX.Element => {
-  const [testsStatus, setTestsStatus] = useState(iteration.testsStatus)
+  const [status, setStatus] = useState(iteration.status)
 
   useEffect(() => {
     const iterationChannel = new IterationChannel(
       iteration.uuid,
       (iteration) => {
-        setTestsStatus(iteration.testsStatus)
+        setStatus(iteration.status)
       }
     )
 
@@ -31,7 +32,7 @@ export const IterationHeader = ({
         <div className="title">
           <h2>Iteration {iteration.idx}</h2>
           {latest ? <div className="latest">latest</div> : null}
-          <div className="tests-status">{testsStatus}</div>
+          <ProcessingStatusSummary iterationStatus={status} />
         </div>
         <div className="submitted-time">
           <time dateTime={iteration.createdAt}>

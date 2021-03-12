@@ -1,6 +1,6 @@
 import React from 'react'
-import { IterationStatus } from '../../types'
-import { GraphicalIcon } from '../../common'
+import { IterationStatus } from '../types'
+import { GraphicalIcon } from '.'
 
 function Content({ status }: { status: string }) {
   switch (status) {
@@ -44,12 +44,12 @@ export function ProcessingStatusSummary({
   iterationStatus,
 }: {
   iterationStatus: IterationStatus
-}) {
+}): JSX.Element {
   const status = transformStatus(iterationStatus)
 
   return (
     <div
-      className={`--processing-status --${status}`}
+      className={`c-iteration-processing-status --${status}`}
       role="status"
       aria-label="Processing status"
     >

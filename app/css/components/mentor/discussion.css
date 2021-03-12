@@ -19,7 +19,7 @@
             width: 100%;
             @apply bg-backgroundColorA;
 
-            @apply flex items-center px-24 border-b-1 border-borderColor6;
+            @apply flex items-center pl-8 pr-24 border-b-1 border-borderColor6;
 
             & .close-btn {
                 @apply flex;
@@ -133,7 +133,7 @@
         }
 
         & .iteration-header {
-            @apply flex items-center py-8 px-32;
+            @apply flex items-center py-8 px-24;
             @apply border-b-1 border-borderColor6;
 
             & .info {
@@ -143,7 +143,7 @@
                     @apply flex items-center;
 
                     & h2 {
-                        @apply font-medium text-15 leading-huge text-textColor1;
+                        @apply font-semibold text-15 leading-170 text-textColor2;
                     }
                     & .latest {
                         height: 22px;
@@ -151,15 +151,18 @@
                         @apply font-medium text-12 text-textColor6 px-8;
                         @apply border-1 border-borderColor5;
                     }
-                    & .tests-status {
-                        @apply ml-24;
+                    & .c-iteration-processing-status {
+                        @apply ml-16;
+                        & .--status {
+                            @apply hidden;
+                        }
                     }
                 }
 
                 & .submitted-time {
                     @apply flex items-center;
                     @apply font-medium text-textColor6;
-                    @apply leading-huge;
+                    @apply leading-160;
                 }
             }
             & .download-btn {

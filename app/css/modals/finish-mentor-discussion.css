@@ -1,8 +1,9 @@
 @import "../styles";
 
-.m-finish-mentor-discussion {
+.m-finish-mentor-discussion.c-modal {
     & .--modal-content {
         max-width: 490px;
+        @apply p-24;
     }
     & h3 {
         @apply text-h5 mb-8;

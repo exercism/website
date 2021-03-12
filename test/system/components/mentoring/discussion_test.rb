@@ -364,11 +364,11 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          click_on "Mark as nothing to do"
+          click_on "Remove from Inbox"
         end
 
         assert_text "Loading"
-        assert_no_text "Mark as nothing to do"
+        assert_no_text "Remove from Inbox"
       end
 
       test "mentor sees mentor notes" do

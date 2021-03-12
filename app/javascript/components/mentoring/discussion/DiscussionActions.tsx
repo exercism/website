@@ -22,7 +22,7 @@ export const DiscussionActions = ({
   )
 
   return (
-    <div>
+    <>
       {links.markAsNothingToDo ? (
         <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
       ) : null}
@@ -35,6 +35,6 @@ export const DiscussionActions = ({
       ) : links.finish ? (
         <FinishButton endpoint={links.finish} onSuccess={setDiscussion} />
       ) : null}
-    </div>
+    </>
   )
 }

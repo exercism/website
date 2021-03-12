@@ -40,8 +40,10 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
             mutation()
           }}
           type="button"
+          className="btn-keyboard-shortcut"
         >
-          Mark as nothing to do
+          <div className="--hint">Remove from Inbox</div>
+          <div className="--kb">F2</div>
         </button>
       )
     case 'loading':

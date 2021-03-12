@@ -44,7 +44,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(mentor)
 
     request = create :solution_mentor_request, status: :fulfilled
-    create :solution_mentor_discussion, request: request, mentor: mentor
+    discussion = create :solution_mentor_discussion, request: request, mentor: mentor
 
     get mentoring_request_path(request)
     assert_redirected_to mentoring_discussion_path(discussion)

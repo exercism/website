@@ -48,7 +48,8 @@ module Student
 
       component = ReactComponents::Student::SolutionSummary.new(solution).to_s
       data = component.gsub("&quot;", '"')
-      assert_includes data, %("in_progress_discussion":"#{Exercism::Routes.mentoring_discussion_url(discussion.uuid)}")
+      url = Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
+      assert_includes data, %("in_progress_discussion":"#{url}")
     end
   end
 end

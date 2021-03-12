@@ -1,6 +1,6 @@
 import React from 'react'
-import { IterationStatus } from '../../types'
-import { GraphicalIcon } from '../../common'
+import { IterationStatus } from '../types'
+import { GraphicalIcon } from '.'
 
 function Content({ status }: { status: string }) {
   switch (status) {

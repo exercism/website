@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { ProcessingStatusSummary } from '../../../../../app/javascript/components/track/iteration-summary/ProcessingStatusSummary'
+import { ProcessingStatusSummary } from '../../../../app/javascript/components/common/ProcessingStatusSummary'
 
 test('shows Processing status when iterationStatus is analyzing', async () => {
   render(<ProcessingStatusSummary iterationStatus="analyzing" />)

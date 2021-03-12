@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Iteration } from '../../types'
 import { IterationChannel } from '../../../channels/iterationChannel'
 import { fromNow } from '../../../utils/time'
-import { ProcessingStatusSummary } from '../../track/iteration-summary/ProcessingStatusSummary'
+import { ProcessingStatusSummary } from '../../common/ProcessingStatusSummary'
 
 export const IterationHeader = ({
   iteration,

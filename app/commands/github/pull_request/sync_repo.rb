@@ -10,6 +10,7 @@ module Github
           Github::PullRequest::CreateOrUpdate.(
             pr[:node_id],
             number: pr[:number],
+            title: pr[:title],
             author_username: pr[:author_username],
             merged_by_username: pr[:merged_by_username],
             repo: pr[:repo],
@@ -102,6 +103,7 @@ module Github
             state: 'closed',
             node_id: pr[:id],
             number: pr[:number],
+            title: pr[:title],
             repo: response[:data][:repository][:nameWithOwner],
             merged: pr[:merged],
             merged_by_username: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,

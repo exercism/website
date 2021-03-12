@@ -7,6 +7,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -15,7 +16,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert User::ReputationTokens::CodeContributionToken.where(user: user).exists?
@@ -27,6 +28,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -42,7 +44,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 1, User::ReputationTokens::CodeContributionToken.where(user: user).size
@@ -54,6 +56,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -61,7 +64,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     refute User::ReputationTokens::CodeContributionToken.exists?
@@ -73,6 +76,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -81,7 +85,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
@@ -93,6 +97,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -101,7 +106,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 10, user.reputation_tokens.last.value
@@ -113,6 +118,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -121,7 +127,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 10, user.reputation_tokens.last.value
@@ -133,6 +139,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -141,7 +148,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 5, user.reputation_tokens.last.value
@@ -153,6 +160,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -161,7 +169,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 15, user.reputation_tokens.last.value
@@ -173,6 +181,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -181,7 +190,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 15, user.reputation_tokens.last.value
@@ -193,6 +202,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -201,7 +211,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 10, user.reputation_tokens.last.value
@@ -213,6 +223,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -231,7 +242,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -245,6 +256,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -255,7 +267,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -268,6 +280,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -278,7 +291,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -291,6 +304,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -299,7 +313,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
@@ -311,6 +325,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -319,7 +334,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)

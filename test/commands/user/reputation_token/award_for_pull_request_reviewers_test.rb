@@ -7,6 +7,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -20,7 +21,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -36,6 +37,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -49,7 +51,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -65,6 +67,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -74,7 +77,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     assert_empty reviewer.reputation_tokens
@@ -86,6 +89,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -95,7 +99,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     assert_empty reviewer.reputation_tokens
@@ -107,6 +111,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -116,7 +121,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
@@ -128,6 +133,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -144,7 +150,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     assert_equal 1, reviewer_1.reputation_tokens.size
@@ -157,6 +163,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     repo = 'exercism/v3'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
+    title = "The cat sat on the mat"
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -171,7 +178,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
     )
 
     assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size

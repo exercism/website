@@ -17,7 +17,8 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
   test "rendering_data" do
     repo = "foo/bar"
-    pr_id = 12_312
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 12_312
 
     track = create :track
     exercise = create :concept_exercise, track: track
@@ -28,14 +29,15 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       external_link: "https://google.com",
       params: {
         repo: repo,
-        pr_id: pr_id
+        pr_node_id: pr_node_id,
+        pr_number: pr_number
       }
 
     expected = {
       id: token.uuid,
       url: "#",
       value: token.value,
-      text: "You contributed code via <strong>PR##{pr_id}</strong> on <strong>#{repo}</strong>",
+      text: "You contributed code via <strong>PR##{pr_number}</strong> on <strong>#{repo}</strong>",
       icon_name: exercise.icon_name,
       internal_link: nil,
       external_link: "https://google.com",

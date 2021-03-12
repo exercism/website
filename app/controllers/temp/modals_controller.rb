@@ -32,14 +32,14 @@ module Temp
           :code_review,
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          node_id: 120
         )
         User::ReputationToken::Create.(
           current_user,
           :code_review,
           external_link: "https://github.com/exercism/ruby/pulls/125",
           repo: "ruby/pulls",
-          pr_id: 125
+          node_id: 125
         )
       end
 

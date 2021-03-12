@@ -1,9 +1,8 @@
-class User::ReputationTokens::CodeContributionToken < User::ReputationToken
+class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number
   category :building
-  reason :contributed_code
-  levels %i[minor regular major]
-  values({ minor: 5, regular: 10, major: 15 })
+  reason :merged_code
+  value 2
 
   def guard_params
     "PR##{pr_node_id}"

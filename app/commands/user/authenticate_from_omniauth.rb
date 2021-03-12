@@ -19,7 +19,11 @@ class User
         user.save
       end
 
-      user.update_column(:github_username, auth.info.nickname)
+      if user.github_username != auth.info.nickname
+        user.update_column(:github_username, auth.info.nickname)
+        AwardPullRequestReputationJob.perform_later(user)
+      end
+
       user
     end
 
@@ -30,6 +34,8 @@ class User
       user.provider = auth.provider
       user.uid = auth.uid
       user.github_username = auth.info.nickname
+
+      AwardPullRequestReputationJob.perform_later(user) if user.github_username_changed?
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -47,7 +53,6 @@ class User
       end
 
       user.save
-
       user
     end
 
@@ -63,7 +68,11 @@ class User
       )
 
       user.skip_confirmation!
-      User::Bootstrap.(user) if user.save
+
+      if user.save
+        User::Bootstrap.(user)
+        AwardPullRequestReputationJob.perform_later(user)
+      end
 
       user
     end

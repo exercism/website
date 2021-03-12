@@ -6,7 +6,20 @@ FactoryBot.define do
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid
+        pr_node_id: SecureRandom.uuid,
+        pr_number: SecureRandom.random_number(100_000)
+      }
+    end
+  end
+
+  factory :user_code_merge_reputation_token, class: 'User::ReputationTokens::CodeMergeToken' do
+    user
+
+    params do
+      {
+        repo: "exercism/ruby",
+        pr_node_id: SecureRandom.uuid,
+        pr_number: SecureRandom.random_number(100_000)
       }
     end
   end
@@ -17,7 +30,8 @@ FactoryBot.define do
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid
+        pr_node_id: SecureRandom.uuid,
+        pr_number: SecureRandom.random_number(100_000)
       }
     end
   end

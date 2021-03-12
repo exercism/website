@@ -77,6 +77,7 @@ Rails.application.routes.draw do
 
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
+          post :finish, on: :member
           resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
         end
       end
@@ -237,6 +238,7 @@ Rails.application.routes.draw do
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
         get :reputation
         get :mentoring_dropdown
+        get :finish_mentor_discussion
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

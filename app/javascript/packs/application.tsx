@@ -150,6 +150,7 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
+import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -257,6 +258,13 @@ initReact({
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
+    />
+  ),
+  'student-finish-mentor-discussion-modal': (data: any) => (
+    <Student.FinishMentorDiscussionModal
+      links={camelizeKeysAs<StudentFinishMentorDiscussionModalLinks>(
+        data.links
+      )}
     />
   ),
   'concept-map': (data: any) => {

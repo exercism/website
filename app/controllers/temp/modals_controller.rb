@@ -50,5 +50,9 @@ module Temp
       @active_mentoring_discussion = false
       @discussions = Solution::MentorDiscussion.limit(2)
     end
+
+    def finish_mentor_discussion
+      @discussion = Solution::MentorDiscussion.find_by(params[:discussion_id])
+    end
   end
 end

@@ -11,6 +11,10 @@
 
       = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
+      -# TODO: I've just added this here to verify that the temp endpoint works
+      - if @solution && @solution.mentor_discussions.finished.any?
+        %p You've completed the mentor discussion for this exercise
+
       - if @exercise.concept_exercise?
         = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
 

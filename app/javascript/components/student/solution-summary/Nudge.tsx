@@ -2,19 +2,31 @@ import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import { CompleteExerciseButton } from '../CompleteExerciseButton'
+import { MentoringComboButton } from './MentoringComboButton'
+import { MentorDiscussion } from '../../types'
 
 type Links = {
   mentoringInfo: string
   completeExercise: string
+  requestMentoring: string
+  shareMentoring: string
+  pendingMentorRequest: string
+  inProgressDiscussion?: string
 }
 
 export const Nudge = ({
+  hasMentorDiscussionInProgress,
+  hasMentorRequestPending,
+  discussions,
   iteration,
   isConceptExercise,
   links,
 }: {
   iteration: Iteration
   isConceptExercise: boolean
+  hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
+  discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element | null => {
   switch (iteration.status) {
@@ -23,7 +35,12 @@ export const Nudge = ({
       return isConceptExercise ? (
         <CompleteExerciseNudge completeExerciseLink={links.completeExercise} />
       ) : (
-        <MentoringNudge mentoringInfoLink={links.mentoringInfo} />
+        <MentoringNudge
+          hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+          hasMentorRequestPending={hasMentorRequestPending}
+          discussions={discussions}
+          links={links}
+        />
       )
     }
     default:
@@ -55,9 +72,21 @@ const CompleteExerciseNudge = ({
 }
 
 const MentoringNudge = ({
-  mentoringInfoLink,
+  hasMentorDiscussionInProgress,
+  hasMentorRequestPending,
+  discussions,
+  links,
 }: {
-  mentoringInfoLink: string
+  hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
+  discussions: readonly MentorDiscussion[]
+  links: {
+    mentoringInfo: string
+    requestMentoring: string
+    shareMentoring: string
+    pendingMentorRequest: string
+    inProgressDiscussion?: string
+  }
 }) => {
   return (
     <section className="mentoring-nudge">
@@ -70,9 +99,15 @@ const MentoringNudge = ({
           your language.
         </p>
         <div className="options">
-          <div className="btn-small-cta">Request mentoring</div>
+          <MentoringComboButton
+            hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+            hasMentorRequestPending={hasMentorRequestPending}
+            discussions={discussions}
+            links={links}
+            className="btn-small-cta"
+          />{' '}
           <a
-            href={mentoringInfoLink}
+            href={links.mentoringInfo}
             className="more-info"
             target="_blank"
             rel="noreferrer"

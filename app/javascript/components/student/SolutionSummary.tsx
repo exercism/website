@@ -87,6 +87,9 @@ export const SolutionSummary = ({
     <>
       {solution.completedAt ? null : (
         <Nudge
+          hasMentorDiscussionInProgress={solution.hasMentorDiscussionInProgress}
+          discussions={discussions}
+          hasMentorRequestPending={solution.hasMentorRequestPending}
           iteration={latestIteration}
           isConceptExercise={isConceptExercise}
           links={links}

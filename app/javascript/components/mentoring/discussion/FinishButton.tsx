@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { FinishMentorDiscussionModal } from '../../modals/FinishMentorDiscussionModal'
+import { FinishMentorDiscussionModal } from '../../modals/mentor/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
 import { MentorSessionDiscussion as Discussion } from '../../types'
 

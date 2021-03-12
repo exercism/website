@@ -4,12 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { FinishMentorDiscussionModal } from '../../../../app/javascript/components/modals/FinishMentorDiscussionModal'
-import { expectConsoleError } from '../../support/silence-console'
-import { awaitPopper } from '../../support/await-popper'
+import { FinishMentorDiscussionModal } from '../../../../../app/javascript/components/modals/mentor/FinishMentorDiscussionModal'
+import { expectConsoleError } from '../../../support/silence-console'
+import { awaitPopper } from '../../../support/await-popper'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
-import { TestQueryCache } from '../../support/TestQueryCache'
+import { TestQueryCache } from '../../../support/TestQueryCache'
 
 test('disables buttons when loading', async () => {
   const server = setupServer(

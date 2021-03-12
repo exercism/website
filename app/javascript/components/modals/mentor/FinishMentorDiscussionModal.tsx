@@ -1,12 +1,12 @@
 import React from 'react'
-import { Modal } from './Modal'
+import { Modal } from '../Modal'
 import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { Loading } from '../common'
-import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import { StudentMentorRelationship } from '../mentoring/Session'
+import { sendRequest } from '../../../utils/send-request'
+import { typecheck } from '../../../utils/typecheck'
+import { Loading } from '../../common'
+import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { StudentMentorRelationship } from '../../mentoring/Session'
 
 type Discussion = {
   relationship: StudentMentorRelationship

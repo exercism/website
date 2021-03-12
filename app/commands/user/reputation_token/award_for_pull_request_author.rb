@@ -24,6 +24,7 @@ class User
           repo: params[:repo],
           pr_node_id: params[:node_id],
           pr_number: params[:number],
+          pr_title: params[:title],
           external_link: params[:html_url]
         )
         token.update!(level: author_reputation_level)

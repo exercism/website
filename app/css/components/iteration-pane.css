@@ -6,10 +6,13 @@
     & .tabs {
         @apply bg-backgroundColorA;
         @apply border-b-1 border-borderColor7;
+        @apply pl-8;
         & .c-tab {
+            height: 30px;
+            @apply grid place-items-center;
             @apply bg-backgroundColorA;
-            @apply py-6 px-24;
-            @apply text-14 text-textColor6 leading-paragraph;
+            @apply px-16;
+            @apply text-13 text-textColor6 leading-paragraph;
             @apply border-r-1 border-borderColor7;
             @apply rounded-none;
             margin-bottom: -1px;

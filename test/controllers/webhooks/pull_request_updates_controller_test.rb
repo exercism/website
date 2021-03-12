@@ -13,6 +13,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },
@@ -40,6 +41,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },
@@ -64,6 +66,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true,
         merged_by_username: {
@@ -84,6 +87,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       repo: 'exercism/fsharp',
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       number: 4,
+      title: "The cat sat on the mat",
       merged: true,
       merged_by_username: 'merger68'
     )
@@ -103,6 +107,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: false
       },
@@ -120,6 +125,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       repo: 'exercism/fsharp',
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       number: 4,
+      title: "The cat sat on the mat",
       merged: false,
       merged_by_username: nil
     )
@@ -139,6 +145,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         labels: [{ name: "bug" }, { name: "duplicate" }],
         state: 'open',
         number: 4,
+        title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         merged: true
       },

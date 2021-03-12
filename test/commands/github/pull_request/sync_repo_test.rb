@@ -17,6 +17,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 19,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -44,6 +45,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 8,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -91,6 +93,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 2,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'porkostomus'
@@ -133,6 +136,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', prs.first.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4", prs.first.node_id
     assert_equal 19, prs.first.number
+    assert_equal "The cat sat on the mat", prs.first.title
     assert_equal "exercism/ruby", prs.first.repo
     assert_equal "ErikSchierboom", prs.first.author_username
     assert_equal "iHiD", prs.first.merged_by_username
@@ -142,6 +146,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       repo: 'exercism/ruby',
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
       number: 19,
+      title: "The cat sat on the mat",
       state: "closed",
       action: "closed",
       author_username: "ErikSchierboom",
@@ -158,6 +163,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', prs.second.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw", prs.second.node_id
     assert_equal 8, prs.second.number
+    assert_equal "The cat sat on the mat", prs.second.title
     assert_equal "exercism/ruby", prs.second.repo
     assert_equal "ErikSchierboom", prs.second.author_username
     assert_equal "iHiD", prs.second.merged_by_username
@@ -167,6 +173,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       repo: 'exercism/ruby',
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw',
       number: 8,
+      title: "The cat sat on the mat",
       state: "closed",
       action: "closed",
       author_username: "ErikSchierboom",
@@ -183,6 +190,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', prs.third.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", prs.third.node_id
     assert_equal 2, prs.third.number
+    assert_equal "The cat sat on the mat", prs.third.title
     assert_equal "exercism/ruby", prs.third.repo
     assert_equal "porkostomus", prs.third.author_username
     assert_equal "ErikSchierboom", prs.third.merged_by_username
@@ -192,6 +200,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       repo: 'exercism/ruby',
       node_id: 'MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz',
       number: 2,
+      title: "The cat sat on the mat",
       state: "closed",
       action: "closed",
       author_username: "porkostomus",
@@ -220,6 +229,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 19,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author_username: nil,
                 mergedBy: {
@@ -276,6 +286,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: false,
                 number: 19,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -332,6 +343,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 19,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -388,6 +400,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 19,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -415,6 +428,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 8,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -462,6 +476,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 2,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'porkostomus'
@@ -517,6 +532,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 19,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -544,6 +560,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 8,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
@@ -591,6 +608,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 merged: true,
                 number: 2,
+                title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'porkostomus'

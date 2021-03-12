@@ -1,5 +1,5 @@
 class User::ReputationTokens::CodeContributionToken < User::ReputationToken
-  params :repo, :pr_node_id, :pr_number
+  params :repo, :pr_node_id, :pr_number, :pr_title
   category :building
   reason :contributed_code
   levels %i[minor regular major]
@@ -11,8 +11,9 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
 
   def i18n_params
     {
-      repo: repo,
-      pr_number: pr_number
+      repo: repo.split("/").last,
+      pr_number: pr_number,
+      pr_title: pr_title
     }
   end
 end

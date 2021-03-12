@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_180856) do
+ActiveRecord::Schema.define(version: 2021_03_12_130833) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_180856) do
     t.json "data", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
   end
 

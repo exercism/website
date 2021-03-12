@@ -24,7 +24,8 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     octokit_client.pull_request_reviews(repo, number).map do |r|
       {
         node_id: r[:node_id],
-        reviewer_username: r[:user][:login]
+        reviewer_username: r[:user][:login],
+        submitted_at: r[:submitted_at]
       }
     end
   end

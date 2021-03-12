@@ -68,6 +68,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         number: 4,
         title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        created_at: "2019-05-15T15:20:33Z",
+        merged_at: "2019-05-28T08:03:01Z",
         merged: true,
         merged_by_username: {
           login: 'merger68'
@@ -88,6 +90,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       number: 4,
       title: "The cat sat on the mat",
+      created_at: "2019-05-15T15:20:33Z",
+      merged_at: "2019-05-28T08:03:01Z",
       merged: true,
       merged_by_username: 'merger68'
     )
@@ -109,6 +113,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         number: 4,
         title: "The cat sat on the mat",
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        created_at: "2019-05-15T15:20:33Z",
+        merged_at: nil,
         merged: false
       },
       repository: {
@@ -126,6 +132,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       number: 4,
       title: "The cat sat on the mat",
+      created_at: "2019-05-15T15:20:33Z",
+      merged_at: nil,
       merged: false,
       merged_by_username: nil
     )

@@ -13,6 +13,8 @@ module Webhooks
         number: params[:pull_request][:number],
         title: params[:pull_request][:title],
         repo: params[:repository][:full_name],
+        created_at: params[:pull_request][:created_at],
+        merged_at: params[:pull_request][:merged_at],
         merged: params[:pull_request][:merged],
         merged_by_username: params[:pull_request][:merged_by_username].present? ? params[:pull_request][:merged_by_username][:login] : nil # rubocop:disable Layout/LineLength
       )

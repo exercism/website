@@ -8,7 +8,7 @@ module Components::Student
 
       test "shows discussions" do
         user = create :user
-        mentor = create :user, handle: "mentor"
+        mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
         request = create :solution_mentor_request, solution: solution
         discussion = create :solution_mentor_discussion, request: request, solution: solution, mentor: mentor
@@ -23,8 +23,10 @@ module Components::Student
           visit Exercism::Routes.private_solution_path(solution)
           within(".mentoring") { find(".--dropdown-segment").click }
 
-          assert_link "Continue mentoring", href: Exercism::Routes.mentoring_discussion_url(discussion.uuid)
-          assert_link "mentor", href: Exercism::Routes.mentoring_discussion_url(discussion.uuid)
+          assert_link "Continue mentoring",
+            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
+          assert_link "my-mentor",
+            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
         end
       end
 
@@ -49,7 +51,7 @@ module Components::Student
 
       test "shows discussions within nudge section" do
         user = create :user
-        mentor = create :user, handle: "mentor"
+        mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
         request = create :solution_mentor_request, solution: solution
         discussion = create :solution_mentor_discussion, request: request, solution: solution, mentor: mentor
@@ -64,8 +66,10 @@ module Components::Student
           visit Exercism::Routes.private_solution_path(solution)
           within(".mentoring-nudge") { find(".--dropdown-segment").click }
 
-          assert_link "Continue mentoring", href: Exercism::Routes.mentoring_discussion_url(discussion.uuid)
-          assert_link "mentor", href: Exercism::Routes.mentoring_discussion_url(discussion.uuid)
+          assert_link "Continue mentoring",
+            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
+          assert_link "my-mentor",
+            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
         end
       end
 

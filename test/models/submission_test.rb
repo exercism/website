@@ -170,4 +170,74 @@ class SubmissionTest < ActiveSupport::TestCase
     }
     assert_equal expected, submission.analyzer_feedback
   end
+
+  test "viewable_by pivots correctly" do
+    student = create :user
+    mentor_1 = create :user
+    mentor_2 = create :user
+    user = create :user, :not_mentor
+
+    solution = create :concept_solution, user: student
+    submission = create :submission, solution: solution
+    create :iteration, solution: solution, submission: submission
+
+    assert submission.viewable_by?(student)
+    refute submission.viewable_by?(mentor_1)
+    refute submission.viewable_by?(mentor_2)
+    refute submission.viewable_by?(user)
+
+    create :solution_mentor_discussion, mentor: mentor_1, solution: solution
+    assert submission.viewable_by?(student)
+    assert submission.viewable_by?(mentor_1)
+    refute submission.viewable_by?(mentor_2)
+    refute submission.viewable_by?(user)
+
+    create :solution_mentor_request, solution: solution, status: :fulfilled
+    assert submission.viewable_by?(student)
+    assert submission.viewable_by?(mentor_1)
+    refute submission.viewable_by?(mentor_2)
+    refute submission.viewable_by?(user)
+
+    create :solution_mentor_request, solution: solution, status: :pending
+    assert submission.viewable_by?(student)
+    assert submission.viewable_by?(mentor_1)
+    assert submission.viewable_by?(mentor_2)
+    refute submission.viewable_by?(user)
+
+    solution.update(published_at: Time.current)
+    assert submission.viewable_by?(student)
+    assert submission.viewable_by?(mentor_1)
+    assert submission.viewable_by?(mentor_2)
+    assert submission.viewable_by?(user)
+  end
+
+  test "non-iteration submissions are never viewable" do
+    student = create :user
+    mentor_1 = create :user
+    mentor_2 = create :user
+    user = create :user, :not_mentor
+
+    solution = create :concept_solution, user: student
+    submission_1 = create :submission, solution: solution
+    submission_2 = create :submission, solution: solution
+    create :iteration, submission: submission_1, solution: solution
+    create :solution_mentor_discussion, mentor: mentor_1, solution: solution
+    create :solution_mentor_request, solution: solution
+
+    # Normal state
+    assert submission_1.viewable_by?(student)
+    assert submission_1.viewable_by?(mentor_1)
+    assert submission_1.viewable_by?(mentor_2)
+    refute submission_1.viewable_by?(user)
+
+    assert submission_2.viewable_by?(student)
+    refute submission_2.viewable_by?(mentor_1)
+    refute submission_2.viewable_by?(mentor_2)
+    refute submission_2.viewable_by?(user)
+
+    # Check with published too
+    solution.update(published_at: Time.current)
+    assert submission_1.viewable_by?(user)
+    refute submission_2.viewable_by?(user)
+  end
 end

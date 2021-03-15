@@ -1,0 +1,161 @@
+@import "../../styles";
+
+#mentor-queue-page {
+    & .c-mentor-nav {
+        @apply mb-40;
+    }
+
+    & header.header {
+        @apply flex flex-col items-center;
+        @apply mb-48;
+
+        & .c-icon {
+            height: 64px;
+            width: 64px;
+            @apply mb-16;
+        }
+        & h2 {
+            @apply text-h2;
+            @apply mb-8;
+        }
+        & .subtitle {
+            @apply text-18 leading-huge;
+        }
+    }
+    & .queue-section-content {
+        @apply flex items-start;
+    }
+
+    & .c-mentor-queue {
+        @apply flex-grow;
+        @apply shadow-lg bg-backgroundColorA rounded-8;
+
+        & header.c-search-bar {
+            @apply py-16 px-24;
+
+            & .--search {
+                @apply flex-grow;
+                width: 100%;
+            }
+        }
+        & .--solutions {
+            @apply relative;
+
+            &.--loading {
+                &:after {
+                    @apply absolute;
+                    @apply bg-backgroundColorA;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    opacity: 0.7;
+                    content: "";
+                }
+            }
+        }
+
+        & footer {
+            @apply px-24 py-16;
+            @apply border-lightGray border-t-1;
+        }
+    }
+
+    & .mentor-queue-filtering {
+        width: 420px;
+        @apply flex-grow-0 flex-shrink-0;
+        @apply ml-48;
+
+        & header.filtering-header {
+            @apply flex items-start mb-24;
+
+            & .title {
+                @apply flex-grow;
+                & h3 {
+                    @apply text-h5;
+                }
+                & .subtitle {
+                    @apply text-16 text-textColor6 leading-huge;
+                }
+            }
+            & button.reset-filters {
+                @apply flex items-center;
+                @apply text-14 text-textColor6;
+                @apply py-8 px-16 ml-32;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
+                }
+            }
+        }
+        & .track-filter,
+        & .exercise-filter {
+            & h3 {
+                @apply text-16 text-textColor3 font-semibold;
+                @apply mb-16;
+            }
+            & label {
+                --row-selected-background-color: var(--backgroundColorD);
+
+                & .row {
+                    @apply flex-grow flex items-center;
+                    @apply py-8 px-16 mb-8;
+                    @apply rounded-8;
+                }
+
+                & .c-radio {
+                    font-size: 20px;
+                }
+                & .c-track-icon,
+                & .c-exercise-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply ml-24 mr-12;
+                }
+                & .title {
+                    @apply flex-grow;
+                    @apply text-16 font-medium text-textColor6 leading-regular;
+                }
+                & .count {
+                    @apply px-12 flex items-center ml-16;
+                    @apply font-medium text-14 text-textColor6 leading-huge;
+                    @apply border-1 border-textColor6 rounded-100;
+                }
+            }
+            & input:checked + .row {
+                & .title {
+                    @apply text-textColor3;
+                }
+            }
+        }
+        & .track-filter {
+            @apply mb-32;
+
+            & button.change-tracks-button {
+                @apply flex items-center;
+                @apply py-8 px-20;
+                @apply text-16 leading-paragraph text-lightBlue font-semibold;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-16;
+                }
+            }
+        }
+        & .exercise-filter {
+            & .c-search-bar {
+                @apply mb-24;
+
+                & input.--search {
+                    margin: 0;
+                    width: 100%;
+                    @apply bg-backgroundColorA border-1 border-buttonBorderColor2;
+                    background-position-x: calc(100% - 32px);
+                    @apply pl-16;
+                }
+            }
+        }
+    }
+}

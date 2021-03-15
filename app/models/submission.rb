@@ -89,7 +89,22 @@ class Submission < ApplicationRecord
   end
 
   def viewable_by?(user)
-    solution.mentors.include?(user) || solution.user == user
+    # A user can always see their own stuff
+    return true if solution.user == user
+
+    # Other users can only see if it's an iteration
+    return false unless iteration
+
+    # Current mentors can see submissions
+    return true if solution.mentors.include?(user)
+
+    # All mentors can see files on pending requests
+    return true if solution.mentor_requests.pending.any? && user.mentor?
+
+    # Everyone can see published iterations
+    return true if solution.published? # TODO: Change this to iteration.published
+
+    false
   end
 
   memoize

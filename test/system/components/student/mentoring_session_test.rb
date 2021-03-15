@@ -151,6 +151,7 @@ module Components
           click_on "1"
         end
 
+        sleep(0.1)
         assert_text "class Bob"
       end
 

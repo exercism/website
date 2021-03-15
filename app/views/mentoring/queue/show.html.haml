@@ -1,0 +1,11 @@
+#mentor-queue-page
+  = render ViewComponents::Mentor::Nav.new(:queue)
+
+  .lg-container
+    %header.header
+      = graphical_icon "graphic-conversation-1"
+      %h2 Mentoring Queue
+      .subtitle
+        All of the mentoring requests on Exercism
+
+    = ReactComponents::Mentoring::Queue.new(current_user)

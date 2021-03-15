@@ -155,7 +155,8 @@ Rails.application.routes.draw do
 
   namespace :mentoring do
     get "/", to: "external#show"
-    resource :dashboard, only: [:show], controller: "dashboard"
+    resource :inbox, only: [:show], controller: "inbox"
+    resource :queue, only: [:show], controller: "queue"
     resources :requests, only: [:show] do
       get :unavailable, on: :member
     end

@@ -50,7 +50,7 @@
           = link_to tracks_path, class: 'action' do
             = graphical_icon "graphic-bookworm"
             Continue learning on your tracks
-          = link_to mentoring_dashboard_path, class: 'action' do
+          = link_to mentoring_inbox_path, class: 'action' do
             = graphical_icon "graphic-phone-chat"
             Try your hand at mentoring
           = link_to "#", class: 'action' do
@@ -126,4 +126,4 @@
               %time 2m ago
               = graphical_icon :"chevron-right", css_class: "action-icon"
 
-          = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_dashboard_path)
+          = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)

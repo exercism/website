@@ -373,14 +373,13 @@ module Components
 
       test "mentor sees mentor notes" do
         mentor = create :user, handle: "author"
-        exercise = create :concept_exercise
+        exercise = create :concept_exercise, slug: "clock"
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion,
           solution: solution,
           mentor: mentor,
           requires_mentor_action_since: 1.day.ago
         create :iteration, solution: solution
-        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
           sign_in!(mentor)

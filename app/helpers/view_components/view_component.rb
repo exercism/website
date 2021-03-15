@@ -7,7 +7,7 @@ module ViewComponents
       :render, :safe_join,
       :tag, :link_to, :button_to,
       :time_ago_in_words,
-      :graphical_icon, :icon, :track_icon, :exercise_icon, :rounded_bg_img,
+      :graphical_icon, :icon, :track_icon, :exercise_icon, :avatar,
       :capture_haml,
       to: :view_context
 

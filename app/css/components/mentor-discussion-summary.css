@@ -2,7 +2,7 @@
 
 .c-mentor-discussion-summary {
     @apply flex items-center;
-    & .c-rounded-bg-img {
+    & .c-avatar {
         height: 42px;
         width: 42px;
 
@@ -53,7 +53,7 @@
     }
 
     &.--slim {
-        & .c-rounded-bg-img {
+        & .c-avatar {
             height: 32px;
             width: 32px;
         }

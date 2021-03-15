@@ -11,7 +11,7 @@ const NotificationImage = ({
     case 'avatar':
       return (
         <div
-          className="c-rounded-bg-img"
+          className="c-avatar"
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
       )

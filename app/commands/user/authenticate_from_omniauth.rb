@@ -24,6 +24,8 @@ class User
         AwardPullRequestReputationJob.perform_later(user)
       end
 
+      user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
+
       user
     end
 
@@ -63,6 +65,7 @@ class User
         email: auth.info.email,
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
+        avatar_url: auth.info.image,
         handle: handle,
         github_username: auth.info.nickname
       )

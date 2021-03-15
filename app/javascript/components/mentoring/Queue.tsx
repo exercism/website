@@ -113,6 +113,7 @@ export const Queue = ({
           resolvedData={resolvedData}
           latestData={latestData}
           setPage={setPage}
+          isFetching={isFetching}
         />
       </div>
       <div className="mentor-queue-filtering">

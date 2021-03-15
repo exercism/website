@@ -1,7 +1,7 @@
 module ViewComponents
   module Mentor
     class Nav < ViewComponent
-      TABS = %i[dashboard testimonials guides].freeze
+      TABS = %i[inbox queue testimonials guides].freeze
 
       initialize_with :selected_tab
 
@@ -22,11 +22,19 @@ module ViewComponents
       def tabs
         [
           link_to(
-            Exercism::Routes.mentoring_dashboard_path,
-            class: tab_class(:dashboard)
+            Exercism::Routes.mentoring_inbox_path,
+            class: tab_class(:inbox)
           ) do
             graphical_icon(:mentoring) +
-              tag.span("Mentoring Area", "data-text": "Mentoring Area")
+              tag.span("Inbox", "data-text": "Inbox")
+          end,
+
+          link_to(
+            Exercism::Routes.mentoring_queue_path,
+            class: tab_class(:queue)
+          ) do
+            graphical_icon(:mentoring) +
+              tag.span("Queue", "data-text": "Queue")
           end,
 
           link_to(

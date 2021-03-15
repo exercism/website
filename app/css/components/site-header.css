@@ -57,6 +57,7 @@
             }
         }
     }
+
     & .user-section {
         @apply flex justify-end items-center;
 
@@ -139,6 +140,28 @@
 
         & a:first-child {
             @apply mr-16;
+        }
+    }
+}
+
+body.controller-docs {
+    @apply bg-backgroundColorA;
+    & #site-header {
+        @apply bg-backgroundColorE;
+        @apply border-0;
+
+        & .exercism-link {
+            @apply mr-32;
+        }
+
+        & .docs-search {
+            @apply flex-grow;
+            & input {
+                @apply bg-backgroundColorA;
+                @apply border-1 border-buttonBorderColor2;
+                width: 100%;
+                max-width: 540px;
+            }
         }
     }
 }

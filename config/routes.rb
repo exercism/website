@@ -146,6 +146,9 @@ Rails.application.routes.draw do
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
 
+  resources :docs, only: [:index]
+  get 'docs/(*id)', to: 'docs#show'
+
   resources :notifications, only: [:index]
 
   resources :profiles, only: [:show] do

@@ -1,0 +1,24 @@
+= render ViewComponents::DocsMainNav.new
+
+#page-docs-show
+  .container.lg-container
+    .docs-side-nav
+      %ul
+        %li.selected= link_to "Overview", "#"
+        %li= link_to "Something else", "#"
+        %li.header.expanded= link_to "Standards", "#"
+        %li
+          %ul
+            %li= link_to "Style Guide", "#"
+            %li= link_to "Markdown", "#"
+        %li.header= link_to "Being a good citizen", "#"
+
+    .docs-content
+      %h1 Contributing
+      %p.h1-subtitle How to get involved with Exercism
+      = graphical_icon "sharp-squiggle", css_class: "header-divider"
+
+      .c-textual-content.--large
+        %p Integer non quam orci. Quisque non est id libero luctus porttitor. Donec hendrerit leo tortor, nec tincidunt lacus fermentum at. Phasellus in nisl ut libero porttitor consectetur at ut metus.
+        %h2 This is a heading 2
+        %p Integer non quam orci. Quisque non est id libero luctus porttitor. Donec hendrerit leo tortor, nec tincidunt lacus fermentum at. Phasellus in nisl ut libero porttitor consectetur at ut metus.

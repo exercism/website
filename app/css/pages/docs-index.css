@@ -1,0 +1,44 @@
+@import "../styles";
+
+#page-docs-index {
+    & .header {
+        @apply flex flex-col items-center;
+        @apply pt-40;
+
+        & h1 {
+            @apply text-h1 mb-12;
+        }
+        & p {
+            @apply text-20 leading-170;
+            @apply mb-28;
+        }
+        & .header-icon {
+            height: 80px;
+            width: 80px;
+            @apply mb-12;
+        }
+        & .header-divider {
+            height: 20px;
+            width: 74px;
+        }
+    }
+
+    & .top-section {
+        @apply flex;
+
+        & .info {
+            @apply flex-grow;
+        }
+        & > .c-icon {
+            height: 300px;
+            width: 300px;
+            @apply ml-64;
+        }
+        & h2 {
+            @apply text-h3 mb-8;
+        }
+        & p {
+            @apply text-p-large mb-20;
+        }
+    }
+}

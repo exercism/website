@@ -3,31 +3,24 @@ module IconsHelper
     icon(icon, nil, role: :presentation, css_class: css_class, hex: hex)
   end
 
-  def icon(icon, alt, role: 'img', css_class: nil, hex: false)
-    classes = "c-icon #{css_class} #{'--hex' if hex}".strip
-    tag.svg(role: role, class: classes) do
-      parts = [
-        (alt ? tag.title(alt) : nil),
-        tag(:use, "xlink:href": "##{icon}")
-      ]
-      safe_join(parts)
-    end
+  def icon(icon, alt, role: 'img', category: 'general', css_class: nil, hex: false)
+    image_pack_tag "#{category}/#{icon}.svg",
+      role: role,
+      alt: alt,
+      class: "c-icon #{css_class} #{'--hex' if hex}".strip
   end
 
   def track_icon(track, css_class: nil)
-    image_pack_tag(
-      "tracks/#{track.icon_name}.svg",
+    icon track.icon_name,
       alt: track.title,
-      class: "c-icon c-track-icon #{css_class}"
-    )
+      category: 'tracks',
+      css_class: "c-track-icon #{css_class}"
   end
 
   def exercise_icon(exercise, css_class: nil)
-    # graphical_icon(exercise.icon_name, css_class: "c-exercise-icon #{css_class}")
-    image_pack_tag(
-      "exercises/#{exercise.icon_name}.svg",
-      role: :presentation,
-      class: "c-icon c-exercise-icon #{css_class}"
-    )
+    icon exercise.icon_name,
+      alt: exercise.title,
+      category: 'exercises',
+      css_class: "c-exercise-icon #{css_class}"
   end
 end

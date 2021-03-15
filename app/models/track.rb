@@ -36,6 +36,24 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
+  # TODO: Read this from a cache and update periodically
+  def num_contributors
+    User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
+  end
+
+  # TODO: Read this from a cache and update periodically
+  def top_10_contributors
+    user_ids = User::ReputationToken.where(track_id: id).
+      group(:user_id).
+      select("user_id, COUNT(*) as c").
+      order("c DESC").
+      limit(10).map(&:user_id)
+
+    User.where(id: user_ids).
+      order(Arel.sql("FIND_IN_SET(id, '#{user_ids.join(',')}')")).
+      to_a
+  end
+
   # TODO: Set this properly
   def icon_name
     "ruby"

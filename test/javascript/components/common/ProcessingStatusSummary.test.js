@@ -21,13 +21,13 @@ test('shows Processing status when iterationStatus is testing', async () => {
   expect(screen.getByText('Processing')).toBeInTheDocument()
 })
 
-test('shows Tests Failed status when iterationStatus is failed', async () => {
+test('shows Failed status when iterationStatus is failed', async () => {
   render(<ProcessingStatusSummary iterationStatus="tests_failed" />)
 
   expect(
     screen.getByRole('status', { name: 'Processing status' })
   ).toHaveAttribute('class', 'c-iteration-processing-status --failed')
-  expect(screen.getByText('Tests Failed')).toBeInTheDocument()
+  expect(screen.getByText('Failed')).toBeInTheDocument()
 })
 
 test('shows Passed status when iterationStatus is another status', async () => {

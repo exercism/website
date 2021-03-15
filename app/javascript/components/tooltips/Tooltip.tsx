@@ -45,7 +45,7 @@ export const Tooltip = ({
   } = useStatefulTooltip()
 
   const popper = usePopper(referenceElement, tooltipElement, {
-    placement: 'bottom',
+    placement: 'right',
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }], // offset from the tooltip's reference element
   })
 

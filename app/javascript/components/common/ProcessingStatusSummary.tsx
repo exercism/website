@@ -15,7 +15,7 @@ function Content({ status }: { status: string }) {
       return (
         <>
           <div role="presentation" className="--dot"></div>
-          <div className="--status">Tests Failed</div>
+          <div className="--status">Failed</div>
         </>
       )
     default:

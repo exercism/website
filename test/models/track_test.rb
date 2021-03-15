@@ -48,4 +48,32 @@ class TrackTest < ActiveSupport::TestCase
     track = create :track, repo_url: TestHelpers.git_repo_url("track-naked")
     assert_equal(/[iI]gnore/, track.ignore_regexp)
   end
+
+  test "top_10_contributors" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    track = create :track
+
+    create :user_code_contribution_reputation_token, track: track, user: user_1
+    create :user_code_contribution_reputation_token, track: track, user: user_2
+    create :user_code_contribution_reputation_token, track: track, user: user_2
+    create :user_code_contribution_reputation_token, user: user_3
+
+    assert_equal [user_2, user_1], track.top_10_contributors
+  end
+
+  test "num_contributors" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    track = create :track
+
+    create :user_code_contribution_reputation_token, track: track, user: user_1
+    create :user_code_contribution_reputation_token, track: track, user: user_2
+    create :user_code_contribution_reputation_token, track: track, user: user_2
+    create :user_code_contribution_reputation_token, user: user_3
+
+    assert_equal 2, track.num_contributors
+  end
 end

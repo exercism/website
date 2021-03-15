@@ -116,7 +116,7 @@
             & a {
                 width: 48px;
             }
-            & a.face {
+            & .c-avatar {
                 @apply block flex-grow-0 flex-shrink-0;
                 @apply bg-center bg-cover rounded-circle;
                 height: 48px;

@@ -15,7 +15,7 @@
 
   %ol.faces{ "aria-label": "Other significant contributors" }
     - contributors[2..9].to_a.each do |contributor|
-      %li= avatar(contributor)
+      %li= avatar_link(contributor)
 
     %li= link_to "See all", "#", class: "all", "aria-label": "See all contributors for this track" # TODO
 

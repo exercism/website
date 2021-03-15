@@ -17,14 +17,14 @@ module ImagesHelper
     )
   end
 
-  def rounded_bg_link(src, href, title, alt, css_class)
+  def avatar_link(user, css_class: nil)
     link_to(
-      href,
+      profile_path(user),
       class: ['c-avatar', css_class].compact.join(" "),
-      style: "background-image:url(#{src})",
-      "aria-title": title
+      style: "background-image:url(#{user.avatar_url})",
+      "aria-title": "Link to #{user.handle}'s profile"
     ) do
-      image_tag(src, alt: alt, class: "tw-sr-only")
+      image_tag(user.avatar_url, alt: "Uploaded avatar of #{user.handle}", class: "tw-sr-only")
     end
   end
 end

@@ -12,7 +12,7 @@
             @apply flex flex-grow;
 
             & > .c-exercise-icon,
-            & > .c-rounded-bg-img {
+            & > .c-avatar {
                 height: 48px;
                 width: 48px;
                 @apply mr-16;

@@ -23,7 +23,7 @@
     .faces
       - exercise.authors.each do |author|
         .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(author.handle), "data-handle": author.handle }
-          = rounded_bg_img(author.avatar_url, "#{author.name} uploaded avatar")
+          = avatar(author)
     .stats
       .authors= pluralize exercise.authors.size, "author"
       - if exercise.contributors.present?

@@ -15,7 +15,7 @@
                 @apply text-h3;
                 @apply mr-12;
             }
-            & .c-rounded-bg-img {
+            & .c-avatar {
                 width: 48px;
                 height: 48px;
                 @apply ml-12 mr-8;

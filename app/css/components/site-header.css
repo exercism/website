@@ -72,7 +72,7 @@
         & .user-menu {
             @apply flex items-center;
 
-            & .c-rounded-bg-img {
+            & .c-avatar {
                 height: 42px;
                 width: 42px;
 
@@ -94,7 +94,7 @@
                     @apply flex items-center;
                     @apply py-12 mb-4;
 
-                    & .c-rounded-bg-img {
+                    & .c-avatar {
                         height: 42px;
                         width: 42px;
 

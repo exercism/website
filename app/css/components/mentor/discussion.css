@@ -42,7 +42,7 @@
             }
             & .student {
                 @apply flex-grow flex items-center;
-                & .c-rounded-bg-img {
+                & .c-avatar {
                     height: 48px;
                     width: 48px;
                     @apply mr-16;
@@ -313,7 +313,7 @@
                         }
                     }
                 }
-                & .c-rounded-bg-img {
+                & .c-avatar {
                     height: 64px;
                     width: 64px;
                     @apply ml-16;
@@ -380,7 +380,7 @@
                         & .byline {
                             @apply flex items-center mb-12;
 
-                            & .c-rounded-bg-img {
+                            & .c-avatar {
                                 @apply mr-8;
                                 height: 32px;
                                 width: 32px;
@@ -424,7 +424,7 @@
                         & .author {
                             @apply flex-grow flex items-center;
 
-                            & .c-rounded-bg-img {
+                            & .c-avatar {
                                 height: 32px;
                                 width: 32px;
                                 @apply mr-12;

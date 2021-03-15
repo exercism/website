@@ -87,7 +87,7 @@
             & .contributors {
                 @apply grid gap-16 grid-cols-6;
 
-                & .c-rounded-bg-img {
+                & .c-avatar {
                     width: 48px;
                     height: 48px;
                 }

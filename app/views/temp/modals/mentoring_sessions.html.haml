@@ -3,7 +3,7 @@
     %header
       %strong You have #{@num_total_discussions} previous discussions
       with
-      = rounded_bg_img(@student.avatar_url, "Avatar of #{@student.handle}")
+      = avatar(@student)
       .student-name= @student.name
       / TODO: Use the existing favouring component for this
       .btn

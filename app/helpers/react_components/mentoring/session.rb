@@ -97,20 +97,8 @@ module ReactComponents
 
       # TODO
       def notes
-        '
-<h3>Talking points</h3>
-<ul>
-  <li>
-    <code>each_cons</code> instead of an iterator
-    <code>with_index</code>: In Ruby, you rarely have to write
-    iterators that need to keep track of the index. Enumerable has
-    powerful methods that do that for us.
-  </li>
-  <li>
-    <code>chars</code>: instead of <code>split("")</code>.
-  </li>
-</ul>
-        '.strip
+        markdown = Git::WebsiteCopy.new.mentor_notes_for(track.slug, exercise.slug).strip
+        Markdown::Parse.(markdown)
       end
 
       memoize

@@ -3,7 +3,7 @@ module IconsHelper
     icon(icon, nil, role: :presentation, css_class: css_class, hex: hex)
   end
 
-  def icon(icon, alt, role: 'img', category: 'general', css_class: nil, hex: false)
+  def icon(icon, alt, role: 'img', category: 'icons', css_class: nil, hex: false)
     image_pack_tag "#{category}/#{icon}.svg",
       role: role,
       alt: alt,

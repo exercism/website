@@ -1,6 +1,11 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+
+  # TODO: Remove this once we use external icons
+  include Webpacker::Helper
+  include ActionView::Helpers::AssetUrlHelper
+
   friendly_id :slug, use: [:history]
 
   # TODO: remove dependent: :destroy before release
@@ -61,7 +66,7 @@ class Track < ApplicationRecord
 
   # TODO: Set this properly
   def icon_url
-    "https://assets.exercism.io/tracks/ruby-hex-white.png"
+    asset_pack_path("media/images/tracks/#{icon_name}.svg")
   end
 
   # TODO: Create mapping for Highlight.JS, otherwise use slug

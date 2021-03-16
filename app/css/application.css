@@ -124,11 +124,6 @@ code {
     @apply leading-code;
 }
 
-[data-react-data] {
-    width: 100%;
-    height: 100%;
-}
-
 .js-focus-visible :focus {
     outline: 5px auto -webkit-focus-ring-color;
     &:not(.focus-visible) {

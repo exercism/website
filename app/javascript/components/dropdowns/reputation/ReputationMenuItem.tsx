@@ -5,7 +5,7 @@ import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({
   url,
-  iconName,
+  iconUrl,
   text,
   awardedAt,
   value,
@@ -13,7 +13,7 @@ export const ReputationMenuItem = ({
 }: ReputationToken): JSX.Element => {
   return (
     <a href={url} className="token">
-      <GraphicalIcon icon={iconName} className="reason-icon" />
+      <img role="presentation" src={iconUrl} className="reason-icon" />
       <div className="content">
         <div
           className="description"

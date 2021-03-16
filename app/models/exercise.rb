@@ -1,6 +1,7 @@
 class Exercise < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include Webpacker::Helper # TODO: Remove this once we use external icons
 
   friendly_id :slug, use: [:history]
 
@@ -61,6 +62,10 @@ class Exercise < ApplicationRecord
 
   def to_param
     slug
+  end
+
+  def icon_url
+    asset_pack_path("media/images/exercises/#{icon_name}.svg")
   end
 
   # TODO: Implement this properly

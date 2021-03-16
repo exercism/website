@@ -25,7 +25,7 @@ module Components
           assert_link strip_tags(token.text), href: "https://test.exercism.io/token"
           assert_text "Ruby"
           assert_text "a day ago"
-          assert_text "+ 12"
+          assert_text "+ 30"
           # TODO: Fix how icons are rendered
           within(".reputation-token > .primary-icon") { assert_icon track.icon_name }
         end

@@ -19,7 +19,8 @@
     & .c-icon {
         height: 24px;
         width: 24px;
-        @apply text-gold mr-8;
+        @apply mr-8;
+        filter: var(--primary-reputation-filter);
     }
 
     & .--notification {

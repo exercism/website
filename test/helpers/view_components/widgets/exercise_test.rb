@@ -219,11 +219,11 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
   end
 
   def lock_icon
-    %(<svg role="img" class="c-icon --lock-icon"><title>Exercise locked</title><use xlink:href="#lock" /></svg>)
+    icon('lock', "Exercise locked", css_class: '--lock-icon')
   end
 
   def chevron_icon
-    %(<svg role="presentation" class="c-icon --chevron-icon"><use xlink:href="#chevron-right" /></svg>)
+    graphical_icon('chevron-right', css_class: '--chevron-icon')
   end
 
   def info_div(desc: true, completed: false)
@@ -231,7 +231,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
       <div class="--info">
         <div class="--title">
           Bob
-          #{%(<svg role="img" class="c-icon"><title>Exercises is completed</title><use xlink:href="#completed-check-circle" /></svg>) if completed}
+          #{%(<img role="img" alt="Exercises is completed" class="c-icon" src="#{TestHelpers.image_pack_url('completed-check-circle')}" />) if completed}
         </div>
         #{%(<div class="--desc">Atoms are internally represented</div>) if desc}
       </div>

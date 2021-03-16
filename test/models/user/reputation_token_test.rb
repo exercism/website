@@ -40,14 +40,14 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       url: "#",
       value: token.value,
       text: "You created <strong>PR##{pr_number}</strong> on <strong>bar</strong>: #{title}",
-      icon_name: exercise.icon_name,
+      icon_url: exercise.icon_url,
       internal_link: nil,
       external_link: "https://google.com",
       awarded_at: token.created_at.iso8601,
       is_seen: false,
       track: {
         title: track.title,
-        icon_name: track.icon_name
+        icon_url: track.icon_url
       }
     }.with_indifferent_access
 

@@ -28,12 +28,12 @@ class SerializeTracksTest < ActiveSupport::TestCase
           num_concept_exercises: num_concept_exercises,
           num_practice_exercises: num_practice_exercises,
           web_url: "https://test.exercism.io/tracks/#{track.slug}",
-
-          # TODO: Set all three of these
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
-          is_new: true,
+          icon_url: track.icon_url,
+          updated_at: track.updated_at.iso8601,
           tags: ["Compiled", "Common Language Runtime (.NET)"],
-          updated_at: track.updated_at.iso8601
+
+          # TODO: Set this correctly
+          is_new: true
         }
       ]
     }

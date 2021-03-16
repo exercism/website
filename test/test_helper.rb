@@ -33,6 +33,9 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
 end
 
 module TestHelpers
+  extend Webpacker::Helper
+  extend ActionView::Helpers::AssetUrlHelper
+
   def self.git_repo_url(slug)
     "file://#{Rails.root / 'test' / 'repos' / slug.to_s}"
   end
@@ -41,6 +44,10 @@ module TestHelpers
     repo_url = TestHelpers.git_repo_url("website-copy")
     repo = Git::WebsiteCopy.new(repo_url: repo_url)
     Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
+  end
+
+  def self.image_pack_url(icon_name, category: 'icons')
+    asset_pack_url("media/images/#{category}/#{icon_name}.svg")
   end
 end
 

@@ -100,7 +100,7 @@ module IsParamaterisedSTI
   end
 
   def rendering_data
-    data = nil # rendering_data_cache
+    data = rendering_data_cache
     if data.blank?
       data = cacheable_rendering_data
       update!(rendering_data_cache: data)

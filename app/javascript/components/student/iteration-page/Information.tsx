@@ -29,7 +29,7 @@ export const Information = ({
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
       return (
         <div className="automated-feedback-absent">
-          <GraphicalIcon icon="graphic-mentoring-header" />
+          <GraphicalIcon icon="mentoring-header" category="graphics" />
           <h3>No auto suggestions? Try human mentoring.</h3>
           <p>
             Get real 1-to-1 human mentoring on the {exercise.title} exercise and

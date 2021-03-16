@@ -98,7 +98,7 @@ export const MentoringRequestForm = ({
               deepen your knowledge.
             </p>
           </div>
-          <GraphicalIcon icon="graphic-mentoring-header" />
+          <GraphicalIcon icon="mentoring-header" category="graphics" />
         </div>
         {isFirstTimeOnTrack ? (
           <div className="question">

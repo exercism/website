@@ -5,7 +5,8 @@ export const CommunitySolutions = ({ link }: { link: string }): JSX.Element => {
   return (
     <div className="community-solutions">
       <GraphicalIcon
-        icon="graphic-community-solutions"
+        icon="community-solutions"
+        category="graphics"
         className="header-icon"
       />
       <h3>Learn from others&apos; solutions</h3>

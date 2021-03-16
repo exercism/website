@@ -138,40 +138,40 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     prs = ::Github::PullRequest.all
     assert_equal 3, prs.size
 
-    # assert_equal 'exercism/ruby', prs.first.repo
-    # assert_equal "MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4", prs.first.node_id
-    # assert_equal 19, prs.first.number
-    # assert_equal "The cat sat on the mat", prs.first.title
-    # assert_equal "exercism/ruby", prs.first.repo
-    # assert_equal "ErikSchierboom", prs.first.author_username
-    # assert_equal "iHiD", prs.first.merged_by_username
-    # expected_first_data = {
-    #   url: "https://api.github.com/repos/exercism/ruby/pulls/19",
-    #   html_url: "https://github.com/exercism/ruby/pull/19",
-    #   repo: 'exercism/ruby',
-    #   node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
-    #   number: 19,
-    #   title: "The cat sat on the mat",
-    #   created_at: Time.parse('2021-02-05T15:29:25Z').utc,
-    #   state: "closed",
-    #   action: "closed",
-    #   author_username: "ErikSchierboom",
-    #   labels: [],
-    #   merged: true,
-    #   merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
-    #   merged_by_username: "iHiD",
-    #   reviews: [
-    #     {
-    #       node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx",
-    #       submitted_at: Time.parse('2020-03-28T22:44:33Z').utc,
-    #       reviewer_username: "iHiD"
-    #     }
-    #   ]
-    # }
-    # assert_equal expected_first_data, prs.first.data
-    # assert_equal 1, prs.first.reviews.size
-    # assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx", prs.first.reviews.first.node_id
-    # assert_equal "iHiD", prs.first.reviews.first.reviewer_username
+    assert_equal 'exercism/ruby', prs.first.repo
+    assert_equal "MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4", prs.first.node_id
+    assert_equal 19, prs.first.number
+    assert_equal "The cat sat on the mat", prs.first.title
+    assert_equal "exercism/ruby", prs.first.repo
+    assert_equal "ErikSchierboom", prs.first.author_username
+    assert_equal "iHiD", prs.first.merged_by_username
+    expected_first_data = {
+      url: "https://api.github.com/repos/exercism/ruby/pulls/19",
+      html_url: "https://github.com/exercism/ruby/pull/19",
+      repo: 'exercism/ruby',
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
+      number: 19,
+      title: "The cat sat on the mat",
+      created_at: Time.parse('2021-02-05T15:29:25Z').utc,
+      state: "closed",
+      action: "closed",
+      author_username: "ErikSchierboom",
+      labels: [],
+      merged: true,
+      merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
+      merged_by_username: "iHiD",
+      reviews: [
+        {
+          node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx",
+          submitted_at: Time.parse('2020-03-28T22:44:33Z').utc,
+          reviewer_username: "iHiD"
+        }
+      ]
+    }
+    assert_equal expected_first_data, prs.first.data
+    assert_equal 1, prs.first.reviews.size
+    assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx", prs.first.reviews.first.node_id
+    assert_equal "iHiD", prs.first.reviews.first.reviewer_username
 
     assert_equal 'exercism/ruby', prs.second.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw", prs.second.node_id

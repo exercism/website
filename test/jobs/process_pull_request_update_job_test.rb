@@ -79,9 +79,9 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     title = "The cat sat on the mat"
     created_at = Time.parse("2019-05-15T15:20:33Z").utc
     number = 1347
-    merged = false
-    merged_at = nil
-    merged_by = nil
+    merged = true
+    merged_at = Time.parse("2019-05-15T16:43:00Z").utc
+    merged_by = 'merger11'
     state = 'open'
     reviews = [
       { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71",
@@ -138,7 +138,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     assert_equal number, pr.number
     assert_equal repo, pr.repo
     assert_equal author, pr.author_username
-    assert_nil pr.merged_by_username
+    assert_equal merged_by, pr.merged_by_username
     assert_equal expected_data, pr.data
   end
 

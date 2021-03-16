@@ -11,6 +11,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       pr_data[:node_id],
       number: pr_data[:number],
       author_username: pr_data[:author_username],
+      merged_by_username: pr_data[:merged_by_username],
       repo: pr_data[:repo],
       reviews: pr_data[:reviews],
       data: pr_data

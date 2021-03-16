@@ -71,7 +71,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
         created_at: "2019-05-15T15:20:33Z",
         merged_at: "2019-05-28T08:03:01Z",
         merged: true,
-        merged_by_username: {
+        merged_by: {
           login: 'merger68'
         }
       },

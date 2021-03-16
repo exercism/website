@@ -99,7 +99,7 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
   return (
     <>
       <div className="c-explainer">
-        <GraphicalIcon icon="graphic-scratchpad" />
+        <GraphicalIcon icon="scratchpad" category="graphics" />
         <div className="--content">
           <h3>Introducing your scratchpad</h3>
           <p>

@@ -43,6 +43,7 @@ module Flows
       assert_text "Conditionals"
 
       click_on "Continue"
+      sleep(0.1)
       assert_text "You've completed Strings."
     end
 

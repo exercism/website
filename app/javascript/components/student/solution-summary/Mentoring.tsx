@@ -24,7 +24,11 @@ export const Mentoring = ({
 }): JSX.Element => {
   return (
     <div className="mentoring">
-      <GraphicalIcon icon="graphic-mentoring-screen" className="header-icon" />
+      <GraphicalIcon
+        icon="mentoring-screen"
+        className="header-icon"
+        category="graphics"
+      />
       <h3>Get mentored by a human</h3>
       <p>
         On average, students iterate a further 3.5 times when mentored on a

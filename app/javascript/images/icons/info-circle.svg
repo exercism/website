@@ -1,0 +1,23 @@
+<svg id="info-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>information-circle</title>
+  <path
+    class="a"
+    d="M14.25,16.5H13.5A1.5,1.5,0,0,1,12,15V11.25a.75.75,0,0,0-.75-.75H10.5"
+  />
+  <path
+    class="a"
+    d="M11.625,6.75A.375.375,0,1,0,12,7.125a.375.375,0,0,0-.375-.375h0"
+  />
+  <circle class="a" cx="12" cy="12" r="11.25" />
+</svg>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, waitFor, fireEvent, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -13,16 +13,16 @@ test('shows error message when API returns an error', async () => {
   )
   server.listen()
 
-  const { getByTitle, queryByText } = render(
+  render(
     <MarkdownEditor
       contextId="test"
       url="https://exercism.test/parse_markdown"
     />
   )
-  fireEvent.click(getByTitle('Toggle Preview (Ctrl-P)'))
+  fireEvent.click(screen.getByTitle('Toggle Preview (Ctrl-P)'))
 
   await waitFor(() =>
-    expect(queryByText('Unable to parse markdown')).toBeInTheDocument()
+    expect(screen.queryByText('Unable to parse markdown')).toBeInTheDocument()
   )
 
   server.close()

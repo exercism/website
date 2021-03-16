@@ -12,7 +12,7 @@ export type Props = {
 
 const ExerciseFilter = ({
   title,
-  iconName,
+  iconUrl,
   count,
   checked,
   onChange,
@@ -27,7 +27,7 @@ const ExerciseFilter = ({
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
-        <ExerciseIcon icon={iconName} />
+        <ExerciseIcon iconUrl={iconUrl} />
         <div className="title">{title}</div>
         <div className="count">{count}</div>
       </div>

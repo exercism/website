@@ -55,7 +55,7 @@ const CompleteExerciseNudge = ({
 }) => {
   return (
     <section className="completion-nudge">
-      <GraphicalIcon icon="graphic-complete" />
+      <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
         <h3>Hey, looks like you’re done here!</h3>
         <p>
@@ -90,7 +90,7 @@ const MentoringNudge = ({
 }) => {
   return (
     <section className="mentoring-nudge">
-      <GraphicalIcon icon="graphic-mentoring-screen" />
+      <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
         <h3>Improve your solution with mentoring</h3>
         <p>

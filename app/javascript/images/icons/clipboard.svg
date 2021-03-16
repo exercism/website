@@ -1,0 +1,60 @@
+<svg
+  id="clipboard"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M20.25 8.24902V5.24902C20.25 4.4206 19.5784 3.74902 18.75 3.74902H14.75"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M6.25 3.74902H2.25C1.42157 3.74902 0.75 4.4206 0.75 5.24902V21.749C0.75 22.5775 1.42157 23.249 2.25 23.249H8.25"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M14.421 4.73603C14.3187 5.04233 14.0319 5.2489 13.709 5.24903H7.291C6.96805 5.2489 6.68135 5.04233 6.579 4.73603L5.579 1.73603C5.50233 1.50724 5.54057 1.25552 5.68174 1.05983C5.82291 0.864136 6.04971 0.748439 6.291 0.749026H14.709C14.9503 0.748439 15.1771 0.864136 15.3183 1.05983C15.4594 1.25552 15.4977 1.50724 15.421 1.73603L14.421 4.73603Z"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M11.25 12.749C11.25 11.9206 11.9216 11.249 12.75 11.249H21.75C22.5784 11.249 23.25 11.9206 23.25 12.749V21.749C23.25 22.5775 22.5784 23.249 21.75 23.249H12.75C11.9216 23.249 11.25 22.5775 11.25 21.749V12.749Z"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M14.25 14.249H20.25"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M14.25 17.249H20.25"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M14.25 20.249H16.5"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

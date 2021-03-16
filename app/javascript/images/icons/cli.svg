@@ -1,0 +1,17 @@
+<svg id="cli" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a{
+        fill:none;
+        stroke:currentColor;
+        stroke-linecap:round;
+        stroke-linejoin:round;
+        stroke-width:1.5px;
+      }
+    </style>
+  </defs>
+  <title>file-code-2</title>
+  <path class="a" d="M22.5,21.753a1.5,1.5,0,0,1-1.5,1.5H3a1.5,1.5,0,0,1-1.5-1.5V2.253A1.5,1.5,0,0,1,3,.753H18a1.5,1.5,0,0,1,1.048.427l3,2.882A1.5,1.5,0,0,1,22.5,5.136Z"/>
+  <polyline class="a" points="6 9.003 9.75 12.753 6 16.503"/>
+  <line class="a" x1="12.75" y1="12.753" x2="18" y2="12.753"/>
+</svg>

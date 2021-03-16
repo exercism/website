@@ -101,7 +101,7 @@
                 @apply text-18;
                 @apply mr-24 px-24 py-12;
 
-                & svg {
+                & .c-icon {
                     height: 24px;
                     width: 24px;
                     @apply mr-16;

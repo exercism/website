@@ -1,6 +1,6 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
-import { GraphicalIcon, Icon } from '../common'
+import { GraphicalIcon, Icon, TrackIcon, ExerciseIcon } from '../common'
 import pluralize from 'pluralize'
 
 export type SolutionProps = {
@@ -15,11 +15,11 @@ export type SolutionProps = {
   lastSubmittedAt: string
   exercise: {
     title: string
-    iconName: string
+    iconUrl: string
   }
   track: {
     title: string
-    iconName: string
+    iconUrl: string
   }
 }
 
@@ -39,17 +39,13 @@ export const Solution = ({
     <a href={url} className="solution">
       <div className="main">
         <div className="exercise">
-          <GraphicalIcon icon={exercise.iconName} className="c-exercise-icon" />
+          <ExerciseIcon iconUrl={exercise.iconUrl} />
           <div className="info">
             <div className="exercise-title">{exercise.title}</div>
             <div className="extra">
               <div className="track">
                 in
-                <Icon
-                  icon={track.iconName}
-                  className="c-track-icon"
-                  alt={`icon for ${track.title} track`}
-                />
+                <TrackIcon iconUrl={track.iconUrl} title={track.title} />
                 <div className="track-title">{track.title}</div>
               </div>
               <div className="status">

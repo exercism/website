@@ -31,7 +31,7 @@
         }
         & .exercises {
             @apply flex items-center text-18;
-            & svg {
+            & .c-icon {
                 @apply mr-8;
                 height: 24px;
                 width: 24px;
@@ -88,7 +88,7 @@
                 height: 16px;
                 width: 16px;
             }
-            & svg {
+            & .c-icon {
                 height: 13px;
                 width: 13px;
             }
@@ -98,7 +98,7 @@
     & .practice {
         & h3 {
             @apply flex items-center text-h3 mb-16;
-            & svg {
+            & .c-icon {
                 @apply mr-16;
                 height: 24px;
                 width: 24px;

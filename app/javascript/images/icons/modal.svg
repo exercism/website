@@ -1,0 +1,27 @@
+<svg id="modal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>expand-full</title>
+  <path class="a" d="M.75,8.248v-6a1.5,1.5,0,0,1,1.5-1.5h6" />
+  <path class="a" d="M23.25,8.248v-6a1.5,1.5,0,0,0-1.5-1.5h-6" />
+  <path class="a" d="M.75,15.748v6a1.5,1.5,0,0,0,1.5,1.5h6" />
+  <path class="a" d="M23.25,15.748v6a1.5,1.5,0,0,1-1.5,1.5h-6" />
+  <rect
+    class="a"
+    x="5.25"
+    y="5.248"
+    width="13.5"
+    height="13.5"
+    rx="1.5"
+    ry="1.5"
+  />
+</svg>

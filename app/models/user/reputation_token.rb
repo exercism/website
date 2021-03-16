@@ -1,5 +1,7 @@
 class User::ReputationToken < ApplicationRecord
   include IsParamaterisedSTI
+  include Webpacker::Helper
+
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens
 
@@ -67,7 +69,7 @@ class User::ReputationToken < ApplicationRecord
       url: "#", # TODO: Fill this in
       value: value,
       text: text,
-      icon_name: icon_name,
+      icon_url: icon_url,
       internal_link: internal_link,
       external_link: external_link,
       is_seen: seen,
@@ -77,7 +79,7 @@ class User::ReputationToken < ApplicationRecord
     if track
       data[:track] = {
         title: track.title,
-        icon_name: track.icon_name
+        icon_url: track.icon_url
       }
     end
 
@@ -85,11 +87,11 @@ class User::ReputationToken < ApplicationRecord
   end
 
   # TODO: Override in children classes
-  def icon_name
-    return exercise.icon_name if exercise
-    return track.icon_name if track
+  def icon_url
+    return exercise.icon_url if exercise
 
-    :reputation # TODO: Choose an icon
+    # TODO: Choose an icon
+    asset_pack_path('media/images/icons/reputation.svg')
   end
 
   # TODO: Override in children classes

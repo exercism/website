@@ -16,7 +16,7 @@ class SerializeSolutionActivityTest < ActiveSupport::TestCase
       },
       exercise: {
         title: exercise.title,
-        icon_name: exercise.icon_name
+        icon_url: exercise.icon_url
       },
       activities: [],
       latest_iteration: nil,

@@ -1,0 +1,25 @@
+<svg id="scratchpad" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>notes-edit</title>
+  <path
+    class="a"
+    d="M22.63,14.862,15,22.492l-3.75.75.75-3.75,7.63-7.63a2.116,2.116,0,0,1,2.992,0l.008.009A2.113,2.113,0,0,1,22.63,14.862Z"
+  />
+  <path
+    class="a"
+    d="M8.25,20.242h-6a1.464,1.464,0,0,1-1.5-1.5V3.849a1.557,1.557,0,0,1,1.5-1.607h15a1.557,1.557,0,0,1,1.5,1.607V8.242"
+  />
+  <line class="a" x1="5.25" y1="0.742" x2="5.25" y2="5.242" />
+  <line class="a" x1="9.75" y1="0.742" x2="9.75" y2="5.242" />
+  <line class="a" x1="14.25" y1="0.742" x2="14.25" y2="5.242" />
+</svg>

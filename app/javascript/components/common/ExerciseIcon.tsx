@@ -1,7 +1,23 @@
 import React from 'react'
-import { GraphicalIcon } from './GraphicalIcon'
 
-export const ExerciseIcon = ({ icon }: { icon: string }): JSX.Element => {
-  const tmpIconName = icon.replace('sample', 'sample-exercise')
-  return <GraphicalIcon icon={tmpIconName} className="c-exercise-icon" />
+type ExerciseIconProps = {
+  iconUrl: string
+  title?: string
+  className?: string
+}
+
+export function ExerciseIcon({ iconUrl, title, className }: ExerciseIconProps) {
+  let classNames = ['c-icon c-exercise-icon']
+  if (className !== undefined) {
+    classNames.push(className)
+  }
+
+  return (
+    <img
+      className={classNames.join(' ')}
+      src={iconUrl}
+      alt={title ? `Icon for exercise called ${title}` : undefined}
+      role={title ? undefined : 'presentation'}
+    />
+  )
 }

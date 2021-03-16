@@ -29,7 +29,7 @@ module Components
           assert_text "4"
           assert_text "a year ago"
           assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
-          assert_css "title", text: "Starred student", visible: false
+          assert_css "img[alt='Starred student']", visible: false
         end
       end
 

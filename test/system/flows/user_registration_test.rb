@@ -89,6 +89,7 @@ module Flows
       find('label', text: "I accept Exercism's Privacy Policy").click
       click_on "Save & Get Started"
 
+      sleep(0.1)
       assert_text "Join The Ruby Track"
     ensure
       OmniAuth.config.test_mode = false

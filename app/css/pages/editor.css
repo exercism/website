@@ -339,7 +339,7 @@
                 height: 36px;
                 @apply mr-24;
 
-                & svg {
+                & .c-icon {
                     height: 16px;
                     width: 16px;
                 }

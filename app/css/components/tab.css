@@ -11,7 +11,7 @@
         @apply flex items-center justify-center;
         height: 20px;
     }
-    & svg {
+    & .c-icon {
         height: 24px;
         width: 24px;
         @apply mr-12 text-textColor6;
@@ -22,7 +22,7 @@
         & .count {
             @apply text-tabColorSelected border-lightPurple;
         }
-        & svg {
+        & .c-icon {
             @apply mr-12 text-tabIconColorSelected;
         }
     }

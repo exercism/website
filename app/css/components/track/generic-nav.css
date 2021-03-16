@@ -12,7 +12,7 @@
     & .back {
         @apply block mr-24;
         line-height: var(--nav-height);
-        & svg {
+        & .c-icon {
             height: 21px;
             width: 21px;
         }

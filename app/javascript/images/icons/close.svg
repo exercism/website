@@ -1,0 +1,16 @@
+<svg id="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>remove</title>
+  <line class="a" x1="4.5" y1="19.5" x2="19.5" y2="4.5" />
+  <line class="a" x1="4.5" y1="4.5" x2="19.5" y2="19.5" />
+</svg>

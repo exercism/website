@@ -125,7 +125,7 @@ export const CommitStep = ({
         </ErrorBoundary>
       </div>
       <div className="rhs">
-        <GraphicalIcon icon="graphic-mentoring-screen" />
+        <GraphicalIcon icon="mentoring-screen" category="graphics" />
       </div>
     </section>
   )

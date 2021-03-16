@@ -1,0 +1,19 @@
+<svg id="tracks"
+  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill:none;
+        stroke:currentColor;
+        stroke-linecap:round;
+        stroke-linejoin:round;
+        stroke-width:1.5px;
+      }
+    </style>
+  </defs>
+  <title>railroad</title>
+  <line class="a" x1="6.5" y1="0.763" x2="6.5" y2="23.263"/>
+  <line class="a" x1="17" y1="0.763" x2="17" y2="23.263"/>
+  <rect class="a" x="2" y="4.513" width="19.5" height="5.25" rx="0.75" ry="0.75"/>
+  <rect class="a" x="2" y="15.013" width="19.5" height="5.25" rx="0.75" ry="0.75"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg id="arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill:none;
+        stroke:currentColor;
+        stroke-linecap:round;
+        stroke-linejoin:round;
+        stroke-width:1.5px;
+      }
+      
+      .cls-2 {
+        fill-rule:evenodd;
+      }
+    </style>
+  </defs>
+  <title>arrow-left</title>
+  <line class="cls-1" x1="23.25" y1="12" x2="0.75" y2="12"/>
+  <polyline class="cls-2" points="11.25 1.5 0.75 12 11.25 22.5"/>
+</svg>

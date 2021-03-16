@@ -1,0 +1,31 @@
+<svg id="alert-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a,
+      .b,
+      .c {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+      .a,
+      .b {
+        stroke-linecap: round;
+      }
+      .a {
+        stroke-linejoin: round;
+      }
+      .b,
+      .c {
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <title>alert-circle</title>
+  <path
+    class="a"
+    d="M12,16.5a.375.375,0,1,0,.375.375A.375.375,0,0,0,12,16.5h0"
+  />
+  <line class="b" x1="12" y1="13.5" x2="12" y2="5.25" />
+  <circle class="c" cx="12" cy="12" r="11.25" />
+</svg>

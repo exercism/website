@@ -17,7 +17,7 @@ test('shows details', async () => {
   )
 
   expect(screen.getByText('Iteration 2')).toBeInTheDocument()
-  expect(screen.getByTitle('Submitted via CLI')).toBeInTheDocument()
+  expect(screen.getByAltText('Submitted via CLI')).toBeInTheDocument()
   expect(screen.getByTestId('details')).toHaveTextContent(
     'Submitted via CLI, a few seconds ago'
   )

@@ -213,7 +213,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
         "exercise" => {
           "slug" => concept_exercise_1.slug,
           "title" => concept_exercise_1.title,
-          "icon_name" => concept_exercise_1.icon_name,
+          "icon_url" => concept_exercise_1.icon_url,
           "links" => {
             "self" => track_exercise_path(track, concept_exercise_1)
           }
@@ -222,12 +222,12 @@ class API::SolutionsControllerTest < API::BaseTestCase
           {
             "slug" => practice_exercise.slug,
             "title" => practice_exercise.title,
-            "icon_name" => practice_exercise.icon_name
+            "icon_url" => practice_exercise.icon_url
           },
           {
             "slug" => concept_exercise_2.slug,
             "title" => concept_exercise_2.title,
-            "icon_name" => concept_exercise_2.icon_name
+            "icon_url" => concept_exercise_2.icon_url
           }
         ],
         "unlocked_concepts" => [

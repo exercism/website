@@ -16,7 +16,7 @@ export type Links = {
 export type ReputationToken = {
   id: string
   url: string
-  iconName: string
+  iconUrl: string
   text: string
   awardedAt: string
   value: string

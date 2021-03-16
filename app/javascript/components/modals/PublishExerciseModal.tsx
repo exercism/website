@@ -31,7 +31,11 @@ export const PublishExerciseModal = ({
         </p>
         <PublishExerciseForm endpoint={endpoint} onSuccess={onSuccess} />
       </div>
-      <GraphicalIcon icon="graphic-laptop-man-1" className="decorative-image" />
+      <GraphicalIcon
+        icon="laptop-man-1"
+        className="decorative-image"
+        category="graphics"
+      />
     </Modal>
   )
 }

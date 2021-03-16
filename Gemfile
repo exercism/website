@@ -28,7 +28,7 @@ gem 'mandate', '1.0.0.beta1'
 gem 'kaminari'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.61.0'
+gem 'exercism-config', '>= 0.62.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies

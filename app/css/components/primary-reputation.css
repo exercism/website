@@ -16,7 +16,7 @@
         line-height: 30px;
     }
 
-    & svg {
+    & .c-icon {
         height: 24px;
         width: 24px;
         @apply text-gold mr-8;

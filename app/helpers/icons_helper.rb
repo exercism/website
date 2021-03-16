@@ -12,14 +12,14 @@ module IconsHelper
 
   def track_icon(track, css_class: nil)
     icon track.icon_name,
-      alt: track.title,
+      track.title,
       category: 'tracks',
       css_class: "c-track-icon #{css_class}"
   end
 
   def exercise_icon(exercise, css_class: nil)
     icon exercise.icon_name,
-      alt: exercise.title,
+      exercise.title,
       category: 'exercises',
       css_class: "c-exercise-icon #{css_class}"
   end

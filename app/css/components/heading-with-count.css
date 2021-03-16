@@ -4,7 +4,7 @@
     @apply flex items-center;
     & .--text {
         @apply flex items-center mr-12;
-        & svg {
+        & .c-icon {
             height: 24px;
             width: 24px;
             @apply mr-16;

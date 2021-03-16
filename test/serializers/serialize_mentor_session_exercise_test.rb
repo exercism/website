@@ -7,7 +7,7 @@ class SerializeMentorSessionExerciseTest < ActiveSupport::TestCase
     expected = {
       id: exercise.slug,
       title: exercise.title,
-      icon_name: exercise.icon_name
+      icon_url: exercise.icon_url
     }
 
     assert_equal expected, SerializeMentorSessionExercise.(exercise)

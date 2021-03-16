@@ -2,7 +2,8 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number, :pr_title
   category :building
   reason :reviewed_code
-  value 3
+  levels %i[minor regular major]
+  values({ minor: 2, regular: 5, major: 10 })
 
   def guard_params
     "PR##{pr_node_id}"

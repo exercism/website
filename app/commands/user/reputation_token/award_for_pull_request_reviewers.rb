@@ -18,15 +18,17 @@ class User
 
         reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|
-          User::ReputationToken::Create.(
+          token = User::ReputationToken::Create.(
             reviewer,
             :code_review,
+            level: reputation_level,
             repo: params[:repo],
             pr_node_id: params[:node_id],
             pr_number: params[:number],
             pr_title: params[:title],
             external_link: params[:html_url]
           )
+          token.update!(level: reputation_level)
         end
 
         # TODO: consider what to do with missing reviewers
@@ -41,6 +43,13 @@ class User
 
       def just_closed?
         params[:action] == 'closed'
+      end
+
+      def reputation_level
+        return :major if params[:labels].include?('reputation/contributed_code/major')
+        return :minor if params[:labels].include?('reputation/contributed_code/minor')
+
+        :regular
       end
     end
   end

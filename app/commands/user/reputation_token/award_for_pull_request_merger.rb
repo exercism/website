@@ -17,7 +17,7 @@ class User
           return
         end
 
-        User::ReputationToken::Create.(
+        token = User::ReputationToken::Create.(
           user,
           :code_merge,
           level: reputation_level,
@@ -27,6 +27,7 @@ class User
           pr_title: params[:title],
           external_link: params[:html_url]
         )
+        token.update!(level: reputation_level)
       end
 
       private

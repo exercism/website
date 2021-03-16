@@ -29,6 +29,7 @@ FactoryBot.define do
 
   factory :user_code_review_reputation_token, class: 'User::ReputationTokens::CodeReviewToken' do
     user
+    level { :regular }
 
     params do
       {

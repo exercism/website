@@ -2,7 +2,7 @@ class User::ReputationTokens::ExerciseAuthorToken < User::ReputationToken
   params :authorship
   category :authoring
   reason :authored_exercise
-  value 10
+  value 20
 
   before_validation on: :create do
     self.track = authorship.exercise.track unless track

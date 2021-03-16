@@ -23,6 +23,6 @@ class User::ReputationTokens::ExerciseContributionTokenTest < ActiveSupport::Tes
     assert_equal "#{user.id}|exercise_contribution|Exercise##{exercise.id}", rt.uniqueness_key
     assert_equal :contributed_to_exercise, rt.reason
     assert_equal :authoring, rt.category
-    assert_equal 5, rt.value
+    assert_equal 10, rt.value
   end
 end

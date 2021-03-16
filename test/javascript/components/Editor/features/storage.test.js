@@ -127,7 +127,7 @@ test('revert to last submission', async () => {
   )
   server.listen()
 
-  const { getByTitle, getByText, queryByText, getByTestId } = render(
+  const { getByAltText, getByText, queryByText, getByTestId } = render(
     <TestQueryCache>
       <Editor
         endpoint="https://exercism.test/submissions"
@@ -151,14 +151,14 @@ test('revert to last submission', async () => {
   await waitFor(() => {
     jest.runOnlyPendingTimers()
   })
-  userEvent.click(getByTitle('Open more options'))
+  userEvent.click(getByAltText('Open more options'))
   userEvent.click(getByText('Revert to last iteration submission'))
   await waitFor(() => {
     jest.runOnlyPendingTimers()
   })
 
   await waitFor(() => expect(queryByText('Value: file')).toBeInTheDocument())
-  userEvent.click(getByTitle('Open more options'))
+  userEvent.click(getByAltText('Open more options'))
   await waitFor(() =>
     expect(getByText('Revert to last iteration submission')).toBeDisabled()
   )
@@ -182,7 +182,7 @@ test('revert to exercise start', async () => {
   )
   server.listen()
 
-  const { getByTitle, getByText, queryByText } = render(
+  const { getByAltText, getByText, queryByText } = render(
     <TestQueryCache>
       <Editor
         files={[{ filename: 'file', content: 'file' }]}
@@ -203,7 +203,7 @@ test('revert to exercise start', async () => {
     </TestQueryCache>
   )
 
-  userEvent.click(getByTitle('Open more options'))
+  userEvent.click(getByAltText('Open more options'))
   userEvent.click(getByText('Revert to exercise start'))
 
   await waitFor(() =>
@@ -235,7 +235,7 @@ test('revert to exercise start fails', async () => {
   )
   server.listen()
 
-  const { getByTitle, getByText, queryByText } = render(
+  const { getByAltText, getByText, queryByText } = render(
     <TestQueryCache>
       <Editor
         files={[{ filename: 'file', content: 'file' }]}
@@ -256,7 +256,7 @@ test('revert to exercise start fails', async () => {
     </TestQueryCache>
   )
 
-  userEvent.click(getByTitle('Open more options'))
+  userEvent.click(getByAltText('Open more options'))
   userEvent.click(getByText('Revert to exercise start'))
 
   await waitFor(() =>

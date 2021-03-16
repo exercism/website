@@ -51,7 +51,9 @@ module Github
                   url
                   title
                   number
+                  createdAt
                   merged
+                  mergedAt
                   mergedBy {
                     login
                   }
@@ -66,6 +68,7 @@ module Github
                   reviews(first: 100) {
                     nodes {
                       id
+                      submittedAt
                       author {
                         login
                       }
@@ -105,11 +108,14 @@ module Github
             number: pr[:number],
             title: pr[:title],
             repo: response[:data][:repository][:nameWithOwner],
+            created_at: pr[:createdAt].present? ? Time.parse(pr[:createdAt]).utc : nil,
             merged: pr[:merged],
+            merged_at: pr[:mergedAt].present? ? Time.parse(pr[:mergedAt]).utc : nil,
             merged_by_username: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,
             reviews: pr[:reviews][:nodes].map do |node|
               {
                 node_id: node[:id],
+                submitted_at: node[:submittedAt].present? ? Time.parse(node[:submittedAt]).utc : nil,
                 reviewer_username: node[:author].present? ? node[:author][:login] : nil
               }
             end

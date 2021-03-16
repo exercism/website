@@ -10,17 +10,17 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     repo = 'exercism/fsharp'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     title = "The cat sat on the mat"
-    created_at = "2019-05-15T15:20:33Z",
-                 number = 1347
+    created_at = Time.parse("2019-05-15T15:20:33Z").utc
+    number = 1347
     merged = false
     merged_at = nil
     merged_by = nil
     state = 'open'
     reviews = [
       { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71",
-        submitted_at: "2019-05-23T12:12:13Z" },
+        submitted_at: Time.parse("2019-05-23T12:12:13Z").utc },
       { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer_username: "reviewer13",
-        submitted_at: "2019-05-24T10:56:29Z" }
+        submitted_at: Time.parse("2019-05-24T10:56:29Z").utc }
     ]
 
     RestClient.unstub(:get)
@@ -77,17 +77,17 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     repo = 'exercism/fsharp'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     title = "The cat sat on the mat"
-    created_at = "2019-05-15T15:20:33Z",
-                 number = 1347
+    created_at = Time.parse("2019-05-15T15:20:33Z").utc
+    number = 1347
     merged = false
     merged_at = nil
     merged_by = nil
     state = 'open'
     reviews = [
       { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71",
-        submitted_at: "2019-05-23T12:12:13Z" },
+        submitted_at: Time.parse("2019-05-23T12:12:13Z").utc },
       { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer_username: "reviewer13",
-        submitted_at: "2019-05-24T10:56:29Z" }
+        submitted_at: Time.parse("2019-05-24T10:56:29Z").utc }
     ]
 
     RestClient.unstub(:get)
@@ -151,8 +151,8 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     repo = 'exercism/fsharp'
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     title = "The cat sat on the mat"
-    created_at = "2019-05-15T15:20:33Z",
-                 number = 1347
+    created_at = Time.parse("2019-05-15T15:20:33Z").utc
+    number = 1347
     merged = false
     merged_at = nil
     merged_by = nil

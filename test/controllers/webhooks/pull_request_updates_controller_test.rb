@@ -90,8 +90,8 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       number: 4,
       title: "The cat sat on the mat",
-      created_at: "2019-05-15T15:20:33Z",
-      merged_at: "2019-05-28T08:03:01Z",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+      merged_at: Time.parse("2019-05-28T08:03:01Z").utc,
       merged: true,
       merged_by_username: 'merger68'
     )
@@ -132,7 +132,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       number: 4,
       title: "The cat sat on the mat",
-      created_at: "2019-05-15T15:20:33Z",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
       merged_at: nil,
       merged: false,
       merged_by_username: nil

@@ -25,7 +25,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       {
         node_id: r[:node_id],
         reviewer_username: r[:user][:login],
-        submitted_at: r[:submitted_at].present? ? r[:submitted_at].iso8601 : nil
+        submitted_at: r[:submitted_at]
       }
     end
   end

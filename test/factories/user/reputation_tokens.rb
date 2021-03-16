@@ -15,6 +15,7 @@ FactoryBot.define do
 
   factory :user_code_merge_reputation_token, class: 'User::ReputationTokens::CodeMergeToken' do
     user
+    level { :janitorial }
 
     params do
       {

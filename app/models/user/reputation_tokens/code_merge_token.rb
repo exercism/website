@@ -2,7 +2,8 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number, :pr_title
   category :building
   reason :merged_code
-  value 2
+  levels %i[janitorial reviewal]
+  values({ janitorial: 1, reviewal: 5 })
 
   def guard_params
     "PR##{pr_node_id}"

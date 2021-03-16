@@ -85,7 +85,7 @@ module Github
           }
         QUERY
 
-        octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
+        Exercism.octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
       end
 
       def pull_requests_from_page_data(response)
@@ -134,11 +134,6 @@ module Github
         reset_at = Time.parse(rate_limit_data[:resetAt]).utc
         seconds_until_reset = reset_at - Time.now.utc
         sleep(seconds_until_reset.ceil)
-      end
-
-      memoize
-      def octokit_client
-        Octokit::Client.new(access_token: Exercism.secrets.github_access_token)
       end
     end
   end

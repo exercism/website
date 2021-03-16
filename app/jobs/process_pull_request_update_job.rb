@@ -1,6 +1,4 @@
 class ProcessPullRequestUpdateJob < ApplicationJob
-  extend Mandate::Memoize
-
   queue_as :default
 
   def perform(pr_data)
@@ -21,18 +19,11 @@ class ProcessPullRequestUpdateJob < ApplicationJob
 
   private
   def reviews(repo, number)
-    octokit_client.pull_request_reviews(repo, number).map do |r|
+    Exercism.octokit_client.pull_request_reviews(repo, number).map do |r|
       {
         node_id: r[:node_id],
         reviewer_username: r[:user][:login]
       }
-    end
-  end
-
-  memoize
-  def octokit_client
-    Octokit::Client.new(access_token: Exercism.secrets.github_access_token).tap do |c|
-      c.auto_paginate = true
     end
   end
 end

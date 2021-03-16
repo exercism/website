@@ -20,14 +20,14 @@ class User
         token = User::ReputationToken::Create.(
           user,
           :code_contribution,
-          level: author_reputation_level,
+          level: reputation_level,
           repo: params[:repo],
           pr_node_id: params[:node_id],
           pr_number: params[:number],
           pr_title: params[:title],
           external_link: params[:html_url]
         )
-        token.update!(level: author_reputation_level)
+        token.update!(level: reputation_level)
       end
 
       private
@@ -39,7 +39,7 @@ class User
         params[:author_username].present?
       end
 
-      def author_reputation_level
+      def reputation_level
         return :major if params[:labels].include?('reputation/contributed_code/major')
         return :minor if params[:labels].include?('reputation/contributed_code/minor')
 

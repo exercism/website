@@ -1,6 +1,6 @@
 module IconsHelper
-  def graphical_icon(icon, css_class: nil, hex: false)
-    icon(icon, nil, role: :presentation, css_class: css_class, hex: hex)
+  def graphical_icon(icon, css_class: nil, category: 'icons', hex: false)
+    icon(icon, nil, role: :presentation, css_class: css_class, category: category, hex: hex)
   end
 
   def icon(icon, alt, role: 'img', category: 'icons', css_class: nil, hex: false)

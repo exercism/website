@@ -7,7 +7,7 @@ class SerializeMentorSessionExercise
     {
       id: exercise.slug,
       title: exercise.title,
-      icon_name: exercise.icon_name
+      icon_url: exercise.icon_url
     }
   end
 end

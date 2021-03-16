@@ -33,7 +33,7 @@ export type MentorSessionTrack = {
 export type MentorSessionExercise = {
   id: string
   title: string
-  iconName: string
+  iconUrl: string
 }
 
 export type MentorSessionDiscussion = {
@@ -150,7 +150,7 @@ export type MentorDiscussion = {
 export type MentoredTrackExercise = {
   slug: string
   title: string
-  iconName: string
+  iconUrl: string
   count: number
   completedByMentor: boolean
 }

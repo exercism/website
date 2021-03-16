@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from './Modal'
-import { GraphicalIcon } from '../common'
+import { ExerciseIcon } from '../common'
 import { ConceptProgression } from './exercise-completed-modal/ConceptProgression'
 import { Unlocks } from './exercise-completed-modal/Unlocks'
 import { ExerciseCompletion } from './CompleteExerciseModal'
@@ -28,7 +28,7 @@ export const ExerciseCompletedModal = ({
       {...props}
     >
       <header>
-        <GraphicalIcon icon={exercise.iconName} className="c-exercise-icon" />
+        <ExerciseIcon iconUrl={exercise.iconUrl} />
         <div className="exercise-title">
           You&apos;ve completed
           <br />

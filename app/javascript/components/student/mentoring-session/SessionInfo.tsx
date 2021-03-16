@@ -19,7 +19,7 @@ export const SessionInfo = ({
   return (
     <>
       <TrackIcon title={track.title} iconUrl={track.iconUrl} />
-      <ExerciseIcon icon={exercise.iconName} />
+      <ExerciseIcon iconUrl={exercise.iconUrl} />
       <div className="info-for-student">
         {mentor ? (
           <React.Fragment>

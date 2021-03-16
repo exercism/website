@@ -11,6 +11,7 @@ test('disables submit button', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(200),
         ctx.json({
           mentorRequest: {
@@ -48,6 +49,7 @@ test('shows loading message', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(200),
         ctx.json({
           mentorRequest: {
@@ -83,6 +85,7 @@ test('shows API error message', async () => {
   const server = setupServer(
     rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(422),
         ctx.json({
           error: {

@@ -10,10 +10,12 @@ module Components
       test "shows contribution" do
         user = create :user
         track = create :track, title: "Ruby"
+        exercise = create :concept_exercise, track: track
         token = create :user_code_contribution_reputation_token,
           user: user,
           level: :major,
           track: track,
+          exercise: exercise,
           created_at: 1.day.ago,
           external_link: "https://test.exercism.io/token"
 
@@ -27,7 +29,7 @@ module Components
           assert_text "a day ago"
           assert_text "+ 15"
           # TODO: Fix how icons are rendered
-          within(".reputation-token > .primary-icon") { assert_icon track.icon_name }
+          assert_css ".reputation-token > img.primary-icon[src='#{exercise.icon_url}']"
         end
       end
 
@@ -105,11 +107,6 @@ module Components
           assert_no_text strip_tags(review_token.text)
           assert_text strip_tags(contribution_token.text)
         end
-      end
-
-      private
-      def assert_icon(name)
-        assert_css "use[*|href=\"##{name}\"]", visible: false
       end
     end
   end

@@ -3,7 +3,7 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
   category :building
   reason :contributed_code
   levels %i[minor regular major]
-  values({ minor: 5, regular: 10, major: 15 })
+  values({ minor: 5, regular: 12, major: 30 })
 
   def guard_params
     "PR##{pr_node_id}"

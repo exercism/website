@@ -91,7 +91,10 @@ class User::ReputationToken < ApplicationRecord
     return exercise.icon_url if exercise
 
     # TODO: Choose an icon
-    asset_pack_path('media/images/icons/reputation.svg')
+    asset_pack_url(
+      "media/images/icons/reputation.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
   end
 
   # TODO: Override in children classes

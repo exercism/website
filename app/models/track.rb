@@ -66,7 +66,10 @@ class Track < ApplicationRecord
 
   # TODO: Set this properly
   def icon_url
-    asset_pack_url("media/images/tracks/#{icon_name}.svg")
+    asset_pack_url(
+      "media/images/tracks/#{icon_name}.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
   end
 
   # TODO: Create mapping for Highlight.JS, otherwise use slug

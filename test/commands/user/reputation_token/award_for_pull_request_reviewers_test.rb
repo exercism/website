@@ -14,6 +14,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     labels = []
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
     reviews = [
       { reviewer_username: "reviewer71" },
       { reviewer_username: "reviewer13" }
@@ -44,6 +46,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     labels = []
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
     reviews = [
       { reviewer_username: "reviewer71" },
       { reviewer_username: "reviewer13" }
@@ -73,6 +77,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -95,6 +100,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -117,6 +123,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
+    create :github_organization_member, username: "user22"
     reviews = [{ reviewer_username: "user22" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -140,6 +147,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     labels = []
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
     reviews = [
       { reviewer_username: "reviewer71" },
       { reviewer_username: "reviewer13" },
@@ -170,6 +179,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     labels = []
     create :user, handle: "Reviewer-71", github_username: "reviewer71"
     create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
     reviews = [
       { reviewer_username: nil },
       { reviewer_username: "reviewer71" },
@@ -184,6 +195,34 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size
   end
 
+  test "pull request reviewers are only awarded reputation if they are organization members" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = false
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    reviews = [
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" }
+    ]
+
+    User::ReputationToken::AwardForPullRequestReviewers.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+    )
+
+    refute_empty reviewer_1.reputation_tokens
+    assert_empty reviewer_2.reputation_tokens
+  end
+
   test "pull request with reputation/contributed_code/minor label adds reputation token with lower value" do
     action = 'closed'
     author = 'user22'
@@ -196,6 +235,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -218,6 +258,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/major']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -240,6 +281,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor', 'reputation/contributed_code/major']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -261,7 +303,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
-    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"    
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -284,6 +327,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/minor']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     reputation_token = create :user_code_review_reputation_token,
@@ -319,6 +363,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['reputation/contributed_code/major']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     reputation_token = create :user_code_review_reputation_token,
@@ -354,6 +399,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     reputation_token = create :user_code_review_reputation_token,

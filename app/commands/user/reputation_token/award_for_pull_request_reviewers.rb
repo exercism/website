@@ -14,7 +14,12 @@ class User
           map { |reviewer| reviewer[:reviewer_username] }.
           compact.
           uniq
-        reviewer_usernames.delete(params[:author_username]) # Don't award reviewer reputation to the PR author
+
+        # Don't award reviewer reputation to the PR author
+        reviewer_usernames.delete(params[:author_username])
+
+        # Only award reviewer reputation to organization members
+        reviewer_usernames &= ::Github::OrganizationMember.pluck(:username)
 
         reviewers = ::User.where(github_username: reviewer_usernames)
         reviewers.find_each do |reviewer|

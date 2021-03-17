@@ -1,3 +1,6 @@
+# This controller listens for Github pull request webhook events,
+# for which the "Pull requests" event type must be enabled in GitHub.
+# See https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
 module Webhooks
   class PullRequestUpdatesController < BaseController
     def create

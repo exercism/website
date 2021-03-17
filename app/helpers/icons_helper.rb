@@ -4,10 +4,14 @@ module IconsHelper
   end
 
   def icon(icon, alt, role: 'img', category: 'icons', css_class: nil, hex: false)
+    return if icon.blank?
+
     image_pack_tag "#{category}/#{icon}.svg",
       role: role,
       alt: alt,
       class: "c-icon #{css_class} #{'--hex' if hex}".strip
+  rescue StandardError => e
+    raise e unless Rails.env.production?
   end
 
   def track_icon(track, css_class: nil)

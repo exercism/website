@@ -17,7 +17,7 @@ module Webhooks
 
     private
     def add_member!
-      ::Github::OrganizationMember.create(username: username)
+      ::Github::OrganizationMember.create!(username: username)
     end
 
     def remove_member!

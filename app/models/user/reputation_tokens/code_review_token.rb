@@ -5,7 +5,7 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   value 3
 
   before_validation on: :create do
-    self.track = Track.find_by(repo_url: "https://github.com/#{repo}") unless track
+    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pluck(&:id).first unless track
   end
 
   def guard_params

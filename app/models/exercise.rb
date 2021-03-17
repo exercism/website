@@ -68,7 +68,10 @@ class Exercise < ApplicationRecord
   end
 
   def icon_url
-    asset_pack_url("media/images/exercises/#{icon_name}.svg")
+    asset_pack_url(
+      "media/images/exercises/#{icon_name}.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
   end
 
   # TODO: Implement this properly

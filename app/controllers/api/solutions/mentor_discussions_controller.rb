@@ -6,6 +6,9 @@ module API
     def finish
       @discussion.update!(finished_at: Time.current)
 
+      # TODO
+      Solution::MentorRequest::Create.(@discussion.solution, "temp comment") if params[:requeue]
+
       render json: {}
     end
 

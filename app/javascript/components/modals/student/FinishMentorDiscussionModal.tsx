@@ -2,6 +2,8 @@ import React from 'react'
 import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
 import { AddTestimonialStep } from './finish-mentor-discussion-modal/AddTestimonialStep'
 import { CelebrationStep } from './finish-mentor-discussion-modal/CelebrationStep'
+import { RequeuedStep } from './finish-mentor-discussion-modal/RequeuedStep'
+import { SatisfiedStep } from './finish-mentor-discussion-modal/SatisfiedStep'
 import { useMachine } from '@xstate/react'
 import { Machine } from 'xstate'
 
@@ -15,12 +17,16 @@ const modalStepMachine = Machine({
   initial: 'rateMentor',
   states: {
     rateMentor: {
-      on: { HAPPY: 'addTestimonial' },
+      on: { HAPPY: 'addTestimonial', SATISFIED: 'satisfied' },
+    },
+    satisfied: {
+      on: { REQUEUED: 'requeued' },
     },
     addTestimonial: {
       on: { SUBMIT: 'celebration' },
     },
     celebration: {},
+    requeued: {},
   },
 })
 
@@ -33,12 +39,29 @@ export const FinishMentorDiscussionModal = ({
 
   switch (currentStep.value) {
     case 'rateMentor':
-      return <RateMentorStep onHappy={() => send('HAPPY')} />
+      return (
+        <RateMentorStep
+          onHappy={() => send('HAPPY')}
+          onSatisfied={() => send('SATISFIED')}
+        />
+      )
     case 'addTestimonial':
       return (
         <AddTestimonialStep onSubmit={() => send('SUBMIT')} links={links} />
       )
     case 'celebration':
       return <CelebrationStep links={links} />
+    case 'satisfied':
+      return (
+        <SatisfiedStep
+          links={links}
+          onRequeued={() => send('REQUEUED')}
+          onNotRequeued={() => {
+            window.location.replace(links.exercise)
+          }}
+        />
+      )
+    case 'requeued':
+      return <RequeuedStep links={links} />
   }
 }

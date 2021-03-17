@@ -21,7 +21,7 @@ module Webhooks
     end
 
     def remove_member!
-      ::Github::OrganizationMember.destroy_by(username: username)
+      ::Github::OrganizationMember.where(username: username).update_all(alumni: true)
     end
   end
 end

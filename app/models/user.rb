@@ -59,6 +59,10 @@ class User < ApplicationRecord
     true
   end
 
+  def to_param
+    handle
+  end
+
   def reputation(track_slug: nil, category: nil)
     return super() unless track_slug || category
 

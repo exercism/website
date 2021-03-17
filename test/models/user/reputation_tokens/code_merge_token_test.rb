@@ -72,6 +72,7 @@ class User::ReputationTokens::CodeMergeTokenTest < ActiveSupport::TestCase
     token = User::ReputationToken::Create.(
       user,
       :code_merge,
+      level: :reviewal,
       repo: 'exercism/ruby',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,
@@ -88,6 +89,7 @@ class User::ReputationTokens::CodeMergeTokenTest < ActiveSupport::TestCase
     token = User::ReputationToken::Create.(
       user,
       :code_merge,
+      level: :reviewal,
       repo: 'exercism/v3',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,

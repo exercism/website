@@ -18,6 +18,8 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
     create :github_pull_request_review, :random, reviewer_username: "ErikSchierboom"
     create :github_pull_request_review, :random, reviewer_username: "iHiD"
     create :github_pull_request_review, :random, reviewer_username: "ErikSchierboom"
+    create :github_organization_member, username: "ErikSchierboom"
+    create :github_organization_member, username: "iHiD"
 
     User::ReputationToken::AwardForPullRequestsForUser.(user)
 

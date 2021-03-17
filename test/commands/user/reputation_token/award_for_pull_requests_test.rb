@@ -21,6 +21,8 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     create :github_pull_request_review, :random, reviewer_username: "user-2"
     create :github_pull_request_review, :random, reviewer_username: "user-1"
     create :github_pull_request_review, :random, reviewer_username: "user-2"
+    create :github_organization_member, username: "user-1"
+    create :github_organization_member, username: "user-2"
 
     User::ReputationToken::AwardForPullRequests.()
 
@@ -52,6 +54,8 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     create :github_pull_request_review, :random, reviewer_username: "user-2"
     create :github_pull_request_review, :random, reviewer_username: "user-1"
     create :github_pull_request_review, :random, reviewer_username: "user-2"
+    create :github_organization_member, username: "user-1"
+    create :github_organization_member, username: "user-2"
 
     User::ReputationToken::AwardForPullRequests.()
 

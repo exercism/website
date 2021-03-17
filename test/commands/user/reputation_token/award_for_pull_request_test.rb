@@ -33,6 +33,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     labels = []
     reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
     reviews = [
       { reviewer_username: reviewer_1.github_username },
       { reviewer_username: reviewer_2.github_username }

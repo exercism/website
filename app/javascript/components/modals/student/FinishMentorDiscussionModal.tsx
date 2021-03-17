@@ -2,8 +2,10 @@ import React from 'react'
 import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
 import { AddTestimonialStep } from './finish-mentor-discussion-modal/AddTestimonialStep'
 import { CelebrationStep } from './finish-mentor-discussion-modal/CelebrationStep'
+import { UnhappyStep } from './finish-mentor-discussion-modal/UnhappyStep'
 import { RequeuedStep } from './finish-mentor-discussion-modal/RequeuedStep'
 import { SatisfiedStep } from './finish-mentor-discussion-modal/SatisfiedStep'
+import { ReportStep } from './finish-mentor-discussion-modal/ReportStep'
 import { useMachine } from '@xstate/react'
 import { Machine } from 'xstate'
 
@@ -17,7 +19,11 @@ const modalStepMachine = Machine({
   initial: 'rateMentor',
   states: {
     rateMentor: {
-      on: { HAPPY: 'addTestimonial', SATISFIED: 'satisfied' },
+      on: {
+        HAPPY: 'addTestimonial',
+        SATISFIED: 'satisfied',
+        UNHAPPY: 'report',
+      },
     },
     satisfied: {
       on: { REQUEUED: 'requeued' },
@@ -27,6 +33,10 @@ const modalStepMachine = Machine({
     },
     celebration: {},
     requeued: {},
+    report: {
+      on: { SUBMIT: 'unhappy' },
+    },
+    unhappy: {},
   },
 })
 
@@ -43,6 +53,7 @@ export const FinishMentorDiscussionModal = ({
         <RateMentorStep
           onHappy={() => send('HAPPY')}
           onSatisfied={() => send('SATISFIED')}
+          onUnhappy={() => send('UNHAPPY')}
         />
       )
     case 'addTestimonial':
@@ -63,5 +74,9 @@ export const FinishMentorDiscussionModal = ({
       )
     case 'requeued':
       return <RequeuedStep links={links} />
+    case 'report':
+      return <ReportStep links={links} onSubmit={() => send('SUBMIT')} />
+    case 'unhappy':
+      return <UnhappyStep links={links} />
   }
 }

@@ -4,6 +4,10 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   reason :reviewed_code
   value 3
 
+  before_validation on: :create do
+    self.track = Track.find_by(repo_url: "https://github.com/#{repo}") unless track
+  end
+
   def guard_params
     "PR##{pr_node_id}"
   end

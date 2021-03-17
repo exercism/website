@@ -4,6 +4,10 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   reason :merged_code
   value 2
 
+  before_validation on: :create do
+    self.track = Track.find_by(repo_url: "https://github.com/#{repo}") unless track
+  end
+
   def guard_params
     "PR##{pr_node_id}"
   end

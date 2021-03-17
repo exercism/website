@@ -5,6 +5,10 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
   levels %i[minor regular major]
   values({ minor: 5, regular: 10, major: 15 })
 
+  before_validation on: :create do
+    self.track = Track.find_by(repo_url: "https://github.com/#{repo}") unless track
+  end
+
   def guard_params
     "PR##{pr_node_id}"
   end

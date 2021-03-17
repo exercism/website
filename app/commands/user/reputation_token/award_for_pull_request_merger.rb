@@ -17,15 +17,17 @@ class User
           return
         end
 
-        User::ReputationToken::Create.(
+        token = User::ReputationToken::Create.(
           user,
           :code_merge,
+          level: reputation_level,
           repo: params[:repo],
           pr_node_id: params[:node_id],
           pr_number: params[:number],
           pr_title: params[:title],
           external_link: params[:html_url]
         )
+        token.update!(level: reputation_level)
       end
 
       private
@@ -35,6 +37,12 @@ class User
 
       def merged_by_author?
         params[:merged_by_username] == params[:author_username]
+      end
+
+      def reputation_level
+        return :reviewal if params[:reviews].present?
+
+        :janitorial
       end
     end
   end

@@ -109,7 +109,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
-    assert_equal 10, user.reputation_tokens.last.value
+    assert_equal 12, user.reputation_tokens.last.value
   end
 
   test "pull request with reputation/contributed_code/regular label adds reputation token with default value" do
@@ -130,7 +130,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
-    assert_equal 10, user.reputation_tokens.last.value
+    assert_equal 12, user.reputation_tokens.last.value
   end
 
   test "pull request with reputation/contributed_code/minor label adds reputation token with lower value" do
@@ -172,7 +172,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
-    assert_equal 15, user.reputation_tokens.last.value
+    assert_equal 30, user.reputation_tokens.last.value
   end
 
   test "pull request with minor and major reputation labels adds reputation token for major reputation" do
@@ -193,7 +193,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
-    assert_equal 15, user.reputation_tokens.last.value
+    assert_equal 30, user.reputation_tokens.last.value
   end
 
   test "pull request ignores irrelevant labels" do
@@ -214,7 +214,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       repo: repo, node_id: node_id, number: number, title: title, merged: merged
     )
 
-    assert_equal 10, user.reputation_tokens.last.value
+    assert_equal 12, user.reputation_tokens.last.value
   end
 
   test "pull request with added label updates reputation value" do
@@ -238,7 +238,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       }
 
     assert_equal :regular, reputation_token.level # Sanity
-    assert_equal 10, reputation_token.value # Sanity
+    assert_equal 12, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
@@ -271,7 +271,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     )
 
     assert_equal 1, user.reputation_tokens.size
-    assert_equal 15, reputation_token.reload.value
+    assert_equal 30, reputation_token.reload.value
   end
 
   test "pull request with removed label updates reputation value" do
@@ -295,7 +295,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     )
 
     assert_equal 1, user.reputation_tokens.size
-    assert_equal 10, reputation_token.reload.value
+    assert_equal 12, reputation_token.reload.value
   end
 
   test "pull request authors are not awarded reputation on labeled action when pull request has not been merged" do

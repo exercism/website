@@ -15,13 +15,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 19,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-04-03T14:54:57Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -29,6 +30,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      submittedAt: '2020-03-28T22:44:33Z',
                       author: {
                         login: 'iHiD'
                       }
@@ -43,13 +45,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 8,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-02-02T02:03:01Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -57,6 +60,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
+                      submittedAt: '2020-02-01T21:55:46Z',
                       author: {
                         login: 'ErikSchierboom'
                       }
@@ -91,13 +95,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 2,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'porkostomus'
                 },
+                merged: true,
+                mergedAt: '2020-03-29T18:24:47Z',
                 mergedBy: {
                   login: 'ErikSchierboom'
                 },
@@ -147,13 +152,21 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
       number: 19,
       title: "The cat sat on the mat",
+      created_at: Time.parse('2021-02-05T15:29:25Z').utc,
       state: "closed",
       action: "closed",
       author_username: "ErikSchierboom",
       labels: [],
       merged: true,
+      merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
       merged_by_username: "iHiD",
-      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx", reviewer_username: "iHiD" }]
+      reviews: [
+        {
+          node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx",
+          submitted_at: Time.parse('2020-03-28T22:44:33Z').utc,
+          reviewer_username: "iHiD"
+        }
+      ]
     }
     assert_equal expected_first_data, prs.first.data
     assert_equal 1, prs.first.reviews.size
@@ -167,22 +180,31 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal "exercism/ruby", prs.second.repo
     assert_equal "ErikSchierboom", prs.second.author_username
     assert_equal "iHiD", prs.second.merged_by_username
-    expected_first_data = {
+    expected_second_data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/8",
       html_url: "https://github.com/exercism/ruby/pull/8",
       repo: 'exercism/ruby',
       node_id: 'MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw',
       number: 8,
       title: "The cat sat on the mat",
+      created_at: Time.parse('2021-01-29T13:20:35Z').utc,
       state: "closed",
       action: "closed",
       author_username: "ErikSchierboom",
       labels: [],
       merged: true,
+      merged_at: Time.parse('2020-02-02T02:03:01Z').utc,
       merged_by_username: "iHiD",
-      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0", reviewer_username: "ErikSchierboom" }]
+      reviews: [
+        {
+          node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0",
+          submitted_at: Time.parse('2020-02-01T21:55:46Z').utc,
+          reviewer_username: "ErikSchierboom"
+        }
+      ]
     }
-    assert_equal expected_first_data, prs.second.data
+
+    assert_equal expected_second_data, prs.second.data
     assert_equal 1, prs.second.reviews.size
     assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0", prs.second.reviews.first.node_id
     assert_equal "ErikSchierboom", prs.second.reviews.first.reviewer_username
@@ -201,11 +223,13 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       node_id: 'MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz',
       number: 2,
       title: "The cat sat on the mat",
+      created_at: Time.parse('2020-03-27T06:39:20Z').utc,
       state: "closed",
       action: "closed",
       author_username: "porkostomus",
       labels: [],
       merged: true,
+      merged_at: Time.parse('2020-03-29T18:24:47Z').utc,
       merged_by_username: "ErikSchierboom",
       reviews: []
     }
@@ -227,11 +251,12 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 19,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
-                author_username: nil,
+                author: nil,
+                merged: true,
+                mergedAt: '2020-02-15T02:03:01Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -239,6 +264,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      submitted: '2020-02-11T22:11:33Z',
                       author: {
                         login: 'iHiD'
                       }
@@ -284,18 +310,20 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: false,
                 number: 19,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: false,
+                mergedAt: nil,
                 mergedBy: nil,
                 reviews: {
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      submittedAt: '2020-02-15T02:03:01Z',
                       author: {
                         login: 'iHiD'
                       }
@@ -341,13 +369,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 19,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-02-15T02:03:01Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -355,7 +384,8 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
-                      author_username: nil
+                      submittedAt: '2020-02-09T09:09:09Z',
+                      author: nil
                     }
                   ]
                 }
@@ -398,13 +428,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 19,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-02-15T02:03:01Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -412,6 +443,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      submittedAt: '2020-02-09T21:24:38Z',
                       author: {
                         login: 'iHiD'
                       }
@@ -426,13 +458,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 8,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-01-31T23:59:58Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -440,6 +473,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
+                      submittedAt: '2020-01-31T22:50:05Z',
                       author: {
                         login: 'ErikSchierboom'
                       }
@@ -474,13 +508,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 2,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'porkostomus'
                 },
+                merged: true,
+                mergedAt: '2020-04-03T14:54:57Z',
                 mergedBy: {
                   login: 'ErikSchierboom'
                 },
@@ -530,13 +565,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 19,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-04-03T14:54:57Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -544,6 +580,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx',
+                      submittedAt: '2020-03-27T22:50:05Z',
                       author: {
                         login: 'iHiD'
                       }
@@ -558,13 +595,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 8,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'ErikSchierboom'
                 },
+                merged: true,
+                mergedAt: '2020-02-17T16:15:14Z',
                 mergedBy: {
                   login: 'iHiD'
                 },
@@ -572,6 +610,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   nodes: [
                     {
                       id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0',
+                      submittedAt: '2020-02-05T05:00:01Z',
                       author: {
                         login: 'ErikSchierboom'
                       }
@@ -606,13 +645,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 labels: {
                   nodes: []
                 },
-                merged: true,
                 number: 2,
                 title: "The cat sat on the mat",
                 state: 'MERGED',
                 author: {
                   login: 'porkostomus'
                 },
+                merged: true,
+                mergedAt: '2020-04-18T18:18:18Z',
                 mergedBy: {
                   login: 'ErikSchierboom'
                 },

@@ -9,6 +9,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       pr_data[:node_id],
       number: pr_data[:number],
       author_username: pr_data[:author_username],
+      merged_by_username: pr_data[:merged_by_username],
       repo: pr_data[:repo],
       reviews: pr_data[:reviews],
       data: pr_data
@@ -22,7 +23,8 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     Exercism.octokit_client.pull_request_reviews(repo, number).map do |r|
       {
         node_id: r[:node_id],
-        reviewer_username: r[:user][:login]
+        reviewer_username: r[:user][:login],
+        submitted_at: r[:submitted_at]
       }
     end
   end

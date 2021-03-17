@@ -4,7 +4,8 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
   test "adds member if action is 'member_added' and organization is exercism" do
     Webhooks::ProcessMembershipUpdate.('member_added', 'user22', 'exercism')
 
-    assert Github::OrganizationMember.where(username: 'user22').exists?
+    member = Github::OrganizationMember.find_by(username: 'user22')
+    refute member.alumnus
   end
 
   test "does not add member if action is 'member_added' and organization is not exercism" do
@@ -19,20 +20,22 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     refute Github::OrganizationMember.where(username: 'user22').exists?
   end
 
-  test "removes member if action is 'member_removed' and organization is exercism" do
+  test "makes member alumnus if action is 'member_removed' and organization is exercism" do
     create :github_organization_member, username: 'user22'
 
     Webhooks::ProcessMembershipUpdate.('member_removed', 'user22', 'exercism')
 
-    refute Github::OrganizationMember.where(username: 'user22').exists?
+    member = Github::OrganizationMember.find_by(username: 'user22')
+    assert member.alumnus
   end
 
-  test "does not remove member if action is 'member_removed' and organization is not exercism" do
+  test "does not makes member alumnus if action is 'member_removed' and organization is not exercism" do
     create :github_organization_member, username: 'user22'
 
     Webhooks::ProcessMembershipUpdate.('member_added', 'user22', 'other-org')
 
-    assert Github::OrganizationMember.where(username: 'user22').exists?
+    member = Github::OrganizationMember.find_by(username: 'user22')
+    refute member.alumnus
   end
 
   test "does not remove member if action is not 'member_removed'" do

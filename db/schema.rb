@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_082249) do
 
   create_table "github_organization_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "username", null: false
+    t.boolean "alumnus", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["username"], name: "index_github_organization_members_on_username", unique: true

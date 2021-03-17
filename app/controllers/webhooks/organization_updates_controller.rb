@@ -20,7 +20,7 @@ module Webhooks
     end
 
     def member_added_or_removed?
-      %w{member_added member_removed}.includes?(request.request_parameters[:action])
+      %w[member_added member_removed].include?(request.request_parameters[:action])
     end
   end
 end

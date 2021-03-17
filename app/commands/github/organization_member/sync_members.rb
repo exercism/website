@@ -8,7 +8,7 @@ module Github
           ::Github::OrganizationMember.create_or_find_by!(username: username)
         end
 
-        ::Github::OrganizationMember.where.not(username: organization_member_usernames).destroy_all
+        ::Github::OrganizationMember.where.not(username: organization_member_usernames).update_all(alumnus: true)
       end
 
       private

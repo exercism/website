@@ -28,7 +28,8 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
 
     Github::OrganizationMember::SyncMembers.()
 
-    assert ::Github::OrganizationMember.where(username: 'ErikSchierboom').exists?
+    member = ::Github::OrganizationMember.find_by(username: 'ErikSchierboom')
+    refute member.alumnus
   end
 
   test "keeps existing members" do
@@ -60,11 +61,12 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
 
     Github::OrganizationMember::SyncMembers.()
 
-    assert ::Github::OrganizationMember.where(username: 'ErikSchierboom').exists?
+    member = ::Github::OrganizationMember.find_by(username: 'ErikSchierboom')
+    refute member.alumnus
   end
 
-  test "removes missing members" do
-    create :github_organization_member, username: 'iHiD'
+  test "makes missing members alumnus" do
+    member = create :github_organization_member, username: 'iHiD'
 
     response = {
       data: {
@@ -92,7 +94,7 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
 
     Github::OrganizationMember::SyncMembers.()
 
-    refute ::Github::OrganizationMember.where(username: 'iHiD').exists?
+    assert member.reload.alumnus
   end
 
   test "imports all members" do

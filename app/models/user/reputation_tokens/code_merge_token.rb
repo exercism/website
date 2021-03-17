@@ -5,6 +5,10 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   levels %i[janitorial reviewal]
   values({ janitorial: 1, reviewal: 5 })
 
+  before_validation on: :create do
+    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pick(:id) unless track
+  end
+
   def guard_params
     "PR##{pr_node_id}"
   end

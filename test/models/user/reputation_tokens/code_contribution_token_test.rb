@@ -99,4 +99,39 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal level, rt.level
     assert_equal 5, rt.value
   end
+
+  test "linked to track if repo is a track repo" do
+    user = create :user, handle: "User22", github_username: "user22"
+    track = create :track, repo_url: 'https://github.com/exercism/ruby'
+
+    token = User::ReputationToken::Create.(
+      user,
+      :code_contribution,
+      level: :regular,
+      repo: 'exercism/ruby',
+      pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      pr_number: 1347,
+      pr_title: "The cat sat on the mat",
+      external_link: 'https://api.github.com/repos/exercism/ruby/pulls/1347'
+    )
+
+    assert_equal track, token.track
+  end
+
+  test "not linked to track if repo is not a track repo" do
+    user = create :user, handle: "User22", github_username: "user22"
+
+    token = User::ReputationToken::Create.(
+      user,
+      :code_contribution,
+      level: :regular,
+      repo: 'exercism/v3',
+      pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      pr_number: 1347,
+      pr_title: "The cat sat on the mat",
+      external_link: 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    )
+
+    assert_nil token.track
+  end
 end

@@ -303,7 +303,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
-    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"    
+    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 

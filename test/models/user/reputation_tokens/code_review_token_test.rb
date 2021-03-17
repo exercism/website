@@ -104,6 +104,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     token = User::ReputationToken::Create.(
       user,
       :code_review,
+      level: :minor,
       repo: 'exercism/ruby',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,
@@ -120,6 +121,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     token = User::ReputationToken::Create.(
       user,
       :code_review,
+      level: :minor,
       repo: 'exercism/v3',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,

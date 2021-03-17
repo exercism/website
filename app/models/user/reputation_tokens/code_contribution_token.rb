@@ -6,7 +6,7 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
   values({ minor: 5, regular: 10, major: 15 })
 
   before_validation on: :create do
-    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pluck(&:id).first unless track
+    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pick(:id) unless track
   end
 
   def guard_params

@@ -5,7 +5,7 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   value 2
 
   before_validation on: :create do
-    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pluck(&:id).first unless track
+    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pick(:id) unless track
   end
 
   def guard_params

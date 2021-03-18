@@ -9,9 +9,11 @@ type Links = {
 
 export const AddTestimonialStep = ({
   onSubmit,
+  onBack,
   links,
 }: {
   onSubmit: () => void
+  onBack: () => void
   links: Links
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -39,12 +41,20 @@ export const AddTestimonialStep = ({
     },
     [mutation]
   )
+  const handleBack = useCallback(() => {
+    onBack()
+  }, [onBack])
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="testimonial">Testimonial</label>
-      <textarea ref={textareaRef} id="testimonial" />
-      <button type="submit">Submit testimonial</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="testimonial">Testimonial</label>
+        <textarea ref={textareaRef} id="testimonial" />
+        <button type="submit">Submit testimonial</button>
+      </form>
+      <button type="button" onClick={handleBack}>
+        Back
+      </button>
+    </div>
   )
 }

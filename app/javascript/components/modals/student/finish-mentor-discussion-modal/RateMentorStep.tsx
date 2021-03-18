@@ -11,6 +11,7 @@ export const RateMentorStep = ({
 }): JSX.Element => {
   return (
     <div>
+      <h1>It&apos;s time to rate your mentor</h1>
       <button type="button" onClick={onHappy}>
         Happy
       </button>

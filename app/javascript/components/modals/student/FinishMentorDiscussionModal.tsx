@@ -26,15 +26,15 @@ const modalStepMachine = Machine({
       },
     },
     satisfied: {
-      on: { REQUEUED: 'requeued' },
+      on: { REQUEUED: 'requeued', BACK: 'rateMentor' },
     },
     addTestimonial: {
-      on: { SUBMIT: 'celebration' },
+      on: { SUBMIT: 'celebration', BACK: 'rateMentor' },
     },
     celebration: {},
     requeued: {},
     report: {
-      on: { SUBMIT: 'unhappy' },
+      on: { SUBMIT: 'unhappy', BACK: 'rateMentor' },
     },
     unhappy: {},
   },
@@ -58,7 +58,11 @@ export const FinishMentorDiscussionModal = ({
       )
     case 'addTestimonial':
       return (
-        <AddTestimonialStep onSubmit={() => send('SUBMIT')} links={links} />
+        <AddTestimonialStep
+          onSubmit={() => send('SUBMIT')}
+          onBack={() => send('BACK')}
+          links={links}
+        />
       )
     case 'celebration':
       return <CelebrationStep links={links} />
@@ -67,6 +71,7 @@ export const FinishMentorDiscussionModal = ({
         <SatisfiedStep
           links={links}
           onRequeued={() => send('REQUEUED')}
+          onBack={() => send('BACK')}
           onNotRequeued={() => {
             window.location.replace(links.exercise)
           }}
@@ -75,7 +80,13 @@ export const FinishMentorDiscussionModal = ({
     case 'requeued':
       return <RequeuedStep links={links} />
     case 'report':
-      return <ReportStep links={links} onSubmit={() => send('SUBMIT')} />
+      return (
+        <ReportStep
+          links={links}
+          onSubmit={() => send('SUBMIT')}
+          onBack={() => send('BACK')}
+        />
+      )
     case 'unhappy':
       return <UnhappyStep links={links} />
   }

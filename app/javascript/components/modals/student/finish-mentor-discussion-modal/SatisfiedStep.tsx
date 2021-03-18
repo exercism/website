@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
@@ -11,10 +11,12 @@ export const SatisfiedStep = ({
   links,
   onRequeued,
   onNotRequeued,
+  onBack,
 }: {
   links: Links
   onRequeued: () => void
   onNotRequeued: () => void
+  onBack: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [finish] = useMutation(
@@ -32,6 +34,9 @@ export const SatisfiedStep = ({
       },
     }
   )
+  const handleBack = useCallback(() => {
+    onBack()
+  }, [onBack])
 
   return (
     <div>
@@ -40,6 +45,9 @@ export const SatisfiedStep = ({
       </button>
       <button type="button" onClick={() => finish(false)}>
         No thanks
+      </button>
+      <button type="button" onClick={handleBack}>
+        Back
       </button>
     </div>
   )

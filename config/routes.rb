@@ -146,8 +146,10 @@ Rails.application.routes.draw do
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
 
-  resources :docs, only: [:index]
-  get 'docs/(*id)', to: 'docs#show'
+  resources :docs, only: %i[index show]
+  get 'docs/tracks/(*track_slug)/(*slug)', to: 'docs#track_show'
+  get 'docs/tracks/(*track_slug)', to: 'docs#track_index'
+  get 'docs/(*slug)', to: 'docs#show'
 
   resources :notifications, only: [:index]
 

@@ -1,0 +1,16 @@
+= render ViewComponents::DocsMainNav.new
+
+#page-docs-show
+  .container.lg-container
+    .docs-side-nav
+      %ul
+        - @nav_docs.each do |doc|
+          %li= link_to "Overview", doc_path(doc)
+
+    .docs-content
+      %h1= @doc.title
+      %p.h1-subtitle= @doc.blurb
+      = graphical_icon "sharp-squiggle", css_class: "header-divider"
+
+      .c-textual-content.--large
+        = raw @doc.content_html

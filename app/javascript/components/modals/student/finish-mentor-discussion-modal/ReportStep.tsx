@@ -2,10 +2,14 @@ import React, { useCallback, useState, useRef } from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
+import { FormButton } from '../../../common'
+import { FetchingBoundary } from '../../../FetchingBoundary'
 
 type Links = {
   finish: string
 }
+
+const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
 export const ReportStep = ({
   links,
@@ -19,7 +23,7 @@ export const ReportStep = ({
   const [state, setState] = useState({ requeue: true, report: false })
   const messageRef = useRef<HTMLTextAreaElement>(null)
   const isMountedRef = useIsMounted()
-  const [mutation] = useMutation(
+  const [mutation, { status, error }] = useMutation(
     () => {
       return sendRequest({
         endpoint: links.finish,
@@ -75,11 +79,18 @@ export const ReportStep = ({
             <textarea ref={messageRef} id="message" />
           </React.Fragment>
         ) : null}
-        <button type="submit">Submit</button>
+        <FormButton status={status} type="submit">
+          Submit
+        </FormButton>
       </form>
-      <button type="button" onClick={handleBack}>
+      <FetchingBoundary
+        status={status}
+        error={error}
+        defaultError={DEFAULT_ERROR}
+      />
+      <FormButton status={status} type="button" onClick={handleBack}>
         Back
-      </button>
+      </FormButton>
     </div>
   )
 }

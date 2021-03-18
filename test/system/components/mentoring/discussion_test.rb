@@ -116,6 +116,7 @@ module Components
         request = create :solution_mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
                                                    updated_at: 2.days.ago
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
+        create :iteration, idx: 2, solution: solution, created_at: Date.new(2016, 12, 25)
         iteration = create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
         create(:solution_mentor_discussion_post,
           discussion: discussion,

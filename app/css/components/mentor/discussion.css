@@ -94,6 +94,7 @@
 
             & .iterations {
                 @apply flex flex-grow items-center;
+                @apply mr-24;
 
                 & .iteration {
                     height: 32px;
@@ -124,11 +125,12 @@
                 }
             }
             & .settings-button {
+                @apply ml-auto;
+
                 & .c-icon {
                     height: 16px;
                     width: 16px;
                 }
-                @apply ml-24;
             }
         }
 

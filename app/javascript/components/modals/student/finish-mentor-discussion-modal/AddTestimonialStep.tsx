@@ -2,10 +2,14 @@ import React, { useState, useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
+import { FormButton } from '../../../common'
+import { FetchingBoundary } from '../../../FetchingBoundary'
 
 type Links = {
   finish: string
 }
+
+const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
 export const AddTestimonialStep = ({
   onSubmit,
@@ -18,7 +22,7 @@ export const AddTestimonialStep = ({
 }): JSX.Element => {
   const [value, setValue] = useState('')
   const isMountedRef = useIsMounted()
-  const [mutation] = useMutation(
+  const [mutation, { status, error }] = useMutation(
     () => {
       return sendRequest({
         endpoint: links.finish,
@@ -55,12 +59,19 @@ export const AddTestimonialStep = ({
       <form onSubmit={handleSubmit}>
         <label htmlFor="testimonial">Testimonial</label>
         <textarea value={value} onChange={handleChange} id="testimonial" />
-        <button type="submit">{buttonText}</button>
+        <FormButton type="submit" status={status}>
+          {buttonText}
+        </FormButton>
         {value.length !== 0 ? 'Thumbs up' : null}
       </form>
-      <button type="button" onClick={handleBack}>
+      <FetchingBoundary
+        status={status}
+        error={error}
+        defaultError={DEFAULT_ERROR}
+      />
+      <FormButton type="button" onClick={handleBack} status={status}>
         Back
-      </button>
+      </FormButton>
     </div>
   )
 }

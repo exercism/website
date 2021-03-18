@@ -56,6 +56,7 @@ export const AddTestimonialStep = ({
         <label htmlFor="testimonial">Testimonial</label>
         <textarea value={value} onChange={handleChange} id="testimonial" />
         <button type="submit">{buttonText}</button>
+        {value.length !== 0 ? 'Thumbs up' : null}
       </form>
       <button type="button" onClick={handleBack}>
         Back

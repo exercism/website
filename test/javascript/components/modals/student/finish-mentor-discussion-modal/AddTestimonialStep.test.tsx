@@ -32,3 +32,16 @@ test('button says "Skip testimonial" if text box is not populated', async () => 
     await screen.findByRole('button', { name: 'Skip testimonial' })
   ).toBeInTheDocument()
 })
+
+test('thumbs up icon shows when user starts typing', async () => {
+  const links = {
+    finish: '',
+  }
+
+  render(
+    <AddTestimonialStep onSubmit={jest.fn()} onBack={jest.fn()} links={links} />
+  )
+  userEvent.type(screen.getByLabelText('Testimonial'), 'Test')
+
+  expect(await screen.findByText('Thumbs up')).toBeInTheDocument()
+})

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
@@ -16,8 +16,8 @@ export const AddTestimonialStep = ({
   onBack: () => void
   links: Links
 }): JSX.Element => {
+  const [value, setValue] = useState('')
   const isMountedRef = useIsMounted()
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [mutation] = useMutation(
     () => {
       return sendRequest({
@@ -25,7 +25,7 @@ export const AddTestimonialStep = ({
         method: 'POST',
         body: JSON.stringify({
           rating: 'happy',
-          testimonial: textareaRef.current?.value,
+          testimonial: value,
         }),
         isMountedRef: isMountedRef,
       })
@@ -44,13 +44,18 @@ export const AddTestimonialStep = ({
   const handleBack = useCallback(() => {
     onBack()
   }, [onBack])
+  const handleChange = useCallback((e) => {
+    setValue(e.target.value)
+  }, [])
+  const buttonText =
+    value.length === 0 ? 'Skip testimonial' : 'Submit testimonial'
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="testimonial">Testimonial</label>
-        <textarea ref={textareaRef} id="testimonial" />
-        <button type="submit">Submit testimonial</button>
+        <textarea value={value} onChange={handleChange} id="testimonial" />
+        <button type="submit">{buttonText}</button>
       </form>
       <button type="button" onClick={handleBack}>
         Back

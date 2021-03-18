@@ -11,7 +11,7 @@ module Git
 
       config = git_repo.read_json_blob(git_repo.head_commit, "docs/config.json")
 
-      config[:docs].each do |doc_config|
+      config[:docs].to_a.each do |doc_config|
         doc = Document.where(track: track).create_or_find_by!(
           uuid: doc_config[:uuid],
           track: track
@@ -28,6 +28,8 @@ module Git
           title: doc_config[:title],
           blurb: doc_config[:blurb]
         )
+      rescue StandardError
+        # TODO: Raise issue on GH.
       end
     end
   end

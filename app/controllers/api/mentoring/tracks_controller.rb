@@ -1,7 +1,9 @@
 module API
   class Mentoring::TracksController < BaseController
     def show
-      render json: SerializeTracksForMentoring.(Track.all)
+      tracks = Track::Search.(criteria: params[:criteria], user: current_user)
+
+      render json: SerializeTracksForMentoring.(tracks)
     end
 
     def mentored

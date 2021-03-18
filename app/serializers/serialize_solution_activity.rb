@@ -14,7 +14,7 @@ class SerializeSolutionActivity
       },
       exercise: {
         title: exercise.title,
-        icon_name: exercise.icon_name
+        icon_url: exercise.icon_url
       },
       activities: activities_data,
       latest_iteration: latest_iteration_data,

@@ -1,0 +1,18 @@
+<svg id="video" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>social-video-youtube-clip</title>
+  <path
+    class="cls-1"
+    d="M23.25,7.44A3.44,3.44,0,0,0,19.81,4H4.19A3.44,3.44,0,0,0,.75,7.44v9.12A3.44,3.44,0,0,0,4.19,20H19.81a3.44,3.44,0,0,0,3.44-3.44ZM9.5,15.94V7.28l6.77,4.33Z"
+  />
+</svg>

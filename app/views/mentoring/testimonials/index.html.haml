@@ -15,7 +15,7 @@
       .testimonials
         - @testimonials.each do |testimonial|
           = link_to "#", class: "testimonial" do
-            = rounded_bg_img(testimonial.student.avatar_url, "User uploaded image of #{testimonial.student.handle}")
+            = avatar(testimonial.student)
             .content= testimonial.content
             .student-name @#{testimonial.student.handle}
             .exercise

@@ -6,18 +6,37 @@ FactoryBot.define do
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid
+        pr_node_id: SecureRandom.uuid,
+        pr_number: SecureRandom.random_number(100_000),
+        pr_title: "The cat sat on the mat"
+      }
+    end
+  end
+
+  factory :user_code_merge_reputation_token, class: 'User::ReputationTokens::CodeMergeToken' do
+    user
+    level { :janitorial }
+
+    params do
+      {
+        repo: "exercism/ruby",
+        pr_node_id: SecureRandom.uuid,
+        pr_number: SecureRandom.random_number(100_000),
+        pr_title: "The cat sat on the mat"
       }
     end
   end
 
   factory :user_code_review_reputation_token, class: 'User::ReputationTokens::CodeReviewToken' do
     user
+    level { :regular }
 
     params do
       {
         repo: "exercism/ruby",
-        pr_id: SecureRandom.uuid
+        pr_node_id: SecureRandom.uuid,
+        pr_number: SecureRandom.random_number(100_000),
+        pr_title: "The cat sat on the mat"
       }
     end
   end

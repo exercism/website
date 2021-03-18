@@ -15,7 +15,7 @@ module Git
       exercise.update!(contributors: contributors)
 
       # TODO: consider what to do with missing contributors
-      missing_contributors = contributor_usernames_config - contributors.map(&:handle)
+      missing_contributors = contributor_usernames_config - contributors.pluck(:handle)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
     end
 

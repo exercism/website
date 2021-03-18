@@ -22,7 +22,7 @@ export const FinishStep = ({
       )}
       <button className="btn-link" type="button" onClick={() => onReset()}>
         <GraphicalIcon icon="reset" />
-        Change preferences
+        <span>Change preferences</span>
       </button>
     </div>
   )

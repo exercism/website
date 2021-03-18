@@ -86,7 +86,7 @@
                     transition: margin 0.2s ease-out;
                     cursor: pointer;
 
-                    & .c-rounded-bg-img {
+                    & .c-avatar {
                         height: 32px;
                         width: 32px;
                     }

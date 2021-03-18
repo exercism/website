@@ -17,6 +17,11 @@ module Git
       repo.read_text_blob(head_commit, filepath)
     end
 
+    def mentor_notes_for(track_slug, exercise_slug)
+      filepath = "tracks/#{track_slug}/exercises/#{exercise_slug}/mentoring.md"
+      repo.read_text_blob(head_commit, filepath)
+    end
+
     def update!
       repo.fetch!
     end

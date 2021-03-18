@@ -1,0 +1,23 @@
+<svg
+  id="skipped-check-circle"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle
+    cx="12"
+    cy="12"
+    r="11"
+    fill="#F69605"
+    fill-opacity="0.1"
+    stroke="#F69605"
+    stroke-width="2"
+  />
+  <path
+    d="M8.25 12.0127H15.75"
+    stroke="#F69605"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

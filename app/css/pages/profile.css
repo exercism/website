@@ -12,7 +12,7 @@
                 @apply flex items-center;
             }
 
-            & .c-rounded-bg-img {
+            & .c-avatar {
                 height: 125px;
                 width: 125px;
 
@@ -178,7 +178,7 @@
                         @apply rounded-8 py-16 px-24 mb-16;
                         @apply flex items-center;
 
-                        & .c-rounded-bg-img {
+                        & .c-avatar {
                             height: 64px;
                             width: 64px;
                             @apply mr-16;

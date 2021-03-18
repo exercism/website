@@ -45,7 +45,7 @@ export const AddDiscussionPost = ({
     if (isFinished) {
       return (
         <div>
-          This discussion has ended. Have more to say? You can
+          This discussion has ended. Have more to say? You can{' '}
           <button
             onClick={() => {
               setOpen(true)

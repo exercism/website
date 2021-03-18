@@ -170,7 +170,7 @@
                             @apply flex items-center;
                             @apply mb-12;
 
-                            & > .c-rounded-bg-img,
+                            & > .c-avatar,
                             & > .c-icon {
                                 height: 32px;
                                 width: 32px;
@@ -191,7 +191,7 @@
                             @apply flex items-center;
                             @apply text-textColor6 font-medium;
 
-                            & .c-rounded-bg-img {
+                            & .c-avatar {
                                 height: 32px;
                                 width: 32px;
                                 @apply mr-12;

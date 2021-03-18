@@ -6,8 +6,8 @@ import { ExerciseFilterList } from '../../../../../app/javascript/components/men
 
 test('searches for exercises', async () => {
   const exercises = [
-    { slug: 'tournament', title: 'Tournament' },
-    { slug: 'series', title: 'Series' },
+    { slug: 'tournament', title: 'Tournament', iconName: 'butterflies' },
+    { slug: 'series', title: 'Series', iconName: 'rocket' },
   ]
 
   render(

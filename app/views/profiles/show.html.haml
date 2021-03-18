@@ -2,7 +2,7 @@
   %header.main-header
     %section.info-section
       .lg-container.container
-        = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "#{@user.name}'s uploaded avatar")
+        = avatar(@user.first)
         .info
           .heading
             %h1= @user.name
@@ -95,19 +95,19 @@
         .testimonials
           .summaries
             .summary.active
-              = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+              = avatar(User.first)
               .info
                 .student @ErikShireBOOM
                 .exercise Lasagna in C#
 
             .summary
-              = rounded_bg_img("https://avatars2.githubusercontent.com/u/17816791?s=460&u=75b8876b2ec4d897e946888493a7fc7b7d97ec55&v=4", "Erik SchierBOOM's uploaded avatar")
+              = avatar(User.first)
               .info
                 .student @iHiD
                 .exercise Life in Ruby
 
             .summary
-              = rounded_bg_link("https://avatars0.githubusercontent.com/u/6251883?s=400&u=1111c5251e1c1bbf6b45790b6ffa4a919c502bd6&v=4", "#", "Visit Erik SchierBOOM's profile", "Erik SchierBOOM's uploaded avatar", "face")
+              = avatar(User.first)
               .info
                 .student @neenjaw
                 .exercise Stuff in Elixir

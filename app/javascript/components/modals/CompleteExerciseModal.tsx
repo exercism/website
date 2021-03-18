@@ -18,7 +18,7 @@ export type CompletedExercise = Exercise & { links: { self: string } }
 
 export type Exercise = {
   title: string
-  iconName: string
+  iconUrl: string
   links: {
     self: string
   }

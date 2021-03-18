@@ -43,7 +43,8 @@ module ReactComponents
           in_progress_discussion = solution.mentor_discussions.in_progress.first
           if in_progress_discussion
             links[:in_progress_discussion] =
-              Exercism::Routes.mentoring_discussion_url(in_progress_discussion.uuid)
+              Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise,
+                in_progress_discussion)
           end
         end
       end
@@ -61,7 +62,7 @@ module ReactComponents
             posts_count: discussion.posts.count,
             created_at: discussion.created_at.iso8601,
             links: {
-              self: Exercism::Routes.mentoring_discussion_url(discussion.uuid)
+              self: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             }
           }
         end

@@ -35,7 +35,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         {
           id: "csharp",
           title: "C#",
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+          icon_url: csharp.icon_url,
           count: 6,
           avg_wait_time: "2 days",
           num_solutions_queued: 550,
@@ -46,7 +46,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         {
           id: "fsharp",
           title: "F#",
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+          icon_url: fsharp.icon_url,
           count: 0,
           avg_wait_time: "2 days",
           num_solutions_queued: 550,
@@ -57,7 +57,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         {
           id: "ruby",
           title: "Ruby",
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+          icon_url: ruby.icon_url,
           count: 3,
           avg_wait_time: "2 days",
           num_solutions_queued: 550,
@@ -72,7 +72,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
   end
 
   test "serializes correctly without mentor" do
-    create :track, slug: "fsharp", title: "F#" # Has no requests
+    fsharp = create :track, slug: "fsharp", title: "F#" # Has no requests
     ruby = create :track, slug: "ruby", title: "Ruby"
     csharp = create :track, slug: "csharp", title: "C#"
 
@@ -94,7 +94,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         {
           id: "csharp",
           title: "C#",
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+          icon_url: csharp.icon_url,
           count: 6,
           avg_wait_time: "2 days",
           num_solutions_queued: 550,
@@ -105,7 +105,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         {
           id: "fsharp",
           title: "F#",
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+          icon_url: fsharp.icon_url,
           count: 0,
           avg_wait_time: "2 days",
           num_solutions_queued: 550,
@@ -116,7 +116,7 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
         {
           id: "ruby",
           title: "Ruby",
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
+          icon_url: ruby.icon_url,
           count: 3,
           avg_wait_time: "2 days",
           num_solutions_queued: 550,

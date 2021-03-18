@@ -99,7 +99,7 @@
                 @apply border-1 border-borderLight rounded-8;
                 @apply px-16 py-8;
 
-                & .c-rounded-bg-img {
+                & .c-avatar {
                     height: 48px;
                     width: 48px;
                     @apply mr-16;
@@ -116,7 +116,7 @@
             & a {
                 width: 48px;
             }
-            & a.face {
+            & .c-avatar {
                 @apply block flex-grow-0 flex-shrink-0;
                 @apply bg-center bg-cover rounded-circle;
                 height: 48px;
@@ -179,7 +179,7 @@
                 }
 
                 & .faces {
-                    & .c-rounded-bg-img {
+                    & .c-avatar {
                         height: 32px;
                         width: 32px;
                     }

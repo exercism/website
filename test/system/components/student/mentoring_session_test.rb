@@ -151,6 +151,7 @@ module Components
           click_on "1"
         end
 
+        sleep(0.1)
         assert_text "class Bob"
       end
 
@@ -169,7 +170,7 @@ module Components
           visit track_exercise_mentor_discussion_path(ruby, running, discussion)
 
           assert_css "img[src='#{ruby.icon_url}'][alt=\"icon for Ruby track\"]"
-          assert_css "svg.c-exercise-icon"
+          assert_css "img.c-exercise-icon"
           assert_text "You're being mentored by mentor on\nRunning"
         end
       end

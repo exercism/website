@@ -8,4 +8,22 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     get mentoring_discussion_path(1)
     assert_redirected_to mentoring_path
   end
+
+  test "redirects different mentor" do
+    mentor = create :user
+    sign_in!(mentor)
+
+    discussion = create :solution_mentor_discussion
+    get mentoring_discussion_path(discussion)
+    assert_redirected_to mentoring_path
+  end
+
+  test "shows for correct mentor" do
+    mentor = create :user
+    sign_in!(mentor)
+
+    discussion = create :solution_mentor_discussion, mentor: mentor
+    get mentoring_discussion_path(discussion)
+    assert_response :success
+  end
 end

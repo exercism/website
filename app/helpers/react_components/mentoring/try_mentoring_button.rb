@@ -18,7 +18,7 @@ module ReactComponents
           },
           congratulations_step: {
             video: "https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0",
-            dashboard: Exercism::Routes.mentoring_dashboard_url
+            dashboard: Exercism::Routes.mentoring_queue_url
           }
         }
       end

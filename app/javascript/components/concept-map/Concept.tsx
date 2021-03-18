@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
-import { CompleteIcon } from './CompleteIcon'
 import { ConceptTooltip } from '../tooltips'
+import { Icon } from '../common/Icon'
 import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 import { IConcept, ConceptStatus } from './concept-map-types'
@@ -90,9 +90,14 @@ export const Concept = ({
       >
         <div className="display">
           <div className="name">{name}</div>
-          <CompleteIcon
-            show={hasExercises && exercises === exercisesCompleted}
-          />
+
+          {hasExercises && exercises === exercisesCompleted ? (
+            <Icon
+              icon="completed-check-circle"
+              className="complete-icon"
+              alt="You have mastered this concept"
+            />
+          ) : null}
         </div>
         <PureExerciseProgressBar
           completed={exercisesCompleted}

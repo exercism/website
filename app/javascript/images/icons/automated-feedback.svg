@@ -1,0 +1,29 @@
+<svg
+  id="automated-feedback"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+>
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>content-paper-edit</title>
+  <path
+    class="a"
+    d="M22.627,14.87,15,22.5l-3.75.75L12,19.5l7.631-7.63a2.113,2.113,0,0,1,2.991,0l.009.008A2.116,2.116,0,0,1,22.627,14.87Z"
+  />
+  <path
+    class="a"
+    d="M8.246,20.25h-6a1.5,1.5,0,0,1-1.5-1.5V2.25a1.5,1.5,0,0,1,1.5-1.5h15a1.5,1.5,0,0,1,1.5,1.5V9"
+  />
+  <line class="a" x1="8.246" y1="5.25" x2="14.246" y2="5.25" />
+  <line class="a" x1="5.246" y1="9.75" x2="14.246" y2="9.75" />
+  <line class="a" x1="5.246" y1="14.25" x2="12.746" y2="14.25" />
+</svg>

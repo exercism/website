@@ -1,0 +1,20 @@
+<svg id="guidance" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>maps</title>
+  <path
+    class="a"
+    d="M16.307,2.838a1.5,1.5,0,0,0-1.114,0L8.807,5.393a1.5,1.5,0,0,1-1.114,0L1.779,3.027a.75.75,0,0,0-1.029.7V18.1a1.5,1.5,0,0,0,.943,1.393l6,2.4a1.5,1.5,0,0,0,1.114,0l6.386-2.555a1.5,1.5,0,0,1,1.114,0L22.221,21.7a.75.75,0,0,0,1.029-.7V6.631a1.5,1.5,0,0,0-.943-1.393Z"
+  />
+  <line class="a" x1="8.25" y1="5.5" x2="8.25" y2="22" />
+  <line class="a" x1="15.75" y1="2.731" x2="15.75" y2="19.231" />
+</svg>

@@ -29,5 +29,5 @@
         = render "tracks/show/joined/uncompleted_exercises_section", track: @track, user_track: @user_track
         = render "tracks/show/joined/concepts_section", track: @track, user_track: @user_track
       .rhs
-        = render "tracks/show/joined/contributors_section", track: @track
+        = render "tracks/show/joined/contributors_section", track: @track, contributors: @track.top_10_contributors, num_contributors: @track.num_contributors
         = render "tracks/show/joined/updates_section", track: @track

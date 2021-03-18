@@ -8,7 +8,10 @@ en:
         You contributed to <strong>%{exercise_title}</strong>
     code_contribution:
       1: >
-        You contributed code via <strong>PR#%{pr_id}</strong> on <strong>%{repo}</strong>
+        You created <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}
     code_review:
       1: >
-        You reviewed <strong>PR#%{pr_id}</strong> on <strong>%{repo}</strong>
+        You reviewed <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}
+    code_merge:
+      1: >
+        You merged <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}

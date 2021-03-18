@@ -1,0 +1,24 @@
+<svg id="spinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>loading-circle</title>
+  <line class="a" x1="5.814" y1="4.253" x2="7.578" y2="6.68" />
+  <line class="a" x1="2" y1="9.503" x2="4.853" y2="10.43" />
+  <line class="a" x1="2" y1="15.992" x2="4.853" y2="15.065" />
+  <line class="a" x1="5.814" y1="21.242" x2="7.578" y2="18.815" />
+  <line class="a" x1="11.986" y1="23.247" x2="11.986" y2="20.247" />
+  <line class="a" x1="18.158" y1="21.242" x2="16.394" y2="18.815" />
+  <line class="a" x1="21.972" y1="15.992" x2="19.119" y2="15.065" />
+  <line class="a" x1="21.972" y1="9.503" x2="19.119" y2="10.43" />
+  <line class="a" x1="18.158" y1="4.253" x2="16.394" y2="6.68" />
+  <line class="a" x1="11.986" y1="0.747" x2="11.986" y2="6.747" />
+</svg>

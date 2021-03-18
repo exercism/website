@@ -101,7 +101,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     new_author_rep_token = new_author.reputation_tokens.last
     assert_equal :authoring, new_author_rep_token.category
     assert_equal :authored_exercise, new_author_rep_token.reason
-    assert_equal 10, new_author_rep_token.value
+    assert_equal 20, new_author_rep_token.value
     assert_equal new_authorship, new_author_rep_token.authorship
   end
 
@@ -147,7 +147,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     new_contributor_rep_token = new_contributor.reputation_tokens.last
     assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
-    assert_equal 5, new_contributor_rep_token.value
+    assert_equal 10, new_contributor_rep_token.value
     assert_equal new_contributorship, new_contributor_rep_token.contributorship
   end
 

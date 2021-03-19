@@ -54,6 +54,10 @@
 .btn--cta {
     @apply bg-anotherPurple text-textColor9 border-anotherPurple;
     @apply shadow-buttonS;
+
+    & .c-icon {
+        filter: var(--white-filter);
+    }
 }
 .btn--secondary {
     @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;

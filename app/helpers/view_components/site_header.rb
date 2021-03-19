@@ -80,20 +80,18 @@ module ViewComponents
       end
     end
 
-<<<<<<< HEAD
     def signed_out_section
       tag.div(class: "external-section") do
         link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-small-cta") +
           link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-small")
-=======
-    def signed_out_section; end
+      end
+    end
 
     def render_docs_nav
       tag.div "", class: "docs-search" do
         tag.div "", class: "c-search-bar" do
           tag.input class: "--search", placeholder: "Search Exercism's docs..."
         end
->>>>>>> 1ee56178 (Add start of docs UI)
       end
     end
   end

@@ -128,4 +128,24 @@ Done')
   test "removes html comments" do
     assert_equal "\n<p>Regular text</p>\n", Markdown::Parse.("<!-- Comment text -->\n\nRegular text\n", strip_h1: false)
   end
+
+  test "render internal concept link using absolute URL" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/concepts/basics\" target=\"_blank\" data-react-inline-link=\"ruby/concepts/basics\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics)")
+  end
+
+  test "render internal concept link using absolute path" do
+    expected = "<p><a href=\"/tracks/ruby/concepts/basics\" target=\"_blank\" data-react-inline-link=\"ruby/concepts/basics\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](/tracks/ruby/concepts/basics)")
+  end
+
+  test "render internal exercise link using absolute URL" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/exercises/anagram\" target=\"_blank\" data-react-inline-link=\"ruby/exercises/anagram\">anagram</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[anagram](https://exercism.io/tracks/ruby/exercises/anagram)")
+  end
+
+  test "render internal exercise link using absolute path" do
+    expected = "<p><a href=\"/tracks/ruby/exercises/anagram\" target=\"_blank\" data-react-inline-link=\"ruby/exercises/anagram\">anagram</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[anagram](/tracks/ruby/exercises/anagram)")
+  end
 end

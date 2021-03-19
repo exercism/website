@@ -27,6 +27,7 @@ class TracksController < ApplicationController
 
       render "tracks/show/joined"
     else
+      @showcase_exercises = @track.exercises.order("RAND()").limit(3).to_a
       render "tracks/show/unjoined"
     end
   end

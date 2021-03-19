@@ -2,6 +2,7 @@
 
 .c-track-top-level-nav {
     @apply c-track-generic-nav;
+    @apply relative;
 
     & .title {
         @apply mr-64;

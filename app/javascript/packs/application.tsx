@@ -28,6 +28,7 @@ import '../../css/components/flash'
 import '../../css/components/icon'
 import '../../css/components/iteration-summary'
 import '../../css/components/accordion-section'
+import '../../css/components/underline'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'

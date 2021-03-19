@@ -62,8 +62,7 @@ module ViewComponents
       end
 
       def desc_tag
-        text = "Atoms are internally represented" # rubocop:disable Layout/LineLength
-        tag.div(text, class: "--desc")
+        tag.div(exercise.blurb, class: "--desc")
       end
 
       def small?

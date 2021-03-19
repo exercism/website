@@ -1,12 +1,16 @@
 - return if track.key_features.empty?
 
 %section.features-section
-  .md-container.container
-    %h2 Key Features of #{track.title}
+  .lg-container.container
+    .section-header
+      = graphical_icon "key-features", hex: true, css_class: "header-icon"
+      %h2 Key Features of #{track.title}
+      = graphical_icon "sharp-squiggle", css_class: "divider"
 
     .features
-      - track.key_features.first(6).each do |key_feature|
-        .feature
-          = graphical_icon :"#{key_feature[:icon]}"
-          %h3= key_feature[:title]
-          %p= key_feature[:content]
+      = track_icon(track)
+      - track.key_features.first(6).each.with_index do |feature, idx|
+        .feature{ class: "--#{idx}" }
+          = graphical_icon :"#{feature[:icon]}"
+          %h3= feature[:title]
+          %p= feature[:content]

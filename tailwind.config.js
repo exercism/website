@@ -27,6 +27,7 @@ module.exports = {
       '4': '4px',
     },
     boxShadow: {
+      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.5)',
       xsZ1: '0px 4px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
@@ -92,6 +93,7 @@ module.exports = {
       lightPurple: '#B0A8E3',
       anotherPurple: '#604FCD',
       gotToLoveAPurple: '#271B72',
+      biggerBolderAndMorePurpleThanEver: '#130B43',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',
@@ -114,6 +116,8 @@ module.exports = {
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',
+
+      anotherGold: '#FAE54D',
 
       muddy: '#6E82AA',
       color22: '#C8D5EF',
@@ -140,6 +144,7 @@ module.exports = {
       '25': '25px',
       '31': '31px',
       '40': '40px',
+      '54': '54px',
       '64': '64px',
     },
     height: {
@@ -154,6 +159,7 @@ module.exports = {
       code: '160%',
       huge: '170%',
 
+      120: '120%',
       140: '140%',
       150: '150%',
       160: '160%',

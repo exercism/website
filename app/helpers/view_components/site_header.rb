@@ -23,6 +23,8 @@ module ViewComponents
     end
 
     def nav
+      return unless user_signed_in?
+
       if namespace_name == "mentoring"
         selected = :mentoring
       elsif controller_name == "dashboard"
@@ -77,6 +79,11 @@ module ViewComponents
       end
     end
 
-    def signed_out_section; end
+    def signed_out_section
+      tag.div(class: "external-section") do
+        link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-small-cta") +
+          link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-small")
+      end
+    end
   end
 end

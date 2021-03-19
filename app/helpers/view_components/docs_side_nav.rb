@@ -89,6 +89,11 @@ module ViewComponents
 
       paths = docs.map(&:slug).sort
       paths.each_with_object({}) do |path, tree|
+        # Only get docs that are:
+        # - top level
+        # - at a level below this in its path
+        # - parallel to it; or
+        # - a direct-child of the current doc
         level = path.count("/")
         next unless level.zero? ||
                     (levels.size >= level && path.starts_with?(levels[level - 1]))

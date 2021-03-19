@@ -2,10 +2,12 @@
 
 .c-docs-tracks-list {
     & .tracks {
-        @apply flex items-start justify-center;
+        @apply flex flex-wrap items-start justify-center;
     }
     & .track {
-        @apply mx-40;
+        @apply px-8;
+        @apply pb-56;
+        width: 20%;
         @apply flex flex-col items-center;
 
         & .c-track-icon {
@@ -17,6 +19,7 @@
         & .title {
             @apply mb-4;
             @apply text-20 leading-140 font-mono font-bold;
+            @apply truncate;
         }
         & .count {
             @apply text-16 leading-170 font-mono font-medium;

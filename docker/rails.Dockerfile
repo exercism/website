@@ -48,6 +48,7 @@ COPY app/helpers ./app/helpers
 # During deployment the assets are copied from this image and 
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
+ENV NODE_OPTIONS="--max-old-space-size=6144"
 RUN RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
 
 # Copy everything over now

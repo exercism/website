@@ -23,11 +23,11 @@
         }
     }
 
-    & .top-section {
-        @apply flex;
+    & .using-section {
+        @apply flex mb-40;
 
         & .info {
-            @apply flex-grow;
+            @apply flex-grow flex flex-col items-start;
         }
         & > .c-icon {
             height: 300px;
@@ -39,6 +39,56 @@
         }
         & p {
             @apply text-p-large mb-20;
+        }
+    }
+
+    & .extra-sections {
+        @apply mb-64;
+        @apply flex flex-wrap;
+
+        & .section {
+            @apply flex-grow-0 flex-shrink-0;
+            @apply py-32;
+            width: 50%;
+            @apply overflow-hidden relative;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='105%25' height='105%25' fill='none' stroke='%23C8D5EF' stroke-width='3' stroke-dasharray='16%2c16' stroke-dashoffset='4' stroke-linecap='round'/%3e%3c/svg%3e");
+
+            &:nth-child(odd) {
+                @apply pr-40;
+                padding-left: 3px;
+
+                &:before {
+                    content: "";
+                    @apply absolute;
+                    @apply bg-backgroundColorA;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    width: 3px;
+                }
+            }
+            &:nth-child(even) {
+                @apply pl-40;
+            }
+
+            & .c-icon.header-icon {
+                height: 64px;
+                @apply mb-16;
+            }
+            & h2 {
+                @apply text-h3 mb-8;
+            }
+            & p {
+                @apply text-p-large mb-16;
+            }
+        }
+    }
+
+    & .tracks-section {
+        @apply flex flex-col items-center;
+        @apply pb-40;
+        & h2 {
+            @apply text-h2 mb-64;
         }
     }
 }

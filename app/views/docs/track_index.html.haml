@@ -1,0 +1,14 @@
+= render ViewComponents::DocsMainNav.new(:tracks)
+
+#page-docs-show
+  .container.lg-container
+    = render ViewComponents::DocsSideNav.new(@nav_docs, nil, track: @track)
+
+    .docs-content
+      %h1 #{@track.title} Docs
+      %p.h1-subtitle Everything you need to know about using #{@track.title} on Exercism.
+      = graphical_icon "sharp-squiggle", css_class: "header-divider"
+
+      .c-textual-content.--large
+        %p Ut sit amet ex quis eros euismod ultricies eu et tellus. Vestibulum ac ex quis lectus malesuada ullamcorper. Curabitur convallis nisl ac ex luctus rhoncus.
+        %p Ut sit amet ex quis eros euismod ultricies eu et tellus. Vestibulum ac ex quis lectus malesuada ullamcorper. Curabitur convallis nisl ac ex luctus rhoncus.

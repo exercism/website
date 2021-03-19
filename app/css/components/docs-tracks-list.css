@@ -1,0 +1,25 @@
+@import "../styles";
+
+.c-docs-tracks-list {
+    & .tracks {
+        @apply flex items-start justify-center;
+    }
+    & .track {
+        @apply mx-40;
+        @apply flex flex-col items-center;
+
+        & .c-track-icon {
+            width: 80px;
+            height: 80px;
+            @apply mb-12;
+            filter: drop-shadow(0px 5px 2px rgba(var(--track-icon-color), 0.2));
+        }
+        & .title {
+            @apply mb-4;
+            @apply text-20 leading-140 font-mono font-bold;
+        }
+        & .count {
+            @apply text-16 leading-170 font-mono font-medium;
+        }
+    }
+}

@@ -58,15 +58,15 @@ module ViewComponents
       if doc.track
         url = Exercism::Routes.track_doc_path(doc.track, doc)
       elsif doc.apex?
-        url = Exercism::Routes.doc_section_path(doc.section)
+        url = Exercism::Routes.docs_section_path(doc.section)
       else
         url = Exercism::Routes.doc_path(doc.section, doc.slug)
       end
 
       css_classes = []
-      css_classes << "selected expanded" if doc.slug == selected_doc.slug
+      css_classes << "selected expanded" if doc.slug == selected_doc&.slug
       css_classes << "header" if slugs_with_children.include?(doc.slug)
-      css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc.slug }
+      css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc&.slug }
 
       tag.li(class: css_classes.join(" ")) do
         link_to doc.nav_title, url
@@ -82,7 +82,7 @@ module ViewComponents
     def structured_docs
       levels = []
       current = ""
-      selected_doc.slug.split("/").each do |part|
+      selected_doc&.slug.to_s.split("/").each do |part|
         current += "#{part}/"
         levels << current
       end

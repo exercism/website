@@ -15,6 +15,8 @@ class DocsController < ApplicationController
     render action: :show
   end
 
+  def tracks; end
+
   def track_index; end
 
   def track_show

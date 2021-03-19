@@ -3,7 +3,7 @@ module ViewComponents
     extend Mandate::Memoize
 
     def initialize(selected_section)
-      super
+      super()
 
       @selected_section = selected_section
     end
@@ -27,9 +27,8 @@ module ViewComponents
 
               li_link("Using Exercism", :using),
               li_link("Contributing", :contributing),
-              li_link("Maintaining", :maintaining),
               li_link("Mentoring", :mentoring),
-              li_link("Organisation", :organisation),
+              li_link("Not-for-profit", :organisation),
               li_link("Misc", :misc),
               li_link("Track-specific", :tracks)
             ]

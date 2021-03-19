@@ -30,6 +30,7 @@ import '../../css/components/iteration-summary'
 import '../../css/components/accordion-section'
 import '../../css/components/underline'
 import '../../css/components/docs-main-nav'
+import '../../css/components/docs-side-nav'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'

@@ -2,13 +2,7 @@
 
 #page-docs-show
   .container.lg-container
-    %nav.docs-side-nav
-      - if @track
-        %h2= @track.title
-      %ul
-        - @nav_docs.each do |doc|
-          %li{ class: @doc == doc ? "selected" : nil }
-            = link_to doc.nav_title, doc.track ? track_doc_path(doc.track, doc) : doc.apex? ? doc_section_path(doc.section) : doc_path(doc.section, doc.slug)
+    = render ViewComponents::DocsSideNav.new(@nav_docs, @doc)
 
     .docs-content
       %h1= @doc.title

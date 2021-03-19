@@ -7,7 +7,19 @@ class Document < ApplicationRecord
 
   belongs_to :track, optional: true
 
-  enum type: { track_tests: 0, track_resources: 1 }
+  def nav_title
+    super.presence || title
+  end
+
+  def subsections
+    return [] if apex?
+
+    slug.split('/').tap(&:pop)
+  end
+
+  def apex?
+    slug == "APEX"
+  end
 
   def content_html
     repo = Git::Repository.new(repo_url: git_repo)

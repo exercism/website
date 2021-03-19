@@ -1,24 +1,19 @@
-= render ViewComponents::DocsMainNav.new
+= render ViewComponents::DocsMainNav.new(@section)
 
 #page-docs-show
   .container.lg-container
-    .docs-side-nav
+    %nav.docs-side-nav
+      - if @track
+        %h2= @track.title
       %ul
-        %li.selected= link_to "Overview", "#"
-        %li= link_to "Something else", "#"
-        %li.header.expanded= link_to "Standards", "#"
-        %li
-          %ul
-            %li= link_to "Style Guide", "#"
-            %li= link_to "Markdown", "#"
-        %li.header= link_to "Being a good citizen", "#"
+        - @nav_docs.each do |doc|
+          %li{ class: @doc == doc ? "selected" : nil }
+            = link_to doc.nav_title, doc.track ? track_doc_path(doc.track, doc) : doc.apex? ? doc_section_path(doc.section) : doc_path(doc.section, doc.slug)
 
     .docs-content
-      %h1 Contributing
-      %p.h1-subtitle How to get involved with Exercism
+      %h1= @doc.title
+      - if @doc.blurb.present?
+        %p.h1-subtitle= @doc.blurb
       = graphical_icon "sharp-squiggle", css_class: "header-divider"
 
-      .c-textual-content.--large
-        %p Integer non quam orci. Quisque non est id libero luctus porttitor. Donec hendrerit leo tortor, nec tincidunt lacus fermentum at. Phasellus in nisl ut libero porttitor consectetur at ut metus.
-        %h2 This is a heading 2
-        %p Integer non quam orci. Quisque non est id libero luctus porttitor. Donec hendrerit leo tortor, nec tincidunt lacus fermentum at. Phasellus in nisl ut libero porttitor consectetur at ut metus.
+      .c-textual-content.--large= raw @doc.content_html

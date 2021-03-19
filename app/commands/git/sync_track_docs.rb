@@ -12,24 +12,7 @@ module Git
       config = git_repo.read_json_blob(git_repo.head_commit, "docs/config.json")
 
       config[:docs].to_a.each do |doc_config|
-        doc = Document.where(track: track).create_or_find_by!(
-          uuid: doc_config[:uuid],
-          track: track
-        ) do |d|
-          d.slug = doc_config[:slug]
-          d.git_repo = track.repo_url
-          d.git_path = doc_config[:path]
-          d.title = doc_config[:title]
-        end
-
-        doc.update!(
-          slug: doc_config[:slug],
-          git_path: doc_config[:path],
-          title: doc_config[:title],
-          blurb: doc_config[:blurb]
-        )
-      rescue StandardError
-        # TODO: Raise issue on GH.
+        Git::SyncDoc.(doc_config, :tracks, track: track)
       end
     end
   end

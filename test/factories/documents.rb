@@ -4,6 +4,7 @@ FactoryBot.define do
     slug { SecureRandom.uuid }
     git_repo { TestHelpers.git_repo_url("track-with-exercises") }
     git_path { "docs/TESTS.md" }
+    section { :contributing }
     title { "Running the Tests" }
   end
 end

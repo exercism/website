@@ -9,6 +9,10 @@
         @apply border-r-1 border-borderColor6;
         @apply pt-32 pr-32;
 
+        & h2 {
+            @apply text-h4 mb-16;
+        }
+
         & ul {
             & li {
                 @apply mb-16;

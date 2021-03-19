@@ -36,11 +36,12 @@ ActiveRecord::Schema.define(version: 2021_03_18_131539) do
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "track_id"
+    t.string "section", null: false
     t.string "slug", null: false
     t.string "git_repo", null: false
     t.string "git_path", null: false
-    t.integer "type"
     t.string "title", null: false
+    t.string "nav_title"
     t.string "blurb"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

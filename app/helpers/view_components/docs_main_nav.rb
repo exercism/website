@@ -2,6 +2,12 @@ module ViewComponents
   class DocsMainNav < ViewComponent
     extend Mandate::Memoize
 
+    def initialize(selected_section)
+      super
+
+      @selected_section = selected_section
+    end
+
     def to_s
       tag.div(class: "c-docs-nav") do
         tag.div(lhs + rhs, class: "lg-container container")
@@ -13,18 +19,19 @@ module ViewComponents
         tag.ul do
           safe_join(
             [
-              tag.li do
+              tag.li(class: !selected_section ? "selected" : nil) do
                 link_to Exercism::Routes.docs_url do
                   icon :home, "Docs home"
                 end
               end,
 
-              tag.li { link_to "Using Exercism", "#" },
-              tag.li(class: 'selected') { link_to "Contributing", "#" },
-              tag.li { link_to "Maintaining", "#" },
-              tag.li { link_to "Organisation", "#" },
-              tag.li { link_to "Misc", "#" },
-              tag.li { link_to "Track-specific", "#" }
+              li_link("Using Exercism", :using),
+              li_link("Contributing", :contributing),
+              li_link("Maintaining", :maintaining),
+              li_link("Mentoring", :mentoring),
+              li_link("Organisation", :organisation),
+              li_link("Misc", :misc),
+              li_link("Track-specific", :tracks)
             ]
           )
         end
@@ -43,5 +50,14 @@ module ViewComponents
         end
       end
     end
+
+    def li_link(title, section)
+      css_class = section == selected_section ? "selected" : nil
+      url = Exercism::Routes.doc_section_path(section)
+      tag.li(link_to(title, url), class: css_class)
+    end
+
+    private
+    attr_reader :selected_section
   end
 end

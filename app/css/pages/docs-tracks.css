@@ -1,0 +1,16 @@
+@import "../styles";
+
+#page-docs-tracks {
+    & .header {
+        @apply flex flex-col items-center;
+        @apply pt-40;
+
+        & h1 {
+            @apply text-h1 mb-12;
+        }
+        & p {
+            @apply text-20 leading-170;
+            @apply mb-28;
+        }
+    }
+}

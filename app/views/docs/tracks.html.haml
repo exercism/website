@@ -1,0 +1,9 @@
+= render ViewComponents::DocsMainNav.new(:tracks)
+
+#page-docs-tracks
+  .sm-container
+    .header
+      %h1 Track-specific docs
+      %p Explore the docs of tracks you're learning, mentoring or helping to build.
+
+    = render ViewComponents::DocsTrackList.new

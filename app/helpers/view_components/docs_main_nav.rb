@@ -52,7 +52,7 @@ module ViewComponents
 
     def li_link(title, section)
       css_class = section == selected_section ? "selected" : nil
-      url = Exercism::Routes.doc_section_path(section)
+      url = Exercism::Routes.docs_section_path(section)
       tag.li(link_to(title, url), class: css_class)
     end
 

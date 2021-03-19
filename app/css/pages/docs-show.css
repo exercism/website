@@ -5,7 +5,7 @@
         @apply flex;
     }
     & .docs-content {
-        @apply pt-48 px-80;
+        @apply pt-48 px-80 pb-48;
         @apply flex-grow;
         max-width: 940px;
 

@@ -4,8 +4,9 @@ module Git
 
     def call
       sync_config! :using
-      sync_config! :contributing
+      sync_config! :building
       sync_config! :mentoring
+      sync_config! :community
     end
 
     private

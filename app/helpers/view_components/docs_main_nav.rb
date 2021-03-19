@@ -2,7 +2,7 @@ module ViewComponents
   class DocsMainNav < ViewComponent
     extend Mandate::Memoize
 
-    def initialize(selected_section)
+    def initialize(selected_section = nil)
       super()
 
       @selected_section = selected_section
@@ -26,10 +26,10 @@ module ViewComponents
               end,
 
               li_link("Using Exercism", :using),
-              li_link("Contributing", :contributing),
+              li_link("Building Exercism", :building),
               li_link("Mentoring", :mentoring),
+              li_link("Community", :community),
               li_link("Not-for-profit", :organisation),
-              li_link("Misc", :misc),
               li_link("Track-specific", :tracks)
             ]
           )

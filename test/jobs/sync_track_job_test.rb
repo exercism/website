@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ProcessPushUpdateJobTest < ActiveJob::TestCase
+class SyncTrackJobTest < ActiveJob::TestCase
   test "track is synced from git" do
     track = create :track, slug: 'csharp'
 

@@ -1,0 +1,48 @@
+@import "../styles";
+
+.c-docs-side-nav {
+    width: 350px;
+    @apply border-r-1 border-borderColor6;
+    @apply pt-32 pr-32;
+
+    & h2 {
+        @apply text-h4 mb-16;
+    }
+
+    & ul {
+        & li {
+            @apply mb-16;
+            & a {
+                @apply block;
+                @apply text-16 leading-140 font-medium;
+            }
+            &.header {
+                @apply flex items-center;
+                & a {
+                    @apply flex-grow flex;
+                    @apply text-textColor2 font-semibold;
+                    &:after {
+                        content: "+";
+                        width: 17px;
+                        @apply text-24 font-normal text-textColor2;
+                        @apply text-center ml-auto;
+                    }
+                }
+                &.expanded {
+                    & a:after {
+                        content: "-";
+                    }
+                }
+            }
+            &.selected {
+                & a {
+                    @apply text-anotherPurple font-semibold;
+                }
+            }
+        }
+        & ul {
+            @apply border-l-2 border-borderColor6 pl-24;
+            @apply mb-12;
+        }
+    }
+}

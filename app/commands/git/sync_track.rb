@@ -39,6 +39,8 @@ module Git
       track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise) }
       track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
 
+      Git::SyncTrackDocs.(track)
+
       # Now that the concepts and exercises have synced successfully,
       # we can set the track's synced git SHA to the HEAD SHA
       track.update!(synced_to_git_sha: head_git_track.commit.oid)

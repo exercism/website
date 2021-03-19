@@ -35,6 +35,9 @@
     @apply text-16 leading-160;
 }
 .text-p-large {
+    @apply text-18 leading-170;
+}
+.text-p-xlarge {
     @apply text-20 leading-170;
 }
 
@@ -51,6 +54,10 @@
 .btn--cta {
     @apply bg-anotherPurple text-textColor9 border-anotherPurple;
     @apply shadow-buttonS;
+
+    & .c-icon {
+        filter: var(--white-filter);
+    }
 }
 .btn--secondary {
     @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;

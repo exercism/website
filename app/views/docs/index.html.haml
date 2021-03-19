@@ -1,0 +1,19 @@
+= render ViewComponents::DocsMainNav.new
+
+#page-docs-index
+  .sm-container
+    .header
+      = graphical_icon "guides", css_class: "header-icon", hex: true
+      %h1 Welcome to Exercism's docs 👋
+      %p Find out everything you need to know about using and contributing to Exercism.
+      = graphical_icon "sharp-squiggle", css_class: "header-divider"
+    .top-section
+      .info
+        %h2 Using Exercism
+        %p
+          Learn how to make the make the most from your time on Exercism.
+          Find answers to all your questions, understand how to make the most out of mentoring, and discover how to be a great Exercism citizen.
+        %button.btn-large-cta
+          %span Get started
+          = graphical_icon 'arrow-right'
+      = graphical_icon 'hacker-boy', category: "graphics"

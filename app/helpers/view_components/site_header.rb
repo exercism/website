@@ -23,6 +23,7 @@ module ViewComponents
     end
 
     def nav
+      return render_docs_nav if controller_name == "docs"
       return unless user_signed_in?
 
       if namespace_name == "mentoring"
@@ -83,6 +84,14 @@ module ViewComponents
       tag.div(class: "external-section") do
         link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-small-cta") +
           link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-small")
+      end
+    end
+
+    def render_docs_nav
+      tag.div "", class: "docs-search" do
+        tag.div "", class: "c-search-bar" do
+          tag.input class: "--search", placeholder: "Search Exercism's docs..."
+        end
       end
     end
   end

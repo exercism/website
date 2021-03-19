@@ -46,6 +46,12 @@ module TestHelpers
     Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
   end
 
+  def self.use_docs_test_repo!
+    repo_url = TestHelpers.git_repo_url("docs")
+    repo = Git::Repository.new(repo_url: repo_url)
+    Git::Repository.expects(:new).at_least_once.returns(repo)
+  end
+
   def self.image_pack_url(icon_name, category: 'icons')
     asset_pack_url("media/images/#{category}/#{icon_name}.svg")
   end

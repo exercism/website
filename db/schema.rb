@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_17_082249) do
+ActiveRecord::Schema.define(version: 2021_03_18_131539) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -31,6 +31,23 @@ ActiveRecord::Schema.define(version: 2021_03_17_082249) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_bug_reports_on_user_id"
+  end
+
+  create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "track_id"
+    t.string "section", null: false
+    t.string "slug", null: false
+    t.string "git_repo", null: false
+    t.string "git_path", null: false
+    t.string "title", null: false
+    t.string "nav_title"
+    t.string "blurb"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_documents_on_slug"
+    t.index ["track_id"], name: "index_documents_on_track_id"
+    t.index ["uuid"], name: "index_documents_on_uuid", unique: true
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -509,6 +526,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_082249) do
   end
 
   add_foreign_key "bug_reports", "users"
+  add_foreign_key "documents", "tracks"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

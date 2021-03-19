@@ -1,0 +1,51 @@
+@import "../styles";
+
+.c-docs-nav {
+    @apply bg-backgroundColorE;
+    @apply pt-12;
+
+    & .container {
+        @apply flex;
+    }
+
+    & nav.lhs {
+        @apply flex-grow;
+    }
+    & ul {
+        @apply flex;
+    }
+    & li {
+        @apply mr-40;
+        @apply border-b-3 border-transparent;
+        &:last-child {
+            @apply mr-0;
+        }
+        & a {
+            @apply text-16 leading-200 text-textColor6 font-medium;
+            @apply block mt-8 mb-8;
+
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                @apply text-anotherPurple;
+            }
+        }
+        &:hover {
+            & a {
+                @apply text-textColor1;
+            }
+        }
+        &.selected {
+            @apply border-anotherPurple;
+
+            & a {
+                @apply text-anotherPurple;
+            }
+        }
+        &.api {
+            & a {
+                @apply text-anotherPurple font-semibold;
+            }
+        }
+    }
+}

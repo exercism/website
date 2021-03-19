@@ -7,23 +7,18 @@ module Webhooks
     def call
       return unless pushed_to_main?
 
-      if website_copy?
+      case repo_name
+      when "website-copy"
         UpdateWebsiteCopyJob.perform_later
-      elsif track
-        SyncTrackJob.perform_later(track)
+      when "docs"
+        SyncDocsJob.perform_later
+      else
+        track = Track.find_by(slug: repo_name)
+        SyncTrackJob.perform_later(track) if track
       end
     end
 
     private
-    def website_copy?
-      repo_name == "website-copy"
-    end
-
-    memoize
-    def track
-      Track.find_by(slug: repo_name)
-    end
-
     def pushed_to_main?
       ref == "refs/heads/#{Git::Repository::MAIN_BRANCH_REF}"
     end

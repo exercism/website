@@ -348,4 +348,13 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::Repository.any_instance.expects(:fetch!).once
     Git::SyncTrack.(track)
   end
+
+  test "syncs docs" do
+    track = create :track
+
+    Git::SyncTrackDocs.expects(:call).with(track)
+
+    # Run this once to get the track cloned onto the local machine
+    Git::SyncTrack.(track)
+  end
 end

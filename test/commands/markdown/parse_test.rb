@@ -148,4 +148,25 @@ Done')
     expected = "<p><a href=\"/tracks/ruby/exercises/anagram\" target=\"_blank\" data-react-inline-link=\"ruby/exercises/anagram\">anagram</a></p>\n" # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[anagram](/tracks/ruby/exercises/anagram)")
   end
+
+  test "render concept widget link without link" do
+    expected = "<p><span data-react-widget=\"julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[concept:julia/if-statements]()")
+  end
+
+  test "render concept widget link with link" do
+    expected = "<p><span data-react-widget=\"julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected,
+      Markdown::Parse.("[concept:julia/if-statements](https://exercism.io/tracks/julia/concepts/if-statements)")
+  end
+
+  test "render exercise widget link without link" do
+    expected = "<p><span data-react-widget=\"julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer]()")
+  end
+
+  test "render exercise widget link with link" do
+    expected = "<p><span data-react-widget=\"julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.io/tracks/julia/exercises/two-fer)")
+  end
 end

@@ -18,13 +18,25 @@ class Markdown::RenderHTML
     attr_reader :nofollow_links
 
     def link(node)
-      inline_link_match = match_inline_link(node)
+      widget_link_match = match_widget_link(node)
+      if widget_link_match
+        out("<span data-react-widget=\"#{widget_link_match[:track]}/#{widget_link_match[:type]}s/#{widget_link_match[:subject]}\" class=\"data-react-#{widget_link_match[:type]}-widget\" />") # rubocop:disable Layout/LineLength
+      else
+        inline_link_match = match_inline_link(node)
+        out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
+        out(' title="', escape_html(node.title), '"') if node.title.present?
+        out(' rel="nofollow"') if nofollow_links
+        out(" data-react-inline-link=\"#{inline_link_match[:link]}\"") if inline_link_match
+        out('>', :children, '</a>')
+      end
+    end
 
-      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
-      out(' title="', escape_html(node.title), '"') if node.title.present?
-      out(' rel="nofollow"') if nofollow_links
-      out(" data-react-inline-link=\"#{inline_link_match[:link]}\"") if inline_link_match
-      out('>', :children, '</a>')
+    def match_widget_link(node)
+      children = node.each.to_a
+      return unless children.size == 1
+
+      link_text = children.first.to_plaintext.strip
+      %r{^(?<type>concept|exercise):(?<track>[a-zA-Z0-9_-]+)/(?<subject>[a-zA-Z0-9_-]+)$}.match(link_text)
     end
 
     def match_inline_link(node)

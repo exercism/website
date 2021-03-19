@@ -10,7 +10,7 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
     doc = Document.first
     assert_nil doc.track
     assert_equal '7c7139b9-a228-4691-a4e4-a0c39a6dd615', doc.uuid
-    assert_equal "contributing", doc.section
+    assert_equal "building", doc.section
     assert_equal "APEX", doc.slug
     assert_equal "contributing/README.md", doc.git_path
     assert_equal "Contributing to Exercism", doc.title
@@ -31,7 +31,7 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
     assert_equal 1, Document.count
     doc = Document.first
     assert_equal '7c7139b9-a228-4691-a4e4-a0c39a6dd615', doc.uuid
-    assert_equal "contributing", doc.section
+    assert_equal "building", doc.section
     assert_equal "APEX", doc.slug
     assert_equal "contributing/README.md", doc.git_path
     assert_equal "Contributing to Exercism", doc.title

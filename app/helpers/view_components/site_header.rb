@@ -23,8 +23,8 @@ module ViewComponents
     end
 
     def nav
-      return unless user_signed_in?
       return render_docs_nav if controller_name == "docs"
+      return unless user_signed_in?
 
       if namespace_name == "mentoring"
         selected = :mentoring

@@ -32,7 +32,7 @@ module ViewComponents
       return if node.blank? && children.blank?
 
       tags = []
-      tags << doc_li(node) if node.present?
+      tags << doc_li(node, children) if node.present?
 
       if children.present?
         tags << tag.li do
@@ -49,7 +49,7 @@ module ViewComponents
       tags
     end
 
-    def doc_li(slug)
+    def doc_li(slug, children)
       return if slug.blank?
 
       doc = indexed_docs[slug]
@@ -63,7 +63,12 @@ module ViewComponents
         url = Exercism::Routes.doc_path(doc.section, doc.slug)
       end
 
-      tag.li(class: doc == selected_doc ? "selected" : nil) do
+      css_classes = []
+      css_classes << "selected expanded" if doc.slug == selected_doc.slug
+      css_classes << "header" if slugs_with_children.include?(doc.slug)
+      css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc.slug }
+
+      tag.li(class: css_classes.join(" ")) do
         link_to doc.nav_title, url
       end
     end
@@ -75,8 +80,19 @@ module ViewComponents
 
     memoize
     def structured_docs
-      paths = docs.map(&:slug)
+      levels = []
+      current = ""
+      selected_doc.slug.split("/").each do |part|
+        current += "#{part}/"
+        levels << current
+      end
+
+      paths = docs.map(&:slug).sort
       paths.each_with_object({}) do |path, tree|
+        level = path.count("/")
+        next unless level.zero? ||
+                    (levels.size >= level && path.starts_with?(levels[level - 1]))
+
         parts = path.split('/')
         current = tree
         parts.each_with_index do |_part, i|
@@ -85,6 +101,23 @@ module ViewComponents
           current = current[node]
         end
       end
+    end
+
+    memoize
+    def slugs_with_children
+      paths = docs.map(&:slug).sort
+      paths.select do |path|
+        paths.any? { |otherpath| otherpath != path && otherpath.start_with?("#{path}/") }
+      end
+    end
+
+    def flatten_hash(hash)
+      res = []
+      hash.each do |key, values|
+        res << key if key.present?
+        res << values.flat_map { |v| flatten_hash(v) } if values
+      end
+      res.flatten
     end
   end
 end

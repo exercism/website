@@ -16,11 +16,6 @@
                 @apply block;
                 @apply text-16 leading-140 font-medium;
             }
-            &.selected {
-                & a {
-                    @apply text-anotherPurple font-semibold;
-                }
-            }
             &.header {
                 @apply flex items-center;
                 & a {
@@ -30,11 +25,18 @@
                 &:after {
                     content: "+";
                     @apply text-24;
+                    width: 17px;
+                    text-align: center;
                 }
                 &.expanded {
                     &:after {
-                        content: "—";
+                        content: "-";
                     }
+                }
+            }
+            &.selected {
+                & a {
+                    @apply text-anotherPurple font-semibold;
                 }
             }
         }

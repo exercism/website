@@ -3,6 +3,8 @@ module Git
     include Mandate
 
     def call
+      repo.fetch!
+
       sync_config! :using
       sync_config! :building
       sync_config! :mentoring
@@ -11,7 +13,6 @@ module Git
 
     private
     def sync_config!(section)
-      repo.fetch!
       config = repo.read_json_blob(repo.head_commit, "#{section}/config.json")
 
       config.to_a.each do |doc_config|

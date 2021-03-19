@@ -1,9 +1,9 @@
 .text-h1 {
-    @apply text-40 font-bold text-textColor1;
+    @apply text-40 font-bold text-textColor2;
     line-height: 1.25;
 }
 .text-h2 {
-    @apply text-31 font-semibold text-textColor1;
+    @apply text-31 font-semibold text-textColor2;
     line-height: 1.25;
 }
 .text-h3 {
@@ -31,6 +31,12 @@
 .text-p-small {
     @apply text-14 leading-160;
 }
+.text-p-base {
+    @apply text-16 leading-160;
+}
+.text-p-large {
+    @apply text-20 leading-170;
+}
 
 .text-prose {
     @apply text-18 leading-paragraph;
@@ -44,6 +50,7 @@
 
 .btn--cta {
     @apply bg-anotherPurple text-textColor9 border-anotherPurple;
+    @apply shadow-buttonS;
 }
 .btn--secondary {
     @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;
@@ -86,6 +93,7 @@
 .btn-large {
     @apply btn;
     @apply px-32 border-3 text-18;
+    @apply shadow-buttonS;
     height: 54px;
 
     & > .c-icon {
@@ -113,7 +121,6 @@
 }
 .btn-small-cta {
     @apply btn-small btn--cta;
-    @apply shadow-xsZ1;
 }
 .btn-small-secondary {
     @apply btn-small btn--secondary;

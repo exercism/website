@@ -67,6 +67,12 @@ class Exercise < ApplicationRecord
     slug
   end
 
+  # TODO: Remove once in the db
+  def blurb
+    "Atoms are internally represented"
+  end
+
+  # TODO: Remove once in the db
   def icon_url
     asset_pack_url(
       "media/images/exercises/#{icon_name}.svg",
@@ -76,7 +82,18 @@ class Exercise < ApplicationRecord
 
   # TODO: Implement this properly
   def icon_name
-    title[0].ord < 78 ? suffix = "butterflies" : suffix = "rocket"
+    if title[0].ord < 70
+      suffix = "queen-attack"
+    elsif title[0].ord < 75
+      suffix = "rocket"
+    elsif title[0].ord < 80
+      suffix = "minesweeper"
+    elsif title[0].ord < 85
+      suffix = "annalyn"
+    else
+      suffix = "butterflies"
+    end
+
     "sample-#{suffix}"
   end
 

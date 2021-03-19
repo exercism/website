@@ -134,4 +134,11 @@
             }
         }
     }
+    & .external-section {
+        @apply flex items-center flex-grow justify-end;
+
+        & a:first-child {
+            @apply mr-16;
+        }
+    }
 }

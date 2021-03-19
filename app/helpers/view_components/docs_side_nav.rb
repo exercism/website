@@ -3,7 +3,7 @@ module ViewComponents
     extend Mandate::Memoize
 
     def initialize(docs, selected_doc, track: nil)
-      super
+      super()
 
       @docs = docs
       @selected_doc = selected_doc

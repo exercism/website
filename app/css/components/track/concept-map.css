@@ -7,9 +7,9 @@
     --c-concept-map-line-complete: #64b294;
     --c-concept-map-line-available: #dce3ef;
     --c-concept-map-line-locked: #c9c8d7;
-    --c-concept-map-line-faded: #eff2f8;
+    --c-concept-map-line-faded: #d2ddf3;
 
-    --c-concept-map-line-dasharray-dashed: 5, 7;
+    --c-concept-map-line-dasharray-dashed: 4, 6;
     --c-concept-map-line-dasharray-solid: 1, 0;
     --c-concept-map-text-unlocked: #26282d;
     --c-concept-map-text-locked: #6d6986;
@@ -129,7 +129,7 @@
         &.unavailable {
             @apply -z-3;
             stroke: var(--c-concept-map-line-faded);
-            stroke-dasharray: var(--c-concept-map-line-dasharray-solid);
+            stroke-dasharray: var(--c-concept-map-line-dasharray-dashed);
         }
 
         &.available {

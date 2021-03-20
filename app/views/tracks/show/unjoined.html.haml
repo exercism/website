@@ -9,9 +9,9 @@
 
         %h2 Want to learn and master #{@track.title}?
         %p
-          Join Exercism’s Elixir Track for access to
+          Join Exercism’s #{@track.title} Track for access to
           %em.c-underline
-            %strong 150 exercises grouped into 40 Elixir Concepts,
+            %strong 150 exercises grouped into 40 #{@track.title} Concepts,
           with automatic analysis
           of your code and
           %em.c-underline real human mentoring
@@ -46,7 +46,7 @@
         .info
           %h2
             %em.c-underline #{@track.exercises.count} coding exercises
-            for Elixir on Exercism.
+            for #{@track.title} on Exercism.
             From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
           = graphical_icon "sharp-squiggle", css_class: "divider"
           %p Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism.

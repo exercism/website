@@ -98,11 +98,11 @@
     /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
     &::before {
         content: "";
-        width: 100%;
-        height: 8px;
+        width: 8px;
+        height: 100%;
         left: 0;
         top: 0;
-        transform: translateY(-100%);
+        transform: translateX(-100%);
         background: transparent;
         position: absolute;
     }
@@ -111,12 +111,12 @@
     /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
     &::after {
         content: "";
-        width: 100%;
-        height: 8px;
-        left: 0;
-        bottom: 0;
-        transform: translateY(100%);
-        background: rgba(0, 0, 0, 0);
+        width: 8px;
+        height: 100%;
+        right: 0;
+        top: 0;
+        transform: translateX(100%);
+        background: transparent;
         position: absolute;
     }
 }

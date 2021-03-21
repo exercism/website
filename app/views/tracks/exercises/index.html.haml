@@ -31,6 +31,26 @@
 
     %section.exercises
       .lg-container.container
-        - @exercises.each do |exercise|
-          = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, size: :large)
+        .c-search-bar
+          %input.--search{ placeholder: "Search by title" }
+        .tabs
+          .c-tab.selected
+            All Exercises
+            .count 160
+          .c-tab
+            Completed
+            .count 14
+          .c-tab
+            In Progress
+            .count 29
+          .c-tab
+            Available
+            .count 37
+          .c-tab
+            Locked
+            .count 100
+
+        .exercises
+          - @exercises.each do |exercise|
+            = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, size: :large)
 

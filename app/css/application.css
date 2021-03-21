@@ -20,6 +20,7 @@
 
 :root {
     /* TODO: Rename these to match figma */
+    --c-5C5589: #5c5589;
     --c-130B43: #130b43;
     --c-130b43: #130b43;
     --c-CBC9D9: #cbc9d9;
@@ -70,7 +71,7 @@
     --textColor2: var(--c-130B43);
     --textColor3: var(--c-26282D);
     --textColor5: var(--c-3F3A5A);
-    --textColor6: var(--c-6D6986);
+    --textColor6: var(--c-5C5589);
     --textColor7: var(--c-8480A0);
     --textColor8: var(--c-E1EBFF);
     --textColor9: var(--c-FFFFFF);
@@ -81,7 +82,6 @@
     --inputBorderColor: var(--c-8480A0);
     --inputBorderColorFocus: var(--c-6A93FF);
     --tabBackgroundColorSelected: var(--c-E1EBFF);
-    --tabColorSelected: var(--c-000000);
     --tabIconColorSelected: var(--c-604FCD);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);
 
@@ -116,7 +116,6 @@
     --inputBackgroundColor: var(--c-322C44);
     --inputBorderColorFocus: var(--c-8480A0);
     --tabBackgroundColorSelected: var(--c-604FCD);
-    --tabColorSelected: var(--c-FFFFFF);
     --successColor: var(--c-4FCDA7);
 
     @apply text-textColor5 bg-backgroundColorB;

@@ -22,10 +22,12 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
       has_mentor_discussion_in_progress: false,
       has_mentor_request_pending: false,
       exercise: {
+        slug: solution.exercise.slug,
         title: solution.exercise.title,
         icon_url: solution.exercise.icon_url
       },
       track: {
+        slug: solution.track.slug,
         title: solution.track.title,
         icon_url: solution.track.icon_url
       }

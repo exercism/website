@@ -14,6 +14,8 @@ import {
 
 import { computePathProperties } from './helpers/path-helpers'
 
+import { camelize } from 'humps'
+
 const elementReducer: ElementReducer = (_, nextElements) => nextElements
 
 export const ConnectionPathSVG = ({
@@ -23,6 +25,8 @@ export const ConnectionPathSVG = ({
   activeConcepts: Set<string>
   connection: ConceptConnection
 }): JSX.Element | null => {
+  const from = camelize(connection.from)
+  const to = camelize(connection.to)
   const webpageSize = useWebpageSize()
   const [{ startElementRef, endElementRef }, dispatchRef] = useReducer(
     elementReducer,
@@ -33,11 +37,11 @@ export const ConnectionPathSVG = ({
   )
 
   useEffect(() => {
-    addElementDispatcher(dispatchRef, connection.from, connection.to)
+    addElementDispatcher(dispatchRef, from, to)
     return () => {
-      removeElementDispatcher(dispatchRef, connection.from, connection.to)
+      removeElementDispatcher(dispatchRef, from, to)
     }
-  }, [connection, dispatchRef, webpageSize])
+  }, [from, to, dispatchRef, webpageSize])
 
   const pathProperties: ConceptPathProperties | null =
     startElementRef !== null && endElementRef !== null
@@ -61,8 +65,7 @@ export const ConnectionPathSVG = ({
   // Compute ClassNames
   const existsActivePaths = activeConcepts.size > 0
   const isActive =
-    !existsActivePaths ||
-    (activeConcepts.has(connection.from) && activeConcepts.has(connection.to))
+    !existsActivePaths || (activeConcepts.has(from) && activeConcepts.has(to))
 
   const classNames = ['connection', status]
   if (isActive) {
@@ -78,8 +81,8 @@ export const ConnectionPathSVG = ({
         transform: `translate(${translateX}px, ${translateY}px)`,
       }}
       className={classNames.join(' ')}
-      data-from={connection.from}
-      data-to={connection.to}
+      data-from={from}
+      data-to={to}
     >
       <g>
         <PurePathLineSVG

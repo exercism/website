@@ -1,0 +1,175 @@
+{
+  "graph": {
+    "concepts": [
+      {
+        "slug": "arrays",
+        "name": "Arrays",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/arrays",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/arrays/tooltip"
+      },
+      {
+        "slug": "basics",
+        "name": "Basics",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/basics",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/basics/tooltip"
+      },
+      {
+        "slug": "blocks",
+        "name": "Blocks",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/blocks",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/blocks/tooltip"
+      },
+      {
+        "slug": "booleans",
+        "name": "Booleans",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/booleans",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/booleans/tooltip"
+      },
+      {
+        "slug": "conditionals",
+        "name": "Conditionals",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/conditionals",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/conditionals/tooltip"
+      },
+      {
+        "slug": "floating-point-numbers",
+        "name": "Floating Point Numbers",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/floating-point-numbers",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/floating-point-numbers/tooltip"
+      },
+      {
+        "slug": "instance-variables",
+        "name": "Instance Variables",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/instance-variables",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/instance-variables/tooltip"
+      },
+      {
+        "slug": "loops",
+        "name": "Loops",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/loops",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/loops/tooltip"
+      },
+      {
+        "slug": "nil",
+        "name": "Nil",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/nil",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/nil/tooltip"
+      },
+      {
+        "slug": "numbers",
+        "name": "Numbers",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/numbers",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/numbers/tooltip"
+      },
+      {
+        "slug": "ostruct",
+        "name": "Ostruct",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/ostruct",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/ostruct/tooltip"
+      },
+      {
+        "slug": "strings",
+        "name": "Strings",
+        "web_url": "http://local.exercism.io:3020/tracks/ruby/concepts/strings",
+        "tooltip_url": "http://local.exercism.io:3020/tracks/ruby/concepts/strings/tooltip"
+      }
+    ],
+    "levels": [
+      ["basics", "blocks", "ostruct"],
+      ["instance-variables", "nil", "strings"],
+      ["booleans"],
+      ["conditionals", "numbers"],
+      ["arrays", "floating-point-numbers", "loops"]
+    ],
+    "connections": [
+      { "from": "basics", "to": "instance-variables" },
+      { "from": "basics", "to": "nil" },
+      { "from": "basics", "to": "strings" },
+      { "from": "instance-variables", "to": "booleans" },
+      { "from": "nil", "to": "booleans" },
+      { "from": "booleans", "to": "conditionals" },
+      { "from": "booleans", "to": "numbers" },
+      { "from": "conditionals", "to": "arrays" },
+      { "from": "numbers", "to": "arrays" },
+      { "from": "conditionals", "to": "floating-point-numbers" },
+      { "from": "conditionals", "to": "loops" },
+      { "from": "numbers", "to": "floating-point-numbers" },
+      { "from": "numbers", "to": "loops" }
+    ],
+    "status": {
+      "ostruct": "learned",
+      "arrays": "locked",
+      "basics": "mastered",
+      "blocks": "learned",
+      "booleans": "learned",
+      "conditionals": "available",
+      "floating-point-numbers": "locked",
+      "instance-variables": "available",
+      "loops": "locked",
+      "nil": "mastered",
+      "numbers": "available",
+      "strings": "available"
+    },
+    "exercise_status": {
+      "ex-locked": "locked",
+      "ex-available": "available",
+      "ex-in-progress": "in-progress",
+      "ex-complete": "complete"
+    },
+    "exercises": {
+      "ostruct": {
+        "concept_exercises": ["ex-complete"],
+        "practice_exercises": ["ex-locked"]
+      },
+      "arrays": {
+        "concept_exercises": ["ex-locked"],
+        "practice_exercises": ["ex-locked"]
+      },
+      "basics": {
+        "concept_exercises": ["ex-complete"],
+        "practice_exercises": []
+      },
+      "blocks": {
+        "concept_exercises": ["ex-complete"],
+        "practice_exercises": [
+          "ex-available",
+          "ex-in-progress",
+          "ex-in-progress",
+          "ex-locked"
+        ]
+      },
+      "booleans": {
+        "concept_exercises": ["ex-complete"],
+        "practice_exercises": ["ex-complete", "ex-complete", "ex-in-progress"]
+      },
+      "conditionals": {
+        "concept_exercises": ["ex-available"],
+        "practice_exercises": ["ex-in-progress", "ex-in-progress"]
+      },
+      "floating-point-numbers": {
+        "concept_exercises": ["ex-locked"],
+        "practice_exercises": ["ex-locked", "ex-locked"]
+      },
+      "instance-variables": {
+        "concept_exercises": ["ex-available"],
+        "practice_exercises": ["ex-available", "ex-available"]
+      },
+      "loops": {
+        "concept_exercises": ["ex-available"],
+        "practice_exercises": ["ex-in-progress", "ex-available"]
+      },
+      "nil": {
+        "concept_exercises": ["ex-complete"],
+        "practice_exercises": ["ex-complete"]
+      },
+      "numbers": {
+        "concept_exercises": ["ex-available"],
+        "practice_exercises": ["ex-available", "ex-in-progress"]
+      },
+      "strings": {
+        "concept_exercises": ["ex-available"],
+        "practice_exercises": ["ex-available", "ex-complete", "ex-locked"]
+      }
+    }
+  }
+}

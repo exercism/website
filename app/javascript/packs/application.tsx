@@ -298,16 +298,13 @@ initReact({
     />
   ),
   'concept-map': (data: any) => {
-    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
-    return (
-      <ConceptMap
-        concepts={mapData.concepts}
-        levels={mapData.levels}
-        connections={mapData.connections}
-        status={mapData.status}
-        exerciseCounts={mapData.exerciseCounts}
-      />
-    )
+    // TODO: Remove this shim later!!!!!
+    // const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const tempData = require('../../../data.json')
+    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(tempData.graph)
+
+    return <ConceptMap {...mapData} />
   },
   'track-iteration-summary': (data: any) => (
     <TrackComponents.IterationSummaryWithWebsockets

@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { ConceptTooltip } from '../tooltips'
-import { Icon } from '../common/Icon'
-import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
 import { IConcept, ConceptStatus } from './concept-map-types'
 
@@ -12,6 +10,8 @@ import {
   Visibility,
 } from './helpers/concept-visibility-handler'
 import { wrapAnimationFrame } from './helpers/animation-helpers'
+import { PureExerciseStatusBar } from './ExerciseStatusBar'
+import { ConceptIcon } from '../common/ConceptIcon'
 
 type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
@@ -31,9 +31,9 @@ export const Concept = ({
   status,
   isActive,
   isActiveHover,
-  exercises = 0,
-  exercisesCompleted = 0,
+  exercises,
 }: ConceptProps): JSX.Element => {
+  const isLocked = status === 'locked'
   // sets the initial visibility, to avoid the flash of unstyled content
   const [visibility, setVisibility] = useState<Visibility>('hidden')
 
@@ -55,9 +55,6 @@ export const Concept = ({
     }
   }, [slug, conceptRef])
 
-  const hasExercises = exercises > 0
-  const isStarted = exercisesCompleted > 0
-
   // Build the class list
   const classes: string[] = ['card']
   classes.push(status)
@@ -66,12 +63,6 @@ export const Concept = ({
   }
   if (visibility === 'hidden') {
     classes.push('hidden')
-  }
-
-  if (!hasExercises) {
-    classes.push('no-exercises')
-  } else if (!isStarted) {
-    classes.push('not-started')
   }
 
   return (
@@ -89,21 +80,10 @@ export const Concept = ({
         onMouseLeave={wrapAnimationFrame(handleLeave)}
       >
         <div className="display">
+          <ConceptIcon name={name} size="small" />
           <div className="name">{name}</div>
-
-          {hasExercises && exercises === exercisesCompleted ? (
-            <Icon
-              icon="completed-check-circle"
-              className="complete-icon"
-              alt="You have mastered this concept"
-            />
-          ) : null}
         </div>
-        <PureExerciseProgressBar
-          completed={exercisesCompleted}
-          exercises={exercises}
-          hidden={!hasExercises || !isStarted}
-        />
+        {!isLocked && <PureExerciseStatusBar {...exercises} />}
       </a>
       <ConceptTooltip
         contentEndpoint={tooltipUrl}

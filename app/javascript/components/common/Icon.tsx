@@ -1,21 +1,22 @@
-import React from 'react'
+import * as React from 'react'
 
 export function Icon({
   icon,
   alt,
   className,
-  category,
+  category = 'icons',
 }: {
   icon: string
   alt: string
   className?: string
   category?: string
-}) {
-  let classNames = ['c-icon']
+}): JSX.Element {
+  const classNames = ['c-icon']
   if (className !== undefined) {
     classNames.push(className)
   }
-  const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const iconFile = require(`../../images/${category}/${icon}.svg`)
 
   return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

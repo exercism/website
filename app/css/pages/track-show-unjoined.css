@@ -16,7 +16,7 @@
             ),
             url("../../../app/javascript/images/bg-tracks-header@2x.png"),
             #fafaff;
-        background-size: contain;
+        background-size: 100%;
         background-position: -190px;
 
         & .container {
@@ -29,7 +29,7 @@
 
             & h1 {
                 @apply text-h1 mb-8;
-                @apply text-54 text-biggerBolderAndMorePurpleThanEver font-bold leading-120;
+                @apply text-54 text-textColor2 font-bold leading-120;
                 @apply mb-16;
             }
             & .c-icon.divider {

@@ -18,6 +18,15 @@ class UserTrack
       exercise(obj).completed
     end
 
+    def exercise_status(obj)
+      e = exercise(obj)
+      return :completed if e.completed
+      return :'in-progress' if e.started
+      return :available if e.available
+
+      :locked
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################

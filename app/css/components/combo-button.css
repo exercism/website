@@ -13,7 +13,7 @@
         @apply border-r-1 border-borderColor3;
     }
     & .--dropdown-segment {
-        @apply px-12;
+        @apply grid place-items-center px-12;
         & .c-icon {
             height: 13px;
             width: 13px;

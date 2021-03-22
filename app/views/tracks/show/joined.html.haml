@@ -3,31 +3,45 @@
 
   %header.track-header
     .lg-container.container
-      = track_icon(@track)
       .info
-        %h1= @track.title
-        .joined
-          = graphical_icon :"check-circle"
-          Joined on
-          %time{ datetime: @user_track.created_at.iso8601 }
-            = format_date(@user_track.created_at)
-      .progress
-        %progress.progress-bar{ value: @user_track.num_completed_exercises, max: @user_track.num_exercises }
-        .progress-key
-          .dot
-          .key
-            .metric #{@user_track.num_completed_exercises}/#{@user_track.num_exercises}
-            .text Exercises completed
+        %h1 Your Activity
+        = graphical_icon "sharp-squiggle", css_class: "divider"
 
-  %article
+      .graphics
+        = track_icon(@track)
+
+  %article.summary-article
     .lg-container.container
       .lhs
+        %section.progress-chart
+          %h2
+            You’re
+            %em #{@user_track.completed_percentage}%
+            through the #{@track.title} track.
+            %strong Keep it up! 🚀
+
+          .progress
+            .bar{ style: "width: #{@user_track.completed_percentage}%" }
+            / TODO: Disable this on SRs?
+            .completed-icon
+              = track_icon @track
+              = icon "completed-check-circle", "Completed", css_class: "completed-icon"
+
+          .exercises
+            - @exercise_statuses.each do |exercise_slug, status|
+              - if status == :locked
+                .ex{ class: status }
+              - else
+                = link_to "", track_exercise_path(@track, exercise_slug), class: "ex #{status}"
+
         - if @user_track.solutions.present?
           = render "tracks/show/joined/activities_section", activities: @activities, track: @track
         - else
           = render "tracks/show/joined/start_track_section", activities: @activities
-        = render "tracks/show/joined/uncompleted_exercises_section", track: @track, user_track: @user_track
-        = render "tracks/show/joined/concepts_section", track: @track, user_track: @user_track
       .rhs
-        = render "tracks/show/joined/contributors_section", track: @track, contributors: @track.top_10_contributors, num_contributors: @track.num_contributors
-        = render "tracks/show/joined/updates_section", track: @track
+
+-#
+    = render "tracks/show/joined/uncompleted_exercises_section", track: @track, user_track: @user_track
+    = render "tracks/show/joined/concepts_section", track: @track, user_track: @user_track
+    = render "tracks/show/joined/contributors_section", track: @track, contributors: @track.top_10_contributors, num_contributors: @track.num_contributors
+    = render "tracks/show/joined/updates_section", track: @track

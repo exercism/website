@@ -1,47 +1,52 @@
 %section.activities
-  - 2.times do
-    - @activities.each do |solution|
-      .exercise
-        %header
-          = link_to solution[:links][:exercise_url], class: 'content' do
-            = exercise_icon(Exercise.first) # solution[:exercise][:icon_name]
-            .info
-              .title= solution[:exercise][:title]
-              .tags
-                / This tag varies depending on the `status` of the solution
-                / It can be:
-                / .tag.started Started
-                / .tag.in-progress In Progress
-                / .tag.completed Completed
-                / .tag.published Published
-                .tag.in-progress In-progress
-                / Only show if solution[:num_mentor_comments] > 0
-                / Add unread if solution[:unread_mentor_comments] == true
-                .tag.mentor-comments.unread
-                  / If unread is true, alt text should be "Mentor comments: Some are unread"
-                  = icon :mentoring, "Mentor comments #{': Some are unread' if solution[:unread_mentor_comments]}"
-                  = solution[:num_mentor_comments]
+  - continue_btn_shown = false
+  - @activities.each do |solution|
+    .exercise
+      %header
+        = link_to solution[:links][:exercise_url], class: 'content' do
+          = exercise_icon(Exercise.first) # solution[:exercise][:icon_name]
+          .info
+            .title= solution[:exercise][:title]
+            .tags
+              / This tag varies depending on the `status` of the solution
+              / It can be:
+              / .tag.started Started
+              / .tag.in-progress In Progress
+              / .tag.completed Completed
+              / .tag.published Published
+              .tag.in-progress In-progress
+              / Only show if solution[:num_mentor_comments] > 0
+              / Add unread if solution[:unread_mentor_comments] == true
+              .mentor-comments.unread
+                / If unread is true, alt text should be "Mentor comments: Some are unread"
+                = icon :mentoring, "Mentor comments #{': Some are unread' if solution[:unread_mentor_comments]}"
+                = solution[:num_mentor_comments]
 
-                / Only show if solution[:unsubmitted_code]
-                .unsubmitted-code
-                  = graphical_icon "unsubmitted-code"
-                  Unsubmitted code
+              / Only show if solution[:unsubmitted_code]
+              .unsubmitted-code
+                = graphical_icon "unsubmitted-code"
+                Unsubmitted code
 
-          / Show on the first, in-progress
-          = link_to "Continue in Editor", solution[:links][:editor_url], class: 'btn-small-cta'
+        / Show on the first, in-progress
+        - unless continue_btn_shown
+          .c-combo-button
+            = link_to "Continue in Editor", solution[:links][:editor_url], class: '--editor-segment'
+            .--dropdown-segment
+              = graphical_icon "chevron-down"
+          - continue_btn_shown = true
 
-        - if solution[:latest_iteration]
-          = link_to solution[:latest_iteration][:links][:self], class: 'latest-iteration' do
+      - if solution[:latest_iteration]
+        = link_to solution[:latest_iteration][:links][:self], class: 'latest-iteration' do
 
-            / I've added the `className` property to the React version of this. You need to set it to `--slim`
-            / TODO You can just use solution[:latest_iteration] to populate this.
-            = ReactComponents::Track::IterationSummary.new(Iteration.last, slim: true)
+          / I've added the `className` property to the React version of this. You need to set it to `--slim`
+          / TODO You can just use solution[:latest_iteration] to populate this.
+          = ReactComponents::Track::IterationSummary.new(Iteration.last, slim: true)
+          = graphical_icon 'chevron-right', css_class: "action-icon"
+
+      .activities
+        - solution[:activities].each do |activity|
+          .activity
+            .icon= graphical_icon activity[:icon_name]
+            .description= raw activity[:text]
+            %time #{time_ago_in_words(activity[:occurred_at])} ago
             = graphical_icon 'chevron-right', css_class: "action-icon"
-
-        .activities
-          - solution[:activities].each do |activity|
-            .activity
-              .icon= graphical_icon activity[:icon_name]
-              .description= raw activity[:text]
-              %time #{time_ago_in_words(activity[:occurred_at])} ago
-              = graphical_icon 'chevron-right', css_class: "action-icon"

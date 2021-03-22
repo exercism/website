@@ -19,7 +19,7 @@ test('shows details', async () => {
   expect(screen.getByText('Iteration 2')).toBeInTheDocument()
   expect(screen.getByAltText('Submitted via CLI')).toBeInTheDocument()
   expect(screen.getByTestId('details')).toHaveTextContent(
-    'Submitted via CLI, a few seconds ago'
+    'Submitted via CLI, now'
   )
   expect(
     screen.getByRole('status', { name: 'Processing status' })

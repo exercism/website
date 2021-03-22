@@ -10,7 +10,7 @@ test('highlightAll() highlights code snippets', () => {
   const expected = document.createElement('div')
   expected.innerHTML = `
     <pre>
-      <code class="ruby hljs">
+      <code class="ruby hljs" data-highlighted="true">
         <span class="hljs-class">
           <span class="hljs-keyword">class</span>
           <span class="hljs-title">Dog</span>
@@ -40,7 +40,7 @@ test('highlightAll() highlights code snippets with line numbers', () => {
   const expected = document.createElement('div')
   expected.innerHTML = `
     <pre>
-      <code class="ruby hljs" data-highlight-line-numbers data-highlight-line-number-start="2">
+      <code class="ruby hljs" data-highlight-line-numbers data-highlight-line-number-start="2" data-highlighted="true">
         <ul>
           <li>
             <div class="idx">2</div>
@@ -83,7 +83,7 @@ test('highlightAll() highlights multiline blocks correctly', () => {
   const expected = document.createElement('div')
   expected.innerHTML = `
     <pre>
-      <code class="javascript hljs" data-highlight-line-numbers>
+      <code class="javascript hljs" data-highlight-line-numbers data-highlighted="true">
         <ul>
           <li>
             <div class="idx">1</div>

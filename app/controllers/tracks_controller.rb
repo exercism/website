@@ -21,9 +21,11 @@ class TracksController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
 
     if @user_track
-      @activities = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track).map do |solution|
-        SerializeSolutionActivity.(solution)
+      @exercise_statuses = @track.exercises.pluck(:slug).index_with do |slug|
+        @user_track.exercise_status(slug)
       end
+
+      @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
 
       render "tracks/show/joined"
     else

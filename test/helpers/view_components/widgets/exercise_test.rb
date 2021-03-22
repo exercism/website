@@ -177,13 +177,6 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
     UserTrack.last || UserTrack::External.new(Track.last)
   end
 
-  def assert_html_equal(expected, actual)
-    expected.gsub!(/^\s+/, '')
-    expected.gsub!(/\s+$/, '')
-    expected.delete!("\n")
-    assert_equal(expected, actual)
-  end
-
   def external_exercise
     create :practice_exercise
   end

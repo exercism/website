@@ -95,7 +95,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
     output = SerializeTracks.([track])
 
     track_data = output[:tracks].first
-    assert_equal [], track_data[:tags]
+    assert_empty track_data[:tags]
   end
 
   test "sorts by name" do

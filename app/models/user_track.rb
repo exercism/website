@@ -33,7 +33,11 @@ class UserTrack < ApplicationRecord
     user.solutions.joins(:exercise).where("exercises.track_id": track)
   end
 
-  delegate :exercise_available?, :exercise_completed?,
+  def completed_percentage
+    42.5
+  end
+
+  delegate :exercise_available?, :exercise_completed?, :exercise_status,
     :num_completed_exercises,
     :num_concepts, :num_concepts_mastered,
     :num_exercises,

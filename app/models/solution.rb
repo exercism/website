@@ -47,6 +47,11 @@ class Solution < ApplicationRecord
     iterations.last
   end
 
+  # TODO: Do this
+  def has_unsubmitted_code?
+    false
+  end
+
   def git_type
     self.class.name.sub("Solution", "").downcase
   end

@@ -2,14 +2,12 @@
 .c-tab {
     @apply flex items-center;
     @apply px-16 rounded-100;
-    @apply text-16 text-textColor5 font-medium;
+    @apply text-16 text-textColor6 font-medium;
+    @apply mr-8;
 
     & .count {
-        @apply ml-8 px-8;
-        @apply border-1 border-borderLight rounded-100;
-        @apply text-14 font-medium;
-        @apply flex items-center justify-center;
-        height: 20px;
+        @apply ml-8;
+        @apply text-14 text-textColor6 font-medium;
     }
     & .c-icon {
         height: 24px;
@@ -18,10 +16,7 @@
     }
 
     &.selected {
-        @apply bg-tabBackgroundColorSelected text-tabColorSelected font-semibold;
-        & .count {
-            @apply text-tabColorSelected border-lightPurple;
-        }
+        @apply bg-tabBackgroundColorSelected text-textColor2;
         & .c-icon {
             @apply mr-12 text-tabIconColorSelected;
         }

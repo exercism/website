@@ -69,6 +69,9 @@ import '../../css/components/markdown-editor'
 import '../../css/components/mentor-discussion-summary'
 import '../../css/components/mentor-track-selector'
 import '../../css/components/tag'
+import '../../css/components/faces'
+import '../../css/components/exercise-status-tag'
+import '../../css/components/exercise-dot'
 
 import '../../css/components/widgets/exercise'
 

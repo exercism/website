@@ -41,7 +41,9 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show]
+      resources :tracks, only: %i[index show] do
+        resources :exercises, only: %i[index], controller: "exercises"
+      end
 
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"

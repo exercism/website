@@ -17,8 +17,8 @@ class GraphUtilsTest < ActiveSupport::TestCase
   end
 
   def test_find_sources
-    assert_equal [], GraphUtils.find_sources([])
-    assert_equal [], GraphUtils.find_sources([1, 1])
+    assert_empty GraphUtils.find_sources([])
+    assert_empty GraphUtils.find_sources([1, 1])
     assert_equal [0, 3], GraphUtils.find_sources([0, 1, 3, 0])
   end
 

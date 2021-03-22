@@ -2,7 +2,23 @@
 
 #page-exercises-index {
     & section.exercises {
-        & .container {
+        & .c-search-bar {
+            @apply mb-32;
+            & input.--search {
+                width: 100%;
+                max-width: 440px;
+            }
+        }
+        & .tabs {
+            @apply flex;
+            @apply mb-32;
+
+            & .c-tab {
+                height: 40px;
+                @apply cursor-pointer;
+            }
+        }
+        & .exercises {
             @apply grid gap-16;
             grid-template-columns: repeat(2, auto);
         }

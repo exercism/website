@@ -41,6 +41,11 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
+  # TODO: Drive from config.json
+  def course?
+    concepts.size > 5
+  end
+
   # TODO: Read this from a cache and update periodically
   def num_contributors
     User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
@@ -57,6 +62,16 @@ class Track < ApplicationRecord
     User.where(id: user_ids).
       order(Arel.sql("FIND_IN_SET(id, '#{user_ids.join(',')}')")).
       to_a
+  end
+
+  # TODO: Implement
+  def num_code_contributors
+    10
+  end
+
+  # TODO: Implemment
+  def num_mentors
+    187
   end
 
   # TODO: Set this properly

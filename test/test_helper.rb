@@ -115,6 +115,13 @@ class ActiveSupport::TestCase
     assert_equal obj_1, obj_2
   end
 
+  def assert_html_equal(expected, actual)
+    expected.gsub!(/^\s+/, '')
+    expected.gsub!(/\s+$/, '')
+    expected.delete!("\n")
+    assert_equal(expected, actual)
+  end
+
   ####################
   # DynamoDB Helpers #
   ####################

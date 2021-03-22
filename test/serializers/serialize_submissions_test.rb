@@ -12,6 +12,6 @@ class SerializeSubmissionsTest < ActiveSupport::TestCase
   end
 
   test "returns [] if no solutons are passed in" do
-    assert_equal [], SerializeSubmissions.([])
+    assert_empty SerializeSubmissions.([])
   end
 end

@@ -78,7 +78,7 @@ class Solution::SearchTest < ActiveSupport::TestCase
     assert_equal [solution_2], Solution::Search.(user, page: 1, per: 1)
     assert_equal [solution_1], Solution::Search.(user, page: 2, per: 1)
     assert_equal [solution_2, solution_1], Solution::Search.(user, page: 1, per: 2)
-    assert_equal [], Solution::Search.(user, page: 2, per: 2)
+    assert_empty Solution::Search.(user, page: 2, per: 2)
 
     # Check it uses defaults for invalid values
     assert_equal [solution_2, solution_1], Solution::Search.(user, page: 0, per: 0)

@@ -26,9 +26,9 @@ jobs:
       - name: Install gems
         run: |
           gem install rubocop -v 1.7.0
-          gem install rubocop-minitest
-          gem install rubocop-performance
-          gem install rubocop-rails
+          gem install rubocop-minitest -v 0.11.0
+          gem install rubocop-performance -v 1.10.1
+          gem install rubocop-rails -v 2.9.1
 
       - name: Run Rubocop
         run: rubocop --except Metrics

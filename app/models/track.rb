@@ -41,6 +41,11 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
+  # TODO: Drive from config.json
+  def course?
+    concepts.size > 5
+  end
+
   # TODO: Read this from a cache and update periodically
   def num_contributors
     User::ReputationToken.where(track_id: id).distinct.select(:user_id).count

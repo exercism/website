@@ -40,7 +40,7 @@
     & .graphics {
         @apply relative flex-grow self-stretch flex justify-center items-center;
         @apply overflow-hidden;
-        max-width: 440px;
+        max-width: 400px;
         &:before {
             content: "";
             background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTY5IDM0MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzNC4yNDkgNDguMzIzNkMxMzQuMjQ5IDU3Ljc1MzcgMTQxLjg5MyA2NS4zOTg0IDE1MS4zMjQgNjUuMzk4NEMxNjAuNzU0IDY1LjM5ODQgMTY4LjM5OCA1Ny43NTM3IDE2OC4zOTggNDguMzIzNkMxNjguMzk4IDM4Ljg5MzQgMTYwLjc1NCAzMS4yNDg4IDE1MS4zMjQgMzEuMjQ4OEMxNDEuODkzIDMxLjI0ODggMTM0LjI0OSAzOC44OTM0IDEzNC4yNDkgNDguMzIzNloiIGZpbGw9IiNGQUU1NEUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNDMuODUzIDU0LjAxNTJDMTM2LjU4NCA1NC4wMTUyIDEzMC42OTIgNDguMTIyNSAxMzAuNjkyIDQwLjg1MzRDMTMwLjY5MiAzMy41ODQzIDEzNi41ODQgMjcuNjkxNiAxNDMuODUzIDI3LjY5MTZDMTUxLjEyMiAyNy42OTE2IDE1Ny4wMTUgMzMuNTg0MyAxNTcuMDE1IDQwLjg1MzRDMTU3LjAxNSA0OC4xMjI1IDE1MS4xMjIgNTQuMDE1MiAxNDMuODUzIDU0LjAxNTJaTTE0My44NTMgNTkuNzA2OEMxMzMuNDQxIDU5LjcwNjggMTI1IDUxLjI2NTkgMTI1IDQwLjg1MzRDMTI1IDMwLjQ0MSAxMzMuNDQxIDIyIDE0My44NTMgMjJDMTU0LjI2NiAyMiAxNjIuNzA3IDMwLjQ0MSAxNjIuNzA3IDQwLjg1MzRDMTYyLjcwNyA1MS4yNjU5IDE1NC4yNjYgNTkuNzA2OCAxNDMuODUzIDU5LjcwNjhaIiBmaWxsPSIjMzMzNjNGIi8+CjxwYXRoIGQ9Ik0wIDMxMC42ODdMMjIuMTM1MSAyODguNTUyTDQ0LjI3MDIgMzEwLjY4N0wyMi4xMzUxIDMzMi44MjJMMCAzMTAuNjg3WiIgZmlsbD0iIzU5RDJBRSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjA4NjEgMzA2LjY2M0wzMS4xOTA1IDI4OS41NThDMzMuNjkxMSAyODcuMDU4IDM3Ljc0NTIgMjg3LjA1OCA0MC4yNDU4IDI4OS41NThMNTcuMzUwMiAzMDYuNjYzQzU5Ljg1MDcgMzA5LjE2MyA1OS44NTA3IDMxMy4yMTggNTcuMzUwMiAzMTUuNzE4TDQwLjI0NTggMzMyLjgyMkMzNy43NDUzIDMzNS4zMjMgMzMuNjkxMSAzMzUuMzIzIDMxLjE5MDUgMzMyLjgyMkwxNC4wODYxIDMxNS43MThDMTEuNTg1NiAzMTMuMjE4IDExLjU4NTYgMzA5LjE2MyAxNC4wODYxIDMwNi42NjNaTTE4LjExMDcgMzEwLjY4N0MxNy44MzI4IDMxMC45NjUgMTcuODMyOCAzMTEuNDE2IDE4LjExMDcgMzExLjY5NEwzNS4yMTUxIDMyOC43OThDMzUuNDkyOSAzMjkuMDc2IDM1Ljk0MzQgMzI5LjA3NiAzNi4yMjEyIDMyOC43OThMNTMuMzI1NiAzMTEuNjkzQzUzLjYwMzUgMzExLjQxNiA1My42MDM1IDMxMC45NjUgNTMuMzI1NiAzMTAuNjg3TDM2LjIyMTIgMjkzLjU4M0MzNS45NDM0IDI5My4zMDUgMzUuNDkyOSAyOTMuMzA1IDM1LjIxNTEgMjkzLjU4M0wxOC4xMTA3IDMxMC42ODdaIiBmaWxsPSIjMzMzNjNGIi8+CjxwYXRoIGQ9Ik0yMi4xMTQ1IDMuNTU3MjVDMjIuMTE0NSA1LjUyMTg2IDIwLjUyMTkgNy4xMTQ1IDE4LjU1NzIgNy4xMTQ1QzE2LjU5MjYgNy4xMTQ1IDE1IDUuNTIxODYgMTUgMy41NTcyNUMxNSAxLjU5MjYzIDE2LjU5MjYgMCAxOC41NTcyIDBDMjAuNTIxOSAwIDIyLjExNDUgMS41OTI2MyAyMi4xMTQ1IDMuNTU3MjVaIiBmaWxsPSIjMzMzNjNGIi8+CjxwYXRoIGQ9Ik0yMi4xMTQ3IDE2LjM2MzRDMjIuMTE0NyAxOC4zMjggMjAuNTIyIDE5LjkyMDYgMTguNTU3NCAxOS45MjA2QzE2LjU5MjggMTkuOTIwNiAxNS4wMDAyIDE4LjMyOCAxNS4wMDAyIDE2LjM2MzRDMTUuMDAwMiAxNC4zOTg4IDE2LjU5MjggMTIuODA2MiAxOC41NTc0IDEyLjgwNjJDMjAuNTIyIDEyLjgwNjIgMjIuMTE0NyAxNC4zOTg4IDIyLjExNDcgMTYuMzYzNFoiIGZpbGw9IiMzMzM2M0YiLz4KPHBhdGggZD0iTTIyLjExNDcgMjkuMTY5NkMyMi4xMTQ3IDMxLjEzNDIgMjAuNTIyIDMyLjcyNjggMTguNTU3NCAzMi43MjY4QzE2LjU5MjggMzIuNzI2OCAxNS4wMDAyIDMxLjEzNDIgMTUuMDAwMiAyOS4xNjk2QzE1LjAwMDIgMjcuMjA0OSAxNi41OTI4IDI1LjYxMjMgMTguNTU3NCAyNS42MTIzQzIwLjUyMiAyNS42MTIzIDIyLjExNDcgMjcuMjA0OSAyMi4xMTQ3IDI5LjE2OTZaIiBmaWxsPSIjMzMzNjNGIi8+CjxwYXRoIGQ9Ik0zNC45MjA3IDMuNTU3MjVDMzQuOTIwNyA1LjUyMTg2IDMzLjMyODEgNy4xMTQ1IDMxLjM2MzUgNy4xMTQ1QzI5LjM5ODggNy4xMTQ1IDI3LjgwNjIgNS41MjE4NiAyNy44MDYyIDMuNTU3MjVDMjcuODA2MiAxLjU5MjYzIDI5LjM5ODggMCAzMS4zNjM1IDBDMzMuMzI4MSAwIDM0LjkyMDcgMS41OTI2MyAzNC45MjA3IDMuNTU3MjVaIiBmaWxsPSIjMzMzNjNGIi8+CjxwYXRoIGQ9Ik0zNC45MjA3IDE2LjM2MzRDMzQuOTIwNyAxOC4zMjggMzMuMzI4MSAxOS45MjA2IDMxLjM2MzUgMTkuOTIwNkMyOS4zOTg4IDE5LjkyMDYgMjcuODA2MiAxOC4zMjggMjcuODA2MiAxNi4zNjM0QzI3LjgwNjIgMTQuMzk4OCAyOS4zOTg4IDEyLjgwNjIgMzEuMzYzNSAxMi44MDYyQzMzLjMyODEgMTIuODA2MiAzNC45MjA3IDE0LjM5ODggMzQuOTIwNyAxNi4zNjM0WiIgZmlsbD0iIzMzMzYzRiIvPgo8cGF0aCBkPSJNMzQuOTIwNyAyOS4xNjk2QzM0LjkyMDcgMzEuMTM0MiAzMy4zMjgxIDMyLjcyNjggMzEuMzYzNSAzMi43MjY4QzI5LjM5ODggMzIuNzI2OCAyNy44MDYyIDMxLjEzNDIgMjcuODA2MiAyOS4xNjk2QzI3LjgwNjIgMjcuMjA0OSAyOS4zOTg4IDI1LjYxMjMgMzEuMzYzNSAyNS42MTIzQzMzLjMyODEgMjUuNjEyMyAzNC45MjA3IDI3LjIwNDkgMzQuOTIwNyAyOS4xNjk2WiIgZmlsbD0iIzMzMzYzRiIvPgo8cGF0aCBkPSJNNDcuNzI2NyAzLjU1NzI1QzQ3LjcyNjcgNS41MjE4NiA0Ni4xMzQxIDcuMTE0NSA0NC4xNjk1IDcuMTE0NUM0Mi4yMDQ5IDcuMTE0NSA0MC42MTIyIDUuNTIxODYgNDAuNjEyMiAzLjU1NzI1QzQwLjYxMjIgMS41OTI2MyA0Mi4yMDQ5IDAgNDQuMTY5NSAwQzQ2LjEzNDEgMCA0Ny43MjY3IDEuNTkyNjMgNDcuNzI2NyAzLjU1NzI1WiIgZmlsbD0iIzMzMzYzRiIvPgo8cGF0aCBkPSJNNDcuNzI2NyAxNi4zNjM0QzQ3LjcyNjcgMTguMzI4IDQ2LjEzNDEgMTkuOTIwNiA0NC4xNjk1IDE5LjkyMDZDNDIuMjA0OSAxOS45MjA2IDQwLjYxMjIgMTguMzI4IDQwLjYxMjIgMTYuMzYzNEM0MC42MTIyIDE0LjM5ODggNDIuMjA0OSAxMi44MDYyIDQ0LjE2OTUgMTIuODA2MkM0Ni4xMzQxIDEyLjgwNjIgNDcuNzI2NyAxNC4zOTg4IDQ3LjcyNjcgMTYuMzYzNFoiIGZpbGw9IiMzMzM2M0YiLz4KPHBhdGggZD0iTTQ3LjcyNjcgMjkuMTY5NkM0Ny43MjY3IDMxLjEzNDIgNDYuMTM0MSAzMi43MjY4IDQ0LjE2OTUgMzIuNzI2OEM0Mi4yMDQ5IDMyLjcyNjggNDAuNjEyMiAzMS4xMzQyIDQwLjYxMjIgMjkuMTY5NkM0MC42MTIyIDI3LjIwNDkgNDIuMjA0OSAyNS42MTIzIDQ0LjE2OTUgMjUuNjEyM0M0Ni4xMzQxIDI1LjYxMjMgNDcuNzI2NyAyNy4yMDQ5IDQ3LjcyNjcgMjkuMTY5NloiIGZpbGw9IiMzMzM2M0YiLz4KPHBhdGggZD0iTTk3LjQxNTMgMTY5LjAxMkM5OC41MjY2IDE2Ny45MDEgMTAwLjMyOCAxNjcuOTAxIDEwMS40NCAxNjkuMDEyTDExNi41MzIgMTg0LjEwNEMxMTcuNjQzIDE4NS4yMTYgMTE3LjY0MyAxODcuMDE4IDExNi41MzIgMTg4LjEyOUMxMTUuNDIxIDE4OS4yNCAxMTMuNjE5IDE4OS4yNCAxMTIuNTA3IDE4OC4xMjlMOTcuNDE1MyAxNzMuMDM3Qzk2LjMwMzkgMTcxLjkyNSA5Ni4zMDM5IDE3MC4xMjQgOTcuNDE1MyAxNjkuMDEyWiIgZmlsbD0iIzMzMzYzRiIvPgo8cGF0aCBkPSJNOTEuMDEyMyAxODEuODE4QzkyLjEyMzYgMTgwLjcwNyA5My45MjU1IDE4MC43MDcgOTUuMDM2OCAxODEuODE4TDExMC4xMjkgMTk2LjkxMUMxMTEuMjQgMTk4LjAyMiAxMTEuMjQgMTk5LjgyNCAxMTAuMTI5IDIwMC45MzVDMTA5LjAxOCAyMDIuMDQ2IDEwNy4yMTYgMjAyLjA0NiAxMDYuMTA0IDIwMC45MzVMOTEuMDEyMyAxODUuODQzQzg5LjkwMDkgMTg0LjczMiA4OS45MDA5IDE4Mi45MyA5MS4wMTIzIDE4MS44MThaIiBmaWxsPSIjMzMzNjNGIi8+Cjwvc3ZnPg==");
@@ -88,7 +88,8 @@
             @apply flex-grow;
         }
         & .rhs {
-            @apply w-1-3 ml-32 flex-shrink-0;
+            @apply ml-64 flex-shrink-0;
+            width: 400px;
         }
 
         & section.progress-chart {
@@ -98,7 +99,7 @@
             @apply pt-20 pb-28 px-32;
 
             & h2 {
-                @apply text-20 leading-170 text-textColor2;
+                @apply text-20 font-medium leading-170 text-textColor2;
                 @apply mb-8;
                 & em {
                     @apply not-italic text-anotherPurple font-semibold;
@@ -143,224 +144,274 @@
             & .exercises {
                 @apply grid gap-12;
                 grid-template-columns: repeat(auto-fit, minmax(24px, 1fr));
-                & .ex {
-                    height: 24px;
-                    width: 24px;
-                    @apply justify-self-center;
-                    @apply rounded-circle;
-
-                    &.completed {
-                        background: green;
-                    }
-                    &.in-progress {
-                        @apply bg-darkBlue;
-                        box-shadow: 0px 1px 3px 1px rgba(0, 80, 255, 0.4);
-                    }
-                    &.available {
-                        box-shadow: 0px 1px 4px 2px rgba(0, 80, 255, 0.25);
-                    }
-                    &.locked {
-                        background: #e5ebf8;
-                    }
-                }
             }
         }
-    }
-    & section.start-track {
-        @apply mb-64;
+        & section.start-track {
+            @apply mb-64;
 
-        & .start-track-cta,
-        & .placeholder-activity {
-            @apply shadow-lg bg-backgroundColorA rounded-8;
-            @apply flex;
-        }
-
-        & .start-track-cta {
-            @apply py-24 px-32;
-
-            & h3 {
-                @apply text-h4 mb-8;
+            & .start-track-cta,
+            & .placeholder-activity {
+                @apply shadow-lg bg-backgroundColorA rounded-8;
+                @apply flex;
             }
 
-            & p {
-                @apply text-16 leading-paragraph mb-24;
-            }
+            & .start-track-cta {
+                @apply py-24 px-32;
 
-            & .info {
-                @apply text-14 leading-paragraph text-textColor6;
-            }
-
-            & .c-icon {
-                height: 48px;
-                width: 48px;
-                @apply mr-24;
-            }
-            & .actions {
-                @apply flex items-center;
-
-                & .btn-cta {
-                    @apply mr-32;
-                    width: 160px;
+                & h3 {
+                    @apply text-h4 mb-8;
                 }
+
+                & p {
+                    @apply text-16 leading-paragraph mb-24;
+                }
+
                 & .info {
-                    @apply flex-shrink;
-                    max-width: 300px;
+                    @apply text-14 leading-paragraph text-textColor6;
                 }
-            }
-        }
-        & .placeholder-activity {
-            @apply py-16 px-24 items-center;
 
-            & .c-icon {
-                height: 24px;
-                width: 24px;
-                @apply mr-24;
-            }
-            & p {
-                @apply text-18 leading-paragraph text-textColor6;
-            }
-        }
-    }
-
-    & section.activities {
-        & > .exercise {
-            @apply flex flex-col;
-            @apply pt-8;
-
-            @apply mt-32 relative;
-            &:before {
-                content: "";
-                @apply absolute bg-lightGray;
-
-                width: 2px;
-                height: 32px;
-                top: -32px;
-                left: 31px;
-            }
-
-            &:first-child {
-                @apply mt-24;
-                &:before {
-                    height: 24px;
-                    top: -24px;
+                & .c-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-24;
                 }
-            }
+                & .actions {
+                    @apply flex items-center;
 
-            &:not(:first-child) {
-                & .c-combo-button {
-                    display: none;
-                }
-            }
-
-            & > header {
-                @apply flex items-center;
-
-                & > .content {
-                    @apply flex items-center flex-grow;
-
-                    & .c-exercise-icon {
-                        height: 64px;
-                        width: 64px;
-                        @apply mr-24;
+                    & .btn-cta {
+                        @apply mr-32;
+                        width: 160px;
                     }
                     & .info {
-                        @apply flex-grow;
+                        @apply flex-shrink;
+                        max-width: 300px;
+                    }
+                }
+            }
+            & .placeholder-activity {
+                @apply py-16 px-24 items-center;
 
-                        & .title {
-                            @apply text-h4 mb-6;
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply mr-24;
+                }
+                & p {
+                    @apply text-18 leading-paragraph text-textColor6;
+                }
+            }
+        }
+
+        & section.activities {
+            & > .exercise {
+                @apply flex flex-col;
+                @apply pt-8;
+
+                @apply mt-32 relative;
+                &:before {
+                    content: "";
+                    @apply absolute bg-lightGray;
+
+                    width: 2px;
+                    height: 32px;
+                    top: -32px;
+                    left: 31px;
+                }
+
+                &:first-child {
+                    @apply mt-24;
+                    &:before {
+                        height: 24px;
+                        top: -24px;
+                    }
+                }
+
+                &:not(:first-child) {
+                    & .c-combo-button {
+                        display: none;
+                    }
+                }
+
+                & > header {
+                    @apply flex items-center;
+
+                    & > .content {
+                        @apply flex items-center flex-grow;
+
+                        & .c-exercise-icon {
+                            height: 64px;
+                            width: 64px;
+                            @apply mr-24;
                         }
-                        & .tags {
-                            @apply flex;
+                        & .info {
+                            @apply flex-grow;
 
-                            .c-exercise-status-tag {
-                                @apply mr-12;
+                            & .title {
+                                @apply text-h4 mb-6;
                             }
-                            & .mentor-comments {
-                                @apply border-1 rounded-5;
-                                @apply flex items-center px-12;
-                                @apply mr-12;
-                                height: 32px;
-                                @apply text-textColor3 font-medium;
+                            & .tags {
+                                @apply flex;
 
-                                &.unread {
-                                    @apply border-orange bg-lightOrange;
-                                    & .c-icon {
-                                        @apply text-orange;
-                                    }
-                                }
-                                & .c-icon {
-                                    height: 16px;
-                                    width: 16px;
-                                    @apply mr-8;
-                                }
-                            }
-                            & .unsubmitted-code {
-                                @apply flex items-center px-12;
-                                @apply text-textColor6 font-medium;
-
-                                & .c-icon {
-                                    height: 16px;
-                                    width: 16px;
+                                .c-exercise-status-tag {
                                     @apply mr-12;
                                 }
+                                & .mentor-comments {
+                                    @apply border-1 rounded-5;
+                                    @apply flex items-center px-12;
+                                    @apply mr-12;
+                                    height: 32px;
+                                    @apply text-textColor3 font-medium;
+
+                                    &.unread {
+                                        @apply border-orange bg-lightOrange;
+                                        & .c-icon {
+                                            @apply text-orange;
+                                        }
+                                    }
+                                    & .c-icon {
+                                        height: 16px;
+                                        width: 16px;
+                                        @apply mr-8;
+                                    }
+                                }
+                                & .unsubmitted-code {
+                                    @apply flex items-center px-12;
+                                    @apply text-textColor6 font-medium;
+
+                                    & .c-icon {
+                                        height: 16px;
+                                        width: 16px;
+                                        @apply mr-12;
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
-            & > .latest-iteration {
-                @apply flex items-center;
-                @apply rounded-5 border-1 border-borderColor5;
-                @apply py-8 px-16;
-                @apply mt-16;
-
-                & .action-icon {
-                    height: 16px;
-                    width: 16px;
-                    @apply ml-32;
-                    @apply text-textColor6;
-                }
-            }
-            & > .activities {
-                @apply mt-8;
-
-                & > .activity {
+                & > .latest-iteration {
                     @apply flex items-center;
-                    @apply py-4 pl-16;
-                    /* Line this up with the iteration summary above */
-                    padding-right: 18px;
+                    @apply rounded-5 border-1 border-borderColor5;
+                    @apply py-8 px-16;
+                    @apply mt-16;
 
-                    &:hover {
-                        @apply bg-backgroundColorE;
-                    }
-
-                    & > .icon {
-                        @apply rounded-circle bg-backgroundColorA shadow-sm;
-                        @apply grid place-items-center;
-                        @apply py-8 px-8 mr-16;
-
-                        & > .c-icon {
-                            height: 16px;
-                            width: 16px;
-                        }
-                    }
-                    & > .description {
-                        @apply flex-grow;
-                        @apply text-15 leading-140;
-                        & strong {
-                            @apply font-medium text-textColor5;
-                        }
-                    }
-                    & > time {
-                        @apply text-13 text-textColor6;
-                        @apply ml-32;
-                    }
-                    & > .action-icon {
-                        height: 12px;
-                        width: 12px;
+                    & .action-icon {
+                        height: 16px;
+                        width: 16px;
                         @apply ml-32;
                         @apply text-textColor6;
                     }
+                }
+                & > .activities {
+                    @apply mt-8;
+
+                    & > .activity {
+                        @apply flex items-center;
+                        @apply py-4 pl-16;
+                        /* Line this up with the iteration summary above */
+                        padding-right: 18px;
+
+                        &:hover {
+                            @apply bg-backgroundColorE;
+                        }
+
+                        & > .icon {
+                            @apply rounded-circle bg-backgroundColorA shadow-sm;
+                            @apply grid place-items-center;
+                            @apply py-8 px-8 mr-16;
+
+                            & > .c-icon {
+                                height: 16px;
+                                width: 16px;
+                            }
+                        }
+                        & > .description {
+                            @apply flex-grow;
+                            @apply text-15 leading-140;
+                            & strong {
+                                @apply font-medium text-textColor5;
+                            }
+                        }
+                        & > time {
+                            @apply text-13 text-textColor6;
+                            @apply ml-32;
+                        }
+                        & > .action-icon {
+                            height: 12px;
+                            width: 12px;
+                            @apply ml-32;
+                            @apply text-textColor6;
+                        }
+                    }
+                }
+            }
+        }
+
+        & section.weekly-count {
+            @apply flex items-center;
+            @apply mt-32 mb-24;
+
+            & .text {
+                @apply flex-grow;
+
+                & .count {
+                    @apply text-32 leading-150 font-medium;
+                }
+                & h3 {
+                    @apply text-16 leading-150 text-textColor2;
+                }
+            }
+            & svg {
+                @apply ml-48 flex-shrink-0;
+                width: 128px;
+            }
+        }
+
+        & section.learning-pattern,
+        & .stats-box {
+            @apply border-1 border-borderColor6 rounded-8;
+        }
+        & section.learning-pattern {
+            @apply py-12 px-24 mb-40;
+            @apply flex items-center;
+            & .c-icon {
+                width: 24px;
+                height: 24px;
+                @apply mr-24;
+            }
+            & h3 {
+                @apply leading-160 font-semibold text-textColor6;
+            }
+            & p {
+                @apply leading-160 font-medium text-textColor6;
+            }
+        }
+        & .stats-box {
+            @apply block;
+            @apply py-16 px-24 mb-24;
+            @apply flex items-center;
+
+            & .count {
+                @apply text-28 leading-150 font-medium text-textColor2;
+            }
+            & h3 {
+                @apply text-16 leading-150 text-textColor2;
+                @apply mb-16;
+            }
+            & .c-icon.action-icon {
+                height: 24px;
+                width: 24px;
+                @apply ml-auto;
+            }
+            & .icons {
+                @apply flex items-center;
+
+                & .c-icon {
+                    height: 40px;
+                    width: 40px;
+                    @apply mr-8;
+                }
+                & .c-concept-icon {
+                    @apply mr-8;
                 }
             }
         }

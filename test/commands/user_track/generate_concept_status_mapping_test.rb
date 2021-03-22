@@ -4,8 +4,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
   test "generates concepts for empty track" do
     _, user_track = setup_user_track
 
-    assert_equal(
-      {},
+    assert_empty(
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end

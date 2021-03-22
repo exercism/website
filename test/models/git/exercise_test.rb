@@ -139,7 +139,7 @@ module Git
     test "retrieves contributors for exercise without contributors" do
       exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal([], exercise.contributors)
+      assert_empty(exercise.contributors)
     end
 
     test "retrieves example files" do

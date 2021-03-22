@@ -73,6 +73,10 @@
             );
         }
     }
+    & article {
+        @apply pb-80;
+        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+    }
     & article.summary-article {
         @apply bg-backgroundColorA;
 
@@ -219,8 +223,6 @@
     }
 
     & section.activities {
-        @apply mb-64;
-
         & > .exercise {
             @apply flex flex-col;
             @apply pt-8;
@@ -363,195 +365,136 @@
             }
         }
     }
-    & section.uncompleted-exercises,
-    & section.concepts {
-        @apply mb-64;
 
-        & .header {
-            @apply flex items-center mb-28;
+    & article.updates-article {
+        @apply pt-64 pb-40;
 
-            & .c-icon {
-                width: 32px;
-                height: 32px;
-                @apply mr-16;
+        & header {
+            @apply mb-28;
+
+            & .c-icon.graphical-icon {
+                width: 80px;
+                height: 80px;
+                @apply mb-16;
             }
             & h2 {
-                @apply text-h3;
-                @apply mr-16;
-
-                & em {
-                    @apply text-h5 not-italic text-textColor6;
-                }
+                @apply text-h2 mb-20;
+            }
+            & .c-icon.divider {
+                height: 20px;
+                width: 74px;
             }
         }
-    }
-
-    & section.uncompleted-exercises {
-        & .exercises {
-            @apply grid gap-16;
-            grid-template-columns: repeat(2, 50%);
+        & .container {
+            @apply flex;
         }
-    }
+        & section.updates-section {
+            @apply flex-grow;
 
-    & section.concepts {
-        & .header {
-            & .progress {
-                @apply py-8 px-12 text-textColor6 font-medium;
-                @apply border-1 border-borderColor4 rounded-100;
-            }
-        }
+            & .updates {
+                & .update {
+                    @apply grid gap-20 mb-12;
+                    grid-template-columns: 32px auto 72px;
 
-        & .concepts {
-            @apply grid gap-12;
-            grid-template-columns: repeat(1, auto);
-
-            & .concept {
-                @apply flex items-center py-24 px-32;
-                @apply bg-backgroundColorA rounded-8 shadow-lg;
-
-                & .c-concept-icon {
-                    @apply mr-24;
-                }
-                & .info {
-                    @apply flex-grow;
-
-                    & .name {
-                        @apply flex items-center text-h5 mb-6;
-
+                    & .icon {
                         & .c-icon {
-                            height: 24px;
-                            width: 24px;
-                            @apply ml-12;
+                            height: 32px;
+                            width: 32px;
                         }
                     }
-                    & .completion {
-                        @apply text-textColor6 font-medium;
-                    }
-                }
-                & .c-concept-progress-bar {
-                    max-width: 320px;
-                    @apply flex-grow ml-64;
-                    height: 6px;
-                }
-                & .action-icon {
-                    height: 16px;
-                    width: 16px;
-                    @apply ml-64;
-                }
 
-                &.completed {
-                    & .info .completion {
-                        @apply text-darkGreen;
+                    & .info {
+                        & .desc {
+                            @apply text-16 leading-paragraph;
+                            & strong {
+                                @apply font-medium;
+                            }
+                        }
+
+                        & time {
+                            @apply text-label-timestamp;
+                        }
+                    }
+
+                    & .faces {
+                        & .c-avatar {
+                            height: 32px;
+                            width: 32px;
+                        }
                     }
                 }
             }
-        }
-    }
-    /*
-    & section.contributors {
-        @apply bg-backgroundColorA rounded-8 pt-24 pb-32 px-32 mb-32 shadow-lg;
-
-        & .c-heading-with-count {
-            @apply mb-16;
+            & .c-prominent-link {
+                @apply mt-24;
+            }
         }
 
-        & .showcase {
-            @apply flex flex-col gap-8 mb-24;
+        & section.contributors-section {
+            @apply flex-shrink-0;
+            @apply w-1-3 ml-140;
 
-            & a {
-                @apply flex items-center;
-                @apply border-1 border-borderLight rounded-8;
-                @apply px-16 py-8;
+            & h2 {
+                @apply flex items-center mb-16;
 
-                & .c-avatar {
-                    height: 48px;
-                    width: 48px;
+                & .c-icon {
+                    height: 24px;
+                    width: 24px;
                     @apply mr-16;
                 }
-                & .name {
-                    @apply mr-12;
-                    @apply font-semibold text-16 truncate;
+            }
+            & .c-heading-with-count {
+                @apply mb-16;
+            }
+
+            & .showcase {
+                @apply flex flex-col gap-8 mb-24;
+
+                & a {
+                    @apply flex items-center;
+                    @apply border-1 border-borderLight rounded-8;
+                    @apply px-16 py-8;
+
+                    & .c-avatar {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-16;
+                    }
+                    & .name {
+                        @apply mr-12;
+                        @apply font-semibold text-16 truncate;
+                    }
                 }
             }
-        }
-        & .faces {
-            @apply flex flex-wrap items-center gap-16 mb-24;
+            & .faces {
+                @apply flex flex-wrap items-center gap-16 mb-24;
 
-            & a {
-                width: 48px;
+                & a {
+                    width: 48px;
+                }
+                & .c-avatar {
+                    @apply block flex-grow-0 flex-shrink-0;
+                    @apply bg-center bg-cover rounded-circle;
+                    height: 48px;
+                }
+                & a.all {
+                    @apply block flex-grow-0 flex-shrink-0;
+                    @apply font-semibold text-lightBlue;
+                }
             }
-            & .c-avatar {
-                @apply block flex-grow-0 flex-shrink-0;
-                @apply bg-center bg-cover rounded-circle;
-                height: 48px;
-            }
-            & a.all {
-                @apply block flex-grow-0 flex-shrink-0;
-                @apply font-semibold text-lightBlue;
-            }
-        }
 
-        & .cta {
-            @apply bg-unnamed15 rounded-8 py-16 px-24;
+            & .cta {
+                @apply bg-unnamed15 rounded-8 py-16 px-24;
 
-            & h3 {
-                @apply text-16 font-semibold mb-8;
-            }
-            & p {
-                @apply text-14 leading-paragraph mb-8;
-            }
-            & a {
-                @apply block text-14 text-lightBlue font-semibold;
+                & h3 {
+                    @apply text-16 font-semibold mb-8;
+                }
+                & p {
+                    @apply text-14 leading-paragraph mb-8;
+                }
+                & a {
+                    @apply block text-14 text-lightBlue font-semibold;
+                }
             }
         }
     }
-    & section.updates {
-        @apply bg-backgroundColorA rounded-8 py-24 px-32 shadow-lg;
-        & h2 {
-            @apply flex items-center text-h4 mb-16;
-
-            & .c-icon {
-                width: 24px;
-                height: 24px;
-                @apply mr-16;
-            }
-        }
-
-        & .updates {
-            & .update {
-                @apply grid gap-20 mb-12;
-                grid-template-columns: 32px auto 72px;
-
-                & .icon {
-                    & .c-icon {
-                        height: 32px;
-                        width: 32px;
-                    }
-                }
-
-                & .info {
-                    & .desc {
-                        @apply text-16 leading-paragraph;
-                        & strong {
-                            @apply font-medium;
-                        }
-                    }
-
-                    & time {
-                        @apply text-label-timestamp;
-                    }
-                }
-
-                & .faces {
-                    & .c-avatar {
-                        height: 32px;
-                        width: 32px;
-                    }
-                }
-            }
-        }
-        & .c-prominent-link {
-            @apply mt-24;
-        }
-    }*/
 }

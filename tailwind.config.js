@@ -189,6 +189,7 @@ module.exports = {
       '80': '80px',
       '96': '96px',
       '128': '128px',
+      '140': '140px',
       spacedColumns: '70px',
     },
     width: {

@@ -1,7 +1,7 @@
 module ViewComponents
   module Track
-    class ExerciseActivity < ViewComponent
-      initialize_with :track, :data
+    class SolutionActivity < ViewComponent
+      initialize_with :track, :solution
 
       def to_s
         tag.div(class: "exercise") do
@@ -11,12 +11,12 @@ module ViewComponents
 
       def header
         tag.header do
-          link_to(Exercism::Routes.track_exercise_url(track, data[:exercise]), class: 'content') do
-            exercise_icon(data[:exercise]) +
+          link_to(Exercism::Routes.track_exercise_url(track, exercise), class: 'content') do
+            exercise_icon(exercise) +
               tag.div(class: 'info') do
-                tag.div(data[:exercise].title, class: 'title') +
+                tag.div(exercise.title, class: 'title') +
                   tag.div(class: 'tags') do
-                    status_tag + mentor_tag + unsubmitted_code_tag
+                    safe_join([status_tag, mentor_tag, unsubmitted_code_tag])
                   end
               end
           end + continue_button
@@ -33,7 +33,7 @@ module ViewComponents
       end
 
       def status_tag
-        case data[:solution][:status]
+        case solution.status
         when :started
           tag.div("Started", class: 'c-exercise-status-tag --started')
         when :"in-progress"
@@ -46,16 +46,16 @@ module ViewComponents
       end
 
       def mentor_tag
-        return unless data[:solution][:num_mentor_comments].positive?
+        return unless num_mentor_comments.positive?
 
         tag.div(class: "mentor-comments") do
-          icon(:mentoring, "Mentor comments #{': Some are unread' if data[:solution][:unread_mentor_comments]}") +
-            data[:solution][:num_mentor_comments]
+          icon(:mentoring, "Mentor comments #{': Some are unread' if has_unread_mentor_comments?}") +
+            num_mentor_comments
         end
       end
 
       def unsubmitted_code_tag
-        return unless data[:solution][:unsubmitted_code]
+        return unless solution.has_unsubmitted_code?
 
         tag.div(class: 'unsubmitted-code') do
           graphical_icon("unsubmitted-code") + "Unsubmitted code" # rubocop:disable Style/StringConcatenation
@@ -63,21 +63,22 @@ module ViewComponents
       end
 
       def iteration_summary
-        return unless data[:latest_iteration]
+        return unless solution.latest_iteration
 
-        link_to(Exercism::Routes.track_exercise_iterations_path(track, data[:exercise], idx: data[:latest_iteration].idx),
+        link_to(Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: solution.latest_iteration.idx),
           class: 'latest-iteration') do
-          ReactComponents::Track::IterationSummary.new(data[:latest_iteration], slim: true).to_s +
+          ReactComponents::Track::IterationSummary.new(solution.latest_iteration, slim: true).to_s +
             graphical_icon('chevron-right', css_class: "action-icon")
         end
       end
 
       def activities
-        return if data[:activities].blank?
+        return unless solution.latest_iteration
+        return if activities_data.blank?
 
         tag.div(class: "activities") do
           safe_join(
-            data[:activities].map do |activity|
+            activities_data.map do |activity|
               tag.div(class: 'activity') do
                 tag.div(graphical_icon(activity[:icon_name]), class: 'icon') +
                 tag.div(raw(activity[:text]), class: 'description') +
@@ -89,8 +90,38 @@ module ViewComponents
         end
       end
 
+      memoize
       def editor_url
-        Exercism::Routes.edit_track_exercise_path(track, data[:exercise])
+        Exercism::Routes.edit_track_exercise_path(track, exercise)
+      end
+
+      memoize
+      delegate :exercise, to: :solution
+
+      def num_mentor_comments
+        mentor_comments[:count]
+      end
+
+      def has_unread_mentor_comments?
+        mentor_comments[:unread]
+      end
+
+      memoize
+      def mentor_comments
+        discussion = solution.mentor_discussions.last
+        return { count: 0, unread: false } unless discussion
+
+        counts = discussion.posts.group(:seen_by_student).count
+
+        {
+          count: counts.values.sum,
+          unread: !!counts[false]&.positive?
+        }
+      end
+
+      memoize
+      def activities_data
+        solution.user_activities.order(id: :desc).limit(5).map(&:rendering_data)
       end
     end
   end

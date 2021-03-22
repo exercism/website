@@ -36,8 +36,8 @@
 
         - if @user_track.solutions.present?
           %section.activities
-            - @activities.each do |solution|
-              = render ViewComponents::Track::ExerciseActivity.new(@track, solution)
+            - @recent_solutions.each do |solution|
+              = render ViewComponents::Track::SolutionActivity.new(@track, solution)
 
         - else
           = render "tracks/show/joined/start_track_section", activities: @activities

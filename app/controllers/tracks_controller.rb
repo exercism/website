@@ -25,9 +25,7 @@ class TracksController < ApplicationController
         @user_track.exercise_status(slug)
       end
 
-      @activities = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track).map do |solution|
-        SerializeSolutionActivity.(solution)
-      end
+      @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
 
       render "tracks/show/joined"
     else

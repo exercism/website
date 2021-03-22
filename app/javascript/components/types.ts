@@ -1,3 +1,17 @@
+export type Exercise =
+  | (ExerciseCore & { isAvailable: true; links: { self: string } })
+  | (ExerciseCore & { isAvailable: false })
+
+type ExerciseCore = {
+  slug: string
+  title: string
+  iconUrl: string
+  blurb: string
+  difficulty: ExerciseDifficulty
+}
+
+export type ExerciseDifficulty = 'easy'
+
 export type File = {
   filename: string
   content: string

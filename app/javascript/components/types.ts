@@ -8,6 +8,7 @@ type ExerciseCore = {
   iconUrl: string
   blurb: string
   difficulty: ExerciseDifficulty
+  isCompleted: boolean
 }
 
 export type ExerciseDifficulty = 'easy'

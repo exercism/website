@@ -137,6 +137,7 @@ import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import {
   Iteration,
+  Exercise,
   MentorSessionRequest,
   MentorSessionDiscussion,
   MentorSessionTrack,
@@ -189,6 +190,13 @@ initReact({
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-exercise-widget': (data: any) => (
+    <Common.ExerciseWidget
+      exercise={camelizeKeysAs<Exercise>(data.exercise)}
+      size={data.size}
+      showDesc={data.show_desc}
+    />
+  ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
       discussionsRequest={data.discussions_request}

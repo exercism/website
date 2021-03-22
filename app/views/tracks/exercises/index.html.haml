@@ -52,5 +52,5 @@
 
         .exercises
           - @exercises.each do |exercise|
-            = render ViewComponents::Widgets::Exercise.new(exercise, @user_track, size: :large)
+            = render ReactComponents::Common::ExerciseWidget.new(exercise, @user_track, size: :large)
 

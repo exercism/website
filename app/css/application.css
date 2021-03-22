@@ -96,6 +96,8 @@
         hue-rotate(225deg) brightness(94%) contrast(93%);
     --white-filter: invert(99%) sepia(33%) saturate(62%) hue-rotate(352deg)
         brightness(109%) contrast(100%);
+    --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
+        hue-rotate(236deg) brightness(97%) contrast(80%);
 
     @apply text-textColor5 bg-backgroundColorB;
 }

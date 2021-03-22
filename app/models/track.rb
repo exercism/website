@@ -59,6 +59,16 @@ class Track < ApplicationRecord
       to_a
   end
 
+  # TODO: Implement
+  def num_code_contributors
+    10
+  end
+
+  # TODO: Implemment
+  def num_mentors
+    187
+  end
+
   # TODO: Set this properly
   def icon_name
     "ruby"

@@ -76,28 +76,6 @@
         & .makers {
             @apply flex items-center;
 
-            & .faces {
-                @apply relative flex;
-                height: 32px;
-                padding-left: 16px;
-
-                & .author {
-                    margin-left: -16px;
-                    transition: margin 0.2s ease-out;
-                    cursor: pointer;
-
-                    & .c-avatar {
-                        height: 32px;
-                        width: 32px;
-                    }
-                }
-
-                &:hover {
-                    & .author {
-                        margin-left: 4px;
-                    }
-                }
-            }
             & .stats {
                 @apply ml-16;
                 & .authors {

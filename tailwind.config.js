@@ -108,6 +108,7 @@ module.exports = {
       literallySoManyGreens: '#4FCDA7',
       soManyGreens: '#228466',
       bgGreen: 'rgba(89, 210, 174, 0.15)',
+      everyoneLovesAGreen: '#349F7F',
 
       orange: '#F69605',
       lightOrange: '#FFF3E1',

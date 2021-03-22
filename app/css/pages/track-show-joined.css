@@ -225,15 +225,29 @@
             @apply flex flex-col;
             @apply pt-8;
 
-            @apply mt-24 relative;
+            @apply mt-32 relative;
             &:before {
                 content: "";
                 @apply absolute bg-lightGray;
 
                 width: 2px;
-                height: 24px;
-                top: -24px;
+                height: 32px;
+                top: -32px;
                 left: 31px;
+            }
+
+            &:first-child {
+                @apply mt-24;
+                &:before {
+                    height: 24px;
+                    top: -24px;
+                }
+            }
+
+            &:not(:first-child) {
+                & .c-combo-button {
+                    display: none;
+                }
             }
 
             & > header {
@@ -256,17 +270,8 @@
                         & .tags {
                             @apply flex;
 
-                            & .tag {
-                                @apply rounded-100;
-                                @apply border-1;
-                                @apply flex items-center px-12;
+                            .c-exercise-status-tag {
                                 @apply mr-12;
-                                height: 32px;
-
-                                &.in-progress {
-                                    @apply border-lightBlue bg-veryLightBlue;
-                                    @apply text-lightBlue font-semibold leading-code;
-                                }
                             }
                             & .mentor-comments {
                                 @apply border-1 rounded-5;

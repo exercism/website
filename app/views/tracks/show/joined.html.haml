@@ -35,7 +35,10 @@
                 = link_to "", track_exercise_path(@track, exercise_slug), class: "ex #{status}"
 
         - if @user_track.solutions.present?
-          = render "tracks/show/joined/activities_section", activities: @activities, track: @track
+          %section.activities
+            - @activities.each do |solution|
+              = render ViewComponents::Track::ExerciseActivity.new(@track, solution)
+
         - else
           = render "tracks/show/joined/start_track_section", activities: @activities
       .rhs

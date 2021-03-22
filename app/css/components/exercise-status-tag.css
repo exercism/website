@@ -1,0 +1,30 @@
+.c-exercise-status-tag {
+    @apply rounded-100;
+    @apply border-1;
+    @apply flex items-center px-12;
+    @apply font-semibold leading-160;
+    height: 32px;
+
+    &.--started {
+        @apply text-textColor6;
+        @apply border-buttonBorderColor2;
+    }
+    &.--in-progress {
+        @apply border-lightBlue bg-veryLightBlue;
+        @apply text-lightBlue;
+    }
+    &.--completed,
+    &.--published {
+        @apply border-darkGreen bg-veryLightGreen2;
+        @apply text-everyoneLovesAGreen;
+
+        &:before {
+            content: "";
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSI4IiBmaWxsPSIjNTlEMkFFIi8+CjxwYXRoIGQ9Ik0xMC44NTY5IDUuMTQyNThMNy4wMjM5NyAxMC42MTc5QzYuOTIxMzggMTAuNzY1MyA2Ljc1NDE4IDEwLjg1NDQgNi41NzQ2IDEwLjg1NzRDNi4zOTUwMyAxMC44NjAzIDYuMjI0OTcgMTAuNzc2OCA2LjExNzU2IDEwLjYzMjlMNS4xNDI1OCA5LjMzMzA1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==");
+            background-size: cover;
+            height: 16px;
+            width: 16px;
+            @apply mr-8;
+        }
+    }
+}

@@ -12,25 +12,13 @@ class SerializeSolutionActivity
         unread_mentor_comments: mentor_comments[:unread],
         unsubmitted_code: false # TODO
       },
-      exercise: {
-        title: exercise.title,
-        icon_url: exercise.icon_url
-      },
+      exercise: solution.exercise,
       activities: activities_data,
-      latest_iteration: latest_iteration_data,
-      links: {
-        exercise_url: Exercism::Routes.track_exercise_path(solution.track, exercise),
-        editor_url: Exercism::Routes.edit_track_exercise_path(solution.track, exercise)
-      }
+      latest_iteration: solution.iterations.last
     }
   end
 
   private
-  memoize
-  def exercise
-    solution.exercise
-  end
-
   memoize
   def mentor_comments
     discussion = solution.mentor_discussions.last
@@ -46,12 +34,5 @@ class SerializeSolutionActivity
 
   def activities_data
     solution.user_activities.order(id: :desc).limit(5).map(&:rendering_data)
-  end
-
-  def latest_iteration_data
-    iteration = solution.iterations.last
-    return nil unless iteration
-
-    SerializeIteration.(iteration)
   end
 end

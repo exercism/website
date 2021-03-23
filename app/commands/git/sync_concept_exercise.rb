@@ -38,8 +38,8 @@ module Git
       exercise_config[:slug] != exercise.slug ||
         exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
-        exercise_config[:concepts].sort != exercise.taught_concepts.map(&:slug).sort ||
-        exercise_config[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
+        exercise_config[:concepts].to_a.sort != exercise.taught_concepts.map(&:slug).sort ||
+        exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort
     end
 
     def exercise_files_modified?
@@ -47,7 +47,7 @@ module Git
     end
 
     def find_concepts(slugs)
-      slugs.map do |slug|
+      slugs.to_a.map do |slug|
         concept_config = concepts_config.find { |e| e[:slug] == slug }
         ::Track::Concept.find_by!(uuid: concept_config[:uuid])
       rescue StandardError

@@ -163,4 +163,36 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
   end
+
+  test "syncs with nil prerequisites" do
+    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice].each { |e| e[:prerequisites] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+  end
+
+  test "syncs with nil practices" do
+    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice].each { |e| e[:practices] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+  end
 end

@@ -246,6 +246,9 @@ initReact({
       tagOptions={data.tag_options}
     />
   ),
+  'student-exercise-list': (data: any) => (
+    <Student.ExerciseList request={camelizeKeysAs<Request>(data.request)} />
+  ),
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
   ),

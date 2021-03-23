@@ -3,10 +3,10 @@ module ReactComponents
     class ExerciseWidget < ReactComponent
       SIZES = %i[small medium large].freeze
 
-      def initialize(exercise, user_track, solution:, size:, desc: true)
+      def initialize(exercise, user_track, size:, solution: nil, desc: true)
         raise "Invalid exercise size #{size}" unless SIZES.include?(size.to_sym)
 
-        super
+        super()
 
         @exercise = exercise
         @user_track = user_track

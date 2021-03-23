@@ -33,6 +33,7 @@
                 @apply rounded-8 py-16 px-24;
                 @apply box-border pointer-events-auto;
                 @apply flex flex-col justify-between m-40;
+                @apply text-textColor2;
 
                 background-color: var(--c-concept-map-card-background);
                 opacity: var(--c-concept-map-hover-opacity);
@@ -69,7 +70,7 @@
                     @apply flex items-center justify-center;
 
                     & .name {
-                        @apply text-18 text-textColor2 font-semibold leading-150;
+                        @apply text-18 font-semibold leading-150;
                         @apply ml-16;
                     }
 

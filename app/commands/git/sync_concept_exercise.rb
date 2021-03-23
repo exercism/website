@@ -56,16 +56,6 @@ module Git
     end
 
     memoize
-    def author_usernames_config
-      head_git_exercise.authors.to_a.map { |a| a[:exercism_username] }
-    end
-
-    memoize
-    def contributor_usernames_config
-      head_git_exercise.contributors.to_a.map { |a| a[:exercism_username] }
-    end
-
-    memoize
     def exercise_config
       # TODO: determine what to do when the exercise could not be found
       concept_exercises_config.find { |e| e[:uuid] == exercise.uuid }

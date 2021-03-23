@@ -79,6 +79,10 @@ class UserTrack
       track.concepts.size
     end
 
+    def num_concepts_learnt
+      0
+    end
+
     def num_concepts_mastered
       0
     end

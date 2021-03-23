@@ -18,6 +18,7 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     assert_equal 0, ut.num_completed_exercises_for_concept(mock)
 
     assert_empty ut.available_concept_ids
+    assert_equal 0, ut.num_concepts_learnt
     assert_equal 0, ut.num_concepts_mastered
   end
 

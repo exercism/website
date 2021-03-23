@@ -42,8 +42,12 @@ class UserTrack
       mapped_exercises.values.select(&:available).map(&:id)
     end
 
-    def uncompleted_exercises_ids
+    def in_progress_exercise_ids
       mapped_exercises.values.select(&:started).reject(&:completed).map(&:id)
+    end
+
+    def completed_exercises_ids
+      mapped_exercises.values.select(&:completed).map(&:id)
     end
 
     ###################
@@ -76,11 +80,26 @@ class UserTrack
       mapped_concepts.values.select(&:available).map(&:id)
     end
 
+    def learnt_concept_ids
+      mapped_concepts.values.select(&:learnt?).map(&:id)
+    end
+
+    def mastered_concept_ids
+      mapped_concepts.values.select(&:mastered?).map(&:id)
+    end
+
     memoize
     def num_concepts
       mapped_concepts.size
     end
 
+    # TODO: Add test coverage
+    memoize
+    def num_concepts_learnt
+      mapped_concepts.values.count(&:learnt?)
+    end
+
+    # TODO: Add test coverage
     memoize
     def num_concepts_mastered
       mapped_concepts.values.count(&:mastered?)

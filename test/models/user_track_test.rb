@@ -97,6 +97,8 @@ class UserTrackTest < ActiveSupport::TestCase
     user_track = create :user_track, track: track, user: user
 
     assert_equal [basics, recursion], user_track.available_concepts
+    assert_empty user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
     assert user_track.concept_available?(recursion)
     assert user_track.concept_available?(basics)
     refute user_track.concept_available?(enums)
@@ -108,6 +110,8 @@ class UserTrackTest < ActiveSupport::TestCase
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal [basics, enums, recursion], user_track.available_concepts
+    assert_equal [basics], user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
     assert user_track.concept_available?(recursion)
     assert user_track.concept_available?(basics)
     assert user_track.concept_available?(enums)
@@ -119,10 +123,22 @@ class UserTrackTest < ActiveSupport::TestCase
     create :user_track_learnt_concept, user_track: user_track, concept: enums
 
     assert_equal [basics, enums, strings, recursion], user_track.available_concepts
+    assert_equal [basics, enums], user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
     assert user_track.concept_available?(recursion)
     assert user_track.concept_available?(basics)
     assert user_track.concept_available?(enums)
     assert user_track.concept_available?(strings)
+
+    # Reload the user track to override memoizing
+    user_track = UserTrack.find(user_track.id)
+
+    create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
+    assert_equal [basics, enums, strings, recursion], user_track.available_concepts
+    assert_equal [basics, enums], user_track.learnt_concepts
+    assert_equal [enums], user_track.mastered_concepts
+
+    # TODO: Add test for practices exercise
   end
 
   test "available exercises" do
@@ -192,7 +208,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ], user_track.available_practice_exercises
   end
 
-  test "uncompleted_exercises" do
+  test "in_progress_exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
     concept_exercise_2 = create :concept_exercise, :random_slug, track: track
@@ -207,7 +223,21 @@ class UserTrackTest < ActiveSupport::TestCase
     create :concept_solution, user: user, exercise: concept_exercise_2
     create :practice_solution, user: user, exercise: practice_exercise_1
 
-    assert_equal [concept_exercise_2, practice_exercise_1], user_track.uncompleted_exercises
+    assert_equal [concept_exercise_2, practice_exercise_1], user_track.in_progress_exercises
+  end
+
+  test "completed_exercises" do
+    track = create :track
+    exercise_1 = create :concept_exercise, :random_slug, track: track
+    exercise_2 = create :concept_exercise, :random_slug, track: track
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_solution, user: user, exercise: exercise_1, completed_at: Time.current
+    create :concept_solution, user: user, exercise: exercise_2
+
+    assert_equal [exercise_1], user_track.completed_exercises
   end
 
   test "summary proxies correctly" do

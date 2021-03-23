@@ -67,7 +67,6 @@ class Exercise < ApplicationRecord
     slug
   end
 
-  # TODO: Remove once in the db
   def icon_url
     asset_pack_url(
       "media/images/exercises/#{icon_name}.svg",

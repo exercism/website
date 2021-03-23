@@ -23,92 +23,102 @@ export const ExerciseWidget = ({
   size: Size
   showDesc?: boolean
 }): JSX.Element => {
-  return solution ? (
-    <a href={solution.url} className={`c-exercise-widget --${size}`}>
-      <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-      <div className="--info">
-        <div className="--title">{exercise.title}</div>
+  if (solution) {
+    return (
+      <a
+        href={solution.url}
+        className={`c-exercise-widget --${solution.status} --${size}`}
+      >
+        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+        <Info exercise={exercise} solution={solution} />
+        <GraphicalIcon icon="chevron-right" className="--action-icon" />
+      </a>
+    )
+  } else if (exercise.isAvailable) {
+    return (
+      <a
+        href={exercise.links.self}
+        className={`c-exercise-widget --available --${size}`}
+      >
+        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+        <Info exercise={exercise} solution={solution} />
+        <GraphicalIcon icon="chevron-right" className="--action-icon" />
+      </a>
+    )
+  } else {
+    return (
+      <div className={`c-exercise-widget --locked --${size}`}>
+        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+        <Info exercise={exercise} solution={solution} />
+        <GraphicalIcon icon="lock" className="--action-icon" />
       </div>
-      <SolutionStatusSummary status={solution.status} />
-      {solution.numComments > 0 ? <span>{solution.numComments}</span> : null}
-      {solution.numIterations > 0 ? (
-        <span>
-          {solution.numIterations}{' '}
-          {pluralize('iteration', solution.numIterations)}
-        </span>
-      ) : null}
-      <GraphicalIcon icon="chevron-right" className="--chevron-icon" />
-    </a>
-  ) : (
-    <WidgetWrapper exercise={exercise} size={size}>
-      <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-      <Info exercise={exercise} size={size} showDesc={showDesc} />
-      <Status exercise={exercise} />
-      <Difficulty difficulty={exercise.difficulty} />
-      <WidgetIcon exercise={exercise} size={size} />
-    </WidgetWrapper>
-  )
-}
-
-const WidgetWrapper = ({
-  exercise,
-  size,
-  children,
-}: React.PropsWithChildren<{ exercise: Exercise; size: Size }>) => {
-  const classNames = [
-    'c-exercise-widget',
-    exercise.isAvailable ? '' : '--locked',
-    `--${size}`,
-  ].filter((className) => className.length > 0)
-
-  return exercise.isAvailable ? (
-    <a href={exercise.links.self} className={classNames.join(' ')}>
-      {children}
-    </a>
-  ) : (
-    <div className={classNames.join(' ')}>{children}</div>
-  )
+    )
+  }
 }
 
 const Info = ({
   exercise,
-  size,
-  showDesc,
+  solution,
 }: {
   exercise: Exercise
-  size: Size
-  showDesc: boolean
+  solution?: SolutionForStudent
 }) => {
   return (
     <div className="--info">
-      <div className="--title">
-        {exercise.title}
-        {exercise.isCompleted ? (
-          <Icon icon="completed-check-circle" alt="Exercise is completed" />
+      <div className="--title">{exercise.title}</div>
+      <div className="--data">
+        {solution ? (
+          <SolutionStatusTag status={solution.status} />
+        ) : (
+          <ExerciseStatusTag exercise={exercise} />
+        )}
+        {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
+
+        {/* TODO: This should be mentor comments */}
+        {solution && solution.numComments > 0 ? (
+          <div className="--mentor-comments-count">
+            <GraphicalIcon icon="mentoring" />
+            {solution.numComments}
+          </div>
+        ) : null}
+        {solution && solution.numIterations > 0 ? (
+          <div className="--iterations-count">
+            <GraphicalIcon icon="iteration" />
+            {solution.numIterations}{' '}
+            {pluralize('iteration', solution.numIterations)}
+          </div>
         ) : null}
       </div>
-      {size !== 'small' && showDesc ? (
-        <div className="--desc">{exercise.blurb}</div>
+      {exercise.isAvailable && !solution ? (
+        <div className="--blurb">{exercise.blurb}</div>
       ) : null}
     </div>
   )
 }
 
-const SolutionStatusSummary = ({ status }: { status: SolutionStatus }) => {
+const SolutionStatusTag = ({ status }: { status: SolutionStatus }) => {
   switch (status) {
-    case 'completed':
-      return <span>Completed</span>
-    case 'in_progress':
-      return <span>In progress</span>
     case 'published':
-      return <span>Published</span>
+      return <div className="c-exercise-status-tag --published">Published</div>
+    case 'completed':
+      return <div className="c-exercise-status-tag --completed">Completed</div>
+    case 'in_progress':
+      return (
+        <div className="c-exercise-status-tag --in-progress">In-progress</div>
+      )
     case 'started':
-      return <span>Started</span>
+      return (
+        <div className="c-exercise-status-tag --in-progress">In-progress</div>
+      )
   }
 }
 
-const Status = ({ exercise }: { exercise: Exercise }) => {
-  return exercise.isAvailable ? <span>Available</span> : <span>Locked</span>
+const ExerciseStatusTag = ({ exercise }: { exercise: Exercise }) => {
+  return exercise.isAvailable ? (
+    <div className="c-exercise-status-tag --available">Available</div>
+  ) : (
+    <div className="c-exercise-status-tag --locked">Locked</div>
+  )
 }
 
 const Difficulty = ({ difficulty }: { difficulty: ExerciseDifficulty }) => {
@@ -118,14 +128,4 @@ const Difficulty = ({ difficulty }: { difficulty: ExerciseDifficulty }) => {
     default:
       return null
   }
-}
-
-const WidgetIcon = ({ exercise, size }: { exercise: Exercise; size: Size }) => {
-  return exercise.isAvailable ? (
-    size !== 'small' ? (
-      <GraphicalIcon icon="chevron-right" className="--chevron-icon" />
-    ) : null
-  ) : (
-    <Icon icon="lock" className="--lock-icon" alt="Exercise locked" />
-  )
 }

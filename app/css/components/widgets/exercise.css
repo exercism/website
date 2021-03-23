@@ -1,112 +1,79 @@
+@import "../../styles";
+
 .c-exercise-widget {
     @apply flex items-center shadow-base rounded-8 bg-backgroundColorA;
 
-    & .c-icon {
-        @apply flex-shrink-0;
+    & > .c-exercise-icon {
+        height: 64px;
+        width: 64px;
+        @apply mr-20 self-start;
+    }
+    & > .c-icon.--action-icon {
+        height: 24px;
+        width: 24px;
+        @apply ml-20;
     }
 
-    & .--title {
-        @apply flex items-center;
-        & .c-icon {
-            height: 24px;
-            width: 24px;
-            @apply ml-12;
+    & > .--info {
+        @apply flex-grow flex flex-col items-start;
+        & > .--title {
+            @apply text-h4 mb-8;
         }
-    }
+        & > .--data {
+            @apply flex items-center;
 
-    &.--locked {
-        @apply cursor-default shadow-sm bg-bgGray;
-        opacity: 0.8;
-        & .--title {
-            @apply text-textColor6;
-        }
-        & .--desc {
-            @apply text-textColor6;
-        }
-        & .c-exercise-icon {
-            opacity: 0.8;
-            filter: grayscale(1);
-        }
-    }
+            & .--mentor-comments-count {
+                @apply ml-12 py-4 px-12;
+                @apply flex items-center;
+                @apply leading-170 font-medium text-textColor1;
+                @apply border-1 border-borderColor5 rounded-5;
 
-    &.--medium,
-    &.--large {
-        @apply py-20 pl-20 pr-40 w-100;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    filter: var(--textColor6-filter);
+                    @apply mr-6;
+                }
+            }
+            & .--iterations-count {
+                @apply ml-24;
+                @apply flex items-center;
+                @apply leading-150 font-medium text-textColor6;
 
-        & .--info {
-            @apply flex-grow;
-            margin-right: 5%;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    filter: var(--textColor6-filter);
+                    @apply mr-12;
+                }
+            }
         }
-        & .--title {
-            @apply text-20 font-semibold leading-paragraph;
-        }
-        & .--desc {
-            @apply text-16 leading-paragraph overflow-hidden mt-4;
+        & > .--blurb {
+            @apply mt-12;
+            @apply text-15 leading-150 text-textColor6 overflow-hidden;
 
-            /* https://css-tricks.com/almanac/properties/l/line-clamp/ */
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-
-            max-height: 50px; /* Fallback for max 2 lines */
-        }
-        & .--lock-icon {
-            @apply text-textColor6;
-        }
-        & .--chevron-icon {
-            @apply text-textColor6;
+            max-height: 44px;
         }
     }
 
     &.--medium {
-        & .c-exercise-icon {
-            height: 48px;
-            width: 48px;
-            @apply mr-16;
-        }
-
-        & .--lock-icon,
-        & .--chevron-icon {
-            height: 16px;
-            width: 16px;
-        }
+        @apply py-20 px-24 w-100;
     }
-    &.--large {
-        & .c-exercise-icon {
-            height: 64px;
-            width: 64px;
-            @apply mr-24;
+    &.--locked {
+        & > .c-exercise-icon {
+            opacity: 0.8;
+            filter: grayscale(1);
         }
-
-        & .--lock-icon,
-        & .--chevron-icon {
-            height: 24px;
-            width: 24px;
-        }
-    }
-
-    &.--small {
-        @apply py-8 px-12;
-
-        & .--title {
-            @apply text-16 font-medium leading-paragraph;
-        }
-
-        & .c-exercise-icon {
-            height: 26px;
-            width: 26px;
-            @apply mr-12;
-        }
-
-        &.--locked {
-            & .--info {
-                @apply mr-12;
-            }
-            & .--lock-icon {
-                height: 16px;
-                width: 16px;
+        & > .--info {
+            & > .--title {
                 @apply text-textColor6;
             }
+        }
+        & > .c-icon.--action-icon {
+            filter: var(--textColor6-filter);
         }
     }
 }

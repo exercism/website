@@ -8,7 +8,14 @@ import { FetchingBoundary } from '../FetchingBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 
-type FilterValue = 'completed' | 'in_progress' | 'available' | 'locked' | null
+type FilterValue =
+  | 'published'
+  | 'completed'
+  | 'in_progress'
+  | 'started'
+  | 'available'
+  | 'locked'
+  | null
 
 class Result {
   exercise: Exercise
@@ -29,12 +36,14 @@ class Result {
 }
 
 class StatusFilter {
-  value: FilterValue
+  values?: FilterValue[]
   title: string
+  edClass?: string
 
-  constructor(title: string, value: FilterValue) {
-    this.value = value
+  constructor(title: string, values?: FilterValue[], edClass?: string) {
+    this.values = values
     this.title = title
+    this.edClass = edClass
   }
 
   apply(results: Result[] | undefined) {
@@ -42,11 +51,11 @@ class StatusFilter {
       return []
     }
 
-    if (this.value === null) {
+    if (this.values === undefined || this.values === null) {
       return results
     }
 
-    return results.filter((result) => result.status === this.value)
+    return results.filter((result) => this.values!.includes(result.status))
   }
 }
 
@@ -65,6 +74,7 @@ const Tab = ({
 
   return (
     <button type="button" className={classNames.join(' ')} onClick={onClick}>
+      {filter.edClass ? <div className={`c-ed --${filter.edClass}`} /> : null}
       {filter.title}
       <div className="count">{filter.apply(results).length}</div>
     </button>
@@ -72,11 +82,11 @@ const Tab = ({
 }
 
 const STATUS_FILTERS = [
-  new StatusFilter('All Exercises', null),
-  new StatusFilter('Completed', 'completed'),
-  new StatusFilter('In Progress', 'in_progress'),
-  new StatusFilter('Available', 'available'),
-  new StatusFilter('Locked', 'locked'),
+  new StatusFilter('All Exercises'),
+  new StatusFilter('Completed', ['published', 'completed'], 'c'),
+  new StatusFilter('In Progress', ['in_progress', 'started'], 'ip'),
+  new StatusFilter('Available', ['available'], 'a'),
+  new StatusFilter('Locked', ['locked'], 'l'),
 ]
 
 export const ExerciseList = ({
@@ -120,7 +130,7 @@ export const ExerciseList = ({
         {STATUS_FILTERS.map((filter) => {
           return (
             <Tab
-              key={filter.value}
+              key={filter.title}
               filter={filter}
               results={results}
               onClick={() => setStatusFilter(filter)}
@@ -141,7 +151,7 @@ export const ExerciseList = ({
                 <ExerciseWidget
                   key={result.exercise.slug}
                   exercise={result.exercise}
-                  size="large"
+                  size="medium"
                   solution={result.solution}
                 />
               )

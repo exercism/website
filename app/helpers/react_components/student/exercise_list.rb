@@ -11,7 +11,7 @@ module ReactComponents
       def data
         {
           exercises: SerializeExercises.(
-            track.exercises,
+            track.exercises.order('id'),
             user_track: UserTrack.for(current_user, track)
           ),
           solutions: SerializeSolutionsForStudent.(current_user.solutions.where(exercise_id: track.exercises))

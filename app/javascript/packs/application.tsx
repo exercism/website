@@ -298,7 +298,6 @@ initReact({
     />
   ),
   'concept-map': (data: any) => {
-    const tempData = require('../../../data.json')
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
 
     return <ConceptMap {...mapData} />

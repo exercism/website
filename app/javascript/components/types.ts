@@ -2,6 +2,19 @@ export type Exercise =
   | (ExerciseCore & { isAvailable: true; links: { self: string } })
   | (ExerciseCore & { isAvailable: false })
 
+export type SolutionForStudent = {
+  url: string
+  status: SolutionStatus
+  numComments: number
+  numIterations: number
+}
+
+export type SolutionStatus =
+  | 'started'
+  | 'published'
+  | 'completed'
+  | 'inProgress'
+
 type ExerciseCore = {
   slug: string
   title: string

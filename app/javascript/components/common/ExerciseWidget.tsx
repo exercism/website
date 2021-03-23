@@ -1,5 +1,11 @@
+import pluralize from 'pluralize'
 import React from 'react'
-import { Exercise, ExerciseDifficulty } from '../types'
+import {
+  Exercise,
+  ExerciseDifficulty,
+  SolutionForStudent,
+  SolutionStatus,
+} from '../types'
 import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
 import { Icon } from './Icon'
@@ -8,14 +14,32 @@ type Size = 'small' | 'medium' | 'large'
 
 export const ExerciseWidget = ({
   exercise,
+  solution,
   size,
   showDesc = true,
 }: {
   exercise: Exercise
+  solution?: SolutionForStudent
   size: Size
   showDesc?: boolean
 }): JSX.Element => {
-  return (
+  return solution ? (
+    <a href={solution.url} className="c-exercise-widget">
+      <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+      <div className="--info">
+        <div className="--title">{exercise.title}</div>
+      </div>
+      <SolutionStatusSummary status={solution.status} />
+      {solution.numComments > 0 ? <span>{solution.numComments}</span> : null}
+      {solution.numIterations > 0 ? (
+        <span>
+          {solution.numIterations}{' '}
+          {pluralize('iteration', solution.numIterations)}
+        </span>
+      ) : null}
+      <GraphicalIcon icon="chevron-right" className="--chevron-icon" />
+    </a>
+  ) : (
     <WidgetWrapper exercise={exercise} size={size}>
       <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
       <Info exercise={exercise} size={size} showDesc={showDesc} />
@@ -68,6 +92,19 @@ const Info = ({
       ) : null}
     </div>
   )
+}
+
+const SolutionStatusSummary = ({ status }: { status: SolutionStatus }) => {
+  switch (status) {
+    case 'completed':
+      return <span>Completed</span>
+    case 'inProgress':
+      return <span>In progress</span>
+    case 'published':
+      return <span>Published</span>
+    case 'started':
+      return <span>Started</span>
+  }
 }
 
 const Status = ({ exercise }: { exercise: Exercise }) => {

@@ -144,6 +144,7 @@ import {
   MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
+  SolutionForStudent,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -193,6 +194,7 @@ initReact({
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}
+      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
       size={data.size}
       showDesc={data.show_desc}
     />

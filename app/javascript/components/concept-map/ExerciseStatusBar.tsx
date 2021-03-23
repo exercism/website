@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { ExerciseStatus, IConcept } from './concept-map-types'
-import { camelize } from 'humps'
+import { ExerciseStatus } from './concept-map-types'
 
 export const ExerciseStatusBar = ({
   exerciseStatuses,
@@ -22,7 +21,7 @@ export const PureExerciseStatusBar = React.memo(ExerciseStatusBar)
 
 const statusMapper = (status: ExerciseStatus, key: number): JSX.Element => {
   const className = status
-    .split('-')
+    .split('_')
     .map((s) => s[0])
     .join('')
   return <div key={key} className={`c-ed --${className}`} />

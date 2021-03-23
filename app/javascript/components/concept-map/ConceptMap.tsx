@@ -11,7 +11,6 @@ import {
 } from './concept-map-types'
 import { useFontLoaded } from './hooks/useFontLoaded'
 import { camelize } from 'humps'
-// import { ExerciseStatusIndexProvider } from './hooks/useExerciseStatusIndex'
 
 type AdjacentIndex = Map<string, Set<string>>
 type RelationReducer = (connection: ConceptConnection) => [string, string]

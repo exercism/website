@@ -20,7 +20,6 @@ module API
         output[:solutions] = SerializeSolutionsForStudent.(
           current_user.solutions.where(exercise_id: exercises)
         )
-        output[:recommended_solution_slug] = Exercise.first.slug
       end
 
       render json: output

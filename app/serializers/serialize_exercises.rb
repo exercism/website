@@ -7,7 +7,9 @@ class SerializeExercises
   end
 
   def call
-    exercises.map { |exercise| SerializeExercise.(exercise, user_track: user_track) }
+    exercises.map do |exercise|
+      SerializeExercise.(exercise, user_track: user_track)
+    end
   end
 
   private

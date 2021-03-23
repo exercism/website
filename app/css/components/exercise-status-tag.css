@@ -31,6 +31,9 @@
     &.--available {
         @apply border-buttonBorderColor2;
     }
+    &.--recommended {
+        @apply border-buttonBorderColor2;
+    }
     &.--completed,
     &.--published {
         @apply border-darkGreen bg-veryLightGreen2;

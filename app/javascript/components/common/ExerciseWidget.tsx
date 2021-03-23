@@ -117,11 +117,15 @@ const SolutionStatusTag = ({ status }: { status: SolutionStatus }) => {
 }
 
 const ExerciseStatusTag = ({ exercise }: { exercise: Exercise }) => {
-  return exercise.isAvailable ? (
-    <div className="c-exercise-status-tag --available">Available</div>
-  ) : (
-    <div className="c-exercise-status-tag --locked">Locked</div>
-  )
+  if (exercise.isRecommended) {
+    return (
+      <div className="c-exercise-status-tag --recommended">Recommended</div>
+    )
+  } else if (exercise.isAvailable) {
+    return <div className="c-exercise-status-tag --available">Available</div>
+  } else {
+    return <div className="c-exercise-status-tag --locked">Locked</div>
+  }
 }
 
 const Difficulty = ({ difficulty }: { difficulty: ExerciseDifficulty }) => {

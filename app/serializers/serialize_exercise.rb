@@ -14,6 +14,7 @@ class SerializeExercise
       difficulty: "easy", # TOOD
       blurb: exercise.blurb,
       is_available: available?,
+      is_recommended: recommended?,
       is_completed: user_track ? user_track.exercise_completed?(exercise) : nil,
       links: links
     }
@@ -24,6 +25,10 @@ class SerializeExercise
 
   def available?
     user_track ? user_track.exercise_available?(exercise) : nil
+  end
+
+  def recommended?
+    false # TODO
   end
 
   def links

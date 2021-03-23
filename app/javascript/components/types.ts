@@ -25,6 +25,7 @@ type ExerciseCore = {
   iconUrl: string
   blurb: string
   difficulty: ExerciseDifficulty
+  isRecommended: boolean
   isCompleted: boolean
 }
 

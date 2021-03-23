@@ -238,4 +238,34 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
   end
+
+  test "syncs with nil prerequisites" do
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: 'Lasagna', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept].each { |e| e[:prerequisites] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncConceptExercise.(exercise)
+  end
+
+  test "syncs with nil concepts" do
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: 'Lasagna', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept].each { |e| e[:concepts] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+  end
 end

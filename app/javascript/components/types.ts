@@ -16,7 +16,7 @@ export type SolutionStatus =
   | 'started'
   | 'published'
   | 'completed'
-  | 'inProgress'
+  | 'in_progress'
 
 type ExerciseCore = {
   slug: string

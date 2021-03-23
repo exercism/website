@@ -24,7 +24,7 @@ export const ExerciseWidget = ({
   showDesc?: boolean
 }): JSX.Element => {
   return solution ? (
-    <a href={solution.url} className="c-exercise-widget">
+    <a href={solution.url} className={`c-exercise-widget --${size}`}>
       <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
       <div className="--info">
         <div className="--title">{exercise.title}</div>
@@ -98,7 +98,7 @@ const SolutionStatusSummary = ({ status }: { status: SolutionStatus }) => {
   switch (status) {
     case 'completed':
       return <span>Completed</span>
-    case 'inProgress':
+    case 'in_progress':
       return <span>In progress</span>
     case 'published':
       return <span>Published</span>

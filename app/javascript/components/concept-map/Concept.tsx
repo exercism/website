@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { ConceptTooltip } from '../tooltips'
 
-import { IConcept, ConceptStatus } from './concept-map-types'
+import { IConcept, ConceptStatus, ExerciseStatus } from './concept-map-types'
 
 import { emitConceptElement } from './helpers/concept-element-svg-handler'
 import {
@@ -17,6 +17,7 @@ type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
   handleLeave: MouseEventHandler
   status: ConceptStatus
+  exerciseStatuses: ExerciseStatus[]
   isActive: boolean
   isActiveHover: boolean
 }
@@ -29,9 +30,9 @@ export const Concept = ({
   handleEnter,
   handleLeave,
   status,
+  exerciseStatuses,
   isActive,
   isActiveHover,
-  exercises,
 }: ConceptProps): JSX.Element => {
   const isLocked = status === 'locked'
   // sets the initial visibility, to avoid the flash of unstyled content
@@ -80,10 +81,12 @@ export const Concept = ({
         onMouseLeave={wrapAnimationFrame(handleLeave)}
       >
         <div className="display">
-          <ConceptIcon name={name} size="small" />
+          <ConceptIcon name={name} size="medium" />
           <div className="name">{name}</div>
         </div>
-        {!isLocked && <PureExerciseStatusBar {...exercises} />}
+        {!isLocked && (
+          <PureExerciseStatusBar exerciseStatuses={exerciseStatuses} />
+        )}
       </a>
       <ConceptTooltip
         contentEndpoint={tooltipUrl}
@@ -97,10 +100,6 @@ export const Concept = ({
 }
 
 export const PureConcept = React.memo(Concept)
-
-export function conceptExerciseSlugToId(slug: string): string {
-  return `concept-exercise-${slug}`
-}
 
 export function conceptSlugToId(slug: string): string {
   return `concept-${slug}`

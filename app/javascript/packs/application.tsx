@@ -298,11 +298,8 @@ initReact({
     />
   ),
   'concept-map': (data: any) => {
-    // TODO: Remove this shim later!!!!!
-    // const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const tempData = require('../../../data.json')
-    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(tempData.graph)
+    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
 
     return <ConceptMap {...mapData} />
   },

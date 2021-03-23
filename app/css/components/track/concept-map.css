@@ -2,8 +2,6 @@
     --c-concept-map-background: #ffffff;
     --c-concept-map-card-background: #ffffff;
 
-    --c-concept-map-check-green: #59d2ae;
-
     --c-concept-map-line-complete: #64b294;
     --c-concept-map-line-available: #dce3ef;
     --c-concept-map-line-locked: #c9c8d7;
@@ -14,18 +12,16 @@
     --c-concept-map-text-unlocked: #26282d;
     --c-concept-map-text-locked: #6d6986;
 
-    --c-concept-map-hover-opacity: 0.3;
+    --c-concept-map-hover-opacity: 0.1;
 
     --c-concept-map-line-width: 2;
     --c-concept-map-circle-radius: 3;
     --c-concept-map-drawing-margin: 50;
-
-    --c-concept-map-progress-green: #59d2ae;
-    --c-concept-map-progress-blue: #2e57e8;
 }
 
 .c-concepts-map {
     min-width: 300px;
+    margin-top: -40px; /* Compensate for the first row of cards */
 
     & .track {
         @apply pointer-events-none block;
@@ -34,27 +30,35 @@
             @apply flex justify-evenly items-center flex-wrap;
 
             & .card {
-                @apply rounded-8 pt-12 px-24;
-                @apply box-border pointer-events-auto shadow-base;
+                @apply rounded-8 py-16 px-24;
+                @apply box-border pointer-events-auto;
                 @apply flex flex-col justify-between m-40;
 
                 background-color: var(--c-concept-map-card-background);
                 opacity: var(--c-concept-map-hover-opacity);
+                transition: opacity 200ms ease-out;
 
                 &.locked {
-                    @apply bg-bgGray pb-12;
-                    color: var(--c-concept-map-text-locked);
+                    @apply bg-lightGray text-textColor6;
+                    @apply relative;
+
+                    &:after {
+                        @apply absolute;
+                        @apply rounded-100;
+                        content: "";
+                        background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzMgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxlbGxpcHNlIGN4PSIxNi45NzUiIGN5PSIxNiIgcng9IjE2LjAyNDkiIHJ5PSIxNiIgZmlsbD0iI0Q1RDhFNCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTEyLjc3OCAxNi4zNTcyQzEyLjc3OCAxNS41Mjg3IDEzLjQ0OTYgMTQuODU3MiAxNC4yNzggMTQuODU3MkgxOS42NzJDMjAuNTAwNSAxNC44NTcyIDIxLjE3MiAxNS41Mjg4IDIxLjE3MiAxNi4zNTcyVjIwLjIxNDNDMjEuMTcyIDIxLjA0MjcgMjAuNTAwNSAyMS43MTQzIDE5LjY3MiAyMS43MTQzSDE0LjI3OEMxMy40NDk2IDIxLjcxNDMgMTIuNzc4IDIxLjA0MjcgMTIuNzc4IDIwLjIxNDNWMTYuMzU3MloiIHN0cm9rZT0iIzVDNTU4OSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTQuMzA0MiAxNC44NTcxVjEyLjk1MjNDMTQuMzA0MiAxMS40Nzk2IDE1LjUgMTAuMjg1NiAxNi45NzUgMTAuMjg1NkMxOC40NTAxIDEwLjI4NTYgMTkuNjQ1OCAxMS40Nzk2IDE5LjY0NTggMTIuOTUyM1YxNC44NTcxIiBzdHJva2U9IiM1QzU1ODkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTE2Ljk3NSAxNy45MDQ4QzE2Ljg2OTcgMTcuOTA0OCAxNi43ODQyIDE3Ljk5MDEgMTYuNzg0MiAxOC4wOTUzQzE2Ljc4NDIgMTguMjAwNSAxNi44Njk3IDE4LjI4NTcgMTYuOTc1IDE4LjI4NTdDMTcuMDgwNCAxOC4yODU3IDE3LjE2NTggMTguMjAwNSAxNy4xNjU4IDE4LjA5NTNDMTcuMTY1OSAxOC4wNDQ3IDE3LjE0NTkgMTcuOTk2MiAxNy4xMTAxIDE3Ljk2MDRDMTcuMDc0MyAxNy45MjQ3IDE3LjAyNTcgMTcuOTA0NyAxNi45NzUgMTcuOTA0OFYxNy45MDQ4IiBzdHJva2U9IiM1QzU1ODkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==");
+                        height: 31px;
+                        width: 32px;
+                        top: -15px;
+                        right: -15px;
+                    }
                 }
-                &.not-started:not(.unavailable) {
-                    box-shadow: 0px 4px 24px rgba(100, 143, 255, 0.4);
+                &:not(.locked) {
+                    @apply shadow-baseZ1;
                 }
 
                 &.active {
                     opacity: 1;
-                }
-
-                &.completed {
-                    @apply text-textColor5;
                 }
 
                 &.hidden {
@@ -65,7 +69,8 @@
                     @apply flex items-center justify-center;
 
                     & .name {
-                        @apply ml-8 text-16 font-medium leading-code;
+                        @apply text-18 text-textColor2 font-semibold leading-150;
+                        @apply ml-16;
                     }
 
                     & .complete-icon {
@@ -75,33 +80,17 @@
                     }
                 }
             }
-        }
-    }
 
-    & .exercise-status-bar {
-        @apply py-16 px-24 flex justify-center align-middle;
+            & .exercise-status-bar {
+                @apply flex justify-center align-middle;
+                margin-top: 10px;
+                margin-bottom: -6px;
 
-        & .c-exercise-dot {
-            @apply rounded-8 m-4;
-            height: 16px;
-            width: 16px;
-
-            &.locked {
-                background-color: grey;
-            }
-
-            &.available {
-                box-shadow: 0px 1px 4px 2px rgba(0, 80, 255, 0.25);
-                background-color: white;
-            }
-
-            &.in-progress {
-                box-shadow: 0px 1px 4px 2px rgba(0, 80, 255, 0.25);
-                background-color: purple;
-            }
-
-            &.complete {
-                background-color: green;
+                & .c-ed {
+                    height: 16px;
+                    width: 16px;
+                    @apply m-6;
+                }
             }
         }
     }
@@ -110,6 +99,7 @@
         @apply absolute -z-1 top-0 left-0;
         touch-action: none;
         opacity: var(--c-concept-map-hover-opacity);
+        transition: opacity 200ms ease-out;
         stroke-width: 2px;
         fill: none;
 

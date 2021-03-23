@@ -11,7 +11,7 @@ import {
 } from './concept-map-types'
 import { useFontLoaded } from './hooks/useFontLoaded'
 import { camelize } from 'humps'
-import { ExerciseStatusIndexProvider } from './hooks/useExerciseStatusIndex'
+// import { ExerciseStatusIndexProvider } from './hooks/useExerciseStatusIndex'
 
 type AdjacentIndex = Map<string, Set<string>>
 type RelationReducer = (connection: ConceptConnection) => [string, string]
@@ -29,8 +29,7 @@ export const ConceptMap = ({
   levels,
   connections,
   status,
-  exerciseStatus,
-  exercises = {},
+  exerciseStatuses,
 }: IConceptMap): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fontLoaded = useFontLoaded('Poppins')
@@ -57,7 +56,7 @@ export const ConceptMap = ({
     : new Set<string>()
 
   return (
-    <ExerciseStatusIndexProvider statusIndex={exerciseStatus}>
+    <>
       <figure className="c-concepts-map">
         <div className="track">
           {levels.map((layer, i: number) => (
@@ -76,7 +75,7 @@ export const ConceptMap = ({
                       name={concept.name}
                       webUrl={concept.webUrl}
                       tooltipUrl={concept.tooltipUrl}
-                      exercises={exercises[slug]}
+                      exerciseStatuses={exerciseStatuses[slug]}
                       handleEnter={() => setActiveSlug(slug)}
                       handleLeave={unsetActiveSlug}
                       status={status[slug] ?? 'unavailable'}
@@ -93,7 +92,7 @@ export const ConceptMap = ({
           activeConcepts={activeSlugs}
         />
       </figure>
-    </ExerciseStatusIndexProvider>
+    </>
   )
 }
 

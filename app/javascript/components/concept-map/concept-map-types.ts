@@ -7,10 +7,6 @@ export interface IConcept {
   webUrl: string
   tooltipUrl: string
   name: string
-  exercises: {
-    conceptExercises: string[]
-    practiceExercises: string[]
-  }
 }
 
 export function isIConcept(concept: IConcept | undefined): concept is IConcept {
@@ -55,20 +51,14 @@ export function isConceptPathProperties(
 }
 
 export type ConceptStatusIndex = { [key: string]: ConceptStatus }
-export type ExerciseStatusIndex = { [key: string]: ExerciseStatus }
+export type ExerciseStatusIndex = { [key: string]: ExerciseStatus[] }
 
 export interface IConceptMap {
   concepts: IConcept[]
   levels: ConceptLayer[]
   connections: ConceptConnection[]
   status: ConceptStatusIndex
-  exerciseStatus: ExerciseStatusIndex
-  exercises: {
-    [key: string]: {
-      conceptExercises: string[]
-      practiceExercises: string[]
-    }
-  }
+  exerciseStatuses: ExerciseStatusIndex
 }
 
 export type ConceptLayer = string[]

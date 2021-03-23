@@ -3,12 +3,7 @@
 #page-concepts-index,
 #page-exercises-index {
     & article.content {
-        @apply pt-40;
-        background: linear-gradient(
-            180deg,
-            #e1ebff 0%,
-            rgba(225, 235, 255, 0) 250px
-        );
+        @apply pt-32;
     }
 
     & section.external-cta {
@@ -45,32 +40,10 @@
         }
         & .info {
             & h1 {
-                @apply text-h1 flex items-center mb-8;
-                & .c-icon {
-                    height: 54px;
-                    width: 54px;
-                    @apply mx-16;
-                }
+                @apply text-h2 mb-8;
             }
             & p {
-                @apply mb-24;
-                @apply text-18 leading-paragraph;
-            }
-            & progress {
-                @apply appearance-none w-100 rounded-8 overflow-hidden mb-12;
-                height: 8px;
-
-                &::-webkit-progress-bar {
-                    @apply bg-veryLightBlue;
-                }
-                &[value] {
-                    &::-webkit-progress-value {
-                        @apply bg-lightBlue;
-                    }
-                }
-            }
-            & .progress-text {
-                @apply text-lightBlue font-medium;
+                @apply text-p-large;
             }
         }
     }

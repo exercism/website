@@ -19,12 +19,8 @@
       .lg-container.container
         = graphical_icon "forest", css_class: 'graphic', category: 'graphics'
         .info
-          %h1
-            Your journey through
-            = track_icon(@track)
+          %h1 Your journey through #{@track.title}
           %p Learn and master concepts to achieve fluency in #{@track.title}.
-          %progress.progress-bar{ value: @num_completed, max: @num_concepts }
-          .progress-text #{pluralize(@num_completed, 'concepts')} learnt
 
     %section.concepts
       .lg-container.container

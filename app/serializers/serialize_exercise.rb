@@ -11,6 +11,7 @@ class SerializeExercise
       slug: exercise.slug,
       title: exercise.title,
       icon_url: exercise.icon_url,
+      difficulty: "easy", # TOOD
       blurb: exercise.blurb,
       is_available: available?,
       is_completed: user_track ? user_track.exercise_completed?(exercise) : nil,

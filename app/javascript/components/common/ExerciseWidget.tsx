@@ -65,7 +65,12 @@ const Info = ({
 }) => {
   return (
     <div className="--info">
-      <div className="--title">{exercise.title}</div>
+      <div className="--title">
+        {exercise.title}
+        {solution && solution.hasNotifications ? (
+          <div className="c-notification-dot" />
+        ) : null}
+      </div>
       <div className="--data">
         {solution ? (
           <SolutionStatusTag status={solution.status} />
@@ -74,7 +79,7 @@ const Info = ({
         )}
         {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
 
-        {/* TODO: This should be mentor comments */}
+        {/* TODO: This should be num_mentoring_comments comments */}
         {solution && solution.numComments > 0 ? (
           <div className="--mentor-comments-count">
             <GraphicalIcon icon="mentoring" />
@@ -89,9 +94,7 @@ const Info = ({
           </div>
         ) : null}
       </div>
-      {exercise.isAvailable && !solution ? (
-        <div className="--blurb">{exercise.blurb}</div>
-      ) : null}
+      <div className="--blurb">{exercise.blurb}</div>
     </div>
   )
 }
@@ -124,7 +127,7 @@ const ExerciseStatusTag = ({ exercise }: { exercise: Exercise }) => {
 const Difficulty = ({ difficulty }: { difficulty: ExerciseDifficulty }) => {
   switch (difficulty) {
     case 'easy':
-      return <span>Easy</span>
+      return <div className="--difficulty --easy">Easy</div>
     default:
       return null
   }

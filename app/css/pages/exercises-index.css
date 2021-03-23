@@ -28,10 +28,6 @@
             @apply grid gap-16;
             @apply pb-40;
             grid-template-columns: repeat(2, 1fr);
-
-            & .c-exercise-widget {
-                @apply self-start;
-            }
         }
     }
 }

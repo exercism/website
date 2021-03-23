@@ -53,6 +53,7 @@ import '../../css/components/user_activity'
 import '../../css/components/search-bar'
 import '../../css/components/published-solution'
 import '../../css/components/iteration-processing-status'
+import '../../css/components/notification-dot'
 
 import '../../css/components/mentor/nav'
 import '../../css/components/mentor/inbox'

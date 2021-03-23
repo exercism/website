@@ -5,6 +5,7 @@ export type Exercise =
 export type SolutionForStudent = {
   url: string
   status: SolutionStatus
+  hasNotifications: boolean
   numComments: number
   numIterations: number
   exercise: {

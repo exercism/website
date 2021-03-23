@@ -28,6 +28,9 @@
         @apply border-lightBlue bg-veryLightBlue;
         @apply text-lightBlue;
     }
+    &.--available {
+        @apply border-buttonBorderColor2;
+    }
     &.--completed,
     &.--published {
         @apply border-darkGreen bg-veryLightGreen2;

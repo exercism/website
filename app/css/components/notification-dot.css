@@ -1,0 +1,6 @@
+.c-notification-dot {
+    height: 8px;
+    width: 8px;
+
+    @apply bg-lightBlue rounded-circle;
+}

@@ -94,13 +94,7 @@ class Solution
     end
 
     def users_list(users)
-      users.map do |user|
-        if user[:exercism_username].blank?
-          "- @#{user[:github_username]}"
-        else
-          "- #{user[:exercism_username]} (@#{user[:github_username]})"
-        end
-      end.join("\n")
+      users.map { |user| "- @#{user}" }.join("\n")
     end
 
     def based_on

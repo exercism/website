@@ -21,7 +21,7 @@ class UserTrack
     def exercise_status(obj)
       e = exercise(obj)
       return :completed if e.completed
-      return :'in-progress' if e.started
+      return :in_progress if e.started
       return :available if e.available
 
       :locked

@@ -36,7 +36,7 @@ module ViewComponents
         case solution.status
         when :started
           tag.div("Started", class: 'c-exercise-status-tag --started')
-        when :"in-progress"
+        when :in_progress
           tag.div("In progress", class: 'c-exercise-status-tag --in-progress')
         when :completed
           tag.div("Completed", class: 'c-exercise-status-tag --completed')

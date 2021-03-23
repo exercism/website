@@ -32,7 +32,7 @@
               - if status == :locked
                 .c-ed.--l
               - else
-                = link_to "", track_exercise_path(@track, exercise_slug), class: "c-ed --#{status.to_s.split('-').map(&:first).join}"
+                = link_to "", track_exercise_path(@track, exercise_slug), class: "c-ed --#{status.to_s.split('_').map(&:first).join}"
 
         - if @user_track.solutions.present?
           %section.activities

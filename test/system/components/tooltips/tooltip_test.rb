@@ -4,6 +4,7 @@ module Components
   module Tooltips
     class TooltipTest < ApplicationSystemTestCase
       test "mentored student tooltip renders correctly" do
+        skip
         visit test_components_tooltips_tooltip_path
 
         mentored_students = all('ol.mentored-students > li')

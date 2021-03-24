@@ -33,6 +33,26 @@
                 .c-ed.--l
               - else
                 = link_to "", track_exercise_path(@track, exercise_slug), class: "c-ed --#{status.to_s.split('_').map(&:first).join}"
+          .key
+            .item
+              .c-ed.--c
+              .status Completed
+              .count= @exercise_statuses.count { |_, s| %i[completed published].include?(s) }
+            .item
+              .c-ed.--ip
+              .status In-progress
+              .count= @exercise_statuses.count { |_, s| %i[in_progress started].include?(s) }
+            .item
+              .c-ed.--a
+              .status Available
+              .count= @exercise_statuses.count { |_, s| s == :available }
+            .item
+              .c-ed.--l
+              .status Locked
+              .count= @exercise_statuses.count { |_, s| s == :locked }
+            .item.total
+              .status Total Exercises
+              .count= @exercise_statuses.size
 
         - if @user_track.solutions.present?
           %section.activities

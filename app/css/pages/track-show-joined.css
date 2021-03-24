@@ -144,6 +144,34 @@
             & .exercises {
                 @apply grid gap-12;
                 grid-template-columns: repeat(auto-fit, minmax(24px, 1fr));
+                @apply mb-24;
+            }
+            & .key {
+                @apply flex items-center;
+
+                & .item {
+                    @apply flex items-center;
+                    @apply mr-32;
+
+                    & .c-ed {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-12;
+                    }
+                    & .status {
+                        @apply text-16 leading-150 font-semibold text-textColor6;
+                        @apply mr-8;
+                    }
+                    & .count {
+                        @apply text-14 leading-150 font-medium text-textColor6;
+                    }
+
+                    &.total {
+                        @apply ml-auto mr-0;
+                        @apply border-l-1 border-borderColor6;
+                        @apply pl-24;
+                    }
+                }
             }
         }
         & section.start-track {

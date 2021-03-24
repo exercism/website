@@ -153,5 +153,77 @@ module Git
       expected = { ".meta/exemplar.rb" => "class Lasagna\n  EXPECTED_MINUTES_IN_OVEN = 40\n  PREPARATION_MINUTES_PER_LAYER = 2\n\n  def remaining_minutes_in_oven(actual_minutes_in_oven)\n    EXPECTED_MINUTES_IN_OVEN - actual_minutes_in_oven\n  end\n\n  def preparation_time_in_minutes(layers)\n    layers * PREPARATION_MINUTES_PER_LAYER\n  end\n\n  def total_time_in_minutes(number_of_layers:, actual_minutes_in_oven:)\n    preparation_time_in_minutes(number_of_layers) + actual_minutes_in_oven\n  end\nend\n" } # rubocop:disable Layout/LineLength
       assert_equal(expected, exercise.exemplar_files)
     end
+
+    test "instructions file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.docs/instructions.md', exercise.instructions_filepath)
+    end
+
+    test "instructions absolute file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/concept/strings/.docs/instructions.md', exercise.instructions_absolute_filepath)
+    end
+
+    test "instructions_append file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.docs/instructions.append.md', exercise.instructions_append_filepath)
+    end
+
+    test "instructions_append absolute file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/concept/strings/.docs/instructions.append.md', exercise.instructions_append_absolute_filepath)
+    end
+
+    test "introduction file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.docs/introduction.md', exercise.introduction_filepath)
+    end
+
+    test "introduction absolute file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/concept/strings/.docs/introduction.md', exercise.introduction_absolute_filepath)
+    end
+
+    test "introduction_append file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.docs/introduction.append.md', exercise.introduction_append_filepath)
+    end
+
+    test "introduction_append absolute file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/concept/strings/.docs/introduction.append.md', exercise.introduction_append_absolute_filepath)
+    end
+
+    test "hints file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.docs/hints.md', exercise.hints_filepath)
+    end
+
+    test "hints absolute file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/concept/strings/.docs/hints.md', exercise.hints_absolute_filepath)
+    end
+
+    test "config file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.meta/config.json', exercise.config_filepath)
+    end
+
+    test "config absolute file path" do
+      exercise = Git::Exercise.new(:strings, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/concept/strings/.meta/config.json', exercise.config_absolute_filepath)
+    end
   end
 end

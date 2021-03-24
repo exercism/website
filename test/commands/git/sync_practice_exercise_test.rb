@@ -48,6 +48,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise)
 
     assert_equal "Allergies Alert", exercise.title
+    assert_equal "Allergic? Try this!", exercise.blurb
   end
 
   test "adds new prerequisites defined in config.json" do

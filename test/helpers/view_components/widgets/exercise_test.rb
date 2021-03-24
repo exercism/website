@@ -226,7 +226,7 @@ class ViewComponents::Widgets::ExerciseTest < ActionView::TestCase
           Bob
           #{%(<img role="img" alt="Exercises is completed" class="c-icon" src="#{TestHelpers.image_pack_url('completed-check-circle')}" />) if completed}
         </div>
-        #{%(<div class="--desc">Atoms are internally represented</div>) if desc}
+        #{%(<div class="--desc">Hey Bob!</div>) if desc}
       </div>
     )
   end

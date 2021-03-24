@@ -21,6 +21,11 @@ module Git
         define_method "#{field}_filepath" do
           filepath
         end
+
+        # Define a <field>_absolute_filepath method to allow easy access to the filepath
+        define_method "#{field}_absolute_filepath" do
+          absolute_filepath(filepath)
+        end
       end
     end
   end

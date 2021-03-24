@@ -73,6 +73,7 @@ module Git
 
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
+          blurb: find_blurb(exercise_config[:slug], 'concept'),
           taught_concepts: find_concepts(exercise_config[:concepts]),
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
@@ -90,6 +91,7 @@ module Git
           slug: exercise_config[:slug],
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
+          blurb: find_blurb(exercise_config[:slug], 'practice'),
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
@@ -110,6 +112,11 @@ module Git
         missing_concepts = concept_slugs.to_a - concepts.map(&:slug)
         Rails.logger.error "Missing concepts: #{missing_concepts.join(', ')}" if missing_concepts.present?
       end
+    end
+
+    def find_blurb(slug, git_type)
+      git_exercise = Git::Exercise.new(slug, git_type, git_repo.head_sha, repo: git_repo)
+      git_exercise.blurb
     end
 
     def fetch_git_repo!

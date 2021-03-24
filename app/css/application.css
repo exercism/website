@@ -20,6 +20,7 @@
 
 :root {
     /* TODO: Rename these to match figma */
+    --c-76709F: #76709f;
     --c-5C5589: #5c5589;
     --c-130B43: #130b43;
     --c-130b43: #130b43;
@@ -72,7 +73,7 @@
     --textColor3: var(--c-26282D);
     --textColor5: var(--c-3F3A5A);
     --textColor6: var(--c-5C5589);
-    --textColor7: var(--c-8480A0);
+    --textColor7: var(--c-76709F);
     --textColor8: var(--c-E1EBFF);
     --textColor9: var(--c-FFFFFF);
 
@@ -98,6 +99,13 @@
         brightness(109%) contrast(100%);
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
         hue-rotate(236deg) brightness(97%) contrast(80%);
+    --textColor6-filter: invert(35%) sepia(3%) saturate(6422%)
+        hue-rotate(208deg) brightness(94%) contrast(87%);
+
+    --textColor7-filter: invert(47%) sepia(9%) saturate(1718%)
+        hue-rotate(208deg) brightness(94%) contrast(83%);
+    --orange-filter: invert(57%) sepia(90%) saturate(682%) hue-rotate(354deg)
+        brightness(95%) contrast(104%);
 
     @apply text-textColor5 bg-backgroundColorB;
 }

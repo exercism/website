@@ -37,6 +37,30 @@ class UserTrack < ApplicationRecord
     42.5
   end
 
+  memoize
+  def active_mentoring_discussions
+    Solution::MentorDiscussion.where(solution: solutions).in_progress
+  end
+
+  memoize
+  def pending_mentoring_requests
+    Solution::MentorRequest.where(solution: solutions).pending
+  end
+
+  # TODO: Calculate and cache this somehow
+  def num_locked_mentoring_slots
+    2
+  end
+
+  # TODO: Extract 4 into a constant
+  def num_available_mentoring_slots
+    4 - num_used_mentoring_slots - num_locked_mentoring_slots
+  end
+
+  def num_used_mentoring_slots
+    active_mentoring_discussions.size + pending_mentoring_requests.size
+  end
+
   delegate :exercise_available?, :exercise_completed?, :exercise_status,
     :num_completed_exercises,
     :num_concepts, :num_concepts_learnt, :num_concepts_mastered,

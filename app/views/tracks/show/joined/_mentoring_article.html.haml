@@ -1,0 +1,41 @@
+/ TODO: This can be cached against track.updated_at and track.num_contributors
+%article.mentoring-article
+  .lg-container
+    %header.mentoring-header
+      .lhs
+        = graphical_icon(:mentoring, hex: true, css_class: "graphical-icon")
+        .info
+          %h2 Your mentoring slots
+          %p #{user_track.num_used_mentoring_slots} mentoring slot filled
+      .rhs
+        %h3
+          Your current Reputation is
+          = render ViewComponents::Reputation.new(current_user.reputation, size: :small, flashy: true)
+
+        .progress
+          / TODO
+          .bar{ style: "width: 42%" }
+
+          .unlock-icon
+            = icon "unlock", "Unlocked"
+        .info
+          .explanation
+            = graphical_icon :'info-circle'
+            How does this work?
+          .next-slot
+            Next slot unlocks at
+            %strong 120 rep
+
+  .lg-container.container
+    .slots
+      - user_track.active_mentoring_discussions.each do |_discussion|
+        .discussion
+      - user_track.pending_mentoring_requests.each do |_request|
+        .request
+      - user_track.num_available_mentoring_slots.times do
+        .available-slot
+      - user_track.num_locked_mentoring_slots.times do
+        .locked-slot
+          = graphical_icon "lock"
+          Mentoring slot locked
+

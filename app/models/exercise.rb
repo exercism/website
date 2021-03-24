@@ -68,11 +68,6 @@ class Exercise < ApplicationRecord
   end
 
   # TODO: Remove once in the db
-  def blurb
-    "Atoms are internally represented"
-  end
-
-  # TODO: Remove once in the db
   def icon_url
     asset_pack_url(
       "media/images/exercises/#{icon_name}.svg",

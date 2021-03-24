@@ -15,6 +15,7 @@ module Git
         # TODO: Remove the || ... once we have configlet checking things properly.
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
+        blurb: head_git_exercise.blurb,
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         prerequisites: find_concepts(exercise_config[:prerequisites])
@@ -28,16 +29,22 @@ module Git
     attr_reader :exercise
 
     def exercise_needs_updating?
-      exercise_config_modified? || exercise_files_modified?
+      track_config_exercise_modified? || exercise_config_modified? || exercise_files_modified?
     end
 
-    def exercise_config_modified?
+    def track_config_exercise_modified?
       return false unless track_config_modified?
 
       exercise_config[:slug] != exercise.slug ||
         exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
         exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort
+    end
+
+    def exercise_config_modified?
+      return false unless filepath_in_diff?(head_git_exercise.config_absolute_filepath)
+
+      head_git_exercise.blurb != exercise.blurb
     end
 
     def exercise_files_modified?

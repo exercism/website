@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_18_131539) do
+ActiveRecord::Schema.define(version: 2021_03_24_081826) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 2021_03_18_131539) do
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
+    t.string "blurb", limit: 350, null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
     t.boolean "deprecated", default: false, null: false

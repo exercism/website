@@ -73,6 +73,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     refute exercise.deprecated
+    assert_equal 'Like puppets on a...', exercise.reload.blurb
   end
 
   test "metadata is updated when old commit is missing (e.g. due to force push)" do

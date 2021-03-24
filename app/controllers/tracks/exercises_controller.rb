@@ -3,7 +3,7 @@ class Tracks::ExercisesController < ApplicationController
   before_action :use_exercise, only: %i[show start edit complete]
   before_action :use_solution, only: %i[show edit complete]
 
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show tooltip]
   disable_site_header! only: [:edit]
 
   def index
@@ -17,6 +17,10 @@ class Tracks::ExercisesController < ApplicationController
   # to allow for pre-caching of solution data
   def show
     @iteration = @solution.iterations.last if @solution
+  end
+
+  def tooltip
+    render layout: false
   end
 
   def start

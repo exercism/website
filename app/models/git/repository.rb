@@ -10,7 +10,7 @@ module Git
     def initialize(repo_url: nil)
       @repo_name = repo_url.split("/").last
 
-      if ENV["GIT_CONTENT_REPO"].present?
+      if Rails.env.development? && ENV["GIT_CONTENT_REPO"].present?
         @repo_url = ENV["GIT_CONTENT_REPO"]
       elsif repo_url
         @repo_url = repo_url
@@ -98,14 +98,14 @@ module Git
     end
 
     def repo_dir
-      return "#{repos_dir}/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Exercism.env.test?
+      return "#{repos_dir}/tmp/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Rails.env.test?
 
       "#{repos_dir}/#{repo_name}"
     end
 
     memoize
     def repos_dir
-      return "./test/tmp/git_repo_cache" if Exercism.env.test?
+      return "./test/tmp/git_repo_cache" if Rails.env.test?
 
       Exercism.config.efs_repositories_mount_point
     end

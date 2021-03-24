@@ -189,11 +189,11 @@ module.exports = {
       '48': '48px',
       '56': '56px',
       '64': '64px',
+      '72': '72px',
       '80': '80px',
       '96': '96px',
       '128': '128px',
       '140': '140px',
-      spacedColumns: '70px',
     },
     width: {
       // Sometimes, elements need to have *some* width set

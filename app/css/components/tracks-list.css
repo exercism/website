@@ -30,7 +30,7 @@
             }
 
             & .--categories {
-                @apply flex flex-row gap-spacedColumns;
+                @apply flex flex-row gap-72;
             }
 
             & .--category {
@@ -47,7 +47,7 @@
                 }
             }
             & .--buttons {
-                @apply flex gap-16 mt-spacedColumns;
+                @apply flex gap-16 mt-72;
 
                 & .--apply-btn,
                 & .--close-btn {

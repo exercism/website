@@ -1,9 +1,9 @@
 .c-exercise-status-tag {
     @apply rounded-100;
     @apply border-1;
-    @apply flex items-center px-12;
-    @apply font-semibold leading-160;
-    height: 32px;
+    @apply flex items-center px-10;
+    @apply text-13 font-semibold leading-200;
+    /*height: 32px;*/
 
     &.--locked {
         @apply bg-veryLightBlue border-borderLight;

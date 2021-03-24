@@ -62,7 +62,7 @@ class UserTrack < ApplicationRecord
   end
 
   delegate :exercise_available?, :exercise_completed?, :exercise_status,
-    :num_completed_exercises,
+    :num_completed_exercises, :num_completed_concept_exercises, :num_completed_practice_exercises,
     :num_concepts, :num_concepts_learnt, :num_concepts_mastered,
     :num_exercises,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,

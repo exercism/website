@@ -6,7 +6,7 @@
     & > .c-exercise-icon {
         height: 64px;
         width: 64px;
-        @apply mr-20 self-start;
+        @apply mr-16 self-start;
     }
     & > .c-icon.--action-icon {
         height: 24px;
@@ -22,6 +22,20 @@
 
             & .c-notification-dot {
                 @apply ml-16;
+            }
+
+            & .--track {
+                @apply flex items-center;
+                @apply ml-8;
+                @apply text-14 leading-160 font-normal;
+                & .c-track-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mx-6;
+                }
+                & .--track-title {
+                    @apply text-textColor2 font-semibold;
+                }
             }
         }
         & > .--data {
@@ -39,22 +53,8 @@
                     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAxOCAxOCI+CiAgPGRlZnMvPgogIDxwYXRoIHN0cm9rZT0iIzVDNTU4OSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTEwLjEwNzMgMS41MjczOUM4LjAyMDUzIDEuNzg2NjggNi40NjQ4OCAzLjU3NzUgNi41IDUuNjgwMDZ2LjMyOGMwIDIuMjA5MTQtMS43OTA4NiA0LjAwMDA0LTQgNC4wMDAwNGgtMWMtLjAwMDExIDEuNzU4Ni43MTI0MSAzLjQ0MjMgMS45NzQ5MiA0LjY2NjZTNi40NDIxNyAxNi41NTk1IDguMiAxNi41MDU0YzMuNTc1OC0uMjAzNyA2LjM1NDgtMy4xOTA5IDYuMy02Ljc3MjAxVjUuNTA4MDZjMC0xLjEyOTE4LS40NzczLTIuMjA1NzUtMS4zMTQtMi45NjQtLjgzNjctLjc1ODI0LTEuOTU0OS0xLjEyNzUxLTMuMDc4Ny0xLjAxNjY3eiIgY2xpcC1ydWxlPSJldmVub2RkIi8+CiAgPHBhdGggc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41IiBkPSJNMTEgMTEuNTA4MWMwIDEuMzgwNy0xLjExOTI5IDIuNS0yLjUgMi41cy0yLjUtMS4xMTkzLTIuNS0yLjVoMk0xNC41IDUuNTA4MDFjLjUzMzgtLjAxMTM5IDEuMDQ5Mi4xOTU2NyAxLjQyNjguNTczMjQuMzc3NS4zNzc1Ny41ODQ2Ljg5MjkyLjU3MzIgMS40MjY3NmgtMk0xMC43NSA1LjAwODA2Yy4xMzgxIDAgLjI1LjExMTkzLjI1LjI1TTEwLjUgNS4yNTgwNmMwLS4xMzgwNy4xMTE5LS4yNS4yNS0uMjVNMTAuNzUgNS41MDgwNmMtLjA2NjQuMDAwMTctLjEzLS4wMjYxMS0uMTc3LS4wNzMwMy0uMDQ2OS0uMDQ2OTItLjA3MzItLjExMDYxLS4wNzMtLjE3Njk3TTExIDUuMjU4MDZjLjAwMDIuMDY2MzYtLjAyNjEuMTMwMDUtLjA3My4xNzY5Ny0uMDQ2OS4wNDY5Mi0uMTEwNi4wNzMyLS4xNzcuMDczMDMiLz4KPC9zdmc+");
                 }
             }
-
-            & .--mentor-comments-count {
-                @apply ml-12 py-4 px-12;
-                @apply flex items-center;
-                @apply leading-170 font-medium text-textColor1;
-                @apply border-1 border-borderColor5 rounded-5;
-
-                & .c-icon {
-                    height: 16px;
-                    width: 16px;
-                    filter: var(--textColor6-filter);
-                    @apply mr-6;
-                }
-            }
             & .--iterations-count {
-                @apply ml-24;
+                @apply ml-16;
                 @apply flex items-center;
                 @apply leading-150 font-medium text-textColor6;
 
@@ -62,7 +62,19 @@
                     height: 16px;
                     width: 16px;
                     filter: var(--textColor6-filter);
-                    @apply mr-12;
+                    @apply mr-8;
+                }
+            }
+            & .--mentor-comments-count {
+                @apply ml-16;
+                @apply flex items-center;
+                @apply leading-170 font-medium text-textColor6;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    filter: var(--textColor6-filter);
+                    @apply mr-8;
                 }
             }
         }
@@ -79,8 +91,23 @@
 
     &.--medium {
         @apply py-20 px-24 w-100;
+
+        & .--title .--track {
+            @apply hidden;
+        }
+    }
+    &.--tooltip {
+        @apply py-20 px-24 w-100;
+        & .--blurb {
+            margin-left: -80px;
+        }
+        & .--action-icon {
+            @apply hidden;
+        }
     }
     &.--locked {
+        cursor: not-allowed;
+
         & > .c-exercise-icon {
             opacity: 0.8;
             filter: grayscale(1);

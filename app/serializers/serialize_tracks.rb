@@ -7,11 +7,19 @@ class SerializeTracks
   end
 
   def call
-    {
-      tracks: sorted_tracks.map do |track|
-        data_for_track(track).merge(user_data_for_track(track))
-      end
-    }
+    sorted_tracks.map do |track|
+      SerializeTrack.(
+        track,
+        user_tracks[track.id],
+        # All of this is probably better manages off the usertracksummary
+        num_concepts: concept_counts[track.id].to_i,
+        num_learnt_concepts: learnt_concepts_counts[track.id].to_i,
+        num_concept_exercises: concept_exercise_counts[track.id].to_i,
+        num_practice_exercises: practice_exercise_counts[track.id].to_i,
+        num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
+        num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
+      )
+    end
   end
 
   private
@@ -21,42 +29,6 @@ class SerializeTracks
     tracks.sort_by do |track|
       "#{joined?(track) ? 0 : 1} | #{track.title.downcase}"
     end
-  end
-
-  def data_for_track(track)
-    {
-      id: track.slug,
-      title: track.title,
-      num_concepts: concept_counts[track.id].to_i,
-      num_concept_exercises: concept_exercise_counts[track.id].to_i,
-      num_practice_exercises: practice_exercise_counts[track.id].to_i,
-      web_url: Exercism::Routes.track_url(track),
-      icon_url: track.icon_url,
-
-      # TODO: Set all three of these
-      is_new: true,
-      tags: map_tags(track.tags),
-      updated_at: track.updated_at.iso8601
-    }
-  end
-
-  def map_tags(tags)
-    tags.to_a.map do |tag|
-      Track::TAGS.dig(*tag.split('/'))
-    rescue StandardError
-      nil
-    end.compact
-  end
-
-  def user_data_for_track(track)
-    return {} unless user
-
-    {
-      is_joined: joined?(track),
-      num_learnt_concepts: learnt_concepts_counts[track.id].to_i,
-      num_completed_concept_exercises: completed_concept_exercise_counts[track.id].to_i,
-      num_completed_practice_exercises: completed_practice_exercise_counts[track.id].to_i
-    }
   end
 
   memoize
@@ -84,15 +56,19 @@ class SerializeTracks
   end
 
   memoize
-  def joined_track_ids
+  def user_tracks
+    return [] unless user
+
     UserTrack.
       where(user: user).
       where(track: tracks).
-      map(&:track_id)
+      index_by(&:track_id)
   end
 
   memoize
   def learnt_concepts_counts
+    return {} unless user
+
     UserTrack::LearntConcept.
       joins(:user_track).
       where('user_tracks.user_id': user.id).
@@ -103,11 +79,12 @@ class SerializeTracks
 
   memoize
   def completed_concept_exercise_counts
-    # TODO: This is currently exercises started. Once we've added
-    # the completed flags to the db we should change it to completed
+    return {} unless user
+
     ConceptSolution.
       joins(:exercise).
       where(user: user).
+      where.not(completed_at: nil).
       where('exercises.track_id': tracks).
       group('exercises.track_id').
       count
@@ -115,14 +92,22 @@ class SerializeTracks
 
   memoize
   def completed_practice_exercise_counts
-    # TODO: This is currently exercises started. Once we've added
-    # the completed flags to the db we should change it to completed
+    return {} unless user
+
     PracticeSolution.
       joins(:exercise).
       where(user: user).
+      where.not(completed_at: nil).
       where('exercises.track_id': tracks).
       group('exercises.track_id').
       count
+  end
+
+  memoize
+  def joined_track_ids
+    return [] unless user
+
+    UserTrack.where(user: user).pluck(:track_id)
   end
 
   def joined?(track)

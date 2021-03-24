@@ -4,17 +4,26 @@ module ReactComponents
       initialize_with :track
 
       def to_s
-        super("student-exercise-list", { request: request })
+        super("student-exercise-list", {
+          track: SerializeTrack.(track, UserTrack.for(current_user, track)),
+          request: request
+        })
       end
 
       private
       def data
+        if current_user
+          solutions = SerializeSolutionsForStudent.(current_user.solutions.where(exercise_id: track.exercises))
+        else
+          solutions = []
+        end
+
         {
           exercises: SerializeExercises.(
             track.exercises.order('id'),
             user_track: UserTrack.for(current_user, track)
           ),
-          solutions: SerializeSolutionsForStudent.(current_user.solutions.where(exercise_id: track.exercises))
+          solutions: solutions
         }
       end
 

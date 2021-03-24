@@ -28,7 +28,8 @@ class SerializeExercise
   end
 
   def recommended?
-    false # TODO
+    # TODO
+    user_track ? false : nil
   end
 
   def links

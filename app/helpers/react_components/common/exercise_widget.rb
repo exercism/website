@@ -1,9 +1,9 @@
 module ReactComponents
   module Common
     class ExerciseWidget < ReactComponent
-      SIZES = %i[small medium large].freeze
+      SIZES = %i[small medium large tooltip].freeze
 
-      def initialize(exercise, user_track, size:, solution: nil, desc: true)
+      def initialize(exercise, user_track, size:, solution: nil)
         raise "Invalid exercise size #{size}" unless SIZES.include?(size.to_sym)
 
         super()
@@ -12,20 +12,19 @@ module ReactComponents
         @user_track = user_track
         @solution = solution
         @size = size
-        @desc = desc
       end
 
       def to_s
         super("common-exercise-widget", {
           exercise: SerializeExercise.(exercise, user_track: user_track),
-          solution: solution,
-          size: size,
-          show_desc: desc
+          track: SerializeTrack.(exercise.track, user_track),
+          solution: SerializeSolutionForStudent.(solution),
+          size: size
         })
       end
 
       private
-      attr_reader :exercise, :user_track, :solution, :size, :desc
+      attr_reader :exercise, :user_track, :solution, :size
     end
   end
 end

@@ -78,6 +78,11 @@ export type MentorSessionDiscussion = {
     finish?: string
   }
 }
+export type Track = {
+  id: string
+  title: string
+  iconUrl: string
+}
 
 export type Iteration = {
   uuid: string

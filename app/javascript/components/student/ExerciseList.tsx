@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ExerciseWidget } from '../common'
+import { Track } from '../types'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { Exercise, SolutionForStudent } from '../types'
 import { useIsMounted } from 'use-is-mounted'
@@ -90,8 +91,10 @@ const STATUS_FILTERS = [
 ]
 
 export const ExerciseList = ({
+  track,
   request: initialRequest,
 }: {
+  track: Track
   request: Request
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -151,6 +154,7 @@ export const ExerciseList = ({
                 <ExerciseWidget
                   key={result.exercise.slug}
                   exercise={result.exercise}
+                  track={track}
                   size="medium"
                   solution={result.solution}
                 />

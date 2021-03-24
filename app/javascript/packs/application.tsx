@@ -130,14 +130,15 @@ import {
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
-import * as Track from '../components/track'
-import * as Journey from '../components/journey'
+import * as TrackComponents from '../components/track'
+import * as JourneyComponents from '../components/journey'
 import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import {
   Iteration,
+  Track,
   Exercise,
   MentorSessionRequest,
   MentorSessionDiscussion,
@@ -183,10 +184,10 @@ initReact({
     />
   ),
   'journey-solutions-list': (data: any) => (
-    <Journey.SolutionsList endpoint={data.endpoint} />
+    <JourneyComponents.SolutionsList endpoint={data.endpoint} />
   ),
   'journey-contributions-list': (data: any) => (
-    <Journey.ContributionsList endpoint={data.endpoint} />
+    <JourneyComponents.ContributionsList endpoint={data.endpoint} />
   ),
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
@@ -195,9 +196,9 @@ initReact({
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}
+      track={camelizeKeysAs<Track>(data.track)}
       solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
       size={data.size}
-      showDesc={data.show_desc}
     />
   ),
   'mentoring-inbox': (data: any) => (
@@ -248,7 +249,10 @@ initReact({
     />
   ),
   'student-exercise-list': (data: any) => (
-    <Student.ExerciseList request={camelizeKeysAs<Request>(data.request)} />
+    <Student.ExerciseList
+      request={camelizeKeysAs<Request>(data.request)}
+      track={camelizeKeysAs<Track>(data.track)}
+    />
   ),
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
@@ -298,7 +302,7 @@ initReact({
     )
   },
   'track-iteration-summary': (data: any) => (
-    <Track.IterationSummaryWithWebsockets
+    <TrackComponents.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       className={data.class_name}
     />

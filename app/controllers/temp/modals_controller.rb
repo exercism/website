@@ -50,5 +50,10 @@ module Temp
       @active_mentoring_discussion = false
       @discussions = Mentor::Discussion.limit(2)
     end
+
+    def exercise_tooltip
+      @solution = current_user.solutions.first
+      @exercise = @solution.exercise
+    end
   end
 end

@@ -11,11 +11,13 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
       url: "https://test.exercism.io/tracks/ruby/exercises/bob",
       status: :published,
       mentoring_status: 'none',
+      has_notifications: true,
       num_views: 1270, # TODO
       num_stars: 10, # TODO
       num_comments: 2, # TODO
       num_iterations: 3, # TODO
       num_locs: "9 - 18", # TODO
+      num_mentoring_comments: 2, # TOOD
       last_submitted_at: submission.created_at.iso8601,
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,

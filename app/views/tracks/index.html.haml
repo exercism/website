@@ -9,4 +9,4 @@
       Become fluent in your chosen programming languages completing these tracks created by our
       = link_to "awesome team of contributors", "#"
 
-  = ReactComponents::Student::TracksList.new(current_user, @tracks_data)
+  = render ReactComponents::Student::TracksList.new(current_user, @tracks)

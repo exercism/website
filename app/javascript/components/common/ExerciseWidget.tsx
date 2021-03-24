@@ -1,27 +1,29 @@
 import pluralize from 'pluralize'
 import React from 'react'
 import {
+  Track,
   Exercise,
   ExerciseDifficulty,
   SolutionForStudent,
   SolutionStatus,
 } from '../types'
+import { TrackIcon } from './TrackIcon'
 import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
 import { Icon } from './Icon'
 
-type Size = 'small' | 'medium' | 'large'
+type Size = 'small' | 'medium' | 'large' | 'tooltip'
 
 export const ExerciseWidget = ({
   exercise,
+  track,
   solution,
   size,
-  showDesc = true,
 }: {
   exercise: Exercise
+  track: Track
   solution?: SolutionForStudent
   size: Size
-  showDesc?: boolean
 }): JSX.Element => {
   if (solution) {
     return (
@@ -30,7 +32,7 @@ export const ExerciseWidget = ({
         className={`c-exercise-widget --${solution.status} --${size}`}
       >
         <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-        <Info exercise={exercise} solution={solution} />
+        <Info exercise={exercise} solution={solution} track={track} />
         <GraphicalIcon icon="chevron-right" className="--action-icon" />
       </a>
     )
@@ -41,7 +43,7 @@ export const ExerciseWidget = ({
         className={`c-exercise-widget --available --${size}`}
       >
         <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-        <Info exercise={exercise} solution={solution} />
+        <Info exercise={exercise} solution={solution} track={track} />
         <GraphicalIcon icon="chevron-right" className="--action-icon" />
       </a>
     )
@@ -49,7 +51,7 @@ export const ExerciseWidget = ({
     return (
       <div className={`c-exercise-widget --locked --${size}`}>
         <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-        <Info exercise={exercise} solution={solution} />
+        <Info exercise={exercise} solution={solution} track={track} />
         <GraphicalIcon icon="lock" className="--action-icon" />
       </div>
     )
@@ -58,15 +60,21 @@ export const ExerciseWidget = ({
 
 const Info = ({
   exercise,
+  track,
   solution,
 }: {
   exercise: Exercise
+  track: Track
   solution?: SolutionForStudent
 }) => {
   return (
     <div className="--info">
       <div className="--title">
         {exercise.title}
+        <div className="--track">
+          in <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+          <div className="--track-title">{track.title}</div>
+        </div>
         {solution && solution.hasNotifications ? (
           <div className="c-notification-dot" />
         ) : null}
@@ -79,18 +87,18 @@ const Info = ({
         )}
         {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
 
-        {/* TODO: This should be num_mentoring_comments comments */}
-        {solution && solution.numComments > 0 ? (
-          <div className="--mentor-comments-count">
-            <GraphicalIcon icon="mentoring" />
-            {solution.numComments}
-          </div>
-        ) : null}
         {solution && solution.numIterations > 0 ? (
           <div className="--iterations-count">
             <GraphicalIcon icon="iteration" />
             {solution.numIterations}{' '}
             {pluralize('iteration', solution.numIterations)}
+          </div>
+        ) : null}
+        {/* TODO: This should be num_mentoring_comments comments */}
+        {solution && solution.numComments > 0 ? (
+          <div className="--mentor-comments-count">
+            <GraphicalIcon icon="mentoring" />
+            {solution.numComments}
           </div>
         ) : null}
       </div>

@@ -3,14 +3,13 @@ class TracksController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
-    tracks = Track::Search.(
+    @tracks = Track::Search.(
       criteria: params[:criteria],
       tags: params[:tags],
       status: params[:status],
       user: current_user
     )
 
-    @tracks_data = SerializeTracks.(tracks, current_user)
     @num_tracks = Track.count
 
     # TODO: Change this to only select the fields needed for an icon

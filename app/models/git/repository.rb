@@ -98,7 +98,7 @@ module Git
     end
 
     def repo_dir
-      return "#{repos_dir}/tmp/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Rails.env.test?
+      return "#{repos_dir}/test/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Rails.env.test?
 
       "#{repos_dir}/#{repo_name}"
     end

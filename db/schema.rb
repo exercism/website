@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_081826) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -68,6 +68,16 @@ ActiveRecord::Schema.define(version: 2021_03_24_081826) do
     t.index ["exercise_id", "user_id"], name: "index_exercise_contributorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_contributorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_contributorships_on_user_id"
+  end
+
+  create_table "exercise_practiced_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "track_concept_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
+    t.index ["exercise_id"], name: "index_exercise_practiced_concepts_on_exercise_id"
+    t.index ["track_concept_id"], name: "index_exercise_practiced_concepts_on_track_concept_id"
   end
 
   create_table "exercise_prerequisites", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -532,6 +542,8 @@ ActiveRecord::Schema.define(version: 2021_03_24_081826) do
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"
   add_foreign_key "exercise_contributorships", "users"
+  add_foreign_key "exercise_practiced_concepts", "exercises"
+  add_foreign_key "exercise_practiced_concepts", "track_concepts"
   add_foreign_key "exercise_prerequisites", "exercises"
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"

@@ -37,7 +37,9 @@ class Track::Concept < ApplicationRecord
 
   memoize
   def practice_exercises
-    PracticeExercise.that_practice(self)
+    # TODO: consider if we want to return the practice exercises
+    # with the concept as the prerequisite or as a practiced concept
+    PracticeExercise.with_prerequisite(self)
   end
 
   memoize

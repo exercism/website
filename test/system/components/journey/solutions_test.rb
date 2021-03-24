@@ -45,7 +45,7 @@ module Components
           visit solutions_journey_path
           click_on "2"
         end
-        sleep(0.1)
+        sleep(1)
 
         assert_text "Bob"
         assert_no_text "Lasagna"

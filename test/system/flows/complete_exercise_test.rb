@@ -43,7 +43,7 @@ module Flows
       assert_text "Conditionals"
 
       click_on "Continue"
-      sleep(0.1)
+      sleep(1)
       assert_text "You've completed Strings."
     end
 
@@ -79,6 +79,8 @@ module Flows
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
       end
+
+      sleep(1)
 
       assert_text "You've completed\nStrings!"
       assert_text "You've unlocked\n2 exercises"

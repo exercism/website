@@ -5,7 +5,7 @@
 
   %ol.showcase{ "aria-label": "Top contributors" }
     - contributors[0..1].to_a.each do |contributor|
-      %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle }
+      %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" }
         = link_to "#", "aria-label": "View profile of #{contributor.handle}" do
           = avatar(contributor)
           .name= contributor.name

@@ -313,6 +313,7 @@ initReact({
       contentEndpoint={data.endpoint}
       referenceElement={elem}
       referenceUserHandle={data.handle}
+      placement={data.placement}
       hoverRequestToShow={true}
       focusRequestToShow={true}
     />

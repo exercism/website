@@ -24,6 +24,22 @@ interface TooltipProps {
   contentEndpoint: string
   hoverRequestToShow: boolean
   focusRequestToShow: boolean
+  placement?:
+    | 'right'
+    | 'auto'
+    | 'auto-start'
+    | 'auto-end'
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'right-start'
+    | 'right-end'
+    | 'left-start'
+    | 'left-end'
 }
 
 export const Tooltip = ({
@@ -33,6 +49,7 @@ export const Tooltip = ({
   contentEndpoint,
   hoverRequestToShow,
   focusRequestToShow,
+  placement = 'right',
 }: TooltipProps): JSX.Element | null => {
   const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null)
 
@@ -45,7 +62,7 @@ export const Tooltip = ({
   } = useStatefulTooltip()
 
   const popper = usePopper(referenceElement, tooltipElement, {
-    placement: 'right',
+    placement: placement,
     modifiers: [{ name: 'offset', options: { offset: [0, 8] } }], // offset from the tooltip's reference element
   })
 

@@ -7,6 +7,22 @@ interface UserTooltipProps {
   focusRequestToShow: boolean
   referenceElement: HTMLElement | null
   referenceUserHandle: string
+  placement?:
+    | 'right'
+    | 'auto'
+    | 'auto-start'
+    | 'auto-end'
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'right-start'
+    | 'right-end'
+    | 'left-start'
+    | 'left-end'
 }
 
 export const UserTooltip = ({
@@ -15,6 +31,7 @@ export const UserTooltip = ({
   focusRequestToShow,
   referenceElement,
   referenceUserHandle,
+  placement,
 }: UserTooltipProps): JSX.Element | null => {
   return (
     <Tooltip
@@ -24,6 +41,7 @@ export const UserTooltip = ({
       contentEndpoint={contentEndpoint}
       hoverRequestToShow={hoverRequestToShow}
       focusRequestToShow={focusRequestToShow}
+      placement={placement}
     />
   )
 }

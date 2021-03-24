@@ -41,15 +41,6 @@ const renderTooltips = (mappings) => {
       const tooltipElem = document.createElement('div')
       elem.insertAdjacentElement('afterend', tooltipElem)
 
-      // Link the tooltip element with the reference element
-      const popperOptions = {
-        placement: elem.dataset['placement'] || 'auto',
-
-        // TODO Set the default skidding to 50% and the default
-        // offset to 20px (https://popper.js.org/docs/v2/modifiers/offset/)
-      }
-      createPopper(elem, tooltipElem, popperOptions)
-
       const showTooltip = () => render(tooltipElem, component)
       const hideTooltip = () => ReactDOM.unmountComponentAtNode(tooltipElem)
 

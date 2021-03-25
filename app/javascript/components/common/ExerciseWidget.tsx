@@ -93,11 +93,10 @@ const Info = ({
             {pluralize('iteration', solution.numIterations)}
           </div>
         ) : null}
-        {/* TODO: This should be num_mentoring_comments comments */}
-        {solution && solution.numComments > 0 ? (
+        {solution && solution.numMentoringComments > 0 ? (
           <div className="--mentor-comments-count">
             <GraphicalIcon icon="mentoring" />
-            {solution.numComments}
+            {solution.numMentoringComments}
           </div>
         ) : null}
       </div>

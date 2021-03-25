@@ -91,7 +91,7 @@ test('renders a solution when passed in', async () => {
     exercise: {
       slug: 'ruby',
     },
-    numComments: 2,
+    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {

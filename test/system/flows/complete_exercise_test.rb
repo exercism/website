@@ -78,20 +78,22 @@ module Flows
         within("section.completion-nudge") { click_on "Mark as complete" }
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
+
+        sleep(1)
+
+        assert_text "You've completed\nStrings!"
+        assert_text "You've unlocked\n2 exercises"
+        assert_text "Hello World"
+        assert_text "Cars Assemble"
+        assert_text "Basics"
+        assert_text "Conditionals"
+
+        click_on "Continue"
+
+        sleep(1)
+        assert_text "You've completed Strings."
+        assert_no_css("section.completion-nudge")
       end
-
-      sleep(1)
-
-      assert_text "You've completed\nStrings!"
-      assert_text "You've unlocked\n2 exercises"
-      assert_text "Hello World"
-      assert_text "Cars Assemble"
-      assert_text "Basics"
-      assert_text "Conditionals"
-
-      click_on "Continue"
-      assert_text "You've completed Strings."
-      assert_no_css("section.completion-nudge")
     end
   end
 end

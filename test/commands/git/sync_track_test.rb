@@ -166,8 +166,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
-    assert_includes track_practice_exercise.practices, track_concept
-    refute_includes track_practice_exercise.practices, other_track_concept
+    assert_includes track_practice_exercise.practiced_concepts, track_concept
+    refute_includes track_practice_exercise.practiced_concepts, other_track_concept
   end
 
   test "adds new concept exercises defined in config.json" do

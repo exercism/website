@@ -93,7 +93,7 @@ module Git
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: find_blurb(exercise_config[:slug], 'practice'),
           prerequisites: find_concepts(exercise_config[:prerequisites]),
-          practices: find_concepts(exercise_config[:practices]),
+          practiced_concepts: find_concepts(exercise_config[:practices]),
           deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
         )

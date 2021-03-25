@@ -19,7 +19,7 @@ module Git
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         prerequisites: find_concepts(exercise_config[:prerequisites]),
-        practices: find_concepts(exercise_config[:practices])
+        practiced_concepts: find_concepts(exercise_config[:practices])
       )
 
       SyncAuthors.(exercise)
@@ -40,7 +40,7 @@ module Git
         exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
         exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort ||
-        exercise_config[:practices].to_a.sort != exercise.practices.map(&:slug).sort
+        exercise_config[:practices].to_a.sort != exercise.practiced_concepts.map(&:slug).sort
     end
 
     def exercise_config_modified?

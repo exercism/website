@@ -5,7 +5,7 @@ class PracticeExercise < Exercise
     inverse_of: :exercise,
     dependent: :destroy
 
-  has_many :practices,
+  has_many :practiced_concepts,
     through: :exercise_practiced_concepts,
     source: :concept
 

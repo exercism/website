@@ -79,7 +79,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal [dates, time], exercise.practices
+    assert_equal [dates, time], exercise.practiced_concepts
   end
 
   test "removes practiced concepts that are not in config.json" do
@@ -87,13 +87,13 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     dates = create :track_concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
     conditionals = create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
     exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
-    exercise.practices << dates
-    exercise.practices << time
-    exercise.practices << conditionals
+    exercise.practiced_concepts << dates
+    exercise.practiced_concepts << time
+    exercise.practiced_concepts << conditionals
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal [time, dates], exercise.practices
+    assert_equal [time, dates], exercise.practiced_concepts
   end
 
   test "adds authors that are in .meta/config.json" do

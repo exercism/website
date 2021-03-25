@@ -60,6 +60,7 @@ export type Iteration = {
   analyzerFeedback?: AnalyzerFeedback
   createdAt: string
   testsStatus: SubmissionTestsStatus
+  isPublished: boolean
   links: {
     self: string
     solution: string

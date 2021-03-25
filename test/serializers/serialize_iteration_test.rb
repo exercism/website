@@ -29,6 +29,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         tests_status: "not_queued",
         representer_feedback: "foobar",
         analyzer_feedback: "barfoo",
+        is_published: false,
         links: {
           self: Exercism::Routes.track_exercise_iterations_url(track, exercise, idx: iteration.idx),
           solution: Exercism::Routes.track_exercise_url(track, exercise),

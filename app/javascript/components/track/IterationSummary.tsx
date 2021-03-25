@@ -56,8 +56,7 @@ export function IterationSummary({
             Latest
           </div>
 
-          {/* TODO: Implement this: https://github.com/exercism/v3-project-management/issues/121 */}
-          {true ? (
+          {iteration.isPublished ? (
             <div
               className="--published"
               aria-label="This iteration is published"

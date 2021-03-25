@@ -59,6 +59,9 @@
         filter: var(--white-filter);
     }
 }
+.btn--simple {
+    @apply bg-backgroundColorA text-textColor6 border-borderColor5;
+}
 .btn--secondary {
     @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;
 }
@@ -93,6 +96,9 @@
 }
 .btn-cta {
     @apply btn btn--cta;
+}
+.btn-simple {
+    @apply btn btn--simple;
 }
 .btn-secondary {
     @apply btn btn--secondary;

@@ -10,7 +10,6 @@ import {
 import { TrackIcon } from './TrackIcon'
 import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
-import { Icon } from './Icon'
 
 type Size = 'small' | 'medium' | 'large' | 'tooltip'
 

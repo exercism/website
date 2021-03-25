@@ -151,6 +151,47 @@ Done')
     assert_equal expected, Markdown::Parse.("[anagram](/tracks/ruby/exercises/anagram)")
   end
 
+  test "render internal link with trailing slash" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/concepts/basics/\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/ruby/concepts/basics/tooltip\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics/)")
+  end
+
+  test "render internal link without trailing slash" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/concepts/basics\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/ruby/concepts/basics/tooltip\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics)")
+  end
+
+  test "render internal link ending with hash" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/concepts/basics#intro\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/ruby/concepts/basics/tooltip\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics#intro)")
+  end
+
+  test "render internal link ending with question mark" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/concepts/basics?refresh\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/ruby/concepts/basics/tooltip\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics?refresh)")
+  end
+
+  test "render internal link with track containing special characters" do
+    expected = "<p><a href=\"https://exercism.io/tracks/common-lisp_2-%F0%9F%8E%99/concepts/basics/\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/common-lisp_2-%F0%9F%8E%99/concepts/basics/tooltip\">basics</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/common-lisp_2-🎙/concepts/basics/)")
+  end
+
+  test "render internal link with concept containing special characters" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/concepts/1_2-3_%F0%9F%8E%B8\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/ruby/concepts/1_2-3_%F0%9F%8E%B8/tooltip\">123</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[123](https://exercism.io/tracks/ruby/concepts/1_2-3_🎸)")
+  end
+
+  test "render internal link with exercise containing special characters" do
+    skip # TODO: enable one exercise tooltips are enabled
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/exercises/bank-%F0%9F%8E%B8\" target=\"_blank\" data-tooltip-type=\"concept\" data-endpoint=\"/tracks/ruby/exercises/bank-%F0%9F%8E%B8/tooltip\">bank</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[bank](https://exercism.io/tracks/ruby/exercises/bank-💰)")
+  end
+
+  test "skip unsupported internal links" do
+    expected = "<p><a href=\"https://exercism.io/tracks/ruby/contributors/iliketohelp\" target=\"_blank\">iliketohelp</a></p>\n" # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[iliketohelp](https://exercism.io/tracks/ruby/contributors/iliketohelp)")
+  end
+
   test "render concept widget link without link" do
     skip # TODO: enable once we know how to handle widgets
     expected = "<p><span data-react-widget=\"julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n" # rubocop:disable Layout/LineLength

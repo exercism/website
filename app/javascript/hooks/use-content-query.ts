@@ -8,14 +8,12 @@ export function useContentQuery(
 ): {
   isLoading: boolean
   isError: boolean
-  htmlContent: string | undefined
+  htmlContent: { html: string } | undefined
 } {
   const isMountedRef = useIsMounted()
-  const { isLoading, isError, data: htmlContent } = useRequestQuery<string>(
-    id,
-    { endpoint: endpoint, options: { enabled } },
-    isMountedRef
-  )
+  const { isLoading, isError, data: htmlContent } = useRequestQuery<{
+    html: string
+  }>(id, { endpoint: endpoint, options: { enabled } }, isMountedRef)
 
   return { isLoading, isError, htmlContent }
 }

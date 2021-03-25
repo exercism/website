@@ -169,7 +169,7 @@ export const Tooltip = ({
       onBlur={() => dispatchRequestHideFromFocus(dispatch, id)}
       onMouseEnter={() => dispatchRequestShowFromHover(dispatch, id)}
       onMouseLeave={() => dispatchRequestHideFromHover(dispatch, id)}
-      dangerouslySetInnerHTML={{ __html: htmlContent }}
+      dangerouslySetInnerHTML={{ __html: htmlContent.html }}
     ></div>
   )
 }

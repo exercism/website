@@ -1,0 +1,18 @@
+.heading
+  = avatar(user)
+  .identifier
+    %h4.name= user.name
+    .handle= user.handle
+
+  = render ViewComponents::Reputation.new(user.reputation)
+
+- if user.bio.present?
+  .bio= user.bio
+
+- if profile&.location.present?
+  .location
+    = icon(:location, "Located in")
+    = profile.location
+-#
+  {/*<div>{data.badges.count} badges collected</div>
+  <div>{data.badges.latest.join(', ')}</div>*/}

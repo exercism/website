@@ -6,6 +6,6 @@ class Mentoring::ExternalControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get mentoring_path
-    assert_redirected_to mentoring_dashboard_path
+    assert_redirected_to mentoring_inbox_path
   end
 end

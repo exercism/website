@@ -43,8 +43,8 @@ module ReactComponents
           data = submission.tests_status
           if submission.tests_exceptioned?
             job = ToolingJob.find(submission.test_run.tooling_job_id, full: true)
-            data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-            data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+            data += "\n\nSTDOUT:\n------\n#{job.stdout}"
+            data += "\n\nSTDERR:\n------\n#{job.stderr}"
           end
           data
         end
@@ -53,8 +53,8 @@ module ReactComponents
           data = submission.representation_status
           if submission.representation_exceptioned?
             job = ToolingJob.find(submission.submission_representation.tooling_job_id, full: true)
-            data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-            data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+            data += "\n\nSTDOUT:\n------\n#{job.stdout}"
+            data += "\n\nSTDERR:\n------\n#{job.stderr}"
           end
           data
         end
@@ -63,8 +63,10 @@ module ReactComponents
           data = submission.analysis_status
           if submission.analysis_exceptioned?
             job = ToolingJob.find(submission.analysis.tooling_job_id, full: true)
-            data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-            data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
+            data += "\n\nSTDOUT:\n------\n#{job.stdout}"
+            data += "\n\nSTDERR:\n------\n#{job.stderr}"
+          elsif submission.analysis
+            data += "\n\n#{submission.analysis.send(:data)}"
           end
           data
         end

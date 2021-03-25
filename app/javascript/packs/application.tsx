@@ -28,6 +28,10 @@ import '../../css/components/flash'
 import '../../css/components/icon'
 import '../../css/components/iteration-summary'
 import '../../css/components/accordion-section'
+import '../../css/components/underline'
+import '../../css/components/docs-main-nav'
+import '../../css/components/docs-side-nav'
+import '../../css/components/docs-tracks-list'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
@@ -48,6 +52,7 @@ import '../../css/components/tooltips/user'
 import '../../css/components/user_activity'
 import '../../css/components/search-bar'
 import '../../css/components/published-solution'
+import '../../css/components/iteration-processing-status'
 
 import '../../css/components/mentor/nav'
 import '../../css/components/mentor/inbox'
@@ -62,7 +67,11 @@ import '../../css/components/iteration-pane'
 import '../../css/components/explainer'
 import '../../css/components/markdown-editor'
 import '../../css/components/mentor-discussion-summary'
+import '../../css/components/mentor-track-selector'
 import '../../css/components/tag'
+import '../../css/components/faces'
+import '../../css/components/exercise-status-tag'
+import '../../css/components/exercise-dot'
 
 import '../../css/components/widgets/exercise'
 
@@ -72,13 +81,17 @@ import '../../css/modals/mentoring-sessions'
 import '../../css/modals/finish-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
+import '../../css/modals/change-mentor-tracks'
 
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
-import '../../css/dropdowns/mentoring'
+import '../../css/dropdowns/request-mentoring'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
+import '../../css/pages/docs-show'
+import '../../css/pages/docs-index'
+import '../../css/pages/docs-tracks'
 import '../../css/pages/editor'
 import '../../css/pages/onboarding'
 import '../../css/pages/profile'
@@ -93,7 +106,8 @@ import '../../css/pages/track-index'
 import '../../css/pages/track-show-joined'
 import '../../css/pages/track-show-unjoined'
 import '../../css/pages/mentoring/external'
-import '../../css/pages/mentoring/dashboard'
+import '../../css/pages/mentoring/inbox'
+import '../../css/pages/mentoring/queue'
 import '../../css/pages/mentoring/testimonials'
 import '../../css/pages/maintaining/dashboard'
 import '../../css/pages/maintaining/track'
@@ -108,40 +122,46 @@ import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
-import { Track as MentoringQueueTrack } from '../components/mentoring/queue/TrackFilterList'
-import { Exercise as MentoringQueueExercise } from '../components/mentoring/queue/ExerciseFilterList'
 import * as Student from '../components/student'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
+import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as Track from '../components/track'
 import * as Journey from '../components/journey'
 import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
-import { Iteration } from '../components/types'
+import {
+  Iteration,
+  MentorSessionRequest,
+  MentorSessionDiscussion,
+  MentorSessionTrack,
+  MentorSessionExercise,
+  MentorDiscussion,
+  MentoredTrack,
+} from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
-  Iteration as MentoringSessionIteration,
   Student as MentoringSessionStudent,
-  Track as MentoringSessionTrack,
-  Exercise as MentoringSessionExercise,
   Links as MentoringSessionLinks,
   MentorSolution as MentoringSessionMentorSolution,
-  Discussion as MentoringSessionDiscussion,
   StudentMentorRelationship,
-  MentoringRequest,
 } from '../components/mentoring/Session'
+import {
+  Mentor as StudentMentoringSessionMentor,
+  Video as StudentMentoringSessionVideo,
+  Links as StudentMentoringSessionLinks,
+} from '../components/student/MentoringSession'
 import {
   Track as IterationPageTrack,
   Exercise as IterationPageExercise,
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Mentor as StudentMentoringSessionMentor } from '../components/student/MentoringSession'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 
@@ -178,25 +198,26 @@ initReact({
   ),
   'mentoring-queue': (data: any) => (
     <Mentoring.Queue
-      request={camelizeKeys(data.request)}
+      queueRequest={camelizeKeysAs<Request>(data.queue_request)}
+      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
+      defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
+      links={camelizeKeysAs<MentoringQueueLinks>(data.links)}
       sortOptions={data.sort_options}
-      tracks={camelizeKeysAs<MentoringQueueTrack[]>(data.tracks)}
-      exercises={camelizeKeysAs<MentoringQueueExercise[]>(data.exercises)}
     />
   ),
   'mentoring-session': (data: any) => (
     <Mentoring.Session
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentoringSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<MentoringSessionMentorSolution>(
         data.mentor_solution
       )}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
-      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
-      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
+      track={camelizeKeysAs<MentorSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
-      request={camelizeKeysAs<MentoringRequest>(data.request)}
+      request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       relationship={camelizeKeysAs<StudentMentorRelationship>(
         data.relationship
       )}
@@ -220,6 +241,7 @@ initReact({
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
+      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
       solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
@@ -237,14 +259,16 @@ initReact({
   ),
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
-      id={data.id}
-      isFinished={data.is_finished}
-      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
-      iterations={camelizeKeysAs<MentoringSessionIteration[]>(data.iterations)}
-      track={camelizeKeysAs<MentoringSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentoringSessionExercise>(data.exercise)}
-      links={data.links}
       userId={data.user_id}
+      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
+      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
+      track={camelizeKeysAs<MentorSessionTrack>(data.track)}
+      exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
+      isFirstTimeOnTrack={data.is_first_time_on_track}
+      videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
+      request={camelizeKeysAs<MentorSessionRequest>(data.request)}
+      links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {
@@ -289,6 +313,7 @@ initReact({
       contentEndpoint={data.endpoint}
       referenceElement={elem}
       referenceUserHandle={data.handle}
+      placement={data.placement}
       hoverRequestToShow={true}
       focusRequestToShow={true}
     />
@@ -319,6 +344,7 @@ initReact({
 })
 
 import { highlightAll } from '../utils/highlight'
+import { Request } from '../hooks/request-query'
 
 document.addEventListener('turbolinks:load', () => {
   highlightAll()

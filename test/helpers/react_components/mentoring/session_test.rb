@@ -3,15 +3,17 @@ require_relative "../react_component_test_case"
 module Mentoring
   class SessionTest < ReactComponentTestCase
     test "mentoring solution renders correctly" do
+      TestHelpers.use_website_copy_test_repo!
+
       mentor = create :user
       student = create :user
-      track = create :track
-      exercise = create :concept_exercise, track: track
-      solution = create :concept_solution, user: student, track: track
+      track = create :track, slug: "ruby"
+      exercise = create :concept_exercise, track: track, slug: "clock"
+      solution = create :concept_solution, user: student, exercise: exercise
       discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
       mentor_request = create :solution_mentor_request,
         solution: solution,
-        comment: "Hello",
+        comment_markdown: "Hello",
         updated_at: Time.utc(2016, 12, 25)
 
       iteration_1 = create :iteration, solution: solution
@@ -30,6 +32,17 @@ module Mentoring
         "mentoring-session",
         {
           user_id: mentor.id,
+          relationship: nil,
+          request: SerializeMentorSessionRequest.(mentor_request),
+          discussion: SerializeMentorSessionDiscussion.(discussion, mentor),
+          track: SerializeMentorSessionTrack.(track),
+          exercise: SerializeMentorSessionExercise.(exercise),
+          iterations: [
+
+            SerializeIteration.(iteration_1).merge(num_comments: 0, unread: false),
+            SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
+            SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
+          ],
           student: {
             id: student.id,
             name: student.name,
@@ -44,80 +57,13 @@ module Mentoring
               favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
             }
           },
-          track: {
-            title: track.title,
-            highlightjs_language: track.highlightjs_language,
-            icon_url: track.icon_url
-          },
-          exercise: {
-            title: exercise.title
-          },
-          iterations: [
-            {
-              uuid: iteration_1.uuid,
-              idx: iteration_1.idx,
-              num_comments: 0,
-              unread: false,
-              created_at: iteration_1.created_at.iso8601,
-              tests_status: iteration_1.tests_status,
-              representer_feedback: iteration_1.representer_feedback,
-              analyzer_feedback: iteration_1.analyzer_feedback,
-              links: {
-                files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_1.submission)
-              }
-            },
-            {
-              uuid: iteration_2.uuid,
-              idx: iteration_2.idx,
-              num_comments: 1,
-              unread: false,
-              created_at: iteration_2.created_at.iso8601,
-              tests_status: iteration_2.tests_status,
-              representer_feedback: iteration_2.representer_feedback,
-              analyzer_feedback: iteration_2.analyzer_feedback,
-              links: {
-                files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_2.submission)
-              }
-            },
-            {
-              uuid: iteration_3.uuid,
-              idx: iteration_3.idx,
-              num_comments: 2,
-              unread: true,
-              created_at: iteration_3.created_at.iso8601,
-              tests_status: iteration_3.tests_status,
-              representer_feedback: iteration_3.representer_feedback,
-              analyzer_feedback: iteration_3.analyzer_feedback,
-              links: {
-                files: Exercism::Routes.api_solution_submission_files_url(solution.uuid, iteration_3.submission)
-              }
-            }
-          ],
+
           mentor_solution: nil,
-          notes: %{<h3>Talking points</h3>\n<ul>\n  <li>\n    <code>each_cons</code> instead of an iterator\n    <code>with_index</code>: In Ruby, you rarely have to write\n    iterators that need to keep track of the index. Enumerable has\n    powerful methods that do that for us.\n  </li>\n  <li>\n    <code>chars</code>: instead of <code>split("")</code>.\n  </li>\n</ul>}, # rubocop:disable Layout/LineLength
+          notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           links: {
-            mentor_dashboard: Exercism::Routes.mentoring_dashboard_path,
+            mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
             scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
-          },
-          relationship: nil,
-          request: {
-            id: mentor_request.uuid,
-            comment: "Hello",
-            updated_at: Time.utc(2016, 12, 25).iso8601,
-            is_locked: false,
-            links: {
-              lock: Exercism::Routes.lock_api_mentoring_request_path(mentor_request),
-              discussion: Exercism::Routes.api_mentoring_discussions_path
-            }
-          },
-          discussion: {
-            id: discussion.uuid,
-            is_finished: false,
-            links: {
-              posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
-              finish: Exercism::Routes.finish_api_mentoring_discussion_path(discussion)
-            }
           }
         }
     end

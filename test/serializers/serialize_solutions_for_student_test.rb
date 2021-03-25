@@ -8,6 +8,6 @@ class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
     expected = [SerializeSolutionForStudent.(solution)]
 
-    assert_equal expected, SerializeSolutionsForStudent.([solution])
+    assert_equal expected, SerializeSolutionsForStudent.(Solution.all)
   end
 end

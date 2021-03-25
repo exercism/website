@@ -29,7 +29,7 @@ test('copies text to clipboard when pressing Ctrl+C', async () => {
   mockClipboardApi()
 
   const { queryByRole } = render(
-    <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
+    <CopyToClipboardButton textToCopy="exercism download --track=javascript --exercise=bob" />
   )
 
   const copyButton = queryByRole('button')
@@ -39,7 +39,7 @@ test('copies text to clipboard when pressing Ctrl+C', async () => {
 
   await waitFor(() =>
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      'exercism download --track=ruby --exercise=bob'
+      'exercism download --track=javascript --exercise=bob'
     )
   )
 })
@@ -62,7 +62,7 @@ test('hides component if clipboard API is unavailable', async () => {
   navigator.clipboard = undefined
 
   const { queryByText } = render(
-    <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
+    <CopyToClipboardButton textToCopy="exercism something" />
   )
 
   expect(queryByText('Copy')).not.toBeInTheDocument()

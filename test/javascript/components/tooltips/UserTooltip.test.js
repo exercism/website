@@ -13,7 +13,7 @@ test('correct information is displayed', async () => {
         return res(
           ctx.text(
             `<div class='heading'>
-<div class="c-rounded-bg-img" style="background-image:url(https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4)"><img alt="Erik SchierBOOM&#39;s uploaded avatar" class="tw-sr-only" src="https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4" /></div>
+<div class="c-avatar" style="background-image:url(https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4)"><img alt="Erik SchierBOOM&#39;s uploaded avatar" class="tw-sr-only" src="https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4" /></div>
 <div class='identifier'>
 <h4 class='name'>Erik ShireBOOM</h4>
 <div class='handle'>erikshireboom</div>

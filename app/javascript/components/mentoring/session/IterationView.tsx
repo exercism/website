@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Iteration } from '../Session'
+import { Iteration } from '../../types'
 import { IterationsList } from './IterationsList'
 import { IterationFiles } from './IterationFiles'
 import { IterationHeader } from './IterationHeader'
@@ -28,11 +28,13 @@ export const IterationView = ({
         language={language}
       />
       <footer className="discussion-footer">
-        <IterationsList
-          iterations={iterations}
-          onClick={setCurrentIteration}
-          current={currentIteration}
-        />
+        {iterations.length > 1 ? (
+          <IterationsList
+            iterations={iterations}
+            onClick={setCurrentIteration}
+            current={currentIteration}
+          />
+        ) : null}
         <button className="settings-button btn-keyboard-shortcut">
           <Icon icon="settings" alt="View settings" />
         </button>

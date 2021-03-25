@@ -52,7 +52,7 @@ module API
         exercise: {
           slug: solution.exercise.slug,
           title: solution.exercise.title,
-          icon_name: solution.exercise.icon_name,
+          icon_url: solution.exercise.icon_url,
           links: {
             self: Exercism::Routes.track_exercise_path(solution.track, solution.exercise)
           }
@@ -61,7 +61,7 @@ module API
           {
             slug: exercise.slug,
             title: exercise.title,
-            icon_name: exercise.icon_name
+            icon_url: exercise.icon_url
           }
         end,
         unlocked_concepts: changes[:unlocked_concepts].map do |concept|

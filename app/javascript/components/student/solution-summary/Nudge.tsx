@@ -2,19 +2,31 @@ import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import { CompleteExerciseButton } from '../CompleteExerciseButton'
+import { MentoringComboButton } from './MentoringComboButton'
+import { MentorDiscussion } from '../../types'
 
 type Links = {
   mentoringInfo: string
   completeExercise: string
+  requestMentoring: string
+  shareMentoring: string
+  pendingMentorRequest: string
+  inProgressDiscussion?: string
 }
 
 export const Nudge = ({
+  hasMentorDiscussionInProgress,
+  hasMentorRequestPending,
+  discussions,
   iteration,
   isConceptExercise,
   links,
 }: {
   iteration: Iteration
   isConceptExercise: boolean
+  hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
+  discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element | null => {
   switch (iteration.status) {
@@ -23,7 +35,12 @@ export const Nudge = ({
       return isConceptExercise ? (
         <CompleteExerciseNudge completeExerciseLink={links.completeExercise} />
       ) : (
-        <MentoringNudge mentoringInfoLink={links.mentoringInfo} />
+        <MentoringNudge
+          hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+          hasMentorRequestPending={hasMentorRequestPending}
+          discussions={discussions}
+          links={links}
+        />
       )
     }
     default:
@@ -38,7 +55,7 @@ const CompleteExerciseNudge = ({
 }) => {
   return (
     <section className="completion-nudge">
-      <GraphicalIcon icon="graphic-complete" />
+      <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
         <h3>Hey, looks like you’re done here!</h3>
         <p>
@@ -55,13 +72,25 @@ const CompleteExerciseNudge = ({
 }
 
 const MentoringNudge = ({
-  mentoringInfoLink,
+  hasMentorDiscussionInProgress,
+  hasMentorRequestPending,
+  discussions,
+  links,
 }: {
-  mentoringInfoLink: string
+  hasMentorDiscussionInProgress: boolean
+  hasMentorRequestPending: boolean
+  discussions: readonly MentorDiscussion[]
+  links: {
+    mentoringInfo: string
+    requestMentoring: string
+    shareMentoring: string
+    pendingMentorRequest: string
+    inProgressDiscussion?: string
+  }
 }) => {
   return (
     <section className="mentoring-nudge">
-      <GraphicalIcon icon="graphic-mentoring-screen" />
+      <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
         <h3>Improve your solution with mentoring</h3>
         <p>
@@ -70,9 +99,15 @@ const MentoringNudge = ({
           your language.
         </p>
         <div className="options">
-          <div className="btn-small-cta">Request mentoring</div>
+          <MentoringComboButton
+            hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+            hasMentorRequestPending={hasMentorRequestPending}
+            discussions={discussions}
+            links={links}
+            className="btn-small-cta"
+          />{' '}
           <a
-            href={mentoringInfoLink}
+            href={links.mentoringInfo}
             className="more-info"
             target="_blank"
             rel="noreferrer"

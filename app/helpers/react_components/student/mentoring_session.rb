@@ -1,71 +1,94 @@
 module ReactComponents
   module Student
     class MentoringSession < ReactComponent
-      initialize_with :discussion
+      initialize_with :solution, :request, :discussion
 
       def to_s
         super(
           "student-mentoring-session",
           {
-            id: discussion.uuid,
-            is_finished: discussion.finished?,
-            user_id: current_user.id,
-            mentor: {
-              id: mentor.id,
-              name: mentor.name,
-              handle: mentor.handle,
-              bio: mentor.bio,
-              languages_spoken: mentor.languages_spoken,
-              avatar_url: mentor.avatar_url,
-              reputation: mentor.reputation,
-              num_previous_sessions: current_user.num_previous_mentor_sessions_with(mentor)
-            },
-            exercise: {
-              title: exercise.title,
-              icon_name: exercise.icon_name
-            },
-            track: {
-              title: track.title,
-              highlightjs_language: track.highlightjs_language,
-              icon_url: track.icon_url
-            },
+            user_id: student.id,
+            request: SerializeMentorSessionRequest.(request),
+            discussion: SerializeMentorSessionDiscussion.(discussion, student),
+            track: SerializeMentorSessionTrack.(track),
+            exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
+            mentor: mentor_data,
+            is_first_time_on_track: true, # TODO
+            videos: videos,
             links: {
-              posts: Exercism::Routes.api_solution_discussion_posts_url(discussion.solution.uuid, discussion),
-              exercise: Exercism::Routes.track_exercise_url(track, exercise)
+              exercise: Exercism::Routes.track_exercise_url(track, exercise),
+              create_mentor_request: Exercism::Routes.api_solution_mentor_request_path(solution.uuid),
+              learn_more_about_private_mentoring: "#",
+              private_mentoring: "https://some.link/we/need/to-decide-on",
+              mentoring_guide: "#"
             }
           }
         )
       end
 
       private
-      delegate :mentor, :track, :exercise, to: :discussion
+      delegate :track, :exercise, to: :solution
+
+      memoize
+      def student
+        solution.user
+      end
+
+      memoize
+      def mentor
+        discussion&.mentor
+      end
+
+      def mentor_data
+        return nil unless mentor
+
+        {
+          id: mentor.id,
+          name: mentor.name,
+          handle: mentor.handle,
+          bio: mentor.bio,
+          languages_spoken: mentor.languages_spoken,
+          avatar_url: mentor.avatar_url,
+          reputation: mentor.reputation,
+          num_previous_sessions: student.num_previous_mentor_sessions_with(mentor)
+        }
+      end
+
+      def videos
+        [
+          {
+            url: "#",
+            title: "Start mentoring on Exercism..",
+            date: Date.new(2020, 1, 24).iso8601
+          },
+          {
+            url: "#",
+            title: "Best practices writing feedback trrrrrruuuuunnnncaaatteeee",
+            date: Date.new(2020, 1, 24).iso8601
+          },
+          {
+            url: "#",
+            title: "Beginners’ Guide to Mentoring",
+            date: Date.new(2020, 1, 24).iso8601
+          }
+        ]
+      end
 
       def iterations
-        comment_counts = ::Solution::MentorDiscussionPost.
-          where(discussion: discussion).
-          group(:iteration_id, :seen_by_mentor).
-          count
+        if discussion
+          comment_counts = ::Solution::MentorDiscussionPost.
+            where(discussion: discussion).
+            group(:iteration_id, :seen_by_student).
+            count
+        end
 
-        discussion.iterations.map do |iteration|
-          counts = comment_counts.select { |(it_id, _), _| it_id == iteration.id }
-          num_comments = counts.sum(&:second)
-          unread = counts.reject { |(_, seen), _| seen }.present?
+        solution.iterations.map do |iteration|
+          counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
+          num_comments = discussion ? counts.sum(&:second) : 0
+          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
 
-          {
-            uuid: iteration.uuid,
-            idx: iteration.idx,
-            num_comments: num_comments,
-            unread: unread,
-            created_at: iteration.created_at.iso8601,
-            tests_status: iteration.tests_status,
-            # TODO: Precalculate this to avoid n+1s
-            representer_feedback: iteration.representer_feedback,
-            analyzer_feedback: iteration.analyzer_feedback,
-            links: {
-              files: Exercism::Routes.api_solution_submission_files_url(discussion.solution.uuid, iteration.submission)
-            }
-          }
+          SerializeIteration.(iteration).merge(num_comments: num_comments, unread: unread)
         end
       end
     end

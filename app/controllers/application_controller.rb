@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   def ensure_not_mentor!
     return unless current_user&.mentor?
 
-    redirect_to mentoring_dashboard_path
+    redirect_to mentoring_inbox_path
   end
 
   def self.allow_unauthenticated!(*actions)

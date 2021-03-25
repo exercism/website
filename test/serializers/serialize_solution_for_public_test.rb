@@ -20,11 +20,11 @@ class SerializeSolutionForPublicTest < ActiveSupport::TestCase
         },
         exercise: {
           title: solution.exercise.title,
-          icon_name: solution.exercise.icon_name
+          icon_url: solution.exercise.icon_url
         },
         track: {
           title: solution.track.title,
-          icon_name: solution.track.icon_name
+          icon_url: solution.track.icon_url
         }
       }
     }

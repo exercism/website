@@ -1,25 +1,25 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
-import { GraphicalIcon, Reputation } from '../common'
+import { GraphicalIcon, TrackIcon, Reputation } from '../common'
 
 export type ContributionProps = {
   id: string
   value: number
   text: string
-  iconName: string
+  iconUrl: string
   internalLink?: string
   externalLink?: string
   awardedAt: string
   track?: {
     title: string
-    iconName: string
+    iconUrl: string
   }
 }
 
 export const Contribution = ({
   value,
   text,
-  iconName,
+  iconUrl,
   internalLink,
   externalLink,
   awardedAt,
@@ -30,14 +30,18 @@ export const Contribution = ({
 
   return (
     <a href={link} className="reputation-token">
-      <GraphicalIcon icon={iconName} className="primary-icon" />
+      <img src={iconUrl} className="c-icon primary-icon" />
       <div className="info">
         <div className="title" dangerouslySetInnerHTML={{ __html: text }} />
         <div className="extra">
           {track ? (
             <div className="exercise">
               in
-              <GraphicalIcon icon={track.iconName} className="primary-icon" />
+              <TrackIcon
+                iconUrl={track.iconUrl}
+                title={track.title}
+                className="primary-icon"
+              />
               <div className="name">{track.title}</div>
             </div>
           ) : (

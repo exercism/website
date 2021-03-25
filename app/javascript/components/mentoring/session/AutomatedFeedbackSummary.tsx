@@ -4,10 +4,9 @@ import { Icon } from '../../common/Icon'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
 import {
-  Student,
   AnalyzerFeedback as AnalyzerFeedbackProps,
   RepresenterFeedback as RepresenterFeedbackProps,
-} from '../Session'
+} from '../../types'
 
 export const AutomatedFeedbackSummary = ({
   analyzerFeedback,

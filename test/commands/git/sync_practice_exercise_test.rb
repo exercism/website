@@ -48,6 +48,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise)
 
     assert_equal "Allergies Alert", exercise.title
+    assert_equal "Allergic? Try this!", exercise.blurb
   end
 
   test "adds new prerequisites defined in config.json" do
@@ -73,7 +74,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "adds authors that are in .meta/config.json" do
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
-    new_author = create :user, handle: 'ErikSchierboom'
+    new_author = create :user, github_username: 'ErikSchierboom'
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -83,17 +84,17 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "removes authors that are not in .meta/config.json" do
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
-    old_author = create :user, handle: 'iHiD'
+    old_author = create :user, github_username: 'iHiD'
     exercise.authors << old_author
 
     Git::SyncPracticeExercise.(exercise)
 
-    refute exercise.authors.where(handle: old_author.handle).exists?
+    refute exercise.authors.where(github_username: old_author.github_username).exists?
   end
 
   test "adds reputation token for new author" do
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
-    new_author = create :user, handle: 'ErikSchierboom'
+    new_author = create :user, github_username: 'ErikSchierboom'
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -101,13 +102,13 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     new_author_rep_token = new_author.reputation_tokens.last
     assert_equal :authoring, new_author_rep_token.category
     assert_equal :authored_exercise, new_author_rep_token.reason
-    assert_equal 10, new_author_rep_token.value
+    assert_equal 20, new_author_rep_token.value
     assert_equal new_authorship, new_author_rep_token.authorship
   end
 
   test "does not add reputation token for existing author" do
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
-    existing_author = create :user, handle: 'ErikSchierboom'
+    existing_author = create :user, github_username: 'ErikSchierboom'
 
     existing_author_authorship = create :exercise_authorship, exercise: exercise, author: existing_author
     create :user_exercise_author_reputation_token, user: existing_author, params: { authorship: existing_author_authorship }
@@ -118,7 +119,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "adds contributors that are in .meta/config.json" do
-    contributor = create :user, handle: 'iHiD'
+    contributor = create :user, github_username: 'iHiD'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: '0ec511318983b7d27d6a27410509071ee7683e52', synced_to_git_sha: '0ec511318983b7d27d6a27410509071ee7683e52' # rubocop:disable Layout/LineLength
 
     Git::SyncPracticeExercise.(exercise)
@@ -128,7 +129,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "removes contributors that are not in .meta/config.json" do
-    old_contributor = create :user, handle: "ErikSchierboom"
+    old_contributor = create :user, github_username: "ErikSchierboom"
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: '0ec511318983b7d27d6a27410509071ee7683e52', synced_to_git_sha: '0ec511318983b7d27d6a27410509071ee7683e52' # rubocop:disable Layout/LineLength
     exercise.contributors << old_contributor
 
@@ -138,7 +139,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "adds reputation token for new contributor" do
-    new_contributor = create :user, handle: 'iHiD'
+    new_contributor = create :user, github_username: 'iHiD'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: '0ec511318983b7d27d6a27410509071ee7683e52', synced_to_git_sha: '0ec511318983b7d27d6a27410509071ee7683e52' # rubocop:disable Layout/LineLength
 
     Git::SyncPracticeExercise.(exercise)
@@ -147,12 +148,12 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     new_contributor_rep_token = new_contributor.reputation_tokens.last
     assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
-    assert_equal 5, new_contributor_rep_token.value
+    assert_equal 10, new_contributor_rep_token.value
     assert_equal new_contributorship, new_contributor_rep_token.contributorship
   end
 
   test "does not add reputation token for existing contributor" do
-    existing_contributor = create :user, handle: 'iHiD'
+    existing_contributor = create :user, github_username: 'iHiD'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: '0ec511318983b7d27d6a27410509071ee7683e52', synced_to_git_sha: '0ec511318983b7d27d6a27410509071ee7683e52' # rubocop:disable Layout/LineLength
 
     existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
@@ -162,5 +163,37 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise)
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
+  end
+
+  test "syncs with nil prerequisites" do
+    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice].each { |e| e[:prerequisites] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+  end
+
+  test "syncs with nil practices" do
+    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:practice].each { |e| e[:practices] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
   end
 end

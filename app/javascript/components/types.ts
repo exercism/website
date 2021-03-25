@@ -8,17 +8,57 @@ export type APIError = {
   message: string
 }
 
+export type MentorSessionRequest = {
+  id: string
+  comment: string
+  updatedAt: string
+  isLocked: boolean
+  user: {
+    handle: string
+    avatarUrl: string
+  }
+  links: {
+    lock: string
+    discussion: string
+  }
+}
+export type MentorSessionTrack = {
+  id: string
+  title: string
+  iconUrl: string
+  highlightjsLanguage: string
+  medianWaitTime: string
+}
+
+export type MentorSessionExercise = {
+  id: string
+  title: string
+  iconUrl: string
+}
+
+export type MentorSessionDiscussion = {
+  id: string
+  isFinished: boolean
+  links: {
+    posts: string
+    markAsNothingToDo?: string
+    finish?: string
+  }
+}
+
 export type Iteration = {
   uuid: string
   idx: number
   status: IterationStatus
+  numComments: number
+  unread: boolean
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
   submissionMethod: SubmissionMethod
-  representerFeedback: RepresenterFeedback
-  analyzerFeedback: AnalyzerFeedback
-  createdAt: Date
+  representerFeedback?: RepresenterFeedback
+  analyzerFeedback?: AnalyzerFeedback
+  createdAt: string
   testsStatus: SubmissionTestsStatus
   links: {
     self: string
@@ -90,4 +130,38 @@ export enum AnalysisStatus {
   INCONCLUSIVE = 'inconclusive',
   EXCEPTIONED = 'exceptioned',
   CANCELLED = 'cancelled',
+}
+
+export type MentorDiscussion = {
+  id: string
+  mentor: {
+    avatarUrl: string
+    handle: string
+  }
+  isFinished: boolean
+  isUnread: boolean
+  postsCount: number
+  createdAt: string
+  links: {
+    self: string
+  }
+}
+
+export type MentoredTrackExercise = {
+  slug: string
+  title: string
+  iconUrl: string
+  count: number
+  completedByMentor: boolean
+}
+
+export type MentoredTrack = {
+  id: string
+  title: string
+  iconUrl: string
+  num_solutions_queued: number
+  exercises: MentoredTrackExercise[] | undefined
+  links: {
+    exercises: string
+  }
 }

@@ -12,8 +12,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     number = 4
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                         repo: repo, number: number)
+      Webhooks::ProcessPullRequestUpdate.(
+        action: action, login: login, url: url, html_url: html_url,
+        labels: labels, state: state, repo: repo, number: number
+      )
     end
   end
 
@@ -28,8 +30,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     number = 4
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                         repo: repo, number: number)
+      Webhooks::ProcessPullRequestUpdate.(
+        action: action, login: login, url: url, html_url: html_url,
+        labels: labels, state: state, repo: repo, number: number
+      )
     end
   end
 
@@ -44,8 +48,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     number = 4
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
-      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                         repo: repo, number: number)
+      Webhooks::ProcessPullRequestUpdate.(
+        action: action, login: login, url: url, html_url: html_url,
+        labels: labels, state: state, repo: repo, number: number
+      )
     end
   end
 
@@ -60,8 +66,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     number = 4
 
     assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
-      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                         repo: repo, number: number)
+      Webhooks::ProcessPullRequestUpdate.(
+        action: action, login: login, url: url, html_url: html_url,
+        labels: labels, state: state, repo: repo, number: number
+      )
     end
   end
 
@@ -76,8 +84,10 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
     number = 4
 
     assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
-      Webhooks::ProcessPullRequestUpdate.(action, login, url: url, html_url: html_url, labels: labels, state: state,
-                                                         repo: repo, number: number)
+      Webhooks::ProcessPullRequestUpdate.(
+        action: action, login: login, url: url, html_url: html_url,
+        labels: labels, state: state, repo: repo, number: number
+      )
     end
   end
 end

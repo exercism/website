@@ -1,0 +1,21 @@
+<svg id="testimonials" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>messages-bubble-smile</title>
+  <path
+    class="a"
+    d="M12.75.75A10.485,10.485,0,0,0,3.833,16.775L.75,23.25l6.474-3.084A10.5,10.5,0,1,0,12.75.75Z"
+  />
+  <path class="a" d="M10.386,9.5a2.234,2.234,0,0,0-4.011,0" />
+  <path class="a" d="M19.38,9.5a2.234,2.234,0,0,0-4.011,0" />
+  <path class="a" d="M9.006,15a5.746,5.746,0,0,0,7.743,0" />
+</svg>

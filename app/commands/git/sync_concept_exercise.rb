@@ -15,6 +15,7 @@ module Git
         # TODO: Remove the || ... once we have configlet checking things properly.
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
+        blurb: head_git_exercise.blurb,
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         taught_concepts: find_concepts(exercise_config[:concepts]),
@@ -28,42 +29,24 @@ module Git
     private
     attr_reader :exercise
 
-    def update_authors!
-      authors = ::User.where(handle: author_usernames_config)
-      authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
-
-      # This is required to remove authors that were already added
-      exercise.update!(authors: authors)
-
-      # TODO: consider what to do with missing authors
-      missing_authors = author_usernames_config - authors.map(&:handle)
-      Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
-    end
-
-    def update_contributors!
-      contributors = ::User.where(handle: contributor_usernames_config)
-      contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
-
-      # This is required to remove contributors that were already added
-      exercise.update!(contributors: contributors)
-
-      # TODO: consider what to do with missing contributors
-      missing_contributors = contributor_usernames_config - contributors.map(&:handle)
-      Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
-    end
-
     def exercise_needs_updating?
-      exercise_config_modified? || exercise_files_modified?
+      track_config_exercise_modified? || exercise_config_modified? || exercise_files_modified?
     end
 
-    def exercise_config_modified?
+    def track_config_exercise_modified?
       return false unless track_config_modified?
 
       exercise_config[:slug] != exercise.slug ||
         exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
-        exercise_config[:concepts].sort != exercise.taught_concepts.map(&:slug).sort ||
-        exercise_config[:prerequisites].sort != exercise.prerequisites.map(&:slug).sort
+        exercise_config[:concepts].to_a.sort != exercise.taught_concepts.map(&:slug).sort ||
+        exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort
+    end
+
+    def exercise_config_modified?
+      return false unless filepath_in_diff?(head_git_exercise.config_absolute_filepath)
+
+      head_git_exercise.blurb != exercise.blurb
     end
 
     def exercise_files_modified?
@@ -71,22 +54,12 @@ module Git
     end
 
     def find_concepts(slugs)
-      slugs.map do |slug|
+      slugs.to_a.map do |slug|
         concept_config = concepts_config.find { |e| e[:slug] == slug }
         ::Track::Concept.find_by!(uuid: concept_config[:uuid])
       rescue StandardError
         # TODO: Remove this rescue when configlet works
       end.compact
-    end
-
-    memoize
-    def author_usernames_config
-      head_git_exercise.authors.to_a.map { |a| a[:exercism_username] }
-    end
-
-    memoize
-    def contributor_usernames_config
-      head_git_exercise.contributors.to_a.map { |a| a[:exercism_username] }
     end
 
     memoize

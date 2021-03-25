@@ -99,14 +99,14 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
       submission: create(:submission),
       ast_digest: Submission::Representation.digest_ast(ast)
 
-    assert_equal [], representation.reload.submission_representations
+    assert_empty representation.reload.submission_representations
 
     # Wrong ast
     create :submission_representation,
       submission: create(:submission, exercise: exercise),
       ast_digest: "something"
 
-    assert_equal [], representation.reload.submission_representations
+    assert_empty representation.reload.submission_representations
 
     # Correct everything!
     submission_representation = create :submission_representation,

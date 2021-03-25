@@ -56,22 +56,24 @@ module Flows
 
     test "user logs in and is redirected to the correct page" do
       track = create :track, title: "Ruby"
+      create :concept_exercise, track: track
       create(:user,
         email: "user@exercism.io",
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
       visit track_path(track)
-      click_on "Join The Ruby Track"
+      click_on "Join the Ruby Track"
       fill_in "Email", with: "user@exercism.io"
       fill_in "Password", with: "password"
       click_on "Log In"
 
-      assert_text "Join The Ruby Track"
+      assert_text "Join the Ruby Track"
     end
 
     test "user logs in, onboards, and is redirected to the correct page" do
       track = create :track, title: "Ruby"
+      create :concept_exercise, track: track
       create(:user,
         :not_onboarded,
         email: "user@exercism.io",
@@ -79,7 +81,7 @@ module Flows
         confirmed_at: Date.new(2016, 12, 25))
 
       visit track_path(track)
-      click_on "Join The Ruby Track"
+      click_on "Join the Ruby Track"
       fill_in "Email", with: "user@exercism.io"
       fill_in "Password", with: "password"
       click_on "Log In"
@@ -87,7 +89,8 @@ module Flows
       find('label', text: "I accept Exercism's Privacy Policy").click
       click_on "Save & Get Started"
 
-      assert_text "Join The Ruby Track"
+      sleep(0.1)
+      assert_text "Join the Ruby Track"
     end
   end
 end

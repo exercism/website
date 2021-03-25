@@ -1,13 +1,13 @@
 import React from 'react'
-import { Mentor } from '../MentoringSession'
 import { Avatar, Reputation } from '../../common'
 import { PreviousSessionsLink } from '../../mentoring/session/PreviousSessionsLink'
+import { Mentor } from '../MentoringSession'
 
 export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
   return (
     <div className="mentor-info">
       <div className="info">
-        <div className="subtitle">Who's your mentor?</div>
+        <div className="subtitle">Meet your mentor</div>
         <div className="name-block">
           <div className="name">{mentor.name}</div>
           <Reputation value={mentor.reputation.toString()} type="primary" />

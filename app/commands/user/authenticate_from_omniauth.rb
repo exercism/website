@@ -19,7 +19,13 @@ class User
         user.save
       end
 
-      user.update_column(:github_username, auth.info.nickname)
+      if user.github_username != auth.info.nickname
+        user.update_column(:github_username, auth.info.nickname)
+        AwardPullRequestReputationJob.perform_later(user)
+      end
+
+      user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
+
       user
     end
 
@@ -30,6 +36,8 @@ class User
       user.provider = auth.provider
       user.uid = auth.uid
       user.github_username = auth.info.nickname
+
+      AwardPullRequestReputationJob.perform_later(user) if user.github_username_changed?
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -47,7 +55,6 @@ class User
       end
 
       user.save
-
       user
     end
 
@@ -58,12 +65,17 @@ class User
         email: auth.info.email,
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
+        avatar_url: auth.info.image,
         handle: handle,
         github_username: auth.info.nickname
       )
 
       user.skip_confirmation!
-      User::Bootstrap.(user) if user.save
+
+      if user.save
+        User::Bootstrap.(user)
+        AwardPullRequestReputationJob.perform_later(user)
+      end
 
       user
     end

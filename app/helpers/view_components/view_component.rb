@@ -4,10 +4,10 @@ module ViewComponents
     extend Mandate::InitializerInjector
 
     delegate :user_signed_in?, :current_user,
-      :render, :safe_join,
-      :tag, :link_to, :button_to,
-      :time_ago_in_words,
-      :graphical_icon, :icon, :track_icon, :exercise_icon, :rounded_bg_img,
+      :render, :safe_join, :raw,
+      :tag, :link_to, :button_to, :image_tag,
+      :time_ago_in_words, :pluralize,
+      :graphical_icon, :icon, :track_icon, :exercise_icon, :avatar,
       :capture_haml,
       to: :view_context
 

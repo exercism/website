@@ -28,14 +28,12 @@ class SerializeTracksTest < ActiveSupport::TestCase
           num_concept_exercises: num_concept_exercises,
           num_practice_exercises: num_practice_exercises,
           web_url: "https://test.exercism.io/tracks/#{track.slug}",
-
-          # TODO: Set all three of these
-          icon_url: "https://assets.exercism.io/tracks/ruby-hex-white.png",
-          is_new: true,
-          tags: ["Compiled", "Common Language Runtime (.NET)"],
+          icon_url: track.icon_url,
           updated_at: track.updated_at.iso8601,
-          avg_wait_time: "2 days", # TODO: For "become a mentor modal"
-          num_solutions_queued: 550 # TODO: For "become a mentor modal"
+          tags: ["Compiled", "Common Language Runtime (.NET)"],
+
+          # TODO: Set this correctly
+          is_new: true
         }
       ]
     }
@@ -97,7 +95,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
     output = SerializeTracks.([track])
 
     track_data = output[:tracks].first
-    assert_equal [], track_data[:tags]
+    assert_empty track_data[:tags]
   end
 
   test "sorts by name" do

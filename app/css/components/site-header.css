@@ -57,6 +57,7 @@
             }
         }
     }
+
     & .user-section {
         @apply flex justify-end items-center;
 
@@ -72,7 +73,7 @@
         & .user-menu {
             @apply flex items-center;
 
-            & .c-rounded-bg-img {
+            & .c-avatar {
                 height: 42px;
                 width: 42px;
 
@@ -94,7 +95,7 @@
                     @apply flex items-center;
                     @apply py-12 mb-4;
 
-                    & .c-rounded-bg-img {
+                    & .c-avatar {
                         height: 42px;
                         width: 42px;
 
@@ -131,6 +132,35 @@
                         @apply text-textColor5;
                     }
                 }
+            }
+        }
+    }
+    & .external-section {
+        @apply flex items-center flex-grow justify-end;
+
+        & a:first-child {
+            @apply mr-16;
+        }
+    }
+}
+
+body.controller-docs {
+    @apply bg-backgroundColorA;
+    & #site-header {
+        @apply bg-backgroundColorE;
+        @apply border-0;
+
+        & .exercism-link {
+            @apply mr-32;
+        }
+
+        & .docs-search {
+            @apply flex-grow;
+            & input {
+                @apply bg-backgroundColorA;
+                @apply border-1 border-buttonBorderColor2;
+                width: 100%;
+                max-width: 540px;
             }
         }
     }

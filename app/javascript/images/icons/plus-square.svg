@@ -1,0 +1,17 @@
+<svg id="plus-square" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <title>add-square</title>
+  <line class="a" x1="12" y1="7.5" x2="12" y2="16.5" />
+  <line class="a" x1="7.5" y1="12" x2="16.5" y2="12" />
+  <rect class="a" x="0.75" y="0.75" width="22.5" height="22.5" rx="3" ry="3" />
+</svg>

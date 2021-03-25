@@ -8,6 +8,12 @@ module ReactComponents
           "mentoring-session",
           {
             user_id: current_user.id,
+            relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
+            request: SerializeMentorSessionRequest.(request),
+            discussion: SerializeMentorSessionDiscussion.(discussion, current_user),
+            track: SerializeMentorSessionTrack.(track),
+            exercise: SerializeMentorSessionExercise.(exercise),
+            iterations: iterations,
             student: {
               id: student.id,
               name: student.name,
@@ -22,21 +28,9 @@ module ReactComponents
                 favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
               }
             },
-            track: {
-              title: track.title,
-              highlightjs_language: track.highlightjs_language,
-              icon_url: track.icon_url
-            },
-            exercise: {
-              title: exercise.title
-            },
-            iterations: iterations,
             mentor_solution: mentor_solution,
             notes: notes,
-            links: links,
-            relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
-            request: request_json,
-            discussion: discussion_json
+            links: links
           }
         )
       end
@@ -46,49 +40,19 @@ module ReactComponents
         ::Solution::MentorRequest.find_by(solution: solution)
       end
 
-      def request_json
-        return if request.blank?
-
-        {
-          id: request.uuid,
-          comment: request.comment,
-          updated_at: request.updated_at.iso8601,
-          is_locked: request.locked?,
-          links: {
-            lock: Exercism::Routes.lock_api_mentoring_request_path(request),
-            discussion: Exercism::Routes.api_mentoring_discussions_path
-          }
-        }
-      end
-
+      memoize
       def discussion
         ::Solution::MentorDiscussion.find_by(solution: solution, mentor: current_user)
       end
 
+      memoize
       def student_mentor_relationship
         Mentor::StudentRelationship.find_by(mentor: current_user, student: student)
       end
 
-      def discussion_json
-        return if discussion.blank?
-
-        {
-          id: discussion.uuid,
-          is_finished: discussion.finished?,
-          links: { posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion) }.tap do |links|
-            if discussion.requires_mentor_action?
-              links[:mark_as_nothing_to_do] =
-                Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_path(discussion)
-            end
-
-            links[:finish] = Exercism::Routes.finish_api_mentoring_discussion_path(discussion) unless discussion.finished?
-          end
-        }
-      end
-
       def links
         {
-          mentor_dashboard: Exercism::Routes.mentoring_dashboard_path,
+          mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
           scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
         }
@@ -96,8 +60,10 @@ module ReactComponents
 
       def iterations
         if discussion
-          comment_counts = ::Solution::MentorDiscussionPost.where(discussion: discussion).
-            group(:iteration_id, :seen_by_mentor).count
+          comment_counts = ::Solution::MentorDiscussionPost.
+            where(discussion: discussion).
+            group(:iteration_id, :seen_by_mentor).
+            count
         end
 
         solution.iterations.map do |iteration|
@@ -105,20 +71,7 @@ module ReactComponents
           num_comments = discussion ? counts.sum(&:second) : 0
           unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
 
-          {
-            uuid: iteration.uuid,
-            idx: iteration.idx,
-            num_comments: num_comments,
-            unread: unread,
-            created_at: iteration.created_at.iso8601,
-            tests_status: iteration.tests_status,
-            # TODO: Precalculate this to avoid n+1s
-            representer_feedback: iteration.representer_feedback,
-            analyzer_feedback: iteration.analyzer_feedback,
-            links: {
-              files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
-            }
-          }
+          SerializeIteration.(iteration).merge(num_comments: num_comments, unread: unread)
         end
       end
 
@@ -144,20 +97,8 @@ module ReactComponents
 
       # TODO
       def notes
-        '
-<h3>Talking points</h3>
-<ul>
-  <li>
-    <code>each_cons</code> instead of an iterator
-    <code>with_index</code>: In Ruby, you rarely have to write
-    iterators that need to keep track of the index. Enumerable has
-    powerful methods that do that for us.
-  </li>
-  <li>
-    <code>chars</code>: instead of <code>split("")</code>.
-  </li>
-</ul>
-        '.strip
+        markdown = Git::WebsiteCopy.new.mentor_notes_for(track.slug, exercise.slug).strip
+        Markdown::Parse.(markdown)
       end
 
       memoize

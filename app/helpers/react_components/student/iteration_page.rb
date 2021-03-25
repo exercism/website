@@ -18,7 +18,7 @@ module ReactComponents
               highlightjs_language: track.highlightjs_language
             },
             links: {
-              get_mentoring: Exercism::Routes.track_exercise_mentoring_index_url(track, exercise),
+              get_mentoring: Exercism::Routes.new_track_exercise_mentor_request_url(track, exercise),
               automated_feedback_info: "TODO",
               start_exercise: Exercism::Routes.start_temp_track_exercise_url(track, exercise),
               solving_exercises_locally: "TODO"

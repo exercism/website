@@ -54,6 +54,11 @@ module Git
     end
 
     memoize
+    def blurb
+      config[:blurb]
+    end
+
+    memoize
     def exemplar_files
       config[:files][:exemplar].index_with do |filepath|
         read_file_blob(filepath)

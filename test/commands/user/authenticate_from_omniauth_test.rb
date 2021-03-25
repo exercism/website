@@ -8,7 +8,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       info: stub(
         email: "user@exercism.io",
         name: "Name",
-        nickname: "user22"
+        nickname: "user22",
+        image: "http://some.image/avatar.jpg"
       )
     )
 
@@ -25,7 +26,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       info: stub(
         email: "user@exercism.io",
         name: "Name",
-        nickname: "user22"
+        nickname: "user22",
+        image: "http://some.image/avatar.jpg"
       )
     )
 
@@ -37,6 +39,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     assert_equal "user@exercism.io", user.email
     assert_equal "Name", user.name
     assert_equal "user22", user.github_username
+    assert_equal "http://some.image/avatar.jpg", user.avatar_url
   end
 
   test "updates email and github_username if from users.noreply.github.com" do
@@ -48,6 +51,24 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     user.reload
     assert_equal "user@exercism.io", user.email
     assert_equal "user22", user.github_username
+  end
+
+  test "updates avatar if missing" do
+    user = create :user, provider: "github", uid: "111", avatar_url: nil
+    auth = stub(provider: "github", uid: "111", info: stub(image: "http://some.image/avatar.jpg", nickname: "foobar"))
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_equal "http://some.image/avatar.jpg", user.reload.avatar_url
+  end
+
+  test "does not update avatar if present" do
+    user = create :user, provider: "github", uid: "111", avatar_url: "original.jpg"
+    auth = stub(provider: "github", uid: "111", info: stub(nickname: "foobar"))
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_equal "original.jpg", user.reload.avatar_url
   end
 
   test "sets provider, uid and github_username for email matches" do
@@ -92,7 +113,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       info: stub(
         email: "user@exercism.io",
         name: "Name",
-        nickname: "user22"
+        nickname: "user22",
+        image: "http://some.image/avatar.jpg"
       )
     )
 
@@ -100,5 +122,58 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
     assert user.persisted?
     refute_equal "user22", user.handle
+  end
+
+  test "recalculate pull request reputation for uid matches that change the github_username" do
+    user = create :user, provider: "github", uid: "111", github_username: nil
+    auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
+
+    assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
+      User::AuthenticateFromOmniauth.(auth)
+    end
+  end
+
+  test "don't recalculate pull request reputation for uid matches that don't change the github_username" do
+    create :user, provider: "github", uid: "111", github_username: "user22"
+    auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_no_enqueued_jobs(only: AwardPullRequestReputationJob)
+  end
+
+  test "recalculate pull request reputation for email matches that change the github_username" do
+    user = create :user, email: "user@exercism.io", github_username: nil
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+
+    assert_enqueued_with(job: AwardPullRequestReputationJob, args: [user], queue: 'reputation') do
+      User::AuthenticateFromOmniauth.(auth)
+    end
+  end
+
+  test "don't recalculate pull request reputation for email matches that don't change the github_username" do
+    create :user, email: "user@exercism.io", github_username: "user22"
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+
+    User::AuthenticateFromOmniauth.(auth)
+
+    assert_no_enqueued_jobs(only: AwardPullRequestReputationJob)
+  end
+
+  test "calculate pull request reputation for bootstrapped user" do
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(
+        email: "user@exercism.io",
+        name: "Name",
+        nickname: "user22",
+        image: "http://some.image/avatar.jpg"
+      )
+    )
+
+    assert_enqueued_jobs 1, only: AwardPullRequestReputationJob, queue: 'reputation' do
+      User::AuthenticateFromOmniauth.(auth)
+    end
   end
 end

@@ -1,0 +1,49 @@
+class User
+  class ReputationToken
+    class AwardForPullRequestMerger
+      include Mandate
+
+      initialize_with :params
+
+      def call
+        return unless merged?
+        return if merged_by_author?
+
+        user = User.find_by(github_username: params[:merged_by_username])
+
+        unless user
+          # TODO: decide what to do with user that cannot be found
+          Rails.logger.error "Missing merged by user: #{params[:merged_by_username]}"
+          return
+        end
+
+        token = User::ReputationToken::Create.(
+          user,
+          :code_merge,
+          level: reputation_level,
+          repo: params[:repo],
+          pr_node_id: params[:node_id],
+          pr_number: params[:number],
+          pr_title: params[:title],
+          external_link: params[:html_url]
+        )
+        token.update!(level: reputation_level)
+      end
+
+      private
+      def merged?
+        params[:merged].present? && params[:merged_by_username].present?
+      end
+
+      def merged_by_author?
+        params[:merged_by_username] == params[:author_username]
+      end
+
+      def reputation_level
+        return :reviewal if params[:reviews].present?
+
+        :janitorial
+      end
+    end
+  end
+end

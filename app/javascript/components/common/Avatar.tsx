@@ -7,7 +7,7 @@ export const Avatar = ({
   src: string
   handle: string
 }): JSX.Element => (
-  <div className="c-rounded-bg-img" style={{ backgroundImage: `url(${src})` }}>
+  <div className="c-avatar" style={{ backgroundImage: `url(${src})` }}>
     <img
       src={src}
       alt={`Uploaded avatar of ${handle}`}

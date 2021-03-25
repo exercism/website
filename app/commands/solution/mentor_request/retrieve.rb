@@ -9,12 +9,12 @@ class Solution
         10
       end
 
-      def initialize(user,
+      def initialize(mentor: nil,
                      page: 1,
                      criteria: nil, order: nil,
                      track_slug: nil, exercise_slugs: nil,
                      sorted: true, paginated: true)
-        @user = user
+        @mentor = mentor
         @page = page
         @criteria = criteria
         @order = order
@@ -36,7 +36,7 @@ class Solution
       end
 
       private
-      attr_reader :user, :page, :criteria, :order,
+      attr_reader :mentor, :page, :criteria, :order,
         :track_slug, :exercise_slugs
 
       %i[sorted paginated].each do |attr|
@@ -48,11 +48,12 @@ class Solution
           joins(:solution).
           includes(solution: [:user, { exercise: :track }]).
           pending.
-          unlocked.
-          where.not('solutions.user_id': user.id)
+          unlocked
       end
 
       def filter!
+        @requests = @requests.where.not('solutions.user_id': mentor.id) if mentor
+
         if exercise_slugs.present?
           filter_exercises!
         else

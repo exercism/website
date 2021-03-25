@@ -1,0 +1,17 @@
+<svg id="notifications" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .a {
+        fill:none;
+        stroke:currentColor;
+        stroke-linecap:round;
+        stroke-linejoin:round;
+        stroke-width:1.5px;
+      }
+    </style>
+  </defs>
+  <title>alarm-bell</title>
+  <path class="a" d="M10,21.75a2.087,2.087,0,0,0,4.005,0"/>
+  <line class="a" x1="12" y1="3" x2="12" y2="0.75"/>
+  <path class="a" d="M12,3a7.5,7.5,0,0,1,7.5,7.5c0,7.046,1.5,8.25,1.5,8.25H3s1.5-1.916,1.5-8.25A7.5,7.5,0,0,1,12,3Z"/>
+</svg>

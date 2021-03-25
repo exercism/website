@@ -3,13 +3,14 @@ class CreateUserActivities < ActiveRecord::Migration[6.1]
     create_table :user_activities do |t|
       t.string :type, null: false
 
-      t.belongs_to :user, null: false
-      t.belongs_to :track, null: true
+      t.belongs_to :user, null: false, foreign_key: true
+      t.belongs_to :track, null: true, foreign_key: true
+      t.belongs_to :exercise, null: true, foreign_key: true
+      t.belongs_to :solution, null: true, foreign_key: true
 
       t.json :params, null: false
       t.datetime :occurred_at, null: false
-      t.string :uniqueness_key, null: false, unique: true
-      t.string :grouping_key, null: false
+      t.string :uniqueness_key, null: false, index: {unique: true}
 
       t.integer :version, null: false
       t.json :rendering_data_cache, null: false

@@ -21,10 +21,10 @@ class Solution
 
     def call
       @solutions = user.solutions
-      filter_criteria
-      filter_status
-      filter_mentoring_status
-      sort
+      filter_criteria!
+      filter_status!
+      filter_mentoring_status!
+      sort!
 
       @solutions.page(page).per(per)
     end
@@ -34,7 +34,7 @@ class Solution
       :per, :page, :order,
       :solutions
 
-    def filter_criteria
+    def filter_criteria!
       return if criteria.blank?
 
       @solutions = @solutions.joins(exercise: :track)
@@ -47,7 +47,7 @@ class Solution
       end
     end
 
-    def filter_status
+    def filter_status!
       return if status.blank?
 
       case status.to_sym
@@ -62,7 +62,7 @@ class Solution
       end
     end
 
-    def filter_mentoring_status
+    def filter_mentoring_status!
       return if mentoring_status.blank?
 
       case mentoring_status.to_sym
@@ -77,7 +77,7 @@ class Solution
       end
     end
 
-    def sort
+    def sort!
       case order&.to_sym
       when :oldest_first
         @solutions = @solutions.order(id: :asc)

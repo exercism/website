@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-react-wrapper-common-copy-to-clipboard-button {
-    min-height: 58px;
+    min-height: 50px;
 }
 .c-copy-text-to-clipboard {
     @apply border-1 border-borderColor4 rounded-5;

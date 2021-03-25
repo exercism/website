@@ -3,7 +3,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 
 // Test deps
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
@@ -39,9 +39,9 @@ describe('<ConceptMap />', () => {
     const renderedConceptMap = renderConceptMap(config)
     await waitForConceptMapReady(renderedConceptMap, config)
 
-    expect(renderedConceptMap.queryByText('Test')).toBeInTheDocument()
+    expect(screen.queryByText('Test')).toBeInTheDocument()
     expect(
-      renderedConceptMap.queryByTitle('You have mastered this concept')
+      screen.queryByAltText('You have mastered this concept')
     ).not.toBeInTheDocument()
   })
 
@@ -59,9 +59,9 @@ describe('<ConceptMap />', () => {
     const renderedConceptMap = renderConceptMap(config)
     await waitForConceptMapReady(renderedConceptMap, config)
 
-    expect(renderedConceptMap.queryByText('Test')).toBeInTheDocument()
+    expect(screen.queryByText('Test')).toBeInTheDocument()
     expect(
-      renderedConceptMap.queryByTitle('You have mastered this concept')
+      screen.queryByAltText('You have mastered this concept')
     ).toBeInTheDocument()
   })
 })

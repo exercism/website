@@ -36,9 +36,9 @@ class UserTest < ActiveSupport::TestCase
     create :user_code_contribution_reputation_token, user: user, level: :major
     create :user_code_contribution_reputation_token, user: user, level: :regular
 
-    assert_equal 40, user.reload.reputation
+    assert_equal 72, user.reload.reputation
     # assert_equal 20, user.reputation(track_slug: :ruby)
-    assert_equal 15, user.reputation(category: :authoring)
+    assert_equal 30, user.reputation(category: :authoring)
   end
 
   test "reputation raises with both track_slug and category specified" do

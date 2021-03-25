@@ -41,7 +41,9 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show]
+      resources :tracks, only: %i[index show] do
+        resources :exercises, only: %i[index], controller: "exercises"
+      end
 
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
@@ -75,6 +77,7 @@ Rails.application.routes.draw do
         resources :iterations, only: %i[create]
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
 
+        resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
           resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
         end
@@ -82,6 +85,9 @@ Rails.application.routes.draw do
 
       namespace :mentoring do
         resource :registration, only: %i[create], controller: 'registration'
+        resource :tracks, only: %i[show update] do
+          get :mentored
+        end
 
         resources :requests, only: %i[index] do
           collection do
@@ -134,12 +140,20 @@ Rails.application.routes.draw do
   namespace :webhooks do
     resource :push_updates, only: [:create]
     resource :pull_request_updates, only: [:create]
+    resource :organization_updates, only: [:create]
   end
 
   # ############ #
   # Normal pages #
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
+
+  resources :docs, only: %i[index]
+  get 'docs/tracks/:track_slug/*slug', to: 'docs#track_show', as: :track_doc
+  get 'docs/tracks/:track_slug', to: 'docs#track_index', as: :track_docs
+  get 'docs/tracks', to: 'docs#tracks'
+  get 'docs/:section/*slug', to: 'docs#show', as: :doc
+  get 'docs/:section', to: 'docs#section', as: :docs_section
 
   resources :notifications, only: [:index]
 
@@ -151,7 +165,8 @@ Rails.application.routes.draw do
 
   namespace :mentoring do
     get "/", to: "external#show"
-    resource :dashboard, only: [:show], controller: "dashboard"
+    resource :inbox, only: [:show], controller: "inbox"
+    resource :queue, only: [:show], controller: "queue"
     resources :requests, only: [:show] do
       get :unavailable, on: :member
     end
@@ -179,8 +194,8 @@ Rails.application.routes.draw do
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
 
-      resources :mentoring, only: [:index], controller: "tracks/mentoring"
-      resource :mentoring_request, only: [:create], controller: "tracks/mentoring_requests"
+      resources :mentor_discussions, only: [:index], controller: "tracks/mentor_requests"
+      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
     end
 
@@ -235,6 +250,10 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
       end
     end
+    resource :mentoring, only: [], controller: "mentoring" do
+      get :student_request
+    end
+    resource :mentored_tracks, only: %i[show update]
     resources :tracks, only: [] do
       resources :exercises, only: [], controller: "tracks/exercises" do
         member do
@@ -249,7 +268,6 @@ Rails.application.routes.draw do
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
         namespace :student do
-          resource :mentoring_session, only: [:show], controller: "mentoring_session"
           resource :concept_map, only: [:show], controller: 'concept_map'
         end
         namespace :maintaining do

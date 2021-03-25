@@ -12,14 +12,12 @@ body {
 /**************/
 /* Containers */
 /**************/
+.sm-container,
 .md-container,
 .lg-container {
     width: 100%;
     @apply mx-auto;
-}
 
-.md-container,
-.lg-container {
     &.bg-shapes {
         position: relative;
 
@@ -42,6 +40,11 @@ body {
     }
 }
 
+.sm-container {
+    max-width: 1056px;
+    padding: 0 48px;
+}
+
 .md-container {
     max-width: 1248px;
     padding: 0 48px;
@@ -52,8 +55,13 @@ body {
     padding: 0 32px;
 }
 
+[data-react-data] {
+    /* width: 100%; */
+    /* height: 100%; */
+}
+
 .c-react-component {
-    width: stretch;
+    /* width: stretch; */
 
     &.--fitted {
         width: fit-content;

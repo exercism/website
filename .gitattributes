@@ -1,6 +1,7 @@
 # Use UNIX line endings for all files to allow them
 # to be used when mapped in a UNIX docker container
 * text eol=lf
+*.png binary
 
 # The bare repositories used for testing purposes
 # should be treated as binary files

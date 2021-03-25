@@ -33,9 +33,13 @@ class UserTrack < ApplicationRecord
     user.solutions.joins(:exercise).where("exercises.track_id": track)
   end
 
-  delegate :exercise_available?, :exercise_completed?,
+  def completed_percentage
+    42.5
+  end
+
+  delegate :exercise_available?, :exercise_completed?, :exercise_status,
     :num_completed_exercises,
-    :num_concepts, :num_concepts_mastered,
+    :num_concepts, :num_concepts_learnt, :num_concepts_mastered,
     :num_exercises,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,
     :concept_available?, :concept_learnt?, :concept_mastered?,
@@ -58,13 +62,23 @@ class UserTrack < ApplicationRecord
   end
 
   memoize
+  def mastered_concepts
+    Track::Concept.where(id: summary.mastered_concept_ids)
+  end
+
+  memoize
   def available_exercises
     Exercise.where(id: summary.available_exercise_ids)
   end
 
   memoize
-  def uncompleted_exercises
-    Exercise.where(id: summary.uncompleted_exercises_ids)
+  def in_progress_exercises
+    Exercise.where(id: summary.in_progress_exercise_ids)
+  end
+
+  memoize
+  def completed_exercises
+    Exercise.where(id: summary.completed_exercises_ids)
   end
 
   private

@@ -80,5 +80,65 @@ module Git
       expected = "# Tests\n\nRun the tests using `ruby test`.\n"
       assert_equal expected, track.tests
     end
+
+    test "about file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/ABOUT.md', track.about_filepath)
+    end
+
+    test "about absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/ABOUT.md', track.about_absolute_filepath)
+    end
+
+    test "snippet file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/SNIPPET.txt', track.snippet_filepath)
+    end
+
+    test "snippet absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/SNIPPET.txt', track.snippet_absolute_filepath)
+    end
+
+    test "debugging_instructions file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/debug.md', track.debugging_instructions_filepath)
+    end
+
+    test "debugging_instructions absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/debug.md', track.debugging_instructions_absolute_filepath)
+    end
+
+    test "help file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/help.md', track.help_filepath)
+    end
+
+    test "help absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/help.md', track.help_absolute_filepath)
+    end
+
+    test "tests file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/tests.md', track.tests_filepath)
+    end
+
+    test "tests absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/tests.md', track.tests_absolute_filepath)
+    end
+
+    test "config file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('config.json', track.config_filepath)
+    end
+
+    test "config absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('config.json', track.config_absolute_filepath)
+    end
   end
 end

@@ -8,14 +8,14 @@ module Git
     end
 
     def call
-      contributors = ::User.where(handle: contributor_usernames_config)
+      contributors = ::User.where(github_username: contributors_config)
       contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
 
       # This is required to remove contributors that were already added
       exercise.update!(contributors: contributors)
 
       # TODO: consider what to do with missing contributors
-      missing_contributors = contributor_usernames_config - contributors.map(&:handle)
+      missing_contributors = contributors_config - contributors.pluck(:handle)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
     end
 
@@ -23,8 +23,8 @@ module Git
     attr_reader :exercise
 
     memoize
-    def contributor_usernames_config
-      head_git_exercise.contributors.to_a.map { |a| a[:exercism_username] }
+    def contributors_config
+      head_git_exercise.contributors.to_a
     end
 
     memoize

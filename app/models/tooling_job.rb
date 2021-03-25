@@ -96,7 +96,7 @@ class ToolingJob
 
   memoize
   def s3_folder
-    "#{Exercism.env}/#{id}"
+    "#{Rails.env}/#{id}"
   end
 
   memoize

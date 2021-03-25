@@ -68,14 +68,14 @@
                 @apply bg-backgroundColorD;
             }
 
-            & .c-rounded-bg-img,
+            & .c-avatar,
             & .icon {
                 height: 32px;
                 width: 32px;
                 @apply mr-20;
                 @apply self-start;
             }
-            & .c-rounded-bg-img {
+            & .c-avatar {
             }
             & .icon {
                 /* TODO: Really this color? */

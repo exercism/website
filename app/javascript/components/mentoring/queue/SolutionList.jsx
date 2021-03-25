@@ -2,16 +2,24 @@ import React, { useState } from 'react'
 import { Solution } from './Solution'
 import * as Tooltips from '../../tooltips'
 import { Pagination } from '../../common/Pagination'
-import { Loading } from '../../common/Loading'
 import { usePopper } from 'react-popper'
+import { FetchingBoundary } from '../../FetchingBoundary'
 
-export function SolutionList({
-  status,
-  resolvedData,
-  latestData,
-  page,
-  setPage,
-}) {
+const DEFAULT_ERROR = new Error('Unable to fetch queue')
+
+export const SolutionList = ({ status, error, ...props }) => {
+  return (
+    <FetchingBoundary
+      status={status}
+      error={error}
+      defaultError={DEFAULT_ERROR}
+    >
+      <Component {...props} />
+    </FetchingBoundary>
+  )
+}
+
+function Component({ resolvedData, latestData, page, setPage, isFetching }) {
   const [tooltipTrigger, setTooltipTrigger] = useState(null)
   const [tooltipElement, setTooltipElement] = useState(null)
 
@@ -26,12 +34,10 @@ export function SolutionList({
   }
 
   return (
-    <div>
-      {status === 'loading' && <Loading />}
-      {status === 'error' && <p>Something went wrong</p>}
-      {status === 'success' && resolvedData.results.length > 0 ? (
+    <>
+      {resolvedData.results.length > 0 ? (
         <>
-          <div className="--solutions">
+          <div className={'--solutions' + (isFetching ? ' --loading' : '')}>
             {resolvedData.results.length > 0
               ? resolvedData.results.map((solution, key) => (
                   <Solution
@@ -63,6 +69,6 @@ export function SolutionList({
           </footer>
         </>
       ) : null}
-    </div>
+    </>
   )
 }

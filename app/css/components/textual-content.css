@@ -31,6 +31,43 @@
             @apply mb-12;
         }
     }
+
+    &.--base {
+        & * {
+            @apply text-16;
+        }
+        & > * {
+            &:not(:first-child) {
+                @apply mt-12;
+            }
+            &:last-child {
+                @apply mb-0;
+            }
+        }
+
+        /************/
+        /* HEADINGS */
+        /************/
+        & h2 {
+            @apply text-h3 mb-8;
+            @apply text-24 mb-8;
+        }
+        & h3 {
+            @apply text-h4 mb-8;
+            @apply text-18 mb-8;
+        }
+        & * + h3 {
+            @apply mt-32;
+        }
+
+        /******************/
+        /* Block Elements */
+        /******************/
+        & p {
+            @apply mb-8;
+        }
+    }
+
     &.--small {
         & * {
             @apply text-15;
@@ -72,6 +109,7 @@
     /* This is necessary else the rules above override 
      * the ones below */
     &.--large,
+    &.--base,
     &.--small {
         & * {
             @apply leading-160;

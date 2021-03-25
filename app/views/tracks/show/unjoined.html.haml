@@ -3,25 +3,66 @@
 
   %header.track-header
     .lg-container.container
-      = track_icon(@track)
       .info
         %h1= @track.title
-        %p= @track.blurb
+        = graphical_icon "sharp-squiggle", css_class: "divider"
+
+        %h2 Want to learn and master #{@track.title}?
+        %p
+          Join Exercism’s #{@track.title} Track for access to
+          %em.c-underline
+            %strong 150 exercises grouped into 40 #{@track.title} Concepts,
+          with automatic analysis
+          of your code and
+          %em.c-underline real human mentoring
+          , all 100% free.
+          /= @track.blurb
 
         .btns.tw-flex.tw-gap-24
           = button_to join_track_path(@track), method: :post, class: "btn-large-cta" do
             = graphical_icon(:plus)
-            Join The #{@track.title} Track
+            %span Join the #{@track.title} Track
 
           = link_to "#concepts", class: "btn-large-secondary" do
-            See Concepts
+            Explore concepts
+      .graphics
+        = track_icon(@track)
 
   %section.about-section
-    .md-container.container
-      %h2 About #{@track.title}
-      .tw-flex.tw-items-start
-        .info= raw Markdown::Parse.(@track.about)
-        %code
-          %pre= @track.snippet
+    .lg-container
+      .inner
+        .info
+          .c-textual-content.--large
+            %h2 About #{@track.title}
+            = raw Markdown::Parse.(@track.about, strip_h1: true)
+        %pre
+          %code{ class: "lang-#{@track.highlightjs_language}" }
+            = @track.snippet
+
+  %section.exercises-section
+    .lg-container
+      = graphical_icon "exercises", hex: true, css_class: "header-icon"
+      .inner
+        .info
+          %h2
+            %em.c-underline #{@track.exercises.count} coding exercises
+            for #{@track.title} on Exercism.
+            From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
+          = graphical_icon "sharp-squiggle", css_class: "divider"
+          %p Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism.
+
+          .exercises
+            - @showcase_exercises.each do |exercise|
+              = link_to track_exercise_path(@track, exercise), class: 'exercise' do
+                = exercise_icon exercise
+                .exercise-info
+                  %h3= exercise.title
+                  %p= exercise.blurb
+                = graphical_icon :'chevron-right', css_class: "action-icon"
+
+          = render ViewComponents::ProminentLink.new("See all #{@track.title} exercises on Exercism", track_exercises_path(@track))
+
+        = image_pack_tag "screenshots/exercise-about.png", role: :presentation
 
   = render "tracks/show/unjoined/key_features", track: @track
+  = render "tracks/show/unjoined/concepts", track: @track

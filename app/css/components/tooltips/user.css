@@ -6,7 +6,7 @@
     & .heading {
         @apply flex items-center mb-12;
 
-        & .c-rounded-bg-img {
+        & .c-avatar {
             width: 48px;
             height: 48px;
 

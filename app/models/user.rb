@@ -59,6 +59,10 @@ class User < ApplicationRecord
     true
   end
 
+  def to_param
+    handle
+  end
+
   def reputation(track_slug: nil, category: nil)
     return super() unless track_slug || category
 
@@ -96,7 +100,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
-    "https://avatars2.githubusercontent.com/u/5337876?s=460&v=4&e_uid=#{id}"
+    super || "https://avatars.githubusercontent.com/u/5624255?s=200&v=4"
   end
 
   # TODO
@@ -119,6 +123,7 @@ class User < ApplicationRecord
     relationship ? relationship.favorited? : false
   end
 
+  # TODO
   def num_previous_mentor_sessions_with(_user)
     15
   end

@@ -5,7 +5,18 @@ class Mentoring::RequestsController < ApplicationController
   before_action :disable_site_header!
 
   def show
-    return redirect_to action: :unavailable unless @mentor_request.lockable_by?(current_user)
+    if @mentor_request.pending?
+      return redirect_to action: :unavailable unless @mentor_request.lockable_by?(current_user)
+
+    elsif @mentor_request.fulfilled?
+      discussion = @mentor_request.discussion
+      return redirect_to action: :unavailable unless discussion&.mentor_id == current_user.id
+
+      redirect_to mentoring_discussion_path(discussion)
+    else
+      # TODO: Handle cancelled requests
+      redirect_to action: :unavailable
+    end
   end
 
   def unavailable

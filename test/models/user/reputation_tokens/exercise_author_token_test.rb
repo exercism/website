@@ -23,6 +23,6 @@ class User::ReputationTokens::ExerciseAuthorTokenTest < ActiveSupport::TestCase
     assert_equal "#{user.id}|exercise_author|Exercise##{exercise.id}", rt.uniqueness_key
     assert_equal :authored_exercise, rt.reason
     assert_equal :authoring, rt.category
-    assert_equal 10, rt.value
+    assert_equal 20, rt.value
   end
 end

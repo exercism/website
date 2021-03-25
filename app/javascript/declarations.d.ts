@@ -43,3 +43,7 @@ declare module 'monaco-vim' {
     dispose: () => void
   }
 }
+declare module '*.jpg'
+declare module '*.png'
+declare module '*.svg'
+declare module '*.gif'

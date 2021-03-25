@@ -13,11 +13,7 @@ module ViewComponents
         className: "user-menu",
         html: safe_join(
           [
-            rounded_bg_img(
-              "https://avatars3.githubusercontent.com/u/135246?s=460",
-              "#{current_user.name}'s uploaded avatar"
-            ) +
-              icon("more-vertical", "Profile Menu")
+            avatar(current_user) + icon("more-vertical", "Profile Menu")
           ]
         )
       }
@@ -35,7 +31,7 @@ module ViewComponents
 
     def profile_item
       link_to "#" do
-        rounded_bg_img(current_user.avatar_url, "Your uploaded avatar") +
+        avatar(current_user, alt: "Your uploaded avatar") +
           tag.div(class: 'info') do
             tag.div(current_user.name, class: 'name') +
               tag.div("@#{current_user.handle}", class: 'handle')

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
-import { Discussion } from '../Session'
+import { MentorSessionDiscussion as Discussion } from '../../types'
 
 export const FinishButton = ({
   endpoint,
@@ -26,12 +26,13 @@ export const FinishButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="btn-small finish-button"
+        className="btn-keyboard-shortcut finish-button"
         onClick={() => {
           setOpen(true)
         }}
       >
-        End discussion
+        <div className="--hint">End discussion</div>
+        <div className="--kb">F3</div>
       </button>
       <FinishMentorDiscussionModal
         endpoint={endpoint}

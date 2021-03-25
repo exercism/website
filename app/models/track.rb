@@ -1,6 +1,11 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+
+  # TODO: Remove this once we use external icons
+  include Webpacker::Helper
+  include ActionView::Helpers::AssetUrlHelper
+
   friendly_id :slug, use: [:history]
 
   # TODO: remove dependent: :destroy before release
@@ -36,6 +41,39 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
+  # TODO: Drive from config.json
+  def course?
+    concepts.size > 5
+  end
+
+  # TODO: Read this from a cache and update periodically
+  def num_contributors
+    User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
+  end
+
+  # TODO: Read this from a cache and update periodically
+  def top_10_contributors
+    user_ids = User::ReputationToken.where(track_id: id).
+      group(:user_id).
+      select("user_id, COUNT(*) as c").
+      order("c DESC").
+      limit(10).map(&:user_id)
+
+    User.where(id: user_ids).
+      order(Arel.sql("FIND_IN_SET(id, '#{user_ids.join(',')}')")).
+      to_a
+  end
+
+  # TODO: Implement
+  def num_code_contributors
+    10
+  end
+
+  # TODO: Implemment
+  def num_mentors
+    187
+  end
+
   # TODO: Set this properly
   def icon_name
     "ruby"
@@ -43,12 +81,20 @@ class Track < ApplicationRecord
 
   # TODO: Set this properly
   def icon_url
-    "https://assets.exercism.io/tracks/ruby-hex-white.png"
+    asset_pack_url(
+      "media/images/tracks/#{icon_name}.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
   end
 
   # TODO: Create mapping for Highlight.JS, otherwise use slug
   def highlightjs_language
     slug
+  end
+
+  # TODO: Set this properly
+  def median_wait_time
+    "6 hrs"
   end
 
   CATGEORIES = {

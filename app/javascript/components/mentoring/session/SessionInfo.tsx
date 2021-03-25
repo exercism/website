@@ -1,7 +1,11 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Avatar } from '../../common/Avatar'
-import { Student, Track, Exercise } from '../Session'
+import { Student } from '../Session'
+import {
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../../types'
 
 export const SessionInfo = ({
   student,

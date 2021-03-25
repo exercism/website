@@ -21,7 +21,7 @@
         & .container {
             @apply flex items-center;
         }
-        & .c-rounded-bg-img {
+        & .c-avatar {
             height: 48px;
             width: 48px;
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { fromNow } from '../../utils/time'
+import { shortFromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
-import { ProcessingStatusSummary } from './iteration-summary/ProcessingStatusSummary'
+import { ProcessingStatusSummary } from '../common/ProcessingStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
@@ -72,7 +72,7 @@ export function IterationSummary({
             dateTime={iteration.createdAt.toString()}
             title={iteration.createdAt.toString()}
           >
-            {fromNow(iteration.createdAt)}
+            {shortFromNow(iteration.createdAt)}
           </time>
         </div>
       </div>
@@ -91,7 +91,7 @@ export function IterationSummary({
         title={iteration.createdAt.toString()}
         className="--time"
       >
-        {fromNow(iteration.createdAt)}
+        {shortFromNow(iteration.createdAt)}
       </time>
     </div>
   )

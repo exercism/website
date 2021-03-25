@@ -1,8 +1,7 @@
 import React from 'react'
-import { Icon } from '../../common/Icon'
 import { Avatar } from '../../common/Avatar'
 import { Reputation } from '../../common/Reputation'
-import { RepresenterFeedback as RepresenterFeedbackProps } from '../Session'
+import { RepresenterFeedback as RepresenterFeedbackProps } from '../../types'
 
 export const RepresenterFeedback = ({
   html,

@@ -8,14 +8,14 @@ module Git
     end
 
     def call
-      authors = ::User.where(handle: author_usernames_config)
+      authors = ::User.where(github_username: authors_config)
       authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
 
       # This is required to remove authors that were already added
       exercise.update!(authors: authors)
 
       # TODO: consider what to do with missing authors
-      missing_authors = author_usernames_config - authors.map(&:handle)
+      missing_authors = authors_config - authors.pluck(:handle)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
     end
 
@@ -23,8 +23,8 @@ module Git
     attr_reader :exercise
 
     memoize
-    def author_usernames_config
-      head_git_exercise.authors.to_a.map { |a| a[:exercism_username] }
+    def authors_config
+      head_git_exercise.authors.to_a
     end
 
     memoize

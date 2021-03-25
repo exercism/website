@@ -18,6 +18,6 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
   )
 
   expect(
-    screen.queryByTitle('Number of times solution has been starred')
+    screen.queryByAltText('Number of times solution has been starred')
   ).not.toBeInTheDocument()
 })

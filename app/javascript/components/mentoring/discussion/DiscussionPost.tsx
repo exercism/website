@@ -43,7 +43,6 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
           <div className="author">
             <Avatar handle={authorHandle} src={authorAvatarUrl} />
             <div className="handle">{authorHandle}</div>
-            {byStudent ? <div className="tag">Student</div> : null}
           </div>
           {links.update ? (
             <EditDiscussionPost

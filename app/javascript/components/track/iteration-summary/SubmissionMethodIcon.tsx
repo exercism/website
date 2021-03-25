@@ -1,5 +1,6 @@
 import React from 'react'
 import { SubmissionMethod } from '../../types'
+import { Icon } from '../../common/Icon'
 
 export function SubmissionMethodIcon({
   submissionMethod,
@@ -9,17 +10,19 @@ export function SubmissionMethodIcon({
   switch (submissionMethod) {
     case SubmissionMethod.CLI:
       return (
-        <svg role="presentation" className="--icon --upload-method-icon">
-          <title>Submitted via CLI</title>
-          <use xlinkHref="#cli" />
-        </svg>
+        <Icon
+          icon="cli"
+          alt="Submitted via CLI"
+          className="--icon --upload-method-icon"
+        />
       )
     case SubmissionMethod.API:
       return (
-        <svg role="presentation" className="--icon --upload-method-icon">
-          <title>Submitted via API</title>
-          <use xlinkHref="#cli" />
-        </svg>
+        <Icon
+          icon="editor"
+          alt="Submitted via Editor"
+          className="--icon --upload-method-icon"
+        />
       )
     default:
       return null

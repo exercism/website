@@ -16,6 +16,7 @@
     & .c-icon {
         width: 21px;
         height: 21px;
+        filter: var(--notifications-active-filter);
     }
 
     & .--count {
@@ -36,6 +37,9 @@
 
         & .--count {
             @apply hidden;
+        }
+        & .c-icon {
+            filter: var(--notifications-inactive-filter);
         }
     }
     &.--double-digit {

@@ -4,6 +4,7 @@ class SerializeSolutionsForStudent
   initialize_with :solutions
 
   def call
-    solutions.map { |s| SerializeSolutionForStudent.(s) }
+    solutions.includes(:exercise, :track).
+      map { |s| SerializeSolutionForStudent.(s) }
   end
 end

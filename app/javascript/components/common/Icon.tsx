@@ -4,20 +4,18 @@ export function Icon({
   icon,
   alt,
   className,
+  category,
 }: {
   icon: string
   alt: string
   className?: string
+  category?: string
 }) {
   let classNames = ['c-icon']
   if (className !== undefined) {
     classNames.push(className)
   }
+  const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
 
-  return (
-    <svg className={classNames.join(' ')} role="img">
-      <title>{alt}</title>
-      <use xlinkHref={`#${icon}`} />
-    </svg>
-  )
+  return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

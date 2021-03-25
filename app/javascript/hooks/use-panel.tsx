@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePopper } from 'react-popper'
 
-export function usePanel() {
+export function usePanel(options?: any) {
   const [open, setOpen] = useState(false)
   const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(
     null
@@ -10,7 +10,7 @@ export function usePanel() {
   const { styles, attributes, update } = usePopper(
     buttonElement,
     panelElement,
-    {
+    options || {
       placement: 'bottom-end',
       modifiers: [
         {

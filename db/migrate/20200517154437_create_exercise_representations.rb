@@ -7,6 +7,7 @@ class CreateExerciseRepresentations < ActiveRecord::Migration[6.0]
       t.string :ast_digest, null: false
       t.json :mapping, null: true
 
+      t.column :feedback_type, :tinyint, null: true
       t.text :feedback_markdown, null: true
       t.text :feedback_html, null: true
       t.belongs_to :feedback_author, foreign_key: { to_table: :users }, null: true

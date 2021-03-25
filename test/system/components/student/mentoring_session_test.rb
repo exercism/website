@@ -13,8 +13,11 @@ module Components
       test "shows posts" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
-        request = create :solution_mentor_request, solution: solution, comment: "Hello, Mentor", updated_at: 2.days.ago
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
+        request = create :solution_mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
+                                                   updated_at: 2.days.ago
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission, solution: solution
         iteration = create :iteration,
@@ -31,7 +34,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
         end
 
         within(".discussion") { assert_text "Iteration 1" }
@@ -48,14 +51,16 @@ module Components
       test "refetches when new post comes in" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           create(:solution_mentor_discussion_post,
             discussion: discussion,
             iteration: iteration,
@@ -74,14 +79,16 @@ module Components
       test "submit a new post" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           wait_for_websockets
           click_on "Add a comment"
           fill_in_editor "# Hello", within: ".comment-section"
@@ -96,7 +103,9 @@ module Components
       test "edit an existing post" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
-        solution = create :concept_solution, user: student
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
@@ -109,7 +118,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
@@ -138,10 +147,11 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, bob, discussion)
           click_on "1"
         end
 
+        sleep(0.1)
         assert_text "class Bob"
       end
 
@@ -157,10 +167,10 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
 
           assert_css "img[src='#{ruby.icon_url}'][alt=\"icon for Ruby track\"]"
-          assert_css "svg.c-exercise-icon"
+          assert_css "img.c-exercise-icon"
           assert_text "You're being mentored by mentor on\nRunning"
         end
       end
@@ -177,7 +187,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
         end
 
         within(".mentor-info") do
@@ -198,13 +208,17 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
-        submission = create :submission, iteration: iteration, solution: solution,
-                                         analysis_status: :completed, representation_status: :generated
+        request = create :solution_mentor_request, solution: solution
+        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission,
+          solution: solution,
+          analysis_status: :completed,
+          representation_status: :generated
+        create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_representation, submission: submission, ast_digest: "ast"
         create :exercise_representation,
           exercise: running,
+          source_submission: submission,
           feedback_markdown: "Exercise feedback",
           feedback_type: :essential,
           ast_digest: "ast",
@@ -212,7 +226,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_student_mentoring_session_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
           find("summary", text: "You received automated feedback").click
         end
 

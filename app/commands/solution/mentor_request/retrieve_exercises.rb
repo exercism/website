@@ -14,7 +14,7 @@ class Solution
           {
             slug: exercise.slug,
             title: exercise.title,
-            icon_name: exercise.icon_name,
+            icon_url: exercise.icon_url,
             count: request_counts[exercise.id].to_i,
             completed_by_mentor: completed_by_mentor.include?(exercise.id)
           }
@@ -38,7 +38,7 @@ class Solution
       def request_counts
         # Use the inner query for this
         Solution::MentorRequest::Retrieve.(
-          mentor,
+          mentor: mentor,
           track_slug: track.slug,
           sorted: false, paginated: false
         ).group('solutions.exercise_id').

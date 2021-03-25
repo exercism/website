@@ -17,7 +17,9 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_number: 120,
+          pr_title: "I did something"
         }
 
       use_capybara_host do
@@ -26,7 +28,7 @@ module Flows
         find(".c-primary-reputation").click
 
         assert_css ".--notification"
-        assert_link "You reviewed PR#120 on ruby/pulls", href: "#"
+        assert_link "You reviewed PR#120 on pulls: I did something", href: "#"
         assert_text "2 days ago"
         assert_text "50"
         assert_link "See how you earned all your reputation", href: reputation_journey_url
@@ -43,7 +45,9 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_number: 120,
+          pr_title: "Something else"
         }
 
       use_capybara_host do
@@ -67,7 +71,9 @@ module Flows
         params: {
           external_link: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
-          pr_id: 120
+          pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+          pr_number: 120,
+          pr_title: "Something else"
         }
 
       use_capybara_host do
@@ -94,14 +100,16 @@ module Flows
           created_at: 2.days.ago,
           params: {
             repo: "ruby/pulls",
-            pr_id: 120
+            pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+            pr_number: 120,
+            pr_title: "Something else"
           }
         ReputationChannel.broadcast_changed(user)
-        within(".c-primary-reputation") { assert_text "3" }
+        within(".c-primary-reputation") { assert_text "5" }
         assert_css ".--notification.unseen"
         find(".c-primary-reputation").click
 
-        assert_text "You reviewed PR#120 on ruby/pulls"
+        assert_text "You reviewed PR#120 on pulls: Something else"
       end
     end
   end

@@ -113,8 +113,10 @@ module Components
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
         solution = create :concept_solution, user: student
-        request = create :solution_mentor_request, solution: solution, comment: "Hello, Mentor", updated_at: 2.days.ago
+        request = create :solution_mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
+                                                   updated_at: 2.days.ago
         discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
+        create :iteration, idx: 2, solution: solution, created_at: Date.new(2016, 12, 25)
         iteration = create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
         create(:solution_mentor_discussion_post,
           discussion: discussion,
@@ -155,11 +157,11 @@ module Components
         assert_text "Iteration 1"
         assert_text "latest"
         assert_text "Submitted 2 days ago"
-        assert_text "failed"
+        assert_css ".c-iteration-processing-status", visible: false, text: "Failed"
 
         submission.update!(tests_status: :passed)
         IterationChannel.broadcast!(iteration)
-        assert_text "passed"
+        assert_css ".c-iteration-processing-status", visible: false, text: "Processing"
       end
 
       test "shows files per iteration" do
@@ -363,23 +365,22 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          click_on "Mark as nothing to do"
+          click_on "Remove from Inbox"
         end
 
         assert_text "Loading"
-        assert_no_text "Mark as nothing to do"
+        assert_no_text "Remove from Inbox"
       end
 
       test "mentor sees mentor notes" do
         mentor = create :user, handle: "author"
-        exercise = create :concept_exercise
+        exercise = create :concept_exercise, slug: "clock"
         solution = create :concept_solution, exercise: exercise
         discussion = create :solution_mentor_discussion,
           solution: solution,
           mentor: mentor,
           requires_mentor_action_since: 1.day.ago
         create :iteration, solution: solution
-        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
           sign_in!(mentor)

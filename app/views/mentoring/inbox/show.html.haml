@@ -1,0 +1,11 @@
+#mentor-inbox-page
+  = render ViewComponents::Mentor::Nav.new(:inbox)
+
+  .lg-container
+    %header.header
+      = graphical_icon "conversation-1", category: 'graphics'
+      %h2 Your Mentoring Inbox
+      .subtitle
+        The solutions that you've mentoring
+
+    = ReactComponents::Mentoring::Inbox.new

@@ -86,10 +86,16 @@ const highlightBlock = (block: HTMLElement): void => {
   if (hasLineNumbers) {
     block.innerHTML = wrapLineNumbers(block.innerHTML, lineNumberStart)
   }
+
+  block.dataset.highlighted = 'true'
 }
 
 export const highlightAll = (parent: ParentNode = document): void => {
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    if (block.dataset.highlighted === 'true') {
+      return
+    }
+
     highlightBlock(block)
   })
 }

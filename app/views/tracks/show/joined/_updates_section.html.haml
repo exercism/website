@@ -1,47 +1,42 @@
-%section.updates
-  %header
-    %h2
-      = graphical_icon(:updates)
-      Track updates
+%section.updates-section
+  .updates
+    .update
+      .icon
+        .c-concept-icon.c--medium St
+      .info
+        .desc
+          %strong erikschierboom
+          published a new concept
+          %strong Structs
+        %time 2 days ago
+      .faces
+        = avatar(User.first)
 
-    .updates
+    - exercise = track.exercises.first
+    - if exercise
       .update
         .icon
-          .c-concept-icon.c--medium St
+          = exercise_icon(exercise)
         .info
           .desc
-            %strong erikschierboom
-            published a new concept
-            %strong Structs
-          %time 2 days ago
+            %strong thelostlambda, WDNeumann and 3 others
+            published a new exercise
+            %strong= exercise.title
+          %time 3 days ago
         .faces
-          = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+          = avatar(User.first)
 
-      - exercise = track.exercises.first
-      - if exercise
-        .update
-          .icon
-            = exercise_icon(exercise)
-          .info
-            .desc
-              %strong thelostlambda, WDNeumann and 3 others
-              published a new exercise
-              %strong= exercise.title
-            %time 3 days ago
-          .faces
-            = rounded_bg_img("https://avatars3.githubusercontent.com/u/6624571?s=400&u=ca3801c9d18d8aa124738c8e8db470cbe5fd5814&v=4", "Erik SchierBOOM's uploaded avatar")
-
-      .update
-        .icon
-          .c-concept-icon.c--medium Bo
-        .info
-          .desc
-            %strong bobahop
-            updated the concept
-            %strong Booleans
-          %time 5 days ago
-        .faces
-          = rounded_bg_img("https://avatars0.githubusercontent.com/u/32035397?s=460&u=d7f6d89f81692c2c8970afb5923b56e771a8ed8e&v=4", "Erik SchierBOOM's uploaded avatar")
+    .update
+      .icon
+        .c-concept-icon.c--medium Bo
+      .info
+        .desc
+          %strong bobahop
+          updated the concept
+          %strong Booleans
+        %time 5 days ago
+      .faces
+        = avatar(User.first)
 
   = render ViewComponents::ProminentLink.new("See all #{track.title} updates", "#")
 

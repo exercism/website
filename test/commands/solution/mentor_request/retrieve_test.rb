@@ -19,7 +19,7 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
     expired = create :solution_mentor_request, locked_until: Time.current - 10.minutes, solution: solution
     pending = create :solution_mentor_request, solution: solution
 
-    assert_equal [expired, pending], Solution::MentorRequest::Retrieve.(user)
+    assert_equal [expired, pending], Solution::MentorRequest::Retrieve.(mentor: user)
   end
 
   test "does not retrieve own solutions" do
@@ -32,7 +32,20 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
     other_request = create :solution_mentor_request, solution: other_solution
     create :solution_mentor_request, solution: mentors_solution
 
-    assert_equal [other_request], Solution::MentorRequest::Retrieve.(user)
+    assert_equal [other_request], Solution::MentorRequest::Retrieve.(mentor: user)
+  end
+
+  test "returns all solutions without mentor" do
+    mentored_track = create :track
+    user = create :user
+
+    other_solution = create :concept_solution, track: mentored_track
+    mentors_solution = create :concept_solution, track: mentored_track, user: user
+
+    request_1 = create :solution_mentor_request, solution: other_solution
+    request_2 = create :solution_mentor_request, solution: mentors_solution
+
+    assert_equal [request_1, request_2], Solution::MentorRequest::Retrieve.()
   end
 
   test "only retrieves relevant tracks" do
@@ -43,8 +56,8 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
     good = create :solution_mentor_request, solution: create(:concept_solution, track: good_track)
     bad = create :solution_mentor_request, solution: create(:concept_solution, track: bad_track)
 
-    assert_equal [good, bad], Solution::MentorRequest::Retrieve.(user) # Sanity
-    assert_equal [good], Solution::MentorRequest::Retrieve.(user, track_slug: good_track.slug)
+    assert_equal [good, bad], Solution::MentorRequest::Retrieve.(mentor: user) # Sanity
+    assert_equal [good], Solution::MentorRequest::Retrieve.(mentor: user, track_slug: good_track.slug)
   end
 
   test "only retrieves relevant exercises from correct tracks" do
@@ -66,9 +79,9 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
     assert_equal [
       ruby_bob_req, js_bob_req,
       ruby_strings_req, js_strings_req
-    ], Solution::MentorRequest::Retrieve.(user) # Sanity
+    ], Solution::MentorRequest::Retrieve.(mentor: user) # Sanity
     assert_equal [ruby_bob_req],
-      Solution::MentorRequest::Retrieve.(user, track_slug: ruby.slug, exercise_slugs: [ruby_bob.slug])
+      Solution::MentorRequest::Retrieve.(mentor: user, track_slug: ruby.slug, exercise_slugs: [ruby_bob.slug])
   end
 
   test "orders by recency" do
@@ -81,8 +94,8 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
     first = create :solution_mentor_request, created_at: Time.current - 3.minutes, solution: solution
     third = create :solution_mentor_request, created_at: Time.current - 1.minute, solution: solution
 
-    assert_equal [first, second, third], Solution::MentorRequest::Retrieve.(user)
-    assert_equal [second, first, third], Solution::MentorRequest::Retrieve.(user, sorted: false)
+    assert_equal [first, second, third], Solution::MentorRequest::Retrieve.(mentor: user)
+    assert_equal [second, first, third], Solution::MentorRequest::Retrieve.(mentor: user, sorted: false)
   end
 
   test "pagination works" do
@@ -93,7 +106,7 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
 
     25.times { create :solution_mentor_request, solution: solution }
 
-    requests = Solution::MentorRequest::Retrieve.(user, page: 2)
+    requests = Solution::MentorRequest::Retrieve.(mentor: user, page: 2)
     assert_equal 2, requests.current_page
     assert_equal 3, requests.total_pages
     assert_equal 10, requests.limit_value
@@ -113,7 +126,7 @@ class Solution::MentorRequest::RetrieveTest < ActiveSupport::TestCase
 
     create :solution_mentor_request, solution: solution
 
-    requests = Solution::MentorRequest::Retrieve.(user, paginated: false)
+    requests = Solution::MentorRequest::Retrieve.(mentor: user, paginated: false)
     assert requests.is_a?(ActiveRecord::Relation)
     refute_respond_to requests, :current_page
   end

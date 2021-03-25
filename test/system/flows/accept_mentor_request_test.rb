@@ -23,7 +23,8 @@ module Flows
     test "shows request comment" do
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :solution_mentor_request, solution: solution, comment: "How to do this?", updated_at: 2.days.ago
+      request = create :solution_mentor_request, solution: solution, comment_markdown: "How to do this?",
+                                                 updated_at: 2.days.ago
       create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
 
       use_capybara_host do
@@ -41,7 +42,8 @@ module Flows
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :solution_mentor_request, solution: solution, comment: "How to do this?", updated_at: 2.days.ago
+      request = create :solution_mentor_request, solution: solution, comment_markdown: "How to do this?",
+                                                 updated_at: 2.days.ago
       create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
 
       use_capybara_host do

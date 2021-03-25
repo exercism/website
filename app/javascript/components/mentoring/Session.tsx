@@ -18,44 +18,17 @@ import { Tab, TabContext } from '../common/Tab'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { PostsWrapper } from './discussion/PostsContext'
 
+import {
+  MentorSessionRequest as Request,
+  Iteration,
+  MentorSessionDiscussion as Discussion,
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../types'
+
 export type Links = {
   mentorDashboard: string
   scratchpad: string
-}
-
-type RepresenterFeedbackAuthor = {
-  avatarUrl: string
-  name: string
-  reputation: number
-  profileUrl: string
-}
-
-export type RepresenterFeedback = {
-  html: string
-  author: RepresenterFeedbackAuthor
-}
-
-export type AnalyzerFeedbackComment = {
-  type: string
-  html: string
-}
-export type AnalyzerFeedback = {
-  summary: string
-  comments: AnalyzerFeedbackComment[]
-}
-
-export type Iteration = {
-  uuid: string
-  idx: number
-  numComments: number
-  unread: boolean
-  createdAt: string
-  testsStatus: string
-  analyzerFeedback?: AnalyzerFeedback
-  representerFeedback?: RepresenterFeedback
-  links: {
-    files: string
-  }
 }
 
 export type Student = {
@@ -71,17 +44,6 @@ export type Student = {
   links?: {
     favorite: string
   }
-}
-
-export type Track = {
-  title: string
-  iconUrl: string
-  highlightjsLanguage: string
-}
-
-export type Exercise = {
-  title: string
-  iconName: string
 }
 
 export type MentorSolution = {
@@ -107,27 +69,6 @@ export type StudentMentorRelationship = {
   }
 }
 
-export type Discussion = {
-  isFinished: boolean
-  id: string
-  links: {
-    posts: string
-    markAsNothingToDo?: string
-    finish: string
-  }
-}
-
-export type MentoringRequest = {
-  id: string
-  comment: string
-  updatedAt: string
-  links: {
-    lock: string
-    discussion: string
-  }
-  isLocked: boolean
-}
-
 export type SessionProps = {
   student: Student
   track: Track
@@ -139,7 +80,7 @@ export type SessionProps = {
   notes: string
   mentorSolution: MentorSolution
   relationship: StudentMentorRelationship
-  request: MentoringRequest
+  request: Request
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -219,10 +160,8 @@ export const Session = (props: SessionProps): JSX.Element => {
                 />
               ) : (
                 <RequestDetails
-                  iterations={iterations}
-                  student={student}
+                  iteration={iterations[iterations.length - 1]}
                   request={request}
-                  userId={userId}
                 />
               )}
             </Tab.Panel>

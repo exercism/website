@@ -1,7 +1,7 @@
 #page-dashboard
   = link_to journey_path, class: 'summary-bar' do
     .lg-container.container
-      = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+      = avatar(current_user)
       .info
         .handle @#{current_user.handle}
         .extra= current_user.name
@@ -48,16 +48,16 @@
       .lhs
         %section.actions-section
           = link_to tracks_path, class: 'action' do
-            = graphical_icon "graphic-bookworm"
+            = graphical_icon "bookworm", category: 'graphics'
             Continue learning on your tracks
-          = link_to mentoring_dashboard_path, class: 'action' do
-            = graphical_icon "graphic-phone-chat"
+          = link_to mentoring_inbox_path, class: 'action' do
+            = graphical_icon "phone-chat", category: 'graphics'
             Try your hand at mentoring
           = link_to "#", class: 'action' do
-            = graphical_icon "graphic-hacker-boy"
+            = graphical_icon "hacker-boy", category: 'graphics'
             Contribute to building Exercism
           = link_to "#", class: 'action' do
-            = graphical_icon "graphic-floating-cash"
+            = graphical_icon "floating-cash", category: 'graphics'
             Learn more about Exercism
 
         %section.posts-section
@@ -116,7 +116,7 @@
 
           .discussions
             = link_to "#", "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
-              = rounded_bg_img("https://avatars3.githubusercontent.com/u/135246?s=460&u=733b8575c8f0dbb5a52840c3efb2480b166c897a&v=4", "Erik SchierBOOM's uploaded avatar")
+              = avatar(User.first)
               .info
                 .handle @ErikSchierboom
                 .exercise on Lucians Luscious Lasagna
@@ -126,4 +126,4 @@
               %time 2m ago
               = graphical_icon :"chevron-right", css_class: "action-icon"
 
-          = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_dashboard_path)
+          = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)

@@ -21,7 +21,16 @@ class Markdown::RenderHTML
       out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
       out(' rel="nofollow"') if nofollow_links
+      out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
+    end
+
+    def link_tooltip_attributes(node)
+      link_match = %r{^(?<url>https://exercism.io)?/tracks/(?<track>[^/]+)/(?<type>concept|exercise)s/(?<slug>[^/#?]+)}.match(node.url) # rubocop:disable Layout/LineLength
+      return unless link_match
+
+      endpoint = Exercism::Routes.send("tooltip_track_#{link_match[:type]}_path", link_match[:track], link_match[:slug])
+      %( data-tooltip-type="#{link_match[:type]}" data-endpoint="#{endpoint}")
     end
 
     def code_block(node)

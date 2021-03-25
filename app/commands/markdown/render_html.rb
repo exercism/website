@@ -30,7 +30,7 @@ class Markdown::RenderHTML
       return unless link_match
 
       endpoint = Exercism::Routes.send("tooltip_track_#{link_match[:type]}_path", link_match[:track], link_match[:slug])
-      " data-tooltip-type=\"#{link_match[:type]}\" data-endpoint=\"#{endpoint}\""
+      %( data-tooltip-type="#{link_match[:type]}" data-endpoint="#{endpoint}")
     end
 
     def code_block(node)

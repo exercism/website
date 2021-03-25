@@ -6,7 +6,7 @@
         = graphical_icon(:mentoring, hex: true, css_class: "graphical-icon")
         .info
           %h2 Your mentoring slots
-          %p #{user_track.num_used_mentoring_slots} mentoring slot filled
+          %p #{pluralize user_track.num_used_mentoring_slots, 'mentoring slot'} filled
       .rhs
         %h3
           Your current Reputation is
@@ -28,14 +28,38 @@
 
   .lg-container.container
     .slots
-      - user_track.active_mentoring_discussions.each do |_discussion|
-        .discussion
-      - user_track.pending_mentoring_requests.each do |_request|
-        .request
+      - user_track.active_mentoring_discussions.each do |discussion|
+        = link_to track_exercise_mentor_discussion_path(track, discussion.exercise, discussion), class: "discussion" do
+          = exercise_icon discussion.exercise
+          .exercise-title= discussion.exercise.title
+          .mentor
+            with
+            = avatar(discussion.mentor)
+            .name= discussion.mentor.name
+
+          -# -if discussion.requires_student_action
+          .turn Your turn to respond
+
+          .comments
+            = graphical_icon :comment
+            #{discussion.posts.count} comments
+
+      - user_track.pending_mentoring_requests.each do |request|
+        = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do
+          = exercise_icon request.exercise
+          .exercise-title= request.exercise.title
+          %h4 Waiting on a mentor...
+          / TODO
+          .estimate Median wait time: ~2 hours
+
       - user_track.num_available_mentoring_slots.times do
-        .available-slot
+        %button.available-slot
+          %h4 Mentoring slot available
+          .btn-simple Select an exercise
+
       - user_track.num_locked_mentoring_slots.times do
         .locked-slot
           = graphical_icon "lock"
-          Mentoring slot locked
+          %h4 Mentoring slot locked
 
+    = render ViewComponents::ProminentLink.new("Learn more about getting mentored", "#")

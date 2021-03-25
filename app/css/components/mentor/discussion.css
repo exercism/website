@@ -83,6 +83,7 @@
         }
         & .discussion-footer {
             @apply flex items-center px-24;
+            z-index: 1;
 
             height: var(--footer-height);
             background: linear-gradient(
@@ -177,6 +178,7 @@
     & .rhs {
         @apply flex flex-col;
         @apply shadow-base bg-backgroundColorA;
+        z-index: 2;
         width: 570px;
         height: 100%;
         overflow: hidden;

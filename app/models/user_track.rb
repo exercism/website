@@ -49,7 +49,7 @@ class UserTrack < ApplicationRecord
 
   # TODO: Calculate and cache this somehow
   def num_locked_mentoring_slots
-    2
+    1
   end
 
   # TODO: Extract 4 into a constant

@@ -29,8 +29,7 @@ class Markdown::RenderHTML
       link_match = %r{^(?<url>https://exercism.io)?/tracks/(?<track>[a-zA-Z0-9_-]+)/(?<type>concept|exercise)s/(?<slug>[a-zA-Z0-9_-]+)}.match(node.url) # rubocop:disable Layout/LineLength
       return unless link_match
 
-      endpoint = Exercism::Routes.send("tooltip_track_#{link_match[:type]}_path", track_id: link_match[:track],
-                                                                                  id: link_match[:slug])
+      endpoint = Exercism::Routes.send("tooltip_track_#{link_match[:type]}_path", link_match[:track], link_match[:slug])
       " data-tooltip-type=\"#{link_match[:type]}\" data-endpoint=\"#{endpoint}\""
     end
 

@@ -8,7 +8,6 @@ class Mentor::Discussion < ApplicationRecord
   belongs_to :request, optional: true
 
   has_many :posts, class_name: "DiscussionPost",
-                   foreign_key: "discussion_id",
                    dependent: :destroy,
                    inverse_of: :discussion
   has_many :iterations, through: :solution

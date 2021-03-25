@@ -9,8 +9,8 @@ class Mentor::Request < ApplicationRecord
   has_one :track, through: :exercise
 
   belongs_to :locked_by, class_name: "User", optional: true
-  has_one :discussion, foreign_key: "request_id",
-                       inverse_of: :request, dependent: :nullify
+  has_one :discussion,
+    inverse_of: :request, dependent: :nullify
 
   scope :locked, -> { where("locked_until > ?", Time.current) }
   scope :unlocked, lambda {

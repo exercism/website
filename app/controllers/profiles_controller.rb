@@ -17,7 +17,7 @@ class ProfilesController < ApplicationController
   def tooltip
     expires_in 1.minute
 
-    render layout: false
+    render_template_as_json
   end
 
   private

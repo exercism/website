@@ -67,4 +67,14 @@ class ApplicationController < ActionController::Base
   def store_user_location!
     store_location_for(:user, request.fullpath)
   end
+
+  def render_template_as_json
+    render json: {
+      html: render_to_string(
+        template: "#{controller_name}/#{action_name}",
+        layout: false,
+        formats: [:html]
+      )
+    }
+  end
 end

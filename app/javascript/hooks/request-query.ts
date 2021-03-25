@@ -51,7 +51,7 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
     () => {
       return handleFetch(request, isMountedRef)
     },
-    camelizeKeys(request.options)
+    { refetchOnWindowFocus: false, ...camelizeKeys(request.options) }
   )
 }
 
@@ -65,6 +65,6 @@ export function useRequestQuery<TResult = unknown, TError = unknown>(
     () => {
       return handleFetch(request, isMountedRef)
     },
-    camelizeKeys(request.options)
+    { refetchOnWindowFocus: false, ...camelizeKeys(request.options) }
   )
 }

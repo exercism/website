@@ -17,18 +17,7 @@ class ProfilesController < ApplicationController
   def tooltip
     expires_in 1.minute
 
-    respond_to do |format|
-      format.json do
-        render json: {
-          html: render_to_string(
-            partial: "tooltip",
-            locals: { user: @user, profile: @profile },
-            layout: false,
-            formats: [:html]
-          )
-        }
-      end
-    end
+    render_template_as_json
   end
 
   private

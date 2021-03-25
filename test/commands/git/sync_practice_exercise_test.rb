@@ -72,6 +72,30 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     refute_includes exercise.prerequisites, time
   end
 
+  test "adds new practiced concepts defined in config.json" do
+    time = create :track_concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    dates = create :track_concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal [dates, time], exercise.practiced_concepts
+  end
+
+  test "removes practiced concepts that are not in config.json" do
+    time = create :track_concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    dates = create :track_concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    conditionals = create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
+    exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
+    exercise.practiced_concepts << dates
+    exercise.practiced_concepts << time
+    exercise.practiced_concepts << conditionals
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal [time, dates], exercise.practiced_concepts
+  end
+
   test "adds authors that are in .meta/config.json" do
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
     new_author = create :user, github_username: 'ErikSchierboom'

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PracticeExerciseTest < ActiveSupport::TestCase
-  test "that_practice returns correct exercise" do
+  test "with_prerequisite returns correct exercise" do
     ruby = create :track, slug: "ruby"
     js = create :track, slug: "js"
 
@@ -12,9 +12,25 @@ class PracticeExerciseTest < ActiveSupport::TestCase
     ce = create(:practice_exercise, track: ruby).tap { |e| e.prerequisites << ruby_bools }
     create(:practice_exercise, track: ruby).tap { |e| e.prerequisites << ruby_strings }
     create(:practice_exercise, track: js).tap { |e| e.prerequisites << js_bools }
-    create(:concept_exercise, track: ruby).tap { |e| e.prerequisites << ruby_bools }
+    create(:practice_exercise, track: ruby).tap { |e| e.practiced_concepts << ruby_bools }
 
-    assert_equal [ce], PracticeExercise.that_practice(ruby_bools)
+    assert_equal [ce], PracticeExercise.with_prerequisite(ruby_bools)
+  end
+
+  test "that_practice returns correct exercise" do
+    ruby = create :track, slug: "ruby"
+    js = create :track, slug: "js"
+
+    ruby_numbers = create :track_concept, track: ruby, slug: "numbers"
+    ruby_dates = create :track_concept, track: ruby, slug: "dates"
+    js_time = create :track_concept, track: js, slug: "time"
+
+    ce = create(:practice_exercise, track: ruby).tap { |e| e.practiced_concepts << ruby_numbers }
+    create(:practice_exercise, track: ruby).tap { |e| e.practiced_concepts << ruby_dates }
+    create(:practice_exercise, track: js).tap { |e| e.practiced_concepts << js_time }
+    create(:practice_exercise, track: ruby).tap { |e| e.prerequisites << ruby_numbers }
+
+    assert_equal [ce], PracticeExercise.that_practice(ruby_numbers)
   end
 
   test "instructions is correct" do

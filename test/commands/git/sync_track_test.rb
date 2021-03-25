@@ -144,6 +144,32 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     refute_includes track_concept_exercise.prerequisites, other_track_concept
   end
 
+  test "practice exercises use track concepts for prerequisites" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    track_concept = create :track_concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    other_track = create :track, slug: 'fsharp'
+    other_track_concept = create :track_concept, track: other_track, slug: 'dates'
+
+    Git::SyncTrack.(track)
+
+    track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    assert_includes track_practice_exercise.prerequisites, track_concept
+    refute_includes track_practice_exercise.prerequisites, other_track_concept
+  end
+
+  test "practice exercises use track concepts for practiced concepts" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    track_concept = create :track_concept, track: track, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    other_track = create :track, slug: 'fsharp'
+    other_track_concept = create :track_concept, track: other_track, slug: 'time'
+
+    Git::SyncTrack.(track)
+
+    track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    assert_includes track_practice_exercise.practiced_concepts, track_concept
+    refute_includes track_practice_exercise.practiced_concepts, other_track_concept
+  end
+
   test "adds new concept exercises defined in config.json" do
     track = create :track, synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24'
 

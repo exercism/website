@@ -18,7 +18,8 @@ module Git
         blurb: head_git_exercise.blurb,
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
-        prerequisites: find_concepts(exercise_config[:prerequisites])
+        prerequisites: find_concepts(exercise_config[:prerequisites]),
+        practiced_concepts: find_concepts(exercise_config[:practices])
       )
 
       SyncAuthors.(exercise)
@@ -38,7 +39,8 @@ module Git
       exercise_config[:slug] != exercise.slug ||
         exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
-        exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort
+        exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort ||
+        exercise_config[:practices].to_a.sort != exercise.practiced_concepts.map(&:slug).sort
     end
 
     def exercise_config_modified?

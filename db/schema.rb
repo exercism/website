@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_111409) do
+ActiveRecord::Schema.define(version: 2021_03_25_192009) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -191,6 +191,51 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
 
+  create_table "mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "discussion_id", null: false
+    t.bigint "iteration_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.boolean "seen_by_student", default: false, null: false
+    t.boolean "seen_by_mentor", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discussion_id"], name: "index_mentor_discussion_posts_on_discussion_id"
+    t.index ["iteration_id"], name: "index_mentor_discussion_posts_on_iteration_id"
+    t.index ["user_id"], name: "index_mentor_discussion_posts_on_user_id"
+  end
+
+  create_table "mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "solution_id", null: false
+    t.bigint "mentor_id", null: false
+    t.bigint "request_id"
+    t.datetime "requires_mentor_action_since"
+    t.datetime "requires_student_action_since"
+    t.datetime "finished_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
+    t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
+    t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
+  end
+
+  create_table "mentor_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "solution_id", null: false
+    t.integer "status", limit: 1, default: 0, null: false
+    t.text "comment_markdown", null: false
+    t.text "comment_html", null: false
+    t.bigint "locked_by_id"
+    t.datetime "locked_until"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["locked_by_id"], name: "index_mentor_requests_on_locked_by_id"
+    t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
+  end
+
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "mentor_id", null: false
     t.bigint "student_id", null: false
@@ -211,6 +256,8 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.text "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "published", default: true, null: false
+    t.datetime "deleted_at"
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
@@ -226,51 +273,6 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
-  end
-
-  create_table "solution_mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
-    t.bigint "discussion_id", null: false
-    t.bigint "iteration_id", null: false
-    t.bigint "user_id", null: false
-    t.text "content_markdown", null: false
-    t.text "content_html", null: false
-    t.boolean "seen_by_student", default: false, null: false
-    t.boolean "seen_by_mentor", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["discussion_id"], name: "index_solution_mentor_discussion_posts_on_discussion_id"
-    t.index ["iteration_id"], name: "index_solution_mentor_discussion_posts_on_iteration_id"
-    t.index ["user_id"], name: "index_solution_mentor_discussion_posts_on_user_id"
-  end
-
-  create_table "solution_mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
-    t.bigint "solution_id", null: false
-    t.bigint "mentor_id", null: false
-    t.bigint "request_id"
-    t.datetime "requires_mentor_action_since"
-    t.datetime "requires_student_action_since"
-    t.datetime "finished_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["mentor_id"], name: "index_solution_mentor_discussions_on_mentor_id"
-    t.index ["request_id"], name: "index_solution_mentor_discussions_on_request_id"
-    t.index ["solution_id"], name: "index_solution_mentor_discussions_on_solution_id"
-  end
-
-  create_table "solution_mentor_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
-    t.bigint "solution_id", null: false
-    t.integer "status", limit: 1, default: 0, null: false
-    t.text "comment_markdown"
-    t.bigint "locked_by_id"
-    t.datetime "locked_until"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.text "comment_html", null: false
-    t.index ["locked_by_id"], name: "index_solution_mentor_requests_on_locked_by_id"
-    t.index ["solution_id"], name: "index_solution_mentor_requests_on_solution_id"
   end
 
   create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -556,20 +558,20 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"
+  add_foreign_key "mentor_discussion_posts", "iterations"
+  add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
+  add_foreign_key "mentor_discussion_posts", "users"
+  add_foreign_key "mentor_discussions", "mentor_requests", column: "request_id"
+  add_foreign_key "mentor_discussions", "solutions"
+  add_foreign_key "mentor_discussions", "users", column: "mentor_id"
+  add_foreign_key "mentor_requests", "solutions"
+  add_foreign_key "mentor_requests", "users", column: "locked_by_id"
   add_foreign_key "mentor_student_relationships", "users", column: "mentor_id"
   add_foreign_key "mentor_student_relationships", "users", column: "student_id"
-  add_foreign_key "mentor_testimonials", "solution_mentor_discussions", column: "discussion_id"
+  add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
   add_foreign_key "scratchpad_pages", "users"
-  add_foreign_key "solution_mentor_discussion_posts", "iterations"
-  add_foreign_key "solution_mentor_discussion_posts", "solution_mentor_discussions", column: "discussion_id"
-  add_foreign_key "solution_mentor_discussion_posts", "users"
-  add_foreign_key "solution_mentor_discussions", "solution_mentor_requests", column: "request_id"
-  add_foreign_key "solution_mentor_discussions", "solutions"
-  add_foreign_key "solution_mentor_discussions", "users", column: "mentor_id"
-  add_foreign_key "solution_mentor_requests", "solutions"
-  add_foreign_key "solution_mentor_requests", "users", column: "locked_by_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"

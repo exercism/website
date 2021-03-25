@@ -19,9 +19,9 @@ class MentoringQueueTest < ReactComponentTestCase
     fred = create :practice_exercise, track: csharp, slug: :fred, title: "Fred"
 
     # Make some requests for each except fred
-    3.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: strings) }
-    2.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: zipper) }
-    4.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: bob) }
+    3.times { create :mentor_request, solution: create(:concept_solution, exercise: strings) }
+    2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     # Create mentor solutions to fred and zipper, with zipper completed
     create :concept_solution, user: user, exercise: fred

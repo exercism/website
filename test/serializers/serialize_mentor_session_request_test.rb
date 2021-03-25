@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SerializeMentorSessionRequestTest < ActiveSupport::TestCase
   test "serializes" do
-    request = create :solution_mentor_request
+    request = create :mentor_request
 
     expected = {
       id: request.uuid,

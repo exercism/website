@@ -4,7 +4,7 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
   test "serializes posts for author" do
     author = create :user, handle: "author"
     iteration = create :iteration, idx: 1
-    discussion_post = create(:solution_mentor_discussion_post,
+    discussion_post = create(:mentor_discussion_post,
       author: author,
       iteration: iteration,
       content_markdown: "Hello",
@@ -30,9 +30,9 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
   test "serializes posts for non-author" do
     user = create :user
     author = create :user, handle: "author"
-    discussion = create :solution_mentor_discussion, mentor: author
+    discussion = create :mentor_discussion, mentor: author
     iteration = create :iteration, idx: 1
-    discussion_post = create(:solution_mentor_discussion_post,
+    discussion_post = create(:mentor_discussion_post,
       discussion: discussion,
       iteration: iteration,
       content_markdown: "Hello",

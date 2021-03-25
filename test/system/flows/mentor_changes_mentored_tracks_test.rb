@@ -12,7 +12,7 @@ module Flows
       series = create :concept_exercise, title: "Series", track: csharp
       mentor = create :user
       create :user_track_mentorship, track: ruby, user: mentor
-      create :solution_mentor_request, exercise: series
+      create :mentor_request, exercise: series
 
       use_capybara_host do
         sign_in!(mentor)

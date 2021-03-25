@@ -6,7 +6,7 @@ class Tracks::MentorRequestsControllerTest < ActionDispatch::IntegrationTest
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, user: user, exercise: exercise
-    create :solution_mentor_request, solution: solution
+    create :mentor_request, solution: solution
 
     sign_in!(user)
     get new_track_exercise_mentor_request_url(track, exercise)
@@ -19,8 +19,8 @@ class Tracks::MentorRequestsControllerTest < ActionDispatch::IntegrationTest
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, user: user, exercise: exercise
-    request = create :solution_mentor_request, solution: solution, status: :fulfilled
-    discussion = create :solution_mentor_discussion, request: request
+    request = create :mentor_request, solution: solution, status: :fulfilled
+    discussion = create :mentor_discussion, request: request
 
     sign_in!(user)
 

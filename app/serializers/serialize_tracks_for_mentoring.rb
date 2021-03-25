@@ -33,7 +33,7 @@ class SerializeTracksForMentoring
 
   memoize
   def request_counts
-    Solution::MentorRequest::Retrieve.(
+    Mentor::Request::Retrieve.(
       mentor: mentor,
       sorted: false, paginated: false
     ).joins(solution: :exercise).

@@ -16,16 +16,16 @@ module Components
         track = create :track
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, user: student, exercise: exercise
-        request = create :solution_mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
-                                                   updated_at: 2.days.ago
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
+        request = create :mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
+                                          updated_at: 2.days.ago
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission, solution: solution
         iteration = create :iteration,
           idx: 1,
           solution: solution,
           created_at: Date.new(2016, 12, 25),
           submission: submission
-        create(:solution_mentor_discussion_post,
+        create(:mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
           author: mentor,
@@ -54,14 +54,14 @@ module Components
         track = create :track
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, user: student, exercise: exercise
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(student)
           visit track_exercise_mentor_discussion_path(track, exercise, discussion)
-          create(:solution_mentor_discussion_post,
+          create(:mentor_discussion_post,
             discussion: discussion,
             iteration: iteration,
             author: mentor,
@@ -82,7 +82,7 @@ module Components
         track = create :track
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, user: student, exercise: exercise
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission
 
@@ -106,10 +106,10 @@ module Components
         track = create :track
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, user: student, exercise: exercise
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
-        create(:solution_mentor_discussion_post,
+        create(:mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
           author: student,
@@ -135,7 +135,7 @@ module Components
         ruby = create :track, slug: "ruby"
         bob = create :concept_exercise, track: ruby
         solution = create :concept_solution, exercise: bob, user: student
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission_1 = create :submission, solution: solution
         create :submission_file,
           submission: submission_1,
@@ -161,7 +161,7 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission
 
@@ -181,7 +181,7 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission
 
@@ -208,8 +208,8 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        request = create :solution_mentor_request, solution: solution
-        discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: request
+        request = create :mentor_request, solution: solution
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission,
           solution: solution,
           analysis_status: :completed,

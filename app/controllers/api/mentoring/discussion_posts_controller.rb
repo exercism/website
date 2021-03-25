@@ -15,7 +15,7 @@ module API
     end
 
     def create
-      post = Solution::MentorDiscussion::ReplyByMentor.(
+      post = Mentor::Discussion::ReplyByMentor.(
         @discussion,
         @discussion.iterations.last,
         params[:content]
@@ -27,7 +27,7 @@ module API
     end
 
     def update
-      post = Solution::MentorDiscussionPost.find_by(uuid: params[:id])
+      post = Mentor::DiscussionPost.find_by(uuid: params[:id])
 
       return render_404(:mentor_discussion_post_not_found) if post.blank?
       return render_403(:mentor_discussion_post_not_accessible) unless post.author == current_user
@@ -42,7 +42,7 @@ module API
 
     private
     def use_mentor_discussion
-      @discussion = Solution::MentorDiscussion.find_by(uuid: params[:discussion_id])
+      @discussion = Mentor::Discussion.find_by(uuid: params[:discussion_id])
       return render_404(:mentor_discussion_not_found) unless @discussion
       return render_403(:mentor_discussion_not_accessible) unless @discussion.mentor_id == current_user.id
     end

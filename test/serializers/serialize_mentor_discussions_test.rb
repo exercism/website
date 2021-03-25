@@ -7,12 +7,12 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
-    discussion = create :solution_mentor_discussion,
+    discussion = create :mentor_discussion,
       :requires_mentor_action,
       solution: solution,
       mentor: mentor
 
-    discussions = Solution::MentorDiscussion::Retrieve.(mentor, page: 1)
+    discussions = Mentor::Discussion::Retrieve.(mentor, page: 1)
 
     expected = [
       {

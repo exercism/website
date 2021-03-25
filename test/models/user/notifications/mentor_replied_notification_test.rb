@@ -8,7 +8,7 @@ class User::Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSup
     solution = create :practice_solution, exercise: exercise, user: user
     iteration = create :iteration, solution: solution
     mentor = create(:user)
-    discussion_post = create(:solution_mentor_discussion_post, iteration: iteration, author: mentor)
+    discussion_post = create(:mentor_discussion_post, iteration: iteration, author: mentor)
 
     notification = User::Notifications::MentorRepliedToDiscussionNotification.create!(
       user: user,

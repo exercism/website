@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
+class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
   test "serializes correctly" do
     user = create :user
 
@@ -25,10 +25,10 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
     elixir_exercise = create :practice_exercise, track: elixir, slug: :erik, title: "Erik"
 
     # Make some requests for each except fred
-    3.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: strings) }
-    2.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: zipper) }
-    4.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: bob) }
-    4.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: elixir_exercise) }
+    3.times { create :mentor_request, solution: create(:concept_solution, exercise: strings) }
+    2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: elixir_exercise) }
 
     expected = {
       tracks: [
@@ -85,9 +85,9 @@ class Solution::MentorRequest::RetrieveTracksTest < ActiveSupport::TestCase
     create :practice_exercise, track: csharp, slug: :fred, title: "Fred"
 
     # Make some requests for each except fred
-    3.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: strings) }
-    2.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: zipper) }
-    4.times { create :solution_mentor_request, solution: create(:concept_solution, exercise: bob) }
+    3.times { create :mentor_request, solution: create(:concept_solution, exercise: strings) }
+    2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     expected = {
       tracks: [

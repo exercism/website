@@ -53,7 +53,7 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
 
   test "mentoring discussion in progress" do
     solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
     assert SerializeSolutionForStudent.(solution)[:has_mentor_discussion_in_progress]
 
     discussion.update!(finished_at: Time.current)
@@ -62,7 +62,7 @@ class SerializeSolutionForStudentTest < ActiveSupport::TestCase
 
   test "mentoring request pending" do
     solution = create :concept_solution, completed_at: Time.current, published_at: Time.current
-    request = create :solution_mentor_request, solution: solution
+    request = create :mentor_request, solution: solution
     assert SerializeSolutionForStudent.(solution)[:has_mentor_request_pending]
 
     request.update!(status: :fulfilled)

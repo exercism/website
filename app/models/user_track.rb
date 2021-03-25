@@ -39,12 +39,12 @@ class UserTrack < ApplicationRecord
 
   memoize
   def active_mentoring_discussions
-    Solution::MentorDiscussion.where(solution: solutions).in_progress
+    Mentor::Discussion.where(solution: solutions).in_progress
   end
 
   memoize
   def pending_mentoring_requests
-    Solution::MentorRequest.where(solution: solutions).pending
+    Mentor::Request.where(solution: solutions).pending
   end
 
   # TODO: Calculate and cache this somehow

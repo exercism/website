@@ -13,7 +13,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    request = create :solution_mentor_request, locked_by: create(:user), locked_until: Time.current + 5.minutes
+    request = create :mentor_request, locked_by: create(:user), locked_until: Time.current + 5.minutes
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)
@@ -23,7 +23,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    request = create :solution_mentor_request, status: :cancelled
+    request = create :mentor_request, status: :cancelled
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)
@@ -33,7 +33,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    request = create :solution_mentor_request, status: :fulfilled
+    request = create :mentor_request, status: :fulfilled
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)
@@ -43,8 +43,8 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    request = create :solution_mentor_request, status: :fulfilled
-    discussion = create :solution_mentor_discussion, request: request, mentor: mentor
+    request = create :mentor_request, status: :fulfilled
+    discussion = create :mentor_discussion, request: request, mentor: mentor
 
     get mentoring_request_path(request)
     assert_redirected_to mentoring_discussion_path(discussion)
@@ -54,8 +54,8 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    request = create :solution_mentor_request, status: :fulfilled
-    create :solution_mentor_discussion, request: request
+    request = create :mentor_request, status: :fulfilled
+    create :mentor_discussion, request: request
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)

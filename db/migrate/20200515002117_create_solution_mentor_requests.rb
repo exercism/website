@@ -8,7 +8,8 @@ class CreateSolutionMentorRequests < ActiveRecord::Migration[6.0]
       t.integer :status, null: false, limit: 1, default: 0
       t.integer :type, null: false, limit: 1
 
-      t.text :comment, null: true
+      t.text :comment_markdown, null: false
+      t.text :comment_html, null: false
 
       t.belongs_to :locked_by, foreign_key: { to_table: :users }, null: true
       t.datetime :locked_until, null: true

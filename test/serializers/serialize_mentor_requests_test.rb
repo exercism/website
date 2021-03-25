@@ -6,10 +6,10 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: mentee
-    request = create :solution_mentor_request, solution: solution
+    request = create :mentor_request, solution: solution
     mentor = create :user
 
-    requests = Solution::MentorRequest::Retrieve.(mentor: mentor)
+    requests = Mentor::Request::Retrieve.(mentor: mentor)
 
     expected = [
       {

@@ -36,18 +36,18 @@
 #     track = create :track, slug: 'ruby'
 #     exercise = create :concept_exercise, track: track, slug: 'bob'
 #     solution = create :concept_solution, exercise: exercise
-#     discussion = create :solution_mentor_discussion, solution: solution
+#     discussion = create :mentor_discussion, solution: solution
 
 #     data = SerializeSolutionActivity.(solution)
 #     assert_equal 0, data[:solution][:num_mentor_comments]
 #     refute data[:solution][:unread_mentor_comments]
 
-#     create :solution_mentor_discussion_post, discussion: discussion, seen_by_student: true
+#     create :mentor_discussion_post, discussion: discussion, seen_by_student: true
 #     data = SerializeSolutionActivity.(solution.reload)
 #     assert_equal 1, data[:solution][:num_mentor_comments]
 #     refute data[:solution][:unread_mentor_comments]
 
-#     create :solution_mentor_discussion_post, discussion: discussion, seen_by_student: false
+#     create :mentor_discussion_post, discussion: discussion, seen_by_student: false
 #     data = SerializeSolutionActivity.(solution.reload)
 #     assert_equal 2, data[:solution][:num_mentor_comments]
 #     assert data[:solution][:unread_mentor_comments]

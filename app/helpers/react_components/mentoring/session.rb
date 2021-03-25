@@ -37,12 +37,12 @@ module ReactComponents
 
       memoize
       def request
-        ::Solution::MentorRequest.find_by(solution: solution)
+        ::Mentor::Request.find_by(solution: solution)
       end
 
       memoize
       def discussion
-        ::Solution::MentorDiscussion.find_by(solution: solution, mentor: current_user)
+        ::Mentor::Discussion.find_by(solution: solution, mentor: current_user)
       end
 
       memoize
@@ -60,7 +60,7 @@ module ReactComponents
 
       def iterations
         if discussion
-          comment_counts = ::Solution::MentorDiscussionPost.
+          comment_counts = ::Mentor::DiscussionPost.
             where(discussion: discussion).
             group(:iteration_id, :seen_by_mentor).
             count

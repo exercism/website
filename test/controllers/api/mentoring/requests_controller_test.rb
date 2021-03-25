@@ -14,7 +14,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     track_slug = "ruby"
     exercise_slugs = %w[bob lasagna]
 
-    ::Solution::MentorRequest::Retrieve.expects(:call).with(
+    ::Mentor::Request::Retrieve.expects(:call).with(
       mentor: user,
       page: page,
       track_slug: track_slug,
@@ -23,14 +23,14 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
       paginated: false
     ).returns(mock(count: 200))
 
-    Solution::MentorRequest::Retrieve.expects(:call).with(
+    Mentor::Request::Retrieve.expects(:call).with(
       mentor: user,
       page: page,
       criteria: "Ruby",
       order: "recent",
       track_slug: track_slug,
       exercise_slugs: exercise_slugs
-    ).returns(Solution::MentorRequest.page(1).per(1))
+    ).returns(Mentor::Request.page(1).per(1))
 
     get api_mentoring_requests_path, params: {
       page: page,
@@ -47,8 +47,8 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     mentored_track = create :track
     solution = create :concept_solution, track: mentored_track
-    request = create :solution_mentor_request, created_at: Time.current - 2.minutes, solution: solution
-    50.times { create :solution_mentor_request, solution: solution }
+    request = create :mentor_request, created_at: Time.current - 2.minutes, solution: solution
+    50.times { create :mentor_request, solution: solution }
 
     get api_mentoring_requests_path, headers: @headers, as: :json
     assert_response 200
@@ -70,7 +70,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "locks should succeed" do
     user = create :user
     setup_user(user)
-    request = create :solution_mentor_request
+    request = create :mentor_request
 
     patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
@@ -89,7 +89,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     slug = 'ruby'
     output = { 'foo' => 'bar' }
 
-    ::Solution::MentorRequest::RetrieveExercises.expects(:call).with(@current_user, slug).returns(output)
+    ::Mentor::Request::RetrieveExercises.expects(:call).with(@current_user, slug).returns(output)
 
     get exercises_api_mentoring_requests_path, params: { track_slug: slug }, headers: @headers, as: :json
     assert_equal output, JSON.parse(response.body)

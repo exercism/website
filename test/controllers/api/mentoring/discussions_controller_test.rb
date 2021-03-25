@@ -13,7 +13,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
 
-    discussion = create :solution_mentor_discussion, :requires_mentor_action, mentor: user
+    discussion = create :mentor_discussion, :requires_mentor_action, mentor: user
 
     get api_mentoring_discussions_path, headers: @headers, as: :json
     assert_response 200
@@ -35,12 +35,12 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     series = create :concept_exercise, title: "Series", track: ruby
     series_solution = create :concept_solution, exercise: series
-    create :solution_mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: @current_user
+    create :mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: @current_user
 
     tournament = create :concept_exercise, title: "Tournament", track: go
     tournament_solution = create :concept_solution, exercise: tournament
-    create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
-    create :solution_mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
+    create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
+    create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
 
     get tracks_api_mentoring_discussions_path(per: 1), headers: @headers, as: :json
     assert_response 200
@@ -73,7 +73,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   test "create should 400 if the request is locked" do
     setup_user
 
-    mentor_request = create :solution_mentor_request, :locked
+    mentor_request = create :mentor_request, :locked
     post api_mentoring_discussions_path(mentor_request_id: mentor_request), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
@@ -90,7 +90,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     solution = create :concept_solution
     create :iteration, solution: solution, idx: 1
     it_2 = create :iteration, solution: solution, idx: 2
-    mentor_request = create :solution_mentor_request, solution: solution
+    mentor_request = create :mentor_request, solution: solution
 
     content = "foo to the baaar"
 
@@ -104,7 +104,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     assert_response :success
 
-    discussion = Solution::MentorDiscussion.last
+    discussion = Mentor::Discussion.last
     assert_equal mentor_request, discussion.request
     assert_equal user, discussion.mentor
     assert_equal solution, discussion.solution
@@ -134,7 +134,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
   test "mark_as_nothing_to_do should return 403 when the discussion is not accessible" do
     setup_user
-    discussion = create :solution_mentor_discussion
+    discussion = create :mentor_discussion
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
@@ -150,7 +150,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   test "mark_as_nothing_to_do should return 403 when the user is not the mentor" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
@@ -165,7 +165,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
   test "mark_as_nothing_to_do should return 200 when the discussion is not accessible" do
     setup_user
-    discussion = create :solution_mentor_discussion, mentor: @current_user
+    discussion = create :mentor_discussion, mentor: @current_user
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 

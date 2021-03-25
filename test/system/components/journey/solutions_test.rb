@@ -43,12 +43,16 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          click_on "2"
-        end
-        sleep(0.1)
 
-        assert_text "Bob"
-        assert_no_text "Lasagna"
+          assert_text "Lasagna"
+          assert_no_text "Bob"
+
+          click_on "2"
+          sleep(1)
+
+          assert_text "Bob"
+          assert_no_text "Lasagna"
+        end
       end
 
       test "searches solutions" do

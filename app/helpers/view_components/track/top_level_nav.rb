@@ -35,7 +35,7 @@ module ViewComponents
         tag.div(class: "people") do
           tag.div(class: "c-faces") do
             safe_join(
-              track.contributors.limit(10)[0, 3].map do |author|
+              track.top_10_contributors[0, 3].map do |author|
                 tag.div(avatar(author), class: 'face')
               end
             )

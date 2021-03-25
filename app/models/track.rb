@@ -51,7 +51,7 @@ class Track < ApplicationRecord
     User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
   end
 
-  def contributors
+  def top_10_contributors
     user_ids = User::ReputationToken.where(track_id: id).
       group(:user_id).
       select("user_id, COUNT(*) as c").

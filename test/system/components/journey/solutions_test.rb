@@ -44,11 +44,10 @@ module Components
           sign_in!(user)
           visit solutions_journey_path
           click_on "2"
-        end
-        sleep(1)
 
-        assert_text "Bob"
-        assert_no_text "Lasagna"
+          assert_text "Bob"
+          assert_no_text "Lasagna"
+        end
       end
 
       test "searches solutions" do

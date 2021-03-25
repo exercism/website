@@ -43,10 +43,10 @@ module Components
           sign_in!(user)
           visit reputation_journey_path
           click_on "2"
-        end
 
-        assert_text strip_tags(review_token.text)
-        assert_no_text strip_tags(contribution_token.text)
+          assert_text strip_tags(review_token.text)
+          assert_no_text strip_tags(contribution_token.text)
+        end
       end
 
       test "sorts contributions" do

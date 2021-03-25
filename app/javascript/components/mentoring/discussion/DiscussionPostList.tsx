@@ -1,15 +1,14 @@
 import React, { useEffect, useMemo, useContext } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
-import { useQuery, queryCache } from 'react-query'
+import { queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { DiscussionPostChannel } from '../../../channels/discussionPostChannel'
 import { Loading } from '../../common/Loading'
 import { Iteration } from '../../types'
-import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { typecheck } from '../../../utils/typecheck'
 import { IterationMarker } from '../session/IterationMarker'
 import { PostsContext } from './PostsContext'
+import { useRequestQuery } from '../../../hooks/request-query'
 
 type IterationWithPost = Iteration & { posts: DiscussionPostProps[] }
 
@@ -28,21 +27,16 @@ export const DiscussionPostList = ({
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
-  const { status, data } = useQuery<DiscussionPostProps[]>(cacheKey, () => {
-    return sendRequest({
-      endpoint: endpoint,
-      method: 'GET',
-      body: null,
-      isMountedRef: isMountedRef,
-    }).then((json) => {
-      return typecheck<DiscussionPostProps[]>(json, 'posts')
-    })
-  })
+  const { status, data } = useRequestQuery<{ posts: DiscussionPostProps[] }>(
+    cacheKey,
+    { endpoint: endpoint, options: {} },
+    isMountedRef
+  )
   const iterationsWithPosts = useMemo(() => {
     return iterations.reduce<IterationWithPost[]>(
       (iterationsWithPosts, iteration) => {
-        const posts = data
-          ? data.filter((post) => post.iterationIdx === iteration.idx)
+        const posts = data?.posts
+          ? data.posts.filter((post) => post.iterationIdx === iteration.idx)
           : []
 
         iterationsWithPosts.push({
@@ -59,7 +53,7 @@ export const DiscussionPostList = ({
     (iteration) => iteration.posts.length !== 0
   )
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(
-    data,
+    data?.posts,
     userId
   )
 

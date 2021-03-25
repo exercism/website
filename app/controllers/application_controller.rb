@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  extend Mandate::Memoize
+
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -68,10 +70,17 @@ class ApplicationController < ActionController::Base
     store_location_for(:user, request.fullpath)
   end
 
+  memoize
+  def namespace_name
+    controller_parts = self.class.name.underscore.split("/")
+    controller_parts.size > 1 ? controller_parts[0] : nil
+  end
+  helper_method :namespace_name
+
   def render_template_as_json
     render json: {
       html: render_to_string(
-        template: "#{controller_name}/#{action_name}",
+        template: [namespace_name, controller_name, action_name].compact.join('/'),
         layout: false,
         formats: [:html]
       )

@@ -3,7 +3,7 @@ class Tracks::ConceptsController < ApplicationController
   before_action :use_concepts, only: :index
   before_action :use_concept, only: %i[show tooltip start complete]
 
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
     @concept_map_data = Track::DetermineConceptMapLayout.(@track)
@@ -24,7 +24,7 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
-    render layout: false
+    render_template_as_json
   end
 
   private

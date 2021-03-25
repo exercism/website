@@ -27,6 +27,43 @@ module Flows
       assert_text "Failed"
     end
 
+    test "opens newest iteration when there are no iterations open" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+      submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
+      create :iteration, idx: 2, solution: solution, submission: submission
+      create :submission_file, submission: submission
+
+      sign_in!(user)
+      visit track_exercise_iterations_url(track, exercise)
+      find("summary").click
+
+      create :iteration, idx: 3, solution: solution
+      SolutionChannel.broadcast!(solution)
+      assert_equal find("details", text: "Iteration 3")['open'], "true"
+    end
+
+    test "does not open newest iteration when there are iterations open" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+      submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
+      create :iteration, idx: 2, solution: solution, submission: submission
+      create :submission_file, submission: submission
+
+      sign_in!(user)
+      visit track_exercise_iterations_url(track, exercise)
+
+      create :iteration, idx: 3, solution: solution
+      SolutionChannel.broadcast!(solution)
+      assert_equal "false", find("details", text: "Iteration 3")['open']
+    end
+
     test "user sees zero state" do
       user = create :user
       track = create :track

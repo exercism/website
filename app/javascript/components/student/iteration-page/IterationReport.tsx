@@ -11,7 +11,7 @@ export const IterationReport = ({
   exercise,
   track,
   links,
-  defaultIsOpen,
+  isOpen,
   onExpanded,
   onCompressed,
 }: {
@@ -19,27 +19,19 @@ export const IterationReport = ({
   exercise: Exercise
   track: Track
   links: Links
-  defaultIsOpen: boolean
+  isOpen: boolean
   onExpanded: () => void
   onCompressed: () => void
 }): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(defaultIsOpen)
-
-  useEffect(() => {
-    if (isOpen) {
-      onExpanded()
-    } else {
-      onCompressed()
-    }
-  }, [isOpen])
-
   return (
-    <details open={defaultIsOpen} className="iteration c-details">
+    <details open={isOpen} className="iteration c-details">
       <summary
         className="header"
         role="button"
-        onClick={() => {
-          setIsOpen((prev) => !prev)
+        onClick={(e) => {
+          e.preventDefault()
+
+          isOpen ? onCompressed() : onExpanded()
         }}
       >
         <IterationSummary iteration={iteration} />

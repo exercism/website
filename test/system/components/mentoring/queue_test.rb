@@ -34,7 +34,7 @@ module Components
       end
 
       test "paginates results" do
-        Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor
@@ -56,7 +56,7 @@ module Components
       end
 
       test "filter by query" do
-        Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor
@@ -79,7 +79,7 @@ module Components
       end
 
       test "sort by student" do
-        Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor
@@ -102,7 +102,7 @@ module Components
       end
 
       test "filters by language track" do
-        Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
         create :user_track_mentorship, track: ruby, user: mentor
@@ -127,7 +127,7 @@ module Components
       end
 
       test "filters by exercise" do
-        Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         mentee = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
@@ -171,7 +171,7 @@ module Components
       end
 
       test "shows counts" do
-        Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor

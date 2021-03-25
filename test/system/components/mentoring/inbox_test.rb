@@ -34,7 +34,7 @@ module Components
       end
 
       test "paginates results" do
-        Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+        ::Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
         mentor = create :user
         series = create :concept_exercise, title: "Series"
         series_solution = create :concept_solution, exercise: series
@@ -59,7 +59,7 @@ module Components
       end
 
       test "filters by track" do
-        Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+        ::Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
 
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
@@ -84,7 +84,7 @@ module Components
       end
 
       test "filter by query" do
-        Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+        ::Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
         go = create :track, title: "Go", slug: "go"
@@ -111,7 +111,7 @@ module Components
       end
 
       test "sort by student" do
-        Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+        ::Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
         mentor = create :user
         ruby = create :track, title: "Ruby", slug: "ruby"
         go = create :track, title: "Go", slug: "go"

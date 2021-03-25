@@ -7,7 +7,7 @@
     line-height: 1.25;
 }
 .text-h3 {
-    @apply text-25 text-textColor2 font-semibold;
+    @apply text-24 text-textColor2 font-semibold;
     line-height: 1.48;
 }
 .text-h3-mono {

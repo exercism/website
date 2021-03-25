@@ -283,4 +283,84 @@
             @apply mb-32;
         }
     }
+    & .upsell-section {
+        @apply bg-backgroundColorA;
+        @apply py-64 mb-64;
+
+        & .container {
+            @apply flex flex-col items-center;
+        }
+
+        & .feature {
+            @apply flex items-center justify-between relative;
+            @apply mb-128;
+
+            & .info {
+                max-width: 680px;
+
+                & .c-icon.small-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply mb-12;
+                }
+                & h3 {
+                    @apply text-h2 mb-12;
+                }
+                & p {
+                    @apply text-p-large mb-16;
+                }
+            }
+            & .c-icon.graphic {
+                height: 240px;
+                width: 240px;
+            }
+            &:nth-child(odd) {
+                & .c-icon.graphic {
+                    @apply ml-64;
+                }
+            }
+            &:nth-child(even) {
+                @apply flex-row-reverse;
+                & .c-icon.graphic {
+                    @apply mr-64;
+                }
+            }
+            &:nth-child(1) {
+                &:after {
+                    content: "";
+                    background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjIgMTQxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMCAxQzQ1LjkxNjcgMSAxNi4wODMzIDE0MCA2MiAxNDAiIHN0cm9rZT0iI0NCQzlEOSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI0IDYiLz4KPC9zdmc+Cg==");
+                    position: absolute;
+                    height: 141px;
+                    width: 62px;
+                    left: 50%;
+                    bottom: -130px;
+                }
+            }
+            &:nth-child(2) {
+                &:after {
+                    content: "";
+                    background-image: url("data:image/svg+xml;base64,PHN2ZyAgdmlld0JveD0iMCAwIDM4NSAxMzgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zNzguNzAyIDFDMzk1LjYxMyAxIDM5NS42MTMgMTM3IDAgMTM3IiBzdHJva2U9IiNDQkM5RDkiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCA2Ii8+Cjwvc3ZnPgo=");
+                    position: absolute;
+                    width: 385px;
+                    height: 138px;
+                    right: 130px;
+                    bottom: -170px;
+                }
+            }
+        }
+        & .cta {
+            @apply flex flex-col items-center;
+            & .c-track-icon {
+                height: 80px;
+                width: 80px;
+                @apply mb-24;
+            }
+            & h3 {
+                @apply text-h3 mb-12;
+            }
+            & p {
+                @apply text-p-large mb-24;
+            }
+        }
+    }
 }

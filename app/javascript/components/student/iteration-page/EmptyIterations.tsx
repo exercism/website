@@ -47,7 +47,7 @@ export const EmptyIterations = ({ links }: { links: Links }): JSX.Element => {
   )
 
   return (
-    <div className="md-container.container">
+    <div className="lg-container container">
       <section className="zero-state">
         <h2>You haven’t submitted any iterations yet.</h2>
         <p>
@@ -64,7 +64,7 @@ export const EmptyIterations = ({ links }: { links: Links }): JSX.Element => {
               className="editor-btn btn-cta"
             >
               <GraphicalIcon icon="editor" />
-              Start in Editor
+              <span>Start in Editor</span>
             </FormButton>
             <FetchingBoundary
               status={status}

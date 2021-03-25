@@ -69,6 +69,7 @@
     @apply flex items-center justify-center px-20;
     @apply border-2 border-buttonBorderColor1 rounded-5;
     @apply text-16 font-semibold;
+    white-space: nowrap;
     height: 48px;
 
     & > .c-icon {

@@ -27,7 +27,7 @@
                 @apply mr-32;
             }
             & .c-copy-text-to-clipboard {
-                width: 370px;
+                @apply w-100;
             }
         }
     }

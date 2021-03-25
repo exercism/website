@@ -5,6 +5,8 @@ module ViewComponents
 
       initialize_with :track, :selected_tab
 
+      # TODO: Cache this:
+      # [track.id, selected_tab, track.updated_at, Date.today]
       def to_s
         guard!
 
@@ -33,7 +35,7 @@ module ViewComponents
         tag.div(class: "people") do
           tag.div(class: "c-faces") do
             safe_join(
-              track.top_10_contributors[0, 3].map do |author|
+              track.contributors.limit(10)[0, 3].map do |author|
                 tag.div(avatar(author), class: 'face')
               end
             )

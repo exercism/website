@@ -10,11 +10,11 @@ class Exercise < ApplicationRecord
 
   belongs_to :track
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy  - exercises should never be destroyed
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
     inverse_of: :exercise,
@@ -23,7 +23,7 @@ class Exercise < ApplicationRecord
     through: :exercise_prerequisites,
     source: :concept
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :authorships,
     class_name: "Exercise::Authorship",
     inverse_of: :exercise,
@@ -32,7 +32,7 @@ class Exercise < ApplicationRecord
     through: :authorships,
     source: :author
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :contributorships,
     class_name: "Exercise::Contributorship",
     inverse_of: :exercise,
@@ -74,7 +74,7 @@ class Exercise < ApplicationRecord
     )
   end
 
-  # TODO: Implement this properly
+  # TODO: Delete once icon_url is implemented above
   def icon_name
     if title[0].ord < 70
       suffix = "queen-attack"

@@ -38,4 +38,37 @@ class PracticeExerciseTest < ActiveSupport::TestCase
     expected = "# Instructions\n\nInstructions for bob\n"
     assert_equal expected, exercise.instructions
   end
+
+  test "concept_exercises" do
+    concept = create :track_concept
+    exercise = create :concept_exercise
+    create :exercise_taught_concept, concept: concept, exercise: exercise
+
+    # Create a random different one
+    create :exercise_taught_concept
+
+    assert_equal [exercise], concept.concept_exercises
+  end
+
+  test "practice_exercises" do
+    concept = create :track_concept
+    exercise = create :practice_exercise
+    create :exercise_practiced_concept, concept: concept, exercise: exercise
+
+    # Create a random different one
+    create :exercise_taught_concept
+
+    assert_equal [exercise], concept.practice_exercises
+  end
+
+  test "unlocked_exercises" do
+    concept = create :track_concept
+    exercise = create :practice_exercise
+    create :exercise_prerequisite, concept: concept, exercise: exercise
+
+    # Create a random different one
+    create :exercise_taught_concept
+
+    assert_equal [exercise], concept.unlocked_exercises
+  end
 end

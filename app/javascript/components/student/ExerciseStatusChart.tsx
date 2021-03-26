@@ -92,7 +92,7 @@ const ExerciseStatusDot = ({
       <ReferenceElement
         ref={setButtonElement}
         onMouseEnter={() => setOpen(true)}
-        /*onMouseLeave={() => setOpen(false)}*/
+        onMouseLeave={() => setOpen(false)}
         className={classNames.join(' ')}
         link={links.exercise}
       />

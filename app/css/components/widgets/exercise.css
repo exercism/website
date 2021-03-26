@@ -25,7 +25,7 @@
             }
 
             & .--track {
-                @apply flex items-center;
+                @apply flex-shrink-0 flex items-center;
                 @apply ml-8;
                 @apply text-14 leading-160 font-normal;
                 & .c-track-icon {
@@ -98,6 +98,8 @@
     }
     &.--tooltip {
         @apply py-20 px-24 w-100;
+        @apply bg-backgroundColorA;
+        width: 460px;
         & .--blurb {
             margin-left: -80px;
         }

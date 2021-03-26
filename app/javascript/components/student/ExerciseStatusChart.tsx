@@ -96,7 +96,12 @@ const ExerciseStatusDot = ({
         className={classNames.join(' ')}
         link={links.exercise}
       />
-      <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
+      <div
+        className="tw-z-tooltip"
+        ref={setPanelElement}
+        style={styles.popper}
+        {...attributes.popper}
+      >
         {open ? (
           <FetchingBoundary
             status={status}

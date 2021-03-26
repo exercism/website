@@ -18,7 +18,7 @@ module ReactComponents
         super("common-exercise-widget", {
           exercise: SerializeExercise.(exercise, user_track: user_track),
           track: SerializeTrack.(exercise.track, user_track),
-          solution: SerializeSolutionForStudent.(solution),
+          solution: solution ? SerializeSolutionForStudent.(solution) : nil,
           size: size
         })
       end

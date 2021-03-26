@@ -1,7 +1,7 @@
 class Tracks::ExercisesController < ApplicationController
   before_action :use_track
-  before_action :use_exercise, only: %i[show start edit complete]
-  before_action :use_solution, only: %i[show edit complete]
+  before_action :use_exercise, only: %i[show start edit complete tooltip]
+  before_action :use_solution, only: %i[show edit complete tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
   disable_site_header! only: [:edit]
@@ -20,7 +20,10 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   def tooltip
-    render layout: false
+    render json: {
+      exercise: SerializeExercise.(@exercise, user_track: @user_track),
+      track: SerializeTrack.(@exercise.track, @user_track)
+    }
   end
 
   def start

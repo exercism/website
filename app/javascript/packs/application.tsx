@@ -147,6 +147,7 @@ import {
   MentorDiscussion,
   MentoredTrack,
   SolutionForStudent,
+  ExerciseStatus,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -254,6 +255,13 @@ initReact({
       track={camelizeKeysAs<Track>(data.track)}
     />
   ),
+  'student-exercise-status-chart': (data: any) => (
+    <Student.ExerciseStatusChart
+      exerciseStatuses={camelizeKeysAs<ExerciseStatus[]>(
+        data.exercise_statuses
+      )}
+    />
+  ),
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
   ),
@@ -327,6 +335,16 @@ initReact({
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
   'user-tooltip': (data: any, elem: HTMLElement) => (
+    <Tooltips.UserTooltip
+      contentEndpoint={data.endpoint}
+      referenceElement={elem}
+      referenceUserHandle={data.handle}
+      placement={data.placement}
+      hoverRequestToShow={true}
+      focusRequestToShow={true}
+    />
+  ),
+  'exercise-tooltip': (data: any, elem: HTMLElement) => (
     <Tooltips.UserTooltip
       contentEndpoint={data.endpoint}
       referenceElement={elem}

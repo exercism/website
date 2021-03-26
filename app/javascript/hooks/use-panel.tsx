@@ -3,9 +3,9 @@ import { usePopper } from 'react-popper'
 
 export function usePanel(options?: any) {
   const [open, setOpen] = useState(false)
-  const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(
-    null
-  )
+  const [buttonElement, setButtonElement] = useState<
+    HTMLButtonElement | HTMLDivElement | null
+  >(null)
   const [panelElement, setPanelElement] = useState<HTMLDivElement | null>(null)
   const { styles, attributes, update } = usePopper(
     buttonElement,

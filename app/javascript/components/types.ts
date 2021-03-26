@@ -1,3 +1,19 @@
+export type ExerciseStatus =
+  | {
+      slug: string
+      status: 'available' | 'completed' | 'in_progress'
+      links: {
+        exercise: string
+      }
+    }
+  | {
+      slug: string
+      status: 'locked'
+      links: {
+        tooltip: string
+      }
+    }
+
 export type Exercise =
   | (ExerciseCore & { isAvailable: true; links: { self: string } })
   | (ExerciseCore & { isAvailable: false })

@@ -8,13 +8,7 @@ class SerializeExercises
 
   def call
     exercises.map do |exercise|
-      {
-        slug: exercise.slug,
-        title: exercise.title,
-        icon_url: exercise.icon_url,
-        blurb: exercise.blurb,
-        available: user_track ? user_track.exercise_available?(exercise) : nil
-      }
+      SerializeExercise.(exercise, user_track: user_track)
     end
   end
 

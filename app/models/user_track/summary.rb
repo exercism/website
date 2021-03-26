@@ -38,6 +38,14 @@ class UserTrack
       mapped_exercises.values.count(&:completed)
     end
 
+    def num_completed_concept_exercises
+      mapped_exercises.values.select { |e| e.type == "concept" }.count(&:completed)
+    end
+
+    def num_completed_practice_exercises
+      mapped_exercises.values.select { |e| e.type == "practice" }.count(&:completed)
+    end
+
     def available_exercise_ids
       mapped_exercises.values.select(&:available).map(&:id)
     end

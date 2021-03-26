@@ -1,3 +1,41 @@
+export type ExerciseStatus = {
+  slug: string
+  status: 'available' | 'completed' | 'in_progress' | 'locked'
+}
+
+export type Exercise =
+  | (ExerciseCore & { isAvailable: true; links: { self: string } })
+  | (ExerciseCore & { isAvailable: false })
+
+export type SolutionForStudent = {
+  url: string
+  status: SolutionStatus
+  hasNotifications: boolean
+  numMentoringComments: number
+  numIterations: number
+  exercise: {
+    slug: string
+  }
+}
+
+export type SolutionStatus =
+  | 'started'
+  | 'published'
+  | 'completed'
+  | 'in_progress'
+
+type ExerciseCore = {
+  slug: string
+  title: string
+  iconUrl: string
+  blurb: string
+  difficulty: ExerciseDifficulty
+  isRecommended: boolean
+  isCompleted: boolean
+}
+
+export type ExerciseDifficulty = 'easy'
+
 export type File = {
   filename: string
   content: string
@@ -44,6 +82,11 @@ export type MentorSessionDiscussion = {
     markAsNothingToDo?: string
     finish?: string
   }
+}
+export type Track = {
+  id: string
+  title: string
+  iconUrl: string
 }
 
 export type Iteration = {

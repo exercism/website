@@ -188,6 +188,7 @@ Rails.application.routes.draw do
 
     resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
+        get :tooltip
         patch :start
         patch :complete # TODO: Remove once via the API.
       end
@@ -248,6 +249,7 @@ Rails.application.routes.draw do
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
         get :reputation
         get :mentoring_dropdown
+        get :exercise_tooltip
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

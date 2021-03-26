@@ -15,12 +15,8 @@
             = track_icon track
             = icon "completed-check-circle", "Completed", css_class: "completed-icon"
 
-        .exercises
-          - exercise_statuses.each do |exercise_slug, status|
-            - if status == :locked
-              .c-ed.--l
-            - else
-              = link_to "", track_exercise_path(track, exercise_slug), class: "c-ed --#{status.to_s.split('_').map(&:first).join}"
+        = render ReactComponents::Student::ExerciseStatusChart.new(@track)
+
         .key
           .item
             .c-ed.--c

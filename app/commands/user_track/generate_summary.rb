@@ -52,6 +52,7 @@ class UserTrack
         hash[exercise.slug] = {
           id: exercise.id,
           slug: exercise.slug,
+          type: exercise.concept_exercise? ? 'concept' : 'practice',
           available: exercise_data[:available],
           started: exercise_data[:started],
           completed: exercise_data[:completed]
@@ -173,7 +174,7 @@ class UserTrack
     end
 
     ExerciseSummary = Struct.new(
-      :id, :slug,
+      :id, :slug, :type,
       :available, :started, :completed,
       keyword_init: true
     )

@@ -16,11 +16,18 @@
             & .c-tab {
                 height: 40px;
                 @apply cursor-pointer;
+
+                & .c-ed {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
+                }
             }
         }
         & .exercises {
             @apply grid gap-16;
-            grid-template-columns: repeat(2, auto);
+            @apply pb-40;
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 }

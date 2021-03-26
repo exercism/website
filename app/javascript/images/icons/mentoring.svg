@@ -1,24 +1,5 @@
-<svg id="mentoring" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <defs>
-    <style>
-      .a {
-        fill:none;
-        stroke:currentColor;
-        stroke-linecap:round;
-        stroke-linejoin:round;
-        stroke-width:1.5px;
-      }
-    </style>
-  </defs>
-  <title>team-chat</title>
-  <path class="a" d="M12.749,21h1.5v2.25l3-2.25h4.5a1.5,1.5,0,0,0,1.5-1.5V15a1.5,1.5,0,0,0-1.5-1.5h-9a1.5,1.5,0,0,0-1.5,1.5v4.5A1.5,1.5,0,0,0,12.749,21Z"/>
-  <circle class="a" cx="4.973" cy="16.875" r="2.625"/>
-  <path class="a" d="M9.2,23.25a4.474,4.474,0,0,0-8.449,0"/>
-  <circle class="a" cx="19.024" cy="4.125" r="2.625"/>
-  <path class="a" d="M23.249,10.5a4.474,4.474,0,0,0-8.449,0"/>
-  <line class="a" x1="16.499" y1="15.75" x2="20.249" y2="15.75"/>
-  <line class="a" x1="14.249" y1="18" x2="20.249" y2="18"/>
-  <path class="a" d="M11.249,8.25h-1.5V10.5l-3-2.25h-4.5a1.5,1.5,0,0,1-1.5-1.5V2.25a1.5,1.5,0,0,1,1.5-1.5h9a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,11.249,8.25Z"/>
-  <line class="a" x1="7.499" y1="3" x2="3.749" y2="3"/>
-  <line class="a" x1="9.749" y1="5.25" x2="3.749" y2="5.25"/>
+<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 13C7.94772 13 7.5 12.5523 7.5 12V7C7.5 6.44772 7.94772 6 8.5 6H15.5C16.0523 6 16.5 6.44772 16.5 7V12C16.5 12.5523 16.0523 13 15.5 13H14.5V16L11.5 13H8.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5.5 9L3.5 11V8H2.5C1.94772 8 1.5 7.55228 1.5 7V2C1.5 1.44772 1.94772 1 2.5 1H9.5C10.0523 1 10.5 1.44772 10.5 2V4" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+

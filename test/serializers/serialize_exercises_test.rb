@@ -10,13 +10,21 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       title: concept_exercise.title,
       icon_url: concept_exercise.icon_url,
       blurb: concept_exercise.blurb,
-      available: nil
+      difficulty: "easy",
+      is_available: nil,
+      is_recommended: nil,
+      is_completed: nil,
+      links: {}
     }, {
       slug: practice_exercise.slug,
       title: practice_exercise.title,
       icon_url: practice_exercise.icon_url,
       blurb: practice_exercise.blurb,
-      available: nil
+      difficulty: "easy",
+      is_available: nil,
+      is_recommended: nil,
+      is_completed: nil,
+      links: {}
     }]
 
     assert_equal expected, SerializeExercises.(
@@ -37,13 +45,23 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       title: concept_exercise.title,
       icon_url: concept_exercise.icon_url,
       blurb: concept_exercise.blurb,
-      available: true
+      difficulty: "easy",
+      is_available: true,
+      is_recommended: false,
+      is_completed: false,
+      links: {
+        self: Exercism::Routes.track_exercise_path(track, concept_exercise)
+      }
     }, {
       slug: practice_exercise.slug,
       title: practice_exercise.title,
       icon_url: practice_exercise.icon_url,
       blurb: practice_exercise.blurb,
-      available: false
+      difficulty: "easy",
+      is_available: false,
+      is_recommended: false,
+      is_completed: false,
+      links: {}
     }]
 
     assert_equal expected, SerializeExercises.(

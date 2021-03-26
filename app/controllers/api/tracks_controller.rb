@@ -11,8 +11,9 @@ module API
         user: current_user
       )
 
-      render json: SerializeTracks.(tracks, current_user),
-             status: :ok
+      render json: {
+        tracks: SerializeTracks.(tracks, current_user)
+      }, status: :ok
     end
 
     def show

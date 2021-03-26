@@ -53,6 +53,7 @@ import '../../css/components/user_activity'
 import '../../css/components/search-bar'
 import '../../css/components/published-solution'
 import '../../css/components/iteration-processing-status'
+import '../../css/components/notification-dot'
 
 import '../../css/components/mentor/nav'
 import '../../css/components/mentor/inbox'
@@ -129,20 +130,24 @@ import {
   SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
-import * as Track from '../components/track'
-import * as Journey from '../components/journey'
+import * as TrackComponents from '../components/track'
+import * as JourneyComponents from '../components/journey'
 import { Editor } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
 import {
   Iteration,
+  Track,
+  Exercise,
   MentorSessionRequest,
   MentorSessionDiscussion,
   MentorSessionTrack,
   MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
+  SolutionForStudent,
+  ExerciseStatus,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -180,15 +185,23 @@ initReact({
     />
   ),
   'journey-solutions-list': (data: any) => (
-    <Journey.SolutionsList endpoint={data.endpoint} />
+    <JourneyComponents.SolutionsList endpoint={data.endpoint} />
   ),
   'journey-contributions-list': (data: any) => (
-    <Journey.ContributionsList endpoint={data.endpoint} />
+    <JourneyComponents.ContributionsList endpoint={data.endpoint} />
   ),
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-exercise-widget': (data: any) => (
+    <Common.ExerciseWidget
+      exercise={camelizeKeysAs<Exercise>(data.exercise)}
+      track={camelizeKeysAs<Track>(data.track)}
+      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
+      size={data.size}
+    />
+  ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
       discussionsRequest={data.discussions_request}
@@ -234,6 +247,18 @@ initReact({
       request={data.request}
       statusOptions={data.status_options}
       tagOptions={data.tag_options}
+    />
+  ),
+  'student-exercise-list': (data: any) => (
+    <Student.ExerciseList
+      request={camelizeKeysAs<Request>(data.request)}
+      track={camelizeKeysAs<Track>(data.track)}
+    />
+  ),
+  'student-exercise-status-chart': (data: any) => (
+    <Student.ExerciseStatusChart
+      exerciseStatuses={data.exercise_statuses}
+      links={data.links}
     />
   ),
   'student-complete-exercise-button': (data: any) => (
@@ -284,7 +309,7 @@ initReact({
     )
   },
   'track-iteration-summary': (data: any) => (
-    <Track.IterationSummaryWithWebsockets
+    <TrackComponents.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       className={data.class_name}
     />
@@ -309,6 +334,16 @@ initReact({
     <Tooltips.MentoredStudent endpoint={data.endpoint} />
   ),
   'user-tooltip': (data: any, elem: HTMLElement) => (
+    <Tooltips.UserTooltip
+      contentEndpoint={data.endpoint}
+      referenceElement={elem}
+      referenceUserHandle={data.handle}
+      placement={data.placement}
+      hoverRequestToShow={true}
+      focusRequestToShow={true}
+    />
+  ),
+  'exercise-tooltip': (data: any, elem: HTMLElement) => (
     <Tooltips.UserTooltip
       contentEndpoint={data.endpoint}
       referenceElement={elem}

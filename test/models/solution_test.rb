@@ -212,7 +212,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_nil solution.reload.in_progress_mentor_discussion
 
     # In progress discussion
-    discussion = create :solution_mentor_discussion, solution: solution, finished_at: nil
+    discussion = create :mentor_discussion, solution: solution, finished_at: nil
     assert_equal discussion, solution.reload.in_progress_mentor_discussion
 
     # Finished discussion
@@ -228,7 +228,7 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.reload.has_locked_pending_mentoring_request?
 
     # No lock
-    request = create :solution_mentor_request, locked_until: nil, solution: solution
+    request = create :mentor_request, locked_until: nil, solution: solution
     assert solution.reload.has_unlocked_pending_mentoring_request?
     refute solution.reload.has_locked_pending_mentoring_request?
 
@@ -260,11 +260,11 @@ class SolutionTest < ActiveSupport::TestCase
     solution.update_mentoring_status!
     assert_equal 'none', solution.mentoring_status
 
-    discussion = create :solution_mentor_discussion, solution: solution, finished_at: Time.current
+    discussion = create :mentor_discussion, solution: solution, finished_at: Time.current
     solution.update_mentoring_status!
     assert_equal 'finished', solution.mentoring_status
 
-    request = create :solution_mentor_request, solution: solution
+    request = create :mentor_request, solution: solution
     solution.update_mentoring_status!
     assert_equal 'requested', solution.mentoring_status
 

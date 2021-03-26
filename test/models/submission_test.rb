@@ -186,19 +186,19 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
-    create :solution_mentor_discussion, mentor: mentor_1, solution: solution
+    create :mentor_discussion, mentor: mentor_1, solution: solution
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
-    create :solution_mentor_request, solution: solution, status: :fulfilled
+    create :mentor_request, solution: solution, status: :fulfilled
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
-    create :solution_mentor_request, solution: solution, status: :pending
+    create :mentor_request, solution: solution, status: :pending
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
@@ -221,8 +221,8 @@ class SubmissionTest < ActiveSupport::TestCase
     submission_1 = create :submission, solution: solution
     submission_2 = create :submission, solution: solution
     create :iteration, submission: submission_1, solution: solution
-    create :solution_mentor_discussion, mentor: mentor_1, solution: solution
-    create :solution_mentor_request, solution: solution
+    create :mentor_discussion, mentor: mentor_1, solution: solution
+    create :mentor_request, solution: solution
 
     # Normal state
     assert submission_1.viewable_by?(student)

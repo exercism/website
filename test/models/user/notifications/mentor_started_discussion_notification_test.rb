@@ -7,8 +7,8 @@ class User::Notifications::MentorStartedDiscussionNotificationTest < ActiveSuppo
     solution = create :concept_solution
     exercise = solution.exercise
     track = solution.track
-    discussion = create(:solution_mentor_discussion, mentor: mentor, solution: solution)
-    discussion_post = create(:solution_mentor_discussion_post)
+    discussion = create(:mentor_discussion, mentor: mentor, solution: solution)
+    discussion_post = create(:mentor_discussion_post)
 
     notification = User::Notifications::MentorStartedDiscussionNotification.create!(
       user: user,

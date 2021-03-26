@@ -25,6 +25,6 @@ class Mentoring::RequestsController < ApplicationController
 
   private
   def use_mentor_request
-    @mentor_request = Solution::MentorRequest.find_by!(uuid: params[:id])
+    @mentor_request = Mentor::Request.find_by!(uuid: params[:id])
   end
 end

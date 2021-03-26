@@ -10,8 +10,8 @@ module Components::Student
         user = create :user
         mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
-        request = create :solution_mentor_request, solution: solution
-        discussion = create :solution_mentor_discussion, request: request, solution: solution, mentor: mentor
+        request = create :mentor_request, solution: solution
+        discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
@@ -53,8 +53,8 @@ module Components::Student
         user = create :user
         mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
-        request = create :solution_mentor_request, solution: solution
-        discussion = create :solution_mentor_discussion, request: request, solution: solution, mentor: mentor
+        request = create :mentor_request, solution: solution
+        discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,

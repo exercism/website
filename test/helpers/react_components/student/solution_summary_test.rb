@@ -44,7 +44,7 @@ module Student
       track = create :track
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, exercise: exercise
-      discussion = create :solution_mentor_discussion, solution: solution
+      discussion = create :mentor_discussion, solution: solution
 
       component = ReactComponents::Student::SolutionSummary.new(solution).to_s
       data = component.gsub("&quot;", '"')

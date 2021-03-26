@@ -77,8 +77,7 @@ module ReactComponents
 
       def iterations
         if discussion
-          comment_counts = ::Solution::MentorDiscussionPost.
-            where(discussion: discussion).
+          comment_counts = discussion.posts.
             group(:iteration_id, :seen_by_student).
             count
         end

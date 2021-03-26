@@ -33,10 +33,10 @@ module Benchmarks
       mentor_solution_ids = mentor.solutions.pluck(:id)
 
       mentor_solution_requests = loads[:exercises].times.map do |i|
-        build(:solution_mentor_request, solution_id: mentor_solution_ids[i], uuid: i,
-                                        created_at: Time.current, updated_at: Time.current).attributes
+        build(:mentor_request, solution_id: mentor_solution_ids[i], uuid: i,
+                               created_at: Time.current, updated_at: Time.current).attributes
       end
-      Solution::MentorRequest.insert_all(mentor_solution_requests)
+      Mentor::Request.insert_all(mentor_solution_requests)
 
       builder = lambda do |prefix, count, _params|
         start_user_id = User.order(id: :asc).last.id
@@ -57,10 +57,10 @@ module Benchmarks
         solution_ids = Solution.where("id > ?", start_solution_id).pluck(:id)
 
         solution_requests = count.times.map do |i|
-          build(:solution_mentor_request, solution_id: solution_ids[i], uuid: "#{prefix}-#{i}",
-                                          created_at: Time.current, updated_at: Time.current).attributes
+          build(:mentor_request, solution_id: solution_ids[i], uuid: "#{prefix}-#{i}",
+                                 created_at: Time.current, updated_at: Time.current).attributes
         end
-        Solution::MentorRequest.insert_all(solution_requests)
+        Mentor::Request.insert_all(solution_requests)
       end
 
       builder.(:cancelled, loads[:cancelled], status: :cancelled)
@@ -70,7 +70,7 @@ module Benchmarks
       builder.(:pending, loads[:pending], {})
 
       t = Time.now.to_f
-      results = Solution::MentorRequest::Retrieve.(mentor: mentor, page: 7).to_a
+      results = Mentor::Request::Retrieve.(mentor: mentor, page: 7).to_a
       time_taken = Time.now.to_f - t
 
       assert_equal 10, results.size # Sanity

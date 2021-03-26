@@ -6,7 +6,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
   test "create db record" do
     user = create :user
     type = :mentor_started_discussion
-    discussion = create(:solution_mentor_discussion)
+    discussion = create(:mentor_discussion)
     params = { discussion: discussion }
 
     notification = User::Notification::Create.(user, type, params)
@@ -26,7 +26,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
   test "broadcasts message" do
     user = create :user
     type = :mentor_started_discussion
-    discussion = create(:solution_mentor_discussion)
+    discussion = create(:mentor_discussion)
     params = { discussion: discussion }
     NotificationsChannel.expects(:broadcast_changed).with(user)
 

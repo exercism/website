@@ -13,7 +13,7 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    discussion = create :solution_mentor_discussion
+    discussion = create :mentor_discussion
     get mentoring_discussion_path(discussion)
     assert_redirected_to mentoring_path
   end
@@ -22,7 +22,7 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    discussion = create :solution_mentor_discussion, mentor: mentor
+    discussion = create :mentor_discussion, mentor: mentor
     get mentoring_discussion_path(discussion)
     assert_response :success
   end

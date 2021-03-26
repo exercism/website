@@ -45,7 +45,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     setup_user(mentor)
     solution = create :concept_solution
     iteration = create :iteration, solution: solution
-    create :solution_mentor_discussion, solution: solution, mentor: mentor
+    create :mentor_discussion, solution: solution, mentor: mentor
     submission = create :submission, solution: solution, iteration: iteration
     create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
 

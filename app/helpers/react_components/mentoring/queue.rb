@@ -52,7 +52,7 @@ module ReactComponents
         track = track_data.first
 
         track.merge(
-          exercises: ::Solution::MentorRequest::RetrieveExercises.(mentor, track[:id])
+          exercises: ::Mentor::Request::RetrieveExercises.(mentor, track[:id])
         )
       end
 

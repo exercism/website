@@ -35,7 +35,7 @@ class NotificationTest < ActiveSupport::TestCase
     mentor = create :user
     notification = create :mentor_started_discussion_notification,
       params: {
-        discussion: create(:solution_mentor_discussion, mentor: mentor)
+        discussion: create(:mentor_discussion, mentor: mentor)
       }
 
     expected = {

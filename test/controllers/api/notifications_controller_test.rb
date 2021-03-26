@@ -15,7 +15,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     notification = create :mentor_started_discussion_notification,
       user: user,
       params: {
-        discussion: create(:solution_mentor_discussion, mentor: mentor)
+        discussion: create(:mentor_discussion, mentor: mentor)
       }
 
     get api_notifications_path, headers: @headers, as: :json

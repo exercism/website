@@ -63,18 +63,18 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
     exercise = create :concept_exercise, track: track, slug: 'bob'
     solution = create :concept_solution, exercise: exercise
     create :iteration, solution: solution
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
 
     comp = render ViewComponents::Track::SolutionActivity.new(track, solution.reload)
     p comp.to_s
     # assert_include expected, comp.to_s
 
-    create :solution_mentor_discussion_post, discussion: discussion, seen_by_student: true
+    create :mentor_discussion_post, discussion: discussion, seen_by_student: true
     comp = render ViewComponents::Track::SolutionActivity.new(track, solution.reload)
     p comp.to_s
     # assert_include expected, comp.to_s
 
-    create :solution_mentor_discussion_post, discussion: discussion, seen_by_student: false
+    create :mentor_discussion_post, discussion: discussion, seen_by_student: false
     comp = render ViewComponents::Track::SolutionActivity.new(track, solution.reload)
     p comp.to_s
     # assert_include expected, comp.to_s

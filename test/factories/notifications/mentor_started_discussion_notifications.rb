@@ -3,7 +3,7 @@ FactoryBot.define do
     user
     params do
       {
-        discussion: create(:solution_mentor_discussion)
+        discussion: create(:mentor_discussion)
       }
     end
   end

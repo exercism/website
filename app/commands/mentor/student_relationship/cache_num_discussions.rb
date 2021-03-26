@@ -12,7 +12,7 @@ module Mentor
           student: student
         )
 
-        sql = Solution::MentorDiscussion.
+        sql = Mentor::Discussion.
           joins(:solution).
           where(
             mentor_id: mentor.id,

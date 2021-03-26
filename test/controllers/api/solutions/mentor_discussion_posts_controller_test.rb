@@ -11,13 +11,13 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create :user, handle: "student"
     setup_user(student)
     solution = create :concept_solution, user: student
-    mentor_request = create :solution_mentor_request,
+    mentor_request = create :mentor_request,
       solution: solution,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
-    discussion = create :solution_mentor_discussion, solution: solution, request: mentor_request
+    discussion = create :mentor_discussion, solution: solution, request: mentor_request
     iteration = create :iteration, idx: 2, solution: solution
-    discussion_post = create(:solution_mentor_discussion_post,
+    discussion_post = create(:mentor_discussion_post,
       discussion: discussion,
       iteration: iteration,
       author: student,
@@ -67,11 +67,11 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     mentor = create :user, handle: "mentor"
     solution = create :concept_solution, user: student
-    mentor_request = create :solution_mentor_request,
+    mentor_request = create :mentor_request,
       solution: solution,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
-    discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     create :iteration, idx: 7, solution: solution
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
@@ -98,7 +98,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
   test "index should return 403 when discussion can not be accessed" do
     setup_user
-    discussion = create :solution_mentor_discussion
+    discussion = create :mentor_discussion
     iteration = create :iteration
 
     get api_solution_discussion_posts_path(discussion.solution.uuid, discussion, iteration_idx: iteration.idx),
@@ -135,7 +135,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
   test "create should return 403 when discussion can not be accessed" do
     setup_user
-    discussion = create :solution_mentor_discussion
+    discussion = create :mentor_discussion
 
     post api_solution_discussion_posts_path(discussion.solution.uuid, discussion), headers: @headers, as: :json
 
@@ -154,7 +154,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: user
     create :iteration, solution: solution, idx: 1
     it_2 = create :iteration, solution: solution, idx: 2
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
 
     # Check we're calling the correet class
     User::Notification::Create.expects(:call).with(
@@ -203,7 +203,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, 1), headers: @headers, as: :json
 
@@ -218,7 +218,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
   test "returns 403 error when discussion cannot be accessed" do
     student = create(:user)
     setup_user(student)
-    discussion_post = create(:solution_mentor_discussion_post)
+    discussion_post = create(:mentor_discussion_post)
 
     patch api_solution_discussion_post_path(
       discussion_post.discussion.solution.uuid,
@@ -238,8 +238,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :solution_mentor_discussion, solution: solution
-    discussion_post = create(:solution_mentor_discussion_post, discussion: discussion, author: create(:user))
+    discussion = create :mentor_discussion, solution: solution
+    discussion_post = create(:mentor_discussion_post, discussion: discussion, author: create(:user))
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
 
@@ -255,8 +255,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :solution_mentor_discussion, solution: solution
-    discussion_post = create(:solution_mentor_discussion_post, author: student, discussion: discussion)
+    discussion = create :mentor_discussion, solution: solution
+    discussion_post = create(:mentor_discussion_post, author: student, discussion: discussion)
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post),
       params: { content: '' },
@@ -276,10 +276,10 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user, handle: "student")
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
 
     iteration = create :iteration, idx: 1
-    discussion_post = create(:solution_mentor_discussion_post,
+    discussion_post = create(:mentor_discussion_post,
       discussion: discussion,
       author: student,
       iteration: iteration,

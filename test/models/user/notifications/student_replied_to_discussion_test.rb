@@ -10,7 +10,7 @@ class User::Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSu
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
     mentor = create(:user)
-    discussion_post = create(:solution_mentor_discussion_post, iteration: iteration, author: mentor)
+    discussion_post = create(:mentor_discussion_post, iteration: iteration, author: mentor)
 
     notification = User::Notifications::StudentRepliedToDiscussionNotification.create!(
       user: user,

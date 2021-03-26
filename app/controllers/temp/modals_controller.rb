@@ -22,7 +22,7 @@ module Temp
     def mentoring_sessions
       @num_total_discussions = 87
       @student = User.second
-      @discussion = Solution::MentorDiscussion.first
+      @discussion = Mentor::Discussion.first
     end
 
     def reputation
@@ -48,7 +48,7 @@ module Temp
 
     def mentoring_dropdown
       @active_mentoring_discussion = false
-      @discussions = Solution::MentorDiscussion.limit(2)
+      @discussions = Mentor::Discussion.limit(2)
     end
   end
 end

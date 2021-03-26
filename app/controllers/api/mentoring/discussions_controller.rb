@@ -2,7 +2,7 @@ module API
   class Mentoring::DiscussionsController < BaseController
     # TODO: Add filters
     def index
-      discussions = ::Solution::MentorDiscussion::Retrieve.(
+      discussions = ::Mentor::Discussion::Retrieve.(
         current_user,
         page: params[:page],
         track_slug: params[:track],
@@ -17,7 +17,7 @@ module API
     end
 
     def tracks
-      track_counts = Solution::MentorDiscussion::Retrieve.(
+      track_counts = Mentor::Discussion::Retrieve.(
         current_user, sorted: false, paginated: false
       ).group(:track_id).count
 
@@ -43,11 +43,11 @@ module API
     end
 
     def create
-      mentor_request = Solution::MentorRequest.find_by(uuid: params[:mentor_request_id])
+      mentor_request = Mentor::Request.find_by(uuid: params[:mentor_request_id])
       return render_404(:mentor_request_not_found) unless mentor_request
 
       begin
-        discussion = Solution::MentorDiscussion::Create.(
+        discussion = Mentor::Discussion::Create.(
           current_user,
           mentor_request,
           params[:iteration_idx],
@@ -71,7 +71,7 @@ module API
     end
 
     def mark_as_nothing_to_do
-      discussion = ::Solution::MentorDiscussion.find_by(uuid: params[:id])
+      discussion = ::Mentor::Discussion.find_by(uuid: params[:id])
 
       return render_404(:mentor_discussion_not_found) if discussion.blank?
       return render_403(:mentor_discussion_not_accessible) unless discussion.viewable_by?(current_user)

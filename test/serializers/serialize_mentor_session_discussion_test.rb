@@ -7,7 +7,7 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
-    discussion = create :solution_mentor_discussion,
+    discussion = create :mentor_discussion,
       :requires_mentor_action,
       solution: solution,
       finished_at: nil,
@@ -32,7 +32,7 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
-    discussion = create :solution_mentor_discussion,
+    discussion = create :mentor_discussion,
       :requires_mentor_action,
       solution: solution,
       finished_at: Time.current - 1.day,

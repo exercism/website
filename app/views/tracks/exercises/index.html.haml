@@ -26,8 +26,6 @@
             = track_icon(@track)
             exercises on Exercism
           %p Unlock more exercises as you progress. They’re great practice and fun to do!
-          %progress.progress-bar{ value: @num_completed, max: @exercises.size }
-          .progress-text #{pluralize(@num_completed, 'exercise')} completed
 
     %section.exercises
       = render ReactComponents::Student::ExerciseList.new(@track)

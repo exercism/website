@@ -1,0 +1,18 @@
+@import "../../styles";
+
+.c-exercise-tooltip {
+    width: 100%;
+    max-width: 460px;
+    min-height: 124px;
+    @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
+    @apply z-tooltip;
+    @apply grid place-items-center;
+
+    & > .--spinner {
+        @apply self-center;
+        height: 30px;
+        width: 30px;
+        animation: spin 3s linear infinite;
+        filter: var(--textColor7-filter);
+    }
+}

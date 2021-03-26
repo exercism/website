@@ -1,6 +1,6 @@
 import React from 'react'
 import { Exercise, ExerciseStatus, Track } from '../types'
-import { ExerciseWidget } from '../common'
+import { Icon, ExerciseWidget } from '../common'
 import { usePanel } from '../../hooks/use-panel'
 import { useRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
@@ -98,26 +98,34 @@ const ExerciseStatusDot = ({
       />
       {open ? (
         <div
-          className="tw-z-tooltip"
+          className="c-exercise-tooltip"
           ref={setPanelElement}
           style={styles.popper}
           {...attributes.popper}
         >
-          <FetchingBoundary
-            status={status}
-            error={error}
-            defaultError={DEFAULT_ERROR}
-          >
-            {data ? (
-              <ExerciseWidget
-                exercise={data.exercise}
-                track={data.track}
-                size="tooltip"
-              />
-            ) : (
-              <span>Unable to load information</span>
-            )}
-          </FetchingBoundary>
+          {data ? (
+            <FetchingBoundary
+              status={status}
+              error={error}
+              defaultError={DEFAULT_ERROR}
+            >
+              {data ? (
+                <ExerciseWidget
+                  exercise={data.exercise}
+                  track={data.track}
+                  size="tooltip"
+                />
+              ) : (
+                <span>Unable to load information</span>
+              )}
+            </FetchingBoundary>
+          ) : (
+            <Icon
+              icon="spinner"
+              alt="Loading exercise data"
+              className="--spinner"
+            />
+          )}
         </div>
       ) : null}
     </React.Fragment>

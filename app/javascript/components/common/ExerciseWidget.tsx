@@ -29,11 +29,14 @@ export const ExerciseWidget = ({
       </a>
     )
   } else if (exercise.isAvailable) {
+    const classNames = [
+      'c-exercise-widget',
+      '--available',
+      `--${size}`,
+      exercise.isRecommended ? '--recommended' : '',
+    ].filter((name) => name.length > 0)
     return (
-      <a
-        href={exercise.links.self}
-        className={`c-exercise-widget --available --${size}`}
-      >
+      <a href={exercise.links.self} className={classNames.join(' ')}>
         <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
         <Info exercise={exercise} solution={solution} track={track} />
         <GraphicalIcon icon="chevron-right" className="--action-icon" />

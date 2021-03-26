@@ -83,7 +83,7 @@ test('renders an available exercise', async () => {
     difficulty: 'easy',
     isAvailable: true,
     isCompleted: false,
-    isRecommended: false,
+    isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
     },
@@ -102,7 +102,7 @@ test('renders an available exercise', async () => {
   )
   expect(screen.getByRole('link')).toHaveAttribute(
     'class',
-    'c-exercise-widget --available --medium'
+    'c-exercise-widget --available --medium --recommended'
   )
   expect(
     screen.getByRole('img', {
@@ -116,7 +116,7 @@ test('renders an available exercise', async () => {
     })
   ).toHaveAttribute('src', 'https://exercism.test/track_icon')
   expect(screen.getByText('Ruby')).toBeInTheDocument()
-  expect(screen.getByText('Available')).toBeInTheDocument()
+  expect(screen.getByText('Recommended')).toBeInTheDocument()
   expect(screen.queryByText('Locked')).not.toBeInTheDocument()
   expect(screen.getByText('Easy')).toBeInTheDocument()
   expect(screen.getByText('Tasty exercise')).toBeInTheDocument()

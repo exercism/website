@@ -257,9 +257,8 @@ initReact({
   ),
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart
-      exerciseStatuses={camelizeKeysAs<ExerciseStatus[]>(
-        data.exercise_statuses
-      )}
+      exerciseStatuses={data.exercise_statuses}
+      links={data.links}
     />
   ),
   'student-complete-exercise-button': (data: any) => (

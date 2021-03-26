@@ -8,42 +8,41 @@ import { FetchingBoundary } from '../FetchingBoundary'
 
 export const ExerciseStatusChart = ({
   exerciseStatuses,
+  links,
 }: {
-  exerciseStatuses: ExerciseStatus[]
+  exerciseStatuses: { [slug: string]: string }
+  links: { exercise: string; tooltip: string }
 }): JSX.Element => {
   return (
     <div className="exercises">
-      {exerciseStatuses.map((status) => {
-        switch (status.status) {
-          case 'locked':
-            return (
-              <LockedExerciseStatus key={status.slug} exerciseStatus={status} />
-            )
-          case 'available':
-            return (
-              <a
-                key={status.slug}
-                href={status.links.exercise}
-                className={`c-ed --a`}
-              />
-            )
-          case 'in_progress':
-            return (
-              <a
-                key={status.slug}
-                href={status.links.exercise}
-                className={`c-ed --ip`}
-              />
-            )
-          case 'completed':
-            return (
-              <a
-                key={status.slug}
-                href={status.links.exercise}
-                className={`c-ed --c`}
-              />
-            )
+      {Object.keys(exerciseStatuses).map((key) => {
+        const slug = key
+        const status = exerciseStatuses[key]
+
+        const dotLinks = {
+          tooltip: links.tooltip.replace('$SLUG', slug),
+          exercise:
+            status !== 'locked'
+              ? links.exercise.replace('$SLUG', slug)
+              : undefined,
         }
+
+        if (
+          status !== 'locked' &&
+          status !== 'available' &&
+          status !== 'in_progress' &&
+          status !== 'completed'
+        ) {
+          throw new Error('Invalid status')
+        }
+
+        return (
+          <ExerciseStatusDot
+            key={slug}
+            exerciseStatus={{ slug: slug, status: status }}
+            links={dotLinks}
+          />
+        )
       })}
     </div>
   )
@@ -51,15 +50,16 @@ export const ExerciseStatusChart = ({
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-const LockedExerciseStatus = ({
+const ExerciseStatusDot = ({
   exerciseStatus,
+  links,
 }: {
   exerciseStatus: ExerciseStatus
-}) => {
-  if (exerciseStatus.status !== 'locked') {
-    throw new Error('Must be a locked exercise')
+  links: {
+    tooltip: string
+    exercise?: string
   }
-
+}) => {
   const {
     open,
     setOpen,
@@ -75,17 +75,26 @@ const LockedExerciseStatus = ({
     exercise: Exercise
   }>(
     `exercise-tooltip-${exerciseStatus.slug}`,
-    { endpoint: exerciseStatus.links.tooltip, options: { enabled: open } },
+    { endpoint: links.tooltip, options: { enabled: open } },
     isMountedRef
   )
 
+  const classNames = [
+    'c-ed',
+    exerciseStatus.status === 'available' ? '--a' : '',
+    exerciseStatus.status === 'in_progress' ? '--ip' : '',
+    exerciseStatus.status === 'completed' ? '--c' : '',
+    exerciseStatus.status === 'locked' ? '--l' : '',
+  ].filter((name) => name.length > 0)
+
   return (
     <React.Fragment>
-      <div
+      <ReferenceElement
         ref={setButtonElement}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
-        className="c-ed --l"
+        className={classNames.join(' ')}
+        link={links.exercise}
       />
       <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
         {open ? (
@@ -109,3 +118,15 @@ const LockedExerciseStatus = ({
     </React.Fragment>
   )
 }
+
+const ReferenceElement = React.forwardRef<
+  HTMLElement,
+  React.HTMLProps<HTMLDivElement> &
+    React.HTMLProps<HTMLAnchorElement> & { link?: string }
+>(({ link, ...props }, ref) => {
+  return link ? (
+    <a href={link} ref={ref as React.RefObject<HTMLAnchorElement>} {...props} />
+  ) : (
+    <div ref={ref as React.RefObject<HTMLDivElement>} {...props} />
+  )
+})

@@ -96,13 +96,13 @@ const ExerciseStatusDot = ({
         className={classNames.join(' ')}
         link={links.exercise}
       />
-      <div
-        className="tw-z-tooltip"
-        ref={setPanelElement}
-        style={styles.popper}
-        {...attributes.popper}
-      >
-        {open ? (
+      {open ? (
+        <div
+          className="tw-z-tooltip"
+          ref={setPanelElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
           <FetchingBoundary
             status={status}
             error={error}
@@ -118,8 +118,8 @@ const ExerciseStatusDot = ({
               <span>Unable to load information</span>
             )}
           </FetchingBoundary>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

@@ -97,9 +97,9 @@
         }
     }
     &.--tooltip {
-        @apply py-20 px-24 w-100;
-        @apply bg-backgroundColorA;
-        width: 460px;
+        @apply w-100;
+        @apply shadow-none rounded-none;
+
         & .--blurb {
             margin-left: -80px;
         }

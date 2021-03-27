@@ -30,13 +30,13 @@
     }
     & header.page-header {
         & .container {
-            @apply flex items-center justify-center mb-48;
+            @apply flex items-center justify-center mb-32;
         }
 
         & .graphic {
-            height: 140px;
-            width: 140px;
-            @apply mr-48;
+            height: 128px;
+            width: 128px;
+            @apply mr-36;
         }
         & .info {
             & h1 {

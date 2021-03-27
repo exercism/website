@@ -17,7 +17,7 @@ describe('<ConceptMap />', () => {
       levels: [[]],
       connections: [],
       status: {},
-      exerciseCounts: {},
+      exerciseStatuses: {},
     }
 
     const renderedConceptMap = renderConceptMap(config)
@@ -32,8 +32,10 @@ describe('<ConceptMap />', () => {
       concepts: [testConcept],
       levels: [[testConcept.slug]],
       connections: [],
-      status: { test: 'unavailable' },
-      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 0 } },
+      status: { test: 'available' },
+      exerciseStatuses: {
+        test: ['available'],
+      },
     }
 
     const renderedConceptMap = renderConceptMap(config)
@@ -52,17 +54,64 @@ describe('<ConceptMap />', () => {
       concepts: [testConcept],
       levels: [[testConcept.slug]],
       connections: [],
-      status: { test: 'unavailable' },
-      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 1 } },
+      status: { test: 'mastered' },
+      exerciseStatuses: {
+        test: ['complete'],
+      },
     }
 
     const renderedConceptMap = renderConceptMap(config)
     await waitForConceptMapReady(renderedConceptMap, config)
 
     expect(screen.queryByText('Test')).toBeInTheDocument()
-    expect(
-      screen.queryByAltText('You have mastered this concept')
-    ).toBeInTheDocument()
+    expect(screen.queryByLabelText('Mastered Concept:')).toBeInTheDocument()
+  })
+
+  test('renders single multi-word concept', async () => {
+    const testConcept = concept('test-test')
+
+    const config: IConceptMap = {
+      concepts: [testConcept],
+      levels: [[testConcept.slug]],
+      connections: [],
+      status: { testTest: 'mastered' },
+      exerciseStatuses: {
+        testTest: ['complete'],
+      },
+    }
+
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
+
+    expect(screen.queryByText('Test Test')).toBeInTheDocument()
+  })
+
+  test('renders a path between concepts', async () => {
+    const testConceptA = concept('test-a')
+    const testConceptB = concept('test-b')
+
+    const config: IConceptMap = {
+      concepts: [testConceptA, testConceptB],
+      levels: [[testConceptA.slug], [testConceptB.slug]],
+      connections: [
+        {
+          from: testConceptA.slug,
+          to: testConceptB.slug,
+        },
+      ],
+      status: { test1: 'mastered', test2: 'available' },
+      exerciseStatuses: {
+        testA: ['complete'],
+        testB: ['available'],
+      },
+    }
+
+    const renderedConceptMap = renderConceptMap(config)
+    await waitForConceptMapReady(renderedConceptMap, config)
+
+    expect(screen.queryByText('Test A')).toBeInTheDocument()
+    expect(screen.queryByText('Test B')).toBeInTheDocument()
+    expect(screen.queryByTestId('path-test-a-test-b')).toBeInTheDocument()
   })
 })
 
@@ -73,7 +122,7 @@ const renderConceptMap = (config: IConceptMap) =>
       levels={config.levels}
       connections={config.connections}
       status={config.status}
-      exerciseCounts={config.exerciseCounts}
+      exerciseStatuses={config.exerciseStatuses}
     />
   )
 
@@ -95,13 +144,13 @@ const waitForConceptMapReady = async (
 const concept = (conceptName: string) => {
   return {
     slug: conceptName,
-    name: slugToTitlecase(conceptName),
+    name: slugToTitleCase(conceptName),
     webUrl: `link-for-${conceptName}`,
-    tooltipUrl: `tooltop-link-for${conceptName}`,
+    tooltipUrl: `tooltip-link-for${conceptName}`,
   }
 }
 
-function slugToTitlecase(slug: string): string {
+function slugToTitleCase(slug: string): string {
   return slug
     .split('-')
     .map((part) => part[0].toUpperCase() + part.substr(1))

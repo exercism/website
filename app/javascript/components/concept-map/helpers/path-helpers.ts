@@ -120,9 +120,11 @@ function getPathStatus(el: HTMLElement): ConceptPathStatus {
 
   switch (conceptStatus) {
     case 'available':
-      return 'available'
+    case 'learned':
+    case 'mastered':
+      return 'unlocked'
     default:
-      return 'unavailable'
+      return 'locked'
   }
 }
 

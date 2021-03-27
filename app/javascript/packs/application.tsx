@@ -3,8 +3,11 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/ujs').start()
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('turbolinks').start()
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/activestorage').start()
 require('channels')
 
@@ -148,7 +151,6 @@ import {
   MentorDiscussion,
   MentoredTrack,
   SolutionForStudent,
-  ExerciseStatus,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -299,15 +301,8 @@ initReact({
   ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
-    return (
-      <ConceptMap
-        concepts={mapData.concepts}
-        levels={mapData.levels}
-        connections={mapData.connections}
-        status={mapData.status}
-        exerciseCounts={mapData.exerciseCounts}
-      />
-    )
+
+    return <ConceptMap {...mapData} />
   },
   'track-iteration-summary': (data: any) => (
     <TrackComponents.IterationSummaryWithWebsockets

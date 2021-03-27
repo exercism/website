@@ -21,10 +21,7 @@
         = graphical_icon "laptop-man-1", css_class: 'graphic', category: 'graphics'
 
         .info
-          %h1
-            All the
-            = track_icon(@track)
-            exercises on Exercism
+          %h1 Explore the #{@track.title} exercises on Exercism
           %p Unlock more exercises as you progress. They’re great practice and fun to do!
 
     %section.exercises

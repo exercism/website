@@ -27,9 +27,8 @@ class UserTrack
       end
 
       # TOOD: Change to practice link and remove limit
-      Exercise::Prerequisite.joins(:exercise, :concept).
+      Exercise::PracticedConcept.joins(:exercise, :concept).
         where('exercises.track_id': track.id).
-        limit(7).
         pluck("track_concepts.slug", "exercises.slug").
         each do |concept_slug, exercise_slug|
         next if concept_slug.nil?

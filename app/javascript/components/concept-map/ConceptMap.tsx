@@ -61,7 +61,7 @@ export const ConceptMap = ({
           {levels.map((layer, i: number) => (
             <div key={`layer-${i}`} className="layer">
               {layer
-                .map((conceptSlug) => conceptsBySlug.get(conceptSlug))
+                .map((conceptSlug) => conceptsBySlug.get(camelize(conceptSlug)))
                 .filter(isIConcept)
                 .map((concept) => {
                   const slug = camelize(concept.slug)

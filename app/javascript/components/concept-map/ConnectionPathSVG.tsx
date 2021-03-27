@@ -83,6 +83,7 @@ export const ConnectionPathSVG = ({
       className={classNames.join(' ')}
       data-from={from}
       data-to={to}
+      data-testid={`path-${connection.from}-${connection.to}`}
     >
       <g>
         <PurePathLineSVG

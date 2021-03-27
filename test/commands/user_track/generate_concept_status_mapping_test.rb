@@ -19,7 +19,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     )
   end
 
-  test "concepts following incomplete concepts are :unavailable" do
+  test "concepts following incomplete concepts are :locked" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -36,8 +36,8 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     assert_equal(
       {
         'basics' => :available,
-        'booleans' => :unavailable,
-        'atoms' => :unavailable
+        'booleans' => :locked,
+        'atoms' => :locked
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
@@ -63,13 +63,13 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
       {
         'basics' => :complete,
         'booleans' => :available,
-        'atoms' => :unavailable
+        'atoms' => :locked
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concepts with multiple first-level pre-reqs are unavailable" do
+  test "concepts with multiple first-level pre-reqs are locked" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -87,13 +87,13 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
       {
         'basics' => :available,
         'booleans' => :available,
-        'atoms' => :unavailable
+        'atoms' => :locked
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )
   end
 
-  test "concepts with two pre-reqs are :unavailable unless both are complete" do
+  test "concepts with two pre-reqs are :locked unless both are complete" do
     track, user_track = setup_user_track
     basics, booleans, atoms = setup_concepts(track, 'basics', 'booleans', 'atoms')
     lasagna, pacman, logger = setup_concept_exercises(track, 'lasagna', 'pacman', 'logger')
@@ -114,7 +114,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
       {
         'basics' => :complete,
         'booleans' => :available,
-        'atoms' => :unavailable
+        'atoms' => :locked
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )

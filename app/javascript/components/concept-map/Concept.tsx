@@ -82,7 +82,9 @@ export const Concept = ({
       >
         <div className="display">
           <ConceptIcon name={name} size="medium" />
-          <div className="name">{name}</div>
+          <span className="name" aria-label={getAriaLabel(status)}>
+            {name}
+          </span>
         </div>
         {!isLocked && (
           <PureExerciseStatusBar exerciseStatuses={exerciseStatuses} />
@@ -103,4 +105,19 @@ export const PureConcept = React.memo(Concept)
 
 export function conceptSlugToId(slug: string): string {
   return `concept-${slug}`
+}
+
+const getAriaLabel = (status: ConceptStatus): string => {
+  switch (status) {
+    case 'available':
+      return 'Available Concept:'
+    case 'learned':
+      return 'Learned Concept:'
+    case 'mastered':
+      return 'Mastered Concept:'
+    case 'locked':
+      return 'Locked Concept:'
+    default:
+      return 'Concept:'
+  }
 }

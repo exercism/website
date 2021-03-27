@@ -3,8 +3,11 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/ujs').start()
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('turbolinks').start()
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/activestorage').start()
 require('channels')
 
@@ -148,7 +151,6 @@ import {
   MentorDiscussion,
   MentoredTrack,
   SolutionForStudent,
-  ExerciseStatus,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {

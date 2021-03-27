@@ -5,9 +5,9 @@ class UserTrack
     initialize_with :track, :user_track
 
     def call
-      concept_slugs = track.concepts.pluck(:slug)
+      concept_slugs = user_track.concept_slugs
       concept_slugs.each.with_object({}) do |slug, hash|
-        hash[slug] = mapping[slug]
+        hash[slug] = mapping[slug].to_a
       end
     end
 
@@ -26,7 +26,6 @@ class UserTrack
         mapping[concept_slug] << exercise_slug
       end
 
-      # TOOD: Change to practice link and remove limit
       Exercise::PracticedConcept.joins(:exercise, :concept).
         where('exercises.track_id': track.id).
         pluck("track_concepts.slug", "exercises.slug").
@@ -38,9 +37,12 @@ class UserTrack
       end
 
       mapping.transform_values do |exercise_slugs|
+        # We use compact here just in case we don't have a
+        # slug for an exercise for some reason (this has happened
+        # in local testing).
         exercise_slugs.map do |slug|
           user_track.external? ? "available" : user_track.exercise_status(slug)
-        end
+        end.compact
       end
     end
   end

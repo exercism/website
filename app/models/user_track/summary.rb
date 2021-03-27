@@ -127,16 +127,39 @@ class UserTrack
     #############################
     # Concept aggregate methods #
     #############################
-    def unlocked_concept_ids
-      mapped_concepts.values.select(&:unlocked).map(&:id)
+    memoize
+    def concept_slugs
+      mapped_concepts.values.map(&:slug)
     end
 
+    memoize
+    def unlocked_concept_ids
+      mapped_concepts.values.select(&:unlocked?).map(&:id)
+    end
+
+    memoize
+    def unlocked_concept_slugs
+      mapped_concepts.values.select(&:unlocked?).map(&:slug)
+    end
+
+    memoize
     def learnt_concept_ids
       mapped_concepts.values.select(&:learnt?).map(&:id)
     end
 
+    memoize
+    def learnt_concept_slugs
+      mapped_concepts.values.select(&:learnt?).map(&:slug)
+    end
+
+    memoize
     def mastered_concept_ids
       mapped_concepts.values.select(&:mastered?).map(&:id)
+    end
+
+    memoize
+    def mastered_concept_slugs
+      mapped_concepts.values.select(&:mastered?).map(&:slug)
     end
 
     memoize

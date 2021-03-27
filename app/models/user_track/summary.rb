@@ -7,6 +7,50 @@ class UserTrack
       @mapped_exercises = data['exercises'].transform_values { |v| ExerciseSummary.new(v) }
     end
 
+    #########################
+    # Active Record methods #
+    #########################
+
+    memoize
+    def unlocked_concept_exercises
+      unlocked_exercises.select { |e| e.is_a?(ConceptExercise) }
+    end
+
+    memoize
+    def unlocked_practice_exercises
+      unlocked_exercises.select { |e| e.is_a?(PracticeExercise) }
+    end
+
+    memoize
+    def unlocked_concepts
+      Track::Concept.where(id: unlocked_concept_ids)
+    end
+
+    memoize
+    def mastered_concepts
+      Track::Concept.where(id: mastered_concept_ids)
+    end
+
+    memoize
+    def unlocked_exercises
+      Exercise.where(id: unlocked_exercise_ids)
+    end
+
+    memoize
+    def available_exercises
+      Exercise.where(id: available_exercise_ids)
+    end
+
+    memoize
+    def in_progress_exercises
+      Exercise.where(id: in_progress_exercise_ids)
+    end
+
+    memoize
+    def completed_exercises
+      Exercise.where(id: completed_exercises_ids)
+    end
+
     ####################
     # Exercise methods #
     ####################

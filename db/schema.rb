@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_27_170703) do
+ActiveRecord::Schema.define(version: 2021_03_27_174746) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -288,6 +288,9 @@ ActiveRecord::Schema.define(version: 2021_03_27_170703) do
     t.integer "mentoring_status", limit: 1, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", limit: 1, default: 0, null: false
+    t.datetime "last_submitted_at"
+    t.integer "num_iterations", limit: 1, default: 0, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"

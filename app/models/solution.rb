@@ -2,10 +2,23 @@ class Solution < ApplicationRecord
   extend Mandate::Memoize
 
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: true
+  enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
 
   belongs_to :user
   belongs_to :exercise
   has_one :track, through: :exercise
+
+  # TODO: This might be horrific for performance
+  has_one :user_track,
+    lambda { |s|
+      joins(track: :exercises).
+        where('exercises.id': s.exercise_id)
+    },
+    foreign_key: :user_id,
+    primary_key: :user_id,
+    touch: true,
+    inverse_of: :solutions
+
   has_many :submissions, dependent: :destroy
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
@@ -32,6 +45,10 @@ class Solution < ApplicationRecord
     self.git_sha = track.git_head_sha unless self.git_sha
   end
 
+  before_update do
+    self.status = determine_status
+  end
+
   def self.for(user, exercise)
     Solution.find_by(exercise: exercise, user: user)
   end
@@ -47,6 +64,14 @@ class Solution < ApplicationRecord
     iterations.last
   end
 
+  def status
+    super.to_sym
+  end
+
+  def mentoring_status
+    super.to_sym
+  end
+
   # TODO: Do this
   def has_unsubmitted_code?
     false
@@ -58,14 +83,6 @@ class Solution < ApplicationRecord
 
   def to_param
     raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
-  end
-
-  def status
-    return :published if published?
-    return :completed if completed?
-    return :iterated if iterated?
-
-    :started
   end
 
   def downloaded?
@@ -96,6 +113,11 @@ class Solution < ApplicationRecord
     mentor_discussions.in_progress.first
   end
 
+  def update_status!
+    update(status: determine_status)
+  end
+
+  # TODO: Set this somewhere!
   def update_mentoring_status!
     return update_column(:mentoring_status, :in_progress) if mentor_discussions.in_progress.exists?
     return update_column(:mentoring_status, :requested) if mentor_requests.pending.exists?
@@ -177,5 +199,14 @@ public class Year
   memoize
   def git_exercise
     Git::Exercise.for_solution(self)
+  end
+
+  private
+  def determine_status
+    return :published if published?
+    return :completed if completed?
+    return :iterated if iterated?
+
+    :started
   end
 end

@@ -47,16 +47,16 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "status" do
     solution = create :concept_solution
-    assert_equal :started, solution.reload.status
+    assert_equal :started, solution.reload.status.to_sym
 
     create :iteration, solution: solution
-    assert_equal :iterated, solution.reload.status
+    assert_equal :iterated, solution.reload.status.to_sym
 
-    solution.update(completed_at: Time.current)
-    assert_equal :completed, solution.reload.status
+    solution.update!(completed_at: Time.current)
+    assert_equal :completed, solution.reload.status.to_sym
 
-    solution.update(published_at: Time.current)
-    assert_equal :published, solution.reload.status
+    solution.update!(published_at: Time.current)
+    assert_equal :published, solution.reload.status.to_sym
   end
 
   test "downloaded?" do
@@ -258,24 +258,24 @@ class SolutionTest < ActiveSupport::TestCase
   test "update_mentoring_status!" do
     solution = create :concept_solution
     solution.update_mentoring_status!
-    assert_equal 'none', solution.mentoring_status
+    assert_equal :none, solution.mentoring_status
 
     discussion = create :mentor_discussion, solution: solution, finished_at: Time.current
     solution.update_mentoring_status!
-    assert_equal 'finished', solution.mentoring_status
+    assert_equal :finished, solution.mentoring_status
 
     request = create :mentor_request, solution: solution
     solution.update_mentoring_status!
-    assert_equal 'requested', solution.mentoring_status
+    assert_equal :requested, solution.mentoring_status
 
     discussion.update(finished_at: nil)
     solution.update_mentoring_status!
-    assert_equal 'in_progress', solution.mentoring_status
+    assert_equal :in_progress, solution.mentoring_status
 
     discussion.destroy
     request.update(status: :cancelled)
     solution.update_mentoring_status!
-    assert_equal 'none', solution.mentoring_status
+    assert_equal :none, solution.mentoring_status
   end
 
   test "latest iteration" do
@@ -284,6 +284,21 @@ class SolutionTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution
 
     assert_equal iteration, solution.latest_iteration
+  end
+
+  test "touches user_track" do
+    freeze_time do
+      old_time = Time.current - 1.week
+      solution = create :concept_solution
+      user_track = create :user_track, track: solution.track, user: solution.user
+      assert_equal user_track, solution.user_track # Sanity
+
+      user_track.update_column(:updated_at, old_time)
+
+      assert_equal old_time, user_track.reload.updated_at # Sanity
+      solution.touch
+      assert_equal Time.current, user_track.reload.updated_at # Sanity
+    end
   end
 
   # test "tests and feedback statuses proxy to latest iteration" do

@@ -22,6 +22,10 @@ class Iteration < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid unless self.uuid
   end
 
+  after_save do
+    solution.update_status!
+  end
+
   def status
     Status.new(lambda {
       return :testing                           if submission.tests_pending?

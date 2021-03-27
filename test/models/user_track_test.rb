@@ -66,11 +66,11 @@ class UserTrackTest < ActiveSupport::TestCase
     refute user_track.exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    reset_user_track_summary!(user_track)
+    user_track.reset_summary!
     refute UserTrack.find(user_track.id).exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
-    reset_user_track_summary!(user_track)
+    user_track.reset_summary!
     assert UserTrack.find(user_track.id).exercise_unlocked?(exercise)
   end
 
@@ -107,8 +107,7 @@ class UserTrackTest < ActiveSupport::TestCase
     refute user_track.concept_unlocked?(strings)
 
     # Reload the user track to override memoizing
-    reset_user_track_summary!(user_track)
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
@@ -121,8 +120,7 @@ class UserTrackTest < ActiveSupport::TestCase
     refute user_track.concept_unlocked?(strings)
 
     # Reload the user track to override memoizing
-    reset_user_track_summary!(user_track)
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :user_track_learnt_concept, user_track: user_track, concept: enums
 
@@ -135,8 +133,7 @@ class UserTrackTest < ActiveSupport::TestCase
     assert user_track.concept_unlocked?(strings)
 
     # Reload the user track to override memoizing
-    reset_user_track_summary!(user_track)
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
     assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
@@ -176,8 +173,7 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [practice_exercise_1], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
-    reset_user_track_summary!(user_track)
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
@@ -191,8 +187,7 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [practice_exercise_1, practice_exercise_2], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
-    reset_user_track_summary!(user_track)
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [
@@ -281,9 +276,16 @@ class UserTrackTest < ActiveSupport::TestCase
     ut.send(:summary)
   end
 
-  def reset_user_track_summary!(user_track)
-    user_track.reload
-    user_track.update!(summary_key: nil)
-    user_track.reload
+  test "solutions" do
+    user = create :user
+    track = create :track, slug: :js
+    user_track = create :user_track, user: user, track: track
+
+    s_1 = create :concept_solution, user: user, exercise: create(:concept_exercise, track: track)
+    s_2 = create :practice_solution, user: user, exercise: create(:practice_exercise, track: track)
+    create :concept_solution, exercise: create(:concept_exercise, track: track)
+    create :concept_solution, user: user
+
+    assert_equal [s_1, s_2], user_track.solutions
   end
 end

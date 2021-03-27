@@ -5,13 +5,15 @@
     @apply justify-self-center;
     @apply rounded-circle;
 
-    /* Completed */
-    &.--c {
+    /* Completed or Published */
+    &.--c,
+    &.--p {
         background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSI4IiBmaWxsPSIjNTlEMkFFIi8+CjxwYXRoIGQ9Ik0xMC44NTY5IDUuMTQyNThMNy4wMjM5NyAxMC42MTc5QzYuOTIxMzggMTAuNzY1MyA2Ljc1NDE4IDEwLjg1NDQgNi41NzQ2IDEwLjg1NzRDNi4zOTUwMyAxMC44NjAzIDYuMjI0OTcgMTAuNzc2OCA2LjExNzU2IDEwLjYzMjlMNS4xNDI1OCA5LjMzMzA1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==");
         background-size: cover;
     }
-    /* In Progress */
-    &.--ip {
+    /* In Progress or Started */
+    &.--ip,
+    &.--s {
         @apply bg-darkBlue;
         box-shadow: 0px 1px 3px 1px rgba(0, 80, 255, 0.4);
     }

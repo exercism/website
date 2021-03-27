@@ -28,7 +28,7 @@ export const ExerciseWidget = ({
         <GraphicalIcon icon="chevron-right" className="--action-icon" />
       </a>
     )
-  } else if (exercise.isAvailable) {
+  } else if (exercise.isUnlocked) {
     const classNames = [
       'c-exercise-widget',
       '--available',

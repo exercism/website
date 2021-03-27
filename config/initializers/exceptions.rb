@@ -2,7 +2,7 @@ class BadgeCriteriaNotFulfilledError < RuntimeError; end
 
 class DuplicateSubmissionError < RuntimeError; end
 
-class ExerciseUnavailableError < RuntimeError; end
+class ExerciseLockedError < RuntimeError; end
 
 class InvalidTrackSlugsError < RuntimeError
   attr_reader :track_slugs

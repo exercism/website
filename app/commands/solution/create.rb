@@ -17,7 +17,7 @@ class Solution
     private
     def guard!
       raise UserTrackNotFoundError unless user_track
-      raise ExerciseUnavailableError unless user_track.exercise_available?(exercise)
+      raise ExerciseLockedError unless user_track.exercise_unlocked?(exercise)
     end
 
     def record_activity!(solution)

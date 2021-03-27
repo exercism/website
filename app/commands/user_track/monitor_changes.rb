@@ -15,8 +15,8 @@ class UserTrack
       # Get the initial state. We need the first three to be arrays,
       # not ActiveRecord::Relations, as we need the SQL to run before
       # the block is called below.
-      available_exercise_ids = user_track.available_exercise_ids
-      available_concept_ids = user_track.available_concept_ids
+      unlocked_exercise_ids = user_track.unlocked_exercise_ids
+      unlocked_concept_ids = user_track.unlocked_concept_ids
       concept_progressions = user_track.concept_progressions
 
       # This triggers the action that we're monitor.
@@ -27,8 +27,8 @@ class UserTrack
       updated_user_track = UserTrack.find(user_track.id)
 
       # Work out which exercise and concepts are newly avaliable
-      unlocked_exercise_ids = updated_user_track.available_exercise_ids - available_exercise_ids
-      unlocked_concept_ids = updated_user_track.available_concept_ids - available_concept_ids
+      unlocked_exercise_ids = updated_user_track.unlocked_exercise_ids - unlocked_exercise_ids
+      unlocked_concept_ids = updated_user_track.unlocked_concept_ids - unlocked_concept_ids
 
       # Build a before and after of each concept progression and keep any that have changed
       concept_progressions = updated_user_track.concept_progressions.map do |id, data|

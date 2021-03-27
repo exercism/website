@@ -44,7 +44,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
     # TODO: Remove if not uncommented at launch
     # UserTrack.any_instance.stubs(concept_learnt?: false)
-    # UserTrack.any_instance.stubs(concept_available?: true)
+    # UserTrack.any_instance.stubs(concept_unlocked?: true)
 
     sign_in!(user)
 
@@ -59,7 +59,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
     # TODO: Remove if not uncommented at launch
     # UserTrack.any_instance.stubs(concept_learnt?: true)
-    # UserTrack.any_instance.stubs(concept_available?: true)
+    # UserTrack.any_instance.stubs(concept_unlocked?: true)
 
     sign_in!(user)
 
@@ -74,7 +74,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
     # TODO: Remove if not uncommented at launch
     # UserTrack.any_instance.stubs(concept_learnt?: false)
-    # UserTrack.any_instance.stubs(concept_available?: false)
+    # UserTrack.any_instance.stubs(concept_unlocked?: false)
 
     sign_in!(user)
 

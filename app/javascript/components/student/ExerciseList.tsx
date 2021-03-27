@@ -32,7 +32,7 @@ class Result {
       return this.solution.status
     }
 
-    return this.exercise.isAvailable ? 'available' : 'locked'
+    return this.exercise.isUnlocked ? 'available' : 'locked'
   }
 }
 

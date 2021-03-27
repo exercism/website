@@ -1,5 +1,5 @@
 import React from 'react'
-import { Exercise, ExerciseStatus, Track } from '../types'
+import { Exercise, ExerciseStatus, Track, SolutionForStudent } from '../types'
 import { Icon, ExerciseWidget } from '../common'
 import { usePanel } from '../../hooks/use-panel'
 import { useRequestQuery } from '../../hooks/request-query'
@@ -30,8 +30,10 @@ export const ExerciseStatusChart = ({
         if (
           status !== 'locked' &&
           status !== 'available' &&
+          status !== 'started' &&
           status !== 'in_progress' &&
-          status !== 'completed'
+          status !== 'completed' &&
+          status !== 'published'
         ) {
           throw new Error('Invalid status')
         }
@@ -73,6 +75,7 @@ const ExerciseStatusDot = ({
   const { data, error, status } = useRequestQuery<{
     track: Track
     exercise: Exercise
+    solution: SolutionForStudent
   }>(
     `exercise-tooltip-${exerciseStatus.slug}`,
     { endpoint: links.tooltip, options: { enabled: open } },
@@ -82,8 +85,10 @@ const ExerciseStatusDot = ({
   const classNames = [
     'c-ed',
     exerciseStatus.status === 'available' ? '--a' : '',
+    exerciseStatus.status === 'started' ? '--s' : '',
     exerciseStatus.status === 'in_progress' ? '--ip' : '',
     exerciseStatus.status === 'completed' ? '--c' : '',
+    exerciseStatus.status === 'published' ? '--p' : '',
     exerciseStatus.status === 'locked' ? '--l' : '',
   ].filter((name) => name.length > 0)
 
@@ -112,6 +117,7 @@ const ExerciseStatusDot = ({
               {data ? (
                 <ExerciseWidget
                   exercise={data.exercise}
+                  solution={data.solution}
                   track={data.track}
                   size="tooltip"
                 />

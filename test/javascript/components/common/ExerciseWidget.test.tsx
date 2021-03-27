@@ -15,7 +15,7 @@ test('renders a solution when passed in', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -81,7 +81,7 @@ test('renders an available exercise', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: false,
     isRecommended: true,
     links: {
@@ -129,7 +129,7 @@ test('renders a locked exercise', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: false,
+    isUnlocked: false,
     isCompleted: false,
     isRecommended: false,
   }

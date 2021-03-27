@@ -1,14 +1,14 @@
 require "test_helper"
 
-class UserTrack::Summary::ExercisesAvailableTest < ActiveSupport::TestCase
-  test "exercise_available? with no prerequisites" do
+class UserTrack::Summary::ExercisesunlockedTest < ActiveSupport::TestCase
+  test "exercise_unlocked? with no prerequisites" do
     track = create :track
     exercise = create :concept_exercise, :random_slug, track: track
     user_track = create :user_track, track: track
-    assert summary_for(user_track).exercise_available?(exercise)
+    assert summary_for(user_track).exercise_unlocked?(exercise)
   end
 
-  test "exercise_available? with prerequisites" do
+  test "exercise_unlocked? with prerequisites" do
     track = create :track
     user_track = create :user_track, track: track
     exercise = create :concept_exercise, :random_slug, track: track
@@ -19,16 +19,16 @@ class UserTrack::Summary::ExercisesAvailableTest < ActiveSupport::TestCase
     prereq_2 = create :track_concept, track: track
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
 
-    refute summary_for(user_track).exercise_available?(exercise)
+    refute summary_for(user_track).exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    refute summary_for(user_track).exercise_available?(exercise)
+    refute summary_for(user_track).exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
-    assert summary_for(user_track).exercise_available?(exercise)
+    assert summary_for(user_track).exercise_unlocked?(exercise)
   end
 
-  test "available concepts" do
+  test "unlocked concepts" do
     track = create :track
     basics = create :track_concept, track: track, slug: "co_basics"
     enums = create :track_concept, track: track, slug: "co_enums"
@@ -53,32 +53,32 @@ class UserTrack::Summary::ExercisesAvailableTest < ActiveSupport::TestCase
     user_track = create :user_track, track: track, user: user
 
     summary = summary_for(user_track)
-    assert_equal [basics, recursion].map(&:id), summary.available_concept_ids
-    assert summary.concept_available?(recursion)
-    assert summary.concept_available?(basics)
-    refute summary.concept_available?(enums)
-    refute summary.concept_available?(strings)
+    assert_equal [basics, recursion].map(&:id), summary.unlocked_concept_ids
+    assert summary.concept_unlocked?(recursion)
+    assert summary.concept_unlocked?(basics)
+    refute summary.concept_unlocked?(enums)
+    refute summary.concept_unlocked?(strings)
 
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     summary = summary_for(user_track)
-    assert_equal [basics, enums, recursion].map(&:id), summary.available_concept_ids
-    assert summary.concept_available?(recursion)
-    assert summary.concept_available?(basics)
-    assert summary.concept_available?(enums)
-    refute summary.concept_available?(strings)
+    assert_equal [basics, enums, recursion].map(&:id), summary.unlocked_concept_ids
+    assert summary.concept_unlocked?(recursion)
+    assert summary.concept_unlocked?(basics)
+    assert summary.concept_unlocked?(enums)
+    refute summary.concept_unlocked?(strings)
 
     create :user_track_learnt_concept, user_track: user_track, concept: enums
 
     summary = summary_for(user_track)
-    assert_equal [basics, enums, strings, recursion].map(&:id), summary.available_concept_ids
-    assert summary.concept_available?(recursion)
-    assert summary.concept_available?(basics)
-    assert summary.concept_available?(enums)
-    assert summary.concept_available?(strings)
+    assert_equal [basics, enums, strings, recursion].map(&:id), summary.unlocked_concept_ids
+    assert summary.concept_unlocked?(recursion)
+    assert summary.concept_unlocked?(basics)
+    assert summary.concept_unlocked?(enums)
+    assert summary.concept_unlocked?(strings)
   end
 
-  test "available exercises" do
+  test "unlocked exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
     concept_exercise_2 = create :concept_exercise, :random_slug, track: track
@@ -106,7 +106,7 @@ class UserTrack::Summary::ExercisesAvailableTest < ActiveSupport::TestCase
     summary = summary_for(user_track)
     assert_equal [
       concept_exercise_1, practice_exercise_1
-    ].map(&:id).sort, summary.available_exercise_ids.sort
+    ].map(&:id).sort, summary.unlocked_exercise_ids.sort
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     summary = summary_for(user_track)
@@ -115,7 +115,7 @@ class UserTrack::Summary::ExercisesAvailableTest < ActiveSupport::TestCase
       practice_exercise_1,
       concept_exercise_2,
       practice_exercise_2
-    ].map(&:id).sort, summary.available_exercise_ids.sort
+    ].map(&:id).sort, summary.unlocked_exercise_ids.sort
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     summary = summary_for(user_track)
@@ -123,7 +123,7 @@ class UserTrack::Summary::ExercisesAvailableTest < ActiveSupport::TestCase
       concept_exercise_1, practice_exercise_1,
       concept_exercise_2, concept_exercise_3, concept_exercise_4,
       practice_exercise_2, practice_exercise_3, practice_exercise_4
-    ].map(&:id).sort, summary.available_exercise_ids.sort
+    ].map(&:id).sort, summary.unlocked_exercise_ids.sort
   end
 
   private

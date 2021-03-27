@@ -10,7 +10,7 @@ export const ExerciseStatusTag = ({
     return (
       <div className="c-exercise-status-tag --recommended">Recommended</div>
     )
-  } else if (exercise.isAvailable) {
+  } else if (exercise.isUnlocked) {
     return <div className="c-exercise-status-tag --available">Available</div>
   } else {
     return <div className="c-exercise-status-tag --locked">Locked</div>

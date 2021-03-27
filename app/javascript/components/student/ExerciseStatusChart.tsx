@@ -31,7 +31,7 @@ export const ExerciseStatusChart = ({
           status !== 'locked' &&
           status !== 'available' &&
           status !== 'started' &&
-          status !== 'in_progress' &&
+          status !== 'iterated' &&
           status !== 'completed' &&
           status !== 'published'
         ) {
@@ -85,8 +85,8 @@ const ExerciseStatusDot = ({
   const classNames = [
     'c-ed',
     exerciseStatus.status === 'available' ? '--a' : '',
-    exerciseStatus.status === 'started' ? '--s' : '',
-    exerciseStatus.status === 'in_progress' ? '--ip' : '',
+    exerciseStatus.status === 'started' ? '--ip' : '',
+    exerciseStatus.status === 'iterated' ? '--ip' : '',
     exerciseStatus.status === 'completed' ? '--c' : '',
     exerciseStatus.status === 'published' ? '--p' : '',
     exerciseStatus.status === 'locked' ? '--l' : '',

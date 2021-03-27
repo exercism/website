@@ -3,7 +3,7 @@ export type ExerciseStatus = {
   status:
     | 'published'
     | 'completed'
-    | 'in_progress'
+    | 'iterated'
     | 'started'
     | 'available'
     | 'locked'
@@ -24,11 +24,7 @@ export type SolutionForStudent = {
   }
 }
 
-export type SolutionStatus =
-  | 'started'
-  | 'published'
-  | 'completed'
-  | 'in_progress'
+export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
 
 type ExerciseCore = {
   slug: string

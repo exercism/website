@@ -99,7 +99,7 @@ class UserTrack
           status: status,
           unlocked: unlocked,
           has_solution: !!solution_data,
-          completed: solution_data&.fetch(:completed)
+          completed: solution_data&.fetch(:completed) || false
         }
         exercise_data[:taught_concepts] = exercise.taught_concepts.map(&:slug) if exercise.concept_exercise?
         data[exercise.slug] = exercise_data

@@ -257,24 +257,20 @@ class SolutionTest < ActiveSupport::TestCase
   # set to ensure that things are checked in a safe way.
   test "update_mentoring_status!" do
     solution = create :concept_solution
-    solution.update_mentoring_status!
     assert_equal :none, solution.mentoring_status
 
-    discussion = create :mentor_discussion, solution: solution, finished_at: Time.current
-    solution.update_mentoring_status!
-    assert_equal :finished, solution.mentoring_status
-
     request = create :mentor_request, solution: solution
-    solution.update_mentoring_status!
     assert_equal :requested, solution.mentoring_status
 
-    discussion.update(finished_at: nil)
-    solution.update_mentoring_status!
+    discussion = create :mentor_discussion, solution: solution
+    request.fulfilled!
     assert_equal :in_progress, solution.mentoring_status
 
+    discussion.update(finished_at: Time.current)
+    assert_equal :finished, solution.mentoring_status
+
     discussion.destroy
-    request.update(status: :cancelled)
-    solution.update_mentoring_status!
+    request.cancelled!
     assert_equal :none, solution.mentoring_status
   end
 

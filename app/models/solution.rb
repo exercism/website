@@ -114,16 +114,13 @@ class Solution < ApplicationRecord
   end
 
   def update_status!
-    update(status: determine_status)
+    new_status = determine_status
+    update(status: new_status) if status != new_status
   end
 
-  # TODO: Set this somewhere!
   def update_mentoring_status!
-    return update_column(:mentoring_status, :in_progress) if mentor_discussions.in_progress.exists?
-    return update_column(:mentoring_status, :requested) if mentor_requests.pending.exists?
-    return update_column(:mentoring_status, :finished) if mentor_discussions.finished.exists?
-
-    update_column(:mentoring_status, :none)
+    new_status = determine_mentoring_status
+    update(mentoring_status: new_status) if mentoring_status != new_status
   end
 
   # TODO
@@ -208,5 +205,13 @@ public class Year
     return :iterated if iterated?
 
     :started
+  end
+
+  def determine_mentoring_status
+    return :in_progress if mentor_discussions.in_progress.exists?
+    return :requested if mentor_requests.pending.exists?
+    return :finished if mentor_discussions.finished.exists?
+
+    :none
   end
 end

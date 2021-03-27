@@ -15,7 +15,7 @@ test('renders has notifications when solution has notifications', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -50,7 +50,7 @@ test('does not render has notifications when solution has no notifications', asy
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -85,7 +85,7 @@ test('does not render has notifications when ther is no solution', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -110,7 +110,7 @@ test('renders solution status when passed in', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -145,7 +145,7 @@ test('renders exercise status when there is no solution', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -170,7 +170,7 @@ test('renders exercise difficulty when there is no solution', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -195,7 +195,7 @@ test('does not render exercise difficulty when solution is passed in', async () 
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -230,7 +230,7 @@ test('renders number of iterations when solution has more than 0', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -265,7 +265,7 @@ test('does not render number of iterations when solution has 0', async () => {
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -300,7 +300,7 @@ test('does not render number of iterations when there is no solution', async () 
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -325,7 +325,7 @@ test('renders number of mentoring comments when solution has more than 0', async
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -360,7 +360,7 @@ test('does not render number of mentoring comments when solution has 0', async (
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {
@@ -395,7 +395,7 @@ test('does not render number of mentoring comments when there is no solution', a
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
     difficulty: 'easy',
-    isAvailable: true,
+    isUnlocked: true,
     isCompleted: true,
     isRecommended: true,
     links: {

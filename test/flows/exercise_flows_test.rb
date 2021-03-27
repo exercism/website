@@ -15,7 +15,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert_equal ut, UserTrack.for!(user, track)
 
     # Check we only have basics to start with
-    assert_equal [concept_exercise_lasagna], ut.available_concept_exercises
+    assert_equal [concept_exercise_lasagna], ut.unlocked_concept_exercises
 
     # Start the exercise and get a solution
     basics_solution = Solution::Create.(user, concept_exercise_lasagna)

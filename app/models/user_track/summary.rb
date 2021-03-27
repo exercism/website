@@ -10,8 +10,8 @@ class UserTrack
     ####################
     # Exercise methods #
     ####################
-    def exercise_available?(obj)
-      exercise(obj).available
+    def exercise_unlocked?(obj)
+      exercise(obj).unlocked
     end
 
     def exercise_completed?(obj)
@@ -19,12 +19,7 @@ class UserTrack
     end
 
     def exercise_status(obj)
-      e = exercise(obj)
-      return :completed if e.completed
-      return :in_progress if e.started
-      return :available if e.available
-
-      :locked
+      exercise(obj).status
     end
 
     ###############################
@@ -46,12 +41,16 @@ class UserTrack
       mapped_exercises.values.select { |e| e.type == "practice" }.count(&:completed)
     end
 
+    def unlocked_exercise_ids
+      mapped_exercises.values.select(&:unlocked).map(&:id)
+    end
+
     def available_exercise_ids
-      mapped_exercises.values.select(&:available).map(&:id)
+      mapped_exercises.values.select(&:unlocked).reject(&:has_solution).map(&:id)
     end
 
     def in_progress_exercise_ids
-      mapped_exercises.values.select(&:started).reject(&:completed).map(&:id)
+      mapped_exercises.values.select(&:has_solution).reject(&:completed).map(&:id)
     end
 
     def completed_exercises_ids
@@ -61,8 +60,8 @@ class UserTrack
     ###################
     # Concept methods #
     ###################
-    def concept_available?(obj)
-      concept(obj).available?
+    def concept_unlocked?(obj)
+      concept(obj).unlocked?
     end
 
     def concept_learnt?(obj)
@@ -84,8 +83,8 @@ class UserTrack
     #############################
     # Concept aggregate methods #
     #############################
-    def available_concept_ids
-      mapped_concepts.values.select(&:available).map(&:id)
+    def unlocked_concept_ids
+      mapped_concepts.values.select(&:unlocked).map(&:id)
     end
 
     def learnt_concept_ids

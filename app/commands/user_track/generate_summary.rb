@@ -39,7 +39,7 @@ class UserTrack
           num_practice_exercises: practice_exercises.count,
           num_completed_concept_exercises: concept_solutions.count,
           num_completed_practice_exercises: practice_solutions.count,
-          available: available_concepts.include?(concept.slug)
+          unlocked: unlocked_concepts.include?(concept.slug)
         }
       end
     end
@@ -53,8 +53,9 @@ class UserTrack
           id: exercise.id,
           slug: exercise.slug,
           type: exercise.concept_exercise? ? 'concept' : 'practice',
-          available: exercise_data[:available],
-          started: exercise_data[:started],
+          status: exercise_data[:status],
+          unlocked: exercise_data[:unlocked],
+          has_solution: exercise_data[:has_solution],
           completed: exercise_data[:completed]
         }
       end
@@ -70,30 +71,35 @@ class UserTrack
       exercises.each_with_object({}) do |exercise, data|
         prerequisites = exercise.prerequisites.map(&:slug)
 
-        # Exercises are available if:
+        solution_data = solutions_data[exercise.slug]
+
+        # Exercises are unlocked if:
         # - They've started
         # - There are no outstanding prereqs
         # - There is a user track
-        available = !!(
+        unlocked = !!(
           user_track && (
             solutions_data[exercise.slug] ||
             (prerequisites - learnt_concepts).empty?
           )
         )
 
-        # Exercises are started if there is solution
-        # in the database for them.
-        started = !!solutions_data[exercise.slug]
-
-        completed = started && solutions_data[exercise.slug][:completed]
+        if solution_data
+          status = solution_data[:status]
+        elsif unlocked
+          status = :available
+        else
+          status = :locked
+        end
 
         exercise_data = {
           slug: exercise.slug,
           type: exercise.git_type.to_sym,
           prerequisites: prerequisites,
-          available: available,
-          started: started,
-          completed: completed
+          status: status,
+          unlocked: unlocked,
+          has_solution: !!solution_data,
+          completed: solution_data&.fetch(:completed) || false
         }
         exercise_data[:taught_concepts] = exercise.taught_concepts.map(&:slug) if exercise.concept_exercise?
         data[exercise.slug] = exercise_data
@@ -108,6 +114,7 @@ class UserTrack
       solutions.each_with_object({}) do |solution, data|
         data[solution.exercise.slug] = {
           slug: solution.exercise.slug,
+          status: solution.status,
           completed: solution.completed?
         }
       end
@@ -131,25 +138,25 @@ class UserTrack
     end
 
     memoize
-    def available_concepts
+    def unlocked_concepts
       concept_ids = Exercise::TaughtConcept.
         joins(:exercise).
-        where('exercises.slug': available_exercises).
+        where('exercises.slug': unlocked_exercises).
         select(:track_concept_id)
 
       track.concepts.not_taught.pluck(:slug) + Track::Concept.where(id: concept_ids).pluck(:slug)
     end
 
     memoize
-    def available_exercises
-      exercises_data.select { |_, exercise| exercise[:available] }.keys
+    def unlocked_exercises
+      exercises_data.select { |_, exercise| exercise[:unlocked] }.keys
     end
 
     ConceptSummary = Struct.new(
       :id, :slug,
       :num_concept_exercises, :num_practice_exercises,
       :num_completed_concept_exercises, :num_completed_practice_exercises,
-      :available,
+      :unlocked,
       keyword_init: true
     ) do
       def num_exercises
@@ -160,8 +167,8 @@ class UserTrack
         num_completed_concept_exercises + num_completed_practice_exercises
       end
 
-      def available?
-        available
+      def unlocked?
+        unlocked
       end
 
       def learnt?
@@ -174,8 +181,8 @@ class UserTrack
     end
 
     ExerciseSummary = Struct.new(
-      :id, :slug, :type,
-      :available, :started, :completed,
+      :id, :slug, :type, :status,
+      :unlocked, :has_solution, :completed,
       keyword_init: true
     )
   end

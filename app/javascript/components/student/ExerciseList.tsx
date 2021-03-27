@@ -12,7 +12,7 @@ const DEFAULT_ERROR = new Error('Unable to load exercises')
 type FilterValue =
   | 'published'
   | 'completed'
-  | 'in_progress'
+  | 'iterated'
   | 'started'
   | 'available'
   | 'locked'
@@ -32,7 +32,7 @@ class Result {
       return this.solution.status
     }
 
-    return this.exercise.isAvailable ? 'available' : 'locked'
+    return this.exercise.isUnlocked ? 'available' : 'locked'
   }
 }
 
@@ -85,7 +85,7 @@ const Tab = ({
 const STATUS_FILTERS = [
   new StatusFilter('All Exercises'),
   new StatusFilter('Completed', ['published', 'completed'], 'c'),
-  new StatusFilter('In Progress', ['in_progress', 'started'], 'ip'),
+  new StatusFilter('In Progress', ['iterated', 'started'], 'ip'),
   new StatusFilter('Available', ['available'], 'a'),
   new StatusFilter('Locked', ['locked'], 'l'),
 ]

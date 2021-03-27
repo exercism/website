@@ -46,13 +46,13 @@ class UserTrackTest < ActiveSupport::TestCase
     assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
   end
 
-  test "exercise_available? with no prerequisites" do
+  test "exercise_unlocked? with no prerequisites" do
     exercise = create :concept_exercise
     user_track = create :user_track, track: exercise.track
-    assert user_track.exercise_available?(exercise)
+    assert user_track.exercise_unlocked?(exercise)
   end
 
-  test "exercise_available? with prerequisites" do
+  test "exercise_unlocked? with prerequisites" do
     track = create :track
     exercise = create :concept_exercise, :random_slug, track: track
 
@@ -63,16 +63,16 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
 
     user_track = create :user_track, track: track
-    refute user_track.exercise_available?(exercise)
+    refute user_track.exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    refute UserTrack.find(user_track.id).exercise_available?(exercise)
+    refute UserTrack.find(user_track.id).exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
-    assert UserTrack.find(user_track.id).exercise_available?(exercise)
+    assert UserTrack.find(user_track.id).exercise_unlocked?(exercise)
   end
 
-  test "available concepts" do
+  test "unlocked concepts" do
     track = create :track
     basics = create :track_concept, track: track, slug: "co_basics"
     enums = create :track_concept, track: track, slug: "co_enums"
@@ -96,52 +96,52 @@ class UserTrackTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, track: track, user: user
 
-    assert_equal [basics, recursion], user_track.available_concepts
+    assert_equal [basics, recursion], user_track.unlocked_concepts
     assert_empty user_track.learnt_concepts
     assert_empty user_track.mastered_concepts
-    assert user_track.concept_available?(recursion)
-    assert user_track.concept_available?(basics)
-    refute user_track.concept_available?(enums)
-    refute user_track.concept_available?(strings)
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    refute user_track.concept_unlocked?(enums)
+    refute user_track.concept_unlocked?(strings)
 
     # Reload the user track to override memoizing
     user_track = UserTrack.find(user_track.id)
 
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
-    assert_equal [basics, enums, recursion], user_track.available_concepts
+    assert_equal [basics, enums, recursion], user_track.unlocked_concepts
     assert_equal [basics], user_track.learnt_concepts
     assert_empty user_track.mastered_concepts
-    assert user_track.concept_available?(recursion)
-    assert user_track.concept_available?(basics)
-    assert user_track.concept_available?(enums)
-    refute user_track.concept_available?(strings)
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    assert user_track.concept_unlocked?(enums)
+    refute user_track.concept_unlocked?(strings)
 
     # Reload the user track to override memoizing
     user_track = UserTrack.find(user_track.id)
 
     create :user_track_learnt_concept, user_track: user_track, concept: enums
 
-    assert_equal [basics, enums, strings, recursion], user_track.available_concepts
+    assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
     assert_equal [basics, enums], user_track.learnt_concepts
     assert_empty user_track.mastered_concepts
-    assert user_track.concept_available?(recursion)
-    assert user_track.concept_available?(basics)
-    assert user_track.concept_available?(enums)
-    assert user_track.concept_available?(strings)
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    assert user_track.concept_unlocked?(enums)
+    assert user_track.concept_unlocked?(strings)
 
     # Reload the user track to override memoizing
     user_track = UserTrack.find(user_track.id)
 
     create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
-    assert_equal [basics, enums, strings, recursion], user_track.available_concepts
+    assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
     assert_equal [basics, enums], user_track.learnt_concepts
     assert_equal [enums], user_track.mastered_concepts
 
     # TODO: Add test for practices exercise
   end
 
-  test "available exercises" do
+  test "unlocked exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
     concept_exercise_2 = create :concept_exercise, :random_slug, track: track
@@ -166,9 +166,9 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
     user_track = create :user_track, track: track
 
-    assert_equal [concept_exercise_1, practice_exercise_1], user_track.available_exercises
-    assert_equal [concept_exercise_1], user_track.available_concept_exercises
-    assert_equal [practice_exercise_1], user_track.available_practice_exercises
+    assert_equal [concept_exercise_1, practice_exercise_1], user_track.unlocked_exercises
+    assert_equal [concept_exercise_1], user_track.unlocked_concept_exercises
+    assert_equal [practice_exercise_1], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
     user_track = UserTrack.find(user_track.id)
@@ -179,10 +179,10 @@ class UserTrackTest < ActiveSupport::TestCase
       concept_exercise_2,
       practice_exercise_1,
       practice_exercise_2
-    ], user_track.available_exercises
+    ], user_track.unlocked_exercises
 
-    assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
-    assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
+    assert_equal [concept_exercise_1, concept_exercise_2], user_track.unlocked_concept_exercises
+    assert_equal [practice_exercise_1, practice_exercise_2], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
     user_track = UserTrack.find(user_track.id)
@@ -191,21 +191,21 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal [
       concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
       practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4
-    ], user_track.available_exercises
+    ], user_track.unlocked_exercises
 
     assert_equal [
       concept_exercise_1,
       concept_exercise_2,
       concept_exercise_3,
       concept_exercise_4
-    ], user_track.available_concept_exercises
+    ], user_track.unlocked_concept_exercises
 
     assert_equal [
       practice_exercise_1,
       practice_exercise_2,
       practice_exercise_3,
       practice_exercise_4
-    ], user_track.available_practice_exercises
+    ], user_track.unlocked_practice_exercises
   end
 
   test "in_progress_exercises" do

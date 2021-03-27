@@ -61,33 +61,39 @@ class UserTrack < ApplicationRecord
     active_mentoring_discussions.size + pending_mentoring_requests.size
   end
 
-  delegate :exercise_available?, :exercise_completed?, :exercise_status,
+  delegate :exercise_unlocked?, :exercise_completed?, :exercise_status,
     :num_completed_exercises, :num_completed_concept_exercises, :num_completed_practice_exercises,
+    :unlocked_exercise_ids, :avaliable_exercise_ids,
     :num_concepts, :num_concepts_learnt, :num_concepts_mastered,
     :num_exercises,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,
-    :concept_available?, :concept_learnt?, :concept_mastered?,
-    :concept_progressions, :available_exercise_ids, :available_concept_ids,
+    :concept_unlocked?, :concept_learnt?, :concept_mastered?,
+    :concept_progressions, :unlocked_concept_ids,
     to: :summary
 
   memoize
-  def available_concept_exercises
-    available_exercises.select { |e| e.is_a?(ConceptExercise) }
+  def unlocked_concept_exercises
+    unlocked_exercises.select { |e| e.is_a?(ConceptExercise) }
   end
 
   memoize
-  def available_practice_exercises
-    available_exercises.select { |e| e.is_a?(PracticeExercise) }
+  def unlocked_practice_exercises
+    unlocked_exercises.select { |e| e.is_a?(PracticeExercise) }
   end
 
   memoize
-  def available_concepts
-    Track::Concept.where(id: summary.available_concept_ids)
+  def unlocked_concepts
+    Track::Concept.where(id: summary.unlocked_concept_ids)
   end
 
   memoize
   def mastered_concepts
     Track::Concept.where(id: summary.mastered_concept_ids)
+  end
+
+  memoize
+  def unlocked_exercises
+    Exercise.where(id: summary.unlocked_exercise_ids)
   end
 
   memoize

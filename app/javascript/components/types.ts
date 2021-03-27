@@ -1,11 +1,17 @@
 export type ExerciseStatus = {
   slug: string
-  status: 'available' | 'completed' | 'in_progress' | 'locked'
+  status:
+    | 'published'
+    | 'completed'
+    | 'iterated'
+    | 'started'
+    | 'available'
+    | 'locked'
 }
 
 export type Exercise =
-  | (ExerciseCore & { isAvailable: true; links: { self: string } })
-  | (ExerciseCore & { isAvailable: false })
+  | (ExerciseCore & { isUnlocked: true; links: { self: string } })
+  | (ExerciseCore & { isUnlocked: false })
 
 export type SolutionForStudent = {
   url: string
@@ -18,11 +24,7 @@ export type SolutionForStudent = {
   }
 }
 
-export type SolutionStatus =
-  | 'started'
-  | 'published'
-  | 'completed'
-  | 'in_progress'
+export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
 
 type ExerciseCore = {
   slug: string

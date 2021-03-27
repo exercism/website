@@ -23,8 +23,8 @@ test('renders Completed when status is completed', async () => {
   expect(screen.getByText('Completed')).toBeInTheDocument()
 })
 
-test('renders in progress when status is in progress', async () => {
-  const { container } = render(<SolutionStatusTag status="in_progress" />)
+test('renders in progress when status is iterated', async () => {
+  const { container } = render(<SolutionStatusTag status="iterated" />)
 
   expect(container.firstChild).toHaveAttribute(
     'class',

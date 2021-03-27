@@ -1,5 +1,5 @@
 class UserTrack
-  class GenerateSummary
+  class GenerateSummaryData
     include Mandate
 
     initialize_with :track, :user_track
@@ -8,13 +8,15 @@ class UserTrack
       t = Time.now.to_f
       Rails.logger.info "[BM] Starting generating user summary"
 
-      UserTrack::Summary.new(
-        concepts.transform_values { |v| ConceptSummary.new(v) },
-        exercises.transform_values { |v| ExerciseSummary.new(v) }
-      ).tap do
-        Rails.logger.info "[BM] Finished generating user summary"
-        Rails.logger.info "[BM] Generating User Summary: #{Time.now.to_f - t}"
-      end
+      d = {
+        concepts: concepts,
+        exercises: exercises
+      }.with_indifferent_access
+
+      Rails.logger.info "[BM] Finished generating user summary"
+      Rails.logger.info "[BM] Generating User Summary: #{Time.now.to_f - t}"
+
+      d
     end
 
     memoize
@@ -151,39 +153,5 @@ class UserTrack
     def unlocked_exercises
       exercises_data.select { |_, exercise| exercise[:unlocked] }.keys
     end
-
-    ConceptSummary = Struct.new(
-      :id, :slug,
-      :num_concept_exercises, :num_practice_exercises,
-      :num_completed_concept_exercises, :num_completed_practice_exercises,
-      :unlocked,
-      keyword_init: true
-    ) do
-      def num_exercises
-        num_concept_exercises + num_practice_exercises
-      end
-
-      def num_completed_exercises
-        num_completed_concept_exercises + num_completed_practice_exercises
-      end
-
-      def unlocked?
-        unlocked
-      end
-
-      def learnt?
-        num_concept_exercises.positive? && num_concept_exercises == num_completed_concept_exercises
-      end
-
-      def mastered?
-        num_exercises.positive? && num_exercises == num_completed_exercises
-      end
-    end
-
-    ExerciseSummary = Struct.new(
-      :id, :slug, :type, :status,
-      :unlocked, :has_solution, :completed,
-      keyword_init: true
-    )
   end
 end

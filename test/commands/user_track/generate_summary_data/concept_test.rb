@@ -1,12 +1,12 @@
 require "test_helper"
 
-class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
+class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
   test "with multi-type accessing" do
     track = create :track
     concept = create :track_concept, track: track
     ut = create :user_track, track: track
 
-    summary = UserTrack::GenerateSummary.(track, ut)
+    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
     # Test we can access by object or slug
     assert_equal concept.slug, summary.concept(concept).slug
@@ -18,9 +18,9 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
     concept = create :track_concept, track: track
     ut = create :user_track, track: track
 
-    summary = UserTrack::GenerateSummary.(track, ut)
+    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
-    expected = UserTrack::GenerateSummary::ConceptSummary.new(
+    expected = UserTrack::Summary::ConceptSummary.new(
       id: concept.id,
       slug: concept.slug,
       num_concept_exercises: 0,
@@ -50,9 +50,9 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
     pe_3 = create :practice_exercise, :random_slug, track: track
     pe_3.prerequisites << create(:track_concept, track: track)
 
-    summary = UserTrack::GenerateSummary.(track, ut)
+    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
-    expected = UserTrack::GenerateSummary::ConceptSummary.new(
+    expected = UserTrack::Summary::ConceptSummary.new(
       id: concept.id,
       slug: concept.slug,
       num_concept_exercises: 1,
@@ -90,9 +90,9 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
     pe_3.prerequisites << concept
     create :practice_solution, user: user, exercise: pe_3, completed_at: Time.current
 
-    summary = UserTrack::GenerateSummary.(track, ut)
+    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
-    expected = UserTrack::GenerateSummary::ConceptSummary.new(
+    expected = UserTrack::Summary::ConceptSummary.new(
       id: concept.id,
       slug: concept.slug,
       num_concept_exercises: 2,
@@ -120,9 +120,9 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
     pe_3 = create :practice_exercise, :random_slug, track: track
     pe_3.prerequisites << create(:track_concept, track: track)
 
-    summary = UserTrack::GenerateSummary.(track, nil)
+    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, nil))
 
-    expected = UserTrack::GenerateSummary::ConceptSummary.new(
+    expected = UserTrack::Summary::ConceptSummary.new(
       id: concept.id,
       slug: concept.slug,
       num_concept_exercises: 1,

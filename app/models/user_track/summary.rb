@@ -2,9 +2,9 @@ class UserTrack
   class Summary
     extend Mandate::Memoize
 
-    def initialize(concepts, exercises)
-      @mapped_concepts = concepts
-      @mapped_exercises = exercises
+    def initialize(data)
+      @mapped_concepts = data['concepts'].transform_values { |v| ConceptSummary.new(v) }
+      @mapped_exercises = data['exercises'].transform_values { |v| ExerciseSummary.new(v) }
     end
 
     ####################
@@ -127,16 +127,50 @@ class UserTrack
     #################
 
     def exercise(obj)
-      obj.is_a?(Exercise) ? slug = obj.slug : slug = obj.to_s
+      slug = obj.is_a?(Exercise) ? obj.slug : obj.to_s
       mapped_exercises[slug]
     end
 
     def concept(obj)
-      obj.is_a?(Track::Concept) ? slug = obj.slug : slug = obj.to_s
+      slug = obj.is_a?(Track::Concept) ? obj.slug : obj.to_s
       mapped_concepts[slug]
     end
 
     private
     attr_accessor :track, :user_track, :mapped_concepts, :mapped_exercises
+
+    ConceptSummary = Struct.new(
+      :id, :slug,
+      :num_concept_exercises, :num_practice_exercises,
+      :num_completed_concept_exercises, :num_completed_practice_exercises,
+      :unlocked,
+      keyword_init: true
+    ) do
+      def num_exercises
+        num_concept_exercises + num_practice_exercises
+      end
+
+      def num_completed_exercises
+        num_completed_concept_exercises + num_completed_practice_exercises
+      end
+
+      def unlocked?
+        unlocked
+      end
+
+      def learnt?
+        num_concept_exercises.positive? && num_concept_exercises == num_completed_concept_exercises
+      end
+
+      def mastered?
+        num_exercises.positive? && num_exercises == num_completed_exercises
+      end
+    end
+
+    ExerciseSummary = Struct.new(
+      :id, :slug, :type, :status,
+      :unlocked, :has_solution, :completed,
+      keyword_init: true
+    )
   end
 end

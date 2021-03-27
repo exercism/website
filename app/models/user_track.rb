@@ -6,6 +6,10 @@ class UserTrack < ApplicationRecord
   has_many :user_track_learnt_concepts, class_name: "UserTrack::LearntConcept", dependent: :destroy
   has_many :learnt_concepts, through: :user_track_learnt_concepts, source: :concept
 
+  before_create do
+    self.summary_data = {}
+  end
+
   def self.for!(user_param, track_param)
     UserTrack.find_by!(
       user: User.for!(user_param),
@@ -112,11 +116,22 @@ class UserTrack < ApplicationRecord
   end
 
   private
-  # A track's summary is a effeciently created summary of all
+  # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing
   # us to quickly retrieve data without requiring lots of complex
   # SQL queries.
+  memoize
   def summary
-    @summary ||= UserTrack::GenerateSummary.(track, self)
+    digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
+    expected_key = "#{track.updated_at}_#{updated_at}_#{digest}"
+
+    if summary_key != expected_key
+      update!(
+        summary_key: expected_key,
+        summary_data: UserTrack::GenerateSummaryData.(track, self)
+      )
+    end
+
+    UserTrack::Summary.new(summary_data.with_indifferent_access)
   end
 end

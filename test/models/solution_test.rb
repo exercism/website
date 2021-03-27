@@ -50,7 +50,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal :started, solution.reload.status
 
     create :iteration, solution: solution
-    assert_equal :in_progress, solution.reload.status
+    assert_equal :iterated, solution.reload.status
 
     solution.update(completed_at: Time.current)
     assert_equal :completed, solution.reload.status

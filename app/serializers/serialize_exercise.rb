@@ -13,7 +13,7 @@ class SerializeExercise
       icon_url: exercise.icon_url,
       difficulty: "easy", # TOOD
       blurb: exercise.blurb,
-      is_available: available?,
+      is_unlocked: unlocked?,
       is_recommended: recommended?,
       is_completed: user_track ? user_track.exercise_completed?(exercise) : nil,
       links: links
@@ -23,8 +23,8 @@ class SerializeExercise
   private
   attr_reader :exercise, :user_track
 
-  def available?
-    user_track ? user_track.exercise_available?(exercise) : nil
+  def unlocked?
+    user_track ? user_track.exercise_unlocked?(exercise) : nil
   end
 
   def recommended?
@@ -33,7 +33,7 @@ class SerializeExercise
   end
 
   def links
-    return {} unless available?
+    return {} unless unlocked?
 
     {
       self: Exercism::Routes.track_exercise_path(exercise.track, exercise)

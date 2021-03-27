@@ -34,30 +34,6 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
-  # TODO: Delete this
-  # def serialized
-  #   tests_data = tests_status
-  #   if tests_exceptioned?
-  #     job = ToolingJob.find(test_run.tooling_job_id, full: true)
-  #     tests_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-  #     tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-  #   end
-
-  #   representer_data = representation_status
-  #   if representation_exceptioned?
-  #     job = ToolingJob.find(submission_representation.tooling_job_id, full: true)
-  #     representer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-  #     representer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-  #   end
-
-  #   analyzer_data = analysis_status
-  #   if analysis_exceptioned?
-  #     job = ToolingJob.find(analysis.tooling_job_id, full: true)
-  #     analyzer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-  #     analyzer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-  #   end
-  # end
-
   def tests_pending?
     %w[not_queued queued].include?(tests_status)
   end

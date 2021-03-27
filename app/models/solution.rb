@@ -63,7 +63,7 @@ class Solution < ApplicationRecord
   def status
     return :published if published?
     return :completed if completed?
-    return :in_progress if iterated?
+    return :iterated if iterated?
 
     :started
   end

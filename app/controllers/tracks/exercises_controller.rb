@@ -22,6 +22,7 @@ class Tracks::ExercisesController < ApplicationController
   def tooltip
     render json: {
       exercise: SerializeExercise.(@exercise, user_track: @user_track),
+      solution: (@solution ? SerializeSolutionForStudent.(@solution) : nil),
       track: SerializeTrack.(@exercise.track, @user_track)
     }
   end

@@ -23,8 +23,9 @@
 
 - elsif @user_track.concept_learnt?(@concept)
   / TODO: Add this once we have practice exercises in
+  TODO
 
-- elsif @user_track.concept_available?(@concept)
+- elsif @user_track.concept_unlocked?(@concept)
   - exercise = @concept.concept_exercises.first
   .available
     .progress

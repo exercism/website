@@ -8,7 +8,7 @@ class UserTrack
       return {} unless user_track && !user_track.external?
 
       all_concepts = user_track.track.concepts.map(&:slug)
-      available_concepts = user_track.available_concepts.map(&:slug)
+      unlocked_concepts = user_track.unlocked_concepts.map(&:slug)
       learnt_concepts = user_track.learnt_concepts.map(&:slug)
 
       {}.tap do |output|

@@ -27,7 +27,7 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
       num_practice_exercises: 0,
       num_completed_concept_exercises: 0,
       num_completed_practice_exercises: 0,
-      available: true
+      unlocked: true
     )
 
     assert_equal expected, summary.concept(concept.slug)
@@ -59,7 +59,7 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
       num_practice_exercises: 2,
       num_completed_concept_exercises: 0,
       num_completed_practice_exercises: 0,
-      available: true
+      unlocked: true
     )
     assert_equal expected, summary.concept(concept.slug)
   end
@@ -99,7 +99,7 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
       num_practice_exercises: 3,
       num_completed_concept_exercises: 1,
       num_completed_practice_exercises: 2,
-      available: true
+      unlocked: true
     )
     assert_equal expected, summary.concept(concept.slug)
   end
@@ -129,7 +129,7 @@ class UserTrack::GenerateSummary::ConceptTest < ActiveSupport::TestCase
       num_practice_exercises: 2,
       num_completed_concept_exercises: 0,
       num_completed_practice_exercises: 0,
-      available: false
+      unlocked: false
     )
     assert_equal expected, summary.concept(concept.slug)
   end

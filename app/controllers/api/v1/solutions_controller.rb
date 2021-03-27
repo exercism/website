@@ -37,7 +37,7 @@ module API
         begin
           solution = current_user.solutions.find_by!(exercise_id: exercise.id)
         rescue ActiveRecord::RecordNotFound
-          return render_403(:solution_not_unlocked) unless user_track.exercise_available?(exercise)
+          return render_403(:solution_not_unlocked) unless user_track.exercise_unlocked?(exercise)
 
           solution = Solution::Create.(current_user, exercise)
         end

@@ -24,7 +24,7 @@ class UserTrack
     ####################
     # Exercise methods #
     ####################
-    def exercise_available?(_)
+    def exercise_unlocked?(_)
       false
     end
 
@@ -39,14 +39,14 @@ class UserTrack
       0
     end
 
-    def available_exercise_ids
+    def unlocked_exercise_ids
       []
     end
 
     ###################
     # Concept methods #
     ###################
-    def concept_available?(_)
+    def concept_unlocked?(_)
       false
     end
 
@@ -70,7 +70,7 @@ class UserTrack
     #############################
     # Concept aggregate methods #
     #############################
-    def available_concept_ids
+    def unlocked_concept_ids
       []
     end
 

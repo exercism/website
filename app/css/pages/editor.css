@@ -243,6 +243,7 @@
             }
             & .v1-output {
                 @apply px-24 pb-48;
+                white-space: pre-wrap;
             }
             & .tests-list {
                 @apply px-32 pb-16;

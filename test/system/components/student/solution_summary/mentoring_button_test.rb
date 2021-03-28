@@ -9,9 +9,10 @@ module Components::Student
       test "shows discussions" do
         user = create :user
         mentor = create :user, handle: "my-mentor"
-        solution = create :practice_solution, user: user, mentoring_status: :in_progress
+        solution = create :practice_solution, user: user
         request = create :mentor_request, solution: solution
         discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
+        request.fulfilled!
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
@@ -52,9 +53,10 @@ module Components::Student
       test "shows discussions within nudge section" do
         user = create :user
         mentor = create :user, handle: "my-mentor"
-        solution = create :practice_solution, user: user, mentoring_status: :in_progress
+        solution = create :practice_solution, user: user
         request = create :mentor_request, solution: solution
         discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
+        request.fulfilled!
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,

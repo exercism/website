@@ -1,10 +1,7 @@
 .c-details {
     & > summary {
         @apply cursor-pointer;
-
-        &::-webkit-details-marker {
-            @apply hidden;
-        }
+        list-style-type: none;
 
         & > .c-icon.--closed-icon,
         & > .c-icon.--open-icon {

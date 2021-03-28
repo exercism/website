@@ -179,7 +179,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, user: student
     submission = create :submission, solution: solution
-    create :iteration, solution: solution, submission: submission
+    iteration = create :iteration, solution: solution, submission: submission
 
     assert submission.viewable_by?(student)
     refute submission.viewable_by?(mentor_1)
@@ -208,6 +208,12 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
+    refute submission.viewable_by?(user)
+
+    iteration.update(published: true)
+    assert submission.viewable_by?(student)
+    assert submission.viewable_by?(mentor_1)
+    assert submission.viewable_by?(mentor_2)
     assert submission.viewable_by?(user)
   end
 
@@ -220,7 +226,7 @@ class SubmissionTest < ActiveSupport::TestCase
     solution = create :concept_solution, user: student
     submission_1 = create :submission, solution: solution
     submission_2 = create :submission, solution: solution
-    create :iteration, submission: submission_1, solution: solution
+    iteration = create :iteration, submission: submission_1, solution: solution
     create :mentor_discussion, mentor: mentor_1, solution: solution
     create :mentor_request, solution: solution
 
@@ -237,6 +243,11 @@ class SubmissionTest < ActiveSupport::TestCase
 
     # Check with published too
     solution.update(published_at: Time.current)
+    refute submission_1.viewable_by?(user)
+    refute submission_2.viewable_by?(user)
+
+    # Check with published too
+    iteration.update(published: true)
     assert submission_1.viewable_by?(user)
     refute submission_2.viewable_by?(user)
   end

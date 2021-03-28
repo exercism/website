@@ -55,9 +55,6 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
-  # delegate :tests_status,
-  #   :representer_feedback, :analyzer_feedback,
-  #   to: :latest_iteration
 
   memoize
   def latest_iteration
@@ -72,7 +69,7 @@ class Solution < ApplicationRecord
     super.to_sym
   end
 
-  # TODO: Do this
+  # TODO: Karlo
   def has_unsubmitted_code?
     false
   end
@@ -123,22 +120,22 @@ class Solution < ApplicationRecord
     update(mentoring_status: new_status) if mentoring_status != new_status
   end
 
-  # TODO
+  # TODO: Erik
   def num_loc
     9
   end
 
-  # TODO
+  # TODO: Erik
   def num_stars
     9
   end
 
-  # TODO
+  # TODO: Erik
   def num_comments
     9
   end
 
-  # TODO
+  # TODO: Erik
   def snippet
     '
 public class Year

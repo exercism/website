@@ -16,7 +16,6 @@ class Submission < ApplicationRecord
   # going from the success states (passed/failed/errored/generated/completed)
   # backwards to the pending states.
 
-  # TODO: Find a better name for the 0 state for these to represent something where no action has been taken.
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests" # rubocop:disable Layout/LineLength
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation" # rubocop:disable Layout/LineLength
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
@@ -78,7 +77,7 @@ class Submission < ApplicationRecord
     return true if solution.mentor_requests.pending.any? && user.mentor?
 
     # Everyone can see published iterations
-    return true if solution.published? # TODO: Change this to iteration.published
+    return true if solution.published? && iteration.published?
 
     false
   end

@@ -8,10 +8,10 @@ class Track < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  # TODO: remove dependent: :destroy before release
+  # TODO: Pre-launch: remove dependent: :destroy
   has_many :concepts, class_name: "Track::Concept", dependent: :destroy
 
-  # TODO: remove dependent: :destroy before release
+  # TODO: Pre-launch: remove dependent: :destroy
   has_many :exercises, dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
@@ -41,7 +41,7 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
-  # TODO: Drive from config.json
+  # TODO: Erik: Drive from config.json
   def course?
     concepts.size > 5
   end
@@ -51,7 +51,6 @@ class Track < ApplicationRecord
     User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
   end
 
-  # TODO: Read this from a cache and update periodically
   def top_10_contributors
     user_ids = User::ReputationToken.where(track_id: id).
       group(:user_id).
@@ -64,12 +63,12 @@ class Track < ApplicationRecord
       to_a
   end
 
-  # TODO: Implement
+  # TODO: Erik: Implement
   def num_code_contributors
     10
   end
 
-  # TODO: Implemment
+  # TODO: Erik: Implement
   def num_mentors
     187
   end

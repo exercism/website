@@ -134,16 +134,14 @@ module Git
 
     # If we're in dev or test mode we want to just fetch
     # every time to get up to date. In production
-    # we schedule this based of webhooks instead
+    # we schedule this based off webhooks instead
     memoize
     def keep_up_to_date?
-      # TODO: Add a test for this env var
       Rails.env.test? || !!ENV["GIT_ALWAYS_FETCH_ORIGIN"]
     end
 
     memoize
     def branch_ref
-      # TODO: Add a test for this.
       ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
     end
   end

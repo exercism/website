@@ -5,6 +5,8 @@ module ViewComponents
 
       initialize_with :track, :selected_tab
 
+      # TODO: Cache this:
+      # [track.id, selected_tab, track.updated_at, Date.today]
       def to_s
         guard!
 

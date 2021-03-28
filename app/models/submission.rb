@@ -77,7 +77,7 @@ class Submission < ApplicationRecord
     return true if solution.mentor_requests.pending.any? && user.mentor?
 
     # Everyone can see published iterations
-    return true if iteration.published?
+    return true if solution.published? && iteration.published?
 
     false
   end

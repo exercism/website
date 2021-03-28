@@ -6,9 +6,10 @@ class Submission::TestRun < ApplicationRecord
   scope :ops_successful, -> { where(ops_status: 200) }
 
   before_create do
+    self.version = raw_results[:version].to_i
     self.status = raw_results.fetch(:status, :error) unless self.status
     self.message = raw_results[:message] unless self.message
-    self.tests = raw_results[:tests] unless self.tests
+    self.output = raw_results[:output] unless self.output
   end
 
   def status
@@ -37,7 +38,7 @@ class Submission::TestRun < ApplicationRecord
 
   memoize
   def test_results
-    tests.to_a.map do |test|
+    raw_results[:tests].to_a.map do |test|
       TestResult.new(HashWithIndifferentAccess.new(test))
     end
   end

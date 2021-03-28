@@ -52,9 +52,11 @@ function reducer(state: State, action: Action): State {
           testRun: {
             id: null,
             submissionUuid: action.payload.submission.id,
+            version: 0,
             status: TestRunStatus.QUEUED,
             tests: [],
             message: '',
+            output: '',
           },
         },
         status: SubmissionStatus.CREATED,

@@ -112,7 +112,8 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
     case TestRunStatus.FAIL:
       return (
         <div className="summary-status failed" role="status">
-          <span className="--dot" />1 test failure
+          <span className="--dot" />
+          {testRun.version === 2 ? '1 test failure' : 'Tests failed'}
         </div>
       )
     case TestRunStatus.PASS:
@@ -137,7 +138,13 @@ TestRunSummary.Content = ({
   switch (testRun.status) {
     case TestRunStatus.PASS:
     case TestRunStatus.FAIL:
-      return <TestsGroupList tests={testRun.tests} />
+      return testRun.version == 2 ? (
+        <TestsGroupList tests={testRun.tests} />
+      ) : (
+        <pre className="v1-output">
+          <code dangerouslySetInnerHTML={{ __html: testRun.output }} />
+        </pre>
+      )
     case TestRunStatus.ERROR:
       return (
         <div role="status">

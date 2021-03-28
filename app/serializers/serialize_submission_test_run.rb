@@ -9,8 +9,10 @@ class SerializeSubmissionTestRun
     {
       id: test_run.id,
       submission_uuid: test_run.submission.uuid,
+      version: test_run.version,
       status: status,
       message: message,
+      output: test_run.output.present? ? Ansi::To::Html.new(test_run.output).to_html : nil,
       tests: test_run.test_results
     }
   end

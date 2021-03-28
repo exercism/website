@@ -57,6 +57,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     logger.prerequisites << booleans
 
     # Simulate learning concepts
+    create :concept_solution, user: user_track.user, exercise: lasagna, completed_at: Time.current
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal(
@@ -108,6 +109,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     logger.prerequisites << booleans
 
     # Simulate learning concepts
+    create :concept_solution, user: user_track.user, exercise: lasagna, completed_at: Time.current
     create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal(
@@ -135,6 +137,8 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
     logger.prerequisites << booleans
 
     # Simulate learning concepts
+    create :concept_solution, user: user_track.user, exercise: lasagna, completed_at: Time.current
+    create :concept_solution, user: user_track.user, exercise: pacman, completed_at: Time.current
     create :user_track_learnt_concept, user_track: user_track, concept: basics
     create :user_track_learnt_concept, user_track: user_track, concept: booleans
 

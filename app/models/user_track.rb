@@ -5,6 +5,18 @@ class UserTrack < ApplicationRecord
   belongs_to :track
   has_many :user_track_learnt_concepts, class_name: "UserTrack::LearntConcept", dependent: :destroy
   has_many :learnt_concepts, through: :user_track_learnt_concepts, source: :concept
+  has_many :solutions,
+    lambda { |ut|
+      joins(:exercise).
+        where("exercises.track_id": ut.track_id)
+    },
+    foreign_key: :user_id,
+    primary_key: :user_id,
+    inverse_of: :user_track
+
+  before_create do
+    self.summary_data = {}
+  end
 
   def self.for!(user_param, track_param)
     UserTrack.find_by!(
@@ -27,10 +39,6 @@ class UserTrack < ApplicationRecord
 
   def external?
     false
-  end
-
-  def solutions
-    user.solutions.joins(:exercise).where("exercises.track_id": track)
   end
 
   def completed_percentage
@@ -68,55 +76,39 @@ class UserTrack < ApplicationRecord
     :num_exercises,
     :num_exercises_for_concept, :num_completed_exercises_for_concept,
     :concept_unlocked?, :concept_learnt?, :concept_mastered?,
-    :concept_progressions, :unlocked_concept_ids,
+    :concept_progressions, :concept_slugs,
+    :unlocked_concept_ids, :unlocked_concept_slugs,
+    :learnt_concept_ids, :learnt_concept_slugs,
+    :mastered_concept_ids, :mastered_concept_slugs,
+    :unlocked_concepts, :mastered_concepts,
+    :unlocked_concept_exercises, :unlocked_practice_exercises,
+    :unlocked_exercises, :available_exercises, :in_progress_exercises, :completed_exercises,
     to: :summary
 
-  memoize
-  def unlocked_concept_exercises
-    unlocked_exercises.select { |e| e.is_a?(ConceptExercise) }
-  end
-
-  memoize
-  def unlocked_practice_exercises
-    unlocked_exercises.select { |e| e.is_a?(PracticeExercise) }
-  end
-
-  memoize
-  def unlocked_concepts
-    Track::Concept.where(id: summary.unlocked_concept_ids)
-  end
-
-  memoize
-  def mastered_concepts
-    Track::Concept.where(id: summary.mastered_concept_ids)
-  end
-
-  memoize
-  def unlocked_exercises
-    Exercise.where(id: summary.unlocked_exercise_ids)
-  end
-
-  memoize
-  def available_exercises
-    Exercise.where(id: summary.available_exercise_ids)
-  end
-
-  memoize
-  def in_progress_exercises
-    Exercise.where(id: summary.in_progress_exercise_ids)
-  end
-
-  memoize
-  def completed_exercises
-    Exercise.where(id: summary.completed_exercises_ids)
+  def reset_summary!
+    self.update_column(:summary_key, nil)
+    reload
+    @summary = nil
   end
 
   private
-  # A track's summary is a effeciently created summary of all
+  # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing
   # us to quickly retrieve data without requiring lots of complex
   # SQL queries.
   def summary
-    @summary ||= UserTrack::GenerateSummary.(track, self)
+    return @summary if @summary
+
+    digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
+    expected_key = "#{track.updated_at.to_i}_#{updated_at.to_i}_#{digest}"
+
+    if summary_key != expected_key
+      update_columns(
+        summary_key: expected_key,
+        summary_data: UserTrack::GenerateSummaryData.(track, self)
+      )
+    end
+
+    @summary = UserTrack::Summary.new(summary_data.with_indifferent_access)
   end
 end

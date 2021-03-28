@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UserTrack::Summary::ExercisesunlockedTest < ActiveSupport::TestCase
+class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::TestCase
   test "exercise_unlocked? with no prerequisites" do
     track = create :track
     exercise = create :concept_exercise, :random_slug, track: track
@@ -129,6 +129,8 @@ class UserTrack::Summary::ExercisesunlockedTest < ActiveSupport::TestCase
   private
   def summary_for(user_track)
     user_track = UserTrack.find(user_track.id)
-    UserTrack::GenerateSummary.(user_track.track, user_track)
+    UserTrack::Summary.new(
+      UserTrack::GenerateSummaryData.(user_track.track, user_track)
+    )
   end
 end

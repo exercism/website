@@ -30,6 +30,14 @@ class Mentor::Request < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid
   end
 
+  after_create do
+    solution.update_mentoring_status!
+  end
+
+  after_save do
+    solution.update_mentoring_status! if previous_changes.key?('status')
+  end
+
   def to_param
     uuid
   end
@@ -40,10 +48,6 @@ class Mentor::Request < ApplicationRecord
 
   def type
     super.to_sym
-  end
-
-  def fulfilled!
-    update_column(:status, :fulfilled)
   end
 
   # If this request is locked by someone else then

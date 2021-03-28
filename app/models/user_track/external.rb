@@ -17,6 +17,13 @@ class UserTrack
       true
     end
 
+    delegate :concepts, to: :track
+
+    memoize
+    def concept_slugs
+      concepts.map(&:slug)
+    end
+
     def learnt_concepts
       []
     end

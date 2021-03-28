@@ -26,6 +26,10 @@ class Mentor::Discussion < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid
   end
 
+  after_save do
+    solution.update_mentoring_status! if previous_changes.key?('finished_at')
+  end
+
   delegate :title, :icon_url, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, to: :exercise, prefix: :exercise

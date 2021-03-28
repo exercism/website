@@ -7,9 +7,9 @@ class UserTrack
     def call
       return {} unless user_track && !user_track.external?
 
-      all_concepts = user_track.track.concepts.map(&:slug)
-      unlocked_concepts = user_track.unlocked_concepts.map(&:slug)
-      learnt_concepts = user_track.learnt_concepts.map(&:slug)
+      all_concepts = user_track.concept_slugs
+      unlocked_concepts = user_track.unlocked_concept_slugs
+      learnt_concepts = user_track.learnt_concept_slugs
 
       {}.tap do |output|
         set_status = ->(slugs, status) { slugs.each { |slug| output[slug] = status } }

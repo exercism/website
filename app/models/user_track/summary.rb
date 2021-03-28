@@ -2,9 +2,53 @@ class UserTrack
   class Summary
     extend Mandate::Memoize
 
-    def initialize(concepts, exercises)
-      @mapped_concepts = concepts
-      @mapped_exercises = exercises
+    def initialize(data)
+      @mapped_concepts = data['concepts'].transform_values { |v| ConceptSummary.new(v) }
+      @mapped_exercises = data['exercises'].transform_values { |v| ExerciseSummary.new(v) }
+    end
+
+    #########################
+    # Active Record methods #
+    #########################
+
+    memoize
+    def unlocked_concept_exercises
+      unlocked_exercises.select { |e| e.is_a?(ConceptExercise) }
+    end
+
+    memoize
+    def unlocked_practice_exercises
+      unlocked_exercises.select { |e| e.is_a?(PracticeExercise) }
+    end
+
+    memoize
+    def unlocked_concepts
+      Track::Concept.where(id: unlocked_concept_ids)
+    end
+
+    memoize
+    def mastered_concepts
+      Track::Concept.where(id: mastered_concept_ids)
+    end
+
+    memoize
+    def unlocked_exercises
+      Exercise.where(id: unlocked_exercise_ids)
+    end
+
+    memoize
+    def available_exercises
+      Exercise.where(id: available_exercise_ids)
+    end
+
+    memoize
+    def in_progress_exercises
+      Exercise.where(id: in_progress_exercise_ids)
+    end
+
+    memoize
+    def completed_exercises
+      Exercise.where(id: completed_exercises_ids)
     end
 
     ####################
@@ -83,16 +127,39 @@ class UserTrack
     #############################
     # Concept aggregate methods #
     #############################
-    def unlocked_concept_ids
-      mapped_concepts.values.select(&:unlocked).map(&:id)
+    memoize
+    def concept_slugs
+      mapped_concepts.values.map(&:slug)
     end
 
+    memoize
+    def unlocked_concept_ids
+      mapped_concepts.values.select(&:unlocked?).map(&:id)
+    end
+
+    memoize
+    def unlocked_concept_slugs
+      mapped_concepts.values.select(&:unlocked?).map(&:slug)
+    end
+
+    memoize
     def learnt_concept_ids
       mapped_concepts.values.select(&:learnt?).map(&:id)
     end
 
+    memoize
+    def learnt_concept_slugs
+      mapped_concepts.values.select(&:learnt?).map(&:slug)
+    end
+
+    memoize
     def mastered_concept_ids
       mapped_concepts.values.select(&:mastered?).map(&:id)
+    end
+
+    memoize
+    def mastered_concept_slugs
+      mapped_concepts.values.select(&:mastered?).map(&:slug)
     end
 
     memoize
@@ -127,16 +194,50 @@ class UserTrack
     #################
 
     def exercise(obj)
-      obj.is_a?(Exercise) ? slug = obj.slug : slug = obj.to_s
+      slug = obj.is_a?(Exercise) ? obj.slug : obj.to_s
       mapped_exercises[slug]
     end
 
     def concept(obj)
-      obj.is_a?(Track::Concept) ? slug = obj.slug : slug = obj.to_s
+      slug = obj.is_a?(Track::Concept) ? obj.slug : obj.to_s
       mapped_concepts[slug]
     end
 
     private
     attr_accessor :track, :user_track, :mapped_concepts, :mapped_exercises
+
+    ConceptSummary = Struct.new(
+      :id, :slug,
+      :num_concept_exercises, :num_practice_exercises,
+      :num_completed_concept_exercises, :num_completed_practice_exercises,
+      :unlocked,
+      keyword_init: true
+    ) do
+      def num_exercises
+        num_concept_exercises + num_practice_exercises
+      end
+
+      def num_completed_exercises
+        num_completed_concept_exercises + num_completed_practice_exercises
+      end
+
+      def unlocked?
+        unlocked
+      end
+
+      def learnt?
+        num_concept_exercises.positive? && num_concept_exercises == num_completed_concept_exercises
+      end
+
+      def mastered?
+        num_exercises.positive? && num_exercises == num_completed_exercises
+      end
+    end
+
+    ExerciseSummary = Struct.new(
+      :id, :slug, :type, :status,
+      :unlocked, :has_solution, :completed,
+      keyword_init: true
+    )
   end
 end

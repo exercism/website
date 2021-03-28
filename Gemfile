@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Service/framework dependencies
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 6.1.3'
 
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'

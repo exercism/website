@@ -19,7 +19,10 @@ module Components
           submission: Submission.last,
           status: "pass",
           ops_status: 200,
-          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+          raw_results: {
+            version: 2,
+            tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+          }
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "1 test passed"
@@ -40,10 +43,39 @@ module Components
           submission: Submission.last,
           status: "fail",
           ops_status: 200,
-          tests: [{ name: :test_no_name_given, status: :fail }]
+          raw_results: {
+            version: 2,
+            tests: [{ name: :test_no_name_given, status: :fail }]
+          }
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "1 test failed"
+      end
+    end
+
+    test "user runs tests and tests fail - v1 test runner" do
+      sign_in!
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: @current_user, exercise: strings
+
+      use_capybara_host do
+        visit test_components_editor_path(solution_id: solution.id)
+        click_on "Run Tests"
+        wait_for_submission
+        2.times { wait_for_websockets }
+        output = "Oh dear Foobar - here's some stuff"
+        test_run = create :submission_test_run,
+          submission: Submission.last,
+          status: "fail",
+          ops_status: 200,
+          raw_results: {
+            version: 1,
+            output: output
+          }
+        Submission::TestRunsChannel.broadcast!(test_run)
+
+        assert_text "TESTS FAILED"
+        assert_text output
       end
     end
 
@@ -62,7 +94,10 @@ module Components
           status: "error",
           message: "Undefined local variable",
           ops_status: 200,
-          tests: []
+          raw_results: {
+            version: 2,
+            tests: []
+          }
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "An error occurred"
@@ -85,7 +120,9 @@ module Components
           status: "error",
           message: "Can't run the tests",
           ops_status: 400,
-          tests: []
+          raw_results: {
+            version: 2, tests: []
+          }
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "An error occurred"
@@ -117,7 +154,10 @@ module Components
         submission: submission,
         status: "pass",
         ops_status: 200,
-        tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        raw_results: {
+          version: 2,
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
 
       use_capybara_host do
         visit test_components_editor_path(solution_id: solution.id)

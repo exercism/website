@@ -10,15 +10,17 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     test_run = create :submission_test_run,
       ops_status: 200,
       status: "pass",
-      tests: [test]
+      raw_results: { tests: [test] }
 
     actual = SerializeSubmissionTestRun.(test_run)
 
     expected = {
       id: test_run.id,
       submission_uuid: test_run.submission.uuid,
+      version: 0,
       status: :pass,
       message: test_run.message,
+      output: nil,
       tests: [
         {
           name: 'test_a_name_given',
@@ -96,5 +98,21 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
 
   test "returns nil if nil is passed in" do
     assert_nil SerializeSubmissionTestRun.(nil)
+  end
+
+  test "legacy v1 spec" do
+    version = 5
+
+    test_run = create :submission_test_run,
+      ops_status: 403,
+      raw_results: {
+        version: version,
+        output: "\e[31mHello\e[0m\e[34mWorld\e[0"
+      }
+
+    serialized = SerializeSubmissionTestRun.(test_run)
+
+    assert_equal version, serialized[:version]
+    assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", serialized[:output]
   end
 end

@@ -67,6 +67,11 @@ class Exercise < ApplicationRecord
     slug
   end
 
+  # TODO
+  def download_cmd
+    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
+  end
+
   def icon_url
     asset_pack_url(
       "media/images/exercises/#{icon_name}.svg",

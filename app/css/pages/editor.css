@@ -145,7 +145,6 @@
         @apply flex flex-col;
 
         & .react-monaco-editor-container {
-            @apply pt-20;
         }
 
         & .monaco-editor {

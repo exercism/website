@@ -5,8 +5,7 @@ class UserTrack
     initialize_with :track, :user_track
 
     def call
-      concept_slugs = user_track.concept_slugs
-      concept_slugs.each.with_object({}) do |slug, hash|
+      user_track.concept_slugs.each.with_object({}) do |slug, hash|
         hash[slug] = mapping[slug].to_a
       end
     end

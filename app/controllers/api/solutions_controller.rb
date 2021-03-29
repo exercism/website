@@ -1,7 +1,7 @@
 module API
   class SolutionsController < BaseController
     def index
-      solutions = Solution::Search.(
+      solutions = Solution::SearchUserSolutions.(
         current_user,
         criteria: params[:criteria],
         status: params[:status],

@@ -11,7 +11,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     setup_user
     create :concept_solution
 
-    Solution::Search.expects(:call).with(
+    Solution::SearchUserSolutions.expects(:call).with(
       @current_user,
       criteria: "ru",
       status: "published",

@@ -9,7 +9,7 @@ import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
-import { Iteration, MentorDiscussion } from '../types'
+import { Iteration, MentorDiscussion, SolutionForStudent } from '../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -33,13 +33,6 @@ export type SolutionSummaryRequest = {
   }
 }
 
-export type SolutionSummarySolution = {
-  id: string
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
-  completedAt?: string
-}
-
 export const SolutionSummary = ({
   solution,
   discussions,
@@ -47,7 +40,7 @@ export const SolutionSummary = ({
   isConceptExercise,
   links,
 }: {
-  solution: SolutionSummarySolution
+  solution: SolutionForStudent
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
   isConceptExercise: boolean
@@ -87,9 +80,8 @@ export const SolutionSummary = ({
     <>
       {solution.completedAt ? null : (
         <Nudge
-          hasMentorDiscussionInProgress={solution.hasMentorDiscussionInProgress}
+          mentoringStatus={solution.mentoringStatus}
           discussions={discussions}
-          hasMentorRequestPending={solution.hasMentorRequestPending}
           iteration={latestIteration}
           isConceptExercise={isConceptExercise}
           links={links}
@@ -109,10 +101,7 @@ export const SolutionSummary = ({
         <div className="next-steps">
           <CommunitySolutions link={links.communitySolutions} />
           <Mentoring
-            hasMentorDiscussionInProgress={
-              solution.hasMentorDiscussionInProgress
-            }
-            hasMentorRequestPending={solution.hasMentorRequestPending}
+            mentoringStatus={solution.mentoringStatus}
             discussions={discussions}
             links={links}
           />

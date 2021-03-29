@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
-import { MentorDiscussion } from '../../types'
+import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
 import { MentoringComboButton } from './MentoringComboButton'
 
 type Links = {
@@ -12,13 +12,11 @@ type Links = {
 }
 
 export const Mentoring = ({
-  hasMentorDiscussionInProgress,
-  hasMentorRequestPending,
+  mentoringStatus,
   discussions,
   links,
 }: {
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element => {
@@ -35,8 +33,7 @@ export const Mentoring = ({
         solution.
       </p>
       <MentoringComboButton
-        hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
-        hasMentorRequestPending={hasMentorRequestPending}
+        mentoringStatus={mentoringStatus}
         discussions={discussions}
         links={links}
       />

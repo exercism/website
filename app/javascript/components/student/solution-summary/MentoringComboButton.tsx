@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { usePanel } from '../../../hooks/use-panel'
 import { MentoringDropdown } from '../MentoringDropdown'
 import { GraphicalIcon } from '../../common'
-import { MentorDiscussion } from '../../types'
+import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
 
 type Links = {
   requestMentoring: string
@@ -13,14 +13,12 @@ type Links = {
 }
 
 export const MentoringComboButton = ({
-  hasMentorDiscussionInProgress,
-  hasMentorRequestPending,
+  mentoringStatus,
   discussions,
   className = '',
   links,
 }: {
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   className?: string
   links: Links
@@ -49,11 +47,11 @@ export const MentoringComboButton = ({
   return (
     /* TODO: Extract into a common component in the future */
     <div className={classNames.join(' ')}>
-      {hasMentorDiscussionInProgress && links.inProgressDiscussion ? (
+      {mentoringStatus == 'in_progress' && links.inProgressDiscussion ? (
         <a href={links.inProgressDiscussion} className="--primary-segment">
           Continue mentoring
         </a>
-      ) : hasMentorRequestPending ? (
+      ) : mentoringStatus == 'requested' ? (
         <a href={links.pendingMentorRequest} className="--primary-segment">
           View mentoring request
         </a>

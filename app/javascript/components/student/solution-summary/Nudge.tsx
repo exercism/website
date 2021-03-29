@@ -3,7 +3,7 @@ import { GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import { CompleteExerciseButton } from '../CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
-import { MentorDiscussion } from '../../types'
+import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
 
 type Links = {
   mentoringInfo: string
@@ -15,8 +15,7 @@ type Links = {
 }
 
 export const Nudge = ({
-  hasMentorDiscussionInProgress,
-  hasMentorRequestPending,
+  mentoringStatus,
   discussions,
   iteration,
   isConceptExercise,
@@ -24,8 +23,7 @@ export const Nudge = ({
 }: {
   iteration: Iteration
   isConceptExercise: boolean
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element | null => {
@@ -36,8 +34,7 @@ export const Nudge = ({
         <CompleteExerciseNudge completeExerciseLink={links.completeExercise} />
       ) : (
         <MentoringNudge
-          hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
-          hasMentorRequestPending={hasMentorRequestPending}
+          mentoringStatus={mentoringStatus}
           discussions={discussions}
           links={links}
         />
@@ -72,13 +69,11 @@ const CompleteExerciseNudge = ({
 }
 
 const MentoringNudge = ({
-  hasMentorDiscussionInProgress,
-  hasMentorRequestPending,
+  mentoringStatus,
   discussions,
   links,
 }: {
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   links: {
     mentoringInfo: string
@@ -100,8 +95,7 @@ const MentoringNudge = ({
         </p>
         <div className="options">
           <MentoringComboButton
-            hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
-            hasMentorRequestPending={hasMentorRequestPending}
+            mentoringStatus={mentoringStatus}
             discussions={discussions}
             links={links}
           />{' '}

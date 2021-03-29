@@ -22,8 +22,6 @@ class SerializeSolutionForStudent
 
       # TODO: Cache the ones of these that create n+1s
       last_submitted_at: solution.submissions.last&.created_at&.iso8601,
-      has_mentor_discussion_in_progress: solution.mentoring_status == :in_progress,
-      has_mentor_request_pending: solution.mentoring_status == :requested,
       # These are already guarded against n+1s in the wider serializer
       exercise: {
         slug: solution.exercise.slug,

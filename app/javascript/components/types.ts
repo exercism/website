@@ -16,6 +16,7 @@ export type Exercise =
 export type SolutionForStudent = {
   url: string
   status: SolutionStatus
+  mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean
   numMentoringComments: number
   numIterations: number
@@ -25,6 +26,11 @@ export type SolutionForStudent = {
 }
 
 export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
+export type SolutionMentoringStatus =
+  | 'none'
+  | 'requested'
+  | 'in_progress'
+  | 'finished'
 
 type ExerciseCore = {
   slug: string

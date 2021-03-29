@@ -14,6 +14,12 @@ test('shortFromNow for now', () => {
   expect(shortFromNow(time)).toEqual('now')
 })
 
+test('shortFromNow for 1hr', () => {
+  var time = new Date()
+  time.setTime(time.getTime() - 60 * 60 * 1000)
+  expect(shortFromNow(time)).toEqual('1h ago')
+})
+
 test('shortFromNow for 1d', () => {
   var time = new Date()
   time.setDate(time.getDate() - 0.001)

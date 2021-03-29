@@ -239,17 +239,14 @@
                 &:before {
                     content: "";
                     @apply absolute bg-lightGray;
-
                     width: 2px;
-                    height: 32px;
                     top: -32px;
                     left: 31px;
+                    bottom: 0;
                 }
-
                 &:first-child {
                     @apply mt-24;
                     &:before {
-                        height: 24px;
                         top: -24px;
                     }
                 }
@@ -269,7 +266,7 @@
                         & .c-exercise-icon {
                             height: 64px;
                             width: 64px;
-                            @apply mr-24;
+                            @apply mr-16;
                         }
                         & .info {
                             @apply flex-grow;
@@ -321,6 +318,7 @@
                     @apply rounded-5 border-1 border-borderColor5;
                     @apply py-8 px-16;
                     @apply mt-16;
+                    margin-left: 80px;
 
                     & .action-icon {
                         height: 16px;
@@ -331,11 +329,14 @@
                 }
                 & > .activities {
                     @apply mt-8;
+                    margin-left: 80px;
 
                     & > .activity {
                         @apply flex items-center;
-                        @apply py-4 pl-16;
+                        @apply py-4 rounded-5;
+
                         /* Line this up with the iteration summary above */
+                        padding-left: 13px;
                         padding-right: 18px;
 
                         &:hover {

@@ -42,7 +42,7 @@ module ViewComponents
                 "Open Editor",
                 Exercism::Routes.start_track_exercise_path(track, exercise),
                 method: :patch,
-                class: "--editor-segment"
+                class: "--primary-segment"
               ) +
                 tag.button(class: "--dropdown-segment") do
                   graphical_icon('chevron-down')

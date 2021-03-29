@@ -50,15 +50,15 @@ export const MentoringComboButton = ({
     /* TODO: Extract into a common component in the future */
     <div className={classNames.join(' ')}>
       {hasMentorDiscussionInProgress && links.inProgressDiscussion ? (
-        <a href={links.inProgressDiscussion} className="--editor-segment">
+        <a href={links.inProgressDiscussion} className="--primary-segment">
           Continue mentoring
         </a>
       ) : hasMentorRequestPending ? (
-        <a href={links.pendingMentorRequest} className="--editor-segment">
+        <a href={links.pendingMentorRequest} className="--primary-segment">
           View mentoring request
         </a>
       ) : (
-        <a href={links.requestMentoring} className="--editor-segment">
+        <a href={links.requestMentoring} className="--primary-segment">
           Request mentoring
         </a>
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iteration-page/IterationReport'
@@ -47,6 +47,7 @@ export const IterationPage = ({
   track: Track
   links: Links
 }): JSX.Element => {
+  const [isOpen, setIsOpen] = useState<boolean[]>([])
   const isMountedRef = useIsMounted()
   const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
   const { resolvedData } = usePaginatedRequestQuery<{
@@ -66,6 +67,34 @@ export const IterationPage = ({
     }
   }, [CACHE_KEY, solutionId])
 
+  useEffect(() => {
+    if (
+      !resolvedData ||
+      !resolvedData.iterations ||
+      resolvedData.iterations.length === 0
+    ) {
+      return
+    }
+
+    if (isOpen.length === 0) {
+      setIsOpen(
+        resolvedData.iterations.map((iteration, i) => (i === 0 ? true : false))
+      )
+
+      return
+    }
+
+    const newIterationsLength = resolvedData.iterations.length - isOpen.length
+
+    if (newIterationsLength > 0) {
+      const newIsOpen = Array.from(Array(newIterationsLength)).map((_, i) =>
+        i === 0 ? !isOpen.some((o) => o === true) : false
+      )
+
+      setIsOpen([...newIsOpen, ...isOpen])
+    }
+  }, [isOpen, isOpen.length, resolvedData])
+
   if (!resolvedData) {
     return <Loading />
   }
@@ -82,15 +111,21 @@ export const IterationPage = ({
           .sort((it1: Iteration, it2: Iteration) => {
             return it2.idx > it1.idx ? 1 : -1
           })
-          .map((iteration, i) => {
+          .map((iteration, index) => {
             return (
               <IterationReport
-                key={i}
+                key={index}
                 iteration={iteration}
                 exercise={exercise}
                 track={track}
                 links={links}
-                isOpen={i == 0}
+                isOpen={isOpen[index]}
+                onExpanded={() => {
+                  setIsOpen(isOpen.map((o, i) => (index === i ? true : o)))
+                }}
+                onCompressed={() => {
+                  setIsOpen(isOpen.map((o, i) => (index === i ? false : o)))
+                }}
               />
             )
           })}

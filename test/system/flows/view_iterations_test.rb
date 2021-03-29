@@ -27,6 +27,78 @@ module Flows
       assert_text "Failed"
     end
 
+    test "opens and closes iterations as expected" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+
+      submission_1 = create :submission, tests_status: :queued, solution: solution
+      create :iteration, idx: 1, solution: solution, submission: submission_1
+      create :submission_file, submission: submission_1
+
+      submission_2 = create :submission, tests_status: :queued, solution: solution
+      create :iteration, idx: 2, solution: solution, submission: submission_2
+      create :submission_file, submission: submission_2
+
+      sign_in!(user)
+      visit track_exercise_iterations_url(track, exercise)
+
+      assert_equal "true", find("details", text: "Iteration 2")['open']
+      assert_equal "false", find("details", text: "Iteration 1")['open']
+
+      find("summary", text: "Iteration 2").click
+      assert_equal "false", find("details", text: "Iteration 2")['open']
+      assert_equal "false", find("details", text: "Iteration 1")['open']
+
+      find("summary", text: "Iteration 2").click
+      assert_equal "true", find("details", text: "Iteration 2")['open']
+      assert_equal "false", find("details", text: "Iteration 1")['open']
+
+      find("summary", text: "Iteration 1").click
+      assert_equal "true", find("details", text: "Iteration 2")['open']
+      assert_equal "true", find("details", text: "Iteration 1")['open']
+    end
+
+    test "opens newest iteration when there are no iterations open" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+      submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
+      create :iteration, idx: 2, solution: solution, submission: submission
+      create :submission_file, submission: submission
+
+      sign_in!(user)
+      visit track_exercise_iterations_url(track, exercise)
+      find("summary").click
+
+      create :iteration, idx: 3, solution: solution
+      SolutionChannel.broadcast!(solution)
+      assert_equal find("details", text: "Iteration 3")['open'], "true"
+    end
+
+    test "does not open newest iteration when there are iterations open" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+      submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
+      create :iteration, idx: 2, solution: solution, submission: submission
+      create :submission_file, submission: submission
+
+      sign_in!(user)
+      visit track_exercise_iterations_url(track, exercise)
+
+      create :iteration, idx: 3, solution: solution
+      SolutionChannel.broadcast!(solution)
+      sleep(1)
+      assert_equal "false", find("details", text: "Iteration 3")['open']
+    end
+
     test "user sees zero state" do
       user = create :user
       track = create :track

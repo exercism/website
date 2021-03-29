@@ -149,10 +149,12 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
             setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
           }
         />
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
+        <div className="row">
+          <div className="c-checkbox">
+            <GraphicalIcon icon="checkmark" />
+          </div>
+          Only show exercises that need mentoring
         </div>
-        Only show exercises that need mentoring
       </label>
       <label className="c-checkbox-wrapper">
         <input
@@ -160,10 +162,12 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
           checked={isShowingExercisesCompleted}
           onChange={handleShowCompletedExercises}
         />
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
+        <div className="row">
+          <div className="c-checkbox">
+            <GraphicalIcon icon="checkmark" />
+          </div>
+          Only show exercises I've completed
         </div>
-        Only show exercises I've completed
       </label>
       <div className="exercises">
         {exercisesToShow.map((exercise) => (

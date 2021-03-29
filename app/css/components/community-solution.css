@@ -1,0 +1,73 @@
+@import "../styles";
+
+.c-community-solution {
+    @apply flex flex-col;
+    @apply shadow-base bg-backgroundColorA;
+    @apply py-16 px-24;
+
+    & > .--header {
+        @apply flex items-center mb-20;
+
+        & > .c-exercise-icon,
+        & > .c-avatar {
+            height: 48px;
+            width: 48px;
+            @apply mr-16;
+        }
+
+        & > .--info {
+            @apply flex-grow;
+            & > .--title {
+                @apply text-16 font-semibold leading-120 text-textColor1 mb-4;
+            }
+            & > .--exericse {
+                @apply text-14 leading-160 text-textColor6;
+            }
+        }
+        & .out-of-date {
+            @apply ml-24;
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+            }
+        }
+        & .c-iteration-processing-status {
+            @apply ml-24;
+        }
+    }
+
+    & > pre {
+        @apply border-1 border-borderColor7 rounded-8;
+        @apply p-16 mb-16;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    & > footer.--footer {
+        @apply flex items-center;
+        @apply text-textColor6 leading-paragraph;
+
+        & > time,
+        & .not-published {
+            @apply mr-24 flex-grow;
+            @apply leading-160 text-textColor6;
+        }
+        & > .--counts {
+            @apply flex;
+            & > .--count {
+                @apply flex items-center;
+                @apply ml-24;
+
+                & > .c-icon {
+                    height: 18px;
+                    width: 18px;
+                    @apply mr-8;
+                }
+                & > .--num {
+                    @apply flex-grow;
+                    text-align: right;
+                }
+            }
+        }
+    }
+}

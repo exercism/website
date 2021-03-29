@@ -55,7 +55,7 @@ import '../../css/components/tooltips/user'
 import '../../css/components/tooltips/exercise'
 import '../../css/components/user_activity'
 import '../../css/components/search-bar'
-import '../../css/components/published-solution'
+import '../../css/components/community-solution'
 import '../../css/components/iteration-processing-status'
 import '../../css/components/notification-dot'
 
@@ -151,12 +151,12 @@ import {
   MentorDiscussion,
   MentoredTrack,
   SolutionForStudent,
+  CommunitySolution,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Student as MentoringSessionStudent,
   Links as MentoringSessionLinks,
-  MentorSolution as MentoringSessionMentorSolution,
   StudentMentorRelationship,
 } from '../components/mentoring/Session'
 import {
@@ -225,9 +225,7 @@ initReact({
     <Mentoring.Session
       userId={data.user_id}
       discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
-      mentorSolution={camelizeKeysAs<MentoringSessionMentorSolution>(
-        data.mentor_solution
-      )}
+      mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}

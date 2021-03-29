@@ -5,27 +5,30 @@ class SerializeCommunitySolution
 
   def call
     {
-      solution: {
-        id: solution.uuid,
-        url: Exercism::Routes.published_solution_url(solution),
-        num_views: 1270, # TODO
-        num_stars: 10, # TODO
-        num_comments: 2, # TODO
-        num_iterations: 3, # TODO
-        num_locs: "9 - 18", # TODO
-        published_at: solution.published_at,
-        user: {
-          handle: user.handle,
-          avatar_url: user.avatar_url
-        },
-        exercise: {
-          title: solution.exercise.title,
-          icon_url: solution.exercise.icon_url
-        },
-        track: {
-          title: track.title,
-          icon_url: solution.track.icon_url
-        }
+      id: solution.uuid,
+      snippet: solution.snippet,
+      num_views: solution.num_views,
+      num_stars: solution.num_stars,
+      num_comments: solution.num_comments,
+      num_iterations: solution.num_iterations,
+      num_loc: solution.num_loc,
+      published_at: solution.published_at,
+      language: track.highlightjs_language,
+      author: {
+        handle: user.handle,
+        avatar_url: user.avatar_url
+      },
+      exercise: {
+        title: solution.exercise.title,
+        icon_url: solution.exercise.icon_url
+      },
+      track: {
+        title: track.title,
+        icon_url: solution.track.icon_url
+      },
+      links: {
+        public_url: Exercism::Routes.published_solution_url(solution),
+        private_url: Exercism::Routes.private_solution_url(solution)
       }
     }
   end

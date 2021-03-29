@@ -11,12 +11,12 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       url: "https://test.exercism.io/tracks/ruby/exercises/bob",
       status: :published,
       mentoring_status: :none,
-      has_notifications: true,
-      num_views: 1270, # TODO
-      num_stars: 10, # TODO
-      num_comments: 2, # TODO
-      num_iterations: 3, # TODO
-      num_locs: "9 - 18", # TODO
+      has_notifications: true, # TODO
+      num_views: solution.num_views,
+      num_stars: solution.num_stars,
+      num_comments: solution.num_comments,
+      num_iterations: solution.num_iterations,
+      num_loc: solution.num_loc,
       num_mentoring_comments: 2, # TOOD
       last_submitted_at: submission.created_at.iso8601,
       published_at: solution.published_at.iso8601,

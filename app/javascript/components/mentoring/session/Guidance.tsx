@@ -1,9 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
-import { MentorSolution as MentorSolutionProps } from '../Session'
-import { MentorSolution } from './MentorSolution'
-import { GraphicalIcon } from '../../common'
+import { CommunitySolution as CommunitySolutionProps } from '../../types'
+import { CommunitySolution, GraphicalIcon } from '../../common'
 import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
@@ -35,7 +34,7 @@ export const Guidance = ({
   exercise,
 }: {
   notes: string
-  mentorSolution?: MentorSolutionProps
+  mentorSolution?: CommunitySolutionProps
   track: Track
   exercise: Exercise
 }): JSX.Element => {
@@ -101,7 +100,7 @@ export const Guidance = ({
             title="How you solved the exercise"
           />
           <Accordion.Panel>
-            <MentorSolution
+            <CommunitySolution
               solution={mentorSolution}
               track={track}
               exercise={exercise}

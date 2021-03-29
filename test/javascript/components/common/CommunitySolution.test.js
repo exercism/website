@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { MentorSolution } from '../../../../../app/javascript/components/mentoring/session/MentorSolution'
+import { CommunitySolution } from '../../../../../app/javascript/components/common/MentorSolution'
 
 test('shows CTA to contribute notes when notes isnt present', async () => {
   const solution = {
@@ -14,7 +14,7 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
   const track = { title: 'Track' }
 
   render(
-    <MentorSolution solution={solution} exercise={exercise} track={track} />
+    <CommunitySolution solution={solution} exercise={exercise} track={track} />
   )
 
   expect(

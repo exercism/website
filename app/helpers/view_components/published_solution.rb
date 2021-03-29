@@ -11,9 +11,9 @@ module ViewComponents
     def to_s
       ApplicationController.render "components/published_solution",
         locals: {
+          user: solution.user,
           exercise: solution.exercise,
-          exercise_title: solution.exercise.title,
-          track_title: solution.track.title,
+          track: solution.track,
           published_at: solution.published_at,
           num_stars: solution.num_stars,
           num_comments: solution.num_comments,

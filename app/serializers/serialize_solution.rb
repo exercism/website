@@ -10,11 +10,11 @@ class SerializeSolution
       status: solution.status,
       mentoring_status: solution.mentoring_status,
       has_notifications: true, # TODO
-      num_views: 1270, # TODO
-      num_stars: 10, # TODO
-      num_comments: 2, # TODO
-      num_iterations: 3, # TODO
-      num_locs: "9 - 18", # TODO
+      num_views: solution.num_views,
+      num_stars: solution.num_stars,
+      num_comments: solution.num_comments,
+      num_iterations: solution.num_iterations,
+      num_loc: solution.num_loc,
       num_mentoring_comments: 2, # TOOD
 
       published_at: solution.published_at&.iso8601,

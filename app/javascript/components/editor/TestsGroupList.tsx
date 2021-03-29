@@ -1,18 +1,24 @@
 import React from 'react'
 import { TestStatus, Test } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
-import { TestsGroup } from './TestsGroup'
+import { TestsGroup, TestWithToggle } from './TestsGroup'
 
 export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
   const testsWithIndex = tests.map((test, i) => ({ index: i + 1, ...test }))
-  const passed = testsWithIndex.filter(
-    (test) => test.status === TestStatus.PASS
-  )
-  const failed = testsWithIndex.filter(
-    (test) =>
-      test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
-  )
-  const firstFailedTest = failed.slice(0, 1)
+  const passed: TestWithToggle[] = testsWithIndex
+    .filter((test) => test.status === TestStatus.PASS)
+    .map((test) => {
+      return { ...test, defaultOpen: false }
+    })
+
+  const failed: TestWithToggle[] = testsWithIndex
+    .filter(
+      (test) =>
+        test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
+    )
+    .map((test, i) => {
+      return { ...test, defaultOpen: i === 0 }
+    })
 
   return (
     <div className="tests-list">
@@ -25,7 +31,7 @@ export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
         </TestsGroup.Header>
         <TestsGroup.Tests />
       </TestsGroup>
-      <TestsGroup open={true} tests={firstFailedTest}>
+      <TestsGroup open={true} tests={failed}>
         <TestsGroup.Header>
           <GraphicalIcon icon="failed-check-circle" className="indicator" />
           <TestsGroup.Title status="failed" />

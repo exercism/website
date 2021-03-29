@@ -30,7 +30,7 @@ test('shows passed tests', async () => {
   expect(screen.getByText('second test')).toBeInTheDocument()
 })
 
-test('only shows until first failed test', async () => {
+test('shows all failed tests', async () => {
   const tests = [
     {
       name: 'first test',
@@ -58,5 +58,29 @@ test('only shows until first failed test', async () => {
   render(<TestsGroupList tests={tests} />)
 
   expect(screen.getByText('second test')).toBeInTheDocument()
-  expect(screen.queryByText('third test')).not.toBeInTheDocument()
+  expect(screen.getByText('third test')).toBeInTheDocument()
+})
+
+test('opens first failing test by default', async () => {
+  const tests = [
+    {
+      name: 'second test',
+      status: TestStatus.FAIL,
+      testCode: '',
+      message: 'second test message',
+      output: '',
+    },
+    {
+      name: 'third test',
+      status: TestStatus.FAIL,
+      testCode: '',
+      message: 'third test message',
+      output: '',
+    },
+  ]
+
+  render(<TestsGroupList tests={tests} />)
+
+  expect(screen.getByText('second test message')).toBeInTheDocument()
+  expect(screen.queryByText('third test message')).not.toBeVisible()
 })

@@ -55,6 +55,10 @@ class Exercise < ApplicationRecord
     self.class.name.sub("Exercise", "").downcase
   end
 
+  def download_cmd
+    "exercism download --track=#{track.slug} --exercise=#{slug}"
+  end
+
   def concept_exercise?
     is_a?(ConceptExercise)
   end

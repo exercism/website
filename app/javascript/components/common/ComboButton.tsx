@@ -13,9 +13,9 @@ const ComboButtonContext = React.createContext({
 })
 
 export const ComboButton = ({
-  className,
+  className = '',
   children,
-}: React.PropsWithChildren<{ className: string }>): JSX.Element => {
+}: React.PropsWithChildren<{ className?: string }>): JSX.Element => {
   const {
     open,
     setOpen,
@@ -106,7 +106,7 @@ const Panel = ({
   const portalContainer = document.getElementById('portal-container')
 
   if (!portalContainer) {
-    throw new Error('No portal container found')
+    return null
   }
 
   return ReactDOM.createPortal(

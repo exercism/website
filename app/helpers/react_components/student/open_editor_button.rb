@@ -8,6 +8,7 @@ module ReactComponents
           "student-open-editor-button",
           {
             status: status,
+            command: command,
             links: links
           }
         )
@@ -16,6 +17,10 @@ module ReactComponents
       private
       def status
         @status ||= user_track.exercise_status(exercise)
+      end
+
+      def command
+        @command ||= exercise.download_cmd
       end
 
       def links

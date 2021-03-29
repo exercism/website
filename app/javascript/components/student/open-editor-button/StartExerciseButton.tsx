@@ -36,12 +36,8 @@ export const StartExerciseButton = ({
   }, [mutation])
 
   return (
-    <div className="c-combo-button">
-      <FormButton
-        status={status}
-        onClick={handleClick}
-        className="--editor-segment"
-      >
+    <React.Fragment>
+      <FormButton status={status} onClick={handleClick}>
         Start in editor
       </FormButton>
       <FetchingBoundary
@@ -49,6 +45,6 @@ export const StartExerciseButton = ({
         error={error}
         defaultError={DEFAULT_ERROR}
       />
-    </div>
+    </React.Fragment>
   )
 }

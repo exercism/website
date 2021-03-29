@@ -2,10 +2,13 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { OpenEditorButton } from '../../../../app/javascript/components/student/OpenEditorButton'
+import userEvent from '@testing-library/user-event'
+import { renderIntoDocument } from 'react-dom/test-utils'
+import { DocumentSymbol } from 'vscode-languageserver-types'
 
 test('disabled when status is locked', async () => {
   const { container } = render(
-    <OpenEditorButton status="locked" links={null} />
+    <OpenEditorButton command="command" status="locked" links={null} />
   )
 
   expect(container.firstChild).toHaveAttribute(
@@ -16,7 +19,13 @@ test('disabled when status is locked', async () => {
 })
 
 test('shows button to start exercise when available', async () => {
-  render(<OpenEditorButton status="available" links={{ start: '' }} />)
+  render(
+    <OpenEditorButton
+      command="command"
+      status="available"
+      links={{ start: '' }}
+    />
+  )
 
   expect(
     screen.getByRole('button', { name: 'Start in editor' })
@@ -27,6 +36,7 @@ test('shows link to exercise when completed', async () => {
   render(
     <OpenEditorButton
       status="completed"
+      command="command"
       links={{ exercise: 'https://exercism.test/exercise' }}
     />
   )
@@ -41,6 +51,7 @@ test('shows link to exercise when published', async () => {
   render(
     <OpenEditorButton
       status="published"
+      command="command"
       links={{ exercise: 'https://exercism.test/exercise' }}
     />
   )
@@ -55,6 +66,7 @@ test('shows link to exercise when other status', async () => {
   render(
     <OpenEditorButton
       status="iterated"
+      command="command"
       links={{ exercise: 'https://exercism.test/exercise' }}
     />
   )

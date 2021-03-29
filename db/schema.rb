@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_27_174746) do
+ActiveRecord::Schema.define(version: 2021_03_28_130408) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -333,11 +333,12 @@ ActiveRecord::Schema.define(version: 2021_03_27_174746) do
     t.string "tooling_job_id", null: false
     t.string "status", null: false
     t.text "message"
-    t.json "tests"
     t.integer "ops_status", limit: 2, null: false
     t.json "raw_results", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "version", limit: 1, default: 2, null: false
+    t.text "output"
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
   end
 

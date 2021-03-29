@@ -6,8 +6,9 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     ops_status = 201
     status = "foobar"
     message = "some barfoo message"
+    version = 5
     tests = [{ 'foo' => 'bar' }]
-    results = { 'status' => status, 'message' => message, 'tests' => tests }
+    results = { 'version' => version, 'status' => status, 'message' => message, 'tests' => tests }
     job = create_test_runner_job!(submission, execution_status: ops_status, results: results)
 
     Submission::TestRun::Process.(job)
@@ -17,7 +18,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert_equal ops_status, tr.ops_status
     assert_equal status.to_sym, tr.status
     assert_equal message, tr.message
-    assert_equal tests, tr.tests
+    assert_equal version, tr.version
     assert_equal results, tr.send(:raw_results)
   end
 

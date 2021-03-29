@@ -7,7 +7,7 @@ export const setupThemes = (): void => {
     inherit: true,
     rules: [
       {
-        background: 'F8F8FF',
+        background: 'FBFCFE',
         token: '',
       },
       {
@@ -242,11 +242,12 @@ export const setupThemes = (): void => {
     ],
     colors: {
       'editor.foreground': '#000000',
-      'editor.background': '#F8F8FF',
+      'editor.background': '#FBFCFE',
       'editor.selectionBackground': '#B4D5FE',
       'editor.lineHighlightBackground': '#FFFEEB',
       'editorCursor.foreground': '#666666',
       'editorWhitespace.foreground': '#BBBBBB',
+      'editorLineNumber.foreground': '#5C5589',
     },
   })
 

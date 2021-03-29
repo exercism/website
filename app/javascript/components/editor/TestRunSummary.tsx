@@ -2,7 +2,8 @@ import React, { useEffect, useCallback, useRef } from 'react'
 import { TestRun, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
-import { TestsGroupList } from './TestsGroupList'
+import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
+import { TestRunFailure } from './TestRunFailure'
 
 export const TestRunSummary = ({
   testRun,
@@ -113,7 +114,7 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
       return (
         <div className="summary-status failed" role="status">
           <span className="--dot" />
-          {testRun.version === 2 ? '1 test failure' : 'Tests failed'}
+          <TestRunSummaryHeaderMessage version={testRun.version} />
         </div>
       )
     case TestRunStatus.PASS:
@@ -138,13 +139,7 @@ TestRunSummary.Content = ({
   switch (testRun.status) {
     case TestRunStatus.PASS:
     case TestRunStatus.FAIL:
-      return testRun.version == 2 ? (
-        <TestsGroupList tests={testRun.tests} />
-      ) : (
-        <pre className="v1-output">
-          <code dangerouslySetInnerHTML={{ __html: testRun.output }} />
-        </pre>
-      )
+      return <TestRunFailure testRun={testRun} />
     case TestRunStatus.ERROR:
       return (
         <div role="status">

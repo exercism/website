@@ -13,9 +13,6 @@ export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
       test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
   )
   const firstFailedTest = failed.slice(0, 1)
-  const skipped = testsWithIndex.filter(
-    (test) => !passed.concat(firstFailedTest).includes(test)
-  )
 
   return (
     <div className="tests-list">
@@ -36,12 +33,6 @@ export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
           <GraphicalIcon icon="chevron-down" className="--open-icon" />
         </TestsGroup.Header>
         <TestsGroup.Tests />
-      </TestsGroup>
-      <TestsGroup tests={skipped}>
-        <TestsGroup.Header>
-          <GraphicalIcon icon="skipped-check-circle" className="indicator" />
-          <TestsGroup.Title status="skipped" />
-        </TestsGroup.Header>
       </TestsGroup>
     </div>
   )

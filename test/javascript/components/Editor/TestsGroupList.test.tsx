@@ -30,36 +30,6 @@ test('shows passed tests', async () => {
   expect(screen.getByText('second test')).toBeInTheDocument()
 })
 
-test('shows number of skipped tests', async () => {
-  const tests = [
-    {
-      name: 'first test',
-      status: TestStatus.PASS,
-      testCode: '',
-      message: '',
-      output: '',
-    },
-    {
-      name: 'second test',
-      status: TestStatus.FAIL,
-      testCode: '',
-      message: '',
-      output: '',
-    },
-    {
-      name: 'third test',
-      status: TestStatus.FAIL,
-      testCode: '',
-      message: '',
-      output: '',
-    },
-  ]
-
-  render(<TestsGroupList tests={tests} />)
-
-  expect(screen.getByText('1 test skipped')).toBeInTheDocument()
-})
-
 test('only shows until first failed test', async () => {
   const tests = [
     {

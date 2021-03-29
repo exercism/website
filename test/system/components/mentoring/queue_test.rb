@@ -209,6 +209,7 @@ module Components
 
         assert_no_text "Running"
         find("label", text: "Only show exercises that need mentoring").click
+        sleep(1)
         assert_text "Running"
       end
 

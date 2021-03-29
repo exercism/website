@@ -16,7 +16,7 @@ class Solution
     end
 
     def call
-      @solutions = exercise.solutions
+      @solutions = exercise.solutions.published
       @solutions.page(page).per(per)
     end
 

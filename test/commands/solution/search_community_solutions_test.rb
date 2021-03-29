@@ -1,11 +1,14 @@
 require "test_helper"
 
 class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
-  test "no options returns everything" do
+  test "no options returns all published" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise
-    solution_2 = create :concept_solution, exercise: exercise
+    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current
+    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
 
     # A different exercise
     create :concept_solution
@@ -16,8 +19,8 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
   test "pagination" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise
-    solution_2 = create :concept_solution, exercise: exercise
+    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current
+    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current
 
     assert_equal [solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 1)
     assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, page: 2, per: 1)

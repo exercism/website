@@ -1,0 +1,18 @@
+@import "../styles";
+
+#page-community-solutions-index {
+    & h2 {
+        @apply text-h3 mb-20;
+    }
+    & .c-search-bar {
+        @apply mb-32;
+
+        & .--search {
+            width: 450px;
+        }
+    }
+    & .solutions {
+        @apply grid grid-cols-3 gap-x-48 gap-y-32;
+        @apply pb-80;
+    }
+}

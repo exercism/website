@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SerializeSolutionForPublicTest < ActiveSupport::TestCase
+class SerializeCommunitySolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
@@ -29,6 +29,6 @@ class SerializeSolutionForPublicTest < ActiveSupport::TestCase
       }
     }
 
-    assert_equal expected, SerializeSolutionForPublic.(solution)
+    assert_equal expected, SerializeCommunitySolution.(solution)
   end
 end

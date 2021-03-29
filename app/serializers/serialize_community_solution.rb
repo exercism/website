@@ -1,4 +1,4 @@
-class SerializeSolutionForPublic
+class SerializeCommunitySolution
   include Mandate
 
   initialize_with :solution

@@ -36,18 +36,7 @@ module ViewComponents
                 )
               ]
             )
-          end +
-            tag.div(class: "c-combo-button") do
-              link_to(
-                "Open Editor",
-                Exercism::Routes.start_track_exercise_path(track, exercise),
-                method: :patch,
-                class: "--editor-segment"
-              ) +
-                tag.button(class: "--dropdown-segment") do
-                  graphical_icon('chevron-down')
-                end
-            end
+          end + (render ::ReactComponents::Student::OpenEditorButton.new(exercise))
         end
       end
 

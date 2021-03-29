@@ -264,6 +264,9 @@ initReact({
       links={data.links}
     />
   ),
+  'student-open-editor-button': (data: any) => (
+    <Student.OpenEditorButton status={data.status} links={data.links} />
+  ),
   'student-complete-exercise-button': (data: any) => (
     <Student.CompleteExerciseButton endpoint={data.endpoint} />
   ),

@@ -13,7 +13,7 @@ module ReactComponents
       private
       def data
         if current_user
-          solutions = SerializeSolutionsForStudent.(current_user.solutions.where(exercise_id: track.exercises))
+          solutions = SerializeSolutions.(current_user.solutions.where(exercise_id: track.exercises))
         else
           solutions = []
         end

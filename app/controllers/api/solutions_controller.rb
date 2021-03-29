@@ -12,7 +12,7 @@ module API
 
       render json: SerializePaginatedCollection.(
         solutions,
-        serializer: SerializeSolutionsForStudent
+        serializer: SerializeSolutions
       )
     end
 
@@ -26,7 +26,7 @@ module API
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       output = {
-        solution: SerializeSolutionForStudent.(solution)
+        solution: SerializeSolution.(solution)
       }
       output[:iterations] = solution.iterations.map { |iteration| SerializeIteration.(iteration) } if sideload?(:iterations)
       render json: output

@@ -51,7 +51,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
     serializer = SerializePaginatedCollection.(
       Solution.page(1),
-      serializer: SerializeSolutionsForStudent
+      serializer: SerializeSolutions
     )
     assert_equal serializer.to_json, response.body
   end
@@ -98,7 +98,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      solution: SerializeSolutionForStudent.(solution)
+      solution: SerializeSolution.(solution)
     }
     assert_equal expected.to_json, response.body
   end
@@ -111,7 +111,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      solution: SerializeSolutionForStudent.(solution),
+      solution: SerializeSolution.(solution),
       iterations: [SerializeIteration.(iteration)]
     }
     assert_equal expected.to_json, response.body

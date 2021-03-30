@@ -36,7 +36,7 @@
             }
         }
         & .c-exercise-status-tag {
-            @apply ml-16;
+            @apply ml-32;
         }
     }
     & .blurb {

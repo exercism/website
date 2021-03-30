@@ -9,8 +9,10 @@ const DEFAULT_ERROR = new Error('Unable to start exercise')
 
 export const StartExerciseButton = ({
   endpoint,
+  className = '',
 }: {
   endpoint: string
+  className?: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<{
@@ -37,7 +39,7 @@ export const StartExerciseButton = ({
 
   return (
     <React.Fragment>
-      <FormButton status={status} onClick={handleClick}>
+      <FormButton status={status} onClick={handleClick} className={className}>
         Start in editor
       </FormButton>
       <FetchingBoundary

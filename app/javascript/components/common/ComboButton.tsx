@@ -48,23 +48,30 @@ export const ComboButton = ({
     >
       <div className={classNames.join(' ')}>
         {children}
-        <div className="--dropdown-segment">
-          <button
-            onClick={() => {
-              setOpen(!open)
-            }}
-            ref={setButtonElement}
-          >
-            <GraphicalIcon icon="chevron-down" />
-          </button>
-        </div>
+        <button
+          onClick={() => {
+            setOpen(!open)
+          }}
+          className="--dropdown-segment"
+          ref={setButtonElement}
+        >
+          <GraphicalIcon icon="chevron-down" />
+        </button>
       </div>
     </ComboButtonContext.Provider>
   )
 }
 
 ComboButton.EditorSegment = ({ children }: React.PropsWithChildren<{}>) => {
-  return <div className="--editor-segment">{children}</div>
+  if (!children) {
+    return null
+  }
+
+  return (
+    <React.Fragment>
+      {React.cloneElement(children, { className: '--editor-segment' })}
+    </React.Fragment>
+  )
 }
 
 ComboButton.DropdownSegment = ({ children }: React.PropsWithChildren<{}>) => {

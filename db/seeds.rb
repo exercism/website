@@ -107,6 +107,7 @@ submission.files.create!(
 )
 Iteration::Create.(solution, submission)
 
+solution.update!(completed_at: Time.current, status: :completed)
 Solution::Publish.(solution, [])
 
 ## Create mentoring solutions

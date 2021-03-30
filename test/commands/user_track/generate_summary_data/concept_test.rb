@@ -44,11 +44,11 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     ce_2.taught_concepts << create(:track_concept, track: track)
 
     pe_1 = create :practice_exercise, :random_slug, track: track
-    pe_1.prerequisites << concept
+    pe_1.practiced_concepts << concept
     pe_2 = create :practice_exercise, :random_slug, track: track
-    pe_2.prerequisites << concept
+    pe_2.practiced_concepts << concept
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.prerequisites << create(:track_concept, track: track)
+    pe_3.practiced_concepts << create(:track_concept, track: track)
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
@@ -79,15 +79,15 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     create :concept_solution, user: user, exercise: ce_2, completed_at: Time.current
 
     pe_1 = create :practice_exercise, :random_slug, track: track
-    pe_1.prerequisites << concept
+    pe_1.practiced_concepts << concept
     create :practice_solution, user: user, exercise: pe_1, completed_at: nil
 
     pe_2 = create :practice_exercise, :random_slug, track: track
-    pe_2.prerequisites << concept
+    pe_2.practiced_concepts << concept
     create :practice_solution, user: user, exercise: pe_2, completed_at: Time.current
 
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.prerequisites << concept
+    pe_3.practiced_concepts << concept
     create :practice_solution, user: user, exercise: pe_3, completed_at: Time.current
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
@@ -114,11 +114,11 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     ce_2.taught_concepts << create(:track_concept, track: track)
 
     pe_1 = create :practice_exercise, :random_slug, track: track
-    pe_1.prerequisites << concept
+    pe_1.practiced_concepts << concept
     pe_2 = create :practice_exercise, :random_slug, track: track
-    pe_2.prerequisites << concept
+    pe_2.practiced_concepts << concept
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.prerequisites << create(:track_concept, track: track)
+    pe_3.practiced_concepts << create(:track_concept, track: track)
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, nil))
 

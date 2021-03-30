@@ -131,7 +131,6 @@ import * as Student from '../components/student'
 import {
   SolutionSummaryLinks,
   SolutionSummaryRequest,
-  SolutionSummarySolution,
 } from '../components/student/SolutionSummary'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as TrackComponents from '../components/track'
@@ -270,7 +269,7 @@ initReact({
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
       discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
-      solution={camelizeKeysAs<SolutionSummarySolution>(data.solution)}
+      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       isConceptExercise={data.is_concept_exercise}

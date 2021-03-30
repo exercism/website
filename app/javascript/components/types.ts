@@ -14,6 +14,7 @@ export type Exercise =
   | (ExerciseCore & { isUnlocked: false })
 
 export type SolutionForStudent = {
+  id: string
   url: string
   status: SolutionStatus
   mentoringStatus: SolutionMentoringStatus

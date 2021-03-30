@@ -78,7 +78,8 @@ export const SolutionSummary = ({
 
   return (
     <>
-      {solution.completedAt ? null : (
+      {solution.status === 'completed' ||
+      solution.status === 'published' ? null : (
         <Nudge
           mentoringStatus={solution.mentoringStatus}
           discussions={discussions}

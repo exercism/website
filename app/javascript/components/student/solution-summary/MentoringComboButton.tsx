@@ -76,7 +76,7 @@ export const MentoringComboButton = ({
         attributes={attributes}
       >
         <MentoringDropdown
-          hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+          mentoringStatus={mentoringStatus}
           discussions={discussions}
           links={{ share: links.shareMentoring }}
         />

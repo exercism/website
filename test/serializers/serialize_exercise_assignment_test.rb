@@ -53,7 +53,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
     serialized = SerializeExerciseAssignment.(exercise)
 
-    expected = "Instructions for allergies"
+    expected = "<p>Instructions for allergies</p>\n"
     assert_equal expected, serialized[:overview]
   end
 
@@ -62,7 +62,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
     serialized = SerializeExerciseAssignment.(exercise)
 
-    expected = "Instructions for bob\n\nExtra instructions for bob"
+    expected = "<p>Instructions for bob</p>\n<p>Extra instructions for bob</p>\n"
     assert_equal expected, serialized[:overview]
   end
 

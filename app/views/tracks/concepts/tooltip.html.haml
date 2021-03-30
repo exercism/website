@@ -27,7 +27,7 @@
 
     .learnt-extras
       = graphical_icon 'exercises'
-      Complete more exercises to master Structs.
+      Complete more exercises to master #{@concept.name}.
 
   - elsif @user_track.concept_unlocked?(@concept)
     - exercise = @concept.concept_exercises.first
@@ -38,4 +38,4 @@
     .learn-extras
       Completing
       %strong= exercise.title
-      will unlock more exercises for you to master Structs.
+      will unlock more exercises for you to master #{@concept.name}.

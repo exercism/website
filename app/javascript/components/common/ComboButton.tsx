@@ -63,7 +63,7 @@ export const ComboButton = ({
 }
 
 ComboButton.PrimarySegment = ({ children }: React.PropsWithChildren<{}>) => {
-  if (!children) {
+  if (!children || !React.isValidElement(children)) {
     return null
   }
 

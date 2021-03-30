@@ -15,7 +15,7 @@
     }
 
     & > .--info {
-        @apply flex-grow flex flex-col items-start;
+        @apply flex-grow self-start flex flex-col items-start;
         & > .--title {
             @apply flex items-center;
             @apply text-h4 mb-8;

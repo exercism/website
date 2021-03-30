@@ -18,13 +18,14 @@ module ViewComponents
       private
       def lhs
         tag.nav(class: "lhs") do
-          tag.div("Mentoring", class: "title") +
+          tag.div(class: "title") do
+            graphical_icon(:mentoring, hex: true) + tag.span("Mentoring")
+          end +
             tag.div(safe_join(tabs), class: 'tabs')
         end
       end
 
-      def rhs
-      end
+      def rhs; end
 
       def tabs
         [
@@ -32,19 +33,18 @@ module ViewComponents
             Exercism::Routes.mentoring_inbox_path,
             class: tab_class(:workspace)
           ) do
-            graphical_icon(:mentoring) +
+            graphical_icon(:overview) +
               tag.span("Your Workspace") +
-              tag.span("20", class: 'count') # TODO
+              tag.span("20", class: 'count') # TODO
           end,
 
           link_to(
             Exercism::Routes.mentoring_queue_path,
             class: tab_class(:queue)
           ) do
-            graphical_icon(:mentoring) +
+            graphical_icon(:queue) +
               tag.span("Queue") +
               tag.span("1,700", class: 'count')
-
           end,
 
           link_to(

@@ -1,11 +1,17 @@
 #mentor-inbox-page
   = render ViewComponents::Mentor::Header.new(:workspace)
 
-  .lg-container
-    %header.header
-      = graphical_icon "conversation-1", category: 'graphics'
-      %h2 Your Mentoring Inbox
-      .subtitle
-        The solutions that you've mentoring
+  %article
+    .lg-container
+      .tabs
+        .c-tab.selected
+          Inbox
+          .count 23
+        .c-tab
+          Awaiting Student
+          .count 23
+        .c-tab
+          Finished
+          .count 23
 
-    = ReactComponents::Mentoring::Inbox.new
+      = ReactComponents::Mentoring::Inbox.new

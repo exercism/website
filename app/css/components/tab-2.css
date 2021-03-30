@@ -13,11 +13,20 @@
         width: 24px;
         @apply mr-16;
     }
+    & .count {
+        @apply ml-12;
+        @apply border-1 border-borderLight rounded-100 px-12;
+        @apply text-textColor6 text-13 leading-200 font-medium;
+    }
+
     &.selected {
         @apply text-anotherPurple;
         @apply border-anotherPurple;
         & .c-icon {
             filter: var(--another-purple-filter);
+        }
+        & .count {
+            @apply border-anotherPurple text-anotherPurple;
         }
     }
 }

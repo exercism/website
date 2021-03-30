@@ -23,8 +23,7 @@ module ViewComponents
         end
       end
 
-      def rhs
-      end
+      def rhs; end
 
       def tabs
         [
@@ -34,7 +33,7 @@ module ViewComponents
           ) do
             graphical_icon(:mentoring) +
               tag.span("Your Workspace") +
-              tag.span("20", class: 'count') # TODO
+              tag.span("20", class: 'count') # TODO
           end,
 
           link_to(
@@ -44,7 +43,6 @@ module ViewComponents
             graphical_icon(:mentoring) +
               tag.span("Queue") +
               tag.span("1,700", class: 'count')
-
           end,
 
           link_to(

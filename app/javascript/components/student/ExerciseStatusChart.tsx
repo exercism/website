@@ -76,7 +76,17 @@ const ExerciseStatusDot = ({
     setPanelElement,
     styles,
     attributes,
-  } = usePanel({ placement: 'right' })
+  } = usePanel({
+    placement: 'right-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
 
   const isMountedRef = useIsMounted()
   const { data, error, status } = useRequestQuery<{

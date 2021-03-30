@@ -20,7 +20,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit track_path(track)
-          within(".exercises") { find(".c-ed.--l").hover }
+          within(".exercises") { find(".c-ed.--locked").hover }
         end
 
         assert_text "Lasagna"

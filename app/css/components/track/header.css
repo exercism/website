@@ -1,6 +1,7 @@
 @import "../../styles.css";
 
-.c-track-top-level-nav {
+.c-track-header,
+.c-mentor-header {
     @apply relative;
     @apply bg-backgroundColorA pt-12 shadow-base;
 
@@ -25,30 +26,10 @@
 
     & .tabs {
         @apply flex flex-grow;
-
-        & .tab {
-            @apply mr-24;
-            @apply px-8 pb-16;
-            @apply flex items-center;
-            @apply text-17 leading-140 font-semibold;
-            @apply text-textColor6;
-            @apply border-b-4 border-transparent;
-
-            & .c-icon {
-                height: 24px;
-                width: 24px;
-                @apply mr-16;
-            }
-            &.selected {
-                @apply text-anotherPurple;
-                @apply border-anotherPurple;
-                & .c-icon {
-                    filter: var(--another-purple-filter);
-                }
-            }
-        }
     }
+}
 
+.c-track-header {
     & .people {
         @apply flex items-center;
         & .c-faces {

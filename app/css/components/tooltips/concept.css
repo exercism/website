@@ -7,98 +7,88 @@
 
     /* TODO: add fade in transition for opacity */
 
-    & .c-concept-icon {
-        @apply mr-16;
-    }
+    & .header {
+        @apply flex items-center mb-12;
 
-    & .heading {
-        @apply flex items-center mb-8;
+        & .c-concept-icon {
+            @apply mr-16;
+        }
 
-        & .title {
-            @apply flex items-center;
+        & .summary {
+            @apply flex-grow;
 
-            & .name {
-                @apply text-h5 mr-8;
+            & .title {
+                @apply flex items-center;
+
+                & .name {
+                    @apply text-h5 mr-8;
+                }
+                & .in {
+                    @apply mr-8;
+                }
+                & .c-icon {
+                    height: 32px;
+                    width: 32px;
+                }
             }
-            & .in {
-                @apply mr-8;
-            }
-            & .c-icon {
-                height: 32px;
-                width: 32px;
+            & .num-exercises {
+                @apply text-15 leading-160 font-medium text-textColor6;
             }
         }
-        & .num-exercises {
-            @apply text-15 leading-160 font-medium text-textColor6;
+        & .c-exercise-status-tag {
+            @apply ml-16;
         }
     }
     & .blurb {
         @apply text-15 leading-160;
+        @apply mb-16;
     }
 
-    & .exercises-section {
-        @apply mt-12;
-
-        & h3 {
-            @apply leading-150 font-semibold text-textColor1;
-            @apply mb-8;
+    & .info {
+        @apply flex items-center;
+        @apply leading-150;
+        & > .icon,
+        & > .c-icon {
+            height: 24px;
+            width: 24px;
+            @apply mr-12;
         }
-        & .exercises {
-            @apply flex flex-wrap;
-            & .c-ed {
-                @apply mr-8 mb-8;
+        & .icon {
+            @apply grid place-items-center;
+            @apply rounded-100;
+            & .c-icon {
+                width: 12px;
+                height: 12px;
             }
         }
     }
 
-    & .progress {
-        @apply flex font-semibold mb-8 text-darkGray leading-paragraph;
-    }
-
-    & .c-concept-progress-bar {
-        @apply mb-12;
-        height: 6px;
-    }
-
-    & .learn,
-    & .learnt {
-        @apply flex items-center mt-12 mb-8;
-        @apply text-textColor1 leading-140 font-semibold;
-
+    & .locked {
+        @apply text-textColor6 font-semibold;
         & .icon {
-            background: #130b43;
-            height: 24px;
-            width: 24px;
-            @apply flex-shrink-0;
-            @apply grid place-items-center;
-            @apply mr-12;
-            @apply rounded-circle;
-
+            @apply bg-lockedColor;
             & .c-icon {
-                width: 12px;
-                height: 12px;
+                filter: var(--mid-gray);
+            }
+        }
+    }
+    & .available {
+        @apply text-textColor1 font-semibold;
+        & .c-icon {
+            filter: var(--mid-gray);
+        }
+    }
+    & .learnt {
+        @apply text-textColor1 font-semibold;
+        & .icon {
+            @apply bg-black;
+            & .c-icon {
                 filter: var(--white-filter);
             }
         }
     }
-    & .learn-extras {
-        @apply leading-160;
-        & strong {
-            @apply font-medium;
-        }
-    }
-    & .learnt-extras {
-        @apply flex items-center;
-        @apply text-textColor1 leading-160 font-medium;
-        & .c-icon {
-            width: 24px;
-            height: 24px;
-            @apply mr-12;
-        }
-    }
     & .mastered {
-        @apply mt-4;
-        @apply text-everyoneLovesAGreen leading-140 font-semibold;
+        @apply text-textColor1 font-semibold;
     }
 
     /* Required for functionality */

@@ -23,7 +23,7 @@ export const OpenEditorButton = (
       return (
         <ComboButton className="--disabled">
           <ComboButton.PrimarySegment>
-            <div>Open Primary</div>
+            <div>Open editor</div>
           </ComboButton.PrimarySegment>
           <ComboButton.DropdownSegment>
             <CopyToClipboardButton textToCopy={props.command} />

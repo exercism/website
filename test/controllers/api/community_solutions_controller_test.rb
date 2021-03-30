@@ -25,9 +25,9 @@ module API
     test "index should search and return solutions" do
       track = create :track
       exercise = create :concept_exercise, :random_slug, track: track
-      create :concept_solution, exercise: exercise
-      create :concept_solution, exercise: exercise
-      create :concept_solution
+      create :concept_solution, exercise: exercise, published_at: Time.current
+      create :concept_solution, exercise: exercise, published_at: Time.current
+      create :concept_solution, published_at: Time.current
 
       get api_track_exercise_community_solutions_path(
         track, exercise

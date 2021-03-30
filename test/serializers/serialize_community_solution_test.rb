@@ -5,27 +5,30 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
     expected = {
-      solution: {
-        id: solution.uuid,
-        url: "https://test.exercism.io/tracks/ruby/exercises/bob/solutions/#{solution.user.handle}",
-        num_views: solution.num_views,
-        num_stars: solution.num_stars,
-        num_comments: solution.num_comments,
-        num_iterations: solution.num_iterations,
-        num_loc: solution.num_loc,
-        published_at: solution.published_at,
-        user: {
-          handle: solution.user.handle,
-          avatar_url: solution.user.avatar_url
-        },
-        exercise: {
-          title: solution.exercise.title,
-          icon_url: solution.exercise.icon_url
-        },
-        track: {
-          title: solution.track.title,
-          icon_url: solution.track.icon_url
-        }
+      id: solution.uuid,
+      snippet: solution.snippet,
+      num_views: solution.num_views,
+      num_stars: solution.num_stars,
+      num_comments: solution.num_comments,
+      num_iterations: solution.num_iterations,
+      num_loc: solution.num_loc,
+      published_at: solution.published_at,
+      language: solution.track.highlightjs_language,
+      author: {
+        handle: solution.user.handle,
+        avatar_url: solution.user.avatar_url
+      },
+      exercise: {
+        title: solution.exercise.title,
+        icon_url: solution.exercise.icon_url
+      },
+      track: {
+        title: solution.track.title,
+        icon_url: solution.track.icon_url
+      },
+      links: {
+        public_url: Exercism::Routes.published_solution_url(solution),
+        private_url: Exercism::Routes.private_solution_url(solution)
       }
     }
 

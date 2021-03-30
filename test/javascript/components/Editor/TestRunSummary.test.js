@@ -2,7 +2,10 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { TestRunSummary } from '../../../../app/javascript/components/editor/TestRunSummary'
-import { TestRunStatus } from '../../../../app/javascript/components/editor/types'
+import {
+  TestRunStatus,
+  TestStatus,
+} from '../../../../app/javascript/components/editor/types'
 
 test('hides cancel button if test run has resolved', async () => {
   const { queryByText } = render(
@@ -34,7 +37,6 @@ test('show header when all tests pass', async () => {
   )
 
   expect(queryByText('All tests passed')).toBeInTheDocument()
-  expect(queryByText('1 test failure')).not.toBeInTheDocument()
 })
 
 test('show header when test run fails', async () => {
@@ -45,7 +47,16 @@ test('show header when test run fails', async () => {
         submissionUuid: '123',
         status: TestRunStatus.FAIL,
         message: '',
-        tests: [],
+        tests: [
+          {
+            name: 'test 1',
+            status: TestStatus.FAIL,
+          },
+          {
+            name: 'test 2',
+            status: TestStatus.FAIL,
+          },
+        ],
       }}
     />
   )

@@ -151,6 +151,21 @@ Done')
     assert_equal expected, Markdown::Parse.("[anagram](/tracks/ruby/exercises/anagram)")
   end
 
+  test "render internal link using exercism.io domain" do
+    expected = %(<p><a href="https://exercism.io/tracks/ruby/concepts/basics" target="_blank" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics)")
+  end
+
+  test "render internal link using exercism.lol domain" do
+    expected = %(<p><a href="https://exercism.lol/tracks/ruby/concepts/basics" target="_blank" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](https://exercism.lol/tracks/ruby/concepts/basics)")
+  end
+
+  test "render internal link using local.exercism.io domain" do
+    expected = %(<p><a href="http://local.exercism.io/tracks/ruby/concepts/basics" target="_blank" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](http://local.exercism.io/tracks/ruby/concepts/basics)")
+  end
+
   test "render internal link with trailing slash" do
     expected = %(<p><a href="https://exercism.io/tracks/ruby/concepts/basics/" target="_blank" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[basics](https://exercism.io/tracks/ruby/concepts/basics/)")

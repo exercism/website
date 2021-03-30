@@ -34,7 +34,7 @@ module Components
       end
 
       test "paginates solutions" do
-        Solution::Search.stubs(:default_per).returns(1)
+        Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Bob"
         exercise_2 = create :concept_exercise, title: "Lasagna"
@@ -57,7 +57,7 @@ module Components
       end
 
       test "searches solutions" do
-        Solution::Search.stubs(:default_per).returns(1)
+        Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
@@ -100,7 +100,7 @@ module Components
       end
 
       test "sorts solutions" do
-        Solution::Search.stubs(:default_per).returns(1)
+        Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"

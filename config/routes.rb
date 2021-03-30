@@ -42,7 +42,9 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       resources :tracks, only: %i[index show] do
-        resources :exercises, only: %i[index], controller: "exercises"
+        resources :exercises, only: %i[index], controller: "exercises" do
+          resources :community_solutions, only: [:index], controller: "community_solutions"
+        end
       end
 
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
@@ -198,6 +200,8 @@ Rails.application.routes.draw do
       resources :mentor_discussions, only: [:index], controller: "tracks/mentor_requests"
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
+
+      resources :community_solutions, only: [:index], controller: "tracks/community_solutions"
     end
 
     member do

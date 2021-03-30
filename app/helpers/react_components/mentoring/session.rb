@@ -77,22 +77,7 @@ module ReactComponents
 
       def mentor_solution
         ms = ::Solution.for(current_user, exercise)
-
-        return nil unless ms
-
-        {
-          snippet: ms.snippet,
-          num_loc: ms.num_loc,
-          num_stars: ms.num_stars,
-          num_comments: ms.num_comments,
-          published_at: ms.published_at,
-          web_url: Exercism::Routes.private_solution_url(ms),
-          mentor: {
-            handle: current_user.handle,
-            avatar_url: current_user.avatar_url
-          },
-          language: ms.editor_language
-        }
+        ms ? SerializeCommunitySolution.(ms) : nil
       end
 
       # TODO

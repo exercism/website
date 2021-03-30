@@ -1,5 +1,6 @@
 import React, { useState, createContext } from 'react'
 
+import { CommunitySolution } from '../types'
 import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
 import { Guidance } from './session/Guidance'
@@ -46,20 +47,6 @@ export type Student = {
   }
 }
 
-export type MentorSolution = {
-  snippet: string
-  numLoc: string
-  numStars: string
-  numComments: string
-  publishedAt: string
-  webUrl: string
-  mentor: {
-    handle: string
-    avatarUrl: string
-  }
-  language: string
-}
-
 export type StudentMentorRelationship = {
   isFavorited: boolean
   isBlocked: boolean
@@ -78,7 +65,7 @@ export type SessionProps = {
   iterations: readonly Iteration[]
   userId: number
   notes: string
-  mentorSolution: MentorSolution
+  mentorSolution: CommunitySolution
   relationship: StudentMentorRelationship
   request: Request
 }

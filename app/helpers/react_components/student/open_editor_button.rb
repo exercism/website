@@ -15,22 +15,26 @@ module ReactComponents
       end
 
       private
+      memoize
       def status
-        @status ||= user_track.exercise_status(exercise)
+        user_track.exercise_status(exercise)
       end
 
+      memoize
       def command
         @command ||= exercise.download_cmd
       end
 
+      memoize
       def links
         {
           start: Exercism::Routes.start_track_exercise_path(exercise.track, exercise)
         }
       end
 
+      memoize
       def user_track
-        @user_track ||= UserTrack.for(current_user, exercise.track)
+        UserTrack.for(current_user, exercise.track)
       end
     end
   end

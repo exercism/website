@@ -33,14 +33,21 @@ export type SolutionSummaryRequest = {
   }
 }
 
+export type Track = {
+  title: string
+  medianWaitTime: string
+}
+
 export const SolutionSummary = ({
   solution,
+  track,
   discussions,
   request,
   isConceptExercise,
   links,
 }: {
   solution: SolutionForStudent
+  track: Track
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
   isConceptExercise: boolean
@@ -82,6 +89,7 @@ export const SolutionSummary = ({
       solution.status === 'published' ? null : (
         <Nudge
           mentoringStatus={solution.mentoringStatus}
+          track={track}
           discussions={discussions}
           iteration={latestIteration}
           isConceptExercise={isConceptExercise}

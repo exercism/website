@@ -55,21 +55,25 @@ module Components::Student
         mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
         request = create :mentor_request, solution: solution
-        discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
+        discussion = create :mentor_discussion,
+          request: request,
+          solution: solution,
+          mentor: mentor,
+          finished_at: Time.current
         request.fulfilled!
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        solution.update_mentoring_status!
 
         use_capybara_host do
           sign_in!(user)
           visit Exercism::Routes.private_solution_path(solution)
           within(".mentoring-nudge") { find(".--dropdown-segment").click }
 
-          assert_link "Continue mentoring",
-            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
+          assert_link "Request mentoring"
           assert_link "my-mentor",
             href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
         end

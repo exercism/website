@@ -24,6 +24,9 @@ export type SolutionForStudent = {
   exercise: {
     slug: string
   }
+  track: {
+    title: string
+  }
 }
 
 export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
@@ -187,6 +190,10 @@ export enum AnalysisStatus {
 
 export type MentorDiscussion = {
   id: string
+  student: {
+    avatarUrl: string
+    handle: string
+  }
   mentor: {
     avatarUrl: string
     handle: string

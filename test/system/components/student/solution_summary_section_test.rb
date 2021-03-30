@@ -78,7 +78,7 @@ module Components::Student
         assert_css ".status.failed"
       end
       assert_no_css "section.completion-nudge"
-      assert_no_css "section.mentoring-nudge"
+      assert_css "section.mentoring-nudge"
     end
 
     test "No feedback Practice Exercise" do

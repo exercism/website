@@ -22,9 +22,9 @@ export const OpenEditorButton = (
     case 'locked':
       return (
         <ComboButton className="--disabled">
-          <ComboButton.EditorSegment>
-            <div>Open Editor</div>
-          </ComboButton.EditorSegment>
+          <ComboButton.PrimarySegment>
+            <div>Open Primary</div>
+          </ComboButton.PrimarySegment>
           <ComboButton.DropdownSegment>
             <CopyToClipboardButton textToCopy={props.command} />
           </ComboButton.DropdownSegment>
@@ -33,9 +33,9 @@ export const OpenEditorButton = (
     case 'available':
       return (
         <ComboButton>
-          <ComboButton.EditorSegment>
+          <ComboButton.PrimarySegment>
             <StartExerciseButton endpoint={props.links.start} />
-          </ComboButton.EditorSegment>
+          </ComboButton.PrimarySegment>
           <ComboButton.DropdownSegment>
             <CopyToClipboardButton textToCopy={props.command} />
           </ComboButton.DropdownSegment>
@@ -45,9 +45,9 @@ export const OpenEditorButton = (
     case 'completed':
       return (
         <ComboButton>
-          <ComboButton.EditorSegment>
+          <ComboButton.PrimarySegment>
             <a href={props.links.exercise}>Open editor</a>
-          </ComboButton.EditorSegment>
+          </ComboButton.PrimarySegment>
           <ComboButton.DropdownSegment>
             <CopyToClipboardButton textToCopy={props.command} />
           </ComboButton.DropdownSegment>
@@ -56,9 +56,9 @@ export const OpenEditorButton = (
     default:
       return (
         <ComboButton>
-          <ComboButton.EditorSegment>
+          <ComboButton.PrimarySegment>
             <a href={props.links.exercise}>Continue in editor</a>
-          </ComboButton.EditorSegment>
+          </ComboButton.PrimarySegment>
           <ComboButton.DropdownSegment>
             <CopyToClipboardButton textToCopy={props.command} />
           </ComboButton.DropdownSegment>

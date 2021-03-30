@@ -14,11 +14,13 @@ class Submission::TestRunTest < ActiveSupport::TestCase
   end
 
   test "explodes raw_results" do
+    version = 5
     status = "foobar"
     message = "some barfoo message"
     tests = [{ 'status' => 'pass' }]
 
     raw_results = {
+      version: version,
       status: status,
       message: message,
       tests: tests
@@ -26,7 +28,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     tr = create :submission_test_run, raw_results: raw_results
     assert_equal status.to_sym, tr.status
     assert_equal message, tr.message
-    assert_equal tests, tr.tests
+    assert_equal version, tr.version
     assert_equal 1, tr.test_results.size
   end
 
@@ -67,7 +69,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
       'output' => output
     }]
 
-    tr = create :submission_test_run, tests: tests
+    tr = create :submission_test_run, raw_results: { tests: tests }
     assert_equal 1, tr.test_results.size
     result = tr.test_results.first
 

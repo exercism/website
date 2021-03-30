@@ -13,7 +13,7 @@ module ReactComponents
               tooltip: Exercism::Routes.tooltip_track_exercise_url(track, "$SLUG")
             }
           },
-          style: "height: #{height}px"
+          style: "min-height: #{height}px"
         )
       end
 

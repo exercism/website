@@ -6,7 +6,7 @@
     @apply flex items-stretch;
     @apply p-0;
 
-    & .--editor-segment {
+    & .--primary-segment {
         @apply flex items-center;
         @apply font-semibold;
         @apply px-16;

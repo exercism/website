@@ -15,7 +15,7 @@ export function shortFromNow(dateTime: ConfigType) {
   }
 
   const parts = relative.split(' ')
-  const val = parts[0] == 'a' ? 1 : parts[0]
+  const val = parts[0] == 'a' || parts[0] == 'an' ? 1 : parts[0]
   const unit = parts[1][0]
   return `${val}${unit} ago`
 }

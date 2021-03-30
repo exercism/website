@@ -62,14 +62,14 @@ export const ComboButton = ({
   )
 }
 
-ComboButton.EditorSegment = ({ children }: React.PropsWithChildren<{}>) => {
+ComboButton.PrimarySegment = ({ children }: React.PropsWithChildren<{}>) => {
   if (!children) {
     return null
   }
 
   return (
     <React.Fragment>
-      {React.cloneElement(children, { className: '--editor-segment' })}
+      {React.cloneElement(children, { className: '--primary-segment' })}
     </React.Fragment>
   )
 }

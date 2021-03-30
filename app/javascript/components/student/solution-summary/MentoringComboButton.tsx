@@ -25,7 +25,7 @@ export const MentoringComboButton = ({
 }): JSX.Element => {
   return (
     <ComboButton className={className}>
-      <ComboButton.EditorSegment>
+      <ComboButton.PrimarySegment>
         {hasMentorDiscussionInProgress && links.inProgressDiscussion ? (
           <a href={links.inProgressDiscussion}>Continue mentoring</a>
         ) : hasMentorRequestPending ? (
@@ -33,7 +33,7 @@ export const MentoringComboButton = ({
         ) : (
           <a href={links.requestMentoring}>Request mentoring</a>
         )}
-      </ComboButton.EditorSegment>
+      </ComboButton.PrimarySegment>
       <ComboButton.DropdownSegment>
         <MentoringDropdown
           hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}

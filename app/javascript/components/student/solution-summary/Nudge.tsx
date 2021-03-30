@@ -104,7 +104,6 @@ const MentoringNudge = ({
             hasMentorRequestPending={hasMentorRequestPending}
             discussions={discussions}
             links={links}
-            className="btn-small-cta"
           />{' '}
           <a
             href={links.mentoringInfo}

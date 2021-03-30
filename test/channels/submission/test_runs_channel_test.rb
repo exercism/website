@@ -10,13 +10,7 @@ class Submission::TestRunsChannelTest < ActionCable::Channel::TestCase
 
     assert_broadcast_on(
       submission.id,
-      test_run: {
-        id: test_run.id,
-        submission_uuid: test_run.submission.uuid,
-        status: 'ops_error',
-        message: "Some error occurred",
-        tests: []
-      }
+      test_run: SerializeSubmissionTestRun.(test_run)
     ) do
       Submission::TestRunsChannel.broadcast!(test_run)
     end

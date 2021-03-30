@@ -49,6 +49,7 @@ export function FileEditor({
     scrollBeyondLastLine: false,
     fontFamily: "'Source Code Pro', monospace",
     fontSize: 14,
+    padding: { top: 20 },
     scrollbar: {
       useShadows: true,
       verticalHasArrows: false,

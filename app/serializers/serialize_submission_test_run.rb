@@ -9,8 +9,10 @@ class SerializeSubmissionTestRun
     {
       id: test_run.id,
       submission_uuid: test_run.submission.uuid,
+      version: test_run.version,
       status: status,
       message: message,
+      output: output,
       tests: test_run.test_results
     }
   end
@@ -30,6 +32,12 @@ class SerializeSubmissionTestRun
     # TODO: Decide how this is corrolated with the
     # errors upstream and move into i18n.
     "Some error occurred"
+  end
+
+  def output
+    return if test_run.output.blank?
+
+    Ansi::To::Html.new(test_run.output).to_html
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

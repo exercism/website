@@ -55,10 +55,6 @@ class Exercise < ApplicationRecord
     self.class.name.sub("Exercise", "").downcase
   end
 
-  def download_cmd
-    "exercism download --track=#{track.slug} --exercise=#{slug}"
-  end
-
   def concept_exercise?
     is_a?(ConceptExercise)
   end
@@ -69,6 +65,11 @@ class Exercise < ApplicationRecord
 
   def to_param
     slug
+  end
+
+  # TODO
+  def download_cmd
+    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
   end
 
   def icon_url

@@ -25,7 +25,7 @@ module ViewComponents
 
       def continue_button
         tag.div(class: 'c-combo-button') do
-          link_to("Continue in Editor", editor_url, class: '--editor-segment') +
+          link_to("Continue in Editor", editor_url, class: '--primary-segment') +
             tag.div(class: '--dropdown-segment') do
               graphical_icon "chevron-down"
             end

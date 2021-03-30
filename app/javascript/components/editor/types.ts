@@ -17,8 +17,10 @@ type SubmissionLinks = {
 export type TestRun = {
   id: number | null
   submissionUuid: string
+  version: number
   status: TestRunStatus
   message: string
+  output: string
   tests: Test[]
 }
 

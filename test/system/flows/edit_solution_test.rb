@@ -23,7 +23,7 @@ module Components
             submission: Submission.last,
             status: "pass",
             ops_status: 200,
-            tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            raw_results: { tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }] }
           create :submission_file, submission: Submission.last
           Submission::TestRunsChannel.broadcast!(test_run)
           click_on "Submit"

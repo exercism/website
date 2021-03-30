@@ -136,7 +136,7 @@
             }
             & .options {
                 @apply flex items-center;
-                & .btn-small-cta {
+                & .c-combo-button {
                     @apply mr-32;
                 }
                 & a.more-info {

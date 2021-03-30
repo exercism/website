@@ -66,6 +66,11 @@ class UserTrack
       exercise(obj).status
     end
 
+    def exercise_short_status(obj)
+      s = exercise_status(obj)
+      s.split('_').map(&:first).join
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################

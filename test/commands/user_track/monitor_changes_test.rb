@@ -7,14 +7,22 @@ class Solution::CompleteWithSummaryTest < ActiveSupport::TestCase
       concept_1 = create :track_concept, track: track
       concept_2 = create :track_concept, track: track
 
-      concept_exercise_1 = create :concept_exercise, track: track, slug: "foo"
+      concept_exercise_1 = create :concept_exercise, track: track, slug: "lasagna"
       concept_exercise_1.taught_concepts << concept_1
-      practice_exercise = create :practice_exercise, track: track, slug: "prac"
-      practice_exercise.prerequisites << concept_1
 
-      concept_exercise_2 = create :concept_exercise, track: track, slug: "bar"
-      concept_exercise_2.prerequisites << concept_1
+      concept_exercise_2 = create :concept_exercise, track: track, slug: "concept-exercise-2"
       concept_exercise_2.taught_concepts << concept_2
+      concept_exercise_2.prerequisites << concept_1
+
+      practice_exercise_1 = create :practice_exercise, track: track, slug: "two-fer"
+      practice_exercise_1.practiced_concepts << concept_1
+      practice_exercise_1.prerequisites << concept_1
+
+      practice_exercise_2 = create :practice_exercise, track: track, slug: "bob"
+      practice_exercise_2.prerequisites << concept_1
+
+      practice_exercise_3 = create :practice_exercise, track: track, slug: "leap"
+      practice_exercise_3.prerequisites << concept_2
 
       user = create :user
       user_track = create :user_track, user: user, track: track
@@ -24,14 +32,14 @@ class Solution::CompleteWithSummaryTest < ActiveSupport::TestCase
         Solution::Complete.(solution, user_track)
       end
 
-      assert_equal [practice_exercise, concept_exercise_2], summary[:unlocked_exercises]
+      assert_equal [concept_exercise_2, practice_exercise_1, practice_exercise_2], summary[:unlocked_exercises]
       assert_equal [concept_2], summary[:unlocked_concepts]
 
       expected = [{
-        concept: concept_1,
+        total: 2,
         from: 0,
         to: 1,
-        total: 2
+        concept: concept_1
       }]
       assert_equal expected, summary[:concept_progressions]
     end

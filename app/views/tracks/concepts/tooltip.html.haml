@@ -1,6 +1,3 @@
-- num_exercises = @user_track.num_exercises_for_concept(@concept)
-- num_exercises_completed = @user_track.num_completed_exercises_for_concept(@concept)
-
 .heading
   = render ViewComponents::ConceptIcon.new(@concept, :large)
   .summary
@@ -8,37 +5,37 @@
       .name= @concept.name
       .in in
       = track_icon(@track)
-    .num-exercises= pluralize(num_exercises, "exercise")
+    .num-exercises= pluralize(@exercises.length, "exercise")
 
 .blurb= @concept.blurb
 
-- if @user_track.concept_mastered?(@concept)
-  .mastered
-    .progress
-      = graphical_icon "completed-check-circle"
-      #{num_exercises_completed}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
-      completed
-    = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
-    .info You’ve mastered #{@concept.name}. Well done!
+- if @user_track.concept_unlocked?(@concept)
+  .exercises-section
+    %h3 #{@num_completed_exercises}/#{pluralize @exercises.size, 'exercise'} completed
+    .exercises
+      - @exercises.each do |exercise|
+        / TODO
+        .c-ed{ class: "--#{@user_track.exercise_short_status(exercise)}" }
 
-- elsif @user_track.concept_learnt?(@concept)
-  / TODO: Add this once we have practice exercises in
-  TODO
+  - if @user_track.concept_mastered?(@concept)
+    .mastered You’ve mastered #{@concept.name}. Well done!
 
-- elsif @user_track.concept_unlocked?(@concept)
-  - exercise = @concept.concept_exercises.first
-  .available
-    .progress
-      #{num_exercises_completed}/#{num_exercises} #{'exercise'.pluralize(num_exercises)}
-      completed
-    = render ViewComponents::ConceptProgressBar.new(@concept, @user_track)
-    .learn-heading
-      = graphical_icon :concepts
-      Learn #{@concept.name}
-    = render ReactComponents::Common::ExerciseWidget.new(exercise, @user_track, size: :small)
+  - elsif @user_track.concept_learnt?(@concept)
+    .learnt
+      .icon= graphical_icon 'learn-concept'
+      You've learnt the basics of #{@concept.name}
 
-    .info
+    .learnt-extras
+      = graphical_icon 'exercises'
+      Complete more exercises to master Structs.
+
+  - elsif @user_track.concept_unlocked?(@concept)
+    - exercise = @concept.concept_exercises.first
+    .learn
+      .icon= graphical_icon 'learn-concept'
+      Learn #{@concept.name} by completing #{exercise.title}.
+
+    .learn-extras
       Completing
       %strong= exercise.title
-      will unlock more exercises for you to master #{@concept.name}.
-
+      will unlock more exercises for you to master Structs.

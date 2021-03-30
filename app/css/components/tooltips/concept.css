@@ -12,7 +12,7 @@
     }
 
     & .heading {
-        @apply flex mb-12;
+        @apply flex items-center mb-8;
 
         & .title {
             @apply flex items-center;
@@ -29,11 +29,26 @@
             }
         }
         & .num-exercises {
-            @apply text-15 font-medium text-textColor6;
+            @apply text-15 leading-160 font-medium text-textColor6;
         }
     }
     & .blurb {
-        @apply text-15 leading-paragraph;
+        @apply text-15 leading-160;
+    }
+
+    & .exercises-section {
+        @apply mt-12;
+
+        & h3 {
+            @apply leading-150 font-semibold text-textColor1;
+            @apply mb-8;
+        }
+        & .exercises {
+            @apply flex flex-wrap;
+            & .c-ed {
+                @apply mr-8 mb-8;
+            }
+        }
     }
 
     & .progress {
@@ -45,53 +60,45 @@
         height: 6px;
     }
 
-    & .available {
-        @apply mt-16;
+    & .learn,
+    & .learnt {
+        @apply flex items-center mt-12 mb-8;
+        @apply text-textColor1 leading-140 font-semibold;
 
-        & .info {
-            @apply leading-paragraph;
-            & strong {
-                @apply font-medium;
-            }
-        }
-        & .c-concept-progress-bar {
-            @apply mb-20;
-        }
-
-        & .learn-heading {
-            @apply flex items-center mb-8 text-h6;
+        & .icon {
+            background: #130b43;
+            height: 24px;
+            width: 24px;
+            @apply flex-shrink-0;
+            @apply grid place-items-center;
+            @apply mr-12;
+            @apply rounded-circle;
 
             & .c-icon {
-                width: 16px;
-                height: 16px;
-                @apply mr-12;
+                width: 12px;
+                height: 12px;
+                filter: var(--white-filter);
             }
         }
-        & .c-exercise-widget {
-            @apply mb-12 inline-flex;
+    }
+    & .learn-extras {
+        @apply leading-160;
+        & strong {
+            @apply font-medium;
         }
     }
-
-    & .mastered {
-        @apply mt-16;
-
+    & .learnt-extras {
+        @apply flex items-center;
+        @apply text-textColor1 leading-160 font-medium;
         & .c-icon {
-            height: 16px;
-            width: 16px;
+            width: 24px;
+            height: 24px;
             @apply mr-12;
         }
-
-        & .progress {
-            @apply text-darkGreen;
-        }
-
-        & .c-concept-progress-bar {
-            @apply mb-12;
-        }
-
-        & .info {
-            @apply text-darkGray leading-paragraph font-medium;
-        }
+    }
+    & .mastered {
+        @apply mt-4;
+        @apply text-everyoneLovesAGreen leading-140 font-semibold;
     }
 
     /* Required for functionality */

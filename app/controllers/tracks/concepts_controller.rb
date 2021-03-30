@@ -24,6 +24,9 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
+    @exercises = @concept.concept_exercises + @concept.practice_exercises
+    @num_completed_exercises = @user_track.num_completed_exercises_for_concept(@concept)
+
     render_template_as_json
   end
 

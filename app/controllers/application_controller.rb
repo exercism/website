@@ -78,12 +78,18 @@ class ApplicationController < ActionController::Base
   helper_method :namespace_name
 
   def render_template_as_json
-    render json: {
-      html: render_to_string(
-        template: [namespace_name, controller_name, action_name].compact.join('/'),
-        layout: false,
-        formats: [:html]
-      )
-    }
+    respond_to do |format|
+      format.json do
+        render json: {
+          html: render_to_string(
+            template: [namespace_name, controller_name, action_name].compact.join('/'),
+            layout: false,
+            formats: [:html]
+          )
+        }
+      end
+      format.html do
+      end
+    end
   end
 end

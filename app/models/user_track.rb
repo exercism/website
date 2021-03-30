@@ -69,7 +69,7 @@ class UserTrack < ApplicationRecord
     active_mentoring_discussions.size + pending_mentoring_requests.size
   end
 
-  delegate :exercise_unlocked?, :exercise_completed?, :exercise_status, :exercise_short_status,
+  delegate :exercise_unlocked?, :exercise_completed?, :exercise_status, :exercise_type,
     :num_completed_exercises, :num_completed_concept_exercises, :num_completed_practice_exercises,
     :unlocked_exercise_ids, :avaliable_exercise_ids,
     :num_concepts, :num_concepts_learnt, :num_concepts_mastered,

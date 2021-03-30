@@ -5,25 +5,55 @@
     @apply justify-self-center;
     @apply rounded-circle;
 
-    /* Completed or Published */
-    &.--c,
-    &.--p {
+    &.--completed,
+    &.--published {
         background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTYgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSI4IiBmaWxsPSIjNTlEMkFFIi8+CjxwYXRoIGQ9Ik0xMC44NTY5IDUuMTQyNThMNy4wMjM5NyAxMC42MTc5QzYuOTIxMzggMTAuNzY1MyA2Ljc1NDE4IDEwLjg1NDQgNi41NzQ2IDEwLjg1NzRDNi4zOTUwMyAxMC44NjAzIDYuMjI0OTcgMTAuNzc2OCA2LjExNzU2IDEwLjYzMjlMNS4xNDI1OCA5LjMzMzA1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==");
         background-size: cover;
     }
-    /* In Progress: Iterated or Started */
-    &.--ip,
-    &.--i,
-    &.--s {
+    &.--in_progress,
+    &.--iterated,
+    &.--started {
         @apply bg-darkBlue;
         box-shadow: 0px 1px 3px 1px rgba(0, 80, 255, 0.4);
+
+        &.--concept {
+        }
     }
-    /* Available */
-    &.--a {
+    &.--available {
         box-shadow: 0px 1px 4px 2px rgba(0, 80, 255, 0.25);
     }
-    /* Locked */
-    &.--l {
+    &.--locked {
         background: #e5ebf8;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTIgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMS44NzUgNy4xMzY5NkMxLjg3NSA2LjMwODU0IDIuNTQ2NTcgNS42MzY5NiAzLjM3NSA1LjYzNjk2SDguNjI1QzkuNDUzNDMgNS42MzY5NiAxMC4xMjUgNi4zMDg1NCAxMC4xMjUgNy4xMzY5NlYxMC44ODdDMTAuMTI1IDExLjcxNTQgOS40NTM0MyAxMi4zODcgOC42MjUgMTIuMzg3SDMuMzc1QzIuNTQ2NTcgMTIuMzg3IDEuODc1IDExLjcxNTQgMS44NzUgMTAuODg3VjcuMTM2OTZaIiBzdHJva2U9IiNBN0I3RDYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTMuMzc1IDUuNjM2OTZWMy43NjE5NkMzLjM3NSAyLjMxMjIyIDQuNTUwMjUgMS4xMzY5NiA2IDEuMTM2OTZDNy40NDk3NSAxLjEzNjk2IDguNjI1IDIuMzEyMjIgOC42MjUgMy43NjE5NlY1LjYzNjk2IiBzdHJva2U9IiNBN0I3RDYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTYgOC42MzY5NkM1Ljg5NjQ1IDguNjM2OTYgNS44MTI1IDguNzIwOTEgNS44MTI1IDguODI0NDZDNS44MTI1IDguOTI4MDIgNS44OTY0NSA5LjAxMTk2IDYgOS4wMTE5NkM2LjEwMzU1IDkuMDExOTYgNi4xODc1IDguOTI4MDIgNi4xODc1IDguODI0NDZDNi4xODc2MyA4Ljc3NDY5IDYuMTY3OTIgOC43MjY5MyA2LjEzMjczIDguNjkxNzNDNi4wOTc1NCA4LjY1NjU0IDYuMDQ5NzcgOC42MzY4MyA2IDguNjM2OTZWOC42MzY5NiIgc3Ryb2tlPSIjQTdCN0Q2IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 12px;
+    }
+
+    &.--concept {
+        &.--in_progress,
+        &.--iterated,
+        &.--started,
+        &.--available {
+            @apply relative;
+            @apply grid place-items-center;
+            &:after {
+                @apply absolute;
+                height: 50%;
+                width: 50%;
+                content: "";
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTQgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNy41IDEyLjIxNDlDOC43NTYzNiAxMS4xNTEyIDEwLjI5NDcgMTAuNDc1NSAxMS45MjggMTAuMjY5OUMxMi4zMjYxIDEwLjIxNzQgMTIuNjIzNyA5Ljg3Nzk3IDEyLjYyMzUgOS40NzY0VjEuOTQ0NEMxMi42MjM4IDEuNzEwOTQgMTIuNTIzIDEuNDg4NzggMTIuMzQ3IDEuMzM1MzVDMTIuMTcxMSAxLjE4MTkyIDExLjkzNzIgMS4xMTIyNyAxMS43MDYgMS4xNDQ0QzEwLjE1NDQgMS4zODQ2OSA4LjY5OTAzIDIuMDQ4MTcgNy41IDMuMDYxOUM3LjIwNTQ3IDMuMjg5MzcgNi43OTQ1MyAzLjI4OTM3IDYuNSAzLjA2MTlDNS4zMDA0NCAyLjA0ODI4IDMuODQ0NTYgMS4zODUxNCAyLjI5MjUgMS4xNDU0QzIuMDYxNDMgMS4xMTMyOSAxLjgyNzc4IDEuMTgyODEgMS42NTE4NSAxLjMzNjAyQzEuNDc1OTIgMS40ODkyMyAxLjM3NDk1IDEuNzExMTEgMS4zNzUgMS45NDQ0VjkuNDc2NEMxLjM3NDgyIDkuODc3OTcgMS42NzIzNyAxMC4yMTc0IDIuMDcwNSAxMC4yNjk5QzMuNzA0MzEgMTAuNDc1MiA1LjI0MzIzIDExLjE1MDkgNi41IDEyLjIxNDlDNi43OTQzNSAxMi40NDI5IDcuMjA1NjUgMTIuNDQyOSA3LjUgMTIuMjE0OVoiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTcgMy4yMzA5NlYxMi4zODY1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+                background-size: contain;
+            }
+        }
+
+        &.--in_progress:after,
+        &.--iterated:after,
+        &.--started:after {
+            filter: var(--white-filter);
+        }
+        &.--available:after {
+            filter: var(--mid-gray-filter);
+        }
     }
 }

@@ -11,7 +11,7 @@ class Tracks::ConceptsController < ApplicationController
     @concept_map_data[:status] =
       UserTrack::GenerateConceptStatusMapping.(@user_track)
 
-    @concept_map_data[:exercise_statuses] =
+    @concept_map_data[:exercises_data] =
       UserTrack::GenerateExerciseStatusMapping.(@track, @user_track)
 
     @num_concepts = @track.concepts.count

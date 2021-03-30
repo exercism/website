@@ -7,17 +7,18 @@ import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../FetchingBoundary'
 
 export const ExerciseStatusChart = ({
-  exerciseStatuses,
+  exercisesData,
   links,
 }: {
-  exerciseStatuses: { [slug: string]: string }
+  exercisesData: { [slug: string]: [string, string] }
   links: { exercise: string; tooltip: string }
 }): JSX.Element => {
   return (
     <div className="exercises">
-      {Object.keys(exerciseStatuses).map((key) => {
+      {Object.keys(exercisesData).map((key) => {
         const slug = key
-        const status = exerciseStatuses[key]
+        const status = exercisesData[key][0]
+        const type = exercisesData[key][1]
 
         const dotLinks = {
           tooltip: links.tooltip.replace('$SLUG', slug),
@@ -41,7 +42,9 @@ export const ExerciseStatusChart = ({
         return (
           <ExerciseStatusDot
             key={slug}
-            exerciseStatus={{ slug: slug, status: status }}
+            slug={slug}
+            exerciseStatus={status}
+            type={type}
             links={dotLinks}
           />
         )
@@ -53,10 +56,14 @@ export const ExerciseStatusChart = ({
 const DEFAULT_ERROR = new Error('Unable to load information')
 
 const ExerciseStatusDot = ({
+  slug,
   exerciseStatus,
+  type,
   links,
 }: {
+  slug: string
   exerciseStatus: ExerciseStatus
+  type: string
   links: {
     tooltip: string
     exercise?: string
@@ -77,20 +84,14 @@ const ExerciseStatusDot = ({
     exercise: Exercise
     solution: SolutionForStudent
   }>(
-    `exercise-tooltip-${exerciseStatus.slug}`,
+    `exercise-tooltip-${slug}`,
     { endpoint: links.tooltip, options: { enabled: open } },
     isMountedRef
   )
 
-  const classNames = [
-    'c-ed',
-    exerciseStatus.status === 'available' ? '--a' : '',
-    exerciseStatus.status === 'started' ? '--ip' : '',
-    exerciseStatus.status === 'iterated' ? '--ip' : '',
-    exerciseStatus.status === 'completed' ? '--c' : '',
-    exerciseStatus.status === 'published' ? '--p' : '',
-    exerciseStatus.status === 'locked' ? '--l' : '',
-  ].filter((name) => name.length > 0)
+  const classNames = ['c-ed', `--${exerciseStatus}`, `--${type}`].filter(
+    (name) => name.length > 0
+  )
 
   return (
     <React.Fragment>

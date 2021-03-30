@@ -1,13 +1,10 @@
-export type ExerciseStatus = {
-  slug: string
-  status:
-    | 'published'
-    | 'completed'
-    | 'iterated'
-    | 'started'
-    | 'available'
-    | 'locked'
-}
+export type ExerciseStatus =
+  | 'published'
+  | 'completed'
+  | 'iterated'
+  | 'started'
+  | 'available'
+  | 'locked'
 
 export type Exercise =
   | (ExerciseCore & { isUnlocked: true; links: { self: string } })

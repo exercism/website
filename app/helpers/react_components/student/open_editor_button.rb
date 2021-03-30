@@ -4,6 +4,9 @@ module ReactComponents
       initialize_with :exercise
 
       def to_s
+        # TODO: What should we do with this?
+        return if user_track.blank?
+
         super(
           "student-open-editor-button",
           {

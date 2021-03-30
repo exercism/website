@@ -2,9 +2,6 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { OpenEditorButton } from '../../../../app/javascript/components/student/OpenEditorButton'
-import userEvent from '@testing-library/user-event'
-import { renderIntoDocument } from 'react-dom/test-utils'
-import { DocumentSymbol } from 'vscode-languageserver-types'
 
 test('disabled when status is locked', async () => {
   const { container } = render(
@@ -15,7 +12,7 @@ test('disabled when status is locked', async () => {
     'class',
     'c-combo-button --disabled'
   )
-  expect(screen.getByText('Open Editor')).toBeInTheDocument()
+  expect(screen.getByText('Open editor')).toBeInTheDocument()
 })
 
 test('shows button to start exercise when available', async () => {

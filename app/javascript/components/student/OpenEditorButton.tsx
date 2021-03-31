@@ -42,7 +42,23 @@ export const OpenEditorButton = (
     >
       <ComboButton.PrimarySegment>{primarySegment}</ComboButton.PrimarySegment>
       <ComboButton.DropdownSegment>
-        <CopyToClipboardButton textToCopy={props.command} />
+        {/* TODO: Firm up this copy and inject the link */}
+        <div className="c-open-editor-button-dropdown">
+          <h3>Download and work locally</h3>
+          <p>
+            Prefer to use the tools you're familiar with, than our online
+            editor? No problem! You can download this exericse and work on it
+            locally, then submit it when you're happy.
+          </p>
+          <CopyToClipboardButton textToCopy={props.command} />
+
+          <p>
+            First time using our local setup? Read our{' '}
+            <a href="#">guide to solving exercises locally</a> to understand the
+            flow and instal Exercism locally. Then come back here and use the
+            command above to start the exercise.
+          </p>
+        </div>
       </ComboButton.DropdownSegment>
     </ComboButton>
   )

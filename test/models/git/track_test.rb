@@ -140,5 +140,25 @@ module Git
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('config.json', track.config_absolute_filepath)
     end
+
+    test "has_concept_exercises?" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert track.has_concept_exercises?
+    end
+
+    test "has_test_runner?" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert track.has_test_runner?
+    end
+
+    test "has_representer?" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert track.has_representer?
+    end
+
+    test "has_analyzer?" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      refute track.has_analyzer?
+    end
   end
 end

@@ -7,7 +7,7 @@ module ReactComponents
         super(
           "student-exercise-status-chart",
           {
-            exercise_statuses: exercise_statuses,
+            exercises_data: exercises_data,
             links: {
               exercise: Exercism::Routes.track_exercise_url(track, "$SLUG"),
               tooltip: Exercism::Routes.tooltip_track_exercise_url(track, "$SLUG")
@@ -18,13 +18,13 @@ module ReactComponents
       end
 
       private
-      def exercise_statuses
+      def exercises_data
         user_track = UserTrack.for(current_user, track)
 
         exercises.each_with_object({}) do |exercise, hash|
           status = user_track.exercise_status(exercise)
 
-          hash[exercise.slug] = status
+          hash[exercise.slug] = [status, exercise.git_type]
         end
       end
 

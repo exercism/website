@@ -40,6 +40,7 @@ interface TooltipProps {
     | 'right-end'
     | 'left-start'
     | 'left-end'
+  focusable?: boolean
 }
 
 export const Tooltip = ({
@@ -50,6 +51,7 @@ export const Tooltip = ({
   hoverRequestToShow,
   focusRequestToShow,
   placement = 'right',
+  focusable = true,
 }: TooltipProps): JSX.Element | null => {
   const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null)
 
@@ -165,10 +167,14 @@ export const Tooltip = ({
       {...popper.attributes.popper}
       role="tooltip"
       tabIndex={showState === 'visible' ? undefined : -1}
-      onFocus={() => dispatchRequestShowFromFocus(dispatch, id)}
-      onBlur={() => dispatchRequestHideFromFocus(dispatch, id)}
-      onMouseEnter={() => dispatchRequestShowFromHover(dispatch, id)}
-      onMouseLeave={() => dispatchRequestHideFromHover(dispatch, id)}
+      onFocus={() => focusable && dispatchRequestShowFromFocus(dispatch, id)}
+      onBlur={() => focusable && dispatchRequestHideFromFocus(dispatch, id)}
+      onMouseEnter={() =>
+        focusable && dispatchRequestShowFromHover(dispatch, id)
+      }
+      onMouseLeave={() =>
+        focusable && dispatchRequestHideFromHover(dispatch, id)
+      }
       dangerouslySetInnerHTML={{ __html: htmlContent.html }}
     ></div>
   )

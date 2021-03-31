@@ -109,7 +109,7 @@
         brightness(95%) contrast(104%);
 
     /* #A7B7D6 */
-    --mid-gray: invert(72%) sepia(16%) saturate(458%) hue-rotate(181deg)
+    --mid-gray-filter: invert(72%) sepia(16%) saturate(458%) hue-rotate(181deg)
         brightness(101%) contrast(84%);
 
     @apply text-textColor5 bg-backgroundColorB;

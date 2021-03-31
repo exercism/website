@@ -109,4 +109,32 @@ class TrackTest < ActiveSupport::TestCase
 
     assert_equal 3, track_1.num_mentors
   end
+
+  test "course? is false when concept_exercises status is false" do
+    track = create :track
+
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:status][:concept_exercises] = false
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    refute track.course?
+  end
+
+  test "course? is true when concept_exercises status is true" do
+    track = create :track
+
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:status][:concept_exercises] = true
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    assert track.course?
+  end
 end

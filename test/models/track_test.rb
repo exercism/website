@@ -76,4 +76,65 @@ class TrackTest < ActiveSupport::TestCase
 
     assert_equal 2, track.num_contributors
   end
+
+  test "num_code_contributors" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    track = create :track
+
+    create :user_code_contribution_reputation_token, track: track, user: user_1
+    create :user_code_merge_reputation_token, track: track, user: user_2
+    create :user_code_contribution_reputation_token, track: track, user: user_2
+    create :user_code_review_reputation_token, track: track, user: user_3
+    create :user_exercise_contribution_reputation_token, track: track, user: user_3
+    create :user_exercise_author_reputation_token, track: track, user: user_3
+    create :user_code_contribution_reputation_token, user: user_3
+
+    assert_equal 2, track.num_code_contributors
+  end
+
+  test "num_mentors" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    user_4 = create :user
+    track_1 = create :track
+    track_2 = create :track, slug: 'fsharp'
+
+    create :user_track_mentorship, track: track_1, user: user_1
+    create :user_track_mentorship, track: track_1, user: user_2
+    create :user_track_mentorship, track: track_1, user: user_3
+    create :user_track_mentorship, track: track_2, user: user_4
+
+    assert_equal 3, track_1.num_mentors
+  end
+
+  test "course? is false when concept_exercises status is false" do
+    track = create :track
+
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:status][:concept_exercises] = false
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    refute track.course?
+  end
+
+  test "course? is true when concept_exercises status is true" do
+    track = create :track
+
+    git_track = Git::Track.new("HEAD", repo_url: track.repo_url)
+    config = git_track.config
+    config[:status][:concept_exercises] = true
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    assert track.course?
+  end
 end

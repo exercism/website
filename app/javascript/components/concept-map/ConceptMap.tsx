@@ -8,6 +8,7 @@ import {
   IConcept,
   isIConcept,
   ConceptConnection,
+  ExerciseData,
 } from './concept-map-types'
 import { useFontLoaded } from './hooks/useFontLoaded'
 import { camelize } from 'humps'
@@ -28,7 +29,7 @@ export const ConceptMap = ({
   levels,
   connections,
   status,
-  exerciseStatuses,
+  exercisesData,
 }: IConceptMap): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fontLoaded = useFontLoaded('Poppins')
@@ -74,7 +75,7 @@ export const ConceptMap = ({
                       name={concept.name}
                       webUrl={concept.webUrl}
                       tooltipUrl={concept.tooltipUrl}
-                      exerciseStatuses={exerciseStatuses[slug]}
+                      exercisesData={exercisesData[slug]}
                       handleEnter={() => setActiveSlug(slug)}
                       handleLeave={unsetActiveSlug}
                       status={status[slug] ?? 'unavailable'}

@@ -260,7 +260,7 @@ initReact({
   ),
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart
-      exerciseStatuses={data.exercise_statuses}
+      exercisesData={data.exercises_data}
       links={data.links}
     />
   ),

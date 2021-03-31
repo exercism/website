@@ -1,10 +1,4 @@
-export type ExerciseStatus = {
-  slug: string
-  status: ExerciseStatusType
-}
-
-/* TODO: Name this better */
-export type ExerciseStatusType =
+export type ExerciseStatus =
   | 'published'
   | 'completed'
   | 'iterated'

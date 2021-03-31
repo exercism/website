@@ -28,6 +28,17 @@ class UserTrack
       []
     end
 
+    def exercise_type(obj)
+      return obj.git_type if obj.is_a?(Exercise)
+
+      exercise_types[obj]
+    end
+
+    memoize
+    def exercise_types
+      track.exercises.select(:slug, :type).index_by(&:slug).transform_values(&:git_type)
+    end
+
     ####################
     # Exercise methods #
     ####################

@@ -7,6 +7,7 @@ interface ConceptTooltipProps {
   focusRequestToShow: boolean
   referenceElement: HTMLElement | null
   referenceConceptSlug: string
+  focusable?: boolean
 }
 
 export const ConceptTooltip = ({
@@ -28,6 +29,7 @@ export const ConceptTooltip = ({
       contentEndpoint={contentEndpoint}
       hoverRequestToShow={hoverRequestToShow}
       focusRequestToShow={focusRequestToShow}
+      focusable={false}
     />
   )
 }

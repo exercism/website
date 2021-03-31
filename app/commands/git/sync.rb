@@ -8,7 +8,6 @@ module Git
       raise NotImplementedError
     end
 
-    # TODO: Add a test specially for this method
     def filepath_in_diff?(filepath)
       diff.each_delta.any? do |delta|
         [delta.old_file[:path], delta.new_file[:path]].include?(filepath)
@@ -27,7 +26,6 @@ module Git
       Git::Track.new(git_repo.head_sha, repo: git_repo)
     end
 
-    # TODO: Add a test specially for this method
     memoize
     def synced_to_head?
       current_git_track.commit.oid == head_git_track.commit.oid

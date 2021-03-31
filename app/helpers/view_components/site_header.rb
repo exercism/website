@@ -37,8 +37,8 @@ module ViewComponents
       tag.nav do
         tag.ul do
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
-            nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
-            nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
+            nav_li("Learn", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
+            nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
             nav_li("Contribute", :logo, "#", false)
         end
       end

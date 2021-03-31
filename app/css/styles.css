@@ -17,8 +17,7 @@
     line-height: 1.38;
 }
 .text-h5 {
-    line-height: 1.38;
-    @apply text-18 font-semibold text-textColor2;
+    @apply text-18 leading-150 font-semibold text-textColor1;
 }
 .text-h5-mono {
     @apply text-h5 font-mono font-bold;

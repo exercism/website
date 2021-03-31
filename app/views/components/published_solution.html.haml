@@ -1,26 +1,29 @@
-.c-published-solution
+.c-community-solution
   %header.--header
-    .--exercise
-      = exercise_icon(exercise)
-      .--info
-        .--exercise-title= exercise_title
-        .--track-title in #{track_title}
-      .--counts
-        .--count
-          = graphical_icon(:star)
-          .--num= num_stars
-
-        .--count
-          = graphical_icon(:comment)
-          .--num= num_comments
-
+    = exercise_icon(exercise)
+    .--info
+      .--title #{user.handle}'s solution
+      .--exercise to #{exercise.title} in #{track.title}
+    .out-of-date
+      = icon :warning, "This solution has not been tested against the latest version of this exercise"
+    .c-iteration-processing-status.--passed
+      .--dot
   %pre
     %code{ class: "language-#{highlightjs_language}" }
       = snippet
 
   %footer.--footer
     / TODO
-    %time Submitted #{time_ago_in_words(published_at)} ago
-    .locs
-      = graphical_icon(:loc)
-      .num #{num_lines} lines
+    %time Published #{time_ago_in_words(published_at)} ago
+    .--counts
+      .--count
+        = graphical_icon(:loc)
+        .--num= num_lines
+
+      .--count
+        = graphical_icon(:star)
+        .--num= num_stars
+
+      .--count
+        = graphical_icon(:comment)
+        .--num= num_comments

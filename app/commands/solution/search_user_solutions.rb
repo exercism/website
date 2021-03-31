@@ -1,5 +1,5 @@
 class Solution
-  class Search
+  class SearchUserSolutions
     include Mandate
 
     DEFAULT_PAGE = 1

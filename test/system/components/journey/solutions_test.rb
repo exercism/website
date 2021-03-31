@@ -12,6 +12,7 @@ module Components
         exercise = create :concept_exercise, title: "Lasagna", track: track
         solution = create :concept_solution, exercise: exercise, completed_at: Time.current, user: user, status: :completed
         create :submission, solution: solution, created_at: 2.days.ago
+        3.times { create :iteration, solution: solution }
 
         use_capybara_host do
           sign_in!(user)
@@ -24,7 +25,7 @@ module Components
           assert_text "10"
           assert_text "2"
           assert_text "3 iterations"
-          assert_text "9 - 18 lines"
+          assert_text "18"
           assert_text "Last submitted 2 days ago"
           assert_link "Lasagna", href: Exercism::Routes.private_solution_url(solution)
           assert_css "img[src='#{track.icon_url}']"
@@ -33,7 +34,7 @@ module Components
       end
 
       test "paginates solutions" do
-        Solution::Search.stubs(:default_per).returns(1)
+        Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Bob"
         exercise_2 = create :concept_exercise, title: "Lasagna"
@@ -56,7 +57,7 @@ module Components
       end
 
       test "searches solutions" do
-        Solution::Search.stubs(:default_per).returns(1)
+        Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
@@ -99,7 +100,7 @@ module Components
       end
 
       test "sorts solutions" do
-        Solution::Search.stubs(:default_per).returns(1)
+        Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"

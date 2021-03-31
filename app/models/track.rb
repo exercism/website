@@ -87,6 +87,11 @@ class Track < ApplicationRecord
   end
 
   # TODO: Create mapping for Highlight.JS, otherwise use slug
+  def editor_language
+    slug
+  end
+
+  # TODO: Create mapping for Highlight.JS, otherwise use slug
   def highlightjs_language
     slug
   end

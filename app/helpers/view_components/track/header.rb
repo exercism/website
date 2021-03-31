@@ -1,6 +1,6 @@
 module ViewComponents
   module Track
-    class TopLevelNav < ViewComponent
+    class Header < ViewComponent
       TABS = %i[overview concepts exercises].freeze
 
       initialize_with :track, :selected_tab
@@ -10,7 +10,7 @@ module ViewComponents
       def to_s
         guard!
 
-        tag.nav(class: "c-track-top-level-nav") do
+        tag.nav(class: "c-track-header") do
           tag.div(class: 'lg-container container') do
             lhs + rhs
           end
@@ -79,7 +79,7 @@ module ViewComponents
       end
 
       def tab_class(tab)
-        "tab #{'selected' if tab == selected_tab}"
+        "c-tab-2 #{'selected' if tab == selected_tab}"
       end
 
       def guard!

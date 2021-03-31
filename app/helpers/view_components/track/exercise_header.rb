@@ -31,7 +31,7 @@ module ViewComponents
                 link_to(
                   graphical_icon('community-solutions') +
                   tag.span("Community Solutions", "data-text": "Community Solutions"),
-                  "#",
+                  Exercism::Routes.track_exercise_community_solutions_path(track, exercise),
                   class: tab_class(:community_solutions)
                 )
               ]

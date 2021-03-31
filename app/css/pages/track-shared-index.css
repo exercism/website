@@ -3,7 +3,7 @@
 #page-concepts-index,
 #page-exercises-index {
     & article.content {
-        @apply pt-32;
+        @apply pt-40;
     }
 
     & section.external-cta {
@@ -29,8 +29,9 @@
         }
     }
     & header.page-header {
+        @apply mb-40;
         & .container {
-            @apply flex items-center justify-center mb-32;
+            @apply flex items-center justify-center;
         }
 
         & .graphic {

@@ -7,91 +7,88 @@
 
     /* TODO: add fade in transition for opacity */
 
-    & .c-concept-icon {
-        @apply mr-16;
-    }
+    & .header {
+        @apply flex items-center mb-12;
 
-    & .heading {
-        @apply flex mb-12;
+        & .c-concept-icon {
+            @apply mr-16;
+        }
 
-        & .title {
-            @apply flex items-center;
+        & .summary {
+            @apply flex-grow;
 
-            & .name {
-                @apply text-h5 mr-8;
+            & .title {
+                @apply flex items-center;
+
+                & .name {
+                    @apply text-h5 mr-8;
+                }
+                & .in {
+                    @apply mr-8;
+                }
+                & .c-icon {
+                    height: 32px;
+                    width: 32px;
+                }
             }
-            & .in {
-                @apply mr-8;
-            }
-            & .c-icon {
-                height: 32px;
-                width: 32px;
+            & .num-exercises {
+                @apply text-15 leading-160 font-medium text-textColor6;
             }
         }
-        & .num-exercises {
-            @apply text-15 font-medium text-textColor6;
+        & .c-exercise-status-tag {
+            @apply ml-32;
         }
     }
     & .blurb {
-        @apply text-15 leading-paragraph;
+        @apply text-15 leading-160;
+        @apply mb-16;
     }
 
-    & .progress {
-        @apply flex font-semibold mb-8 text-darkGray leading-paragraph;
-    }
-
-    & .c-concept-progress-bar {
-        @apply mb-12;
-        height: 6px;
-    }
-
-    & .available {
-        @apply mt-16;
-
-        & .info {
-            @apply leading-paragraph;
-            & strong {
-                @apply font-medium;
-            }
-        }
-        & .c-concept-progress-bar {
-            @apply mb-20;
-        }
-
-        & .learn-heading {
-            @apply flex items-center mb-8 text-h6;
-
-            & .c-icon {
-                width: 16px;
-                height: 16px;
-                @apply mr-12;
-            }
-        }
-        & .c-exercise-widget {
-            @apply mb-12 inline-flex;
-        }
-    }
-
-    & .mastered {
-        @apply mt-16;
-
-        & .c-icon {
-            height: 16px;
-            width: 16px;
+    & .info {
+        @apply flex items-center;
+        @apply leading-150;
+        & > .icon,
+        & > .c-icon {
+            height: 24px;
+            width: 24px;
             @apply mr-12;
         }
-
-        & .progress {
-            @apply text-darkGreen;
+        & .icon {
+            @apply grid place-items-center;
+            @apply rounded-100;
+            & .c-icon {
+                width: 12px;
+                height: 12px;
+            }
         }
+    }
 
-        & .c-concept-progress-bar {
-            @apply mb-12;
+    & .locked {
+        @apply text-textColor6 font-semibold;
+        & .icon {
+            @apply bg-lockedColor;
+            & .c-icon {
+                filter: var(--mid-gray);
+            }
         }
-
-        & .info {
-            @apply text-darkGray leading-paragraph font-medium;
+    }
+    & .available {
+        @apply text-textColor1 font-semibold;
+        & .c-icon {
+            filter: var(--mid-gray);
         }
+    }
+    & .learnt {
+        @apply text-textColor1 font-semibold;
+        & .icon {
+            @apply bg-black;
+            & .c-icon {
+                filter: var(--white-filter);
+            }
+        }
+    }
+    & .mastered {
+        @apply text-textColor1 font-semibold;
     }
 
     /* Required for functionality */

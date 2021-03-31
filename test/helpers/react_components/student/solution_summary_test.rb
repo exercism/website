@@ -14,7 +14,7 @@ module Student
         component,
         "student-solution-summary",
         {
-          solution: SerializeSolutionForStudent.(solution),
+          solution: SerializeSolution.(solution),
           request: {
             endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
             options: {

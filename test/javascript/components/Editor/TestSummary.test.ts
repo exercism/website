@@ -21,20 +21,6 @@ test('shows test details', async () => {
   expect(queryByText('message')).toBeVisible()
 })
 
-test('opens failed tests', async () => {
-  const test = {
-    name: 'first test',
-    status: TestStatus.FAIL,
-    output: 'debug',
-    message: 'message',
-  }
-
-  const { queryByText } = render(<TestSummary test={test} />)
-
-  expect(queryByText('debug')).toBeVisible()
-  expect(queryByText('message')).toBeVisible()
-})
-
 test('hides output', async () => {
   const test = {
     name: 'first test',

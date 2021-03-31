@@ -11,7 +11,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     setup_user
     create :concept_solution
 
-    Solution::Search.expects(:call).with(
+    Solution::SearchUserSolutions.expects(:call).with(
       @current_user,
       criteria: "ru",
       status: "published",
@@ -51,7 +51,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
     serializer = SerializePaginatedCollection.(
       Solution.page(1),
-      serializer: SerializeSolutionsForStudent
+      serializer: SerializeSolutions
     )
     assert_equal serializer.to_json, response.body
   end
@@ -98,7 +98,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      solution: SerializeSolutionForStudent.(solution)
+      solution: SerializeSolution.(solution)
     }
     assert_equal expected.to_json, response.body
   end
@@ -111,7 +111,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      solution: SerializeSolutionForStudent.(solution),
+      solution: SerializeSolution.(solution),
       iterations: [SerializeIteration.(iteration)]
     }
     assert_equal expected.to_json, response.body
@@ -192,14 +192,22 @@ class API::SolutionsControllerTest < API::BaseTestCase
     concept_1 = create :track_concept, track: track
     concept_2 = create :track_concept, track: track
 
-    concept_exercise_1 = create :concept_exercise, track: track, slug: "foo"
+    concept_exercise_1 = create :concept_exercise, track: track, slug: "lasagna"
     concept_exercise_1.taught_concepts << concept_1
-    practice_exercise = create :practice_exercise, track: track, slug: "prac"
-    practice_exercise.prerequisites << concept_1
 
-    concept_exercise_2 = create :concept_exercise, track: track, slug: "bar"
-    concept_exercise_2.prerequisites << concept_1
+    concept_exercise_2 = create :concept_exercise, track: track, slug: "concept-exercise-2"
     concept_exercise_2.taught_concepts << concept_2
+    concept_exercise_2.prerequisites << concept_1
+
+    practice_exercise_1 = create :practice_exercise, track: track, slug: "two-fer"
+    practice_exercise_1.practiced_concepts << concept_1
+    practice_exercise_1.prerequisites << concept_1
+
+    practice_exercise_2 = create :practice_exercise, track: track, slug: "bob"
+    practice_exercise_2.prerequisites << concept_1
+
+    practice_exercise_3 = create :practice_exercise, track: track, slug: "leap"
+    practice_exercise_3.prerequisites << concept_2
 
     create :user_track, track: track, user: @current_user
     solution = create :concept_solution, exercise: concept_exercise_1, user: @current_user
@@ -220,14 +228,17 @@ class API::SolutionsControllerTest < API::BaseTestCase
         },
         "unlocked_exercises" => [
           {
-            "slug" => practice_exercise.slug,
-            "title" => practice_exercise.title,
-            "icon_url" => practice_exercise.icon_url
-          },
-          {
             "slug" => concept_exercise_2.slug,
             "title" => concept_exercise_2.title,
             "icon_url" => concept_exercise_2.icon_url
+          }, {
+            "slug" => practice_exercise_1.slug,
+            "title" => practice_exercise_1.title,
+            "icon_url" => practice_exercise_1.icon_url
+          }, {
+            "slug" => practice_exercise_2.slug,
+            "title" => practice_exercise_2.title,
+            "icon_url" => practice_exercise_2.icon_url
           }
         ],
         "unlocked_concepts" => [

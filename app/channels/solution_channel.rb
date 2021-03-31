@@ -9,7 +9,7 @@ class SolutionChannel < ApplicationCable::Channel
 
   def self.broadcast!(solution)
     broadcast_to solution,
-      solution: SerializeSolutionForStudent.(solution),
+      solution: SerializeSolution.(solution),
       iterations: solution.iterations.map { |iteration| SerializeIteration.(iteration) }
   end
 end

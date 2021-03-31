@@ -1,5 +1,5 @@
 #page-concepts-index
-  = render ViewComponents::Track::TopLevelNav.new(@track, :concepts)
+  = render ViewComponents::Track::Header.new(@track, :concepts)
 
   %article.content
     - if @user_track.external?

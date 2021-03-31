@@ -62,7 +62,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
     assert_equal(
       {
-        'basics' => :complete,
+        'basics' => :mastered,
         'booleans' => :available,
         'atoms' => :locked
       },
@@ -114,7 +114,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
     assert_equal(
       {
-        'basics' => :complete,
+        'basics' => :mastered,
         'booleans' => :available,
         'atoms' => :locked
       },
@@ -144,9 +144,30 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
     assert_equal(
       {
-        'basics' => :complete,
-        'booleans' => :complete,
+        'basics' => :mastered,
+        'booleans' => :mastered,
         'atoms' => :available
+      },
+      UserTrack::GenerateConceptStatusMapping.(user_track)
+    )
+  end
+
+  test "learnt" do
+    track, user_track = setup_user_track
+    basics = create :track_concept, track: track, slug: :basics
+    lasagna = create :concept_exercise, slug: :lasagna, track: track
+    bob = create :practice_exercise, slug: :bob, track: track
+
+    # Set up exercises
+    lasagna.taught_concepts << basics
+    bob.practiced_concepts << basics
+
+    # Simulate learning concepts
+    create :concept_solution, user: user_track.user, exercise: lasagna, completed_at: Time.current
+
+    assert_equal(
+      {
+        'basics' => :learnt
       },
       UserTrack::GenerateConceptStatusMapping.(user_track)
     )

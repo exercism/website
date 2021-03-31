@@ -1,13 +1,13 @@
 require 'test_helper'
 
-class SerializeSolutionsForStudentTest < ActiveSupport::TestCase
+class SerializeSolutionsTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution, published_at: Time.current - 1.week
     create :submission, solution: solution
 
     create :user_track, user: solution.user, track: solution.track
-    expected = [SerializeSolutionForStudent.(solution)]
+    expected = [SerializeSolution.(solution)]
 
-    assert_equal expected, SerializeSolutionsForStudent.(Solution.all)
+    assert_equal expected, SerializeSolutions.(Solution.all)
   end
 end

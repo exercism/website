@@ -186,46 +186,8 @@ test('shows author avatar if context is exercise', async () => {
     screen.getByRole('img', { name: 'Uploaded avatar of handle' })
   ).toHaveAttribute('src', 'url')
 })
-test('shows author avatar if context is profile', async () => {
-  const solution = {
-    author: {
-      handle: 'handle',
-      avatarUrl: 'url',
-    },
-    snippet: '',
-    numLoc: '1-5',
-    numStars: '2',
-    numComments: '2',
-    publishedAt: '',
-    language: 'ruby',
-    iterationStatus: IterationStatus.ANALYZING,
-    isOutOfDate: false,
-    exercise: {
-      title: 'Exercise',
-      iconUrl: 'https://exercism.test/icon',
-    },
-    track: {
-      title: 'Track',
-      highlightjsLanguage: 'track',
-      iconUrl: 'https://exercism.test/icon',
-    },
-    links: {
-      publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
-    },
-  }
 
-  render(<CommunitySolution solution={solution} context="profile" />)
-
-  expect(
-    screen.getByRole('img', { name: 'Uploaded avatar of handle' })
-  ).toHaveAttribute('src', 'url')
-  expect(
-    screen.queryByRole('img', { name: 'Icon for exercise called Exercise' })
-  ).not.toBeInTheDocument()
-})
-
-test('shows exercise icon if context is mentoring', async () => {
+test('shows author avatar if context is mentoring', async () => {
   const solution = {
     author: {
       handle: 'handle',
@@ -255,6 +217,45 @@ test('shows exercise icon if context is mentoring', async () => {
   }
 
   render(<CommunitySolution solution={solution} context="mentoring" />)
+
+  expect(
+    screen.getByRole('img', { name: 'Uploaded avatar of handle' })
+  ).toHaveAttribute('src', 'url')
+  expect(
+    screen.queryByRole('img', { name: 'Icon for exercise called Exercise' })
+  ).not.toBeInTheDocument()
+})
+
+test('shows exercise icon if context is profile', async () => {
+  const solution = {
+    author: {
+      handle: 'handle',
+      avatarUrl: 'url',
+    },
+    snippet: '',
+    numLoc: '1-5',
+    numStars: '2',
+    numComments: '2',
+    publishedAt: '',
+    language: 'ruby',
+    iterationStatus: IterationStatus.ANALYZING,
+    isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    links: {
+      publicUrl: 'https://exercism.test/public',
+      privateUrl: 'https://exercism.test/private',
+    },
+  }
+
+  render(<CommunitySolution solution={solution} context="profile" />)
 
   expect(
     screen.getByRole('img', { name: 'Icon for exercise called Exercise' })

@@ -53,7 +53,7 @@ export const CommunitySolution = ({
   return (
     <a href={url} className="c-community-solution">
       <header className="--header">
-        {context === 'mentoring' ? (
+        {context === 'profile' ? (
           <ExerciseIcon
             iconUrl={solution.exercise.iconUrl}
             title={solution.exercise.title}

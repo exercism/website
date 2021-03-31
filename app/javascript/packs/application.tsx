@@ -92,6 +92,7 @@ import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
+import '../../css/dropdowns/track-switcher'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'

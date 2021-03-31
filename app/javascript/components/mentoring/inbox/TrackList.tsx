@@ -71,7 +71,7 @@ export const TrackList = ({
           className="action-icon"
         />
       </button>
-      <div className="dropdown" {...panelAttributes}>
+      <div className="c-track-switcher-dropdown" {...panelAttributes}>
         <ul {...listAttributes}>
           {tracks.map((track, i) => {
             return (

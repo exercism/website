@@ -21,45 +21,6 @@
                     height: 13px;
                 }
             }
-            & .dropdown {
-                @apply bg-backgroundColorA rounded-8 shadow-lg;
-                @apply p-8;
-
-                /* TODO: Do this via popper */
-                margin-left: -12px;
-
-                & label.c-radio-wrapper {
-                    --row-selected-background-color: var(--backgroundColorD);
-
-                    & .row {
-                        @apply flex items-center;
-                        @apply py-8 px-16;
-                        min-width: 360px;
-                    }
-
-                    & .c-radio {
-                        @apply text-20;
-                        @apply mr-20;
-                    }
-
-                    & .c-track-icon {
-                        width: 42px;
-                        height: 42px;
-                        @apply mr-16;
-                    }
-                    & .title {
-                        @apply flex-grow;
-                        @apply text-16 leading-150 font-medium;
-                    }
-                    & .count {
-                        width: 45px;
-                        @apply text-14 leading-150 font-medium text-center;
-                        @apply border-1 border-inputBorderColor rounded-100;
-                        @apply text-textColor3;
-                        @apply py-4;
-                    }
-                }
-            }
         }
         & .--search {
             @apply mr-16;

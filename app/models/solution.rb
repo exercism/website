@@ -155,6 +155,11 @@ public class Year
     '.strip
   end
 
+  # TODO
+  def out_of_date?
+    true
+  end
+
   def solution_files
     files = exercise_solution_files
 

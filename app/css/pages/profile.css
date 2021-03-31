@@ -153,8 +153,8 @@
 
             & .solutions {
                 @apply flex justify-center mb-32;
-                & .c-community-solution {
-                    @apply m-8;
+                & > * {
+                    @apply mx-8;
                     width: calc((100% / 3) - 16px);
                 }
             }

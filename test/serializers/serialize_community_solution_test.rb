@@ -4,6 +4,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
+    iteration = create :iteration, solution: solution
     expected = {
       id: solution.uuid,
       snippet: solution.snippet,
@@ -12,7 +13,9 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
+      iteration_status: iteration.status.to_s,
       published_at: solution.published_at,
+      is_out_of_date: solution.out_of_date?,
       language: solution.track.highlightjs_language,
       author: {
         handle: solution.user.handle,
@@ -24,7 +27,8 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       },
       track: {
         title: solution.track.title,
-        icon_url: solution.track.icon_url
+        icon_url: solution.track.icon_url,
+        highlightjs_language: solution.track.highlightjs_language
       },
       links: {
         public_url: Exercism::Routes.published_solution_url(solution),

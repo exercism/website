@@ -7,16 +7,17 @@ module API
     def index
       solutions = Solution::SearchCommunitySolutions.(
         @exercise,
+        criteria: params[:criteria],
         page: params[:page]
       )
-      output = {
-        solutions: SerializePaginatedCollection.(
-          solutions,
-          serializer: SerializeCommunitySolutions
-        )
-      }
 
-      render json: output
+      render json: SerializePaginatedCollection.(
+        solutions,
+        serializer: SerializeCommunitySolutions,
+        meta: {
+          unscoped_total: @exercise.solutions.published.count
+        }
+      )
     end
 
     private

@@ -24,21 +24,36 @@ export type SolutionForStudent = {
 export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
 
 export type CommunitySolution = {
+  id: string
   snippet: string
   numLoc: string
   numStars: string
   numComments: string
   publishedAt: string
   language: string
+  iterationStatus: IterationStatus
+  isOutOfDate: boolean
   author: {
     handle: string
     avatarUrl: string
   }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
+  track: {
+    title: string
+    iconUrl: string
+    highlightjsLanguage: string
+  }
+
   links: {
     publicUrl: string
     privateUrl: string
   }
 }
+
+export type CommunitySolutionContext = 'mentoring' | 'profile' | 'exercise'
 
 type ExerciseCore = {
   slug: string

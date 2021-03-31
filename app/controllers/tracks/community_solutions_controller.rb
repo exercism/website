@@ -4,10 +4,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
 
   skip_before_action :authenticate_user!
 
-  def index
-    @solutions = Solution::SearchCommunitySolutions.(@exercise)
-    @num_solutions = @exercise.solutions.published.count
-  end
+  def index; end
 
   private
   def use_track

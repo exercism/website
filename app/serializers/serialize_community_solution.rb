@@ -12,7 +12,9 @@ class SerializeCommunitySolution
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
+      iteration_status: solution.iterations.last.status.to_s,
       published_at: solution.published_at,
+      is_out_of_date: solution.out_of_date?,
       language: track.highlightjs_language,
       author: {
         handle: user.handle,
@@ -24,7 +26,8 @@ class SerializeCommunitySolution
       },
       track: {
         title: track.title,
-        icon_url: solution.track.icon_url
+        icon_url: track.icon_url,
+        highlightjs_language: track.highlightjs_language
       },
       links: {
         public_url: Exercism::Routes.published_solution_url(solution),

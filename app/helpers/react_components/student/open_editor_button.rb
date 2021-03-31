@@ -4,8 +4,7 @@ module ReactComponents
       initialize_with :exercise
 
       def to_s
-        # TODO: What should we do with this?
-        return if user_track.blank?
+        return if user_track.external?
 
         super(
           "student-open-editor-button",
@@ -38,7 +37,7 @@ module ReactComponents
 
       memoize
       def user_track
-        UserTrack.for(current_user, exercise.track)
+        UserTrack.for(current_user, exercise.track, external_if_missing: true)
       end
     end
   end

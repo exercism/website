@@ -3,6 +3,8 @@
 .c-open-editor-button-dropdown {
     @apply shadow-lg rounded-8 bg-backgroundColorA;
     @apply py-16 px-24;
+    @apply relative z-dropdown;
+
     max-width: 480px;
     & h3 {
         @apply text-h5 mb-8;

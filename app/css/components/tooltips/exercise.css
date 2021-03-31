@@ -5,7 +5,7 @@
     max-width: 460px;
     min-height: 124px;
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
-    @apply z-tooltip;
+    @apply relative z-tooltip;
     @apply grid place-items-center;
 
     & > .--spinner {

@@ -5,6 +5,7 @@
     & ul {
         @apply shadow-lg rounded-8 bg-backgroundColorA;
         @apply py-12 px-16;
+        @apply relative z-dropdown;
 
         & .unrevealed-badges,
         & .unrevealed-badge {

@@ -93,4 +93,20 @@ class TrackTest < ActiveSupport::TestCase
 
     assert_equal 2, track.num_code_contributors
   end
+
+  test "num_mentors" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    user_4 = create :user
+    track_1 = create :track
+    track_2 = create :track, slug: 'fsharp'
+
+    create :user_track_mentorship, track: track_1, user: user_1
+    create :user_track_mentorship, track: track_1, user: user_2
+    create :user_track_mentorship, track: track_1, user: user_3
+    create :user_track_mentorship, track: track_2, user: user_4
+
+    assert_equal 3, track_1.num_mentors
+  end
 end

@@ -71,9 +71,12 @@ class Track < ApplicationRecord
       count
   end
 
-  # TODO: Erik: Implement
   def num_mentors
-    187
+    User::TrackMentorship.
+      where(track_id: id).
+      select(:user_id).
+      distinct.
+      count
   end
 
   # TODO: Set this properly

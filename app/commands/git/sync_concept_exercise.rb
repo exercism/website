@@ -70,7 +70,7 @@ module Git
 
     memoize
     def head_git_exercise
-      Git::Exercise.new(exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
+      Git::Exercise.new(exercise_config[:slug], exercise.git_type, git_repo.head_sha, repo: git_repo)
     end
   end
 end

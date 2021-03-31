@@ -38,7 +38,7 @@ module Git
 
     memoize
     def head_git_concept
-      Git::Concept.new(concept.slug, git_repo.head_sha, repo: git_repo)
+      Git::Concept.new(concept_config[:slug], git_repo.head_sha, repo: git_repo)
     end
   end
 end

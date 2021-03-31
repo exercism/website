@@ -24,7 +24,7 @@ module ReactComponents
 
       memoize
       def command
-        @command ||= exercise.download_cmd
+        exercise.download_cmd
       end
 
       memoize

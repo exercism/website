@@ -18,51 +18,32 @@ export const OpenEditorButton = (
         links: { exercise: string }
       }
 ): JSX.Element | null => {
+  let primarySegment
+
   switch (props.status) {
     case 'locked':
-      return (
-        <ComboButton className="--disabled">
-          <ComboButton.PrimarySegment>
-            <div>Open editor</div>
-          </ComboButton.PrimarySegment>
-          <ComboButton.DropdownSegment>
-            <CopyToClipboardButton textToCopy={props.command} />
-          </ComboButton.DropdownSegment>
-        </ComboButton>
-      )
+      primarySegment = <div>Open editor</div>
+      break
     case 'available':
-      return (
-        <ComboButton>
-          <ComboButton.PrimarySegment>
-            <StartExerciseButton endpoint={props.links.start} />
-          </ComboButton.PrimarySegment>
-          <ComboButton.DropdownSegment>
-            <CopyToClipboardButton textToCopy={props.command} />
-          </ComboButton.DropdownSegment>
-        </ComboButton>
-      )
+      primarySegment = <StartExerciseButton endpoint={props.links.start} />
+      break
     case 'published':
     case 'completed':
-      return (
-        <ComboButton>
-          <ComboButton.PrimarySegment>
-            <a href={props.links.exercise}>Open editor</a>
-          </ComboButton.PrimarySegment>
-          <ComboButton.DropdownSegment>
-            <CopyToClipboardButton textToCopy={props.command} />
-          </ComboButton.DropdownSegment>
-        </ComboButton>
-      )
+      primarySegment = <a href={props.links.exercise}>Open editor</a>
+      break
     default:
-      return (
-        <ComboButton>
-          <ComboButton.PrimarySegment>
-            <a href={props.links.exercise}>Continue in editor</a>
-          </ComboButton.PrimarySegment>
-          <ComboButton.DropdownSegment>
-            <CopyToClipboardButton textToCopy={props.command} />
-          </ComboButton.DropdownSegment>
-        </ComboButton>
-      )
+      primarySegment = <a href={props.links.exercise}>Continue in editor</a>
+      break
   }
+
+  return (
+    <ComboButton
+      className={props.status === 'locked' ? '--disabled' : undefined}
+    >
+      <ComboButton.PrimarySegment>{primarySegment}</ComboButton.PrimarySegment>
+      <ComboButton.DropdownSegment>
+        <CopyToClipboardButton textToCopy={props.command} />
+      </ComboButton.DropdownSegment>
+    </ComboButton>
+  )
 }

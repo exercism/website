@@ -12,7 +12,9 @@ class SerializeCommunitySolution
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
+      iteration_status: solution.iterations.last.status,
       published_at: solution.published_at,
+      is_out_of_date: solution.out_of_date?,
       language: track.highlightjs_language,
       author: {
         handle: user.handle,

@@ -30,6 +30,8 @@ export type CommunitySolution = {
   numComments: string
   publishedAt: string
   language: string
+  iterationStatus: IterationStatus
+  isOutOfDate: boolean
   author: {
     handle: string
     avatarUrl: string

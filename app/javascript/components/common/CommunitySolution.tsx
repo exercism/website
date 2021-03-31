@@ -7,12 +7,15 @@ import {
 } from '../types'
 import { useHighlighting } from '../../utils/highlight'
 import { fromNow } from '../../utils/time'
+import { ExerciseIcon } from './ExerciseIcon'
+import { ProcessingStatusSummary } from './ProcessingStatusSummary'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
     <>
-      {/* TODO: Add the datetime attribute thing */}
-      <time>{`Published ${fromNow(solution.publishedAt)}`}</time>
+      <time dateTime={solution.publishedAt}>{`Published ${fromNow(
+        solution.publishedAt
+      )}`}</time>
       <div className="--counts">
         <div className="--count">
           <GraphicalIcon icon="loc" />
@@ -34,55 +37,57 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   )
 }
 
-/* TODO: Pass an context into this component. In different contexts we render different images here */
-/* It can be mentoring, profile or exercise */
 export const CommunitySolution = ({
   solution,
   track,
   exercise,
+  context,
 }: {
   solution: CommunitySolutionProps
   track: Track
   exercise: Exercise
+  context: 'mentoring' | 'profile' | 'exercise'
 }): JSX.Element => {
   const snippetRef = useHighlighting<HTMLPreElement>()
 
-  /* TODO: If context == "mentoring" use privateUrl else use publicUrl */
-  const url = solution.links.publicUrl
+  const url =
+    context === 'mentoring'
+      ? solution.links.privateUrl
+      : solution.links.publicUrl
 
   return (
     <a href={url} className="c-community-solution">
       <header className="--header">
-        {/* TODO: If context == "profile" || "exercise" */}
-        <Avatar
-          handle={solution.author.handle}
-          src={solution.author.avatarUrl}
-        />
-        {/* TODO: else (context == "profile") use ExerciseIcon */}
+        {context === 'mentoring' ? (
+          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+        ) : (
+          <Avatar
+            handle={solution.author.handle}
+            src={solution.author.avatarUrl}
+          />
+        )}
 
         <div className="--info">
           <div className="--title">
-            {/* TODO: if context == "mentoring" */}
-            Your Solution
-            {/* TODO: else "${solution.author.name's} solution" */}
+            {context === 'mentoring'
+              ? 'Your Solution'
+              : `${solution.author.handle}'s solution`}
           </div>
           <div className="--track-title">
             to {exercise.title} in {track.title}
           </div>
         </div>
 
-        {/* TODO: If solution.out_of_date? */}
-        <div className="out-of-date">
-          <Icon
-            icon="warning"
-            alt="This solution has not been tested against the latest version of this exercise"
-          />
-        </div>
+        {solution.isOutOfDate ? (
+          <div className="out-of-date">
+            <Icon
+              icon="warning"
+              alt="This solution has not been tested against the latest version of this exercise"
+            />
+          </div>
+        ) : null}
 
-        {/* TODO: Use the component for this that's used on iteration summary etc. Make it common. */}
-        <div className="c-iteration-processing-status --passed">
-          <div className="--dot" />
-        </div>
+        <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
       </header>
       <pre ref={snippetRef}>
         <code dangerouslySetInnerHTML={{ __html: solution.snippet }} />
@@ -94,7 +99,6 @@ export const CommunitySolution = ({
           <>
             <div className="not-published">Not published</div>
             <div className="--counts">
-              {/* This is in this file twice - you might want to DRY it */}
               <div className="--count">
                 <GraphicalIcon icon="loc" />
                 <div className="--num">{solution.numLoc}</div>

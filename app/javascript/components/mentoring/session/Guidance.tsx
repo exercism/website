@@ -101,6 +101,7 @@ export const Guidance = ({
           />
           <Accordion.Panel>
             <CommunitySolution
+              context="mentoring"
               solution={mentorSolution}
               track={track}
               exercise={exercise}

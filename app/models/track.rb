@@ -41,9 +41,8 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
-  # TODO: Erik: Drive from config.json
   def course?
-    concepts.size > 5
+    git.has_concept_exercises?
   end
 
   # TODO: Read this from a cache and update periodically

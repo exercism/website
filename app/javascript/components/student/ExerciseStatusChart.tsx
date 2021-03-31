@@ -99,17 +99,13 @@ const ExerciseStatusDot = ({
     isMountedRef
   )
 
-  const classNames = ['c-ed', `--${exerciseStatus}`, `--${type}`].filter(
-    (name) => name.length > 0
-  )
-
   return (
     <React.Fragment>
       <ReferenceElement
         ref={setButtonElement}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
-        className={classNames.join(' ')}
+        className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}
       />
       {open ? (

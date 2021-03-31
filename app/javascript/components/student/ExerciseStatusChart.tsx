@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Exercise, ExerciseStatus, Track, SolutionForStudent } from '../types'
 import { Icon, ExerciseWidget } from '../common'
 import { usePanel } from '../../hooks/use-panel'
@@ -51,6 +51,18 @@ export const ExerciseStatusChart = ({
 }
 
 const DEFAULT_ERROR = new Error('Unable to load information')
+
+const LoadingComponent = () => {
+  const [isShowing, setIsShowing] = useState(false)
+
+  setTimeout(() => {
+    setIsShowing(true)
+  }, 200)
+
+  return isShowing ? (
+    <Icon icon="spinner" alt="Loading exercise data" className="--spinner" />
+  ) : null
+}
 
 const ExerciseStatusDot = ({
   exerciseStatus,
@@ -108,30 +120,23 @@ const ExerciseStatusDot = ({
           style={styles.popper}
           {...attributes.popper}
         >
-          {data ? (
-            <FetchingBoundary
-              status={status}
-              error={error}
-              defaultError={DEFAULT_ERROR}
-            >
-              {data ? (
-                <ExerciseWidget
-                  exercise={data.exercise}
-                  solution={data.solution}
-                  track={data.track}
-                  size="tooltip"
-                />
-              ) : (
-                <span>Unable to load information</span>
-              )}
-            </FetchingBoundary>
-          ) : (
-            <Icon
-              icon="spinner"
-              alt="Loading exercise data"
-              className="--spinner"
-            />
-          )}
+          <FetchingBoundary
+            status={status}
+            error={error}
+            defaultError={DEFAULT_ERROR}
+            LoadingComponent={LoadingComponent}
+          >
+            {data ? (
+              <ExerciseWidget
+                exercise={data.exercise}
+                solution={data.solution}
+                track={data.track}
+                size="tooltip"
+              />
+            ) : (
+              <span>Unable to load information</span>
+            )}
+          </FetchingBoundary>
         </div>
       ) : null}
     </React.Fragment>

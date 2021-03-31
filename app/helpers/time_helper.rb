@@ -4,7 +4,10 @@ module TimeHelper
     t.gsub!(/^about /, '')
 
     unless short
-      return t == "less than a minute" ? "seconds" : t
+      return "seconds" if t == "a few seconds"
+      return "seconds" if t == "less than a minute"
+
+      return t
     end
 
     return "now" if t == "less than a minute"

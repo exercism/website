@@ -91,6 +91,7 @@ import '../../css/modals/change-mentor-tracks'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
+import '../../css/dropdowns/open-editor-button'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
@@ -261,6 +262,13 @@ initReact({
     <Student.ExerciseStatusChart
       exercisesData={data.exercises_data}
       links={data.links}
+    />
+  ),
+  'student-open-editor-button': (data: any) => (
+    <Student.OpenEditorButton
+      status={data.status}
+      links={data.links}
+      command={data.command}
     />
   ),
   'student-complete-exercise-button': (data: any) => (

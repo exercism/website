@@ -13,7 +13,7 @@ module Flows
 
       visit track_exercise_url(track, exercise)
 
-      click_on "Start"
+      within(".action-box") { click_on "Start" }
 
       assert_page "editor"
 

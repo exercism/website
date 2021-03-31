@@ -63,9 +63,12 @@ class Track < ApplicationRecord
       to_a
   end
 
-  # TODO: Erik: Implement
   def num_code_contributors
-    10
+    User::ReputationToken.
+      where(track_id: id, type: User::ReputationTokens::CodeContributionToken).
+      select(:user_id).
+      distinct.
+      count
   end
 
   # TODO: Erik: Implement

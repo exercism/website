@@ -41,8 +41,8 @@ module ViewComponents
             )
           end +
             tag.div(class: "stats") do
-              tag.div(pluralize(track.num_code_contributors, "contributors"), class: 'contributors') +
-                tag.div(pluralize(track.num_mentors, "mentors"), class: 'mentors')
+              tag.div(pluralize(track.num_code_contributors, "contributor"), class: 'contributors') +
+                tag.div(pluralize(track.num_mentors, "mentor"), class: 'mentors')
             end
         end
       end

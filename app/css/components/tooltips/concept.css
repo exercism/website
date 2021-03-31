@@ -90,30 +90,4 @@
     & .mastered {
         @apply text-textColor1 font-semibold;
     }
-
-    /* Required for functionality */
-    /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
-    &::before {
-        content: "";
-        width: 8px;
-        height: 100%;
-        left: 0;
-        top: 0;
-        transform: translateX(-100%);
-        background: transparent;
-        position: absolute;
-    }
-
-    /* Required for functionality */
-    /* Without this pseudo-element, unable to mouseover from concept to the tooltip */
-    &::after {
-        content: "";
-        width: 8px;
-        height: 100%;
-        right: 0;
-        top: 0;
-        transform: translateX(100%);
-        background: transparent;
-        position: absolute;
-    }
 }

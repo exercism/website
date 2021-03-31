@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :exercise
 
       def to_s
-        return if user_track.external?
+        return unless user_track
 
         super(
           "student-open-editor-button",
@@ -37,7 +37,7 @@ module ReactComponents
 
       memoize
       def user_track
-        UserTrack.for(current_user, exercise.track, external_if_missing: true)
+        UserTrack.for(current_user, exercise.track)
       end
     end
   end

@@ -76,4 +76,21 @@ class TrackTest < ActiveSupport::TestCase
 
     assert_equal 2, track.num_contributors
   end
+
+  test "num_code_contributors" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    track = create :track
+
+    create :user_code_contribution_reputation_token, track: track, user: user_1
+    create :user_code_merge_reputation_token, track: track, user: user_2
+    create :user_code_contribution_reputation_token, track: track, user: user_2
+    create :user_code_review_reputation_token, track: track, user: user_3
+    create :user_exercise_contribution_reputation_token, track: track, user: user_3
+    create :user_exercise_author_reputation_token, track: track, user: user_3
+    create :user_code_contribution_reputation_token, user: user_3
+
+    assert_equal 2, track.num_code_contributors
+  end
 end

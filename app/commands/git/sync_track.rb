@@ -51,7 +51,7 @@ module Git
 
     memoize
     def concepts
-      concepts_config.map do |concept_config|
+      head_git_track.concepts.map do |concept_config|
         ::Track::Concept::Create.(
           concept_config[:uuid],
           track,
@@ -65,7 +65,7 @@ module Git
 
     memoize
     def concept_exercises
-      concept_exercises_config.map do |exercise_config|
+      head_git_track.concept_exercises.map do |exercise_config|
         ::ConceptExercise::Create.(
           exercise_config[:uuid],
           track,
@@ -84,7 +84,7 @@ module Git
 
     memoize
     def practice_exercises
-      practice_exercises_config.map do |exercise_config|
+      head_git_track.practice_exercises.map do |exercise_config|
         ::PracticeExercise::Create.(
           exercise_config[:uuid],
           track,

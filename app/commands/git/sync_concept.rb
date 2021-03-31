@@ -33,7 +33,7 @@ module Git
     memoize
     def concept_config
       # TODO: determine what to do when the concept could not be found
-      concepts_config.find { |e| e[:uuid] == concept.uuid }
+      head_git_track.concepts.find { |e| e[:uuid] == concept.uuid }
     end
 
     memoize

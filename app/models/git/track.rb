@@ -55,6 +55,21 @@ module Git
     end
 
     memoize
+    def concept_exercises
+      config[:exercises][:concept].to_a
+    end
+
+    memoize
+    def practice_exercises
+      config[:exercises][:practice].to_a
+    end
+
+    memoize
+    def concepts
+      config[:concepts].to_a
+    end
+
+    memoize
     def commit
       repo.lookup_commit(git_sha)
     end

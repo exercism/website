@@ -38,25 +38,7 @@ module Git
       filepath_in_diff?(head_git_track.config_filepath)
     end
 
-    memoize
-    def concept_exercises_config
-      config[:exercises][:concept].to_a
-    end
-
-    memoize
-    def practice_exercises_config
-      config[:exercises][:practice].to_a
-    end
-
-    memoize
-    def concepts_config
-      config[:concepts].to_a
-    end
-
     private
-    memoize
-    delegate :config, to: :head_git_track
-
     memoize
     def current_git_track
       Git::Track.new(synced_to_git_sha, repo: git_repo)

@@ -1,10 +1,6 @@
 import React from 'react'
 import { GraphicalIcon, Avatar, Icon } from '../common'
-import {
-  MentorSessionTrack as Track,
-  MentorSessionExercise as Exercise,
-  CommunitySolution as CommunitySolutionProps,
-} from '../types'
+import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { useHighlighting } from '../../utils/highlight'
 import { fromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
@@ -39,13 +35,9 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
 
 export const CommunitySolution = ({
   solution,
-  track,
-  exercise,
   context,
 }: {
   solution: CommunitySolutionProps
-  track: Track
-  exercise: Exercise
   context: 'mentoring' | 'profile' | 'exercise'
 }): JSX.Element => {
   const snippetRef = useHighlighting<HTMLPreElement>()
@@ -59,7 +51,10 @@ export const CommunitySolution = ({
     <a href={url} className="c-community-solution">
       <header className="--header">
         {context === 'mentoring' ? (
-          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+          <ExerciseIcon
+            iconUrl={solution.exercise.iconUrl}
+            title={solution.exercise.title}
+          />
         ) : (
           <Avatar
             handle={solution.author.handle}
@@ -74,7 +69,7 @@ export const CommunitySolution = ({
               : `${solution.author.handle}'s solution`}
           </div>
           <div className="--track-title">
-            to {exercise.title} in {track.title}
+            to {solution.exercise.title} in {solution.track.title}
           </div>
         </div>
 
@@ -89,7 +84,7 @@ export const CommunitySolution = ({
 
         <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
       </header>
-      <pre ref={snippetRef}>
+      <pre ref={snippetRef} className={solution.track.highlightjsLanguage}>
         <code dangerouslySetInnerHTML={{ __html: solution.snippet }} />
       </pre>
       <footer className="--footer">

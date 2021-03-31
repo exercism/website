@@ -36,6 +36,16 @@ export type CommunitySolution = {
     handle: string
     avatarUrl: string
   }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
+  track: {
+    title: string
+    iconUrl: string
+    highlightjsLanguage: string
+  }
+
   links: {
     publicUrl: string
     privateUrl: string

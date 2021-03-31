@@ -100,12 +100,7 @@ export const Guidance = ({
             title="How you solved the exercise"
           />
           <Accordion.Panel>
-            <CommunitySolution
-              context="mentoring"
-              solution={mentorSolution}
-              track={track}
-              exercise={exercise}
-            />
+            <CommunitySolution context="mentoring" solution={mentorSolution} />
           </Accordion.Panel>
         </Accordion>
       ) : null}

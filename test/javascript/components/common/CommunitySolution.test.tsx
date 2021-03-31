@@ -18,32 +18,22 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="mentoring"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="mentoring" />)
 
   expect(
     screen.queryByAltText('Number of times solution has been starred')
@@ -64,32 +54,22 @@ test('links to private url if context is mentoring', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="mentoring"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="mentoring" />)
 
   expect(screen.getByRole('link')).toHaveAttribute(
     'href',
@@ -111,32 +91,22 @@ test('links to public url if context is profile', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="profile"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="profile" />)
 
   expect(screen.getByRole('link')).toHaveAttribute(
     'href',
@@ -158,32 +128,22 @@ test('links to public url if context is exercise', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="exercise"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(screen.getByRole('link')).toHaveAttribute(
     'href',
@@ -205,32 +165,22 @@ test('shows author avatar if context is exercise', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="exercise"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(
     screen.getByRole('img', { name: 'Uploaded avatar of handle' })
@@ -250,32 +200,22 @@ test('shows author avatar if context is profile', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="profile"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="profile" />)
 
   expect(
     screen.getByRole('img', { name: 'Uploaded avatar of handle' })
@@ -299,32 +239,22 @@ test('shows exercise icon if context is mentoring', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="mentoring"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="mentoring" />)
 
   expect(
     screen.getByRole('img', { name: 'Icon for exercise called Exercise' })
@@ -348,32 +278,22 @@ test('shows "Your solution" if context is mentoring', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="mentoring"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="mentoring" />)
 
   expect(screen.getByText('Your Solution')).toBeInTheDocument()
 })
@@ -392,32 +312,22 @@ test('shows "Your solution" if context is profile', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="profile"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="profile" />)
 
   expect(screen.getByText("handle's solution")).toBeInTheDocument()
 })
@@ -436,32 +346,22 @@ test('shows "Your solution" if context is exercise', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="exercise"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(screen.getByText("handle's solution")).toBeInTheDocument()
 })
@@ -480,32 +380,22 @@ test('renders processing status', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="exercise"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(screen.getByText('Processing')).toBeInTheDocument()
 })
@@ -524,32 +414,22 @@ test('renders warning icon when solution is out of date', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: true,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="exercise"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(
     screen.getByRole('img', {
@@ -573,32 +453,22 @@ test('does not render warning icon when solution is not out of date', async () =
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     isOutOfDate: false,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
     links: {
       publicUrl: 'https://exercism.test/public',
       privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = {
-    id: 'exercise',
-    title: 'Exercise',
-    iconUrl: 'https://exercism.test/icon',
-  }
-  const track = {
-    id: 'track',
-    title: 'Track',
-    highlightjsLanguage: 'track',
-    iconUrl: 'https://exercism.test/icon',
-    medianWaitTime: '5 days',
-  }
 
-  render(
-    <CommunitySolution
-      solution={solution}
-      exercise={exercise}
-      track={track}
-      context="exercise"
-    />
-  )
+  render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(
     screen.queryByRole('img', {

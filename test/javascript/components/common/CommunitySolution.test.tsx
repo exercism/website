@@ -9,12 +9,29 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
       handle: 'handle',
       avatarUrl: 'url',
     },
+    snippet: '',
+    numLoc: '1-5',
+    numStars: '2',
+    numComments: '2',
+    publishedAt: '',
+    language: 'ruby',
     links: {
-      publicUrl: 'https://google.com',
+      publicUrl: 'https://exercism.test/public',
+      privateUrl: 'https://exercism.test/private',
     },
   }
-  const exercise = { title: 'Exercise' }
-  const track = { title: 'Track' }
+  const exercise = {
+    id: 'exercise',
+    title: 'Exercise',
+    iconUrl: 'https://exercism.test/icon',
+  }
+  const track = {
+    id: 'track',
+    title: 'Track',
+    highlightjsLanguage: 'track',
+    iconUrl: 'https://exercism.test/icon',
+    medianWaitTime: '5 days',
+  }
 
   render(
     <CommunitySolution solution={solution} exercise={exercise} track={track} />

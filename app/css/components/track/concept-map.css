@@ -39,6 +39,7 @@
                 background-color: var(--c-concept-map-card-background);
                 opacity: var(--c-concept-map-hover-opacity);
                 transition: opacity 200ms ease-out;
+                transition: box-shadow 200ms ease-out;
 
                 &:after {
                     @apply absolute;
@@ -80,6 +81,10 @@
                 }
                 &:not(.locked) {
                     @apply shadow-baseZ1;
+
+                    &:hover {
+                        @apply shadow-lgZ1;
+                    }
                 }
 
                 &.active {
@@ -112,8 +117,6 @@
                 margin-bottom: -6px;
 
                 & .c-ed {
-                    height: 20px;
-                    width: 20px;
                     @apply m-6;
                 }
             }

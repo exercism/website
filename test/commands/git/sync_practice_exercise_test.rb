@@ -220,4 +220,13 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
   end
+
+  test "handle renamed slug" do
+    exercise = create :practice_exercise, uuid: '22ccca1b-7120-4db6-a736-d3d313f419c7', slug: 'retree', git_sha: "d487285d937401a676bd252015cb83ae86e4c0fe", synced_to_git_sha: "d487285d937401a676bd252015cb83ae86e4c0fe" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal 'satellite', exercise.slug
+  end
 end

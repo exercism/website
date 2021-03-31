@@ -32,4 +32,12 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
     assert_equal "The Ruby basics are relatively simple", concept.blurb
   end
+
+  test "handle renamed slug" do
+    concept = create :track_concept, uuid: '4dbd68ce-e736-47da-9ccd-d2ce0d8cdf1e', slug: 'class', name: 'Class', blurb: 'Strings are immutable objects', synced_to_git_sha: 'f236f73dee1558a4adcf97e14b7dc6681001c69f' # rubocop:disable Layout/LineLength
+
+    Git::SyncConcept.(concept)
+
+    assert_equal 'classes', concept.slug
+  end
 end

@@ -269,4 +269,14 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
   end
+
+  test "handle renamed slug" do
+    exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs', git_sha: "c75486b75db8012646b0e1c667cb1db47ff5a9d5", synced_to_git_sha: "c75486b75db8012646b0e1c667cb1db47ff5a9d5" # rubocop:disable Layout/LineLength
+    create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal 'log-levels', exercise.slug
+  end
 end

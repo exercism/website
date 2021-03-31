@@ -115,7 +115,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.concepts.length
+    assert_equal 9, track.concepts.length
   end
 
   test "concept exercises use track concepts for taught concepts" do
@@ -177,7 +177,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
   end
 
   test "adds new practice exercises defined in config.json" do
@@ -187,7 +187,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 8, track.practice_exercises.length
   end
 
   test "syncs all concepts" do
@@ -195,7 +195,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.concepts.length
+    assert_equal 9, track.concepts.length
     track.concepts.each do |concept|
       assert_equal track.git.head_sha, concept.synced_to_git_sha
     end
@@ -206,7 +206,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
     track.concept_exercises.each do |concept_exercise|
       assert_equal track.git.head_sha, concept_exercise.synced_to_git_sha
     end
@@ -217,7 +217,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 8, track.practice_exercises.length
     track.practice_exercises.each do |practice_exercise|
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
@@ -280,7 +280,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
   end
 
   test "syncs concept exercises with nil prerequisites" do
@@ -295,7 +295,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
   end
 
   test "syncs practice exercises with nil prerequisites" do
@@ -310,7 +310,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 8, track.practice_exercises.length
   end
 
   test "syncs practice exercises with nil practices" do
@@ -325,7 +325,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 8, track.practice_exercises.length
   end
 
   test "delete concept exercises no longer in config.json" do

@@ -24,6 +24,7 @@ export type SolutionForStudent = {
 export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
 
 export type CommunitySolution = {
+  id: string
   snippet: string
   numLoc: string
   numStars: string
@@ -51,6 +52,8 @@ export type CommunitySolution = {
     privateUrl: string
   }
 }
+
+export type CommunitySolutionContext = 'mentoring' | 'profile' | 'exercise'
 
 type ExerciseCore = {
   slug: string

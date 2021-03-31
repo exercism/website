@@ -199,6 +199,18 @@ initReact({
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-community-solution': (data: any) => (
+    <Common.CommunitySolution
+      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
+      context={data.context}
+    />
+  ),
+  'common-community-solution-list': (data: any) => (
+    <Common.CommunitySolutionList
+      request={camelizeKeysAs<Request>(data.request)}
+      context={data.context}
+    />
+  ),
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}

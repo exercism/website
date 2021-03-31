@@ -1,6 +1,9 @@
 import React from 'react'
 import { GraphicalIcon, Avatar, Icon } from '../common'
-import { CommunitySolution as CommunitySolutionProps } from '../types'
+import {
+  CommunitySolution as CommunitySolutionProps,
+  CommunitySolutionContext,
+} from '../types'
 import { useHighlighting } from '../../utils/highlight'
 import { fromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
@@ -38,7 +41,7 @@ export const CommunitySolution = ({
   context,
 }: {
   solution: CommunitySolutionProps
-  context: 'mentoring' | 'profile' | 'exercise'
+  context: CommunitySolutionContext
 }): JSX.Element => {
   const snippetRef = useHighlighting<HTMLPreElement>()
 

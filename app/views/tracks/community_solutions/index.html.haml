@@ -1,12 +1,4 @@
 #page-community-solutions-index
   = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :community_solutions)
 
-  .lg-container
-    %h2 #{number_with_delimiter @num_solutions} people published solutions
-    .c-search-bar
-      %input.--search{ placeholder: "Search by user" }
-
-    .solutions
-      - @solutions.each do |solution|
-        = render ViewComponents::PublishedSolution.new(solution)
-
+  = render ReactComponents::Common::CommunitySolutionList.new(@exercise, context: :exercise)

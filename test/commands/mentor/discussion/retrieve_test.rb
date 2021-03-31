@@ -7,16 +7,35 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     valid = create :mentor_discussion, :requires_mentor_action, mentor: user
     create :mentor_discussion, :requires_mentor_action
 
-    assert_equal [valid], Mentor::Discussion::Retrieve.(user, page: 1)
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :requires_mentor_action, page: 1)
   end
 
-  test "only retrieves solutions requiring action" do
+  test "status: requires_mentor_action" do
     user = create :user
 
     valid = create :mentor_discussion, :requires_mentor_action, mentor: user
     create :mentor_discussion, mentor: user
 
-    assert_equal [valid], Mentor::Discussion::Retrieve.(user, page: 1)
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :requires_mentor_action, page: 1)
+  end
+
+  test "status: requires_student_action" do
+    user = create :user
+
+    valid = create :mentor_discussion, :requires_student_action, mentor: user
+    create :mentor_discussion, mentor: user
+
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :requires_student_action, page: 1)
+  end
+
+  test "status: finished" do
+    user = create :user
+
+    valid = create :mentor_discussion, :finished, mentor: user
+    create :mentor_discussion, :requires_mentor_action, mentor: user
+    create :mentor_discussion, :requires_student_action, mentor: user
+
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :finished, page: 1)
   end
 
   test "only retrieves relevant tracks" do
@@ -29,9 +48,9 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     create :mentor_discussion, :requires_mentor_action, track: elixir, mentor: user
     create :mentor_discussion, :requires_mentor_action, track: js
 
-    assert_equal [ruby, elixir], Mentor::Discussion::Retrieve.(user).map(&:track)
-    assert_equal [ruby, elixir], Mentor::Discussion::Retrieve.(user, track_slug: '').map(&:track)
-    assert_equal [ruby], Mentor::Discussion::Retrieve.(user, track_slug: 'ruby').map(&:track)
+    assert_equal [ruby, elixir], Mentor::Discussion::Retrieve.(user, :requires_mentor_action).map(&:track)
+    assert_equal [ruby, elixir], Mentor::Discussion::Retrieve.(user, :requires_mentor_action, track_slug: '').map(&:track)
+    assert_equal [ruby], Mentor::Discussion::Retrieve.(user, :requires_mentor_action, track_slug: 'ruby').map(&:track)
   end
 
   test "orders by requires_mentor_action_since" do
@@ -41,8 +60,8 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     first = create :mentor_discussion, requires_mentor_action_since: Time.current - 3.minutes, mentor: user
     third = create :mentor_discussion, requires_mentor_action_since: Time.current - 1.minute, mentor: user
 
-    assert_equal [first, second, third], Mentor::Discussion::Retrieve.(user)
-    assert_equal [second, first, third], Mentor::Discussion::Retrieve.(user, sorted: false)
+    assert_equal [first, second, third], Mentor::Discussion::Retrieve.(user, :requires_mentor_action)
+    assert_equal [second, first, third], Mentor::Discussion::Retrieve.(user, :requires_mentor_action, sorted: false)
   end
 
   test "pagination works" do
@@ -50,7 +69,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
 
     25.times { create :mentor_discussion, :requires_mentor_action, mentor: user }
 
-    requests = Mentor::Discussion::Retrieve.(user, page: 2)
+    requests = Mentor::Discussion::Retrieve.(user, :requires_mentor_action, page: 2)
     assert_equal 2, requests.current_page
     assert_equal 3, requests.total_pages
     assert_equal 10, requests.limit_value
@@ -65,7 +84,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
 
     create :mentor_request, solution: solution
 
-    requests = Mentor::Discussion::Retrieve.(user, paginated: false)
+    requests = Mentor::Discussion::Retrieve.(user, :requires_mentor_action, paginated: false)
     assert requests.is_a?(ActiveRecord::Relation)
     refute_respond_to requests, :current_page
   end

@@ -13,5 +13,13 @@ FactoryBot.define do
     trait :requires_mentor_action do
       requires_mentor_action_since { Time.current }
     end
+
+    trait :requires_student_action do
+      requires_student_action_since { Time.current }
+    end
+
+    trait :finished do
+      finished_at { Time.current }
+    end
   end
 end

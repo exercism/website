@@ -4,6 +4,7 @@ module API
     def index
       discussions = ::Mentor::Discussion::Retrieve.(
         current_user,
+        params[:status],
         page: params[:page],
         track_slug: params[:track],
         criteria: params[:criteria],
@@ -18,7 +19,9 @@ module API
 
     def tracks
       track_counts = Mentor::Discussion::Retrieve.(
-        current_user, sorted: false, paginated: false
+        current_user,
+        params[:status],
+        sorted: false, paginated: false
       ).group(:track_id).count
 
       tracks = Track.where(id: track_counts.keys).index_by(&:id)

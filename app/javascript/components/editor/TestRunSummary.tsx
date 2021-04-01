@@ -119,7 +119,10 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
       return (
         <div className="summary-status failed" role="status">
           <span className="--dot" />
-          <TestRunSummaryHeaderMessage version={testRun.version} numFailedTests={failed.length} />
+          <TestRunSummaryHeaderMessage
+            version={testRun.version}
+            numFailedTests={failed.length}
+          />
         </div>
       )
     }

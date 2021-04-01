@@ -1,6 +1,6 @@
 import React from 'react'
 import { MentoringDropdown } from '../MentoringDropdown'
-import { MentorDiscussion } from '../../types'
+import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
 import { ComboButton } from '../../common/ComboButton'
 
 type Links = {
@@ -11,14 +11,12 @@ type Links = {
 }
 
 export const MentoringComboButton = ({
-  hasMentorDiscussionInProgress,
-  hasMentorRequestPending,
+  mentoringStatus,
   discussions,
   className = '',
   links,
 }: {
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   className?: string
   links: Links
@@ -26,9 +24,9 @@ export const MentoringComboButton = ({
   return (
     <ComboButton className={className}>
       <ComboButton.PrimarySegment>
-        {hasMentorDiscussionInProgress && links.inProgressDiscussion ? (
+        {mentoringStatus === 'in_progress' && links.inProgressDiscussion ? (
           <a href={links.inProgressDiscussion}>Continue mentoring</a>
-        ) : hasMentorRequestPending ? (
+        ) : mentoringStatus === 'requested' ? (
           <a href={links.pendingMentorRequest}>View mentoring request</a>
         ) : (
           <a href={links.requestMentoring}>Request mentoring</a>
@@ -36,7 +34,7 @@ export const MentoringComboButton = ({
       </ComboButton.PrimarySegment>
       <ComboButton.DropdownSegment>
         <MentoringDropdown
-          hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+          mentoringStatus={mentoringStatus}
           discussions={discussions}
           links={{ share: links.shareMentoring }}
         />

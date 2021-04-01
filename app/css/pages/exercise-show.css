@@ -1,8 +1,32 @@
 @import "../styles";
 
+@keyframes nudgeSlideIn {
+    from {
+        min-height: 0px;
+        margin-bottom: 0;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    to {
+        max-height: 200px;
+        margin-bottom: 24px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+}
+
+@keyframes nudgeFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 #page-exercise-show {
     & section.completed-heading {
-        @apply flex items-center py-16 px-32 shadow-lg rounded-8 mb-24;
+        @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-24;
         @apply border-2 border-darkGreen bg-mediumGreen;
 
         & .check-mark-icon {
@@ -74,11 +98,25 @@
         }
     }
 
-    & section.completion-nudge {
+    & section.completion-nudge,
+    & section.mentoring-prompt-nudge,
+    & section.mentoring-request-nudge,
+    & section.mentoring-discussion-nudge {
         @apply flex items-center;
-        @apply mb-24;
-        @apply bg-backgroundColorA shadow-baseZ1 rounded-12;
-        @apply py-24 pl-32 pr-40;
+        @apply shadow-baseZ1 rounded-12;
+
+        &.animate {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+            animation: nudgeSlideIn 0.5s ease-out 1s 1 normal forwards,
+                nudgeFadeIn 0.5s ease-out 1.4s 1 normal forwards;
+        }
+    }
+
+    & section.completion-nudge {
+        @apply pl-32 pr-40;
+        @apply bg-backgroundColorA;
 
         & > .c-icon {
             height: 64px;
@@ -88,6 +126,7 @@
         }
 
         & > .info {
+            @apply mr-24;
             & h3 {
                 @apply text-h4 mb-4;
             }
@@ -109,16 +148,14 @@
             }
         }
     }
-
-    & section.mentoring-nudge {
-        @apply flex items-center;
-        @apply mb-24;
-
+    & section.mentoring-prompt-nudge,
+    & section.mentoring-request-nudge,
+    & section.mentoring-discussion-nudge {
         @apply border-2 border-anotherPurple rounded-12;
-
-        @apply shadow-baseZ1;
         @apply bg-backgroundColorF;
-        @apply py-24 px-40;
+    }
+    & section.mentoring-prompt-nudge {
+        @apply px-40;
 
         & > .c-icon {
             height: 120px;
@@ -152,6 +189,65 @@
             }
         }
     }
+    & section.mentoring-request-nudge {
+        @apply px-32;
+
+        & > .info {
+            @apply flex-grow;
+            & h3 {
+                @apply text-h4 mb-4;
+            }
+            & p {
+                @apply text-p-base;
+                & em {
+                    @apply not-italic;
+                    @apply text-14;
+                    @apply ml-8;
+                }
+            }
+        }
+        & > a {
+            @apply ml-24;
+        }
+    }
+    & section.mentoring-discussion-nudge {
+        @apply px-40;
+        & .student-avatar,
+        & .mentor-avatar {
+            height: 54px;
+            width: 54px;
+        }
+        & .mentor-avatar {
+            margin-left: -20px;
+            @apply mr-36;
+        }
+
+        & > .info {
+            @apply flex-grow;
+            & h3 {
+                @apply text-h4 mb-8;
+                @apply font-medium;
+                & strong {
+                    @apply font-semibold;
+                    @apply ml-4;
+                }
+            }
+            & .comments {
+                @apply flex items-center;
+                @apply font-medium leading-170 text-textColor2;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
+                    filter: var(--orange-filter);
+                }
+            }
+        }
+        & > a {
+            @apply ml-24;
+        }
+    }
+
     & section.latest-iteration {
         @apply bg-backgroundColorA shadow-lg rounded-8 mb-32;
         @apply py-24 px-32;
@@ -306,10 +402,6 @@
         }
         & h4 {
             @apply text-label-code-caps mb-12;
-        }
-
-        & .editor-btn {
-            @apply btn-cta mb-16;
         }
 
         & .editor-btn {

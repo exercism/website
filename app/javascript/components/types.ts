@@ -11,17 +11,27 @@ export type Exercise =
   | (ExerciseCore & { isUnlocked: false })
 
 export type SolutionForStudent = {
+  id: string
   url: string
   status: SolutionStatus
+  mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean
   numMentoringComments: number
   numIterations: number
   exercise: {
     slug: string
   }
+  track: {
+    title: string
+  }
 }
 
 export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
+export type SolutionMentoringStatus =
+  | 'none'
+  | 'requested'
+  | 'in_progress'
+  | 'finished'
 
 export type CommunitySolution = {
   id: string
@@ -209,6 +219,10 @@ export enum AnalysisStatus {
 
 export type MentorDiscussion = {
   id: string
+  student: {
+    avatarUrl: string
+    handle: string
+  }
   mentor: {
     avatarUrl: string
     handle: string

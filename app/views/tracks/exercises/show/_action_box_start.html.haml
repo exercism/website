@@ -4,4 +4,12 @@
     %strong You can start this exercise.
     Solve it via Exercism's in-browser editor or locally in your own environment, using our CLI to download and submit.
 
-  = render "tracks/exercises/show/action_box_buttons"
+  %h4 Via Exercism Editor
+  = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn-cta" do
+    = graphical_icon :editor
+    Start in Editor
+
+  %h4 Work locally (via CLI)
+  = ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
+
+  = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")

@@ -15,6 +15,10 @@ module Student
         "student-solution-summary",
         {
           solution: SerializeSolution.(solution),
+          track: {
+            title: solution.track.title,
+            median_wait_time: solution.track.median_wait_time
+          },
           request: {
             endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
             options: {

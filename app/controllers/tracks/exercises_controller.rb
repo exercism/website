@@ -4,6 +4,7 @@ class Tracks::ExercisesController < ApplicationController
   before_action :use_solution, only: %i[show edit complete tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
+  skip_before_action :verify_authenticity_token, only: :start
   disable_site_header! only: [:edit]
 
   def index
@@ -27,6 +28,7 @@ class Tracks::ExercisesController < ApplicationController
     }
   end
 
+  # TODO: This should be an API method, not a HTML one.
   def start
     Solution::Create.(current_user, @exercise)
 

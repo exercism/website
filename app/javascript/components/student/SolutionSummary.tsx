@@ -9,7 +9,7 @@ import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
-import { Iteration, MentorDiscussion } from '../types'
+import { Iteration, MentorDiscussion, SolutionForStudent } from '../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -33,21 +33,21 @@ export type SolutionSummaryRequest = {
   }
 }
 
-export type SolutionSummarySolution = {
-  id: string
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
-  completedAt?: string
+export type Track = {
+  title: string
+  medianWaitTime: string
 }
 
 export const SolutionSummary = ({
   solution,
+  track,
   discussions,
   request,
   isConceptExercise,
   links,
 }: {
-  solution: SolutionSummarySolution
+  solution: SolutionForStudent
+  track: Track
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
   isConceptExercise: boolean
@@ -85,16 +85,14 @@ export const SolutionSummary = ({
 
   return (
     <>
-      {solution.completedAt ? null : (
-        <Nudge
-          hasMentorDiscussionInProgress={solution.hasMentorDiscussionInProgress}
-          discussions={discussions}
-          hasMentorRequestPending={solution.hasMentorRequestPending}
-          iteration={latestIteration}
-          isConceptExercise={isConceptExercise}
-          links={links}
-        />
-      )}
+      <Nudge
+        mentoringStatus={solution.mentoringStatus}
+        track={track}
+        discussions={discussions}
+        iteration={latestIteration}
+        isConceptExercise={isConceptExercise}
+        links={links}
+      />
       <section className="latest-iteration">
         <Header
           iteration={latestIteration}
@@ -109,10 +107,7 @@ export const SolutionSummary = ({
         <div className="next-steps">
           <CommunitySolutions link={links.communitySolutions} />
           <Mentoring
-            hasMentorDiscussionInProgress={
-              solution.hasMentorDiscussionInProgress
-            }
-            hasMentorRequestPending={solution.hasMentorRequestPending}
+            mentoringStatus={solution.mentoringStatus}
             discussions={discussions}
             links={links}
           />

@@ -1,14 +1,15 @@
 import React from 'react'
 import { CopyToClipboardButton } from '../../common'
+import { SolutionMentoringStatus } from '../../types'
 
 export const Header = ({
-  hasMentorDiscussionInProgress,
+  mentoringStatus,
   shareLink,
 }: {
-  hasMentorDiscussionInProgress: boolean
+  mentoringStatus: SolutionMentoringStatus
   shareLink: string
 }): JSX.Element => {
-  return hasMentorDiscussionInProgress ? (
+  return mentoringStatus === 'in_progress' ? (
     <div className="discussion-in-progress">
       <h3>Mentoring currently in progress</h3>
       <p>Share links aren’t available with active mentoring</p>

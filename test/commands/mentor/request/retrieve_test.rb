@@ -81,7 +81,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
       ruby_strings_req, js_strings_req
     ], Mentor::Request::Retrieve.(mentor: user) # Sanity
     assert_equal [ruby_bob_req],
-      Mentor::Request::Retrieve.(mentor: user, track_slug: ruby.slug, exercise_slugs: [ruby_bob.slug])
+      Mentor::Request::Retrieve.(mentor: user, track_slug: ruby.slug, exercise_slug: ruby_bob.slug)
   end
 
   test "orders by recency" do

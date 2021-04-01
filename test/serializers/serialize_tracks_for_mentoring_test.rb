@@ -36,9 +36,8 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
           id: "csharp",
           title: "C#",
           icon_url: csharp.icon_url,
-          count: 6,
+          num_solutions_queued: 6,
           avg_wait_time: "2 days",
-          num_solutions_queued: 550,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'csharp')
           }
@@ -47,9 +46,8 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
           id: "fsharp",
           title: "F#",
           icon_url: fsharp.icon_url,
-          count: 0,
+          num_solutions_queued: 0,
           avg_wait_time: "2 days",
-          num_solutions_queued: 550,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'fsharp')
           }
@@ -58,9 +56,8 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
           id: "ruby",
           title: "Ruby",
           icon_url: ruby.icon_url,
-          count: 3,
+          num_solutions_queued: 3,
           avg_wait_time: "2 days",
-          num_solutions_queued: 550,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'ruby')
           }
@@ -95,9 +92,8 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
           id: "csharp",
           title: "C#",
           icon_url: csharp.icon_url,
-          count: 6,
+          num_solutions_queued: 6,
           avg_wait_time: "2 days",
-          num_solutions_queued: 550,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'csharp')
           }
@@ -106,9 +102,8 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
           id: "fsharp",
           title: "F#",
           icon_url: fsharp.icon_url,
-          count: 0,
+          num_solutions_queued: 0,
           avg_wait_time: "2 days",
-          num_solutions_queued: 550,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'fsharp')
           }
@@ -117,9 +112,8 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
           id: "ruby",
           title: "Ruby",
           icon_url: ruby.icon_url,
-          count: 3,
+          num_solutions_queued: 3,
           avg_wait_time: "2 days",
-          num_solutions_queued: 550,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'ruby')
           }

@@ -16,8 +16,8 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
         id: request.uuid,
 
         track_title: track.title,
+        track_icon_url: track.icon_url,
         exercise_title: exercise.title,
-        exercise_icon_url: exercise.icon_url,
 
         mentee_handle: mentee.handle,
         mentee_avatar_url: mentee.avatar_url,

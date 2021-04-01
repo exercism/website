@@ -10,7 +10,6 @@ import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
-import { ChangeTracksButton } from './queue/ChangeTracksButton'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -117,11 +116,6 @@ export const Queue = ({
         />
       </div>
       <div className="mentor-queue-filtering">
-        <ChangeTracksButton
-          links={links}
-          tracks={tracks}
-          cacheKey={TRACKS_LIST_CACHE_KEY}
-        />
         {resolvedData ? (
           <SolutionCount
             unscopedTotal={resolvedData.meta.unscopedTotal}
@@ -136,6 +130,8 @@ export const Queue = ({
           isFetching={isTrackListFetching}
           value={selectedTrack}
           setValue={setSelectedTrack}
+          cacheKey={TRACKS_LIST_CACHE_KEY}
+          links={links}
         />
         <div className="exercise-filter">
           <h3>Filter by exercise</h3>

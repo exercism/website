@@ -1,13 +1,15 @@
-import React, { useCallback } from 'react'
-import { TrackIcon } from '../../common'
+import React, { useCallback, useRef } from 'react'
+import { TrackIcon, Icon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
+import { useDropdown } from '../../dropdowns/useDropdown'
+import { ChangeTracksButton } from './ChangeTracksButton'
 
 const TrackFilter = ({
   title,
   iconUrl,
-  num_solutions_queued,
+  numSolutionsQueued,
   checked,
   onChange,
 }: MentoredTrack & {
@@ -26,7 +28,7 @@ const TrackFilter = ({
         <div className="c-radio" />
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{num_solutions_queued}</div>
+        <div className="count">{numSolutionsQueued}</div>
       </div>
     </label>
   )
@@ -37,15 +39,18 @@ const DEFAULT_ERROR = new Error('Unable to fetch tracks')
 export const TrackFilterList = ({
   status,
   error,
+  children,
   ...props
-}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+}: React.PropsWithChildren<
+  Props & { status: QueryStatus; error: unknown }
+>): JSX.Element => {
   return (
     <FetchingBoundary
       error={error}
       status={status}
       defaultError={DEFAULT_ERROR}
     >
-      <Component {...props} />
+      <Component {...props}>{children}</Component>
     </FetchingBoundary>
   )
 }
@@ -55,6 +60,11 @@ type Props = {
   isFetching: boolean
   value: MentoredTrack | null
   setValue: (value: MentoredTrack) => void
+  cacheKey: string
+  links: {
+    tracks: string
+    updateTracks: string
+  }
 }
 
 const Component = ({
@@ -62,32 +72,76 @@ const Component = ({
   isFetching,
   value,
   setValue,
-}: Props): JSX.Element => {
-  const handleChange = useCallback(
-    (e, optionValue) => {
-      setValue(optionValue)
+  cacheKey,
+  links,
+}: Props): JSX.Element | null => {
+  const changeTracksRef = useRef<HTMLButtonElement>(null)
+  const handleItemSelect = useCallback(
+    (index) => {
+      if (!tracks) {
+        return
+      }
+
+      const track = tracks[index]
+
+      track ? setValue(tracks[index]) : changeTracksRef.current?.click()
     },
-    [setValue]
+    [setValue, tracks]
   )
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+  } = useDropdown((tracks?.length || 0) + 1, handleItemSelect)
+
+  if (!tracks) {
+    return null
+  }
+
+  const selected = tracks.find((track) => track === value) || tracks[0]
 
   return (
-    <div className="track-filter">
-      {isFetching ? <span>Fetching</span> : null}
-      <h3>Filter by language track</h3>
-      {tracks && tracks.length > 0 ? (
-        <div className="tracks">
-          {tracks.map((track) => (
-            <TrackFilter
-              key={track.id}
-              onChange={(e) => handleChange(e, track)}
-              checked={value?.id === track.id}
-              {...track}
-            />
-          ))}
+    <React.Fragment>
+      {isFetching ? <span>Fetching...</span> : null}
+      <button
+        aria-label="Button to open the track filter"
+        {...buttonAttributes}
+      >
+        <div className="row">
+          <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
+          <div className="title">{selected.title}</div>
+          <div className="count">{selected.numSolutionsQueued}</div>
         </div>
-      ) : (
-        <p>No tracks found</p>
-      )}
-    </div>
+        <Icon
+          icon="chevron-down"
+          alt="Click to change"
+          className="action-icon"
+        />
+      </button>
+      <div className="c-track-switcher-dropdown" {...panelAttributes}>
+        <ul {...listAttributes}>
+          {tracks.map((track, i) => {
+            return (
+              <li key={track.id} {...itemAttributes(i)}>
+                <TrackFilter
+                  onChange={() => setValue(track)}
+                  checked={value === track}
+                  {...track}
+                />
+              </li>
+            )
+          })}
+          <li key="change-tracks" {...itemAttributes(tracks.length)}>
+            <ChangeTracksButton
+              ref={changeTracksRef}
+              links={links}
+              cacheKey={cacheKey}
+              tracks={tracks}
+            />
+          </li>
+        </ul>
+      </div>
+    </React.Fragment>
   )
 }

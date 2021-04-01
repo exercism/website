@@ -253,7 +253,7 @@ export type MentoredTrack = {
   id: string
   title: string
   iconUrl: string
-  num_solutions_queued: number
+  numSolutionsQueued: number
   exercises: MentoredTrackExercise[] | undefined
   links: {
     exercises: string

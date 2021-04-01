@@ -122,9 +122,10 @@ module Components
 
         sign_in!(mentor)
         visit mentoring_queue_path
-        find("label", text: "C#").click
+        within(".mentor-queue-filtering") { click_on "C#" }
+        find("label", text: "Ruby").click
 
-        assert_text "on Tournament"
+        assert_text "on Series"
       end
 
       test "filters by exercise" do
@@ -145,6 +146,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_queue_path
+          within(".mentor-queue-filtering") { click_on "Ruby" }
           find("label", text: "Rust").click
           find("label", text: "Running").click
 

@@ -24,7 +24,6 @@ const AllExerciseFilter = ({
       <input type="radio" onChange={onChange} checked={checked} />
       <div className="row">
         <div className="c-radio" />
-        {/* TODO: Use correct icon */}
         <GraphicalIcon icon="exercise" category="graphics" />
         <div className="title">All exercises</div>
         <div className="count">{count}</div>

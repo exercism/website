@@ -5,7 +5,6 @@ import { MentoredTrack, MentoredTrackExercise } from '../types'
 import { useMentoringQueue } from './queue/useMentoringQueue'
 import { TrackFilterList } from './queue/TrackFilterList'
 import { Request } from '../../hooks/request-query'
-import { SolutionCount } from './queue/SolutionCount'
 import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
@@ -117,13 +116,6 @@ export const Queue = ({
         />
       </div>
       <div className="mentor-queue-filtering">
-        {resolvedData ? (
-          <SolutionCount
-            unscopedTotal={resolvedData.meta.unscopedTotal}
-            total={resolvedData.meta.totalCount}
-            onResetFilter={handleReset}
-          />
-        ) : null}
         <TrackFilterList
           status={trackListStatus}
           error={trackListError}

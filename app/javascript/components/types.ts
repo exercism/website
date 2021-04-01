@@ -23,6 +23,11 @@ export type SolutionForStudent = {
 
 export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
 
+export type DiscussionStatus =
+  | 'requires_mentor_action'
+  | 'requires_student_action'
+  | 'finished'
+
 export type CommunitySolution = {
   id: string
   snippet: string

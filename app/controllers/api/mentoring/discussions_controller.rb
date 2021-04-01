@@ -11,9 +11,19 @@ module API
         order: params[:order]
       )
 
+      all_discussions = Mentor::Discussion.
+        joins(solution: :exercise).
+        includes(solution: [:user, { exercise: :track }]).
+        where(mentor: current_user)
+
       render json: SerializePaginatedCollection.(
         discussions,
-        serializer: SerializeMentorDiscussions
+        serializer: SerializeMentorDiscussions,
+        meta: {
+          requires_mentor_action_total: all_discussions.requires_mentor_action.count,
+          requires_student_action_total: all_discussions.requires_student_action.count,
+          finished_total: all_discussions.finished.count
+        }
       )
     end
 

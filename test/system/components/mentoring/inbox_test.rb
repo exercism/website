@@ -136,6 +136,36 @@ module Components
           assert_text "on Series"
         end
       end
+
+      test "filter by discussion status" do
+        ::Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+        mentor = create :user
+        ruby = create :track, title: "Ruby", slug: "ruby"
+        go = create :track, title: "Go", slug: "go"
+        series = create :concept_exercise, title: "Series", track: ruby
+        series_solution = create :concept_solution, exercise: series
+        create :mentor_discussion,
+          solution: series_solution,
+          mentor: mentor,
+          requires_mentor_action_since: 2.days.ago
+        tournament = create :concept_exercise, title: "Tournament", track: go
+        tournament_solution = create :concept_solution, exercise: tournament
+        create :mentor_discussion,
+          solution: tournament_solution,
+          mentor: mentor,
+          requires_mentor_action_since: nil,
+          requires_student_action_since: 1.day.ago
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_inbox_url
+          click_on "Awaiting student1"
+
+          assert_text "on Tournament"
+          assert_no_text "on Series"
+          assert_button "Awaiting student1", disabled: true
+        end
+      end
     end
   end
 end

@@ -12,7 +12,7 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
       solution: solution,
       mentor: mentor
 
-    discussions = Mentor::Discussion::Retrieve.(mentor, page: 1)
+    discussions = Mentor::Discussion::Retrieve.(mentor, :requires_mentor_action, page: 1)
 
     expected = [
       {

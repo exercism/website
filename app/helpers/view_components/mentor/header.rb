@@ -59,7 +59,7 @@ module ViewComponents
           ) do
             graphical_icon(:queue) +
               tag.span("Queue") +
-              tag.span("1,700", class: 'count')
+              tag.span("1,700", class: 'count') # TODO
           end,
 
           link_to(

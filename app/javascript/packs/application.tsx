@@ -133,7 +133,7 @@ import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMen
 import * as Student from '../components/student'
 import {
   SolutionSummaryLinks,
-  SolutionSummaryTrack,
+  Track as SolutionSummaryTrack,
   SolutionSummaryRequest,
 } from '../components/student/SolutionSummary'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'

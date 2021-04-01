@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Exercise, ExerciseStatus, Track, SolutionForStudent } from '../types'
 import { Icon, ExerciseWidget } from '../common'
 import { usePanel } from '../../hooks/use-panel'
@@ -55,9 +55,13 @@ const DEFAULT_ERROR = new Error('Unable to load information')
 const LoadingComponent = () => {
   const [isShowing, setIsShowing] = useState(false)
 
-  setTimeout(() => {
-    setIsShowing(true)
-  }, 200)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsShowing(true)
+    }, 200)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return isShowing ? (
     <Icon icon="spinner" alt="Loading exercise data" className="--spinner" />

@@ -105,11 +105,13 @@
         @apply flex items-center;
         @apply shadow-baseZ1 rounded-12;
 
-        max-height: 0;
-        opacity: 0;
-        margin-bottom: 0;
-        animation: nudgeSlideIn 0.5s ease-out 1s 1 normal forwards,
-            nudgeFadeIn 0.5s ease-out 1.4s 1 normal forwards;
+        &.animate {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+            animation: nudgeSlideIn 0.5s ease-out 1s 1 normal forwards,
+                nudgeFadeIn 0.5s ease-out 1.4s 1 normal forwards;
+        }
     }
 
     & section.completion-nudge {

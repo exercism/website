@@ -85,17 +85,14 @@ export const SolutionSummary = ({
 
   return (
     <>
-      {solution.status === 'completed' ||
-      solution.status === 'published' ? null : (
-        <Nudge
-          mentoringStatus={solution.mentoringStatus}
-          track={track}
-          discussions={discussions}
-          iteration={latestIteration}
-          isConceptExercise={isConceptExercise}
-          links={links}
-        />
-      )}
+      <Nudge
+        mentoringStatus={solution.mentoringStatus}
+        track={track}
+        discussions={discussions}
+        iteration={latestIteration}
+        isConceptExercise={isConceptExercise}
+        links={links}
+      />
       <section className="latest-iteration">
         <Header
           iteration={latestIteration}

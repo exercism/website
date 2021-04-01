@@ -1,4 +1,4 @@
-- if exercise.concept_exercise?
+- if solution&.completed?
   %section.completed-info
     %h3 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
     .concepts
@@ -14,7 +14,7 @@
 - else
   %section.taught-concepts
     %h3
-      Completing #{track.title} teaches
+      While completing #{exercise.title}, you'll learn
       %strong= pluralize exercise.taught_concepts.size, 'concept'
     .concepts
       - exercise.taught_concepts.each.each do |concept|

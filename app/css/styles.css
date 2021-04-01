@@ -13,8 +13,7 @@
     @apply text-h3 font-mono font-bold;
 }
 .text-h4 {
-    @apply font-semibold text-textColor2 text-20;
-    line-height: 1.38;
+    @apply font-semibold text-textColor2 text-20 leading-140;
 }
 .text-h5 {
     @apply text-18 leading-150 font-semibold text-textColor1;

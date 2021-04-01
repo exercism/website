@@ -6,4 +6,13 @@
     %strong You have submitted 5 iterations for this exercise and marked it as complete.
     You can still submit further iterations or choose a different exercise to solve.
 
-  = render "tracks/exercises/show/action_box_buttons"
+  %h4 Via Exercism Editor
+  = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn" do
+    = graphical_icon :editor
+    Continue in Editor
+
+  %h4 Work locally (via CLI)
+  = ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
+
+  = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
+

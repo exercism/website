@@ -69,7 +69,7 @@ const CompleteExerciseNudge = ({
     <section className="completion-nudge">
       <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
-        <h3>Hey, looks like you’re done here!</h3>
+        <h3>Nice, it looks like you’re done here!</h3>
         <p>
           Complete the exercise to unlock new concepts and exercises.{' '}
           <strong>
@@ -99,7 +99,7 @@ const MentoringNudge = ({
   }
 }) => {
   return (
-    <section className="mentoring-nudge">
+    <section className="mentoring-prompt-nudge">
       <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
         <h3>Improve your solution with mentoring</h3>
@@ -140,7 +140,7 @@ const TestsFailedNudge = ({
   }
 }) => {
   return (
-    <section className="mentoring-nudge">
+    <section className="mentoring-prompt-nudge">
       <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
         <h3>Struggling with this exercise?</h3>
@@ -173,14 +173,17 @@ const MentoringRequestedNudge = ({
   }
 }) => {
   return (
-    <section className="mentoring-nudge">
+    <section className="mentoring-request-nudge">
       <div className="info">
         <h3>You&apos;ve requested mentoring</h3>
-        <p>Waiting on a mentor... (Median wait time {track.medianWaitTime})</p>
-        <div className="options">
-          <a href={links.pendingMentorRequest}>Open request</a>
-        </div>
+        <p>
+          Waiting on a mentor...
+          <em>(Median wait time {track.medianWaitTime})</em>
+        </p>
       </div>
+      <a href={links.pendingMentorRequest} className="btn-small-cta">
+        Open request
+      </a>
     </section>
   )
 }
@@ -191,22 +194,32 @@ const InProgressMentoringNudge = ({
   discussion: MentorDiscussion
 }) => {
   return (
-    <section className="mentoring-nudge">
+    <section className="mentoring-discussion-nudge">
+      <Avatar
+        src={discussion.student.avatarUrl}
+        handle={discussion.student.handle}
+        className="student-avatar"
+      />
+      <Avatar
+        src={discussion.mentor.avatarUrl}
+        handle={discussion.mentor.handle}
+        className="mentor-avatar"
+      />
+
       <div className="info">
-        <Avatar
-          src={discussion.mentor.avatarUrl}
-          handle={discussion.mentor.handle}
-        />
-        <Avatar
-          src={discussion.student.avatarUrl}
-          handle={discussion.student.handle}
-        />
-        <h3>You&apos;re being mentored by {discussion.mentor.handle}</h3>
-        <span>
+        <h3>
+          You&apos;re being mentored by
+          <strong>{discussion.mentor.handle}</strong>
+        </h3>
+        {/* TODO: Add who's turn it is to respond tag */}
+        <div className="comments">
+          <GraphicalIcon icon="comment" />
           {discussion.postsCount} {pluralize('comments', discussion.postsCount)}
-        </span>
-        <a href={discussion.links.self}>Open discussion</a>
+        </div>
       </div>
+      <a href={discussion.links.self} className="btn-small-cta">
+        Open discussion
+      </a>
     </section>
   )
 }

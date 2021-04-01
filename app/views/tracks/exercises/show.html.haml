@@ -12,7 +12,7 @@
       = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
       - if @exercise.concept_exercise?
-        = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, iteration: @iteration
+        = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
       - if @exercise.practice_exercise?
         - introduction = @solution ? @solution.introduction : @exercise.introduction
@@ -35,11 +35,10 @@
           = [source, source_url].compact_blank.join(' - ')
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
-      - if @solution
-        - if @solution.completed?
-          = render "tracks/exercises/show/action_box_completed"
-        - else
-          = render "tracks/exercises/show/action_box_continue", track: @track, exercise: @exercise
+      - if @solution&.completed?
+        = render "tracks/exercises/show/action_box_completed"
+      - elsif @solution&.iterated?
+        = render "tracks/exercises/show/action_box_continue", track: @track, exercise: @exercise
       - elsif @user_track
         - if @user_track.exercise_unlocked?(@exercise)
           = render "tracks/exercises/show/action_box_start", exercise: @exercise

@@ -25,7 +25,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
   )
 
   const setTrack = (track) => {
-    setQuery({ track: track, page: 1 })
+    setQuery({ ...request.query, track: track, page: 1 })
   }
 
   return (

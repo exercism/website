@@ -30,7 +30,12 @@ export const Contribution = ({
 
   return (
     <a href={link} className="reputation-token">
-      <img src={iconUrl} className="c-icon primary-icon" />
+      <img
+        alt=""
+        role="presentation"
+        src={iconUrl}
+        className="c-icon primary-icon"
+      />
       <div className="info">
         <div className="title" dangerouslySetInnerHTML={{ __html: text }} />
         <div className="extra">

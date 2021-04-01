@@ -13,7 +13,7 @@ export const ReputationMenuItem = ({
 }: ReputationToken): JSX.Element => {
   return (
     <a href={url} className="token">
-      <img role="presentation" src={iconUrl} className="reason-icon" />
+      <img alt="" role="presentation" src={iconUrl} className="reason-icon" />
       <div className="content">
         <div
           className="description"

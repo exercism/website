@@ -6,6 +6,7 @@ module Flows
   class MentorChangesMentoredTracksTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
+    # TODO: kntsoriano - the dropdown needs opening and the link-text has changed
     test "user changes mentored tracks" do
       ruby = create :track, title: "Ruby", slug: "ruby"
       csharp = create :track, title: "C#", slug: "csharp"

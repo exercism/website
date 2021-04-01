@@ -154,25 +154,7 @@ module Components
         end
       end
 
-      test "resets filters" do
-        mentor = create :user
-        mentee = create :user
-        ruby = create :track, title: "Ruby", slug: "ruby"
-        create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create :mentor_request, exercise: series, user: mentee
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create :mentor_request, exercise: tournament, user: mentee
-
-        sign_in!(mentor)
-        visit mentoring_queue_path
-        find("label", text: "Tournament").click
-        click_on "Reset filter"
-
-        assert_text "Showing 2 requests"
-        assert_text "2 queued requests"
-      end
-
+      # TODO: kntsoriano - change this to check the right count is in the button
       test "shows counts" do
         ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user

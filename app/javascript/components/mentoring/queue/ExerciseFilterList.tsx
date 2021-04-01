@@ -13,12 +13,10 @@ export type Props = {
 const AllExerciseFilter = ({
   count,
   checked,
-  iconUrl,
   onChange,
 }: {
   count: number
   checked: boolean
-  iconUrl: string
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
   return (
@@ -27,8 +25,8 @@ const AllExerciseFilter = ({
       <div className="row">
         <div className="c-radio" />
         {/* TODO: Use correct icon */}
-        <ExerciseIcon iconUrl={iconUrl} />
-        <div className="title">All Exercises</div>
+        <GraphicalIcon icon="exercise" category="graphics" />
+        <div className="title">All exercises</div>
         <div className="count">{count}</div>
       </div>
     </label>
@@ -45,8 +43,9 @@ const ExerciseFilter = ({
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
+  const classNames = `c-radio-wrapper ${count == 0 ? 'zero' : null}`
   return (
-    <label className="c-radio-wrapper">
+    <label className={classNames}>
       <input type="radio" onChange={onChange} checked={checked} />
       <div className="row">
         <div className="c-radio" />
@@ -132,43 +131,45 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
   }, [])
 
   return (
-    <React.Fragment>
-      <div className="c-search-bar">
-        <input
-          value={searchQuery}
-          onChange={handleSearchBarChange}
-          className="--search"
-          placeholder="Search by Exercise name"
-        />
+    <>
+      <div className="exercise-filter">
+        <div className="c-search-bar">
+          <input
+            value={searchQuery}
+            onChange={handleSearchBarChange}
+            className="--search"
+            placeholder="Search by Exercise name"
+          />
+        </div>
+        <label className="c-checkbox-wrapper filter">
+          <input
+            type="checkbox"
+            checked={isShowingExercisesToMentor}
+            onChange={() =>
+              setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
+            }
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            Only show exercises that need mentoring
+          </div>
+        </label>
+        <label className="c-checkbox-wrapper filter">
+          <input
+            type="checkbox"
+            checked={isShowingExercisesCompleted}
+            onChange={handleShowCompletedExercises}
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            Only show exercises I've completed
+          </div>
+        </label>
       </div>
-      <label className="c-checkbox-wrapper">
-        <input
-          type="checkbox"
-          checked={isShowingExercisesToMentor}
-          onChange={() =>
-            setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
-          }
-        />
-        <div className="row">
-          <div className="c-checkbox">
-            <GraphicalIcon icon="checkmark" />
-          </div>
-          Only show exercises that need mentoring
-        </div>
-      </label>
-      <label className="c-checkbox-wrapper">
-        <input
-          type="checkbox"
-          checked={isShowingExercisesCompleted}
-          onChange={handleShowCompletedExercises}
-        />
-        <div className="row">
-          <div className="c-checkbox">
-            <GraphicalIcon icon="checkmark" />
-          </div>
-          Only show exercises I've completed
-        </div>
-      </label>
       <div className="exercises">
         <AllExerciseFilter
           key="all"
@@ -178,9 +179,6 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
             (sum, exercise) => sum + exercise.count,
             0
           )}
-          iconUrl={
-            exercises && exercises.length > 0 ? exercises[0].iconUrl : ''
-          }
         />
         {exercisesToShow.map((exercise) => (
           <ExerciseFilter
@@ -191,6 +189,6 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
           />
         ))}
       </div>
-    </React.Fragment>
+    </>
   )
 }

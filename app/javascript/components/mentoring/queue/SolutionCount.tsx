@@ -11,8 +11,11 @@ export const SolutionCount = ({
   total: number
   onResetFilter: () => void
 }): JSX.Element => {
+  {
+    /* TODO: REMOVE */
+  }
   return (
-    <header className="filtering-header">
+    <header className="filtering-header" style={{ display: 'none' }}>
       <div className="title">
         <h3>
           Showing {total} {pluralize('request', total)}

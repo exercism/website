@@ -1,6 +1,7 @@
 import React, { useState, useCallback, forwardRef } from 'react'
 import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
 import { MentoredTrack } from '../../types'
+import { GraphicalIcon } from '../../common'
 
 export type Links = {
   tracks: string
@@ -30,7 +31,8 @@ export const ChangeTracksButton = forwardRef<HTMLButtonElement, Props>(
             setOpen(true)
           }}
         >
-          Change tracks
+          <GraphicalIcon icon="reset" />
+          Change the tracks you mentor
         </button>
         <MentorChangeTracksModal
           open={open}

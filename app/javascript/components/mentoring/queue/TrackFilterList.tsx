@@ -105,21 +105,22 @@ const Component = ({
     <React.Fragment>
       {isFetching ? <span>Fetching...</span> : null}
       <button
+        className="current-track"
         aria-label="Button to open the track filter"
         {...buttonAttributes}
       >
-        <div className="row">
-          <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
-          <div className="title">{selected.title}</div>
-          <div className="count">{selected.numSolutionsQueued}</div>
-        </div>
+        <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
+        <div className="track-title">{selected.title}</div>
+        <div className="count">{selected.numSolutionsQueued}</div>
         <Icon
           icon="chevron-down"
           alt="Click to change"
           className="action-icon"
         />
       </button>
-      <div className="c-track-switcher-dropdown" {...panelAttributes}>
+      {/* TODO: This should only show if it's open */}
+      {/* TODO: Offset this 8px down */}
+      <div {...panelAttributes} className="c-track-switcher-dropdown">
         <ul {...listAttributes}>
           {tracks.map((track, i) => {
             return (

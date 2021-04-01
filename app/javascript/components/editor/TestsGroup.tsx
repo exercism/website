@@ -3,7 +3,11 @@ import pluralize from 'pluralize'
 import { TestSummary } from './TestSummary'
 import { Test } from './types'
 
-const TestsGroupContext = createContext<{ tests: Test[] }>({ tests: [] })
+export type TestWithToggle = Test & { defaultOpen: boolean }
+
+const TestsGroupContext = createContext<{ tests: TestWithToggle[] }>({
+  tests: [],
+})
 
 export const TestsGroup = ({
   open = false,
@@ -11,7 +15,7 @@ export const TestsGroup = ({
   children,
 }: {
   open?: boolean
-  tests: Test[]
+  tests: TestWithToggle[]
   children: React.ReactNode
 }): JSX.Element | null => {
   if (tests.length === 0) {
@@ -39,7 +43,11 @@ TestsGroup.Tests = (): JSX.Element => {
   return (
     <div>
       {tests.map((test) => (
-        <TestSummary key={test.name} test={test} />
+        <TestSummary
+          key={test.name}
+          test={test}
+          defaultOpen={test.defaultOpen}
+        />
       ))}
     </div>
   )

@@ -74,6 +74,7 @@ module.exports = {
       tabColorSelected: 'var(--tabColorSelected)',
       tabIconColorSelected: 'var(--tabIconColorSelected)',
       successColor: 'var(--successColor)',
+      lockedColor: 'var(--lockedColor)',
 
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
@@ -128,6 +129,7 @@ module.exports = {
       rareBadge: '#9FB4FF',
 
       white: '#fff',
+      black: '#000',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],
@@ -213,7 +215,8 @@ module.exports = {
       '-3': '-3',
       '-4': '-4',
       menu: '40',
-      tooltip: '50',
+      dropdown: '50',
+      tooltip: '80',
       modal: '100',
     },
   },

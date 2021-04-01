@@ -43,6 +43,7 @@ import '../../css/components/reputation'
 import '../../css/components/primary-reputation'
 import '../../css/components/site-header'
 import '../../css/components/tab'
+import '../../css/components/tab-2'
 import '../../css/components/textual-content'
 import '../../css/components/tracks-list'
 import '../../css/components/pagination'
@@ -55,17 +56,16 @@ import '../../css/components/tooltips/user'
 import '../../css/components/tooltips/exercise'
 import '../../css/components/user_activity'
 import '../../css/components/search-bar'
-import '../../css/components/published-solution'
+import '../../css/components/community-solution'
 import '../../css/components/iteration-processing-status'
 import '../../css/components/notification-dot'
 
-import '../../css/components/mentor/nav'
+import '../../css/components/mentor/header'
 import '../../css/components/mentor/inbox'
 import '../../css/components/mentor/solution-row'
 import '../../css/components/mentor/discussion'
 
-import '../../css/components/track/generic-nav'
-import '../../css/components/track/top-level-nav'
+import '../../css/components/track/header'
 import '../../css/components/track/concept-nav'
 import '../../css/components/track/concept-map'
 import '../../css/components/iteration-pane'
@@ -91,6 +91,8 @@ import '../../css/modals/change-mentor-tracks'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
+import '../../css/dropdowns/open-editor-button'
+import '../../css/dropdowns/track-switcher'
 
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
@@ -107,6 +109,7 @@ import '../../css/pages/concept-show'
 import '../../css/pages/exercise-show'
 import '../../css/pages/exercises-index'
 import '../../css/pages/iterations-index'
+import '../../css/pages/community-solutions-index'
 import '../../css/pages/track-index'
 import '../../css/pages/track-show-joined'
 import '../../css/pages/track-show-unjoined'
@@ -151,12 +154,12 @@ import {
   MentorDiscussion,
   MentoredTrack,
   SolutionForStudent,
+  CommunitySolution,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
   Student as MentoringSessionStudent,
   Links as MentoringSessionLinks,
-  MentorSolution as MentoringSessionMentorSolution,
   StudentMentorRelationship,
 } from '../components/mentoring/Session'
 import {
@@ -197,6 +200,18 @@ initReact({
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-community-solution': (data: any) => (
+    <Common.CommunitySolution
+      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
+      context={data.context}
+    />
+  ),
+  'common-community-solution-list': (data: any) => (
+    <Common.CommunitySolutionList
+      request={camelizeKeysAs<Request>(data.request)}
+      context={data.context}
+    />
+  ),
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}
@@ -225,9 +240,7 @@ initReact({
     <Mentoring.Session
       userId={data.user_id}
       discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
-      mentorSolution={camelizeKeysAs<MentoringSessionMentorSolution>(
-        data.mentor_solution
-      )}
+      mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
@@ -260,8 +273,15 @@ initReact({
   ),
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart
-      exerciseStatuses={data.exercise_statuses}
+      exercisesData={data.exercises_data}
       links={data.links}
+    />
+  ),
+  'student-open-editor-button': (data: any) => (
+    <Student.OpenEditorButton
+      status={data.status}
+      links={data.links}
+      command={data.command}
     />
   ),
   'student-complete-exercise-button': (data: any) => (

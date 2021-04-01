@@ -15,23 +15,23 @@
             = track_icon track
             = icon "completed-check-circle", "Completed", css_class: "completed-icon"
 
-        = render ReactComponents::Student::ExerciseStatusChart.new(@track)
+        = render ReactComponents::Student::ExerciseStatusChart.new(track)
 
         .key
           .item
-            .c-ed.--c
+            .c-ed.--completed
             .status Completed
             .count= exercise_statuses.count { |_, s| %i[completed published].include?(s) }
           .item
-            .c-ed.--ip
+            .c-ed.--in_progress
             .status In-progress
             .count= exercise_statuses.count { |_, s| %i[in_progress started].include?(s) }
           .item
-            .c-ed.--a
+            .c-ed.--available
             .status Available
             .count= exercise_statuses.count { |_, s| s == :available }
           .item
-            .c-ed.--l
+            .c-ed.--locked
             .status Locked
             .count= exercise_statuses.count { |_, s| s == :locked }
           .item.total

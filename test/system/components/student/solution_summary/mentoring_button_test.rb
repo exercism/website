@@ -18,6 +18,7 @@ module Components::Student
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
@@ -39,6 +40,7 @@ module Components::Student
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
@@ -67,6 +69,7 @@ module Components::Student
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
         solution.update_mentoring_status!
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
@@ -87,6 +90,7 @@ module Components::Student
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)

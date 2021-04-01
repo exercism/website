@@ -2,7 +2,7 @@
   %header.main-header
     %section.info-section
       .lg-container.container
-        = avatar(@user.first)
+        = avatar(User.first)
         .info
           .heading
             %h1= @user.name
@@ -80,7 +80,7 @@
 
         .solutions
           - @solutions.each do |solution|
-            = render ViewComponents::PublishedSolution.new(solution)
+            = render ReactComponents::Common::CommunitySolution.new(solution, context: :profile)
 
         = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
 

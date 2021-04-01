@@ -107,7 +107,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
       ops_status: 403,
       raw_results: {
         version: version,
-        output: "\e[31mHello\e[0m\e[34mWorld\e[0"
+        output: "\e[31mHello\e[0m\e[K\e[34mWorld\e[0"
       }
 
     serialized = SerializeSubmissionTestRun.(test_run)

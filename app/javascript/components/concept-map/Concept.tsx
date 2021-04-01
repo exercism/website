@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { ConceptTooltip } from '../tooltips'
 
-import { IConcept, ConceptStatus, ExerciseStatus } from './concept-map-types'
+import { IConcept, ConceptStatus, ExerciseData } from './concept-map-types'
 
 import { emitConceptElement } from './helpers/concept-element-svg-handler'
 import {
@@ -17,7 +17,7 @@ type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
   handleLeave: MouseEventHandler
   status: ConceptStatus
-  exerciseStatuses: ExerciseStatus[]
+  exercisesData: ExerciseData[]
   isActive: boolean
   isActiveHover: boolean
 }
@@ -30,7 +30,7 @@ export const Concept = ({
   handleEnter,
   handleLeave,
   status,
-  exerciseStatuses,
+  exercisesData,
   isActive,
   isActiveHover,
 }: ConceptProps): JSX.Element => {
@@ -86,9 +86,7 @@ export const Concept = ({
             {name}
           </span>
         </div>
-        {!isLocked && (
-          <PureExerciseStatusBar exerciseStatuses={exerciseStatuses} />
-        )}
+        {!isLocked && <PureExerciseStatusBar exercisesData={exercisesData} />}
       </a>
       <ConceptTooltip
         contentEndpoint={tooltipUrl}

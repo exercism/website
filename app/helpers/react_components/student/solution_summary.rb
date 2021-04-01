@@ -5,8 +5,7 @@ module ReactComponents
 
       def to_s
         super("student-solution-summary", {
-          solution: SerializeSolutionForStudent.(solution),
-          # TODO: Where should we put this?
+          solution: SerializeSolution.(solution),
           track: {
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time

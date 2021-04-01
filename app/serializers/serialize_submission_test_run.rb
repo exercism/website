@@ -37,7 +37,10 @@ class SerializeSubmissionTestRun
   def output
     return if test_run.output.blank?
 
-    Ansi::To::Html.new(test_run.output).to_html
+    # The ansi-to-html library does not support unicode escape sequence
+    # See https://github.com/rburns/ansi-to-html/issues/48
+    sanitized_output = test_run.output.gsub("\e\[K", '')
+    Ansi::To::Html.new(sanitized_output).to_html
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react'
-import { TestRun, TestRunStatus } from './types'
+import { TestRun, TestRunStatus, TestStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
@@ -110,13 +110,22 @@ export const TestRunSummary = ({
 
 TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {
-    case TestRunStatus.FAIL:
+    case TestRunStatus.FAIL: {
+      const failed = testRun.tests.filter(
+        (test) =>
+          test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
+      )
+
       return (
         <div className="summary-status failed" role="status">
           <span className="--dot" />
-          <TestRunSummaryHeaderMessage version={testRun.version} />
+          <TestRunSummaryHeaderMessage
+            version={testRun.version}
+            numFailedTests={failed.length}
+          />
         </div>
       )
+    }
     case TestRunStatus.PASS:
       return (
         <div className="summary-status passed" role="status">

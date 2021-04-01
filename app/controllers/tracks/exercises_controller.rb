@@ -22,14 +22,24 @@ class Tracks::ExercisesController < ApplicationController
   def tooltip
     render json: {
       exercise: SerializeExercise.(@exercise, user_track: @user_track),
-      solution: (@solution ? SerializeSolutionForStudent.(@solution) : nil),
+      solution: (@solution ? SerializeSolution.(@solution) : nil),
       track: SerializeTrack.(@exercise.track, @user_track)
     }
   end
 
   def start
     Solution::Create.(current_user, @exercise)
-    redirect_to action: :edit
+
+    respond_to do |format|
+      format.html { redirect_to action: :edit }
+      format.json do
+        render json: {
+          links: {
+            exercise: Exercism::Routes.edit_track_exercise_path(@exercise.track, @exercise)
+          }
+        }
+      end
+    end
   end
 
   def edit; end

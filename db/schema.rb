@@ -337,7 +337,7 @@ ActiveRecord::Schema.define(version: 2021_03_28_130408) do
     t.json "raw_results", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "version", limit: 1, default: 2, null: false
+    t.integer "version", limit: 1, default: 0, null: false
     t.text "output"
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
   end

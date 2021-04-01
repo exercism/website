@@ -120,19 +120,24 @@ class Solution < ApplicationRecord
     update(mentoring_status: new_status) if mentoring_status != new_status
   end
 
-  # TODO: Erik
+  # TODO
+  def num_views
+    1270
+  end
+
+  # TODO
   def num_loc
-    9
+    18
   end
 
-  # TODO: Erik
+  # TODO
   def num_stars
-    9
+    10
   end
 
-  # TODO: Erik
+  # TODO
   def num_comments
-    9
+    3
   end
 
   # TODO: Erik
@@ -150,8 +155,9 @@ public class Year
     '.strip
   end
 
-  def editor_language
-    track.slug
+  # TODO
+  def out_of_date?
+    true
   end
 
   def solution_files

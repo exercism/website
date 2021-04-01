@@ -14,7 +14,7 @@ module Student
         component,
         "student-solution-summary",
         {
-          solution: SerializeSolutionForStudent.(solution),
+          solution: SerializeSolution.(solution),
           track: {
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time

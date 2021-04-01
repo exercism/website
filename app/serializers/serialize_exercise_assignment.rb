@@ -15,7 +15,7 @@ class SerializeExerciseAssignment
   def overview
     # Practice exercises don't have any tasks, so we can just return
     # the entire instructions without doing any parsing
-    return instructions if exercise.practice_exercise?
+    return Markdown::Parse.(instructions) if exercise.practice_exercise?
 
     # Instructions documents are structured as a series of headers and lists:
     # e.g.

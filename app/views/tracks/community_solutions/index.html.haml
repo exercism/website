@@ -1,0 +1,4 @@
+#page-community-solutions-index
+  = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :community_solutions)
+
+  = render ReactComponents::Common::CommunitySolutionList.new(@exercise, context: :exercise)

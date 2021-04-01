@@ -6,8 +6,8 @@ module ReactComponents
       super(
         "editor",
         {
-          exercise_path: Exercism::Routes.track_exercise_path(solution.track, solution.exercise),
-          track_title: solution.track.title,
+          exercise_path: Exercism::Routes.track_exercise_path(track, solution.exercise),
+          track_title: track.title,
           exercise_title: solution.exercise.title,
           introduction: introduction,
           assignment: SerializeExerciseAssignment.(solution.exercise),
@@ -19,7 +19,7 @@ module ReactComponents
           ),
           submission: SerializeSubmission.(solution.submissions.last),
           files: SerializeFiles.(solution.solution_files),
-          language: solution.editor_language,
+          language: track.editor_language,
           storage_key: solution.uuid
         }
       )
@@ -38,9 +38,9 @@ module ReactComponents
 
     memoize
     def debugging_instructions
-      return if solution.track.debugging_instructions.blank?
+      return if track.debugging_instructions.blank?
 
-      Markdown::Parse.(solution.track.debugging_instructions)
+      Markdown::Parse.(track.debugging_instructions)
     end
 
     # TODO: remove this before launch
@@ -48,6 +48,11 @@ module ReactComponents
       return solution.exercise.send(:git).exemplar_files if solution.exercise.concept_exercise?
 
       solution.exercise.send(:git).example_files
+    end
+
+    memoize
+    def track
+      solution.track
     end
   end
 end

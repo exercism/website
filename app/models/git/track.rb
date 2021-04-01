@@ -35,6 +35,26 @@ module Git
     end
 
     memoize
+    def has_concept_exercises?
+      config[:status][:concept_exercises]
+    end
+
+    memoize
+    def has_test_runner?
+      config[:status][:test_runner]
+    end
+
+    memoize
+    def has_representer?
+      config[:status][:representer]
+    end
+
+    memoize
+    def has_analyzer?
+      config[:status][:analyzer]
+    end
+
+    memoize
     def commit
       repo.lookup_commit(git_sha)
     end

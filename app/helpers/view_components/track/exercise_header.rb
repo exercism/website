@@ -31,23 +31,12 @@ module ViewComponents
                 link_to(
                   graphical_icon('community-solutions') +
                   tag.span("Community Solutions", "data-text": "Community Solutions"),
-                  "#",
+                  Exercism::Routes.track_exercise_community_solutions_path(track, exercise),
                   class: tab_class(:community_solutions)
                 )
               ]
             )
-          end +
-            tag.div(class: "c-combo-button") do
-              link_to(
-                "Open Editor",
-                Exercism::Routes.start_track_exercise_path(track, exercise),
-                method: :patch,
-                class: "--primary-segment"
-              ) +
-                tag.button(class: "--dropdown-segment") do
-                  graphical_icon('chevron-down')
-                end
-            end
+          end + (render ::ReactComponents::Student::OpenEditorButton.new(exercise))
         end
       end
 

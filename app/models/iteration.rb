@@ -1,5 +1,5 @@
 class Iteration < ApplicationRecord
-  belongs_to :solution
+  belongs_to :solution, counter_cache: :num_iterations
   belongs_to :submission
 
   has_many :mentor_discussion_posts, class_name: "Mentor::DiscussionPost", dependent: :destroy

@@ -6,7 +6,7 @@ class Solution
 
     def call
       ActiveRecord::Base.transaction do
-        mark_concepts_as_learnt!
+        mark_concepts_as_learnt! if exercise.concept_exercise?
         mark_solution_as_complete!
       end
       record_activity!
@@ -17,8 +17,6 @@ class Solution
       solution.update!(completed_at: Date.current)
     end
 
-    # TODO: Check if the exercise is a concept_exercise
-    # before doing this.
     def mark_concepts_as_learnt!
       exercise.taught_concepts.each do |concept|
         user_track.learnt_concepts << concept

@@ -84,10 +84,10 @@ const Tab = ({
 
 const STATUS_FILTERS = [
   new StatusFilter('All Exercises'),
-  new StatusFilter('Completed', ['published', 'completed'], 'c'),
-  new StatusFilter('In Progress', ['iterated', 'started'], 'ip'),
-  new StatusFilter('Available', ['available'], 'a'),
-  new StatusFilter('Locked', ['locked'], 'l'),
+  new StatusFilter('Completed', ['published', 'completed'], 'completed'),
+  new StatusFilter('In Progress', ['iterated', 'started'], 'in_progress'),
+  new StatusFilter('Available', ['available'], 'available'),
+  new StatusFilter('Locked', ['locked'], 'locked'),
 ]
 
 export const ExerciseList = ({

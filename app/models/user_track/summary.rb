@@ -66,6 +66,10 @@ class UserTrack
       exercise(obj).status
     end
 
+    def exercise_type(obj)
+      exercise(obj).type
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################

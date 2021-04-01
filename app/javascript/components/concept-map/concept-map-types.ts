@@ -51,14 +51,19 @@ export function isConceptPathProperties(
 }
 
 export type ConceptStatusIndex = { [key: string]: ConceptStatus }
-export type ExerciseStatusIndex = { [key: string]: ExerciseStatus[] }
+export type ExercisesDataIndex = { [key: string]: ExerciseData[] }
 
 export interface IConceptMap {
   concepts: IConcept[]
   levels: ConceptLayer[]
   connections: ConceptConnection[]
   status: ConceptStatusIndex
-  exerciseStatuses: ExerciseStatusIndex
+  exercisesData: ExercisesDataIndex
 }
 
 export type ConceptLayer = string[]
+
+export type ExerciseData = {
+  status: ExerciseStatus[]
+  type: string
+}

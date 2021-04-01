@@ -40,7 +40,10 @@ class UserTrack
         # slug for an exercise for some reason (this has happened
         # in local testing).
         exercise_slugs.map do |slug|
-          user_track.external? ? "available" : user_track.exercise_status(slug)
+          {
+            status: (user_track.external? ? "available" : user_track.exercise_status(slug)),
+            type: user_track.exercise_type(slug)
+          }
         end.compact
       end
     end

@@ -27,20 +27,20 @@ class UserTrack
           map { |e| e[:slug] }
 
         practice_exercises = practice_exercises_data.values.
-          select { |e| e[:prerequisites].include?(concept.slug) }.
+          select { |e| e[:practiced_concepts].include?(concept.slug) }.
           map { |e| e[:slug] }
 
         completed_solutions = solutions_data.values.select { |s| s[:completed] }
-        concept_solutions = completed_solutions.select { |s| concept_exercises.include?(s[:slug]) }
-        practice_solutions = completed_solutions.select { |s| practice_exercises.include?(s[:slug]) }
+        completed_concept_solutions = completed_solutions.select { |s| concept_exercises.include?(s[:slug]) }
+        completed_practice_solutions = completed_solutions.select { |s| practice_exercises.include?(s[:slug]) }
 
         hash[concept.slug] = {
           id: concept.id,
           slug: concept.slug,
           num_concept_exercises: concept_exercises.count,
           num_practice_exercises: practice_exercises.count,
-          num_completed_concept_exercises: concept_solutions.count,
-          num_completed_practice_exercises: practice_solutions.count,
+          num_completed_concept_exercises: completed_concept_solutions.count,
+          num_completed_practice_exercises: completed_practice_solutions.count,
           unlocked: unlocked_concepts.include?(concept.slug)
         }
       end
@@ -68,10 +68,11 @@ class UserTrack
     def exercises_data
       exercises = []
       exercises += track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a
-      exercises += track.practice_exercises.includes(:prerequisites).to_a
+      exercises += track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
 
       exercises.each_with_object({}) do |exercise, data|
-        prerequisites = exercise.prerequisites.map(&:slug)
+        prerequisite_concepts = exercise.prerequisites.map(&:slug)
+        practiced_concepts = exercise.practice_exercise? ? exercise.practiced_concepts.map(&:slug) : []
 
         solution_data = solutions_data[exercise.slug]
 
@@ -82,7 +83,7 @@ class UserTrack
         unlocked = !!(
           user_track && (
             solutions_data[exercise.slug] ||
-            (prerequisites - learnt_concepts).empty?
+            (prerequisite_concepts - learnt_concepts).empty?
           )
         )
 
@@ -97,7 +98,8 @@ class UserTrack
         exercise_data = {
           slug: exercise.slug,
           type: exercise.git_type.to_sym,
-          prerequisites: prerequisites,
+          prerequisite_concepts: prerequisite_concepts,
+          practiced_concepts: practiced_concepts,
           status: status,
           unlocked: unlocked,
           has_solution: !!solution_data,

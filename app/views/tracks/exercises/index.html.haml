@@ -1,5 +1,5 @@
 #page-exercises-index
-  = render ViewComponents::Track::TopLevelNav.new(@track, :exercises)
+  = render ViewComponents::Track::Header.new(@track, :exercises)
 
   %article.content
     - if @user_track.external?

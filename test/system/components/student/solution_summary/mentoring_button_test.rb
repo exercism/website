@@ -52,7 +52,12 @@ module Components::Student
         end
       end
 
-      test "shows discussions within nudge section" do
+      test "shows prompt again if mentoring finished" do
+        # TODO: Implement this so that once mentoring is done:
+        # 1. Don't show prompt
+        # 2. Do show option in the normal place to request
+        skip
+
         user = create :user
         mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
@@ -74,7 +79,7 @@ module Components::Student
         use_capybara_host do
           sign_in!(user)
           visit Exercism::Routes.private_solution_path(solution)
-          within(".mentoring-nudge") { find(".--dropdown-segment").click }
+          assert_css(".mentoring-discussion-nudge")
 
           assert_link "Request mentoring"
           assert_link "my-mentor",
@@ -95,7 +100,7 @@ module Components::Student
         use_capybara_host do
           sign_in!(user)
           visit Exercism::Routes.private_solution_path(solution)
-          within(".mentoring-nudge") { find(".--dropdown-segment").click }
+          within(".mentoring-prompt-nudge") { find(".--dropdown-segment").click }
 
           assert_link "Request mentoring"
           assert_text "Want to get mentored by a friend?"

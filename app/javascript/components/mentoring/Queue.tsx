@@ -54,9 +54,10 @@ export const Queue = ({
     status: exerciseListStatus,
     error: exerciseListError,
   } = useExerciseList({ track: selectedTrack })
-  const [selectedExercises, setSelectedExercises] = useState<
-    MentoredTrackExercise[]
-  >([])
+  const [
+    selectedExercise,
+    setSelectedExercise,
+  ] = useState<MentoredTrackExercise | null>(null)
   const {
     resolvedData,
     latestData,
@@ -72,12 +73,12 @@ export const Queue = ({
   } = useMentoringQueue({
     request: queueRequest,
     track: selectedTrack,
-    exercises: selectedExercises,
+    exercise: selectedExercise,
   })
 
   const handleReset = useCallback(() => {
     setSelectedTrack(tracks[0])
-    setSelectedExercises([])
+    setSelectedExercise(null)
   }, [tracks])
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export const Queue = ({
   }, [tracks])
 
   useEffect(() => {
-    setSelectedExercises([])
+    setSelectedExercise(null)
   }, [selectedTrack])
 
   return (
@@ -142,8 +143,8 @@ export const Queue = ({
           <ExerciseFilterList
             status={exerciseListStatus}
             exercises={exercises}
-            value={selectedExercises}
-            setValue={setSelectedExercises}
+            value={selectedExercise}
+            setValue={setSelectedExercise}
             error={exerciseListError}
           />
         </div>

@@ -6,8 +6,33 @@ import { QueryStatus } from 'react-query'
 
 export type Props = {
   exercises: MentoredTrackExercise[] | undefined
-  value: MentoredTrackExercise[]
-  setValue: (value: MentoredTrackExercise[]) => void
+  value: MentoredTrackExercise | null
+  setValue: (value: MentoredTrackExercise | null) => void
+}
+
+const AllExerciseFilter = ({
+  count,
+  checked,
+  iconUrl,
+  onChange,
+}: {
+  count: number
+  checked: boolean
+  iconUrl: string
+  onChange: (e: React.ChangeEvent) => void
+}): JSX.Element => {
+  return (
+    <label className="c-radio-wrapper">
+      <input type="radio" onChange={onChange} checked={checked} />
+      <div className="row">
+        <div className="c-radio" />
+        {/* TODO: Use correct icon */}
+        <ExerciseIcon iconUrl={iconUrl} />
+        <div className="title">All Exercises</div>
+        <div className="count">{count}</div>
+      </div>
+    </label>
+  )
 }
 
 const ExerciseFilter = ({
@@ -21,12 +46,10 @@ const ExerciseFilter = ({
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
   return (
-    <label className="c-checkbox-wrapper">
-      <input type="checkbox" onChange={onChange} checked={checked} />
+    <label className="c-radio-wrapper">
+      <input type="radio" onChange={onChange} checked={checked} />
       <div className="row">
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
+        <div className="c-radio" />
         <ExerciseIcon iconUrl={iconUrl} />
         <div className="title">{title}</div>
         <div className="count">{count}</div>
@@ -87,13 +110,9 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
 
   const handleChange = useCallback(
     (e, optionValue) => {
-      if (e.target.checked) {
-        setValue([...value, optionValue])
-      } else {
-        setValue(value.filter((v) => v !== optionValue))
-      }
+      setValue(optionValue)
     },
-    [setValue, value]
+    [setValue]
   )
 
   const handleShowCompletedExercises = useCallback(
@@ -103,23 +122,10 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
       }
 
       setIsShowingExercisesCompleted(e.target.checked)
-
-      if (!e.target.checked) {
-        setValue([])
-      }
-
-      setValue(exercises.filter((exercise) => exercise.completedByMentor))
+      setValue(null)
     },
     [exercises, setValue]
   )
-
-  const handleSelectAll = useCallback(() => {
-    setValue(exercisesToShow)
-  }, [exercisesToShow, setValue])
-
-  const handleSelectNone = useCallback(() => {
-    setValue([])
-  }, [setValue])
 
   const handleSearchBarChange = useCallback((e) => {
     setSearchQuery(e.target.value)
@@ -135,12 +141,6 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
           placeholder="Search by Exercise name"
         />
       </div>
-      <button type="button" onClick={handleSelectAll}>
-        Select all
-      </button>
-      <button type="button" onClick={handleSelectNone}>
-        Select none
-      </button>
       <label className="c-checkbox-wrapper">
         <input
           type="checkbox"
@@ -170,11 +170,23 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
         </div>
       </label>
       <div className="exercises">
+        <AllExerciseFilter
+          key="all"
+          onChange={(e) => handleChange(e, null)}
+          checked={value === null}
+          count={exercisesToShow.reduce(
+            (sum, exercise) => sum + exercise.count,
+            0
+          )}
+          iconUrl={
+            exercises && exercises.length > 0 ? exercises[0].iconUrl : ''
+          }
+        />
         {exercisesToShow.map((exercise) => (
           <ExerciseFilter
             key={exercise.slug}
             onChange={(e) => handleChange(e, exercise)}
-            checked={value.includes(exercise)}
+            checked={value === exercise}
             {...exercise}
           />
         ))}

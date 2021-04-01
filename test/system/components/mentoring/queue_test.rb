@@ -214,6 +214,8 @@ module Components
       end
 
       test "shows exercises that have been completed by mentor" do
+        skip
+
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor
@@ -231,42 +233,6 @@ module Components
 
         assert_text "on Tournament"
         assert_no_text "on Series"
-      end
-
-      test "selects all exercises" do
-        mentor = create :user
-        ruby = create :track, title: "Ruby"
-        create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create :mentor_request, exercise: series
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create :mentor_request, exercise: tournament
-
-        sign_in!(mentor)
-        visit mentoring_queue_path
-        find("label", text: "Series").click
-        click_on "Select all"
-
-        assert_text "on Series"
-        assert_text "on Tournament"
-      end
-
-      test "deselects all exercises" do
-        mentor = create :user
-        ruby = create :track, title: "Ruby"
-        create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create :mentor_request, exercise: series
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create :mentor_request, exercise: tournament
-
-        sign_in!(mentor)
-        visit mentoring_queue_path
-        find("label", text: "Series").click
-        click_on "Select none"
-
-        assert_text "on Series"
-        assert_text "on Tournament"
       end
     end
   end

@@ -26,6 +26,7 @@ gem 'octokit' # GitHub
 # General-purpose gems
 gem 'mandate', '1.0.0.beta1'
 gem 'kaminari'
+gem 'oj'
 
 # Setup dependencies
 gem 'exercism-config', '>= 0.62.0'

@@ -33,6 +33,11 @@ export type SolutionMentoringStatus =
   | 'in_progress'
   | 'finished'
 
+export type DiscussionStatus =
+  | 'requires_mentor_action'
+  | 'requires_student_action'
+  | 'finished'
+
 export type CommunitySolution = {
   id: string
   snippet: string

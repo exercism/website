@@ -19,13 +19,22 @@ module ReactComponents
       ].freeze
       private_constant :SORT_OPTIONS
 
+      DEFAULT_STATUS = "requires_mentor_action".freeze
+      private_constant :DEFAULT_STATUS
+
       private
       def discussions_request
-        { endpoint: Exercism::Routes.api_mentoring_discussions_path }
+        {
+          endpoint: Exercism::Routes.api_mentoring_discussions_path,
+          query: { status: DEFAULT_STATUS }
+        }
       end
 
       def tracks_request
-        { endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path }
+        {
+          endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,
+          query: { status: DEFAULT_STATUS }
+        }
       end
     end
   end

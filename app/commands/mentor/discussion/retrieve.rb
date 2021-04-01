@@ -10,11 +10,16 @@ module Mentor
       end
 
       def initialize(user,
+                     status,
                      page: nil,
                      criteria: nil, order: nil,
                      track_slug: nil,
                      sorted: true, paginated: true)
+
+        # TODO: Guard valid status
+
         @user = user
+        @status = status.to_sym
         @page = page || 1
         @track_slug = track_slug
         @criteria = criteria
@@ -26,6 +31,7 @@ module Mentor
 
       def call
         setup!
+        filter_status!
         filter_track! if track_slug.present?
         search! if criteria.present?
         sort! if sorted?
@@ -35,7 +41,7 @@ module Mentor
       end
 
       private
-      attr_reader :user, :page, :track_slug, :criteria, :order
+      attr_reader :user, :status, :page, :track_slug, :criteria, :order
 
       %i[sorted paginated].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
@@ -45,8 +51,18 @@ module Mentor
         @discussions = Mentor::Discussion.
           joins(solution: :exercise).
           includes(solution: [:user, { exercise: :track }]).
-          where(mentor: user).
-          requires_mentor_action
+          where(mentor: user)
+      end
+
+      def filter_status!
+        case status
+        when :requires_mentor_action
+          @discussions = @discussions.requires_mentor_action
+        when :requires_student_action
+          @discussions = @discussions.requires_student_action
+        when :finished
+          @discussions = @discussions.finished
+        end
       end
 
       # TODO: This is just a stub implementation

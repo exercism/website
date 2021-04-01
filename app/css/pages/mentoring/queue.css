@@ -1,10 +1,6 @@
 @import "../../styles";
 
 #mentor-queue-page {
-    & .c-mentor-nav {
-        @apply mb-40;
-    }
-
     & header.header {
         @apply flex flex-col items-center;
         @apply mb-48;

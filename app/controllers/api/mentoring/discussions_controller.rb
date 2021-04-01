@@ -4,21 +4,34 @@ module API
     def index
       discussions = ::Mentor::Discussion::Retrieve.(
         current_user,
+        params[:status],
         page: params[:page],
         track_slug: params[:track],
         criteria: params[:criteria],
         order: params[:order]
       )
 
+      all_discussions = Mentor::Discussion.
+        joins(solution: :exercise).
+        includes(solution: [:user, { exercise: :track }]).
+        where(mentor: current_user)
+
       render json: SerializePaginatedCollection.(
         discussions,
-        serializer: SerializeMentorDiscussions
+        serializer: SerializeMentorDiscussions,
+        meta: {
+          requires_mentor_action_total: all_discussions.requires_mentor_action.count,
+          requires_student_action_total: all_discussions.requires_student_action.count,
+          finished_total: all_discussions.finished.count
+        }
       )
     end
 
     def tracks
       track_counts = Mentor::Discussion::Retrieve.(
-        current_user, sorted: false, paginated: false
+        current_user,
+        params[:status],
+        sorted: false, paginated: false
       ).group(:track_id).count
 
       tracks = Track.where(id: track_counts.keys).index_by(&:id)

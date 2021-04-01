@@ -3,4 +3,5 @@
 /* See also track/header */
 
 .c-mentor-header {
+    @apply mb-40;
 }

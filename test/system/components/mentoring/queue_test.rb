@@ -52,6 +52,7 @@ module Components
         visit mentoring_queue_path
         click_on "2"
 
+        sleep(1)
         assert_text "on Tournament"
       end
 

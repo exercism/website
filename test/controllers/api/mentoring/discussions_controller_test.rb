@@ -15,7 +15,8 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     discussion = create :mentor_discussion, :requires_mentor_action, mentor: user
 
-    get api_mentoring_discussions_path, headers: @headers, as: :json
+    get api_mentoring_discussions_path(status: :requires_mentor_action),
+      headers: @headers, as: :json
     assert_response 200
 
     # TODO: Check JSON
@@ -42,7 +43,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
     create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
 
-    get tracks_api_mentoring_discussions_path(per: 1), headers: @headers, as: :json
+    get tracks_api_mentoring_discussions_path(per: 1, status: :requires_mentor_action), headers: @headers, as: :json
     assert_response 200
 
     expected = [

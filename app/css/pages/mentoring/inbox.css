@@ -1,25 +1,4 @@
 @import "../../styles";
 
 #mentor-inbox-page {
-    & .c-mentor-nav {
-        @apply mb-40;
-    }
-
-    & header.header {
-        @apply flex flex-col items-center;
-        @apply mb-48;
-
-        & .c-icon {
-            height: 64px;
-            width: 64px;
-            @apply mb-16;
-        }
-        & h2 {
-            @apply text-h2;
-            @apply mb-8;
-        }
-        & .subtitle {
-            @apply text-18 leading-huge;
-        }
-    }
 }

@@ -15,11 +15,13 @@ export const StatusTab = ({
     setStatus(status)
   }, [setStatus, status])
 
+  const selected = currentStatus === status
   return (
     <button
       type="button"
       onClick={handleClick}
-      disabled={currentStatus === status}
+      disabled={selected}
+      className={`c-tab ${selected ? 'selected' : null}`}
     >
       {children}
     </button>

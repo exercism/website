@@ -34,37 +34,44 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
   }
 
   return (
-    <div>
-      <StatusTab
-        status="requires_mentor_action"
-        currentStatus={request.query.status}
-        setStatus={setStatus}
-      >
-        Inbox
-        {resolvedData ? (
-          <span>{resolvedData.meta.requiresMentorActionTotal}</span>
-        ) : null}
-      </StatusTab>
-      <StatusTab
-        status="requires_student_action"
-        currentStatus={request.query.status}
-        setStatus={setStatus}
-      >
-        Awaiting student
-        {resolvedData ? (
-          <span>{resolvedData.meta.requiresStudentActionTotal}</span>
-        ) : null}
-      </StatusTab>
-      <StatusTab
-        status="finished"
-        currentStatus={request.query.status}
-        setStatus={setStatus}
-      >
-        Finished
-        {resolvedData ? <span>{resolvedData.meta.finishedTotal}</span> : null}
-      </StatusTab>
-      <div className="c-mentor-inbox">
-        <div></div>
+    <div className="c-mentor-inbox">
+      <div className="tabs">
+        <StatusTab
+          status="requires_mentor_action"
+          currentStatus={request.query.status}
+          setStatus={setStatus}
+        >
+          Inbox
+          {resolvedData ? (
+            <div className="count">
+              {resolvedData.meta.requiresMentorActionTotal}
+            </div>
+          ) : null}
+        </StatusTab>
+        <StatusTab
+          status="requires_student_action"
+          currentStatus={request.query.status}
+          setStatus={setStatus}
+        >
+          Awaiting student
+          {resolvedData ? (
+            <div className="count">
+              {resolvedData.meta.requiresStudentActionTotal}
+            </div>
+          ) : null}
+        </StatusTab>
+        <StatusTab
+          status="finished"
+          currentStatus={request.query.status}
+          setStatus={setStatus}
+        >
+          Finished
+          {resolvedData ? (
+            <div className="count">{resolvedData.meta.finishedTotal}</div>
+          ) : null}
+        </StatusTab>
+      </div>
+      <div className="container">
         <header className="c-search-bar">
           <TrackFilter
             request={tracksRequest}

@@ -12,14 +12,14 @@ module Mentor
       def initialize(mentor: nil,
                      page: 1,
                      criteria: nil, order: nil,
-                     track_slug: nil, exercise_slugs: nil,
+                     track_slug: nil, exercise_slug: nil,
                      sorted: true, paginated: true)
         @mentor = mentor
         @page = page
         @criteria = criteria
         @order = order
         @track_slug = track_slug
-        @exercise_slugs = exercise_slugs
+        @exercise_slug = exercise_slug
 
         @sorted = sorted
         @paginated = paginated
@@ -37,7 +37,7 @@ module Mentor
 
       private
       attr_reader :mentor, :page, :criteria, :order,
-        :track_slug, :exercise_slugs
+        :track_slug, :exercise_slug
 
       %i[sorted paginated].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
@@ -54,7 +54,7 @@ module Mentor
       def filter!
         @requests = @requests.where.not('solutions.user_id': mentor.id) if mentor
 
-        if exercise_slugs.present?
+        if exercise_slug.present?
           filter_exercises!
         else
           filter_track!
@@ -71,12 +71,12 @@ module Mentor
 
       def filter_exercises!
         return if track_slug.blank?
-        return if exercise_slugs.blank?
+        return if exercise_slug.blank?
 
         @requests = @requests.
           joins(solution: { exercise: :track }).
           where('tracks.slug': track_slug).
-          where('exercises.slug': exercise_slugs)
+          where('exercises.slug': exercise_slug)
       end
 
       def search!

@@ -65,9 +65,12 @@ module Git
     end
 
     def exercise_position
+      # The hello-world exercise is always the first exercise
+      return 0 if exercise_config[:slug] == 'hello-world'
+
       # Offset by 1 to account for the hello-world exercise always
-      # being the very first exercise and by the number of concept
-      # exercises to have them appear before practice exercises
+      # being the very first exercise and offset by the number of concept
+      # exercises to position practice exercises after concept exercises
       exercise_index + 1 + concept_exercises_config.length
     end
 

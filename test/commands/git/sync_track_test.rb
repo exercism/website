@@ -134,17 +134,18 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     actual_order = track.practice_exercises.order(:position).pluck(:slug)
-    expected_order = %w[allergies anagram bob hamming isogram leap space-age]
+    expected_order = %w[hello-world allergies anagram bob hamming isogram leap space-age]
     assert_equal expected_order, actual_order
   end
 
-  test "exercises use position from config with concept exercises before practice exercises" do
+  test "first position is for hello-world exercise, followed by concept exercises and then practice exercises" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
 
     Git::SyncTrack.(track)
 
     actual_order = track.exercises.order(:position).pluck(:slug)
     expected_order = %w[
+      hello-world
       arrays booleans lasagna numbers strings allergies
       anagram bob hamming isogram leap space-age
     ]

@@ -93,7 +93,7 @@ module Git
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: find_blurb(exercise_config[:slug], 'practice'),
-          position: position + 1 + concept_exercises_config.length,
+          position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + concept_exercises_config.length,
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           practiced_concepts: find_concepts(exercise_config[:practices]),
           deprecated: exercise_config[:deprecated] || false,

@@ -60,6 +60,15 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     assert_equal 9, exercise.position
   end
 
+  test "position is always 0 for hello-world exercise" do
+    exercise = create :practice_exercise, uuid: '33adf9eb-fbf4-4100-a9bb-2f334b9ee72f', position: 1, slug: 'hello-world', title: 'Hello World', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal 0, exercise.position
+  end
+
   test "adds new prerequisites defined in config.json" do
     exercise = create :practice_exercise, uuid: '4f12ede3-312e-482a-b0ae-dfd29f10b5fb', slug: 'leap', title: 'Leap', git_sha: "e84f87c9c527a2bbeb72e8013d32114809f1bee9", synced_to_git_sha: "e84f87c9c527a2bbeb72e8013d32114809f1bee9" # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :track_concept, slug: 'numbers', uuid: '162721bd-3d64-43ff-889e-6fb2eac75709')

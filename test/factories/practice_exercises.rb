@@ -15,5 +15,10 @@ FactoryBot.define do
     trait :random_slug do
       slug { SecureRandom.hex }
     end
+
+    factory :hello_world_exercise do
+      slug { "hello-world" }
+      title { "Hello, World!" }
+    end
   end
 end

@@ -590,7 +590,32 @@
         }
     }
     & article.mentoring-article {
-        @apply pt-72;
+        @apply pt-72 relative;
+        & .mentoring-locked-overlay {
+            @apply absolute;
+            @apply z-overlay;
+            @apply grid place-items-center;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* TODO: Make into var */
+            background: rgba(255, 255, 255, 0.8);
+
+            & .content {
+                @apply bg-backgroundColorA shadow-lg rounded-8;
+                @apply py-32 px-64;
+                @apply flex flex-col items-center justify-center;
+                & .c-icon {
+                    width: 64px;
+                    height: 64px;
+                    @apply mb-24;
+                }
+                & h3 {
+                    @apply text-h4;
+                }
+            }
+        }
 
         & .container {
             @apply flex flex-col;

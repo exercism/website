@@ -177,8 +177,9 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
   def setup_user_track
     track = create :track
     user_track = create :user_track, track: track
+    hello_world_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
 
-    [track, user_track]
+    [track, user_track, hello_world_solution]
   end
 
   def setup_concepts(track, *slugs)

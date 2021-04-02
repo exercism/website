@@ -89,6 +89,14 @@ class UserTrack
       mapped_exercises.values.select { |e| e.type == "practice" }.count(&:completed)
     end
 
+    def num_available_exercises
+      available_exercise_ids.size
+    end
+
+    def num_in_progress_exercises
+      in_progress_exercise_ids.size
+    end
+
     def unlocked_exercise_ids
       mapped_exercises.values.select(&:unlocked).map(&:id)
     end

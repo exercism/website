@@ -12,7 +12,7 @@ module Flows
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept
-      hello = create :practice_exercise, track: track, slug: "hello-world", title: "Hello World"
+      hello = create :practice_exercise, track: track, slug: "bob", title: "Bob"
       hello.prerequisites << basics_concept
 
       cars = create :concept_exercise, track: track, slug: "cars-assemble", title: "Cars Assemble"
@@ -37,7 +37,7 @@ module Flows
 
       assert_text "You've completed\nStrings!"
       assert_text "You've unlocked\n2 exercises"
-      assert_text "Hello World"
+      assert_text "Bob"
       assert_text "Cars Assemble"
       assert_text "Basics"
       assert_text "Conditionals"
@@ -54,7 +54,7 @@ module Flows
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept
-      hello = create :practice_exercise, track: track, slug: "hello-world", title: "Hello World"
+      hello = create :practice_exercise, track: track, slug: "bob", title: "Bob"
       hello.prerequisites << basics_concept
 
       cars = create :concept_exercise, track: track, slug: "cars-assemble", title: "Cars Assemble"
@@ -83,7 +83,7 @@ module Flows
 
         assert_text "You've completed\nStrings!"
         assert_text "You've unlocked\n2 exercises"
-        assert_text "Hello World"
+        assert_text "Bob"
         assert_text "Cars Assemble"
         assert_text "Basics"
         assert_text "Conditionals"

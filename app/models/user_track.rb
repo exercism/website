@@ -88,6 +88,7 @@ class UserTrack < ApplicationRecord
     :unlocked_concepts, :mastered_concepts,
     :unlocked_concept_exercises, :unlocked_practice_exercises,
     :unlocked_exercises, :available_exercises, :in_progress_exercises, :completed_exercises,
+    :num_available_exercises, :num_in_progress_exercises,
     to: :summary
 
   def reset_summary!

@@ -84,6 +84,8 @@ module Flows
       user = create :user
       track = create :track
       create :user_track, user: user, track: track
+      create :hello_world_solution, :completed, track: track, user: user
+
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, exercise: exercise, user: user
       submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli

@@ -15,6 +15,8 @@ module ViewComponents
 
       private
       def tabs
+        return if exercise.tutorial?
+
         tag.div(class: "lg-container navbar") do
           tag.div(class: "tabs") do
             safe_join(

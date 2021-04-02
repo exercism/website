@@ -11,20 +11,25 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: concept_exercise.icon_url,
       blurb: concept_exercise.blurb,
       difficulty: "easy",
-      is_unlocked: nil,
+      is_unlocked: true,
       is_recommended: nil,
       is_completed: nil,
-      links: {}
+      links: {
+        self: Exercism::Routes.track_exercise_path(concept_exercise.track, concept_exercise)
+      }
     }, {
       slug: practice_exercise.slug,
       title: practice_exercise.title,
       icon_url: practice_exercise.icon_url,
       blurb: practice_exercise.blurb,
       difficulty: "easy",
-      is_unlocked: nil,
+      is_unlocked: true,
       is_recommended: nil,
       is_completed: nil,
-      links: {}
+      links: {
+        self: Exercism::Routes.track_exercise_path(practice_exercise.track, practice_exercise)
+      }
+
     }]
 
     assert_equal expected, SerializeExercises.(
@@ -39,6 +44,8 @@ class SerializeExercisesTest < ActiveSupport::TestCase
     concept_exercise = create :concept_exercise, track: track
     practice_exercise = create :practice_exercise, track: track
     create :exercise_prerequisite, exercise: practice_exercise
+
+    create :hello_world_solution, :completed, track: track, user: user
 
     expected = [{
       slug: concept_exercise.slug,

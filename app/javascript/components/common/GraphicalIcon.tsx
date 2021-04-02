@@ -17,6 +17,11 @@ export function GraphicalIcon({
   const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
 
   return (
-    <img src={iconFile} role="presentation" className={classNames.join(' ')} />
+    <img
+      src={iconFile}
+      alt=""
+      role="presentation"
+      className={classNames.join(' ')}
+    />
   )
 }

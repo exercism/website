@@ -1,7 +1,7 @@
 import React from 'react'
 import pluralize from 'pluralize'
 import { Track } from '../TrackSelector'
-import { Icon } from '../../common'
+import { Icon, TrackIcon } from '../../common'
 
 export const TrackCheckbox = ({
   id,
@@ -30,12 +30,7 @@ export const TrackCheckbox = ({
             <Icon icon="checkmark" alt="Track selected" />
           </div>
         ) : null}
-        {/* TODO: @iHiD I'm confused what to use here. icon URL or icon name? */}
-        <img
-          src={iconUrl}
-          className="c-icon c-track-icon"
-          role="presentation"
-        />
+        <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
         <div className="info">
           Avg. wait time ~ {avgWaitTime}

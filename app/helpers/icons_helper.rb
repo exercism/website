@@ -3,17 +3,17 @@ module IconsHelper
     icon(icon, nil, role: :presentation, css_class: css_class, category: category, hex: hex)
   end
 
-  def icon(icon, alt, role: 'img', category: 'icons', css_class: nil, hex: false)
+  def icon(icon, alt, role: nil, category: 'icons', css_class: nil, hex: false)
     return if icon.blank?
 
     if hex
       tag.div(class: "c-icon #{css_class} --hex") do
-        image_pack_tag "#{category}/#{icon}.svg", role: role, alt: alt
+        image_pack_tag "#{category}/#{icon}.svg", role: role, alt: alt.to_s
       end
     else
       image_pack_tag "#{category}/#{icon}.svg",
         role: role,
-        alt: alt,
+        alt: alt.to_s,
         class: "c-icon #{css_class} #{'--hex' if hex}".strip
     end
   rescue StandardError => e

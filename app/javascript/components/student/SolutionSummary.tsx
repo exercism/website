@@ -86,6 +86,7 @@ export const SolutionSummary = ({
   return (
     <>
       <Nudge
+        status={solution.status}
         mentoringStatus={solution.mentoringStatus}
         track={track}
         discussions={discussions}

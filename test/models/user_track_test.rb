@@ -49,6 +49,7 @@ class UserTrackTest < ActiveSupport::TestCase
   test "exercise_unlocked? with no prerequisites" do
     exercise = create :concept_exercise
     user_track = create :user_track, track: exercise.track
+    create :hello_world_solution, :completed, track: user_track.track, user: user_track.user
     assert user_track.exercise_unlocked?(exercise)
   end
 
@@ -63,6 +64,7 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
 
     user_track = create :user_track, track: track
+    create :hello_world_solution, :completed, track: track, user: user_track.user
     refute user_track.exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
@@ -97,6 +99,7 @@ class UserTrackTest < ActiveSupport::TestCase
 
     user = create :user
     user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
 
     assert_equal [basics, recursion], user_track.unlocked_concepts
     assert_empty user_track.learnt_concepts
@@ -167,10 +170,12 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
     user_track = create :user_track, track: track
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
+    hello_world = hw_solution.exercise
 
-    assert_equal [concept_exercise_1, practice_exercise_1], user_track.unlocked_exercises
+    assert_equal [concept_exercise_1, practice_exercise_1, hello_world], user_track.unlocked_exercises
     assert_equal [concept_exercise_1], user_track.unlocked_concept_exercises
-    assert_equal [practice_exercise_1], user_track.unlocked_practice_exercises
+    assert_equal [practice_exercise_1, hello_world], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
     user_track.reset_summary!
@@ -180,11 +185,12 @@ class UserTrackTest < ActiveSupport::TestCase
       concept_exercise_1,
       concept_exercise_2,
       practice_exercise_1,
-      practice_exercise_2
+      practice_exercise_2,
+      hello_world
     ], user_track.unlocked_exercises
 
     assert_equal [concept_exercise_1, concept_exercise_2], user_track.unlocked_concept_exercises
-    assert_equal [practice_exercise_1, practice_exercise_2], user_track.unlocked_practice_exercises
+    assert_equal [practice_exercise_1, practice_exercise_2, hello_world], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
     user_track.reset_summary!
@@ -192,7 +198,8 @@ class UserTrackTest < ActiveSupport::TestCase
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [
       concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
-      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4
+      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4,
+      hello_world
     ], user_track.unlocked_exercises
 
     assert_equal [
@@ -206,7 +213,8 @@ class UserTrackTest < ActiveSupport::TestCase
       practice_exercise_1,
       practice_exercise_2,
       practice_exercise_3,
-      practice_exercise_4
+      practice_exercise_4,
+      hello_world
     ], user_track.unlocked_practice_exercises
   end
 

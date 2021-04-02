@@ -37,6 +37,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     track = create :track
     concept = create :track_concept, track: track
     ut = create :user_track, track: track
+    create :hello_world_solution, :completed, track: track, user: ut.user
 
     ce_1 = create :concept_exercise, :random_slug, track: track
     ce_1.taught_concepts << concept
@@ -129,7 +130,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
       num_practice_exercises: 2,
       num_completed_concept_exercises: 0,
       num_completed_practice_exercises: 0,
-      unlocked: false
+      unlocked: true
     )
     assert_equal expected, summary.concept(concept.slug)
   end

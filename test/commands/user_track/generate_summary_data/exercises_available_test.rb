@@ -1,16 +1,33 @@
 require "test_helper"
 
 class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::TestCase
+  test "exercise_unlocked? with tutorial pending" do
+    track = create :track
+    user_track = create :user_track, track: track
+    hello_world = create :hello_world_exercise, track: track
+    exercise = create :concept_exercise, :random_slug, track: track
+
+    summary = summary_for(user_track)
+    assert summary.exercise_unlocked?(hello_world)
+    refute summary.exercise_unlocked?(exercise)
+
+    create :practice_solution, :completed, exercise: hello_world, user: user_track.user
+    summary = summary_for(user_track)
+    assert summary.exercise_unlocked?(hello_world)
+    assert summary.exercise_unlocked?(exercise)
+  end
+
   test "exercise_unlocked? with no prerequisites" do
     track = create :track
-    exercise = create :concept_exercise, :random_slug, track: track
     user_track = create :user_track, track: track
+    create :hello_world_solution, :completed, track: track, user: user_track.user
+
+    exercise = create :concept_exercise, :random_slug, track: track
     assert summary_for(user_track).exercise_unlocked?(exercise)
   end
 
   test "exercise_unlocked? with prerequisites" do
     track = create :track
-    user_track = create :user_track, track: track
     exercise = create :concept_exercise, :random_slug, track: track
 
     prereq_1 = create :track_concept, track: track
@@ -18,6 +35,9 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
     prereq_2 = create :track_concept, track: track
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
+
+    user_track = create :user_track, track: track
+    create :hello_world_solution, :completed, track: track, user: user_track.user
 
     refute summary_for(user_track).exercise_unlocked?(exercise)
 
@@ -51,6 +71,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
     user = create :user
     user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
 
     summary = summary_for(user_track)
     assert_equal [basics, recursion].map(&:id), summary.unlocked_concept_ids
@@ -101,16 +122,19 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_2)
     create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
+
     user_track = create :user_track, track: track
+    hello_world_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
 
     summary = summary_for(user_track)
     assert_equal [
-      concept_exercise_1, practice_exercise_1
+      hello_world_solution.exercise, concept_exercise_1, practice_exercise_1
     ].map(&:id).sort, summary.unlocked_exercise_ids.sort
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     summary = summary_for(user_track)
     assert_equal [
+      hello_world_solution.exercise,
       concept_exercise_1,
       practice_exercise_1,
       concept_exercise_2,
@@ -120,6 +144,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     summary = summary_for(user_track)
     assert_equal [
+      hello_world_solution.exercise,
       concept_exercise_1, practice_exercise_1,
       concept_exercise_2, concept_exercise_3, concept_exercise_4,
       practice_exercise_2, practice_exercise_3, practice_exercise_4

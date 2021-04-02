@@ -63,6 +63,14 @@ class UserTrack
       end
     end
 
+    def exercise_is_unlocked?(exercise, tutorial_pending, prerequisite_concepts)
+      return true unless user_track
+      return true if solutions_data[exercise.slug]
+      return exercise.tutorial? if tutorial_pending
+
+      (prerequisite_concepts - learnt_concepts).empty?
+    end
+
     private
     memoize
     def exercises_data
@@ -70,9 +78,11 @@ class UserTrack
       exercises += track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a
       exercises += track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
 
+      tutorial_pending = solutions_data.none? { |_, s| s[:completed] }
+
       exercises.each_with_object({}) do |exercise, data|
-        prerequisite_concepts = exercise.prerequisites.map(&:slug)
-        practiced_concepts = exercise.practice_exercise? ? exercise.practiced_concepts.map(&:slug) : []
+        prerequisite_concepts = exercise.prerequisites.pluck(:slug)
+        practiced_concepts = exercise.practice_exercise? ? exercise.practiced_concepts.pluck(:slug) : []
 
         solution_data = solutions_data[exercise.slug]
 
@@ -80,12 +90,7 @@ class UserTrack
         # - They've started
         # - There are no outstanding prereqs
         # - There is a user track
-        unlocked = !!(
-          user_track && (
-            solutions_data[exercise.slug] ||
-            (prerequisite_concepts - learnt_concepts).empty?
-          )
-        )
+        unlocked = exercise_is_unlocked?(exercise, tutorial_pending, prerequisite_concepts)
 
         if solution_data
           status = solution_data[:status]
@@ -105,7 +110,7 @@ class UserTrack
           has_solution: !!solution_data,
           completed: solution_data&.fetch(:completed) || false
         }
-        exercise_data[:taught_concepts] = exercise.taught_concepts.map(&:slug) if exercise.concept_exercise?
+        exercise_data[:taught_concepts] = exercise.taught_concepts.pluck(:slug) if exercise.concept_exercise?
         data[exercise.slug] = exercise_data
       end
     end
@@ -138,7 +143,7 @@ class UserTrack
     def learnt_concepts
       return [] unless user_track
 
-      user_track.learnt_concepts.map(&:slug)
+      user_track.learnt_concepts.pluck(:slug)
     end
 
     memoize

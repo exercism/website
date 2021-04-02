@@ -11,7 +11,7 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: concept_exercise.icon_url,
       blurb: concept_exercise.blurb,
       difficulty: "easy",
-      is_unlocked: nil,
+      is_unlocked: true,
       is_recommended: nil,
       is_completed: nil,
       links: {}
@@ -21,7 +21,7 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: practice_exercise.icon_url,
       blurb: practice_exercise.blurb,
       difficulty: "easy",
-      is_unlocked: nil,
+      is_unlocked: true,
       is_recommended: nil,
       is_completed: nil,
       links: {}

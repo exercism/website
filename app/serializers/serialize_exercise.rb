@@ -24,7 +24,7 @@ class SerializeExercise
   attr_reader :exercise, :user_track
 
   def unlocked?
-    user_track ? user_track.exercise_unlocked?(exercise) : nil
+    user_track ? user_track.exercise_unlocked?(exercise) : true
   end
 
   def recommended?

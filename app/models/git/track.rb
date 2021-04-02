@@ -74,6 +74,10 @@ module Git
       repo.lookup_commit(git_sha)
     end
 
+    def find_exercise(uuid)
+      find_concept_exercise(uuid) || find_practice_exercise(uuid)
+    end
+
     def find_concept_exercise(uuid)
       concept_exercises.find { |e| e[:uuid] == uuid }
     end

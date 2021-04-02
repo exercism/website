@@ -29,7 +29,7 @@ module Git
 
     memoize
     def head_git_exercise
-      exercise_config = head_git_track.find_concept_exercise(exercise.uuid)
+      exercise_config = head_git_track.find_exercise(exercise.uuid)
       Git::Exercise.new(exercise_config[:slug], exercise.git_type, git_repo.head_sha, repo: git_repo)
     end
   end

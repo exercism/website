@@ -65,7 +65,7 @@ module Git
 
     memoize
     def concept_exercises
-      head_git_track.concept_exercises.map do |exercise_config|
+      head_git_track.concept_exercises.each_with_index.map do |exercise_config, position|
         ::ConceptExercise::Create.(
           exercise_config[:uuid],
           track,
@@ -74,6 +74,7 @@ module Git
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: find_blurb(exercise_config[:slug], 'concept'),
+          position: position,
           taught_concepts: find_concepts(exercise_config[:concepts]),
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
@@ -84,7 +85,7 @@ module Git
 
     memoize
     def practice_exercises
-      head_git_track.practice_exercises.map do |exercise_config|
+      head_git_track.practice_exercises.each_with_index.map do |exercise_config, position|
         ::PracticeExercise::Create.(
           exercise_config[:uuid],
           track,
@@ -92,6 +93,7 @@ module Git
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: find_blurb(exercise_config[:slug], 'practice'),
+          position: position,
           prerequisites: find_concepts(exercise_config[:prerequisites]),
           practiced_concepts: find_concepts(exercise_config[:practices]),
           deprecated: exercise_config[:deprecated] || false,

@@ -118,6 +118,26 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     assert_equal 9, track.concepts.length
   end
 
+  test "concept exercises use position from config" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+
+    Git::SyncTrack.(track)
+
+    actual_order = track.concept_exercises.order(:position).pluck(:slug)
+    expected_order = %w[arrays booleans lasagna numbers strings]
+    assert_equal expected_order, actual_order
+  end
+
+  test "practice exercises use position from config" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+
+    Git::SyncTrack.(track)
+
+    actual_order = track.practice_exercises.order(:position).pluck(:slug)
+    expected_order = %w[allergies anagram bob hamming isogram leap space-age]
+    assert_equal expected_order, actual_order
+  end
+
   test "concept exercises use track concepts for taught concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
     track_concept = create :track_concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'

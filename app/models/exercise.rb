@@ -65,6 +65,10 @@ class Exercise < ApplicationRecord
     is_a?(PracticeExercise)
   end
 
+  def tutorial?
+    slug == "hello-world"
+  end
+
   def to_param
     slug
   end

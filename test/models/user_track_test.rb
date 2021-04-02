@@ -318,4 +318,28 @@ class UserTrackTest < ActiveSupport::TestCase
     create :practice_solution, exercise: exercises[0], completed_at: Time.current, user: user
     assert UserTrack.find(user_track.id).tutorial_exercise_completed?
   end
+
+  test "num_xxx_exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+    exercises = Array.new(9) { create :practice_exercise, :random_slug, track: track }
+
+    # Started
+    create :practice_solution, exercise: exercises[0], user: user
+
+    # Iterated
+    ps = create :practice_solution, exercise: exercises[1], user: user
+    create :iteration, solution: ps, submission: create(:submission, solution: ps)
+
+    # Completed
+    (3..6).each do |idx|
+      create :practice_solution, exercise: exercises[idx], completed_at: Time.current, user: user
+    end
+
+    assert_equal 9, user_track.num_exercises
+    assert_equal 3, user_track.num_available_exercises
+    assert_equal 2, user_track.num_in_progress_exercises
+    assert_equal 4, user_track.num_completed_exercises
+  end
 end

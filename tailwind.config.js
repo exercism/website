@@ -215,6 +215,7 @@ module.exports = {
       '-2': '-2',
       '-3': '-3',
       '-4': '-4',
+      overlay: '10',
       menu: '40',
       dropdown: '50',
       tooltip: '80',

@@ -39,7 +39,7 @@ module ReactComponents
 
       memoize
       def exercises
-        track.exercises
+        track.exercises.sorted
       end
     end
   end

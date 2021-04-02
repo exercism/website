@@ -16,6 +16,7 @@ module Git
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         deprecated: exercise_config[:deprecated] || false,
         blurb: head_git_exercise.blurb,
+        position: exercise_position,
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         prerequisites: find_concepts(exercise_config[:prerequisites]),
@@ -36,7 +37,8 @@ module Git
     def track_config_exercise_modified?
       return false unless track_config_modified?
 
-      exercise_config[:slug] != exercise.slug ||
+      exercise_position != exercise.position ||
+        exercise_config[:slug] != exercise.slug ||
         exercise_config[:name] != exercise.title ||
         !!exercise_config[:deprecated] != exercise.deprecated ||
         exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort ||
@@ -63,8 +65,24 @@ module Git
     end
 
     memoize
+    def exercise_position
+      # The hello-world exercise is always the first exercise
+      return 0 if exercise_config[:slug] == 'hello-world'
+
+      # Offset by 1 to account for the hello-world exercise always
+      # being the very first exercise and offset by the number of concept
+      # exercises to position practice exercises after concept exercises
+      exercise_index + 1 + head_git_track.concept_exercises.length
+    end
+
+    memoize
+    def exercise_index
+      head_git_track.practice_exercises.find_index { |e| e[:uuid] == exercise.uuid }
+    end
+
+    memoize
     def exercise_config
-      head_git_track.find_practice_exercise(exercise.uuid)
+      head_git_track.practice_exercises[exercise_index]
     end
 
     memoize

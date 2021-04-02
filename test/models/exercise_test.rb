@@ -27,6 +27,15 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal [exercise_2], Exercise.without_prerequisites
   end
 
+  test "scope :sorted" do
+    exercise_1 = create :practice_exercise, position: 0
+    exercise_2 = create :concept_exercise, position: 1
+    exercise_3 = create :concept_exercise, position: 2
+    exercise_4 = create :practice_exercise, position: 3
+
+    assert_equal [exercise_1, exercise_2, exercise_3, exercise_4], Exercise.sorted
+  end
+
   test "prerequisite_exercises" do
     strings = create :track_concept
     bools = create :track_concept

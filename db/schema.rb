@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_28_130408) do
+ActiveRecord::Schema.define(version: 2021_04_02_085227) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -127,11 +127,13 @@ ActiveRecord::Schema.define(version: 2021_03_28_130408) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "blurb", limit: 350, null: false
+    t.integer "position", null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["position"], name: "index_exercises_on_position"
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"

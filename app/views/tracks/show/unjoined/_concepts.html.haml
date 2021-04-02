@@ -10,4 +10,4 @@
 
     = image_pack_tag "screenshots/concept-map.png", role: :presentation, class: "screenshot"
 
-    = render ViewComponents::ProminentLink.new("See all the concepts for Elixir", track_concepts_path(track))
+    = render ViewComponents::ProminentLink.new("See all the concepts for #{track.title}", track_concepts_path(track))

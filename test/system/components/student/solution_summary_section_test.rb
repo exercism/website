@@ -354,18 +354,19 @@ module Components::Student
       iteration = create :iteration, idx: 1, solution: solution, submission: submission
       assert iteration.status.no_automated_feedback? # Sanity
 
+      create :user_track, user: user, track: solution.track
       create :mentor_discussion, solution: solution
       create(:mentor_request, solution: solution).fulfilled!
 
       use_capybara_host do
         sign_in!(user)
         visit Exercism::Routes.private_solution_path(solution)
-      end
 
-      assert_no_css "section.completion-nudge"
-      assert_no_css "section.mentoring-prompt-nudge"
-      assert_no_css "section.mentoring-request-nudge"
-      assert_css "section.mentoring-discussion-nudge"
+        assert_no_css "section.completion-nudge"
+        assert_no_css "section.mentoring-prompt-nudge"
+        assert_no_css "section.mentoring-request-nudge"
+        assert_css "section.mentoring-discussion-nudge"
+      end
     end
   end
 end

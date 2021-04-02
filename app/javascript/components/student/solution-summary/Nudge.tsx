@@ -3,7 +3,11 @@ import { Avatar, GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import { CompleteExerciseButton } from '../CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
-import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
+import {
+  MentorDiscussion,
+  SolutionStatus,
+  SolutionMentoringStatus,
+} from '../../types'
 import { Track } from '../SolutionSummary'
 import pluralize from 'pluralize'
 
@@ -17,16 +21,18 @@ type Links = {
 }
 
 export const Nudge = ({
+  status,
   mentoringStatus,
-  discussions,
-  iteration,
   isConceptExercise,
+  iteration,
+  discussions,
   links,
   track,
 }: {
-  iteration: Iteration
-  isConceptExercise: boolean
+  status: SolutionStatus
   mentoringStatus: SolutionMentoringStatus
+  isConceptExercise: boolean
+  iteration: Iteration
   discussions: readonly MentorDiscussion[]
   links: Links
   track: Track
@@ -42,6 +48,7 @@ export const Nudge = ({
         case IterationStatus.NO_AUTOMATED_FEEDBACK: {
           return isConceptExercise ? (
             <CompleteExerciseNudge
+              status={status}
               completeExerciseLink={links.completeExercise}
             />
           ) : (
@@ -61,10 +68,16 @@ export const Nudge = ({
 }
 
 const CompleteExerciseNudge = ({
+  status,
   completeExerciseLink,
 }: {
+  status: SolutionStatus
   completeExerciseLink: string
 }) => {
+  if (status == 'published' || status == 'completed') {
+    return null
+  }
+
   return (
     <section className="completion-nudge">
       <GraphicalIcon icon="complete" category="graphics" />

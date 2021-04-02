@@ -91,6 +91,7 @@ module Flows
         click_on "Continue"
 
         sleep(1)
+        puts solution.reload.status
         assert_text "You've completed Strings."
         assert_no_css("section.completion-nudge")
       end

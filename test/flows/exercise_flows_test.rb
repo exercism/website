@@ -9,6 +9,10 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     user = create :user
     mentor = create :user
 
+    # Hello world is already completed.
+    # We might wnat to change this for hte context of this test.
+    create :hello_world_solution, :completed, track: track, user: user
+
     # User joins the track
     # Check its retrieved correctly.
     ut = UserTrack::Create.(user, track)

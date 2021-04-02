@@ -46,6 +46,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     user = create :user
     exercise = create :concept_exercise
     ut = create :user_track, user: user, track: exercise.track
+    create :hello_world_solution, :completed, track: ut.track, user: ut.user
 
     solution = Solution::Create.(ut.user, exercise)
 

@@ -8,6 +8,7 @@ module Components
         exercise = create :concept_exercise, track: track
         user = create :user
         create :user_track, user: user, track: track
+        create :hello_world_solution, :completed, track: track, user: user
 
         sign_in!(user)
 

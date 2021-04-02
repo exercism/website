@@ -12,20 +12,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def teardown
     should_flunk = false
     errors = page.driver.browser.manage.logs.get(:browser)
-    if errors.present?
-      errors.each do |error|
-        next if error.level == "WARNING"
-        next if error.to_s.include?("403 (Forbidden)")
+    errors.to_a.each do |error|
+      next if error.level == "WARNING"
+      next if error.to_s.include?("403 (Forbidden)")
 
-        should_flunk = true
+      should_flunk = true
 
-        puts ""
-        puts "------"
-        puts "JS ERROR:\n"
-        puts error
-        puts "------"
-        puts ""
-      end
+      puts ""
+      puts "------"
+      puts "JS ERROR:\n"
+      puts error
+      puts "------"
+      puts ""
     end
     flunk("JS Errors") if should_flunk
 

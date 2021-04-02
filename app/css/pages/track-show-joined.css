@@ -88,7 +88,7 @@
             @apply flex-grow;
         }
         & .rhs {
-            @apply ml-64 flex-shrink-0;
+            @apply ml-64 flex-shrink-0 pt-32;
             width: 400px;
         }
 
@@ -117,6 +117,7 @@
                 height: 16px;
 
                 & .bar {
+                    min-width: 16px;
                     height: 16px;
                     background: linear-gradient(
                         to right,
@@ -175,57 +176,68 @@
             }
         }
         & section.start-track {
+            @apply flex flex-col;
             @apply mb-64;
 
-            & .start-track-cta,
-            & .placeholder-activity {
-                @apply shadow-lg bg-backgroundColorA rounded-8;
-                @apply flex;
-            }
-
             & .start-track-cta {
+                @apply flex;
+                @apply shadow-baseZ1 bg-backgroundColorF rounded-8;
                 @apply py-24 px-32;
+                @apply mt-32 relative;
 
-                & h3 {
-                    @apply text-h4 mb-8;
+                /* TODO: Use gradient */
+                border: 2px solid #9e00ff;
+
+                &:before {
+                    content: "";
+                    @apply absolute bg-lightGray;
+                    width: 2px;
+                    top: -32px;
+                    height: 30px;
+                    left: 50px;
                 }
 
-                & p {
-                    @apply text-16 leading-paragraph mb-24;
+                & > .c-icon {
+                    height: 80px;
+                    width: 80px;
+                    @apply mr-32;
                 }
+                & > .content {
+                    @apply flex flex-col items-start;
 
-                & .info {
-                    @apply text-14 leading-paragraph text-textColor6;
-                }
-
-                & .c-icon {
-                    height: 48px;
-                    width: 48px;
-                    @apply mr-24;
-                }
-                & .actions {
-                    @apply flex items-center;
-
-                    & .btn-cta {
-                        @apply mr-32;
-                        width: 160px;
+                    & h3 {
+                        @apply text-21 leading-150 font-medium text-textColor2;
+                        @apply mb-8;
+                        & strong {
+                            @apply font-semibold;
+                        }
                     }
-                    & .info {
-                        @apply flex-shrink;
-                        max-width: 300px;
+
+                    & p {
+                        @apply text-p-base mb-16;
                     }
                 }
             }
             & .placeholder-activity {
-                @apply py-16 px-24 items-center;
+                @apply mt-40 py-16 px-24 items-center;
+                @apply flex items-center relative;
+                @apply bg-backgroundColorD rounded-8;
 
+                &:before {
+                    content: "";
+                    @apply absolute bg-lightGray;
+                    width: 2px;
+                    top: -40px;
+                    height: 40px;
+                    left: 50px;
+                }
                 & .c-icon {
                     height: 24px;
                     width: 24px;
                     @apply mr-24;
                 }
                 & p {
-                    @apply text-18 leading-paragraph text-textColor6;
+                    @apply text-17 leading-170 font-medium text-textColor7;
                 }
             }
         }
@@ -377,7 +389,7 @@
 
         & section.weekly-count {
             @apply flex items-center;
-            @apply mt-32 mb-24;
+            @apply mb-24;
 
             & .text {
                 @apply flex-grow;

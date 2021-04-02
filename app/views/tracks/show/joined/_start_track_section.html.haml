@@ -1,14 +1,12 @@
 %section.start-track
   .start-track-cta
-    = graphical_icon "exercism-face"
+    = graphical_icon "hello-world", category: "graphics"
     .content
-      %h3 Start the track with "Hello, World!"
-      %p Complete the "Hello, World!" tutorial to submit your first bit of code on the track and familiarise yourself with how Exercism works.
-      .actions
-        .btn-cta Start in editor
-        .info Completing this will unlock more exercises for you on the track.
+      %h3
+        Introduce yourself to the Elixir world by completing
+        %strong ”Hello, World!”
+      %p Familiarise yourself with how Exercism works and submit your first bit of code on the platform by completing the “Hello, World!” tutorial exercise.
+      = link_to "Go to the “Hello, World!” exercise", track_exercise_path(track, "hello-world"), class: 'btn-cta'
   .placeholder-activity
     = graphical_icon :pulse
-    %p This is where your activity and progress on the track is displayed once you begin completing exercises.
-
-
+    %p This is where your activity on the track is displayed once you begin completing exercises

@@ -42,7 +42,8 @@ class UserTrack < ApplicationRecord
   end
 
   def completed_percentage
-    42.5
+    c = (num_completed_exercises / num_exercises.to_f) * 100
+    c.denominator == 1 ? c.round : c.round(1)
   end
 
   memoize
@@ -67,6 +68,10 @@ class UserTrack < ApplicationRecord
 
   def num_used_mentoring_slots
     active_mentoring_discussions.size + pending_mentoring_requests.size
+  end
+
+  def tutorial_exercise_completed?
+    num_completed_exercises.positive?
   end
 
   delegate :exercise_unlocked?, :exercise_completed?, :exercise_status, :exercise_type,
@@ -100,7 +105,7 @@ class UserTrack < ApplicationRecord
     return @summary if @summary
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
-    expected_key = "#{track.updated_at.to_i}_#{updated_at.to_i}_#{digest}"
+    expected_key = "#{track.updated_at.to_f}_#{updated_at.to_f}_#{digest}"
 
     if summary_key != expected_key
       update_columns(

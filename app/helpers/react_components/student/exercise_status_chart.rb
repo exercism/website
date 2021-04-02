@@ -30,8 +30,8 @@ module ReactComponents
 
       def height
         exercise_per_row = 23.0
-        height_per_row = 33.6
-        bottom_margin = 24
+        height_per_row = 36
+        bottom_margin = 12
 
         num_rows = (exercises.size / exercise_per_row).ceil
         height_per_row * num_rows + bottom_margin

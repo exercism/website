@@ -55,7 +55,7 @@ module Git
 
     def find_concepts(slugs)
       slugs.to_a.map do |slug|
-        concept_config = concepts_config.find { |e| e[:slug] == slug }
+        concept_config = head_git_track.concepts.find { |e| e[:slug] == slug }
         ::Track::Concept.find_by!(uuid: concept_config[:uuid])
       rescue StandardError
         # TODO: Remove this rescue when configlet works
@@ -64,13 +64,12 @@ module Git
 
     memoize
     def exercise_config
-      # TODO: determine what to do when the exercise could not be found
-      concept_exercises_config.find { |e| e[:uuid] == exercise.uuid }
+      head_git_track.find_concept_exercise(exercise.uuid)
     end
 
     memoize
     def head_git_exercise
-      Git::Exercise.new(exercise.slug, exercise.git_type, git_repo.head_sha, repo: git_repo)
+      Git::Exercise.new(exercise_config[:slug], exercise.git_type, git_repo.head_sha, repo: git_repo)
     end
   end
 end

@@ -9,7 +9,7 @@ class Tracks::ExercisesController < ApplicationController
 
   def index
     # TODO: - Sort by whether exercise is started, available, completed.
-    @exercises = @track.exercises
+    @exercises = @track.exercises.sorted
     @num_completed = @user_track.num_completed_exercises
   end
 

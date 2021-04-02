@@ -64,7 +64,6 @@ module Git
 
     memoize
     def exercise_config
-      # TODO: determine what to do when the exercise could not be found
       head_git_track.find_practice_exercise(exercise.uuid)
     end
 

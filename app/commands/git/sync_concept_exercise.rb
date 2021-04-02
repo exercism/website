@@ -64,6 +64,7 @@ module Git
       end.compact
     end
 
+    memoize
     def exercise_position
       # Offset by 1 to account for the hello-world exercise
       # always being the very first exercise

@@ -64,6 +64,7 @@ module Git
       end.compact
     end
 
+    memoize
     def exercise_position
       # The hello-world exercise is always the first exercise
       return 0 if exercise_config[:slug] == 'hello-world'

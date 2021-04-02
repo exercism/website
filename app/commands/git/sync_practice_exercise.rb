@@ -2,13 +2,16 @@ module Git
   class SyncPracticeExercise < Sync
     include Mandate
 
-    def initialize(exercise)
+    def initialize(exercise, force_sync: false)
       super(exercise.track, exercise.synced_to_git_sha)
       @exercise = exercise
+      @force_sync = force_sync
     end
 
     def call
-      return exercise.update!(synced_to_git_sha: head_git_exercise.synced_git_sha) unless exercise_needs_updating?
+      unless force_sync || exercise_needs_updating?
+        return exercise.update!(synced_to_git_sha: head_git_exercise.synced_git_sha)
+      end
 
       exercise.update!(
         slug: exercise_config[:slug],
@@ -28,7 +31,7 @@ module Git
     end
 
     private
-    attr_reader :exercise
+    attr_reader :exercise, :force_sync
 
     def exercise_needs_updating?
       track_config_exercise_modified? || exercise_config_modified? || exercise_files_modified?

@@ -1,6 +1,17 @@
 require "test_helper"
 
 class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
+  test "respects force_sync: true" do
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: repo.head_commit.oid, synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
+
+    Git::SyncAuthors.expects(:call).never
+    Git::SyncPracticeExercise.(exercise)
+
+    Git::SyncAuthors.expects(:call).once
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+  end
+
   test "git sync SHA changes to HEAD SHA when there are no changes" do
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: "c4701190aa99d47b7e92e5c1605659a4f08d6776", synced_to_git_sha: "c4701190aa99d47b7e92e5c1605659a4f08d6776" # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')

@@ -346,6 +346,7 @@ module Components::Student
 
     test "Mentoring in-progress" do
       user = create :user
+
       solution = create :practice_solution, user: user
       submission = create :submission, solution: solution,
                                        tests_status: :passed,

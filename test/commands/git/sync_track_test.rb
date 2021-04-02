@@ -16,8 +16,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     track = create :track, synced_to_git_sha: "HEAD"
 
     Git::SyncConcept.expects(:call).at_least_once
-    Git::SyncConceptExercise.expects(:call).at_least_once
-    Git::SyncPracticeExercise.expects(:call).at_least_once
+    Git::SyncConceptExercise.expects(:call).with(anything, force_sync: true).at_least_once
+    Git::SyncPracticeExercise.expects(:call).with(anything, force_sync: true).at_least_once
 
     Git::SyncTrack.(track, force_sync: true)
 

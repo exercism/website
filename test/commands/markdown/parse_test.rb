@@ -120,11 +120,11 @@ Done')
     assert_equal expected.chomp, Markdown::Parse.('[Some link](/link/to/page)').chomp
   end
 
-  test 'does not add target="blank" to internal link' do
-    schemes = %w[https http]
-    domains = %w[exercism.io exercism.lol local.exercism.io]
+  schemes = %w[https http]
+  domains = %w[exercism.io exercism.lol local.exercism.io]
 
-    schemes.product(domains).each do |scheme, domain|
+  schemes.product(domains).each do |scheme, domain|
+    test "does not add target=\"blank\" to internal link on #{scheme}://#{domain}" do
       expected = %(<p><a href="#{scheme}://#{domain}/tracks/ruby">Some link</a></p>)
       assert_equal expected.chomp, Markdown::Parse.("[Some link](#{scheme}://#{domain}/tracks/ruby)").chomp
     end

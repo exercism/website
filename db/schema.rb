@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_085227) do
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["track_id", "position"], name: "index_exercises_on_track_id_and_position"
+    t.index ["position"], name: "index_exercises_on_position"
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"

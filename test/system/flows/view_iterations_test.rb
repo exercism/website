@@ -95,7 +95,7 @@ module Flows
 
       create :iteration, idx: 3, solution: solution
       SolutionChannel.broadcast!(solution)
-      sleep(1)
+
       assert_equal "false", find("details", text: "Iteration 3")['open']
     end
 

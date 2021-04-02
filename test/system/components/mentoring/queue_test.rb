@@ -52,7 +52,6 @@ module Components
         visit mentoring_queue_path
         click_on "2"
 
-        sleep(1)
         assert_text "on Tournament"
       end
 
@@ -210,7 +209,6 @@ module Components
 
         assert_no_text "Running"
         find("label", text: "Only show exercises that need mentoring").click
-        sleep(1)
         assert_text "Running"
       end
 

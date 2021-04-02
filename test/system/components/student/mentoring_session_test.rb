@@ -149,10 +149,9 @@ module Components
           sign_in!(student)
           visit track_exercise_mentor_discussion_path(ruby, bob, discussion)
           click_on "1"
-        end
 
-        sleep(0.1)
-        assert_text "class Bob"
+          assert_text "class Bob"
+        end
       end
 
       test "shows session info" do

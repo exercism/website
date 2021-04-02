@@ -18,7 +18,8 @@ class Markdown::RenderHTML
     attr_reader :nofollow_links
 
     def link(node)
-      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
+      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"',
+        nofollow_links ? '' : 'rel="noopener"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
       out(' rel="nofollow"') if nofollow_links
       out(link_tooltip_attributes(node))

@@ -88,13 +88,13 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "position is updated when there are changes in config.json" do
-    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', position: 1, deprecated: true, git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24" # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', position: 2, deprecated: true, git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24" # rubocop:disable Layout/LineLength
     create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
 
     Git::SyncConceptExercise.(exercise)
 
-    assert_equal 4, exercise.position
+    assert_equal 5, exercise.position
   end
 
   test "removes taught concepts that are not in config.json" do

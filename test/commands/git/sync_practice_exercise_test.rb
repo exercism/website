@@ -57,7 +57,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal 3, exercise.position
+    assert_equal 9, exercise.position
   end
 
   test "adds new prerequisites defined in config.json" do

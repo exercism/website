@@ -8,6 +8,6 @@ class AddPositionToExercises < ActiveRecord::Migration[6.1]
 
     change_column_null :exercises, :position, false
 
-    add_index :exercises, [:track_id, :type, :position], name: 'index_track_exercise_position'
+    add_index :exercises, [:track_id, :position]
   end
 end

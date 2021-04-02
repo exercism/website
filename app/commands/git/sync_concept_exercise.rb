@@ -64,14 +64,20 @@ module Git
       end.compact
     end
 
-    memoize
     def exercise_position
+      # Offset by 1 to account for the hello-world exercise
+      # always being the very first exercise
+      exercise_index + 1
+    end
+
+    memoize
+    def exercise_index
       head_git_track.concept_exercises.find_index { |e| e[:uuid] == exercise.uuid }
     end
 
     memoize
     def exercise_config
-      head_git_track.concept_exercises[exercise_position]
+      head_git_track.concept_exercises[exercise_index]
     end
 
     memoize

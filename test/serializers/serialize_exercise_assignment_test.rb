@@ -7,8 +7,8 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(exercise)
 
     expected = [
-      "<p>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</p>\n", # rubocop:disable Layout/LineLength
-      "<p>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\">built-in methods</a>.</p>\n" # rubocop:disable Layout/LineLength
+      "<p>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</p>\n", # rubocop:disable Layout/LineLength
+      "<p>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">built-in methods</a>.</p>\n" # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, serialized[:general_hints]
   end
@@ -94,10 +94,10 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(exercise)
 
     expected = [
-      ["<p>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\">Ruby language official\ndocumentation</a>.</p>\n", # rubocop:disable Layout/LineLength
-       "<p>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\">built in methods</a> to strip white space.</p>\n"], # rubocop:disable Layout/LineLength
-      ["<p>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\">method</a> to perform this\noperation.</p>\n"], # rubocop:disable Layout/LineLength
-      ["<p>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\">concatenate\nstrings</a>, but the preferred one is usually\n<a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\">string interpolation</a></p>\n"] # rubocop:disable Layout/LineLength
+      ["<p>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">Ruby language official\ndocumentation</a>.</p>\n", # rubocop:disable Layout/LineLength
+       "<p>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\" rel=\"noopener\">built in methods</a> to strip white space.</p>\n"], # rubocop:disable Layout/LineLength
+      ["<p>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\" rel=\"noopener\">method</a> to perform this\noperation.</p>\n"], # rubocop:disable Layout/LineLength
+      ["<p>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">concatenate\nstrings</a>, but the preferred one is usually\n<a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">string interpolation</a></p>\n"] # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end

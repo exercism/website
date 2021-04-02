@@ -93,3 +93,5 @@ group :test do
   # Adds assert_template
   gem 'rails-controller-testing'
 end
+
+gem "addressable", "~> 2.7"

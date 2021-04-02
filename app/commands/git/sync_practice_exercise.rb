@@ -72,7 +72,7 @@ module Git
       # Offset by 1 to account for the hello-world exercise always
       # being the very first exercise and offset by the number of concept
       # exercises to position practice exercises after concept exercises
-      exercise_index + 1 + concept_exercises_config.length
+      exercise_index + 1 + head_git_track.concept_exercises.length
     end
 
     memoize

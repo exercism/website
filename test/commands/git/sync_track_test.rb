@@ -124,7 +124,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     actual_order = track.concept_exercises.order(:position).pluck(:slug)
-    expected_order = %w[arrays booleans lasagna numbers strings]
+    expected_order = %w[arrays booleans lasagna log-levels numbers strings]
     assert_equal expected_order, actual_order
   end
 
@@ -134,7 +134,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     actual_order = track.practice_exercises.order(:position).pluck(:slug)
-    expected_order = %w[hello-world allergies anagram bob hamming isogram leap space-age]
+    expected_order = %w[hello-world allergies anagram bob hamming isogram leap satellite space-age]
     assert_equal expected_order, actual_order
   end
 
@@ -146,8 +146,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     actual_order = track.exercises.order(:position).pluck(:slug)
     expected_order = %w[
       hello-world
-      arrays booleans lasagna numbers strings allergies
-      anagram bob hamming isogram leap space-age
+      arrays booleans lasagna log-levels numbers strings allergies
+      anagram bob hamming isogram leap satellite space-age
     ]
     assert_equal expected_order, actual_order
   end
@@ -221,7 +221,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
   end
 
   test "syncs all concepts" do
@@ -251,7 +251,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
     track.practice_exercises.each do |practice_exercise|
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
@@ -344,7 +344,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
   end
 
   test "syncs practice exercises with nil practices" do
@@ -359,7 +359,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
   end
 
   test "delete concept exercises no longer in config.json" do

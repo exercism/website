@@ -94,7 +94,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     Git::SyncConceptExercise.(exercise)
 
-    assert_equal 5, exercise.position
+    assert_equal 6, exercise.position
   end
 
   test "removes taught concepts that are not in config.json" do

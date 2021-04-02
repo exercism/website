@@ -57,7 +57,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal 9, exercise.position
+    assert_equal 10, exercise.position
   end
 
   test "position is always 0 for hello-world exercise" do

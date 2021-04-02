@@ -20,11 +20,22 @@ class Markdown::RenderHTML
     def link(node)
       out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
-      out(' target="_blank"')
-      out(' rel="noopener"') unless nofollow_links
+      if external_url(node.url)
+        out(' target="_blank"')
+        out(' rel="noopener"') unless nofollow_links
+      end
       out(' rel="nofollow"') if nofollow_links
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
+    end
+
+    def external_url(url)
+      uri = URI.parse(URI.escape(url)) # rubocop:disable Lint/UriEscapeUnescape
+      return false if uri.scheme.nil?
+      return true unless %w[https http].include?(uri.scheme)
+      return false if %w[exercism.io exercism.lol local.exercism.io].include?(uri.host)
+
+      true
     end
 
     def link_tooltip_attributes(node)

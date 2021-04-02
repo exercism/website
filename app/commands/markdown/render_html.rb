@@ -31,7 +31,7 @@ class Markdown::RenderHTML
     end
 
     def external_url(url)
-      uri = URI.parse(URI.escape(url)) # rubocop:disable Lint/UriEscapeUnescape
+      uri = Addressable::URI.parse(url)
       return false if uri.scheme.nil?
       return true unless %w[https http].include?(uri.scheme)
       return false if %w[exercism.io exercism.lol local.exercism.io].include?(uri.host)

@@ -41,6 +41,8 @@ class Exercise < ApplicationRecord
     through: :contributorships,
     source: :contributor
 
+  scope :sorted, -> { order(:type, :position) }
+
   scope :without_prerequisites, lambda {
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }

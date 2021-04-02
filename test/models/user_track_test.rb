@@ -306,4 +306,16 @@ class UserTrackTest < ActiveSupport::TestCase
     create :practice_solution, exercise: exercises[2], completed_at: Time.current, user: user
     assert_equal 50, UserTrack.find(user_track.id).completed_percentage
   end
+
+  test "tutorial_exercise_completed?" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+    exercises = Array.new(6) { create :practice_exercise, :random_slug, track: track }
+
+    refute user_track.tutorial_exercise_completed?
+
+    create :practice_solution, exercise: exercises[0], completed_at: Time.current, user: user
+    assert UserTrack.find(user_track.id).tutorial_exercise_completed?
+  end
 end

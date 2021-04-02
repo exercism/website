@@ -36,8 +36,10 @@ module Git
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
-      track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise) }
-      track.practice_exercises.each { |practice_exercise| Git::SyncPracticeExercise.(practice_exercise) }
+      track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise, force_sync: force_sync) }
+      track.practice_exercises.each do |practice_exercise|
+        Git::SyncPracticeExercise.(practice_exercise, force_sync: force_sync)
+      end
 
       Git::SyncTrackDocs.(track)
 

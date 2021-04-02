@@ -20,7 +20,7 @@ module ReactComponents
 
         {
           exercises: SerializeExercises.(
-            track.exercises.order('id'),
+            track.exercises.sorted,
             user_track: UserTrack.for(current_user, track)
           ),
           solutions: solutions

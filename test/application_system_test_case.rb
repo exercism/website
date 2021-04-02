@@ -7,6 +7,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   Capybara.default_max_wait_time = 3
   Capybara.enable_aria_label = true
+  Capybara.reuse_server = false
+
+  def teardown
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+  end
 
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
   driven_by :selenium, using: :headless_chrome do |driver_option|

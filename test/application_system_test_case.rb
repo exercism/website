@@ -10,6 +10,25 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.reuse_server = false
 
   def teardown
+    should_flunk = false
+    errors = page.driver.browser.manage.logs.get(:browser)
+    if errors.present?
+      errors.each do |error|
+        next if error.level == "WARNING"
+        next if error.to_s.include?("403 (Forbidden)")
+
+        should_flunk = true
+
+        puts ""
+        puts "------"
+        puts "JS ERROR:\n"
+        puts error
+        puts "------"
+        puts ""
+      end
+    end
+    flunk("JS Errors") if should_flunk
+
     Capybara.reset_sessions!
     Capybara.use_default_driver
   end

@@ -22,9 +22,10 @@ class Markdown::RenderHTML
       out(' title="', escape_html(node.title), '"') if node.title.present?
       if external_url(node.url)
         out(' target="_blank"')
-        out(' rel="noopener"') unless nofollow_links
+        out(' rel="noopener', nofollow_links ? ' nofollow' : '', '"')
+      elsif nofollow_links
+        out(' rel="nofollow"')
       end
-      out(' rel="nofollow"') if nofollow_links
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
     end

@@ -94,7 +94,7 @@ Done')
 
   test "respects rel_nofollow" do
     normal = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
-    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>'
+    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="noopener nofollow">Some link</a></p>'
 
     assert_equal normal.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
     assert_equal rel_nofollow.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
@@ -136,7 +136,7 @@ Done')
   end
 
   test 'does not add rel="noopener" to external links with no_follow' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="nofollow">Some link</a></p>'
+    expected = '<p><a href="http://example.com" target="_blank" rel="noopener nofollow">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 

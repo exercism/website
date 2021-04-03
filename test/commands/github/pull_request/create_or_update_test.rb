@@ -104,20 +104,22 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "does not update pull request if data has not changed" do
-    pr = create :github_pull_request
-    updated_at_before_call = pr.updated_at
+    freeze_time do
+      pr = create :github_pull_request
+      updated_at_before_call = pr.updated_at
 
-    Github::PullRequest::CreateOrUpdate.(
-      pr.node_id,
-      number: pr.number,
-      author_username: pr.author_username,
-      merged_by_username: pr.merged_by_username,
-      repo: pr.repo,
-      reviews: pr.reviews,
-      data: pr.data
-    )
+      Github::PullRequest::CreateOrUpdate.(
+        pr.node_id,
+        number: pr.number,
+        author_username: pr.author_username,
+        merged_by_username: pr.merged_by_username,
+        repo: pr.repo,
+        reviews: pr.reviews,
+        data: pr.data
+      )
 
-    assert_equal updated_at_before_call, pr.reload.updated_at
+      assert_equal updated_at_before_call, pr.reload.updated_at
+    end
   end
 
   test "removes reviewers if no longer present" do

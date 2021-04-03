@@ -45,7 +45,7 @@
       - if user_track.tutorial_exercise_completed?
         %section.activities
           - recent_solutions.each do |solution|
-            = render ViewComponents::Track::SolutionActivity.new(track, solution)
+            = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
 
       - else
         = render "tracks/show/joined/start_track_section", track: track

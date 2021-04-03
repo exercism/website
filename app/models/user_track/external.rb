@@ -43,11 +43,15 @@ class UserTrack
     # Exercise methods #
     ####################
     def exercise_unlocked?(_)
-      false
+      true
     end
 
     def exercise_completed?(_)
       false
+    end
+
+    def exercise_status(_)
+      :external
     end
 
     ###############################

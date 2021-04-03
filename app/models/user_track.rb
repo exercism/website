@@ -89,6 +89,7 @@ class UserTrack < ApplicationRecord
 
   def reset_summary!
     reload
+    self.summary_key = nil
     @summary = nil
   end
 

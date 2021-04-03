@@ -85,6 +85,8 @@ class UserTrack < ApplicationRecord
     ].include?(meth)
 
     summary.respond_to?(meth, include_all)
+  rescue StandardError
+    true # We need this for test-mocking. It's messy.
   end
 
   def reset_summary!

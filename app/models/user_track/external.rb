@@ -50,6 +50,10 @@ class UserTrack
       false
     end
 
+    def exercise_status(_)
+      :external
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################

@@ -33,7 +33,7 @@ module ViewComponents
       end
 
       def status_tag
-        ViewComponents::Track::ExerciseStatusTag.(exercise, user_track)
+        ViewComponents::Track::ExerciseStatusTag.new(exercise, user_track)
       end
 
       def mentor_tag

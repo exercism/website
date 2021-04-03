@@ -17,6 +17,8 @@ module ViewComponents
           tag.div("Completed", class: 'c-exercise-status-tag --completed')
         when :published
           tag.div("Published", class: 'c-exercise-status-tag --published')
+        else
+          ""
         end
       end
     end

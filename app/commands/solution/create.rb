@@ -10,6 +10,7 @@ class Solution
         user: user,
         exercise: exercise
       ).tap do |solution|
+        # TODO: Only do this if the solution is new record
         record_activity!(solution)
       end
     end

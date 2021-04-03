@@ -25,7 +25,7 @@ class User
           pr_node_id: params[:node_id],
           pr_number: params[:number],
           pr_title: params[:title],
-          external_link: params[:html_url]
+          external_url: params[:html_url]
         )
         token.update!(level: reputation_level)
       end

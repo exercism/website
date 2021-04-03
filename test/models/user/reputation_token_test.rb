@@ -27,7 +27,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       created_at: Time.current - 1.week,
       exercise: exercise,
       track: track,
-      external_link: "https://google.com",
+      external_url: "https://google.com",
       params: {
         repo: repo,
         pr_node_id: pr_node_id,
@@ -41,8 +41,8 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       value: token.value,
       text: "You created <strong>PR##{pr_number}</strong> on <strong>bar</strong>: #{title}",
       icon_url: exercise.icon_url,
-      internal_link: nil,
-      external_link: "https://google.com",
+      internal_url: nil,
+      external_url: "https://google.com",
       awarded_at: token.created_at.iso8601,
       is_seen: false,
       track: {

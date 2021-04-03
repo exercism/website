@@ -15,7 +15,7 @@ module Flows
         value: 50,
         seen: false,
         params: {
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
@@ -43,7 +43,7 @@ module Flows
         value: 50,
         seen: false,
         params: {
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
@@ -69,7 +69,7 @@ module Flows
         value: 50,
         seen: false,
         params: {
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,

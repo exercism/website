@@ -17,7 +17,7 @@ module Components
           track: track,
           exercise: exercise,
           created_at: 1.day.ago,
-          external_link: "https://test.exercism.io/token"
+          external_url: "https://test.exercism.io/token"
 
         use_capybara_host do
           sign_in!(user)

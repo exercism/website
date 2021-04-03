@@ -79,12 +79,12 @@ class UserTrack < ApplicationRecord
     summary.public_send(meth, *args, &block)
   end
 
-  def respond_to_missing?(meth)
+  def respond_to_missing?(meth, include_all)
     return false if %i[
       to_ary
     ].include?(meth)
 
-    summary.respond_to?(meth)
+    summary.respond_to?(meth, include_all)
   end
 
   def reset_summary!

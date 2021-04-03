@@ -10,7 +10,9 @@ class UserTrack
       @track = track
     end
 
-    delegate :concepts, :num_concepts, :num_exercises, to: :track
+    delegate :concepts, :num_concepts, :num_exercises,
+      :updated_at,
+      to: :track
 
     #######################
     # Non-summary methods #

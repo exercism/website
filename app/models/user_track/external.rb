@@ -57,6 +57,8 @@ class UserTrack
     ###############################
     # Exercises aggregate methods #
     ###############################
+    delegate :num_exercises, to: :track
+
     def num_completed_exercises
       0
     end
@@ -96,10 +98,7 @@ class UserTrack
       []
     end
 
-    memoize
-    def num_concepts
-      track.concepts.size
-    end
+    delegate :num_concepts, to: :track
 
     def num_concepts_learnt
       0

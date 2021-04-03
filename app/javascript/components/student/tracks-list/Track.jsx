@@ -28,26 +28,24 @@ export function Track({ track }) {
         <ul className="--counts">
           <li>
             <Icon icon="exercises" alt="Number of exercises" />
-            {track.numCompletedPracticeExercises == undefined
+            {track.numCompletedExercises == undefined
               ? null
-              : `${track.numCompletedPracticeExercises}/`}
-            {track.numPracticeExercises} exercises
+              : `${track.numCompletedExercises}/`}
+            {track.numExercises} exercises
           </li>
           <li>
             <Icon icon="concepts" alt="Number of concepts" />
-            {track.numCompletedConceptExercises == undefined
+            {track.numCompletedConcepts == undefined
               ? null
-              : `${track.numCompletedConceptExercises}/`}
-            {track.numConceptExercises} concepts
+              : `${track.numCompletedConcepts}/`}
+            {track.numConcepts} concepts
           </li>
         </ul>
 
         {track.isJoined && (
           <ProgressBar
-            numConceptExercises={track.numConceptExercises}
-            numPracticeExercises={track.numPracticeExercises}
-            numCompletedConceptExercises={track.numCompletedConceptExercises}
-            numCompletedPracticeExercises={track.numCompletedPracticeExercises}
+            numExercises={track.numExercises}
+            numCompletedExercises={track.numCompletedExercises}
           />
         )}
 

@@ -9,9 +9,9 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
     track = create :track, slug: 'ruby'
     exercise = create :concept_exercise, track: track, slug: 'bob'
     solution = create :concept_solution, exercise: exercise
-    user_track = UserTrack::External.new(track)
+    user_track = create :user_track, track: track, user: solution.user
 
-    comp = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
+    comp = render(ViewComponents::Track::SolutionActivity.new(solution, user_track))
     expected = <<~HTML
             <div class="exercise">
               <header>

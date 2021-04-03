@@ -36,6 +36,18 @@ class UserTrack
       Exercise.where(id: unlocked_exercise_ids)
     end
 
+    def sample_available_exercises(size)
+      Exercise.where(id: available_exercise_ids.sample(size))
+    end
+
+    def sample_in_progress_exercises(size)
+      Exercise.where(id: in_progress_exercise_ids.sample(size))
+    end
+
+    def sample_completed_exercises(size)
+      Exercise.where(id: completed_exercises_ids.sample(size))
+    end
+
     memoize
     def available_exercises
       Exercise.where(id: available_exercise_ids)
@@ -91,6 +103,10 @@ class UserTrack
 
     def num_available_exercises
       available_exercise_ids.size
+    end
+
+    def num_locked_exercises
+      num_exercises - unlocked_exercise_ids.size
     end
 
     def num_in_progress_exercises

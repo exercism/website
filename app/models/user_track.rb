@@ -74,25 +74,20 @@ class UserTrack < ApplicationRecord
     num_completed_exercises.positive?
   end
 
-  delegate :exercise_unlocked?, :exercise_completed?, :exercise_status, :exercise_type,
-    :num_completed_exercises, :num_completed_concept_exercises, :num_completed_practice_exercises,
-    :unlocked_exercise_ids, :avaliable_exercise_ids,
-    :num_concepts, :num_concepts_learnt, :num_concepts_mastered,
-    :num_exercises,
-    :num_exercises_for_concept, :num_completed_exercises_for_concept,
-    :concept_unlocked?, :concept_learnt?, :concept_mastered?,
-    :concept_progressions, :concept_slugs,
-    :unlocked_concept_ids, :unlocked_concept_slugs,
-    :learnt_concept_ids, :learnt_concept_slugs,
-    :mastered_concept_ids, :mastered_concept_slugs,
-    :unlocked_concepts, :mastered_concepts,
-    :unlocked_concept_exercises, :unlocked_practice_exercises,
-    :unlocked_exercises, :available_exercises, :in_progress_exercises, :completed_exercises,
-    :num_available_exercises, :num_in_progress_exercises,
-    to: :summary
+  # In Ruby 2.7 and Ruby 3 we'll need **kwargs here.
+  def method_missing(meth, *args, &block)
+    summary.public_send(meth, *args, &block)
+  end
+
+  def respond_to_missing?(meth)
+    return false if %i[
+      to_ary
+    ].include?(meth)
+
+    summary.respond_to?(meth)
+  end
 
   def reset_summary!
-    self.update_column(:summary_key, nil)
     reload
     @summary = nil
   end

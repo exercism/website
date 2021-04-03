@@ -14,7 +14,17 @@
       = exercise.title
       - if solution&.completed?
         = icon 'completed-check-circle', "Exercise is completed"
-    .difficulty Easy
+    .tags
+      - if exercise.tutorial?
+        .tutorial-tag Tutorial Exercise
+      - elsif exercise.concept_exercise?
+        / TODO
+        .concept-tag Concept Exercise
+      - else
+        / TODO
+        .difficulty-tag Easy
+
+      = render ViewComponents::Track::ExerciseStatusTag.new(exercise, user_track)
 
   .decorations
 

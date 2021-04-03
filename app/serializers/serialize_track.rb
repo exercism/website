@@ -58,6 +58,8 @@ class SerializeTrack
     }
   end
 
+  # TODO: Drive everything below from the user_track
+  # and ensure that UserTrack::External acts appropriately (and cache it!)
   def num_concepts
     return @num_concepts unless @num_concepts.nil?
 

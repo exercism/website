@@ -1,5 +1,5 @@
 #page-exercise-show
-  = render ViewComponents::Track::ExerciseHeader.new(@track, @exercise, @solution, :overview)
+  = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
 
   .lg-container.tw-flex
     .tw-w-arbitary.tw-flex-grow
@@ -11,10 +11,14 @@
 
       = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
-      - if @exercise.concept_exercise?
+      - if @exercise.tutorial?
+        %section.tutorial-introduction
+          “Hello, World!” will get you writing some #{@track.title} and familiarise yourself with the Exercism workflow.
+          %strong Completing it unlocks the rest of the #{@track.title} Track.
+      - elsif @exercise.concept_exercise?
         = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
-      - if @exercise.practice_exercise?
+      - elsif @exercise.practice_exercise?
         - introduction = @solution ? @solution.introduction : @exercise.introduction
         - if introduction.present?
           %section.introduction.c-textual-content.--large

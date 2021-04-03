@@ -64,6 +64,14 @@
             }
         }
     }
+    & .tutorial-introduction {
+        @apply shadow-lg rounded-8 bg-backgroundColorB;
+        @apply py-16 px-32 mb-24;
+        @apply text-p-large;
+        & strong {
+            @apply font-medium text-textColor2;
+        }
+    }
     & section.taught-concepts {
         @apply bg-backgroundColorA py-16 px-32 shadow-lg rounded-8 mb-32;
 

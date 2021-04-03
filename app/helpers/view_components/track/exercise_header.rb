@@ -1,12 +1,13 @@
 module ViewComponents
   module Track
     class ExerciseHeader < ViewComponent
-      initialize_with :track, :exercise, :solution, :selected_tab
+      initialize_with :exercise, :solution, :user_track, :selected_tab
 
       def to_s
         tag.header class: "c-exercise-header" do
           render("tracks/exercise_header",
             track: track,
+            user_track: user_track,
             exercise: exercise,
             solution: solution,
             selected_tab: selected_tab) + tabs
@@ -61,6 +62,11 @@ module ViewComponents
 
       def guard!
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
+      end
+
+      memoize
+      def track
+        user_track.track
       end
     end
   end

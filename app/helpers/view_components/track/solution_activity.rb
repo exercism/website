@@ -1,7 +1,7 @@
 module ViewComponents
   module Track
     class SolutionActivity < ViewComponent
-      initialize_with :track, :solution
+      initialize_with :solution, :user_track
 
       def to_s
         tag.div(class: "exercise") do
@@ -33,16 +33,7 @@ module ViewComponents
       end
 
       def status_tag
-        case solution.status
-        when :started
-          tag.div("Started", class: 'c-exercise-status-tag --started')
-        when :in_progress
-          tag.div("In progress", class: 'c-exercise-status-tag --in-progress')
-        when :completed
-          tag.div("Completed", class: 'c-exercise-status-tag --completed')
-        when :published
-          tag.div("Published", class: 'c-exercise-status-tag --published')
-        end
+        ViewComponents::Track::ExerciseStatusTag.(exercise, user_track)
       end
 
       def mentor_tag
@@ -123,6 +114,9 @@ module ViewComponents
       def activities_data
         solution.user_activities.order(id: :desc).limit(5).map(&:rendering_data)
       end
+
+      memoize
+      delegate :track, to: :user_track
     end
   end
 end

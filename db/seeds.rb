@@ -93,7 +93,7 @@ ruby = Track.find_by_slug(:ruby)
 UserTrack.create!(user: iHiD, track: ruby)
 solution = Solution::Create.(
   iHiD, 
-  ruby.concept_exercises.find_by!(slug: "lasagna")
+  ruby.practice_exercises.find_by!(slug: "hello-world")
 )
 submission = Submission.create!(
   solution: solution,
@@ -101,8 +101,8 @@ submission = Submission.create!(
   submitted_via: "cli"
 )
 submission.files.create!(
-  filename: "lasagna.rb",
-  content: "class Lasagna\nend",
+  filename: "hello_world.rb",
+  content: "class HelloWorld\nend",
   digest: SecureRandom.uuid
 )
 Iteration::Create.(solution, submission)
@@ -112,6 +112,8 @@ Solution::Publish.(solution, [])
 
 ## Create mentoring solutions
 UserTrack.create!(user: erik, track: ruby)
+Solution::Create.( erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
+
 solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
@@ -120,6 +122,7 @@ Mentor::Request.create!(solution: solution, comment_markdown: "I would like to i
 
 ## Create mentoring solutions
 UserTrack.create!(user: karlo, track: ruby)
+Solution::Create.( karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 solution = Solution::Create.( karlo, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)

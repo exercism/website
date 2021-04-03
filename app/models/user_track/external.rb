@@ -43,7 +43,7 @@ class UserTrack
     # Exercise methods #
     ####################
     def exercise_unlocked?(_)
-      false
+      true
     end
 
     def exercise_completed?(_)

@@ -11,9 +11,10 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: concept_exercise.icon_url,
       blurb: concept_exercise.blurb,
       difficulty: "easy",
+      is_external: true,
       is_unlocked: true,
-      is_recommended: nil,
-      is_completed: nil,
+      is_recommended: false,
+      is_completed: false,
       links: {
         self: Exercism::Routes.track_exercise_path(concept_exercise.track, concept_exercise)
       }
@@ -23,9 +24,10 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: practice_exercise.icon_url,
       blurb: practice_exercise.blurb,
       difficulty: "easy",
+      is_external: true,
       is_unlocked: true,
-      is_recommended: nil,
-      is_completed: nil,
+      is_recommended: false,
+      is_completed: false,
       links: {
         self: Exercism::Routes.track_exercise_path(practice_exercise.track, practice_exercise)
       }
@@ -34,6 +36,30 @@ class SerializeExercisesTest < ActiveSupport::TestCase
 
     assert_equal expected, SerializeExercises.(
       [concept_exercise, practice_exercise]
+    )
+  end
+
+  test "with external user track" do
+    exercise = create :concept_exercise
+
+    expected = [{
+      slug: exercise.slug,
+      title: exercise.title,
+      icon_url: exercise.icon_url,
+      blurb: exercise.blurb,
+      difficulty: "easy",
+      is_external: true,
+      is_unlocked: true,
+      is_recommended: false,
+      is_completed: false,
+      links: {
+        self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
+      }
+    }]
+
+    assert_equal expected, SerializeExercises.(
+      [exercise],
+      user_track: UserTrack::External.new(exercise.track)
     )
   end
 
@@ -53,6 +79,7 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: concept_exercise.icon_url,
       blurb: concept_exercise.blurb,
       difficulty: "easy",
+      is_external: false,
       is_unlocked: true,
       is_recommended: false,
       is_completed: false,
@@ -65,6 +92,7 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       icon_url: practice_exercise.icon_url,
       blurb: practice_exercise.blurb,
       difficulty: "easy",
+      is_external: false,
       is_unlocked: false,
       is_recommended: false,
       is_completed: false,

@@ -109,10 +109,11 @@ class UserTrackTest < ActiveSupport::TestCase
     refute user_track.concept_unlocked?(enums)
     refute user_track.concept_unlocked?(strings)
 
+    create :user_track_learnt_concept, user_track: user_track, concept: basics
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
+
     # Reload the user track to override memoizing
     user_track.reset_summary!
-
-    create :user_track_learnt_concept, user_track: user_track, concept: basics
 
     assert_equal [basics, enums, recursion], user_track.unlocked_concepts
     assert_equal [basics], user_track.learnt_concepts
@@ -122,10 +123,10 @@ class UserTrackTest < ActiveSupport::TestCase
     assert user_track.concept_unlocked?(enums)
     refute user_track.concept_unlocked?(strings)
 
+    create :user_track_learnt_concept, user_track: user_track, concept: enums
+
     # Reload the user track to override memoizing
     user_track.reset_summary!
-
-    create :user_track_learnt_concept, user_track: user_track, concept: enums
 
     assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
     assert_equal [basics, enums], user_track.learnt_concepts
@@ -135,10 +136,11 @@ class UserTrackTest < ActiveSupport::TestCase
     assert user_track.concept_unlocked?(enums)
     assert user_track.concept_unlocked?(strings)
 
+    create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
+
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
     assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
     assert_equal [basics, enums], user_track.learnt_concepts
     assert_equal [enums], user_track.mastered_concepts
@@ -331,7 +333,7 @@ class UserTrackTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
     user_track = create :user_track, user: user, track: track
-    exercises = Array.new(9) { create :practice_exercise, :random_slug, track: track }
+    exercises = Array.new(10) { create :practice_exercise, :random_slug, track: track }
 
     # Started
     create :practice_solution, exercise: exercises[0], user: user
@@ -345,9 +347,13 @@ class UserTrackTest < ActiveSupport::TestCase
       create :practice_solution, exercise: exercises[idx], completed_at: Time.current, user: user
     end
 
-    assert_equal 9, user_track.num_exercises
+    # Locked
+    create :exercise_prerequisite, exercise: exercises[7]
+
+    assert_equal 10, user_track.num_exercises
     assert_equal 3, user_track.num_available_exercises
     assert_equal 2, user_track.num_in_progress_exercises
+    assert_equal 1, user_track.num_locked_exercises
     assert_equal 4, user_track.num_completed_exercises
   end
 end

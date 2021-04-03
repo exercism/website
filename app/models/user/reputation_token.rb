@@ -39,7 +39,7 @@ class User::ReputationToken < ApplicationRecord
 
   def params=(hash)
     self.level = hash.delete(:level) if hash.key?(:level)
-    self.external_link = hash.delete(:external_link) if hash.key?(:external_link)
+    self.external_url = hash.delete(:external_url) if hash.key?(:external_url)
 
     super(hash)
   end
@@ -70,8 +70,8 @@ class User::ReputationToken < ApplicationRecord
       value: value,
       text: text,
       icon_url: icon_url,
-      internal_link: internal_link,
-      external_link: external_link,
+      internal_url: internal_url,
+      external_url: external_url,
       is_seen: seen,
       awarded_at: created_at.iso8601
     }
@@ -98,7 +98,7 @@ class User::ReputationToken < ApplicationRecord
   end
 
   # TODO: Override in children classes
-  def internal_link
+  def internal_url
     nil
   end
 end

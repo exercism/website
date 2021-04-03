@@ -30,14 +30,14 @@ module Temp
         User::ReputationToken::Create.(
           current_user,
           :code_review,
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           node_id: 120
         )
         User::ReputationToken::Create.(
           current_user,
           :code_review,
-          external_link: "https://github.com/exercism/ruby/pulls/125",
+          external_url: "https://github.com/exercism/ruby/pulls/125",
           repo: "ruby/pulls",
           node_id: 125
         )

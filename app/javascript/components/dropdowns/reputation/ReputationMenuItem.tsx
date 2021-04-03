@@ -4,13 +4,21 @@ import { GraphicalIcon, Reputation } from '../../common'
 import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({
-  url,
+  internalUrl,
+  externalUrl,
   iconUrl,
   text,
   awardedAt,
   value,
   isSeen,
 }: ReputationToken): JSX.Element => {
+  const url = internalUrl ? internalUrl : externalUrl
+  const icon = internalUrl ? (
+    <GraphicalIcon icon="chevron-right" className="action-icon" />
+  ) : (
+    <GraphicalIcon icon="external-link" className="action-icon" />
+  )
+
   return (
     <a href={url} className="token">
       <img alt="" role="presentation" src={iconUrl} className="reason-icon" />
@@ -21,9 +29,9 @@ export const ReputationMenuItem = ({
         />
         <div className="awarded-at">{fromNow(awardedAt)}</div>
       </div>
-      <Reputation value={value} />
+      <Reputation value={`+${value}`} />
       <div className={'indicator ' + (isSeen ? 'seen' : 'unseen')} />
-      <GraphicalIcon icon="chevron-right" className="action-icon" />
+      {icon}
     </a>
   )
 }

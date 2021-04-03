@@ -7,8 +7,8 @@ export type ContributionProps = {
   value: number
   text: string
   iconUrl: string
-  internalLink?: string
-  externalLink?: string
+  internalUrl?: string
+  externalUrl?: string
   awardedAt: string
   track?: {
     title: string
@@ -20,16 +20,16 @@ export const Contribution = ({
   value,
   text,
   iconUrl,
-  internalLink,
-  externalLink,
+  internalUrl,
+  externalUrl,
   awardedAt,
   track,
 }: ContributionProps): JSX.Element => {
-  const link = internalLink || externalLink
-  const linkIcon = link === internalLink ? 'chevron-right' : 'external-link'
+  const url = internalUrl || externalUrl
+  const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
 
   return (
-    <a href={link} className="reputation-token">
+    <a href={url} className="reputation-token">
       <img
         alt=""
         role="presentation"

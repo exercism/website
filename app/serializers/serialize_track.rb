@@ -1,9 +1,10 @@
 class SerializeTrack
   include Mandate
 
-  def initialize(track, user_track)
+  def initialize(track, user_track, has_notifications: nil)
     @track = track
     @user_track = user_track || UserTrack::External.new(track)
+    @has_notifications = has_notifications
   end
 
   def call
@@ -39,7 +40,14 @@ class SerializeTrack
     {
       is_joined: true,
       num_learnt_concepts: user_track.num_concepts_learnt,
-      num_completed_exercises: user_track.num_completed_exercises
+      num_completed_exercises: user_track.num_completed_exercises,
+      has_notifications: has_notifications?
     }
+  end
+
+  def has_notifications?
+    return @has_notifications unless @has_notifications.nil?
+
+    user_track.has_notifications?
   end
 end

@@ -23,6 +23,7 @@ export function Track({ track }) {
               New
             </div>
           ) : null}
+          {track.hasNotifications && <div className="c-notification-dot" />}
           {track.isJoined && <div className="--joined">Joined</div>}
         </div>
         <ul className="--counts">

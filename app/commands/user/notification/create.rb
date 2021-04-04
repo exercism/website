@@ -5,9 +5,16 @@ class User::Notification
     initialize_with :user, :type, :params
 
     def call
-      klass = "user/notifications/#{type}_notification".camelize.constantize
+      exercise = params.delete(:exercise)
+      track = params.delete(:track) || exercise&.track
 
-      klass.create!(user: user, params: params).tap do
+      klass = "user/notifications/#{type}_notification".camelize.constantize
+      klass.create!(
+        user: user,
+        track: track,
+        exercise: exercise,
+        params: params
+      ).tap do
         NotificationsChannel.broadcast_changed(user)
       end
     end

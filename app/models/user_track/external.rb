@@ -56,6 +56,10 @@ class UserTrack
       :external
     end
 
+    def exercise_has_notifications?(_)
+      false
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################

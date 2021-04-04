@@ -12,7 +12,8 @@ module API
 
       render json: SerializePaginatedCollection.(
         solutions,
-        serializer: SerializeSolutions
+        serializer: SerializeSolutions,
+        serializer_args: [current_user]
       )
     end
 
@@ -26,7 +27,7 @@ module API
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       output = {
-        solution: SerializeSolution.(solution)
+        solution: SerializeSolution.(solution, user_track: @user_track)
       }
       output[:iterations] = solution.iterations.map { |iteration| SerializeIteration.(iteration) } if sideload?(:iterations)
       render json: output
@@ -41,11 +42,10 @@ module API
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
-      user_track = UserTrack.for(current_user, solution.track)
-      return render_404(:track_not_joined) unless user_track
+      return render_404(:track_not_joined) unless @user_track && !@user_track.external?
 
-      changes = UserTrack::MonitorChanges.(user_track) do
-        Solution::Complete.(solution, user_track)
+      changes = UserTrack::MonitorChanges.(@user_track) do
+        Solution::Complete.(solution, @user_track)
       end
 
       output = {
@@ -86,6 +86,7 @@ module API
     private
     def set_track
       @track = Track.find_by!(slug: params[:track_id])
+      @user_track = UserTrack.for(current_user, solution.track)
     end
 
     def set_exercise

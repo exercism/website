@@ -18,6 +18,8 @@ class UserTrack < ApplicationRecord
     self.summary_data = {}
   end
 
+  # Add some caching inside here for the length
+  # of the request
   def self.for!(user_param, track_param)
     UserTrack.find_by!(
       user: User.for!(user_param),
@@ -79,6 +81,18 @@ class UserTrack < ApplicationRecord
 
   def tutorial_exercise_completed?
     num_completed_exercises.positive?
+  end
+
+  def exercise_has_notifications?(exercise)
+    # None of these can have notifications
+    # so avoid the expense of a db call
+    return false if %i[
+      locked available started
+    ].include?(exercise_status(exercise))
+
+    User::Notification.unread.
+      where(user_id: user_id, exercise_id: exercise.id).
+      exists?
   end
 
   # In Ruby 2.7 and Ruby 3 we'll need **kwargs here.

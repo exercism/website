@@ -77,7 +77,6 @@ type ExerciseCore = {
   blurb: string
   difficulty: ExerciseDifficulty
   isRecommended: boolean
-  isCompleted: boolean
 }
 
 export type ExerciseDifficulty = 'easy'

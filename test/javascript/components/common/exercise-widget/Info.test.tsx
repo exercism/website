@@ -16,7 +16,6 @@ test('renders has notifications when solution has notifications', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -51,7 +50,6 @@ test('does not render has notifications when solution has no notifications', asy
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -86,7 +84,6 @@ test('does not render has notifications when ther is no solution', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -111,7 +108,6 @@ test('renders solution status when passed in', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -146,7 +142,6 @@ test('renders exercise status when there is no solution', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -171,7 +166,6 @@ test('renders exercise difficulty when there is no solution', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -196,7 +190,6 @@ test('does not render exercise difficulty when solution is passed in', async () 
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -231,7 +224,6 @@ test('renders number of iterations when solution has more than 0', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -266,7 +258,6 @@ test('does not render number of iterations when solution has 0', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -301,7 +292,6 @@ test('does not render number of iterations when there is no solution', async () 
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -326,7 +316,6 @@ test('renders number of mentoring comments when solution has more than 0', async
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -361,7 +350,6 @@ test('does not render number of mentoring comments when solution has 0', async (
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -396,7 +384,6 @@ test('does not render number of mentoring comments when there is no solution', a
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',

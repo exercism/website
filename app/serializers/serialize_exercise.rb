@@ -16,7 +16,6 @@ class SerializeExercise
       is_external: user_track.external?,
       is_unlocked: unlocked?,
       is_recommended: recommended?,
-      is_completed: user_track.exercise_completed?(exercise),
       links: links
     }
   end

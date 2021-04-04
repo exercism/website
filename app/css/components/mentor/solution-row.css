@@ -8,6 +8,9 @@
         &:hover {
             @apply bg-bgGray;
         }
+        &:first-child {
+            @apply border-t-0;
+        }
 
         & .c-track-icon {
             height: 32px;

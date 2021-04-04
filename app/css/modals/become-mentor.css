@@ -161,6 +161,11 @@
         & h3 {
             @apply text-h3 mb-20;
         }
+        & .c-icon {
+            height: 128px;
+            width: 128px;
+            @apply mb-8;
+        }
 
         & p.welcome {
             @apply text-center mb-32;

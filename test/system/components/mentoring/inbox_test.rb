@@ -166,6 +166,19 @@ module Components
           assert_button "Awaiting student1", disabled: true
         end
       end
+
+      test "shows zero state" do
+        mentor = create :user
+        create :track, title: "Ruby", slug: "ruby"
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_inbox_url
+
+          assert_text "No mentoring discussions"
+          assert_link "Mentor a new solution", href: mentoring_queue_path
+        end
+      end
     end
   end
 end

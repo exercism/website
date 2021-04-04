@@ -57,7 +57,7 @@ export function Track({ track }) {
 
         {track.isJoined && (
           <div className="--last-touched">
-            Last Touched {fromNow(track.updatedAt)}
+            Last touched {fromNow(track.updatedAt)}
           </div>
         )}
       </div>

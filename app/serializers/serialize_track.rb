@@ -18,7 +18,7 @@ class SerializeTrack
       updated_at: user_track.updated_at.iso8601,
 
       # TODO: Set these
-      is_new: true,
+      is_new: true
     }.merge(user_data_for_track)
   end
 

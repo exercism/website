@@ -356,4 +356,24 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal 1, user_track.num_locked_exercises
     assert_equal 4, user_track.num_completed_exercises
   end
+
+  test "has_notifications" do
+    user = create :user
+    track = create :track, :random_slug
+    ut_id = create(:user_track, user: user, track: track).id
+
+    solution = create :practice_solution, user: user, track: track
+    discussion = create :mentor_discussion, solution: solution
+
+    # Load of notifications that result in false
+    create :mentor_started_discussion_notification, user: user
+    create :mentor_started_discussion_notification, user: user, read_at: Time.current
+    create :mentor_started_discussion_notification, user: user, read_at: Time.current,
+                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+    create :mentor_started_discussion_notification, params: { discussion: create(:mentor_discussion, solution: solution) }
+    refute UserTrack.find(ut_id).has_notifications?
+
+    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
+    assert UserTrack.find(ut_id).has_notifications?
+  end
 end

@@ -30,4 +30,23 @@ class SerializeTracksTest < ActiveSupport::TestCase
     ).map { |t| t[:title] }
     assert_equal expected, actual
   end
+
+  test "doesn't use n+1 notification checks" do
+    user = create :user
+    track = create :track
+    user_track = create :user_track, user: user, track: track
+
+    # Create notification and check it matches this track
+    # (which it does because of clever factories)
+    create :notification, user: user
+    assert user_track.has_notifications?
+
+    # Sanity check the individual serializer uses it
+    UserTrack.any_instance.expects(:has_notifications?).once
+    SerializeTrack.(track, user_track)
+
+    UserTrack.any_instance.expects(:has_notifications?).never
+    data = SerializeTracks.(Track.all, user)
+    assert data[0][:has_notifications]
+  end
 end

@@ -42,9 +42,10 @@ class SerializeTrackTest < ActiveSupport::TestCase
 
     track_data = SerializeTrack.(track, nil)
 
-    refute track_data[:is_joined]
+    assert_nil track_data[:is_joined]
     assert_nil track_data[:nnum_completed_concept_exercises]
     assert_nil track_data[:num_completed_practice_exercises]
+    assert_nil track_data[:has_notifications]
   end
 
   test "updated_at is user_track.updated_at" do
@@ -101,5 +102,26 @@ class SerializeTrackTest < ActiveSupport::TestCase
     track_data = SerializeTrack.(track, nil)
 
     assert_empty track_data[:tags]
+  end
+
+  test "with notifications" do
+    user = create :user
+    track = create :track, :random_slug
+    ut_id = create(:user_track, user: user, track: track).id
+    solution = create :practice_solution, user: user, track: track
+    discussion = create :mentor_discussion, solution: solution
+
+    # False with none
+    track_data = SerializeTrack.(track, UserTrack.find(ut_id))
+    refute track_data[:has_notifications]
+
+    # Override works
+    track_data = SerializeTrack.(track, UserTrack.find(ut_id), has_notifications: true)
+    assert track_data[:has_notifications]
+
+    # True if there is one
+    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
+    track_data = SerializeTrack.(track, UserTrack.find(ut_id))
+    assert track_data[:has_notifications]
   end
 end

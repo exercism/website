@@ -11,8 +11,8 @@ class User
       def i18n_params
         {
           student_name: student.handle,
-          track_title: track.title,
-          exercise_title: exercise.title
+          track_title: solution.track.title,
+          exercise_title: solution.exercise.title
         }
       end
 
@@ -29,14 +29,6 @@ class User
       end
 
       private
-      def track
-        exercise.track
-      end
-
-      def exercise
-        solution.exercise
-      end
-
       def student
         solution.user
       end

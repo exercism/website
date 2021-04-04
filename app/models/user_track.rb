@@ -41,6 +41,13 @@ class UserTrack < ApplicationRecord
     false
   end
 
+  memoize
+  def has_notifications?
+    User::Notification.unread.
+      where(user_id: user_id, track_id: track_id).
+      exists?
+  end
+
   def completed_percentage
     c = (num_completed_exercises / num_exercises.to_f) * 100
     c.denominator == 1 ? c.round : c.round(1)

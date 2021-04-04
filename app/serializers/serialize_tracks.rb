@@ -10,7 +10,8 @@ class SerializeTracks
     sorted_tracks.map do |track|
       SerializeTrack.(
         track,
-        user_tracks[track.id]
+        user_tracks[track.id],
+        has_notifications: notification_counts_by_track_id[track.id]&.positive?
       )
     end
   end
@@ -32,6 +33,13 @@ class SerializeTracks
       where(user: user).
       where(track: tracks).
       index_by(&:track_id)
+  end
+
+  memoize
+  def notification_counts_by_track_id
+    return {} unless user
+
+    user.notifications.unread.group(:track_id).count
   end
 
   def joined?(track)

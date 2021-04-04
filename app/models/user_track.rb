@@ -104,9 +104,13 @@ class UserTrack < ApplicationRecord
     return @summary if @summary
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
-    expected_key = "#{track.updated_at.to_f}_#{updated_at.to_f}_#{digest}"
+    track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
+    expected_key = "#{track_updated_at.to_f}_#{updated_at.to_f}_#{digest}"
 
     if summary_key != expected_key
+      # It is important to use update_columns here
+      # else we'll touch updated_at and end up always
+      # invalidating the cache immediately.
       update_columns(
         summary_key: expected_key,
         summary_data: UserTrack::GenerateSummaryData.(track, self)

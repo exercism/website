@@ -10,14 +10,16 @@ class UserTrack
       @track = track
     end
 
+    delegate :concepts, :num_concepts, :num_exercises,
+      :updated_at,
+      to: :track
+
     #######################
     # Non-summary methods #
     #######################
     def external?
       true
     end
-
-    delegate :concepts, to: :track
 
     memoize
     def concept_slugs
@@ -57,6 +59,7 @@ class UserTrack
     ###############################
     # Exercises aggregate methods #
     ###############################
+
     def num_completed_exercises
       0
     end
@@ -94,11 +97,6 @@ class UserTrack
     #############################
     def unlocked_concept_ids
       []
-    end
-
-    memoize
-    def num_concepts
-      track.concepts.size
     end
 
     def num_concepts_learnt

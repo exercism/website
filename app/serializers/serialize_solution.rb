@@ -45,7 +45,6 @@ class SerializeSolution
 
   def has_notifications?
     return @has_notifications unless @has_notifications.nil?
-    return unless user_track
 
     user_track.exercise_has_notifications?(exercise)
   end

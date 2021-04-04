@@ -18,8 +18,8 @@ class UserTrack < ApplicationRecord
     self.summary_data = {}
   end
 
-  # Add some caching inside here for the length
-  # of the request
+  # Add some caching inside here for the duration
+  # of the request cycle.
   def self.for!(user_param, track_param)
     UserTrack.find_by!(
       user: User.for!(user_param),

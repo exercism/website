@@ -5,7 +5,6 @@ module API
     before_action :use_track
 
     def index
-      user_track = UserTrack.for(current_user, @track)
       exercises = Exercise::Search.(
         @track,
         criteria: params[:criteria]
@@ -13,14 +12,14 @@ module API
       output = {
         exercises: SerializeExercises.(
           exercises,
-          user_track: user_track
+          user_track: UserTrack.for(current_user, @track)
         )
       }
 
       if sideload?(:solutions)
         output[:solutions] = SerializeSolutions.(
           current_user.solutions.where(exercise_id: exercises),
-          user_track
+          current_user
         )
       end
 

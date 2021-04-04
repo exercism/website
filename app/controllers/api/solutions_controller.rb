@@ -86,7 +86,7 @@ module API
     private
     def set_track
       @track = Track.find_by!(slug: params[:track_id])
-      @user_track = UserTrack.for(current_user, solution.track)
+      @user_track = UserTrack.for(current_user, @track)
     end
 
     def set_exercise

@@ -53,9 +53,13 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_queue_path
+          assert_text "on Series"
+          refute_text "on Tournament"
+
           click_on "2"
 
           assert_text "on Tournament"
+          refute_text "on Series"
         end
       end
 

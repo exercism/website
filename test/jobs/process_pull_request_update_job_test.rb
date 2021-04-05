@@ -118,21 +118,21 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
 
     pr = Github::PullRequest.find_by(node_id: node_id)
     expected_data = {
-      action: action,
-      author_username: author,
       url: url,
-      html_url: html_url,
-      labels: labels,
       repo: repo,
-      node_id: node_id,
-      title: title,
-      created_at: created_at,
-      number: number,
-      merged: merged,
-      merged_at: merged_at,
-      merged_by_username: merged_by,
       state: state,
-      reviews: reviews
+      title: title,
+      action: action,
+      labels: labels,
+      merged: merged,
+      number: number,
+      node_id: node_id,
+      reviews: reviews,
+      html_url: html_url,
+      merged_at: merged_at,
+      created_at: created_at,
+      author_username: author,
+      merged_by_username: merged_by
     }
     assert_equal node_id, pr.node_id
     assert_equal number, pr.number

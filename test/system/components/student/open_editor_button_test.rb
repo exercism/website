@@ -1,8 +1,11 @@
 require "application_system_test_case"
+require_relative "../../../support/capybara_helpers"
 
 module Components
   module Student
     class OpenEditorButtonTest < ApplicationSystemTestCase
+      include CapybaraHelpers
+
       test "starts exercise" do
         track = create :track
         exercise = create :concept_exercise, track: track
@@ -10,13 +13,15 @@ module Components
         create :user_track, user: user, track: track
         create :hello_world_solution, :completed, track: track, user: user
 
-        sign_in!(user)
+        use_capybara_host do
+          sign_in!(user)
 
-        visit track_exercise_url(track, exercise)
-        within(".navbar") { click_on "Start in editor" }
+          visit track_exercise_url(track, exercise)
+          within(".navbar") { click_on "Start in editor" }
 
-        assert_page "editor"
-        assert Solution.for(user, exercise)
+          assert_page "editor"
+          assert Solution.for(user, exercise)
+        end
       end
 
       test "views completed exercise" do
@@ -24,13 +29,17 @@ module Components
         exercise = create :concept_exercise, track: track
         user = create :user
         create :user_track, user: user, track: track
-        create :concept_solution, exercise: exercise, user: user, status: :completed
+        solution = create :concept_solution, exercise: exercise, user: user, status: :completed, completed_at: 1.day.ago
+        submission = create :submission, solution: solution, tests_status: :passed
+        create :iteration, solution: solution, submission: submission
 
-        sign_in!(user)
-        visit track_exercise_url(track, exercise)
-        within(".navbar") { click_on "Open editor" }
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_url(track, exercise)
+          within(".navbar") { click_on "Open editor" }
 
-        assert_page "editor"
+          assert_page "editor"
+        end
       end
 
       test "views published exercise" do
@@ -38,13 +47,17 @@ module Components
         exercise = create :concept_exercise, track: track
         user = create :user
         create :user_track, user: user, track: track
-        create :concept_solution, exercise: exercise, user: user, status: :published
+        solution = create :concept_solution, exercise: exercise, user: user, status: :published, published_at: 1.day.ago
+        submission = create :submission, solution: solution, tests_status: :passed
+        create :iteration, solution: solution, submission: submission
 
-        sign_in!(user)
-        visit track_exercise_url(track, exercise)
-        within(".navbar") { click_on "Open editor" }
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_url(track, exercise)
+          within(".navbar") { click_on "Open editor" }
 
-        assert_page "editor"
+          assert_page "editor"
+        end
       end
 
       test "continues an exercise" do
@@ -52,13 +65,17 @@ module Components
         exercise = create :concept_exercise, track: track
         user = create :user
         create :user_track, user: user, track: track
-        create :concept_solution, exercise: exercise, user: user
+        solution = create :concept_solution, exercise: exercise, user: user
+        submission = create :submission, solution: solution, tests_status: :passed
+        create :iteration, solution: solution, submission: submission
 
-        sign_in!(user)
-        visit track_exercise_url(track, exercise)
-        within(".navbar") { click_on "Continue in editor" }
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_url(track, exercise)
+          within(".navbar") { click_on "Continue in editor" }
 
-        assert_page "editor"
+          assert_page "editor"
+        end
       end
 
       test "views locked exercise" do
@@ -68,12 +85,14 @@ module Components
         user = create :user
         create :user_track, user: user, track: track
 
-        sign_in!(user)
-        visit track_exercise_url(track, exercise)
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_url(track, exercise)
 
-        within(".navbar") do
-          assert_text "Open editor"
-          assert_css ".c-combo-button.--disabled"
+          within(".navbar") do
+            assert_text "Open editor"
+            assert_css ".c-combo-button.--disabled"
+          end
         end
       end
 
@@ -83,11 +102,13 @@ module Components
         user = create :user
         create :user_track, user: user, track: track
 
-        sign_in!(user)
-        visit track_exercise_url(track, exercise)
-        within(".navbar") { find(".--dropdown-segment").click }
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_url(track, exercise)
+          within(".navbar") { find(".--dropdown-segment").click }
 
-        assert_text "exercism download"
+          assert_text "exercism download"
+        end
       end
     end
   end

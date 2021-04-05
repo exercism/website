@@ -35,7 +35,12 @@ export const Modal = ({ html }: { html: string }): JSX.Element => {
   }, [isMounted])
 
   return (
-    <BaseModal open={open} onClose={() => {}} className="">
+    <BaseModal
+      open={open}
+      onClose={() => {}}
+      className=""
+      appElement={document.querySelector('body') as HTMLElement}
+    >
       <div ref={onMount} dangerouslySetInnerHTML={{ __html: html }} />
     </BaseModal>
   )

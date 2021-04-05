@@ -94,26 +94,28 @@ export const SolutionSummary = ({
         isConceptExercise={isConceptExercise}
         links={links}
       />
-      <section className="latest-iteration">
-        <Header
-          iteration={latestIteration}
-          isConceptExercise={isConceptExercise}
-          links={links}
-        />
-        <IterationLink iteration={latestIteration} />
-        <ProminentLink
-          link={links.allIterations}
-          text="See all of your iterations"
-        />
-        <div className="next-steps">
-          <CommunitySolutions link={links.communitySolutions} />
-          <Mentoring
-            mentoringStatus={solution.mentoringStatus}
-            discussions={discussions}
+      {latestIteration ? (
+        <section className="latest-iteration">
+          <Header
+            iteration={latestIteration}
+            isConceptExercise={isConceptExercise}
             links={links}
           />
-        </div>
-      </section>
+          <IterationLink iteration={latestIteration} />
+          <ProminentLink
+            link={links.allIterations}
+            text="See all of your iterations"
+          />
+          <div className="next-steps">
+            <CommunitySolutions link={links.communitySolutions} />
+            <Mentoring
+              mentoringStatus={solution.mentoringStatus}
+              discussions={discussions}
+              links={links}
+            />
+          </div>
+        </section>
+      ) : null}
     </>
   )
 }

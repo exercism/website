@@ -13,7 +13,7 @@ module ReactComponents
           assignment: SerializeExerciseAssignment.(solution.exercise),
           debugging_instructions: debugging_instructions,
           example_files: SerializeFiles.(example_files),
-          endpoint: Exercism::Routes.api_solution_submissions_path(
+          endpoint: Exercism::Routes.api_solution_submissions_url(
             solution.uuid,
             auth_token: solution.user.auth_tokens.first.to_s
           ),

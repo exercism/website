@@ -5,16 +5,43 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
   include Devise::Test::IntegrationHelpers
 
-  Capybara.default_max_wait_time = 3
+  Capybara.default_max_wait_time = 5
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false
 
+  class << self
+    attr_accessor :override_should_flunk
+  end
+
+  def setup
+    ApplicationSystemTestCase.override_should_flunk = false
+
+    super
+  end
+
+  def expecting_errors
+    ApplicationSystemTestCase.override_should_flunk = true
+
+    yield
+  end
+
   def teardown
+    if ApplicationSystemTestCase.override_should_flunk
+      # reset logs
+      page.driver.browser.manage.logs.get(:browser)
+
+      Capybara.reset_sessions!
+      Capybara.use_default_driver
+
+      return
+    end
+
     should_flunk = false
     errors = page.driver.browser.manage.logs.get(:browser)
     errors.to_a.each do |error|
       next if error.level == "WARNING"
       next if error.to_s.include?("403 (Forbidden)")
+      next if error.to_s.include?("hcaptcha")
 
       should_flunk = true
 
@@ -25,17 +52,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       puts "------"
       puts ""
     end
+
     flunk("JS Errors") if should_flunk
 
     Capybara.reset_sessions!
     Capybara.use_default_driver
   end
 
-  # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
-  driven_by :selenium, using: :headless_chrome do |driver_option|
-    # Without this argument, Chrome cannot be started in Docker
-    driver_option.add_argument('no-sandbox')
-  end
+  driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
+  # driven_by :selenium, using: :headless_chrome do |driver_option|
+  #   # Without this argument, Chrome cannot be started in Docker
+  #   driver_option.add_argument('no-sandbox')
+  # end
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

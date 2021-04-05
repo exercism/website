@@ -1,8 +1,10 @@
 require "application_system_test_case"
+require_relative "../../support/capybara_helpers"
 
 module Flows
   class UserLoginTest < ApplicationSystemTestCase
     include ShowMeTheCookies
+    include CapybaraHelpers
 
     test "user logs in via Github and is remembered" do
       OmniAuth.config.test_mode = true
@@ -62,13 +64,15 @@ module Flows
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
-      visit track_path(track)
-      click_on "Join the Ruby Track"
-      fill_in "Email", with: "user@exercism.io"
-      fill_in "Password", with: "password"
-      click_on "Log In"
+      use_capybara_host do
+        visit track_path(track)
+        click_on "Join the Ruby Track"
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Password", with: "password"
+        click_on "Log In"
 
-      assert_text "Join the Ruby Track"
+        assert_text "Join the Ruby Track"
+      end
     end
 
     test "user logs in, onboards, and is redirected to the correct page" do
@@ -80,16 +84,18 @@ module Flows
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
-      visit track_path(track)
-      click_on "Join the Ruby Track"
-      fill_in "Email", with: "user@exercism.io"
-      fill_in "Password", with: "password"
-      click_on "Log In"
-      find('label', text: "I accept Exercism's Terms of Service").click
-      find('label', text: "I accept Exercism's Privacy Policy").click
-      click_on "Save & Get Started"
+      use_capybara_host do
+        visit track_path(track)
+        click_on "Join the Ruby Track"
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Password", with: "password"
+        click_on "Log In"
+        find('label', text: "I accept Exercism's Terms of Service").click
+        find('label', text: "I accept Exercism's Privacy Policy").click
+        click_on "Save & Get Started"
 
-      assert_text "Join the Ruby Track"
+        assert_text "Join the Ruby Track"
+      end
     end
   end
 end

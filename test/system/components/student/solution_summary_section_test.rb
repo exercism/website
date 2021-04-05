@@ -356,8 +356,9 @@ module Components::Student
       assert iteration.status.no_automated_feedback? # Sanity
 
       create :user_track, user: user, track: solution.track
-      create :mentor_discussion, solution: solution
-      create(:mentor_request, solution: solution).fulfilled!
+      request = create(:mentor_request, solution: solution)
+      create :mentor_discussion, solution: solution, request: request
+      request.fulfilled!
 
       use_capybara_host do
         sign_in!(user)

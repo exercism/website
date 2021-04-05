@@ -13,6 +13,8 @@ export type DropdownAttributes = {
   panelAttributes: any
   itemAttributes: (index: number) => ItemAttributes
   listAttributes: ListAttributes
+  open: boolean
+  setOpen: (open: false) => void
 }
 
 type ButtonAttributes = {
@@ -39,7 +41,8 @@ type ListAttributes = {
 
 export const useDropdown = (
   itemLength: number,
-  onItemSelect?: (index: number) => void
+  onItemSelect?: (index: number) => void,
+  panelOptions?: any
 ): DropdownAttributes => {
   const {
     open,
@@ -50,7 +53,7 @@ export const useDropdown = (
     setPanelElement,
     styles,
     attributes,
-  } = usePanel()
+  } = usePanel(panelOptions || {})
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
   const [focusIndex, setFocusIndex] = useState<number | null | undefined>()
   const id = useMemo(() => {
@@ -169,5 +172,7 @@ export const useDropdown = (
         role: 'menuitem',
       }
     },
+    open,
+    setOpen,
   }
 }

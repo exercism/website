@@ -15,7 +15,7 @@ class SerializeMentorRequests
       id: request.uuid,
 
       track_title: request.track_title,
-      track_icon_url: request.track_icon_url,
+      exercise_icon_url: request.exercise_icon_url,
       exercise_title: request.exercise_title,
 
       mentee_handle: request.user_handle,

@@ -6,8 +6,13 @@ import { ExerciseFilterList } from '../../../../../app/javascript/components/men
 
 test('searches for exercises', async () => {
   const exercises = [
-    { slug: 'tournament', title: 'Tournament', iconName: 'butterflies' },
-    { slug: 'series', title: 'Series', iconName: 'rocket' },
+    {
+      slug: 'tournament',
+      title: 'Tournament',
+      iconName: 'butterflies',
+      count: 2,
+    },
+    { slug: 'series', title: 'Series', iconName: 'rocket', count: 2 },
   ]
 
   render(
@@ -17,9 +22,9 @@ test('searches for exercises', async () => {
   userEvent.type(screen.getByRole('textbox'), 'tour')
 
   expect(
-    await screen.findByRole('checkbox', { name: 'Tournament' })
+    await screen.findByRole('radio', { name: 'Tournament 2' })
   ).toBeInTheDocument()
   expect(
-    screen.queryByRole('checkbox', { name: 'Series' })
+    screen.queryByRole('radio', { name: 'Series 2' })
   ).not.toBeInTheDocument()
 })

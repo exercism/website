@@ -76,7 +76,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_inbox_url
-          click_on "Button to open the track filter"
+          click_on "Open the track filter"
           find("label", text: "Go").click
 
           assert_text "on Tournament"

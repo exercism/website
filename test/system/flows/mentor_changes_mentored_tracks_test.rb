@@ -17,7 +17,8 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_queue_path
-        click_on "Change tracks"
+        within(".mentor-queue-filtering") { click_on "Ruby" }
+        click_on "Change the tracks you mentor"
         find("label.track", text: "Ruby").click
         find("label.track", text: "C#").click
         click_on "Continue"

@@ -5,12 +5,10 @@ import { MentoredTrack, MentoredTrackExercise } from '../types'
 import { useMentoringQueue } from './queue/useMentoringQueue'
 import { TrackFilterList } from './queue/TrackFilterList'
 import { Request } from '../../hooks/request-query'
-import { SolutionCount } from './queue/SolutionCount'
 import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
-import { ChangeTracksButton } from './queue/ChangeTracksButton'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -54,9 +52,10 @@ export const Queue = ({
     status: exerciseListStatus,
     error: exerciseListError,
   } = useExerciseList({ track: selectedTrack })
-  const [selectedExercises, setSelectedExercises] = useState<
-    MentoredTrackExercise[]
-  >([])
+  const [
+    selectedExercise,
+    setSelectedExercise,
+  ] = useState<MentoredTrackExercise | null>(null)
   const {
     resolvedData,
     latestData,
@@ -72,12 +71,12 @@ export const Queue = ({
   } = useMentoringQueue({
     request: queueRequest,
     track: selectedTrack,
-    exercises: selectedExercises,
+    exercise: selectedExercise,
   })
 
   const handleReset = useCallback(() => {
     setSelectedTrack(tracks[0])
-    setSelectedExercises([])
+    setSelectedExercise(null)
   }, [tracks])
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export const Queue = ({
   }, [tracks])
 
   useEffect(() => {
-    setSelectedExercises([])
+    setSelectedExercise(null)
   }, [selectedTrack])
 
   return (
@@ -117,18 +116,6 @@ export const Queue = ({
         />
       </div>
       <div className="mentor-queue-filtering">
-        <ChangeTracksButton
-          links={links}
-          tracks={tracks}
-          cacheKey={TRACKS_LIST_CACHE_KEY}
-        />
-        {resolvedData ? (
-          <SolutionCount
-            unscopedTotal={resolvedData.meta.unscopedTotal}
-            total={resolvedData.meta.totalCount}
-            onResetFilter={handleReset}
-          />
-        ) : null}
         <TrackFilterList
           status={trackListStatus}
           error={trackListError}
@@ -136,17 +123,17 @@ export const Queue = ({
           isFetching={isTrackListFetching}
           value={selectedTrack}
           setValue={setSelectedTrack}
+          cacheKey={TRACKS_LIST_CACHE_KEY}
+          total={resolvedData?.meta.totalCount}
+          links={links}
         />
-        <div className="exercise-filter">
-          <h3>Filter by exercise</h3>
-          <ExerciseFilterList
-            status={exerciseListStatus}
-            exercises={exercises}
-            value={selectedExercises}
-            setValue={setSelectedExercises}
-            error={exerciseListError}
-          />
-        </div>
+        <ExerciseFilterList
+          status={exerciseListStatus}
+          exercises={exercises}
+          value={selectedExercise}
+          setValue={setSelectedExercise}
+          error={exerciseListError}
+        />
       </div>
     </div>
   )

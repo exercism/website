@@ -1,7 +1,6 @@
 @import "../../styles.css";
 
-.c-track-header,
-.c-mentor-header {
+.c-track-header {
     @apply relative;
     @apply bg-backgroundColorA pt-12 shadow-base;
 
@@ -27,9 +26,7 @@
     & .tabs {
         @apply flex flex-grow;
     }
-}
 
-.c-track-header {
     & .people {
         @apply flex items-center;
         & .c-faces {

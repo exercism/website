@@ -130,34 +130,32 @@ const Component = ({
           className="action-icon"
         />
       </button>
-      {open ? (
-        <div {...panelAttributes} className="c-track-switcher-dropdown">
-          <ul {...listAttributes}>
-            {tracks.map((track, i) => {
-              return (
-                <li key={track.id} {...itemAttributes(i)}>
-                  <TrackFilter
-                    onChange={() => {
-                      setValue(track)
-                      setOpen(false)
-                    }}
-                    checked={value === track}
-                    {...track}
-                  />
-                </li>
-              )
-            })}
-            <li key="change-tracks" {...itemAttributes(tracks.length)}>
-              <ChangeTracksButton
-                ref={changeTracksRef}
-                links={links}
-                cacheKey={cacheKey}
-                tracks={tracks}
-              />
-            </li>
-          </ul>
-        </div>
-      ) : null}
+      <div {...panelAttributes} className="c-track-switcher-dropdown">
+        <ul {...listAttributes}>
+          {tracks.map((track, i) => {
+            return (
+              <li key={track.id} {...itemAttributes(i)}>
+                <TrackFilter
+                  onChange={() => {
+                    setValue(track)
+                    setOpen(false)
+                  }}
+                  checked={value === track}
+                  {...track}
+                />
+              </li>
+            )
+          })}
+          <li key="change-tracks" {...itemAttributes(tracks.length)}>
+            <ChangeTracksButton
+              ref={changeTracksRef}
+              links={links}
+              cacheKey={cacheKey}
+              tracks={tracks}
+            />
+          </li>
+        </ul>
+      </div>
     </React.Fragment>
   )
 }

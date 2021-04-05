@@ -6,7 +6,6 @@ module Flows
   class MentorChangesMentoredTracksTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
-    # TODO: kntsoriano - the dropdown needs opening and the link-text has changed
     test "user changes mentored tracks" do
       ruby = create :track, title: "Ruby", slug: "ruby"
       csharp = create :track, title: "C#", slug: "csharp"
@@ -19,7 +18,7 @@ module Flows
         sign_in!(mentor)
         visit mentoring_queue_path
         within(".mentor-queue-filtering") { click_on "Ruby" }
-        click_on "Change tracks"
+        click_on "Change the tracks you mentor"
         find("label.track", text: "Ruby").click
         find("label.track", text: "C#").click
         click_on "Continue"

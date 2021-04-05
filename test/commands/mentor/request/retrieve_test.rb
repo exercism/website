@@ -4,6 +4,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "only retrieves unlocked pending solutions" do
     mentored_track = create :track
     user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
@@ -25,6 +26,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "does not retrieve own solutions" do
     mentored_track = create :track
     user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
 
     other_solution = create :concept_solution, track: mentored_track
     mentors_solution = create :concept_solution, track: mentored_track, user: user
@@ -35,29 +37,20 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     assert_equal [other_request], Mentor::Request::Retrieve.(mentor: user)
   end
 
-  test "returns all solutions without mentor" do
-    mentored_track = create :track
+  test "only retrieves mentored or selected tracks" do
+    mentored_track_1 = create :track, :random_slug
+    mentored_track_2 = create :track, :random_slug
+    unmentored_track = create :track, :random_slug
     user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track_1
+    create :user_track_mentorship, user: user, track: mentored_track_2
 
-    other_solution = create :concept_solution, track: mentored_track
-    mentors_solution = create :concept_solution, track: mentored_track, user: user
+    mt_1_req = create :mentor_request, solution: create(:concept_solution, track: mentored_track_1)
+    mt_2_req = create :mentor_request, solution: create(:concept_solution, track: mentored_track_2)
+    create :mentor_request, solution: create(:concept_solution, track: unmentored_track)
 
-    request_1 = create :mentor_request, solution: other_solution
-    request_2 = create :mentor_request, solution: mentors_solution
-
-    assert_equal [request_1, request_2], Mentor::Request::Retrieve.()
-  end
-
-  test "only retrieves relevant tracks" do
-    good_track = create :track
-    bad_track = create :track, slug: "js"
-    user = create :user
-
-    good = create :mentor_request, solution: create(:concept_solution, track: good_track)
-    bad = create :mentor_request, solution: create(:concept_solution, track: bad_track)
-
-    assert_equal [good, bad], Mentor::Request::Retrieve.(mentor: user) # Sanity
-    assert_equal [good], Mentor::Request::Retrieve.(mentor: user, track_slug: good_track.slug)
+    assert_equal [mt_1_req, mt_2_req], Mentor::Request::Retrieve.(mentor: user)
+    assert_equal [mt_1_req], Mentor::Request::Retrieve.(mentor: user, track_slug: mentored_track_1.slug)
   end
 
   test "only retrieves relevant exercises from correct tracks" do
@@ -65,6 +58,9 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
 
     ruby = create :track, slug: "ruby"
     js = create :track, slug: "js"
+    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: js
+
     ruby_bob = create :concept_exercise, track: ruby, slug: "bob"
     js_bob = create :concept_exercise, track: js, slug: "bob"
 
@@ -87,6 +83,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "orders by recency" do
     mentored_track = create :track
     user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
@@ -101,6 +98,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "pagination works" do
     mentored_track = create :track
     user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
@@ -121,6 +119,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "returns relationship unless paginated" do
     mentored_track = create :track
     user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 

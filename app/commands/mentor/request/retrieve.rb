@@ -9,7 +9,7 @@ module Mentor
         10
       end
 
-      def initialize(mentor: nil,
+      def initialize(mentor:,
                      page: 1,
                      criteria: nil, order: nil,
                      track_slug: nil, exercise_slug: nil,
@@ -62,11 +62,15 @@ module Mentor
       end
 
       def filter_track!
-        return if track_slug.blank?
-
-        @requests = @requests.
-          joins(solution: :track).
-          where('tracks.slug': track_slug)
+        if track_slug.present?
+          @requests = @requests.
+            joins(solution: :track).
+            where('tracks.slug': track_slug)
+        else
+          @requests = @requests.
+            joins(solution: :exercise).
+            where('exercise.track_id': mentor.mentored_tracks)
+        end
       end
 
       def filter_exercises!

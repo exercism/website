@@ -9,7 +9,7 @@ module API
     def mentored
       tracks = Track::Search.(criteria: params[:criteria], user: current_user)
       tracks = current_user.mentored_tracks.where(id: tracks)
-      render json: SerializeTracksForMentoring.(tracks, mentor: current_user)
+      render json: SerializeTracksForMentoring.(tracks)
     end
 
     def update
@@ -17,7 +17,7 @@ module API
 
       current_user.update!(mentored_tracks: tracks)
 
-      render json: SerializeTracksForMentoring.(current_user.mentored_tracks, mentor: current_user)
+      render json: SerializeTracksForMentoring.(current_user.mentored_tracks)
     end
   end
 end

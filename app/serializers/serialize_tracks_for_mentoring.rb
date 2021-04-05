@@ -1,9 +1,8 @@
 class SerializeTracksForMentoring
   include Mandate
 
-  def initialize(tracks, mentor: nil)
+  def initialize(tracks)
     @tracks = tracks
-    @mentor = mentor
   end
 
   def call
@@ -28,15 +27,15 @@ class SerializeTracksForMentoring
   end
 
   private
-  attr_reader :tracks, :mentor
+  attr_reader :tracks
 
   memoize
   def request_counts
-    Mentor::Request::Retrieve.(
-      mentor: mentor,
-      sorted: false, paginated: false
-    ).joins(solution: :exercise).
-      group('exercises.track_id').
-      count
+    @requests = Mentor::Request.
+      joins(solution: :exercise).
+      pending.
+      unlocked.
+      where('exercises.track_id': tracks).
+      group('exercises.track_id').count
   end
 end

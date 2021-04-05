@@ -18,6 +18,8 @@ class UserTrack < ApplicationRecord
     self.summary_data = {}
   end
 
+  # Add some caching inside here for the duration
+  # of the request cycle.
   def self.for!(user_param, track_param)
     UserTrack.find_by!(
       user: User.for!(user_param),
@@ -39,6 +41,13 @@ class UserTrack < ApplicationRecord
 
   def external?
     false
+  end
+
+  memoize
+  def has_notifications?
+    User::Notification.unread.
+      where(user_id: user_id, track_id: track_id).
+      exists?
   end
 
   def completed_percentage
@@ -74,26 +83,36 @@ class UserTrack < ApplicationRecord
     num_completed_exercises.positive?
   end
 
-  delegate :exercise_unlocked?, :exercise_completed?, :exercise_status, :exercise_type,
-    :num_completed_exercises, :num_completed_concept_exercises, :num_completed_practice_exercises,
-    :unlocked_exercise_ids, :avaliable_exercise_ids,
-    :num_concepts, :num_concepts_learnt, :num_concepts_mastered,
-    :num_exercises,
-    :num_exercises_for_concept, :num_completed_exercises_for_concept,
-    :concept_unlocked?, :concept_learnt?, :concept_mastered?,
-    :concept_progressions, :concept_slugs,
-    :unlocked_concept_ids, :unlocked_concept_slugs,
-    :learnt_concept_ids, :learnt_concept_slugs,
-    :mastered_concept_ids, :mastered_concept_slugs,
-    :unlocked_concepts, :mastered_concepts,
-    :unlocked_concept_exercises, :unlocked_practice_exercises,
-    :unlocked_exercises, :available_exercises, :in_progress_exercises, :completed_exercises,
-    :num_available_exercises, :num_in_progress_exercises,
-    to: :summary
+  def exercise_has_notifications?(exercise)
+    # None of these can have notifications
+    # so avoid the expense of a db call
+    return false if %i[
+      locked available started
+    ].include?(exercise_status(exercise))
+
+    User::Notification.unread.
+      where(user_id: user_id, exercise_id: exercise.id).
+      exists?
+  end
+
+  # In Ruby 2.7 and Ruby 3 we'll need **kwargs here.
+  def method_missing(meth, *args, &block)
+    summary.public_send(meth, *args, &block)
+  end
+
+  def respond_to_missing?(meth, include_all)
+    return false if %i[
+      to_ary
+    ].include?(meth)
+
+    summary.respond_to?(meth, include_all)
+  rescue StandardError
+    true # We need this for test-mocking. It's messy.
+  end
 
   def reset_summary!
-    self.update_column(:summary_key, nil)
     reload
+    self.summary_key = nil
     @summary = nil
   end
 
@@ -106,9 +125,13 @@ class UserTrack < ApplicationRecord
     return @summary if @summary
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
-    expected_key = "#{track.updated_at.to_f}_#{updated_at.to_f}_#{digest}"
+    track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
+    expected_key = "#{track_updated_at.to_f}_#{updated_at.to_f}_#{digest}"
 
     if summary_key != expected_key
+      # It is important to use update_columns here
+      # else we'll touch updated_at and end up always
+      # invalidating the cache immediately.
       update_columns(
         summary_key: expected_key,
         summary_data: UserTrack::GenerateSummaryData.(track, self)

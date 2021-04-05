@@ -3,6 +3,12 @@ class User::Notification < ApplicationRecord
   self.class_suffix = :notification
   self.i18n_category = :notifications
 
+  # If track or exercise is set, it means that this is a
+  # notification *about* that track and/or exercise and that
+  # the blue notification dot should propogate everywhere
+  belongs_to :track, optional: true
+  belongs_to :exercise, optional: true
+
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
 
   scope :read, -> { where.not(read_at: nil) }

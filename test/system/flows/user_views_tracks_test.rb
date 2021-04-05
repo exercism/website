@@ -11,16 +11,16 @@ module Flows
 
     test "shows track information" do
       user = create :user
-      ruby = create :track, :random_slug, updated_at: 2.days.ago
+      ruby = create :track, :random_slug
       create :track, :random_slug
       create :track, :random_slug
-      create :user_track, track: ruby, user: user
+      create :user_track, track: ruby, user: user, updated_at: 2.days.ago
 
       use_capybara_host do
         sign_in!(user)
         visit tracks_path
 
-        assert_text "Last Touched 2 days ago"
+        assert_text "Last touched 2 days ago"
         assert_text "Showing 3 tracks"
       end
     end

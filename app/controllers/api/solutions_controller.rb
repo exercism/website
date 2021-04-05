@@ -12,7 +12,8 @@ module API
 
       render json: SerializePaginatedCollection.(
         solutions,
-        serializer: SerializeSolutions
+        serializer: SerializeSolutions,
+        serializer_args: [current_user]
       )
     end
 

@@ -8,7 +8,10 @@ class SerializeExercises
 
   def call
     exercises.map do |exercise|
-      SerializeExercise.(exercise, user_track: user_track)
+      SerializeExercise.(
+        exercise,
+        user_track: user_track
+      )
     end
   end
 

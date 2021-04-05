@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_02_085227) do
+ActiveRecord::Schema.define(version: 2021_04_03_215602) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -381,6 +381,8 @@ ActiveRecord::Schema.define(version: 2021_04_02_085227) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num_exercises", limit: 3, default: 0, null: false
+    t.integer "num_concepts", limit: 3, default: 0, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
@@ -474,7 +476,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_085227) do
     t.string "level"
     t.integer "version", null: false
     t.json "rendering_data_cache", null: false
-    t.string "external_link"
+    t.string "external_url"
     t.boolean "seen", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -1,39 +1,30 @@
 require 'test_helper'
 
 class SerializeExercisesTest < ActiveSupport::TestCase
-  test "without user track" do
+  test "serializes without user_track" do
     concept_exercise = create :concept_exercise
     practice_exercise = create :practice_exercise
 
-    expected = [{
-      slug: concept_exercise.slug,
-      title: concept_exercise.title,
-      icon_url: concept_exercise.icon_url,
-      blurb: concept_exercise.blurb,
-      difficulty: "easy",
-      is_unlocked: true,
-      is_recommended: nil,
-      is_completed: nil,
-      links: {
-        self: Exercism::Routes.track_exercise_path(concept_exercise.track, concept_exercise)
-      }
-    }, {
-      slug: practice_exercise.slug,
-      title: practice_exercise.title,
-      icon_url: practice_exercise.icon_url,
-      blurb: practice_exercise.blurb,
-      difficulty: "easy",
-      is_unlocked: true,
-      is_recommended: nil,
-      is_completed: nil,
-      links: {
-        self: Exercism::Routes.track_exercise_path(practice_exercise.track, practice_exercise)
-      }
-
-    }]
+    expected = [
+      SerializeExercise.(concept_exercise),
+      SerializeExercise.(practice_exercise)
+    ]
 
     assert_equal expected, SerializeExercises.(
       [concept_exercise, practice_exercise]
+    )
+  end
+
+  test "with external user track" do
+    exercise = create :concept_exercise
+
+    expected = [
+      SerializeExercise.(exercise)
+    ]
+
+    assert_equal expected, SerializeExercises.(
+      [exercise],
+      user_track: UserTrack::External.new(exercise.track)
     )
   end
 
@@ -47,29 +38,10 @@ class SerializeExercisesTest < ActiveSupport::TestCase
 
     create :hello_world_solution, :completed, track: track, user: user
 
-    expected = [{
-      slug: concept_exercise.slug,
-      title: concept_exercise.title,
-      icon_url: concept_exercise.icon_url,
-      blurb: concept_exercise.blurb,
-      difficulty: "easy",
-      is_unlocked: true,
-      is_recommended: false,
-      is_completed: false,
-      links: {
-        self: Exercism::Routes.track_exercise_path(track, concept_exercise)
-      }
-    }, {
-      slug: practice_exercise.slug,
-      title: practice_exercise.title,
-      icon_url: practice_exercise.icon_url,
-      blurb: practice_exercise.blurb,
-      difficulty: "easy",
-      is_unlocked: false,
-      is_recommended: false,
-      is_completed: false,
-      links: {}
-    }]
+    expected = [
+      SerializeExercise.(concept_exercise, user_track: user_track),
+      SerializeExercise.(practice_exercise, user_track: user_track)
+    ]
 
     assert_equal expected, SerializeExercises.(
       [concept_exercise, practice_exercise],

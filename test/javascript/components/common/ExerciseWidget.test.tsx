@@ -16,7 +16,6 @@ test('renders a solution when passed in', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -82,7 +81,6 @@ test('renders an available exercise', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: false,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -130,7 +128,6 @@ test('renders a locked exercise', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: false,
-    isCompleted: false,
     isRecommended: false,
   }
   const track: Track = {

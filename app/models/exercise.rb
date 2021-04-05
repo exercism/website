@@ -8,7 +8,7 @@ class Exercise < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  belongs_to :track
+  belongs_to :track, counter_cache: :num_exercises
 
   # TODO: Pre-launch: Remove this dependent: :destroy  - exercises should never be destroyed
   has_many :solutions, dependent: :destroy

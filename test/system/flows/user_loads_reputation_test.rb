@@ -9,13 +9,14 @@ module Flows
 
     test "user views reputation" do
       user = create :user
+      external_url = "https://github.com/exercism/ruby/pulls/120"
       create :user_code_review_reputation_token,
         user: user,
         created_at: 2.days.ago,
         value: 50,
         seen: false,
         params: {
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: external_url,
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
@@ -28,7 +29,7 @@ module Flows
         find(".c-primary-reputation").click
 
         assert_css ".--notification"
-        assert_link "You reviewed PR#120 on pulls: I did something", href: "#"
+        assert_link "You reviewed PR#120 on pulls: I did something", href: external_url
         assert_text "2 days ago"
         assert_text "50"
         assert_link "See how you earned all your reputation", href: reputation_journey_url
@@ -43,7 +44,7 @@ module Flows
         value: 50,
         seen: false,
         params: {
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
@@ -69,7 +70,7 @@ module Flows
         value: 50,
         seen: false,
         params: {
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,

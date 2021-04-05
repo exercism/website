@@ -13,6 +13,8 @@ class Iteration
       })
       Iteration.find(id).tap do |iteration|
         init_services
+        # TODO: Guard against the activity not being new
+        # TODO: Maybe add a guard on the activity itself?
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique

@@ -6,8 +6,9 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     assert ut.external?
     assert_empty ut.learnt_concepts
 
-    refute ut.exercise_unlocked?(mock)
-    refute ut.exercise_completed?(mock)
+    assert ut.exercise_unlocked?(nil)
+    refute ut.exercise_completed?(nil)
+    assert_equal :external, ut.exercise_status(nil)
 
     assert_equal 0, ut.num_completed_exercises
     assert_empty ut.unlocked_exercise_ids

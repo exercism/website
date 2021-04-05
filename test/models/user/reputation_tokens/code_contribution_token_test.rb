@@ -2,7 +2,7 @@ require "test_helper"
 
 class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCase
   test "creates code contribution reputation token for major level" do
-    external_link = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    external_url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     repo = 'exercism/ruby'
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
@@ -18,7 +18,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
-      external_link: external_link
+      external_url: external_url
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -26,7 +26,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
 
     assert_equal User::ReputationTokens::CodeContributionToken, rt.class
     assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
-    assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_link
+    assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
     assert_equal :building, rt.category
     assert_equal :contributed_code, rt.reason
@@ -35,7 +35,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
   end
 
   test "creates code contribution reputation token for regular level" do
-    external_link = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    external_url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     repo = 'exercism/ruby'
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
@@ -51,7 +51,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
-      external_link: external_link
+      external_url: external_url
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -59,7 +59,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
 
     assert_equal User::ReputationTokens::CodeContributionToken, rt.class
     assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
-    assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_link
+    assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
     assert_equal :building, rt.category
     assert_equal :contributed_code, rt.reason
@@ -68,7 +68,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
   end
 
   test "creates code contribution reputation token for minor level" do
-    external_link = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    external_url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     repo = 'exercism/ruby'
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
@@ -84,7 +84,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
-      external_link: external_link
+      external_url: external_url
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -92,7 +92,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
 
     assert_equal User::ReputationTokens::CodeContributionToken, rt.class
     assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
-    assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_link
+    assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
     assert_equal :building, rt.category
     assert_equal :contributed_code, rt.reason
@@ -112,7 +112,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,
       pr_title: "The cat sat on the mat",
-      external_link: 'https://api.github.com/repos/exercism/ruby/pulls/1347'
+      external_url: 'https://api.github.com/repos/exercism/ruby/pulls/1347'
     )
 
     assert_equal track, token.track
@@ -129,7 +129,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,
       pr_title: "The cat sat on the mat",
-      external_link: 'https://api.github.com/repos/exercism/v3/pulls/1347'
+      external_url: 'https://api.github.com/repos/exercism/v3/pulls/1347'
     )
 
     assert_nil token.track

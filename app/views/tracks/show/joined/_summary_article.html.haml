@@ -25,27 +25,27 @@
           .item
             .c-ed.--completed
             .status Completed
-            .count= exercise_statuses.count { |_, s| %i[completed published].include?(s) }
+            .count= user_track.num_completed_exercises
           .item
             .c-ed.--in_progress
             .status In-progress
-            .count= exercise_statuses.count { |_, s| %i[in_progress started].include?(s) }
+            .count= user_track.num_in_progress_exercises
           .item
             .c-ed.--available
             .status Available
-            .count= exercise_statuses.count { |_, s| s == :available }
+            .count= user_track.num_available_exercises
           .item
             .c-ed.--locked
             .status Locked
-            .count= exercise_statuses.count { |_, s| s == :locked }
+            .count= user_track.num_locked_exercises
           .item.total
             .status Total Exercises
-            .count= exercise_statuses.size
+            .count= user_track.num_exercises
 
       - if user_track.tutorial_exercise_completed?
         %section.activities
           - recent_solutions.each do |solution|
-            = render ViewComponents::Track::SolutionActivity.new(track, solution)
+            = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
 
       - else
         = render "tracks/show/joined/start_track_section", track: track

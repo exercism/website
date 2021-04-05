@@ -174,7 +174,7 @@ module Components
         visit mentoring_queue_path
         fill_in "Filter by student handle", with: "Oth"
 
-        within(".mentor-queue-filtering") { assert_text "Ruby 1" }
+        within(".mentor-queue-filtering") { assert_text "Ruby\n1" }
       end
 
       test "shows and hides exercises that require mentoring" do

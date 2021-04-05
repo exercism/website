@@ -26,18 +26,17 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   def teardown
-    if ApplicationSystemTestCase.override_should_flunk
-      # reset logs
-      page.driver.browser.manage.logs.get(:browser)
+    # Reset logs regardless of status
+    errors = page.driver.browser.manage.logs.get(:browser)
 
-      Capybara.reset_sessions!
-      Capybara.use_default_driver
+    # Reset everything
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
 
-      return
-    end
+    # Don't do anything else if we're deliberately not flunking
+    return if ApplicationSystemTestCase.override_should_flunk
 
     should_flunk = false
-    errors = page.driver.browser.manage.logs.get(:browser)
     errors.to_a.each do |error|
       next if error.level == "WARNING"
       next if error.to_s.include?("403 (Forbidden)")
@@ -54,9 +53,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     end
 
     flunk("JS Errors") if should_flunk
-
-    Capybara.reset_sessions!
-    Capybara.use_default_driver
   end
 
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]

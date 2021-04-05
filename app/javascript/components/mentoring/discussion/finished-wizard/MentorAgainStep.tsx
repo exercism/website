@@ -70,7 +70,7 @@ export const MentorAgainStep = ({
 
   return (
     <div>
-      <p>Want to mentor {student.handle} again?</p>
+      <p>Do you want to mentor {student.handle} again?</p>
       <div className="buttons">
         <button
           className="btn-small"
@@ -78,7 +78,7 @@ export const MentorAgainStep = ({
           disabled={status === 'loading'}
         >
           <GraphicalIcon icon="checkmark" />
-          Yes
+          <span>Yes</span>
         </button>
         <button
           className="btn-small"
@@ -86,7 +86,7 @@ export const MentorAgainStep = ({
           disabled={status === 'loading'}
         >
           <GraphicalIcon icon="cross" />
-          No
+          <span>No</span>
         </button>
       </div>
       {status === 'loading' ? <Loading /> : null}

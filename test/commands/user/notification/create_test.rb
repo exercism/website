@@ -41,7 +41,10 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
     params = { discussion: discussion }
-    NotificationsChannel.expects(:broadcast_pending!).with(user, notification)
+    NotificationsChannel.expects(:broadcast_pending!).with do |u, n|
+      assert_equal u, user
+      assert n.is_a?(User::Notification)
+    end
 
     User::Notification::Create.(user, type, params)
   end

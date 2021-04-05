@@ -50,7 +50,7 @@ module ViewComponents
           ) do
             graphical_icon(:overview) +
               tag.span("Your Workspace") +
-              tag.span("20", class: 'count') # TODO
+              tag.span(number_with_delimiter(inbox_size), class: 'count')
           end,
 
           link_to(
@@ -59,7 +59,7 @@ module ViewComponents
           ) do
             graphical_icon(:queue) +
               tag.span("Queue") +
-              tag.span("1,700", class: 'count') # TODO
+              tag.span(number_with_delimiter(queue_size), class: 'count')
           end,
 
           link_to(
@@ -86,6 +86,23 @@ module ViewComponents
 
       def guard!
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
+      end
+
+      memoize
+      def inbox_size
+        ::Mentor::Discussion.joins(solution: :exercise).
+          where(mentor: current_user).
+          requires_mentor_action.
+          count
+      end
+
+      memoize
+      def queue_size
+        ::Mentor::Request::Retrieve.(
+          mentor: current_user,
+          sorted: false,
+          paginated: false
+        ).count
       end
     end
   end

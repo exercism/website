@@ -9,21 +9,18 @@ class User::Notification < ApplicationRecord
   belongs_to :track, optional: true
   belongs_to :exercise, optional: true
 
-  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
-
-  scope :read, -> { where.not(read_at: nil) }
-  scope :unread, -> { where(read_at: nil) }
+  enum status: { pending: 0, unread: 1, read: 2 }
+  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }, _prefix: :email
 
   before_validation do
     self.uuid = SecureRandom.compact_uuid
   end
 
-  def read?
-    read_at.present?
-  end
-
   def read!
-    update_column(:read_at, Time.current)
+    update_columns(
+      status: :read,
+      read_at: Time.current
+    )
   end
 
   def cacheable_rendering_data

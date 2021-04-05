@@ -101,6 +101,7 @@ module Flows
       use_capybara_host do
         sign_in!(user)
         visit track_exercise_iterations_url(track, exercise)
+        sleep(0.1) # Give the websockets time to attach
 
         create :iteration, idx: 3, solution: solution
         SolutionChannel.broadcast!(solution)

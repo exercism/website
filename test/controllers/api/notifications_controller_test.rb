@@ -14,6 +14,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     mentor = create :user
     notification = create :mentor_started_discussion_notification,
       user: user,
+      status: :unread,
       params: {
         discussion: create(:mentor_discussion, mentor: mentor)
       }

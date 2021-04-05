@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def mark_notifications_as_read!
+    return if devise_controller?
     return unless user_signed_in?
     return unless request.get?
     return unless is_navigational_format?

@@ -22,7 +22,7 @@ class SerializeSolutionsTest < ActiveSupport::TestCase
     solution_1 = create :practice_solution, exercise: exercise_1, user: user
     solution_2 = create :practice_solution, exercise: exercise_2, user: user
     discussion = create(:mentor_discussion, solution: solution_1)
-    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
+    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
 
     user_track = create :user_track, user: user, track: track
     assert user_track.exercise_has_notifications?(exercise_1)

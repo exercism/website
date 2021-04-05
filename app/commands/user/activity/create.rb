@@ -19,7 +19,7 @@ class User::Activity
         params: params
       ).tap do
         # TODO: Broadcast new activity
-        # AcivitiiesChannel.broadcast_changed(user)
+        # AcivitiiesChannel.broadcast_changed!(user)
       end
     end
 

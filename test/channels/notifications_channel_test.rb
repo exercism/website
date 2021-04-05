@@ -8,7 +8,8 @@ class NotificationsChannelTest < ActionCable::Channel::TestCase
     assert_broadcast_on(
       user,
       type: "notifications.pending",
-      clearance_path: notification.path
+      notification_id: notification.uuid,
+      notification_path: notification.path
     ) do
       NotificationsChannel.broadcast_pending!(user, notification)
     end

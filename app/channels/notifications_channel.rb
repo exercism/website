@@ -6,7 +6,8 @@ class NotificationsChannel < ApplicationCable::Channel
   def self.broadcast_pending!(user, notification)
     NotificationsChannel.broadcast_to(user, {
                                         type: "notifications.pending",
-                                        clearance_path: notification.path
+                                        notification_id: notification.uuid,
+                                        notification_path: notification.path
                                       })
   end
 

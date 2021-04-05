@@ -49,7 +49,6 @@ module Components
           assert_no_text "Bob"
 
           click_on "2"
-          sleep(1)
 
           assert_text "Bob"
           assert_no_text "Lasagna"

@@ -16,15 +16,17 @@ module Flows
       create :iteration, idx: 2, solution: solution, submission: submission
       create :submission_file, submission: submission
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
 
-      assert_text "Iteration 2"
-      assert_text "Processing"
+        assert_text "Iteration 2"
+        assert_text "Processing"
 
-      submission.update!(tests_status: :failed)
-      SolutionChannel.broadcast!(solution)
-      assert_text "Failed"
+        submission.update!(tests_status: :failed)
+        SolutionChannel.broadcast!(solution)
+        assert_text "Failed"
+      end
     end
 
     test "opens and closes iterations as expected" do
@@ -42,23 +44,25 @@ module Flows
       create :iteration, idx: 2, solution: solution, submission: submission_2
       create :submission_file, submission: submission_2
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
 
-      assert_equal "true", find("details", text: "Iteration 2")['open']
-      assert_equal "false", find("details", text: "Iteration 1")['open']
+        assert_equal "true", find("details", text: "Iteration 2")['open']
+        assert_equal "false", find("details", text: "Iteration 1")['open']
 
-      find("summary", text: "Iteration 2").click
-      assert_equal "false", find("details", text: "Iteration 2")['open']
-      assert_equal "false", find("details", text: "Iteration 1")['open']
+        find("summary", text: "Iteration 2").click
+        assert_equal "false", find("details", text: "Iteration 2")['open']
+        assert_equal "false", find("details", text: "Iteration 1")['open']
 
-      find("summary", text: "Iteration 2").click
-      assert_equal "true", find("details", text: "Iteration 2")['open']
-      assert_equal "false", find("details", text: "Iteration 1")['open']
+        find("summary", text: "Iteration 2").click
+        assert_equal "true", find("details", text: "Iteration 2")['open']
+        assert_equal "false", find("details", text: "Iteration 1")['open']
 
-      find("summary", text: "Iteration 1").click
-      assert_equal "true", find("details", text: "Iteration 2")['open']
-      assert_equal "true", find("details", text: "Iteration 1")['open']
+        find("summary", text: "Iteration 1").click
+        assert_equal "true", find("details", text: "Iteration 2")['open']
+        assert_equal "true", find("details", text: "Iteration 1")['open']
+      end
     end
 
     test "opens newest iteration when there are no iterations open" do
@@ -71,13 +75,15 @@ module Flows
       create :iteration, idx: 2, solution: solution, submission: submission
       create :submission_file, submission: submission
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
-      find("summary").click
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
+        find("summary").click
 
-      create :iteration, idx: 3, solution: solution
-      SolutionChannel.broadcast!(solution)
-      assert_equal find("details", text: "Iteration 3")['open'], "true"
+        create :iteration, idx: 3, solution: solution
+        SolutionChannel.broadcast!(solution)
+        assert_equal find("details", text: "Iteration 3")['open'], "true"
+      end
     end
 
     test "does not open newest iteration when there are iterations open" do
@@ -92,13 +98,16 @@ module Flows
       create :iteration, idx: 2, solution: solution, submission: submission
       create :submission_file, submission: submission
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
+        sleep(0.1) # Give the websockets time to attach
 
-      create :iteration, idx: 3, solution: solution
-      SolutionChannel.broadcast!(solution)
-      sleep(1)
-      assert_equal "false", find("details", text: "Iteration 3")['open']
+        create :iteration, idx: 3, solution: solution
+        SolutionChannel.broadcast!(solution)
+
+        assert_equal "false", find("details", text: "Iteration 3")['open']
+      end
     end
 
     test "user sees zero state" do
@@ -160,10 +169,12 @@ module Flows
       create :iteration, solution: solution, submission: submission
       create :submission_file, submission: submission
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
 
-      assert_text "We're analysing your code for suggestions"
+        assert_text "We're analysing your code for suggestions"
+      end
     end
 
     test "user views iteration with no automated feedback" do
@@ -179,10 +190,12 @@ module Flows
       create :iteration, solution: solution, submission: submission
       create :submission_file, submission: submission
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
 
-      assert_text "No auto suggestions? Try human mentoring."
+        assert_text "No auto suggestions? Try human mentoring."
+      end
     end
 
     test "user views representer feedback" do
@@ -209,11 +222,13 @@ module Flows
       create :iteration, solution: solution, submission: submission
       create :submission_file, submission: submission
 
-      sign_in!(user)
-      visit track_exercise_iterations_path(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_path(track, exercise)
 
-      assert_text "Feedback author gave this feedback on a solution very similar to yours"
-      assert_text "Good job"
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        assert_text "Good job"
+      end
     end
 
     test "user views analyzer feedback" do
@@ -234,11 +249,13 @@ module Flows
         ]
       }
 
-      sign_in!(user)
-      visit track_exercise_iterations_url(track, exercise)
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
 
-      assert_text "Our Ruby Analyzer has some comments on your solution"
-      assert_text "Define an explicit"
+        assert_text "Our Ruby Analyzer has some comments on your solution"
+        assert_text "Define an explicit"
+      end
     end
   end
 end

@@ -7,6 +7,53 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   Capybara.default_max_wait_time = 5
   Capybara.enable_aria_label = true
+  Capybara.reuse_server = false
+
+  class << self
+    attr_accessor :override_should_flunk
+  end
+
+  def setup
+    ApplicationSystemTestCase.override_should_flunk = false
+
+    super
+  end
+
+  def expecting_errors
+    ApplicationSystemTestCase.override_should_flunk = true
+
+    yield
+  end
+
+  def teardown
+    # Reset logs regardless of status
+    errors = page.driver.browser.manage.logs.get(:browser)
+
+    # Reset everything
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+
+    # Don't do anything else if we're deliberately not flunking
+    return if ApplicationSystemTestCase.override_should_flunk
+
+    should_flunk = false
+    errors.to_a.each do |error|
+      next if error.level == "WARNING"
+      next if error.to_s.include?("403 (Forbidden)")
+      next if error.to_s.include?("hcaptcha")
+
+      should_flunk = true
+
+      puts ""
+      puts "------"
+      puts "JS ERROR:\n"
+      puts error
+      puts "------"
+      puts ""
+    end
+
+    flunk("JS Errors") if should_flunk
+  end
 
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
   driven_by :selenium, using: :headless_chrome do |driver_option|

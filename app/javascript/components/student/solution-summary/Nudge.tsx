@@ -32,7 +32,7 @@ export const Nudge = ({
   status: SolutionStatus
   mentoringStatus: SolutionMentoringStatus
   isConceptExercise: boolean
-  iteration: Iteration
+  iteration?: Iteration
   discussions: readonly MentorDiscussion[]
   links: Links
   track: Track
@@ -43,6 +43,10 @@ export const Nudge = ({
     case 'in_progress':
       return <InProgressMentoringNudge discussion={discussions[0]} />
     default:
+      if (!iteration) {
+        return null
+      }
+
       switch (iteration.status) {
         case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
         case IterationStatus.NO_AUTOMATED_FEEDBACK: {

@@ -8,9 +8,8 @@ class User
         self.exercise = solution.exercise
       end
 
-      # TODO
       def url
-        "#"
+        discussion.student_url
       end
 
       def i18n_params
@@ -34,6 +33,10 @@ class User
       end
 
       private
+      def discussion
+        discussion_post.discussion
+      end
+
       def solution
         discussion_post.solution
       end

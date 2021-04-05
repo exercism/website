@@ -4,12 +4,23 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
+  before_action :mark_notifications_as_read!
 
   def ensure_onboarded!
     return unless user_signed_in?
     return if current_user.onboarded?
 
     redirect_to user_onboarding_path
+  end
+
+  def mark_notifications_as_read!
+    return if devise_controller?
+    return unless user_signed_in?
+    return unless request.get?
+    return unless is_navigational_format?
+    return if request.xhr?
+
+    User::Notification::MarkRelevantAsRead.(current_user, request.path)
   end
 
   def ensure_mentor!

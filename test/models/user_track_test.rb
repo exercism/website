@@ -366,14 +366,18 @@ class UserTrackTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, solution: solution
 
     # Load of notifications that result in false
-    create :mentor_started_discussion_notification, user: user
-    create :mentor_started_discussion_notification, user: user, read_at: Time.current
-    create :mentor_started_discussion_notification, user: user, read_at: Time.current,
+    create :mentor_started_discussion_notification, user: user, status: :pending
+    create :mentor_started_discussion_notification, user: user, status: :unread
+    create :mentor_started_discussion_notification, user: user, status: :read
+    create :mentor_started_discussion_notification, user: user, status: :pending,
                                                     params: { discussion: create(:mentor_discussion, solution: solution) }
-    create :mentor_started_discussion_notification, params: { discussion: create(:mentor_discussion, solution: solution) }
+    create :mentor_started_discussion_notification, user: user, status: :read,
+                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+    create :mentor_started_discussion_notification, status: :unread,
+                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
     refute UserTrack.find(ut_id).has_notifications?
 
-    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
+    create :mentor_started_discussion_notification, status: :unread, user: user, params: { discussion: discussion }
     assert UserTrack.find(ut_id).has_notifications?
   end
 end

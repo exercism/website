@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_215602) do
+ActiveRecord::Schema.define(version: 2021_04_05_132138) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -443,6 +443,8 @@ ActiveRecord::Schema.define(version: 2021_04_03_215602) do
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", limit: 1, default: 0, null: false
+    t.string "path", null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["uniqueness_key"], name: "index_user_notifications_on_uniqueness_key", unique: true

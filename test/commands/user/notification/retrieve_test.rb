@@ -3,9 +3,10 @@ require 'test_helper'
 class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "only retrieves unread notificatons" do
     user = create :user
-    unread = create :notification, read_at: nil, user: user
-    create :notification, read_at: Time.current, user: user
-    create :notification, read_at: nil
+    unread = create :notification, status: :unread, user: user
+    create :notification, status: :read, user: user
+    create :notification, status: :pending, user: user
+    create :notification, status: :unread
 
     assert_equal [unread], User::Notification::Retrieve.(user)
   end
@@ -13,9 +14,9 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "orders by id" do
     user = create :user
 
-    first = create :notification, user: user
-    second = create :notification, user: user
-    third = create :notification, user: user
+    first = create :notification, user: user, status: :unread
+    second = create :notification, user: user, status: :unread
+    third = create :notification, user: user, status: :unread
 
     assert_equal [first, second, third], User::Notification::Retrieve.(user)
   end
@@ -23,7 +24,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "pagination works" do
     user = create :user
 
-    25.times { create :notification, user: user }
+    25.times { create :notification, user: user, status: :unread }
 
     notifications = User::Notification::Retrieve.(user, page: 2)
     assert_equal 2, notifications.current_page
@@ -35,7 +36,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "per_page works" do
     user = create :user
 
-    25.times { create :notification, user: user }
+    25.times { create :notification, user: user, status: :unread }
 
     notifications = User::Notification::Retrieve.(user, page: 2, per_page: 4)
     assert_equal 2, notifications.current_page

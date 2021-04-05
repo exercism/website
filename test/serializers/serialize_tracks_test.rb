@@ -41,7 +41,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
 
     # Create notification and check it matches this track
     # (which it does because of clever factories)
-    create :notification, user: user
+    create :notification, user: user, status: :unread
     assert user_track_1.has_notifications?
     refute user_track_2.has_notifications?
 

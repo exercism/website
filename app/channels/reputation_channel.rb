@@ -1,5 +1,5 @@
 class ReputationChannel < ApplicationCable::Channel
-  def self.broadcast_changed(user)
+  def self.broadcast_changed!(user)
     ReputationChannel.broadcast_to(user, { type: "reputation.changed" })
   end
 

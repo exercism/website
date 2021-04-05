@@ -105,7 +105,7 @@ module Flows
             pr_number: 120,
             pr_title: "Something else"
           }
-        ReputationChannel.broadcast_changed(user)
+        ReputationChannel.broadcast_changed!(user)
         within(".c-primary-reputation") { assert_text "5" }
         assert_css ".--notification.unseen"
         find(".c-primary-reputation").click

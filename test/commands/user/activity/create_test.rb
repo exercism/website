@@ -33,7 +33,7 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
     type = :started_exercise
     exercise = create(:concept_exercise)
     params = { exercise: exercise }
-    User::ActivityChannel.expects(:broadcast_changed).with(user)
+    User::ActivityChannel.expects(:broadcast_changed!).with(user)
 
     User::Activity::Create.(type, user, params)
   end

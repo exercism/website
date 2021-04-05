@@ -11,13 +11,16 @@ class NotificationsFlowsTest < ActiveSupport::TestCase
     content_markdown = "This\nis some sort of\nreply"
 
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)
+    User::Notification.last.update(status: :unread)
     assert_equal 1, user.notifications.count
 
     Mentor::Discussion::ReplyByStudent.(discussion, iteration, "This is great")
+    User::Notification.last.update(status: :unread)
     assert_equal 1, mentor.notifications.count
     assert_equal 1, mentor.notifications.unread.count
 
     Mentor::Discussion::ReplyByMentor.(discussion, iteration, "This is great")
+    User::Notification.last.update(status: :unread)
     assert_equal 2, user.notifications.count
     assert_equal 2, user.notifications.unread.count
 

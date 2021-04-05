@@ -57,7 +57,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     assert solution_data[:has_notifications]
 
     # True if there is one
-    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }
+    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
     solution_data = SerializeSolution.(solution, user_track: UserTrack.find(ut_id))
     assert solution_data[:has_notifications]
   end

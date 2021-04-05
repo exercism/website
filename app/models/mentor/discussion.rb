@@ -38,6 +38,16 @@ class Mentor::Discussion < ApplicationRecord
     Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
   end
 
+  def student_url
+    Exercism::Routes.track_exercise_mentor_discussion_url(
+      track, exercise, self
+    )
+  end
+
+  def mentor_url
+    Exercism::Routes.mentoring_discussion_url(self)
+  end
+
   def to_param
     uuid
   end

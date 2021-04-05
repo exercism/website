@@ -23,12 +23,25 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     )
   end
 
+  test "schedule activation" do
+    freeze_time do
+      user = create :user
+      type = :mentor_started_discussion
+      discussion = create(:mentor_discussion)
+      params = { discussion: discussion }
+
+      assert_enqueued_with job: ActivateUserNotificationJob, at: Time.current + 5.seconds do
+        User::Notification::Create.(user, type, params)
+      end
+    end
+  end
+
   test "broadcasts message" do
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
     params = { discussion: discussion }
-    NotificationsChannel.expects(:broadcast_changed).with(user)
+    NotificationsChannel.expects(:broadcast_pending!).with(user, notification)
 
     User::Notification::Create.(user, type, params)
   end

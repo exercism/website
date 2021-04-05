@@ -14,8 +14,11 @@ class User::Notification
         track: track,
         exercise: exercise,
         params: params
-      ).tap do
-        NotificationsChannel.broadcast_changed(user)
+      ).tap do |notification|
+        ActivateUserNotificationJob.set(wait: 5.seconds).
+          perform_later(notification)
+
+        NotificationsChannel.broadcast_pending!(user, notification)
       end
     end
   end

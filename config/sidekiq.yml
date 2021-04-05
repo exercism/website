@@ -9,6 +9,7 @@
   - active_storage_purge
 
   # Custom
+  - notifications
   - critical
   - low
   - reputation

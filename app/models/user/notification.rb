@@ -12,8 +12,15 @@ class User::Notification < ApplicationRecord
   enum status: { pending: 0, unread: 1, read: 2 }
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }, _prefix: :email
 
-  before_validation do
+  scope :pending_or_unread, -> { where(status: %i[pending unread]) }
+
+  before_validation on: :create do
     self.uuid = SecureRandom.compact_uuid
+    self.path = "/#{url.split('/')[3..].join('/')}"
+  end
+
+  def status
+    super.to_sym
   end
 
   def read!
@@ -38,10 +45,5 @@ class User::Notification < ApplicationRecord
     {
       is_read: read?
     }
-  end
-
-  # TODO
-  def url
-    "/"
   end
 end

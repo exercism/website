@@ -122,9 +122,10 @@ module Components
 
         sign_in!(mentor)
         visit mentoring_queue_path
-        find("label", text: "C#").click
+        within(".mentor-queue-filtering") { click_on "C#" }
+        find("label", text: "Ruby").click
 
-        assert_text "on Tournament"
+        assert_text "on Series"
       end
 
       test "filters by exercise" do
@@ -145,30 +146,12 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_queue_path
+          within(".mentor-queue-filtering") { click_on "Ruby" }
           find("label", text: "Rust").click
           find("label", text: "Running").click
 
           assert_text "on Running"
         end
-      end
-
-      test "resets filters" do
-        mentor = create :user
-        mentee = create :user
-        ruby = create :track, title: "Ruby", slug: "ruby"
-        create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create :mentor_request, exercise: series, user: mentee
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create :mentor_request, exercise: tournament, user: mentee
-
-        sign_in!(mentor)
-        visit mentoring_queue_path
-        find("label", text: "Tournament").click
-        click_on "Reset filter"
-
-        assert_text "Showing 2 requests"
-        assert_text "2 queued requests"
       end
 
       test "shows counts" do
@@ -191,8 +174,7 @@ module Components
         visit mentoring_queue_path
         fill_in "Filter by student handle", with: "Oth"
 
-        assert_text "Showing 1 request"
-        assert_text "2 queued requests"
+        within(".mentor-queue-filtering") { assert_text "Ruby\n1" }
       end
 
       test "shows and hides exercises that require mentoring" do
@@ -215,6 +197,8 @@ module Components
       end
 
       test "shows exercises that have been completed by mentor" do
+        skip
+
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor
@@ -232,42 +216,6 @@ module Components
 
         assert_text "on Tournament"
         assert_no_text "on Series"
-      end
-
-      test "selects all exercises" do
-        mentor = create :user
-        ruby = create :track, title: "Ruby"
-        create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create :mentor_request, exercise: series
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create :mentor_request, exercise: tournament
-
-        sign_in!(mentor)
-        visit mentoring_queue_path
-        find("label", text: "Series").click
-        click_on "Select all"
-
-        assert_text "on Series"
-        assert_text "on Tournament"
-      end
-
-      test "deselects all exercises" do
-        mentor = create :user
-        ruby = create :track, title: "Ruby"
-        create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create :mentor_request, exercise: series
-        tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create :mentor_request, exercise: tournament
-
-        sign_in!(mentor)
-        visit mentoring_queue_path
-        find("label", text: "Series").click
-        click_on "Select none"
-
-        assert_text "on Series"
-        assert_text "on Tournament"
       end
     end
   end

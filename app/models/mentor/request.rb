@@ -22,9 +22,9 @@ class Mentor::Request < ApplicationRecord
 
   has_markdown_field :comment
 
-  delegate :title, :icon_url, to: :track, prefix: :track
+  delegate :title, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :user, prefix: :user
-  delegate :title, to: :exercise, prefix: :exercise
+  delegate :title, :icon_url, to: :exercise, prefix: :exercise
 
   before_create do
     self.uuid = SecureRandom.compact_uuid

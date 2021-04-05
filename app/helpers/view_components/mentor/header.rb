@@ -10,22 +10,37 @@ module ViewComponents
 
         tag.nav(class: 'c-mentor-header') do
           tag.div(class: 'lg-container container') do
-            lhs + rhs
+            top + bottom
           end
         end
       end
 
-      private
-      def lhs
-        tag.nav(class: "lhs") do
+      def top
+        tag.nav(class: "top") do
           tag.div(class: "title") do
-            graphical_icon(:mentoring, hex: true) + tag.span("Mentoring")
-          end +
-            tag.div(safe_join(tabs), class: 'tabs')
+            graphical_icon(:mentoring, hex: true) +
+              tag.span("Mentoring")
+          end + stats
         end
       end
 
-      def rhs; end
+      def bottom
+        tag.nav(class: "bottom") do
+          tag.div(safe_join(tabs), class: 'tabs') +
+            link_to(Exercism::Routes.docs_section_path(:mentoring), class: "c-tab-2 guides") do
+              graphical_icon(:guides) + tag.span("Mentoring Guides")
+            end
+        end
+      end
+
+      def stats
+        tag.div(class: "stats") do
+          # TODO
+          tag.div("131 solutions mentored", class: "stat") +
+            # TODO
+            tag.div("95% satisfaction", class: "stat")
+        end
+      end
 
       def tabs
         [
@@ -44,15 +59,7 @@ module ViewComponents
           ) do
             graphical_icon(:queue) +
               tag.span("Queue") +
-              tag.span("1,700", class: 'count')
-          end,
-
-          link_to(
-            "#",
-            class: tab_class(:activity)
-          ) do
-            graphical_icon(:pulse) +
-              tag.span("Activity")
+              tag.span("1,700", class: 'count') # TODO
           end,
 
           link_to(
@@ -63,12 +70,12 @@ module ViewComponents
               tag.span("Testimonials")
           end,
 
-          link_to(
-            "#",
-            class: tab_class(:guides)
+          tag.div(
+            class: "#{tab_class(:automation)} locked",
+            'aria-label': "This tab is locked"
           ) do
-            graphical_icon(:guides) +
-              tag.span("Guides")
+            graphical_icon(:automation) +
+              tag.span("Automation")
           end
         ]
       end

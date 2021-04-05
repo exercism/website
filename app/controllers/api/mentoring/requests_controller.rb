@@ -5,7 +5,7 @@ module API
         mentor: current_user,
         page: params[:page],
         track_slug: params[:track_slug],
-        exercise_slugs: params[:exercise_slugs],
+        exercise_slug: params[:exercise_slug],
         sorted: false,
         paginated: false
       ).count
@@ -16,7 +16,7 @@ module API
         criteria: params[:criteria],
         order: params[:order],
         track_slug: params[:track_slug],
-        exercise_slugs: params[:exercise_slugs]
+        exercise_slug: params[:exercise_slug]
       )
 
       render json: SerializePaginatedCollection.(

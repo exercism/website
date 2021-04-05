@@ -12,16 +12,17 @@
             @apply border-t-0;
         }
 
-        & .c-track-icon {
+        & .c-track-icon,
+        & .c-exercise-icon {
             height: 32px;
-            width: 28px;
+            width: 32px;
 
-            @apply mr-32;
+            @apply mr-24;
         }
 
         & .c-avatar {
-            height: 42px;
-            width: 42px;
+            height: 48px;
+            width: 48px;
 
             @apply mr-16;
         }
@@ -30,7 +31,7 @@
 
             & .--handle {
                 @apply flex items-center;
-                @apply font-medium text-16 text-textColor3 leading-regular;
+                @apply font-medium text-16 text-textColor2 leading-160;
                 & .dot,
                 & .c-icon {
                     @apply ml-8;
@@ -47,7 +48,7 @@
                 }
             }
             & .--exercise-title {
-                @apply text-14 text-textColor6 leading-regular;
+                @apply text-14 text-textColor6 leading-150;
             }
         }
 

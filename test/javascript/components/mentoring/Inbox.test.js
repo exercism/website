@@ -71,7 +71,7 @@ test('page is reset to 1 when switching tracks', async () => {
 
     userEvent.click(
       await screen.findByRole('button', {
-        name: 'Button to open the track filter',
+        name: 'Open the track filter',
       })
     )
 

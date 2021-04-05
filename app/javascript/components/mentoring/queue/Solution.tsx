@@ -1,16 +1,15 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { TrackIcon } from '../../common/TrackIcon'
+import { ExerciseIcon } from '../../common/ExerciseIcon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Icon } from '../../common/Icon'
 import { Avatar } from '../../common/Avatar'
 
 type SolutionProps = {
-  trackTitle: string
-  trackIconUrl: string
   menteeAvatarUrl: string
   menteeHandle: string
   exerciseTitle: string
+  exerciseIconUrl: string
   isStarred: boolean
   haveMentoredPreviously: boolean
   status: string
@@ -21,11 +20,10 @@ type SolutionProps = {
 }
 
 export function Solution({
-  trackTitle,
-  trackIconUrl,
   menteeAvatarUrl,
   menteeHandle,
   exerciseTitle,
+  exerciseIconUrl,
   isStarred,
   haveMentoredPreviously,
   status,
@@ -43,7 +41,7 @@ export function Solution({
       onFocus={showMoreInformation}
       onBlur={hideMoreInformation}
     >
-      <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
+      <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />
       <Avatar src={menteeAvatarUrl} handle={menteeHandle} />
       <div className="--info">
         <div className="--handle">

@@ -264,9 +264,9 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
       with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
       to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
 
-    start = Time.now.utc
+    start = Time.current
     Github::OrganizationMember::SyncMembers.()
-    elapsed = Time.now.utc - start
+    elapsed = Time.current - start
 
     assert elapsed > 5.seconds
   end

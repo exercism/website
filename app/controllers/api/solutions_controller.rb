@@ -7,6 +7,7 @@ module API
         status: params[:status],
         mentoring_status: params[:mentoring_status],
         page: params[:page],
+        per: params[:per_page],
         order: params[:order]
       )
 

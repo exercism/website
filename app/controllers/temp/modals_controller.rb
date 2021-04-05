@@ -55,5 +55,9 @@ module Temp
       @solution = current_user.solutions.first
       @exercise = @solution.exercise
     end
+
+    def select_exercise_for_mentoring
+      @solutions = Solution.limit(5)
+    end
   end
 end

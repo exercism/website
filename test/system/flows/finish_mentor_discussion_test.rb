@@ -122,7 +122,7 @@ module Flows
         click_on "No"
         click_on "Change preferences"
 
-        assert_text "Want to mentor student-123 again?"
+        assert_text "Do you want to mentor student-123 again?"
       end
     end
   end

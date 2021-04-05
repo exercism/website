@@ -223,7 +223,8 @@
                     height: 8px;
                     width: 8px;
                 }
-                &.failed {
+                &.failed,
+                &.errored {
                     @apply bg-lightRed text-red;
                     @apply border-red;
                     & .--dot {
@@ -236,6 +237,15 @@
                     & .--dot {
                         @apply bg-darkGreen;
                     }
+                }
+            }
+            & .error-message {
+                @apply px-24 pb-48;
+                & h3 {
+                    @apply text-h6 mb-12;
+                }
+                & pre {
+                    white-space: pre-wrap;
                 }
             }
             & .v1-output {

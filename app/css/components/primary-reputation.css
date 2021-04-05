@@ -7,7 +7,7 @@
     & .--inner {
         @apply flex items-center justify-center;
         @apply text-16 leading-200 font-semibold;
-        @apply flex-grow bg-unnamed10 px-16 rounded-100;
+        @apply flex-grow bg-textColor2 px-16 rounded-100;
 
         /* This shouldn't change for theme */
         color: #fbfcfe;

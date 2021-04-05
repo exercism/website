@@ -12,7 +12,6 @@ test('renders recommended when exercise is recommended', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: true,
     links: {
       self: 'https://exercism.test/exercise',
@@ -36,7 +35,6 @@ test('renders available when exercise is available', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: true,
-    isCompleted: true,
     isRecommended: false,
     links: {
       self: 'https://exercism.test/exercise',
@@ -60,7 +58,6 @@ test('renders locked when exercise is locked', async () => {
     blurb: 'Tasty exercise',
     difficulty: 'easy',
     isUnlocked: false,
-    isCompleted: true,
     isRecommended: false,
   }
 

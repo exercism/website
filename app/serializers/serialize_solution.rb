@@ -1,7 +1,11 @@
 class SerializeSolution
   include Mandate
 
-  initialize_with :solution
+  def initialize(solution, user_track: nil, has_notifications: nil)
+    @solution = solution
+    @user_track = user_track
+    @has_notifications = has_notifications
+  end
 
   def call
     {
@@ -9,7 +13,7 @@ class SerializeSolution
       url: Exercism::Routes.private_solution_url(solution),
       status: solution.status,
       mentoring_status: solution.mentoring_status,
-      has_notifications: true, # TODO
+      has_notifications: has_notifications?,
       num_views: solution.num_views,
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
@@ -24,9 +28,9 @@ class SerializeSolution
       last_submitted_at: solution.submissions.last&.created_at&.iso8601,
       # These are already guarded against n+1s in the wider serializer
       exercise: {
-        slug: solution.exercise.slug,
-        title: solution.exercise.title,
-        icon_url: solution.exercise.icon_url
+        slug: exercise.slug,
+        title: exercise.title,
+        icon_url: exercise.icon_url
       },
       track: {
         slug: solution.track.slug,
@@ -34,5 +38,24 @@ class SerializeSolution
         icon_url: solution.track.icon_url
       }
     }
+  end
+
+  private
+  attr_reader :solution
+
+  def has_notifications?
+    return @has_notifications unless @has_notifications.nil?
+
+    user_track.exercise_has_notifications?(exercise)
+  end
+
+  memoize
+  def exercise
+    solution.exercise
+  end
+
+  memoize
+  def user_track
+    @user_track || UserTrack.for(solution.user, solution.track, external_if_missing: true)
   end
 end

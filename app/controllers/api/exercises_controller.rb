@@ -18,7 +18,8 @@ module API
 
       if sideload?(:solutions)
         output[:solutions] = SerializeSolutions.(
-          current_user.solutions.where(exercise_id: exercises)
+          current_user.solutions.where(exercise_id: exercises),
+          current_user
         )
       end
 

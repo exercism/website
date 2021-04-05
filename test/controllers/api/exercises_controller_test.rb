@@ -66,7 +66,7 @@ module API
 
       expected = {
         exercises: SerializeExercises.([bob], user_track: user_track),
-        solutions: SerializeSolutions.(Solution.where(id: solution))
+        solutions: SerializeSolutions.(Solution.where(id: solution), @current_user)
       }.to_json
       assert_equal expected, response.body
     end

@@ -18,19 +18,21 @@
           Your current Reputation is
           = render ViewComponents::Reputation.new(current_user.reputation, size: :small, flashy: true)
 
-        .progress
-          / TODO
-          .bar{ style: "width: 42%" }
-
-          .unlock-icon
-            = icon "unlock", "Unlocked"
+        - if user_track.repo_for_next_mentoring_slot.nil?
+          .max You have the maximum available mentoring slots
+        - else
+          .progress
+            .bar{ style: "width: #{user_track.percentage_to_next_mentoring_slot}%" }
+            .unlock-icon
+              = icon "unlock", "Unlocked"
         .info
-          .explanation
+          = link_to "#", class: "explanation" do
             = graphical_icon :'info-circle'
             How does this work?
-          .next-slot
-            Next slot unlocks at
-            %strong 120 rep
+          - unless user_track.repo_for_next_mentoring_slot.nil?
+            .next-slot
+              Next slot unlocks at
+              %strong #{number_with_delimiter user_track.repo_for_next_mentoring_slot} rep
 
   .lg-container.container
     .slots

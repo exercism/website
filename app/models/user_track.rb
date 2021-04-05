@@ -1,5 +1,6 @@
 class UserTrack < ApplicationRecord
   extend Mandate::Memoize
+  include UserTrack::MentoringSlots
 
   belongs_to :user
   belongs_to :track
@@ -63,20 +64,6 @@ class UserTrack < ApplicationRecord
   memoize
   def pending_mentoring_requests
     Mentor::Request.where(solution: solutions).pending
-  end
-
-  # TODO: Calculate and cache this somehow
-  def num_locked_mentoring_slots
-    1
-  end
-
-  # TODO: Extract 4 into a constant
-  def num_available_mentoring_slots
-    4 - num_used_mentoring_slots - num_locked_mentoring_slots
-  end
-
-  def num_used_mentoring_slots
-    active_mentoring_discussions.size + pending_mentoring_requests.size
   end
 
   def tutorial_exercise_completed?

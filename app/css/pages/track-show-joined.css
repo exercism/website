@@ -650,6 +650,11 @@
                         @apply ml-12;
                     }
                 }
+                & .max {
+                    @apply text-15 text-textColor7 font-semibold leading-160;
+                    @apply mb-12 py-12 text-center;
+                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23C8D5EF' stroke-width='3' stroke-dasharray='16%2c16' stroke-dashoffset='4' stroke-linecap='round'/%3e%3c/svg%3e");
+                }
                 /* TODO: This can probably be unified with the bar at the top of this page */
                 & .progress {
                     @apply w-100 rounded-100;
@@ -660,6 +665,7 @@
 
                     & .bar {
                         height: 16px;
+                        min-width: 16px;
                         background: linear-gradient(
                             to bottom,
                             #2200ff 0%,

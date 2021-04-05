@@ -13,6 +13,7 @@ export type DropdownAttributes = {
   panelAttributes: any
   itemAttributes: (index: number) => ItemAttributes
   listAttributes: ListAttributes
+  open: boolean
   setOpen: (open: false) => void
 }
 
@@ -170,6 +171,7 @@ export const useDropdown = (
         role: 'menuitem',
       }
     },
+    open,
     setOpen,
   }
 }

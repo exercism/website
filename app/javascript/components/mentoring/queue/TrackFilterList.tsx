@@ -93,6 +93,7 @@ const Component = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
+    open,
     setOpen,
   } = useDropdown((tracks?.length || 0) + 1, handleItemSelect)
 
@@ -119,34 +120,35 @@ const Component = ({
           className="action-icon"
         />
       </button>
-      {/* TODO: This should only show if it's open */}
       {/* TODO: Offset this 8px down */}
-      <div {...panelAttributes} className="c-track-switcher-dropdown">
-        <ul {...listAttributes}>
-          {tracks.map((track, i) => {
-            return (
-              <li key={track.id} {...itemAttributes(i)}>
-                <TrackFilter
-                  onChange={() => {
-                    setValue(track)
-                    setOpen(false)
-                  }}
-                  checked={value === track}
-                  {...track}
-                />
-              </li>
-            )
-          })}
-          <li key="change-tracks" {...itemAttributes(tracks.length)}>
-            <ChangeTracksButton
-              ref={changeTracksRef}
-              links={links}
-              cacheKey={cacheKey}
-              tracks={tracks}
-            />
-          </li>
-        </ul>
-      </div>
+      {open ? (
+        <div {...panelAttributes} className="c-track-switcher-dropdown">
+          <ul {...listAttributes}>
+            {tracks.map((track, i) => {
+              return (
+                <li key={track.id} {...itemAttributes(i)}>
+                  <TrackFilter
+                    onChange={() => {
+                      setValue(track)
+                      setOpen(false)
+                    }}
+                    checked={value === track}
+                    {...track}
+                  />
+                </li>
+              )
+            })}
+            <li key="change-tracks" {...itemAttributes(tracks.length)}>
+              <ChangeTracksButton
+                ref={changeTracksRef}
+                links={links}
+                cacheKey={cacheKey}
+                tracks={tracks}
+              />
+            </li>
+          </ul>
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

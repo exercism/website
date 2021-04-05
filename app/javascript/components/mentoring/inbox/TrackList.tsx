@@ -51,6 +51,7 @@ export const TrackList = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
+    setOpen,
   } = useDropdown(tracks.length, handleItemSelect)
   const selected = tracks.find((track) => track.slug === value) || tracks[0]
 
@@ -77,7 +78,10 @@ export const TrackList = ({
             return (
               <li key={track.slug} {...itemAttributes(i)}>
                 <TrackFilter
-                  onChange={() => setTrack(track.slug)}
+                  onChange={() => {
+                    setTrack(track.slug)
+                    setOpen(false)
+                  }}
                   checked={value === track.slug}
                   {...track}
                 />

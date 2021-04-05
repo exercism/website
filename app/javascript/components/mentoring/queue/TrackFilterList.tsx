@@ -93,6 +93,7 @@ const Component = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
+    setOpen,
   } = useDropdown((tracks?.length || 0) + 1, handleItemSelect)
 
   if (!tracks) {
@@ -126,7 +127,10 @@ const Component = ({
             return (
               <li key={track.id} {...itemAttributes(i)}>
                 <TrackFilter
-                  onChange={() => setValue(track)}
+                  onChange={() => {
+                    setValue(track)
+                    setOpen(false)
+                  }}
                   checked={value === track}
                   {...track}
                 />

@@ -7,7 +7,10 @@
     }
 
     & input.--search {
-        @apply mr-24 rounded-5 border-2 border-transparent h-48;
+        &:not(:last-child) {
+            @apply mr-24;
+        }
+        @apply rounded-5 border-2 border-transparent h-48;
         @apply pl-40 pr-12;
         @apply text-16 bg-inputBackgroundColor;
 

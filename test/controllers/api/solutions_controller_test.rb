@@ -17,6 +17,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
+      per: "10",
       order: "newest_first"
     ).returns(Solution.page(2))
 
@@ -25,6 +26,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: "published",
       mentoring_status: "completed",
       page: "2",
+      per_page: "10",
       order: "newest_first"
     ), headers: @headers, as: :json
 

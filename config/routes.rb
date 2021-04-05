@@ -254,6 +254,7 @@ Rails.application.routes.draw do
         get :reputation
         get :mentoring_dropdown
         get :exercise_tooltip
+        get :select_exercise_for_mentoring
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

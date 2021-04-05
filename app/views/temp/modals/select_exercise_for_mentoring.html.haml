@@ -1,0 +1,20 @@
+.c-modal.m-select-exercise-for-mentoring
+  .wrapper
+    .--modal-content
+      %h2 Select an exercise to request mentoring on
+      .c-search-bar
+        %input.--search{ placeholder: "Search exercise by name" }
+      .exercises
+        - @solutions.each do |solution|
+          = link_to "#", class: "exercise" do
+            = track_icon solution.track
+            = exercise_icon solution.exercise
+            .exercise-title= solution.exercise.title
+            .num-iterations
+              = icon "iteration", "Number of iterations"
+              = solution.num_iterations
+            .last-touched= time_ago_in_words(solution.updated_at)
+            = graphical_icon "chevron-right", css_class: "action-icon"
+      .c-pagination
+
+

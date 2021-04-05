@@ -119,7 +119,7 @@ const Component = ({
       {isFetching ? <span>Fetching...</span> : null}
       <button
         className="current-track"
-        aria-label="Button to open the track filter"
+        aria-label="Open the track filter"
         {...buttonAttributes}
       >
         <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />

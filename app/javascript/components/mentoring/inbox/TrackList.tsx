@@ -61,10 +61,7 @@ export const TrackList = ({
 
   return (
     <React.Fragment>
-      <button
-        aria-label="Button to open the track filter"
-        {...buttonAttributes}
-      >
+      <button aria-label="Open the track filter" {...buttonAttributes}>
         <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
         <Icon
           icon="chevron-down"

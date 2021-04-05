@@ -22,9 +22,7 @@ test('closes dropdown after choosing a track', async () => {
 
   render(<TrackList tracks={tracks} value={null} setTrack={() => null} />)
 
-  userEvent.click(
-    screen.getByRole('button', { name: 'Button to open the track filter' })
-  )
+  userEvent.click(screen.getByRole('button', { name: 'Open the track filter' }))
   userEvent.click(
     await screen.findByRole('radio', { name: 'icon for Ruby track Ruby 2' })
   )

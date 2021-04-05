@@ -154,7 +154,6 @@ module Components
         end
       end
 
-      # TODO: kntsoriano - change this to check the right count is in the button
       test "shows counts" do
         ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user
@@ -175,8 +174,7 @@ module Components
         visit mentoring_queue_path
         fill_in "Filter by student handle", with: "Oth"
 
-        assert_text "Showing 1 request"
-        assert_text "2 queued requests"
+        within(".mentor-queue-filtering") { assert_text "Ruby 1" }
       end
 
       test "shows and hides exercises that require mentoring" do

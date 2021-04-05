@@ -61,6 +61,7 @@ type Props = {
   value: MentoredTrack | null
   setValue: (value: MentoredTrack) => void
   cacheKey: string
+  total?: number
   links: {
     tracks: string
     updateTracks: string
@@ -74,6 +75,7 @@ const Component = ({
   setValue,
   cacheKey,
   links,
+  total,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const handleItemSelect = useCallback(
@@ -93,7 +95,6 @@ const Component = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
-    open,
     setOpen,
   } = useDropdown((tracks?.length || 0) + 1, handleItemSelect, {
     placement: 'bottom',
@@ -123,7 +124,7 @@ const Component = ({
       >
         <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
         <div className="track-title">{selected.title}</div>
-        <div className="count">{selected.numSolutionsQueued}</div>
+        {total !== undefined ? <div className="count">{total}</div> : null}
         <Icon
           icon="chevron-down"
           alt="Click to change"

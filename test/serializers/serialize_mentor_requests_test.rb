@@ -7,9 +7,6 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: mentee
     request = create :mentor_request, solution: solution
-    mentor = create :user
-
-    requests = Mentor::Request::Retrieve.(mentor: mentor)
 
     expected = [
       {
@@ -32,6 +29,6 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
       }
     ]
 
-    assert_equal expected, SerializeMentorRequests.(requests)
+    assert_equal expected, SerializeMentorRequests.(Mentor::Request.all)
   end
 end

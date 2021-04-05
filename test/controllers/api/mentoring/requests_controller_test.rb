@@ -46,6 +46,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     setup_user(user)
 
     mentored_track = create :track
+    create :user_track_mentorship, user: user, track: mentored_track
     solution = create :concept_solution, track: mentored_track
     request = create :mentor_request, created_at: Time.current - 2.minutes, solution: solution
     50.times { create :mentor_request, solution: solution }

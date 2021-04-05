@@ -248,9 +248,32 @@
                     white-space: pre-wrap;
                 }
             }
+            & .ops-error {
+                @apply px-24 pb-48;
+                & p {
+                    @apply text-p-base mb-12;
+                }
+            }
             & .v1-output {
                 @apply px-24 pb-48;
                 white-space: pre-wrap;
+            }
+            & .success-box {
+                @apply flex;
+                @apply shadow-base rounded-8;
+                @apply py-16 px-24 mt-16 mx-32;
+
+                & > .c-icon {
+                    height: 64px;
+                    width: 64px;
+                    @apply mr-16;
+                }
+                & h3 {
+                    @apply text-h5 mb-4;
+                }
+                & p {
+                    @apply text-p-small mb-16;
+                }
             }
             & .tests-list {
                 @apply px-32 pb-16;

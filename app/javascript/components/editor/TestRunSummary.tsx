@@ -3,7 +3,9 @@ import { TestRun, TestRunStatus, TestStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
-import { TestRunTests } from './TestRunTests'
+import { TestRunFailures } from './TestRunFailures'
+import { SubmitButton } from './SubmitButton'
+import { GraphicalIcon } from '../common'
 
 export const TestRunSummary = ({
   testRun,
@@ -162,8 +164,26 @@ TestRunSummary.Content = ({
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS:
+      return (
+        <>
+          {testRun.version == 2 ? <TestRunFailures testRun={testRun} /> : null}
+          <div className="success-box">
+            <GraphicalIcon icon="balloons" category="graphics" />
+            <div className="content">
+              <h3>Sweet. Looks like you’ve solved the exercise!</h3>
+              <p>
+                Good job! You can continue to improve your code or, if you're
+                done, submit your solution to get automated feedback and request
+                mentoring.
+              </p>
+              {/* TODO: Set this up properly */}
+              <SubmitButton onClick={() => {}} disabled={false} />
+            </div>
+          </div>
+        </>
+      )
     case TestRunStatus.FAIL:
-      return <TestRunTests testRun={testRun} />
+      return <TestRunFailures testRun={testRun} />
     case TestRunStatus.ERROR:
       return (
         <div className="error-message">
@@ -175,7 +195,7 @@ TestRunSummary.Content = ({
       )
     case TestRunStatus.OPS_ERROR:
       return (
-        <div className="error-message">
+        <div className="ops-error">
           <p>
             An error occurred while running your tests. This might mean that
             there was an issue in our infrastructure, or it might mean that you
@@ -189,7 +209,7 @@ TestRunSummary.Content = ({
       )
     case TestRunStatus.TIMEOUT:
       return (
-        <div className="error-message">
+        <div className="ops-error">
           <p>
             Your tests timed out. This might mean that there was an issue in our
             infrastructure, or it might mean that you have some infinite loop in

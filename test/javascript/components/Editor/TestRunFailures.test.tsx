@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestRunTests } from '../../../../app/javascript/components/editor/TestRunTests'
+import { TestRunFailures } from '../../../../app/javascript/components/editor/TestRunFailures'
 import {
   TestRun,
   TestRunStatus,
@@ -19,7 +19,7 @@ test('shows test run output for version 1 test runner', async () => {
     output: 'Unable to run tests',
   }
 
-  render(<TestRunTests testRun={testRun} />)
+  render(<TestRunFailures testRun={testRun} />)
 
   expect(screen.getByText('Unable to run tests')).toBeInTheDocument()
 })
@@ -43,7 +43,7 @@ test('shows tests for version 2 test runner', async () => {
     output: '',
   }
 
-  render(<TestRunTests testRun={testRun} />)
+  render(<TestRunFailures testRun={testRun} />)
 
   expect(screen.getByText('equal to 1')).toBeInTheDocument()
 })

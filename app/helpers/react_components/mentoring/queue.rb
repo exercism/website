@@ -64,7 +64,7 @@ module ReactComponents
 
       memoize
       def track_data
-        SerializeTracksForMentoring.(mentor.mentored_tracks, mentor: mentor)[:tracks]
+        SerializeTracksForMentoring.(mentor.mentored_tracks)[:tracks]
       end
     end
   end

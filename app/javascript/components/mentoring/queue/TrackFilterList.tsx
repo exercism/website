@@ -95,7 +95,17 @@ const Component = ({
     itemAttributes,
     open,
     setOpen,
-  } = useDropdown((tracks?.length || 0) + 1, handleItemSelect)
+  } = useDropdown((tracks?.length || 0) + 1, handleItemSelect, {
+    placement: 'bottom',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
 
   if (!tracks) {
     return null
@@ -120,7 +130,6 @@ const Component = ({
           className="action-icon"
         />
       </button>
-      {/* TODO: Offset this 8px down */}
       {open ? (
         <div {...panelAttributes} className="c-track-switcher-dropdown">
           <ul {...listAttributes}>

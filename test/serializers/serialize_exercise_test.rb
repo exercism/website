@@ -13,7 +13,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
-      is_completed: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -34,7 +33,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
-      is_completed: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -55,7 +53,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
-      is_completed: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -84,7 +81,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: true,
       is_recommended: false,
-      is_completed: false,
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
@@ -115,7 +111,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: false,
       is_recommended: false,
-      is_completed: false,
       links: {}
     }
 

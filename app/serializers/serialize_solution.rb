@@ -56,6 +56,6 @@ class SerializeSolution
 
   memoize
   def user_track
-    @user_track || UserTrack.for(solution.user, solution.track)
+    @user_track || UserTrack.for(solution.user, solution.track, external_if_missing: true)
   end
 end

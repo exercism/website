@@ -13,7 +13,6 @@ module API
 
       all_discussions = Mentor::Discussion.
         joins(solution: :exercise).
-        includes(solution: [:user, { exercise: :track }]).
         where(mentor: current_user)
 
       render json: SerializePaginatedCollection.(

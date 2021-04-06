@@ -52,7 +52,17 @@ export const TrackList = ({
     listAttributes,
     itemAttributes,
     setOpen,
-  } = useDropdown(tracks.length, handleItemSelect)
+  } = useDropdown(tracks.length, handleItemSelect, {
+    placement: 'bottom-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [-8, 8],
+        },
+      },
+    ],
+  })
   const selected = tracks.find((track) => track.slug === value) || tracks[0]
 
   if (!selected) {

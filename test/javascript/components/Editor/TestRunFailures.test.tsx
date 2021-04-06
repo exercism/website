@@ -17,6 +17,8 @@ test('shows test run output for version 1 test runner', async () => {
     tests: [],
     version: 1,
     output: 'Unable to run tests',
+    messageHtml: '',
+    outputHtml: 'Unable to run tests',
   }
 
   render(<TestRunFailures testRun={testRun} />)
@@ -41,6 +43,8 @@ test('shows tests for version 2 test runner', async () => {
     ],
     version: 2,
     output: '',
+    messageHtml: '',
+    outputHtml: 'Unable to run tests',
   }
 
   render(<TestRunFailures testRun={testRun} />)

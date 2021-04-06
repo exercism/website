@@ -1,7 +1,14 @@
 jest.mock('../../../../../app/javascript/components/editor/FileEditor')
 
 import React from 'react'
-import { render, fireEvent, waitFor, act, await, screen } from '@testing-library/react'
+import {
+  render,
+  fireEvent,
+  waitFor,
+  act,
+  await,
+  screen,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
@@ -55,7 +62,7 @@ test('shows message when test times out', async () => {
   expect(
     await screen.findByText("We've queued your code and will run it shortly.")
   ).toBeInTheDocument()
-  expect(await screen.findByText('Tests timed out')).toBeInTheDocument()
+  expect(await screen.findByText('Your tests timed out')).toBeInTheDocument()
 
   server.close()
 })
@@ -167,15 +174,16 @@ test('disables submit button when files changed', async () => {
       }}
     />
   )
+  const submitButton = screen.getAllByRole('button', { name: 'Submit F3' })[0]
 
   await waitFor(() => {
-    expect(screen.getByRole('button', { name: 'Submit F3' })).not.toBeDisabled()
+    expect(submitButton).not.toBeDisabled()
   })
   fireEvent.change(screen.getByTestId('editor-value'), {
     target: { value: 'class' },
   })
   await waitFor(() => {
-    expect(screen.getByRole('button', { name: 'Submit F3' })).toBeDisabled()
+    expect(submitButton).toBeDisabled()
   })
 
   server.close()

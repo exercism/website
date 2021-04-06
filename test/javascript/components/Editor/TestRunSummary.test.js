@@ -75,7 +75,7 @@ test('shows test failures', async () => {
         message: '',
         tests: [],
         version: 1,
-        output: 'Unable to run tests',
+        outputHtml: 'Unable to run tests',
       }}
     />
   )

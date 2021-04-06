@@ -59,6 +59,7 @@ module Components::Student
       within "section.latest-iteration header" do
         assert_text "Your solution failed the tests"
       end
+      assert_css ".mentoring-prompt-nudge.animate"
     end
 
     test "Failed tests" do

@@ -7,6 +7,7 @@ import { TrackFilter } from './inbox/TrackFilter'
 import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
+import { FetchingOverlay } from '../FetchingOverlay'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const { request, setCriteria, setOrder, setPage, setQuery } = useList(
@@ -84,7 +85,6 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
             id="discussion-filter"
             placeholder="Filter by student or exercise name"
           />
-          {isFetching ? <span>Fetching...</span> : null}
           <Sorter
             sortOptions={sortOptions}
             order={request.query.order}
@@ -92,14 +92,16 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
             id="discussion-sorter-sort"
           />
         </header>
-        <DiscussionList
-          latestData={latestData}
-          resolvedData={resolvedData}
-          status={status}
-          refetch={refetch}
-          request={request}
-          setPage={setPage}
-        />
+        <FetchingOverlay isFetching={isFetching}>
+          <DiscussionList
+            latestData={latestData}
+            resolvedData={resolvedData}
+            status={status}
+            refetch={refetch}
+            request={request}
+            setPage={setPage}
+          />
+        </FetchingOverlay>
       </div>
     </div>
   )

@@ -9,6 +9,7 @@ import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
+import { FetchingOverlay } from '../FetchingOverlay'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -97,7 +98,6 @@ export const Queue = ({
             id="mentoring-queue-student-name-filter"
             placeholder="Filter by student handle"
           />
-          {isFetching ? <span>Fetching...</span> : null}
           <Sorter
             sortOptions={sortOptions}
             order={order}
@@ -105,15 +105,16 @@ export const Queue = ({
             id="mentoring-queue-sorter"
           />
         </header>
-        <SolutionList
-          status={status}
-          error={error}
-          page={page}
-          resolvedData={resolvedData}
-          latestData={latestData}
-          setPage={setPage}
-          isFetching={isFetching}
-        />
+        <FetchingOverlay isFetching={isFetching}>
+          <SolutionList
+            status={status}
+            error={error}
+            page={page}
+            resolvedData={resolvedData}
+            latestData={latestData}
+            setPage={setPage}
+          />
+        </FetchingOverlay>
       </div>
       <div className="mentor-queue-filtering">
         <TrackFilterList

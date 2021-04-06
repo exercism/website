@@ -5,6 +5,7 @@ import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ChangeTracksButton } from './ChangeTracksButton'
+import { FetchingOverlay } from '../../FetchingOverlay'
 
 const TrackFilter = ({
   title,
@@ -116,21 +117,22 @@ const Component = ({
 
   return (
     <React.Fragment>
-      {isFetching ? <span>Fetching...</span> : null}
-      <button
-        className="current-track"
-        aria-label="Open the track filter"
-        {...buttonAttributes}
-      >
-        <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
-        <div className="track-title">{selected.title}</div>
-        {total !== undefined ? <div className="count">{total}</div> : null}
-        <Icon
-          icon="chevron-down"
-          alt="Click to change"
-          className="action-icon"
-        />
-      </button>
+      <FetchingOverlay isFetching={isFetching}>
+        <button
+          className="current-track"
+          aria-label="Open the track filter"
+          {...buttonAttributes}
+        >
+          <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
+          <div className="track-title">{selected.title}</div>
+          {total !== undefined ? <div className="count">{total}</div> : null}
+          <Icon
+            icon="chevron-down"
+            alt="Click to change"
+            className="action-icon"
+          />
+        </button>
+      </FetchingOverlay>
       <div {...panelAttributes} className="c-track-switcher-dropdown">
         <ul {...listAttributes}>
           {tracks.map((track, i) => {

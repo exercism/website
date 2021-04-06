@@ -81,6 +81,9 @@ export const Queue = ({
   }, [tracks])
 
   useEffect(() => {
+    {
+      /* TODO: This is overriding whatever is passed as the defaultTrack */
+    }
     setSelectedTrack(tracks[0])
   }, [tracks])
 

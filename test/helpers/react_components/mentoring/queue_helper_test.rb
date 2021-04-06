@@ -1,0 +1,154 @@
+require_relative "../react_component_test_case"
+
+class MentoringQueueTest < ReactComponentTestCase
+  test "mentoring queue rendered correctly" do
+    user = create :user
+
+    fsharp = create :track, slug: "fsharp", title: "F#" # Has no requests
+    ruby = create :track, slug: "ruby", title: "Ruby"
+    csharp = create :track, slug: "csharp", title: "C#"
+
+    create :user_track_mentorship, user: user, track: fsharp
+    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: csharp
+
+    # This shouldn't be included
+    strings = create :concept_exercise, track: ruby
+
+    # These are csharp and should be included
+    zipper = create :concept_exercise, track: csharp, slug: :zipper, title: "Zipper"
+    bob = create :practice_exercise, track: csharp, slug: :bob, title: "Bob"
+    fred = create :practice_exercise, track: csharp, slug: :fred, title: "Fred"
+
+    # Make some requests for each except fred
+    3.times { create :mentor_request, solution: create(:concept_solution, exercise: strings) }
+    2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
+
+    # Create mentor solutions to fred and zipper, with zipper completed
+    create :concept_solution, user: user, exercise: fred
+    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+
+    component = ReactComponents::Mentoring::Queue.new(user)
+
+    assert_component component,
+      "mentoring-queue",
+      {
+        queue_request: { endpoint: Exercism::Routes.api_mentoring_requests_path },
+        tracks_request: {
+          endpoint: Exercism::Routes.mentored_api_mentoring_tracks_url,
+          options: {
+            initial_data: {
+              tracks: [
+                {
+                  id: "csharp",
+                  title: "C#",
+                  icon_url: csharp.icon_url,
+                  num_solutions_queued: 6,
+                  avg_wait_time: "2 days",
+                  links: {
+                    exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
+                  }
+                },
+                {
+                  id: "fsharp",
+                  title: "F#",
+                  icon_url: fsharp.icon_url,
+                  num_solutions_queued: 0,
+                  avg_wait_time: "2 days",
+                  links: {
+                    exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: fsharp.slug)
+                  }
+                },
+                {
+                  id: "ruby",
+                  title: "Ruby",
+                  icon_url: ruby.icon_url,
+                  num_solutions_queued: 3,
+                  avg_wait_time: "2 days",
+                  links: {
+                    exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
+                  }
+                }
+              ]
+            }
+          }
+        },
+        default_track: {
+          id: "csharp",
+          title: "C#",
+          icon_url: csharp.icon_url,
+          num_solutions_queued: 6,
+          avg_wait_time: "2 days",
+          links: {
+            exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
+          },
+          exercises: [
+            {
+              slug: "bob",
+              title: "Bob",
+              icon_url: bob.icon_url,
+              count: 4,
+              completed_by_mentor: false
+            },
+            {
+              slug: "fred",
+              title: "Fred",
+              icon_url: fred.icon_url,
+              count: 0,
+              completed_by_mentor: false
+            },
+            {
+              slug: "zipper",
+              title: "Zipper",
+              icon_url: zipper.icon_url,
+              count: 2,
+              completed_by_mentor: true
+            }
+          ]
+        },
+
+        sort_options: [
+          { value: 'recent', label: 'Sort by Most Recent' },
+          { value: 'exercise', label: 'Sort by Exercise' },
+          { value: 'student', label: 'Sort by Student' }
+        ],
+        links: {
+          tracks: Exercism::Routes.api_mentoring_tracks_url,
+          update_tracks: Exercism::Routes.api_mentoring_tracks_url
+        }
+      }
+  end
+
+  test "mentoring queue honours current track" do
+    user = create :user
+
+    fsharp = create :track, slug: "fsharp", title: "F#" # Has no requests
+    csharp = create :track, slug: "csharp", title: "C#"
+    ruby = create :track, slug: "ruby", title: "Ruby"
+
+    create :user_track_mentorship, user: user, track: fsharp
+    ruby_mentorship = create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: csharp
+
+    # These are csharp and should be included
+    bob = create :practice_exercise, track: fsharp, slug: :bob, title: "Bob"
+    fred = create :practice_exercise, track: csharp, slug: :fred, title: "Fred"
+    zipper = create :concept_exercise, track: ruby, slug: :zipper, title: "Zipper"
+
+    # Make some requests for each except fred
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
+    3.times { create :mentor_request, solution: create(:concept_solution, exercise: fred) }
+    2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
+
+    # With none it takes alphabetical
+    component = ReactComponents::Mentoring::Queue.new(user)
+    refute_includes component.to_s, 'zipper'
+    assert_includes component.to_s, 'fred'
+
+    ruby_mentorship.update!(last_viewed: true)
+
+    component = ReactComponents::Mentoring::Queue.new(user.reload)
+    assert_includes component.to_s, 'zipper'
+  end
+end

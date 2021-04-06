@@ -19,6 +19,15 @@ module API
         exercise_slug: params[:exercise_slug]
       )
 
+      if params[:track_slug].present?
+        begin
+          track_id = Track.find(params[:track_slug]).id
+          current_user.track_mentorships.update_all("last_viewed = (track_id = #{track_id})")
+        rescue StandardError
+          # We can have an invalid track_slug here.
+        end
+      end
+
       render json: SerializePaginatedCollection.(
         requests,
         serializer: SerializeMentorRequests,

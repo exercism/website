@@ -14,7 +14,7 @@ module Git
       concept.update!(
         slug: concept_config[:slug],
         name: concept_config[:name],
-        blurb: concept_config[:blurb],
+        blurb: head_git_concept.blurb,
         synced_to_git_sha: head_git_concept.synced_git_sha
       )
     end
@@ -27,7 +27,7 @@ module Git
 
       concept_config[:slug] != concept.slug ||
         concept_config[:name] != concept.name ||
-        concept_config[:blurb] != concept.blurb
+        head_git_concept.blurb != concept.blurb
     end
 
     memoize

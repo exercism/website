@@ -7,7 +7,8 @@ module Git
 
     git_filepaths about: "about.md",
                   introduction: "introduction.md",
-                  links: "links.json"
+                  links: "links.json",
+                  config: ".meta/config.json"
 
     def initialize(concept_slug, git_sha = "HEAD", repo_url: nil, repo: nil)
       @repo = repo || Repository.new(repo_url: repo_url)
@@ -18,6 +19,11 @@ module Git
     memoize
     def links
       repo.read_json_blob(commit, absolute_filepath(links_filepath)).map { |link| OpenStruct.new(link) }
+    end
+
+    memoize
+    def blurb
+      config[:blurb]
     end
 
     def synced_git_sha

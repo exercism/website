@@ -59,7 +59,7 @@ module Git
           track,
           slug: concept_config[:slug],
           name: concept_config[:name],
-          blurb: concept_config[:blurb],
+          blurb: concept_blurb(concept_config[:slug]),
           synced_to_git_sha: head_git_track.commit.oid
         )
       end
@@ -75,10 +75,10 @@ module Git
 
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
-          blurb: find_blurb(exercise_config[:slug], 'concept'),
+          blurb: exercise_blurb(exercise_config[:slug], 'concept'),
           position: position + 1,
-          taught_concepts: find_concepts(exercise_config[:concepts]),
-          prerequisites: find_concepts(exercise_config[:prerequisites]),
+          taught_concepts: exercise_concepts(exercise_config[:concepts]),
+          prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
         )
@@ -94,10 +94,10 @@ module Git
           slug: exercise_config[:slug],
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
-          blurb: find_blurb(exercise_config[:slug], 'practice'),
+          blurb: exercise_blurb(exercise_config[:slug], 'practice'),
           position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
-          prerequisites: find_concepts(exercise_config[:prerequisites]),
-          practiced_concepts: find_concepts(exercise_config[:practices]),
+          prerequisites: exercise_concepts(exercise_config[:prerequisites]),
+          practiced_concepts: exercise_concepts(exercise_config[:practices]),
           deprecated: exercise_config[:deprecated] || false,
           git_sha: head_git_track.commit.oid
         )
@@ -111,7 +111,7 @@ module Git
       true
     end
 
-    def find_concepts(concept_slugs)
+    def exercise_concepts(concept_slugs)
       track.concepts.where(slug: concept_slugs.to_a).tap do |concepts|
         # TODO: We should be able to remove this once configlet is in place
         missing_concepts = concept_slugs.to_a - concepts.map(&:slug)
@@ -119,9 +119,14 @@ module Git
       end
     end
 
-    def find_blurb(slug, git_type)
+    def exercise_blurb(slug, git_type)
       git_exercise = Git::Exercise.new(slug, git_type, git_repo.head_sha, repo: git_repo)
       git_exercise.blurb
+    end
+
+    def concept_blurb(slug)
+      git_concept = Git::Concept.new(slug, git_repo.head_sha, repo: git_repo)
+      git_concept.blurb
     end
 
     def fetch_git_repo!

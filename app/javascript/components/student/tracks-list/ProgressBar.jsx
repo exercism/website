@@ -1,8 +1,6 @@
 import React from 'react'
 
 export function ProgressBar({ numExercises, numCompletedExercises }) {
-  console.log(numExercises)
-  console.log(numCompletedExercises)
   const completedPercentage = (numCompletedExercises / numExercises) * 100 + '%'
 
   return (

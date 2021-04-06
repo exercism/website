@@ -77,7 +77,7 @@ import '../../css/components/tag'
 import '../../css/components/faces'
 import '../../css/components/exercise-status-tag'
 import '../../css/components/exercise-dot'
-import '../../css/components/fetching-overlay'
+import '../../css/components/results-zone'
 
 import '../../css/components/widgets/exercise'
 

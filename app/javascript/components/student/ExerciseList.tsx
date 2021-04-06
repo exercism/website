@@ -6,7 +6,7 @@ import { Exercise, SolutionForStudent } from '../types'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 
@@ -147,7 +147,7 @@ export const ExerciseList = ({
         error={error}
         defaultError={DEFAULT_ERROR}
       >
-        <FetchingOverlay isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
           {results && results.length > 0 ? (
             <div className="exercises">
               {statusFilter.apply(results).map((result) => {
@@ -165,7 +165,7 @@ export const ExerciseList = ({
           ) : (
             <p>No exercises found</p>
           )}
-        </FetchingOverlay>
+        </ResultsZone>
       </FetchingBoundary>
     </div>
   )

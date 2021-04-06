@@ -5,7 +5,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FilterPanel } from './searchable-list/FilterPanel'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 type PaginatedResult = {
   results: any[]
@@ -97,7 +97,7 @@ export const SearchableList = ({
       </div>
       {status === 'loading' ? <Loading /> : null}
       <ErrorBoundary>
-        <FetchingOverlay isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
           <Results
             query={request.query}
             error={error}
@@ -107,7 +107,7 @@ export const SearchableList = ({
             latestData={latestData}
             ResultsComponent={ResultsComponent}
           />
-        </FetchingOverlay>
+        </ResultsZone>
       </ErrorBoundary>
     </div>
   )

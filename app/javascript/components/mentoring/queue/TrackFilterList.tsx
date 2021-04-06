@@ -5,7 +5,7 @@ import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ChangeTracksButton } from './ChangeTracksButton'
-import { FetchingOverlay } from '../../FetchingOverlay'
+import { ResultsZone } from '../../ResultsZone'
 
 const TrackFilter = ({
   title,
@@ -117,7 +117,7 @@ const Component = ({
 
   return (
     <React.Fragment>
-      <FetchingOverlay isFetching={isFetching}>
+      <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"
           aria-label="Open the track filter"
@@ -132,7 +132,7 @@ const Component = ({
             className="action-icon"
           />
         </button>
-      </FetchingOverlay>
+      </ResultsZone>
       <div {...panelAttributes} className="c-track-switcher-dropdown">
         <ul {...listAttributes}>
           {tracks.map((track, i) => {

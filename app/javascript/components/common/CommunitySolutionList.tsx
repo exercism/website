@@ -10,7 +10,7 @@ import { CommunitySolution } from './CommunitySolution'
 import { Pagination } from '.'
 import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -69,7 +69,7 @@ export const CommunitySolutionList = ({
         error={error}
         defaultError={DEFAULT_ERROR}
       >
-        <FetchingOverlay isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
           {resolvedData ? (
             <React.Fragment>
               <div className="solutions">
@@ -91,7 +91,7 @@ export const CommunitySolutionList = ({
               />
             </React.Fragment>
           ) : null}
-        </FetchingOverlay>
+        </ResultsZone>
       </FetchingBoundary>
     </div>
   )

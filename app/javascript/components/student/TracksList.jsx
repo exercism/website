@@ -4,7 +4,7 @@ import { Search } from './tracks-list/Search'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
 import { useIsMounted } from 'use-is-mounted'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -63,9 +63,9 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       <section className="lg-container container">
         {isError && <p>Something went wrong</p>}
         {resolvedData && (
-          <FetchingOverlay isFetching={isFetching}>
+          <ResultsZone isFetching={isFetching}>
             <List data={resolvedData} />
-          </FetchingOverlay>
+          </ResultsZone>
         )}
       </section>
     </div>

@@ -7,7 +7,7 @@ import { TrackFilter } from './inbox/TrackFilter'
 import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const { request, setCriteria, setOrder, setPage, setQuery } = useList(
@@ -92,7 +92,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
             id="discussion-sorter-sort"
           />
         </header>
-        <FetchingOverlay isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
           <DiscussionList
             latestData={latestData}
             resolvedData={resolvedData}
@@ -101,7 +101,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
             request={request}
             setPage={setPage}
           />
-        </FetchingOverlay>
+        </ResultsZone>
       </div>
     </div>
   )

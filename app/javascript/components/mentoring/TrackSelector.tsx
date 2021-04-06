@@ -6,7 +6,7 @@ import { SelectedTracksMessage } from './track-selector/SelectedTracksMessage'
 import { ContinueButton } from './track-selector/ContinueButton'
 import { SearchBar } from './track-selector/SearchBar'
 import { useList } from '../../hooks/use-list'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 export type APIResponse = {
   tracks: readonly Track[]
@@ -57,7 +57,7 @@ export const TrackSelector = ({
           onClick={handleContinue}
         />
       </div>
-      <FetchingOverlay isFetching={isFetching}>
+      <ResultsZone isFetching={isFetching}>
         <div className="tracks">
           <TracksList
             status={status}
@@ -67,7 +67,7 @@ export const TrackSelector = ({
             error={error}
           />
         </div>
-      </FetchingOverlay>
+      </ResultsZone>
     </div>
   )
 }

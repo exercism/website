@@ -9,7 +9,7 @@ import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
-import { FetchingOverlay } from '../FetchingOverlay'
+import { ResultsZone } from '../ResultsZone'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -105,7 +105,7 @@ export const Queue = ({
             id="mentoring-queue-sorter"
           />
         </header>
-        <FetchingOverlay isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
           <SolutionList
             status={status}
             error={error}
@@ -114,7 +114,7 @@ export const Queue = ({
             latestData={latestData}
             setPage={setPage}
           />
-        </FetchingOverlay>
+        </ResultsZone>
       </div>
       <div className="mentor-queue-filtering">
         <TrackFilterList

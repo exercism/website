@@ -19,8 +19,10 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
       submission_uuid: test_run.submission.uuid,
       version: 0,
       status: :pass,
-      message: test_run.message,
+      message: nil,
+      message_html: nil,
       output: nil,
+      output_html: nil,
       tests: [
         {
           name: 'test_a_name_given',
@@ -73,6 +75,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     output = SerializeSubmissionTestRun.(test_run)
 
     assert_equal message, output[:message]
+    assert_equal message, output[:message_html]
   end
 
   test "message: returns nil if there is no message" do
@@ -83,6 +86,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     output = SerializeSubmissionTestRun.(test_run)
 
     assert_nil output[:message]
+    assert_nil output[:message_html]
   end
 
   test "ops_error returns status and message" do
@@ -93,26 +97,44 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     output = SerializeSubmissionTestRun.(test_run)
 
     assert_equal "ops_error", output[:status]
-    assert_equal "Some error occurred", output[:message]
+    assert_equal "An unknown error occurred", output[:message]
+    assert_equal "An unknown error occurred", output[:message_html]
   end
 
   test "returns nil if nil is passed in" do
     assert_nil SerializeSubmissionTestRun.(nil)
   end
 
+  test "ansi_in_message_html" do
+    message = "\e[31mHello\e[0m\e[K\e[34mWorld\e[0"
+    test_run = create :submission_test_run,
+      ops_status: 403,
+      raw_results: {
+        version: 2,
+        message: message
+      }
+
+    serialized = SerializeSubmissionTestRun.(test_run)
+
+    assert_equal message, serialized[:message]
+    assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", serialized[:message_html]
+  end
+
   test "legacy v1 spec" do
     version = 5
+    output = "\e[31mHello\e[0m\e[K\e[34mWorld\e[0"
 
     test_run = create :submission_test_run,
       ops_status: 403,
       raw_results: {
         version: version,
-        output: "\e[31mHello\e[0m\e[K\e[34mWorld\e[0"
+        output: output
       }
 
     serialized = SerializeSubmissionTestRun.(test_run)
 
     assert_equal version, serialized[:version]
-    assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", serialized[:output]
+    assert_equal output, serialized[:output]
+    assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", serialized[:output_html]
   end
 end

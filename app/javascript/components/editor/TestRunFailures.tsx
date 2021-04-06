@@ -2,7 +2,7 @@ import React from 'react'
 import { TestRun } from './types'
 import { TestsGroupList } from './TestsGroupList'
 
-export const TestRunFailure = ({
+export const TestRunFailures = ({
   testRun,
 }: {
   testRun: TestRun
@@ -11,7 +11,7 @@ export const TestRunFailure = ({
     <TestsGroupList tests={testRun.tests} />
   ) : (
     <pre className="v1-output">
-      <code dangerouslySetInnerHTML={{ __html: testRun.output }} />
+      <code dangerouslySetInnerHTML={{ __html: testRun.outputHtml }} />
     </pre>
   )
 }

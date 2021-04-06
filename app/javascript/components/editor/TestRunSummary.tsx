@@ -3,7 +3,9 @@ import { TestRun, TestRunStatus, TestStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
-import { TestRunFailure } from './TestRunFailure'
+import { TestRunFailures } from './TestRunFailures'
+import { SubmitButton } from './SubmitButton'
+import { GraphicalIcon } from '../common'
 
 export const TestRunSummary = ({
   testRun,
@@ -133,6 +135,21 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
           All tests passed
         </div>
       )
+    case TestRunStatus.ERROR:
+    case TestRunStatus.OPS_ERROR:
+      return (
+        <div className="summary-status errored" role="status">
+          <span className="--dot" />
+          An error occurred
+        </div>
+      )
+    case TestRunStatus.TIMEOUT:
+      return (
+        <div className="summary-status errored" role="status">
+          <span className="--dot" />
+          Your tests timed out
+        </div>
+      )
     default:
       return null
   }
@@ -147,27 +164,61 @@ TestRunSummary.Content = ({
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS:
+      return (
+        <>
+          {testRun.version == 2 ? <TestRunFailures testRun={testRun} /> : null}
+          <div className="success-box">
+            <GraphicalIcon icon="balloons" category="graphics" />
+            <div className="content">
+              <h3>Sweet. Looks like you’ve solved the exercise!</h3>
+              <p>
+                Good job! You can continue to improve your code or, if you're
+                done, submit your solution to get automated feedback and request
+                mentoring.
+              </p>
+              {/* TODO: Set this up properly */}
+              <SubmitButton onClick={() => {}} disabled={false} />
+            </div>
+          </div>
+        </>
+      )
     case TestRunStatus.FAIL:
-      return <TestRunFailure testRun={testRun} />
+      return <TestRunFailures testRun={testRun} />
     case TestRunStatus.ERROR:
       return (
-        <div role="status">
-          <p>An error occurred</p>
-          <p>We got the following error message when we ran your code:</p>
-          <p>{testRun.message}</p>
+        <div className="error-message">
+          <h3>We received the following error when we ran your code:</h3>
+          <pre>
+            <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />
+          </pre>
         </div>
       )
     case TestRunStatus.OPS_ERROR:
       return (
-        <div role="status">
-          <p>An error occurred</p>
-          <p>{testRun.message}</p>
+        <div className="ops-error">
+          <p>
+            An error occurred while running your tests. This might mean that
+            there was an issue in our infrastructure, or it might mean that you
+            have something in your code that's causing our systems to break.
+          </p>
+          <p>
+            Please check your code, and if nothing seems to be wrong, try
+            running the tests again.
+          </p>
         </div>
       )
     case TestRunStatus.TIMEOUT:
       return (
-        <div role="status">
-          <p>Tests timed out</p>
+        <div className="ops-error">
+          <p>
+            Your tests timed out. This might mean that there was an issue in our
+            infrastructure, or it might mean that you have some infinite loop in
+            your code.
+          </p>
+          <p>
+            Please check your code, and if nothing seems to be wrong, try
+            running the tests again.
+          </p>
         </div>
       )
     case TestRunStatus.QUEUED:

@@ -104,7 +104,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_text "An error occurred"
+        assert_text "AN ERROR OCCURRED"
         assert_text "Undefined local variable"
       end
     end
@@ -131,8 +131,8 @@ module Components
             }
           Submission::TestRunsChannel.broadcast!(test_run)
 
-          assert_text "An error occurred"
-          assert_text "Can't run the tests"
+          assert_text "AN ERROR OCCURRED"
+          assert_text "An error occurred while running your tests"
         end
       end
     end

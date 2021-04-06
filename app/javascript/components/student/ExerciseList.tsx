@@ -6,6 +6,7 @@ import { Exercise, SolutionForStudent } from '../types'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FetchingBoundary } from '../FetchingBoundary'
+import { ResultsZone } from '../ResultsZone'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 
@@ -127,7 +128,6 @@ export const ExerciseList = ({
           className="--search"
           placeholder="Search by title"
         />
-        {isFetching ? <span>Fetching</span> : null}
       </div>
       <div className="tabs">
         {STATUS_FILTERS.map((filter) => {
@@ -147,23 +147,25 @@ export const ExerciseList = ({
         error={error}
         defaultError={DEFAULT_ERROR}
       >
-        {results && results.length > 0 ? (
-          <div className="exercises">
-            {statusFilter.apply(results).map((result) => {
-              return (
-                <ExerciseWidget
-                  key={result.exercise.slug}
-                  exercise={result.exercise}
-                  track={track}
-                  size="medium"
-                  solution={result.solution}
-                />
-              )
-            })}
-          </div>
-        ) : (
-          <p>No exercises found</p>
-        )}
+        <ResultsZone isFetching={isFetching}>
+          {results && results.length > 0 ? (
+            <div className="exercises">
+              {statusFilter.apply(results).map((result) => {
+                return (
+                  <ExerciseWidget
+                    key={result.exercise.slug}
+                    exercise={result.exercise}
+                    track={track}
+                    size="medium"
+                    solution={result.solution}
+                  />
+                )
+              })}
+            </div>
+          ) : (
+            <p>No exercises found</p>
+          )}
+        </ResultsZone>
       </FetchingBoundary>
     </div>
   )

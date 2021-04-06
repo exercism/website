@@ -16,6 +16,7 @@
         & .--tag-option-list {
             @apply absolute left-0 right-0;
             @apply bg-backgroundColorA;
+            @apply z-dropdown;
 
             top: 60px;
 

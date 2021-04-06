@@ -19,7 +19,7 @@ export const SolutionList = ({ status, error, ...props }) => {
   )
 }
 
-function Component({ resolvedData, latestData, page, setPage, isFetching }) {
+function Component({ resolvedData, latestData, page, setPage }) {
   const [tooltipTrigger, setTooltipTrigger] = useState(null)
   const [tooltipElement, setTooltipElement] = useState(null)
 
@@ -37,7 +37,7 @@ function Component({ resolvedData, latestData, page, setPage, isFetching }) {
     <>
       {resolvedData.results.length > 0 ? (
         <>
-          <div className={'--solutions' + (isFetching ? ' --loading' : '')}>
+          <div className="--solutions">
             {resolvedData.results.length > 0
               ? resolvedData.results.map((solution, key) => (
                   <Solution

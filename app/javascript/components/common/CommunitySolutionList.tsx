@@ -7,9 +7,10 @@ import {
   CommunitySolutionContext,
 } from '../types'
 import { CommunitySolution } from './CommunitySolution'
-import { Loading, Pagination } from '.'
+import { Pagination } from '.'
 import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
+import { ResultsZone } from '../ResultsZone'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -63,34 +64,34 @@ export const CommunitySolutionList = ({
           placeholder="Search by user"
         />
       </div>
-      {isFetching ? <span>Fetching</span> : null}
-      {status === 'loading' ? <Loading /> : null}
       <FetchingBoundary
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
       >
-        {resolvedData ? (
-          <React.Fragment>
-            <div className="solutions">
-              {resolvedData.results.map((solution) => {
-                return (
-                  <CommunitySolution
-                    key={solution.id}
-                    solution={solution}
-                    context={context}
-                  />
-                )
-              })}
-            </div>
-            <Pagination
-              disabled={latestData === undefined}
-              current={request.query.page}
-              total={resolvedData.meta.totalPages}
-              setPage={setPage}
-            />
-          </React.Fragment>
-        ) : null}
+        <ResultsZone isFetching={isFetching}>
+          {resolvedData ? (
+            <React.Fragment>
+              <div className="solutions">
+                {resolvedData.results.map((solution) => {
+                  return (
+                    <CommunitySolution
+                      key={solution.id}
+                      solution={solution}
+                      context={context}
+                    />
+                  )
+                })}
+              </div>
+              <Pagination
+                disabled={latestData === undefined}
+                current={request.query.page}
+                total={resolvedData.meta.totalPages}
+                setPage={setPage}
+              />
+            </React.Fragment>
+          ) : null}
+        </ResultsZone>
       </FetchingBoundary>
     </div>
   )

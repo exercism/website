@@ -42,6 +42,10 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
+
+          assert_text strip_tags(contribution_token.text)
+          assert_no_text strip_tags(review_token.text)
+
           click_on "2"
 
           assert_text strip_tags(review_token.text)

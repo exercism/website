@@ -1,16 +1,15 @@
 class SerializeTracksForMentoring
   include Mandate
 
-  def initialize(tracks)
+  def initialize(tracks, mentor: nil)
     @tracks = tracks
+    @mentor = mentor
   end
 
   def call
-    {
-      tracks: tracks.order(title: :asc).map do |track|
-        serialize_track(track)
-      end
-    }
+    tracks.order(title: :asc).map do |track|
+      serialize_track(track)
+    end
   end
 
   def serialize_track(track)
@@ -27,11 +26,29 @@ class SerializeTracksForMentoring
   end
 
   private
-  attr_reader :tracks
+  attr_reader :tracks, :mentor
 
   memoize
   def request_counts
-    @requests = Mentor::Request.
+    mentor ? request_counts_with_mentor : request_counts_without_mentor
+  end
+
+  def request_counts_with_mentor
+    Mentor::Request::Retrieve.(
+      mentor: mentor,
+      track_slug: tracks.map(&:slug),
+      sorted: false, paginated: false
+    ).joins(solution: :exercise).
+      group('exercises.track_id').
+      count
+  end
+
+  # We don't acutally care about what tracks the person
+  # mentors when we serialize here. We're going to serailize
+  # all the tracks that have been passed in. However we do
+  # care about excluding your own solutions, etc.
+  def request_counts_without_mentor
+    Mentor::Request.
       joins(solution: :exercise).
       pending.
       unlocked.

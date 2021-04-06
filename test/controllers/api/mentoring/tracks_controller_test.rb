@@ -18,7 +18,9 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     get api_mentoring_tracks_path, headers: @headers, as: :json
     assert_response 200
 
-    expected = SerializeTracksForMentoring.(Track.all)
+    expected = {
+      tracks: SerializeTracksForMentoring.(Track.all, mentor: user)
+    }
     assert_equal expected.to_json, response.body
   end
 
@@ -32,7 +34,9 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
                                    params: { criteria: "ruby" }
     assert_response 200
 
-    expected = SerializeTracksForMentoring.(Track.where(id: ruby.id))
+    expected = {
+      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
+    }
     assert_equal expected.to_json, response.body
   end
 
@@ -49,7 +53,9 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     get mentored_api_mentoring_tracks_path, headers: @headers, as: :json
     assert_response 200
 
-    expected = SerializeTracksForMentoring.(Track.where(id: track.id))
+    expected = {
+      tracks: SerializeTracksForMentoring.(Track.where(id: track.id), mentor: user)
+    }
     assert_equal expected.to_json, response.body
   end
 
@@ -65,7 +71,9 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
                                             params: { criteria: "ruby" }
     assert_response 200
 
-    expected = SerializeTracksForMentoring.(Track.where(id: ruby.id))
+    expected = {
+      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
+    }
     assert_equal expected.to_json, response.body
   end
 
@@ -85,7 +93,9 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     assert_response 200
 
     assert_equal [javascript], user.reload.mentored_tracks
-    expected = SerializeTracksForMentoring.(Track.where(id: javascript.id))
+    expected = {
+      tracks: SerializeTracksForMentoring.(Track.where(id: javascript.id), mentor: user)
+    }
     assert_equal expected.to_json, response.body
   end
 end

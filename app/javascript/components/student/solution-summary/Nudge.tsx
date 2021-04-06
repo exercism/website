@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Avatar, GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import { CompleteExerciseButton } from '../CompleteExerciseButton'
@@ -20,6 +20,23 @@ type Links = {
   inProgressDiscussion?: string
 }
 
+type Props = {
+  status: SolutionStatus
+  mentoringStatus: SolutionMentoringStatus
+  isConceptExercise: boolean
+  iteration?: Iteration
+  discussions: readonly MentorDiscussion[]
+  links: Links
+  track: Track
+}
+
+type NudgeType =
+  | 'mentoringRequested'
+  | 'inProgress'
+  | 'completeExercise'
+  | 'mentoring'
+  | 'testsFailed'
+
 export const Nudge = ({
   status,
   mentoringStatus,
@@ -28,62 +45,110 @@ export const Nudge = ({
   discussions,
   links,
   track,
-}: {
-  status: SolutionStatus
-  mentoringStatus: SolutionMentoringStatus
-  isConceptExercise: boolean
-  iteration?: Iteration
-  discussions: readonly MentorDiscussion[]
-  links: Links
-  track: Track
-}): JSX.Element | null => {
-  switch (mentoringStatus) {
-    case 'requested':
-      return <MentoringRequestedNudge track={track} links={links} />
-    case 'in_progress':
-      return <InProgressMentoringNudge discussion={discussions[0]} />
-    default:
-      if (!iteration) {
-        return null
-      }
-
-      switch (iteration.status) {
-        case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
-        case IterationStatus.NO_AUTOMATED_FEEDBACK: {
-          return isConceptExercise ? (
-            <CompleteExerciseNudge
-              status={status}
-              completeExerciseLink={links.completeExercise}
-            />
-          ) : (
-            <MentoringNudge
-              mentoringStatus={mentoringStatus}
-              discussions={discussions}
-              links={links}
-            />
-          )
-        }
-        case IterationStatus.TESTS_FAILED:
-          return <TestsFailedNudge track={track} links={links} />
-        default:
+}: Props): JSX.Element | null => {
+  const getNudgeType = useCallback(() => {
+    switch (mentoringStatus) {
+      case 'requested':
+        return 'mentoringRequested'
+      case 'in_progress':
+        return 'inProgress'
+      default: {
+        if (!iteration) {
           return null
+        }
+
+        switch (iteration.status) {
+          case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+          case IterationStatus.NO_AUTOMATED_FEEDBACK: {
+            return isConceptExercise ? 'completeExercise' : 'mentoring'
+          }
+          case IterationStatus.TESTS_FAILED:
+            return 'testsFailed'
+          default:
+            return null
+        }
       }
+    }
+  }, [isConceptExercise, iteration, mentoringStatus])
+  const [nudgeType, setNudgeType] = useState<NudgeType | null>(getNudgeType())
+  const initNudgeTypeRef = useRef<NudgeType | null>(nudgeType)
+  const [shouldAnimate, setShouldAnimate] = useState(false)
+
+  useEffect(() => {
+    setNudgeType(getNudgeType())
+  }, [getNudgeType])
+
+  useEffect(() => {
+    if (initNudgeTypeRef.current === nudgeType) {
+      return
+    }
+
+    setShouldAnimate(true)
+  }, [nudgeType])
+
+  const className = shouldAnimate ? 'animate' : ''
+
+  switch (nudgeType) {
+    case 'mentoringRequested':
+      return (
+        <MentoringRequestedNudge
+          track={track}
+          links={links}
+          className={className}
+        />
+      )
+    case 'inProgress':
+      return (
+        <InProgressMentoringNudge
+          discussion={discussions[0]}
+          className={className}
+        />
+      )
+    case 'completeExercise':
+      return (
+        <CompleteExerciseNudge
+          status={status}
+          completeExerciseLink={links.completeExercise}
+          className={className}
+        />
+      )
+    case 'mentoring':
+      return (
+        <MentoringNudge
+          mentoringStatus={mentoringStatus}
+          discussions={discussions}
+          links={links}
+          className={className}
+        />
+      )
+    case 'testsFailed':
+      return (
+        <TestsFailedNudge track={track} links={links} className={className} />
+      )
+    default:
+      return null
   }
 }
 
 const CompleteExerciseNudge = ({
   status,
   completeExerciseLink,
+  className = '',
 }: {
   status: SolutionStatus
   completeExerciseLink: string
+  className?: string
 }) => {
   if (status == 'published' || status == 'completed') {
     return null
   }
 
+  const classNames = ['completion-nudge', className].filter(
+    (className) => className.length > 0
+  )
+
   return (
-    <section className="completion-nudge">
+    <section className={classNames.join(' ')}>
       <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
         <h3>Nice, it looks like you’re done here!</h3>
@@ -104,9 +169,11 @@ const MentoringNudge = ({
   mentoringStatus,
   discussions,
   links,
+  className = '',
 }: {
   mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
+  className?: string
   links: {
     mentoringInfo: string
     requestMentoring: string
@@ -115,8 +182,12 @@ const MentoringNudge = ({
     inProgressDiscussion?: string
   }
 }) => {
+  const classNames = ['mentoring-prompt-nudge', className].filter(
+    (className) => className.length > 0
+  )
+
   return (
-    <section className="mentoring-prompt-nudge">
+    <section className={classNames.join(' ')}>
       <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
         <h3>Improve your solution with mentoring</h3>
@@ -149,15 +220,21 @@ const MentoringNudge = ({
 const TestsFailedNudge = ({
   track,
   links,
+  className = '',
 }: {
   track: Track
   links: {
     mentoringInfo: string
     requestMentoring: string
   }
+  className?: string
 }) => {
+  const classNames = ['mentoring-prompt-nudge', className].filter(
+    (className) => className.length > 0
+  )
+
   return (
-    <section className="mentoring-prompt-nudge">
+    <section className={classNames.join(' ')}>
       <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
         <h3>Struggling with this exercise?</h3>
@@ -182,15 +259,21 @@ const TestsFailedNudge = ({
 const MentoringRequestedNudge = ({
   track,
   links,
+  className = '',
 }: {
   track: Track
   links: {
     mentoringInfo: string
     pendingMentorRequest: string
   }
+  className?: string
 }) => {
+  const classNames = ['mentoring-request-nudge', className].filter(
+    (className) => className.length > 0
+  )
+
   return (
-    <section className="mentoring-request-nudge">
+    <section className={classNames.join(' ')}>
       <div className="info">
         <h3>You&apos;ve requested mentoring</h3>
         <p>
@@ -207,11 +290,17 @@ const MentoringRequestedNudge = ({
 
 const InProgressMentoringNudge = ({
   discussion,
+  className = '',
 }: {
   discussion: MentorDiscussion
+  className?: string
 }) => {
+  const classNames = ['mentoring-discussion-nudge', className].filter(
+    (className) => className.length > 0
+  )
+
   return (
-    <section className="mentoring-discussion-nudge">
+    <section className={classNames.join(' ')}>
       <Avatar
         src={discussion.student.avatarUrl}
         handle={discussion.student.handle}

@@ -153,27 +153,27 @@ module Components
       end
     end
 
-    # test "user sees previous test results" do
-    #   user = create :user
-    #   strings = create :concept_exercise
-    #   solution = create :concept_solution, user: user, exercise: strings
-    #   submission = create :submission, solution: solution
-    #   create :submission_test_run,
-    #     submission: submission,
-    #     status: "pass",
-    #     ops_status: 200,
-    #     raw_results: {
-    #       version: 2,
-    #       tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
-    #     }
+    test "user sees previous test results" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      create :submission_test_run,
+        submission: submission,
+        status: "pass",
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
 
-    #   use_capybara_host do
-    #     sign_in!(user)
-    #     visit test_components_editor_path(solution_id: solution.id)
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
 
-    #     assert_text "1 test passed"
-    #   end
-    # end
+        assert_text "1 test passed"
+      end
+    end
 
     test "user sees submission errors" do
       expecting_errors do

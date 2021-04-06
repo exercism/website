@@ -129,8 +129,15 @@ export const Notifications = ({
     if (!listAttributes.hidden) {
       return
     }
-    queryCache.invalidateQueries(CACHE_KEY).then(() => setIsStale(false))
-  }, [listAttributes.hidden, isStale])
+
+    queryCache.invalidateQueries(CACHE_KEY).then(() => {
+      if (!isMountedRef.current) {
+        return
+      }
+
+      setIsStale(false)
+    })
+  }, [listAttributes.hidden, isStale, isMountedRef])
 
   return (
     <React.Fragment>

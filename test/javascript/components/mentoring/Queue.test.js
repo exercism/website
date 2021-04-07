@@ -50,6 +50,12 @@ test('shows API errors when fetching queue', async () => {
           endpoint: 'https://exercism.test/queue',
           query: { trackSlug: 'ruby' },
         }}
+        defaultTrack={{
+          id: 'ruby',
+          links: {
+            exercises: 'https://exercism.test/tracks/ruby/exercises',
+          },
+        }}
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
@@ -97,6 +103,12 @@ test('shows generic errors when fetching queue', async () => {
           endpoint: 'wrongendpoint',
           query: { trackSlug: 'ruby' },
         }}
+        defaultTrack={{
+          id: 'ruby',
+          links: {
+            exercises: 'https://exercism.test/tracks/ruby/exercises',
+          },
+        }}
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
@@ -143,6 +155,12 @@ test('shows API errors when fetching tracks', async () => {
           endpoint: 'https://exercism.test/queue',
           query: { trackSlug: 'ruby' },
         }}
+        defaultTrack={{
+          id: 'ruby',
+          links: {
+            exercises: 'https://exercism.test/tracks/ruby/exercises',
+          },
+        }}
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',
         }}
@@ -178,6 +196,12 @@ test('shows generic errors when fetching tracks', async () => {
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
           query: { trackSlug: 'ruby' },
+        }}
+        defaultTrack={{
+          id: 'ruby',
+          links: {
+            exercises: 'https://exercism.test/tracks/ruby/exercises',
+          },
         }}
         tracksRequest={{
           endpoint: 'weirdendpoitn',
@@ -224,6 +248,12 @@ test('shows API errors when fetching tracks', async () => {
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
           query: { trackSlug: 'ruby' },
+        }}
+        defaultTrack={{
+          id: 'ruby',
+          links: {
+            exercises: 'https://exercism.test/tracks/ruby/exercises',
+          },
         }}
         tracksRequest={{
           endpoint: 'https://exercism.test/tracks',

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTrackList } from './queue/useTrackList'
 import { useExerciseList } from './queue/useExerciseList'
 import { MentoredTrack, MentoredTrackExercise } from '../types'
@@ -45,7 +45,7 @@ export const Queue = ({
     cacheKey: TRACKS_LIST_CACHE_KEY,
     request: tracksRequest,
   })
-  const [selectedTrack, setSelectedTrack] = useState<MentoredTrack | null>(
+  const [selectedTrack, setSelectedTrack] = useState<MentoredTrack>(
     defaultTrack
   )
   const {
@@ -75,17 +75,17 @@ export const Queue = ({
     exercise: selectedExercise,
   })
 
-  const handleReset = useCallback(() => {
-    setSelectedTrack(tracks[0])
-    setSelectedExercise(null)
-  }, [tracks])
-
   useEffect(() => {
-    {
-      /* TODO: This is overriding whatever is passed as the defaultTrack */
+    if (tracks.length === 0) {
+      return
     }
+
+    if (tracks.find((track) => track.id === selectedTrack.id)) {
+      return
+    }
+
     setSelectedTrack(tracks[0])
-  }, [tracks])
+  }, [selectedTrack.id, tracks])
 
   useEffect(() => {
     setSelectedExercise(null)

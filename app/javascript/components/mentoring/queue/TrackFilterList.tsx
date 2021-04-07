@@ -1,11 +1,11 @@
-import React, { useCallback, useRef } from 'react'
-import { TrackIcon, Icon } from '../../common'
+import React, { useCallback, useRef, useState } from 'react'
+import { TrackIcon, Icon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
-import { ChangeTracksButton } from './ChangeTracksButton'
 import { ResultsZone } from '../../ResultsZone'
+import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
 
 const TrackFilter = ({
   title,
@@ -79,6 +79,7 @@ const Component = ({
   total,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const handleItemSelect = useCallback(
     (index) => {
       if (!tracks) {
@@ -97,6 +98,7 @@ const Component = ({
     listAttributes,
     itemAttributes,
     setOpen,
+    open,
   } = useDropdown((tracks?.length || 0) + 1, handleItemSelect, {
     placement: 'bottom',
     modifiers: [
@@ -133,32 +135,50 @@ const Component = ({
           />
         </button>
       </ResultsZone>
-      <div {...panelAttributes} className="c-track-switcher-dropdown">
-        <ul {...listAttributes}>
-          {tracks.map((track, i) => {
-            return (
-              <li key={track.id} {...itemAttributes(i)}>
-                <TrackFilter
-                  onChange={() => {
-                    setValue(track)
-                    setOpen(false)
-                  }}
-                  checked={value === track}
-                  {...track}
-                />
-              </li>
-            )
-          })}
-          <li key="change-tracks" {...itemAttributes(tracks.length)}>
-            <ChangeTracksButton
-              ref={changeTracksRef}
-              links={links}
-              cacheKey={cacheKey}
-              tracks={tracks}
-            />
-          </li>
-        </ul>
-      </div>
+      {open ? (
+        <div {...panelAttributes} className="c-track-switcher-dropdown">
+          <ul {...listAttributes}>
+            {tracks.map((track, i) => {
+              return (
+                <li key={track.id} {...itemAttributes(i)}>
+                  <TrackFilter
+                    onChange={() => {
+                      setValue(track)
+                      setOpen(false)
+                    }}
+                    checked={value === track}
+                    {...track}
+                  />
+                </li>
+              )
+            })}
+            <li key="change-tracks" {...itemAttributes(tracks.length)}>
+              <button
+                ref={changeTracksRef}
+                type="button"
+                onClick={() => {
+                  setIsModalOpen(true)
+                  setOpen(false)
+                }}
+              >
+                <GraphicalIcon icon="reset" />
+                Change the tracks you mentor
+              </button>
+            </li>
+          </ul>
+        </div>
+      ) : null}
+      <MentorChangeTracksModal
+        open={isModalOpen}
+        tracks={tracks}
+        cacheKey={cacheKey}
+        links={links}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={() => {
+          setIsModalOpen(false)
+          setOpen(false)
+        }}
+      />
     </React.Fragment>
   )
 }

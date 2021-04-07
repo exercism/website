@@ -65,14 +65,7 @@ export function Settings({
   setWrap: (wrap: WrapSetting) => void
 }) {
   const [localKeybindings, setLocalKeybindings] = useState(keybindings)
-  const {
-    open,
-    setOpen,
-    setButtonElement,
-    setPanelElement,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel()
 
   const handleThemeChange = useCallback(
     (e) => {
@@ -104,19 +97,17 @@ export function Settings({
   return (
     <React.Fragment>
       <button
-        ref={setButtonElement}
         className="settings-btn"
         type="button"
         aria-haspopup="true"
         aria-expanded={open}
-        onClick={() => {
-          setOpen(!open)
-        }}
+        onClick={() => setOpen(!open)}
+        {...buttonAttributes}
       >
         <Icon icon="settings" alt="Settings" />
       </button>
-      <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
-        {open ? (
+      {open ? (
+        <div {...panelAttributes}>
           <div
             tabIndex={-1}
             role="dialog"
@@ -142,8 +133,8 @@ export function Settings({
               onChange={handleWrapChange}
             />
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

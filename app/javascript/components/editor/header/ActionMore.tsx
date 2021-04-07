@@ -13,14 +13,7 @@ export const ActionMore = ({
   isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {
-    open,
-    setOpen,
-    setButtonElement,
-    setPanelElement,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, panelAttributes, buttonAttributes } = usePanel()
 
   const handleRevertToLastIteration = useCallback(() => {
     onRevertToLastIteration()
@@ -46,16 +39,14 @@ export const ActionMore = ({
         onClose={() => setIsModalOpen(false)}
       />
       <button
-        ref={setButtonElement}
+        {...buttonAttributes}
+        onClick={() => setOpen(!open)}
         className="more-btn"
-        onClick={() => {
-          setOpen(!open)
-        }}
       >
         <Icon icon="more-horizontal" alt="Open more options" />
       </button>
-      <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
-        {open ? (
+      {open ? (
+        <div {...panelAttributes}>
           <div>
             <button type="button" onClick={handleRevertToExerciseStart}>
               Revert to exercise start
@@ -71,8 +62,8 @@ export const ActionMore = ({
               Report a bug
             </button>
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

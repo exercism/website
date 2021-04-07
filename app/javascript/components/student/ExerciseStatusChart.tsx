@@ -85,14 +85,7 @@ const ExerciseStatusDot = ({
     exercise?: string
   }
 }) => {
-  const {
-    open,
-    setOpen,
-    setButtonElement,
-    setPanelElement,
-    styles,
-    attributes,
-  } = usePanel({
+  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'right-start',
     modifiers: [
       {
@@ -118,19 +111,14 @@ const ExerciseStatusDot = ({
   return (
     <React.Fragment>
       <ReferenceElement
-        ref={setButtonElement}
+        {...buttonAttributes}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
         className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}
       />
       {open ? (
-        <div
-          className="c-exercise-tooltip"
-          ref={setPanelElement}
-          style={styles.popper}
-          {...attributes.popper}
-        >
+        <div className="c-exercise-tooltip" {...panelAttributes}>
           <FetchingBoundary
             status={status}
             error={error}

@@ -5,25 +5,14 @@ import { GraphicalIcon } from './GraphicalIcon'
 
 const ComboButtonContext = React.createContext({
   open: false,
-  setPanelElement: (
-    value: React.SetStateAction<HTMLDivElement | null>
-  ): void => {},
-  styles: {},
-  attributes: {},
+  panelAttributes: {},
 })
 
 export const ComboButton = ({
   className = '',
   children,
 }: React.PropsWithChildren<{ className?: string }>): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    setButtonElement,
-    setPanelElement,
-    styles,
-    attributes,
-  } = usePanel({
+  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [
       {
@@ -39,21 +28,14 @@ export const ComboButton = ({
 
   return (
     <ComboButtonContext.Provider
-      value={{
-        setPanelElement: setPanelElement,
-        open: open,
-        styles: styles,
-        attributes: attributes,
-      }}
+      value={{ open: open, panelAttributes: panelAttributes }}
     >
       <div className={classNames.join(' ')}>
         {children}
         <button
-          onClick={() => {
-            setOpen(!open)
-          }}
+          onClick={() => setOpen(!open)}
+          {...buttonAttributes}
           className="--dropdown-segment"
-          ref={setButtonElement}
         >
           <GraphicalIcon icon="chevron-down" />
         </button>
@@ -75,17 +57,10 @@ ComboButton.PrimarySegment = ({ children }: React.PropsWithChildren<{}>) => {
 }
 
 ComboButton.DropdownSegment = ({ children }: React.PropsWithChildren<{}>) => {
-  const { setPanelElement, open, styles, attributes } = useContext(
-    ComboButtonContext
-  )
+  const { open, panelAttributes } = useContext(ComboButtonContext)
   return (
     <React.Fragment>
-      <Panel
-        setPanelElement={setPanelElement}
-        open={open}
-        styles={styles}
-        attributes={attributes}
-      >
+      <Panel open={open} panelAttributes={panelAttributes}>
         {children}
       </Panel>
     </React.Fragment>
@@ -94,32 +69,26 @@ ComboButton.DropdownSegment = ({ children }: React.PropsWithChildren<{}>) => {
 
 type PanelProps = {
   open: boolean
-  styles: { [key: string]: React.CSSProperties }
-  attributes: {
+  panelAttributes: {
     [key: string]: {
       [key: string]: string
     }
   }
-  setPanelElement: React.Dispatch<React.SetStateAction<HTMLDivElement | null>>
 }
 
 const Panel = ({
   open,
-  styles,
-  setPanelElement,
-  attributes,
+  panelAttributes,
   children,
 }: React.PropsWithChildren<PanelProps>) => {
   const portalContainer = document.getElementById('portal-container')
 
-  if (!portalContainer) {
+  if (!portalContainer || !open) {
     return null
   }
 
   return ReactDOM.createPortal(
-    <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
-      {open ? children : null}
-    </div>,
+    <div {...panelAttributes}>{children}</div>,
     portalContainer
   )
 }

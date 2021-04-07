@@ -38,7 +38,16 @@ test('closes dropdown after choosing a track', async () => {
       error={null}
       tracks={tracks}
       isFetching={false}
-      value={null}
+      value={{
+        id: 'csharp',
+        title: 'C#',
+        iconUrl: 'https://exercism.test/tracks/csharp/icon',
+        numSolutionsQueued: 2,
+        exercises: [],
+        links: {
+          exercises: 'https://exercism.test/tracks/csharp/exercises',
+        },
+      }}
       setValue={() => null}
       links={{
         tracks: 'https://exercism.test/tracks',

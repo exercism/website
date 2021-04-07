@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_132138) do
+ActiveRecord::Schema.define(version: 2021_04_06_162930) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -502,6 +502,7 @@ ActiveRecord::Schema.define(version: 2021_04_05_132138) do
     t.bigint "track_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "last_viewed", default: false, null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"

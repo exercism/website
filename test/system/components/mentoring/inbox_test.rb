@@ -52,9 +52,14 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_inbox_url
+
+          assert_text "on Series"
+          assert_no_text "on Tournament"
+
           click_on "2"
 
           assert_text "on Tournament"
+          assert_no_text "on Series"
         end
       end
 

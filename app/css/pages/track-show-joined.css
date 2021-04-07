@@ -31,10 +31,6 @@
             & h1 {
                 @apply text-h2 mb-8;
             }
-            & .c-icon.divider {
-                height: 14px;
-                width: 37px;
-            }
         }
         & .graphics {
             @apply relative flex-grow self-stretch flex justify-center items-center;
@@ -471,10 +467,6 @@
             }
             & h2 {
                 @apply text-h2 mb-20;
-            }
-            & .c-icon.divider {
-                height: 20px;
-                width: 74px;
             }
         }
         & .container {

@@ -1,46 +1,92 @@
 #page-profile
   %header.main-header
-    %section.info-section
-      .lg-container.container
+    .lg-container
+      .info-section
         = avatar(User.first)
         .info
           .heading
-            %h1= @user.name
-            .c-reputation{ 'aria-label': "#{@user.reputation} reputation" }
-              = icon(:reputation, "Reputation")
-              = @user.reputation
-          .details
-            .handle @#{@user.handle}
+            %h1= @user.handle
+            = render ViewComponents::Reputation.new(@user.reputation, flashy: true)
+            .tracks
+              - @top_three_tracks.each do |track|
+                = track_icon track
+          .details-1
+            .handle= @user.name
             .joined
               Joined
               %time= @user.created_at.strftime('%b %Y')
-            - if @user.created_at > Time.current - 3.months
-              .new New Member
+
+          - if @user.location.present? || @user.pronouns.present?
+            .details-2
+              - if @user.location.present?
+                .location
+                  = icon(:location, "Located in")
+                  = @user.location
+              - if @user.pronouns.present?
+                .pronouns
+                  = icon(:pronouns, "Pronouns")
+                  = @user.pronouns
+
+
           - if @user.bio.present?
             / TODO: Make Read more widget
             .bio= @user.bio
 
-          / TODO: Make this pivot on whether someone
-          / is a maintainer, etc
-          .pins
-            .pin
-              .icon
-                = graphical_icon :maintaining
-              Maintainer
+        .badges-and-tags
+          .header
+            = graphical_icon :badges
+            %h3 30 badges collected
+            = render ViewComponents::ProminentLink.new("See all", "#")
+          .badges
+            .c-badge
+              .c-badge-medallion.--ultimate
+            .c-badge
+              .c-badge-medallion.--rare
+            .c-badge
+              .c-badge-medallion.--rare
+            .c-badge
+              .c-badge-medallion.--rare
+            .c-badge
+              .c-badge-medallion.--common
+          .tags
+            .tag.staff
+              = graphical_icon :logo
+              .title Exercism Staff
+            .tag.maintainer
+              = graphical_icon :maintaining
+              .title Maintainer
 
+      .tabs-section
+        %button.c-tab-2.selected
+          = graphical_icon :overview
+          %span Summary
 
-        .links
+        %button.c-tab-2
+          = graphical_icon :contribute
+          %span Contributions
+
+        %button.c-tab-2
+          = graphical_icon 'community-solutions'
+          %span Published Solutions
+
+        %button.c-tab-2
+          = graphical_icon 'testimonials'
+          %span Testimonials
+
+        %button.c-tab-2
+          = graphical_icon 'badges'
+          %span Badges
+
+        .external-links
           - if @profile.github.present?
-            .link
-              = graphical_icon "external-site-github", css_class: "site-icon"
-              .site-name GitHub
-              = icon "external-link", "This is an external link", css_class: "action-icon"
+            / TODO
+            = link_to "#" do
+              = graphical_icon "external-site-github"
 
           - if @profile.linkedin.present?
-            .link
-              = graphical_icon "external-site-linkedin", css_class: "site-icon"
-              .site-name LinkedIn
-              = icon "external-link", "This is an external link", css_class: "action-icon"
+            / TODO
+            = link_to "#" do
+              = graphical_icon "external-site-linkedin"
 
           -# TODO: Need a medium icon
             - if @profile.medium.present?
@@ -50,33 +96,18 @@
                 = icon "external-link", "This is an external link", css_class: "action-icon"
 
           - if @profile.twitter.present?
-            .link
-              = graphical_icon "external-site-twitter", css_class: "site-icon"
-              .site-name Twitter
-              = icon "external-link", "This is an external link", css_class: "action-icon"
-
-
-    %section.tabs-section
-      .lg-container.container
-        %button.c-tab.selected
-          = graphical_icon :dashboard
-          %span{ data: { text: "Overview" } } Overview
-
-        %button.c-tab
-          = graphical_icon :editor
-          %span{ data: { text: "Solutions" } } Solutions
-
-        %button.c-tab
-          = graphical_icon :badges
-          %span{ data: { text: "Badges" } } Badges
+            / TODO
+            = link_to "#" do
+              = graphical_icon "external-site-twitter"
 
   %article
-    %section.published-section
+    %section.published-solutions-section
       .lg-container.container
         %header.section-header
+          = graphical_icon :'community-solutions', hex: true
           %h2 Published Solutions
           .total-count= @num_total_solutions
-        %hr
+          %hr.c-divider
 
         .solutions
           - @solutions.each do |solution|
@@ -90,38 +121,47 @@
           = graphical_icon :testimonials, hex: true
           %h2 Testimonials
           .total-count= @num_testimonials
-        %hr
+          %hr.c-divider
 
         .testimonials
-          .summaries
-            .summary.active
+          .stats
+            .stat
+              .number 572
+              .metric Solutions mentored
+            .stat
+              .number 390
+              .metric Students helped
+            .stat
+              .number 55
+              .metric Testimonials received
+
+          .testimonial For the first time in my life, someone got my name right the first time round. I’m not really sure what that means, but, I think I’m gonna go and celebrate. Man, I can’t believe this. I can’t believe SleeplessByte got my name right!
+          / TODO: a11y
+          .stars
+            = graphical_icon "gold-star"
+            = graphical_icon "gold-star"
+            = graphical_icon "gold-star"
+            = graphical_icon "gold-star"
+            = graphical_icon "gold-star"
+
+          .bylines
+            .byline.active
               = avatar(User.first)
               .info
-                .student @ErikShireBOOM
+                .student ErikShireBOOM
                 .exercise Lasagna in C#
 
-            .summary
+            .byline.unactive
               = avatar(User.first)
               .info
-                .student @iHiD
+                .student iHiD
                 .exercise Life in Ruby
 
-            .summary
+            .byline.unactive
               = avatar(User.first)
               .info
-                .student @neenjaw
+                .student neenjaw
                 .exercise Stuff in Elixir
-
-          .content
-            .copy For the first time in my life, someone got my name right the first time round. I’m not really sure what that means, but, I think I’m gonna go and celebrate. Man, I can’t believe this. I can’t believe SleeplessByte got my name right!
-            / TODO: a11y
-            .stars
-              = graphical_icon "gold-star"
-              = graphical_icon "gold-star"
-              = graphical_icon "gold-star"
-              = graphical_icon "gold-star"
-              = graphical_icon "gold-star"
-            .submitted-at Submitted 3 days ago
 
         = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s testimonials", "#")
 
@@ -192,4 +232,3 @@
               .--info
                 .--name We’ll do it live!
                 .--desc Livestream solving an exercise
-

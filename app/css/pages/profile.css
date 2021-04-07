@@ -1,22 +1,22 @@
 @import "../styles";
 
 #page-profile {
+    @apply bg-backgroundColorA;
+
     & header.main-header {
-        background: linear-gradient(180deg, #e1ebff 0%, #fbfcfe 137.68%);
-        box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.15);
+        @apply bg-backgroundColorA;
+        @apply relative shadow-base;
+        @apply pt-24;
 
-        & section.info-section {
-            @apply py-32;
-
-            & .container {
-                @apply flex items-center;
-            }
+        & .info-section {
+            @apply flex;
 
             & .c-avatar {
-                height: 125px;
-                width: 125px;
+                height: 128px;
+                width: 128px;
 
-                @apply mr-40;
+                @apply shadow-xsZ1;
+                @apply mr-32;
             }
 
             & .info {
@@ -24,103 +24,156 @@
 
                 & .heading {
                     @apply flex items-center;
-                    @apply mb-8;
+                    @apply mb-12;
                     & h1 {
-                        @apply text-h1 mr-24;
+                        @apply text-h2 mr-20;
                     }
-                }
+                    & .c-primary-reputation {
+                        @apply mr-28;
+                    }
+                    & .tracks {
+                        @apply flex;
 
-                & .details {
-                    @apply flex items-center;
-                    & .handle {
-                        @apply text-h4 pr-16 mr-16;
-                        @apply border-borderLight border-r-1;
-                        @apply text-20 font-semibold text-textColor6;
-                    }
-                    & .joined {
-                        @apply text-textColor6 text-16 font-medium;
-                    }
-                    & .new {
-                        @apply ml-12 px-12 py-4;
-                        @apply text-13 font-medium text-textColor6 leading-regular;
-                        @apply border-borderLight border-2 rounded-100;
-                    }
-                }
-                & .bio {
-                    @apply mt-12;
-                    @apply text-18 leading-paragraph;
-                    max-width: 700px;
-                }
-                & .pins {
-                    @apply flex mt-20;
-                    & .pin {
-                        @apply text-darkGray font-mono font-bold text-15;
-                        @apply bg-lightGold rounded-100 pl-48 pr-12 relative;
-                        @apply flex items-center;
-                        height: 31px;
-
-                        & .icon {
-                            position: absolute;
-                            left: 0px;
-                            top: -4px;
-                            width: 40px;
-                            height: 40px;
-                            @apply flex items-center justify-center;
-                            @apply border-2 border-darkGray bg-bgGray rounded-circle;
-
-                            & .c-icon {
-                                height: 16px;
-                                width: 16px;
-                            }
+                        & .c-track-icon {
+                            height: 54px;
+                            width: 54px;
+                            @apply mr-12;
                         }
                     }
                 }
+
+                & .details-1,
+                & .details-2,
+                & .bio {
+                    @apply mb-12;
+                }
+                & .details-1,
+                & .details-2 {
+                    @apply flex items-center;
+                }
+                & .details-1 {
+                    & .handle {
+                        @apply text-h4 text-textColor6 leading-100;
+                        @apply pr-24 mr-24;
+                        @apply border-borderColor6 border-r-2;
+                    }
+                    & .joined {
+                        @apply text-textColor6 text-18;
+                    }
+                }
+                & .details-2 {
+                    & .location,
+                    & .pronouns {
+                        @apply text-16 leading-150 text-textColor1 font-medium;
+                        @apply mr-32;
+                        @apply flex items-center;
+                        & .c-icon {
+                            height: 16px;
+                            width: 16px;
+                            @apply mr-12;
+                        }
+                    }
+                }
+                & .bio {
+                    @apply text-p-base;
+                }
             }
-            & .links {
-                @apply self-start;
+            & .badges-and-tags {
                 @apply flex flex-col items-end;
 
-                & .link {
-                    @apply flex items-center px-16 py-6;
-                    @apply shadow-sm bg-backgroundColorA rounded-100 mb-12;
-                    & .site-icon {
+                & .header {
+                    @apply flex items-center;
+                    @apply mb-12;
+
+                    & .c-icon {
                         height: 16px;
                         width: 16px;
                         @apply mr-12;
                     }
-                    & .site-name {
-                        @apply text-15 leading-paragraph font-medium text-darkGray;
+                    & h3 {
+                        @apply font-medium text-textColor1;
+                        @apply mr-32;
                     }
-                    & .action-icon {
-                        height: 13px;
-                        width: 13px;
+                    & .c-prominent-link {
+                        @apply text-14;
+                    }
+                }
+                & .badges {
+                    @apply flex mb-32;
+                    & .c-badge {
                         @apply ml-12;
+
+                        & .c-badge-medallion {
+                            height: 48px;
+                            width: 48px;
+                        }
+                    }
+                }
+                & .tags {
+                    @apply flex;
+
+                    & .tag {
+                        @apply ml-16;
+                        @apply py-6 px-16;
+                        @apply border-2 rounded-100;
+                        @apply flex items-center;
+
+                        & .c-icon {
+                            height: 16px;
+                            width: 16px;
+                            @apply mr-10;
+                        }
+                        & .title {
+                            @apply font-semibold leading-170;
+                        }
+
+                        &.staff {
+                            @apply bg-backgroundColorF;
+                            border-color: #9e00ff;
+                        }
+                        &.maintainer {
+                            @apply border-textColor2;
+                        }
                     }
                 }
             }
         }
-        & section.tabs-section {
-            @apply pb-16;
-            & .container {
-                @apply flex;
-            }
-            & .c-tab {
-                @apply mr-24;
-                height: 49px;
+        & .tabs-section {
+            @apply mt-4;
+            @apply flex items-center;
+            & .external-links {
+                @apply ml-auto mb-10; /* Bottom margin accounts border tab border */
+
+                @apply flex items-center;
+
+                & a {
+                    @apply px-16 py-12;
+                    @apply shadow-baseZ1 bg-backgroundColorA rounded-100 ml-12;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
             }
         }
     }
     & article {
+        & section {
+            @apply pt-48 pb-64;
+            background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+        }
         & header.section-header {
             @apply relative self-center;
             @apply flex flex-col items-center;
+            @apply mb-40;
 
             & .c-icon {
                 height: 64px;
                 width: 64px;
+                @apply mb-12;
             }
             & h2 {
-                @apply text-h2 mx-auto text-center;
+                @apply text-h2 mx-auto text-center mb-20;
                 & span {
                     display: block;
                 }
@@ -131,28 +184,18 @@
                 @apply border-1 border-borderColor4 rounded-100;
 
                 right: -50px;
-                bottom: 4px;
+                top: 84px;
                 height: 30px;
             }
-        }
-        & hr {
-            width: 64px;
-            @apply border-anotherPurple mt-24 mx-auto;
         }
 
         & .container {
             @apply flex flex-col;
         }
 
-        & section.published-section {
-            @apply py-56;
-
-            & hr {
-                @apply mb-40;
-            }
-
+        & section.published-solutions-section {
             & .solutions {
-                @apply flex justify-center mb-32;
+                @apply flex justify-center mb-40;
                 & > * {
                     @apply mx-8;
                     width: calc((100% / 3) - 16px);
@@ -164,49 +207,64 @@
         }
 
         & section.testimonials-section {
-            @apply py-56;
-
-            & hr {
-                @apply mb-32;
-            }
             & .testimonials {
-                @apply flex mb-40;
-                & .summaries {
-                    width: 40%;
-                    @apply flex-shrink-0 mr-64;
-                    & .summary {
-                        @apply rounded-8 py-16 px-24 mb-16;
+                & .stats {
+                    @apply grid grid-cols-3;
+                    @apply mb-24;
+                    & .stat {
+                        @apply py-12 px-24;
+                        & .number {
+                            @apply text-24 leading-160 font-medium text-textColor2;
+                            @apply text-center;
+                        }
+                        & .metric {
+                            @apply text-16 leading-160 text-textColor2;
+                            @apply text-center;
+                        }
+                    }
+                }
+                @apply flex flex-col items-center;
+                & .testimonial {
+                    max-width: 840px;
+                    @apply mx-auto text-center;
+
+                    @apply text-21 leading-170 mb-16;
+                }
+                & .stars {
+                    @apply flex mb-40;
+                    @apply mx-auto text-center;
+                    & .c-icon {
+                        height: 32px;
+                        width: 32px;
+                    }
+                }
+
+                & .bylines {
+                    @apply flex items-center mb-48;
+
+                    & .byline {
+                        @apply rounded-8 py-16 px-32 mx-16;
                         @apply flex items-center;
 
                         & .c-avatar {
-                            height: 64px;
-                            width: 64px;
+                            height: 48px;
+                            width: 48px;
                             @apply mr-16;
                         }
                         & .student {
-                            @apply text-h5 mb-4;
+                            @apply text-h6 leading-170;
                         }
                         & .exercise {
-                            @apply text-textColor6 text-16 leading-paragraph;
+                            @apply text-p-base text-textColor6;
                         }
                         &.active {
                             @apply shadow-lg bg-backgroundColorA;
                         }
-                    }
-                }
-                & .content {
-                    & .copy {
-                        @apply text-25 leading-huge mb-16;
-                    }
-                    & .stars {
-                        @apply flex mb-24;
-                        & .c-icon {
-                            height: 24px;
-                            width: 24px;
+                        &.unactive {
+                            & .c-avatar {
+                                filter: grayscale(1);
+                            }
                         }
-                    }
-                    & .submitted-at {
-                        @apply text-16 text-textColor6;
                     }
                 }
             }

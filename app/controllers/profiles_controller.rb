@@ -12,6 +12,15 @@ class ProfilesController < ApplicationController
 
     @num_total_solutions = @user.solutions.published.count
     @num_testimonials = @user.mentor_testimonials.count
+
+    track_ids = @user.reputation_tokens.
+      group(:track_id).
+      select("track_id, COUNT(*) as c").
+      order("c DESC").
+      limit(3).map(&:track_id)
+
+    @top_three_tracks = Track.where(id: track_ids).
+      order(Arel.sql("FIND_IN_SET(id, '#{track_ids.join(',')}')"))
   end
 
   def tooltip

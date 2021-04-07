@@ -32,10 +32,8 @@
                 @apply text-54 text-textColor2 font-bold leading-120;
                 @apply mb-16;
             }
-            & .c-icon.divider {
+            & hr.c-divider {
                 @apply mb-20;
-                height: 20px;
-                width: 74px;
             }
             & h2 {
                 @apply text-h2 mb-8;
@@ -137,10 +135,6 @@
         & h2 {
             @apply text-h2 mb-20;
         }
-        & .c-icon.divider {
-            height: 20px;
-            width: 74px;
-        }
     }
 
     & .features-section,
@@ -159,7 +153,7 @@
             @apply flex items-start;
 
             & .info {
-                & .c-icon.divider {
+                & hr.c-divider {
                     @apply mb-28;
                 }
 

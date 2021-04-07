@@ -8,7 +8,7 @@
     & .container {
         & .top {
             @apply flex items-center;
-            @apply mb-32;
+            @apply mb-16;
 
             & .title {
                 @apply flex items-center;

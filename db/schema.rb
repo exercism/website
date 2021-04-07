@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_162930) do
+ActiveRecord::Schema.define(version: 2021_04_07_130859) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -459,7 +459,6 @@ ActiveRecord::Schema.define(version: 2021_04_06_162930) do
     t.string "github"
     t.string "linkedin"
     t.string "medium"
-    t.string "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -544,6 +543,8 @@ ActiveRecord::Schema.define(version: 2021_04_06_162930) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "avatar_url"
+    t.string "location"
+    t.string "pronouns"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

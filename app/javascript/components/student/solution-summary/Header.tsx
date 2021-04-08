@@ -2,18 +2,35 @@ import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
 import pluralize from 'pluralize'
+import { ExerciseType } from '../SolutionSummary'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
 }
 
+const TutorialHeader = () => {
+  return (
+    <header>
+      <div className="info">
+        <h2>Your solution looks good!</h2>
+        <p>
+          {/* TODO: Use exercise.title anywhere where we have Hello, World */}
+          <strong>Good job.</strong> Your solution to &quot;Hello, World!&quot;
+          has passed all the tests 😊
+        </p>
+      </div>
+      <div className="status passed">Tests Passed</div>
+    </header>
+  )
+}
+
 export const Header = ({
   iteration,
-  isConceptExercise,
+  exerciseType,
   links,
 }: {
   iteration: Iteration
-  isConceptExercise: boolean
+  exerciseType: ExerciseType
   links: SolutionSummaryLinks
 }): JSX.Element => {
   switch (iteration.status) {
@@ -55,6 +72,10 @@ export const Header = ({
         </header>
       )
     case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK: {
+      if (exerciseType === 'tutorial') {
+        return <TutorialHeader />
+      }
+
       const comments = [
         `${iteration.numEssentialAutomatedComments} essential ${pluralize(
           'improvement',
@@ -90,6 +111,10 @@ export const Header = ({
       )
     }
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
+      if (exerciseType === 'tutorial') {
+        return <TutorialHeader />
+      }
+
       return (
         <header>
           <div className="info">
@@ -97,9 +122,9 @@ export const Header = ({
             <p>
               Your solution passed the tests and we don&apos;t have any
               recommendations.
-              {isConceptExercise
-                ? null
-                : 'You might want to work with a mentor to make it even better.'}{' '}
+              {exerciseType === 'practice'
+                ? 'You might want to work with a mentor to make it even better.'
+                : null}{' '}
               <strong>Great Job! 🎉</strong>
             </p>
           </div>
@@ -107,6 +132,10 @@ export const Header = ({
         </header>
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+      if (exerciseType === 'tutorial') {
+        return <TutorialHeader />
+      }
+
       return (
         <header>
           <div className="info">
@@ -122,9 +151,9 @@ export const Header = ({
                 )}
               </span>{' '}
               that you might like to check.{' '}
-              {isConceptExercise
-                ? ' '
-                : 'Consider working with a mentor to make it even better. '}
+              {exerciseType === 'practice'
+                ? 'Consider working with a mentor to make it even better. '
+                : ' '}
               <strong>Great Job! 🎉</strong>
             </p>
           </div>
@@ -132,6 +161,10 @@ export const Header = ({
         </header>
       )
     case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK: {
+      if (exerciseType === 'tutorial') {
+        return <TutorialHeader />
+      }
+
       const comments = [
         `${iteration.numActionableAutomatedComments} ${pluralize(
           'recommendation',
@@ -147,33 +180,34 @@ export const Header = ({
           : '',
       ].filter((comment) => comment.length > 0)
 
-      if (isConceptExercise) {
-        return (
-          <header>
-            <div className="info">
-              <h2>Your solution is good enough to continue!</h2>
-              <p>
-                We’ve analysed your solution and have {toSentence(comments)}.
-                You can either continue or address the recommendations first -
-                your choice!
-              </p>
-            </div>
-            <div className="status passed">Tests Passed</div>
-          </header>
-        )
-      } else {
-        return (
-          <header>
-            <div className="info">
-              <h2>Your solution worked, but you can take it further…</h2>
-              <p>
-                We’ve analysed your solution and have {toSentence(comments)}. We
-                suggest addressing the recommendations before proceeding.
-              </p>
-            </div>
-            <div className="status passed">Tests Passed</div>
-          </header>
-        )
+      switch (exerciseType) {
+        case 'concept':
+          return (
+            <header>
+              <div className="info">
+                <h2>Your solution is good enough to continue!</h2>
+                <p>
+                  We’ve analysed your solution and have {toSentence(comments)}.
+                  You can either continue or address the recommendations first -
+                  your choice!
+                </p>
+              </div>
+              <div className="status passed">Tests Passed</div>
+            </header>
+          )
+        case 'practice':
+          return (
+            <header>
+              <div className="info">
+                <h2>Your solution worked, but you can take it further…</h2>
+                <p>
+                  We’ve analysed your solution and have {toSentence(comments)}.
+                  We suggest addressing the recommendations before proceeding.
+                </p>
+              </div>
+              <div className="status passed">Tests Passed</div>
+            </header>
+          )
       }
     }
   }

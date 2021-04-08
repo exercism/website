@@ -38,19 +38,21 @@ export type Track = {
   medianWaitTime: string
 }
 
+export type ExerciseType = 'concept' | 'practice' | 'tutorial'
+
 export const SolutionSummary = ({
   solution,
   track,
   discussions,
   request,
-  isConceptExercise,
+  exerciseType,
   links,
 }: {
   solution: SolutionForStudent
   track: Track
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
-  isConceptExercise: boolean
+  exerciseType: ExerciseType
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
@@ -91,14 +93,14 @@ export const SolutionSummary = ({
         track={track}
         discussions={discussions}
         iteration={latestIteration}
-        isConceptExercise={isConceptExercise}
+        exerciseType={exerciseType}
         links={links}
       />
       {latestIteration ? (
         <section className="latest-iteration">
           <Header
             iteration={latestIteration}
-            isConceptExercise={isConceptExercise}
+            exerciseType={exerciseType}
             links={links}
           />
           <IterationLink iteration={latestIteration} />
@@ -107,11 +109,16 @@ export const SolutionSummary = ({
             text="See all of your iterations"
           />
           <div className="next-steps">
-            <CommunitySolutions link={links.communitySolutions} />
+            <CommunitySolutions
+              link={links.communitySolutions}
+              isTutorial={exerciseType === 'tutorial'}
+            />
             <Mentoring
               mentoringStatus={solution.mentoringStatus}
               discussions={discussions}
               links={links}
+              isTutorial={exerciseType === 'tutorial'}
+              trackTitle={track.title}
             />
           </div>
         </section>

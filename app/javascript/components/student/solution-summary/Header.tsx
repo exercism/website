@@ -14,6 +14,7 @@ const TutorialHeader = () => {
       <div className="info">
         <h2>Your solution looks good!</h2>
         <p>
+          {/* TODO: Use exercise.title anywhere where we have Hello, World */}
           <strong>Good job.</strong> Your solution to &quot;Hello, World!&quot;
           has passed all the tests 😊
         </p>

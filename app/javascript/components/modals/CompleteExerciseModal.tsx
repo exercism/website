@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PublishExerciseModal } from './PublishExerciseModal'
 import { ExerciseCompletedModal } from './ExerciseCompletedModal'
+import { TutorialCompletedModal } from './TutorialCompletedModal'
 
 export type ExerciseCompletion = {
   exercise: CompletedExercise
@@ -19,6 +20,7 @@ export type CompletedExercise = Exercise & { links: { self: string } }
 export type Exercise = {
   title: string
   iconUrl: string
+  isTutorial: boolean
   links: {
     self: string
   }
@@ -38,7 +40,11 @@ export const CompleteExerciseModal = ({
   const [completion, setCompletion] = useState<ExerciseCompletion | null>(null)
 
   if (completion) {
-    return <ExerciseCompletedModal completion={completion} open={open} />
+    return completion.exercise.isTutorial ? (
+      <TutorialCompletedModal open={open} />
+    ) : (
+      <ExerciseCompletedModal completion={completion} open={open} />
+    )
   } else {
     return (
       <PublishExerciseModal

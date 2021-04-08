@@ -55,6 +55,7 @@ module API
           slug: solution.exercise.slug,
           title: solution.exercise.title,
           icon_url: solution.exercise.icon_url,
+          is_tutorial: solution.exercise.tutorial?,
           links: {
             self: Exercism::Routes.track_exercise_path(solution.track, solution.exercise)
           }

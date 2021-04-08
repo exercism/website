@@ -15,7 +15,7 @@
     & .title {
         @apply flex items-center;
         @apply text-h1 text-31;
-        @apply mb-20;
+        @apply mb-8;
         & .c-icon {
             height: 54px;
             width: 54px;

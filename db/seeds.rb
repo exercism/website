@@ -6,13 +6,14 @@ iHiD = User.find_by(handle: 'iHiD') || User.create!(
   password: 'password',
   github_username: 'iHiD',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best."
+  location: "Bree, Middle Earth",
+  pronouns: "He/Him"
 )
 iHiD.confirm
 iHiD.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 auth_token = iHiD.auth_tokens.create!
 
 iHiD.create_profile(
-  location: "Bree, Middle Earth",
   github: "iHiD",
   twitter: "iHiD",
   linkedin: "iHiD",

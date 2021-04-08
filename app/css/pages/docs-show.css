@@ -15,10 +15,8 @@
         & .h1-subtitle {
             @apply text-23 leading-170 text-textColor6;
         }
-        & .header-divider {
+        & hr.c-divider {
             @apply my-20;
-            height: 20px;
-            width: 74px;
         }
     }
 }

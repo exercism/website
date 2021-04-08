@@ -5,7 +5,7 @@
     .lg-container.container
       .info
         %h1= @track.title
-        = graphical_icon "sharp-squiggle", css_class: "divider"
+        %hr.c-divider
 
         %h2 Want to learn and master #{@track.title}?
         %p
@@ -48,7 +48,7 @@
             %em.c-underline #{@track.exercises.count} coding exercises
             for #{@track.title} on Exercism.
             From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
-          = graphical_icon "sharp-squiggle", css_class: "divider"
+          %hr.c-divider
           %p Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism.
 
           .exercises

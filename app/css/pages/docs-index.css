@@ -17,10 +17,6 @@
             width: 80px;
             @apply mb-12;
         }
-        & .header-divider {
-            height: 20px;
-            width: 74px;
-        }
     }
 
     & .using-section {

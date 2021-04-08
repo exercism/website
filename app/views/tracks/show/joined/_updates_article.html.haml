@@ -4,7 +4,7 @@
     %header
       = graphical_icon(:updates, hex: true, css_class: "graphical-icon")
       %h2 What's going on with #{track.title}
-      = graphical_icon "sharp-squiggle", css_class: "divider"
+      %hr.c-divider
 
   .lg-container.container
     = render "tracks/show/joined/updates_section", track: track

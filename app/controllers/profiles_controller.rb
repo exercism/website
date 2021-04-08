@@ -1,17 +1,20 @@
 class ProfilesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[show tooltip]
+  skip_before_action :authenticate_user!
   before_action :use_profile
 
   def show
     raise ActiveRecord::RecordNotFound unless @profile
 
     # TODO: Order all these by most prominent first
-    @badges = @user.badges
     @solutions = @user.solutions.published.first(3)
     @testimonials = @user.mentor_testimonials.published.first(3)
 
     @num_total_solutions = @user.solutions.published.count
     @num_testimonials = @user.mentor_testimonials.count
+  end
+
+  def badges
+    @badges = @user.badges
   end
 
   def tooltip

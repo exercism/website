@@ -1,0 +1,70 @@
+#page-profile
+  = render ViewComponents::Profile::Header.new(@user, @profile, :badges)
+
+  %article
+    %section.badges-section
+      .md-container.container
+        %header.section-header
+          %h2 #{@user.name}'s Badges
+          / TODO
+          .total-count 5
+
+        .summary
+          .block.common
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Common
+              .subtitle badges owned
+          .block.rare
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Rare
+              .subtitle badges owned
+          .block.ultimate
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Ultimate
+              .subtitle badges owned
+          .block.legendary
+            = graphical_icon :'badge-indicator'
+            .count 4
+            .info
+              %h3 Legendary
+              .subtitle badges owned
+
+        .badges
+          - @badges.each do |badge|
+            .c-badge
+              .c-badge-medallion{ class: "--#{badge.rarity}" }
+                = graphical_icon badge.icon
+              .--info
+                .--name= badge.name
+                .--desc= badge.description
+          -#
+            .c-badge
+              .c-badge-medallion.--common
+                = graphical_icon :maintaining
+              .--info
+                .--name Night Owl
+                .--desc Submitted an exercise past midnight
+            .c-badge
+              .c-badge-medallion.--rare
+                = graphical_icon :testimonials
+              .--info
+                .--name Neverending Story
+                .--desc Submitted at least 10 iterations to the same exercise
+            .c-badge
+              .c-badge-medallion.--ultimate
+                = graphical_icon :settings
+              .--info
+                .--name 2020 Winter Hackathon
+                .--desc Attended the 2020 Exercism Winter Hackathon
+            .c-badge
+              .c-badge-medallion.--legendary
+                = graphical_icon :keyboard
+              .--info
+                .--name We’ll do it live!
+                .--desc Livestream solving an exercise

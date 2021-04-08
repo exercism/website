@@ -8,6 +8,6 @@
       %h1= @doc.title
       - if @doc.blurb.present?
         %p.h1-subtitle= @doc.blurb
-      = graphical_icon "sharp-squiggle", css_class: "header-divider"
+      %hr.c-divider
 
       .c-textual-content.--large= raw @doc.content_html

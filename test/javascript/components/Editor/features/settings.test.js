@@ -4,6 +4,8 @@ import React from 'react'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Editor } from '../../../../../app/javascript/components/Editor'
+import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 
 test('change theme', async () => {
   render(
@@ -29,9 +31,9 @@ test('change keybindings', async () => {
     />
   )
 
-  fireEvent.click(screen.getByAltText('Settings'))
-  fireEvent.click(screen.getByLabelText('Vim'))
-  fireEvent.click(document)
+  userEvent.click(screen.getByAltText('Settings'))
+  userEvent.click(screen.getByLabelText('Vim'))
+  act(() => userEvent.click(document.body))
 
   await waitFor(() => {
     expect(screen.queryByText('Keybindings: vim')).toBeInTheDocument()

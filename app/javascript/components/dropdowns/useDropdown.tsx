@@ -24,6 +24,7 @@ type ButtonAttributes = {
   ref: (element: HTMLButtonElement) => void
   onKeyDown: (e: KeyboardEvent) => void
   onClick: () => void
+  onMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 type ItemAttributes = {
@@ -48,11 +49,8 @@ export const useDropdown = (
     open,
     setOpen,
     buttonElement,
-    setButtonElement,
-    panelElement,
-    setPanelElement,
-    styles,
-    attributes,
+    buttonAttributes,
+    panelAttributes,
   } = usePanel(panelOptions || {})
   const menuItemElementsRef = useRef<HTMLLIElement[]>([])
   const [focusIndex, setFocusIndex] = useState<number | null | undefined>()
@@ -148,17 +146,11 @@ export const useDropdown = (
       'aria-controls': id,
       'aria-haspopup': true,
       'aria-expanded': open ? true : undefined,
-      ref: setButtonElement,
+      ...buttonAttributes,
+      onClick: () => setOpen(!open),
       onKeyDown: handleButtonKeyDown,
-      onClick: () => {
-        setOpen(!open)
-      },
     },
-    panelAttributes: {
-      ref: setPanelElement,
-      style: styles.popper,
-      ...attributes.popper,
-    },
+    panelAttributes: panelAttributes,
     listAttributes: {
       id: id,
       role: 'menu',

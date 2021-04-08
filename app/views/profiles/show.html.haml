@@ -1,104 +1,5 @@
 #page-profile
-  %header.main-header
-    .lg-container
-      .info-section
-        = avatar(User.first)
-        .info
-          .heading
-            %h1= @user.handle
-            = render ViewComponents::Reputation.new(@user.reputation, flashy: true)
-            .tracks
-              - @top_three_tracks.each do |track|
-                = track_icon track
-          .details-1
-            .handle= @user.name
-            .joined
-              Joined
-              %time= @user.created_at.strftime('%b %Y')
-
-          - if @user.location.present? || @user.pronouns.present?
-            .details-2
-              - if @user.location.present?
-                .location
-                  = icon(:location, "Located in")
-                  = @user.location
-              - if @user.pronouns.present?
-                .pronouns
-                  = icon(:pronouns, "Pronouns")
-                  = @user.pronouns
-
-
-          - if @user.bio.present?
-            / TODO: Make Read more widget
-            .bio= @user.bio
-
-        .badges-and-tags
-          .header
-            = graphical_icon :badges
-            %h3 30 badges collected
-            = render ViewComponents::ProminentLink.new("See all", "#")
-          .badges
-            .c-badge
-              .c-badge-medallion.--ultimate
-            .c-badge
-              .c-badge-medallion.--rare
-            .c-badge
-              .c-badge-medallion.--rare
-            .c-badge
-              .c-badge-medallion.--rare
-            .c-badge
-              .c-badge-medallion.--common
-          .tags
-            .tag.staff
-              = graphical_icon :logo
-              .title Exercism Staff
-            .tag.maintainer
-              = graphical_icon :maintaining
-              .title Maintainer
-
-      .tabs-section
-        %button.c-tab-2.selected
-          = graphical_icon :overview
-          %span Summary
-
-        %button.c-tab-2
-          = graphical_icon :contribute
-          %span Contributions
-
-        %button.c-tab-2
-          = graphical_icon 'community-solutions'
-          %span Published Solutions
-
-        %button.c-tab-2
-          = graphical_icon 'testimonials'
-          %span Testimonials
-
-        %button.c-tab-2
-          = graphical_icon 'badges'
-          %span Badges
-
-        .external-links
-          - if @profile.github.present?
-            / TODO
-            = link_to "#" do
-              = graphical_icon "external-site-github"
-
-          - if @profile.linkedin.present?
-            / TODO
-            = link_to "#" do
-              = graphical_icon "external-site-linkedin"
-
-          -# TODO: Need a medium icon
-            - if @profile.medium.present?
-              .link
-                = graphical_icon "external-site-medium", css_class: "site-icon"
-                .site-name Medium
-                = icon "external-link", "This is an external link", css_class: "action-icon"
-
-          - if @profile.twitter.present?
-            / TODO
-            = link_to "#" do
-              = graphical_icon "external-site-twitter"
+  = render ViewComponents::Profile::Header.new(@user, @profile, :summary)
 
   %article
     %section.published-solutions-section
@@ -145,90 +46,22 @@
             = graphical_icon "gold-star"
 
           .bylines
-            .byline.active
+            %button.byline.active
               = avatar(User.first)
               .info
                 .student ErikShireBOOM
                 .exercise Lasagna in C#
 
-            .byline.unactive
+            %button.byline.unactive
               = avatar(User.first)
               .info
                 .student iHiD
                 .exercise Life in Ruby
 
-            .byline.unactive
+            %button.byline.unactive
               = avatar(User.first)
               .info
                 .student neenjaw
                 .exercise Stuff in Elixir
 
         = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s testimonials", "#")
-
-
-    %section.badges-section
-      .md-container.container
-        %header.section-header
-          %h2 #{@user.name}'s Badges
-          / TODO
-          .total-count 5
-
-        .summary
-          .block.common
-            = graphical_icon :'badge-indicator'
-            .count 4
-            .info
-              %h3 Common
-              .subtitle badges owned
-          .block.rare
-            = graphical_icon :'badge-indicator'
-            .count 4
-            .info
-              %h3 Rare
-              .subtitle badges owned
-          .block.ultimate
-            = graphical_icon :'badge-indicator'
-            .count 4
-            .info
-              %h3 Ultimate
-              .subtitle badges owned
-          .block.legendary
-            = graphical_icon :'badge-indicator'
-            .count 4
-            .info
-              %h3 Legendary
-              .subtitle badges owned
-
-        .badges
-          - @badges.each do |badge|
-            .c-badge
-              .c-badge-medallion{ class: "--#{badge.rarity}" }
-                = graphical_icon badge.icon
-              .--info
-                .--name= badge.name
-                .--desc= badge.description
-          -#
-            .c-badge
-              .c-badge-medallion.--common
-                = graphical_icon :maintaining
-              .--info
-                .--name Night Owl
-                .--desc Submitted an exercise past midnight
-            .c-badge
-              .c-badge-medallion.--rare
-                = graphical_icon :testimonials
-              .--info
-                .--name Neverending Story
-                .--desc Submitted at least 10 iterations to the same exercise
-            .c-badge
-              .c-badge-medallion.--ultimate
-                = graphical_icon :settings
-              .--info
-                .--name 2020 Winter Hackathon
-                .--desc Attended the 2020 Exercism Winter Hackathon
-            .c-badge
-              .c-badge-medallion.--legendary
-                = graphical_icon :keyboard
-              .--info
-                .--name We’ll do it live!
-                .--desc Livestream solving an exercise

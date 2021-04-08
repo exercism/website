@@ -1,0 +1,100 @@
+%header.main-header
+  .lg-container
+    .info-section
+      = avatar(User.first)
+      .info
+        .heading
+          %h1= user.handle
+          = render ViewComponents::Reputation.new(user.reputation, flashy: true)
+          .tracks
+            - top_three_tracks.each do |track|
+              = track_icon track
+        .details-1
+          .handle= user.name
+          .joined
+            Joined
+            %time= user.created_at.strftime('%b %Y')
+
+        - if user.location.present? || user.pronouns.present?
+          .details-2
+            - if user.location.present?
+              .location
+                = icon(:location, "Located in")
+                = user.location
+            - if user.pronouns.present?
+              .pronouns
+                = icon(:pronouns, "Pronouns")
+                = user.pronouns
+
+
+        - if user.bio.present?
+          / TODO: Make Read more widget
+          .bio= user.bio
+
+      .badges-and-tags
+        .header
+          = graphical_icon :badges
+          %h3 30 badges collected
+          = render ViewComponents::ProminentLink.new("See all", "#")
+        .badges
+          .c-badge
+            .c-badge-medallion.--ultimate
+          .c-badge
+            .c-badge-medallion.--rare
+          .c-badge
+            .c-badge-medallion.--rare
+          .c-badge
+            .c-badge-medallion.--rare
+          .c-badge
+            .c-badge-medallion.--common
+        .tags
+          .tag.staff
+            = graphical_icon :logo
+            .title Exercism Staff
+          .tag.maintainer
+            = graphical_icon :maintaining
+            .title Maintainer
+
+    .tabs-section
+      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do
+        = graphical_icon :overview
+        %span Summary
+
+      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
+        = graphical_icon :contribute
+        %span Contributions
+
+      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
+        = graphical_icon 'community-solutions'
+        %span Published Solutions
+
+      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
+        = graphical_icon 'testimonials'
+        %span Testimonials
+
+      = link_to badges_profile_path(user), class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
+        = graphical_icon 'badges'
+        %span Badges
+
+      .external-links
+        - if profile.github.present?
+          / TODO
+          = link_to "#" do
+            = graphical_icon "external-site-github"
+
+        - if profile.linkedin.present?
+          / TODO
+          = link_to "#" do
+            = graphical_icon "external-site-linkedin"
+
+        -# TODO: Need a medium icon
+          - if profile.medium.present?
+            .link
+              = graphical_icon "external-site-medium", css_class: "site-icon"
+              .site-name Medium
+              = icon "external-link", "This is an external link", css_class: "action-icon"
+
+        - if profile.twitter.present?
+          / TODO
+          = link_to "#" do
+            = graphical_icon "external-site-twitter"

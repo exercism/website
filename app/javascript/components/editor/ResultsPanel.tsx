@@ -8,10 +8,14 @@ export const ResultsPanel = ({
   submission,
   timeout,
   onUpdate,
+  onSubmit,
+  isSubmitDisabled,
 }: {
   submission: Submission | undefined
   timeout: number
   onUpdate: (testRun: TestRun) => void
+  onSubmit: () => void
+  isSubmitDisabled: boolean
 }) => (
   <Tab.Panel id="results" context={TabsContext}>
     <section className="results">
@@ -21,6 +25,8 @@ export const ResultsPanel = ({
           cancelLink={submission.links.cancel}
           timeout={timeout}
           onUpdate={onUpdate}
+          onSubmit={onSubmit}
+          isSubmitDisabled={isSubmitDisabled}
         />
       )}
     </section>

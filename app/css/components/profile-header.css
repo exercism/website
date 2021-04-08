@@ -38,36 +38,24 @@ header.c-profile-header {
                     }
                 }
             }
-
-            & .details-1,
-            & .details-2,
-            & .bio {
+            & .handle {
+                @apply text-h4 text-textColor6 leading-140;
                 @apply mb-12;
             }
-            & .details-1,
-            & .details-2 {
-                @apply flex items-center;
-            }
-            & .details-1 {
-                & .handle {
-                    @apply text-h4 text-textColor6 leading-100;
-                    @apply pr-24 mr-24;
-                    @apply border-borderColor6 border-r-2;
-                }
-                & .joined {
-                    @apply text-textColor6 text-18;
-                }
-            }
-            & .details-2 {
+            & .details {
+                @apply flex items-center mb-12;
+
                 & .location,
-                & .pronouns {
-                    @apply text-16 leading-150 text-textColor1 font-medium;
-                    @apply mr-32;
+                & .pronouns,
+                & .joined {
+                    @apply text-16 leading-150 text-textColor2 font-medium;
+                    @apply mr-28;
                     @apply flex items-center;
                     & .c-icon {
                         height: 16px;
                         width: 16px;
                         @apply mr-12;
+                        filter: var(--textColor2-filter);
                     }
                 }
             }
@@ -88,7 +76,7 @@ header.c-profile-header {
                     @apply mr-12;
                 }
                 & h3 {
-                    @apply font-medium text-textColor1;
+                    @apply font-medium text-textColor2;
                     @apply mr-32;
                 }
                 & .c-prominent-link {
@@ -98,7 +86,7 @@ header.c-profile-header {
             & .badges {
                 @apply flex mb-32;
                 & .c-badge {
-                    @apply ml-12;
+                    @apply ml-8;
 
                     & .c-badge-medallion {
                         height: 48px;

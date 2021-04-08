@@ -34,11 +34,12 @@
     & .c-badge-medallion {
         height: 64px;
         width: 64px;
-        @apply mr-16;
         @apply flex-shrink-0;
     }
 
     & .--info {
+        @apply ml-16;
+
         & .--name {
             @apply text-h6 mb-4;
         }

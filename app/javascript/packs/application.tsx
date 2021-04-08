@@ -296,7 +296,7 @@ initReact({
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
-      isConceptExercise={data.is_concept_exercise}
+      exerciseType={data.exercise_type}
     />
   ),
   'student-iteration-page': (data: any) => (

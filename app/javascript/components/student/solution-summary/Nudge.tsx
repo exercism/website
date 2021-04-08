@@ -8,7 +8,7 @@ import {
   SolutionStatus,
   SolutionMentoringStatus,
 } from '../../types'
-import { Track } from '../SolutionSummary'
+import { Track, ExerciseType } from '../SolutionSummary'
 import pluralize from 'pluralize'
 
 type Links = {
@@ -23,7 +23,7 @@ type Links = {
 type Props = {
   status: SolutionStatus
   mentoringStatus: SolutionMentoringStatus
-  isConceptExercise: boolean
+  exerciseType: ExerciseType
   iteration?: Iteration
   discussions: readonly MentorDiscussion[]
   links: Links
@@ -40,7 +40,7 @@ type NudgeType =
 export const Nudge = ({
   status,
   mentoringStatus,
-  isConceptExercise,
+  exerciseType,
   iteration,
   discussions,
   links,
@@ -60,7 +60,14 @@ export const Nudge = ({
         switch (iteration.status) {
           case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
           case IterationStatus.NO_AUTOMATED_FEEDBACK: {
-            return isConceptExercise ? 'completeExercise' : 'mentoring'
+            switch (exerciseType) {
+              case 'concept':
+              case 'tutorial':
+                return 'completeExercise'
+              case 'practice':
+                return 'mentoring'
+            }
+            break
           }
           case IterationStatus.TESTS_FAILED:
             return 'testsFailed'
@@ -69,7 +76,7 @@ export const Nudge = ({
         }
       }
     }
-  }, [isConceptExercise, iteration, mentoringStatus])
+  }, [exerciseType, iteration, mentoringStatus])
   const [nudgeType, setNudgeType] = useState<NudgeType | null>(getNudgeType())
   const initNudgeTypeRef = useRef<NudgeType | null>(nudgeType)
   const [shouldAnimate, setShouldAnimate] = useState(false)

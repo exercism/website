@@ -12,12 +12,18 @@ module ReactComponents
           },
           request: request,
           discussions: discussions,
-          is_concept_exercise: solution.exercise.concept_exercise?,
+          exercise_type: exercise_type,
           links: links
         })
       end
 
       private
+      def exercise_type
+        return "tutorial" if solution.exercise.tutorial?
+
+        solution.exercise.concept_exercise? ? "concept" : "practice"
+      end
+
       def request
         {
           endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),

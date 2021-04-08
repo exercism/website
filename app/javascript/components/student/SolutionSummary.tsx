@@ -38,19 +38,21 @@ export type Track = {
   medianWaitTime: string
 }
 
+export type ExerciseType = 'concept' | 'practice' | 'tutorial'
+
 export const SolutionSummary = ({
   solution,
   track,
   discussions,
   request,
-  isConceptExercise,
+  exerciseType,
   links,
 }: {
   solution: SolutionForStudent
   track: Track
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
-  isConceptExercise: boolean
+  exerciseType: ExerciseType
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
@@ -91,14 +93,14 @@ export const SolutionSummary = ({
         track={track}
         discussions={discussions}
         iteration={latestIteration}
-        isConceptExercise={isConceptExercise}
+        exerciseType={exerciseType}
         links={links}
       />
       {latestIteration ? (
         <section className="latest-iteration">
           <Header
             iteration={latestIteration}
-            isConceptExercise={isConceptExercise}
+            exerciseType={exerciseType}
             links={links}
           />
           <IterationLink iteration={latestIteration} />
@@ -106,14 +108,27 @@ export const SolutionSummary = ({
             link={links.allIterations}
             text="See all of your iterations"
           />
-          <div className="next-steps">
-            <CommunitySolutions link={links.communitySolutions} />
-            <Mentoring
-              mentoringStatus={solution.mentoringStatus}
-              discussions={discussions}
-              links={links}
-            />
-          </div>
+          {exerciseType === 'tutorial' ? (
+            <div className="next-steps">
+              <div>
+                This is where we’d usually link you to other peoples’ solutions
+                to the same exercise.
+              </div>
+              <div>
+                You also get the opportunity to be mentored by{' '}
+                {solution.track.title} experts.
+              </div>
+            </div>
+          ) : (
+            <div className="next-steps">
+              <CommunitySolutions link={links.communitySolutions} />
+              <Mentoring
+                mentoringStatus={solution.mentoringStatus}
+                discussions={discussions}
+                links={links}
+              />
+            </div>
+          )}
         </section>
       ) : null}
     </>

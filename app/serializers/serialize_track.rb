@@ -19,7 +19,13 @@ class SerializeTrack
       updated_at: user_track.updated_at.iso8601,
 
       # TODO: Set these
-      is_new: true
+      is_new: true,
+
+      links: {
+        self: Exercism::Routes.track_url(track),
+        exercises: Exercism::Routes.track_exercises_url(track),
+        concepts: Exercism::Routes.track_concepts_url(track)
+      }
     }.merge(user_data_for_track)
   end
 

@@ -13,6 +13,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
+      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -33,6 +34,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
+      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -53,6 +55,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
+      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -81,6 +84,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: true,
       is_recommended: false,
+      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
@@ -111,6 +115,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: false,
       is_recommended: false,
+      is_tutorial: false,
       links: {}
     }
 
@@ -118,5 +123,14 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       exercise,
       user_track: user_track
     )
+  end
+
+  test "hello world is tutorial" do
+    user = create :user
+    track = create :track
+    create :user_track, user: user, track: track
+    exercise = create :practice_exercise, track: track, slug: "hello-world"
+
+    assert SerializeExercise.(exercise)[:is_tutorial]
   end
 end

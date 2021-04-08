@@ -148,14 +148,9 @@
                 }
             }
         }
-        & .c-react-component,
-        & .c-react-wrapper-student-complete-exercise-button {
+        & .btn-cta {
             @apply flex-shrink-0;
             @apply ml-40;
-            &,
-            & .btn {
-                width: 260px;
-            }
         }
     }
     & section.mentoring-prompt-nudge,

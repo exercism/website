@@ -108,27 +108,19 @@ export const SolutionSummary = ({
             link={links.allIterations}
             text="See all of your iterations"
           />
-          {exerciseType === 'tutorial' ? (
-            <div className="next-steps">
-              <div>
-                This is where we’d usually link you to other peoples’ solutions
-                to the same exercise.
-              </div>
-              <div>
-                You also get the opportunity to be mentored by{' '}
-                {solution.track.title} experts.
-              </div>
-            </div>
-          ) : (
-            <div className="next-steps">
-              <CommunitySolutions link={links.communitySolutions} />
-              <Mentoring
-                mentoringStatus={solution.mentoringStatus}
-                discussions={discussions}
-                links={links}
-              />
-            </div>
-          )}
+          <div className="next-steps">
+            <CommunitySolutions
+              link={links.communitySolutions}
+              isTutorial={exerciseType === 'tutorial'}
+            />
+            <Mentoring
+              mentoringStatus={solution.mentoringStatus}
+              discussions={discussions}
+              links={links}
+              isTutorial={exerciseType === 'tutorial'}
+              trackTitle={track.title}
+            />
+          </div>
         </section>
       ) : null}
     </>

@@ -79,6 +79,8 @@ import '../../css/components/faces'
 import '../../css/components/exercise-status-tag'
 import '../../css/components/exercise-dot'
 import '../../css/components/results-zone'
+import '../../css/components/introducer'
+import '../../css/components/profile-header'
 
 import '../../css/components/widgets/exercise'
 
@@ -106,6 +108,7 @@ import '../../css/pages/docs-tracks'
 import '../../css/pages/editor'
 import '../../css/pages/onboarding'
 import '../../css/pages/profile'
+import '../../css/pages/profile-badges'
 import '../../css/pages/staging' // TODO: Remove for launch
 import '../../css/pages/track-shared-index'
 import '../../css/pages/concepts-index'

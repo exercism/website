@@ -1,0 +1,144 @@
+@import "../styles";
+
+header.c-profile-header {
+    @apply bg-backgroundColorA;
+    @apply relative shadow-base;
+    @apply pt-24;
+
+    & .info-section {
+        @apply flex;
+
+        & .c-avatar {
+            height: 128px;
+            width: 128px;
+
+            @apply shadow-xsZ1;
+            @apply mr-32;
+        }
+
+        & .info {
+            @apply flex-grow;
+
+            & .heading {
+                @apply flex items-center;
+                @apply mb-12;
+                & h1 {
+                    @apply text-h2 mr-20;
+                }
+                & .c-primary-reputation {
+                    @apply mr-28;
+                }
+                & .tracks {
+                    @apply flex;
+
+                    & .c-track-icon {
+                        height: 54px;
+                        width: 54px;
+                        @apply mr-12;
+                    }
+                }
+            }
+            & .handle {
+                @apply text-h4 text-textColor6 leading-140;
+                @apply mb-12;
+            }
+            & .details {
+                @apply flex items-center mb-12;
+
+                & .location,
+                & .pronouns,
+                & .joined {
+                    @apply text-16 leading-150 text-textColor2 font-medium;
+                    @apply mr-28;
+                    @apply flex items-center;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-12;
+                        filter: var(--textColor2-filter);
+                    }
+                }
+            }
+            & .bio {
+                @apply text-p-base;
+            }
+        }
+        & .badges-and-tags {
+            @apply flex flex-col items-end;
+
+            & .header {
+                @apply flex items-center;
+                @apply mb-12;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
+                }
+                & h3 {
+                    @apply font-medium text-textColor2;
+                    @apply mr-32;
+                }
+                & .c-prominent-link {
+                    @apply text-14;
+                }
+            }
+            & .badges {
+                @apply flex mb-32;
+                & .c-badge {
+                    @apply ml-8;
+
+                    & .c-badge-medallion {
+                        height: 48px;
+                        width: 48px;
+                    }
+                }
+            }
+            & .tags {
+                @apply flex;
+
+                & .tag {
+                    @apply ml-16;
+                    @apply py-6 px-16;
+                    @apply border-2 rounded-100;
+                    @apply flex items-center;
+
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-10;
+                    }
+                    & .title {
+                        @apply font-semibold leading-170;
+                    }
+
+                    &.staff {
+                        @apply bg-backgroundColorF;
+                        border-color: #9e00ff;
+                    }
+                    &.maintainer {
+                        @apply border-textColor2;
+                    }
+                }
+            }
+        }
+    }
+    & .tabs-section {
+        @apply mt-4;
+        @apply flex items-center;
+        & .external-links {
+            @apply ml-auto mb-10; /* Bottom margin accounts border tab border */
+
+            @apply flex items-center;
+
+            & a {
+                @apply px-16 py-12;
+                @apply shadow-baseZ1 bg-backgroundColorA rounded-100 ml-12;
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                }
+            }
+        }
+    }
+}

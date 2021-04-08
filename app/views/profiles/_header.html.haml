@@ -1,4 +1,4 @@
-%header.main-header
+%header.c-profile-header
   .lg-container
     .info-section
       = avatar(User.first)
@@ -9,22 +9,19 @@
           .tracks
             - top_three_tracks.each do |track|
               = track_icon track
-        .details-1
-          .handle= user.name
+        .handle= user.name
+        .details
+          - if user.location.present?
+            .location
+              = icon(:location, "Located in")
+              = user.location
+          - if user.pronouns.present?
+            .pronouns
+              = icon(:pronouns, "Pronouns")
+              = user.pronouns
           .joined
-            Joined
-            %time= user.created_at.strftime('%b %Y')
-
-        - if user.location.present? || user.pronouns.present?
-          .details-2
-            - if user.location.present?
-              .location
-                = icon(:location, "Located in")
-                = user.location
-            - if user.pronouns.present?
-              .pronouns
-                = icon(:pronouns, "Pronouns")
-                = user.pronouns
+            = graphical_icon(:clock)
+            %time Joined #{user.created_at.strftime('%b %Y')}
 
 
         - if user.bio.present?

@@ -18,11 +18,16 @@ export type SolutionForStudent = {
   hasNotifications: boolean
   numMentoringComments: number
   numIterations: number
+  updatedAt: string
   exercise: {
     slug: string
+    title: string
+    iconUrl: string
   }
   track: {
+    slug: string
     title: string
+    iconUrl: string
   }
 }
 

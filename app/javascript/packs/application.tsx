@@ -169,6 +169,7 @@ import {
   Video as StudentMentoringSessionVideo,
   Links as StudentMentoringSessionLinks,
 } from '../components/student/MentoringSession'
+import { Links as RequestMentoringButtonLinks } from '../components/student/RequestMentoringButton'
 import {
   Track as IterationPageTrack,
   Exercise as IterationPageExercise,
@@ -320,6 +321,12 @@ initReact({
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
+    />
+  ),
+  'student-request-mentoring-button': (data: any) => (
+    <Student.RequestMentoringButton
+      request={data.request}
+      links={camelizeKeysAs<RequestMentoringButtonLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

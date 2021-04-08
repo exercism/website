@@ -8,15 +8,24 @@ module Flows
     test "student requests mentorship" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      solution = create :concept_solution, exercise: exercise, user: user
+      create :user_track, user: user, track: track
+      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+      solution = create :concept_solution,
+        exercise: hello_world,
+        user: user,
+        completed_at: 2.days.ago,
+        status: :completed
+      exercise = create :concept_exercise, track: track, title: "Lasagna"
+      create :concept_solution, exercise: exercise, user: user, published_at: 1.day.ago, status: :published
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
       create :submission_file, submission: submission, content: "class Bob\nend", filename: "bob.rb"
 
       use_capybara_host do
         sign_in!(user)
-        visit new_track_exercise_mentor_request_url(track, exercise)
+        visit track_url(track)
+        first("button", text: "Select an exercise").click
+        click_on "Lasagna"
 
         fill_in "What are you hoping to learn from this track?", with: "I want to learn OOP."
         fill_in "How can a mentor help you with this solution?", with: "I don't know."

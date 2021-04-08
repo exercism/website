@@ -4,6 +4,7 @@
     @apply mt-40 mb-32;
     @apply bg-randomBlue border-2 rounded-12;
     border-color: #9e00ff;
+    @apply shadow-baseZ1;
     @apply py-12 px-48;
     @apply flex items-center;
 

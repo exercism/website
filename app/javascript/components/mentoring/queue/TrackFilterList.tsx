@@ -59,7 +59,7 @@ export const TrackFilterList = ({
 type Props = {
   tracks: MentoredTrack[] | undefined
   isFetching: boolean
-  value: MentoredTrack | null
+  value: MentoredTrack
   setValue: (value: MentoredTrack) => void
   cacheKey: string
   total?: number
@@ -115,8 +115,6 @@ const Component = ({
     return null
   }
 
-  const selected = tracks.find((track) => track === value) || tracks[0]
-
   return (
     <React.Fragment>
       <ResultsZone isFetching={isFetching}>
@@ -125,8 +123,8 @@ const Component = ({
           aria-label="Open the track filter"
           {...buttonAttributes}
         >
-          <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
-          <div className="track-title">{selected.title}</div>
+          <TrackIcon iconUrl={value.iconUrl} title={value.title} />
+          <div className="track-title">{value.title}</div>
           {total !== undefined ? <div className="count">{total}</div> : null}
           <Icon
             icon="chevron-down"
@@ -146,7 +144,7 @@ const Component = ({
                       setValue(track)
                       setOpen(false)
                     }}
-                    checked={value === track}
+                    checked={value.id === track.id}
                     {...track}
                   />
                 </li>

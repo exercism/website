@@ -59,6 +59,45 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     assert_includes response.body, request.uuid
   end
 
+  test "index updates last_viewed" do
+    user = create :user
+    setup_user(user)
+
+    ruby = create :track, slug: :ruby
+    js = create :track, slug: :js
+    ruby_mentorship = create :user_track_mentorship, user: user, track: ruby
+    js_mentorship = create :user_track_mentorship, user: user, track: js
+
+    refute ruby_mentorship.reload.last_viewed? # Sanity
+    refute js_mentorship.reload.last_viewed? # Sanity
+
+    get api_mentoring_requests_path(track_slug: :ruby), headers: @headers, as: :json
+    assert_response 200
+
+    assert ruby_mentorship.reload.last_viewed?
+    refute js_mentorship.reload.last_viewed?
+
+    get api_mentoring_requests_path(track_slug: :js), headers: @headers, as: :json
+    assert_response 200
+
+    refute ruby_mentorship.reload.last_viewed?
+    assert js_mentorship.reload.last_viewed?
+
+    # Test invalid slug doesn't override
+    get api_mentoring_requests_path(track_slug: :foo), headers: @headers, as: :json
+    assert_response 200
+
+    refute ruby_mentorship.reload.last_viewed?
+    assert js_mentorship.reload.last_viewed?
+
+    # Test missing slug doesn't override
+    get api_mentoring_requests_path, headers: @headers, as: :json
+    assert_response 200
+
+    refute ruby_mentorship.reload.last_viewed?
+    assert js_mentorship.reload.last_viewed?
+  end
+
   ###
   # Lock
   ###

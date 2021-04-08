@@ -26,7 +26,8 @@ module Maintaining
       image[:image_tags].delete(production_tag)
       image[:image_tags].first
     rescue Aws::ECR::Errors::ImageNotFoundException,
-           Aws::ECR::Errors::BadRequest
+           Aws::ECR::Errors::BadRequest,
+           Aws::ECR::Errors::AccessDeniedException
       nil
     end
   end

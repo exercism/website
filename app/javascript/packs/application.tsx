@@ -81,6 +81,7 @@ import '../../css/components/results-zone'
 
 import '../../css/components/widgets/exercise'
 
+import '../../css/modals/completed-tutorial-exercise'
 import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'

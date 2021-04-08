@@ -31,7 +31,13 @@ class SerializeTrackTest < ActiveSupport::TestCase
       tags: ["Compiled", "Common Language Runtime (.NET)"],
 
       # TODO: Set this correctly
-      is_new: true
+      is_new: true,
+
+      links: {
+        self: Exercism::Routes.track_url(track),
+        exercises: Exercism::Routes.track_exercises_url(track),
+        concepts: Exercism::Routes.track_concepts_url(track)
+      }
     }
 
     assert_equal expected, SerializeTrack.(track, nil)

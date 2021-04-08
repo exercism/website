@@ -77,6 +77,7 @@ type ExerciseCore = {
   blurb: string
   difficulty: ExerciseDifficulty
   isRecommended: boolean
+  isTutorial: boolean
 }
 
 export type ExerciseDifficulty = 'easy'
@@ -132,6 +133,13 @@ export type Track = {
   id: string
   title: string
   iconUrl: string
+  numConcepts: number
+  numExercises: number
+  links: {
+    self: string
+    exercises: string
+    concepts: string
+  }
 }
 
 export type Iteration = {

@@ -51,20 +51,10 @@ module API
       end
 
       output = {
-        exercise: {
-          slug: solution.exercise.slug,
-          title: solution.exercise.title,
-          icon_url: solution.exercise.icon_url,
-          links: {
-            self: Exercism::Routes.track_exercise_path(solution.track, solution.exercise)
-          }
-        },
+        track: SerializeTrack.(solution.track, user_track),
+        exercise: SerializeExercise.(solution.exercise, user_track: user_track),
         unlocked_exercises: changes[:unlocked_exercises].map do |exercise|
-          {
-            slug: exercise.slug,
-            title: exercise.title,
-            icon_url: exercise.icon_url
-          }
+          SerializeExercise.(exercise, user_track: user_track)
         end,
         unlocked_concepts: changes[:unlocked_concepts].map do |concept|
           {

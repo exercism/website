@@ -1,8 +1,9 @@
 import React from 'react'
 import { UnlockedExercise } from './UnlockedExercise'
 import { UnlockedConcept } from './UnlockedConcept'
-import { Concept, Exercise } from '../CompleteExerciseModal'
+import { Concept } from '../CompleteExerciseModal'
 import { GraphicalIcon } from '../../common'
+import { Exercise } from '../../types'
 import pluralize from 'pluralize'
 
 export const Unlocks = ({

@@ -4,6 +4,7 @@ module API
       solutions = Solution::SearchUserSolutions.(
         current_user,
         criteria: params[:criteria],
+        track_slug: params[:track_id],
         status: params[:status],
         mentoring_status: params[:mentoring_status],
         page: params[:page],

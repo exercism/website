@@ -61,9 +61,7 @@
           .estimate Median wait time: ~2 hours
 
       - user_track.num_available_mentoring_slots.times do
-        %button.available-slot
-          %h4 Mentoring slot available
-          .btn-simple Select an exercise
+        = render ReactComponents::Student::RequestMentoringButton.new(track)
 
       - user_track.num_locked_mentoring_slots.times do
         .locked-slot

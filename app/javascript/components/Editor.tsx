@@ -220,6 +220,10 @@ export function Editor({
     [editorRef]
   )
 
+  const isSubmitDisabled =
+    submission?.testRun?.status !== TestRunStatus.PASS ||
+    !isEqual(submissionFilesRef.current, files)
+
   useEffect(() => {
     return abort
   }, [abort])
@@ -312,7 +316,7 @@ export function Editor({
       .finally(() => {
         controllerRef.current = undefined
       })
-  }, [isMountedRef, revertDispatch, submission])
+  }, [abort, isMountedRef, revertDispatch, submission])
 
   useEffect(() => {
     switch (submissionStatus) {
@@ -412,6 +416,8 @@ export function Editor({
             submission={submission}
             timeout={timeout}
             onUpdate={updateSubmission}
+            onSubmit={submit}
+            isSubmitDisabled={isSubmitDisabled}
           />
         </div>
 
@@ -422,13 +428,7 @@ export function Editor({
             error={apiError?.message}
           />
           <RunTestsButton onClick={runTests} />
-          <SubmitButton
-            onClick={submit}
-            disabled={
-              submission?.testRun?.status !== TestRunStatus.PASS ||
-              !isEqual(submissionFilesRef.current, files)
-            }
-          />
+          <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
         </div>
 
         <div className="footer-rhs">

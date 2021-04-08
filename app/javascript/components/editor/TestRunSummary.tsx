@@ -11,11 +11,15 @@ export const TestRunSummary = ({
   testRun,
   timeout,
   onUpdate,
+  onSubmit,
+  isSubmitDisabled,
   cancelLink,
 }: {
   testRun: TestRun
   timeout: number
   onUpdate: (testRun: TestRun) => void
+  onSubmit: () => void
+  isSubmitDisabled: boolean
   cancelLink: string
 }): JSX.Element => {
   const setTestRun = useCallback(
@@ -105,7 +109,12 @@ export const TestRunSummary = ({
   return (
     <>
       <TestRunSummary.Header testRun={testRun} />
-      <TestRunSummary.Content testRun={testRun} onCancel={cancel} />
+      <TestRunSummary.Content
+        testRun={testRun}
+        onSubmit={onSubmit}
+        isSubmitDisabled={isSubmitDisabled}
+        onCancel={cancel}
+      />
     </>
   )
 }
@@ -157,9 +166,13 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
 
 TestRunSummary.Content = ({
   testRun,
+  onSubmit,
+  isSubmitDisabled,
   onCancel,
 }: {
   testRun: TestRun
+  onSubmit: () => void
+  isSubmitDisabled: boolean
   onCancel: () => void
 }) => {
   switch (testRun.status) {
@@ -176,8 +189,7 @@ TestRunSummary.Content = ({
                 done, submit your solution to get automated feedback and request
                 mentoring.
               </p>
-              {/* TODO: Set this up properly */}
-              <SubmitButton onClick={() => {}} disabled={false} />
+              <SubmitButton onClick={onSubmit} disabled={isSubmitDisabled} />
             </div>
           </div>
         </>

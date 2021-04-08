@@ -6,7 +6,7 @@ module Components
     class TutorialTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
-      test "shows concept nudge for no feedback" do
+      test "shows completion nudge for no feedback" do
         user = create :user
         hello_world = create :practice_exercise, slug: "hello-world"
         solution = create :concept_solution, user: user, exercise: hello_world
@@ -28,7 +28,7 @@ module Components
         assert_no_css "section.mentoring-discussion-nudge"
       end
 
-      test "shows concept nudge for non actionable feedback" do
+      test "shows completion nudge for non actionable feedback" do
         user = create :user
         hello_world = create :practice_exercise, slug: "hello-world"
         solution = create :concept_solution, user: user, exercise: hello_world

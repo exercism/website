@@ -22,7 +22,7 @@ module Flows
         click_on "Mark as complete"
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
-        assert_text "Tutorial complete"
+        assert_text "You’ve completed “Hello, World!”"
       end
     end
   end

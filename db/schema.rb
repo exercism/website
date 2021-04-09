@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_130859) do
+ActiveRecord::Schema.define(version: 2021_04_09_130203) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_130859) do
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
-    t.string "blurb", limit: 350, null: false
+    t.string "blurb", limit: 350
     t.integer "position", null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_130859) do
     t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "snippet", limit: 1500
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -293,6 +294,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_130859) do
     t.integer "status", limit: 1, default: 0, null: false
     t.datetime "last_submitted_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
+    t.string "snippet", limit: 1500
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
@@ -363,7 +365,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_130859) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
-    t.string "blurb", limit: 350, null: false
+    t.string "blurb", limit: 350
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

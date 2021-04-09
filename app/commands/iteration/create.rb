@@ -11,10 +11,12 @@ class Iteration
         SELECT "#{SecureRandom.compact_uuid}", #{solution.id}, #{submission.id}, (COUNT(*) + 1), "#{time}", "#{time}"
         FROM iterations where solution_id = #{solution.id}
       })
+
+      # TODO: Guard against the iteration not being new
+      # TODO: Maybe add a guard on the activity itself?
       Iteration.find(id).tap do |iteration|
         init_services
-        # TODO: Guard against the activity not being new
-        # TODO: Maybe add a guard on the activity itself?
+        GenerateIterationSnippetJob.perform_later(iteration)
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique

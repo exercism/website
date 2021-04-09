@@ -140,21 +140,6 @@ class Solution < ApplicationRecord
     3
   end
 
-  # TODO: Erik
-  def snippet
-    '
-public class Year
-{
-  public static bool IsLeap(int year)
-  {
-      if (year % 4 != 0) return false
-      if (year % 100 == 0 && year % 400) return false
-      return true;
-  }
-}
-    '.strip
-  end
-
   # TODO
   def out_of_date?
     true

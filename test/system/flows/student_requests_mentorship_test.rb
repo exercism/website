@@ -10,13 +10,13 @@ module Flows
       track = create :track
       create :user_track, user: user, track: track
       hello_world = create :concept_exercise, track: track, slug: "hello-world"
-      solution = create :concept_solution,
+      create :concept_solution,
         exercise: hello_world,
         user: user,
         completed_at: 2.days.ago,
         status: :completed
       exercise = create :concept_exercise, track: track, title: "Lasagna"
-      create :concept_solution, exercise: exercise, user: user, published_at: 1.day.ago, status: :published
+      solution = create :concept_solution, exercise: exercise, user: user, published_at: 1.day.ago, status: :published
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
       create :submission_file, submission: submission, content: "class Bob\nend", filename: "bob.rb"

@@ -241,7 +241,7 @@ module Components::Student
       within "section.latest-iteration header" do
         assert_text "Your solution worked, but you can take it further…"
         assert_text "We’ve analysed your solution and have 1 recommendation and 2 additional comments"
-        assert_text "We suggest addressing the recommendations before proceeding."
+        assert_text "We suggest addressing the recommendation before proceeding."
         assert_css ".status.passed"
       end
       assert_no_css "section.completion-nudge"
@@ -261,6 +261,8 @@ module Components::Student
       create :submission_analysis, submission: submission, data: {
         comments: [
           { type: "actionable", comment: "ruby.two-fer.splat_args" },
+          { type: "actionable", comment: "ruby.two-fer.splat_args" },
+          { type: "actionable", comment: "ruby.two-fer.splat_args" },
           { type: "informative", comment: "ruby.two-fer.splat_args" },
           { type: "celebratory", comment: "ruby.two-fer.splat_args" }
         ]
@@ -275,7 +277,7 @@ module Components::Student
       assert_text "Iteration 1"
       within "section.latest-iteration header" do
         assert_text "Your solution is good enough to continue!"
-        assert_text "We’ve analysed your solution and have 1 recommendation and 2 additional comments"
+        assert_text "We’ve analysed your solution and have 3 recommendations and 2 additional comments"
         assert_text "You can either continue or address the recommendations first - your choice!"
         assert_css ".status.passed"
       end

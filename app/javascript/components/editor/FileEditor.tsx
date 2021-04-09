@@ -100,6 +100,10 @@ export function FileEditor({
   ) => {
     editorRef.current = editor
 
+    // This fixes a Windows-only issue with the custom code font resulting in the cursor rendering being off
+    // See https://github.com/exercism/website/issues/742#issuecomment-816806513
+    monacoEditor.editor.remeasureFonts()
+
     editor.addAction({
       id: 'runTests',
       label: 'Run tests',

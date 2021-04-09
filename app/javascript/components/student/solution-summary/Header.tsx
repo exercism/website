@@ -188,8 +188,12 @@ export const Header = ({
                 <h2>Your solution is good enough to continue!</h2>
                 <p>
                   We’ve analysed your solution and have {toSentence(comments)}.
-                  You can either continue or address the recommendations first -
-                  your choice!
+                  You can either continue or address the{' '}
+                  {pluralize(
+                    'recommendation',
+                    iteration.numActionableAutomatedComments
+                  )}{' '}
+                  first - your choice!
                 </p>
               </div>
               <div className="status passed">Tests Passed</div>
@@ -202,7 +206,12 @@ export const Header = ({
                 <h2>Your solution worked, but you can take it further…</h2>
                 <p>
                   We’ve analysed your solution and have {toSentence(comments)}.
-                  We suggest addressing the recommendations before proceeding.
+                  We suggest addressing the{' '}
+                  {pluralize(
+                    'recommendation',
+                    iteration.numActionableAutomatedComments
+                  )}{' '}
+                  before proceeding.
                 </p>
               </div>
               <div className="status passed">Tests Passed</div>

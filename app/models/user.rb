@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include User::Roles
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -52,11 +54,6 @@ class User < ApplicationRecord
     return find_by!(id: param) if param.is_a?(Numeric)
 
     find_by!(handle: param)
-  end
-
-  # TODO: Move this to the database
-  def admin?
-    true
   end
 
   def to_param

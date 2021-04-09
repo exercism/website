@@ -18,9 +18,9 @@
         & > .--info {
             @apply flex-grow;
             & > .--title {
-                @apply text-16 font-semibold leading-120 text-textColor1 mb-4;
+                @apply text-16 font-semibold leading-150 text-textColor1 mb-4;
             }
-            & > .--exericse {
+            & > .--subtitle {
                 @apply text-14 leading-160 text-textColor6;
             }
         }
@@ -43,8 +43,13 @@
         @apply flex-grow;
         @apply border-1 border-borderColor7 rounded-8;
         @apply p-16 mb-16;
-        text-overflow: ellipsis;
-        overflow: hidden;
+
+        & code {
+            @apply block;
+            height: 216px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     }
 
     & > footer.--footer {

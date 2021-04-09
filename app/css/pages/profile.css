@@ -46,6 +46,9 @@
                     @apply mx-8;
                     width: calc((100% / 3) - 16px);
                 }
+                & .c-community-solution {
+                    height: 100%;
+                }
             }
             & .c-prominent-link {
                 @apply self-center;

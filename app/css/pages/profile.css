@@ -91,6 +91,7 @@
                     & .byline {
                         @apply rounded-8 py-16 px-32 mx-16;
                         @apply flex items-center;
+                        @apply text-left;
 
                         & .c-avatar {
                             height: 48px;

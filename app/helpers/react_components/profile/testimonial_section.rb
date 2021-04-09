@@ -21,9 +21,7 @@ module ReactComponents
               track_title: "C#"
             },
             {
-              text: "For the first time in my life, someone got my name right the first time round. "\
-                "I’m not really sure what that means, but, I think I’m gonna go and celebrate. "\
-                "Man, I can’t believe this. I can’t believe SleeplessByte got my name right!",
+              text: "Very much appreciate the challenge/hints regarding optional or more optimal solutions. Thanks!",
               student: {
                 avatar_url: User.first.avatar_url,
                 handle: "iHiD"
@@ -32,9 +30,7 @@ module ReactComponents
               track_title: "Ruby"
             },
             {
-              text: "For the first time in my life, someone got my name right the first time round. "\
-                "I’m not really sure what that means, but, I think I’m gonna go and celebrate. "\
-                "Man, I can’t believe this. I can’t believe SleeplessByte got my name right!",
+              text: "let awesomeMentor: bool = match (Eric, Responsive, Helpful) with | 1, 1, 1 -> true",
               student: {
                 avatar_url: User.first.avatar_url,
                 handle: "neenjaw"

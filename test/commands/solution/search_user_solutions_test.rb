@@ -32,21 +32,37 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [ruby_bob_solution], Solution::SearchUserSolutions.(user, criteria: "r bo")
   end
 
+  test "track_slug" do
+    user = create :user
+    javascript = create :track, title: "JavaScript", slug: "javascript"
+    ruby = create :track, title: "Ruby", slug: "ruby"
+    elixir = create :track, title: "Elixir", slug: 'elixir'
+    ruby_exercise = create :practice_exercise, track: ruby
+    js_exercise = create :practice_exercise, track: javascript
+    elixir_exercise = create :practice_exercise, track: elixir
+
+    ruby_solution = create :practice_solution, user: user, exercise: ruby_exercise
+    js_solution = create :practice_solution, user: user, exercise: js_exercise
+    elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise
+
+    assert_equal [elixir_solution, js_solution, ruby_solution], Solution::SearchUserSolutions.(user)
+    assert_equal [js_solution, ruby_solution], Solution::SearchUserSolutions.(user, track_slug: %i[ruby javascript])
+    assert_equal [ruby_solution], Solution::SearchUserSolutions.(user, track_slug: "ruby")
+  end
+
   test "status" do
     user = create :user
-    published = create :practice_solution, user: user, completed_at: Time.current, published_at: Time.current
-    completed = create :practice_solution, user: user, completed_at: Time.current
-    in_progress = create :concept_solution, user: user
+    published = create :practice_solution, user: user, status: :published
+    completed = create :practice_solution, user: user, status: :completed
+    iterated = create :concept_solution, user: user, status: :iterated
 
-    assert_equal [in_progress, completed, published], Solution::SearchUserSolutions.(user, status: nil)
-    assert_equal [in_progress], Solution::SearchUserSolutions.(user, status: :in_progress)
-    assert_equal [in_progress], Solution::SearchUserSolutions.(user, status: 'in_progress')
-    assert_equal [completed, published], Solution::SearchUserSolutions.(user, status: :all_completed)
-    assert_equal [completed, published], Solution::SearchUserSolutions.(user, status: 'all_completed')
+    assert_equal [iterated, completed, published], Solution::SearchUserSolutions.(user, status: nil)
+    assert_equal [iterated], Solution::SearchUserSolutions.(user, status: :iterated)
+    assert_equal [iterated], Solution::SearchUserSolutions.(user, status: 'iterated')
+    assert_equal [completed, published], Solution::SearchUserSolutions.(user, status: %i[completed published])
+    assert_equal [completed, published], Solution::SearchUserSolutions.(user, status: %w[completed published])
     assert_equal [published], Solution::SearchUserSolutions.(user, status: :published)
     assert_equal [published], Solution::SearchUserSolutions.(user, status: 'published')
-    assert_equal [completed], Solution::SearchUserSolutions.(user, status: :not_published)
-    assert_equal [completed], Solution::SearchUserSolutions.(user, status: 'not_published')
   end
 
   test "mentoring_status" do

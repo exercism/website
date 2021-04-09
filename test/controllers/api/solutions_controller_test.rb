@@ -16,6 +16,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       criteria: "ru",
       status: "published",
       mentoring_status: "completed",
+      track_slug: "ruby",
       page: "2",
       per: "10",
       order: "newest_first"
@@ -23,6 +24,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     get api_solutions_path(
       criteria: "ru",
+      track_id: "ruby",
       status: "published",
       mentoring_status: "completed",
       page: "2",
@@ -40,7 +42,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     create :concept_solution,
       user: @current_user,
       exercise: ruby_bob,
-      published_at: Time.current,
+      status: :published,
       mentoring_status: "finished"
 
     get api_solutions_path(

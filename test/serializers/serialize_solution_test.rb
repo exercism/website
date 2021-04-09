@@ -18,9 +18,10 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
       num_mentoring_comments: 2, # TOOD
-      last_submitted_at: submission.created_at.iso8601,
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,
+      updated_at: solution.updated_at.iso8601,
+      last_submitted_at: submission.created_at.iso8601,
       exercise: {
         slug: solution.exercise.slug,
         title: solution.exercise.title,

@@ -9,19 +9,21 @@ class Solution
       DEFAULT_PER
     end
 
-    def initialize(user, criteria: nil, status: nil, mentoring_status: nil, page: nil, per: nil, order: nil)
+    def initialize(user, criteria: nil, track_slug: nil, status: nil, mentoring_status: nil, page: nil, per: nil, order: nil)
       @user = user
       @criteria = criteria
+      @track_slug = track_slug
       @status = status
       @mentoring_status = mentoring_status
-      @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
-      @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
+      @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
+      @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
       @order = order
     end
 
     def call
       @solutions = user.solutions
       filter_criteria!
+      filter_track!
       filter_status!
       filter_mentoring_status!
       sort!
@@ -30,7 +32,7 @@ class Solution
     end
 
     private
-    attr_reader :user, :criteria, :status, :mentoring_status,
+    attr_reader :user, :criteria, :track_slug, :status, :mentoring_status,
       :per, :page, :order,
       :solutions
 
@@ -47,34 +49,23 @@ class Solution
       end
     end
 
+    def filter_track!
+      return if track_slug.blank?
+
+      @solutions = @solutions.joins(exercise: :track).
+        where('tracks.slug': track_slug)
+    end
+
     def filter_status!
       return if status.blank?
 
-      case status.to_sym
-      when :in_progress
-        @solutions = @solutions.not_completed
-      when :all_completed
-        @solutions = @solutions.completed
-      when :published
-        @solutions = @solutions.published
-      when :not_published
-        @solutions = @solutions.completed.not_published
-      end
+      @solutions = @solutions.where(status: status)
     end
 
     def filter_mentoring_status!
       return if mentoring_status.blank?
 
-      case mentoring_status.to_sym
-      when :none
-        @solutions = @solutions.mentoring_status_none
-      when :requested
-        @solutions = @solutions.mentoring_status_requested
-      when :in_progress
-        @solutions = @solutions.mentoring_status_in_progress
-      when :finished
-        @solutions = @solutions.mentoring_status_finished
-      end
+      @solutions = @solutions.where(mentoring_status: mentoring_status)
     end
 
     def sort!

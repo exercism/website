@@ -51,6 +51,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
           <TagsFilter
             dispatch={dispatch}
             options={tagOptions}
+            value={request.query.tags}
             numTracks={resolvedData ? resolvedData.tracks.length : 0}
           />
           <div className="c-select">

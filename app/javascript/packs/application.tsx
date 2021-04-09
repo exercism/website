@@ -180,8 +180,10 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
+import { Testimonial } from '../components/profile/TestimonialSection'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
+import * as Profile from '../components/profile'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -399,6 +401,17 @@ initReact({
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
+  ),
+  'profile-testimonial-section': (data: any) => (
+    <Profile.TestimonialSection
+      handle={data.handle}
+      numTestimonials={data.num_testimonials}
+      numSolutionsMentored={data.num_solutions_mentored}
+      numStudentsHelped={data.num_students_helped}
+      numTestimonialsReceived={data.num_testimonials_received}
+      testimonials={camelizeKeysAs<Testimonial[]>(data.testimonials)}
+      links={data.links}
+    />
   ),
 })
 

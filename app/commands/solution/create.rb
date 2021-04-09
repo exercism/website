@@ -6,12 +6,15 @@ class Solution
     def call
       guard!
 
-      solution_class.create_or_find_by!(
-        user: user,
-        exercise: exercise
-      ).tap do |solution|
-        # TODO: Only do this if the solution is new record
-        record_activity!(solution)
+      begin
+        solution_class.create!(user: user, exercise: exercise).tap do |solution|
+          record_activity!(solution)
+        end
+      rescue ActiveRecord::RecordNotUnique
+        solution_class.find_by!(
+          user: user,
+          exercise: exercise
+        )
       end
     end
 

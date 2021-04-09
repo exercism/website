@@ -55,4 +55,16 @@ class Solution::CreateTest < ActiveSupport::TestCase
     assert_equal exercise.track, activity.track
     assert_equal solution, activity.solution
   end
+
+  test "does not create activity if not new" do
+    user = create :user
+    exercise = create :concept_exercise
+    ut = create :user_track, user: user, track: exercise.track
+    create :hello_world_solution, :completed, track: ut.track, user: ut.user
+    create :concept_solution, exercise: exercise, user: user
+
+    Solution::Create.(ut.user, exercise)
+
+    refute User::Activities::StartedExerciseActivity.exists?
+  end
 end

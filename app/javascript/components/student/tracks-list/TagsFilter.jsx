@@ -91,7 +91,8 @@ export function TagsFilter({ options, dispatch, value, numTracks }) {
       </div>
       <div className="--state">
         <p>
-          Showing {numTracks} {pluralize('track', numTracks)}
+          Showing {value === undefined || value.length == 0 ? 'all' : ''}{' '}
+          {numTracks} {pluralize('track', numTracks)}
         </p>
         {value !== undefined && value.length > 0 ? (
           <button onClick={resetFilters} className="--reset-btn">

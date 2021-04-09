@@ -21,7 +21,7 @@ module Flows
         visit tracks_path
 
         assert_text "Last touched 2 days ago"
-        assert_text "Showing 3 tracks"
+        assert_text "Showing all 3 tracks"
       end
     end
 

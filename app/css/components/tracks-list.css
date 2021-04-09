@@ -70,10 +70,13 @@
             @apply px-20;
             @apply bg-lightOrange rounded-5;
             @apply mr-48;
+            height: 48px;
 
             & p {
-                @apply mr-24;
                 @apply text-16 font-medium text-textColor3;
+            }
+            & .--reset-btn {
+                @apply ml-24;
             }
         }
         & .c-select {

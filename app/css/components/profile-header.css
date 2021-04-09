@@ -17,7 +17,7 @@ header.c-profile-header {
         }
 
         & .info {
-            @apply flex-grow;
+            @apply flex-grow mr-40;
 
             & .heading {
                 @apply flex items-center;
@@ -61,6 +61,8 @@ header.c-profile-header {
             }
             & .bio {
                 @apply text-p-base;
+                max-width: 740px;
+                height: 50px;
             }
         }
         & .badges-and-tags {
@@ -95,7 +97,7 @@ header.c-profile-header {
                 }
             }
             & .tags {
-                @apply flex;
+                @apply flex mb-8;
 
                 & .tag {
                     @apply ml-16;
@@ -112,6 +114,7 @@ header.c-profile-header {
                         @apply font-semibold leading-170;
                     }
 
+                    &.founder,
                     &.staff {
                         @apply bg-backgroundColorF;
                         border-color: #9e00ff;

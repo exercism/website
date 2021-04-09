@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_130203) do
+ActiveRecord::Schema.define(version: 2021_04_09_150919) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -547,6 +547,7 @@ ActiveRecord::Schema.define(version: 2021_04_09_130203) do
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
+    t.json "roles"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

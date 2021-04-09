@@ -71,7 +71,7 @@ export const CommunitySolution = ({
               ? 'Your Solution'
               : `${solution.author.handle}'s solution`}
           </div>
-          <div className="--track-title">
+          <div className="--subtitle">
             to {solution.exercise.title} in {solution.track.title}
           </div>
         </div>

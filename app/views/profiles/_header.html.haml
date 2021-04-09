@@ -44,13 +44,23 @@
             .c-badge-medallion.--rare
           .c-badge
             .c-badge-medallion.--common
-        .tags
-          .tag.staff
-            = graphical_icon :logo
-            .title Exercism Staff
-          .tag.maintainer
-            = graphical_icon :maintaining
-            .title Maintainer
+
+        - if user.roles.present?
+          .tags
+            - if user.founder?
+              .tag.founder
+                = graphical_icon :logo
+                .title Exercism Founder
+
+            - else
+              - if user.staff?
+                .tag.staff
+                  = graphical_icon :logo
+                  .title Exercism Staff
+              - if user.maintainer?
+                .tag.maintainer
+                  = graphical_icon :maintaining
+                  .title Maintainer
 
     .tabs-section
       = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do

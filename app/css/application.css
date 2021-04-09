@@ -162,3 +162,7 @@ code {
         outline: none;
     }
 }
+
+pre {
+    @apply font-mono text-14 leading-160;
+}

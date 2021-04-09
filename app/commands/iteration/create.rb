@@ -12,9 +12,8 @@ class Iteration
         FROM iterations where solution_id = #{solution.id}
       })
 
-      # TODO: Guard against the iteration not being new
-      # TODO: Maybe add a guard on the activity itself?
       Iteration.find(id).tap do |iteration|
+        solution.update_status!
         init_services
         GenerateIterationSnippetJob.perform_later(iteration)
         record_activity!(iteration)

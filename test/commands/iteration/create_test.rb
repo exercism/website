@@ -78,4 +78,11 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert :queued, submission.representation_status
     assert :queued, submission.analysis_status
   end
+
+  test "updates solution status" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
+    assert_equal :iterated, solution.reload.status
+  end
 end

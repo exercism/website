@@ -85,6 +85,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
     assert_equal [finished], Solution::SearchUserSolutions.(user, mentoring_status: :finished)
     assert_equal [finished], Solution::SearchUserSolutions.(user, mentoring_status: 'finished')
+
+    assert_equal [none, finished], Solution::SearchUserSolutions.(user, mentoring_status: [:none, 'finished'])
   end
 
   test "pagination" do

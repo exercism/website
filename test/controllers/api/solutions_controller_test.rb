@@ -177,17 +177,42 @@ class API::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "complete completes exercise" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user
+
+      patch complete_api_solution_path(solution.uuid),
+        headers: @headers, as: :json
+
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_nil solution.published_at
+      assert_equal :completed, solution.status
+    end
+  end
+
+  test "publishes if requested" do
     setup_user
 
     exercise = create :concept_exercise
     create :user_track, track: exercise.track, user: @current_user
     solution = create :concept_solution, exercise: exercise, user: @current_user
+    create :iteration, solution: solution
 
-    patch complete_api_solution_path(solution.uuid),
+    patch complete_api_solution_path(solution.uuid, publish: true),
       headers: @headers, as: :json
 
     assert_response 200
-    assert solution.reload.completed?
+
+    solution.reload
+    assert_equal Time.current, solution.completed_at
+    assert_equal Time.current, solution.published_at
+    assert_equal :published, solution.status
   end
 
   test "complete renders changes in user_track" do

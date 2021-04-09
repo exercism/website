@@ -16,7 +16,7 @@ class Solution
 
     private
     def mark_solution_as_complete!
-      solution.update!(completed_at: Date.current)
+      solution.update!(completed_at: Time.current)
     end
 
     def mark_concepts_as_learnt!

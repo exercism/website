@@ -2,11 +2,10 @@
   = render ViewComponents::Mentor::Header.new(:testimonials)
 
   .lg-container
-    %header
-      %h1 Your Testimonials
-      .total-count= @num_total_testimonials
     %article.content
+      / TODO: Turn this into React
       .c-search-bar
+        / TODO: Add track selector here - same as mentor inbox
         %input.--search{ placeholder: "Search by student name or testimonial" }
         .c-select.order
           %select
@@ -14,15 +13,26 @@
 
       .testimonials
         - @testimonials.each do |testimonial|
-          = link_to "#", class: "testimonial" do
-            = avatar(testimonial.student)
-            .content= testimonial.content
-            .student-name @#{testimonial.student.handle}
-            .exercise
-              = testimonial.exercise.title
-              on
+          - if testimonial.revealed?
+            .testimonial
               = track_icon(testimonial.track)
-              .track-title= testimonial.track.title
-            %time #{time_ago_in_words(testimonial.created_at)} ago
-
-
+              = avatar(testimonial.student)
+              .info
+                .student= testimonial.student.handle
+                .exercise
+                  on
+                  = testimonial.exercise.title
+                  in
+                  = testimonial.track.title
+              .content= testimonial.content
+              %time #{time_ago_in_words(testimonial.created_at)} ago
+              = graphical_icon 'modal', css_class: "action-icon"
+          - else
+            .testimonial.unrevealed
+              = track_icon(testimonial.track)
+              = graphical_icon "avatar-placeholder", css_class: 'c-avatar'
+              .info
+                .student Someone left you a testimonial… 😲
+                .exercise Click/tap to reveal
+              %time #{time_ago_in_words(testimonial.created_at)} ago
+              = graphical_icon 'modal', css_class: "action-icon"

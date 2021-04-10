@@ -62,6 +62,8 @@ Rails.application.routes.draw do
 
       resources :profiles, only: [] do
         get :summary, on: :member
+
+        resources :testimonials, only: [:index], controller: "profiles/testimonials"
       end
 
       resources :solutions, only: %i[index show update] do
@@ -114,6 +116,8 @@ Rails.application.routes.draw do
           resources :posts, only: %i[index create update], controller: "discussion_posts"
         end
 
+        resources :testimonials, only: [:index]
+
         resources :students, only: [] do
           member do
             post :block
@@ -162,6 +166,7 @@ Rails.application.routes.draw do
   resources :profiles, only: [:show] do
     member do
       get :badges
+      get :testimonials
       get :tooltip
     end
   end

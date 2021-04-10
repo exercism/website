@@ -1,20 +1,12 @@
-<svg
-  id="avatar-placeholder"
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 24 24"
->
-  <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-        stroke: currentColor;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-width: 1.5px;
-      }
-    </style>
-  </defs>
-  <title>single-neutral</title>
-  <circle class="cls-1" cx="12" cy="6" r="5.25" />
-  <path class="cls-1" d="M2.25,23.25a9.75,9.75,0,0,1,19.5,0" />
+<svg viewBox="0 0 42 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="21" cy="21.5" r="21" fill="#F0F3F9"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="42" height="43">
+<circle cx="21" cy="21.5" r="21" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask0)">
+<circle cx="21" cy="21.5" r="21" fill="#F0F3F9"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M21 20.9463C23.1406 20.9463 24.876 19.211 24.876 17.0703C24.876 14.9297 23.1406 13.1943 21 13.1943C18.8594 13.1943 17.124 14.9297 17.124 17.0703C17.124 19.211 18.8594 20.9463 21 20.9463Z" stroke="#5C5589" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.8018 29.8057C13.8018 25.8302 17.0245 22.6074 21 22.6074C24.9755 22.6074 28.1982 25.8302 28.1982 29.8057" stroke="#5C5589" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
 </svg>
+

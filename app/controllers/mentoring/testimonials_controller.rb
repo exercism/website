@@ -3,7 +3,9 @@ class Mentoring::TestimonialsController < ApplicationController
 
   def index
     # TODO: - Paginate
-    @testimonials = current_user.mentor_testimonials.to_a * 10
-    @num_total_testimonials = current_user.mentor_testimonials.count
+    @testimonials = [
+      current_user.mentor_testimonials.first,
+      *(current_user.mentor_testimonials.to_a * 10).tap { |ts| ts.each { |t| t.revealed = true } }
+    ]
   end
 end

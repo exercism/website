@@ -1,5 +1,6 @@
 task stats: 'exercism:stats'
 
+# rubocop:disable Rails/RakeEnvironment
 namespace :exercism do
   task :stats do
     require 'rails/code_statistics'
@@ -15,7 +16,7 @@ namespace :exercism do
     ::STATS_DIRECTORIES << ['Serializer tests', 'test/serializers']
     CodeStatistics::TEST_TYPES << 'Serializer tests'
 
-    class CodeStatistics
+    class CodeStatistics # rubocop:disable Lint/ConstantDefinitionInBlock
       def calculate_statistics
         pattern = pattern = /^(?!\.).*?\.(rb|js|ts|jsx|tsx|css|rake|haml)$/
         Hash[
@@ -27,3 +28,4 @@ namespace :exercism do
     end
   end
 end
+# rubocop:enable Rails/RakeEnvironment

@@ -71,7 +71,7 @@ export const TestimonialSection = ({
             {testimonials.map((testimonial, i) => {
               const classNames = [
                 'byline',
-                testimonial === currentTestimonial ? 'active' : '',
+                testimonial === currentTestimonial ? 'active' : 'unactive',
               ].filter((className) => className.length > 0)
 
               return (
@@ -87,8 +87,10 @@ export const TestimonialSection = ({
                   />
                   <div className="info">
                     <div className="student">{testimonial.student.handle}</div>
+                    <div className="mentored-by"> Mentored by {handle}</div>
                     <div className="exercise">
-                      {testimonial.exerciseTitle} in {testimonial.trackTitle}
+                      <strong>{testimonial.exerciseTitle}</strong> in{' '}
+                      <strong>{testimonial.trackTitle}</strong>
                     </div>
                   </div>
                 </button>

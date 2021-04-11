@@ -104,8 +104,16 @@
                         & .student {
                             @apply text-h6 leading-170;
                         }
+                        & .mentored-by {
+                            @apply text-15 leading-160 text-textColor6;
+                        }
+
                         & .exercise {
-                            @apply text-p-base text-textColor6;
+                            @apply text-15 leading-160 text-textColor6;
+
+                            & strong {
+                                @apply font-medium;
+                            }
                         }
                         &.active {
                             @apply shadow-lg bg-backgroundColorA;
@@ -113,6 +121,12 @@
                         &.unactive {
                             & .c-avatar {
                                 filter: grayscale(1);
+                            }
+                            &:hover {
+                                @apply shadow-base;
+                                & .c-avatar {
+                                    filter: grayscale(0.5);
+                                }
                             }
                         }
                     }

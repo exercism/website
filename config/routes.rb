@@ -64,7 +64,7 @@ Rails.application.routes.draw do
         get :summary, on: :member
 
         resources :testimonials, only: [:index], controller: "profiles/testimonials"
-        resources :solutions, only: [:index]
+        resources :solutions, only: [:index], controller: 'profiles/solutions'
       end
 
       resources :solutions, only: %i[index show update] do

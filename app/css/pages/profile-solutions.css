@@ -1,0 +1,17 @@
+@import "../styles";
+
+#page-profile-solutions {
+    @apply mb-80;
+    & article {
+        & .c-search-bar {
+            @apply mb-32;
+
+            & .--search {
+                width: 450px;
+            }
+        }
+        & .solutions {
+            @apply grid grid-cols-3 gap-x-48 gap-y-32;
+        }
+    }
+}

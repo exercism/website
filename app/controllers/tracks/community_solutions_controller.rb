@@ -4,7 +4,11 @@ class Tracks::CommunitySolutionsController < ApplicationController
 
   skip_before_action :authenticate_user!
 
-  def index; end
+  def index
+    @solutions = Solution::SearchCommunitySolutions.(@exercise)
+    @endpoint = Exercism::Routes.api_track_exercise_community_solutions_url(@track, @exercise)
+    @unscoped_total = @exercise.solutions.published.count
+  end
 
   private
   def use_track

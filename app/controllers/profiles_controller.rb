@@ -13,6 +13,13 @@ class ProfilesController < ApplicationController
     @num_testimonials = @user.mentor_testimonials.count
   end
 
+  def solutions
+    @solutions = Solution::SearchUserSolutions.(
+      @user,
+      status: :published
+    )
+  end
+
   def badges
     @badges = @user.badges
   end

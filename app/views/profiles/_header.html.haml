@@ -71,7 +71,7 @@
         = graphical_icon :contribute
         %span Contributions
 
-      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
+      = link_to solutions_profile_path(user), class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
         = graphical_icon 'community-solutions'
         %span Published Solutions
 

@@ -1,12 +1,12 @@
 module ReactComponents
-  module Common
-    class CommunitySolutionList < ReactComponent
-      initialize_with :exercise, :context
+  module Track
+    class ExerciseCommunitySolutionsList < ReactComponent
+      initialize_with :exercise
 
       def to_s
         super("common-community-solution-list", {
           request: request,
-          context: context
+          context: :exercise
         })
       end
 

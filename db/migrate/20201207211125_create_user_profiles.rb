@@ -7,7 +7,6 @@ class CreateUserProfiles < ActiveRecord::Migration[6.1]
       t.string :github
       t.string :linkedin
       t.string :medium
-      t.string :location
 
       t.timestamps
     end

@@ -11,6 +11,11 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.string :git_slug, null: false
       t.string :git_sha, null: false
 
+      t.column :status, :tinyint, default: 0, null: false
+      t.datetime :last_submitted_at, null: true
+      t.column :num_iterations, :tinyint, default: 0, null: false
+
+
       t.datetime :downloaded_at, null: true
       t.datetime :completed_at, null: true
       t.datetime :published_at, null: true

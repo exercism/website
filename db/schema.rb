@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_150919) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -127,13 +127,12 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "blurb", limit: 350
-    t.integer "position", null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
+    t.integer "position", null: false
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["position"], name: "index_exercises_on_position"
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -174,10 +173,10 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.string "repo", null: false
     t.string "author_username"
     t.string "merged_by_username"
+    t.string "title"
     t.json "data", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "title"
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
   end
 
@@ -186,10 +185,10 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.bigint "submission_id", null: false
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
+    t.string "snippet", limit: 1500
     t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "snippet", limit: 1500
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -257,10 +256,10 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.bigint "student_id", null: false
     t.bigint "discussion_id", null: false
     t.text "content", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.boolean "published", default: true, null: false
     t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
@@ -285,16 +284,15 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.string "uuid", null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
+    t.integer "status", limit: 1, default: 0, null: false
+    t.datetime "last_submitted_at"
+    t.integer "num_iterations", limit: 1, default: 0, null: false
     t.datetime "downloaded_at"
     t.datetime "completed_at"
     t.datetime "published_at"
     t.integer "mentoring_status", limit: 1, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", limit: 1, default: 0, null: false
-    t.datetime "last_submitted_at"
-    t.integer "num_iterations", limit: 1, default: 0, null: false
-    t.string "snippet", limit: 1500
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
@@ -339,10 +337,10 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.text "message"
     t.integer "ops_status", limit: 2, null: false
     t.json "raw_results", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.integer "version", limit: 1, default: 0, null: false
     t.text "output"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
   end
 
@@ -365,7 +363,7 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
-    t.string "blurb", limit: 350
+    t.string "blurb", limit: 350, default: ""
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -379,12 +377,12 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.string "blurb", limit: 400, null: false
     t.string "repo_url", null: false
     t.string "synced_to_git_sha", null: false
+    t.integer "num_exercises", limit: 3, default: 0, null: false
+    t.integer "num_concepts", limit: 3, default: 0, null: false
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "num_exercises", limit: 3, default: 0, null: false
-    t.integer "num_concepts", limit: 3, default: 0, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
@@ -436,6 +434,8 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.bigint "user_id", null: false
     t.bigint "track_id"
     t.bigint "exercise_id"
+    t.integer "status", limit: 1, default: 0, null: false
+    t.string "path", null: false
     t.string "type", null: false
     t.integer "version", null: false
     t.json "params", null: false
@@ -445,8 +445,6 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", limit: 1, default: 0, null: false
-    t.string "path", null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["uniqueness_key"], name: "index_user_notifications_on_uniqueness_key", unique: true
@@ -501,9 +499,9 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
   create_table "user_track_mentorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
+    t.boolean "last_viewed", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "last_viewed", default: false, null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
@@ -512,11 +510,11 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
+    t.json "summary_data", null: false
+    t.string "summary_key"
     t.boolean "anonymous_during_mentoring", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.json "summary_data", null: false
-    t.string "summary_key"
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
@@ -541,13 +539,13 @@ ActiveRecord::Schema.define(version: 2021_04_09_150919) do
     t.datetime "became_mentor_at"
     t.string "github_username"
     t.integer "reputation", default: 0, null: false
+    t.json "roles"
     t.text "bio"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
-    t.json "roles"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

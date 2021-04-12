@@ -20,7 +20,7 @@ class CreateUserReputationTokens < ActiveRecord::Migration[6.1]
       t.integer :version, null: false
       t.json :rendering_data_cache, null: false
 
-      t.string :external_link, null: true
+      t.string :external_url, null: true
 
       t.boolean :seen, null: false, default: false
 

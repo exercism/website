@@ -21,7 +21,12 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :github_username, null: true
       t.integer :reputation, null: false, default: 0
 
+      t.json :roles, null: true
+
       t.text :bio, null: true
+      t.string :avatar_url, null: true
+      t.string :location, null: true
+      t.string :pronouns, null: true
 
       t.timestamps null: false
 

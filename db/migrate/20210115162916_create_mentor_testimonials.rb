@@ -4,9 +4,11 @@ class CreateMentorTestimonials < ActiveRecord::Migration[6.1]
       t.belongs_to :mentor, null: false, foreign_key: { to_table: :users }
       t.belongs_to :student, null: false, foreign_key: { to_table: :users }
 
-      t.belongs_to :discussion, null: false, foreign_key: { to_table: :solution_mentor_discussions }, index: {unique: true}
+      t.belongs_to :discussion, null: false, foreign_key: { to_table: :mentor_discussions }, index: {unique: true}
 
       t.text :content, null: false
+      t.boolean :published, null: false, default: true
+      t.datetime :deleted_at, null: true
 
       t.timestamps
     end

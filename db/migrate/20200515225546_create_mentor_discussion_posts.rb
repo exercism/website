@@ -1,9 +1,9 @@
-class CreateSolutionMentorDiscussionPosts < ActiveRecord::Migration[6.0]
+class CreateMentorDiscussionPosts < ActiveRecord::Migration[6.0]
   def change
-    create_table :solution_mentor_discussion_posts do |t|
+    create_table :mentor_discussion_posts do |t|
       t.string :uuid, null: false
 
-      t.belongs_to :discussion, null: false, foreign_key: {to_table: :solution_mentor_discussions}
+      t.belongs_to :discussion, null: false, foreign_key: {to_table: :mentor_discussions}
       t.belongs_to :iteration, null: false, foreign_key: true
       t.belongs_to :user, null: false, foreign_key: true
 

@@ -7,6 +7,9 @@ class CreateUserNotifications < ActiveRecord::Migration[6.0]
       t.belongs_to :track, foreign_key: true, null: true, foreign_key: true
       t.belongs_to :exercise, foreign_key: true, null: true, foreign_key: true
 
+      t.column :status, :tinyint, null: false, default: 0
+      t.string :path, null: false
+
       t.string :type, null: false
       t.integer :version, null: false
       t.json :params, null: false
@@ -16,6 +19,7 @@ class CreateUserNotifications < ActiveRecord::Migration[6.0]
       t.json :rendering_data_cache, null: false
 
       t.datetime :read_at, null: true
+
 
 
       t.timestamps

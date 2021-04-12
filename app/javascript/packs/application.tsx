@@ -94,6 +94,7 @@ import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
 import '../../css/modals/change-mentor-tracks'
 import '../../css/modals/select-exercise-for-mentoring'
+import '../../css/modals/testimonial'
 
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'

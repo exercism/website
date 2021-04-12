@@ -1,0 +1,98 @@
+@import "../styles";
+
+.c-modal.m-testimonial {
+    @apply pt-80 pb-48 px-48;
+    & .--modal-content {
+        width: 100%;
+        max-width: 780px;
+        min-height: auto;
+        @apply p-0;
+        @apply relative;
+        @apply overflow-visible;
+        @apply bg-backgroundColorA;
+        @apply shadow-lgZ1 rounded-8;
+    }
+    & .c-avatar {
+        width: 80px;
+        height: 80px;
+        @apply absolute mb-24;
+        top: -40px;
+        left: 50%;
+        margin-left: -40px;
+        filter: drop-shadow(0px -5px 42px rgba(79, 114, 205, 0.3));
+    }
+    & .testimonial-section {
+        @apply px-48 py-32;
+
+        & .content {
+            @apply text-31 leading-150 text-textColor2;
+            @apply mt-32 mb-16;
+        }
+        & .student {
+            @apply text-h4 mb-4;
+        }
+        & .exercise {
+            @apply flex items-center;
+            @apply text-17 leading-160 text-textColor6;
+            @apply mb-16;
+            & strong {
+                @apply font-medium;
+                @apply mx-6;
+            }
+            & .c-track-icon {
+                height: 32px;
+                width: 32px;
+                @apply mx-8;
+            }
+            & .track-title {
+                @apply text-textColor2 font-semibold;
+            }
+        }
+        & time {
+            @apply text-16 leading-160 text-textColor6;
+        }
+    }
+    & .share-section {
+        @apply px-48 pt-24 pb-32;
+        @apply border-t-1 border-borderColor6;
+        & h3 {
+            @apply text-16 leading-150 text-textColor2 font-semibold;
+            @apply mb-12;
+        }
+        & .btns {
+            @apply flex items-center mb-16;
+
+            & a {
+                @apply py-8 px-12 mr-12;
+                @apply text-15 leading-160 font-semibold text-white;
+                @apply rounded-5;
+                background: #ff4500;
+
+                @apply flex items-center;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
+                    filter: var(--white-filter);
+                }
+
+                &.devto {
+                    background: #000;
+                }
+                &.linkedin {
+                    background: #2867b2;
+                }
+                &.reddit {
+                    background: #ff4500;
+                }
+                &.twitter {
+                    background: #1da1f2;
+                }
+                &.facebook {
+                    background: #4267b2;
+                }
+            }
+        }
+    }
+}

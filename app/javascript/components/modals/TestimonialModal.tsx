@@ -23,7 +23,9 @@ export const TestimonialModal = ({
       />
       <div className="testimonial-section">
         <div className="content">{testimonial.content}</div>
-        <div className="student">by {testimonial.student.handle}</div>
+        <div className="student">
+          by <strong>{testimonial.student.handle}</strong>
+        </div>
         <div className="exercise">
           on <strong>{testimonial.exercise.title}</strong> in
           <TrackIcon

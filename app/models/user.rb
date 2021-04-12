@@ -97,7 +97,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
-    super || "https://picsum.photos/200?r=#{SecureRandom.hex(3)}"
+    super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"
   end
 
   # TODO

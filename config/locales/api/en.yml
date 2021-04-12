@@ -21,6 +21,7 @@ en:
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."
+      mentor_testimonial_not_found: "The mentor testimonial was not found"
       mentor_discussion_not_found: "The discussion was not found"
       mentor_discussion_not_accessible: "You do not have permission to view this discussion"
       mentor_discussion_post_not_found: "The post could not be found"

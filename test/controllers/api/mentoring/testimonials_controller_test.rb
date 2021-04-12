@@ -2,6 +2,7 @@ require_relative '../base_test_case'
 
 class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_mentoring_testimonials_path
+  guard_incorrect_token! :reveal_api_mentoring_testimonial_path, args: 1, method: :patch
 
   ###
   # Index
@@ -25,7 +26,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
       page: page,
       criteria: "Foobar",
       order: "recent",
-      track_slug: track_slug
+      track: track_slug
     }, headers: @headers, as: :json
   end
 
@@ -45,5 +46,39 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
     ).to_json
 
     assert_equal expected, response.body
+  end
+
+  ###
+  # Reveal
+  ###
+  test "reveal should 404 if the testimonial doesn't exist" do
+    setup_user
+    patch reveal_api_mentoring_testimonial_path('xxx'), headers: @headers, as: :json
+    assert_response 404
+  end
+
+  test "reveal should fail on a different person's testimonial" do
+    skip
+    user = create :user
+    setup_user(user)
+    testimonial = create :mentor_testimonial
+
+    patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+
+    assert_response 404
+
+    refute testimonial.reload.revealed?
+  end
+
+  test "reveal should succeed" do
+    user = create :user
+    setup_user(user)
+    testimonial = create :mentor_testimonial, mentor: user
+
+    patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+
+    assert_response :success
+
+    assert testimonial.reload.revealed?
   end
 end

@@ -58,7 +58,7 @@ export const TrackDropdown = ({
   const selected = tracks.find((track) => track.slug === value) || tracks[0]
 
   return (
-    <React.Fragment>
+    <div className="c-track-filter">
       <button
         aria-label="Open the track filter"
         {...buttonAttributes}
@@ -89,6 +89,6 @@ export const TrackDropdown = ({
           })}
         </ul>
       </div>
-    </React.Fragment>
+    </div>
   )
 }

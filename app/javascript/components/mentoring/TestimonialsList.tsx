@@ -62,12 +62,12 @@ export const TestimonialsList = ({
   return (
     <div className="lg-container">
       <article className="content">
-        <TrackDropdown
-          tracks={tracks}
-          value={request.query.track}
-          setValue={setTrack}
-        />
         <div className="c-search-bar">
+          <TrackDropdown
+            tracks={tracks}
+            value={request.query.track}
+            setValue={setTrack}
+          />
           <input
             className="--search"
             placeholder="Search by student name or testimonial"

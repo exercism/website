@@ -5,12 +5,17 @@
         @apply rounded-8 shadow-lg bg-backgroundColorA;
 
         & .c-search-bar {
-            @apply py-16 px-32;
-            @apply justify-between;
+            @apply py-16 px-24;
 
+            & .c-track-dropdown {
+                @apply mr-12;
+            }
             & .--search {
                 width: 100%;
                 max-width: 450px;
+            }
+            & .c-select.order {
+                @apply ml-auto;
             }
         }
 

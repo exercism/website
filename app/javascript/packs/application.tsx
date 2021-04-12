@@ -81,6 +81,7 @@ import '../../css/components/exercise-dot'
 import '../../css/components/results-zone'
 import '../../css/components/introducer'
 import '../../css/components/profile-header'
+import '../../css/components/track-filter'
 
 import '../../css/components/widgets/exercise'
 

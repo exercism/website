@@ -7,6 +7,7 @@ export type ExerciseStatus =
   | 'locked'
 
 export type Testimonial = {
+  id: string
   content: string
   student: {
     avatarUrl: string
@@ -21,6 +22,7 @@ export type Testimonial = {
     iconUrl: string
   }
   createdAt: string
+  isRevealed: boolean
 }
 
 export type Exercise =

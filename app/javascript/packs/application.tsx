@@ -268,6 +268,11 @@ initReact({
       links={camelizeKeysAs<TryMentoringButtonLinks>(data.links)}
     />
   ),
+  'mentoring-testimonials-list': (data: any) => (
+    <Mentoring.TestimonialsList
+      request={camelizeKeysAs<Request>(data.request)}
+    />
+  ),
   'student-tracks-list': (data: any) => (
     <Student.TracksList
       request={data.request}

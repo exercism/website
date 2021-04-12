@@ -15,9 +15,9 @@ module Mentor
                      track_slug: nil,
                      include_unrevealed: false)
         @mentor = mentor
-        @page = page
+        @page = page.to_i
         @criteria = criteria
-        @order = order
+        @order = order || :newest
         @track_slug = track_slug
         @include_unrevealed = include_unrevealed
       end
@@ -26,7 +26,7 @@ module Mentor
         setup!
         filter!
         filter_track!
-        # search!
+        search!
         sort!
         paginate!
 
@@ -56,11 +56,16 @@ module Mentor
         return if criteria.blank?
 
         # TODO: This is just a stub implementation
-        @testimonials = @testimonials.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
+        @testimonials = @testimonials.joins(:student).where("users.handle LIKE ?", "%#{criteria}%")
       end
 
       def sort!
-        @testimonials = @testimonials.order("mentor_testimonials.id DESC")
+        case order
+        when :newest
+          @testimonials = @testimonials.order("mentor_testimonials.created_at DESC")
+        when :oldest
+          @testimonials = @testimonials.order("mentor_testimonials.created_at ASC")
+        end
       end
 
       def paginate!

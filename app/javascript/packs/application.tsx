@@ -182,6 +182,7 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
+import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
@@ -271,6 +272,9 @@ initReact({
   'mentoring-testimonials-list': (data: any) => (
     <Mentoring.TestimonialsList
       request={camelizeKeysAs<Request>(data.request)}
+      tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
+        data.tracks
+      )}
     />
   ),
   'student-tracks-list': (data: any) => (

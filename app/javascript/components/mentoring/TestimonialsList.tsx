@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -6,6 +6,9 @@ import { ResultsZone } from '../ResultsZone'
 import { Testimonial } from '../types'
 import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
 import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
+import { useList } from '../../hooks/use-list'
+import { Pagination } from '../common/Pagination'
+import { TrackDropdown } from './testimonials-list/TrackDropdown'
 
 type PaginatedResult = {
   results: readonly Testimonial[]
@@ -16,46 +19,81 @@ type PaginatedResult = {
   }
 }
 
+export type Track = {
+  title: string
+  slug: string
+  iconUrl: string
+}
+
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
 export const TestimonialsList = ({
-  request,
+  request: initialRequest,
+  tracks,
 }: {
   request: Request
+  tracks: readonly Track[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
-    PaginatedResult,
-    Error | Response
-  >(
+  const { request, setQuery, setCriteria, setPage, setOrder } = useList(
+    initialRequest
+  )
+  const {
+    status,
+    resolvedData,
+    latestData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     ['mentor-testimonials', request.endpoint, request.query],
     request,
     isMountedRef
   )
 
+  const setTrack = useCallback(
+    (track) => {
+      setQuery({ ...request.query, track: track })
+    },
+    [request.query, setQuery]
+  )
+
   return (
     <div className="lg-container">
       <article className="content">
+        <TrackDropdown
+          tracks={tracks}
+          value={request.query.track}
+          setValue={setTrack}
+        />
         <div className="c-search-bar">
           <input
             className="--search"
             placeholder="Search by student name or testimonial"
+            value={request.query.criteria || ''}
+            onChange={(e) => {
+              setCriteria(e.target.value)
+            }}
           />
           <div className="c-select order">
-            <select>
-              <option>Sort by Newest First</option>
+            <select
+              value={request.query.order || 'newest'}
+              onChange={(e) => setOrder(e.target.value)}
+            >
+              <option value="newest">Sort by Newest First</option>
+              <option value="oldest">Sort by Oldest First</option>
             </select>
           </div>
         </div>
-        <div className="testimonials">
-          <FetchingBoundary
-            status={status}
-            error={error}
-            defaultError={DEFAULT_ERROR}
-          >
-            <ResultsZone isFetching={isFetching}>
-              {resolvedData
-                ? resolvedData.results.map((testimonial) => {
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        >
+          <ResultsZone isFetching={isFetching}>
+            {resolvedData ? (
+              <React.Fragment>
+                <div className="testimonials">
+                  {resolvedData.results.map((testimonial) => {
                     return testimonial.isRevealed ? (
                       <RevealedTestimonial
                         key={testimonial.id}
@@ -67,11 +105,18 @@ export const TestimonialsList = ({
                         {...testimonial}
                       />
                     )
-                  })
-                : null}
-            </ResultsZone>
-          </FetchingBoundary>
-        </div>
+                  })}
+                </div>
+                <Pagination
+                  disabled={latestData === undefined}
+                  current={request.query.page}
+                  total={resolvedData.meta.totalPages}
+                  setPage={setPage}
+                />
+              </React.Fragment>
+            ) : null}
+          </ResultsZone>
+        </FetchingBoundary>
       </article>
     </div>
   )

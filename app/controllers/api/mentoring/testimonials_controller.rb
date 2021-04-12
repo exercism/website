@@ -5,7 +5,7 @@ module API
         mentor: current_user,
         page: params[:page],
         criteria: params[:criteria],
-        track_slug: params[:track_slug],
+        track_slug: params[:track],
         order: params[:order],
         include_unrevealed: true
       )

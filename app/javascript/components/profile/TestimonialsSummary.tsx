@@ -23,7 +23,7 @@ export type Testimonial = {
   trackTitle: string
 }
 
-export const TestimonialSection = ({
+export const TestimonialsSummary = ({
   handle,
   numTestimonials,
   numSolutionsMentored,

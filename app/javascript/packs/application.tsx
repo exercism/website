@@ -181,7 +181,7 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Testimonial } from '../components/profile/TestimonialSection'
+import { Testimonial } from '../components/profile/TestimonialsSummary'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
@@ -409,8 +409,8 @@ initReact({
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
   ),
-  'profile-testimonial-section': (data: any) => (
-    <Profile.TestimonialSection
+  'profile-testimonials-summary': (data: any) => (
+    <Profile.TestimonialsSummary
       handle={data.handle}
       numTestimonials={data.num_testimonials}
       numSolutionsMentored={data.num_solutions_mentored}

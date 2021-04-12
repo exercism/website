@@ -1,8 +1,8 @@
 module ReactComponents
   module Profile
-    class TestimonialSection < ReactComponent
+    class TestimonialsSummary < ReactComponent
       def to_s
-        super("profile-testimonial-section", {
+        super("profile-testimonials-summary", {
           handle: current_user.handle,
           num_testimonials: current_user.mentor_testimonials.count,
           num_solutions_mentored: 572,

@@ -116,7 +116,11 @@ Rails.application.routes.draw do
           resources :posts, only: %i[index create update], controller: "discussion_posts"
         end
 
-        resources :testimonials, only: [:index]
+        resources :testimonials, only: [:index] do
+          member do
+            patch :reveal
+          end
+        end
 
         resources :students, only: [] do
           member do

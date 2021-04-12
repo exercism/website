@@ -15,5 +15,16 @@ module API
         serializer: SerializeMentorTestimonials
       )
     end
+
+    def reveal
+      # TODO
+      testimonial = Mentor::Testimonial.find(params[:id])
+
+      testimonial.update!(revealed: true)
+
+      render json: {
+        testimonial: SerializeMentorTestimonial.(testimonial)
+      }
+    end
   end
 end

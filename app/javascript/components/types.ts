@@ -23,6 +23,9 @@ export type Testimonial = {
   }
   createdAt: string
   isRevealed: boolean
+  links: {
+    reveal: string
+  }
 }
 
 export type Exercise =

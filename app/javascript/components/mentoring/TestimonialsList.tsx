@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -10,7 +10,7 @@ import { useList } from '../../hooks/use-list'
 import { Pagination } from '../common/Pagination'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
 
-type PaginatedResult = {
+export type PaginatedResult = {
   results: readonly Testimonial[]
   meta: {
     currentPage: number
@@ -38,6 +38,7 @@ export const TestimonialsList = ({
   const { request, setQuery, setCriteria, setPage, setOrder } = useList(
     initialRequest
   )
+  const cacheKey = ['mentor-testimonials', request.endpoint, request.query]
   const {
     status,
     resolvedData,
@@ -45,7 +46,7 @@ export const TestimonialsList = ({
     isFetching,
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['mentor-testimonials', request.endpoint, request.query],
+    cacheKey,
     request,
     isMountedRef
   )
@@ -56,6 +57,7 @@ export const TestimonialsList = ({
     },
     [request.query, setQuery]
   )
+  const [revealedTestimonials, setRevealedTestimonials] = useState<string[]>([])
 
   return (
     <div className="lg-container">
@@ -98,11 +100,21 @@ export const TestimonialsList = ({
                       <RevealedTestimonial
                         key={testimonial.id}
                         testimonial={testimonial}
+                        isRevealed={revealedTestimonials.includes(
+                          testimonial.id
+                        )}
                       />
                     ) : (
                       <UnrevealedTestimonial
                         key={testimonial.id}
-                        {...testimonial}
+                        testimonial={testimonial}
+                        cacheKey={cacheKey}
+                        onRevealed={() =>
+                          setRevealedTestimonials([
+                            ...revealedTestimonials,
+                            testimonial.id,
+                          ])
+                        }
                       />
                     )
                   })}

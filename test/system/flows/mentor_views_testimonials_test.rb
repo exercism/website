@@ -165,5 +165,30 @@ module Flows
         assert_no_text "Great mentor!"
       end
     end
+
+    test "mentor views testimonial in a modal" do
+      mentor = create :user
+      student = create :user, handle: "student"
+      ruby = create :track, slug: "ruby"
+      bob = create :concept_exercise, title: "Bob", track: ruby
+      solution = create :concept_solution, exercise: bob
+      discussion = create :mentor_discussion, solution: solution
+      create :mentor_testimonial,
+        mentor: mentor,
+        student: student,
+        content: "Great mentor!",
+        discussion: discussion,
+        created_at: 1.day.ago,
+        revealed: true
+      create :user_track_mentorship, track: ruby, user: mentor
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_testimonials_path
+        click_on "Great mentor!"
+
+        within(".m-testimonial-modal") { assert_text "Great mentor!" }
+      end
+    end
   end
 end

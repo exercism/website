@@ -97,7 +97,7 @@ export const TestimonialsList = ({
                     return testimonial.isRevealed ? (
                       <RevealedTestimonial
                         key={testimonial.id}
-                        {...testimonial}
+                        testimonial={testimonial}
                       />
                     ) : (
                       <UnrevealedTestimonial

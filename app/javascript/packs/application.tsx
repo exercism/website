@@ -162,6 +162,7 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
+  Testimonial,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -181,7 +182,6 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Testimonial } from '../components/profile/TestimonialsSummary'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'

@@ -4,7 +4,7 @@ class User::Notification
 
     def initialize(user,
                    page: 1,
-                   per_page: 10,
+                   per_page: 5,
                    sorted: true, paginated: true)
       @user = user
       @page = page
@@ -31,11 +31,11 @@ class User::Notification
     end
 
     def setup!
-      @notifications = user.notifications.unread
+      @notifications = user.notifications.not_pending
     end
 
     def sort!
-      @notifications = @notifications.order(id: :asc)
+      @notifications = @notifications.order(status: :asc, id: :desc)
     end
 
     def paginate!

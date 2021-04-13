@@ -66,14 +66,26 @@ export const CommunitySolution = ({
         )}
 
         <div className="--info">
-          <div className="--title">
-            {context === 'mentoring'
-              ? 'Your Solution'
-              : `${solution.author.handle}'s solution`}
-          </div>
-          <div className="--subtitle">
-            to {solution.exercise.title} in {solution.track.title}
-          </div>
+          {context == 'mentoring' ? (
+            <>
+              <div className="--title"> Your Solution </div>
+              <div className="--subtitle">
+                to {solution.exercise.title} in {solution.track.title}
+              </div>
+            </>
+          ) : context == 'profile' ? (
+            <>
+              <div className="--title">{solution.exercise.title}</div>
+              <div className="--subtitle">in {solution.track.title}</div>
+            </>
+          ) : (
+            <>
+              <div className="--title">{solution.author.handle}'s solution</div>
+              <div className="--subtitle">
+                to {solution.exercise.title} in {solution.track.title}
+              </div>
+            </>
+          )}
         </div>
 
         {solution.isOutOfDate ? (

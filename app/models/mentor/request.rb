@@ -30,11 +30,11 @@ class Mentor::Request < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid
   end
 
-  after_create do
+  after_create_commit do
     solution.update_mentoring_status!
   end
 
-  after_save do
+  after_save_commit do
     solution.update_mentoring_status! if previous_changes.key?('status')
   end
 

@@ -9,10 +9,12 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
 
+    assert :none, solution.mentoring_status
     request = Mentor::Request::Create.(solution, "Some text")
 
     Mentor::Request::Lock.(request, mentor)
     assert request.reload.locked?
+    assert :requested, solution.reload.mentoring_status
 
     discussion = Mentor::Discussion::Create.(
       mentor,
@@ -22,6 +24,7 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     )
     assert_equal 1, solution.mentor_discussions.size
     assert_equal 1, discussion.posts.size
+    assert :in_progress, solution.mentoring_status
 
     Mentor::Discussion::ReplyByStudent.(discussion, iteration, "Well, because I don't know ALL the answers.")
     assert_equal 2, discussion.posts.size

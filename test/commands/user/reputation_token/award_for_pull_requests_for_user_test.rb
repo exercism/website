@@ -35,4 +35,14 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
 
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user).size
   end
+
+  test "don't award reputation for user without github_username" do
+    user = create :user, handle: "User1"
+    create :github_pull_request, :random, merged_by_username: "ErikSchierboom"
+    create :github_pull_request, :random, merged_by_username: "iHiD"
+
+    User::ReputationToken::AwardForPullRequestsForUser.(user)
+
+    assert_equal 0, User::ReputationTokens::CodeMergeToken.where(user: user).size
+  end
 end

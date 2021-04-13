@@ -15,12 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: satackey/action-docker-layer-caching@v0.0.8
+      - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
         with:
           # Change these to rest the cache
           key: docker-layer-caching-dockerhub-{hash}
-          restore-keys: docker-layer-caching-dockerhub-
+          restore-keys: docker-layer-caching-dockerhub-04-2021
           concurrency: 30
 
       - name: Build and push Docker images

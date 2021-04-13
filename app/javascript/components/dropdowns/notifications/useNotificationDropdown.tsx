@@ -6,5 +6,15 @@ export const useNotificationDropdown = (data: APIResponse | undefined) => {
     ? data.results.length + (data.unrevealedBadges ? 1 : 0) + 1
     : 0
 
-  return useDropdown(dropdownLength)
+  return useDropdown(dropdownLength, undefined, {
+    placement: 'bottom-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
 }

@@ -110,6 +110,7 @@ export const Notifications = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
+    open,
   } = useNotificationDropdown(data)
 
   useEffect(() => {
@@ -146,15 +147,17 @@ export const Notifications = ({
         aria-label="Open notifications"
         {...buttonAttributes}
       />
-      <div className="c-notifications-dropdown" {...panelAttributes}>
-        <DropdownContent
-          data={data}
-          status={status}
-          error={error}
-          itemAttributes={itemAttributes}
-          listAttributes={listAttributes}
-        />
-      </div>
+      {open ? (
+        <div className="c-notifications-dropdown" {...panelAttributes}>
+          <DropdownContent
+            data={data}
+            status={status}
+            error={error}
+            itemAttributes={itemAttributes}
+            listAttributes={listAttributes}
+          />
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

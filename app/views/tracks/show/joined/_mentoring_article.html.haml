@@ -16,7 +16,7 @@
       .rhs
         %h3
           Your current Reputation is
-          = render ViewComponents::Reputation.new(current_user.reputation, size: :small, flashy: true)
+          = render ViewComponents::Reputation.new(number_with_delimiter(current_user.reputation), size: :small, flashy: true)
 
         - if user_track.repo_for_next_mentoring_slot.nil?
           .max You have the maximum available mentoring slots

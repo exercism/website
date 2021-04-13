@@ -73,7 +73,7 @@ module ViewComponents
         safe_join(
           [
             ReactComponents::Dropdowns::Notifications.new.to_s,
-            ReactComponents::Dropdowns::Reputation.new(current_user).to_s,
+            render(ReactComponents::Dropdowns::Reputation.new(current_user)),
             render(ViewComponents::UserMenu.new)
           ]
         )

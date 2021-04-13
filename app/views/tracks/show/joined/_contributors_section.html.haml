@@ -9,7 +9,7 @@
         = link_to "#", "aria-label": "View profile of #{contributor.handle}" do
           = avatar(contributor)
           .name= contributor.name
-          = render ViewComponents::Reputation.new(contributor.reputation)
+          = render ViewComponents::Reputation.new(contributor.formatted_reputation)
 
   %ol.faces{ "aria-label": "Other significant contributors" }
     - contributors[2..9].to_a.each do |contributor|

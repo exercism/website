@@ -24,7 +24,7 @@ type PaginatedResult = {
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 
-export const CommunitySolutionList = ({
+export const CommunitySolutionsList = ({
   request: initialRequest,
   context,
 }: {

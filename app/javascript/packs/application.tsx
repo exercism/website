@@ -220,8 +220,8 @@ initReact({
       context={data.context}
     />
   ),
-  'common-community-solution-list': (data: any) => (
-    <Common.CommunitySolutionList
+  'common-community-solutions-list': (data: any) => (
+    <Common.CommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
       context={data.context}
     />

@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :user, :solutions
 
       def to_s
-        super("common-community-solution-list", {
+        super("common-community-solutions-list", {
           request: request,
           context: :profile
         })

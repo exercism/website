@@ -187,7 +187,7 @@ module Flows
         visit mentoring_testimonials_path
         click_on "Great mentor!"
 
-        within(".m-testimonial-modal") { assert_text "Great mentor!" }
+        within(".m-testimonial") { assert_text "Great mentor!" }
       end
     end
 
@@ -212,7 +212,7 @@ module Flows
         visit mentoring_testimonials_path
         click_on "Click / tap to reveal"
 
-        within(".m-testimonial-modal") { assert_text "Great mentor!" }
+        within(".m-testimonial") { assert_text "Great mentor!" }
         page.find("body").click
 
         assert_text "Revealed"

@@ -61,4 +61,60 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     discussion.update(finished_at: Time.current)
     assert discussion.finished?
   end
+
+  test "student_action_required!" do
+    freeze_time do
+      discussion = create :mentor_discussion,
+        requires_mentor_action_since: Time.current,
+        requires_student_action_since: nil
+
+      discussion.student_action_required!
+
+      assert_nil discussion.requires_mentor_action_since
+      assert_equal Time.current, discussion.requires_student_action_since
+    end
+  end
+
+  test "student_action_required doesn't modernise existing time" do
+    freeze_time do
+      original = Time.current - 2.weeks
+
+      discussion = create :mentor_discussion,
+        requires_mentor_action_since: Time.current - 1.week,
+        requires_student_action_since: original
+
+      discussion.student_action_required!
+
+      assert_nil discussion.requires_mentor_action_since
+      assert_equal original, discussion.requires_student_action_since
+    end
+  end
+
+  test "mentor_action_required!" do
+    freeze_time do
+      discussion = create :mentor_discussion,
+        requires_student_action_since: Time.current,
+        requires_mentor_action_since: nil
+
+      discussion.mentor_action_required!
+
+      assert_nil discussion.requires_student_action_since
+      assert_equal Time.current, discussion.requires_mentor_action_since
+    end
+  end
+
+  test "mentor_action_required doesn't modernise existing time" do
+    freeze_time do
+      original = Time.current - 2.weeks
+
+      discussion = create :mentor_discussion,
+        requires_student_action_since: Time.current - 1.week,
+        requires_mentor_action_since: original
+
+      discussion.mentor_action_required!
+
+      assert_nil discussion.requires_student_action_since
+      assert_equal original, discussion.requires_mentor_action_since
+    end
+  end
 end

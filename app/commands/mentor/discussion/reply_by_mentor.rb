@@ -14,6 +14,8 @@ module Mentor
           seen_by_mentor: true
         )
 
+        discussion.student_action_required!
+
         User::Notification::Create.(
           iteration.solution.user,
           :mentor_replied_to_discussion,

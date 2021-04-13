@@ -13,6 +13,7 @@ test('shows API error message', async () => {
     const server = setupServer(
       rest.get('https://exercism.test/notifications', (req, res, ctx) => {
         return res(
+          ctx.delay(10),
           ctx.status(422),
           ctx.json({
             error: { message: 'Unable to load' },

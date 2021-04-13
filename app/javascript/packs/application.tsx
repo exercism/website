@@ -431,6 +431,11 @@ initReact({
       links={data.links}
     />
   ),
+  'profile-community-solutions-list': (data: any) => (
+    <Profile.CommunitySolutionsList
+      request={camelizeKeysAs<Request>(data.request)}
+    />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

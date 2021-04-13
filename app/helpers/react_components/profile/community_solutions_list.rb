@@ -1,10 +1,10 @@
 module ReactComponents
   module Profile
-    class SolutionsList < ReactComponent
+    class CommunitySolutionsList < ReactComponent
       initialize_with :user, :solutions
 
       def to_s
-        super("common-community-solutions-list", {
+        super("profile-community-solutions-list", {
           request: request,
           context: :profile
         })

@@ -2,12 +2,9 @@ import React from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
-import {
-  CommunitySolution as CommunitySolutionProps,
-  CommunitySolutionContext,
-} from '../types'
-import { CommunitySolution } from './CommunitySolution'
-import { Pagination } from '.'
+import { CommunitySolution as CommunitySolutionProps } from '../types'
+import { CommunitySolution } from '../common/CommunitySolution'
+import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
@@ -24,12 +21,10 @@ type PaginatedResult = {
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 
-export const CommunitySolutionList = ({
+export const ExerciseCommunitySolutionsList = ({
   request: initialRequest,
-  context,
 }: {
   request: Request
-  context: CommunitySolutionContext
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setPage } = useList(initialRequest)
@@ -40,7 +35,7 @@ export const CommunitySolutionList = ({
     isFetching,
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['community-solution-list', request.endpoint, request.query],
+    ['exercise-community-solution-list', request.endpoint, request.query],
     request,
     isMountedRef
   )
@@ -78,7 +73,7 @@ export const CommunitySolutionList = ({
                     <CommunitySolution
                       key={solution.id}
                       solution={solution}
-                      context={context}
+                      context="exercise"
                     />
                   )
                 })}

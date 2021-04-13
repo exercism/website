@@ -64,6 +64,7 @@ Rails.application.routes.draw do
         get :summary, on: :member
 
         resources :testimonials, only: [:index], controller: "profiles/testimonials"
+        resources :solutions, only: [:index], controller: 'profiles/solutions'
       end
 
       resources :solutions, only: %i[index show update] do
@@ -169,6 +170,7 @@ Rails.application.routes.draw do
 
   resources :profiles, only: [:show] do
     member do
+      get :solutions
       get :badges
       get :testimonials
       get :tooltip

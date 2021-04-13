@@ -82,6 +82,7 @@ import '../../css/components/results-zone'
 import '../../css/components/introducer'
 import '../../css/components/profile-header'
 import '../../css/components/track-filter'
+import '../../css/components/track-switcher'
 
 import '../../css/components/widgets/exercise'
 
@@ -111,6 +112,7 @@ import '../../css/pages/editor'
 import '../../css/pages/onboarding'
 import '../../css/pages/profile'
 import '../../css/pages/profile-badges'
+import '../../css/pages/profile-solutions'
 import '../../css/pages/staging' // TODO: Remove for launch
 import '../../css/pages/track-shared-index'
 import '../../css/pages/concepts-index'
@@ -188,6 +190,7 @@ import { Track as MentoringTestimonialsListTrack } from '../components/mentoring
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
+import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -219,10 +222,9 @@ initReact({
       context={data.context}
     />
   ),
-  'common-community-solution-list': (data: any) => (
-    <Common.CommunitySolutionList
+  'track-exercise-community-solutions-list': (data: any) => (
+    <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
-      context={data.context}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -429,6 +431,14 @@ initReact({
       numTestimonialsReceived={data.num_testimonials_received}
       testimonials={camelizeKeysAs<Testimonial[]>(data.testimonials)}
       links={data.links}
+    />
+  ),
+  'profile-community-solutions-list': (data: any) => (
+    <Profile.CommunitySolutionsList
+      request={camelizeKeysAs<Request>(data.request)}
+      tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
+        data.tracks
+      )}
     />
   ),
 })

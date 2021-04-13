@@ -1,10 +1,16 @@
 module ReactComponents
   module Profile
     class TestimonialsSummary < ReactComponent
+      def initialize(user)
+        @user = user
+
+        super()
+      end
+
       def to_s
         super("profile-testimonials-summary", {
-          handle: current_user.handle,
-          num_testimonials: current_user.mentor_testimonials.count,
+          handle: user.handle,
+          num_testimonials: user.mentor_testimonials.count,
           num_solutions_mentored: 572,
           num_students_helped: 390,
           num_testimonials_received: 55,
@@ -56,6 +62,9 @@ module ReactComponents
           }
         })
       end
+
+      private
+      attr_reader :user
     end
   end
 end

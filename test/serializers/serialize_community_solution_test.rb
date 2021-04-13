@@ -13,7 +13,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
-      iteration_status: iteration.status.to_s,
+      iteration_status: iteration.status.to_s.to_sym,
       published_at: solution.published_at,
       is_out_of_date: solution.out_of_date?,
       language: solution.track.highlightjs_language,

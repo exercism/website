@@ -144,3 +144,54 @@ Mentor::Testimonial.create!(
   mentor: iHiD, student: erik, discussion: discussion, 
   content: "For the first time in my life, someone got my name right the first time round. I’m not really sure what that means, but, I think I’m gonna go and celebrate. Man, I can’t believe this. I can’t believe SleeplessByte got my name right!"
 )
+
+tracks = Track.all
+10.times do |i|
+  track = tracks.sample
+  User::ReputationToken::Create.(
+    iHiD,
+    :code_merge,
+    repo: track.repo_url,
+    pr_node_id: SecureRandom.hex,
+    pr_number: i,
+    pr_title: "PR for #{track.title} #{i}",
+    level: %i[janitorial reviewal].sample
+  )
+end
+
+5.times do |i|
+  track = tracks.sample
+  User::ReputationToken::Create.(
+    iHiD,
+    :code_review,
+    repo: track.repo_url,
+    pr_node_id: SecureRandom.hex,
+    pr_number: i,
+    pr_title: "PR for #{track.title} #{i}",
+    level: %i[minor regular major].sample
+  )
+end
+
+5.times do |i|
+  track = tracks.sample
+  User::ReputationToken::Create.(
+    iHiD,
+    :code_contribution,
+    repo: track.repo_url,
+    pr_node_id: SecureRandom.hex,
+    pr_number: i,
+    pr_title: "PR for #{track.title} #{i}",
+    level: %i[minor regular major].sample,
+    track: track,
+    exercise: track.exercises.sample
+  )
+end
+
+exercises = Exercise.all.sort_by{rand}[0,4]
+iHiD.authored_exercises += exercises
+
+
+exercises = Exercise.all.sort_by{rand}[0,20]
+iHiD.contributed_exercises += exercises
+
+

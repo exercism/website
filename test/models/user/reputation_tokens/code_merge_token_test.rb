@@ -27,7 +27,7 @@ class User::ReputationTokens::CodeMergeTokenTest < ActiveSupport::TestCase
     assert_equal "You merged <strong>PR##{pr_number}</strong> on <strong>haskell</strong>: The cat sat on the mat", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_merge|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
-    assert_equal :building, rt.category
+    assert_equal :maintaining, rt.category
     assert_equal :merged_code, rt.reason
     assert_equal :janitorial, rt.level
     assert_equal 1, rt.value
@@ -59,7 +59,7 @@ class User::ReputationTokens::CodeMergeTokenTest < ActiveSupport::TestCase
     assert_equal "You merged <strong>PR##{pr_number}</strong> on <strong>haskell</strong>: The cat sat on the mat", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_merge|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
-    assert_equal :building, rt.category
+    assert_equal :maintaining, rt.category
     assert_equal :merged_code, rt.reason
     assert_equal :reviewal, rt.level
     assert_equal 5, rt.value

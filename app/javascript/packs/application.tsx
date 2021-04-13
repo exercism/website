@@ -113,6 +113,7 @@ import '../../css/pages/onboarding'
 import '../../css/pages/profile'
 import '../../css/pages/profile-badges'
 import '../../css/pages/profile-solutions'
+import '../../css/pages/profile-contributions'
 import '../../css/pages/staging' // TODO: Remove for launch
 import '../../css/pages/track-shared-index'
 import '../../css/pages/concepts-index'

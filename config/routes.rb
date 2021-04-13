@@ -170,10 +170,12 @@ Rails.application.routes.draw do
 
   resources :profiles, only: [:show] do
     member do
+      get :tooltip
+
       get :solutions
       get :badges
       get :testimonials
-      get :tooltip
+      get :contributions
     end
   end
 

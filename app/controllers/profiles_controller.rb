@@ -20,6 +20,16 @@ class ProfilesController < ApplicationController
     )
   end
 
+  def contributions
+    @building_tokens = @user.reputation_tokens.where(category: %i[building authoring])
+    @maintaining_tokens = @user.reputation_tokens.where(category: :maintaining)
+    @authored_exercises =
+      Exercise.where(id: @user.authored_exercises.select(:id) + @user.contributed_exercises.select(:id)).
+        includes(:track)
+
+    @counts = @user.reputation_tokens.group(:category).count
+  end
+
   def badges
     @badges = @user.badges
   end

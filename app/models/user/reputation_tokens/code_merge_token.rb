@@ -1,6 +1,6 @@
 class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number, :pr_title
-  category :building
+  category :maintaining
   reason :merged_code
   levels %i[janitorial reviewal]
   values({ janitorial: 1, reviewal: 5 })
@@ -19,5 +19,9 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
       pr_number: pr_number,
       pr_title: pr_title
     }
+  end
+
+  def icon_name
+    "pull-request-merge"
   end
 end

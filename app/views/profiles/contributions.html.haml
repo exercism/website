@@ -1,0 +1,79 @@
+#page-profile-contributions
+  = render ViewComponents::Profile::Header.new(@user, @profile, :contributions)
+
+  %article
+    .lg-container
+      = render ViewComponents::Introducer.new(:profile_solutions, "solutions") do
+        %h2 Exercism is built by people like #{@user.handle} and you
+        %p See #{@user.handle}'s contributions to Exercism, along with the exercises and concepts they authored for various tracks.
+
+      / TODO: HERE ONWARDS
+      .tabs
+        .c-tab.selected
+          = graphical_icon "contribute", hex: true
+          Building
+          .count= @counts['building']
+
+        .c-tab
+          = graphical_icon "maintaining", hex: true
+          Maintaining
+          .count= @counts['maintaining']
+
+        .c-tab
+          = graphical_icon "concepts", hex: true
+          Authoring
+          .count= @counts['authoring']
+
+      / Kntsoriano: This is the content for the building tab.
+      / (It's just display:none so only one appears at once)
+      .building
+        - @building_tokens.each do |token|
+          / TODO: kntsoriano: Copy and paste this from app/javascript/components/journey/Contribution.tsx
+          / It's basically identical with a few small differences.
+          / All the differences are in the comments below.
+          = link_to "#", class: "reputation-token" do
+            = image_tag token.send(:icon_url), category: :graphics, class: "primary-icon"
+            .info
+              / This is different
+              .title= raw token.text.gsub(/You /, "#{@user.handle} ")
+              .extra
+                - if token.track
+                  .exercise
+                    in
+                    = track_icon token.track
+                    = token.track.title
+                - else
+                  .generic Generic
+                %time{ dateTime: token.created_at } #{time_ago_in_words(token.created_at)} ago
+            / This should be `size: small`
+            = render ViewComponents::Reputation.new("+#{token.value}", flashy: true, size: :small)
+            = graphical_icon "external-link", css_class: 'action-button'
+
+      / Kntsoriano: This is the content for the maintaining tab
+      / It is identical to the content for the building tab, just with different data
+      .maintaining
+        - @maintaining_tokens.each do |token|
+          = link_to "#", class: "reputation-token" do
+            = image_tag token.send(:icon_url), category: :graphics, class: "primary-icon"
+            .info
+              / This is different
+              .title= raw token.text.gsub(/You /, "#{@user.handle} ")
+              .extra
+                - if token.track
+                  .exercise
+                    in
+                    = track_icon token.track
+                    = token.track.title
+                - else
+                  .generic Generic
+                %time{ dateTime: token.created_at } #{time_ago_in_words(token.created_at)} ago
+            / This should be `size: small`
+            = render ViewComponents::Reputation.new("+#{token.value}", flashy: true, size: :small)
+            = graphical_icon "external-link", css_class: 'action-button'
+
+      / Kntsoriano: This can use the exercise-widget
+      .authoring
+        .exercises
+          - @authored_exercises.each do |exercise|
+            - ut = UserTrack::External.new(exercise.track)
+            = render ReactComponents::Common::ExerciseWidget.new(exercise, ut, size: :large)

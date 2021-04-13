@@ -86,15 +86,19 @@ class User::ReputationToken < ApplicationRecord
     data
   end
 
-  # TODO: Override in children classes
   def icon_url
     return exercise.icon_url if exercise
 
-    # TODO: Choose an icon
     asset_pack_url(
-      "media/images/icons/reputation.svg",
+      "media/images/graphics/#{icon_name}.svg",
       host: Rails.application.config.action_controller.asset_host
     )
+  end
+
+  # TODO: Override in children classes
+  def icon_name
+    # TODO: Choose a good default
+    "reputation"
   end
 
   # TODO: Override in children classes

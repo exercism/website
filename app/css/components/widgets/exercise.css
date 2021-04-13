@@ -41,12 +41,15 @@
         & > .--data {
             @apply flex items-center;
 
+            & .c-exercise-status-tag:visible + .--difficulty {
+                @apply ml-24;
+            }
             & .--difficulty {
                 background-size: 16px;
                 background-repeat: no-repeat;
                 background-position: left center;
 
-                @apply pl-24 ml-24;
+                @apply pl-24;
                 @apply text-textColor6 font-semibold leading-170;
 
                 &.--easy {

@@ -20,4 +20,8 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
       pr_title: pr_title
     }
   end
+
+  def icon_name
+    "pull-request-open"
+  end
 end

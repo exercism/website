@@ -1,6 +1,6 @@
 class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number, :pr_title
-  category :building
+  category :maintaining
   reason :reviewed_code
   levels %i[minor regular major]
   values({ minor: 2, regular: 5, major: 10 })
@@ -19,5 +19,9 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
       pr_number: pr_number,
       pr_title: pr_title
     }
+  end
+
+  def icon_name
+    "pull-request-review"
   end
 end

@@ -22,7 +22,8 @@ module Mentor
 
           discussion = Mentor::Discussion.create!(
             mentor: mentor,
-            request: request
+            request: request,
+            requires_student_action_since: Time.current
           )
 
           discussion_post = Mentor::DiscussionPost.create!(

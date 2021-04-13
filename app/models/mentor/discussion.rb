@@ -61,8 +61,18 @@ class Mentor::Discussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
-  def mentor_action_not_required!
-    update_column(:requires_mentor_action_since, nil)
+  def student_action_required!
+    update_columns(
+      requires_mentor_action_since: nil,
+      requires_student_action_since: requires_student_action_since || Time.current
+    )
+  end
+
+  def mentor_action_required!
+    update_columns(
+      requires_mentor_action_since: requires_mentor_action_since || Time.current,
+      requires_student_action_since: nil
+    )
   end
 
   def requires_mentor_action?

@@ -2,22 +2,27 @@ require 'test_helper'
 
 class Mentor::Discussion::ReplyByStudentTest < ActiveSupport::TestCase
   test "creates discussion post" do
-    iteration = create :iteration
-    content_markdown = "foobar"
-    discussion = create :mentor_discussion, solution: iteration.solution
+    freeze_time do
+      iteration = create :iteration
+      content_markdown = "foobar"
+      discussion = create :mentor_discussion, solution: iteration.solution
 
-    discussion_post = Mentor::Discussion::ReplyByStudent.(
-      discussion,
-      iteration,
-      content_markdown
-    )
-    assert discussion_post.persisted?
-    assert_equal iteration, discussion_post.iteration
-    assert_equal discussion, discussion_post.discussion
-    assert_equal content_markdown, discussion_post.content_markdown
-    assert_equal iteration.solution.user, discussion_post.author
-    assert discussion_post.seen_by_student?
-    refute discussion_post.seen_by_mentor?
+      discussion_post = Mentor::Discussion::ReplyByStudent.(
+        discussion,
+        iteration,
+        content_markdown
+      )
+      assert discussion_post.persisted?
+      assert_equal iteration, discussion_post.iteration
+      assert_equal discussion, discussion_post.discussion
+      assert_equal content_markdown, discussion_post.content_markdown
+      assert_equal iteration.solution.user, discussion_post.author
+      assert discussion_post.seen_by_student?
+      refute discussion_post.seen_by_mentor?
+
+      assert_equal Time.current, discussion.requires_mentor_action_since
+      assert_nil discussion.requires_student_action_since
+    end
   end
 
   test "creates notification" do

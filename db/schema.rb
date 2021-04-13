@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_10_160616) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -255,16 +255,17 @@ ActiveRecord::Schema.define(version: 2021_04_10_160616) do
     t.bigint "mentor_id", null: false
     t.bigint "student_id", null: false
     t.bigint "discussion_id", null: false
+    t.string "uuid", null: false
     t.text "content", null: false
+    t.boolean "revealed", default: false, null: false
     t.boolean "published", default: true, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "revealed", default: false, null: false
-    t.string "uuid", null: false
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
+    t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
   end
 
   create_table "scratchpad_pages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

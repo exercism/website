@@ -1,28 +1,4 @@
 #mentor-testimonials-page
   = render ViewComponents::Mentor::Header.new(:testimonials)
 
-  .lg-container
-    %header
-      %h1 Your Testimonials
-      .total-count= @num_total_testimonials
-    %article.content
-      .c-search-bar
-        %input.--search{ placeholder: "Search by student name or testimonial" }
-        .c-select.order
-          %select
-            %option Sort by Newest First
-
-      .testimonials
-        - @testimonials.each do |testimonial|
-          = link_to "#", class: "testimonial" do
-            = avatar(testimonial.student)
-            .content= testimonial.content
-            .student-name @#{testimonial.student.handle}
-            .exercise
-              = testimonial.exercise.title
-              on
-              = track_icon(testimonial.track)
-              .track-title= testimonial.track.title
-            %time #{time_ago_in_words(testimonial.created_at)} ago
-
-
+  = render ReactComponents::Mentoring::TestimonialsList.new

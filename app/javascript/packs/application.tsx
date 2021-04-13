@@ -81,6 +81,7 @@ import '../../css/components/exercise-dot'
 import '../../css/components/results-zone'
 import '../../css/components/introducer'
 import '../../css/components/profile-header'
+import '../../css/components/track-filter'
 
 import '../../css/components/widgets/exercise'
 
@@ -93,6 +94,7 @@ import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
 import '../../css/modals/change-mentor-tracks'
 import '../../css/modals/select-exercise-for-mentoring'
+import '../../css/modals/testimonial'
 
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
@@ -162,6 +164,7 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
+  Testimonial,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -181,7 +184,7 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Testimonial } from '../components/profile/TestimonialsSummary'
+import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
@@ -266,6 +269,14 @@ initReact({
   'mentoring-try-mentoring-button': (data: any) => (
     <Mentoring.TryMentoringButton
       links={camelizeKeysAs<TryMentoringButtonLinks>(data.links)}
+    />
+  ),
+  'mentoring-testimonials-list': (data: any) => (
+    <Mentoring.TestimonialsList
+      request={camelizeKeysAs<Request>(data.request)}
+      tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
+        data.tracks
+      )}
     />
   ),
   'student-tracks-list': (data: any) => (

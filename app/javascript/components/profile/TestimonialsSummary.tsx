@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, GraphicalIcon, ProminentLink } from '../common'
+import { Testimonial } from '../types'
 
 type Props = {
   handle: string
@@ -12,17 +13,6 @@ type Props = {
     all: string
   }
 }
-
-export type Testimonial = {
-  text: string
-  student: {
-    avatarUrl: string
-    handle: string
-  }
-  exerciseTitle: string
-  trackTitle: string
-}
-
 export const TestimonialsSummary = ({
   handle,
   numTestimonials,
@@ -58,7 +48,7 @@ export const TestimonialsSummary = ({
               <div className="metric">Testimonials received</div>
             </div>
           </div>
-          <div className="testimonial">{currentTestimonial.text}</div>
+          <div className="testimonial">{currentTestimonial.content}</div>
           <div className="stars">
             <GraphicalIcon icon="gold-star" />
             <GraphicalIcon icon="gold-star" />
@@ -89,8 +79,8 @@ export const TestimonialsSummary = ({
                     <div className="student">{testimonial.student.handle}</div>
                     <div className="mentored-by"> Mentored by {handle}</div>
                     <div className="exercise">
-                      <strong>{testimonial.exerciseTitle}</strong> in{' '}
-                      <strong>{testimonial.trackTitle}</strong>
+                      <strong>{testimonial.exercise.title}</strong> in{' '}
+                      <strong>{testimonial.track.title}</strong>
                     </div>
                   </div>
                 </button>

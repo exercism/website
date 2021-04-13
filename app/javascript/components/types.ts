@@ -6,6 +6,28 @@ export type ExerciseStatus =
   | 'available'
   | 'locked'
 
+export type Testimonial = {
+  id: string
+  content: string
+  student: {
+    avatarUrl: string
+    handle: string
+  }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
+  track: {
+    title: string
+    iconUrl: string
+  }
+  createdAt: string
+  isRevealed: boolean
+  links: {
+    reveal: string
+  }
+}
+
 export type Exercise =
   | (ExerciseCore & { isUnlocked: true; links: { self: string } })
   | (ExerciseCore & { isUnlocked: false })

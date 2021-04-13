@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_111409) do
+ActiveRecord::Schema.define(version: 2021_04_10_160616) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -260,6 +260,8 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "revealed", default: false, null: false
+    t.string "uuid", null: false
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
@@ -287,6 +289,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.integer "status", limit: 1, default: 0, null: false
     t.datetime "last_submitted_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
+    t.string "snippet", limit: 1500
     t.datetime "downloaded_at"
     t.datetime "completed_at"
     t.datetime "published_at"
@@ -363,7 +366,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
-    t.string "blurb", limit: 350, default: ""
+    t.string "blurb", limit: 350
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

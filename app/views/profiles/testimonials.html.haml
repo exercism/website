@@ -1,0 +1,8 @@
+#page-profile-badges
+  = render ViewComponents::Profile::Header.new(@user, @profile, :badges)
+
+  %article
+    .lg-container
+
+      / TOOD: Render React here
+      = api_profile_testimonials_path(@user)

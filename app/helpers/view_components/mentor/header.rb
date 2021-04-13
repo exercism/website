@@ -67,7 +67,8 @@ module ViewComponents
             class: tab_class(:testimonials)
           ) do
             graphical_icon(:testimonials) +
-              tag.span("Testimonials")
+              tag.span("Testimonials") +
+              tag.span(number_with_delimiter(num_testimonials), class: 'count')
           end,
 
           tag.div(
@@ -103,6 +104,11 @@ module ViewComponents
           sorted: false,
           paginated: false
         ).count
+      end
+
+      memoize
+      def num_testimonials
+        current_user.mentor_testimonials.count
       end
     end
   end

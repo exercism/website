@@ -6,6 +6,10 @@ class Mentor::Testimonial < ApplicationRecord
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
 
+  before_create do
+    self.uuid = SecureRandom.uuid unless self.uuid
+  end
+
   # TODO
   scope :not_deleted, -> {}
 

@@ -24,7 +24,7 @@ module API
           links: {
             tokens: Exercism::Routes.reputation_journey_url
           },
-          total_reputation: current_user.reputation
+          total_reputation: current_user.formatted_reputation
         }
       )
     end

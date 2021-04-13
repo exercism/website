@@ -60,6 +60,13 @@ class User < ApplicationRecord
     handle
   end
 
+  def formatted_reputation(*args)
+    rep = reputation(*args)
+    return rep if rep < 1000
+
+    "#{(rep / 100.0).floor}k"
+  end
+
   def reputation(track_slug: nil, category: nil)
     return super() unless track_slug || category
 

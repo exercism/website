@@ -26,7 +26,7 @@ export const Dropdown = ({
     itemAttributes,
     open,
   } = useDropdown(menuItems.length, undefined, {
-    placement: 'bottom-end',
+    placement: 'bottom-start',
     modifiers: [
       {
         name: 'offset',

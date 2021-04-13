@@ -3,7 +3,8 @@
 .c-track-switcher {
     &.--small {
         & .current-track {
-            @apply py-8 px-16;
+            height: 48px;
+            @apply py-0 px-16;
 
             & .c-track-icon {
                 height: 32px;

@@ -215,7 +215,7 @@ module Flows
         within(".m-testimonial") { assert_text "Great mentor!" }
         page.find("body").click
 
-        assert_text "Revealed"
+        assert_text "New"
       end
     end
   end

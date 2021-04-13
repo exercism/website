@@ -13,6 +13,7 @@ class User::Notification < ApplicationRecord
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }, _prefix: :email
 
   scope :pending_or_unread, -> { where(status: %i[pending unread]) }
+  scope :not_pending, -> { where.not(status: :pending) }
 
   before_validation on: :create do
     self.uuid = SecureRandom.compact_uuid

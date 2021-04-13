@@ -43,6 +43,7 @@ export const TrackDropdown = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
+    open,
     setOpen,
   } = useDropdown(tracks.length, handleItemSelect, {
     placement: 'bottom-end',
@@ -71,24 +72,26 @@ export const TrackDropdown = ({
           className="action-icon"
         />
       </button>
-      <div className="c-track-switcher-dropdown" {...panelAttributes}>
-        <ul {...listAttributes}>
-          {tracks.map((track, i) => {
-            return (
-              <li key={track.slug} {...itemAttributes(i)}>
-                <TrackFilter
-                  onChange={() => {
-                    setValue(track.slug)
-                    setOpen(false)
-                  }}
-                  checked={value === track.slug}
-                  {...track}
-                />
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+      {open ? (
+        <div className="c-track-switcher-dropdown" {...panelAttributes}>
+          <ul {...listAttributes}>
+            {tracks.map((track, i) => {
+              return (
+                <li key={track.slug} {...itemAttributes(i)}>
+                  <TrackFilter
+                    onChange={() => {
+                      setValue(track.slug)
+                      setOpen(false)
+                    }}
+                    checked={value === track.slug}
+                    {...track}
+                  />
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      ) : null}
     </div>
   )
 }

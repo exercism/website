@@ -2,27 +2,29 @@ require "test_helper"
 
 class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
   test "creates discussion" do
-    mentor = create :user
-    solution = create :practice_solution
-    request = create :mentor_request, solution: solution
-    submission = create :submission, solution: solution
-    iteration = create :iteration, submission: submission
-    content_markdown = "Some interesting info"
+    freeze_time do
+      mentor = create :user
+      solution = create :practice_solution
+      request = create :mentor_request, solution: solution
+      submission = create :submission, solution: solution
+      iteration = create :iteration, submission: submission
+      content_markdown = "Some interesting info"
 
-    Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)
+      Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)
 
-    assert_equal 1, Mentor::Discussion.count
+      assert_equal 1, Mentor::Discussion.count
 
-    discussion = Mentor::Discussion.last
-    assert_equal mentor, discussion.mentor
-    assert_equal request, discussion.request
-    assert_equal request.solution, discussion.solution
-    assert_equal Time.current, discussion.requires_student_action_since
-    assert_nil discussion.requires_mentor_action_since
+      discussion = Mentor::Discussion.last
+      assert_equal mentor, discussion.mentor
+      assert_equal request, discussion.request
+      assert_equal request.solution, discussion.solution
+      assert_equal Time.current, discussion.requires_student_action_since
+      assert_nil discussion.requires_mentor_action_since
 
-    assert_equal 1, discussion.posts.count
-    assert_equal content_markdown, discussion.posts.first.content_markdown
-    assert_equal mentor, discussion.posts.first.author
+      assert_equal 1, discussion.posts.count
+      assert_equal content_markdown, discussion.posts.first.content_markdown
+      assert_equal mentor, discussion.posts.first.author
+    end
   end
 
   test "creates notification" do

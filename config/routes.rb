@@ -65,6 +65,13 @@ Rails.application.routes.draw do
 
         resources :testimonials, only: [:index], controller: "profiles/testimonials"
         resources :solutions, only: [:index], controller: 'profiles/solutions'
+        resources :contributions, only: [], controller: 'profiles/contributions' do
+          collection do
+            get :building
+            get :maintaining
+            get :authoring
+          end
+        end
       end
 
       resources :solutions, only: %i[index show update] do

@@ -1,7 +1,5 @@
-module API
-  class Profiles::SolutionsController < BaseController
-    before_action :use_user
-
+module API::Profiles
+  class SolutionsController < BaseController
     def index
       solutions = Solution::SearchUserSolutions.(
         @user,
@@ -16,14 +14,6 @@ module API
         solutions,
         serializer: SerializeCommunitySolutions
       )
-    end
-
-    private
-    def use_user
-      @user = User.find_by!(handle: params[:profile_id])
-
-      # TOOD: Handle and test this properly
-      raise unless @user.profile
     end
   end
 end

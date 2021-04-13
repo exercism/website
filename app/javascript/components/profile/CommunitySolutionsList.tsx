@@ -42,13 +42,6 @@ export const CommunitySolutionsList = ({
 
   return (
     <div className="lg-container">
-      {resolvedData ? (
-        <h2>
-          {resolvedData.meta.unscopedTotal}{' '}
-          {pluralize('person', resolvedData.meta.unscopedTotal)} published
-          solutions
-        </h2>
-      ) : null}
       <div className="c-search-bar">
         <input
           className="--search"

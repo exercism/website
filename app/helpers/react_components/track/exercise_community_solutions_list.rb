@@ -4,10 +4,7 @@ module ReactComponents
       initialize_with :exercise
 
       def to_s
-        super("common-community-solutions-list", {
-          request: request,
-          context: :exercise
-        })
+        super("track-exercise-community-solutions-list", { request: request })
       end
 
       private

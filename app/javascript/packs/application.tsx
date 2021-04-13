@@ -220,10 +220,9 @@ initReact({
       context={data.context}
     />
   ),
-  'common-community-solutions-list': (data: any) => (
-    <Common.CommunitySolutionsList
+  'track-exercise-community-solutions-list': (data: any) => (
+    <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
-      context={data.context}
     />
   ),
   'common-exercise-widget': (data: any) => (

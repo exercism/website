@@ -15,6 +15,7 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.datetime :last_submitted_at, null: true
       t.column :num_iterations, :tinyint, default: 0, null: false
 
+      t.string :snippet, null: true, limit: 1500
 
       t.datetime :downloaded_at, null: true
       t.datetime :completed_at, null: true

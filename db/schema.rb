@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(version: 2021_04_10_160616) do
     t.integer "status", limit: 1, default: 0, null: false
     t.datetime "last_submitted_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
+    t.string "snippet", limit: 1500
     t.datetime "downloaded_at"
     t.datetime "completed_at"
     t.datetime "published_at"

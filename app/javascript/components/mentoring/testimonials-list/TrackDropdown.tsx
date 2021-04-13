@@ -10,16 +10,14 @@ const TrackFilter = ({
   checked,
 }: Track & { onChange: () => void; checked: boolean }) => {
   return (
-    <React.Fragment>
-      <label className="c-radio-wrapper">
-        <input type="radio" onChange={onChange} checked={checked} />
-        <div className="row">
-          <div className="c-radio" />
-          <TrackIcon iconUrl={iconUrl} title={title} />
-          <div className="title">{title}</div>
-        </div>
-      </label>
-    </React.Fragment>
+    <label className="c-radio-wrapper">
+      <input type="radio" onChange={onChange} checked={checked} />
+      <div className="row">
+        <div className="c-radio" />
+        <TrackIcon iconUrl={iconUrl} title={title} />
+        <div className="title">{title}</div>
+      </div>
+    </label>
   )
 }
 

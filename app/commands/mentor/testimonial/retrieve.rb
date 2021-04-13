@@ -25,7 +25,6 @@ module Mentor
       def call
         setup!
         filter!
-        filter_track!
         search!
         sort!
         paginate!
@@ -42,6 +41,8 @@ module Mentor
 
       def filter!
         @testimonials = @testimonials.where(revealed: true) unless include_unrevealed
+
+        filter_track!
       end
 
       def filter_track!

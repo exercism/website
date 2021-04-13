@@ -79,8 +79,9 @@ export const TestimonialsSummary = ({
                     <div className="student">{testimonial.student.handle}</div>
                     <div className="mentored-by"> Mentored by {handle}</div>
                     <div className="exercise">
-                      <strong>{testimonial.exerciseTitle}</strong> in{' '}
-                      <strong>{testimonial.trackTitle}</strong>
+                      <strong>{testimonial.exercise.title}</strong> in{' '}
+                      <strong>{testimonial.track.title}</strong>
+                    </div>
                   </div>
                 </button>
               )

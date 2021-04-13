@@ -58,32 +58,33 @@ export const UnrevealedTestimonial = ({
     }
   )
 
+  {
+    /* TODO: Set testimonial URL */
+  }
   return (
-    <React.Fragment>
-      <a
-        href="#"
-        onClick={(e) => {
-          reveal()
-          e.preventDefault()
-        }}
-        className="testimonial unrevealed"
-      >
-        <TrackIcon {...testimonial.track} />
-        <GraphicalIcon icon="avatar-placeholder" className="c-avatar" />
-        <div className="info">
-          <div className="student">Someone left you a testimonial… 😲</div>
-          <div className="exercise">Click / tap to reveal</div>
-        </div>
-        <time dateTime={testimonial.createdAt}>
-          {fromNow(testimonial.createdAt)}
-        </time>
-        <GraphicalIcon icon="modal" className="action-icon" />
-        <FetchingBoundary
-          error={error}
-          status={status}
-          defaultError={DEFAULT_ERROR}
-        />
-      </a>
-    </React.Fragment>
+    <a
+      href="#"
+      onClick={(e) => {
+        reveal()
+        e.preventDefault()
+      }}
+      className="testimonial unrevealed"
+    >
+      <TrackIcon {...testimonial.track} />
+      <GraphicalIcon icon="avatar-placeholder" className="c-avatar" />
+      <div className="info">
+        <div className="student">Someone left you a testimonial… 😲</div>
+        <div className="exercise">Click / tap to reveal</div>
+      </div>
+      <time dateTime={testimonial.createdAt}>
+        {fromNow(testimonial.createdAt)}
+      </time>
+      <GraphicalIcon icon="modal" className="action-icon" />
+      <FetchingBoundary
+        error={error}
+        status={status}
+        defaultError={DEFAULT_ERROR}
+      />
+    </a>
   )
 }

@@ -23,6 +23,7 @@
             @apply py-12 px-24;
             @apply border-t-1 border-borderColor6;
             @apply flex items-center;
+            @apply w-100;
 
             &.unrevealed {
                 @apply bg-backgroundColorF;
@@ -61,6 +62,12 @@
                     @apply text-14 text-textColor6 leading-150;
                     white-space: nowrap;
                 }
+            }
+            & .new {
+                @apply ml-24;
+                @apply bg-lightGold rounded-3;
+                @apply text-12 leading-140 font-mono font-bold uppercase;
+                @apply py-4 px-8;
             }
             & .content {
                 @apply text-15 leading-170 text-textColor6;

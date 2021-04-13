@@ -21,6 +21,9 @@ export const RevealedTestimonial = ({
     setOpen(true)
   }, [isRevealed])
 
+  {
+    /* TODO: Set testimonial URL */
+  }
   return (
     <React.Fragment>
       <a
@@ -36,13 +39,13 @@ export const RevealedTestimonial = ({
           src={testimonial.student.avatarUrl}
           handle={testimonial.student.handle}
         />
-        {isRevealed ? <span>Revealed</span> : null}
         <div className="info">
           <div className="student">{testimonial.student.handle}</div>
           <div className="exercise">
             on {testimonial.exercise.title} in {testimonial.track.title}
           </div>
         </div>
+        {isRevealed ? <div className="new">New</div> : null}
         <div className="content">{testimonial.content}</div>
         <time dateTime={testimonial.createdAt}>
           {fromNow(testimonial.createdAt)}

@@ -6,7 +6,7 @@ class User
       initialize_with :user
 
       def call
-        return if user.github_username.empty?
+        return if user.github_username.blank?
 
         pull_requests.find_each do |pr|
           User::ReputationToken::AwardForPullRequest.(pr.data)

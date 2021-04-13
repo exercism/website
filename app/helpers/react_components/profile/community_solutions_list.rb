@@ -6,7 +6,7 @@ module ReactComponents
       def to_s
         super("profile-community-solutions-list", {
           request: request,
-          context: :profile
+          tracks_request: tracks_request
         })
       end
 
@@ -14,7 +14,15 @@ module ReactComponents
       def request
         {
           endpoint: Exercism::Routes.api_profile_solutions_url(user),
+          query: { order: "newest_first" },
           options: { initial_data: data }
+        }
+      end
+
+      def tracks_request
+        {
+          endpoint: Exercism::Routes.api_tracks_url,
+          query: { status: "joined" }
         }
       end
 

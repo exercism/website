@@ -434,6 +434,7 @@ initReact({
   'profile-community-solutions-list': (data: any) => (
     <Profile.CommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
+      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
     />
   ),
 })

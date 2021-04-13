@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
@@ -6,8 +6,8 @@ import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { CommunitySolution } from '../common/CommunitySolution'
 import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
-import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
+import { TrackDropdown } from './community-solutions-list/TrackDropdown'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -23,11 +23,15 @@ const DEFAULT_ERROR = new Error('Unable to pull solutions')
 
 export const CommunitySolutionsList = ({
   request: initialRequest,
+  tracksRequest,
 }: {
   request: Request
+  tracksRequest: Request
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setPage } = useList(initialRequest)
+  const { request, setCriteria, setPage, setOrder, setQuery } = useList(
+    initialRequest
+  )
   const {
     status,
     resolvedData,
@@ -40,6 +44,13 @@ export const CommunitySolutionsList = ({
     isMountedRef
   )
 
+  const setTrack = useCallback(
+    (slug) => {
+      setQuery({ ...request.query, trackSlug: slug })
+    },
+    [request.query, setQuery]
+  )
+
   return (
     <div className="lg-container">
       <div className="c-search-bar">
@@ -49,7 +60,19 @@ export const CommunitySolutionsList = ({
             setCriteria(e.target.value)
           }}
           value={request.query.criteria || ''}
-          placeholder="Search by user"
+          placeholder="Filter by exercise"
+        />
+        <select
+          onChange={(e) => setOrder(e.target.value)}
+          value={request.query.order}
+        >
+          <option value="newest_first">Sort by Newest First</option>
+          <option value="oldest_first">Sort by Oldest First</option>
+        </select>
+        <TrackDropdown
+          request={tracksRequest}
+          value={request.query.trackSlug || null}
+          setValue={setTrack}
         />
       </div>
       <FetchingBoundary

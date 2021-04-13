@@ -162,6 +162,7 @@ export type Track = {
   iconUrl: string
   numConcepts: number
   numExercises: number
+  numSolutions: number
   links: {
     self: string
     exercises: string

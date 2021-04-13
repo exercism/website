@@ -116,7 +116,7 @@ const Component = ({
   }
 
   return (
-    <React.Fragment>
+    <div className="c-track-switcher">
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"
@@ -177,6 +177,6 @@ const Component = ({
           setOpen(false)
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }

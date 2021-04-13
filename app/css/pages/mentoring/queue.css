@@ -65,32 +65,8 @@
         @apply ml-48;
         width: 420px;
 
-        & .current-track {
-            @apply py-12 px-24;
+        & .c-track-switcher {
             @apply mb-24;
-            @apply flex items-center;
-            @apply border-1 border-buttonBorderColor2;
-            @apply shadow-xsZ1 rounded-8 bg-backgroundColorA;
-            @apply w-100;
-            @apply text-left;
-
-            & .c-track-icon {
-                height: 40px;
-                width: 40px;
-                @apply mr-16;
-            }
-            & .track-title {
-                @apply text-h5;
-                @apply flex-grow;
-            }
-            & .count {
-                @apply text-textColor6 leading-150 font-medium;
-                @apply mr-32;
-            }
-            & .action-icon {
-                height: 16px;
-                width: 16px;
-            }
         }
         & .c-track-switcher-dropdown {
             /* Drive this through JS? */

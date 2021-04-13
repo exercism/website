@@ -3,8 +3,8 @@ import { TrackIcon, Icon } from '../../common'
 import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { useDropdown } from '../../dropdowns/useDropdown'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { Track } from '../../types'
+import { TrackData } from '../CommunitySolutionsList'
 
 const TrackFilter = ({
   title,
@@ -31,9 +31,7 @@ const TrackFilter = ({
         <div className="c-radio" />
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        {numSolutions !== null ? (
-          <div className="count">{numSolutions}</div>
-        ) : null}
+        <div className="count">{numSolutions}</div>
       </div>
     </label>
   )
@@ -42,34 +40,14 @@ const TrackFilter = ({
 const DEFAULT_ERROR = new Error('Unable to fetch tracks')
 
 export const TrackDropdown = ({
-  request,
+  tracks,
   value,
   setValue,
 }: {
-  request: Request
+  tracks: TrackData[]
   value: string
   setValue: (id: string | null) => void
 }): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
-  const { resolvedData, error, status } = usePaginatedRequestQuery<{
-    tracks: readonly Track[]
-  }>('joined-tracks', request, isMountedRef)
-  const allTrack = useMemo(() => {
-    return {
-      title: 'All',
-      id: null,
-      /* TODO */
-      iconUrl: '',
-      numSolutions:
-        resolvedData?.tracks
-          .map((track) => track.numSolutions)
-          .reduce((sum, x) => sum + x, 0) || null,
-    }
-  }, [resolvedData?.tracks])
-  const tracks = useMemo(() => {
-    return [allTrack, ...(resolvedData?.tracks || [])]
-  }, [allTrack, resolvedData?.tracks])
-
   const handleItemSelect = useCallback(
     (index) => {
       const track = tracks[index]
@@ -97,14 +75,10 @@ export const TrackDropdown = ({
     ],
   })
 
-  const selectedTrack = tracks.find((track) => track.id === value) || allTrack
+  const selectedTrack = tracks.find((track) => track.id === value) || tracks[0]
 
   return (
-    <FetchingBoundary
-      status={status}
-      error={error}
-      defaultError={DEFAULT_ERROR}
-    >
+    <div className="c-track-switcher --small">
       <button
         className="current-track"
         aria-label="Open the track filter"
@@ -115,9 +89,7 @@ export const TrackDropdown = ({
           title={selectedTrack.title}
         />
         <div className="track-title">{selectedTrack.title}</div>
-        {resolvedData?.tracks ? (
-          <div className="count">{selectedTrack.numSolutions}</div>
-        ) : null}
+        <div className="count">{selectedTrack.numSolutions}</div>
         <Icon
           icon="chevron-down"
           alt="Click to change"
@@ -144,6 +116,6 @@ export const TrackDropdown = ({
           </ul>
         </div>
       ) : null}
-    </FetchingBoundary>
+    </div>
   )
 }

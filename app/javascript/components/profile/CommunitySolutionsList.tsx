@@ -9,6 +9,12 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { TrackDropdown } from './community-solutions-list/TrackDropdown'
 
+export type TrackData = {
+  iconUrl: string
+  title: string
+  id: string | null
+  numSolutions: number
+}
 type PaginatedResult = {
   results: CommunitySolutionProps[]
   meta: {
@@ -23,10 +29,10 @@ const DEFAULT_ERROR = new Error('Unable to pull solutions')
 
 export const CommunitySolutionsList = ({
   request: initialRequest,
-  tracksRequest,
+  tracks,
 }: {
   request: Request
-  tracksRequest: Request
+  tracks: TrackData[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setPage, setOrder, setQuery } = useList(
@@ -54,6 +60,11 @@ export const CommunitySolutionsList = ({
   return (
     <div className="lg-container">
       <div className="c-search-bar">
+        <TrackDropdown
+          tracks={tracks}
+          value={request.query.trackSlug || null}
+          setValue={setTrack}
+        />
         <input
           className="--search"
           onChange={(e) => {
@@ -62,18 +73,15 @@ export const CommunitySolutionsList = ({
           value={request.query.criteria || ''}
           placeholder="Filter by exercise"
         />
-        <select
-          onChange={(e) => setOrder(e.target.value)}
-          value={request.query.order}
-        >
-          <option value="newest_first">Sort by Newest First</option>
-          <option value="oldest_first">Sort by Oldest First</option>
-        </select>
-        <TrackDropdown
-          request={tracksRequest}
-          value={request.query.trackSlug || null}
-          setValue={setTrack}
-        />
+        <div className="c-select order">
+          <select
+            onChange={(e) => setOrder(e.target.value)}
+            value={request.query.order}
+          >
+            <option value="newest_first">Sort by Newest First</option>
+            <option value="oldest_first">Sort by Oldest First</option>
+          </select>
+        </div>
       </div>
       <FetchingBoundary
         status={status}

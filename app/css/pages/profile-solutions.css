@@ -6,8 +6,16 @@
         & .c-search-bar {
             @apply mb-32;
 
+            & .c-track-switcher {
+                min-width: 380px;
+                @apply mr-24;
+            }
+
             & .--search {
                 width: 450px;
+            }
+            & .c-select {
+                @apply ml-auto;
             }
         }
         & .solutions {

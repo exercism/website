@@ -82,6 +82,7 @@ import '../../css/components/results-zone'
 import '../../css/components/introducer'
 import '../../css/components/profile-header'
 import '../../css/components/track-filter'
+import '../../css/components/track-switcher'
 
 import '../../css/components/widgets/exercise'
 
@@ -189,6 +190,7 @@ import { Track as MentoringTestimonialsListTrack } from '../components/mentoring
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
+import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -434,7 +436,9 @@ initReact({
   'profile-community-solutions-list': (data: any) => (
     <Profile.CommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
-      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
+      tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
+        data.tracks
+      )}
     />
   ),
 })

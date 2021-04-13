@@ -6,7 +6,7 @@ module ReactComponents
       def to_s
         super("profile-community-solutions-list", {
           request: request,
-          tracks_request: tracks_request
+          tracks: tracks_data
         })
       end
 
@@ -19,11 +19,23 @@ module ReactComponents
         }
       end
 
-      def tracks_request
-        {
-          endpoint: Exercism::Routes.api_tracks_url,
-          query: { status: "joined" }
-        }
+      def tracks_data
+        counts = @user.solutions.joins(:exercise).published.group('exercises.track_id').count
+        tracks = ::Track.where(id: counts.keys).index_by(&:id)
+
+        data = counts.map do |track_id, count|
+          track = tracks[track_id]
+
+          { id: track.slug, title: track.title, num_solutions: count, icon_url: track.icon_url }
+        end
+
+        data.unshift(
+          id: nil, title: "All",
+          num_solutions: counts.values.sum,
+          icon_url: ::Track.first.icon_url # TODO
+        )
+
+        data
       end
 
       def data

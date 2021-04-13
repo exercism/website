@@ -16,4 +16,4 @@
 
         = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
 
-    = render ReactComponents::Profile::TestimonialsSummary.new
+    = render ReactComponents::Profile::TestimonialsSummary.new(@user)

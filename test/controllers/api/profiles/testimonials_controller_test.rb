@@ -35,7 +35,6 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-
   test "index proxies correctly" do
     setup_user
 

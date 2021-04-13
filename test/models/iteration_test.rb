@@ -133,4 +133,18 @@ class IterationTest < ActiveSupport::TestCase
     assert_equal representer_feedback, iteration.representer_feedback
     assert_equal analyzer_feedback, iteration.analyzer_feedback
   end
+
+  test "updates_solution" do
+    solution = create :concept_solution
+
+    # Sanity
+    assert_equal :started, solution.status
+    assert_nil solution.iteration_status
+
+    create :iteration, solution: solution
+
+    solution.reload
+    assert_equal :iterated, solution.status
+    assert_equal :testing, solution.iteration_status
+  end
 end

@@ -69,6 +69,10 @@ class Solution < ApplicationRecord
     super.to_sym
   end
 
+  def iteration_status
+    super&.to_sym
+  end
+
   # TODO: Karlo
   def has_unsubmitted_code?
     false
@@ -113,6 +117,11 @@ class Solution < ApplicationRecord
   def update_status!
     new_status = determine_status
     update(status: new_status) if status != new_status
+  end
+
+  def update_iteration_status!
+    new_status = iterations.last&.status.to_s
+    update_column(:iteration_status, new_status) if iteration_status != new_status
   end
 
   def update_mentoring_status!

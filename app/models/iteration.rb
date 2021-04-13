@@ -22,8 +22,9 @@ class Iteration < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid unless self.uuid
   end
 
-  after_save do
+  after_save_commit do
     solution.update_status!
+    solution.update_iteration_status!
   end
 
   def status

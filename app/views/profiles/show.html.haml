@@ -132,6 +132,9 @@
         const buffer = 8;
         const containerHeight = ctx.parentNode.offsetHeight
 
+        // Each of the the left/right/bottom/top/margin lines is specific to the label so
+        // don't generalise those, but the first two lines and the visiblity one can
+        // be safely DRY'd up.
         const point0 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(0)
         const label0 = document.getElementById("label-0")
         label0.style.left = ((point0.left + leftMargin) + "px")

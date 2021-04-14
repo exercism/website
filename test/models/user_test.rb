@@ -53,6 +53,16 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "formatted_reputation works correctly" do
+    assert_equal "0", create(:user, reputation: 0).formatted_reputation
+    assert_equal "10", create(:user, reputation: 10).formatted_reputation
+    assert_equal "100", create(:user, reputation: 100).formatted_reputation
+    assert_equal "1k", create(:user, reputation: 1000).formatted_reputation
+    assert_equal "2k", create(:user, reputation: 2000).formatted_reputation
+    assert_equal "2k", create(:user, reputation: 2999).formatted_reputation
+    assert_equal "12k", create(:user, reputation: 12_999).formatted_reputation
+  end
+
   test "has_badge?" do
     badge = create :rookie_badge
     user = create :user

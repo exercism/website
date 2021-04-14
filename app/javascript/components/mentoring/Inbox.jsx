@@ -4,15 +4,19 @@ import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
-import { useList } from '../../hooks/use-list'
+import { useListWithHistory } from '../../hooks/use-list-with-history'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
-  const { request, setCriteria, setOrder, setPage, setQuery } = useList(
-    props.discussionsRequest
-  )
+  const {
+    request,
+    setCriteria,
+    setOrder,
+    setPage,
+    setQuery,
+  } = useListWithHistory(props.discussionsRequest)
   const isMountedRef = useIsMounted()
   const {
     status,

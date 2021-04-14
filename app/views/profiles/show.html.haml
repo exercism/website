@@ -5,14 +5,18 @@
     %section.contributions-section
       .info
       .chart-container
+        / This will be the same data hash as the LHS.
+        / For one the languages/categories.
         #label-0.label
           = graphical_icon :maintaining, hex: true
           .title Publishing
           .subtitle 78 solutions
+          .tag.top-10 Top 10%
         #label-1.label
           = graphical_icon :mentoring, hex: true
           .title Mentoring
           .subtitle 520 students
+          .tag.top-1 Top 1%
         #label-2.label
           = graphical_icon :concepts, hex: true
           .title Authoring
@@ -21,6 +25,7 @@
           = graphical_icon :maintaining, hex: true
           .title Building
           .subtitle 5,123 PRs merged
+          .tag.top-3 Top 3%
         #label-4.label
           = graphical_icon :maintaining, hex: true
           .title Maintaining
@@ -28,31 +33,65 @@
         #label-5.label
           = graphical_icon :maintaining, hex: true
           .title Other
+
         .chart
-          <canvas id="contributions-chart"></canvas>
+          %canvas#contributions-chart
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       :javascript
+        // The dataset needs to change based on which thing is selected on the dropdown on the LHS
+        // There is a set of data for the "All category" (commented out) then there is a set
+        // for each track, which is powered by CSS variables. All you need to change when you do
+        // this is set the actual 6 values in the data array. Everything else should be exactly as below.
 
-        const data = {
-          labels: [
-            '',
-            '',
-            '',
-            '',
-            '',
-            ''
-          ],
+        // This is the correct data (and helper function) for the "All" category
+        function createBluePurpleGradient(chart, opacity) {
+          const {ctx, chartArea} = chart;
+          if (!chartArea) { return null; }
+          const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+          gradient.addColorStop(0, `rgba(34, 0, 255, ${opacity})`);
+          gradient.addColorStop(1, `rgba(158, 0, 255, ${opacity})`);
+          return gradient
+        }
+        /*const data = {
+          labels: [ '', '', '', '', '', '' ],
           datasets: [{
-            label: 'My First Dataset',
-            data: [65, 59, 90, 81, 56, 55, 40],
+            label: '',
+            data: [65, 59, 90, 81, 56, 55],
             fill: true,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgb(255, 99, 132)',
-            pointBackgroundColor: 'rgb(255, 99, 132)',
+            backgroundColor: function(context) { return createBluePurpleGradient(context.chart, 0.3) },
+            borderColor: function(context) { return createBluePurpleGradient(context.chart, 1) },
+            pointBorderColor: function(context) { return createBluePurpleGradient(context.chart, 1) },
+            pointBackgroundColor: function(context) { return createBluePurpleGradient(context.chart, 1) },
             pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgb(255, 99, 132)'
+            pointHoverBackgroundColor: function(context) { return createBluePurpleGradient(context.chart, 1) },
+            pointHoverBorderColor: function(context) { return createBluePurpleGradient(context.chart, 1) },
+            pointRadius: 5,
+            pointHoverRadius: 5
+          }]
+        };*/
+
+        // This is the correct data for a specific track.
+        // Each of the colors is based on a CSS Variable
+        // You should be able to get them using the correct slug.
+        // Currently ruby, elixir and csharp work.
+        // They then get interpolated into the strings below.
+        const trackColor = getComputedStyle(document.documentElement).getPropertyValue('--track-color-ruby');
+        const data = {
+          labels: [ '', '', '', '', '', '' ],
+          datasets: [{
+            label: '',
+            data: [65, 59, 90, 81, 56, 55],
+            fill: true,
+            backgroundColor: `rgba(${trackColor}, 0.3)`,
+            borderColor: `rgba(${trackColor}, 1)`,
+            pointBorderColor: `rgba(${trackColor}, 1)`,
+            pointBackgroundColor: `rgba(${trackColor}, 1)`,
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: `rgba(${trackColor}, 1)`,
+            pointHoverBorderColor: `rgba(${trackColor}, 1)`,
+            pointRadius: 5,
+            pointHoverRadius: 5
           }]
         };
 
@@ -62,24 +101,36 @@
           options: {
             aspectRatio: 1,
             elements: {
-              line: {
-                borderWidth: 3
+              line: { borderWidth: 3 }
+            },
+            scales: {
+              r: {
+                beginAtZero: true,
+                ticks: { display:false, color: "red" },
+                angleLines: { color: "#D5D8E4" },
+                grid: { color:"#D5D8E4" }
               }
             },
             plugins: {
-              legend: {
-                display: false,
-              }
+              legend: { display: false },
+              tooltip: { enabled: false }
             }
           },
         };
+
+        // The does the actual rendering of the chart
+        var ctx = document.getElementById('contributions-chart');
+        var chart = new Chart(ctx, config)
+
+        // This whole next bit is for correctly positioning the labels around the chart.
+        // It is really important that the chart and the labels have rendered before this code below is
+        // run. When they render they do so invisibly, and then their sizes are used to
+        // calculated the values below, so you'll need to do a second pain (setTimeout(..., 0))
+        // where this bit gets run after the initial pass.
         const leftMargin = 100;
         const topMargin = 150;
         const buffer = 8;
-        var ctx = document.getElementById('contributions-chart');
-        var container = ctx.parentNode;
-        var chart = new Chart(ctx, config)
-        containerHeight = container.offsetHeight;
+        const containerHeight = ctx.parentNode.offsetHeight
 
         const point0 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(0)
         const label0 = document.getElementById("label-0")

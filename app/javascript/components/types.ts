@@ -6,6 +6,25 @@ export type ExerciseStatus =
   | 'available'
   | 'locked'
 
+export type ExerciseAuthorship = {
+  exercise: Exercise
+  track: Track
+}
+
+export type Contribution = {
+  id: string
+  value: number
+  text: string
+  iconUrl: string
+  internalUrl?: string
+  externalUrl?: string
+  awardedAt: string
+  track?: {
+    title: string
+    iconUrl: string
+  }
+}
+
 export type Testimonial = {
   id: string
   content: string

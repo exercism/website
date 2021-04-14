@@ -21,6 +21,12 @@ function reducer(state, action) {
         ...state,
         query: { ...state.query, order: action.payload.order },
       }
+    case 'endpoint.changed':
+      return {
+        endpoint: action.payload.endpoint,
+        query: {},
+        options: {},
+      }
     default:
       if (process.env.NODE_ENV === 'development') {
         throw new Error(`Unknown action type: ${action.type}`)
@@ -70,5 +76,20 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  return { request, setCriteria, setOrder, setPage, setQuery, setFilter }
+  const setEndpoint = useCallback(
+    (endpoint) => {
+      dispatch({ type: 'endpoint.changed', payload: { endpoint: endpoint } })
+    },
+    [dispatch]
+  )
+
+  return {
+    request,
+    setCriteria,
+    setOrder,
+    setPage,
+    setQuery,
+    setFilter,
+    setEndpoint,
+  }
 }

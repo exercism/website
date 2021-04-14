@@ -1,0 +1,88 @@
+@import "../styles";
+
+#page-profile-contributions {
+    @apply mb-80;
+    & article {
+        & .tabs {
+            @apply flex items-center;
+            @apply mb-20;
+
+            & .c-tab {
+                line-height: 50px;
+                & .c-icon {
+                    height: 32px;
+                    width: 32px;
+                }
+            }
+        }
+        & .building,
+        & .maintaining {
+            & .reputation-token {
+                @apply flex items-center;
+                @apply mb-16 rounded-8;
+                @apply py-16 pl-20 pr-40;
+                @apply shadow-base;
+
+                & .primary-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-24;
+                }
+                & .info {
+                    @apply flex-grow;
+                    & .title {
+                        @apply text-h5 mb-6;
+                        @apply font-medium;
+                        & strong {
+                            @apply font-semibold;
+                        }
+                    }
+                    & .extra {
+                        @apply flex items-center;
+
+                        & .exercise {
+                            @apply flex items-center;
+                            @apply text-16 text-textColor6;
+                            & .c-icon {
+                                height: 24px;
+                                width: 24px;
+                                @apply ml-8 mr-12;
+                            }
+                            & .name {
+                                @apply text-textColor1 font-semibold;
+                            }
+                        }
+                        & .generic {
+                            @apply text-16 text-textColor6;
+                        }
+                        & time {
+                            @apply ml-16 text-textColor6;
+                        }
+                    }
+                }
+                & .c-primary-reputation {
+                    @apply flex-shrink-0;
+                }
+                & .action-button {
+                    height: 24px;
+                    width: 24px;
+                    @apply ml-96;
+                }
+            }
+        }
+        & .authoring {
+            & .exercises {
+                @apply grid grid-cols-2 gap-x-16 gap-y-16;
+            }
+
+            & .c-exercise-widget {
+                @apply py-16 px-24 w-100;
+                height: 100%;
+
+                & .c-exercise-status-tag {
+                    display: none;
+                }
+            }
+        }
+    }
+}

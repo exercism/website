@@ -67,7 +67,7 @@
         = graphical_icon :overview
         %span Summary
 
-      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
+      = link_to contributions_profile_path(user), class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
         = graphical_icon :contribute
         %span Contributions
 
@@ -75,7 +75,7 @@
         = graphical_icon 'community-solutions'
         %span Published Solutions
 
-      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
+      = link_to testimonials_profile_path(user), class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
         = graphical_icon 'testimonials'
         %span Testimonials
 

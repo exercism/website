@@ -27,7 +27,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal "You reviewed <strong>PR##{pr_number}</strong> on <strong>v3</strong>: #{pr_title}", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
-    assert_equal :building, rt.category
+    assert_equal :maintaining, rt.category
     assert_equal :reviewed_code, rt.reason
     assert_equal :minor, rt.level
     assert_equal 2, rt.value
@@ -59,7 +59,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal "You reviewed <strong>PR##{pr_number}</strong> on <strong>v3</strong>: #{pr_title}", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
-    assert_equal :building, rt.category
+    assert_equal :maintaining, rt.category
     assert_equal :reviewed_code, rt.reason
     assert_equal :regular, rt.level
     assert_equal 5, rt.value
@@ -91,7 +91,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal "You reviewed <strong>PR##{pr_number}</strong> on <strong>v3</strong>: #{pr_title}", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
-    assert_equal :building, rt.category
+    assert_equal :maintaining, rt.category
     assert_equal :reviewed_code, rt.reason
     assert_equal :major, rt.level
     assert_equal 10, rt.value

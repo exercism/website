@@ -6,6 +6,35 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
   ###
   # Index
   ###
+  test "index 404s without user" do
+    setup_user
+
+    get api_profile_solutions_path("some-random-user"), headers: @headers, as: :json
+
+    assert_response 404
+    expected = { error: {
+      type: "profile_not_found",
+      message: I18n.t('api.errors.profile_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "index 404s when user doesn't have a profile" do
+    setup_user
+    user = create :user
+
+    get api_profile_solutions_path(user), headers: @headers, as: :json
+
+    assert_response 404
+    expected = { error: {
+      type: "profile_not_found",
+      message: I18n.t('api.errors.profile_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   test "index proxies correctly" do
     setup_user
 

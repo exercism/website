@@ -1,5 +1,6 @@
 import React from 'react'
-import { ContributionProps, Contribution } from './Contribution'
+import { Contribution } from './Contribution'
+import { Contribution as ContributionProps } from '../types'
 import pluralize from 'pluralize'
 
 export const ContributionResults = ({

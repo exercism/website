@@ -47,9 +47,9 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     setup_user
 
     profile_user = create(:user_profile).user
-    contribution = create :user_code_contribution_reputation_token, user: profile_user
-    contribute = create :user_exercise_contribution_reputation_token, user: profile_user
-    author = create :user_exercise_author_reputation_token, user: profile_user
+    create :user_code_contribution_reputation_token, user: profile_user
+    create :user_exercise_contribution_reputation_token, user: profile_user
+    create :user_exercise_author_reputation_token, user: profile_user
     create :user_code_merge_reputation_token, user: profile_user
     create :user_code_review_reputation_token, user: profile_user
 
@@ -57,9 +57,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     assert_response 200
 
     expected = SerializePaginatedCollection.(
-      User::ReputationToken.
-        where(id: [contribution, author, contribute].map(&:id)).
-        page(1).per(20),
+      User::ReputationToken::Search.(profile_user, category: %i[building authoring]),
       serializer: SerializeUserReputationTokens
     ).to_json
 
@@ -74,8 +72,8 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
 
     profile_user = create(:user_profile).user
 
-    merge = create :user_code_merge_reputation_token, user: profile_user
-    review = create :user_code_review_reputation_token, user: profile_user
+    create :user_code_merge_reputation_token, user: profile_user
+    create :user_code_review_reputation_token, user: profile_user
     create :user_code_contribution_reputation_token, user: profile_user
     create :user_exercise_contribution_reputation_token, user: profile_user
     create :user_exercise_author_reputation_token, user: profile_user
@@ -84,9 +82,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     assert_response 200
 
     expected = SerializePaginatedCollection.(
-      User::ReputationToken.
-        where(id: [merge, review].map(&:id)).
-        page(1).per(20),
+      User::ReputationToken::Search.(profile_user, category: :maintaining),
       serializer: SerializeUserReputationTokens
     ).to_json
 

@@ -19,7 +19,7 @@ module Flows
         visit solutions_profile_path(author.handle)
       end
 
-      assert_text "author's solution"
+      assert_text "Strings"
     end
 
     test "searches published solutions" do

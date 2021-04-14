@@ -265,7 +265,7 @@ test('shows exercise icon if context is profile', async () => {
   ).not.toBeInTheDocument()
 })
 
-test('shows "Your solution" if context is mentoring', async () => {
+test('shows correct title if context is mentoring', async () => {
   const solution = {
     author: {
       handle: 'handle',
@@ -297,9 +297,10 @@ test('shows "Your solution" if context is mentoring', async () => {
   render(<CommunitySolution solution={solution} context="mentoring" />)
 
   expect(screen.getByText('Your Solution')).toBeInTheDocument()
+  expect(screen.getByText('to Exercise in Track')).toBeInTheDocument()
 })
 
-test('shows "Your solution" if context is profile', async () => {
+test('shows correct title if context is profile', async () => {
   const solution = {
     author: {
       handle: 'handle',
@@ -330,10 +331,11 @@ test('shows "Your solution" if context is profile', async () => {
 
   render(<CommunitySolution solution={solution} context="profile" />)
 
-  expect(screen.getByText("handle's solution")).toBeInTheDocument()
+  expect(screen.getByText('Exercise')).toBeInTheDocument()
+  expect(screen.getByText('in Track')).toBeInTheDocument()
 })
 
-test('shows "Your solution" if context is exercise', async () => {
+test('shows correct title if context is exercise', async () => {
   const solution = {
     author: {
       handle: 'handle',
@@ -365,6 +367,7 @@ test('shows "Your solution" if context is exercise', async () => {
   render(<CommunitySolution solution={solution} context="exercise" />)
 
   expect(screen.getByText("handle's solution")).toBeInTheDocument()
+  expect(screen.getByText('to Exercise in Track')).toBeInTheDocument()
 })
 
 test('renders processing status', async () => {

@@ -20,18 +20,7 @@ class ProfilesController < ApplicationController
     )
   end
 
-  def contributions
-    @building_tokens = @user.reputation_tokens.where(category: %i[building authoring]).page(1).per(20)
-    @maintaining_tokens = @user.reputation_tokens.where(category: :maintaining).page(1).per(20)
-    @authored_exercises =
-      Exercise.where(id: @user.authored_exercises.select(:id) + @user.contributed_exercises.select(:id)).
-        order(id: :desc).
-        page(1).per(20).
-        includes(:track)
-
-    # Kntsoriano: This is what you want to use to get the tab counts
-    @counts = @user.reputation_tokens.group(:category).count
-  end
+  def contributions; end
 
   def badges
     @badges = @user.badges

@@ -16,21 +16,20 @@ module ReactComponents
           {
             title: "Building",
             icon: "contribute",
-            count: user.reputation_tokens.where(category: %i[building authoring]).count,
+            count: User::ReputationToken::Search.(@user, category: %i[building authoring], paginated: false,
+                                                         sorted: false).count,
             endpoint: Exercism::Routes.building_api_profile_contributions_url(user.handle)
           },
           {
             title: "Maintaining",
             icon: "maintaining",
-            count: user.reputation_tokens.where(category: :maintaining).count,
+            count: User::ReputationToken::Search.(@user, category: :maintaining, paginated: false, sorted: false).count,
             endpoint: Exercism::Routes.maintaining_api_profile_contributions_url(user.handle)
           },
           {
             title: "Authoring",
             icon: "concepts",
-            count: Exercise.where(
-              id: user.authored_exercises.select(:id) + user.contributed_exercises.select(:id)
-            ).count,
+            count: User::RetrieveAuthoredAndContributedExercises.(@user, paginated: false, sorted: false).count,
             endpoint: Exercism::Routes.authoring_api_profile_contributions_url(user.handle)
           }
         ].select { |c| c[:count].positive? }

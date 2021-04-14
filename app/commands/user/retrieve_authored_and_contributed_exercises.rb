@@ -9,24 +9,42 @@ class User
       DEFAULT_PER
     end
 
-    def initialize(user, page: nil)
+    def initialize(user, page: nil,
+                   sorted: true, paginated: true)
       @user = user
-      @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
+      @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
+      @sorted = sorted
+      @paginated = paginated
     end
 
     def call
+      setup!
+      sort! if sorted?
+      paginate! if paginated?
+      @exercises
+    end
+
+    def setup!
       # TODO: Make this work as an inner query, not an array
       ids = @user.authored_exercises.select(:id) +
             @user.contributed_exercises.select(:id)
 
-      Exercise.
-        where(id: ids).
-        order(id: :desc).
-        page(page).
-        per(20)
+      @exercises = Exercise.where(id: ids)
+    end
+
+    def sort!
+      @exercises = @exercises.order(id: :desc)
+    end
+
+    def paginate!
+      @exercises = @exercises.page(page).per(self.class.default_per)
     end
 
     private
     attr_reader :page
+
+    %i[sorted paginated].each do |attr|
+      define_method("#{attr}?") { instance_variable_get("@#{attr}") }
+    end
   end
 end

@@ -83,7 +83,7 @@ export const ContributionsList = ({
             >
               <GraphicalIcon icon={category.icon} hex />
               {category.title}
-              <div className="count">{category.count}</div>
+              <div className="count">{category.count.toLocaleString()}</div>
             </button>
           )
         })}

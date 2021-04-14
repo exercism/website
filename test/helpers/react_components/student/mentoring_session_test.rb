@@ -45,7 +45,7 @@ module Mentoring::Student
             bio: mentor.bio,
             languages_spoken: mentor.languages_spoken,
             avatar_url: mentor.avatar_url,
-            reputation: mentor.reputation,
+            reputation: mentor.formatted_reputation,
             num_previous_sessions: 15
           },
           is_first_time_on_track: true,

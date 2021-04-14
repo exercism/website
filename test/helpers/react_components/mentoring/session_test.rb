@@ -50,7 +50,7 @@ module Mentoring
             bio: student.bio,
             languages_spoken: student.languages_spoken,
             avatar_url: student.avatar_url,
-            reputation: student.reputation,
+            reputation: student.formatted_reputation,
             is_favorite: false,
             num_previous_sessions: 15,
             links: {

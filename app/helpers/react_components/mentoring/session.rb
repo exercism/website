@@ -21,7 +21,7 @@ module ReactComponents
               bio: student.bio,
               languages_spoken: student.languages_spoken,
               avatar_url: student.avatar_url,
-              reputation: student.reputation,
+              reputation: student.formatted_reputation,
               is_favorite: student.favorited_by?(current_user),
               num_previous_sessions: current_user.num_previous_mentor_sessions_with(student),
               links: {

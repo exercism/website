@@ -33,7 +33,7 @@ module API::Profiles
 
       render json: SerializePaginatedCollection.(
         exercises,
-        serializer: SerializeExercises
+        serializer: SerializeExerciseAuthorships
       )
     end
   end

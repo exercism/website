@@ -1,9 +1,29 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
-import { GraphicalIcon, TrackIcon, Reputation } from '../common'
-import { Contribution as ContributionProps } from '../types'
+import { Contribution as ContributionProps } from '../../types'
+import { TrackIcon, Reputation, GraphicalIcon } from '../../common'
+import { fromNow } from '../../../utils/time'
 
-export const Contribution = ({
+export const MaintainingContributionsList = ({
+  contributions,
+  userHandle,
+}: {
+  contributions: readonly ContributionProps[]
+  userHandle: string
+}): JSX.Element => {
+  return (
+    <div className="maintaining">
+      {contributions.map((contribution) => (
+        <Contribution
+          key={contribution.id}
+          userHandle={userHandle}
+          {...contribution}
+        />
+      ))}
+    </div>
+  )
+}
+
+const Contribution = ({
   value,
   text,
   iconUrl,
@@ -11,7 +31,8 @@ export const Contribution = ({
   externalUrl,
   awardedAt,
   track,
-}: ContributionProps): JSX.Element => {
+  userHandle,
+}: ContributionProps & { userHandle: string }): JSX.Element => {
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
 
@@ -24,7 +45,12 @@ export const Contribution = ({
         className="c-icon primary-icon"
       />
       <div className="info">
-        <div className="title" dangerouslySetInnerHTML={{ __html: text }} />
+        <div
+          className="title"
+          dangerouslySetInnerHTML={{
+            __html: text.replace('You ', `${userHandle} `),
+          }}
+        />
         <div className="extra">
           {track ? (
             <div className="exercise">
@@ -42,7 +68,7 @@ export const Contribution = ({
           <time dateTime={awardedAt}>{fromNow(awardedAt)}</time>
         </div>
       </div>
-      <Reputation value={`+ ${value}`} type="primary" />
+      <Reputation value={`+ ${value}`} type="primary" size="small" />
       <GraphicalIcon icon={linkIcon} className="action-button" />
     </a>
   )

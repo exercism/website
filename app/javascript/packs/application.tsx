@@ -192,6 +192,7 @@ import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
+import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -440,6 +441,14 @@ initReact({
       tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
         data.tracks
       )}
+    />
+  ),
+  'profile-contributions-list': (data: any) => (
+    <Profile.ContributionsList
+      categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(
+        data.categories
+      )}
+      userHandle={data.user_handle}
     />
   ),
 })

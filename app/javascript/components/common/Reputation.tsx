@@ -3,16 +3,23 @@ import { Icon } from './Icon'
 
 export const Reputation = ({
   value,
+  size,
   type = 'common',
 }: {
   value: string
+  size?: 'small'
   type?: 'primary' | 'common'
 }): JSX.Element => {
+  const classNames = [
+    type === 'primary' ? 'c-primary-reputation' : 'c-reputation',
+    size ? `--${size}` : '',
+  ].filter((className) => className.length > 0)
+
   switch (type) {
     case 'primary':
       return (
         <div
-          className="c-primary-reputation"
+          className={classNames.join(' ')}
           aria-label={`${value} reputation`}
         >
           <div className="--inner">
@@ -23,7 +30,10 @@ export const Reputation = ({
       )
     case 'common':
       return (
-        <div className="c-reputation" aria-label={`${value} reputation`}>
+        <div
+          className={classNames.join(' ')}
+          aria-label={`${value} reputation`}
+        >
           <Icon icon="reputation" alt="Reputation" />
           <span>{value}</span>
         </div>

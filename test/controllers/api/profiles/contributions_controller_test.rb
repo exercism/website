@@ -47,11 +47,11 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     setup_user
 
     profile_user = create(:user_profile).user
-    create :user_code_contribution_reputation_token, user: profile_user
-    create :user_exercise_contribution_reputation_token, user: profile_user
-    create :user_exercise_author_reputation_token, user: profile_user
-    create :user_code_merge_reputation_token, user: profile_user
-    create :user_code_review_reputation_token, user: profile_user
+    contribution = create :user_code_contribution_reputation_token, user: profile_user
+    contribute = create :user_exercise_contribution_reputation_token, user: profile_user
+    author = create :user_exercise_author_reputation_token, user: profile_user
+    merge = create :user_code_merge_reputation_token, user: profile_user
+    review = create :user_code_review_reputation_token, user: profile_user
 
     get building_api_profile_contributions_path(profile_user), headers: @headers, as: :json
     assert_response 200
@@ -60,6 +60,12 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
       User::ReputationToken::Search.(profile_user, category: %i[building authoring]),
       serializer: SerializeUserReputationTokens
     ).to_json
+
+    assert_includes expected, contribution.uuid
+    assert_includes expected, contribute.uuid
+    assert_includes expected, author.uuid
+    refute_includes expected, merge.uuid
+    refute_includes expected, review.uuid
 
     assert_equal expected, response.body
   end
@@ -72,11 +78,11 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
 
     profile_user = create(:user_profile).user
 
-    create :user_code_merge_reputation_token, user: profile_user
-    create :user_code_review_reputation_token, user: profile_user
-    create :user_code_contribution_reputation_token, user: profile_user
-    create :user_exercise_contribution_reputation_token, user: profile_user
-    create :user_exercise_author_reputation_token, user: profile_user
+    merge = create :user_code_merge_reputation_token, user: profile_user
+    review = create :user_code_review_reputation_token, user: profile_user
+    contribution = create :user_code_contribution_reputation_token, user: profile_user
+    contribute = create :user_exercise_contribution_reputation_token, user: profile_user
+    author = create :user_exercise_author_reputation_token, user: profile_user
 
     get maintaining_api_profile_contributions_path(profile_user), headers: @headers, as: :json
     assert_response 200
@@ -85,6 +91,12 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
       User::ReputationToken::Search.(profile_user, category: :maintaining),
       serializer: SerializeUserReputationTokens
     ).to_json
+
+    refute_includes expected, contribution.uuid
+    refute_includes expected, contribute.uuid
+    refute_includes expected, author.uuid
+    assert_includes expected, merge.uuid
+    assert_includes expected, review.uuid
 
     assert_equal expected, response.body
   end

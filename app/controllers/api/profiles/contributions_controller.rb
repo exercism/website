@@ -1,9 +1,11 @@
 module API::Profiles
   class ContributionsController < BaseController
     def building
-      tokens = @user.reputation_tokens.
-        where(category: %i[building authoring]).
-        page(params[:page]).per(20)
+      tokens = User::ReputationToken::Search.(
+        @user,
+        category: %i[building authoring],
+        page: params[:page]
+      )
 
       render json: SerializePaginatedCollection.(
         tokens,
@@ -12,9 +14,11 @@ module API::Profiles
     end
 
     def maintaining
-      tokens = @user.reputation_tokens.
-        where(category: :maintaining).
-        page(params[:page]).per(20)
+      tokens = User::ReputationToken::Search.(
+        @user,
+        category: :maintaining,
+        page: params[:page]
+      )
 
       render json: SerializePaginatedCollection.(
         tokens,
@@ -23,14 +27,10 @@ module API::Profiles
     end
 
     def authoring
-      # TODO: Make this work as an inner query, not an array
-      ids = @user.authored_exercises.select(:id) +
-            @user.contributed_exercises.select(:id)
-
-      exercises = Exercise.
-        where(id: ids).
-        order(id: :desc).
-        page(params[:page]).per(20)
+      exercises = User::RetrieveAuthoredAndContributedExercises.(
+        @user,
+        page: params[:page]
+      )
 
       render json: SerializePaginatedCollection.(
         exercises,

@@ -60,4 +60,13 @@ class User::ReputationToken::SearchTest < ActiveSupport::TestCase
 
     assert_equal [token_2, token_1], User::ReputationToken::Search.(user)
   end
+
+  test "returns relationship unless paginated" do
+    user = create :user
+    create :user_code_contribution_reputation_token, user: user
+
+    tokens = User::ReputationToken::Search.(user, paginated: false)
+    assert tokens.is_a?(ActiveRecord::Relation)
+    refute_respond_to tokens, :current_page
+  end
 end

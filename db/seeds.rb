@@ -190,11 +190,29 @@ end
   )
 end
 
-exercises = Exercise.all.sort_by{rand}[0,4]
+
+exercises = Exercise.all.sort_by{rand}[0,3]
 iHiD.authored_exercises += exercises
 
+exercises.each do |exercise|
+  track = exercise.track
+  User::ReputationToken::Create.(
+    iHiD,
+    :exercise_author,
+    track: track,
+    exercise: exercise
+  )
+end
 
-exercises = Exercise.all.sort_by{rand}[0,20]
+exercises = Exercise.all.sort_by{rand}[0,10]
 iHiD.contributed_exercises += exercises
-
+exercises.each do |exercise|
+  track = exercise.track
+  User::ReputationToken::Create.(
+    iHiD,
+    :exercise_contribution,
+    track: track,
+    exercise: exercise
+  )
+end
 

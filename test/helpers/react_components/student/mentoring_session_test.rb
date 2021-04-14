@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-module Mentoring::Student
+module ReactComponents::Student
   class MentoringSessionTest < ReactComponentTestCase
     test "mentoring solution renders correctly" do
       mentor = create :user

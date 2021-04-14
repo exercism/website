@@ -1,7 +1,40 @@
 #page-profile
   = render ViewComponents::Profile::Header.new(@user, @profile, :summary)
 
+
   %article
+    / This is the component to build off
+    = render ReactComponents::Profile::ContributionsSummary.new(@user)
+
+    / This is a temporary call to show you the data to work off
+    / It shows how you use the data in the ReactComponent Helper
+    - data = ReactComponents::Profile::ContributionsSummary.new(@user).data
+
+    / You either want :all (default) or one of the tracks, which would be:
+    / data['tracks'][0]['slug'] => Ruby
+    / data['tracks'][0]['categories'] => (same structure as data["all"])
+    - publishing_data = data[:all].find{|s|s[:id] == :publishing}
+    - mentoring_data = data[:all].find{|s|s[:id] == :mentoring}
+    - authoring_data = data[:all].find{|s|s[:id] == :authoring}
+    - building_data = data[:all].find{|s|s[:id] == :building}
+    - maintaining_data = data[:all].find{|s|s[:id] == :maintaining}
+    - other_data = data[:all].find{|s|s[:id] == :other}
+
+    / In React we need to create the actual chart array
+    / We have a min_reputation which is the max / 15. This just makes the chart look good.
+    / The we put the values in the order as below and it all magically works ;)
+    - max_reputation = data[:all].map {|cat|cat[:reputation]}.sum
+    - min_reputation = max_reputation / 15.0
+
+    - chart_data = []
+    - chart_data << (publishing_data[:reputation] > min_reputation ? publishing_data[:reputation] : min_reputation)
+    - chart_data << (mentoring_data[:reputation] > min_reputation ? mentoring_data[:reputation] : min_reputation)
+    - chart_data << (authoring_data[:reputation] > min_reputation ? authoring_data[:reputation] : min_reputation)
+    - chart_data << (building_data[:reputation] > min_reputation ? building_data[:reputation] : min_reputation)
+    - chart_data << (maintaining_data[:reputation] > min_reputation ? maintaining_data[:reputation] : min_reputation)
+    - chart_data << (other_data[:reputation] > min_reputation ? other_data[:reputation] : min_reputation)
+
+    / And this is what it should look like
     %section.contributions-section
       .info
       .chart-container
@@ -10,26 +43,26 @@
         #label-0.label
           = graphical_icon :maintaining, hex: true
           .title Publishing
-          .subtitle 78 solutions
+          .subtitle= publishing_data[:metric]
           .tag.top-10 Top 10%
         #label-1.label
           = graphical_icon :mentoring, hex: true
           .title Mentoring
-          .subtitle 520 students
+          .subtitle= mentoring_data[:metric]
           .tag.top-1 Top 1%
         #label-2.label
           = graphical_icon :concepts, hex: true
           .title Authoring
-          .subtitle 8 exercises
+          .subtitle= authoring_data[:metric]
         #label-3.label
           = graphical_icon :maintaining, hex: true
           .title Building
-          .subtitle 5,123 PRs merged
+          .subtitle= building_data[:metric]
           .tag.top-3 Top 3%
         #label-4.label
           = graphical_icon :maintaining, hex: true
           .title Maintaining
-          .subtitle 2,193 PRs reviews
+          .subtitle= maintaining_data[:metric]
         #label-5.label
           = graphical_icon :maintaining, hex: true
           .title Other
@@ -81,7 +114,7 @@
           labels: [ '', '', '', '', '', '' ],
           datasets: [{
             label: '',
-            data: [65, 59, 90, 81, 56, 55],
+            data: #{chart_data.to_json},
             fill: true,
             backgroundColor: `rgba(${trackColor}, 0.3)`,
             borderColor: `rgba(${trackColor}, 1)`,
@@ -113,7 +146,7 @@
             },
             plugins: {
               legend: { display: false },
-              tooltip: { enabled: false }
+              tooltip: { enabled: true }
             }
           },
         };

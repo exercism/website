@@ -35,6 +35,7 @@ export const ContributionsList = ({
   categories: readonly Category[]
   userHandle: string
 }): JSX.Element => {
+  const [loadingTab, setLoadingTab] = useState(true)
   const [currentCategory, setCurrentCategory] = useState(categories[0])
   const isMountedRef = useIsMounted()
   const { request, setPage, setEndpoint } = useList({
@@ -56,6 +57,15 @@ export const ContributionsList = ({
     setEndpoint(currentCategory.endpoint)
   }, [currentCategory, setEndpoint])
 
+  useEffect(() => {
+    setLoadingTab(false)
+  }, [resolvedData])
+
+  const loadTab = (category: Category) => {
+    setCurrentCategory(category)
+    setLoadingTab(true)
+  }
+
   return (
     <React.Fragment>
       <div className="tabs">
@@ -68,7 +78,7 @@ export const ContributionsList = ({
           return (
             <button
               key={category.title}
-              onClick={() => setCurrentCategory(category)}
+              onClick={() => loadTab(category)}
               className={classNames.join(' ')}
             >
               <GraphicalIcon icon={category.icon} hex />
@@ -84,7 +94,7 @@ export const ContributionsList = ({
         defaultError={DEFAULT_ERROR}
       >
         <ResultsZone isFetching={isFetching}>
-          {resolvedData ? (
+          {resolvedData && !loadingTab ? (
             <React.Fragment>
               <ContributionsContent
                 userHandle={userHandle}

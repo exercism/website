@@ -6,7 +6,7 @@ class SerializeExerciseAuthorships
   end
 
   def call
-    exercises.map do |exercise|
+    exercises.includes(:track).map do |exercise|
       user_track = UserTrack::External.new(exercise.track)
 
       {

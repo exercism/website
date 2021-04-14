@@ -23,6 +23,7 @@ module API::Profiles
     end
 
     def authoring
+      # TODO: Make this work as an inner query, not an array
       ids = @user.authored_exercises.select(:id) +
             @user.contributed_exercises.select(:id)
 

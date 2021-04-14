@@ -118,7 +118,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
         where(id: [exercise_1, exercise_2].map(&:id)).
         order(id: :desc).
         page(1).per(20),
-      serializer: SerializeExercises
+      serializer: SerializeExerciseAuthorships
     ).to_json
 
     assert_equal expected, response.body

@@ -62,9 +62,9 @@ class User < ApplicationRecord
 
   def formatted_reputation(*args)
     rep = reputation(*args)
-    return rep if rep < 1000
+    return rep.to_s if rep < 1000
 
-    "#{(rep / 100.0).floor}k"
+    "#{(rep / 1000.0).floor}k"
   end
 
   def reputation(track_slug: nil, category: nil)

@@ -2,6 +2,124 @@
   = render ViewComponents::Profile::Header.new(@user, @profile, :summary)
 
   %article
+    %section.contributions-section
+      .info
+      .chart-container
+        #label-0.label
+          = graphical_icon :maintaining, hex: true
+          .title Publishing
+          .subtitle 78 solutions
+        #label-1.label
+          = graphical_icon :mentoring, hex: true
+          .title Mentoring
+          .subtitle 520 students
+        #label-2.label
+          = graphical_icon :concepts, hex: true
+          .title Authoring
+          .subtitle 8 exercises
+        #label-3.label
+          = graphical_icon :maintaining, hex: true
+          .title Building
+          .subtitle 5,123 PRs merged
+        #label-4.label
+          = graphical_icon :maintaining, hex: true
+          .title Maintaining
+          .subtitle 2,193 PRs reviews
+        #label-5.label
+          = graphical_icon :maintaining, hex: true
+          .title Other
+        .chart
+          <canvas id="contributions-chart"></canvas>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      :javascript
+
+        const data = {
+          labels: [
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+          ],
+          datasets: [{
+            label: 'My First Dataset',
+            data: [65, 59, 90, 81, 56, 55, 40],
+            fill: true,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgb(255, 99, 132)',
+            pointBackgroundColor: 'rgb(255, 99, 132)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(255, 99, 132)'
+          }]
+        };
+
+        const config = {
+          type: 'radar',
+          data: data,
+          options: {
+            aspectRatio: 1,
+            elements: {
+              line: {
+                borderWidth: 3
+              }
+            },
+            plugins: {
+              legend: {
+                display: false,
+              }
+            }
+          },
+        };
+        const leftMargin = 100;
+        const topMargin = 150;
+        const buffer = 8;
+        var ctx = document.getElementById('contributions-chart');
+        var container = ctx.parentNode;
+        var chart = new Chart(ctx, config)
+        containerHeight = container.offsetHeight;
+
+        const point0 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(0)
+        const label0 = document.getElementById("label-0")
+        label0.style.left = ((point0.left + leftMargin) + "px")
+        label0.style.marginLeft = (-(label0.offsetWidth / 2) + "px")
+        label0.style.bottom = ((containerHeight - point0.bottom + topMargin) + "px")
+        label0.style.visibility = "visible"
+
+        const point1 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(1)
+        const label1 = document.getElementById("label-1")
+        label1.style.left = ((point1.left + leftMargin + buffer) + "px")
+        label1.style.bottom = ((containerHeight - point1.bottom + topMargin - (label1.offsetHeight / 2)) + "px")
+        label1.style.visibility = "visible"
+
+        const point2 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(2)
+        const label2 = document.getElementById("label-2")
+        label2.style.left = ((point2.left + leftMargin + buffer) + "px")
+        label2.style.bottom = ((containerHeight - point2.bottom + topMargin - (label2.offsetHeight / 2)) + "px")
+        label2.style.visibility = "visible"
+
+        const point3 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(3)
+        const label3 = document.getElementById("label-3")
+        label3.style.left = ((point3.left + leftMargin) + "px")
+        label3.style.marginLeft = (-(label3.offsetWidth / 2) + "px")
+        label3.style.bottom = ((containerHeight - point3.bottom + topMargin - label3.offsetHeight) + "px")
+        label3.style.visibility = "visible"
+
+        const point4 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(4)
+        const label4 = document.getElementById("label-4")
+        label4.style.left = ((point4.left + leftMargin - label4.offsetWidth - buffer) + "px")
+        label4.style.bottom = ((containerHeight - point4.bottom + topMargin - (label4.offsetHeight / 2)) + "px")
+        label4.style.visibility = "visible"
+
+        const point5 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(5)
+        const label5 = document.getElementById("label-5")
+        label5.style.left = ((point5.left + leftMargin - label5.offsetWidth - buffer) + "px")
+        label5.style.bottom = ((containerHeight - point5.bottom + topMargin - (label5.offsetHeight / 2)) + "px")
+        label5.style.visibility = "visible"
+
+
     %section.published-solutions-section
       .lg-container.container
         %header.section-header

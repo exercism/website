@@ -39,6 +39,40 @@
             @apply flex flex-col;
         }
 
+        & section.contributions-section {
+            @apply flex items-center;
+            & .info {
+                @apply flex-grow;
+            }
+            & .chart-container {
+                width: 600px;
+                @apply relative;
+                padding: 150px 100px;
+
+                & .label {
+                    @apply flex flex-col items-center;
+                    @apply absolute invisible;
+                    min-width: 122px;
+
+                    & .c-icon {
+                        height: 54px;
+                        width: 54px;
+                        @apply mb-8;
+                    }
+                    & .title {
+                        @apply text-h6 mb-4;
+                    }
+                    & .subtitle {
+                        @apply text-15 leading-160 text-textColor2;
+                    }
+                }
+                & .chart {
+                    width: 350px;
+                    height: 350px;
+                }
+            }
+        }
+
         & section.published-solutions-section {
             & .solutions {
                 @apply flex justify-center mb-40;

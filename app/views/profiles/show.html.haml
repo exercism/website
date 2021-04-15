@@ -1,7 +1,6 @@
 #page-profile
   = render ViewComponents::Profile::Header.new(@user, @profile, :summary)
 
-
   %article
     = render ReactComponents::Profile::ContributionsSummary.new(@user)
 

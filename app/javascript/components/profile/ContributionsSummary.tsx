@@ -5,7 +5,7 @@ import React, {
   forwardRef,
   createRef,
 } from 'react'
-import { GraphicalIcon } from '../common'
+import { GraphicalIcon, ProminentLink } from '../common'
 import { useChart } from './contributions-chart/use-chart'
 
 const leftMargin = 100
@@ -154,19 +154,64 @@ export const ContributionsSummary = ({
 
   return (
     <section className="contributions-section">
-      <div className="info" />
-      <div className="chart-container">
-        {currentTrack.categories.map((category, i) => {
-          return (
-            <CategoryLabel
-              key={category.id}
-              ref={labelRefs.current[i]}
-              category={category}
-            />
-          )
-        })}
-        <div className="chart">
-          <canvas id="contributions-chart" ref={setCanvas} />
+      <div className="lg-container container">
+        <div className="summary">
+          <header className="section-header">
+            <GraphicalIcon icon="community-solutions" hex={true} />
+            <h2>Published Solutions</h2>
+          </header>
+          <div className="c-primary-reputation">
+            <div className="--inner">
+              erikschierboom has
+              <GraphicalIcon icon="reputation" />
+              667,133 Reputation
+            </div>
+          </div>
+          {/* This is the same as on the Mentor Queue */}
+          <div className="c-track-switcher">
+            <div className="current-track">
+              <GraphicalIcon icon="logo" />
+              <div className="track-title">All</div>
+              <div className="count">100 rep</div>
+              <GraphicalIcon icon="chevron-down" className="action-icon" />
+            </div>
+          </div>
+
+          {/* This works in the same way as the labels. The HTML is slightly different but logic is the same */}
+          <div className="category">
+            <GraphicalIcon icon="maintaining" hex />
+            <div className="info">
+              <div className="title">Maintaining</div>
+              <div className="subtitle">5,239 PRs merged</div>
+            </div>
+            <div className="reputation">123,123 rep</div>
+          </div>
+          <div className="category">
+            <GraphicalIcon icon="concepts" hex />
+            <div className="info">
+              <div className="title">Building</div>
+              <div className="subtitle">5,239 PRs created</div>
+            </div>
+            <div className="reputation">13,456 rep</div>
+          </div>
+
+          {/* This is the link to the contributions tab */}
+          <ProminentLink link="#" text="See erikschierboom’s contributions" />
+        </div>
+
+        <div className="chart-container">
+          {currentTrack.categories.map((category, i) => {
+            return (
+              <CategoryLabel
+                key={category.id}
+                ref={labelRefs.current[i]}
+                category={category}
+              />
+            )
+          })}
+          <div className="chart">
+            <canvas id="contributions-chart" ref={setCanvas} />
+          </div>
         </div>
       </div>
     </section>

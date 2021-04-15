@@ -23,6 +23,7 @@
         @apply w-100;
         @apply text-left;
 
+        & .c-icon,
         & .c-track-icon {
             height: 40px;
             width: 40px;

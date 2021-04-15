@@ -136,7 +136,7 @@ module ReactComponents
 
       memoize
       def reputation_points
-        @user.reputation_tokens.group(:track_id, :category).sum(:value).with_indifferent_access
+        @user.reputation_tokens.group(:track_id, :category).sum(:value)
       end
 
       memoize

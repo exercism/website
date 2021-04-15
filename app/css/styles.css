@@ -3,7 +3,7 @@
     line-height: 1.25;
 }
 .text-h2 {
-    @apply text-31 font-semibold text-textColor2 leading-140;
+    @apply text-31 font-bold text-textColor2 leading-140;
 }
 .text-h3 {
     @apply text-24 text-textColor2 font-semibold;

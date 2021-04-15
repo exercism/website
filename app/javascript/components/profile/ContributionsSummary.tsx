@@ -157,8 +157,8 @@ export const ContributionsSummary = ({
       <div className="lg-container container">
         <div className="summary">
           <header className="section-header">
-            <GraphicalIcon icon="community-solutions" hex={true} />
-            <h2>Published Solutions</h2>
+            <GraphicalIcon icon="contribute" hex={true} />
+            <h2>Contributions</h2>
           </header>
           <div className="c-primary-reputation">
             <div className="--inner">

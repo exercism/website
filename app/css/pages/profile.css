@@ -44,7 +44,10 @@
                 max-width: 650px;
 
                 & .section-header {
-                    @apply items-start mb-24;
+                    @apply flex-row mb-24;
+                    & .c-icon {
+                        @apply mb-0 mr-16;
+                    }
                     & h2 {
                         @apply text-left ml-0 mb-0;
                     }
@@ -66,7 +69,7 @@
 
                     /* This aligns it to the select box above */
                     padding-left: 20px;
-                    padding-right: 60px;
+                    padding-right: 89px;
 
                     & .c-icon {
                         height: 48px;

@@ -79,18 +79,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # This adds the within option to assert_text
   # For example:
   # assert_text "Ruby", within: "h3.title"
-  def assert_text(text, *args, **options)
-    # For reasons that none of us understand, We need to explicitely
-    # call the body method before the assertion.
-    body
+  # def assert_text(text, *args, **options)
+  #   # For reasons that none of us understand, We need to explicitely
+  #   # call the body method before the assertion.
+  #   body
 
-    context = options.delete(:within)
-    if context
-      within(context) { assert_text(text, *args, **options) }
-    else
-      super
-    end
-  end
+  #   context = options.delete(:within)
+  #   if context
+  #     within(context) { assert_text(text, *args, **options) }
+  #   else
+  #     super
+  #   end
+  # end
 
   # This does a string comparison between some given HTML
   # and some HTML found in the document.

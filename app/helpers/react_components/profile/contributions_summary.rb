@@ -17,43 +17,9 @@ module ReactComponents
       # cache invalidation for here.
       def data
         {
-          all: data_for_all,
+          all: categories_data,
           tracks: tracks.map { |track| data_for_track(track) }
         }
-      end
-
-      def data_for_all
-        [
-          {
-            id: :publishing,
-            reputation: num_reputation_points(:publishing),
-            metric: publishing_metric
-          },
-          {
-            id: :mentoring,
-            reputation: num_reputation_points(:mentoring),
-            metric: mentoring_metric
-          },
-          {
-            id: :authoring,
-            reputation: num_reputation_points(:authoring),
-            metric: authoring_metric
-          },
-          {
-            id: :building,
-            reputation: num_reputation_points(:building),
-            metric: building_metric
-          },
-          {
-            id: :maintaining,
-            reputation: num_reputation_points(:maintaining),
-            metric: maintaining_metric
-          },
-          {
-            id: :other,
-            reputation: num_reputation_points(:misc)
-          }
-        ]
       end
 
       def data_for_track(track)
@@ -61,38 +27,42 @@ module ReactComponents
           id: track.slug,
           title: track.title,
           icon_url: track.icon_url,
-          categories: [
-            {
-              id: :publishing,
-              reputation: num_reputation_points(:publishing, track.id),
-              metric: publishing_metric(track.id)
-            },
-            {
-              id: :mentoring,
-              reputation: num_reputation_points(:mentoring, track.id),
-              metric: mentoring_metric(track.id)
-            },
-            {
-              id: :authoring,
-              reputation: num_reputation_points(:authoring, track.id),
-              metric: authoring_metric(track.id)
-            },
-            {
-              id: :building,
-              reputation: num_reputation_points(:building, track.id),
-              metric: building_metric(track.id)
-            },
-            {
-              id: :maintaining,
-              reputation: num_reputation_points(:maintaining, track.id),
-              metric: maintaining_metric(track.id)
-            },
-            {
-              id: :other,
-              reputation: num_reputation_points(:misc, track.id)
-            }
-          ]
+          categories: categories_data(track.id)
         }
+      end
+
+      def categories_data(track_id = nil)
+        [
+          {
+            id: :publishing,
+            reputation: num_reputation_points(:publishing, track_id),
+            metric: publishing_metric(track_id)
+          },
+          {
+            id: :mentoring,
+            reputation: num_reputation_points(:mentoring, track_id),
+            metric: mentoring_metric(track_id)
+          },
+          {
+            id: :authoring,
+            reputation: num_reputation_points(:authoring, track_id),
+            metric: authoring_metric(track_id)
+          },
+          {
+            id: :building,
+            reputation: num_reputation_points(:building, track_id),
+            metric: building_metric(track_id)
+          },
+          {
+            id: :maintaining,
+            reputation: num_reputation_points(:maintaining, track_id),
+            metric: maintaining_metric(track_id)
+          },
+          {
+            id: :other,
+            reputation: num_reputation_points(:misc, track_id)
+          }
+        ]
       end
 
       private

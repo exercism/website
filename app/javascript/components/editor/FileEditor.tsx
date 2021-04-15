@@ -118,13 +118,11 @@ export function FileEditor({
 
     editor.setModel(filesRef.current[0].model)
 
-    editorDidMount({ getFiles, setFiles, openPalette })
+    // Fix a custom code font rendering bug
+    // See https://github.com/exercism/website/issues/742#issuecomment-816806513
+    document.fonts.ready.then(() => monacoEditor.editor.remeasureFonts())
 
-    setTimeout(() => {
-      // This fixes a Windows-only issue with the custom code font resulting in the cursor rendering being off
-      // See https://github.com/exercism/website/issues/742#issuecomment-816806513
-      monacoEditor.editor.remeasureFonts()
-    }, 0)
+    editorDidMount({ getFiles, setFiles, openPalette })
   }
 
   const handleEditorWillMount = () => {

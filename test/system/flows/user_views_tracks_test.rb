@@ -50,7 +50,7 @@ module Flows
         fill_in "Search language tracks", with: "Go"
 
         assert_selector(".c-tracks-list .--track", count: 1)
-        assert_text "Go", within: ".--track"
+        within(".--track") { assert_text "Go" }
       end
     end
 
@@ -67,7 +67,7 @@ module Flows
         click_on "Apply"
 
         assert_selector(".c-tracks-list .--track", count: 1)
-        assert_text "Ruby", within: ".--track"
+        within(".--track") { assert_text "Ruby" }
       end
     end
 

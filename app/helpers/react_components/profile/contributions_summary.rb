@@ -17,8 +17,14 @@ module ReactComponents
       # cache invalidation for here.
       def data
         {
-          all: categories_data,
-          tracks: tracks.map { |track| data_for_track(track) }
+          tracks: [
+            {
+              id: "all",
+              title: "All",
+              icon_url: "ICON",
+              categories: categories_data
+            }
+          ].concat(tracks.map { |track| data_for_track(track) })
         }
       end
 

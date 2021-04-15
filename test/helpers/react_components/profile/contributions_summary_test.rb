@@ -40,17 +40,22 @@ module ReactComponents::Profile
       4.times { create :mentor_discussion, solution: create(:practice_solution, track: js), mentor: user }
 
       expected = {
-        all: [
-          # TODO: Reputation
-          { id: :publishing, reputation: 0, metric: "6 solutions" },
-          # TODO: Reputation
-          { id: :mentoring, reputation: 0, metric: "9 students" },
-          { id: :authoring, reputation: 110, metric: "11 exercises" },
-          { id: :building, reputation: 72, metric: "6 PRs created" },
-          { id: :maintaining, reputation: 45, metric: "9 PRs reviewed" },
-          { id: :other, reputation: 0 }
-        ],
         tracks: [
+          {
+            id: "all",
+            title: "All",
+            icon_url: "ICON",
+            categories: [
+              # TODO: Reputation
+              { id: :publishing, reputation: 0, metric: "6 solutions" },
+              # TODO: Reputation
+              { id: :mentoring, reputation: 0, metric: "9 students" },
+              { id: :authoring, reputation: 110, metric: "11 exercises" },
+              { id: :building, reputation: 72, metric: "6 PRs created" },
+              { id: :maintaining, reputation: 45, metric: "9 PRs reviewed" },
+              { id: :other, reputation: 0 }
+            ]
+          },
           {
             id: "elixir", title: "Elixir", icon_url: elixir.icon_url, categories: [
               # TODO: Reputation

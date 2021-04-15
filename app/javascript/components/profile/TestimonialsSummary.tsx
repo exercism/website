@@ -88,10 +88,12 @@ export const TestimonialsSummary = ({
             })}
           </div>
         </div>
-        <ProminentLink
-          link={links.all}
-          text={`See all of ${handle}'s testimonials`}
-        />
+        {links.all ? (
+          <ProminentLink
+            link={links.all}
+            text={`See all of ${handle}'s testimonials`}
+          />
+        ) : null}
       </div>
     </section>
   )

@@ -67,17 +67,20 @@
         = graphical_icon :overview
         %span Summary
 
-      = link_to contributions_profile_path(user), class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
-        = graphical_icon :contribute
-        %span Contributions
+      - if profile.contributions_tab?
+        = link_to contributions_profile_path(user), class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
+          = graphical_icon :contribute
+          %span Contributions
 
-      = link_to solutions_profile_path(user), class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
-        = graphical_icon 'community-solutions'
-        %span Published Solutions
+      - if profile.solutions_tab?
+        = link_to solutions_profile_path(user), class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
+          = graphical_icon 'community-solutions'
+          %span Published Solutions
 
-      = link_to testimonials_profile_path(user), class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
-        = graphical_icon 'testimonials'
-        %span Testimonials
+      - if profile.testimonials_tab?
+        = link_to testimonials_profile_path(user), class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
+          = graphical_icon 'testimonials'
+          %span Testimonials
 
       = link_to badges_profile_path(user), class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
         = graphical_icon 'badges'

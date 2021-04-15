@@ -85,6 +85,14 @@ class Submission < ApplicationRecord
   end
 
   memoize
+  def valid_filepaths
+    exercise_repo = Git::Exercise.for_solution(solution)
+    files.map(&:filename).select do |filepath|
+      exercise_repo.valid_submission_filepath?(filepath)
+    end
+  end
+
+  memoize
   def representer_feedback
     return nil unless exercise_representation&.has_feedback?
 

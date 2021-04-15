@@ -33,6 +33,17 @@ module Git
       commit.oid
     end
 
+    def valid_submission_filepath?(filepath)
+      return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})
+      return false if filepath.starts_with?(".meta")
+
+      # Some languages have solutions and tests in the same file so
+      # we need to protect for that here.
+      return false if test_filepaths.include?(filepath) && !solution_filepaths.include?(filepath)
+
+      true
+    end
+
     memoize
     def authors
       config[:authors].to_a
@@ -59,6 +70,16 @@ module Git
     end
 
     memoize
+    def solution_filepaths
+      config[:files][:solution]
+    end
+
+    memoize
+    def test_filepaths
+      config[:files][:test]
+    end
+
+    memoize
     def exemplar_files
       config[:files][:exemplar].index_with do |filepath|
         read_file_blob(filepath)
@@ -80,7 +101,7 @@ module Git
     # to a user for use in the editor.
     memoize
     def solution_files
-      config[:files][:solution].index_with do |filepath|
+      solution_filepaths.index_with do |filepath|
         read_file_blob(filepath)
       end
     rescue StandardError

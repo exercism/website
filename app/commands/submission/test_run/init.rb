@@ -13,7 +13,7 @@ class Submission
           exercise: solution.exercise.slug,
           source: {
             submission_efs_root: submission.uuid,
-            submission_filepaths: submission_filepaths,
+            submission_filepaths: submission.valid_filepaths,
             exercise_git_repo: solution.track.slug,
             exercise_git_sha: exercise_repo.synced_git_sha,
             exercise_git_dir: exercise_repo.dir,
@@ -25,31 +25,17 @@ class Submission
       memoize
       delegate :solution, to: :submission
 
-      memoize
-      def submission_filepaths
-        submission.files.map do |file|
-          filename = file.filename
-
-          # TODO: Add a test for this.
-          next if filename.match?(%r{[^a-zA-Z0-9_./-]})
-
-          next if filename.match?(test_regexp)
-          next if filename.starts_with?(".meta")
-
-          filename
-        end.compact
-      end
-
       def exercise_filepaths
-        exercise_repo.tooling_filepaths.map do |filepath|
+        exercise_repo.tooling_filepaths.select do |filepath|
           # Skip non-functional files
-          next if filepath.starts_with?(".docs")
-          next if filepath == "README.md"
+          next false if filepath.starts_with?(".docs")
+          next false if filepath == "README.md"
 
-          next if submission_filepaths.include?(filepath)
+          # Skip submitted files
+          next false if submission.valid_filepaths.include?(filepath)
 
-          filepath
-        end.compact
+          true
+        end
       end
 
       memoize

@@ -264,4 +264,33 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission_1.viewable_by?(user)
     refute submission_2.viewable_by?(user)
   end
+
+  test "valid_filepaths" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
+    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
+    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Don't override tests
+    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
+
+    assert_equal ["log_line_parser.rb", "subdir/new_file.rb"], submission.valid_filepaths
+  end
+
+  # d has both source and tests in the same file.
+  # The config tells us this by having solution and test be the same
+  test "valid_filepaths when test is same as solution file" do
+    exercise = create :practice_exercise, slug: "d-like"
+    solution = create :practice_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
+    create :submission_file, submission: submission, filename: "source/bob.d"
+
+    # Sanity
+    repo = Git::Exercise.for_solution(solution)
+    assert_equal repo.solution_filepaths, repo.test_filepaths
+
+    # Check the file is allowed
+    assert_equal ["source/bob.d"], submission.valid_filepaths
+  end
 end

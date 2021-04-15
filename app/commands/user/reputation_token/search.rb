@@ -71,7 +71,7 @@ class User
       end
 
       def paginate!
-        @tokens = @tokens.page(page).per(self.class.default_per)
+        @tokens = @tokens.page(page).per(per)
       end
     end
   end

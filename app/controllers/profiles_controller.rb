@@ -22,6 +22,11 @@ class ProfilesController < ApplicationController
 
   def contributions; end
 
+  def testimonials
+    # TODO: Added lots for now to show them off. Remove this.
+    @testimonials = @user.mentor_testimonials.sort_by { rand } * 5
+  end
+
   def badges
     @badges = @user.badges
   end

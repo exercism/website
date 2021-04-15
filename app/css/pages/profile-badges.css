@@ -3,6 +3,7 @@
 #page-profile-badges {
     @apply mb-80;
     & article {
+        @apply mt-40;
         & .summary {
             @apply shadow-base bg-backgroundColorA py-16 mb-40 rounded-8;
             @apply flex justify-center;

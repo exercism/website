@@ -78,6 +78,8 @@
                 }
             }
             & .testimonials {
+                @apply flex flex-col items-center;
+
                 & .stats {
                     @apply grid grid-cols-3;
                     @apply mb-24;
@@ -93,7 +95,7 @@
                         }
                     }
                 }
-                @apply flex flex-col items-center;
+
                 & .testimonial {
                     max-width: 840px;
                     @apply mx-auto text-center;

@@ -78,7 +78,7 @@
         // this is set the actual 6 values in the data array. Everything else should be exactly as below.
 
         // This is the correct data (and helper function) for the "All" category
-        function createBluePurpleGradient(chart, opacity) {
+        /*function createBluePurpleGradient(chart, opacity) {
           const {ctx, chartArea} = chart;
           if (!chartArea) { return null; }
           const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
@@ -86,7 +86,7 @@
           gradient.addColorStop(1, `rgba(158, 0, 255, ${opacity})`);
           return gradient
         }
-        /*const data = {
+        const data = {
           labels: [ '', '', '', '', '', '' ],
           datasets: [{
             label: '',
@@ -146,7 +146,7 @@
             },
             plugins: {
               legend: { display: false },
-              tooltip: { enabled: true }
+              tooltip: { enabled: false }
             }
           },
         };

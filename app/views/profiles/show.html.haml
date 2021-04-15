@@ -14,6 +14,7 @@
           - @solutions.each do |solution|
             = render ReactComponents::Common::CommunitySolution.new(solution, context: :profile)
 
-        = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
+        - if @profile.solutions_tab?
+          = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
 
-    = render ReactComponents::Profile::TestimonialsSummary.new(@user)
+    = render ReactComponents::Profile::TestimonialsSummary.new(@user, @profile)

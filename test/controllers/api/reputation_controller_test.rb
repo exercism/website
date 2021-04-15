@@ -23,7 +23,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
       criteria: "ru",
       category: "authoring",
       page: 5,
-      per: 20
+      per_page: 20
     ), headers: @headers, as: :json
 
     assert_response :success

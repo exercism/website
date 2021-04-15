@@ -35,6 +35,9 @@ const Contribution = ({
 }: ContributionProps & { userHandle: string }): JSX.Element => {
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
+  const parsedText = text
+    .replace(/^You reviewed/, 'Reviewed')
+    .replace(/^You merged/, 'Merged')
 
   return (
     <a href={url} className="reputation-token">
@@ -48,7 +51,7 @@ const Contribution = ({
         <div
           className="title"
           dangerouslySetInnerHTML={{
-            __html: text.replace('You ', `${userHandle} `),
+            __html: parsedText,
           }}
         />
         <div className="extra">

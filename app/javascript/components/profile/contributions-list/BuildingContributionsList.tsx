@@ -36,6 +36,11 @@ const Contribution = ({
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
 
+  const parsedText = text
+    .replace(/^You created/, 'Created')
+    .replace(/^You contributed/, 'Contributed')
+    .replace(/^You authored/, 'Authored')
+
   return (
     <a href={url} className="reputation-token">
       <img
@@ -48,7 +53,7 @@ const Contribution = ({
         <div
           className="title"
           dangerouslySetInnerHTML={{
-            __html: text.replace('You ', `${userHandle} `),
+            __html: parsedText,
           }}
         />
         <div className="extra">

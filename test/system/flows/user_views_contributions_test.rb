@@ -22,7 +22,7 @@ module Flows
         visit contributions_profile_url(user.handle)
       end
 
-      assert_text "author created PR#12 on ruby: Fix bugs"
+      assert_text "Created PR#12 on ruby: Fix bugs"
     end
 
     test "shows maintaining contributions for a user" do
@@ -42,7 +42,7 @@ module Flows
         visit contributions_profile_url(user.handle)
       end
 
-      assert_text "maintainer merged PR#12 on ruby: Fix bugs"
+      assert_text "Merged PR#12 on ruby: Fix bugs"
     end
 
     test "shows authorship contributions for a user" do

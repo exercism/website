@@ -7,7 +7,7 @@ export const Reputation = ({
   type = 'common',
 }: {
   value: string
-  size?: 'small'
+  size?: 'small' | 'large'
   type?: 'primary' | 'common'
 }): JSX.Element => {
   const classNames = [

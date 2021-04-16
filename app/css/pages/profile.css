@@ -35,11 +35,119 @@
             }
         }
 
-        & .container {
-            @apply flex flex-col;
+        & section.contributions-section {
+            & .container {
+                @apply flex items-center;
+            }
+            & .summary {
+                @apply flex-grow;
+                max-width: 650px;
+
+                & .section-header {
+                    @apply flex-row mb-24;
+                    & .c-icon {
+                        @apply mb-0 mr-16;
+                    }
+                    & h2 {
+                        @apply text-left ml-0 mb-0;
+                    }
+                }
+                & .c-primary-reputation {
+                    @apply mb-32;
+                    & .c-icon {
+                        @apply ml-8;
+                    }
+                }
+
+                & .c-track-switcher {
+                    @apply relative;
+                    @apply mb-24;
+                    & .c-track-switcher-dropdown {
+                        @apply w-100;
+                    }
+                }
+
+                & .category {
+                    @apply flex items-center;
+                    @apply mb-16;
+
+                    /* This aligns it to the select box above */
+                    padding-left: 20px;
+                    padding-right: 89px;
+
+                    & .c-icon {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-16;
+                    }
+                    & .info {
+                        @apply flex-grow;
+
+                        & .title {
+                            @apply text-h5;
+                        }
+                        & .subtitle {
+                            @apply text-15 leading-170 text-textColor2;
+                        }
+                    }
+                    & .reputation {
+                        @apply text-15 leading-170 text-textColor6;
+                    }
+                }
+                & .c-prominent-link {
+                    @apply flex justify-center;
+                    @apply mt-32 py-8;
+                    @apply bg-veryLightBlue rounded-8;
+                }
+            }
+            & .chart-container {
+                width: 600px;
+                @apply relative ml-auto;
+                padding: 150px 100px;
+
+                & .label {
+                    @apply flex flex-col items-center;
+                    @apply absolute invisible;
+                    min-width: 122px;
+
+                    & .c-icon {
+                        height: 54px;
+                        width: 54px;
+                        @apply mb-8;
+                    }
+                    & .title {
+                        @apply text-h6 mb-4;
+                    }
+                    & .subtitle {
+                        @apply text-15 leading-160 text-textColor2;
+                    }
+                    & .tag {
+                        @apply py-4 px-8 mt-8;
+                        @apply text-12 leading-120 uppercase font-bold font-mono;
+
+                        &.top-1 {
+                            @apply bg-red text-white;
+                        }
+                        &.top-3 {
+                            @apply bg-lightGold text-black;
+                        }
+                        &.top-10 {
+                            @apply bg-rareBadge text-black;
+                        }
+                    }
+                }
+                & .chart {
+                    width: 400px;
+                    height: 400px;
+                }
+            }
         }
 
         & section.published-solutions-section {
+            & .container {
+                @apply flex flex-col;
+            }
+
             & .solutions {
                 @apply flex justify-center mb-40;
                 & > * {
@@ -58,6 +166,8 @@
         & section.testimonials-section {
             & .container {
                 @apply relative;
+                @apply flex flex-col;
+
                 &:before {
                     @apply absolute;
                     content: "";
@@ -77,6 +187,7 @@
                     width: 117px;
                 }
             }
+
             & .testimonials {
                 @apply flex flex-col items-center;
 

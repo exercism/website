@@ -12,7 +12,7 @@ module ReactComponents
         [
           {
             title: "Building",
-            icon: "contribute",
+            icon: "building",
             count: User::ReputationToken::Search.(
               @user,
               category: %i[building authoring],
@@ -45,7 +45,7 @@ module ReactComponents
           },
           {
             title: "Authoring",
-            icon: "concepts",
+            icon: "authoring",
             count: User::RetrieveAuthoredAndContributedExercises.(user, paginated: false, sorted: false).count,
             request: {
               endpoint: Exercism::Routes.authoring_api_profile_contributions_url(user.handle),

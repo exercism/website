@@ -2,6 +2,8 @@
   = render ViewComponents::Profile::Header.new(@user, @profile, :summary)
 
   %article
+    = render ReactComponents::Profile::ContributionsSummary.new(@user)
+
     %section.published-solutions-section
       .lg-container.container
         %header.section-header

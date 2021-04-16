@@ -28,6 +28,11 @@
             @apply text-13 leading-170;
         }
     }
+    &.--large {
+        & .--inner {
+            @apply leading-180 py-4;
+        }
+    }
 
     & .--notification {
         @apply absolute flex items-center justify-center;

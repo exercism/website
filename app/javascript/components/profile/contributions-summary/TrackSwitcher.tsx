@@ -1,21 +1,22 @@
-import React, { useCallback, useMemo } from 'react'
-import { TrackIcon, Icon } from '../../common'
-import { useIsMounted } from 'use-is-mounted'
-import { FetchingBoundary } from '../../FetchingBoundary'
+import React, { useCallback } from 'react'
+import { TrackIcon, Icon, GraphicalIcon } from '../../common'
+import { Track, getTotalReputation } from '../ContributionsSummary'
 import { useDropdown } from '../../dropdowns/useDropdown'
-import { Track } from '../../types'
-import { TrackData } from '../CommunitySolutionsList'
+
+const TrackLogo = ({ track }: { track: Track }) => {
+  return track.id === 'all' ? (
+    <GraphicalIcon icon="logo" />
+  ) : (
+    <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+  )
+}
 
 const TrackFilter = ({
-  title,
-  iconUrl,
-  numSolutions,
+  track,
   checked,
   onChange,
 }: {
-  title: string
-  iconUrl: string
-  numSolutions: number | null
+  track: Track
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
@@ -28,30 +29,26 @@ const TrackFilter = ({
         name="queue_track"
       />
       <div className="row">
-        <TrackIcon iconUrl={iconUrl} title={title} />
-        <div className="title">{title}</div>
-        <div className="count">{numSolutions}</div>
+        <TrackLogo track={track} />
+        <div className="title">{track.title}</div>
+        <div className="count">{getTotalReputation(track)} rep</div>
       </div>
     </label>
   )
 }
 
-const DEFAULT_ERROR = new Error('Unable to fetch tracks')
-
-export const TrackDropdown = ({
+export const TrackSwitcher = ({
   tracks,
   value,
   setValue,
 }: {
-  tracks: TrackData[]
-  value: string
-  setValue: (id: string | null) => void
+  tracks: readonly Track[]
+  value: Track
+  setValue: (value: Track) => void
 }): JSX.Element | null => {
   const handleItemSelect = useCallback(
     (index) => {
-      const track = tracks[index]
-
-      setValue(track.id)
+      setValue(tracks[index])
     },
     [setValue, tracks]
   )
@@ -74,21 +71,16 @@ export const TrackDropdown = ({
     ],
   })
 
-  const selectedTrack = tracks.find((track) => track.id === value) || tracks[0]
-
   return (
-    <div className="c-track-switcher --small">
+    <div className="c-track-switcher">
       <button
         className="current-track"
-        aria-label="Open the track filter"
+        aria-label="Open the track switcher"
         {...buttonAttributes}
       >
-        <TrackIcon
-          iconUrl={selectedTrack.iconUrl}
-          title={selectedTrack.title}
-        />
-        <div className="track-title">{selectedTrack.title}</div>
-        <div className="count">{selectedTrack.numSolutions}</div>
+        <GraphicalIcon icon="logo" />
+        <div className="track-title">{value.title}</div>
+        <div className="count">{getTotalReputation(value)} rep</div>
         <Icon
           icon="chevron-down"
           alt="Click to change"
@@ -103,11 +95,11 @@ export const TrackDropdown = ({
                 <li key={track.id} {...itemAttributes(i)}>
                   <TrackFilter
                     onChange={() => {
-                      setValue(track.id)
+                      setValue(track)
                       setOpen(false)
                     }}
-                    checked={track.id === value}
-                    {...track}
+                    checked={value.id === track.id}
+                    track={track}
                   />
                 </li>
               )

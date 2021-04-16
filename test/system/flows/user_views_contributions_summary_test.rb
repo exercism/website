@@ -15,7 +15,7 @@ module Flows
 
         assert_text "user has\n12 Reputation"
         assert_text "Building"
-        assert_text "1 PR created"
+        assert_text "1 PR accepted"
         assert_text "12 rep"
         assert_link "See user's contributions", href: contributions_profile_url(user.handle)
       end

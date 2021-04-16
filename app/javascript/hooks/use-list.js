@@ -76,13 +76,6 @@ export function useList(initialRequest) {
     [dispatch]
   )
 
-  const setEndpoint = useCallback(
-    (endpoint) => {
-      dispatch({ type: 'endpoint.changed', payload: { endpoint: endpoint } })
-    },
-    [dispatch]
-  )
-
   return {
     request,
     setCriteria,
@@ -90,6 +83,5 @@ export function useList(initialRequest) {
     setPage,
     setQuery,
     setFilter,
-    setEndpoint,
   }
 }

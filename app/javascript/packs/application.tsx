@@ -449,7 +449,6 @@ initReact({
       categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(
         data.categories
       )}
-      userHandle={data.user_handle}
     />
   ),
 })

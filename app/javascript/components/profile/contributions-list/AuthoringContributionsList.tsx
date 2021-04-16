@@ -16,7 +16,7 @@ type PaginatedResult = {
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to load contributions')
+const DEFAULT_ERROR = new Error('Unable to load authoring contributions')
 
 export const AuthoringContributionsList = ({
   request: initialRequest,

@@ -13,7 +13,7 @@ export const TotalReputation = ({
       <div className="--inner">
         {handle} has
         <GraphicalIcon icon="reputation" />
-        {reputation} Reputation
+        {reputation.toLocaleString()} Reputation
       </div>
     </div>
   )

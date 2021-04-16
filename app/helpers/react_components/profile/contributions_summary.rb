@@ -24,7 +24,11 @@ module ReactComponents
               icon_url: "ICON",
               categories: categories_data
             }
-          ].concat(tracks.map { |track| data_for_track(track) })
+          ].concat(tracks.map { |track| data_for_track(track) }),
+          handle: user.handle,
+          links: {
+            contributions: Exercism::Routes.contributions_profile_url(user.handle)
+          }
         }
       end
 

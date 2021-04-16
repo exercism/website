@@ -1,0 +1,24 @@
+require "application_system_test_case"
+require_relative "../../support/capybara_helpers"
+
+module Flows
+  class UserViewsContributionsSummaryTest < ApplicationSystemTestCase
+    include CapybaraHelpers
+
+    test "shows contribution summary" do
+      user = create :user, handle: "user"
+      create :user_profile, user: user
+      create :user_code_contribution_reputation_token, user: user
+
+      use_capybara_host do
+        visit profile_path(user.handle)
+
+        assert_text "user has\n12 Reputation"
+        assert_text "Building"
+        assert_text "1 PR created"
+        assert_text "12 rep"
+        assert_link "See user's contributions", href: contributions_profile_url(user.handle)
+      end
+    end
+  end
+end

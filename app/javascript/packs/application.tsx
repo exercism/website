@@ -457,6 +457,8 @@ initReact({
       tracks={camelizeKeysAs<readonly ProfileContributionsSummaryTrack[]>(
         data.tracks
       )}
+      handle={data.handle}
+      links={data.links}
     />
   ),
 })

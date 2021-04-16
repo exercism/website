@@ -6,13 +6,15 @@ import React, {
   createRef,
 } from 'react'
 import { GraphicalIcon, ProminentLink } from '../common'
-import { useChart } from './contributions-chart/use-chart'
+import { useChart } from './contributions-summary/use-chart'
+import { TotalReputation } from './contributions-summary/TotalReputation'
+import { CategorySummary } from './contributions-summary/CategorySummary'
 
 const leftMargin = 100
 const topMargin = 150
 const buffer = 8
 
-type CategoryId =
+export type CategoryId =
   | 'publishing'
   | 'mentoring'
   | 'authoring'
@@ -20,7 +22,7 @@ type CategoryId =
   | 'maintaining'
   | 'other'
 
-type Category = {
+export type Category = {
   id: CategoryId
   reputation: number
   metric?: string
@@ -33,7 +35,11 @@ export type Track = {
   categories: readonly Category[]
 }
 
-const CATEGORY_TITLES = {
+type Links = {
+  contributions: string
+}
+
+export const CATEGORY_TITLES = {
   publishing: 'Publishing',
   mentoring: 'Mentoring',
   authoring: 'Authoring',
@@ -42,7 +48,7 @@ const CATEGORY_TITLES = {
   other: 'Other',
 }
 
-const CATEGORY_ICONS = {
+export const CATEGORY_ICONS = {
   publishing: 'maintaining',
   mentoring: 'mentoring',
   authoring: 'concepts',
@@ -51,11 +57,27 @@ const CATEGORY_ICONS = {
   other: 'maintaining',
 }
 
+const getTotalReputation = (track: Track): number => {
+  return track.categories.reduce(
+    (sum, category) => sum + category.reputation,
+    0
+  )
+}
+
 export const ContributionsSummary = ({
   tracks,
+  handle,
+  links,
 }: {
   tracks: readonly Track[]
+  handle: string
+  links: Links
 }): JSX.Element => {
+  const allTrack = tracks.find((track) => track.id === 'all')
+
+  if (!allTrack) {
+    throw new Error('No data found for all track')
+  }
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [currentTrack, setCurentTrack] = useState(tracks[0])
   const labelRefs = useRef(
@@ -160,13 +182,10 @@ export const ContributionsSummary = ({
             <GraphicalIcon icon="contribute" hex={true} />
             <h2>Contributions</h2>
           </header>
-          <div className="c-primary-reputation">
-            <div className="--inner">
-              erikschierboom has
-              <GraphicalIcon icon="reputation" />
-              667,133 Reputation
-            </div>
-          </div>
+          <TotalReputation
+            handle={handle}
+            reputation={getTotalReputation(allTrack)}
+          />
           {/* This is the same as on the Mentor Queue */}
           <div className="c-track-switcher">
             <div className="current-track">
@@ -177,26 +196,14 @@ export const ContributionsSummary = ({
             </div>
           </div>
 
-          {/* This works in the same way as the labels. The HTML is slightly different but logic is the same */}
-          <div className="category">
-            <GraphicalIcon icon="maintaining" hex />
-            <div className="info">
-              <div className="title">Maintaining</div>
-              <div className="subtitle">5,239 PRs merged</div>
-            </div>
-            <div className="reputation">123,123 rep</div>
-          </div>
-          <div className="category">
-            <GraphicalIcon icon="concepts" hex />
-            <div className="info">
-              <div className="title">Building</div>
-              <div className="subtitle">5,239 PRs created</div>
-            </div>
-            <div className="reputation">13,456 rep</div>
-          </div>
+          {currentTrack.categories.map((category) => (
+            <CategorySummary key={category.id} category={category} />
+          ))}
 
-          {/* This is the link to the contributions tab */}
-          <ProminentLink link="#" text="See erikschierboom’s contributions" />
+          <ProminentLink
+            link={links.contributions}
+            text={`See ${handle}'s contributions`}
+          />
         </div>
 
         <div className="chart-container">

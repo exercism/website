@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import Chart from 'chart.js/auto'
-import { ChartConfiguration, ChartData } from 'chart.js'
+import { ChartConfiguration, ChartDataset } from 'chart.js'
 
 const createBluePurpleGradient = (
   chart: Chart<'radar'>,
@@ -31,6 +31,32 @@ const padReputation = (reputation: number[]): number[] => {
   return reputation.map((r) => (r > min ? r : min))
 }
 
+const CONFIG: ChartConfiguration<'radar'> = {
+  type: 'radar',
+  data: {
+    labels: [],
+    datasets: [],
+  },
+  options: {
+    aspectRatio: 1,
+    elements: {
+      line: { borderWidth: 3 },
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        ticks: { display: false, color: 'red' },
+        angleLines: { color: '#D5D8E4' },
+        grid: { color: '#D5D8E4' },
+      },
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: false },
+    },
+  },
+}
+
 export const useChart = (
   canvas: HTMLCanvasElement | null,
   reputation: number[],
@@ -38,84 +64,64 @@ export const useChart = (
 ): Chart<'radar'> => {
   const [chart, setChart] = useState<Chart<'radar'> | null>(null)
   const paddedReputation = padReputation(reputation)
-  const data: ChartData<'radar'> = useMemo(() => {
-    return {
-      labels: paddedReputation.map(() => ''),
-      datasets: [
-        {
-          label: '',
-          data: paddedReputation,
-          backgroundColor: (context) => {
-            return trackColor
-              ? `rgba(${trackColor}, 0.3)`
-              : createBluePurpleGradient(context.chart, 0.3)
-          },
-          borderColor: (context) => {
-            return trackColor
-              ? `rgba(${trackColor}, 1)`
-              : createBluePurpleGradient(context.chart, 1)
-          },
-          pointBorderColor: (context) => {
-            return trackColor
-              ? '#FFFFFF'
-              : createBluePurpleGradient(context.chart, 1)
-          },
-          pointBackgroundColor: (context) => {
-            return trackColor
-              ? `rgba(${trackColor}, 1)`
-              : createBluePurpleGradient(context.chart, 1)
-          },
-          pointHoverBackgroundColor: (context) => {
-            return trackColor
-              ? `rgba(${trackColor}, 1)`
-              : createBluePurpleGradient(context.chart, 1)
-          },
-          pointHoverBorderColor: (context) => {
-            return trackColor
-              ? `rgba(${trackColor}, 1)`
-              : createBluePurpleGradient(context.chart, 1)
-          },
-          pointRadius: 5,
-          pointHoverRadius: 5,
-        },
-      ],
-    }
-  }, [JSON.stringify(paddedReputation)])
-  const config: ChartConfiguration<'radar'> = useMemo(() => {
-    return {
-      type: 'radar',
-      data: data,
-      options: {
-        aspectRatio: 1,
-        elements: {
-          line: { borderWidth: 3 },
-        },
-        scales: {
-          r: {
-            beginAtZero: true,
-            ticks: { display: false, color: 'red' },
-            angleLines: { color: '#D5D8E4' },
-            grid: { color: '#D5D8E4' },
-          },
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: false },
-        },
-      },
-    }
-  }, [data])
 
   useEffect(() => {
     if (!canvas) {
       return
     }
-    const chart = new Chart<'radar'>(canvas, config)
+    const chart = new Chart<'radar'>(canvas, CONFIG)
 
     setChart(chart)
 
     return () => chart.destroy()
-  }, [canvas, config])
+  }, [canvas])
+
+  useEffect(() => {
+    if (!chart) {
+      return
+    }
+
+    const dataset: ChartDataset<'radar'> = {
+      label: '',
+      data: paddedReputation,
+      backgroundColor: (context) => {
+        return trackColor
+          ? `rgba(${trackColor}, 0.3)`
+          : createBluePurpleGradient(context.chart, 0.3)
+      },
+      borderColor: (context) => {
+        return trackColor
+          ? `rgba(${trackColor}, 1)`
+          : createBluePurpleGradient(context.chart, 1)
+      },
+      pointBorderColor: (context) => {
+        return trackColor
+          ? '#FFFFFF'
+          : createBluePurpleGradient(context.chart, 1)
+      },
+      pointBackgroundColor: (context) => {
+        return trackColor
+          ? `rgba(${trackColor}, 1)`
+          : createBluePurpleGradient(context.chart, 1)
+      },
+      pointHoverBackgroundColor: (context) => {
+        return trackColor
+          ? `rgba(${trackColor}, 1)`
+          : createBluePurpleGradient(context.chart, 1)
+      },
+      pointHoverBorderColor: (context) => {
+        return trackColor
+          ? `rgba(${trackColor}, 1)`
+          : createBluePurpleGradient(context.chart, 1)
+      },
+      pointRadius: 5,
+      pointHoverRadius: 5,
+    }
+    chart.data.labels = paddedReputation.map(() => '')
+    chart.data.datasets = [dataset]
+
+    chart.update()
+  }, [chart, JSON.stringify(paddedReputation), trackColor])
 
   return { chart }
 }

@@ -9,6 +9,7 @@ import { GraphicalIcon, ProminentLink } from '../common'
 import { useChart } from './contributions-summary/use-chart'
 import { TotalReputation } from './contributions-summary/TotalReputation'
 import { CategorySummary } from './contributions-summary/CategorySummary'
+import { TrackSwitcher } from './contributions-summary/TrackSwitcher'
 
 const leftMargin = 100
 const topMargin = 150
@@ -57,7 +58,7 @@ export const CATEGORY_ICONS = {
   other: 'maintaining',
 }
 
-const getTotalReputation = (track: Track): number => {
+export const getTotalReputation = (track: Track): number => {
   return track.categories.reduce(
     (sum, category) => sum + category.reputation,
     0
@@ -186,15 +187,11 @@ export const ContributionsSummary = ({
             handle={handle}
             reputation={getTotalReputation(allTrack)}
           />
-          {/* This is the same as on the Mentor Queue */}
-          <div className="c-track-switcher">
-            <div className="current-track">
-              <GraphicalIcon icon="logo" />
-              <div className="track-title">All</div>
-              <div className="count">100 rep</div>
-              <GraphicalIcon icon="chevron-down" className="action-icon" />
-            </div>
-          </div>
+          <TrackSwitcher
+            tracks={tracks}
+            value={currentTrack}
+            setValue={setCurentTrack}
+          />
 
           {currentTrack.categories.map((category) => (
             <CategorySummary key={category.id} category={category} />

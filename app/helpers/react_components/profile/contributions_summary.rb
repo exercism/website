@@ -42,31 +42,44 @@ module ReactComponents
       end
 
       def categories_data(track_id = nil)
+        metrics = {
+          publishing: publishing_metrics(track_id),
+          mentoring: mentoring_metrics(track_id),
+          authoring: authoring_metrics(track_id),
+          building: building_metrics(track_id),
+          maintaining: maintaining_metrics(track_id)
+        }
+
         [
           {
             id: :publishing,
             reputation: num_reputation_points(:publishing, track_id),
-            metric: publishing_metric(track_id)
+            metric_full: metrics[:publishing][0],
+            metric_short: metrics[:publishing][1]
           },
           {
             id: :mentoring,
             reputation: num_reputation_points(:mentoring, track_id),
-            metric: mentoring_metric(track_id)
+            metric_full: metrics[:mentoring][0],
+            metric_short: metrics[:mentoring][1]
           },
           {
             id: :authoring,
             reputation: num_reputation_points(:authoring, track_id),
-            metric: authoring_metric(track_id)
+            metric_full: metrics[:authoring][0],
+            metric_short: metrics[:authoring][1]
           },
           {
             id: :building,
             reputation: num_reputation_points(:building, track_id),
-            metric: building_metric(track_id)
+            metric_full: metrics[:building][0],
+            metric_short: metrics[:building][1]
           },
           {
             id: :maintaining,
             reputation: num_reputation_points(:maintaining, track_id),
-            metric: maintaining_metric(track_id)
+            metric_full: metrics[:maintaining][0],
+            metric_short: metrics[:maintaining][1]
           },
           {
             id: :other,
@@ -76,29 +89,49 @@ module ReactComponents
       end
 
       private
-      def publishing_metric(track_id = nil)
+      def publishing_metrics(track_id = nil)
         c = track_id ? published_solutions[track_id] : published_solutions.values.sum
-        "#{number_with_delimiter(c)} #{'solution'.pluralize(c)}"
+
+        return ["No solutions published", "No solutions"] if c.to_i.zero?
+
+        short = "#{number_with_delimiter(c)} #{'solution'.pluralize(c)}"
+        ["#{short} published", short]
       end
 
-      def authoring_metric(track_id = nil)
+      def authoring_metrics(track_id = nil)
         c = track_id ? authorships[track_id] : authorships.values.sum
-        "#{number_with_delimiter(c)} #{'exercise'.pluralize(c)}"
+
+        return ["No exercises contributed", "No exercises"] if c.to_i.zero?
+
+        short = "#{number_with_delimiter(c)} #{'exercise'.pluralize(c)}"
+        ["#{short} contributed", short]
       end
 
-      def mentoring_metric(track_id = nil)
+      def mentoring_metrics(track_id = nil)
         c = track_id ? mentored_students[track_id] : mentored_students.values.sum
-        "#{number_with_delimiter(c)} #{'student'.pluralize(c)}"
+
+        return ["No students mentored", "No students"] if c.to_i.zero?
+
+        short = "#{number_with_delimiter(c)} #{'student'.pluralize(c)}"
+        ["#{short} mentored", short]
       end
 
-      def building_metric(track_id = nil)
+      def building_metrics(track_id = nil)
         c = num_reputation_occurrences(:building, track_id).to_i
-        "#{number_with_delimiter(c)} #{'PR'.pluralize(c)} created"
+
+        return ["No PRs accepted", "No PRs accepted"] if c.to_i.zero?
+
+        short = "#{number_with_delimiter(c)} #{'PR'.pluralize(c)} accepted"
+        [short, short]
       end
 
-      def maintaining_metric(track_id = nil)
+      def maintaining_metrics(track_id = nil)
         c = num_reputation_occurrences(:maintaining, track_id).to_i
-        "#{number_with_delimiter(c)} #{'PR'.pluralize(c)} reviewed"
+
+        return ["No PRs reviewed", "No PRs reviewed"] if c.to_i.zero?
+
+        short = "#{number_with_delimiter(c)} #{'PR'.pluralize(c)} reviewed"
+        [short, short]
       end
 
       def num_reputation_points(requested_category, requested_track_id = nil)

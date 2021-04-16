@@ -29,7 +29,6 @@ const TrackFilter = ({
         name="queue_track"
       />
       <div className="row">
-        <div className="c-radio" />
         <TrackLogo track={track} />
         <div className="title">{track.title}</div>
         <div className="count">{getTotalReputation(track)} rep</div>

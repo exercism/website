@@ -21,7 +21,6 @@ const TrackFilter = ({
       <label className="c-radio-wrapper">
         <input type="radio" onChange={onChange} checked={checked} />
         <div className="row">
-          <div className="c-radio" />
           <TrackIcon iconUrl={iconUrl} title={title} />
           <div className="title">{title}</div>
           <div className="count">{count}</div>

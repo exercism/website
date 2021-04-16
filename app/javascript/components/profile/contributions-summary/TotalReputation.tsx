@@ -9,7 +9,7 @@ export const TotalReputation = ({
   reputation: number
 }): JSX.Element => {
   return (
-    <div className="c-primary-reputation">
+    <div className="c-primary-reputation --large">
       <div className="--inner">
         {handle} has
         <GraphicalIcon icon="reputation" />

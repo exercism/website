@@ -28,7 +28,6 @@ const TrackFilter = ({
         name="queue_track"
       />
       <div className="row">
-        <div className="c-radio" />
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
         <div className="count">{numSolutions}</div>

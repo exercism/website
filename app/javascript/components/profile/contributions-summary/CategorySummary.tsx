@@ -16,8 +16,8 @@ export const CategorySummary = ({
       <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
       <div className="info">
         <div className="title">{CATEGORY_TITLES[category.id]}</div>
-        {category.metric ? (
-          <div className="subtitle">{category.metric}</div>
+        {category.metricFull ? (
+          <div className="subtitle">{category.metricFull}</div>
         ) : null}
       </div>
       <div className="reputation">

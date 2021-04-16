@@ -60,7 +60,11 @@
                 }
 
                 & .c-track-switcher {
+                    @apply relative;
                     @apply mb-24;
+                    & .c-track-switcher-dropdown {
+                        @apply w-100;
+                    }
                 }
 
                 & .category {
@@ -133,8 +137,8 @@
                     }
                 }
                 & .chart {
-                    width: 350px;
-                    height: 350px;
+                    width: 400px;
+                    height: 400px;
                 }
             }
         }

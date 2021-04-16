@@ -26,7 +26,8 @@ export type CategoryId =
 export type Category = {
   id: CategoryId
   reputation: number
-  metric?: string
+  metricFull?: string
+  metricShort?: string
 }
 
 export type Track = {
@@ -50,12 +51,12 @@ export const CATEGORY_TITLES = {
 }
 
 export const CATEGORY_ICONS = {
-  publishing: 'maintaining',
+  publishing: 'community-solutions',
   mentoring: 'mentoring',
-  authoring: 'concepts',
-  building: 'maintaining',
+  authoring: 'authoring',
+  building: 'building',
   maintaining: 'maintaining',
-  other: 'maintaining',
+  other: 'more-horizontal',
 }
 
 export const getTotalReputation = (track: Track): number => {
@@ -228,8 +229,8 @@ const CategoryLabel = forwardRef<HTMLDivElement, { category: Category }>(
       <div className="label" ref={ref}>
         <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
         <div className="title">{CATEGORY_TITLES[category.id]}</div>
-        {category.metric ? (
-          <div className="subtitle">{category.metric}</div>
+        {category.metricShort ? (
+          <div className="subtitle">{category.metricShort}</div>
         ) : null}
       </div>
     )

@@ -2,7 +2,7 @@ require_relative "../react_component_test_case"
 
 module ReactComponents::Profile
   class ContributionsSummaryTest < ReactComponentTestCase
-    test "mentoring solution renders correctly" do
+    test "renders correctly with data" do
       user = create :user
 
       elixir = create :track, slug: :elixir, title: "Elixir"
@@ -47,41 +47,73 @@ module ReactComponents::Profile
             icon_url: "ICON",
             categories: [
               # TODO: Reputation
-              { id: :publishing, reputation: 0, metric: "6 solutions" },
+              { id: :publishing, reputation: 0, metric_full: "6 solutions published", metric_short: "6 solutions" },
               # TODO: Reputation
-              { id: :mentoring, reputation: 0, metric: "9 students" },
-              { id: :authoring, reputation: 110, metric: "11 exercises" },
-              { id: :building, reputation: 72, metric: "6 PRs created" },
-              { id: :maintaining, reputation: 45, metric: "9 PRs reviewed" },
+              { id: :mentoring, reputation: 0, metric_full: "9 students mentored", metric_short: "9 students" },
+              { id: :authoring, reputation: 110, metric_full: "11 exercises contributed", metric_short: "11 exercises" },
+              { id: :building, reputation: 72, metric_full: "6 PRs accepted", metric_short: "6 PRs accepted" },
+              { id: :maintaining, reputation: 45, metric_full: "9 PRs reviewed", metric_short: "9 PRs reviewed" },
               { id: :other, reputation: 0 }
             ]
           },
           {
             id: "elixir", title: "Elixir", icon_url: elixir.icon_url, categories: [
               # TODO: Reputation
-              { id: :publishing, reputation: 0, metric: "3 solutions" },
+              { id: :publishing, reputation: 0, metric_full: "3 solutions published", metric_short: "3 solutions" },
               # TODO: Reputation
-              { id: :mentoring, reputation: 0, metric: "5 students" },
-              { id: :authoring, reputation: 50, metric: "5 exercises" },
-              { id: :building, reputation: 36, metric: "3 PRs created" },
-              { id: :maintaining, reputation: 20, metric: "4 PRs reviewed" },
+              { id: :mentoring, reputation: 0, metric_full: "5 students mentored", metric_short: "5 students" },
+              { id: :authoring, reputation: 50, metric_full: "5 exercises contributed", metric_short: "5 exercises" },
+              { id: :building, reputation: 36, metric_full: "3 PRs accepted", metric_short: "3 PRs accepted" },
+              { id: :maintaining, reputation: 20, metric_full: "4 PRs reviewed", metric_short: "4 PRs reviewed" },
               { id: :other, reputation: 0 }
             ]
           },
           {
             id: "js", title: "JavaScript", icon_url: js.icon_url, categories: [
               # TODO: Reputation
-              { id: :publishing, reputation: 0, metric: "2 solutions" },
+              { id: :publishing, reputation: 0, metric_full: "2 solutions published", metric_short: "2 solutions" },
               # TODO: Reputation
-              { id: :mentoring, reputation: 0, metric: "4 students" },
-              { id: :authoring, reputation: 60, metric: "6 exercises" },
-              { id: :building, reputation: 24, metric: "2 PRs created" },
-              { id: :maintaining, reputation: 15, metric: "3 PRs reviewed" },
+              { id: :mentoring, reputation: 0, metric_full: "4 students mentored", metric_short: "4 students" },
+              { id: :authoring, reputation: 60, metric_full: "6 exercises contributed", metric_short: "6 exercises" },
+              { id: :building, reputation: 24, metric_full: "2 PRs accepted", metric_short: "2 PRs accepted" },
+              { id: :maintaining, reputation: 15, metric_full: "3 PRs reviewed", metric_short: "3 PRs reviewed" },
               { id: :other, reputation: 0 }
             ]
           }
 
-        ]
+        ],
+        handle: user.handle,
+        links: {
+          contributions: Exercism::Routes.contributions_profile_url(user.handle)
+        }
+      }
+      component = ContributionsSummary.new(user)
+      assert_equal expected, component.data
+    end
+
+    test "renders correctly with no data" do
+      user = create :user
+
+      expected = {
+        tracks: [
+          {
+            id: "all",
+            title: "All",
+            icon_url: "ICON",
+            categories: [
+              { id: :publishing, reputation: 0, metric_full: "No solutions published", metric_short: "No solutions" },
+              { id: :mentoring, reputation: 0, metric_full: "No students mentored", metric_short: "No students" },
+              { id: :authoring, reputation: 0, metric_full: "No exercises contributed", metric_short: "No exercises" },
+              { id: :building, reputation: 0, metric_full: "No PRs accepted", metric_short: "No PRs accepted" },
+              { id: :maintaining, reputation: 0, metric_full: "No PRs reviewed", metric_short: "No PRs reviewed" },
+              { id: :other, reputation: 0 }
+            ]
+          }
+        ],
+        handle: user.handle,
+        links: {
+          contributions: Exercism::Routes.contributions_profile_url(user.handle)
+        }
       }
       component = ContributionsSummary.new(user)
       assert_equal expected, component.data

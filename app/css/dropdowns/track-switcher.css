@@ -8,15 +8,12 @@
 
         & .row {
             @apply flex items-center;
-            @apply py-8 px-16;
+            @apply py-8 pl-16;
+            padding-right: 81px; /* This needs to line up with the dropdown */
             min-width: 360px;
         }
 
-        & .c-radio {
-            @apply text-20;
-            @apply mr-20;
-        }
-
+        & .c-icon,
         & .c-track-icon {
             width: 42px;
             height: 42px;
@@ -27,10 +24,8 @@
             @apply text-16 leading-150 font-medium;
         }
         & .count {
-            @apply text-14 leading-140 font-medium text-center;
-            @apply border-1 border-inputBorderColor rounded-100;
-            @apply text-textColor3;
-            @apply py-4 px-12;
+            @apply text-14 leading-140 font-medium;
+            @apply text-textColor6;
         }
     }
     & button {

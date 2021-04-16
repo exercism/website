@@ -32,11 +32,9 @@ module ReactComponents
 
       memoize
       def tracks
-        tracks = ::Track.where(
-          id: current_user.mentor_testimonials.
-                joins(solution: :exercise).
-                select(:track_id)
-        )
+        tracks = ::Track.where(id: current_user.mentor_testimonials.
+                                   joins(solution: :exercise).
+                                   select(:track_id))
         output = tracks.map do |track|
           {
             title: track.title,

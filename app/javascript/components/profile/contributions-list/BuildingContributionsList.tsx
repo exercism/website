@@ -1,25 +1,68 @@
 import React from 'react'
 import { Contribution as ContributionProps } from '../../types'
-import { TrackIcon, Reputation, GraphicalIcon } from '../../common'
+import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
 import { fromNow } from '../../../utils/time'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { ResultsZone } from '../../ResultsZone'
+import { useIsMounted } from 'use-is-mounted'
+import { useList } from '../../../hooks/use-list'
+import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
+
+type PaginatedResult = {
+  results: readonly ContributionProps[]
+  meta: {
+    currentPage: number
+    totalCount: number
+    totalPages: number
+  }
+}
+
+const DEFAULT_ERROR = new Error('Unable to load building contributions')
 
 export const BuildingContributionsList = ({
-  userHandle,
-  contributions,
+  request: initialRequest,
 }: {
-  userHandle: string
-  contributions: readonly ContributionProps[]
+  request: Request
 }): JSX.Element => {
+  const isMountedRef = useIsMounted()
+
+  const { request, setPage } = useList(initialRequest)
+  const {
+    status,
+    resolvedData,
+    latestData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+    [request.endpoint, request.query],
+    request,
+    isMountedRef
+  )
+
   return (
-    <div className="maintaining">
-      {contributions.map((contribution) => (
-        <Contribution
-          key={contribution.id}
-          userHandle={userHandle}
-          {...contribution}
-        />
-      ))}
-    </div>
+    <FetchingBoundary
+      error={error}
+      status={status}
+      defaultError={DEFAULT_ERROR}
+    >
+      <ResultsZone isFetching={isFetching}>
+        {resolvedData ? (
+          <React.Fragment>
+            <div className="maintaining">
+              {resolvedData.results.map((contribution) => (
+                <Contribution key={contribution.id} {...contribution} />
+              ))}
+            </div>
+            <Pagination
+              disabled={latestData === undefined}
+              current={request.query.page}
+              total={resolvedData.meta.totalPages}
+              setPage={setPage}
+            />
+          </React.Fragment>
+        ) : null}
+      </ResultsZone>
+    </FetchingBoundary>
   )
 }
 
@@ -31,8 +74,7 @@ const Contribution = ({
   externalUrl,
   awardedAt,
   track,
-  userHandle,
-}: ContributionProps & { userHandle: string }): JSX.Element => {
+}: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
 

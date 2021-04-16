@@ -28,7 +28,7 @@ const padReputation = (reputation: number[]): number[] => {
   const max = reputation.reduce((a, b) => a + b, 0)
   const min = max / 15
 
-  return reputation.map((r) => (r > min ? r : min))
+  return reputation.map((r) => Math.max(r, min))
 }
 
 const CONFIG: ChartConfiguration<'radar'> = {

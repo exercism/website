@@ -82,7 +82,9 @@ export const TrackSwitcher = ({
       >
         <GraphicalIcon icon="logo" />
         <div className="track-title">{value.title}</div>
-        <div className="count">{getTotalReputation(value)} rep</div>
+        <div className="count">
+          {getTotalReputation(value).toLocaleString()} rep
+        </div>
         <Icon
           icon="chevron-down"
           alt="Click to change"

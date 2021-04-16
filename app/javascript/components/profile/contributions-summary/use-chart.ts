@@ -84,36 +84,28 @@ export const useChart = (
     const dataset: ChartDataset<'radar'> = {
       label: '',
       data: paddedReputation,
-      backgroundColor: (context) => {
-        return trackColor
+      backgroundColor: (context) =>
+        trackColor
           ? `rgba(${trackColor}, 0.3)`
-          : createBluePurpleGradient(context.chart, 0.3)
-      },
-      borderColor: (context) => {
-        return trackColor
+          : createBluePurpleGradient(context.chart, 0.3),
+      borderColor: (context) =>
+        trackColor
           ? `rgba(${trackColor}, 1)`
-          : createBluePurpleGradient(context.chart, 1)
-      },
-      pointBorderColor: (context) => {
-        return trackColor
-          ? '#FFFFFF'
-          : createBluePurpleGradient(context.chart, 1)
-      },
-      pointBackgroundColor: (context) => {
-        return trackColor
+          : createBluePurpleGradient(context.chart, 1),
+      pointBorderColor: (context) =>
+        trackColor ? '#FFFFFF' : createBluePurpleGradient(context.chart, 1),
+      pointBackgroundColor: (context) =>
+        trackColor
           ? `rgba(${trackColor}, 1)`
-          : createBluePurpleGradient(context.chart, 1)
-      },
-      pointHoverBackgroundColor: (context) => {
-        return trackColor
+          : createBluePurpleGradient(context.chart, 1),
+      pointHoverBackgroundColor: (context) =>
+        trackColor
           ? `rgba(${trackColor}, 1)`
-          : createBluePurpleGradient(context.chart, 1)
-      },
-      pointHoverBorderColor: (context) => {
-        return trackColor
+          : createBluePurpleGradient(context.chart, 1),
+      pointHoverBorderColor: (context) =>
+        trackColor
           ? `rgba(${trackColor}, 1)`
-          : createBluePurpleGradient(context.chart, 1)
-      },
+          : createBluePurpleGradient(context.chart, 1),
       pointRadius: 5,
       pointHoverRadius: 5,
     }

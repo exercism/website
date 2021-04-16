@@ -36,9 +36,10 @@ module Git
     def valid_submission_filepath?(filepath)
       return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})
       return false if filepath.starts_with?(".meta")
+      return false if filepath.starts_with?(".docs")
 
-      # Some languages have solutions and tests in the same file so
-      # we need to protect for that here.
+      # We don't want to let studetns override the test files. However, some languages
+      # have solutions and tests in the same file so we need the second guard for that.
       return false if test_filepaths.include?(filepath) && !solution_filepaths.include?(filepath)
 
       true

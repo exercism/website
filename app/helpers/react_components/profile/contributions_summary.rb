@@ -1,7 +1,7 @@
 module ReactComponents
   module Profile
     class ContributionsSummary < ReactComponent
-      # We normally proxy this to the current renderng session
+      # We normally proxy this to the current rendering session
       # but for this situation as we're accessing data, not just to_s
       # we'll just include this module manually in the class.
       include ActionView::Helpers::NumberHelper

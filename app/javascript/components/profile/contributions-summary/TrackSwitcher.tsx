@@ -31,7 +31,9 @@ const TrackFilter = ({
       <div className="row">
         <TrackLogo track={track} />
         <div className="title">{track.title}</div>
-        <div className="count">{getTotalReputation(track)} rep</div>
+        <div className="count">
+          {getTotalReputation(track).toLocaleString()} rep
+        </div>
       </div>
     </label>
   )

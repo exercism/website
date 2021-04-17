@@ -26,9 +26,9 @@ const createBluePurpleGradient = (
 
 const padReputation = (reputation: number[]): number[] => {
   const max = reputation.reduce((a, b) => a + b, 0)
-  const min = max / 15
+  const min = max / 8
 
-  return reputation.map((r) => Math.max(r, min))
+  return reputation.map((r) => min + r)
 }
 
 const CONFIG: ChartConfiguration<'radar'> = {
@@ -45,7 +45,7 @@ const CONFIG: ChartConfiguration<'radar'> = {
     scales: {
       r: {
         beginAtZero: true,
-        ticks: { display: false, color: 'red' },
+        ticks: { display: false },
         angleLines: { color: '#D5D8E4' },
         grid: { color: '#D5D8E4' },
       },

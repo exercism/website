@@ -16,7 +16,7 @@ export const TestimonialModal = ({
   testimonial: Testimonial
 }): JSX.Element => {
   return (
-    <Modal cover={true} className="m-testimonial" {...props}>
+    <Modal cover={true} celebratory className="m-testimonial" {...props}>
       <Avatar
         src={testimonial.student.avatarUrl}
         handle={testimonial.student.handle}

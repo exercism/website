@@ -1074,6 +1074,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@exercism/active-background@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.3.0.tgz#493890f4e5a7abf61b4ad3096f37d7c359d394c9"
+  integrity sha512-FIiX8x657Gt2ZfA3NLDaZx93S1bOs8AL9hAiRpSh2JQAXMA4JW+TyLb4oBjckuWUF9UUJNVLcW5irBgQozATOQ==
+
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@fullhuman/postcss-purgecss/-/postcss-purgecss-2.3.0.tgz"

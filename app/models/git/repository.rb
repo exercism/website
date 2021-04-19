@@ -84,7 +84,7 @@ module Git
     end
 
     def fetch!
-      system("cd #{repo_dir} && git fetch --force origin main:main", out: File::NULL, err: File::NULL)
+      system("cd #{repo_dir} && git fetch --force origin #{branch_ref}:#{branch_ref}", out: File::NULL, err: File::NULL)
     rescue Rugged::NetworkError => e
       # Don't block development offline
       Rails.logger.info e.message

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_163827) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -288,6 +288,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_163827) do
     t.string "git_slug", null: false
     t.string "git_sha", null: false
     t.integer "status", limit: 1, default: 0, null: false
+    t.string "iteration_status"
     t.datetime "last_submitted_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
     t.string "snippet", limit: 1500
@@ -297,7 +298,6 @@ ActiveRecord::Schema.define(version: 2021_04_13_163827) do
     t.integer "mentoring_status", limit: 1, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "iteration_status"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"

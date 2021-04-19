@@ -79,10 +79,15 @@ class Exercise < ApplicationRecord
   end
 
   def icon_url
-    asset_pack_url(
-      "media/images/exercises/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+    # TODO: Fix this
+    if EXERCISES_WITH_ICONS.include?(slug)
+      "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{slug}.svg"
+    else
+      asset_pack_url(
+        "media/images/exercises/#{icon_name}.svg",
+        host: Rails.application.config.action_controller.asset_host
+      )
+    end
   end
 
   # TODO: Delete once icon_url is implemented above
@@ -110,4 +115,33 @@ class Exercise < ApplicationRecord
   def git
     Git::Exercise.new(slug, git_type, git_sha, repo_url: track.repo_url)
   end
+
+  # TODO: Remove
+  EXERCISES_WITH_ICONS = %w[
+    annalyns-infiltration
+    authentication-system
+    beauty-salon-goes-global
+    bird-watcher
+    booking-up-for-beauty
+    calculator-conundrum
+    cars-assemble
+    developer-privileges
+    elons-toys
+    faceid-2
+    football-match-reports
+    high-school-sweethearts
+    hyperia-forex
+    hyperinflation-hits-hyperia
+    instruments-of-texas
+    interest-is-interesting
+    international-calling-connoisseur
+    land-grab-in-space
+    logs-logs-logs
+    lucians-luscious-lasagna
+    need-for-speed
+    object-relational-mapping
+    orm-in-one-go
+    parsing-log-files
+    phone-number-analysis
+  ].freeze
 end

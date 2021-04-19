@@ -26,7 +26,11 @@ module IconsHelper
   end
 
   def exercise_icon(exercise, css_class: nil)
-    image_tag exercise.icon_url, alt: exercise.title,
-                                 class: "c-icon c-exercise-icon #{css_class}"
+    error_icon = asset_pack_url("media/images/graphics/missing-exercise.svg")
+
+    image_tag exercise.icon_url,
+      alt: exercise.title,
+      class: "c-icon c-exercise-icon #{css_class}",
+      onerror: "if (this.src != '#{error_icon}') this.src = '#{error_icon}';"
   end
 end

@@ -60,7 +60,8 @@ class API::ReputatationControllerTest < API::BaseTestCase
           links: {
             tokens: Exercism::Routes.reputation_journey_url
           },
-          total_reputation: @current_user.reload.formatted_reputation
+          total_reputation: @current_user.reload.formatted_reputation,
+          is_all_seen: false
         }
       }.with_indifferent_access,
       JSON.parse(response.body).with_indifferent_access

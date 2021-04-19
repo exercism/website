@@ -19,13 +19,175 @@
 }
 
 .c-track-icon {
-    &.--csharp {
-        --track-icon-color: var(--track-color-csharp);
+    &.--c {
+        --track-icon-color: var(--track-color-c);
+    }
+    &.--ruby {
+        --track-icon-color: var(--track-color-ruby);
+    }
+    &.--kotlin {
+        --track-icon-color: var(--track-color-kotlin);
+    }
+    &.--javascript {
+        --track-icon-color: var(--track-color-javascript);
+    }
+    &.--bash {
+        --track-icon-color: var(--track-color-bash);
+    }
+    &.--clojure {
+        --track-icon-color: var(--track-color-clojure);
+    }
+    &.--coffeescript {
+        --track-icon-color: var(--track-color-coffeescript);
+    }
+    &.--common-lisp {
+        --track-icon-color: var(--track-color-common-lisp);
+    }
+    &.--crystal {
+        --track-icon-color: var(--track-color-crystal);
+    }
+    &.--d {
+        --track-icon-color: var(--track-color-d);
+    }
+    &.--dart {
+        --track-icon-color: var(--track-color-dart);
+    }
+    &.--elm {
+        --track-icon-color: var(--track-color-elm);
+    }
+    &.--emacs-lisp {
+        --track-icon-color: var(--track-color-emacs-lisp);
+    }
+    &.--erlang {
+        --track-icon-color: var(--track-color-erlang);
+    }
+    &.--f {
+        --track-icon-color: var(--track-color-f);
+    }
+    &.--go {
+        --track-icon-color: var(--track-color-go);
+    }
+    &.--haskell {
+        --track-icon-color: var(--track-color-haskell);
+    }
+    &.--java {
+        --track-icon-color: var(--track-color-java);
+    }
+    &.--julia {
+        --track-icon-color: var(--track-color-julia);
+    }
+    &.--lua {
+        --track-icon-color: var(--track-color-lua);
+    }
+    &.--ocaml {
+        --track-icon-color: var(--track-color-ocaml);
+    }
+    &.--perl5 {
+        --track-icon-color: var(--track-color-perl5);
+    }
+    &.--python {
+        --track-icon-color: var(--track-color-python);
     }
     &.--elixir {
         --track-icon-color: var(--track-color-elixir);
     }
-    &.--ruby {
-        --track-icon-color: var(--track-color-ruby);
+    &.--nim {
+        --track-icon-color: var(--track-color-nim);
+    }
+    &.--clojurescript {
+        --track-icon-color: var(--track-color-clojurescript);
+    }
+    &.--ceylon {
+        --track-icon-color: var(--track-color-celyon);
+    }
+    &.--ballerina {
+        --track-icon-color: var(--track-color-ballernia);
+    }
+    &.--cf {
+        --track-icon-color: var(--track-color-cf);
+    }
+    &.--cfml {
+        --track-icon-color: var(--track-color-cfml);
+    }
+    &.--delphi {
+        --track-icon-color: var(--track-color-dephi);
+    }
+    &.--groovy {
+        --track-icon-color: var(--track-color-groovy);
+    }
+    &.--haxe {
+        --track-icon-color: var(--track-color-haxe);
+    }
+    &.--idris {
+        --track-icon-color: var(--track-color-idris);
+    }
+    &.--lfe {
+        --track-icon-color: var(--track-color-lfe);
+    }
+    &.--objective-c {
+        --track-icon-color: var(--track-color-objective-c);
+    }
+    &.--raku {
+        --track-icon-color: var(--track-color-raku);
+    }
+    &.--pharo-smalltalk {
+        --track-icon-color: var(--track-color-pharo-smalltalk);
+    }
+    &.--php {
+        --track-icon-color: var(--track-color-php);
+    }
+    &.--plsql {
+        --track-icon-color: var(--track-color-plsql);
+    }
+    &.--powershell {
+        --track-icon-color: var(--track-color-powershell);
+    }
+    &.--prolog {
+        --track-icon-color: var(--track-color-prolog);
+    }
+    &.--purescript {
+        --track-icon-color: var(--track-color-purescript);
+    }
+    &.--r {
+        --track-icon-color: var(--track-color-r);
+    }
+    &.--racket {
+        --track-icon-color: var(--track-color-racket);
+    }
+    &.--reasonml {
+        --track-icon-color: var(--track-color-reasonml);
+    }
+    &.--rust {
+        --track-icon-color: var(--track-color-rust);
+    }
+    &.--scala {
+        --track-icon-color: var(--track-color-scala);
+    }
+    &.--scheme {
+        --track-icon-color: var(--track-color-scheme);
+    }
+    &.--sml {
+        --track-icon-color: var(--track-color-sml);
+    }
+    &.--swift {
+        --track-icon-color: var(--track-color-swift);
+    }
+    &.--tcl {
+        --track-icon-color: var(--track-color-tcl);
+    }
+    &.--typescript {
+        --track-icon-color: var(--track-color-typescript);
+    }
+    &.--vimscript {
+        --track-icon-color: var(--track-color-vimscript);
+    }
+    &.--vbnet {
+        --track-icon-color: var(--track-color-vbnet);
+    }
+    &.--x86-64-assembly {
+        --track-icon-color: var(--track-color-x86-64-assembly);
+    }
+    &.--gnu-apl {
+        --track-icon-color: var(--track-color-gnu-apl);
     }
 }

@@ -102,78 +102,81 @@ export const ContributionsSummary = ({
     if (!canvas || !chart) {
       return
     }
+    const timeout = setTimeout(() => {
+      const containerHeight = (canvas.parentNode as HTMLElement).offsetHeight
 
-    const containerHeight = (canvas.parentNode as HTMLElement).offsetHeight
+      const point0 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(0)
+      const label0 = labelRefs.current[0].current
+      if (!label0) {
+        return
+      }
+      label0.style.left = `${point0.left + leftMargin}px`
+      label0.style.marginLeft = `${-(label0.offsetWidth / 2)}px`
+      label0.style.bottom = `${containerHeight - point0.bottom + topMargin}px`
+      label0.style.visibility = 'visible'
 
-    const point0 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(0)
-    const label0 = labelRefs.current[0].current
-    if (!label0) {
-      return
-    }
-    label0.style.left = `${point0.left + leftMargin}px`
-    label0.style.marginLeft = `${-(label0.offsetWidth / 2)}px`
-    label0.style.bottom = `${containerHeight - point0.bottom + topMargin}px`
-    label0.style.visibility = 'visible'
+      const point1 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(1)
+      const label1 = labelRefs.current[1].current
+      if (!label1) {
+        return
+      }
+      label1.style.left = `${point1.left + leftMargin + buffer}px`
+      label1.style.bottom = `${
+        containerHeight - point1.bottom + topMargin - label1.offsetHeight / 2
+      }px`
+      label1.style.visibility = 'visible'
 
-    const point1 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(1)
-    const label1 = labelRefs.current[1].current
-    if (!label1) {
-      return
-    }
-    label1.style.left = `${point1.left + leftMargin + buffer}px`
-    label1.style.bottom = `${
-      containerHeight - point1.bottom + topMargin - label1.offsetHeight / 2
-    }px`
-    label1.style.visibility = 'visible'
+      const point2 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(2)
+      const label2 = labelRefs.current[2].current
+      if (!label2) {
+        return
+      }
+      label2.style.left = `${point2.left + leftMargin + buffer}px`
+      label2.style.bottom = `${
+        containerHeight - point2.bottom + topMargin - label2.offsetHeight / 2
+      }px`
+      label2.style.visibility = 'visible'
 
-    const point2 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(2)
-    const label2 = labelRefs.current[2].current
-    if (!label2) {
-      return
-    }
-    label2.style.left = `${point2.left + leftMargin + buffer}px`
-    label2.style.bottom = `${
-      containerHeight - point2.bottom + topMargin - label2.offsetHeight / 2
-    }px`
-    label2.style.visibility = 'visible'
+      const point3 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(3)
+      const label3 = labelRefs.current[3].current
+      if (!label3) {
+        return
+      }
+      label3.style.left = `${point3.left + leftMargin}px`
+      label3.style.marginLeft = `${-(label3.offsetWidth / 2)}px`
+      label3.style.bottom = `${
+        containerHeight - point3.bottom + topMargin - label3.offsetHeight
+      }px`
+      label3.style.visibility = 'visible'
 
-    const point3 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(3)
-    const label3 = labelRefs.current[3].current
-    if (!label3) {
-      return
-    }
-    label3.style.left = `${point3.left + leftMargin}px`
-    label3.style.marginLeft = `${-(label3.offsetWidth / 2)}px`
-    label3.style.bottom = `${
-      containerHeight - point3.bottom + topMargin - label3.offsetHeight
-    }px`
-    label3.style.visibility = 'visible'
+      const point4 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(4)
+      const label4 = labelRefs.current[4].current
+      if (!label4) {
+        return
+      }
+      label4.style.left = `${
+        point4.left + leftMargin - label4.offsetWidth - buffer
+      }px`
+      label4.style.bottom = `${
+        containerHeight - point4.bottom + topMargin - label4.offsetHeight / 2
+      }px`
+      label4.style.visibility = 'visible'
 
-    const point4 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(4)
-    const label4 = labelRefs.current[4].current
-    if (!label4) {
-      return
-    }
-    label4.style.left = `${
-      point4.left + leftMargin - label4.offsetWidth - buffer
-    }px`
-    label4.style.bottom = `${
-      containerHeight - point4.bottom + topMargin - label4.offsetHeight / 2
-    }px`
-    label4.style.visibility = 'visible'
+      const point5 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(5)
+      const label5 = labelRefs.current[5].current
+      if (!label5) {
+        return
+      }
+      label5.style.left = `${
+        point5.left + leftMargin - label5.offsetWidth - buffer
+      }px`
+      label5.style.bottom = `${
+        containerHeight - point5.bottom + topMargin - label5.offsetHeight / 2
+      }px`
+      label5.style.visibility = 'visible'
+    }, 250)
 
-    const point5 = chart.getDatasetMeta(0).iScale.getPointLabelPosition(5)
-    const label5 = labelRefs.current[5].current
-    if (!label5) {
-      return
-    }
-    label5.style.left = `${
-      point5.left + leftMargin - label5.offsetWidth - buffer
-    }px`
-    label5.style.bottom = `${
-      containerHeight - point5.bottom + topMargin - label5.offsetHeight / 2
-    }px`
-    label5.style.visibility = 'visible'
+    return () => clearTimeout(timeout)
   }, [canvas, chart])
 
   return (

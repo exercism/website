@@ -1,8 +1,8 @@
 #page-tracks
   %header.tracks-header
     .track-icons
-      - @track_icons.each do |icon_name|
-        = image_pack_tag "tracks/#{icon_name}.svg", role: :presentation, class: "c-icon c-track-icon"
+      - @track_icon_urls.each do |icon_url|
+        = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon"
 
     %h1 #{@num_tracks} language tracks. All free for you!
     %p

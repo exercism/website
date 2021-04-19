@@ -21,16 +21,12 @@ module IconsHelper
   end
 
   def track_icon(track, css_class: nil)
-    icon track.icon_name,
-      track.title,
-      category: 'tracks',
-      css_class: "c-track-icon #{css_class} --#{track.slug}"
+    image_tag track.icon_url, alt: track.title,
+                              class: "c-icon c-track-icon #{css_class} --#{track.slug}"
   end
 
   def exercise_icon(exercise, css_class: nil)
-    icon exercise.icon_name,
-      exercise.title,
-      category: 'exercises',
-      css_class: "c-exercise-icon #{css_class}"
+    image_tag exercise.icon_url, alt: exercise.title,
+                                 class: "c-icon c-exercise-icon #{css_class}"
   end
 end

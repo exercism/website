@@ -34,6 +34,7 @@ export type APIResponse = {
       tokens: string
     }
     totalReputation: number
+    isAllSeen: boolean
   }
 }
 
@@ -142,8 +143,7 @@ export const Reputation = ({
     if (!data) {
       return
     }
-
-    setIsSeen(data.results.every((token) => token.isSeen))
+    setIsSeen(data.meta.isAllSeen)
   }, [data])
 
   return (

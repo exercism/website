@@ -144,5 +144,58 @@ class Exercise < ApplicationRecord
     orm-in-one-go
     parsing-log-files
     phone-number-analysis
+    all-your-base
+    allergies
+    atbash-cipher
+    bank-account
+    beer-song
+    book-store
+    bowling
+    change
+    clock
+    crypto-square
+    darts
+    diamond
+    gigasecond
+    grade-school
+    grains
+    grep
+    high-scores
+    house
+    kindergarten-garden
+    matrix
+    meetup
+    minesweeper
+    pascals-triangle
+    phone-number
+    poker
+    protein-translation
+    proverb
+    queen-attack
+    raindrops
+    rectangles
+    red-vs-blue-darwin-style
+    remote-control-cleanup
+    remote-control-competition
+    resistor-color-duo
+    resistor-color-trio
+    resistor-color
+    robot-name
+    robot-simulator
+    roll-the-die
+    secret-handshake
+    secure-munchester-united
+    space-age
+    squeaky-clean
+    the-weather-in-deather
+    tournament
+    triangle
+    two-bucket
+    weighing-machine
+    wizards-and-warriors-2
+    wizards-and-warriors
+    word-count
+    yacht
+    zipper
   ].freeze
 end

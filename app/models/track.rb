@@ -78,17 +78,9 @@ class Track < ApplicationRecord
       count
   end
 
-  # TODO: Set this properly
-  def icon_name
-    "ruby"
-  end
-
-  # TODO: Set this properly
   def icon_url
-    asset_pack_url(
-      "media/images/tracks/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+    # TOOD: Read correct dir
+    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/tracks/#{slug}.svg"
   end
 
   # TODO: Create mapping for Highlight.JS, otherwise use slug

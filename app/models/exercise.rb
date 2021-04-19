@@ -81,6 +81,7 @@ class Exercise < ApplicationRecord
   def icon_url
     # TODO: Fix this
     if EXERCISES_WITH_ICONS.include?(slug)
+      # TOOD: Read correct dir
       "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{slug}.svg"
     else
       asset_pack_url(

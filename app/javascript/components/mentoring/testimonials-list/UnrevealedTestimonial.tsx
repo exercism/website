@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { useMutation, queryCache, QueryKey } from 'react-query'
 import { fromNow } from '../../../utils/time'
 import { GraphicalIcon, TrackIcon } from '../../common'
@@ -8,6 +8,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { PaginatedResult } from '../TestimonialsList'
 import { FetchingBoundary } from '../../FetchingBoundary'
+import { TestimonialModal } from '../../modals/TestimonialModal'
 
 const DEFAULT_ERROR = new Error('Unable to reveal testimonial')
 
@@ -20,6 +21,11 @@ export const UnrevealedTestimonial = ({
   onRevealed: () => void
   cacheKey: QueryKey
 }): JSX.Element => {
+  const [open, setOpen] = useState(false)
+  const [
+    revealedTestimonial,
+    setRevealedTestimonial,
+  ] = useState<Testimonial | null>(null)
   const isMountedRef = useIsMounted()
   const [reveal, { status, error }] = useMutation<Testimonial | undefined>(
     () => {
@@ -38,25 +44,30 @@ export const UnrevealedTestimonial = ({
     },
     {
       onSuccess: (testimonial) => {
-        const oldData = queryCache.getQueryData<PaginatedResult>(cacheKey)
-
-        if (!oldData || !testimonial) {
+        if (!testimonial) {
           return
         }
-
-        queryCache.setQueryData(cacheKey, {
-          ...oldData,
-          results: oldData.results.map((oldTestimonial) => {
-            return oldTestimonial.id === testimonial.id
-              ? testimonial
-              : oldTestimonial
-          }),
-        })
-
-        onRevealed()
+        setRevealedTestimonial(testimonial)
+        setOpen(true)
       },
     }
   )
+  const updateCache = useCallback(() => {
+    const oldData = queryCache.getQueryData<PaginatedResult>(cacheKey)
+
+    if (!oldData || !revealedTestimonial) {
+      return
+    }
+
+    queryCache.setQueryData(cacheKey, {
+      ...oldData,
+      results: oldData.results.map((oldTestimonial) => {
+        return oldTestimonial.id === revealedTestimonial.id
+          ? revealedTestimonial
+          : oldTestimonial
+      }),
+    })
+  }, [cacheKey, revealedTestimonial])
 
   {
     /* TODO: Set testimonial URL */
@@ -85,6 +96,17 @@ export const UnrevealedTestimonial = ({
         status={status}
         defaultError={DEFAULT_ERROR}
       />
+      {revealedTestimonial ? (
+        <TestimonialModal
+          open={open}
+          testimonial={revealedTestimonial}
+          onClose={() => {
+            setOpen(false)
+            updateCache()
+            onRevealed()
+          }}
+        />
+      ) : null}
     </a>
   )
 }

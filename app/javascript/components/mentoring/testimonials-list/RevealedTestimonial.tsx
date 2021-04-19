@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { fromNow } from '../../../utils/time'
 import { Avatar, GraphicalIcon, TrackIcon } from '../../common'
 import { TestimonialModal } from '../../modals/TestimonialModal'
@@ -12,14 +12,6 @@ export const RevealedTestimonial = ({
   isRevealed: boolean
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    if (!isRevealed) {
-      return
-    }
-
-    setOpen(true)
-  }, [isRevealed])
 
   {
     /* TODO: Set testimonial URL */

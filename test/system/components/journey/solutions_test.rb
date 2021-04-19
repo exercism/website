@@ -9,7 +9,7 @@ module Components
       test "shows solutions" do
         user = create :user
         track = create :track, title: "Ruby"
-        exercise = create :concept_exercise, title: "Lasagna", track: track
+        exercise = create :concept_exercise, title: "Lasagna", track: track, slug: :lasagna
         solution = create :concept_solution, exercise: exercise, completed_at: Time.current, user: user, status: :completed
         create :submission, solution: solution, created_at: 2.days.ago
         3.times { create :iteration, solution: solution }

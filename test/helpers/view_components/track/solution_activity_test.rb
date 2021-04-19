@@ -13,26 +13,26 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
 
     comp = render(ViewComponents::Track::SolutionActivity.new(solution, user_track))
     expected = <<~HTML
-            <div class="exercise">
-              <header>
-                <a class="content" href="https://test.exercism.io/tracks/ruby/exercises/bob">
-                  #{exercise_icon(exercise)}
-                  <div class="info">
-                    <div class="title">Bob</div>
-                    <div class="tags">
-                      <div class="c-exercise-status-tag --started">Started</div>
-                    </div>
-                  </div>
-                </a>
-      #{'      '}
-                <div class="c-combo-button">
-                  <a class="--primary-segment" href="/tracks/ruby/exercises/bob/edit">Continue in Editor</a>
-                  <div class="--dropdown-segment">
-                    #{graphical_icon('chevron-down')}
-                  </div>
-                </div>
-              </header>
+      <div class="exercise">
+        <header>
+          <a class="content" href="https://test.exercism.io/tracks/ruby/exercises/bob">
+            <img alt=\"Bob\" class=\"c-icon c-exercise-icon \" onerror=\"if (this.src != &#39;http://test.host/packs-test/media/images/graphics/missing-exercise-edf3eecaaf596fb574782fa08467149d.svg&#39;) this.src = &#39;http://test.host/packs-test/media/images/graphics/missing-exercise-edf3eecaaf596fb574782fa08467149d.svg&#39;;\" src=\"https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/bob.svg\" />
+            <div class="info">
+              <div class="title">Bob</div>
+              <div class="tags">
+                <div class="c-exercise-status-tag --started">Started</div>
+              </div>
             </div>
+          </a>
+
+          <div class="c-combo-button">
+            <a class="--primary-segment" href="/tracks/ruby/exercises/bob/edit">Continue in Editor</a>
+            <div class="--dropdown-segment">
+              #{graphical_icon('chevron-down')}
+            </div>
+          </div>
+        </header>
+      </div>
     HTML
 
     assert_html_equal expected, comp.to_s

@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.bigint "request_id"
     t.datetime "requires_mentor_action_since"
     t.datetime "requires_student_action_since"
-    t.datetime "finished_at"
+    t.datetime "finished_t"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"

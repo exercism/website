@@ -63,6 +63,8 @@ class User
 
       def sort!
         case order&.to_sym
+        when :unseen_first
+          @tokens = @tokens.order(Arel.sql("seen ASC")).order(id: :desc)
         when :oldest_first
           @tokens = @tokens.order(id: :asc)
         else # :newest_first

@@ -40,8 +40,9 @@ import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
 import { sendRequest, sendPostRequest, APIError } from '../utils/send-request'
 import { TabContext } from './common/Tab'
+import { StoredScrollPanel } from './editor/StoredScrollPanel'
 
-type TabIndex = 'instructions' | 'tests' | 'results'
+export type TabIndex = 'instructions' | 'tests' | 'results'
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -403,8 +404,7 @@ export function Editor({
             onSubmit={submit}
           />
         </div>
-
-        <div className="main-rhs">
+        <StoredScrollPanel tab={tab}>
           <InstructionsPanel
             introduction={introduction}
             assignment={assignment}
@@ -419,8 +419,7 @@ export function Editor({
             onSubmit={submit}
             isSubmitDisabled={isSubmitDisabled}
           />
-        </div>
-
+        </StoredScrollPanel>
         <div className="footer-lhs">
           <EditorStatusSummary
             status={status}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import { Tab } from '../common/Tab'
 import { TabsContext } from '../Editor'
 import { Assignment, AssignmentTask } from './types'
@@ -16,18 +16,20 @@ export const InstructionsPanel = ({
   assignment: Assignment
   exampleFiles: File[]
   debuggingInstructions?: string
-}) => (
-  <Tab.Panel id="instructions" context={TabsContext}>
-    <section className="instructions">
-      <div className="c-textual-content --small">
-        <Introduction introduction={introduction} />
-        <Instructions assignment={assignment} />
-        <Debug debuggingInstructions={debuggingInstructions} />
-        <ExampleFiles files={exampleFiles} />
-      </div>
-    </section>
-  </Tab.Panel>
-)
+}) => {
+  return (
+    <Tab.Panel id="instructions" context={TabsContext}>
+      <section className="instructions">
+        <div className="c-textual-content --small">
+          <Introduction introduction={introduction} />
+          <Instructions assignment={assignment} />
+          <Debug debuggingInstructions={debuggingInstructions} />
+          <ExampleFiles files={exampleFiles} />
+        </div>
+      </section>
+    </Tab.Panel>
+  )
+}
 
 const ExampleFiles = ({ files }: { files: File[] }) => {
   if (files === null || files === undefined || files.length === 0) {

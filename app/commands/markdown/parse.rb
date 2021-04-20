@@ -8,7 +8,7 @@ class Markdown::Parse
     new(*args, **kwargs).()
   end
 
-  def initialize(text, nofollow_links: false, strip_h1: false, lower_heading_levels_by: 1)
+  def initialize(text, nofollow_links: false, strip_h1: true, lower_heading_levels_by: 1)
     @text = text
     @nofollow_links = nofollow_links
     @strip_h1 = strip_h1

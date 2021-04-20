@@ -1074,6 +1074,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@exercism/active-background@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.5.0.tgz#23c0487987d4745a1c811e10687f5e83b3298424"
+  integrity sha512-AviMPtxxBUYR9iYrYxxjShu0j/e+uMVrwFP0gxFfoGE0h5jUhwpI31FvtNJOZRO0MH11zNwmdEY3YSXf/6dL+Q==
+
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@fullhuman/postcss-purgecss/-/postcss-purgecss-2.3.0.tgz"
@@ -1690,10 +1695,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-modal@^3.10.6":
-  version "3.10.6"
-  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.10.6.tgz"
-  integrity sha512-XpshhwVYir1TRZ2HS5EfmNotJjB8UEC2IkT3omNtiQzROOXSzVLz5xsjwEpACP8U+PctkpfZepX+WT5oDf0a9g==
+"@types/react-modal@^3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.12.0.tgz#91fa86a76fd7fc57e36d2cf9b76efe5735a855a1"
+  integrity sha512-UnHu/YO73NZLwqFpju/c0tqiswR0UHIfeO16rkfLVJUIMfQsl7X0CBm99H5XXgBMe/PgtQ/Rkud72iuRBr1TeA==
   dependencies:
     "@types/react" "*"
 
@@ -9037,10 +9042,10 @@ react-lifecycles-compat@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-modal@^3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.12.1.tgz"
-  integrity sha512-WGuXn7Fq31PbFJwtWmOk+jFtGC7E9tJVbFX0lts8ZoS5EPi9+WWylUJWLKKVm3H4GlQ7ZxY7R6tLlbSIBQ5oZA==
+react-modal@^3.13.1:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.13.1.tgz#a02dce63bbfee7582936f1e9835d518ef8f56453"
+  integrity sha512-m6yXK7I4YKssQnsjHK7xITSXy2O81BSOHOsg0/uWAsdKtuT9HF2tdoYhRuxNNQg2V+LgepsoHUPJKS8m6no+eg==
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"

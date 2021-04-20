@@ -3,7 +3,7 @@ import { TagOptionList } from './TagOptionList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import pluralize from 'pluralize'
 
-export function TagsFilter({ options, dispatch, numTracks }) {
+export function TagsFilter({ options, dispatch, value, numTracks }) {
   const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState([])
   const [hasExpandedEver, markAsExpanded] = useState(false)
@@ -91,12 +91,15 @@ export function TagsFilter({ options, dispatch, numTracks }) {
       </div>
       <div className="--state">
         <p>
-          Showing {numTracks} {pluralize('track', numTracks)}
+          Showing {value === undefined || value.length == 0 ? 'all' : ''}{' '}
+          {numTracks} {pluralize('track', numTracks)}
         </p>
-        <button onClick={resetFilters} className="--reset-btn">
-          <GraphicalIcon icon="reset" />
-          Reset filters
-        </button>
+        {value !== undefined && value.length > 0 ? (
+          <button onClick={resetFilters} className="--reset-btn">
+            <GraphicalIcon icon="reset" />
+            Reset filters
+          </button>
+        ) : null}
       </div>
     </>
   )

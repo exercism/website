@@ -10,6 +10,7 @@
 .c-reputation-dropdown {
     width: 100%;
     max-width: 500px;
+    @apply relative z-dropdown;
 
     & ul {
         @apply shadow-lg rounded-8 bg-backgroundColorA;

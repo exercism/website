@@ -1,9 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { usePanel } from '../../../hooks/use-panel'
 import { MentoringDropdown } from '../MentoringDropdown'
-import { GraphicalIcon } from '../../common'
-import { MentorDiscussion } from '../../types'
+import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
+import { ComboButton } from '../../common/ComboButton'
 
 type Links = {
   requestMentoring: string
@@ -13,108 +11,34 @@ type Links = {
 }
 
 export const MentoringComboButton = ({
-  hasMentorDiscussionInProgress,
-  hasMentorRequestPending,
+  mentoringStatus,
   discussions,
   className = '',
   links,
 }: {
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   className?: string
   links: Links
 }): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    setButtonElement,
-    setPanelElement,
-    styles,
-    attributes,
-  } = usePanel({
-    placement: 'bottom-end',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 14],
-        },
-      },
-    ],
-  })
-
-  const classNames = ['c-combo-button', className]
-
   return (
-    /* TODO: Extract into a common component in the future */
-    <div className={classNames.join(' ')}>
-      {hasMentorDiscussionInProgress && links.inProgressDiscussion ? (
-        <a href={links.inProgressDiscussion} className="--editor-segment">
-          Continue mentoring
-        </a>
-      ) : hasMentorRequestPending ? (
-        <a href={links.pendingMentorRequest} className="--editor-segment">
-          View mentoring request
-        </a>
-      ) : (
-        <a href={links.requestMentoring} className="--editor-segment">
-          Request mentoring
-        </a>
-      )}
-      <button
-        className="--dropdown-segment"
-        onClick={() => {
-          setOpen(!open)
-        }}
-        ref={setButtonElement}
-      >
-        <GraphicalIcon icon="chevron-down" />
-      </button>
-      <MentoringPanel
-        setPanelElement={setPanelElement}
-        open={open}
-        styles={styles}
-        attributes={attributes}
-      >
+    <ComboButton className={className}>
+      <ComboButton.PrimarySegment>
+        {mentoringStatus === 'in_progress' && links.inProgressDiscussion ? (
+          <a href={links.inProgressDiscussion}>Continue mentoring</a>
+        ) : mentoringStatus === 'requested' ? (
+          <a href={links.pendingMentorRequest}>View mentoring request</a>
+        ) : (
+          <a href={links.requestMentoring}>Request mentoring</a>
+        )}
+      </ComboButton.PrimarySegment>
+      <ComboButton.DropdownSegment>
         <MentoringDropdown
-          hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
+          mentoringStatus={mentoringStatus}
           discussions={discussions}
           links={{ share: links.shareMentoring }}
         />
-      </MentoringPanel>
-    </div>
-  )
-}
-
-type PanelProps = {
-  open: boolean
-  styles: { [key: string]: React.CSSProperties }
-  attributes: {
-    [key: string]: {
-      [key: string]: string
-    }
-  }
-  setPanelElement: React.Dispatch<React.SetStateAction<HTMLDivElement | null>>
-}
-
-const MentoringPanel = ({
-  open,
-  styles,
-  setPanelElement,
-  attributes,
-  children,
-}: React.PropsWithChildren<PanelProps>) => {
-  const portalContainer = document.getElementById('portal-container')
-
-  if (!portalContainer) {
-    throw new Error('No portal container found')
-  }
-
-  return ReactDOM.createPortal(
-    <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
-      {open ? children : null}
-    </div>,
-    portalContainer
+      </ComboButton.DropdownSegment>
+    </ComboButton>
   )
 }

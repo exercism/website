@@ -1,0 +1,42 @@
+.c-track-switcher-dropdown {
+    @apply bg-backgroundColorA rounded-8 shadow-lg;
+    @apply p-8;
+    @apply relative z-dropdown;
+
+    & label.c-radio-wrapper {
+        --row-selected-background-color: var(--backgroundColorD);
+
+        & .row {
+            @apply flex items-center;
+            @apply py-8 pl-16;
+            padding-right: 81px; /* This needs to line up with the dropdown */
+            min-width: 360px;
+        }
+
+        & .c-icon,
+        & .c-track-icon {
+            width: 42px;
+            height: 42px;
+            @apply mr-16;
+        }
+        & .title {
+            @apply flex-grow;
+            @apply text-16 leading-150 font-medium;
+        }
+        & .count {
+            @apply text-14 leading-140 font-medium;
+            @apply text-textColor6;
+        }
+    }
+    & button {
+        @apply flex items-center;
+        @apply text-16 leading-170 text-lightBlue font-semibold;
+        @apply py-12 px-16 w-100;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+        }
+    }
+}

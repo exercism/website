@@ -14,7 +14,6 @@ import { stubRange } from '../../support/code-mirror-helpers'
 import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 import { expectConsoleError } from '../../support/silence-console'
-import { TestQueryCache } from '../../support/TestQueryCache'
 
 stubRange()
 

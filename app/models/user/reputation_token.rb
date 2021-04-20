@@ -39,7 +39,7 @@ class User::ReputationToken < ApplicationRecord
 
   def params=(hash)
     self.level = hash.delete(:level) if hash.key?(:level)
-    self.external_link = hash.delete(:external_link) if hash.key?(:external_link)
+    self.external_url = hash.delete(:external_url) if hash.key?(:external_url)
 
     super(hash)
   end
@@ -70,8 +70,8 @@ class User::ReputationToken < ApplicationRecord
       value: value,
       text: text,
       icon_url: icon_url,
-      internal_link: internal_link,
-      external_link: external_link,
+      internal_url: internal_url,
+      external_url: external_url,
       is_seen: seen,
       awarded_at: created_at.iso8601
     }
@@ -86,19 +86,23 @@ class User::ReputationToken < ApplicationRecord
     data
   end
 
-  # TODO: Override in children classes
   def icon_url
     return exercise.icon_url if exercise
 
-    # TODO: Choose an icon
     asset_pack_url(
-      "media/images/icons/reputation.svg",
+      "media/images/graphics/#{icon_name}.svg",
       host: Rails.application.config.action_controller.asset_host
     )
   end
 
   # TODO: Override in children classes
-  def internal_link
+  def icon_name
+    # TODO: Choose a good default
+    "reputation"
+  end
+
+  # TODO: Override in children classes
+  def internal_url
     nil
   end
 end

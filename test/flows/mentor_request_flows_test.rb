@@ -9,12 +9,14 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
 
-    request = Solution::MentorRequest::Create.(solution, "Some text")
+    assert :none, solution.mentoring_status
+    request = Mentor::Request::Create.(solution, "Some text")
 
-    Solution::MentorRequest::Lock.(request, mentor)
+    Mentor::Request::Lock.(request, mentor)
     assert request.reload.locked?
+    assert :requested, solution.reload.mentoring_status
 
-    discussion = Solution::MentorDiscussion::Create.(
+    discussion = Mentor::Discussion::Create.(
       mentor,
       request,
       iteration.idx,
@@ -22,11 +24,12 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     )
     assert_equal 1, solution.mentor_discussions.size
     assert_equal 1, discussion.posts.size
+    assert :in_progress, solution.mentoring_status
 
-    Solution::MentorDiscussion::ReplyByStudent.(discussion, iteration, "Well, because I don't know ALL the answers.")
+    Mentor::Discussion::ReplyByStudent.(discussion, iteration, "Well, because I don't know ALL the answers.")
     assert_equal 2, discussion.posts.size
 
-    Solution::MentorDiscussion::ReplyByMentor.(discussion, iteration, "You know enough. Believe in yourself.")
+    Mentor::Discussion::ReplyByMentor.(discussion, iteration, "You know enough. Believe in yourself.")
     assert_equal 3, discussion.posts.size
   end
 end

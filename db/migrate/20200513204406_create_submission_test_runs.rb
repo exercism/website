@@ -6,11 +6,13 @@ class CreateSubmissionTestRuns < ActiveRecord::Migration[6.0]
 
       t.string :status, null: false
       t.text :message, null: true
-      t.json :tests, null: true
 
       t.integer :ops_status, limit: 2, null: false
 
       t.json :raw_results, null: false
+
+      t.column :version, :tinyint, default: 0, null: false
+      t.text :output
 
       t.timestamps
     end

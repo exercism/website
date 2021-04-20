@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include User::Roles
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -18,9 +20,9 @@ class User < ApplicationRecord
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussions, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
-                                class_name: "Solution::MentorDiscussion"
+                                class_name: "Mentor::Discussion"
   has_many :mentor_discussion_posts, as: :author, dependent: :destroy,
-                                     class_name: "Solution::MentorDiscussionPost"
+                                     class_name: "Mentor::DiscussionPost"
   has_many :mentor_testimonials, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
                                  class_name: "Mentor::Testimonial"
 
@@ -54,13 +56,15 @@ class User < ApplicationRecord
     find_by!(handle: param)
   end
 
-  # TODO: Move this to the database
-  def admin?
-    true
-  end
-
   def to_param
     handle
+  end
+
+  def formatted_reputation(*args)
+    rep = reputation(*args)
+    return rep.to_s if rep < 1000
+
+    "#{(rep / 1000.0).floor}k"
   end
 
   def reputation(track_slug: nil, category: nil)
@@ -100,7 +104,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
-    super || "https://avatars.githubusercontent.com/u/5624255?s=200&v=4"
+    super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"
   end
 
   # TODO

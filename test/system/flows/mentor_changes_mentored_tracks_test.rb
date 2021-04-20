@@ -12,12 +12,13 @@ module Flows
       series = create :concept_exercise, title: "Series", track: csharp
       mentor = create :user
       create :user_track_mentorship, track: ruby, user: mentor
-      create :solution_mentor_request, exercise: series
+      create :mentor_request, exercise: series
 
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_queue_path
-        click_on "Change tracks"
+        within(".mentor-queue-filtering") { click_on "Ruby" }
+        click_on "Change the tracks you mentor"
         find("label.track", text: "Ruby").click
         find("label.track", text: "C#").click
         click_on "Continue"

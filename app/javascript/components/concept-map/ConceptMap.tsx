@@ -8,8 +8,10 @@ import {
   IConcept,
   isIConcept,
   ConceptConnection,
+  ExerciseData,
 } from './concept-map-types'
 import { useFontLoaded } from './hooks/useFontLoaded'
+import { camelize } from 'humps'
 
 type AdjacentIndex = Map<string, Set<string>>
 type RelationReducer = (connection: ConceptConnection) => [string, string]
@@ -27,7 +29,7 @@ export const ConceptMap = ({
   levels,
   connections,
   status,
-  exerciseCounts = {},
+  exercisesData,
 }: IConceptMap): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fontLoaded = useFontLoaded('Poppins')
@@ -45,56 +47,58 @@ export const ConceptMap = ({
   const parentsBySlug = useMemo(() => indexParentsBySlug(connections), [
     connections,
   ])
-  const activeSlugs = useMemo(
-    () => findAllActiveSlugs(parentsBySlug, descendantsBySlug, activeSlug),
-    [parentsBySlug, descendantsBySlug, activeSlug]
+  const activeSlugsBySlug = useMemo(
+    () => indexActiveSlugsBySlug(concepts, parentsBySlug, descendantsBySlug),
+    [concepts, parentsBySlug, descendantsBySlug]
   )
+  const activeSlugs = activeSlug
+    ? activeSlugsBySlug.get(activeSlug) ?? new Set<string>()
+    : new Set<string>()
 
   return (
-    <figure className="c-concepts-map">
-      <div className="track">
-        {levels.map((layer, i: number) => (
-          <div key={`layer-${i}`} className="layer">
-            {layer
-              .map((conceptSlug) => conceptsBySlug.get(conceptSlug))
-              .filter(isIConcept)
-              .map((concept) => {
-                const slug = concept.slug
-                const isActive = activeSlug === null || activeSlugs.has(slug)
+    <>
+      <figure className="c-concepts-map">
+        <div className="track">
+          {levels.map((layer, i: number) => (
+            <div key={`layer-${i}`} className="layer">
+              {layer
+                .map((conceptSlug) => conceptsBySlug.get(camelize(conceptSlug)))
+                .filter(isIConcept)
+                .map((concept) => {
+                  const slug = camelize(concept.slug)
+                  const isActive = activeSlug === null || activeSlugs.has(slug)
 
-                return (
-                  <PureConcept
-                    key={slug}
-                    slug={slug}
-                    name={concept.name}
-                    webUrl={concept.webUrl}
-                    tooltipUrl={concept.tooltipUrl}
-                    exercises={exerciseCounts[slug]?.exercises ?? 0}
-                    exercisesCompleted={
-                      exerciseCounts[slug]?.exercisesCompleted ?? 0
-                    }
-                    handleEnter={() => setActiveSlug(slug)}
-                    handleLeave={unsetActiveSlug}
-                    status={status[slug] ?? 'unavailable'}
-                    isActive={isActive}
-                    isActiveHover={activeSlug === slug}
-                  />
-                )
-              })}
-          </div>
-        ))}
-      </div>
-      <ConceptConnections
-        connections={connections}
-        activeConcepts={activeSlugs}
-      />
-    </figure>
+                  return (
+                    <PureConcept
+                      key={slug}
+                      slug={slug}
+                      name={concept.name}
+                      webUrl={concept.webUrl}
+                      tooltipUrl={concept.tooltipUrl}
+                      exercisesData={exercisesData[slug]}
+                      handleEnter={() => setActiveSlug(slug)}
+                      handleLeave={unsetActiveSlug}
+                      status={status[slug] ?? 'unavailable'}
+                      isActive={isActive}
+                      isActiveHover={activeSlug === slug}
+                    />
+                  )
+                })}
+            </div>
+          ))}
+        </div>
+        <ConceptConnections
+          connections={connections}
+          activeConcepts={activeSlugs}
+        />
+      </figure>
+    </>
   )
 }
 
 function indexConceptsBySlug(concepts: IConcept[]): Map<string, IConcept> {
   return concepts.reduce((memo, concept) => {
-    memo.set(concept.slug, concept)
+    memo.set(camelize(concept.slug), concept)
     return memo
   }, new Map<string, IConcept>())
 }
@@ -103,7 +107,7 @@ const indexAdjacentBySlug: IndexAdjacentBySlug = function (
   connections,
   relationReducer,
   index = new Map()
-) {
+): AdjacentIndex {
   const addToIndex = (index: AdjacentIndex, from: string, to: string): void => {
     const adjacent = index.get(from) ?? new Set()
     adjacent.add(to)
@@ -121,8 +125,8 @@ const indexParentsBySlug = function (
   connections: ConceptConnection[]
 ): AdjacentIndex {
   const parentReducer: RelationReducer = (connection) => [
-    connection.to,
-    connection.from,
+    camelize(connection.to),
+    camelize(connection.from),
   ]
   return indexAdjacentBySlug(connections, parentReducer)
 }
@@ -131,8 +135,8 @@ const indexDescendantsBySlug = function (
   connections: ConceptConnection[]
 ): AdjacentIndex {
   const descendantReducer: RelationReducer = (connection) => [
-    connection.from,
-    connection.to,
+    camelize(connection.from),
+    camelize(connection.to),
   ]
   return indexAdjacentBySlug(connections, descendantReducer)
 }
@@ -146,23 +150,42 @@ const findAllActiveSlugs = function (
     return new Set()
   }
 
-  const ancestorSlugs = [activeSlug]
+  const activeSlugs = new Set([activeSlug])
   const processedSlugs = new Set<string>()
   const queue = [activeSlug]
 
   while (queue.length > 0) {
-    const slug = queue.pop()
+    const slug = queue.pop() as string
+    if (processedSlugs.has(slug)) {
+      continue
+    }
+    activeSlugs.add(slug)
     const parentSlugs = slug ? Array.from(parentsBySlug.get(slug) ?? []) : []
-    const unprocessedParentSlugs = parentSlugs.filter(
-      (slug) => !processedSlugs.has(slug)
-    )
-    unprocessedParentSlugs.forEach((slug) => processedSlugs.add(slug))
-    queue.push(...unprocessedParentSlugs)
-    ancestorSlugs.push(...unprocessedParentSlugs)
+    queue.push(...parentSlugs)
   }
 
-  return new Set([
-    ...ancestorSlugs,
-    ...Array.from(descendantsBySlug.get(activeSlug) ?? []),
-  ])
+  const descendantSlugs = descendantsBySlug.get(activeSlug) ?? new Set<string>()
+  descendantSlugs.forEach((descendantSlug) => activeSlugs.add(descendantSlug))
+
+  return activeSlugs
+}
+
+const indexActiveSlugsBySlug = function (
+  concepts: IConcept[],
+  parentsBySlug: AdjacentIndex,
+  descendantsBySlug: AdjacentIndex
+): Map<string, Set<string>> {
+  const index = new Map<string, Set<string>>()
+
+  concepts.forEach((concept) => {
+    const slug = camelize(concept.slug)
+    const activeSlugsWhenConceptActive = findAllActiveSlugs(
+      parentsBySlug,
+      descendantsBySlug,
+      slug
+    )
+    index.set(slug, activeSlugsWhenConceptActive)
+  })
+
+  return index
 }

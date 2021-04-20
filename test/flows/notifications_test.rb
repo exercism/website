@@ -5,19 +5,22 @@ class NotificationsFlowsTest < ActiveSupport::TestCase
     user = create :user
     solution = create :practice_solution, user: user
     mentor = create :user
-    request = create :solution_mentor_request, solution: solution
+    request = create :mentor_request, solution: solution
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
     content_markdown = "This\nis some sort of\nreply"
 
-    discussion = Solution::MentorDiscussion::Create.(mentor, request, iteration.idx, content_markdown)
+    discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)
+    User::Notification.last.update(status: :unread)
     assert_equal 1, user.notifications.count
 
-    Solution::MentorDiscussion::ReplyByStudent.(discussion, iteration, "This is great")
+    Mentor::Discussion::ReplyByStudent.(discussion, iteration, "This is great")
+    User::Notification.last.update(status: :unread)
     assert_equal 1, mentor.notifications.count
     assert_equal 1, mentor.notifications.unread.count
 
-    Solution::MentorDiscussion::ReplyByMentor.(discussion, iteration, "This is great")
+    Mentor::Discussion::ReplyByMentor.(discussion, iteration, "This is great")
+    User::Notification.last.update(status: :unread)
     assert_equal 2, user.notifications.count
     assert_equal 2, user.notifications.unread.count
 

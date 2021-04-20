@@ -22,7 +22,7 @@ module Temp
     def mentoring_sessions
       @num_total_discussions = 87
       @student = User.second
-      @discussion = Solution::MentorDiscussion.first
+      @discussion = Mentor::Discussion.first
     end
 
     def reputation
@@ -30,14 +30,14 @@ module Temp
         User::ReputationToken::Create.(
           current_user,
           :code_review,
-          external_link: "https://github.com/exercism/ruby/pulls/120",
+          external_url: "https://github.com/exercism/ruby/pulls/120",
           repo: "ruby/pulls",
           node_id: 120
         )
         User::ReputationToken::Create.(
           current_user,
           :code_review,
-          external_link: "https://github.com/exercism/ruby/pulls/125",
+          external_url: "https://github.com/exercism/ruby/pulls/125",
           repo: "ruby/pulls",
           node_id: 125
         )
@@ -48,7 +48,16 @@ module Temp
 
     def mentoring_dropdown
       @active_mentoring_discussion = false
-      @discussions = Solution::MentorDiscussion.limit(2)
+      @discussions = Mentor::Discussion.limit(2)
+    end
+
+    def exercise_tooltip
+      @solution = current_user.solutions.first
+      @exercise = @solution.exercise
+    end
+
+    def select_exercise_for_mentoring
+      @solutions = Solution.limit(5)
     end
 
     def finish_mentor_discussion

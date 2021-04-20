@@ -5,8 +5,55 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
   include Devise::Test::IntegrationHelpers
 
-  Capybara.default_max_wait_time = 2
+  Capybara.default_max_wait_time = 5
   Capybara.enable_aria_label = true
+  Capybara.reuse_server = false
+
+  class << self
+    attr_accessor :override_should_flunk
+  end
+
+  def setup
+    ApplicationSystemTestCase.override_should_flunk = false
+
+    super
+  end
+
+  def expecting_errors
+    ApplicationSystemTestCase.override_should_flunk = true
+
+    yield
+  end
+
+  def teardown
+    # Reset logs regardless of status
+    errors = page.driver.browser.manage.logs.get(:browser)
+
+    # Reset everything
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+
+    # Don't do anything else if we're deliberately not flunking
+    return if ApplicationSystemTestCase.override_should_flunk
+
+    should_flunk = false
+    errors.to_a.each do |error|
+      next if error.level == "WARNING"
+      next if error.to_s.include?("403 (Forbidden)")
+      next if error.to_s.include?("hcaptcha")
+
+      should_flunk = true
+
+      puts ""
+      puts "------"
+      puts "JS ERROR:\n"
+      puts error
+      puts "------"
+      puts ""
+    end
+
+    flunk("JS Errors") if should_flunk
+  end
 
   # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
   driven_by :selenium, using: :headless_chrome do |driver_option|
@@ -32,18 +79,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # This adds the within option to assert_text
   # For example:
   # assert_text "Ruby", within: "h3.title"
-  def assert_text(text, *args, **options)
-    # For reasons that none of us understand, We need to explicitely
-    # call the body method before the assertion.
-    body
+  # def assert_text(text, *args, **options)
+  #   # For reasons that none of us understand, We need to explicitely
+  #   # call the body method before the assertion.
+  #   body
 
-    context = options.delete(:within)
-    if context
-      within(context) { assert_text(text, *args, **options) }
-    else
-      super
-    end
-  end
+  #   context = options.delete(:within)
+  #   if context
+  #     within(context) { assert_text(text, *args, **options) }
+  #   else
+  #     super
+  #   end
+  # end
 
   # This does a string comparison between some given HTML
   # and some HTML found in the document.

@@ -4,8 +4,7 @@ class UserTrack::GenerateConceptExerciseMappingTest < ActiveSupport::TestCase
   test "generates concept-exercise mapping for empty track" do
     _, user_track = setup_user_track
 
-    assert_equal(
-      {},
+    assert_empty(
       UserTrack::GenerateConceptExerciseMapping.(user_track)
     )
   end

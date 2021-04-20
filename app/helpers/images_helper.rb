@@ -4,7 +4,7 @@ module ImagesHelper
       class: [css_class, extra_css_class].compact.join(" "),
       style: "background-image:url(#{src})"
     ) do
-      image_tag(src, alt: alt, class: "tw-sr-only")
+      image_tag(src, alt: alt.to_s, class: "tw-sr-only")
     end
   end
 

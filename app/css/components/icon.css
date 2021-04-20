@@ -1,11 +1,193 @@
 .c-icon {
     @apply flex-shrink-0;
+    @apply relative;
+}
 
-    &.--hex {
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzcgNzciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zNCA5LjMwOTQxQzM2LjQ3NTMgNy44ODAzNCAzOS41MjQ4IDcuODgwMzQgNDIgOS4zMDk0MUw2MS43MTI5IDIwLjY5MDZDNjQuMTg4MSAyMi4xMTk3IDY1LjcxMjkgMjQuNzYwNyA2NS43MTI5IDI3LjYxODhWNTAuMzgxMkM2NS43MTI5IDUzLjIzOTMgNjQuMTg4MSA1NS44ODAzIDYxLjcxMjkgNTcuMzA5NEw0MiA2OC42OTA2QzM5LjUyNDggNzAuMTE5NyAzNi40NzUzIDcwLjExOTcgMzQgNjguNjkwNkwxNC4yODcyIDU3LjMwOTRDMTEuODEyIDU1Ljg4MDMgMTAuMjg3MiA1My4yMzkzIDEwLjI4NzIgNTAuMzgxMlYyNy42MTg4QzEwLjI4NzIgMjQuNzYwNyAxMS44MTIgMjIuMTE5NyAxNC4yODcyIDIwLjY5MDZMMzQgOS4zMDk0MVoiIGZpbGw9IiNGMEYzRjkiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02MC4yMTI5IDIzLjI4ODdMNDAuNSAxMS45MDc1QzM4Ljk1MyAxMS4wMTQzIDM3LjA0NzEgMTEuMDE0MyAzNS41IDExLjkwNzVMMTUuNzg3MiAyMy4yODg3QzE0LjI0MDIgMjQuMTgxOCAxMy4yODcyIDI1LjgzMjUgMTMuMjg3MiAyNy42MTg4VjUwLjM4MTJDMTMuMjg3MiA1Mi4xNjc1IDE0LjI0MDIgNTMuODE4MiAxNS43ODcyIDU0LjcxMTNMMzUuNSA2Ni4wOTI1QzM3LjA0NzEgNjYuOTg1NyAzOC45NTMgNjYuOTg1NyA0MC41IDY2LjA5MjVMNjAuMjEyOSA1NC43MTEzQzYxLjc1OTkgNTMuODE4MiA2Mi43MTI5IDUyLjE2NzUgNjIuNzEyOSA1MC4zODEyVjI3LjYxODhDNjIuNzEyOSAyNS44MzI1IDYxLjc1OTkgMjQuMTgxOCA2MC4yMTI5IDIzLjI4ODdaTTQyIDkuMzA5NDFDMzkuNTI0OCA3Ljg4MDM0IDM2LjQ3NTMgNy44ODAzNCAzNCA5LjMwOTQxTDE0LjI4NzIgMjAuNjkwNkMxMS44MTIgMjIuMTE5NyAxMC4yODcyIDI0Ljc2MDcgMTAuMjg3MiAyNy42MTg4VjUwLjM4MTJDMTAuMjg3MiA1My4yMzkzIDExLjgxMiA1NS44ODAzIDE0LjI4NzIgNTcuMzA5NEwzNCA2OC42OTA2QzM2LjQ3NTMgNzAuMTE5NyAzOS41MjQ4IDcwLjExOTcgNDIgNjguNjkwNkw2MS43MTI5IDU3LjMwOTRDNjQuMTg4MSA1NS44ODAzIDY1LjcxMjkgNTMuMjM5MyA2NS43MTI5IDUwLjM4MTJWMjcuNjE4OEM2NS43MTI5IDI0Ljc2MDcgNjQuMTg4MSAyMi4xMTk3IDYxLjcxMjkgMjAuNjkwNkw0MiA5LjMwOTQxWiIgZmlsbD0iIzI2MjgyRCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTU4LjYxNDcgMjUuMzY2TDM5LjUgMTQuMzMwMUMzOC41NzE4IDEzLjc5NDIgMzcuNDI4MiAxMy43OTQyIDM2LjUgMTQuMzMwMUwxNy4zODUzIDI1LjM2NkMxNi40NTcxIDI1LjkwMTkgMTUuODg1MyAyNi44OTIzIDE1Ljg4NTMgMjcuOTY0MVY1MC4wMzU5QzE1Ljg4NTMgNTEuMTA3NyAxNi40NTcxIDUyLjA5ODEgMTcuMzg1MyA1Mi42MzRMMzYuNSA2My42Njk5QzM3LjQyODIgNjQuMjA1OCAzOC41NzE4IDY0LjIwNTggMzkuNSA2My42Njk5TDU4LjYxNDcgNTIuNjM0QzU5LjU0MjkgNTIuMDk4MSA2MC4xMTQ3IDUxLjEwNzcgNjAuMTE0NyA1MC4wMzU5VjI3Ljk2NDFDNjAuMTE0NyAyNi44OTIzIDU5LjU0MjkgMjUuOTAxOSA1OC42MTQ3IDI1LjM2NlpNNDEgMTEuNzMyMUMzOS4xNDM2IDEwLjY2MDMgMzYuODU2NCAxMC42NjAzIDM1IDExLjczMjFMMTUuODg1MyAyMi43NjhDMTQuMDI4OCAyMy44Mzk4IDEyLjg4NTMgMjUuODIwNSAxMi44ODUzIDI3Ljk2NDFWNTAuMDM1OUMxMi44ODUzIDUyLjE3OTUgMTQuMDI4OCA1NC4xNjAzIDE1Ljg4NTMgNTUuMjMyMUwzNSA2Ni4yNjhDMzYuODU2NCA2Ny4zMzk3IDM5LjE0MzYgNjcuMzM5NyA0MSA2Ni4yNjhMNjAuMTE0NyA1NS4yMzIxQzYxLjk3MTEgNTQuMTYwMyA2My4xMTQ3IDUyLjE3OTUgNjMuMTE0NyA1MC4wMzU5VjI3Ljk2NDFDNjMuMTE0NyAyNS44MjA1IDYxLjk3MTEgMjMuODM5OCA2MC4xMTQ3IDIyLjc2OEw0MSAxMS43MzIxWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==");
+.c-icon.--hex {
+    @apply flex-shrink-0;
+    @apply relative;
+    @apply grid place-items-center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA4MCA4MCI+CiAgPGRlZnMvPgogIDxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zNC45OTk5IDIuODg2NzRjMy4wOTQtMS43ODYzMyA2LjkwNi0xLjc4NjMyIDEwIDBsMjQuNjQxIDE0LjIyNjQ2YzMuMDk0IDEuNzg2NCA1IDUuMDg3NiA1IDguNjYwM3YyOC40NTNjMCAzLjU3MjYtMS45MDYgNi44NzM5LTUgOC42NjAybC0yNC42NDEgMTQuMjI2NWMtMy4wOTQgMS43ODY0LTYuOTA2IDEuNzg2NC0xMCAwbC0yNC42NDEtMTQuMjI2NWMtMy4wOTQwMy0xLjc4NjMtNS4wMDAwMS01LjA4NzYtNS4wMDAwMS04LjY2MDJ2LTI4LjQ1M2MwLTMuNTcyNyAxLjkwNTk5LTYuODczOSA1LjAwMDAxLTguNjYwM2wyNC42NDEtMTQuMjI2NDZ6Ii8+CiAgPHBhdGggZmlsbD0iIzEzMEI0MyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNNjcuNzY1OSAyMC4zNjA4TDQzLjEyNDkgNi4xMzQzNGMtMS45MzM4LTEuMTE2NDYtNC4zMTYyLTEuMTE2NDYtNi4yNSAwTDEyLjIzMzkgMjAuMzYwOGMtMS45MzM4IDEuMTE2NS0zLjEyNTAxIDMuMTc5OC0zLjEyNTAxIDUuNDEyN3YyOC40NTNjMCAyLjIzMjkgMS4xOTEyMSA0LjI5NjIgMy4xMjUwMSA1LjQxMjZsMjQuNjQxIDE0LjIyNjVjMS45MzM4IDEuMTE2NSA0LjMxNjIgMS4xMTY1IDYuMjUgMGwyNC42NDEtMTQuMjI2NGMxLjkzMzgtMS4xMTY1IDMuMTI1LTMuMTc5OCAzLjEyNS01LjQxMjd2LTI4LjQ1M2MwLTIuMjMyOS0xLjE5MTItNC4yOTYyLTMuMTI1LTUuNDEyN3pNNDQuOTk5OSAyLjg4Njc0Yy0zLjA5NC0xLjc4NjMyLTYuOTA2LTEuNzg2MzMtMTAgMEwxMC4zNTg5IDE3LjExMzJjLTMuMDk0MDIgMS43ODY0LTUuMDAwMDEgNS4wODc2LTUuMDAwMDEgOC42NjAzdjI4LjQ1M2MwIDMuNTcyNiAxLjkwNTk5IDYuODczOSA1LjAwMDAxIDguNjYwMmwyNC42NDEgMTQuMjI2NWMzLjA5NCAxLjc4NjQgNi45MDYgMS43ODY0IDEwIDBsMjQuNjQxLTE0LjIyNjVjMy4wOTQtMS43ODYzIDUtNS4wODc2IDUtOC42NjAydi0yOC40NTNjMC0zLjU3MjctMS45MDYtNi44NzM5LTUtOC42NjAzTDQ0Ljk5OTkgMi44ODY3NHoiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPgo8L3N2Zz4K");
 
-        padding: 10%;
+    & img,
+    & svg {
+        width: 50%;
+        height: 50%;
+    }
+}
+
+.c-track-icon {
+    &.--c {
+        --track-icon-color: var(--track-color-c);
+    }
+    &.--ruby {
+        --track-icon-color: var(--track-color-ruby);
+    }
+    &.--kotlin {
+        --track-icon-color: var(--track-color-kotlin);
+    }
+    &.--javascript {
+        --track-icon-color: var(--track-color-javascript);
+    }
+    &.--bash {
+        --track-icon-color: var(--track-color-bash);
+    }
+    &.--clojure {
+        --track-icon-color: var(--track-color-clojure);
+    }
+    &.--coffeescript {
+        --track-icon-color: var(--track-color-coffeescript);
+    }
+    &.--common-lisp {
+        --track-icon-color: var(--track-color-common-lisp);
+    }
+    &.--crystal {
+        --track-icon-color: var(--track-color-crystal);
+    }
+    &.--d {
+        --track-icon-color: var(--track-color-d);
+    }
+    &.--dart {
+        --track-icon-color: var(--track-color-dart);
+    }
+    &.--elm {
+        --track-icon-color: var(--track-color-elm);
+    }
+    &.--emacs-lisp {
+        --track-icon-color: var(--track-color-emacs-lisp);
+    }
+    &.--erlang {
+        --track-icon-color: var(--track-color-erlang);
+    }
+    &.--f {
+        --track-icon-color: var(--track-color-f);
+    }
+    &.--go {
+        --track-icon-color: var(--track-color-go);
+    }
+    &.--haskell {
+        --track-icon-color: var(--track-color-haskell);
+    }
+    &.--java {
+        --track-icon-color: var(--track-color-java);
+    }
+    &.--julia {
+        --track-icon-color: var(--track-color-julia);
+    }
+    &.--lua {
+        --track-icon-color: var(--track-color-lua);
+    }
+    &.--ocaml {
+        --track-icon-color: var(--track-color-ocaml);
+    }
+    &.--perl5 {
+        --track-icon-color: var(--track-color-perl5);
+    }
+    &.--python {
+        --track-icon-color: var(--track-color-python);
+    }
+    &.--elixir {
+        --track-icon-color: var(--track-color-elixir);
+    }
+    &.--nim {
+        --track-icon-color: var(--track-color-nim);
+    }
+    &.--clojurescript {
+        --track-icon-color: var(--track-color-clojurescript);
+    }
+    &.--ceylon {
+        --track-icon-color: var(--track-color-celyon);
+    }
+    &.--ballerina {
+        --track-icon-color: var(--track-color-ballernia);
+    }
+    &.--cf {
+        --track-icon-color: var(--track-color-cf);
+    }
+    &.--cfml {
+        --track-icon-color: var(--track-color-cfml);
+    }
+    &.--delphi {
+        --track-icon-color: var(--track-color-dephi);
+    }
+    &.--groovy {
+        --track-icon-color: var(--track-color-groovy);
+    }
+    &.--haxe {
+        --track-icon-color: var(--track-color-haxe);
+    }
+    &.--idris {
+        --track-icon-color: var(--track-color-idris);
+    }
+    &.--lfe {
+        --track-icon-color: var(--track-color-lfe);
+    }
+    &.--objective-c {
+        --track-icon-color: var(--track-color-objective-c);
+    }
+    &.--raku {
+        --track-icon-color: var(--track-color-raku);
+    }
+    &.--pharo-smalltalk {
+        --track-icon-color: var(--track-color-pharo-smalltalk);
+    }
+    &.--php {
+        --track-icon-color: var(--track-color-php);
+    }
+    &.--plsql {
+        --track-icon-color: var(--track-color-plsql);
+    }
+    &.--powershell {
+        --track-icon-color: var(--track-color-powershell);
+    }
+    &.--prolog {
+        --track-icon-color: var(--track-color-prolog);
+    }
+    &.--purescript {
+        --track-icon-color: var(--track-color-purescript);
+    }
+    &.--r {
+        --track-icon-color: var(--track-color-r);
+    }
+    &.--racket {
+        --track-icon-color: var(--track-color-racket);
+    }
+    &.--reasonml {
+        --track-icon-color: var(--track-color-reasonml);
+    }
+    &.--rust {
+        --track-icon-color: var(--track-color-rust);
+    }
+    &.--scala {
+        --track-icon-color: var(--track-color-scala);
+    }
+    &.--scheme {
+        --track-icon-color: var(--track-color-scheme);
+    }
+    &.--sml {
+        --track-icon-color: var(--track-color-sml);
+    }
+    &.--swift {
+        --track-icon-color: var(--track-color-swift);
+    }
+    &.--tcl {
+        --track-icon-color: var(--track-color-tcl);
+    }
+    &.--typescript {
+        --track-icon-color: var(--track-color-typescript);
+    }
+    &.--vimscript {
+        --track-icon-color: var(--track-color-vimscript);
+    }
+    &.--vbnet {
+        --track-icon-color: var(--track-color-vbnet);
+    }
+    &.--x86-64-assembly {
+        --track-icon-color: var(--track-color-x86-64-assembly);
+    }
+    &.--gnu-apl {
+        --track-icon-color: var(--track-color-gnu-apl);
     }
 }

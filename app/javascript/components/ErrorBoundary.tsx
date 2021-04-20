@@ -40,7 +40,9 @@ export const ErrorBoundary = ({
 
 export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   useEffect(() => {
-    setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT_IN_MS)
+    const timer = setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT_IN_MS)
+
+    return () => clearTimeout(timer)
   }, [resetErrorBoundary])
 
   return (

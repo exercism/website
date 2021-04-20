@@ -1,0 +1,49 @@
+= render ViewComponents::DocsMainNav.new
+
+#page-docs-index
+  .sm-container
+    .header
+      = graphical_icon "guides", css_class: "header-icon", hex: true
+      %h1 Welcome to Exercism's docs 👋
+      %p Find out everything you need to know about using and contributing to Exercism.
+      %hr.c-divider
+
+    .using-section
+      .info
+        %h2 Using Exercism
+        %p
+          Learn how to make the make the most from your time on Exercism.
+          Find answers to all your questions, understand how to make the most out of mentoring, and discover how to be a great Exercism citizen.
+        = link_to docs_section_path(:using), class: 'btn-large-cta' do
+          %span Get started
+          = graphical_icon 'arrow-right'
+      = graphical_icon 'hacker-boy', category: "graphics"
+
+    .extra-sections
+      .section
+        = graphical_icon "building", category: "graphics", css_class: "header-icon"
+        %h2 Building Exercism
+        %p Morbi vitae mi pharetra, congue odio at, dignissim dui. Aliquam condimentum vulputate risus, ac rhoncus nibh pretium ac. Morbi nec ligula sed nisl bibendum lacinia et sit amet leo.
+        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:building))
+
+      .section
+        = graphical_icon "mentoring", category: "graphics", css_class: "header-icon"
+        %h2 Mentoring
+        %p Morbi vitae mi pharetra, congue odio at, dignissim dui. Aliquam condimentum vulputate risus, ac rhoncus nibh pretium ac. Morbi nec ligula sed nisl bibendum lacinia et sit amet leo.
+        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:mentoring))
+
+      .section
+        = graphical_icon "community", category: "graphics", css_class: "header-icon"
+        %h2 Community
+        %p Morbi vitae mi pharetra, congue odio at, dignissim dui. Aliquam condimentum vulputate risus, ac rhoncus nibh pretium ac. Morbi nec ligula sed nisl bibendum lacinia et sit amet leo.
+        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:community))
+
+      .section
+        = graphical_icon "community", category: "graphics", css_class: "header-icon"
+        %h2 Not-for-profit Organisation
+        %p Morbi vitae mi pharetra, congue odio at, dignissim dui. Aliquam condimentum vulputate risus, ac rhoncus nibh pretium ac. Morbi nec ligula sed nisl bibendum lacinia et sit amet leo.
+        = render ViewComponents::ProminentLink.new("Learn More", docs_section_path(:organisation))
+
+    .tracks-section
+      %h2 And, of course, track-specific docs
+      = render ViewComponents::DocsTrackList.new

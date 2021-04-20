@@ -132,9 +132,9 @@ module IsParamaterisedSTI
   end
 
   # This maps
-  # {discussion: Solution::MentorDiscussion.find(186)}
+  # {discussion: Mentor::Discussion.find(186)}
   # to
-  # {discussion: "gid://exercism/Solution::MentorDiscussion/186"}
+  # {discussion: "gid://exercism/Mentor::Discussion/186"}
   #
   # Any non-object params are left as the were passed in.
   def params=(hash)
@@ -149,9 +149,9 @@ module IsParamaterisedSTI
   end
 
   # This reverses params= to explode back out
-  # {discussion: "gid://exercism/Solution::MentorDiscussion/186"}
+  # {discussion: "gid://exercism/Mentor::Discussion/186"}
   # to
-  # {discussion: Solution::MentorDiscussion.find(186)}
+  # {discussion: Mentor::Discussion.find(186)}
   #
   # Any non-object params are left as the were passed in.
   def retrieve_param(key)

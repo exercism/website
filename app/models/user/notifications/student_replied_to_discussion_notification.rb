@@ -3,16 +3,15 @@ class User
     class StudentRepliedToDiscussionNotification < Notification
       params :discussion_post
 
-      # TODO
       def url
-        "#"
+        discussion.mentor_url
       end
 
       def i18n_params
         {
           student_name: student.handle,
-          track_title: track.title,
-          exercise_title: exercise.title
+          track_title: solution.track.title,
+          exercise_title: solution.exercise.title
         }
       end
 
@@ -29,16 +28,12 @@ class User
       end
 
       private
-      def track
-        exercise.track
-      end
-
-      def exercise
-        solution.exercise
-      end
-
       def student
         solution.user
+      end
+
+      def discussion
+        discussion_post.discussion
       end
 
       def solution

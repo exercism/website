@@ -85,10 +85,23 @@ class SubmissionTest < ActiveSupport::TestCase
     assert Submission.find(submission.id).automated_feedback_pending?
 
     sa.update(data: { comments: ['asd'] })
-    assert Submission.find(submission.id).has_automated_feedback?
+    submission = Submission.find(submission.id)
+    refute submission.automated_feedback_pending?
+    assert submission.has_automated_feedback?
 
-    # Finally, check if they're both completed but don't have feedback
+    # Check if they're both completed but don't have feedback
     submission = create :submission, representation_status: :generated, analysis_status: :completed
+    refute submission.automated_feedback_pending?
+    refute submission.has_automated_feedback?
+
+    # Check exceptioned states
+    submission = create :submission, representation_status: :exceptioned, analysis_status: :exceptioned
+    refute submission.automated_feedback_pending?
+    refute submission.has_automated_feedback?
+
+    # Check cancelled states
+    submission = create :submission, representation_status: :cancelled, analysis_status: :cancelled
+    refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
   end
 
@@ -179,32 +192,38 @@ class SubmissionTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, user: student
     submission = create :submission, solution: solution
-    create :iteration, solution: solution, submission: submission
+    iteration = create :iteration, solution: solution, submission: submission
 
     assert submission.viewable_by?(student)
     refute submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
-    create :solution_mentor_discussion, mentor: mentor_1, solution: solution
+    create :mentor_discussion, mentor: mentor_1, solution: solution
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
-    create :solution_mentor_request, solution: solution, status: :fulfilled
+    create :mentor_request, solution: solution, status: :fulfilled
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
-    create :solution_mentor_request, solution: solution, status: :pending
+    create :mentor_request, solution: solution, status: :pending
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
 
     solution.update(published_at: Time.current)
+    assert submission.viewable_by?(student)
+    assert submission.viewable_by?(mentor_1)
+    assert submission.viewable_by?(mentor_2)
+    refute submission.viewable_by?(user)
+
+    iteration.update(published: true)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
@@ -220,9 +239,9 @@ class SubmissionTest < ActiveSupport::TestCase
     solution = create :concept_solution, user: student
     submission_1 = create :submission, solution: solution
     submission_2 = create :submission, solution: solution
-    create :iteration, submission: submission_1, solution: solution
-    create :solution_mentor_discussion, mentor: mentor_1, solution: solution
-    create :solution_mentor_request, solution: solution
+    iteration = create :iteration, submission: submission_1, solution: solution
+    create :mentor_discussion, mentor: mentor_1, solution: solution
+    create :mentor_request, solution: solution
 
     # Normal state
     assert submission_1.viewable_by?(student)
@@ -237,7 +256,42 @@ class SubmissionTest < ActiveSupport::TestCase
 
     # Check with published too
     solution.update(published_at: Time.current)
+    refute submission_1.viewable_by?(user)
+    refute submission_2.viewable_by?(user)
+
+    # Check with published too
+    iteration.update(published: true)
     assert submission_1.viewable_by?(user)
     refute submission_2.viewable_by?(user)
+  end
+
+  test "valid_filepaths" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
+    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
+    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Don't override tests
+    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow .meta
+    create :submission_file, submission: submission, filename: ".docs/something.md" # Don't allow .docs
+
+    assert_equal ["log_line_parser.rb", "subdir/new_file.rb"], submission.valid_filepaths
+  end
+
+  # d has both source and tests in the same file.
+  # The config tells us this by having solution and test be the same
+  test "valid_filepaths when test is same as solution file" do
+    exercise = create :practice_exercise, slug: "d-like"
+    solution = create :practice_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
+    create :submission_file, submission: submission, filename: "source/bob.d"
+
+    # Sanity
+    repo = Git::Exercise.for_solution(solution)
+    assert_equal repo.solution_filepaths, repo.test_filepaths
+
+    # Check the file is allowed
+    assert_equal ["source/bob.d"], submission.valid_filepaths
   end
 end

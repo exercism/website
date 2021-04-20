@@ -1,0 +1,29 @@
+#page-profile-testimonials
+  = render ViewComponents::Profile::Header.new(@user, @profile, :testimonials)
+
+  %article
+    .lg-container
+      / TODO: Real values - same as profile page
+      .stats
+        .stat
+          .number 50
+          .metric Solutions mentored
+        .stat
+          .number 50
+          .metric Students helped
+        .stat
+          .number 50
+          .metric Testimonials received
+
+      .testimonials
+        - @testimonials.each do |testimonial|
+          .testimonial
+            = avatar(testimonial.student)
+            .content= testimonial.content
+            .student-name= testimonial.student.handle
+            .exercise
+              = testimonial.exercise.title
+              on
+              = track_icon(testimonial.track)
+              .track-title= testimonial.track.title
+            %time #{time_ago_in_words(testimonial.created_at)} ago

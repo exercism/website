@@ -1,9 +1,9 @@
 .c-select {
     @apply grid items-center;
     @apply text-16 font-medium leading-huge;
-    @apply bg-inputBackgroundColor;
+    @apply bg-backgroundColorA;
     @apply cursor-pointer;
-    @apply border-1 border-transparent rounded-5;
+    @apply border-1 border-buttonBorderColor2 rounded-5;
     grid-template-areas: "select";
 
     & select {

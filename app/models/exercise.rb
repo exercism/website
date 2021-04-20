@@ -8,13 +8,13 @@ class Exercise < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  belongs_to :track
+  belongs_to :track, counter_cache: :num_exercises
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy  - exercises should never be destroyed
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
     inverse_of: :exercise,
@@ -23,7 +23,7 @@ class Exercise < ApplicationRecord
     through: :exercise_prerequisites,
     source: :concept
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :authorships,
     class_name: "Exercise::Authorship",
     inverse_of: :exercise,
@@ -32,7 +32,7 @@ class Exercise < ApplicationRecord
     through: :authorships,
     source: :author
 
-  # TODO: Remove this dependent: :destroy before launch - exercises should never be destroyed
+  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :contributorships,
     class_name: "Exercise::Contributorship",
     inverse_of: :exercise,
@@ -40,6 +40,8 @@ class Exercise < ApplicationRecord
   has_many :contributors,
     through: :contributorships,
     source: :contributor
+
+  scope :sorted, -> { order(:position) }
 
   scope :without_prerequisites, lambda {
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
@@ -63,21 +65,22 @@ class Exercise < ApplicationRecord
     is_a?(PracticeExercise)
   end
 
+  def tutorial?
+    slug == "hello-world"
+  end
+
   def to_param
     slug
   end
 
-  def icon_url
-    asset_pack_url(
-      "media/images/exercises/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+  # TODO
+  def download_cmd
+    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
   end
 
-  # TODO: Implement this properly
-  def icon_name
-    title[0].ord < 78 ? suffix = "butterflies" : suffix = "rocket"
-    "sample-#{suffix}"
+  def icon_url
+    # TOOD: Read correct dir
+    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{slug}.svg"
   end
 
   def prerequisite_exercises

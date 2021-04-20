@@ -12,7 +12,7 @@ export function TrackFilter({ request, value, setTrack }) {
     isMountedRef
   )
   return (
-    <div className="track-filter">
+    <div className="c-track-filter">
       {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
       {isSuccess && (

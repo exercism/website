@@ -83,6 +83,7 @@
         }
         & .discussion-footer {
             @apply flex items-center px-24;
+            z-index: 1;
 
             height: var(--footer-height);
             background: linear-gradient(
@@ -94,6 +95,7 @@
 
             & .iterations {
                 @apply flex flex-grow items-center;
+                @apply mr-24;
 
                 & .iteration {
                     height: 32px;
@@ -124,11 +126,12 @@
                 }
             }
             & .settings-button {
+                @apply ml-auto;
+
                 & .c-icon {
                     height: 16px;
                     width: 16px;
                 }
-                @apply ml-24;
             }
         }
 
@@ -175,6 +178,7 @@
     & .rhs {
         @apply flex flex-col;
         @apply shadow-base bg-backgroundColorA;
+        z-index: 2;
         width: 570px;
         height: 100%;
         overflow: hidden;

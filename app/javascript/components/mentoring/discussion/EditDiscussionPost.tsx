@@ -12,32 +12,23 @@ export const EditDiscussionPost = ({
   endpoint: string
   contextId: string
 }): JSX.Element => {
-  const {
-    open,
-    setOpen,
-    setButtonElement,
-    setPanelElement,
-    styles,
-    attributes,
-  } = usePanel()
+  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel()
 
   const handleSuccess = useCallback(() => setOpen(false), [setOpen])
 
   return (
     <React.Fragment>
       <button
-        ref={setButtonElement}
-        onClick={() => {
-          setOpen(!open)
-        }}
+        {...buttonAttributes}
         type="button"
         className="edit-button"
+        onClick={() => setOpen(!open)}
       >
         <GraphicalIcon icon="edit" />
         <span>Edit</span>
       </button>
-      <div ref={setPanelElement} style={styles.popper} {...attributes.popper}>
-        {open ? (
+      {open ? (
+        <div {...panelAttributes}>
           <DiscussionPostForm
             onSuccess={handleSuccess}
             endpoint={endpoint}
@@ -45,8 +36,8 @@ export const EditDiscussionPost = ({
             contextId={contextId}
             value={value}
           />
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

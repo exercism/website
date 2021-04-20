@@ -1,27 +1,24 @@
 import React from 'react'
 import { Header } from './mentoring-dropdown/Header'
 import { DiscussionList } from './mentoring-dropdown/DiscussionList'
-import { MentorDiscussion } from '../types'
+import { MentorDiscussion, SolutionMentoringStatus } from '../types'
 
 export type Links = {
   share: string
 }
 
 export const MentoringDropdown = ({
-  hasMentorDiscussionInProgress,
+  mentoringStatus,
   discussions,
   links,
 }: {
-  hasMentorDiscussionInProgress: boolean
+  mentoringStatus: SolutionMentoringStatus
   discussions: readonly MentorDiscussion[]
   links: Links
 }): JSX.Element => {
   return (
     <div className="c-request-mentoring-dropdown">
-      <Header
-        hasMentorDiscussionInProgress={hasMentorDiscussionInProgress}
-        shareLink={links.share}
-      />
+      <Header mentoringStatus={mentoringStatus} shareLink={links.share} />
       <DiscussionList discussions={discussions} />
     </div>
   )

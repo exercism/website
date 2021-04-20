@@ -1,24 +1,25 @@
 module ViewComponents
   class Reputation < ViewComponent
-    def initialize(reputation, flashy: false)
+    def initialize(reputation, size: nil, flashy: false)
       super()
 
       @reputation = reputation
+      @size = size
       @flashy = flashy
     end
 
     def to_s
-      tag.div(class: css_class, 'aria-label': "#{reputation} reputation") do
+      css_classes = []
+      css_classes << (flashy ? "c-primary-reputation" : "c-reputation")
+      css_classes << "--#{size}" if size
+
+      tag.div(class: css_classes.join(" "), 'aria-label': "#{reputation} reputation") do
         flashy ? tag.div(inner, class: "--inner") : inner
       end
     end
 
     private
-    attr_reader :reputation, :flashy
-
-    def css_class
-      flashy ? "c-primary-reputation" : "c-reputation"
-    end
+    attr_reader :reputation, :size, :flashy
 
     def inner
       icon(:reputation, "Reputation") + tag.span(reputation)

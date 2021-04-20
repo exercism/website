@@ -11,20 +11,24 @@ class API::SolutionsControllerTest < API::BaseTestCase
     setup_user
     create :concept_solution
 
-    Solution::Search.expects(:call).with(
+    Solution::SearchUserSolutions.expects(:call).with(
       @current_user,
       criteria: "ru",
       status: "published",
       mentoring_status: "completed",
+      track_slug: "ruby",
       page: "2",
+      per: "10",
       order: "newest_first"
     ).returns(Solution.page(2))
 
     get api_solutions_path(
       criteria: "ru",
+      track_id: "ruby",
       status: "published",
       mentoring_status: "completed",
       page: "2",
+      per_page: "10",
       order: "newest_first"
     ), headers: @headers, as: :json
 
@@ -38,7 +42,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     create :concept_solution,
       user: @current_user,
       exercise: ruby_bob,
-      published_at: Time.current,
+      status: :published,
       mentoring_status: "finished"
 
     get api_solutions_path(
@@ -51,7 +55,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :success
     serializer = SerializePaginatedCollection.(
       Solution.page(1),
-      serializer: SerializeSolutionsForStudent
+      serializer: SerializeSolutions,
+      serializer_args: @current_user
     )
     assert_equal serializer.to_json, response.body
   end
@@ -98,7 +103,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      solution: SerializeSolutionForStudent.(solution)
+      solution: SerializeSolution.(solution)
     }
     assert_equal expected.to_json, response.body
   end
@@ -111,7 +116,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      solution: SerializeSolutionForStudent.(solution),
+      solution: SerializeSolution.(solution),
       iterations: [SerializeIteration.(iteration)]
     }
     assert_equal expected.to_json, response.body
@@ -172,64 +177,84 @@ class API::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "complete completes exercise" do
-    setup_user
+    freeze_time do
+      setup_user
 
-    exercise = create :concept_exercise
-    create :user_track, track: exercise.track, user: @current_user
-    solution = create :concept_solution, exercise: exercise, user: @current_user
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user
 
-    patch complete_api_solution_path(solution.uuid),
-      headers: @headers, as: :json
+      patch complete_api_solution_path(solution.uuid),
+        headers: @headers, as: :json
 
-    assert_response 200
-    assert solution.reload.completed?
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_nil solution.published_at
+      assert_equal :completed, solution.status
+    end
+  end
+
+  test "publishes if requested" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user
+      create :iteration, solution: solution
+
+      patch complete_api_solution_path(solution.uuid, publish: true),
+        headers: @headers, as: :json
+
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_equal Time.current, solution.published_at
+      assert_equal :published, solution.status
+    end
   end
 
   test "complete renders changes in user_track" do
-    setup_user
+    freeze_time do
+      setup_user
 
-    track = create :track
-    concept_1 = create :track_concept, track: track
-    concept_2 = create :track_concept, track: track
+      track = create :track
+      concept_1 = create :track_concept, track: track
+      concept_2 = create :track_concept, track: track
 
-    concept_exercise_1 = create :concept_exercise, track: track, slug: "foo"
-    concept_exercise_1.taught_concepts << concept_1
-    practice_exercise = create :practice_exercise, track: track, slug: "prac"
-    practice_exercise.prerequisites << concept_1
+      concept_exercise_1 = create :concept_exercise, track: track, slug: "lasagna"
+      concept_exercise_1.taught_concepts << concept_1
 
-    concept_exercise_2 = create :concept_exercise, track: track, slug: "bar"
-    concept_exercise_2.prerequisites << concept_1
-    concept_exercise_2.taught_concepts << concept_2
+      concept_exercise_2 = create :concept_exercise, track: track, slug: "concept-exercise-2"
+      concept_exercise_2.taught_concepts << concept_2
+      concept_exercise_2.prerequisites << concept_1
 
-    create :user_track, track: track, user: @current_user
-    solution = create :concept_solution, exercise: concept_exercise_1, user: @current_user
+      practice_exercise_1 = create :practice_exercise, track: track, slug: "two-fer"
+      practice_exercise_1.practiced_concepts << concept_1
+      practice_exercise_1.prerequisites << concept_1
 
-    patch complete_api_solution_path(solution.uuid),
-      headers: @headers, as: :json
+      practice_exercise_2 = create :practice_exercise, track: track, slug: "bob"
+      practice_exercise_2.prerequisites << concept_1
 
-    assert_response 200
-    assert_equal(
-      {
-        "exercise" => {
-          "slug" => concept_exercise_1.slug,
-          "title" => concept_exercise_1.title,
-          "icon_url" => concept_exercise_1.icon_url,
-          "links" => {
-            "self" => track_exercise_path(track, concept_exercise_1)
-          }
-        },
-        "unlocked_exercises" => [
-          {
-            "slug" => practice_exercise.slug,
-            "title" => practice_exercise.title,
-            "icon_url" => practice_exercise.icon_url
-          },
-          {
-            "slug" => concept_exercise_2.slug,
-            "title" => concept_exercise_2.title,
-            "icon_url" => concept_exercise_2.icon_url
-          }
-        ],
+      practice_exercise_3 = create :practice_exercise, track: track, slug: "leap"
+      practice_exercise_3.prerequisites << concept_2
+
+      user_track = create :user_track, track: track, user: @current_user
+      solution = create :concept_solution, exercise: concept_exercise_1, user: @current_user
+
+      patch complete_api_solution_path(solution.uuid),
+        headers: @headers, as: :json
+
+      assert_response 200
+      expected = {
+        track: SerializeTrack.(solution.track, user_track),
+        exercise: SerializeExercise.(solution.exercise, user_track: user_track),
+        unlocked_exercises: [concept_exercise_2, practice_exercise_1, practice_exercise_2].map do |exercise|
+          SerializeExercise.(exercise, user_track: user_track)
+        end,
         "unlocked_concepts" => [
           {
             "slug" => concept_2.slug,
@@ -245,8 +270,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
             "total" => 2
           }
         ]
-      },
-      JSON.parse(response.body)
-    )
+      }.to_json
+      assert_equal expected, response.body
+    end
   end
 end

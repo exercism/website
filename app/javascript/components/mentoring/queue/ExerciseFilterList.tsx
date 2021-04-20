@@ -6,8 +6,30 @@ import { QueryStatus } from 'react-query'
 
 export type Props = {
   exercises: MentoredTrackExercise[] | undefined
-  value: MentoredTrackExercise[]
-  setValue: (value: MentoredTrackExercise[]) => void
+  value: MentoredTrackExercise | null
+  setValue: (value: MentoredTrackExercise | null) => void
+}
+
+const AllExerciseFilter = ({
+  count,
+  checked,
+  onChange,
+}: {
+  count: number
+  checked: boolean
+  onChange: (e: React.ChangeEvent) => void
+}): JSX.Element => {
+  return (
+    <label className="c-radio-wrapper">
+      <input type="radio" onChange={onChange} checked={checked} />
+      <div className="row">
+        <div className="c-radio" />
+        <GraphicalIcon icon="exercise" category="graphics" />
+        <div className="title">All exercises</div>
+        <div className="count">{count}</div>
+      </div>
+    </label>
+  )
 }
 
 const ExerciseFilter = ({
@@ -20,13 +42,12 @@ const ExerciseFilter = ({
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
+  const classNames = `c-radio-wrapper ${count == 0 ? 'zero' : null}`
   return (
-    <label className="c-checkbox-wrapper">
-      <input type="checkbox" onChange={onChange} checked={checked} />
+    <label className={classNames}>
+      <input type="radio" onChange={onChange} checked={checked} />
       <div className="row">
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
+        <div className="c-radio" />
         <ExerciseIcon iconUrl={iconUrl} />
         <div className="title">{title}</div>
         <div className="count">{count}</div>
@@ -87,13 +108,9 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
 
   const handleChange = useCallback(
     (e, optionValue) => {
-      if (e.target.checked) {
-        setValue([...value, optionValue])
-      } else {
-        setValue(value.filter((v) => v !== optionValue))
-      }
+      setValue(optionValue)
     },
-    [setValue, value]
+    [setValue]
   )
 
   const handleShowCompletedExercises = useCallback(
@@ -103,78 +120,74 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
       }
 
       setIsShowingExercisesCompleted(e.target.checked)
-
-      if (!e.target.checked) {
-        setValue([])
-      }
-
-      setValue(exercises.filter((exercise) => exercise.completedByMentor))
+      setValue(null)
     },
     [exercises, setValue]
   )
-
-  const handleSelectAll = useCallback(() => {
-    setValue(exercisesToShow)
-  }, [exercisesToShow, setValue])
-
-  const handleSelectNone = useCallback(() => {
-    setValue([])
-  }, [setValue])
 
   const handleSearchBarChange = useCallback((e) => {
     setSearchQuery(e.target.value)
   }, [])
 
   return (
-    <React.Fragment>
-      <div className="c-search-bar">
-        <input
-          value={searchQuery}
-          onChange={handleSearchBarChange}
-          className="--search"
-          placeholder="Search by Exercise name"
-        />
+    <>
+      <div className="exercise-filter">
+        <div className="c-search-bar">
+          <input
+            value={searchQuery}
+            onChange={handleSearchBarChange}
+            className="--search"
+            placeholder="Search by Exercise name"
+          />
+        </div>
+        <label className="c-checkbox-wrapper filter">
+          <input
+            type="checkbox"
+            checked={isShowingExercisesToMentor}
+            onChange={() =>
+              setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
+            }
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            Only show exercises that need mentoring
+          </div>
+        </label>
+        <label className="c-checkbox-wrapper filter">
+          <input
+            type="checkbox"
+            checked={isShowingExercisesCompleted}
+            onChange={handleShowCompletedExercises}
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            Only show exercises I've completed
+          </div>
+        </label>
       </div>
-      <button type="button" onClick={handleSelectAll}>
-        Select all
-      </button>
-      <button type="button" onClick={handleSelectNone}>
-        Select none
-      </button>
-      <label className="c-checkbox-wrapper">
-        <input
-          type="checkbox"
-          checked={isShowingExercisesToMentor}
-          onChange={() =>
-            setIsShowingExercisesToMentor(!isShowingExercisesToMentor)
-          }
-        />
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
-        Only show exercises that need mentoring
-      </label>
-      <label className="c-checkbox-wrapper">
-        <input
-          type="checkbox"
-          checked={isShowingExercisesCompleted}
-          onChange={handleShowCompletedExercises}
-        />
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
-        Only show exercises I've completed
-      </label>
       <div className="exercises">
+        <AllExerciseFilter
+          key="all"
+          onChange={(e) => handleChange(e, null)}
+          checked={value === null}
+          count={exercisesToShow.reduce(
+            (sum, exercise) => sum + exercise.count,
+            0
+          )}
+        />
         {exercisesToShow.map((exercise) => (
           <ExerciseFilter
             key={exercise.slug}
             onChange={(e) => handleChange(e, exercise)}
-            checked={value.includes(exercise)}
+            checked={value === exercise}
             {...exercise}
           />
         ))}
       </div>
-    </React.Fragment>
+    </>
   )
 }

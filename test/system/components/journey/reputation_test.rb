@@ -17,7 +17,7 @@ module Components
           track: track,
           exercise: exercise,
           created_at: 1.day.ago,
-          external_link: "https://test.exercism.io/token"
+          external_url: "https://test.exercism.io/token"
 
         use_capybara_host do
           sign_in!(user)
@@ -36,17 +36,21 @@ module Components
       test "paginates contributions" do
         User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
-        review_token = create :user_code_review_reputation_token, user: user
+        review_token = create :user_code_review_reputation_token, user: user, created_at: Time.current - 1.day
         contribution_token = create :user_code_contribution_reputation_token, user: user, level: :major
 
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
-          click_on "2"
-        end
 
-        assert_text strip_tags(review_token.text)
-        assert_no_text strip_tags(contribution_token.text)
+          assert_text strip_tags(contribution_token.text)
+          assert_no_text strip_tags(review_token.text)
+
+          click_on "2"
+
+          assert_text strip_tags(review_token.text)
+          assert_no_text strip_tags(contribution_token.text)
+        end
       end
 
       test "sorts contributions" do

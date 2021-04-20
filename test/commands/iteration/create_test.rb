@@ -43,6 +43,15 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal iteration, activity.iteration
   end
 
+  test "enqueues snippet job" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    assert_enqueued_with job: GenerateIterationSnippetJob do
+      Iteration::Create.(solution, submission)
+    end
+  end
+
   test "starts analysis and representation" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
@@ -68,5 +77,12 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     submission.reload
     assert :queued, submission.representation_status
     assert :queued, submission.analysis_status
+  end
+
+  test "updates solution status" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
+    assert_equal :iterated, solution.reload.status
   end
 end

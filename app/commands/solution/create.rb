@@ -6,18 +6,22 @@ class Solution
     def call
       guard!
 
-      solution_class.create_or_find_by!(
-        user: user,
-        exercise: exercise
-      ).tap do |solution|
-        record_activity!(solution)
+      begin
+        solution_class.create!(user: user, exercise: exercise).tap do |solution|
+          record_activity!(solution)
+        end
+      rescue ActiveRecord::RecordNotUnique
+        solution_class.find_by!(
+          user: user,
+          exercise: exercise
+        )
       end
     end
 
     private
     def guard!
       raise UserTrackNotFoundError unless user_track
-      raise ExerciseUnavailableError unless user_track.exercise_available?(exercise)
+      raise ExerciseLockedError unless user_track.exercise_unlocked?(exercise)
     end
 
     def record_activity!(solution)

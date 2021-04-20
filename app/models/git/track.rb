@@ -35,8 +35,59 @@ module Git
     end
 
     memoize
+    def has_concept_exercises?
+      config[:status][:concept_exercises]
+    end
+
+    memoize
+    def has_test_runner?
+      config[:status][:test_runner]
+    end
+
+    memoize
+    def has_representer?
+      config[:status][:representer]
+    end
+
+    memoize
+    def has_analyzer?
+      config[:status][:analyzer]
+    end
+
+    memoize
+    def concept_exercises
+      config[:exercises][:concept].to_a
+    end
+
+    memoize
+    def practice_exercises
+      config[:exercises][:practice].to_a
+    end
+
+    memoize
+    def concepts
+      config[:concepts].to_a
+    end
+
+    memoize
     def commit
       repo.lookup_commit(git_sha)
+    end
+
+    def find_exercise(uuid)
+      find_concept_exercise(uuid) || find_practice_exercise(uuid)
+    end
+
+    def find_concept_exercise(uuid)
+      concept_exercises.find { |e| e[:uuid] == uuid }
+    end
+
+    def find_practice_exercise(uuid)
+      practice_exercises.find { |e| e[:uuid] == uuid }
+    end
+
+    def find_concept(uuid)
+      concepts.find { |c| c[:uuid] == uuid }
     end
 
     private

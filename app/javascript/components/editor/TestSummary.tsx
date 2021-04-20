@@ -13,7 +13,13 @@ const messageLabels = {
   [TestStatus.ERROR]: 'Test Error',
 }
 
-export function TestSummary({ test }: { test: Test }): JSX.Element {
+export function TestSummary({
+  test,
+  defaultOpen,
+}: {
+  test: Test
+  defaultOpen: boolean
+}): JSX.Element {
   const isPresent = useCallback((str) => {
     return str !== undefined && str !== null && str !== ''
   }, [])
@@ -21,7 +27,7 @@ export function TestSummary({ test }: { test: Test }): JSX.Element {
   return (
     <details
       className={`c-details c-test-summary ${test.status}`}
-      open={test.status === TestStatus.FAIL || test.status === TestStatus.ERROR}
+      open={defaultOpen}
     >
       <summary className="--summary">
         <div className="--status">{statusLabels[test.status]}</div>

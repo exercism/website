@@ -26,8 +26,8 @@ test('shows completed concept exercises if track is joined', () => {
         isJoined: false,
         isNew: false,
         tags: [],
-        numConceptExercises: 2,
-        numCompletedConceptExercises: 1,
+        numConcepts: 2,
+        numCompletedConcepts: 1,
       }}
     />
   )
@@ -42,7 +42,7 @@ test('shows number of concept exercises if track is unjoined', () => {
         isJoined: false,
         isNew: false,
         tags: [],
-        numConceptExercises: 2,
+        numConcepts: 2,
       }}
     />
   )
@@ -57,8 +57,8 @@ test('shows completed practice exercises if track is joined', () => {
         isJoined: false,
         isNew: false,
         tags: [],
-        numPracticeExercises: 5,
-        numCompletedPracticeExercises: 3,
+        numExercises: 5,
+        numCompletedExercises: 3,
       }}
     />
   )
@@ -73,7 +73,7 @@ test('shows number of practice exercises if track is unjoined', () => {
         isJoined: false,
         isNew: false,
         tags: [],
-        numPracticeExercises: 5,
+        numExercises: 5,
       }}
     />
   )
@@ -88,7 +88,7 @@ test('shows new tag if track is new', () => {
         isJoined: false,
         isNew: true,
         tags: [],
-        numPracticeExercises: 5,
+        numExercises: 5,
       }}
     />
   )
@@ -103,7 +103,7 @@ test('hides new tag if track is not new', () => {
         isJoined: false,
         isNew: false,
         tags: [],
-        numPracticeExercises: 5,
+        numExercises: 5,
       }}
     />
   )

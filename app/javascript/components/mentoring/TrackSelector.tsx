@@ -6,6 +6,7 @@ import { SelectedTracksMessage } from './track-selector/SelectedTracksMessage'
 import { ContinueButton } from './track-selector/ContinueButton'
 import { SearchBar } from './track-selector/SearchBar'
 import { useList } from '../../hooks/use-list'
+import { ResultsZone } from '../ResultsZone'
 
 export type APIResponse = {
   tracks: readonly Track[]
@@ -37,7 +38,7 @@ export const TrackSelector = ({
   })
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
-  >('tracks', request, isMountedRef)
+  >(['tracks', request.endpoint, request.query], request, isMountedRef)
 
   const handleContinue = useCallback(() => {
     onContinue()
@@ -50,22 +51,23 @@ export const TrackSelector = ({
           value={request.query.criteria || ''}
           setValue={setCriteria}
         />
-        {isFetching ? <span>Fetching</span> : null}
         <SelectedTracksMessage numSelected={selected.length} />
         <ContinueButton
           disabled={selected.length === 0}
           onClick={handleContinue}
         />
       </div>
-      <div className="tracks">
-        <TracksList
-          status={status}
-          selected={selected}
-          setSelected={setSelected}
-          data={resolvedData}
-          error={error}
-        />
-      </div>
+      <ResultsZone isFetching={isFetching}>
+        <div className="tracks">
+          <TracksList
+            status={status}
+            selected={selected}
+            setSelected={setSelected}
+            data={resolvedData}
+            error={error}
+          />
+        </div>
+      </ResultsZone>
     </div>
   )
 }

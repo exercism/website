@@ -3,21 +3,32 @@ class User::Notification < ApplicationRecord
   self.class_suffix = :notification
   self.i18n_category = :notifications
 
-  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }
+  # If track or exercise is set, it means that this is a
+  # notification *about* that track and/or exercise and that
+  # the blue notification dot should propogate everywhere
+  belongs_to :track, optional: true
+  belongs_to :exercise, optional: true
 
-  scope :read, -> { where.not(read_at: nil) }
-  scope :unread, -> { where(read_at: nil) }
+  enum status: { pending: 0, unread: 1, read: 2 }
+  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }, _prefix: :email
 
-  before_validation do
+  scope :pending_or_unread, -> { where(status: %i[pending unread]) }
+  scope :not_pending, -> { where.not(status: :pending) }
+
+  before_validation on: :create do
     self.uuid = SecureRandom.compact_uuid
+    self.path = "/#{url.split('/')[3..].join('/')}"
   end
 
-  def read?
-    read_at.present?
+  def status
+    super.to_sym
   end
 
   def read!
-    update_column(:read_at, Time.current)
+    update_columns(
+      status: :read,
+      read_at: Time.current
+    )
   end
 
   def cacheable_rendering_data
@@ -35,10 +46,5 @@ class User::Notification < ApplicationRecord
     {
       is_read: read?
     }
-  end
-
-  # TODO
-  def url
-    "/"
   end
 end

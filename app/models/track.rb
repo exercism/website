@@ -8,10 +8,10 @@ class Track < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  # TODO: remove dependent: :destroy before release
+  # TODO: Pre-launch: remove dependent: :destroy
   has_many :concepts, class_name: "Track::Concept", dependent: :destroy
 
-  # TODO: remove dependent: :destroy before release
+  # TODO: Pre-launch: remove dependent: :destroy
   has_many :exercises, dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
@@ -41,12 +41,15 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
+  def course?
+    git.has_concept_exercises?
+  end
+
   # TODO: Read this from a cache and update periodically
   def num_contributors
     User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
   end
 
-  # TODO: Read this from a cache and update periodically
   def top_10_contributors
     user_ids = User::ReputationToken.where(track_id: id).
       group(:user_id).
@@ -59,17 +62,30 @@ class Track < ApplicationRecord
       to_a
   end
 
-  # TODO: Set this properly
-  def icon_name
-    "ruby"
+  def num_code_contributors
+    User::ReputationToken.
+      where(track_id: id, type: User::ReputationTokens::CodeContributionToken).
+      select(:user_id).
+      distinct.
+      count
   end
 
-  # TODO: Set this properly
+  def num_mentors
+    User::TrackMentorship.
+      where(track_id: id).
+      select(:user_id).
+      distinct.
+      count
+  end
+
   def icon_url
-    asset_pack_url(
-      "media/images/tracks/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+    # TOOD: Read correct dir
+    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/tracks/#{slug}.svg"
+  end
+
+  # TODO: Create mapping for Highlight.JS, otherwise use slug
+  def editor_language
+    slug
   end
 
   # TODO: Create mapping for Highlight.JS, otherwise use slug

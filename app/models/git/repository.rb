@@ -10,7 +10,7 @@ module Git
     def initialize(repo_url: nil)
       @repo_name = repo_url.split("/").last
 
-      if ENV["GIT_CONTENT_REPO"].present?
+      if Rails.env.development? && ENV["GIT_CONTENT_REPO"].present?
         @repo_url = ENV["GIT_CONTENT_REPO"]
       elsif repo_url
         @repo_url = repo_url
@@ -84,7 +84,7 @@ module Git
     end
 
     def fetch!
-      system("cd #{repo_dir} && git fetch --force origin main:main", out: File::NULL, err: File::NULL)
+      system("cd #{repo_dir} && git fetch --force origin #{branch_ref}:#{branch_ref}", out: File::NULL, err: File::NULL)
     rescue Rugged::NetworkError => e
       # Don't block development offline
       Rails.logger.info e.message
@@ -98,14 +98,14 @@ module Git
     end
 
     def repo_dir
-      return "#{repos_dir}/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Exercism.env.test?
+      return "#{repos_dir}/test/#{repo_url.gsub(/[^a-z0-9]/, '')}" if Rails.env.test?
 
       "#{repos_dir}/#{repo_name}"
     end
 
     memoize
     def repos_dir
-      return "./test/tmp/git_repo_cache" if Exercism.env.test?
+      return "./test/tmp/git_repo_cache" if Rails.env.test?
 
       Exercism.config.efs_repositories_mount_point
     end
@@ -134,16 +134,14 @@ module Git
 
     # If we're in dev or test mode we want to just fetch
     # every time to get up to date. In production
-    # we schedule this based of webhooks instead
+    # we schedule this based off webhooks instead
     memoize
     def keep_up_to_date?
-      # TODO: Add a test for this env var
       Rails.env.test? || !!ENV["GIT_ALWAYS_FETCH_ORIGIN"]
     end
 
     memoize
     def branch_ref
-      # TODO: Add a test for this.
       ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
     end
   end

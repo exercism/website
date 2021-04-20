@@ -2,21 +2,31 @@ import React from 'react'
 
 export function GraphicalIcon({
   icon,
-  className,
+  className = '',
   category,
+  hex = false,
 }: {
   icon: string
   className?: string
   category?: string
+  hex?: boolean
 }) {
-  let classNames = ['c-icon']
-  if (className !== undefined) {
-    classNames.push(className)
-  }
+  const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
+    (className) => className.length > 0
+  )
 
   const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
 
-  return (
-    <img src={iconFile} role="presentation" className={classNames.join(' ')} />
+  return hex ? (
+    <div className={classNames.join(' ')}>
+      <img src={iconFile} alt="" role="presentation" />
+    </div>
+  ) : (
+    <img
+      src={iconFile}
+      alt=""
+      role="presentation"
+      className={classNames.join(' ')}
+    />
   )
 }

@@ -6,14 +6,11 @@
 
     & .--inner {
         @apply flex items-center justify-center;
-        @apply text-13 text-textColor7;
-        @apply flex-grow bg-unnamed10 px-16 rounded-100;
-        @apply font-semibold text-16;
+        @apply text-16 leading-200 font-semibold;
+        @apply flex-grow bg-textColor2 px-16 rounded-100;
 
         /* This shouldn't change for theme */
-        color: #fff;
-
-        line-height: 30px;
+        color: #fbfcfe;
     }
 
     & .c-icon {
@@ -21,6 +18,20 @@
         width: 24px;
         @apply mr-8;
         filter: var(--primary-reputation-filter);
+    }
+    &.--small {
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+        & .--inner {
+            @apply text-13 leading-170;
+        }
+    }
+    &.--large {
+        & .--inner {
+            @apply leading-180 py-4;
+        }
     }
 
     & .--notification {

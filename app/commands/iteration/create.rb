@@ -11,8 +11,11 @@ class Iteration
         SELECT "#{SecureRandom.compact_uuid}", #{solution.id}, #{submission.id}, (COUNT(*) + 1), "#{time}", "#{time}"
         FROM iterations where solution_id = #{solution.id}
       })
+
       Iteration.find(id).tap do |iteration|
+        solution.update_status!
         init_services
+        GenerateIterationSnippetJob.perform_later(iteration)
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique

@@ -3,7 +3,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 
 // Test deps
-import { render, waitFor, screen } from '@testing-library/react'
+import { act, render, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
@@ -17,12 +17,11 @@ describe('<ConceptMap />', () => {
       levels: [[]],
       connections: [],
       status: {},
-      exerciseCounts: {},
+      exercisesData: [],
     }
 
-    const renderedConceptMap = renderConceptMap(config)
-    await waitForConceptMapReady(renderedConceptMap, config)
-    const map = renderedConceptMap.container.querySelector('.c-concepts-map')
+    await renderConceptMap(config)
+    const map = document.querySelector('.c-concepts-map')
     expect(map).not.toBeNull()
   })
 
@@ -32,12 +31,13 @@ describe('<ConceptMap />', () => {
       concepts: [testConcept],
       levels: [[testConcept.slug]],
       connections: [],
-      status: { test: 'unavailable' },
-      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 0 } },
+      status: { test: 'available' },
+      exercisesData: {
+        test: [{ status: 'available' }],
+      },
     }
 
-    const renderedConceptMap = renderConceptMap(config)
-    await waitForConceptMapReady(renderedConceptMap, config)
+    await renderConceptMap(config)
 
     expect(screen.queryByText('Test')).toBeInTheDocument()
     expect(
@@ -52,56 +52,87 @@ describe('<ConceptMap />', () => {
       concepts: [testConcept],
       levels: [[testConcept.slug]],
       connections: [],
-      status: { test: 'unavailable' },
-      exerciseCounts: { test: { exercises: 1, exercisesCompleted: 1 } },
+      status: { test: 'mastered' },
+      exercisesData: {
+        test: [{ status: 'completed' }],
+      },
     }
 
-    const renderedConceptMap = renderConceptMap(config)
-    await waitForConceptMapReady(renderedConceptMap, config)
+    await renderConceptMap(config)
 
     expect(screen.queryByText('Test')).toBeInTheDocument()
-    expect(
-      screen.queryByAltText('You have mastered this concept')
-    ).toBeInTheDocument()
+    expect(screen.queryByLabelText('Mastered Concept:')).toBeInTheDocument()
+  })
+
+  test('renders single multi-word concept', async () => {
+    const testConcept = concept('test-test')
+
+    const config: IConceptMap = {
+      concepts: [testConcept],
+      levels: [[testConcept.slug]],
+      connections: [],
+      status: { testTest: 'mastered' },
+      exercisesData: {
+        testTest: [{ status: 'completed' }],
+      },
+    }
+
+    await renderConceptMap(config)
+
+    expect(screen.queryByText('Test Test')).toBeInTheDocument()
+  })
+
+  test('renders a path between concepts', async () => {
+    const testConceptA = concept('test-a')
+    const testConceptB = concept('test-b')
+
+    const config: IConceptMap = {
+      concepts: [testConceptA, testConceptB],
+      levels: [[testConceptA.slug], [testConceptB.slug]],
+      connections: [
+        {
+          from: testConceptA.slug,
+          to: testConceptB.slug,
+        },
+      ],
+      status: { test1: 'mastered', test2: 'available' },
+      exercisesData: {
+        testA: [{ status: 'completed' }],
+        testB: [{ status: 'available' }],
+      },
+    }
+
+    await renderConceptMap(config)
+
+    expect(screen.queryByText('Test A')).toBeInTheDocument()
+    expect(screen.queryByText('Test B')).toBeInTheDocument()
+    expect(screen.queryByTestId('path-test-a-test-b')).toBeInTheDocument()
   })
 })
 
-const renderConceptMap = (config: IConceptMap) =>
-  render(
-    <ConceptMap
-      concepts={config.concepts}
-      levels={config.levels}
-      connections={config.connections}
-      status={config.status}
-      exerciseCounts={config.exerciseCounts}
-    />
-  )
+const renderConceptMap = async (config: IConceptMap) =>
+  await act(async () => {
+    render(
+      <ConceptMap
+        concepts={config.concepts}
+        levels={config.levels}
+        connections={config.connections}
+        status={config.status}
+        exercisesData={config.exercisesData}
+      />
+    )
+  })
 
-const waitForConceptMapReady = async (
-  renderedConceptMap: ReturnType<typeof renderConceptMap>,
-  config: IConceptMap
-) => {
-  await Promise.all(
-    config.concepts
-      .map((concept) => concept.name)
-      .map((conceptName) =>
-        waitFor(() =>
-          expect(renderedConceptMap.getByText(conceptName)).toBeInTheDocument()
-        )
-      )
-  )
-}
-
-const concept = (conceptName: string) => {
+const concept = (conceptSlug: string) => {
   return {
-    slug: conceptName,
-    name: slugToTitlecase(conceptName),
-    webUrl: `link-for-${conceptName}`,
-    tooltipUrl: `tooltop-link-for${conceptName}`,
+    slug: conceptSlug,
+    name: slugToTitleCase(conceptSlug),
+    webUrl: `link-for-${conceptSlug}`,
+    tooltipUrl: `tooltip-link-for${conceptSlug}`,
   }
 }
 
-function slugToTitlecase(slug: string): string {
+function slugToTitleCase(slug: string): string {
   return slug
     .split('-')
     .map((part) => part[0].toUpperCase() + part.substr(1))

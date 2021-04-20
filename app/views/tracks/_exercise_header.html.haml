@@ -14,15 +14,25 @@
       = exercise.title
       - if solution&.completed?
         = icon 'completed-check-circle', "Exercise is completed"
-    .difficulty Easy
+    .tags
+      - if exercise.tutorial?
+        .tutorial-tag Tutorial Exercise
+      - elsif exercise.concept_exercise?
+        / TODO
+        .concept-tag Concept Exercise
+      - else
+        / TODO
+        .difficulty-tag Easy
+
+      = render ViewComponents::Track::ExerciseStatusTag.new(exercise, user_track)
 
   .decorations
 
   / TODO: Cache this
   .makers
-    .faces
+    .c-faces
       - exercise.authors.each do |author|
-        .author{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(author.handle), "data-handle": author.handle }
+        .face{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(author.handle), "data-handle": author.handle }
           = avatar(author)
     .stats
       .authors= pluralize exercise.authors.size, "author"

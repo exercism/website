@@ -6,7 +6,9 @@ FactoryBot.define do
 
     uuid { SecureRandom.uuid }
     slug { 'strings' }
-    title { slug.titleize }
+    blurb { 'strings are super useful' }
+    title { slug.to_s.titleize }
+    position { 1 }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }
 

@@ -1,6 +1,17 @@
 require "test_helper"
 
 class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
+  test "respects force_sync: true" do
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", deprecated: false, git_sha: repo.head_commit.oid, synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
+
+    Git::SyncAuthors.expects(:call).never
+    Git::SyncConceptExercise.(exercise)
+
+    Git::SyncAuthors.expects(:call).once
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+  end
+
   test "git sync SHA changes to HEAD SHA when there are no changes" do
     exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", deprecated: false, git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -73,6 +84,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     refute exercise.deprecated
+    assert_equal 'Like puppets on a...', exercise.reload.blurb
   end
 
   test "metadata is updated when old commit is missing (e.g. due to force push)" do
@@ -84,6 +96,16 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     refute exercise.deprecated
+  end
+
+  test "position is updated when there are changes in config.json" do
+    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', position: 2, deprecated: true, git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24" # rubocop:disable Layout/LineLength
+    create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal 6, exercise.position
   end
 
   test "removes taught concepts that are not in config.json" do
@@ -132,8 +154,8 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   test "adds authors that are in .meta/config.json" do
     exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", deprecated: false, git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
-    first_author = create :user, handle: "iHiD"
-    second_author = create :user, handle: "pvcarrera"
+    first_author = create :user, github_username: "iHiD"
+    second_author = create :user, github_username: "pvcarrera"
 
     Git::SyncConceptExercise.(exercise)
 
@@ -142,7 +164,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "removes authors that are not in .meta/config.json" do
-    author = create :user, handle: "ErikSchierboom"
+    author = create :user, github_username: "ErikSchierboom"
     exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24" # rubocop:disable Layout/LineLength
     exercise.authors << author
     create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
@@ -150,11 +172,11 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     Git::SyncConceptExercise.(exercise)
 
-    refute exercise.authors.where(handle: author.handle).exists?
+    refute exercise.authors.where(github_username: author.github_username).exists?
   end
 
   test "adds reputation token for new author" do
-    new_author = create :user, handle: "taiyab"
+    new_author = create :user, github_username: "taiyab"
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -170,7 +192,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "does not add reputation token for existing author" do
-    existing_author = create :user, handle: "neenjaw"
+    existing_author = create :user, github_username: "neenjaw"
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -183,9 +205,9 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "adds contributors that are in .meta/config.json" do
-    first_contributor = create :user, handle: "kotp"
-    second_contributor = create :user, handle: "iHiD"
-    third_contributor = create :user, handle: "ErikSchierboom"
+    first_contributor = create :user, github_username: "kotp"
+    second_contributor = create :user, github_username: "iHiD"
+    third_contributor = create :user, github_username: "ErikSchierboom"
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -198,7 +220,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "removes contributors that are not in .meta/config.json" do
-    remove_contributor = create :user, handle: "SleeplessByte"
+    remove_contributor = create :user, github_username: "SleeplessByte"
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -210,7 +232,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "adds reputation token for new contributor" do
-    new_contributor = create :user, handle: "ErikSchierboom"
+    new_contributor = create :user, github_username: "ErikSchierboom"
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520", synced_to_git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -226,7 +248,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "does not add reputation token for existing contributor" do
-    existing_contributor = create :user, handle: "kotp"
+    existing_contributor = create :user, github_username: "kotp"
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520", synced_to_git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
@@ -237,5 +259,45 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
+  end
+
+  test "syncs with nil prerequisites" do
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: 'Lasagna', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept].each { |e| e[:prerequisites] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncConceptExercise.(exercise)
+  end
+
+  test "syncs with nil concepts" do
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: 'Lasagna', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
+
+    git_track = Git::Track.new("HEAD", repo_url: exercise.track.repo_url)
+    config = git_track.config
+    config[:exercises][:concept].each { |e| e[:concepts] = nil }
+
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Git::Track.any_instance.stubs(:config).returns(config)
+    end
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+  end
+
+  test "handle renamed slug" do
+    exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs', git_sha: "c75486b75db8012646b0e1c667cb1db47ff5a9d5", synced_to_git_sha: "c75486b75db8012646b0e1c667cb1db47ff5a9d5" # rubocop:disable Layout/LineLength
+    create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal 'log-levels', exercise.slug
   end
 end

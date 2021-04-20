@@ -11,7 +11,7 @@ export type SolutionProps = {
   numStars: number
   numComments: number
   numIterations: number
-  numLocs: string
+  numLoc: string
   lastSubmittedAt: string
   exercise: {
     title: string
@@ -30,7 +30,7 @@ export const Solution = ({
   numStars,
   numComments,
   numIterations,
-  numLocs,
+  numLoc,
   lastSubmittedAt,
   exercise,
   track,
@@ -66,7 +66,7 @@ export const Solution = ({
           </div>
           <div className="stat">
             <GraphicalIcon icon="loc" />
-            {numLocs} lines
+            {numLoc} lines
           </div>
           <div className="stat">
             <GraphicalIcon icon="views" />

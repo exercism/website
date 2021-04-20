@@ -23,6 +23,9 @@ module ViewComponents
     end
 
     def nav
+      return render_docs_nav if controller_name == "docs"
+      return unless user_signed_in?
+
       if namespace_name == "mentoring"
         selected = :mentoring
       elsif controller_name == "dashboard"
@@ -34,8 +37,8 @@ module ViewComponents
       tag.nav do
         tag.ul do
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
-            nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
-            nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
+            nav_li("Learn", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
+            nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
             nav_li("Contribute", :logo, "#", false)
         end
       end
@@ -70,13 +73,26 @@ module ViewComponents
         safe_join(
           [
             ReactComponents::Dropdowns::Notifications.new.to_s,
-            ReactComponents::Dropdowns::Reputation.new(current_user).to_s,
+            render(ReactComponents::Dropdowns::Reputation.new(current_user)),
             render(ViewComponents::UserMenu.new)
           ]
         )
       end
     end
 
-    def signed_out_section; end
+    def signed_out_section
+      tag.div(class: "external-section") do
+        link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-small-cta") +
+          link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-small")
+      end
+    end
+
+    def render_docs_nav
+      tag.div "", class: "docs-search" do
+        tag.div "", class: "c-search-bar" do
+          tag.input class: "--search", placeholder: "Search Exercism's docs..."
+        end
+      end
+    end
   end
 end

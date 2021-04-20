@@ -18,10 +18,33 @@ class Markdown::RenderHTML
     attr_reader :nofollow_links
 
     def link(node)
-      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '" target="_blank"')
+      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
-      out(' rel="nofollow"') if nofollow_links
+      if external_url(node.url)
+        out(' target="_blank"')
+        out(' rel="noopener', nofollow_links ? ' nofollow' : '', '"')
+      elsif nofollow_links
+        out(' rel="nofollow"')
+      end
+      out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
+    end
+
+    def external_url(url)
+      uri = Addressable::URI.parse(url)
+      return false if uri.scheme.nil?
+      return true unless %w[https http].include?(uri.scheme)
+      return false if %w[exercism.io exercism.lol local.exercism.io].include?(uri.host)
+
+      true
+    end
+
+    def link_tooltip_attributes(node)
+      link_match = %r{^(?<url>https?://(?<local>local\.)?exercism\.(?<domain>io|lol))?/tracks/(?<track>[^/]+)/(?<type>concept|exercise)s/(?<slug>[^/#?]+)}.match(node.url) # rubocop:disable Layout/LineLength
+      return unless link_match
+
+      endpoint = Exercism::Routes.send("tooltip_track_#{link_match[:type]}_path", link_match[:track], link_match[:slug])
+      %( data-tooltip-type="#{link_match[:type]}" data-endpoint="#{endpoint}")
     end
 
     def code_block(node)

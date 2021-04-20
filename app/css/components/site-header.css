@@ -46,7 +46,7 @@
         & .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-16 relative;
+            @apply mr-20 relative;
 
             &.selected {
                 @apply absolute;
@@ -57,6 +57,7 @@
             }
         }
     }
+
     & .user-section {
         @apply flex justify-end items-center;
 
@@ -131,6 +132,35 @@
                         @apply text-textColor5;
                     }
                 }
+            }
+        }
+    }
+    & .external-section {
+        @apply flex items-center flex-grow justify-end;
+
+        & a:first-child {
+            @apply mr-16;
+        }
+    }
+}
+
+body.controller-docs {
+    @apply bg-backgroundColorA;
+    & #site-header {
+        @apply bg-backgroundColorE;
+        @apply border-0;
+
+        & .exercism-link {
+            @apply mr-32;
+        }
+
+        & .docs-search {
+            @apply flex-grow;
+            & input {
+                @apply bg-backgroundColorA;
+                @apply border-1 border-buttonBorderColor2;
+                width: 100%;
+                max-width: 540px;
             }
         }
     }

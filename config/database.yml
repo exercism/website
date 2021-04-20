@@ -2,7 +2,7 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
-  pool: 5
+  pool: 50
   username: exercism_v3
   password: exercism_v3
   socket: <%= Exercism.config.mysql_socket %>

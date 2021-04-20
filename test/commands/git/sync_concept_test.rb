@@ -26,10 +26,26 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
   end
 
   test "concept is updated when there are changes in config.json" do
-    concept = create :track_concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', slug: 'basics', name: 'Basics', blurb: 'The Ruby basics are simple', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :track_concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', slug: 'conditionals', name: 'Conditional logic', blurb: 'With if and unless you can conditionally execute code', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
 
     Git::SyncConcept.(concept)
 
-    assert_equal "The Ruby basics are relatively simple", concept.blurb
+    assert_equal "Conditionals", concept.name
+  end
+
+  test "concept is updated when there are changes in .meta/config.json" do
+    concept = create :track_concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', slug: 'conditionals', name: 'Conditional logic', blurb: 'Conditionals blurb', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+
+    Git::SyncConcept.(concept)
+
+    assert_equal "With if and unless you can conditionally execute code", concept.blurb
+  end
+
+  test "handle renamed slug" do
+    concept = create :track_concept, uuid: '4dbd68ce-e736-47da-9ccd-d2ce0d8cdf1e', slug: 'class', name: 'Class', blurb: 'Strings are immutable objects', synced_to_git_sha: 'f236f73dee1558a4adcf97e14b7dc6681001c69f' # rubocop:disable Layout/LineLength
+
+    Git::SyncConcept.(concept)
+
+    assert_equal 'classes', concept.slug
   end
 end

@@ -1,35 +1,41 @@
 .text-h1 {
-    @apply text-40 font-bold text-textColor1;
+    @apply text-40 font-bold text-textColor2;
     line-height: 1.25;
 }
 .text-h2 {
-    @apply text-31 font-semibold text-textColor1;
-    line-height: 1.25;
+    @apply text-31 font-bold text-textColor2 leading-140;
 }
 .text-h3 {
-    @apply text-25 text-textColor1 font-semibold;
+    @apply text-24 text-textColor2 font-semibold;
     line-height: 1.48;
 }
 .text-h3-mono {
     @apply text-h3 font-mono font-bold;
 }
 .text-h4 {
-    @apply font-semibold text-textColor1 text-20;
-    line-height: 1.38;
+    @apply font-semibold text-textColor2 text-20 leading-140;
 }
 .text-h5 {
-    line-height: 1.38;
-    @apply text-18 font-semibold text-textColor1;
+    @apply text-18 leading-150 font-semibold text-textColor1;
 }
 .text-h5-mono {
     @apply text-h5 font-mono font-bold;
 }
 .text-h6 {
     line-height: 1.38;
-    @apply text-16 font-semibold text-textColor1;
+    @apply text-16 font-semibold text-textColor2;
 }
 .text-p-small {
     @apply text-14 leading-160;
+}
+.text-p-base {
+    @apply text-16 leading-160;
+}
+.text-p-large {
+    @apply text-18 leading-170;
+}
+.text-p-xlarge {
+    @apply text-20 leading-170;
 }
 
 .text-prose {
@@ -44,6 +50,14 @@
 
 .btn--cta {
     @apply bg-anotherPurple text-textColor9 border-anotherPurple;
+    @apply shadow-buttonS;
+
+    & .c-icon {
+        filter: var(--white-filter);
+    }
+}
+.btn--simple {
+    @apply bg-backgroundColorA text-textColor6 border-borderColor5;
 }
 .btn--secondary {
     @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;
@@ -55,6 +69,7 @@
     @apply flex items-center justify-center px-20;
     @apply border-2 border-buttonBorderColor1 rounded-5;
     @apply text-16 font-semibold;
+    white-space: nowrap;
     height: 48px;
 
     & > .c-icon {
@@ -79,6 +94,9 @@
 .btn-cta {
     @apply btn btn--cta;
 }
+.btn-simple {
+    @apply btn btn--simple;
+}
 .btn-secondary {
     @apply btn btn--secondary;
 }
@@ -86,6 +104,7 @@
 .btn-large {
     @apply btn;
     @apply px-32 border-3 text-18;
+    @apply shadow-buttonS;
     height: 54px;
 
     & > .c-icon {
@@ -113,7 +132,6 @@
 }
 .btn-small-cta {
     @apply btn-small btn--cta;
-    @apply shadow-xsZ1;
 }
 .btn-small-secondary {
     @apply btn-small btn--secondary;

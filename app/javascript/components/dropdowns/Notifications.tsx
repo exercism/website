@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
@@ -11,7 +11,7 @@ import { useRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { QueryStatus } from 'react-query'
+import { queryCache, QueryStatus } from 'react-query'
 
 export type APIResponse = {
   results: Notification[]
@@ -91,6 +91,7 @@ const DropdownContent = ({
 }
 
 const MAX_NOTIFICATIONS = 5
+const CACHE_KEY = 'notifications'
 
 export const Notifications = ({
   endpoint,
@@ -98,8 +99,9 @@ export const Notifications = ({
   endpoint: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
+  const [isStale, setIsStale] = useState(false)
   const { data, error, status, refetch } = useRequestQuery<APIResponse>(
-    'notifications',
+    CACHE_KEY,
     { endpoint: endpoint, query: { per: MAX_NOTIFICATIONS }, options: {} },
     isMountedRef
   )
@@ -108,16 +110,35 @@ export const Notifications = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
+    open,
   } = useNotificationDropdown(data)
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(
       { channel: 'NotificationsChannel' },
-      { received: refetch }
+      {
+        received: () => {
+          setIsStale(true)
+        },
+      }
     )
 
     return () => subscription.unsubscribe()
   }, [refetch])
+
+  useEffect(() => {
+    if (!listAttributes.hidden) {
+      return
+    }
+
+    queryCache.invalidateQueries(CACHE_KEY).then(() => {
+      if (!isMountedRef.current) {
+        return
+      }
+
+      setIsStale(false)
+    })
+  }, [listAttributes.hidden, isStale, isMountedRef])
 
   return (
     <React.Fragment>
@@ -126,15 +147,17 @@ export const Notifications = ({
         aria-label="Open notifications"
         {...buttonAttributes}
       />
-      <div className="c-notifications-dropdown" {...panelAttributes}>
-        <DropdownContent
-          data={data}
-          status={status}
-          error={error}
-          itemAttributes={itemAttributes}
-          listAttributes={listAttributes}
-        />
-      </div>
+      {open ? (
+        <div className="c-notifications-dropdown" {...panelAttributes}>
+          <DropdownContent
+            data={data}
+            status={status}
+            error={error}
+            itemAttributes={itemAttributes}
+            listAttributes={listAttributes}
+          />
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

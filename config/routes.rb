@@ -41,7 +41,11 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :tracks, only: %i[index show]
+      resources :tracks, only: %i[index show] do
+        resources :exercises, only: %i[index], controller: "exercises" do
+          resources :community_solutions, only: [:index], controller: "community_solutions"
+        end
+      end
 
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
       patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
@@ -58,6 +62,16 @@ Rails.application.routes.draw do
 
       resources :profiles, only: [] do
         get :summary, on: :member
+
+        resources :testimonials, only: [:index], controller: "profiles/testimonials"
+        resources :solutions, only: [:index], controller: 'profiles/solutions'
+        resources :contributions, only: [], controller: 'profiles/contributions' do
+          collection do
+            get :building
+            get :maintaining
+            get :authoring
+          end
+        end
       end
 
       resources :solutions, only: %i[index show update] do
@@ -111,6 +125,12 @@ Rails.application.routes.draw do
           resources :posts, only: %i[index create update], controller: "discussion_posts"
         end
 
+        resources :testimonials, only: [:index] do
+          member do
+            patch :reveal
+          end
+        end
+
         resources :students, only: [] do
           member do
             post :block
@@ -147,11 +167,23 @@ Rails.application.routes.draw do
   # ############ #
   resource :dashboard, only: [:show], controller: "dashboard"
 
+  resources :docs, only: %i[index]
+  get 'docs/tracks/:track_slug/*slug', to: 'docs#track_show', as: :track_doc
+  get 'docs/tracks/:track_slug', to: 'docs#track_index', as: :track_docs
+  get 'docs/tracks', to: 'docs#tracks'
+  get 'docs/:section/*slug', to: 'docs#show', as: :doc
+  get 'docs/:section', to: 'docs#section', as: :docs_section
+
   resources :notifications, only: [:index]
 
   resources :profiles, only: [:show] do
     member do
       get :tooltip
+
+      get :solutions
+      get :badges
+      get :testimonials
+      get :contributions
     end
   end
 
@@ -180,6 +212,7 @@ Rails.application.routes.draw do
 
     resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
+        get :tooltip
         patch :start
         patch :complete # TODO: Remove once via the API.
       end
@@ -189,6 +222,8 @@ Rails.application.routes.draw do
       resources :mentor_discussions, only: [:index], controller: "tracks/mentor_requests"
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
+
+      resources :community_solutions, only: [:index], controller: "tracks/community_solutions"
     end
 
     member do
@@ -241,6 +276,8 @@ Rails.application.routes.draw do
         get :reputation
         get :mentoring_dropdown
         get :finish_mentor_discussion
+        get :exercise_tooltip
+        get :select_exercise_for_mentoring
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

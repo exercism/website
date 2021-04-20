@@ -17,7 +17,6 @@ export const FinishButton = ({
   const handleSuccess = useCallback(
     (discussion) => {
       onSuccess(discussion)
-      setOpen(false)
     },
     [onSuccess]
   )

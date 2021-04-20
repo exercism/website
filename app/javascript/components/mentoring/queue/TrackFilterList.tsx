@@ -1,13 +1,16 @@
-import React, { useCallback } from 'react'
-import { TrackIcon } from '../../common'
+import React, { useCallback, useRef, useState } from 'react'
+import { TrackIcon, Icon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
+import { useDropdown } from '../../dropdowns/useDropdown'
+import { ResultsZone } from '../../ResultsZone'
+import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
 
 const TrackFilter = ({
   title,
   iconUrl,
-  num_solutions_queued,
+  numSolutionsQueued,
   checked,
   onChange,
 }: MentoredTrack & {
@@ -23,10 +26,9 @@ const TrackFilter = ({
         name="queue_track"
       />
       <div className="row">
-        <div className="c-radio" />
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{num_solutions_queued}</div>
+        <div className="count">{numSolutionsQueued}</div>
       </div>
     </label>
   )
@@ -37,15 +39,18 @@ const DEFAULT_ERROR = new Error('Unable to fetch tracks')
 export const TrackFilterList = ({
   status,
   error,
+  children,
   ...props
-}: Props & { status: QueryStatus; error: unknown }): JSX.Element => {
+}: React.PropsWithChildren<
+  Props & { status: QueryStatus; error: unknown }
+>): JSX.Element => {
   return (
     <FetchingBoundary
       error={error}
       status={status}
       defaultError={DEFAULT_ERROR}
     >
-      <Component {...props} />
+      <Component {...props}>{children}</Component>
     </FetchingBoundary>
   )
 }
@@ -53,8 +58,14 @@ export const TrackFilterList = ({
 type Props = {
   tracks: MentoredTrack[] | undefined
   isFetching: boolean
-  value: MentoredTrack | null
+  value: MentoredTrack
   setValue: (value: MentoredTrack) => void
+  cacheKey: string
+  total?: number
+  links: {
+    tracks: string
+    updateTracks: string
+  }
 }
 
 const Component = ({
@@ -62,32 +73,109 @@ const Component = ({
   isFetching,
   value,
   setValue,
-}: Props): JSX.Element => {
-  const handleChange = useCallback(
-    (e, optionValue) => {
-      setValue(optionValue)
+  cacheKey,
+  links,
+  total,
+}: Props): JSX.Element | null => {
+  const changeTracksRef = useRef<HTMLButtonElement>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const handleItemSelect = useCallback(
+    (index) => {
+      if (!tracks) {
+        return
+      }
+
+      const track = tracks[index]
+
+      track ? setValue(tracks[index]) : changeTracksRef.current?.click()
     },
-    [setValue]
+    [setValue, tracks]
   )
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    setOpen,
+    open,
+  } = useDropdown((tracks?.length || 0) + 1, handleItemSelect, {
+    placement: 'bottom',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
+
+  if (!tracks) {
+    return null
+  }
 
   return (
-    <div className="track-filter">
-      {isFetching ? <span>Fetching</span> : null}
-      <h3>Filter by language track</h3>
-      {tracks && tracks.length > 0 ? (
-        <div className="tracks">
-          {tracks.map((track) => (
-            <TrackFilter
-              key={track.id}
-              onChange={(e) => handleChange(e, track)}
-              checked={value?.id === track.id}
-              {...track}
-            />
-          ))}
+    <div className="c-track-switcher">
+      <ResultsZone isFetching={isFetching}>
+        <button
+          className="current-track"
+          aria-label="Open the track filter"
+          {...buttonAttributes}
+        >
+          <TrackIcon iconUrl={value.iconUrl} title={value.title} />
+          <div className="track-title">{value.title}</div>
+          {total !== undefined ? <div className="count">{total}</div> : null}
+          <Icon
+            icon="chevron-down"
+            alt="Click to change"
+            className="action-icon"
+          />
+        </button>
+      </ResultsZone>
+      {open ? (
+        <div {...panelAttributes} className="c-track-switcher-dropdown">
+          <ul {...listAttributes}>
+            {tracks.map((track, i) => {
+              return (
+                <li key={track.id} {...itemAttributes(i)}>
+                  <TrackFilter
+                    onChange={() => {
+                      setValue(track)
+                      setOpen(false)
+                    }}
+                    checked={value.id === track.id}
+                    {...track}
+                  />
+                </li>
+              )
+            })}
+            <li key="change-tracks" {...itemAttributes(tracks.length)}>
+              <button
+                ref={changeTracksRef}
+                type="button"
+                onClick={() => {
+                  setIsModalOpen(true)
+                  setOpen(false)
+                }}
+              >
+                <GraphicalIcon icon="reset" />
+                Change the tracks you mentor
+              </button>
+            </li>
+          </ul>
         </div>
-      ) : (
-        <p>No tracks found</p>
-      )}
+      ) : null}
+      <MentorChangeTracksModal
+        open={isModalOpen}
+        tracks={tracks}
+        cacheKey={cacheKey}
+        links={links}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={() => {
+          setIsModalOpen(false)
+          setOpen(false)
+        }}
+      />
     </div>
   )
 }

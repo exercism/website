@@ -9,6 +9,9 @@ class CreateTracks < ActiveRecord::Migration[6.0]
 
       t.string :synced_to_git_sha, null: false
 
+      t.integer :num_exercises, limit: 3, null: false, default: 0
+      t.integer :num_concepts, limit: 3, null: false, default: 0
+
       t.json :tags, null: true
 
       t.boolean :active, default: true, null: false

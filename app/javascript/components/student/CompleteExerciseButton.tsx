@@ -11,9 +11,9 @@ export const CompleteExerciseButton = ({
 
   return (
     <React.Fragment>
-      <button onClick={() => setIsModalOpen(!isModalOpen)} className="btn">
+      <button onClick={() => setIsModalOpen(!isModalOpen)} className="btn-cta">
         <GraphicalIcon icon="check-circle" />
-        Mark as complete
+        <span>Mark as complete</span>
       </button>
       <CompleteExerciseModal endpoint={endpoint} open={isModalOpen} />
     </React.Fragment>

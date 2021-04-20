@@ -12,14 +12,12 @@ body {
 /**************/
 /* Containers */
 /**************/
+.sm-container,
 .md-container,
 .lg-container {
     width: 100%;
     @apply mx-auto;
-}
 
-.md-container,
-.lg-container {
     &.bg-shapes {
         position: relative;
 
@@ -40,6 +38,11 @@ body {
             position: relative;
         }
     }
+}
+
+.sm-container {
+    max-width: 1056px;
+    padding: 0 48px;
 }
 
 .md-container {

@@ -23,7 +23,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
       criteria: "ru",
       category: "authoring",
       page: 5,
-      per: 20
+      per_page: 20
     ), headers: @headers, as: :json
 
     assert_response :success
@@ -47,9 +47,11 @@ class API::ReputatationControllerTest < API::BaseTestCase
     assert_equal(
       {
         results: [
-          token.rendering_data.merge(links: {
-                                       mark_as_seen: Exercism::Routes.mark_as_seen_api_reputation_url(token.uuid)
-                                     })
+          token.rendering_data.merge(
+            links: {
+              mark_as_seen: Exercism::Routes.mark_as_seen_api_reputation_url(token.uuid)
+            }
+          )
         ],
         meta: {
           current_page: 1,
@@ -58,7 +60,8 @@ class API::ReputatationControllerTest < API::BaseTestCase
           links: {
             tokens: Exercism::Routes.reputation_journey_url
           },
-          total_reputation: @current_user.reload.reputation
+          total_reputation: @current_user.reload.formatted_reputation,
+          is_all_seen: false
         }
       }.with_indifferent_access,
       JSON.parse(response.body).with_indifferent_access

@@ -1,17 +1,15 @@
-%section.contributors
-  .c-heading-with-count
-    %h2.--text.text-h4
-      = graphical_icon(:contributors)
-      Contributors
-    .--count{ 'aria-label': "#{num_contributors} Contributors" }= num_contributors
+%section.contributors-section
+  %h2.text-h4
+    = graphical_icon(:contributors)
+    #{track.title} Contributors
 
   %ol.showcase{ "aria-label": "Top contributors" }
     - contributors[0..1].to_a.each do |contributor|
-      %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle }
+      %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" }
         = link_to "#", "aria-label": "View profile of #{contributor.handle}" do
           = avatar(contributor)
           .name= contributor.name
-          = render ViewComponents::Reputation.new(contributor.reputation)
+          = render ViewComponents::Reputation.new(contributor.formatted_reputation)
 
   %ol.faces{ "aria-label": "Other significant contributors" }
     - contributors[2..9].to_a.each do |contributor|

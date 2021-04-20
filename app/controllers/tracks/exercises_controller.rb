@@ -1,14 +1,15 @@
 class Tracks::ExercisesController < ApplicationController
   before_action :use_track
-  before_action :use_exercise, only: %i[show start edit complete]
-  before_action :use_solution, only: %i[show edit complete]
+  before_action :use_exercise, only: %i[show start edit complete tooltip]
+  before_action :use_solution, only: %i[show edit complete tooltip]
 
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show tooltip]
+  skip_before_action :verify_authenticity_token, only: :start
   disable_site_header! only: [:edit]
 
   def index
     # TODO: - Sort by whether exercise is started, available, completed.
-    @exercises = @track.exercises
+    @exercises = @track.exercises.sorted
     @num_completed = @user_track.num_completed_exercises
   end
 
@@ -19,9 +20,28 @@ class Tracks::ExercisesController < ApplicationController
     @iteration = @solution.iterations.last if @solution
   end
 
+  def tooltip
+    render json: {
+      exercise: SerializeExercise.(@exercise, user_track: @user_track),
+      solution: (@solution ? SerializeSolution.(@solution, user_track: @user_track) : nil),
+      track: SerializeTrack.(@exercise.track, @user_track)
+    }
+  end
+
+  # TODO: This should be an API method, not a HTML one.
   def start
     Solution::Create.(current_user, @exercise)
-    redirect_to action: :edit
+
+    respond_to do |format|
+      format.html { redirect_to action: :edit }
+      format.json do
+        render json: {
+          links: {
+            exercise: Exercism::Routes.edit_track_exercise_path(@exercise.track, @exercise)
+          }
+        }
+      end
+    end
   end
 
   def edit; end

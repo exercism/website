@@ -37,3 +37,33 @@ test('shows stale data while fetching', async () => {
 
   server.close()
 })
+
+test('hides reset filter button when no filters are selected', async () => {
+  const server = setupServer(
+    rest.get('https://exercism.test/tracks', (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({ tracks: [] }))
+    })
+  )
+  server.listen()
+  const statusOptions = [{ label: 'All', value: 'all' }]
+
+  render(
+    <TracksList
+      request={{
+        endpoint: 'https://exercism.test/tracks',
+        query: {},
+        options: {
+          initialData: { tracks: [{ id: 2, title: 'Ruby', tags: [] }] },
+        },
+      }}
+      tagOptions={[]}
+      statusOptions={statusOptions}
+    />
+  )
+
+  expect(
+    screen.queryByRole('button', { name: 'Reset filters' })
+  ).not.toBeInTheDocument()
+
+  server.close()
+})

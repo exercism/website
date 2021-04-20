@@ -13,7 +13,7 @@ module ViewComponents
         tags = [
           tag.div(class: "--inner") do
             icon(:reputation, "Reputation") +
-              tag.span(user.reputation)
+              tag.span(user.formatted_reputation)
           end
         ]
         tags << tag.div('', class: "--notification") if has_notification

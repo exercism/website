@@ -1,7 +1,10 @@
 require "application_system_test_case"
+require_relative "../../support/capybara_helpers"
 
 module Flows
   class UserRegistrationTest < ApplicationSystemTestCase
+    include CapybaraHelpers
+
     setup do
       @__skip_stubbing_rest_client__ = true
     end
@@ -59,6 +62,7 @@ module Flows
           nickname: "user22"
         }
       )
+
       visit new_user_registration_path
       click_on "Sign Up with GitHub"
 
@@ -71,6 +75,8 @@ module Flows
 
     test "user registers via Github, onboards, and is redirected to the correct page" do
       track = create :track, title: "Ruby"
+      create :concept_exercise, track: track
+
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
         provider: "github",
@@ -81,16 +87,18 @@ module Flows
           nickname: "user22"
         }
       )
-      visit track_path(track)
-      click_on "Join The Ruby Track"
-      visit new_user_registration_path
-      click_on "Sign Up with GitHub"
-      find('label', text: "I accept Exercism's Terms of Service").click
-      find('label', text: "I accept Exercism's Privacy Policy").click
-      click_on "Save & Get Started"
 
-      sleep(0.1)
-      assert_text "Join The Ruby Track"
+      use_capybara_host do
+        visit track_path(track)
+        click_on "Join the Ruby Track"
+        visit new_user_registration_path
+        click_on "Sign Up with GitHub"
+        find('label', text: "I accept Exercism's Terms of Service").click
+        find('label', text: "I accept Exercism's Privacy Policy").click
+        click_on "Save & Get Started"
+
+        assert_text "Join the Ruby Track"
+      end
     ensure
       OmniAuth.config.test_mode = false
     end

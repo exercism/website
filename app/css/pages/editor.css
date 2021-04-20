@@ -145,7 +145,6 @@
         @apply flex flex-col;
 
         & .react-monaco-editor-container {
-            @apply pt-20;
         }
 
         & .monaco-editor {
@@ -186,10 +185,8 @@
                     & > .--summary {
                         @apply flex items-center;
                         @apply mb-8;
+                        list-style-type: none;
 
-                        &::-webkit-details-marker {
-                            @apply hidden;
-                        }
                         & .--summary-title {
                             @apply flex-grow;
                             @apply text-h2 text-18 leading-huge;
@@ -226,7 +223,8 @@
                     height: 8px;
                     width: 8px;
                 }
-                &.failed {
+                &.failed,
+                &.errored {
                     @apply bg-lightRed text-red;
                     @apply border-red;
                     & .--dot {
@@ -241,6 +239,42 @@
                     }
                 }
             }
+            & .error-message {
+                @apply px-24 pb-48;
+                & h3 {
+                    @apply text-h6 mb-12;
+                }
+                & pre {
+                    white-space: pre-wrap;
+                }
+            }
+            & .ops-error {
+                @apply px-24 pb-48;
+                & p {
+                    @apply text-p-base mb-12;
+                }
+            }
+            & .v1-output {
+                @apply px-24 pb-48;
+                white-space: pre-wrap;
+            }
+            & .success-box {
+                @apply flex;
+                @apply shadow-base rounded-8;
+                @apply py-16 px-24 mt-16 mx-32;
+
+                & > .c-icon {
+                    height: 64px;
+                    width: 64px;
+                    @apply mr-16;
+                }
+                & h3 {
+                    @apply text-h5 mb-4;
+                }
+                & p {
+                    @apply text-p-small mb-16;
+                }
+            }
             & .tests-list {
                 @apply px-32 pb-16;
 
@@ -250,9 +284,7 @@
                         @apply font-semibold text-14 text-darkGray;
                         @apply border-2 border-lightGray rounded-100;
                         @apply py-8 px-24 mb-12;
-                        &::-webkit-details-marker {
-                            @apply hidden;
-                        }
+                        list-style-type: none;
                         & .c-icon.indicator {
                             height: 24px;
                             width: 24px;
@@ -269,9 +301,7 @@
                     & .--summary {
                         @apply flex items-center;
                         @apply py-8 px-24 mb-12;
-                        &::-webkit-details-marker {
-                            @apply hidden;
-                        }
+                        list-style-type: none;
 
                         & .--status {
                             @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;

@@ -9,7 +9,7 @@ import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
-import { Iteration, MentorDiscussion } from '../types'
+import { Iteration, MentorDiscussion, SolutionForStudent } from '../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -33,24 +33,26 @@ export type SolutionSummaryRequest = {
   }
 }
 
-export type SolutionSummarySolution = {
-  id: string
-  hasMentorDiscussionInProgress: boolean
-  hasMentorRequestPending: boolean
-  completedAt?: string
+export type Track = {
+  title: string
+  medianWaitTime: string
 }
+
+export type ExerciseType = 'concept' | 'practice' | 'tutorial'
 
 export const SolutionSummary = ({
   solution,
+  track,
   discussions,
   request,
-  isConceptExercise,
+  exerciseType,
   links,
 }: {
-  solution: SolutionSummarySolution
+  solution: SolutionForStudent
+  track: Track
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
-  isConceptExercise: boolean
+  exerciseType: ExerciseType
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
@@ -85,39 +87,42 @@ export const SolutionSummary = ({
 
   return (
     <>
-      {solution.completedAt ? null : (
-        <Nudge
-          hasMentorDiscussionInProgress={solution.hasMentorDiscussionInProgress}
-          discussions={discussions}
-          hasMentorRequestPending={solution.hasMentorRequestPending}
-          iteration={latestIteration}
-          isConceptExercise={isConceptExercise}
-          links={links}
-        />
-      )}
-      <section className="latest-iteration">
-        <Header
-          iteration={latestIteration}
-          isConceptExercise={isConceptExercise}
-          links={links}
-        />
-        <IterationLink iteration={latestIteration} />
-        <ProminentLink
-          link={links.allIterations}
-          text="See all of your iterations"
-        />
-        <div className="next-steps">
-          <CommunitySolutions link={links.communitySolutions} />
-          <Mentoring
-            hasMentorDiscussionInProgress={
-              solution.hasMentorDiscussionInProgress
-            }
-            hasMentorRequestPending={solution.hasMentorRequestPending}
-            discussions={discussions}
+      <Nudge
+        status={solution.status}
+        mentoringStatus={solution.mentoringStatus}
+        track={track}
+        discussions={discussions}
+        iteration={latestIteration}
+        exerciseType={exerciseType}
+        links={links}
+      />
+      {latestIteration ? (
+        <section className="latest-iteration">
+          <Header
+            iteration={latestIteration}
+            exerciseType={exerciseType}
             links={links}
           />
-        </div>
-      </section>
+          <IterationLink iteration={latestIteration} />
+          <ProminentLink
+            link={links.allIterations}
+            text="See all of your iterations"
+          />
+          <div className="next-steps">
+            <CommunitySolutions
+              link={links.communitySolutions}
+              isTutorial={exerciseType === 'tutorial'}
+            />
+            <Mentoring
+              mentoringStatus={solution.mentoringStatus}
+              discussions={discussions}
+              links={links}
+              isTutorial={exerciseType === 'tutorial'}
+              trackTitle={track.title}
+            />
+          </div>
+        </section>
+      ) : null}
     </>
   )
 }

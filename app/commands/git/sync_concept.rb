@@ -14,7 +14,7 @@ module Git
       concept.update!(
         slug: concept_config[:slug],
         name: concept_config[:name],
-        blurb: concept_config[:blurb],
+        blurb: head_git_concept.blurb,
         synced_to_git_sha: head_git_concept.synced_git_sha
       )
     end
@@ -27,18 +27,18 @@ module Git
 
       concept_config[:slug] != concept.slug ||
         concept_config[:name] != concept.name ||
-        concept_config[:blurb] != concept.blurb
+        head_git_concept.blurb != concept.blurb
     end
 
     memoize
     def concept_config
       # TODO: determine what to do when the concept could not be found
-      concepts_config.find { |e| e[:uuid] == concept.uuid }
+      head_git_track.find_concept(concept.uuid)
     end
 
     memoize
     def head_git_concept
-      Git::Concept.new(concept.slug, git_repo.head_sha, repo: git_repo)
+      Git::Concept.new(concept_config[:slug], git_repo.head_sha, repo: git_repo)
     end
   end
 end

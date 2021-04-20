@@ -16,6 +16,7 @@
         & .--tag-option-list {
             @apply absolute left-0 right-0;
             @apply bg-backgroundColorA;
+            @apply z-dropdown;
 
             top: 60px;
 
@@ -30,7 +31,7 @@
             }
 
             & .--categories {
-                @apply flex flex-row gap-spacedColumns;
+                @apply flex flex-row gap-72;
             }
 
             & .--category {
@@ -47,7 +48,7 @@
                 }
             }
             & .--buttons {
-                @apply flex gap-16 mt-spacedColumns;
+                @apply flex gap-16 mt-72;
 
                 & .--apply-btn,
                 & .--close-btn {
@@ -69,10 +70,13 @@
             @apply px-20;
             @apply bg-lightOrange rounded-5;
             @apply mr-48;
+            height: 48px;
 
             & p {
-                @apply mr-24;
                 @apply text-16 font-medium text-textColor3;
+            }
+            & .--reset-btn {
+                @apply ml-24;
             }
         }
         & .c-select {
@@ -164,22 +168,12 @@
                 @apply mb-16;
                 height: 6px;
                 @apply flex flex-row;
+                @apply bg-veryLightBlue rounded-8;
 
-                & > * {
+                & .--fill {
+                    @apply bg-lightBlue rounded-8;
+                    min-width: 6px;
                     height: 100%;
-                }
-
-                & .--cp {
-                    @apply bg-darkBlue;
-                }
-                & .--ucp {
-                    background: rgba(106, 147, 255, 0.5);
-                }
-                & .--ce {
-                    @apply bg-darkGreen;
-                }
-                & .--uce {
-                    @apply bg-lightGreen;
                 }
             }
 

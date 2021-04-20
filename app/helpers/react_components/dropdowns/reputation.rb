@@ -7,9 +7,9 @@ module ReactComponents
         super(
           "dropdowns-reputation",
           {
-            reputation: user.reputation,
+            reputation: user.formatted_reputation,
             is_seen: user.reputation_tokens.unseen.empty?,
-            endpoint: Exercism::Routes.api_reputation_index_url
+            endpoint: Exercism::Routes.api_reputation_index_url(per_page: 5)
           }
         )
       end

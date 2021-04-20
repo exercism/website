@@ -6,12 +6,19 @@ FactoryBot.define do
 
     uuid { SecureRandom.uuid }
     slug { 'bob' }
-    title { slug.titleize }
+    blurb { 'Hey Bob!' }
+    title { slug.to_s.titleize }
+    position { 1 }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }
 
     trait :random_slug do
       slug { SecureRandom.hex }
+    end
+
+    factory :hello_world_exercise do
+      slug { "hello-world" }
+      title { "Hello, World!" }
     end
   end
 end

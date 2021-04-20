@@ -12,13 +12,13 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     mentor = create :user, handle: "author"
     setup_user(mentor)
     solution = create :concept_solution, user: student
-    mentor_request = create :solution_mentor_request,
+    mentor_request = create :mentor_request,
       solution: solution,
       comment_markdown: "Welcome",
       updated_at: Time.utc(2016, 12, 25)
-    discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     iteration = create :iteration, idx: 2, solution: solution
-    discussion_post = create(:solution_mentor_discussion_post,
+    discussion_post = create(:mentor_discussion_post,
       discussion: discussion,
       iteration: iteration,
       author: mentor,
@@ -66,11 +66,11 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     mentor = create :user, handle: "author"
     setup_user(mentor)
     solution = create :concept_solution, user: student
-    mentor_request = create :solution_mentor_request,
+    mentor_request = create :mentor_request,
       solution: solution,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
-    discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     create :iteration, idx: 7, solution: solution
 
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
@@ -97,7 +97,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
   test "index should return 403 when discussion can not be accessed" do
     setup_user
-    discussion = create :solution_mentor_discussion
+    discussion = create :mentor_discussion
     iteration = create :iteration
 
     get api_mentoring_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
@@ -128,7 +128,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
   test "create should return 403 when discussion can not be accessed" do
     setup_user
-    discussion = create :solution_mentor_discussion
+    discussion = create :mentor_discussion
 
     post api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
@@ -147,7 +147,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     solution = create :concept_solution
     create :iteration, solution: solution, idx: 1
     it_2 = create :iteration, solution: solution, idx: 2
-    discussion = create :solution_mentor_discussion,
+    discussion = create :mentor_discussion,
       solution: solution,
       mentor: user
 
@@ -198,7 +198,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: user
     create :iteration, solution: solution, idx: 1
     it_2 = create :iteration, solution: solution, idx: 2
-    discussion = create :solution_mentor_discussion, solution: solution
+    discussion = create :mentor_discussion, solution: solution
 
     # Check we're calling the correet class
     User::Notification::Create.expects(:call).with(
@@ -246,7 +246,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "returns 404 error when post not found" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion = create :solution_mentor_discussion, mentor: mentor
+    discussion = create :mentor_discussion, mentor: mentor
 
     patch api_mentoring_discussion_post_path(discussion, 1), headers: @headers, as: :json
 
@@ -261,7 +261,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "returns 403 error when discussion cannot be accessed" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion_post = create(:solution_mentor_discussion_post)
+    discussion_post = create(:mentor_discussion_post)
 
     patch api_mentoring_discussion_post_path(discussion_post.discussion, discussion_post), headers: @headers, as: :json
 
@@ -276,8 +276,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "returns 403 error when post cannot be accessed" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion = create(:solution_mentor_discussion, mentor: mentor)
-    discussion_post = create(:solution_mentor_discussion_post, discussion: discussion, author: create(:user))
+    discussion = create(:mentor_discussion, mentor: mentor)
+    discussion_post = create(:mentor_discussion_post, discussion: discussion, author: create(:user))
 
     patch api_mentoring_discussion_post_path(discussion, discussion_post), headers: @headers, as: :json
 
@@ -292,8 +292,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "returns 400 when validations fail" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion = create :solution_mentor_discussion, mentor: mentor
-    discussion_post = create(:solution_mentor_discussion_post, author: mentor, discussion: discussion)
+    discussion = create :mentor_discussion, mentor: mentor
+    discussion_post = create(:mentor_discussion_post, author: mentor, discussion: discussion)
 
     patch api_mentoring_discussion_post_path(discussion, discussion_post),
       params: { content: '' },
@@ -312,10 +312,10 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "updates a post" do
     mentor = create(:user, handle: "mentor")
     setup_user(mentor)
-    discussion = create :solution_mentor_discussion, mentor: mentor
+    discussion = create :mentor_discussion, mentor: mentor
 
     iteration = create :iteration, idx: 1
-    discussion_post = create(:solution_mentor_discussion_post,
+    discussion_post = create(:mentor_discussion_post,
       discussion: discussion,
       author: mentor,
       iteration: iteration,

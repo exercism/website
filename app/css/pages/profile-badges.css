@@ -1,0 +1,37 @@
+@import "../styles";
+
+#page-profile-badges {
+    @apply mb-80;
+    & article {
+        @apply mt-40;
+        & .summary {
+            @apply shadow-base bg-backgroundColorA py-16 mb-40 rounded-8;
+            @apply flex justify-center;
+
+            & .block {
+                @apply flex items-center mx-32;
+
+                & .c-icon {
+                    @apply mr-16;
+                    height: 16px;
+                    width: 16px;
+                }
+                & .count {
+                    @apply mr-24;
+                    @apply text-20 leading-140 font-semibold text-textColor2;
+                }
+                & .info {
+                    & h3 {
+                        @apply text-h6 mb-4;
+                    }
+                    & .subtitle {
+                        @apply text-15 leading-160 text-textColor6;
+                    }
+                }
+            }
+        }
+        & .badges {
+            @apply grid grid-cols-4 gap-x-36 gap-y-32;
+        }
+    }
+}

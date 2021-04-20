@@ -1,10 +1,16 @@
 .c-prominent-link {
     @apply flex items-center;
-    @apply text-16 leading-paragraph text-lightBlue font-semibold;
+    @apply text-16 leading-170 text-lightBlue font-semibold;
 
     & .c-icon {
         height: 16px;
         width: 16px;
+        filter: var(--link-blue-filter);
         @apply ml-12;
+    }
+
+    &.--with-bg {
+        @apply bg-veryLightBlue rounded-100 justify-center;
+        @apply p-8;
     }
 }

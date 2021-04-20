@@ -5,8 +5,8 @@ FactoryBot.define do
     end
     uuid { SecureRandom.uuid }
     slug { "concept_#{SecureRandom.hex(4)}" }
-    blurb { "Description of #{slug.titleize}" }
-    name { slug.titleize }
+    blurb { "Description of #{slug.to_s.titleize}" }
+    name { slug.to_s.titleize }
     synced_to_git_sha { "HEAD" }
 
     trait :with_git_data do

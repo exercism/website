@@ -1,0 +1,75 @@
+@import "../styles";
+
+.m-select-exercise-for-mentoring {
+    & .wrapper {
+        overflow-y: scroll;
+        max-height: 100%;
+        width: 100%;
+        @apply flex items-start justify-center;
+    }
+    & .--modal-content {
+        padding: 0;
+        max-height: none;
+
+        @apply mt-20 mb-40;
+        @apply py-24 px-32 bg-backgroundColorA;
+        width: 100%;
+        max-width: 1000px;
+    }
+    & h2 {
+        @apply text-h3 mb-16;
+    }
+    & .c-search-bar {
+        @apply mb-24;
+
+        & input.--search {
+            @apply w-100;
+        }
+    }
+    & .exercises {
+        & .exercise {
+            @apply py-8 px-24 mb-12;
+            @apply flex items-center;
+            @apply border-1 border-borderColor6 rounded-8;
+
+            &:hover {
+                @apply border-buttonBorderColor2 bg-backgroundColorE;
+            }
+            & .c-track-icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-24;
+            }
+            & .c-exercise-icon {
+                height: 48px;
+                width: 48px;
+                @apply mr-16;
+            }
+            & .exercise-title {
+                @apply text-18 font-medium leading-140 text-textColor2;
+                @apply flex-grow;
+            }
+            & .num-iterations {
+                @apply flex items-center;
+                @apply py-6 px-12 ml-40;
+                @apply font-medium leading-160;
+                @apply border-1 border-borderColor5 rounded-5;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-6;
+                }
+            }
+            & .last-touched {
+                @apply text-textColor6;
+                @apply ml-40;
+            }
+            & .action-icon {
+                height: 16px;
+                width: 16px;
+                @apply ml-40;
+            }
+        }
+    }
+}

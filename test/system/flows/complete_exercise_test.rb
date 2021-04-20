@@ -12,7 +12,7 @@ module Flows
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept
-      hello = create :practice_exercise, track: track, slug: "hello-world", title: "Hello World"
+      hello = create :practice_exercise, track: track, slug: "bob", title: "Bob"
       hello.prerequisites << basics_concept
 
       cars = create :concept_exercise, track: track, slug: "cars-assemble", title: "Cars Assemble"
@@ -33,18 +33,17 @@ module Flows
         click_on "Mark as complete"
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
+
+        assert_text "You've completed\nStrings!"
+        assert_text "You've unlocked\n2 exercises"
+        assert_text "Bob"
+        assert_text "Cars Assemble"
+        assert_text "Basics"
+        assert_text "Conditionals"
+
+        click_on "Continue"
+        assert_text "You've completed Strings."
       end
-
-      assert_text "You've completed\nStrings!"
-      assert_text "You've unlocked\n2 exercises"
-      assert_text "Hello World"
-      assert_text "Cars Assemble"
-      assert_text "Basics"
-      assert_text "Conditionals"
-
-      click_on "Continue"
-      sleep(0.1)
-      assert_text "You've completed Strings."
     end
 
     test "completes succesfully via nudge section" do
@@ -54,7 +53,7 @@ module Flows
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept
-      hello = create :practice_exercise, track: track, slug: "hello-world", title: "Hello World"
+      hello = create :practice_exercise, track: track, slug: "bob", title: "Bob"
       hello.prerequisites << basics_concept
 
       cars = create :concept_exercise, track: track, slug: "cars-assemble", title: "Cars Assemble"
@@ -78,18 +77,19 @@ module Flows
         within("section.completion-nudge") { click_on "Mark as complete" }
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
+
+        assert_text "You've completed\nStrings!"
+        assert_text "You've unlocked\n2 exercises"
+        assert_text "Bob"
+        assert_text "Cars Assemble"
+        assert_text "Basics"
+        assert_text "Conditionals"
+
+        click_on "Continue"
+
+        assert_text "You've completed Strings."
+        assert_no_css("section.completion-nudge")
       end
-
-      assert_text "You've completed\nStrings!"
-      assert_text "You've unlocked\n2 exercises"
-      assert_text "Hello World"
-      assert_text "Cars Assemble"
-      assert_text "Basics"
-      assert_text "Conditionals"
-
-      click_on "Continue"
-      assert_text "You've completed Strings."
-      assert_no_css("section.completion-nudge")
     end
   end
 end

@@ -16,7 +16,7 @@ const NotificationImage = ({
         />
       )
     default:
-      return <img role="presentation" src={imageUrl} className="icon" />
+      return <img alt="" role="presentation" src={imageUrl} className="icon" />
   }
 }
 

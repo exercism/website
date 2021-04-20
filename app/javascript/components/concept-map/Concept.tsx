@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { ConceptTooltip } from '../tooltips'
-import { Icon } from '../common/Icon'
-import { PureExerciseProgressBar } from './ExerciseProgressBar'
 
-import { IConcept, ConceptStatus } from './concept-map-types'
+import { IConcept, ConceptStatus, ExerciseData } from './concept-map-types'
 
 import { emitConceptElement } from './helpers/concept-element-svg-handler'
 import {
@@ -12,11 +10,14 @@ import {
   Visibility,
 } from './helpers/concept-visibility-handler'
 import { wrapAnimationFrame } from './helpers/animation-helpers'
+import { PureExerciseStatusBar } from './ExerciseStatusBar'
+import { ConceptIcon } from '../common/ConceptIcon'
 
 type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
   handleLeave: MouseEventHandler
   status: ConceptStatus
+  exercisesData: ExerciseData[]
   isActive: boolean
   isActiveHover: boolean
 }
@@ -29,11 +30,11 @@ export const Concept = ({
   handleEnter,
   handleLeave,
   status,
+  exercisesData,
   isActive,
   isActiveHover,
-  exercises = 0,
-  exercisesCompleted = 0,
 }: ConceptProps): JSX.Element => {
+  const isLocked = status === 'locked'
   // sets the initial visibility, to avoid the flash of unstyled content
   const [visibility, setVisibility] = useState<Visibility>('hidden')
 
@@ -55,9 +56,6 @@ export const Concept = ({
     }
   }, [slug, conceptRef])
 
-  const hasExercises = exercises > 0
-  const isStarted = exercisesCompleted > 0
-
   // Build the class list
   const classes: string[] = ['card']
   classes.push(status)
@@ -66,12 +64,6 @@ export const Concept = ({
   }
   if (visibility === 'hidden') {
     classes.push('hidden')
-  }
-
-  if (!hasExercises) {
-    classes.push('no-exercises')
-  } else if (!isStarted) {
-    classes.push('not-started')
   }
 
   return (
@@ -89,21 +81,12 @@ export const Concept = ({
         onMouseLeave={wrapAnimationFrame(handleLeave)}
       >
         <div className="display">
-          <div className="name">{name}</div>
-
-          {hasExercises && exercises === exercisesCompleted ? (
-            <Icon
-              icon="completed-check-circle"
-              className="complete-icon"
-              alt="You have mastered this concept"
-            />
-          ) : null}
+          <ConceptIcon name={name} size="medium" />
+          <span className="name" aria-label={getAriaLabel(status)}>
+            {name}
+          </span>
         </div>
-        <PureExerciseProgressBar
-          completed={exercisesCompleted}
-          exercises={exercises}
-          hidden={!hasExercises || !isStarted}
-        />
+        {!isLocked && <PureExerciseStatusBar exercisesData={exercisesData} />}
       </a>
       <ConceptTooltip
         contentEndpoint={tooltipUrl}
@@ -118,10 +101,21 @@ export const Concept = ({
 
 export const PureConcept = React.memo(Concept)
 
-export function conceptExerciseSlugToId(slug: string): string {
-  return `concept-exercise-${slug}`
-}
-
 export function conceptSlugToId(slug: string): string {
   return `concept-${slug}`
+}
+
+const getAriaLabel = (status: ConceptStatus): string => {
+  switch (status) {
+    case 'available':
+      return 'Available Concept:'
+    case 'learned':
+      return 'Learned Concept:'
+    case 'mastered':
+      return 'Mastered Concept:'
+    case 'locked':
+      return 'Locked Concept:'
+    default:
+      return 'Concept:'
+  }
 }

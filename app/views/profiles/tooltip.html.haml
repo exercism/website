@@ -4,15 +4,15 @@
     %h4.name= @user.name
     .handle= @user.handle
 
-  = render ViewComponents::Reputation.new(@user.reputation)
+  = render ViewComponents::Reputation.new(@user.formatted_reputation)
 
 - if @user.bio.present?
   .bio= @user.bio
 
-- if @profile&.location.present?
+- if @user.location.present?
   .location
     = icon(:location, "Located in")
-    = @profile.location
+    = @user.location
 -#
   {/*<div>{data.badges.count} badges collected</div>
   <div>{data.badges.latest.join(', ')}</div>*/}

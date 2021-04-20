@@ -21,7 +21,6 @@ const TrackFilter = ({
       <label className="c-radio-wrapper">
         <input type="radio" onChange={onChange} checked={checked} />
         <div className="row">
-          <div className="c-radio" />
           <TrackIcon iconUrl={iconUrl} title={title} />
           <div className="title">{title}</div>
           <div className="count">{count}</div>
@@ -51,7 +50,18 @@ export const TrackList = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
-  } = useDropdown(tracks.length, handleItemSelect)
+    setOpen,
+  } = useDropdown(tracks.length, handleItemSelect, {
+    placement: 'bottom-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [-8, 8],
+        },
+      },
+    ],
+  })
   const selected = tracks.find((track) => track.slug === value) || tracks[0]
 
   if (!selected) {
@@ -60,10 +70,7 @@ export const TrackList = ({
 
   return (
     <React.Fragment>
-      <button
-        aria-label="Button to open the track filter"
-        {...buttonAttributes}
-      >
+      <button aria-label="Open the track filter" {...buttonAttributes}>
         <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
         <Icon
           icon="chevron-down"
@@ -71,13 +78,16 @@ export const TrackList = ({
           className="action-icon"
         />
       </button>
-      <div className="dropdown" {...panelAttributes}>
+      <div className="c-track-switcher-dropdown" {...panelAttributes}>
         <ul {...listAttributes}>
           {tracks.map((track, i) => {
             return (
               <li key={track.slug} {...itemAttributes(i)}>
                 <TrackFilter
-                  onChange={() => setTrack(track.slug)}
+                  onChange={() => {
+                    setTrack(track.slug)
+                    setOpen(false)
+                  }}
                   checked={value === track.slug}
                   {...track}
                 />

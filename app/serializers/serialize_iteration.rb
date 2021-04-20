@@ -19,6 +19,7 @@ class SerializeIteration
       tests_status: iteration.submission.tests_status,
       representer_feedback: iteration.representer_feedback,
       analyzer_feedback: iteration.analyzer_feedback,
+      is_published: iteration.published?,
       links: {
         self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
         solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise),

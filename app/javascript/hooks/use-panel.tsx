@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { usePopper } from 'react-popper'
 
 export function usePanel(options?: any) {
   const [open, setOpen] = useState(false)
-  const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(
-    null
-  )
+  const [buttonElement, setButtonElement] = useState<HTMLElement | null>(null)
   const [panelElement, setPanelElement] = useState<HTMLDivElement | null>(null)
   const { styles, attributes, update } = usePopper(
     buttonElement,
@@ -23,24 +21,26 @@ export function usePanel(options?: any) {
     }
   )
 
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const clickedOutsideComponent = !(
-        panelElement?.contains(e.target as Node) ||
-        buttonElement?.contains(e.target as Node)
-      )
+  const handleInnerClick = useCallback((e) => {
+    e.stopPropagation()
+    e.nativeEvent.stopImmediatePropagation()
+  }, [])
 
-      if (clickedOutsideComponent) {
-        setOpen(false)
-      }
+  const handleMouseDown = useCallback(() => {
+    if (!open) {
+      return
     }
 
-    document.addEventListener('click', handleClick)
+    setOpen(false)
+  }, [open])
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleMouseDown)
 
     return () => {
-      document.removeEventListener('click', handleClick)
+      document.removeEventListener('mousedown', handleMouseDown)
     }
-  }, [buttonElement, panelElement])
+  }, [handleMouseDown])
 
   useEffect(() => {
     if (!update) {
@@ -56,10 +56,15 @@ export function usePanel(options?: any) {
     open,
     setOpen,
     buttonElement,
-    setButtonElement,
-    panelElement,
-    setPanelElement,
-    styles,
-    attributes,
+    buttonAttributes: {
+      ref: setButtonElement,
+      onMouseDown: handleInnerClick,
+    },
+    panelAttributes: {
+      ref: setPanelElement,
+      style: styles.popper,
+      ...attributes.popper,
+      onMouseDown: handleInnerClick,
+    },
   }
 }

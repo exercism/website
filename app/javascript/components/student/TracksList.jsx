@@ -4,6 +4,7 @@ import { Search } from './tracks-list/Search'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
 import { useIsMounted } from 'use-is-mounted'
+import { ResultsZone } from '../ResultsZone'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -47,10 +48,10 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       <section className="c-search-bar">
         <div className="lg-container container">
           <Search dispatch={dispatch} />
-          {isFetching ? <p>Fetching</p> : null}
           <TagsFilter
             dispatch={dispatch}
             options={tagOptions}
+            value={request.query.tags}
             numTracks={resolvedData ? resolvedData.tracks.length : 0}
           />
           <div className="c-select">
@@ -62,7 +63,11 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
       </section>
       <section className="lg-container container">
         {isError && <p>Something went wrong</p>}
-        {resolvedData && <List data={resolvedData} />}
+        {resolvedData && (
+          <ResultsZone isFetching={isFetching}>
+            <List data={resolvedData} />
+          </ResultsZone>
+        )}
       </section>
     </div>
   )

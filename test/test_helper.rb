@@ -46,6 +46,12 @@ module TestHelpers
     Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
   end
 
+  def self.use_docs_test_repo!
+    repo_url = TestHelpers.git_repo_url("docs")
+    repo = Git::Repository.new(repo_url: repo_url)
+    Git::Repository.expects(:new).at_least_once.returns(repo)
+  end
+
   def self.image_pack_url(icon_name, category: 'icons')
     asset_pack_url("media/images/#{category}/#{icon_name}.svg")
   end
@@ -107,6 +113,13 @@ class ActiveSupport::TestCase
     obj_1 = cmd.yield
     obj_2 = cmd.yield
     assert_equal obj_1, obj_2
+  end
+
+  def assert_html_equal(expected, actual)
+    expected.gsub!(/^\s+/, '')
+    expected.gsub!(/\s+$/, '')
+    expected.delete!("\n")
+    assert_equal(expected, actual)
   end
 
   ####################

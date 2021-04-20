@@ -7,6 +7,8 @@ class CreateIterations < ActiveRecord::Migration[6.1]
       t.string :uuid, null: false
       t.integer :idx, null: false, limit: 1
 
+      t.string :snippet, null: true, limit: 1500
+
       t.boolean :published, null: false, default: false
 
       t.timestamps

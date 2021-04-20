@@ -19,7 +19,7 @@ test('shows details', async () => {
   expect(screen.getByText('Iteration 2')).toBeInTheDocument()
   expect(screen.getByAltText('Submitted via CLI')).toBeInTheDocument()
   expect(screen.getByTestId('details')).toHaveTextContent(
-    'Submitted via CLI, a few seconds ago'
+    'Submitted via CLI, now'
   )
   expect(
     screen.getByRole('status', { name: 'Processing status' })
@@ -27,4 +27,38 @@ test('shows details', async () => {
   expect(
     screen.getByRole('status', { name: 'Analysis status' })
   ).toHaveTextContent('2')
+})
+
+test('shows published tag when published', async () => {
+  render(
+    <IterationSummary
+      iteration={{
+        idx: 2,
+        submissionMethod: 'cli',
+        createdAt: Date.now() - 1,
+        testsStatus: 'queued',
+        numEssentialAutomatedComments: 2,
+        isPublished: true,
+      }}
+    />
+  )
+
+  expect(screen.getByText('Published')).toBeInTheDocument()
+})
+
+test('hides published tag when not published', async () => {
+  render(
+    <IterationSummary
+      iteration={{
+        idx: 2,
+        submissionMethod: 'cli',
+        createdAt: Date.now() - 1,
+        testsStatus: 'queued',
+        numEssentialAutomatedComments: 2,
+        isPublished: false,
+      }}
+    />
+  )
+
+  expect(screen.queryByText('Published')).not.toBeInTheDocument()
 })

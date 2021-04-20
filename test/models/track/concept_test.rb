@@ -36,23 +36,36 @@ class Track::ConceptTest < ActiveSupport::TestCase
   end
 
   test "concept_exercises" do
-    track = create :track
-    concept = create :track_concept, track: track
+    concept = create :track_concept
+    exercise = create :concept_exercise
+    create :exercise_taught_concept, concept: concept, exercise: exercise
 
-    ce_1 = create :concept_exercise, :random_slug, track: track
-    ce_1.taught_concepts << concept
-    ce_2 = create :concept_exercise, :random_slug, track: track
-    ce_2.taught_concepts << create(:track_concept, track: track)
+    # Create a random different one
+    create :exercise_taught_concept
 
-    pe_1 = create :practice_exercise, :random_slug, track: track
-    pe_1.prerequisites << concept
-    pe_2 = create :practice_exercise, :random_slug, track: track
-    pe_2.prerequisites << concept
-    pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.prerequisites << create(:track_concept, track: track)
+    assert_equal [exercise], concept.concept_exercises
+  end
 
-    assert_equal [ce_1], concept.concept_exercises
-    assert_equal [pe_1, pe_2], concept.practice_exercises
+  test "practice_exercises" do
+    concept = create :track_concept
+    exercise = create :practice_exercise
+    create :exercise_practiced_concept, concept: concept, exercise: exercise
+
+    # Create a random different one
+    create :exercise_taught_concept
+
+    assert_equal [exercise], concept.practice_exercises
+  end
+
+  test "unlocked_exercises" do
+    concept = create :track_concept
+    exercise = create :practice_exercise
+    create :exercise_prerequisite, concept: concept, exercise: exercise
+
+    # Create a random different one
+    create :exercise_taught_concept
+
+    assert_equal [exercise], concept.unlocked_exercises
   end
 
   test "can be deleted" do

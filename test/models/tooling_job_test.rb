@@ -7,7 +7,7 @@ class ToolingJobTest < ActiveSupport::TestCase
     stderr = "Some errors"
 
     bucket = Exercism.config.aws_tooling_jobs_bucket
-    folder = "#{Exercism.env}/#{job_id}"
+    folder = "#{Rails.env}/#{job_id}"
     upload_to_s3(bucket, "#{folder}/stdout", stdout)
     upload_to_s3(bucket, "#{folder}/stderr", stderr)
 

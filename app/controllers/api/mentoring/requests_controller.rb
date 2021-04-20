@@ -1,23 +1,32 @@
 module API
   class Mentoring::RequestsController < BaseController
     def index
-      unscoped_total = ::Solution::MentorRequest::Retrieve.(
+      unscoped_total = ::Mentor::Request::Retrieve.(
         mentor: current_user,
         page: params[:page],
         track_slug: params[:track_slug],
-        exercise_slugs: params[:exercise_slugs],
+        exercise_slug: params[:exercise_slug],
         sorted: false,
         paginated: false
       ).count
 
-      requests = ::Solution::MentorRequest::Retrieve.(
+      requests = ::Mentor::Request::Retrieve.(
         mentor: current_user,
         page: params[:page],
         criteria: params[:criteria],
         order: params[:order],
         track_slug: params[:track_slug],
-        exercise_slugs: params[:exercise_slugs]
+        exercise_slug: params[:exercise_slug]
       )
+
+      if params[:track_slug].present?
+        begin
+          track_id = Track.find(params[:track_slug]).id
+          current_user.track_mentorships.update_all("last_viewed = (track_id = #{track_id})")
+        rescue StandardError
+          # We can have an invalid track_slug here.
+        end
+      end
 
       render json: SerializePaginatedCollection.(
         requests,
@@ -29,18 +38,18 @@ module API
     end
 
     def tracks
-      render json: Solution::MentorRequest::RetrieveTracks.(current_user)
+      render json: Mentor::Request::RetrieveTracks.(current_user)
     end
 
     def exercises
-      render json: Solution::MentorRequest::RetrieveExercises.(current_user, params[:track_slug])
+      render json: Mentor::Request::RetrieveExercises.(current_user, params[:track_slug])
     end
 
     def lock
-      mentor_request = Solution::MentorRequest.find_by(uuid: params[:id])
+      mentor_request = Mentor::Request.find_by(uuid: params[:id])
       return render_404(:mentor_request_not_found) unless mentor_request
 
-      Solution::MentorRequest::Lock.(mentor_request, current_user)
+      Mentor::Request::Lock.(mentor_request, current_user)
 
       render json: {
         request: SerializeMentorSessionRequest.(mentor_request)

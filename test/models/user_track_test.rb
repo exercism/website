@@ -46,13 +46,14 @@ class UserTrackTest < ActiveSupport::TestCase
     assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
   end
 
-  test "exercise_available? with no prerequisites" do
+  test "exercise_unlocked? with no prerequisites" do
     exercise = create :concept_exercise
     user_track = create :user_track, track: exercise.track
-    assert user_track.exercise_available?(exercise)
+    create :hello_world_solution, :completed, track: user_track.track, user: user_track.user
+    assert user_track.exercise_unlocked?(exercise)
   end
 
-  test "exercise_available? with prerequisites" do
+  test "exercise_unlocked? with prerequisites" do
     track = create :track
     exercise = create :concept_exercise, :random_slug, track: track
 
@@ -63,16 +64,19 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
 
     user_track = create :user_track, track: track
-    refute user_track.exercise_available?(exercise)
+    create :hello_world_solution, :completed, track: track, user: user_track.user
+    refute user_track.exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    refute UserTrack.find(user_track.id).exercise_available?(exercise)
+    user_track.reset_summary!
+    refute UserTrack.find(user_track.id).exercise_unlocked?(exercise)
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
-    assert UserTrack.find(user_track.id).exercise_available?(exercise)
+    user_track.reset_summary!
+    assert UserTrack.find(user_track.id).exercise_unlocked?(exercise)
   end
 
-  test "available concepts" do
+  test "unlocked concepts" do
     track = create :track
     basics = create :track_concept, track: track, slug: "co_basics"
     enums = create :track_concept, track: track, slug: "co_enums"
@@ -95,37 +99,56 @@ class UserTrackTest < ActiveSupport::TestCase
 
     user = create :user
     user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
 
-    assert_equal [basics, recursion], user_track.available_concepts
-    assert user_track.concept_available?(recursion)
-    assert user_track.concept_available?(basics)
-    refute user_track.concept_available?(enums)
-    refute user_track.concept_available?(strings)
-
-    # Reload the user track to override memoizing
-    user_track = UserTrack.find(user_track.id)
+    assert_equal [basics, recursion], user_track.unlocked_concepts
+    assert_empty user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    refute user_track.concept_unlocked?(enums)
+    refute user_track.concept_unlocked?(strings)
 
     create :user_track_learnt_concept, user_track: user_track, concept: basics
-
-    assert_equal [basics, enums, recursion], user_track.available_concepts
-    assert user_track.concept_available?(recursion)
-    assert user_track.concept_available?(basics)
-    assert user_track.concept_available?(enums)
-    refute user_track.concept_available?(strings)
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
 
     # Reload the user track to override memoizing
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
+
+    assert_equal [basics, enums, recursion], user_track.unlocked_concepts
+    assert_equal [basics], user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    assert user_track.concept_unlocked?(enums)
+    refute user_track.concept_unlocked?(strings)
 
     create :user_track_learnt_concept, user_track: user_track, concept: enums
 
-    assert_equal [basics, enums, strings, recursion], user_track.available_concepts
-    assert user_track.concept_available?(recursion)
-    assert user_track.concept_available?(basics)
-    assert user_track.concept_available?(enums)
-    assert user_track.concept_available?(strings)
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
+    assert_equal [basics, enums], user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    assert user_track.concept_unlocked?(enums)
+    assert user_track.concept_unlocked?(strings)
+
+    create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
+    assert_equal [basics, enums], user_track.learnt_concepts
+    assert_equal [enums], user_track.mastered_concepts
+
+    # TODO: Add test for practices exercise
   end
 
-  test "available exercises" do
+  test "unlocked exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
     concept_exercise_2 = create :concept_exercise, :random_slug, track: track
@@ -149,50 +172,55 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
     user_track = create :user_track, track: track
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
+    hello_world = hw_solution.exercise
 
-    assert_equal [concept_exercise_1, practice_exercise_1], user_track.available_exercises
-    assert_equal [concept_exercise_1], user_track.available_concept_exercises
-    assert_equal [practice_exercise_1], user_track.available_practice_exercises
+    assert_equal [concept_exercise_1, practice_exercise_1, hello_world], user_track.unlocked_exercises
+    assert_equal [concept_exercise_1], user_track.unlocked_concept_exercises
+    assert_equal [practice_exercise_1, hello_world], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
       concept_exercise_2,
       practice_exercise_1,
-      practice_exercise_2
-    ], user_track.available_exercises
+      practice_exercise_2,
+      hello_world
+    ], user_track.unlocked_exercises
 
-    assert_equal [concept_exercise_1, concept_exercise_2], user_track.available_concept_exercises
-    assert_equal [practice_exercise_1, practice_exercise_2], user_track.available_practice_exercises
+    assert_equal [concept_exercise_1, concept_exercise_2], user_track.unlocked_concept_exercises
+    assert_equal [practice_exercise_1, practice_exercise_2, hello_world], user_track.unlocked_practice_exercises
 
     # Reload the user track to override memoizing
-    user_track = UserTrack.find(user_track.id)
+    user_track.reset_summary!
 
     create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [
       concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
-      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4
-    ], user_track.available_exercises
+      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4,
+      hello_world
+    ], user_track.unlocked_exercises
 
     assert_equal [
       concept_exercise_1,
       concept_exercise_2,
       concept_exercise_3,
       concept_exercise_4
-    ], user_track.available_concept_exercises
+    ], user_track.unlocked_concept_exercises
 
     assert_equal [
       practice_exercise_1,
       practice_exercise_2,
       practice_exercise_3,
-      practice_exercise_4
-    ], user_track.available_practice_exercises
+      practice_exercise_4,
+      hello_world
+    ], user_track.unlocked_practice_exercises
   end
 
-  test "uncompleted_exercises" do
+  test "in_progress_exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
     concept_exercise_2 = create :concept_exercise, :random_slug, track: track
@@ -207,7 +235,21 @@ class UserTrackTest < ActiveSupport::TestCase
     create :concept_solution, user: user, exercise: concept_exercise_2
     create :practice_solution, user: user, exercise: practice_exercise_1
 
-    assert_equal [concept_exercise_2, practice_exercise_1], user_track.uncompleted_exercises
+    assert_equal [concept_exercise_2, practice_exercise_1], user_track.in_progress_exercises
+  end
+
+  test "completed_exercises" do
+    track = create :track
+    exercise_1 = create :concept_exercise, :random_slug, track: track
+    exercise_2 = create :concept_exercise, :random_slug, track: track
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_solution, user: user, exercise: exercise_1, completed_at: Time.current
+    create :concept_solution, user: user, exercise: exercise_2
+
+    assert_equal [exercise_1], user_track.completed_exercises
   end
 
   test "summary proxies correctly" do
@@ -220,7 +262,122 @@ class UserTrackTest < ActiveSupport::TestCase
 
   test "summary is memoized" do
     ut = create :user_track
-    UserTrack::GenerateSummary.expects(:call).with(ut.track, ut).returns(mock).once
+    UserTrack::Summary.expects(:new).returns(mock).once
     2.times { ut.send(:summary) }
+  end
+
+  test "summary is regenerated correctly" do
+    summary = { concepts: {}, exercises: {} }
+    ut = create(:user_track)
+    ut.send(:summary)
+    track = ut.track
+
+    track.update_column(:updated_at, Time.current + 1.day)
+    ut = UserTrack.find(ut.id)
+    UserTrack::GenerateSummaryData.expects(:call).with(track, ut).returns(summary)
+    ut.send(:summary)
+
+    ut.update_column(:updated_at, Time.current + 1.day)
+    ut = UserTrack.find(ut.id)
+    UserTrack::GenerateSummaryData.expects(:call).with(track, ut).returns(summary)
+    ut.send(:summary)
+
+    # Shouldn't require another generate user summary data
+    ut.send(:summary)
+  end
+
+  test "solutions" do
+    user = create :user
+    track = create :track, slug: :js
+    user_track = create :user_track, user: user, track: track
+
+    s_1 = create :concept_solution, user: user, exercise: create(:concept_exercise, track: track)
+    s_2 = create :practice_solution, user: user, exercise: create(:practice_exercise, track: track)
+    create :concept_solution, exercise: create(:concept_exercise, track: track)
+    create :concept_solution, user: user
+
+    assert_equal [s_1, s_2], user_track.solutions
+  end
+
+  test "completed_percentage" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+    exercises = Array.new(6) { create :practice_exercise, :random_slug, track: track }
+    create :practice_solution, exercise: exercises[0], completed_at: Time.current, user: user
+
+    # Don't count these
+    create :practice_solution, exercise: exercises[4], user: user
+    create :practice_solution, exercise: exercises[5]
+
+    assert_equal 16.7, user_track.completed_percentage
+
+    create :practice_solution, exercise: exercises[1], completed_at: Time.current, user: user
+    create :practice_solution, exercise: exercises[2], completed_at: Time.current, user: user
+    assert_equal 50, UserTrack.find(user_track.id).completed_percentage
+  end
+
+  test "tutorial_exercise_completed?" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+    exercises = Array.new(6) { create :practice_exercise, :random_slug, track: track }
+
+    refute user_track.tutorial_exercise_completed?
+
+    create :practice_solution, exercise: exercises[0], completed_at: Time.current, user: user
+    assert UserTrack.find(user_track.id).tutorial_exercise_completed?
+  end
+
+  test "num_xxx_exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+    exercises = Array.new(10) { create :practice_exercise, :random_slug, track: track }
+
+    # Started
+    create :practice_solution, exercise: exercises[0], user: user
+
+    # Iterated
+    ps = create :practice_solution, exercise: exercises[1], user: user
+    create :iteration, solution: ps, submission: create(:submission, solution: ps)
+
+    # Completed
+    (3..6).each do |idx|
+      create :practice_solution, exercise: exercises[idx], completed_at: Time.current, user: user
+    end
+
+    # Locked
+    create :exercise_prerequisite, exercise: exercises[7]
+
+    assert_equal 10, user_track.num_exercises
+    assert_equal 3, user_track.num_available_exercises
+    assert_equal 2, user_track.num_in_progress_exercises
+    assert_equal 1, user_track.num_locked_exercises
+    assert_equal 4, user_track.num_completed_exercises
+  end
+
+  test "has_notifications" do
+    user = create :user
+    track = create :track, :random_slug
+    ut_id = create(:user_track, user: user, track: track).id
+
+    solution = create :practice_solution, user: user, track: track
+    discussion = create :mentor_discussion, solution: solution
+
+    # Load of notifications that result in false
+    create :mentor_started_discussion_notification, user: user, status: :pending
+    create :mentor_started_discussion_notification, user: user, status: :unread
+    create :mentor_started_discussion_notification, user: user, status: :read
+    create :mentor_started_discussion_notification, user: user, status: :pending,
+                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+    create :mentor_started_discussion_notification, user: user, status: :read,
+                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+    create :mentor_started_discussion_notification, status: :unread,
+                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+    refute UserTrack.find(ut_id).has_notifications?
+
+    create :mentor_started_discussion_notification, status: :unread, user: user, params: { discussion: discussion }
+    assert UserTrack.find(ut_id).has_notifications?
   end
 end

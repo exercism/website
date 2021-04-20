@@ -5,15 +5,25 @@ module ReactComponents
 
       def to_s
         super("student-solution-summary", {
-          solution: SerializeSolutionForStudent.(solution),
+          solution: SerializeSolution.(solution),
+          track: {
+            title: solution.track.title,
+            median_wait_time: solution.track.median_wait_time
+          },
           request: request,
           discussions: discussions,
-          is_concept_exercise: solution.exercise.concept_exercise?,
+          exercise_type: exercise_type,
           links: links
         })
       end
 
       private
+      def exercise_type
+        return "tutorial" if solution.exercise.tutorial?
+
+        solution.exercise.concept_exercise? ? "concept" : "practice"
+      end
+
       def request
         {
           endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
@@ -56,6 +66,10 @@ module ReactComponents
             mentor: {
               avatar_url: discussion.mentor.avatar_url,
               handle: discussion.mentor.handle
+            },
+            student: {
+              avatar_url: discussion.student.avatar_url,
+              handle: discussion.student.handle
             },
             is_finished: discussion.finished?,
             is_unread: discussion.posts.where(seen_by_student: false).exists?,

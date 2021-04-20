@@ -1,0 +1,71 @@
+/ TODO: This can be cached against track.updated_at and track.num_contributors
+%article.mentoring-article
+  - unless user_track.tutorial_exercise_completed?
+    .mentoring-locked-overlay
+      .content
+        = icon "lock-circle", "Mentoring is locked"
+        %h3 Unlock mentoring for #{track.title} by completing ”Hello, World!”
+
+  .lg-container
+    %header.mentoring-header
+      .lhs
+        = graphical_icon(:mentoring, hex: true, css_class: "graphical-icon")
+        .info
+          %h2 Your mentoring slots
+          %p #{pluralize user_track.num_used_mentoring_slots, 'mentoring slot'} filled
+      .rhs
+        %h3
+          Your current Reputation is
+          = render ViewComponents::Reputation.new(number_with_delimiter(current_user.reputation), size: :small, flashy: true)
+
+        - if user_track.repo_for_next_mentoring_slot.nil?
+          .max You have the maximum available mentoring slots
+        - else
+          .progress
+            .bar{ style: "width: #{user_track.percentage_to_next_mentoring_slot}%" }
+            .unlock-icon
+              = icon "unlock", "Unlocked"
+        .info
+          = link_to "#", class: "explanation" do
+            = graphical_icon :'info-circle'
+            How does this work?
+          - unless user_track.repo_for_next_mentoring_slot.nil?
+            .next-slot
+              Next slot unlocks at
+              %strong #{number_with_delimiter user_track.repo_for_next_mentoring_slot} rep
+
+  .lg-container.container
+    .slots
+      - user_track.active_mentoring_discussions.each do |discussion|
+        = link_to track_exercise_mentor_discussion_path(track, discussion.exercise, discussion), class: "discussion" do
+          = exercise_icon discussion.exercise
+          .exercise-title= discussion.exercise.title
+          .mentor
+            with
+            = avatar(discussion.mentor)
+            .name= discussion.mentor.name
+
+          -# -if discussion.requires_student_action
+          .turn Your turn to respond
+
+          .comments
+            = graphical_icon :comment
+            #{discussion.posts.count} comments
+
+      - user_track.pending_mentoring_requests.each do |request|
+        = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do
+          = exercise_icon request.exercise
+          .exercise-title= request.exercise.title
+          %h4 Waiting on a mentor...
+          / TODO
+          .estimate Median wait time: ~2 hours
+
+      - user_track.num_available_mentoring_slots.times do
+        = render ReactComponents::Student::RequestMentoringButton.new(track)
+
+      - user_track.num_locked_mentoring_slots.times do
+        .locked-slot
+          = graphical_icon "lock"
+          %h4 Mentoring slot locked
+
+    = render ViewComponents::ProminentLink.new("Learn more about getting mentored", "#")

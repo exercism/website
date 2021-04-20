@@ -2,16 +2,29 @@ class Solution < ApplicationRecord
   extend Mandate::Memoize
 
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: true
+  enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
 
   belongs_to :user
   belongs_to :exercise
   has_one :track, through: :exercise
+
+  # TODO: This might be horrific for performance
+  has_one :user_track,
+    lambda { |s|
+      joins(track: :exercises).
+        where('exercises.id': s.exercise_id)
+    },
+    foreign_key: :user_id,
+    primary_key: :user_id,
+    touch: true,
+    inverse_of: :solutions
+
   has_many :submissions, dependent: :destroy
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
-  has_many :mentor_requests, class_name: "Solution::MentorRequest", dependent: :destroy
-  has_many :mentor_discussions, class_name: "Solution::MentorDiscussion", dependent: :destroy
+  has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy
+  has_many :mentor_discussions, class_name: "Mentor::Discussion", dependent: :destroy
   has_many :mentors, through: :mentor_discussions
 
   scope :completed, -> { where.not(completed_at: nil) }
@@ -29,7 +42,11 @@ class Solution < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid unless self.uuid
 
     self.git_slug = exercise.slug unless self.git_slug
-    self.git_sha = track.git_head_sha unless self.git_sha
+    self.git_sha = track.git_head_sha unless self.git_sha # TODO: Should this not be to the exercise's sha?
+  end
+
+  before_update do
+    self.status = determine_status
   end
 
   def self.for(user, exercise)
@@ -38,13 +55,27 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
-  # delegate :tests_status,
-  #   :representer_feedback, :analyzer_feedback,
-  #   to: :latest_iteration
 
   memoize
   def latest_iteration
     iterations.last
+  end
+
+  def status
+    super.to_sym
+  end
+
+  def mentoring_status
+    super.to_sym
+  end
+
+  def iteration_status
+    super&.to_sym
+  end
+
+  # TODO: Karlo
+  def has_unsubmitted_code?
+    false
   end
 
   def git_type
@@ -53,14 +84,6 @@ class Solution < ApplicationRecord
 
   def to_param
     raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
-  end
-
-  def status
-    return :published if published?
-    return :completed if completed?
-    return :in_progress if iterated?
-
-    :started
   end
 
   def downloaded?
@@ -91,46 +114,44 @@ class Solution < ApplicationRecord
     mentor_discussions.in_progress.first
   end
 
-  def update_mentoring_status!
-    return update_column(:mentoring_status, :in_progress) if mentor_discussions.in_progress.exists?
-    return update_column(:mentoring_status, :requested) if mentor_requests.pending.exists?
-    return update_column(:mentoring_status, :finished) if mentor_discussions.finished.exists?
+  def update_status!
+    new_status = determine_status
+    update(status: new_status) if status != new_status
+  end
 
-    update_column(:mentoring_status, :none)
+  def update_iteration_status!
+    new_status = iterations.last&.status.to_s
+    update_column(:iteration_status, new_status) if iteration_status != new_status
+  end
+
+  def update_mentoring_status!
+    new_status = determine_mentoring_status
+    update(mentoring_status: new_status) if mentoring_status != new_status
+  end
+
+  # TODO
+  def num_views
+    1270
   end
 
   # TODO
   def num_loc
-    9
+    18
   end
 
   # TODO
   def num_stars
-    9
+    10
   end
 
   # TODO
   def num_comments
-    9
+    3
   end
 
   # TODO
-  def snippet
-    '
-public class Year
-{
-  public static bool IsLeap(int year)
-  {
-      if (year % 4 != 0) return false
-      if (year % 100 == 0 && year % 400) return false
-      return true;
-  }
-}
-    '.strip
-  end
-
-  def editor_language
-    track.slug
+  def out_of_date?
+    true
   end
 
   def solution_files
@@ -157,7 +178,7 @@ public class Year
   def update_git_info!
     update!(
       git_slug: exercise.slug,
-      git_sha: track.git_head_sha
+      git_sha: track.git_head_sha # TODO: Should this not be to the exercise's sha?
     )
   end
 
@@ -172,5 +193,22 @@ public class Year
   memoize
   def git_exercise
     Git::Exercise.for_solution(self)
+  end
+
+  private
+  def determine_status
+    return :published if published?
+    return :completed if completed?
+    return :iterated if iterated?
+
+    :started
+  end
+
+  def determine_mentoring_status
+    return :in_progress if mentor_discussions.in_progress.exists?
+    return :requested if mentor_requests.pending.exists?
+    return :finished if mentor_discussions.finished.exists?
+
+    :none
   end
 end

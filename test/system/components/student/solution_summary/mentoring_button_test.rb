@@ -10,13 +10,15 @@ module Components::Student
         user = create :user
         mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
-        request = create :solution_mentor_request, solution: solution
-        discussion = create :solution_mentor_discussion, request: request, solution: solution, mentor: mentor
+        request = create :mentor_request, solution: solution
+        discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
+        request.fulfilled!
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
@@ -38,6 +40,7 @@ module Components::Student
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
@@ -49,25 +52,36 @@ module Components::Student
         end
       end
 
-      test "shows discussions within nudge section" do
+      test "shows prompt again if mentoring finished" do
+        # TODO: Implement this so that once mentoring is done:
+        # 1. Don't show prompt
+        # 2. Do show option in the normal place to request
+        skip
+
         user = create :user
         mentor = create :user, handle: "my-mentor"
         solution = create :practice_solution, user: user
-        request = create :solution_mentor_request, solution: solution
-        discussion = create :solution_mentor_discussion, request: request, solution: solution, mentor: mentor
+        request = create :mentor_request, solution: solution
+        discussion = create :mentor_discussion,
+          request: request,
+          solution: solution,
+          mentor: mentor,
+          finished_at: Time.current
+        request.fulfilled!
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        solution.update_mentoring_status!
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
           visit Exercism::Routes.private_solution_path(solution)
-          within(".mentoring-nudge") { find(".--dropdown-segment").click }
+          assert_css(".mentoring-discussion-nudge")
 
-          assert_link "Continue mentoring",
-            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
+          assert_link "Request mentoring"
           assert_link "my-mentor",
             href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
         end
@@ -81,11 +95,12 @@ module Components::Student
                                          representation_status: :generated,
                                          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
+        create :user_track, user: user, track: solution.track
 
         use_capybara_host do
           sign_in!(user)
           visit Exercism::Routes.private_solution_path(solution)
-          within(".mentoring-nudge") { find(".--dropdown-segment").click }
+          within(".mentoring-prompt-nudge") { find(".--dropdown-segment").click }
 
           assert_link "Request mentoring"
           assert_text "Want to get mentored by a friend?"

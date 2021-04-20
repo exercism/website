@@ -1,0 +1,12 @@
+<svg
+  id="sharp-squiggle"
+  viewBox="0 0 78 20"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M2 13L10.4 4L26 16L39.2 4.9L53 16L62.3 5.8L76.4 16"
+    stroke="#000000"
+    stroke-width="3"
+  />
+</svg>

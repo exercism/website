@@ -1,8 +1,8 @@
 class Iteration < ApplicationRecord
-  belongs_to :solution
+  belongs_to :solution, counter_cache: :num_iterations
   belongs_to :submission
 
-  has_many :mentor_discussion_posts, class_name: "Solution::MentorDiscussionPost", dependent: :destroy
+  has_many :mentor_discussion_posts, class_name: "Mentor::DiscussionPost", dependent: :destroy
 
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
@@ -20,6 +20,11 @@ class Iteration < ApplicationRecord
 
   before_create do
     self.uuid = SecureRandom.compact_uuid unless self.uuid
+  end
+
+  after_save_commit do
+    solution.update_status!
+    solution.update_iteration_status!
   end
 
   def status

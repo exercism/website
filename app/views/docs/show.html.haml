@@ -1,0 +1,13 @@
+= render ViewComponents::DocsMainNav.new(@section)
+
+#page-docs-show
+  .container.lg-container
+    = render ViewComponents::DocsSideNav.new(@nav_docs, @doc, track: @track)
+
+    .docs-content
+      %h1= @doc.title
+      - if @doc.blurb.present?
+        %p.h1-subtitle= @doc.blurb
+      %hr.c-divider
+
+      .c-textual-content.--large= raw @doc.content_html

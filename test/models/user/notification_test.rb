@@ -1,19 +1,35 @@
 require 'test_helper'
 
 class NotificationTest < ActiveSupport::TestCase
-  test "read, unread, read? and read!" do
+  test "statuses" do
+    user = create :user
+    pending = create :notification, user: user, status: :pending
+    unread = create :notification, user: user, status: :unread
+    read = create :notification, user: user, status: :read
+
+    assert pending.pending?
+    assert unread.unread?
+    assert read.read?
+
+    assert_equal [pending], User::Notification.pending
+    assert_equal [unread], User::Notification.unread
+    assert_equal [read], User::Notification.read
+    assert_equal [pending, unread], User::Notification.pending_or_unread
+  end
+
+  test "read!" do
     freeze_time do
       user = create :user
-      notification = create :notification, user: user
+      notification = create :notification, user: user, status: :unread
       refute notification.read?
-      assert_equal [], user.notifications.read
+      assert_empty user.notifications.read
       assert_equal [notification], user.notifications.unread
 
       notification.read!
       assert notification.read?
       assert_equal Time.current, notification.read_at
       assert_equal [notification], user.notifications.read
-      assert_equal [], user.notifications.unread
+      assert_empty user.notifications.unread
     end
   end
 
@@ -35,7 +51,7 @@ class NotificationTest < ActiveSupport::TestCase
     mentor = create :user
     notification = create :mentor_started_discussion_notification,
       params: {
-        discussion: create(:solution_mentor_discussion, mentor: mentor)
+        discussion: create(:mentor_discussion, mentor: mentor)
       }
 
     expected = {

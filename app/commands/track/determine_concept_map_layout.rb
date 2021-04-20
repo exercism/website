@@ -22,7 +22,7 @@ class Track
     end
 
     private
-    attr_reader :graph, :track
+    attr_reader :track, :graph
 
     memoize
     def concepts

@@ -6,7 +6,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
   test "create db record" do
     user = create :user
     type = :mentor_started_discussion
-    discussion = create(:solution_mentor_discussion)
+    discussion = create(:mentor_discussion)
     params = { discussion: discussion }
 
     notification = User::Notification::Create.(user, type, params)
@@ -23,12 +23,28 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     )
   end
 
+  test "schedule activation" do
+    freeze_time do
+      user = create :user
+      type = :mentor_started_discussion
+      discussion = create(:mentor_discussion)
+      params = { discussion: discussion }
+
+      assert_enqueued_with job: ActivateUserNotificationJob, at: Time.current + 5.seconds do
+        User::Notification::Create.(user, type, params)
+      end
+    end
+  end
+
   test "broadcasts message" do
     user = create :user
     type = :mentor_started_discussion
-    discussion = create(:solution_mentor_discussion)
+    discussion = create(:mentor_discussion)
     params = { discussion: discussion }
-    NotificationsChannel.expects(:broadcast_changed).with(user)
+    NotificationsChannel.expects(:broadcast_pending!).with do |u, n|
+      assert_equal u, user
+      assert n.is_a?(User::Notification)
+    end
 
     User::Notification::Create.(user, type, params)
   end

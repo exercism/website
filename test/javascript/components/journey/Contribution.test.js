@@ -10,13 +10,13 @@ test('renders "Generic" when track is not present', async () => {
 })
 
 test('renders internal link over external link', async () => {
-  render(<Contribution internalLink="link" externalLink="external" />)
+  render(<Contribution internalUrl="link" externalUrl="external" />)
 
   expect(screen.getByRole('link')).toHaveAttribute('href', 'link')
 })
 
 test('renders external link if no internal link', async () => {
-  render(<Contribution externalLink="link" />)
+  render(<Contribution externalUrl="link" />)
 
   expect(screen.getByRole('link')).toHaveAttribute('href', 'link')
 })

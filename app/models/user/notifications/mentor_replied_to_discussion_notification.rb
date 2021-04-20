@@ -3,9 +3,13 @@ class User
     class MentorRepliedToDiscussionNotification < Notification
       params :discussion_post
 
-      # TODO
+      before_validation on: :create do
+        self.track = solution.track
+        self.exercise = solution.exercise
+      end
+
       def url
-        "#"
+        discussion.student_url
       end
 
       def i18n_params
@@ -29,12 +33,8 @@ class User
       end
 
       private
-      def track
-        exercise.track
-      end
-
-      def exercise
-        solution.exercise
+      def discussion
+        discussion_post.discussion
       end
 
       def solution

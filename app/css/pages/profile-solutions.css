@@ -1,0 +1,25 @@
+@import "../styles";
+
+#page-profile-solutions {
+    @apply mb-80;
+    & article {
+        & .c-search-bar {
+            @apply mb-32;
+
+            & .c-track-switcher {
+                min-width: 380px;
+                @apply mr-24;
+            }
+
+            & .--search {
+                width: 450px;
+            }
+            & .c-select {
+                @apply ml-auto;
+            }
+        }
+        & .solutions {
+            @apply grid grid-cols-3 gap-x-16 gap-y-24;
+        }
+    }
+}

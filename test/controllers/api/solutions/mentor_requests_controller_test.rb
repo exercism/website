@@ -36,7 +36,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
       params: { comment: comment },
       headers: @headers, as: :json
 
-    req = Solution::MentorRequest.last
+    req = Mentor::Request.last
     assert_equal user, req.user
     assert_equal solution, req.solution
     assert_equal comment, req.comment_markdown

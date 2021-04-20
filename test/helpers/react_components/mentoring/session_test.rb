@@ -10,19 +10,19 @@ module Mentoring
       track = create :track, slug: "ruby"
       exercise = create :concept_exercise, track: track, slug: "clock"
       solution = create :concept_solution, user: student, exercise: exercise
-      discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-      mentor_request = create :solution_mentor_request,
+      discussion = create :mentor_discussion, solution: solution, mentor: mentor
+      mentor_request = create :mentor_request,
         solution: solution,
         comment_markdown: "Hello",
         updated_at: Time.utc(2016, 12, 25)
 
       iteration_1 = create :iteration, solution: solution
       iteration_2 = create :iteration, solution: solution
-      create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_2, seen_by_mentor: true
+      create :mentor_discussion_post, discussion: discussion, iteration: iteration_2, seen_by_mentor: true
 
       iteration_3 = create :iteration, solution: solution
-      create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
-      create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
+      create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
+      create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
       component = ReactComponents::Mentoring::Session.new(solution)
       component.stubs(current_user: mentor)
@@ -50,7 +50,7 @@ module Mentoring
             bio: student.bio,
             languages_spoken: student.languages_spoken,
             avatar_url: student.avatar_url,
-            reputation: student.reputation,
+            reputation: student.formatted_reputation,
             is_favorite: false,
             num_previous_sessions: 15,
             links: {

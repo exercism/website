@@ -1,16 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTrackList } from './queue/useTrackList'
 import { useExerciseList } from './queue/useExerciseList'
 import { MentoredTrack, MentoredTrackExercise } from '../types'
 import { useMentoringQueue } from './queue/useMentoringQueue'
 import { TrackFilterList } from './queue/TrackFilterList'
 import { Request } from '../../hooks/request-query'
-import { SolutionCount } from './queue/SolutionCount'
 import { ExerciseFilterList } from './queue/ExerciseFilterList'
 import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
-import { ChangeTracksButton } from './queue/ChangeTracksButton'
+import { ResultsZone } from '../ResultsZone'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -46,7 +45,7 @@ export const Queue = ({
     cacheKey: TRACKS_LIST_CACHE_KEY,
     request: tracksRequest,
   })
-  const [selectedTrack, setSelectedTrack] = useState<MentoredTrack | null>(
+  const [selectedTrack, setSelectedTrack] = useState<MentoredTrack>(
     defaultTrack
   )
   const {
@@ -54,9 +53,10 @@ export const Queue = ({
     status: exerciseListStatus,
     error: exerciseListError,
   } = useExerciseList({ track: selectedTrack })
-  const [selectedExercises, setSelectedExercises] = useState<
-    MentoredTrackExercise[]
-  >([])
+  const [
+    selectedExercise,
+    setSelectedExercise,
+  ] = useState<MentoredTrackExercise | null>(null)
   const {
     resolvedData,
     latestData,
@@ -72,20 +72,23 @@ export const Queue = ({
   } = useMentoringQueue({
     request: queueRequest,
     track: selectedTrack,
-    exercises: selectedExercises,
+    exercise: selectedExercise,
   })
 
-  const handleReset = useCallback(() => {
+  useEffect(() => {
+    if (tracks.length === 0) {
+      return
+    }
+
+    if (tracks.find((track) => track.id === selectedTrack.id)) {
+      return
+    }
+
     setSelectedTrack(tracks[0])
-    setSelectedExercises([])
-  }, [tracks])
+  }, [selectedTrack.id, tracks])
 
   useEffect(() => {
-    setSelectedTrack(tracks[0])
-  }, [tracks])
-
-  useEffect(() => {
-    setSelectedExercises([])
+    setSelectedExercise(null)
   }, [selectedTrack])
 
   return (
@@ -98,7 +101,6 @@ export const Queue = ({
             id="mentoring-queue-student-name-filter"
             placeholder="Filter by student handle"
           />
-          {isFetching ? <span>Fetching...</span> : null}
           <Sorter
             sortOptions={sortOptions}
             order={order}
@@ -106,29 +108,18 @@ export const Queue = ({
             id="mentoring-queue-sorter"
           />
         </header>
-        <SolutionList
-          status={status}
-          error={error}
-          page={page}
-          resolvedData={resolvedData}
-          latestData={latestData}
-          setPage={setPage}
-          isFetching={isFetching}
-        />
+        <ResultsZone isFetching={isFetching}>
+          <SolutionList
+            status={status}
+            error={error}
+            page={page}
+            resolvedData={resolvedData}
+            latestData={latestData}
+            setPage={setPage}
+          />
+        </ResultsZone>
       </div>
       <div className="mentor-queue-filtering">
-        <ChangeTracksButton
-          links={links}
-          tracks={tracks}
-          cacheKey={TRACKS_LIST_CACHE_KEY}
-        />
-        {resolvedData ? (
-          <SolutionCount
-            unscopedTotal={resolvedData.meta.unscopedTotal}
-            total={resolvedData.meta.totalCount}
-            onResetFilter={handleReset}
-          />
-        ) : null}
         <TrackFilterList
           status={trackListStatus}
           error={trackListError}
@@ -136,17 +127,17 @@ export const Queue = ({
           isFetching={isTrackListFetching}
           value={selectedTrack}
           setValue={setSelectedTrack}
+          cacheKey={TRACKS_LIST_CACHE_KEY}
+          total={resolvedData?.meta.totalCount}
+          links={links}
         />
-        <div className="exercise-filter">
-          <h3>Filter by exercise</h3>
-          <ExerciseFilterList
-            status={exerciseListStatus}
-            exercises={exercises}
-            value={selectedExercises}
-            setValue={setSelectedExercises}
-            error={exerciseListError}
-          />
-        </div>
+        <ExerciseFilterList
+          status={exerciseListStatus}
+          exercises={exercises}
+          value={selectedExercise}
+          setValue={setSelectedExercise}
+          error={exerciseListError}
+        />
       </div>
     </div>
   )

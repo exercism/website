@@ -1,7 +1,7 @@
 #mentor-external-page
   .lg-container
     %section.top-section
-      = graphical_icon "mentoring-header", category: 'graphics'
+      = graphical_icon "mentoring", category: 'graphics'
       %h1 Share your knowledge with others
       %p
         Mentoring is a fun and rewarding way to reinforce your own learning, while helping others learn and discover things they don’t know.
@@ -11,7 +11,6 @@
         = link_to "Some of our best mentors worried too.", "#"
 
       = ReactComponents::Mentoring::TryMentoringButton.new.to_s
-
 
     %section.reasons-section
       %h2 Why become a mentor?

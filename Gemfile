@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 # Service/framework dependencies
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 6.1.3'
 
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'
@@ -26,6 +26,7 @@ gem 'octokit' # GitHub
 # General-purpose gems
 gem 'mandate', '1.0.0.beta1'
 gem 'kaminari'
+gem 'oj'
 
 # Setup dependencies
 gem 'exercism-config', '>= 0.62.0'
@@ -93,3 +94,5 @@ group :test do
   # Adds assert_template
   gem 'rails-controller-testing'
 end
+
+gem "addressable", "~> 2.7"

@@ -16,8 +16,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     track = create :track, synced_to_git_sha: "HEAD"
 
     Git::SyncConcept.expects(:call).at_least_once
-    Git::SyncConceptExercise.expects(:call).at_least_once
-    Git::SyncPracticeExercise.expects(:call).at_least_once
+    Git::SyncConceptExercise.expects(:call).with(anything, force_sync: true).at_least_once
+    Git::SyncPracticeExercise.expects(:call).with(anything, force_sync: true).at_least_once
 
     Git::SyncTrack.(track, force_sync: true)
 
@@ -115,7 +115,41 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.concepts.length
+    assert_equal 9, track.concepts.length
+  end
+
+  test "concept exercises use position from config" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+
+    Git::SyncTrack.(track)
+
+    actual_order = track.concept_exercises.order(:position).pluck(:slug)
+    expected_order = %w[arrays booleans lasagna log-levels numbers strings]
+    assert_equal expected_order, actual_order
+  end
+
+  test "practice exercises use position from config" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+
+    Git::SyncTrack.(track)
+
+    actual_order = track.practice_exercises.order(:position).pluck(:slug)
+    expected_order = %w[hello-world allergies anagram bob hamming isogram leap satellite space-age]
+    assert_equal expected_order, actual_order
+  end
+
+  test "first position is for hello-world exercise, followed by concept exercises and then practice exercises" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+
+    Git::SyncTrack.(track)
+
+    actual_order = track.exercises.order(:position).pluck(:slug)
+    expected_order = %w[
+      hello-world
+      arrays booleans lasagna log-levels numbers strings allergies
+      anagram bob hamming isogram leap satellite space-age
+    ]
+    assert_equal expected_order, actual_order
   end
 
   test "concept exercises use track concepts for taught concepts" do
@@ -144,6 +178,32 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     refute_includes track_concept_exercise.prerequisites, other_track_concept
   end
 
+  test "practice exercises use track concepts for prerequisites" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    track_concept = create :track_concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    other_track = create :track, slug: 'fsharp'
+    other_track_concept = create :track_concept, track: other_track, slug: 'dates'
+
+    Git::SyncTrack.(track)
+
+    track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    assert_includes track_practice_exercise.prerequisites, track_concept
+    refute_includes track_practice_exercise.prerequisites, other_track_concept
+  end
+
+  test "practice exercises use track concepts for practiced concepts" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+    track_concept = create :track_concept, track: track, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    other_track = create :track, slug: 'fsharp'
+    other_track_concept = create :track_concept, track: other_track, slug: 'time'
+
+    Git::SyncTrack.(track)
+
+    track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    assert_includes track_practice_exercise.practiced_concepts, track_concept
+    refute_includes track_practice_exercise.practiced_concepts, other_track_concept
+  end
+
   test "adds new concept exercises defined in config.json" do
     track = create :track, synced_to_git_sha: 'e9086c7c5c9f005bbab401062fa3b2f501ecac24'
 
@@ -151,7 +211,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
   end
 
   test "adds new practice exercises defined in config.json" do
@@ -161,7 +221,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
   end
 
   test "syncs all concepts" do
@@ -169,7 +229,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 8, track.concepts.length
+    assert_equal 9, track.concepts.length
     track.concepts.each do |concept|
       assert_equal track.git.head_sha, concept.synced_to_git_sha
     end
@@ -180,7 +240,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
     track.concept_exercises.each do |concept_exercise|
       assert_equal track.git.head_sha, concept_exercise.synced_to_git_sha
     end
@@ -191,7 +251,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
     track.practice_exercises.each do |practice_exercise|
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
@@ -254,7 +314,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
   end
 
   test "syncs concept exercises with nil prerequisites" do
@@ -269,7 +329,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 5, track.concept_exercises.length
+    assert_equal 6, track.concept_exercises.length
   end
 
   test "syncs practice exercises with nil prerequisites" do
@@ -284,7 +344,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
   end
 
   test "syncs practice exercises with nil practices" do
@@ -299,7 +359,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 7, track.practice_exercises.length
+    assert_equal 9, track.practice_exercises.length
   end
 
   test "delete concept exercises no longer in config.json" do
@@ -346,6 +406,15 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     end
 
     Git::Repository.any_instance.expects(:fetch!).once
+    Git::SyncTrack.(track)
+  end
+
+  test "syncs docs" do
+    track = create :track
+
+    Git::SyncTrackDocs.expects(:call).with(track)
+
+    # Run this once to get the track cloned onto the local machine
     Git::SyncTrack.(track)
   end
 end

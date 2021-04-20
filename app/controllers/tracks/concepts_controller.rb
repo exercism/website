@@ -3,7 +3,7 @@ class Tracks::ConceptsController < ApplicationController
   before_action :use_concepts, only: :index
   before_action :use_concept, only: %i[show tooltip start complete]
 
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
     @concept_map_data = Track::DetermineConceptMapLayout.(@track)
@@ -11,8 +11,8 @@ class Tracks::ConceptsController < ApplicationController
     @concept_map_data[:status] =
       UserTrack::GenerateConceptStatusMapping.(@user_track)
 
-    @concept_map_data[:exercise_counts] =
-      UserTrack::GenerateConceptExerciseMapping.(@user_track)
+    @concept_map_data[:exercises_data] =
+      UserTrack::GenerateExerciseStatusMapping.(@track, @user_track)
 
     @num_concepts = @track.concepts.count
     @user_track ? @num_completed = @user_track.learnt_concepts.count : @num_completed = 0
@@ -24,7 +24,16 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
-    render layout: false
+    @exercises = @concept.concept_exercises + @concept.practice_exercises
+    @num_completed_exercises = @user_track.num_completed_exercises_for_concept(@concept)
+    @locked = !@user_track.concept_unlocked?(@concept)
+    @learnt = @user_track.concept_learnt?(@concept)
+    @mastered = @user_track.concept_mastered?(@concept)
+    @prerequisite_names = Track::Concept.joins(:unlocked_exercises).
+      where('exercise_prerequisites.exercise_id': @concept.concept_exercises).
+      pluck(:name)
+
+    render_template_as_json
   end
 
   private

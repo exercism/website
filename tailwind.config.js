@@ -27,6 +27,8 @@ module.exports = {
       '4': '4px',
     },
     boxShadow: {
+      none: 'none',
+      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.5)',
       xsZ1: '0px 4px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
@@ -72,6 +74,7 @@ module.exports = {
       tabColorSelected: 'var(--tabColorSelected)',
       tabIconColorSelected: 'var(--tabIconColorSelected)',
       successColor: 'var(--successColor)',
+      lockedColor: 'var(--lockedColor)',
 
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
@@ -92,6 +95,7 @@ module.exports = {
       lightPurple: '#B0A8E3',
       anotherPurple: '#604FCD',
       gotToLoveAPurple: '#271B72',
+      biggerBolderAndMorePurpleThanEver: '#130B43',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',
@@ -106,6 +110,7 @@ module.exports = {
       literallySoManyGreens: '#4FCDA7',
       soManyGreens: '#228466',
       bgGreen: 'rgba(89, 210, 174, 0.15)',
+      everyoneLovesAGreen: '#349F7F',
 
       orange: '#F69605',
       lightOrange: '#FFF3E1',
@@ -115,6 +120,8 @@ module.exports = {
       gold: '#E2CB2D',
       brown: '#47300C',
 
+      anotherGold: '#FAE54D',
+
       muddy: '#6E82AA',
       color22: '#C8D5EF',
 
@@ -122,6 +129,7 @@ module.exports = {
       rareBadge: '#9FB4FF',
 
       white: '#fff',
+      black: '#000',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],
@@ -133,13 +141,19 @@ module.exports = {
       '14': '14px',
       '15': '15px',
       '16': '16px',
+      '17': '17px',
       '18': '18px',
       '20': '20px',
+      '21': '21px',
       '22': '22px',
+      '23': '23px',
       '24': '24px',
       '25': '25px',
+      '28': '28px',
       '31': '31px',
+      '32': '32px',
       '40': '40px',
+      '54': '54px',
       '64': '64px',
     },
     height: {
@@ -154,10 +168,13 @@ module.exports = {
       code: '160%',
       huge: '170%',
 
+      100: '100%',
+      120: '120%',
       140: '140%',
       150: '150%',
       160: '160%',
       170: '170%',
+      180: '180%',
       190: '190%',
       200: '200%',
     },
@@ -167,6 +184,7 @@ module.exports = {
       '4': '4px',
       '6': '6px',
       '8': '8px',
+      '10': '10px',
       '12': '12px',
       '16': '16px',
       '20': '20px',
@@ -178,10 +196,12 @@ module.exports = {
       '48': '48px',
       '56': '56px',
       '64': '64px',
+      '72': '72px',
       '80': '80px',
+      '88': '88px',
       '96': '96px',
       '128': '128px',
-      spacedColumns: '70px',
+      '140': '140px',
     },
     width: {
       // Sometimes, elements need to have *some* width set
@@ -198,8 +218,11 @@ module.exports = {
       '-2': '-2',
       '-3': '-3',
       '-4': '-4',
+      overlay: '10',
       menu: '40',
-      modal: '50',
+      dropdown: '50',
+      tooltip: '80',
+      modal: '100',
     },
   },
   variants: {},

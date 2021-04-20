@@ -50,7 +50,7 @@ module ReactComponents
           bio: mentor.bio,
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
-          reputation: mentor.reputation,
+          reputation: mentor.formatted_reputation,
           num_previous_sessions: student.num_previous_mentor_sessions_with(mentor)
         }
       end
@@ -77,8 +77,7 @@ module ReactComponents
 
       def iterations
         if discussion
-          comment_counts = ::Solution::MentorDiscussionPost.
-            where(discussion: discussion).
+          comment_counts = discussion.posts.
             group(:iteration_id, :seen_by_student).
             count
         end

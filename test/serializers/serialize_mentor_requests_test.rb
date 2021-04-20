@@ -6,18 +6,15 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: mentee
-    request = create :solution_mentor_request, solution: solution
-    mentor = create :user
-
-    requests = Solution::MentorRequest::Retrieve.(mentor: mentor)
+    request = create :mentor_request, solution: solution
 
     expected = [
       {
         id: request.uuid,
 
         track_title: track.title,
-        track_icon_url: track.icon_url,
         exercise_title: exercise.title,
+        exercise_icon_url: exercise.icon_url,
 
         mentee_handle: mentee.handle,
         mentee_avatar_url: mentee.avatar_url,
@@ -32,6 +29,6 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
       }
     ]
 
-    assert_equal expected, SerializeMentorRequests.(requests)
+    assert_equal expected, SerializeMentorRequests.(Mentor::Request.all)
   end
 end

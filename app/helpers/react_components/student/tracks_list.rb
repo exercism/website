@@ -2,11 +2,11 @@ module ReactComponents
   module Student
     class TracksList < ReactComponent
       # TODO: Remove `user` and its usage here once API supports session requests
-      def initialize(user, data, request = default_request)
+      def initialize(user, tracks, request = default_request)
         super()
 
         @user = user
-        @data = data
+        @tracks = tracks
         @request = request
       end
 
@@ -15,7 +15,11 @@ module ReactComponents
           "student-tracks-list", {
             request: request.deep_merge(
               {
-                options: { initialData: data },
+                options: {
+                  initialData: {
+                    tracks: SerializeTracks.(tracks, current_user)
+                  }
+                },
                 query: {}
               }
             ),
@@ -33,7 +37,7 @@ module ReactComponents
       private_constant :STATUS_OPTIONS
 
       private
-      attr_reader :user, :data, :request
+      attr_reader :user, :tracks, :request
 
       def default_request
         { endpoint: Exercism::Routes.api_tracks_path }

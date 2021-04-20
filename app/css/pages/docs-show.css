@@ -1,0 +1,22 @@
+@import "../styles";
+
+#page-docs-show {
+    & .container {
+        @apply flex;
+    }
+    & .docs-content {
+        @apply pt-48 px-80 pb-48;
+        @apply flex-grow;
+        max-width: 940px;
+
+        & h1 {
+            @apply text-h1 mb-4;
+        }
+        & .h1-subtitle {
+            @apply text-23 leading-170 text-textColor6;
+        }
+        & hr.c-divider {
+            @apply my-20;
+        }
+    }
+}

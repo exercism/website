@@ -1,12 +1,12 @@
 require "test_helper"
 
 class Solution::CreateTest < ActiveSupport::TestCase
-  test "raises unless exercise is available" do
+  test "raises unless exercise is unlocked" do
     ex = create :concept_exercise
     ut = create :user_track, track: ex.track
-    UserTrack.any_instance.expects(:exercise_available?).with(ex).returns(false)
+    UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(false)
 
-    assert_raises ExerciseUnavailableError do
+    assert_raises ExerciseLockedError do
       Solution::Create.(ut.user, ex)
     end
   end
@@ -14,7 +14,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
   test "creates concept_solution" do
     ex = create :concept_exercise
     ut = create :user_track, track: ex.track
-    UserTrack.any_instance.expects(:exercise_available?).with(ex).returns(true)
+    UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
 
     solution = Solution::Create.(ut.user, ex)
     assert solution.is_a?(ConceptSolution)
@@ -25,7 +25,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
   test "creates practice_solution" do
     ex = create :practice_exercise
     ut = create :user_track, track: ex.track
-    UserTrack.any_instance.expects(:exercise_available?).with(ex).returns(true)
+    UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
 
     solution = Solution::Create.(ut.user, ex)
     assert solution.is_a?(PracticeSolution)
@@ -37,7 +37,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     user = create :user
     ex = create :concept_exercise
     ut = create :user_track, user: user, track: ex.track
-    UserTrack.any_instance.expects(:exercise_available?).with(ex).returns(true).twice
+    UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true).twice
 
     assert_idempotent_command { Solution::Create.(ut.user, ex) }
   end
@@ -46,6 +46,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     user = create :user
     exercise = create :concept_exercise
     ut = create :user_track, user: user, track: exercise.track
+    create :hello_world_solution, :completed, track: ut.track, user: ut.user
 
     solution = Solution::Create.(ut.user, exercise)
 
@@ -53,5 +54,17 @@ class Solution::CreateTest < ActiveSupport::TestCase
     assert_equal user, activity.user
     assert_equal exercise.track, activity.track
     assert_equal solution, activity.solution
+  end
+
+  test "does not create activity if not new" do
+    user = create :user
+    exercise = create :concept_exercise
+    ut = create :user_track, user: user, track: exercise.track
+    create :hello_world_solution, :completed, track: ut.track, user: ut.user
+    create :concept_solution, exercise: exercise, user: user
+
+    Solution::Create.(ut.user, exercise)
+
+    refute User::Activities::StartedExerciseActivity.exists?
   end
 end

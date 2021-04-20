@@ -47,16 +47,16 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "status" do
     solution = create :concept_solution
-    assert_equal :started, solution.reload.status
+    assert_equal :started, solution.reload.status.to_sym
 
     create :iteration, solution: solution
-    assert_equal :in_progress, solution.reload.status
+    assert_equal :iterated, solution.reload.status.to_sym
 
-    solution.update(completed_at: Time.current)
-    assert_equal :completed, solution.reload.status
+    solution.update!(completed_at: Time.current)
+    assert_equal :completed, solution.reload.status.to_sym
 
-    solution.update(published_at: Time.current)
-    assert_equal :published, solution.reload.status
+    solution.update!(published_at: Time.current)
+    assert_equal :published, solution.reload.status.to_sym
   end
 
   test "downloaded?" do
@@ -156,7 +156,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution, exercise: exercise
 
     contents = solution.read_file('README.md')
-    expected = "# Strings\n\nWelcome to Strings on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nA `String` in Ruby is an object that holds and manipulates an arbitrary sequence of bytes, typically representing characters. Strings are manipulated by calling the string's methods.\n\n## Instructions\n\nIn this exercise you'll be processing log-lines.\n\nEach log line is a string formatted as follows: `\"[<LEVEL>]: <MESSAGE>\"`.\n\nThere are three different log levels:\n\n- `INFO`\n- `WARNING`\n- `ERROR`\n\nYou have three tasks, each of which will take a log line and ask you to do something with it.\n\n## 1. Get message from a log line\n\nImplement the `LogLineParser.message` method to return a log line's message:\n\n```ruby\nLogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n```\n\nAny leading or trailing white space should be removed:\n\n```ruby\nLogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n```\n\n## 2. Get log level from a log line\n\nImplement the `LogLineParser.log_level` method to return a log line's log level, which should be returned in lowercase:\n\n```ruby\nLogLineParser.log_level('[ERROR]: Invalid operation')\n// Returns: \"error\"\n```\n\n## 3. Reformat a log line\n\nImplement the `LogLineParser.reformat` method that reformats the log line, putting the message first and the log level after it in parentheses:\n\n```ruby\nLogLineParser.reformat('[INFO]: Operation completed')\n// Returns: \"Operation completed (info)\"\n```\n\n## Source\n\n### Created by\n\n- pvcarrera (@pvcarrera)" # rubocop:disable Layout/LineLength
+    expected = "# Strings\n\nWelcome to Strings on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nA `String` in Ruby is an object that holds and manipulates an arbitrary sequence of bytes, typically representing characters. Strings are manipulated by calling the string's methods.\n\n## Instructions\n\nIn this exercise you'll be processing log-lines.\n\nEach log line is a string formatted as follows: `\"[<LEVEL>]: <MESSAGE>\"`.\n\nThere are three different log levels:\n\n- `INFO`\n- `WARNING`\n- `ERROR`\n\nYou have three tasks, each of which will take a log line and ask you to do something with it.\n\n## 1. Get message from a log line\n\nImplement the `LogLineParser.message` method to return a log line's message:\n\n```ruby\nLogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n```\n\nAny leading or trailing white space should be removed:\n\n```ruby\nLogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n```\n\n## 2. Get log level from a log line\n\nImplement the `LogLineParser.log_level` method to return a log line's log level, which should be returned in lowercase:\n\n```ruby\nLogLineParser.log_level('[ERROR]: Invalid operation')\n// Returns: \"error\"\n```\n\n## 3. Reformat a log line\n\nImplement the `LogLineParser.reformat` method that reformats the log line, putting the message first and the log level after it in parentheses:\n\n```ruby\nLogLineParser.reformat('[INFO]: Operation completed')\n// Returns: \"Operation completed (info)\"\n```\n\n## Source\n\n### Created by\n\n- @pvcarrera" # rubocop:disable Layout/LineLength
     assert_equal expected, contents
   end
 
@@ -165,7 +165,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = solution.read_file('README.md')
-    expected = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\n\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\n\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- ErikSchierboom (@erikschierboom)\n\n### Contributed to by\n\n- iHiD (@ihid)\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
+    expected = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\n\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\n\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- @erikschierboom\n\n### Contributed to by\n\n- @ihid\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
     assert_equal expected, contents
   end
 
@@ -212,7 +212,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_nil solution.reload.in_progress_mentor_discussion
 
     # In progress discussion
-    discussion = create :solution_mentor_discussion, solution: solution, finished_at: nil
+    discussion = create :mentor_discussion, solution: solution, finished_at: nil
     assert_equal discussion, solution.reload.in_progress_mentor_discussion
 
     # Finished discussion
@@ -228,7 +228,7 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.reload.has_locked_pending_mentoring_request?
 
     # No lock
-    request = create :solution_mentor_request, locked_until: nil, solution: solution
+    request = create :mentor_request, locked_until: nil, solution: solution
     assert solution.reload.has_unlocked_pending_mentoring_request?
     refute solution.reload.has_locked_pending_mentoring_request?
 
@@ -257,25 +257,21 @@ class SolutionTest < ActiveSupport::TestCase
   # set to ensure that things are checked in a safe way.
   test "update_mentoring_status!" do
     solution = create :concept_solution
-    solution.update_mentoring_status!
-    assert_equal 'none', solution.mentoring_status
+    assert_equal :none, solution.mentoring_status
 
-    discussion = create :solution_mentor_discussion, solution: solution, finished_at: Time.current
-    solution.update_mentoring_status!
-    assert_equal 'finished', solution.mentoring_status
+    request = create :mentor_request, solution: solution
+    assert_equal :requested, solution.mentoring_status
 
-    request = create :solution_mentor_request, solution: solution
-    solution.update_mentoring_status!
-    assert_equal 'requested', solution.mentoring_status
+    discussion = create :mentor_discussion, solution: solution
+    request.fulfilled!
+    assert_equal :in_progress, solution.mentoring_status
 
-    discussion.update(finished_at: nil)
-    solution.update_mentoring_status!
-    assert_equal 'in_progress', solution.mentoring_status
+    discussion.update(finished_at: Time.current)
+    assert_equal :finished, solution.mentoring_status
 
     discussion.destroy
-    request.update(status: :cancelled)
-    solution.update_mentoring_status!
-    assert_equal 'none', solution.mentoring_status
+    request.cancelled!
+    assert_equal :none, solution.mentoring_status
   end
 
   test "latest iteration" do
@@ -284,6 +280,29 @@ class SolutionTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution
 
     assert_equal iteration, solution.latest_iteration
+  end
+
+  test "touches user_track" do
+    freeze_time do
+      old_time = Time.current - 1.week
+      solution = create :concept_solution
+      user_track = create :user_track, track: solution.track, user: solution.user
+      assert_equal user_track, solution.user_track # Sanity
+
+      user_track.update_column(:updated_at, old_time)
+
+      assert_equal old_time, user_track.reload.updated_at # Sanity
+      solution.touch
+      assert_equal Time.current, user_track.reload.updated_at # Sanity
+    end
+  end
+
+  test "num_iterations is updated" do
+    solution = create :concept_solution
+    assert_equal 0, solution.num_iterations # Sanity
+
+    create :iteration, solution: solution
+    assert_equal 1, solution.num_iterations # Sanity
   end
 
   # test "tests and feedback statuses proxy to latest iteration" do

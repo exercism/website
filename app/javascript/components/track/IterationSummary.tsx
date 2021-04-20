@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { fromNow } from '../../utils/time'
+import { shortFromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { ProcessingStatusSummary } from '../common/ProcessingStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
@@ -56,8 +56,7 @@ export function IterationSummary({
             Latest
           </div>
 
-          {/* TODO: Implement this: https://github.com/exercism/v3-project-management/issues/121 */}
-          {true ? (
+          {iteration.isPublished ? (
             <div
               className="--published"
               aria-label="This iteration is published"
@@ -72,7 +71,7 @@ export function IterationSummary({
             dateTime={iteration.createdAt.toString()}
             title={iteration.createdAt.toString()}
           >
-            {fromNow(iteration.createdAt)}
+            {shortFromNow(iteration.createdAt)}
           </time>
         </div>
       </div>
@@ -91,7 +90,7 @@ export function IterationSummary({
         title={iteration.createdAt.toString()}
         className="--time"
       >
-        {fromNow(iteration.createdAt)}
+        {shortFromNow(iteration.createdAt)}
       </time>
     </div>
   )

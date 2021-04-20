@@ -1,0 +1,46 @@
+@import "../../styles.css";
+
+.c-mentor-header {
+    @apply relative;
+    @apply bg-backgroundColorA pt-12 shadow-base;
+    @apply mb-40;
+
+    & .container {
+        & .top {
+            @apply flex items-center;
+            @apply mb-16;
+
+            & .title {
+                @apply flex items-center;
+                @apply text-h1 text-31;
+                & .c-icon {
+                    height: 54px;
+                    width: 54px;
+                    @apply mr-16;
+                }
+            }
+            & .stats {
+                @apply flex items-center;
+                @apply ml-auto;
+
+                & .stat {
+                    @apply text-16 leading-150 text-textColor6 font-medium;
+                    &:last-child {
+                        @apply pl-24 ml-24;
+                        @apply border-l-1 border-borderColor5;
+                    }
+                }
+            }
+        }
+        & .bottom {
+            @apply flex items-center;
+
+            & .tabs {
+                @apply flex flex-grow;
+            }
+            & .guides {
+                @apply ml-auto pr-0 mr-0;
+            }
+        }
+    }
+}

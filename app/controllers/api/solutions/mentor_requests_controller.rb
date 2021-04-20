@@ -3,7 +3,7 @@ module API
     before_action :use_solution
 
     def create
-      mentor_request = Solution::MentorRequest::Create.(
+      mentor_request = Mentor::Request::Create.(
         @solution,
         params[:comment]
       )

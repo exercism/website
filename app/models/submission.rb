@@ -16,7 +16,6 @@ class Submission < ApplicationRecord
   # going from the success states (passed/failed/errored/generated/completed)
   # backwards to the pending states.
 
-  # TODO: Find a better name for the 0 state for these to represent something where no action has been taken.
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests" # rubocop:disable Layout/LineLength
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation" # rubocop:disable Layout/LineLength
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
@@ -34,30 +33,6 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
-  # TODO: Delete this
-  # def serialized
-  #   tests_data = tests_status
-  #   if tests_exceptioned?
-  #     job = ToolingJob.find(test_run.tooling_job_id, full: true)
-  #     tests_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-  #     tests_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-  #   end
-
-  #   representer_data = representation_status
-  #   if representation_exceptioned?
-  #     job = ToolingJob.find(submission_representation.tooling_job_id, full: true)
-  #     representer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-  #     representer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-  #   end
-
-  #   analyzer_data = analysis_status
-  #   if analysis_exceptioned?
-  #     job = ToolingJob.find(analysis.tooling_job_id, full: true)
-  #     analyzer_data += "\n\n\nSTDOUT:\n------\n#{job.stdout}"
-  #     analyzer_data += "\n\n\nSTDERR:\n------\n#{job.stderr}"
-  #   end
-  # end
-
   def tests_pending?
     %w[not_queued queued].include?(tests_status)
   end
@@ -67,6 +42,8 @@ class Submission < ApplicationRecord
   end
 
   def automated_feedback_pending?
+    return false if (representation_exceptioned? || representation_cancelled?) &&
+                    (analysis_exceptioned? || analysis_cancelled?)
     return true if !representation_generated? && !analysis_completed?
     return false if has_automated_feedback?
     return true if representation_queued? || representation_not_queued?
@@ -102,9 +79,17 @@ class Submission < ApplicationRecord
     return true if solution.mentor_requests.pending.any? && user.mentor?
 
     # Everyone can see published iterations
-    return true if solution.published? # TODO: Change this to iteration.published
+    return true if solution.published? && iteration.published?
 
     false
+  end
+
+  memoize
+  def valid_filepaths
+    exercise_repo = Git::Exercise.for_solution(solution)
+    files.map(&:filename).select do |filepath|
+      exercise_repo.valid_submission_filepath?(filepath)
+    end
   end
 
   memoize

@@ -49,6 +49,7 @@ export function FileEditor({
     scrollBeyondLastLine: false,
     fontFamily: "'Source Code Pro', monospace",
     fontSize: 14,
+    padding: { top: 20 },
     scrollbar: {
       useShadows: true,
       verticalHasArrows: false,
@@ -116,6 +117,10 @@ export function FileEditor({
     MonacoServices.install(editor)
 
     editor.setModel(filesRef.current[0].model)
+
+    // Fix a custom code font rendering bug
+    // See https://github.com/exercism/website/issues/742#issuecomment-816806513
+    document.fonts.ready.then(() => monacoEditor.editor.remeasureFonts())
 
     editorDidMount({ getFiles, setFiles, openPalette })
   }

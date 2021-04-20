@@ -1,9 +1,7 @@
 @import "../../styles";
 
 #mentor-queue-page {
-    & .c-mentor-nav {
-        @apply mb-40;
-    }
+    @apply pb-48;
 
     & header.header {
         @apply flex flex-col items-center;
@@ -62,91 +60,24 @@
     }
 
     & .mentor-queue-filtering {
-        width: 420px;
         @apply flex-grow-0 flex-shrink-0;
+        @apply flex flex-col;
         @apply ml-48;
+        width: 420px;
 
-        & header.filtering-header {
-            @apply flex items-start mb-24;
-
-            & .title {
-                @apply flex-grow;
-                & h3 {
-                    @apply text-h5;
-                }
-                & .subtitle {
-                    @apply text-16 text-textColor6 leading-huge;
-                }
-            }
-            & button.reset-filters {
-                @apply flex items-center;
-                @apply text-14 text-textColor6;
-                @apply py-8 px-16 ml-32;
-
-                & .c-icon {
-                    height: 16px;
-                    width: 16px;
-                    @apply mr-12;
-                }
-            }
+        & .c-track-switcher {
+            @apply mb-24;
         }
-        & .track-filter,
+        & .c-track-switcher-dropdown {
+            /* Drive this through JS? */
+            width: 420px;
+        }
+
         & .exercise-filter {
-            & h3 {
-                @apply text-16 text-textColor3 font-semibold;
-                @apply mb-16;
-            }
-            & label {
-                --row-selected-background-color: var(--backgroundColorD);
+            @apply mb-12;
 
-                & .row {
-                    @apply flex-grow flex items-center;
-                    @apply py-8 px-16 mb-8;
-                    @apply rounded-8;
-                }
-
-                & .c-radio {
-                    font-size: 20px;
-                }
-                & .c-track-icon,
-                & .c-exercise-icon {
-                    height: 32px;
-                    width: 32px;
-                    @apply ml-24 mr-12;
-                }
-                & .title {
-                    @apply flex-grow;
-                    @apply text-16 font-medium text-textColor6 leading-regular;
-                }
-                & .count {
-                    @apply px-12 flex items-center ml-16;
-                    @apply font-medium text-14 text-textColor6 leading-huge;
-                    @apply border-1 border-textColor6 rounded-100;
-                }
-            }
-            & input:checked + .row {
-                & .title {
-                    @apply text-textColor3;
-                }
-            }
-        }
-        & .track-filter {
-            @apply mb-32;
-
-            & button.change-tracks-button {
-                @apply flex items-center;
-                @apply py-8 px-20;
-                @apply text-16 leading-paragraph text-lightBlue font-semibold;
-                & .c-icon {
-                    height: 16px;
-                    width: 16px;
-                    @apply mr-16;
-                }
-            }
-        }
-        & .exercise-filter {
             & .c-search-bar {
-                @apply mb-24;
+                @apply mb-12;
 
                 & input.--search {
                     margin: 0;
@@ -154,6 +85,72 @@
                     @apply bg-backgroundColorA border-1 border-buttonBorderColor2;
                     background-position-x: calc(100% - 32px);
                     @apply pl-16;
+                }
+            }
+            & .c-checkbox-wrapper.filter {
+                @apply py-8 px-16;
+                & .row {
+                    @apply text-15 leading-150 text-textColor6 font-medium;
+
+                    & .c-checkbox {
+                        @apply mr-16;
+                        height: 16px;
+                        width: 16px;
+                        & img {
+                            height: 8px;
+                            width: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        & .exercises {
+            & label {
+                & .row {
+                    @apply flex-grow flex items-center;
+                    @apply py-8 px-16 mb-4;
+                    @apply rounded-8;
+                }
+
+                & .c-radio {
+                    font-size: 16px;
+                    @apply mr-16;
+                }
+                & .c-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mr-12;
+                }
+                & .title {
+                    @apply flex-grow;
+                    @apply text-15 font-medium text-textColor6 leading-regular;
+                }
+                & .count {
+                    @apply px-8 flex items-center ml-16;
+                    @apply font-medium text-14 text-textColor6 leading-160;
+                    @apply border-1 border-textColor6 rounded-100;
+                }
+
+                &.zero {
+                    opacity: 0.8;
+                    & .title {
+                        @apply text-textColor6;
+                    }
+                    & .count {
+                        @apply border-borderColor5;
+                        @apply text-textColor7;
+                    }
+
+                    & .c-icon {
+                        filter: grayscale(1);
+                    }
+                }
+            }
+            & input:checked + .row {
+                @apply bg-tabBackgroundColorSelected;
+                & .title {
+                    @apply text-textColor2 font-semibold;
                 }
             }
         }

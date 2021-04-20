@@ -66,12 +66,13 @@ export const DiscussionPostForm = ({
           return
         }
 
-        const oldData =
-          queryCache.getQueryData<DiscussionPostProps[]>(cacheKey) || []
+        const oldData = queryCache.getQueryData<{
+          posts: DiscussionPostProps[]
+        }>(cacheKey) || { posts: [] }
 
         queryCache.setQueryData(
           [cacheKey],
-          oldData.map((post) => {
+          oldData.posts.map((post) => {
             return post.id === data.id ? data : post
           })
         )

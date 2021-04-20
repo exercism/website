@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-module Mentoring::Student
+module ReactComponents::Student
   class MentoringSessionTest < ReactComponentTestCase
     test "mentoring solution renders correctly" do
       mentor = create :user
@@ -8,19 +8,19 @@ module Mentoring::Student
       track = create :track
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, user: student, track: track
-      discussion = create :solution_mentor_discussion, solution: solution, mentor: mentor
-      mentor_request = create :solution_mentor_request,
+      discussion = create :mentor_discussion, solution: solution, mentor: mentor
+      mentor_request = create :mentor_request,
         solution: solution,
         comment_markdown: "Hello",
         updated_at: Time.utc(2016, 12, 25)
 
       iteration_1 = create :iteration, solution: solution
       iteration_2 = create :iteration, solution: solution
-      create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_2, seen_by_student: true
+      create :mentor_discussion_post, discussion: discussion, iteration: iteration_2, seen_by_student: true
 
       iteration_3 = create :iteration, solution: solution
-      create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: true
-      create :solution_mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: false
+      create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: true
+      create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: false
 
       component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, discussion)
 
@@ -45,7 +45,7 @@ module Mentoring::Student
             bio: mentor.bio,
             languages_spoken: mentor.languages_spoken,
             avatar_url: mentor.avatar_url,
-            reputation: mentor.reputation,
+            reputation: mentor.formatted_reputation,
             num_previous_sessions: 15
           },
           is_first_time_on_track: true,

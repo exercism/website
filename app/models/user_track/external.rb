@@ -10,6 +10,10 @@ class UserTrack
       @track = track
     end
 
+    delegate :concepts, :num_concepts, :num_exercises,
+      :updated_at,
+      to: :track
+
     #######################
     # Non-summary methods #
     #######################
@@ -17,36 +21,61 @@ class UserTrack
       true
     end
 
+    memoize
+    def concept_slugs
+      concepts.map(&:slug)
+    end
+
     def learnt_concepts
       []
+    end
+
+    def exercise_type(obj)
+      return obj.git_type if obj.is_a?(Exercise)
+
+      exercise_types[obj]
+    end
+
+    memoize
+    def exercise_types
+      track.exercises.select(:slug, :type).index_by(&:slug).transform_values(&:git_type)
     end
 
     ####################
     # Exercise methods #
     ####################
-    def exercise_available?(_)
-      false
+    def exercise_unlocked?(_)
+      true
     end
 
     def exercise_completed?(_)
       false
     end
 
+    def exercise_status(_)
+      :external
+    end
+
+    def exercise_has_notifications?(_)
+      false
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################
+
     def num_completed_exercises
       0
     end
 
-    def available_exercise_ids
+    def unlocked_exercise_ids
       []
     end
 
     ###################
     # Concept methods #
     ###################
-    def concept_available?(_)
+    def concept_unlocked?(_)
       false
     end
 
@@ -70,13 +99,12 @@ class UserTrack
     #############################
     # Concept aggregate methods #
     #############################
-    def available_concept_ids
+    def unlocked_concept_ids
       []
     end
 
-    memoize
-    def num_concepts
-      track.concepts.size
+    def num_concepts_learnt
+      0
     end
 
     def num_concepts_mastered

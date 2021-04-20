@@ -15,7 +15,8 @@ export type Links = {
 
 export type ReputationToken = {
   id: string
-  url: string
+  internalUrl?: string
+  externalUrl?: string
   iconUrl: string
   text: string
   awardedAt: string
@@ -33,6 +34,7 @@ export type APIResponse = {
       tokens: string
     }
     totalReputation: number
+    isAllSeen: boolean
   }
 }
 
@@ -110,7 +112,18 @@ export const Reputation = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
-  } = useDropdown(0)
+    open,
+  } = useDropdown(0, undefined, {
+    placement: 'bottom-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
 
   useEffect(() => {
     const connection = new ReputationChannel(refetch)
@@ -130,8 +143,7 @@ export const Reputation = ({
     if (!data) {
       return
     }
-
-    setIsSeen(data.results.every((token) => token.isSeen))
+    setIsSeen(data.meta.isAllSeen)
   }, [data])
 
   return (
@@ -141,16 +153,18 @@ export const Reputation = ({
         isSeen={isSeen}
         {...buttonAttributes}
       />
-      <div className="c-reputation-dropdown" {...panelAttributes}>
-        <DropdownContent
-          data={data}
-          cacheKey={cacheKey}
-          status={status}
-          error={error}
-          itemAttributes={itemAttributes}
-          listAttributes={listAttributes}
-        />
-      </div>
+      {open ? (
+        <div className="c-reputation-dropdown" {...panelAttributes}>
+          <DropdownContent
+            data={data}
+            cacheKey={cacheKey}
+            status={status}
+            error={error}
+            itemAttributes={itemAttributes}
+            listAttributes={listAttributes}
+          />
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

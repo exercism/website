@@ -4,20 +4,22 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
   test "hard-coded methods" do
     ut = UserTrack::External.new(mock)
     assert ut.external?
-    assert_equal [], ut.learnt_concepts
+    assert_empty ut.learnt_concepts
 
-    refute ut.exercise_available?(mock)
-    refute ut.exercise_completed?(mock)
+    assert ut.exercise_unlocked?(nil)
+    refute ut.exercise_completed?(nil)
+    assert_equal :external, ut.exercise_status(nil)
 
     assert_equal 0, ut.num_completed_exercises
-    assert_equal [], ut.available_exercise_ids
+    assert_empty ut.unlocked_exercise_ids
 
-    refute ut.concept_available?(mock)
+    refute ut.concept_unlocked?(mock)
     refute ut.concept_learnt?(mock)
     refute ut.concept_mastered?(mock)
     assert_equal 0, ut.num_completed_exercises_for_concept(mock)
 
-    assert_equal [], ut.available_concept_ids
+    assert_empty ut.unlocked_concept_ids
+    assert_equal 0, ut.num_concepts_learnt
     assert_equal 0, ut.num_concepts_mastered
   end
 

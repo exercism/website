@@ -24,7 +24,18 @@ export const Dropdown = ({
     panelAttributes,
     listAttributes,
     itemAttributes,
-  } = useDropdown(menuItems.length)
+    open,
+  } = useDropdown(menuItems.length, undefined, {
+    placement: 'bottom-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  })
 
   return (
     <React.Fragment>
@@ -34,20 +45,25 @@ export const Dropdown = ({
         aria-label={menuButton.label}
         {...buttonAttributes}
       />
-      <div {...panelAttributes}>
-        <ul className={`${menuButton.className}-dropdown`} {...listAttributes}>
-          {menuItems.map((item, i) => {
-            return (
-              <li
-                key={i}
-                dangerouslySetInnerHTML={{ __html: item.html }}
-                className={item.className}
-                {...itemAttributes(i)}
-              />
-            )
-          })}
-        </ul>
-      </div>
+      {open ? (
+        <div {...panelAttributes}>
+          <ul
+            className={`${menuButton.className}-dropdown`}
+            {...listAttributes}
+          >
+            {menuItems.map((item, i) => {
+              return (
+                <li
+                  key={i}
+                  dangerouslySetInnerHTML={{ __html: item.html }}
+                  className={item.className}
+                  {...itemAttributes(i)}
+                />
+              )
+            })}
+          </ul>
+        </div>
+      ) : null}
     </React.Fragment>
   )
 }

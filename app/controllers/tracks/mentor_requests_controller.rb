@@ -6,6 +6,7 @@ class Tracks::MentorRequestsController < ApplicationController
     @first_time_on_track = true
     @first_time_mentoring = true
 
+    # TODO: Change to "if %i[requested in_progress].include(@solution.mentoring_status)
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
   end
 

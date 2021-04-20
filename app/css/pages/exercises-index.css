@@ -2,9 +2,36 @@
 
 #page-exercises-index {
     & section.exercises {
-        & .container {
+        & .c-search-bar {
+            @apply mb-32;
+            & input.--search {
+                width: 100%;
+                max-width: 440px;
+            }
+        }
+        & .tabs {
+            @apply flex;
+            @apply mb-32;
+
+            & .c-tab {
+                height: 40px;
+                @apply cursor-pointer;
+
+                & .c-ed {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-12;
+                    &.--locked {
+                        cursor: pointer;
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        & .exercises {
             @apply grid gap-16;
-            grid-template-columns: repeat(2, auto);
+            @apply pb-40;
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 }

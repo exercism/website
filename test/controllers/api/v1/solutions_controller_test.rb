@@ -61,7 +61,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     create :user_track, user: @current_user, track: track
     exercise = create :concept_exercise, track: track
 
-    UserTrack.any_instance.expects(:exercise_available?).returns(false)
+    UserTrack.any_instance.expects(:exercise_unlocked?).returns(false)
 
     get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
@@ -89,7 +89,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     exercise = create :concept_exercise
     create :user_track, user: @current_user, track: exercise.track
 
-    UserTrack.any_instance.stubs(exercise_available?: true)
+    UserTrack.any_instance.stubs(exercise_unlocked?: true)
 
     get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success

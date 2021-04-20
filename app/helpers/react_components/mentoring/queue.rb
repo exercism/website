@@ -40,19 +40,19 @@ module ReactComponents
           endpoint: Exercism::Routes.mentored_api_mentoring_tracks_url,
           options: {
             initial_data: {
-              tracks: track_data
+              tracks: tracks_data
             }
           }
         }
       end
 
       def default_track
-        # TODO: This should be whatever the mentor last viewed.
-        # Store that value somewhere and retrieve it here.
-        track = track_data.first
+        last_viewed_slug = mentor.track_mentorships.joins(:track).where(last_viewed: true).pick('tracks.slug')
+        track_data = tracks_data.find { |td| td[:id] == last_viewed_slug }
+        track_data ||= tracks_data.first
 
-        track.merge(
-          exercises: ::Solution::MentorRequest::RetrieveExercises.(mentor, track[:id])
+        track_data.merge(
+          exercises: ::Mentor::Request::RetrieveExercises.(mentor, track_data[:id])
         )
       end
 
@@ -63,8 +63,8 @@ module ReactComponents
       end
 
       memoize
-      def track_data
-        SerializeTracksForMentoring.(mentor.mentored_tracks, mentor: mentor)[:tracks]
+      def tracks_data
+        SerializeTracksForMentoring.(mentor.mentored_tracks, mentor: mentor)
       end
     end
   end

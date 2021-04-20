@@ -32,11 +32,11 @@ type APIResponse = {
 export const useMentoringQueue = ({
   request: initialRequest,
   track,
-  exercises,
+  exercise,
 }: {
   request: Request
   track: MentoredTrack | null
-  exercises: MentoredTrackExercise[]
+  exercise: MentoredTrackExercise | null
 }): {
   criteria: string
   setCriteria: (criteria: string) => void
@@ -53,7 +53,7 @@ export const useMentoringQueue = ({
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
   const trackSlug = track?.id
-  const exerciseSlugs = exercises.map((e) => e.slug)
+  const exerciseSlug = exercise?.slug
   const {
     resolvedData,
     latestData,
@@ -61,13 +61,13 @@ export const useMentoringQueue = ({
     status,
     error,
   } = usePaginatedRequestQuery<APIResponse>(
-    ['mentoring-request', request.query, trackSlug, exerciseSlugs],
+    ['mentoring-request', request.query, trackSlug, exerciseSlug],
     {
       ...request,
       query: {
         ...request.query,
         trackSlug: trackSlug,
-        exerciseSlugs: exerciseSlugs,
+        exerciseSlug: exerciseSlug,
       },
       options: {
         enabled: !!track,

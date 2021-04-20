@@ -1,3 +1,133 @@
+export type ExerciseStatus =
+  | 'published'
+  | 'completed'
+  | 'iterated'
+  | 'started'
+  | 'available'
+  | 'locked'
+
+export type ExerciseAuthorship = {
+  exercise: Exercise
+  track: Track
+}
+
+export type Contribution = {
+  id: string
+  value: number
+  text: string
+  iconUrl: string
+  internalUrl?: string
+  externalUrl?: string
+  awardedAt: string
+  track?: {
+    title: string
+    iconUrl: string
+  }
+}
+
+export type Testimonial = {
+  id: string
+  content: string
+  student: {
+    avatarUrl: string
+    handle: string
+  }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
+  track: {
+    title: string
+    iconUrl: string
+  }
+  createdAt: string
+  isRevealed: boolean
+  links: {
+    reveal: string
+  }
+}
+
+export type Exercise =
+  | (ExerciseCore & { isUnlocked: true; links: { self: string } })
+  | (ExerciseCore & { isUnlocked: false })
+
+export type SolutionForStudent = {
+  id: string
+  url: string
+  status: SolutionStatus
+  mentoringStatus: SolutionMentoringStatus
+  hasNotifications: boolean
+  numMentoringComments: number
+  numIterations: number
+  updatedAt: string
+  exercise: {
+    slug: string
+    title: string
+    iconUrl: string
+  }
+  track: {
+    slug: string
+    title: string
+    iconUrl: string
+  }
+}
+
+export type SolutionStatus = 'started' | 'published' | 'completed' | 'iterated'
+export type SolutionMentoringStatus =
+  | 'none'
+  | 'requested'
+  | 'in_progress'
+  | 'finished'
+
+export type DiscussionStatus =
+  | 'requires_mentor_action'
+  | 'requires_student_action'
+  | 'finished'
+
+export type CommunitySolution = {
+  id: string
+  snippet: string
+  numLoc: string
+  numStars: string
+  numComments: string
+  publishedAt: string
+  language: string
+  iterationStatus: IterationStatus
+  isOutOfDate: boolean
+  author: {
+    handle: string
+    avatarUrl: string
+  }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
+  track: {
+    title: string
+    iconUrl: string
+    highlightjsLanguage: string
+  }
+
+  links: {
+    publicUrl: string
+    privateUrl: string
+  }
+}
+
+export type CommunitySolutionContext = 'mentoring' | 'profile' | 'exercise'
+
+type ExerciseCore = {
+  slug: string
+  title: string
+  iconUrl: string
+  blurb: string
+  difficulty: ExerciseDifficulty
+  isRecommended: boolean
+  isTutorial: boolean
+}
+
+export type ExerciseDifficulty = 'easy'
+
 export type File = {
   filename: string
   content: string
@@ -45,6 +175,19 @@ export type MentorSessionDiscussion = {
     finish?: string
   }
 }
+export type Track = {
+  id: string
+  title: string
+  iconUrl: string
+  numConcepts: number
+  numExercises: number
+  numSolutions: number
+  links: {
+    self: string
+    exercises: string
+    concepts: string
+  }
+}
 
 export type Iteration = {
   uuid: string
@@ -60,6 +203,7 @@ export type Iteration = {
   analyzerFeedback?: AnalyzerFeedback
   createdAt: string
   testsStatus: SubmissionTestsStatus
+  isPublished: boolean
   links: {
     self: string
     solution: string
@@ -134,6 +278,10 @@ export enum AnalysisStatus {
 
 export type MentorDiscussion = {
   id: string
+  student: {
+    avatarUrl: string
+    handle: string
+  }
   mentor: {
     avatarUrl: string
     handle: string
@@ -159,7 +307,7 @@ export type MentoredTrack = {
   id: string
   title: string
   iconUrl: string
-  num_solutions_queued: number
+  numSolutionsQueued: number
   exercises: MentoredTrackExercise[] | undefined
   links: {
     exercises: string

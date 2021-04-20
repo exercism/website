@@ -8,6 +8,7 @@ import { QueryStatus } from 'react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { useRequestQuery } from '../../hooks/request-query'
+import { queryCache } from 'react-query'
 
 export type Links = {
   tokens: string
@@ -143,8 +144,17 @@ export const Reputation = ({
     if (!data) {
       return
     }
+
     setIsSeen(data.meta.isAllSeen)
   }, [data])
+
+  useEffect(() => {
+    if (!listAttributes.hidden) {
+      return
+    }
+
+    queryCache.invalidateQueries(cacheKey)
+  }, [listAttributes.hidden])
 
   return (
     <React.Fragment>

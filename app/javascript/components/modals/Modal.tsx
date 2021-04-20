@@ -38,7 +38,22 @@ export const Modal = ({
           <Wrapper
             condition={celebratory}
             wrapper={(children) => (
-              <ActiveBackground Pattern={Confetti}>{children}</ActiveBackground>
+              <ActiveBackground
+                Pattern={Confetti}
+                patternOptions={{
+                  colorPairs: [
+                    ['#df0049', '#660671'],
+                    ['#00e857', '#005291'],
+                    ['#2bebbc', '#05798a'],
+                    ['#ffd200', '#b06c00'],
+                  ],
+                  confettiPaperCount: 50,
+                  confettiRibbonCount: 10,
+                  speed: 50,
+                }}
+              >
+                {children}
+              </ActiveBackground>
             )}
           >
             {contentElement}

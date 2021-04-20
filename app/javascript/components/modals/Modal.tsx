@@ -27,22 +27,27 @@ export const Modal = ({
 
   const overlayClassNames = ['c-modal', className, cover ? '--cover' : '']
 
-  const reactModalProps = {
-    ...props,
-    className: '--modal-content',
-    overlayClassName: overlayClassNames.join(' '),
-  }
-
   return (
-    <ReactModal isOpen={open} onRequestClose={onClose} {...reactModalProps}>
-      <Wrapper
-        condition={celebratory}
-        wrapper={(children) => (
-          <ActiveBackground Pattern={Confetti}>{children}</ActiveBackground>
-        )}
-      >
-        {children}
-      </Wrapper>
+    <ReactModal
+      isOpen={open}
+      onRequestClose={onClose}
+      className={'--modal-content'}
+      overlayClassName={overlayClassNames.join(' ')}
+      overlayElement={(props, contentElement) => (
+        <div {...props}>
+          <Wrapper
+            condition={celebratory}
+            wrapper={(children) => (
+              <ActiveBackground Pattern={Confetti}>{children}</ActiveBackground>
+            )}
+          >
+            {contentElement}
+          </Wrapper>
+        </div>
+      )}
+      {...props}
+    >
+      {children}
     </ReactModal>
   )
 }

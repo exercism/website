@@ -7,14 +7,14 @@ module API
       @discussion.update!(finished_at: Time.current)
 
       # TODO
-      Solution::MentorRequest::Create.(@discussion.solution, "temp comment") if params[:requeue]
+      Mentor::Request::Create.(@discussion.solution, "temp comment") if params[:requeue]
 
       render json: {}
     end
 
     private
     def use_mentor_discussion
-      @discussion = Solution::MentorDiscussion.find_by(uuid: params[:id])
+      @discussion = Mentor::Discussion.find_by(uuid: params[:id])
       return render_404(:mentor_discussion_not_found) unless @discussion
 
       @solution = @discussion.solution

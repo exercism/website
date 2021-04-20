@@ -12,7 +12,7 @@ module Flows
           track = create :track
           exercise = create :concept_exercise, track: track
           solution = create :concept_solution, exercise: exercise, user: user
-          discussion = create :solution_mentor_discussion, solution: solution
+          discussion = create :mentor_discussion, solution: solution
 
           use_capybara_host do
             sign_in!(user)

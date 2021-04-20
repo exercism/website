@@ -89,5 +89,7 @@ export const FinishMentorDiscussionModal = ({
       )
     case 'unhappy':
       return <UnhappyStep links={links} />
+    default:
+      throw new Error('Unknown modal step')
   }
 }

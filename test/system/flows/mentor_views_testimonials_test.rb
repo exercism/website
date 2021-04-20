@@ -63,7 +63,7 @@ module Flows
     end
 
     test "mentor switches pages" do
-      Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
+      ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
       student = create :user, handle: "student"
       other_student = create :user, handle: "otherstudent"
@@ -92,7 +92,7 @@ module Flows
     end
 
     test "mentor orders testimonials" do
-      Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
+      ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
       student = create :user, handle: "student"
       other_student = create :user, handle: "otherstudent"

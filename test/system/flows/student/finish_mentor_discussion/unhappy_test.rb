@@ -17,8 +17,8 @@ module Flows
                                            representation_status: :generated,
                                            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
-          request = create :solution_mentor_request, solution: solution
-          discussion = create :solution_mentor_discussion, solution: solution, request: request
+          request = create :mentor_request, solution: solution
+          discussion = create :mentor_discussion, solution: solution, request: request
 
           use_capybara_host do
             sign_in!(user)

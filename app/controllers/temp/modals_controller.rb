@@ -61,7 +61,7 @@ module Temp
     end
 
     def finish_mentor_discussion
-      @discussion = Solution::MentorDiscussion.find_by(params[:discussion_id])
+      @discussion = Mentor::Discussion.find_by(params[:discussion_id])
     end
   end
 end

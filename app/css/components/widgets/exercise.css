@@ -2,6 +2,10 @@
 
 .c-exercise-widget {
     @apply flex items-center shadow-base rounded-8 bg-backgroundColorA;
+    transition: box-shadow 0.2s ease-out;
+    &:hover:not(.--locked) {
+        @apply shadow-baseZ1;
+    }
 
     & > .c-exercise-icon {
         height: 64px;
@@ -49,12 +53,8 @@
                 background-repeat: no-repeat;
                 background-position: left center;
 
-                @apply pl-24;
+                @apply ml-16;
                 @apply text-textColor6 font-semibold leading-170;
-
-                &.--easy {
-                    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAxOCAxOCI+CiAgPGRlZnMvPgogIDxwYXRoIHN0cm9rZT0iIzVDNTU4OSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTEwLjEwNzMgMS41MjczOUM4LjAyMDUzIDEuNzg2NjggNi40NjQ4OCAzLjU3NzUgNi41IDUuNjgwMDZ2LjMyOGMwIDIuMjA5MTQtMS43OTA4NiA0LjAwMDA0LTQgNC4wMDAwNGgtMWMtLjAwMDExIDEuNzU4Ni43MTI0MSAzLjQ0MjMgMS45NzQ5MiA0LjY2NjZTNi40NDIxNyAxNi41NTk1IDguMiAxNi41MDU0YzMuNTc1OC0uMjAzNyA2LjM1NDgtMy4xOTA5IDYuMy02Ljc3MjAxVjUuNTA4MDZjMC0xLjEyOTE4LS40NzczLTIuMjA1NzUtMS4zMTQtMi45NjQtLjgzNjctLjc1ODI0LTEuOTU0OS0xLjEyNzUxLTMuMDc4Ny0xLjAxNjY3eiIgY2xpcC1ydWxlPSJldmVub2RkIi8+CiAgPHBhdGggc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41IiBkPSJNMTEgMTEuNTA4MWMwIDEuMzgwNy0xLjExOTI5IDIuNS0yLjUgMi41cy0yLjUtMS4xMTkzLTIuNS0yLjVoMk0xNC41IDUuNTA4MDFjLjUzMzgtLjAxMTM5IDEuMDQ5Mi4xOTU2NyAxLjQyNjguNTczMjQuMzc3NS4zNzc1Ny41ODQ2Ljg5MjkyLjU3MzIgMS40MjY3NmgtMk0xMC43NSA1LjAwODA2Yy4xMzgxIDAgLjI1LjExMTkzLjI1LjI1TTEwLjUgNS4yNTgwNmMwLS4xMzgwNy4xMTE5LS4yNS4yNS0uMjVNMTAuNzUgNS41MDgwNmMtLjA2NjQuMDAwMTctLjEzLS4wMjYxMS0uMTc3LS4wNzMwMy0uMDQ2OS0uMDQ2OTItLjA3MzItLjExMDYxLS4wNzMtLjE3Njk3TTExIDUuMjU4MDZjLjAwMDIuMDY2MzYtLjAyNjEuMTMwMDUtLjA3My4xNzY5Ny0uMDQ2OS4wNDY5Mi0uMTEwNi4wNzMyLS4xNzcuMDczMDMiLz4KPC9zdmc+");
-                }
             }
             & .--iterations-count {
                 @apply ml-16;
@@ -76,7 +76,7 @@
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    filter: var(--textColor6-filter);
+                    filter: var(--orange-filter);
                     @apply mr-8;
                 }
             }
@@ -111,6 +111,8 @@
         }
     }
     &.--locked {
+        background: rgba(19, 11, 67, 0.005);
+        @apply shadow-sm;
         cursor: not-allowed;
 
         & > .c-exercise-icon {

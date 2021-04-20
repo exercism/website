@@ -71,8 +71,8 @@
             }
             & .finished {
                 @apply flex items-center;
-                /* Leading-150 */
-                @apply text-16 leading-paragraph font-semibold text-textColor3;
+                @apply text-16 leading-170 font-semibold text-textColor2;
+                @apply ml-56;
 
                 & .c-icon {
                     height: 24px;
@@ -190,11 +190,8 @@
             right: 0;
             box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
 
-            @apply px-24 py-16 bg-backgroundColorA;
+            @apply bg-backgroundColorA;
 
-            & .c-markdown-editor {
-                min-height: 315px;
-            }
             & .new-messages-button {
                 @apply absolute;
                 left: 24px;
@@ -214,12 +211,54 @@
                 }
             }
 
-            & button.faux-input {
-                @apply relative;
-                @apply border-1 border-buttonBorderColor2 rounded-5;
-                @apply py-12 px-16;
-                @apply text-16 leading-paragraph text-textColor6;
-                @apply text-left;
+            &.--lock {
+                @apply py-24 px-32;
+
+                & h2 {
+                    @apply text-h5 mb-8;
+                }
+                & p {
+                    @apply text-15 leading-160;
+                    @apply mb-16;
+                }
+                & button {
+                    @apply w-100 mb-12;
+                }
+                & .note {
+                    @apply text-p-small text-textColor6 text-center;
+                }
+            }
+
+            &.--comment {
+                @apply py-16 px-24;
+                & .c-markdown-editor {
+                    @apply mb-8 flex-grow;
+                    min-height: 320px;
+                }
+                & button.faux-input {
+                    @apply relative;
+                    @apply border-1 border-buttonBorderColor2 rounded-5;
+                    @apply mb-8 py-12 px-16;
+                    @apply text-16 leading-paragraph text-textColor6;
+                    @apply text-left;
+                }
+                & .note {
+                    @apply text-p-small text-textColor6;
+                    & a {
+                        @apply font-medium text-lightBlue;
+                    }
+                }
+            }
+
+            & button.continuation-btn {
+                @apply w-100;
+                @apply text-15 leading-160 text-textColor2;
+                & strong {
+                    @apply font-medium;
+                }
+                & em {
+                    @apply text-lightBlue not-italic font-medium;
+                }
             }
         }
 

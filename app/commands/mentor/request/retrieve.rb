@@ -48,7 +48,7 @@ module Mentor
           joins(:solution).
           includes(solution: [:user, { exercise: :track }]).
           pending.
-          unlocked
+          unlocked_for(mentor)
       end
 
       def filter!

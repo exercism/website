@@ -9,8 +9,8 @@ type MentoringRequest = {
   track_title: string
   track_icon_url: string
   exercise_title: string
-  mentee_handle: string
-  mentee_avatar_url: string
+  student_handle: string
+  student_avatar_url: string
   updated_at: string
   is_starred: boolean
   have_mentored_previously: boolean

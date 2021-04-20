@@ -17,6 +17,9 @@ class Mentor::Request < ApplicationRecord
     where(locked_until: nil).
       or(where("locked_until < ?", Time.current))
   }
+  scope :unlocked_for, lambda { |user|
+    where(locked_by: user).or(unlocked)
+  }
 
   validates :comment_markdown, presence: true
 

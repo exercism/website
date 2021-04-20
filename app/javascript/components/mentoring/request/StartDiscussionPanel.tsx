@@ -87,7 +87,7 @@ export const StartDiscussionPanel = ({
   )
 
   return (
-    <section className="comment-section">
+    <section className="comment-section --comment">
       <form onSubmit={handleSubmit} className="c-markdown-editor">
         <MarkdownEditor
           contextId="start-discussion"
@@ -107,6 +107,11 @@ export const StartDiscussionPanel = ({
           <ErrorMessage error={error} />
         </ErrorBoundary>
       </form>
+      {/* TODO: Extract into common component with the other identical notes in app/javascript/components/mentoring/discussion/AddDiscussionPost.tsx */}
+      <div className="note">
+        Check out our {/* TODO */}
+        <a href="#">mentoring docs</a> and be the best mentor you can be.
+      </div>
     </section>
   )
 }

@@ -3,8 +3,8 @@ require 'test_helper'
 class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "only retrieves unlocked pending solutions" do
     mentored_track = create :track
-    user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track
+    mentor = create :user
+    create :user_track_mentorship, user: mentor, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
@@ -19,8 +19,9 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
 
     expired = create :mentor_request, locked_until: Time.current - 10.minutes, solution: solution
     pending = create :mentor_request, solution: solution
+    locked_by_mentor = create :mentor_request, locked_until: Time.current + 5.minutes, locked_by: mentor
 
-    assert_equal [expired, pending], Mentor::Request::Retrieve.(mentor: user)
+    assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor: mentor)
   end
 
   test "does not retrieve own solutions" do

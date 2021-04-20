@@ -207,6 +207,11 @@ body {
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }
+@media screen and (prefers-reduced-motion: reduce) {
+    body {
+        scroll-behavior: auto;
+    }
+}
 code {
     @apply leading-code;
 }

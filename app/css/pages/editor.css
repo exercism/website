@@ -163,7 +163,12 @@
     & .main-rhs {
         grid-area: main-rhs;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: hidden;
+
+        & > .--tab-panel {
+            overflow-y: scroll;
+            height: 100%;
+        }
 
         & section.instructions {
             @apply py-16 px-32;

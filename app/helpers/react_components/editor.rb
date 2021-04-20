@@ -19,7 +19,7 @@ module ReactComponents
           ),
           submission: SerializeSubmission.(solution.submissions.last),
           files: SerializeFiles.(solution.solution_files),
-          language: track.editor_language,
+          language: track.monaco_language,
           storage_key: solution.uuid
         }
       )

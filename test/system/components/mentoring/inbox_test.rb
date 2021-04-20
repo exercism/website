@@ -13,9 +13,9 @@ module Components
         series = create :concept_exercise, title: "Series", track: ruby
         solution = create :concept_solution, exercise: series, user: student
         discussion = create :mentor_discussion,
+          :awaiting_mentor,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago,
           created_at: 1.year.ago
 
         use_capybara_host do
@@ -39,15 +39,15 @@ module Components
         series = create :concept_exercise, title: "Series"
         series_solution = create :concept_solution, exercise: series
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          mentor: mentor
         tournament = create :concept_exercise, title: "Tournament"
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: tournament_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)
@@ -72,11 +72,11 @@ module Components
 
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: mentor
+        create :mentor_discussion, :awaiting_mentor, solution: series_solution, mentor: mentor
 
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: mentor
+        create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)
@@ -96,15 +96,15 @@ module Components
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          mentor: mentor
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: tournament_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)
@@ -123,15 +123,15 @@ module Components
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 2.days.ago
+          mentor: mentor
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: tournament_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)
@@ -150,16 +150,15 @@ module Components
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
         create :mentor_discussion,
+          :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor,
-          requires_mentor_action_since: 2.days.ago
+          mentor: mentor
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
+          :awaiting_student,
           solution: tournament_solution,
-          mentor: mentor,
-          requires_mentor_action_since: nil,
-          requires_student_action_since: 1.day.ago
+          mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)

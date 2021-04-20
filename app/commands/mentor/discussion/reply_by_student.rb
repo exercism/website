@@ -14,7 +14,7 @@ module Mentor
           seen_by_student: true
         )
 
-        discussion.mentor_action_required!
+        discussion.awaiting_mentor!
 
         User::Notification::Create.(
           discussion.mentor,

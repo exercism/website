@@ -93,7 +93,7 @@ module ViewComponents
       def inbox_size
         ::Mentor::Discussion.joins(solution: :exercise).
           where(mentor: current_user).
-          requires_mentor_action.
+          awaiting_mentor.
           count
       end
 

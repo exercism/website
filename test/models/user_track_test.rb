@@ -380,4 +380,27 @@ class UserTrackTest < ActiveSupport::TestCase
     create :mentor_started_discussion_notification, status: :unread, user: user, params: { discussion: discussion }
     assert UserTrack.find(ut_id).has_notifications?
   end
+
+  test "active_mentoring_discussions" do
+    ut = create :user_track
+    assert_empty ut.active_mentoring_discussions
+
+    disc_1 = create :mentor_discussion, :awaiting_mentor, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    disc_2 = create :mentor_discussion, :awaiting_student,
+      solution: create(:concept_solution, track: ut.track, user: ut.user)
+    disc_3 = create :mentor_discussion, :mentor_finished, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    create :mentor_discussion, :student_finished, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    create :mentor_discussion, :both_finished, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    assert_equal [disc_1, disc_2, disc_3], UserTrack.find(ut.id).active_mentoring_discussions
+  end
+
+  test "pending_mentoring_requests" do
+    ut = create :user_track
+    assert_empty ut.pending_mentoring_requests
+
+    req = create :mentor_request, :pending, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    create :mentor_request, :fulfilled, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    create :mentor_request, :cancelled, solution: create(:concept_solution, track: ut.track, user: ut.user)
+    assert_equal [req], UserTrack.find(ut.id).pending_mentoring_requests
+  end
 end

@@ -50,11 +50,14 @@ module ReactComponents
           request_mentoring: Exercism::Routes.new_track_exercise_mentor_request_path(solution.track, solution.exercise),
           pending_mentor_request: Exercism::Routes.track_exercise_mentor_request_path(solution.track, solution.exercise)
         }.tap do |links|
-          in_progress_discussion = solution.mentor_discussions.in_progress.first
+          in_progress_discussion = solution.mentor_discussions.in_progress_for_student.first
           if in_progress_discussion
             links[:in_progress_discussion] =
-              Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise,
-                in_progress_discussion)
+              Exercism::Routes.track_exercise_mentor_discussion_path(
+                solution.track,
+                solution.exercise,
+                in_progress_discussion
+              )
           end
         end
       end
@@ -71,7 +74,7 @@ module ReactComponents
               avatar_url: discussion.student.avatar_url,
               handle: discussion.student.handle
             },
-            is_finished: discussion.finished?,
+            is_finished: discussion.finished_for_student?,
             is_unread: discussion.posts.where(seen_by_student: false).exists?,
             posts_count: discussion.posts.count,
             created_at: discussion.created_at.iso8601,

@@ -46,7 +46,7 @@ module Components::Student
         submission = create :submission, solution: solution, tests_status: :failed
         create :iteration, idx: 1, solution: solution, submission: submission
         request = create :mentor_request, solution: solution, status: :fulfilled
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request, finished_at: nil
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
         solution.update_mentoring_status!
 
         use_capybara_host do

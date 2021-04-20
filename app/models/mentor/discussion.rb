@@ -79,6 +79,15 @@ class Mentor::Discussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
+  def mentor_finished!
+    update_columns(
+      status: :mentor_finished,
+      mentor_finished_at: Time.current,
+      awaiting_mentor_since: nil,
+      awaiting_student_since: awaiting_student_since || Time.current
+    )
+  end
+
   def awaiting_student!
     update_columns(
       status: :awaiting_student,

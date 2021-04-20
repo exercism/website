@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { decamelizeKeys } from 'humps'
 import { stringify } from 'qs'
 
-function removeEmpty(obj: any) {
+function removeEmpty<TParams>(obj: TParams) {
   return Object.entries(obj)
     .filter(([_, v]) => {
       if (typeof v === 'string') {
@@ -14,39 +14,44 @@ function removeEmpty(obj: any) {
     .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {})
 }
 
-export const pushState = (params: any) => {
+function toQuery<TParams>(params: TParams): string {
   const state = removeEmpty(params)
-  const queryParams = stringify(decamelizeKeys(state), {
-    arrayFormat: 'brackets',
-  })
 
-  history.pushState(
-    { ...history.state, componentState: state },
-    '',
-    `?${queryParams}`
-  )
+  return `?${stringify(decamelizeKeys(state), { arrayFormat: 'brackets' })}`
 }
 
-export const useHistory = ({
-  onPopState,
+function pushState<TParams>(params: TParams) {
+  history.pushState(history.state, '', toQuery(params))
+}
+
+function replaceState<TParams>(params: TParams) {
+  history.replaceState(history.state, '', toQuery(params))
+}
+
+export function useHistory<TParams>({
+  pushOn,
+  replaceOn,
 }: {
-  onPopState: (query: any) => void
-}) => {
+  pushOn: TParams
+  replaceOn: TParams
+}): void {
+  const isMounted = useRef(false)
+
   useEffect(() => {
-    const popstateHandler = (event: PopStateEvent) => {
-      const { componentState } = event.state
-
-      if (!componentState) {
-        return
-      }
-
-      onPopState(componentState)
+    if (!isMounted.current) {
+      isMounted.current = true
+      return
     }
 
-    window.addEventListener('popstate', popstateHandler)
+    pushState<TParams>(pushOn)
+  }, [pushOn])
 
-    return () => window.removeEventListener('popstate', popstateHandler)
-  }, [onPopState])
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+      return
+    }
 
-  return { pushState }
+    replaceState<TParams>(replaceOn)
+  }, [replaceOn])
 }

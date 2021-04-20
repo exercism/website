@@ -10,16 +10,30 @@ FactoryBot.define do
       end
     end
 
-    trait :requires_mentor_action do
-      requires_mentor_action_since { Time.current }
+    trait :awaiting_student do
+      status { :awaiting_student }
+      awaiting_student_since { Time.current }
     end
 
-    trait :requires_student_action do
-      requires_student_action_since { Time.current }
+    trait :awaiting_mentor do
+      status { :awaiting_mentor }
+      awaiting_mentor_since { Time.current }
     end
 
-    trait :finished do
-      finished_at { Time.current }
+    trait :mentor_finished do
+      status { :mentor_finished }
+      mentor_finished_at { Time.current }
+    end
+
+    trait :student_finished do
+      status { :student_finished }
+      student_finished_at { Time.current }
+    end
+
+    trait :both_finished do
+      status { :both_finished }
+      student_finished_at { Time.current }
+      mentor_finished_at { Time.current }
     end
   end
 end

@@ -3,6 +3,18 @@ FactoryBot.define do
     solution { create :practice_solution }
     comment_markdown { "I could do with some help here" }
 
+    trait :pending do
+      status { :pending }
+    end
+
+    trait :fulfilled do
+      status { :fulfilled }
+    end
+
+    trait :cancelled do
+      status { :cancelled }
+    end
+
     trait :locked do
       locked_until { Time.current + 30.minutes }
       locked_by { create :user }

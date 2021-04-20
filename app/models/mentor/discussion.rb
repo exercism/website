@@ -1,4 +1,12 @@
 class Mentor::Discussion < ApplicationRecord
+  enum status: {
+    awaiting_student: 0,
+    awaiting_mentor: 1,
+    mentor_finished: 2,
+    student_finished: 3,
+    both_finished: 4
+  }
+
   belongs_to :solution
   has_one :student, through: :solution, source: :user
   has_one :exercise, through: :solution
@@ -12,11 +20,9 @@ class Mentor::Discussion < ApplicationRecord
                    inverse_of: :discussion
   has_many :iterations, through: :solution
 
-  scope :finished, -> { where.not(finished_at: nil) }
-  scope :in_progress, -> { where(finished_at: nil) }
-
-  scope :requires_mentor_action, -> { where.not(requires_mentor_action_since: nil) }
-  scope :requires_student_action, -> { where.not(requires_student_action_since: nil) }
+  scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
+  scope :finished_for_student, -> { where(status: %i[student_finished both_finished]) }
+  scope :finished_for_mentor, -> { where(status: %i[mentor_finished both_finished]) }
 
   before_validation do
     self.solution = request.solution unless self.solution
@@ -26,13 +32,21 @@ class Mentor::Discussion < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid
   end
 
-  after_save do
-    solution.update_mentoring_status! if previous_changes.key?('finished_at')
+  after_create_commit do
+    solution.update_mentoring_status!
+  end
+
+  after_save_commit do
+    solution.update_mentoring_status! if previous_changes.key?('status')
   end
 
   delegate :title, :icon_url, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, to: :exercise, prefix: :exercise
+
+  def status
+    super.to_sym
+  end
 
   def student_mentor_relationship
     Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
@@ -52,8 +66,12 @@ class Mentor::Discussion < ApplicationRecord
     uuid
   end
 
-  def finished?
-    finished_at.present?
+  def finished_for_student?
+    %i[student_finished both_finished].include?(status)
+  end
+
+  def finished_for_mentor?
+    %i[mentor_finished both_finished].include?(status)
   end
 
   def viewable_by?(user)
@@ -61,21 +79,19 @@ class Mentor::Discussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
-  def student_action_required!
+  def awaiting_student!
     update_columns(
-      requires_mentor_action_since: nil,
-      requires_student_action_since: requires_student_action_since || Time.current
+      status: :awaiting_student,
+      awaiting_mentor_since: nil,
+      awaiting_student_since: awaiting_student_since || Time.current
     )
   end
 
-  def mentor_action_required!
+  def awaiting_mentor!
     update_columns(
-      requires_mentor_action_since: requires_mentor_action_since || Time.current,
-      requires_student_action_since: nil
+      status: :awaiting_mentor,
+      awaiting_mentor_since: awaiting_mentor_since || Time.current,
+      awaiting_student_since: nil
     )
-  end
-
-  def requires_mentor_action?
-    requires_mentor_action_since.present?
   end
 end

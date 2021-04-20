@@ -15,7 +15,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago,
+          awaiting_mentor_since: 1.day.ago,
           created_at: 1.year.ago
 
         use_capybara_host do
@@ -41,13 +41,13 @@ module Components
         create :mentor_discussion,
           solution: series_solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         tournament = create :concept_exercise, title: "Tournament"
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
           solution: tournament_solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
 
         use_capybara_host do
           sign_in!(mentor)
@@ -72,11 +72,11 @@ module Components
 
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: mentor
+        create :mentor_discussion, :awaiting_mentor, solution: series_solution, mentor: mentor
 
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: mentor
+        create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)
@@ -98,13 +98,13 @@ module Components
         create :mentor_discussion,
           solution: series_solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
           solution: tournament_solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
 
         use_capybara_host do
           sign_in!(mentor)
@@ -125,13 +125,13 @@ module Components
         create :mentor_discussion,
           solution: series_solution,
           mentor: mentor,
-          requires_mentor_action_since: 2.days.ago
+          awaiting_mentor_since: 2.days.ago
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
           solution: tournament_solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
 
         use_capybara_host do
           sign_in!(mentor)
@@ -152,14 +152,14 @@ module Components
         create :mentor_discussion,
           solution: series_solution,
           mentor: mentor,
-          requires_mentor_action_since: 2.days.ago
+          awaiting_mentor_since: 2.days.ago
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
         create :mentor_discussion,
           solution: tournament_solution,
           mentor: mentor,
-          requires_mentor_action_since: nil,
-          requires_student_action_since: 1.day.ago
+          awaiting_mentor_since: nil,
+          awaiting_student_since: 1.day.ago
 
         use_capybara_host do
           sign_in!(mentor)

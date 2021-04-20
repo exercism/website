@@ -359,7 +359,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
@@ -380,7 +380,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         create :iteration, solution: solution
 
         use_capybara_host do
@@ -401,7 +401,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 

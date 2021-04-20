@@ -19,7 +19,7 @@ module ReactComponents
       ].freeze
       private_constant :SORT_OPTIONS
 
-      DEFAULT_STATUS = "requires_mentor_action".freeze
+      DEFAULT_STATUS = "awaiting_mentor".freeze
       private_constant :DEFAULT_STATUS
 
       private

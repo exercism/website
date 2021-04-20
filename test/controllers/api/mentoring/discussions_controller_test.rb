@@ -13,9 +13,9 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
 
-    discussion = create :mentor_discussion, :requires_mentor_action, mentor: user
+    discussion = create :mentor_discussion, :awaiting_mentor, mentor: user
 
-    get api_mentoring_discussions_path(status: :requires_mentor_action),
+    get api_mentoring_discussions_path(status: :awaiting_mentor),
       headers: @headers, as: :json
     assert_response 200
 
@@ -36,14 +36,14 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     series = create :concept_exercise, title: "Series", track: ruby
     series_solution = create :concept_solution, exercise: series
-    create :mentor_discussion, :requires_mentor_action, solution: series_solution, mentor: @current_user
+    create :mentor_discussion, :awaiting_mentor, solution: series_solution, mentor: @current_user
 
     tournament = create :concept_exercise, title: "Tournament", track: go
     tournament_solution = create :concept_solution, exercise: tournament
-    create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
-    create :mentor_discussion, :requires_mentor_action, solution: tournament_solution, mentor: @current_user
+    create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: @current_user
+    create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: @current_user
 
-    get tracks_api_mentoring_discussions_path(per: 1, status: :requires_mentor_action), headers: @headers, as: :json
+    get tracks_api_mentoring_discussions_path(per: 1, status: :awaiting_mentor), headers: @headers, as: :json
     assert_response 200
 
     expected = [
@@ -172,6 +172,6 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     assert_response 200
     discussion.reload
-    refute discussion.requires_mentor_action?
+    refute discussion.awaiting_mentor?
   end
 end

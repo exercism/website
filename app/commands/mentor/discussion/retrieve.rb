@@ -9,7 +9,7 @@ module Mentor
         REQUESTS_PER_PAGE
       end
 
-      def initialize(user,
+      def initialize(mentor,
                      status,
                      page: nil,
                      criteria: nil, order: nil,
@@ -18,7 +18,7 @@ module Mentor
 
         # TODO: Guard valid status
 
-        @user = user
+        @mentor = mentor
         @status = status.to_sym
         @page = page || 1
         @track_slug = track_slug
@@ -41,7 +41,7 @@ module Mentor
       end
 
       private
-      attr_reader :user, :status, :page, :track_slug, :criteria, :order
+      attr_reader :mentor, :status, :page, :track_slug, :criteria, :order
 
       %i[sorted paginated].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
@@ -51,17 +51,17 @@ module Mentor
         @discussions = Mentor::Discussion.
           joins(solution: :exercise).
           includes(solution: [:user, { exercise: :track }]).
-          where(mentor: user)
+          where(mentor: mentor)
       end
 
       def filter_status!
         case status
-        when :requires_mentor_action
-          @discussions = @discussions.requires_mentor_action
-        when :requires_student_action
-          @discussions = @discussions.requires_student_action
+        when :awaiting_mentor
+          @discussions = @discussions.awaiting_mentor
+        when :awaiting_student
+          @discussions = @discussions.awaiting_student
         when :finished
-          @discussions = @discussions.finished
+          @discussions = @discussions.finished_for_mentor
         end
       end
 
@@ -81,7 +81,7 @@ module Mentor
         when "exercise"
           @discussions = @discussions.order("exercises.title")
         else
-          @discussions = @discussions.order(requires_mentor_action_since: :asc)
+          @discussions = @discussions.order(awaiting_mentor_since: :asc)
         end
       end
 

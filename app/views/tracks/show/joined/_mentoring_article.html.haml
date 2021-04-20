@@ -45,8 +45,8 @@
             = avatar(discussion.mentor)
             .name= discussion.mentor.name
 
-          -# -if discussion.requires_student_action
-          .turn Your turn to respond
+          - if discussion.awaiting_student
+            .turn Your turn to respond
 
           .comments
             = graphical_icon :comment

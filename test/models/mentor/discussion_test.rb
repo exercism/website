@@ -10,26 +10,36 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal request.solution, discussion.solution
   end
 
-  test "finished and in_progress scopes" do
-    in_progress = create :mentor_discussion, finished_at: nil
-    finished = create :mentor_discussion, finished_at: Time.current
+  test "scopes and helpers" do
+    awaiting_student = create :mentor_discussion, :awaiting_student
+    awaiting_mentor = create :mentor_discussion, :awaiting_mentor
+    mentor_finished = create :mentor_discussion, :mentor_finished
+    student_finished = create :mentor_discussion, :student_finished
+    both_finished = create :mentor_discussion, :both_finished
 
-    assert_equal [in_progress], Mentor::Discussion.in_progress
-    assert_equal [finished], Mentor::Discussion.finished
-  end
+    # TODO: See where these are used to decide if we need it
+    assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.in_progress_for_student
+    assert_equal [student_finished, both_finished], Mentor::Discussion.finished_for_student
+    assert_equal [mentor_finished, both_finished], Mentor::Discussion.finished_for_mentor
+    # assert_equal [mentor_finished, student_finished, both_finished], Mentor::Discussion.finished
 
-  test "requires_mentor_action scopes" do
-    requires_action = create :mentor_discussion, requires_mentor_action_since: Time.current
-    create :mentor_discussion, requires_mentor_action_since: nil
+    assert_equal [awaiting_student], Mentor::Discussion.awaiting_student
+    assert_equal [awaiting_mentor], Mentor::Discussion.awaiting_mentor
+    assert_equal [mentor_finished], Mentor::Discussion.mentor_finished
+    assert_equal [student_finished], Mentor::Discussion.student_finished
+    assert_equal [both_finished], Mentor::Discussion.both_finished
 
-    assert_equal [requires_action], Mentor::Discussion.requires_mentor_action
-  end
+    refute awaiting_student.finished_for_student?
+    refute awaiting_mentor.finished_for_student?
+    refute mentor_finished.finished_for_student?
+    assert student_finished.finished_for_student?
+    assert both_finished.finished_for_student?
 
-  test "requires_student_action scopes" do
-    requires_action = create :mentor_discussion, requires_student_action_since: Time.current
-    create :mentor_discussion, requires_student_action_since: nil
-
-    assert_equal [requires_action], Mentor::Discussion.requires_student_action
+    refute awaiting_student.finished_for_mentor?
+    refute awaiting_mentor.finished_for_mentor?
+    assert mentor_finished.finished_for_mentor?
+    refute student_finished.finished_for_mentor?
+    assert both_finished.finished_for_mentor?
   end
 
   test "#viewable_by? returns true if user is student" do
@@ -55,6 +65,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   end
 
   test "finished?" do
+    skip # TODO: Can this be deleted?
     discussion = create :mentor_discussion
     refute discussion.finished?
 
@@ -62,59 +73,65 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert discussion.finished?
   end
 
-  test "student_action_required!" do
+  test "awaiting_student!" do
     freeze_time do
       discussion = create :mentor_discussion,
-        requires_mentor_action_since: Time.current,
-        requires_student_action_since: nil
+        awaiting_mentor_since: Time.current,
+        awaiting_student_since: nil,
+        status: :awaiting_mentor
 
-      discussion.student_action_required!
+      discussion.awaiting_student!
 
-      assert_nil discussion.requires_mentor_action_since
-      assert_equal Time.current, discussion.requires_student_action_since
+      assert :awaiting_student, discussion.status
+      assert_nil discussion.awaiting_mentor_since
+      assert_equal Time.current, discussion.awaiting_student_since
     end
   end
 
-  test "student_action_required doesn't modernise existing time" do
+  test "awaiting_student doesn't modernise existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
       discussion = create :mentor_discussion,
-        requires_mentor_action_since: Time.current - 1.week,
-        requires_student_action_since: original
+        awaiting_mentor_since: Time.current - 1.week,
+        awaiting_student_since: original,
+        status: :awaiting_mentor
 
-      discussion.student_action_required!
+      discussion.awaiting_student!
 
-      assert_nil discussion.requires_mentor_action_since
-      assert_equal original, discussion.requires_student_action_since
+      assert_nil discussion.awaiting_mentor_since
+      assert_equal original, discussion.awaiting_student_since
     end
   end
 
-  test "mentor_action_required!" do
+  test "awaiting_mentor!" do
     freeze_time do
       discussion = create :mentor_discussion,
-        requires_student_action_since: Time.current,
-        requires_mentor_action_since: nil
+        awaiting_student_since: Time.current,
+        awaiting_mentor_since: nil,
+        status: :awaiting_student
 
-      discussion.mentor_action_required!
+      discussion.awaiting_mentor!
 
-      assert_nil discussion.requires_student_action_since
-      assert_equal Time.current, discussion.requires_mentor_action_since
+      assert :awaiting_mentor, discussion.status
+      assert_nil discussion.awaiting_student_since
+      assert_equal Time.current, discussion.awaiting_mentor_since
     end
   end
 
-  test "mentor_action_required doesn't modernise existing time" do
+  test "awaiting_mentor doesn't modernise existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
       discussion = create :mentor_discussion,
-        requires_student_action_since: Time.current - 1.week,
-        requires_mentor_action_since: original
+        awaiting_student_since: Time.current - 1.week,
+        awaiting_mentor_since: original,
+        status: :awaiting_student
 
-      discussion.mentor_action_required!
+      discussion.awaiting_mentor!
 
-      assert_nil discussion.requires_student_action_since
-      assert_equal original, discussion.requires_mentor_action_since
+      assert_nil discussion.awaiting_student_since
+      assert_equal original, discussion.awaiting_mentor_since
     end
   end
 end

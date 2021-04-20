@@ -58,7 +58,7 @@ class UserTrack < ApplicationRecord
 
   memoize
   def active_mentoring_discussions
-    Mentor::Discussion.where(solution: solutions).in_progress
+    Mentor::Discussion.where(solution: solutions).in_progress_for_student
   end
 
   memoize

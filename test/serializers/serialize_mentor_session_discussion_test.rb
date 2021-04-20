@@ -8,9 +8,8 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
     discussion = create :mentor_discussion,
-      :requires_mentor_action,
+      :awaiting_mentor,
       solution: solution,
-      finished_at: nil,
       mentor: mentor
 
     expected = {
@@ -24,6 +23,9 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
     }
 
     assert_equal expected, SerializeMentorSessionDiscussion.(discussion, mentor)
+
+    discussion.update(status: :mentor_finished)
+    assert SerializeMentorSessionDiscussion.(discussion, mentor)[:is_finished]
   end
 
   test "for student" do
@@ -33,19 +35,21 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
     discussion = create :mentor_discussion,
-      :requires_mentor_action,
+      :awaiting_mentor,
       solution: solution,
-      finished_at: Time.current - 1.day,
       mentor: mentor
 
     expected = {
       id: discussion.uuid,
-      is_finished: true,
+      is_finished: false,
       links: {
         posts: Exercism::Routes.api_solution_discussion_posts_url(solution.uuid, discussion)
       }
     }
 
     assert_equal expected, SerializeMentorSessionDiscussion.(discussion, student)
+
+    discussion.update(status: :student_finished)
+    assert SerializeMentorSessionDiscussion.(discussion, student)[:is_finished]
   end
 end

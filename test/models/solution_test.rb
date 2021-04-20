@@ -212,12 +212,12 @@ class SolutionTest < ActiveSupport::TestCase
     assert_nil solution.reload.in_progress_mentor_discussion
 
     # In progress discussion
-    discussion = create :mentor_discussion, solution: solution, finished_at: nil
-    assert_equal discussion, solution.reload.in_progress_mentor_discussion
+    discussion = create :mentor_discussion, solution: solution
+    assert_equal discussion, Solution.find(solution.id).in_progress_mentor_discussion
 
     # Finished discussion
-    discussion.update!(finished_at: Time.current)
-    assert_nil solution.reload.in_progress_mentor_discussion
+    discussion.update!(status: :student_finished)
+    assert_nil Solution.find(solution.id).in_progress_mentor_discussion
   end
 
   test "has_pending_mentoring_requests" do
@@ -266,7 +266,19 @@ class SolutionTest < ActiveSupport::TestCase
     request.fulfilled!
     assert_equal :in_progress, solution.mentoring_status
 
-    discussion.update(finished_at: Time.current)
+    discussion.update(status: :awaiting_student)
+    assert_equal :in_progress, solution.mentoring_status
+
+    discussion.update(status: :awaiting_mentor)
+    assert_equal :in_progress, solution.mentoring_status
+
+    discussion.update(status: :mentor_finished)
+    assert_equal :in_progress, solution.mentoring_status
+
+    discussion.update(status: :student_finished)
+    assert_equal :finished, solution.mentoring_status
+
+    discussion.update(status: :both_finished)
     assert_equal :finished, solution.mentoring_status
 
     discussion.destroy

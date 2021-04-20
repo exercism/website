@@ -12,27 +12,27 @@ class MentorActionRequiredTest < ActiveSupport::TestCase
 
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
     discussion.reload
-    assert_nil discussion.requires_mentor_action_since
-    assert discussion.requires_student_action_since
+    assert_nil discussion.awaiting_mentor_since
+    assert discussion.awaiting_student_since
 
     Mentor::Discussion::ReplyByMentor.(discussion, iteration, "Oh btw...")
     discussion.reload
-    assert_nil discussion.requires_mentor_action_since
-    assert discussion.requires_student_action_since
+    assert_nil discussion.awaiting_mentor_since
+    assert discussion.awaiting_student_since
 
     Mentor::Discussion::ReplyByStudent.(discussion, iteration, "Great. That's helpful.")
     discussion.reload
-    assert discussion.requires_mentor_action_since
-    assert_nil discussion.requires_student_action_since
+    assert discussion.awaiting_mentor_since
+    assert_nil discussion.awaiting_student_since
 
     Mentor::Discussion::ReplyByMentor.(discussion, iteration, "No probs. How about ...")
     discussion.reload
-    assert_nil discussion.requires_mentor_action_since
-    assert discussion.requires_student_action_since
+    assert_nil discussion.awaiting_mentor_since
+    assert discussion.awaiting_student_since
 
     Mentor::Discussion::ReplyByStudent.(discussion, iteration, "Sure, I'll try that now.")
-    discussion.student_action_required!
-    assert_nil discussion.requires_mentor_action_since
-    assert discussion.requires_student_action_since
+    discussion.awaiting_student!
+    assert_nil discussion.awaiting_mentor_since
+    assert discussion.awaiting_student_since
   end
 end

@@ -80,8 +80,8 @@ export type SolutionMentoringStatus =
   | 'finished'
 
 export type DiscussionStatus =
-  | 'requires_mentor_action'
-  | 'requires_student_action'
+  | 'awaiting_mentor'
+  | 'awaiting_student'
   | 'finished'
 
 export type CommunitySolution = {

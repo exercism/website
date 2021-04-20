@@ -298,7 +298,7 @@
             @apply pb-64;
             & .student-info,
             & .mentor-info {
-                @apply bg-backgroundColorA;
+                @apply bg-backgroundColorA shadow-xsZ1;
                 @apply flex;
 
                 @apply py-16 px-24 mb-8;
@@ -364,26 +364,71 @@
             }
 
             & .discussion {
-                & .iteration-marker {
-                    @apply flex items-center;
-                    @apply mx-24 py-8 px-16;
-                    @apply bg-backgroundColorD rounded-8;
-                    @apply text-textColor6 leading-paragraph;
+                @apply mt-20;
+                --header-height: 32px;
 
-                    & .info {
-                        @apply flex-grow flex items-center;
-                        @apply text-15;
-                        & .c-icon {
+                & .timeline-entry {
+                    @apply flex;
+                    @apply py-8 px-24;
+                    @apply relative;
+
+                    &:first-child {
+                        @apply pt-4;
+                    }
+                    &:last-child {
+                        @apply pb-0;
+                        &:before {
+                            bottom: auto;
                             height: 16px;
-                            width: 16px;
-                            @apply mr-8;
-                        }
-
-                        & strong {
-                            @apply font-medium text-textColor1 mr-6;
                         }
                     }
+
+                    &:before {
+                        content: "";
+                        @apply absolute;
+                        left: 40px;
+                        top: 0;
+                        bottom: 0;
+                        @apply border-l-1 border-borderColor6;
+                    }
+
+                    & .timeline-marker {
+                        height: var(--header-height);
+                        width: var(--header-height);
+                        @apply mr-16;
+                        @apply relative z-1 bg-backgroundColorA;
+                    }
+                    & .timeline-content {
+                        @apply flex-grow items-center;
+                    }
+                }
+                & .timeline-entry-header {
+                    height: var(--header-height);
+                    @apply flex items-center;
                     & time {
+                        @apply text-textColor6 leading-160;
+                        @apply ml-auto;
+                    }
+                }
+
+                & .iteration-entry {
+                    & .timeline-marker {
+                        @apply rounded-circle shadow-xsZ1;
+                        @apply grid place-items-center;
+
+                        & .c-icon {
+                            width: 50%;
+                            height: 50%;
+                            filter: var(--textColor6-filter);
+                        }
+                    }
+
+                    & .info {
+                        @apply text-16 text-textColor6 leading-150;
+
+                        & strong {
+                            @apply font-medium text-textColor2 mr-6;
+                        }
                     }
                 }
 
@@ -450,31 +495,20 @@
                 }
 
                 & .post {
-                    @apply pt-20 pb-16 px-24;
-
-                    &:hover {
+                    /*&:hover {
                         @apply bg-backgroundColorB;
                         & .post-header {
                             & .edit-button {
                                 @apply visible;
                             }
                         }
-                    }
+                    }*/
 
-                    & .post-header {
-                        @apply flex items-center mb-6;
+                    & .timeline-entry-header {
+                        @apply flex items-center mb-4;
 
                         & .author {
-                            @apply flex-grow flex items-center;
-
-                            & .c-avatar {
-                                height: 32px;
-                                width: 32px;
-                                @apply mr-12;
-                            }
-                            & .handle {
-                                @apply font-semibold text-16 leading-150 text-textColor3;
-                            }
+                            @apply font-semibold text-16 leading-150 text-textColor3;
                         }
 
                         & .edit-button {
@@ -486,13 +520,9 @@
                                 height: 16px;
                                 width: 16px;
                             }
+
+                            display: none;
                         }
-                    }
-                    & .post-content {
-                        @apply mb-8;
-                    }
-                    & .post-at {
-                        @apply text-textColor6 leading-160;
                     }
                 }
             }

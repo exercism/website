@@ -13,6 +13,9 @@ class SerializeMentorSessionRequestTest < ActiveSupport::TestCase
         handle: request.user.handle,
         avatar_url: request.user.avatar_url
       },
+      track: {
+        title: request.track.title
+      },
       links: {
         lock: Exercism::Routes.lock_api_mentoring_request_path(request),
         discussion: Exercism::Routes.api_mentoring_discussions_path

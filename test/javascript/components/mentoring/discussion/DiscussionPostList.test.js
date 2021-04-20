@@ -87,13 +87,13 @@ test('displays all posts', async () => {
     await screen.findByRole('img', { name: 'Uploaded avatar of author' })
   ).toHaveAttribute('src', 'http://exercism.test/image')
   expect(await screen.findByText('Hello')).toBeInTheDocument()
-  expect(await screen.findByText('a few seconds ago')).toBeInTheDocument()
+  expect(await screen.findAllByText('now'))
   expect(
     await screen.findByRole('img', { name: 'Uploaded avatar of other-author' })
   ).toHaveAttribute('src', 'http://exercism.test/other-image')
   expect(await screen.findByText('other-author')).toBeInTheDocument()
   expect(await screen.findByText('Goodbye')).toBeInTheDocument()
-  expect(await screen.findByText('2 days ago')).toBeInTheDocument()
+  expect(await screen.findByText('2d ago')).toBeInTheDocument()
   expect(
     screen.queryByRole('status', {
       name: 'Discussion post list loading indicator',

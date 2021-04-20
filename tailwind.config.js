@@ -29,7 +29,7 @@ module.exports = {
     boxShadow: {
       none: 'none',
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.5)',
-      xsZ1: '0px 4px 4px 0px rgba(79, 114, 205, 0.3)',
+      xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
@@ -218,6 +218,7 @@ module.exports = {
       '-2': '-2',
       '-3': '-3',
       '-4': '-4',
+      '1': '1',
       overlay: '10',
       menu: '40',
       dropdown: '50',

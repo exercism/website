@@ -3,7 +3,7 @@
 .c-exercise-widget {
     @apply flex items-center shadow-base rounded-8 bg-backgroundColorA;
     transition: box-shadow 0.2s ease-out;
-    &:hover:not(.--locked) {
+    &a:hover:not(.--locked) {
         @apply shadow-baseZ1;
     }
 

@@ -84,6 +84,7 @@ import '../../css/components/profile-header'
 import '../../css/components/track-filter'
 import '../../css/components/track-switcher'
 import '../../css/components/mentor-discussion-widget'
+import '../../css/components/completed-exercise-progress'
 
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'

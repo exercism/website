@@ -10,18 +10,17 @@ module ViewComponents
     end
 
     def to_s
-      send(link_method, url, class: css_class) do
-        tag.span(text) +
-          graphical_icon("arrow-right")
+      if external
+        external_link_to(text, url, class: css_class)
+      else
+        link_to(url, class: css_class) do
+          tag.span(text) + graphical_icon("arrow-right")
+        end
       end
     end
 
     private
     attr_reader :text, :url, :with_bg, :external
-
-    def link_method
-      external ? :external_link_to : :link_to
-    end
 
     def css_class
       c = ['c-prominent-link']

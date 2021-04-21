@@ -1,8 +1,8 @@
 - return unless exercise.concept_exercise? && solution&.completed?
 
-%section.completed-info
-  %h3 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
-  .concepts
+%section.completed-info.c-completed-exercise-progress
+  %h2 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
+  .progressed-concepts
     - exercise.taught_concepts.includes(:concept_exercises, :practice_exercises).each do |concept|
       .concept
         = render ViewComponents::ConceptIcon.new(concept, :medium)
@@ -18,10 +18,10 @@
   - unlocked_concepts = exercise.unlocked_concepts.to_a
   - unlocked_exercises = exercise.unlocked_exercises.to_a
   - if unlocked_concepts.present? || unlocked_exercises.present?
-    .unlocked
+    .unlocks
       - if unlocked_concepts.present?
         .unlocked-concepts
-          %h2
+          %h3
             You've unlocked
             = graphical_icon :concepts
             = pluralize unlocked_concepts.size, "concept"
@@ -33,7 +33,7 @@
 
       - if unlocked_exercises.present?
         .unlocked-exercises
-          %h2
+          %h3
             You've unlocked
             = graphical_icon :exercises
             = pluralize unlocked_exercises.size, "exercise"

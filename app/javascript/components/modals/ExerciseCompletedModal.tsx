@@ -14,6 +14,7 @@ export const ExerciseCompletedModal = ({
   completion: ExerciseCompletion
 }): JSX.Element => {
   const {
+    track,
     exercise,
     conceptProgressions,
     unlockedExercises,
@@ -23,7 +24,7 @@ export const ExerciseCompletedModal = ({
   return (
     <Modal
       open={open}
-      className="m-completed-exercise"
+      className="m-completed-exercise c-completed-exercise-progress"
       onClose={() => {}}
       {...props}
     >

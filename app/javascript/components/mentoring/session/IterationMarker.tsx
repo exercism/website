@@ -12,7 +12,7 @@ export const IterationMarker = ({
   userIsStudent: boolean
 }): JSX.Element => {
   return (
-    <React.Fragment>
+    <>
       <div className="timeline-entry iteration-entry">
         <div className="timeline-marker">
           <GraphicalIcon icon="iteration" />
@@ -26,14 +26,14 @@ export const IterationMarker = ({
             <time>{shortFromNow(iteration.createdAt)}</time>
           </div>
         </div>
-        {iteration.analyzerFeedback || iteration.representerFeedback ? (
-          <AutomatedFeedbackSummary
-            userIsStudent={userIsStudent}
-            analyzerFeedback={iteration.analyzerFeedback}
-            representerFeedback={iteration.representerFeedback}
-          />
-        ) : null}
       </div>
-    </React.Fragment>
+      {iteration.analyzerFeedback || iteration.representerFeedback ? (
+        <AutomatedFeedbackSummary
+          userIsStudent={userIsStudent}
+          analyzerFeedback={iteration.analyzerFeedback}
+          representerFeedback={iteration.representerFeedback}
+        />
+      ) : null}
+    </>
   )
 }

@@ -20,22 +20,26 @@ export const AutomatedFeedbackSummary = ({
   const addressedTo = userIsStudent ? 'You' : 'Your student'
 
   return (
-    <details className="c-details auto-feedback">
-      <summary>
+    <div className="timeline-entry auto-feedback">
+      <div className="timeline-marker">
         <GraphicalIcon icon="alert-circle" className="info-icon" />
-        <div className="info">{addressedTo} received automated feedback</div>
-        <GraphicalIcon icon="chevron-right" className="--closed-icon" />
-        <GraphicalIcon icon="chevron-down" className="--open-icon" />
-      </summary>
-      {representerFeedback ? (
-        <RepresenterFeedback {...representerFeedback} />
-      ) : null}
-      {analyzerFeedback ? <AnalyzerFeedback {...analyzerFeedback} /> : null}
-      {/* TODO: Fill out this URL */}
-      <a href="#" className="more-info">
-        Learn more about this feedback
-        <Icon icon="external-link" alt="Opens in new tab" />
-      </a>
-    </details>
+      </div>
+      <details className="timeline-content c-details">
+        <summary className="timeline-entry-header">
+          <div className="info">{addressedTo} received automated feedback</div>
+          <GraphicalIcon icon="chevron-right" className="--closed-icon" />
+          <GraphicalIcon icon="chevron-down" className="--open-icon" />
+        </summary>
+        {representerFeedback ? (
+          <RepresenterFeedback {...representerFeedback} />
+        ) : null}
+        {analyzerFeedback ? <AnalyzerFeedback {...analyzerFeedback} /> : null}
+        {/* TODO: Fill out this URL */}
+        <a href="#" className="more-info">
+          Learn more about this feedback
+          <Icon icon="external-link" alt="Opens in new tab" />
+        </a>
+      </details>
+    </div>
   )
 }

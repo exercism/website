@@ -395,6 +395,7 @@
                         width: var(--header-height);
                         @apply mr-16;
                         @apply relative z-1 bg-backgroundColorA;
+                        @apply flex-shrink-0;
                     }
                     & .timeline-content {
                         @apply flex-grow items-center;
@@ -430,37 +431,28 @@
                     }
                 }
 
-                & details.auto-feedback {
-                    @apply mx-24 mt-8;
-                    @apply relative;
-                    @apply border-1 border-borderColor6 rounded-8;
-                    @apply py-8 px-16;
+                & .auto-feedback {
+                    & .timeline-marker {
+                        @apply rounded-circle shadow-xsZ1;
+                        @apply grid place-items-center;
 
-                    &:before {
-                        content: "";
-                        top: -8px;
-                        height: 8px;
-                        left: 24px;
-
-                        @apply absolute;
-                        @apply border-l-1 border-borderColor6;
+                        & .c-icon {
+                            width: 50%;
+                            height: 50%;
+                            filter: var(--textColor6-filter);
+                        }
                     }
 
                     & summary {
                         @apply flex items-center;
-                        & .info-icon {
-                            height: 16px;
-                            width: 16px;
-                            @apply text-orange mr-12;
-                        }
                         & .info {
                             @apply flex-grow;
                             @apply text-15 text-textColor6 font-medium leading-paragraph;
                         }
                     }
                     & .feedback {
-                        @apply border-t-1 border-borderColor6;
-                        @apply mt-8 pt-12 mb-12;
+                        @apply border-1 border-borderColor6;
+                        @apply mt-8 p-12 mb-12;
                         @apply flex flex-col items-start;
 
                         & .byline {
@@ -481,7 +473,6 @@
                         }
                     }
                     & .more-info {
-                        @apply border-t-2 border-borderColor6 pt-16 mt-24;
                         @apply flex items-center;
                         @apply text-lightBlue font-medium leading-huge;
                         & .c-icon {

@@ -45,22 +45,68 @@
             @apply text-h4 mb-16;
         }
         & .concepts {
-            @apply flex flex-wrap mb-16;
+            @apply flex flex-col mb-16;
 
-            & .c-concept {
-                @apply mr-8;
+            & .concept {
+                @apply flex items-center;
+                @apply shadow-base rounded-8;
+                @apply mb-8 py-8 px-16;
+
+                & .c-concept-icon {
+                    @apply mr-16;
+                }
+                & .name {
+                    @apply text-18 leading-160 text-textColor2 font-semibold;
+                }
+                & .exercises {
+                    @apply flex items-center;
+                    @apply ml-auto;
+                    & .c-ed {
+                        @apply mr-12;
+                    }
+                }
             }
         }
         & .c-prominent-link {
-            @apply mb-16;
+            @apply mb-24;
         }
-        & .explanation {
-            @apply bg-lightOrange border-1 border-lightGold rounded-8;
-            @apply py-8 px-16;
-            @apply text-14 leading-160 font-medium;
+        & .unlocked {
+            @apply flex;
 
-            & a {
-                @apply text-lightBlue font-medium;
+            & .unlocked-concepts,
+            & .unlocked-exercises {
+                flex: 1 1 0px;
+                & h2 {
+                    @apply flex items-center;
+                    @apply text-h5;
+                    @apply mb-12;
+                    & .c-icon {
+                        height: 24px;
+                        width: 24px;
+                        @apply mx-8;
+                    }
+                }
+                & .list {
+                    @apply flex flex-wrap;
+                }
+                & .c-exercise-widget {
+                    @apply mr-8 mb-8;
+                }
+                & .unlocked-concept {
+                    @apply flex items-center;
+                    @apply mr-8 mb-8 py-8 px-16;
+                    @apply shadow-base rounded-5;
+                    transition: box-shadow 0.2s ease-out;
+                    &:hover:not(.--locked) {
+                        @apply shadow-baseZ1;
+                    }
+                    & .c-concept-icon {
+                        @apply mr-12;
+                    }
+                    & .name {
+                        @apply text-16 leading-150 font-medium;
+                    }
+                }
             }
         }
     }

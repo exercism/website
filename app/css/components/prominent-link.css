@@ -10,7 +10,7 @@
     }
 
     &.--with-bg {
-        @apply bg-veryLightBlue rounded-100 justify-center;
+        @apply bg-veryLightBlue rounded-8 justify-center;
         @apply p-8;
     }
 }

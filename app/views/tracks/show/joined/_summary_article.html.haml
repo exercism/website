@@ -127,6 +127,7 @@
                 = exercise_icon exercise
           = graphical_icon "chevron-right", css_class: "action-icon"
 
-      = external_link_to "View #{track.title} Documentation", track_docs_path(track), class: "c-prominent-link --with-bg"
+      = render ViewComponents::ProminentLink.new("View #{track.title} Documentation", track_docs_path(track), with_bg: true, external: true)
+
 
 

@@ -2,14 +2,43 @@
   %section.completed-info
     %h3 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
     .concepts
-      - exercise.taught_concepts.each do |concept|
-        = render ViewComponents::Concept.new(concept, user_track, :small)
+      - exercise.taught_concepts.includes(:concept_exercises, :practice_exercises).each do |concept|
+        .concept
+          = render ViewComponents::ConceptIcon.new(concept, :medium)
+          .name= concept.name
+          .exercises
+            - concept.concept_exercises.each do |_exercise|
+              .c-ed.--completed.--concept
+            - concept.practice_exercises.each do |_exercise|
+              .c-ed.--available.--practice
 
-    = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track))
-    .explanation
-      To master the concepts, you can try completing more exercises for them.
-      %br
-      Or, you can continue to broaden your knowledge and #{link_to 'explore new concepts', track_concepts_path(track)}.
+    = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
+
+    - unlocked_concepts = exercise.unlocked_concepts.to_a
+    - unlocked_exercises = exercise.unlocked_exercises.to_a
+    - if unlocked_concepts.present? || unlocked_exercises.present?
+      .unlocked
+        - if unlocked_concepts.present?
+          .unlocked-concepts
+            %h2
+              You've unlocked
+              = graphical_icon :concepts
+              = pluralize unlocked_concepts.size, "concept"
+            .list
+              - unlocked_concepts.each do |unlocked_concept|
+                = link_to unlocked_concept, class: "unlocked-concept" do
+                  = render ViewComponents::ConceptIcon.new(unlocked_concept, :small)
+                  .name= unlocked_concept.name
+
+        - if unlocked_exercises.present?
+          .unlocked-exercises
+            %h2
+              You've unlocked
+              = graphical_icon :exercises
+              = pluralize unlocked_exercises.size, "exercise"
+            .list
+              - unlocked_exercises.each do |unlocked_exercise|
+                = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, size: :tiny)
 
 - else
   %section.taught-concepts

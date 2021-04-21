@@ -4,7 +4,7 @@ import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
 import { Info } from './exercise-widget/Info'
 
-type Size = 'small' | 'medium' | 'large' | 'tooltip'
+type Size = 'tiny' | 'small' | 'medium' | 'large' | 'tooltip'
 
 export const ExerciseWidget = ({
   exercise,

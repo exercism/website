@@ -1,7 +1,7 @@
 module ReactComponents
   module Common
     class ExerciseWidget < ReactComponent
-      SIZES = %i[small medium large tooltip].freeze
+      SIZES = %i[tiny small medium large tooltip].freeze
 
       def initialize(exercise, user_track, size:, solution: nil)
         raise "Invalid exercise size #{size}" unless SIZES.include?(size.to_sym)

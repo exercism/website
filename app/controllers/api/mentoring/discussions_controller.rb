@@ -91,7 +91,9 @@ module API
 
       discussion.awaiting_student!
 
-      render json: {}
+      render json: {
+        id: discussion.uuid
+      }
     end
 
     # TODO: An actual implementation of this endpoint.
@@ -103,6 +105,7 @@ module API
 
       render json: {
         discussion: {
+          id: discussion.uuid,
           relationship: SerializeMentorStudentRelationship.(relationship),
           is_finished: true,
           links: {

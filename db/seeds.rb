@@ -140,6 +140,7 @@ ruby.practice_exercises.limit(10).each do |exercise|
     request: req, solution: solution, mentor: iHiD,
     awaiting_mentor_since: Time.current
   )
+  req.update(status: :fulfilled)
   p "Discussion: #{discussion.uuid}"
 
   Mentor::Testimonial.create!(

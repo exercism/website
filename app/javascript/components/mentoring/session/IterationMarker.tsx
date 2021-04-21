@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { timeFormat } from '../../../utils/time'
+import { shortFromNow } from '../../../utils/time'
 import { Iteration } from '../../types'
 import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 
@@ -13,21 +13,27 @@ export const IterationMarker = ({
 }): JSX.Element => {
   return (
     <React.Fragment>
-      <div className="iteration-marker">
-        <div className="info">
+      <div className="timeline-entry iteration-entry">
+        <div className="timeline-marker">
           <GraphicalIcon icon="iteration" />
-          <strong>Iteration {iteration.idx}</strong>
-          was submitted
         </div>
-        <time>{timeFormat(iteration.createdAt, 'DD MMM YYYY')}</time>
+        <div className="timeline-content">
+          <div className="timeline-entry-header">
+            <div className="info">
+              <strong>Iteration {iteration.idx}</strong>
+              was submitted
+            </div>
+            <time>{shortFromNow(iteration.createdAt)}</time>
+          </div>
+        </div>
+        {iteration.analyzerFeedback || iteration.representerFeedback ? (
+          <AutomatedFeedbackSummary
+            userIsStudent={userIsStudent}
+            analyzerFeedback={iteration.analyzerFeedback}
+            representerFeedback={iteration.representerFeedback}
+          />
+        ) : null}
       </div>
-      {iteration.analyzerFeedback || iteration.representerFeedback ? (
-        <AutomatedFeedbackSummary
-          userIsStudent={userIsStudent}
-          analyzerFeedback={iteration.analyzerFeedback}
-          representerFeedback={iteration.representerFeedback}
-        />
-      ) : null}
     </React.Fragment>
   )
 }

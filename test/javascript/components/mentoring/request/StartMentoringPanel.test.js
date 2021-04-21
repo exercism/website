@@ -11,6 +11,8 @@ import { awaitPopper } from '../../../support/await-popper'
 
 test('shows loading message while locking mentoring request', async () => {
   const request = {
+    student: { handle: 'someone' },
+    track: { title: 'Ruby' },
     links: {
       lock: 'https://exercism.test/lock',
     },
@@ -21,6 +23,7 @@ test('shows loading message while locking mentoring request', async () => {
     })
   )
   server.listen()
+  await flushPromises()
 
   render(<StartMentoringPanel request={request} setRequest={() => null} />)
   userEvent.click(
@@ -35,6 +38,8 @@ test('shows loading message while locking mentoring request', async () => {
 
 test('disables button while locking mentoring request', async () => {
   const request = {
+    student: { handle: 'someone' },
+    track: { title: 'Ruby' },
     links: {
       lock: 'https://exercism.test/lock',
     },
@@ -65,6 +70,8 @@ test('disables button while locking mentoring request', async () => {
 test('shows API errors', async () => {
   silenceConsole()
   const request = {
+    student: { handle: 'someone' },
+    track: { title: 'Ruby' },
     links: {
       lock: 'https://exercism.test/lock',
     },
@@ -95,6 +102,8 @@ test('shows API errors', async () => {
 test('shows generic errors', async () => {
   silenceConsole()
   const request = {
+    student: { handle: 'someone' },
+    track: { title: 'Ruby' },
     links: {
       lock: 'weirdendpoint',
     },

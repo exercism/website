@@ -54,14 +54,26 @@ export const StartMentoringPanel = ({
   )
 
   return (
-    <section className="comment-section">
+    <section className="comment-section --lock">
+      <h2>
+        Help {request.student.handle} write better {request.track.title}?
+      </h2>
+      <p>
+        Feel you can help {request.student.handle} approach this in a better
+        way? Start mentoring and show them the way to code bliss.
+      </p>
       <button
         type="button"
         onClick={() => lock()}
         disabled={status === 'loading'}
+        className="btn-cta"
       >
         Start mentoring
       </button>
+      <div className="note">
+        You get 30 minutes to comment until the session returns to the queue for
+        others to mentor
+      </div>
       {status === 'loading' ? <Loading /> : null}
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
         <ErrorMessage error={error} />

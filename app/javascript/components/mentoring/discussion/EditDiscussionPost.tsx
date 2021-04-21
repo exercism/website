@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { usePanel } from '../../../hooks/use-panel'
 import { DiscussionPostForm } from './DiscussionPostForm'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Icon } from '../../common'
 
 export const EditDiscussionPost = ({
   value,
@@ -24,11 +24,10 @@ export const EditDiscussionPost = ({
         className="edit-button"
         onClick={() => setOpen(!open)}
       >
-        <GraphicalIcon icon="edit" />
-        <span>Edit</span>
+        <Icon icon="edit" alt="Edit" />
       </button>
       {open ? (
-        <div {...panelAttributes}>
+        <div {...panelAttributes} className="c-mentor-discussion-post-editor">
           <DiscussionPostForm
             onSuccess={handleSuccess}
             endpoint={endpoint}

@@ -85,6 +85,7 @@ import '../../css/components/track-filter'
 import '../../css/components/track-switcher'
 
 import '../../css/components/widgets/exercise'
+import '../../css/components/mentor-discussion-post-editor'
 
 import '../../css/modals/completed-tutorial-exercise'
 import '../../css/modals/completed-exercise'

@@ -143,7 +143,10 @@ export type MentorSessionRequest = {
   comment: string
   updatedAt: string
   isLocked: boolean
-  user: {
+  track: {
+    title: string
+  }
+  student: {
     handle: string
     avatarUrl: string
   }

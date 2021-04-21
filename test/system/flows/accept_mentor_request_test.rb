@@ -10,13 +10,13 @@ module Flows
     test "shows latest iteration marker" do
       solution = create :concept_solution
       request = create :mentor_request, solution: solution
-      create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
+      create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
 
       use_capybara_host do
         sign_in!
         visit mentoring_request_path(request)
 
-        assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
+        assert_text "Iteration 1was submitted\n7d ago"
       end
     end
 
@@ -34,7 +34,7 @@ module Flows
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "How to do this?"
         assert_text "student"
-        assert_text "2 days ago"
+        assert_text "2d ago"
       end
     end
 

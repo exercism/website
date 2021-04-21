@@ -2,10 +2,10 @@ require 'test_helper'
 
 class SerializeMentorRequestsTest < ActiveSupport::TestCase
   test "basic request" do
-    mentee = create :user
+    student = create :user
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise, user: mentee
+    solution = create :concept_solution, exercise: exercise, user: student
     request = create :mentor_request, solution: solution
 
     expected = [
@@ -16,8 +16,8 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
         exercise_title: exercise.title,
         exercise_icon_url: exercise.icon_url,
 
-        mentee_handle: mentee.handle,
-        mentee_avatar_url: mentee.avatar_url,
+        student_handle: student.handle,
+        student_avatar_url: student.avatar_url,
         updated_at: request.created_at.iso8601,
 
         is_starred: true,

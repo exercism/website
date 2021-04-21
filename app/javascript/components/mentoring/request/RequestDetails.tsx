@@ -18,8 +18,8 @@ export const RequestDetails = ({
         id={-1}
         authorId={-1}
         iterationIdx={iteration.idx}
-        authorHandle={request.user.handle}
-        authorAvatarUrl={request.user.avatarUrl}
+        authorHandle={request.student.handle}
+        authorAvatarUrl={request.student.avatarUrl}
         byStudent
         contentMarkdown={request.comment}
         contentHtml={request.comment}

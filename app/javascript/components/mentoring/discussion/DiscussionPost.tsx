@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { fromNow } from '../../../utils/time'
+import { shortFromNow } from '../../../utils/time'
 import { EditDiscussionPost } from './EditDiscussionPost'
 import { Avatar } from '../../common/Avatar'
 import { useHighlighting } from '../../../utils/highlight'
@@ -38,26 +38,34 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
     const contentRef = useHighlighting<HTMLDivElement>()
 
     return (
-      <div ref={ref} className="post">
-        <header className="post-header">
-          <div className="author">
-            <Avatar handle={authorHandle} src={authorAvatarUrl} />
-            <div className="handle">{authorHandle}</div>
-          </div>
-          {links.update ? (
-            <EditDiscussionPost
-              value={contentMarkdown}
-              endpoint={links.update}
-              contextId={`edit_${id}`}
-            />
-          ) : null}
-        </header>
-        <div
-          className="post-content c-textual-content --small"
-          ref={contentRef}
-          dangerouslySetInnerHTML={{ __html: contentHtml }}
+      <div
+        ref={ref}
+        className={`post timeline-entry ${links.update ? '--editable' : ''}`}
+      >
+        <Avatar
+          handle={authorHandle}
+          src={authorAvatarUrl}
+          className="timeline-marker"
         />
-        <time className="post-at">{fromNow(updatedAt)}</time>
+        <div className="timeline-content">
+          <header className="timeline-entry-header">
+            <div className="author">{authorHandle}</div>
+            <time>{shortFromNow(updatedAt)}</time>
+
+            {links.update ? (
+              <EditDiscussionPost
+                value={contentMarkdown}
+                endpoint={links.update}
+                contextId={`edit_${id}`}
+              />
+            ) : null}
+          </header>
+          <div
+            className="post-content c-textual-content --small"
+            ref={contentRef}
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
+          />
+        </div>
       </div>
     )
   }

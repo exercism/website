@@ -18,8 +18,8 @@ class SerializeMentorRequests
       exercise_icon_url: request.exercise_icon_url,
       exercise_title: request.exercise_title,
 
-      mentee_handle: request.user_handle,
-      mentee_avatar_url: request.user_avatar_url,
+      student_handle: request.user_handle,
+      student_avatar_url: request.user_avatar_url,
 
       # TODO: Should this be requested_at?
       updated_at: request.created_at.iso8601,

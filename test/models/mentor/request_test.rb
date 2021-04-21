@@ -48,11 +48,14 @@ class Mentor::RequestTest < ActiveSupport::TestCase
   end
 
   test "locked and unlocked scopes" do
+    mentor = create :user
     unlocked = create :mentor_request, locked_until: nil
+    locked_by_mentor = create :mentor_request, locked_until: Time.current + 5.minutes, locked_by: mentor
     locked = create :mentor_request, locked_until: Time.current + 5.minutes
     expired = create :mentor_request, locked_until: Time.current - 5.minutes
 
-    assert_equal [locked], Mentor::Request.locked
+    assert_equal [locked_by_mentor, locked], Mentor::Request.locked
     assert_equal [unlocked, expired], Mentor::Request.unlocked
+    assert_equal [unlocked, locked_by_mentor, expired], Mentor::Request.unlocked_for(mentor)
   end
 end

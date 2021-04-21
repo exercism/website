@@ -71,8 +71,8 @@
             }
             & .finished {
                 @apply flex items-center;
-                /* Leading-150 */
-                @apply text-16 leading-paragraph font-semibold text-textColor3;
+                @apply text-16 leading-170 font-semibold text-textColor2;
+                @apply ml-56;
 
                 & .c-icon {
                     height: 24px;
@@ -190,11 +190,8 @@
             right: 0;
             box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
 
-            @apply px-24 py-16 bg-backgroundColorA;
+            @apply bg-backgroundColorA;
 
-            & .c-markdown-editor {
-                min-height: 315px;
-            }
             & .new-messages-button {
                 @apply absolute;
                 left: 24px;
@@ -214,12 +211,54 @@
                 }
             }
 
-            & button.faux-input {
-                @apply relative;
-                @apply border-1 border-buttonBorderColor2 rounded-5;
-                @apply py-12 px-16;
-                @apply text-16 leading-paragraph text-textColor6;
-                @apply text-left;
+            &.--lock {
+                @apply py-24 px-32;
+
+                & h2 {
+                    @apply text-h5 mb-8;
+                }
+                & p {
+                    @apply text-15 leading-160;
+                    @apply mb-16;
+                }
+                & button {
+                    @apply w-100 mb-12;
+                }
+                & .note {
+                    @apply text-p-small text-textColor6 text-center;
+                }
+            }
+
+            &.--comment {
+                @apply py-16 px-24;
+                & .c-markdown-editor {
+                    @apply mb-8 flex-grow;
+                    min-height: 320px;
+                }
+                & button.faux-input {
+                    @apply relative;
+                    @apply border-1 border-buttonBorderColor2 rounded-5;
+                    @apply mb-8 py-12 px-16;
+                    @apply text-16 leading-paragraph text-textColor6;
+                    @apply text-left;
+                }
+                & .note {
+                    @apply text-p-small text-textColor6;
+                    & a {
+                        @apply font-medium text-lightBlue;
+                    }
+                }
+            }
+
+            & button.continuation-btn {
+                @apply w-100;
+                @apply text-15 leading-160 text-textColor2;
+                & strong {
+                    @apply font-medium;
+                }
+                & em {
+                    @apply text-lightBlue not-italic font-medium;
+                }
             }
         }
 
@@ -259,10 +298,10 @@
             @apply pb-64;
             & .student-info,
             & .mentor-info {
-                @apply bg-backgroundColorA;
+                @apply bg-backgroundColorA shadow-xsZ1;
                 @apply flex;
 
-                @apply py-16 px-24 mb-8;
+                @apply py-16 px-24;
 
                 & .subtitle {
                     @apply text-textColor6 leading-paragraph mb-6;
@@ -325,26 +364,69 @@
             }
 
             & .discussion {
-                & .iteration-marker {
-                    @apply flex items-center;
-                    @apply mx-24 py-8 px-16;
-                    @apply bg-backgroundColorD rounded-8;
-                    @apply text-textColor6 leading-paragraph;
+                --header-height: 32px;
 
-                    & .info {
-                        @apply flex-grow flex items-center;
-                        @apply text-15;
-                        & .c-icon {
+                & .timeline-entry {
+                    @apply flex;
+                    @apply py-8 px-24;
+                    @apply relative;
+
+                    &:first-child {
+                        @apply pt-20;
+                    }
+                    &:last-child {
+                        &:before {
+                            bottom: auto;
                             height: 16px;
-                            width: 16px;
-                            @apply mr-8;
-                        }
-
-                        & strong {
-                            @apply font-medium text-textColor1 mr-6;
                         }
                     }
+
+                    &:before {
+                        content: "";
+                        @apply absolute;
+                        left: 40px;
+                        top: 0;
+                        bottom: 0;
+                        @apply border-l-1 border-borderColor6;
+                    }
+
+                    & .timeline-marker {
+                        height: var(--header-height);
+                        width: var(--header-height);
+                        @apply mr-16;
+                        @apply relative z-1 bg-backgroundColorA;
+                    }
+                    & .timeline-content {
+                        @apply flex-grow items-center;
+                    }
+                }
+                & .timeline-entry-header {
+                    height: var(--header-height);
+                    @apply flex items-center;
                     & time {
+                        @apply text-textColor6 leading-160;
+                        @apply ml-auto;
+                    }
+                }
+
+                & .iteration-entry {
+                    & .timeline-marker {
+                        @apply rounded-circle shadow-xsZ1;
+                        @apply grid place-items-center;
+
+                        & .c-icon {
+                            width: 50%;
+                            height: 50%;
+                            filter: var(--textColor6-filter);
+                        }
+                    }
+
+                    & .info {
+                        @apply text-16 text-textColor6 leading-150;
+
+                        & strong {
+                            @apply font-medium text-textColor2 mr-6;
+                        }
                     }
                 }
 
@@ -411,49 +493,35 @@
                 }
 
                 & .post {
-                    @apply pt-20 pb-16 px-24;
-
-                    &:hover {
-                        @apply bg-backgroundColorB;
-                        & .post-header {
+                    &.--editable:hover {
+                        @apply bg-backgroundColorE;
+                        & .timeline-entry-header {
                             & .edit-button {
-                                @apply visible;
+                                @apply grid;
+                            }
+                            & time {
+                                @apply hidden;
                             }
                         }
                     }
 
-                    & .post-header {
-                        @apply flex items-center mb-6;
+                    & .timeline-entry-header {
+                        @apply flex items-center mb-4;
 
                         & .author {
-                            @apply flex-grow flex items-center;
-
-                            & .c-avatar {
-                                height: 32px;
-                                width: 32px;
-                                @apply mr-12;
-                            }
-                            & .handle {
-                                @apply font-semibold text-16 leading-150 text-textColor3;
-                            }
+                            @apply font-semibold text-16 leading-150 text-textColor3;
                         }
 
                         & .edit-button {
-                            @apply flex items-center ml-32 p-8;
-                            @apply text-textColor6 font-medium leading-huge;
-                            @apply invisible;
+                            width: 32px;
+                            height: 32px;
+                            @apply hidden ml-auto place-items-center;
+                            @apply shadow-xsZ1 rounded-circle bg-backgroundColorA;
+
                             & .c-icon {
-                                @apply mr-12;
-                                height: 16px;
-                                width: 16px;
+                                width: 50%;
                             }
                         }
-                    }
-                    & .post-content {
-                        @apply mb-8;
-                    }
-                    & .post-at {
-                        @apply text-textColor6 leading-160;
                     }
                 }
             }

@@ -25,7 +25,7 @@ module ReactComponents
       end
 
       def iteration
-        SerializeIteration.(solution.iterations.order(id: :desc).last)
+        SerializeIteration.(solution.iterations.order(id: :desc).first)
       end
 
       def links

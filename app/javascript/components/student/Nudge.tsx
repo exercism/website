@@ -324,9 +324,11 @@ const InProgressMentoringNudge = ({
   discussion: MentorDiscussion
   className?: string
 }) => {
-  const classNames = ['mentoring-discussion-nudge', className].filter(
-    (className) => className.length > 0
-  )
+  const classNames = [
+    'mentoring-discussion-nudge',
+    'c-mentor-discussion-widget',
+    className,
+  ].filter((className) => className.length > 0)
 
   return (
     <section className={classNames.join(' ')}>
@@ -346,12 +348,15 @@ const InProgressMentoringNudge = ({
           You&apos;re being mentored by
           <strong>{discussion.mentor.handle}</strong>
         </h3>
-        {discussion.status === 'awaiting_student' ? (
-          <span>Your turn to respond</span>
-        ) : null}
-        <div className="comments">
-          <GraphicalIcon icon="comment" />
-          {discussion.postsCount} {pluralize('comments', discussion.postsCount)}
+        <div className="details">
+          {discussion.status === 'awaiting_student' ? (
+            <div className="--turn">Your turn to respond</div>
+          ) : null}
+          <div className="--comments">
+            <GraphicalIcon icon="comment" />
+            {discussion.postsCount}{' '}
+            {pluralize('comments', discussion.postsCount)}
+          </div>
         </div>
       </div>
       <a href={discussion.links.self} className="btn-small-cta">

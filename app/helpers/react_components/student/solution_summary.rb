@@ -31,7 +31,6 @@ module ReactComponents
             initialData: {
               iterations: solution.
                 iterations.
-                order(id: :desc).
                 map { |iteration| SerializeIteration.(iteration) }
             }
           }

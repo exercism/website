@@ -14,6 +14,7 @@ class Iteration
 
       Iteration.find(id).tap do |iteration|
         solution.update_status!
+        solution.update_iteration_status!
         init_services
         GenerateIterationSnippetJob.perform_later(iteration)
         record_activity!(iteration)

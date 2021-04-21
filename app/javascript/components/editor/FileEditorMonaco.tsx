@@ -20,7 +20,7 @@ export type FileEditorHandle = {
   openPalette: () => void
 }
 
-export function FileEditor({
+export function FileEditorMonaco({
   language,
   editorDidMount,
   onRunTests,

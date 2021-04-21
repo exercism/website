@@ -18,7 +18,8 @@ import {
 import { File } from './types'
 import { Iteration } from './types'
 import { Header } from './editor/Header'
-import { FileEditor, FileEditorHandle } from './editor/FileEditor'
+import { FileEditorHandle } from './editor/FileEditorMonaco'
+import { FileEditorAce } from './editor/FileEditorAce'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
@@ -392,7 +393,7 @@ export function Editor({
         </div>
 
         <div className="main-lhs">
-          <FileEditor
+          <FileEditorAce
             editorDidMount={editorDidMount}
             files={files}
             language={language}

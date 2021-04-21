@@ -37,7 +37,7 @@
   .lg-container.container
     .slots
       - user_track.active_mentoring_discussions.each do |discussion|
-        = link_to track_exercise_mentor_discussion_path(track, discussion.exercise, discussion), class: "discussion" do
+        = link_to track_exercise_mentor_discussion_path(track, discussion.exercise, discussion), class: "discussion c-mentor-discussion-widget" do
           = exercise_icon discussion.exercise
           .exercise-title= discussion.exercise.title
           .mentor
@@ -45,12 +45,12 @@
             = avatar(discussion.mentor)
             .name= discussion.mentor.name
 
-          - if discussion.awaiting_student
-            .turn Your turn to respond
+          - if discussion.awaiting_student?
+            .--turn Your turn to respond
 
-          .comments
+          .--comments
             = graphical_icon :comment
-            #{discussion.posts.count} comments
+            = pluralize discussion.posts.count, "comment"
 
       - user_track.pending_mentoring_requests.each do |request|
         = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do

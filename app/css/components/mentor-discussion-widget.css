@@ -1,0 +1,18 @@
+.c-mentor-discussion-widget {
+    & .--turn {
+        @apply bg-veryLightBlue rounded-8;
+        @apply leading-150 text-lightBlue font-semibold;
+        @apply py-6 px-12;
+    }
+
+    & .--comments {
+        @apply flex items-center;
+        @apply font-medium leading-170 text-textColor2;
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+            filter: var(--orange-filter);
+        }
+    }
+}

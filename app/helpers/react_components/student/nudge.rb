@@ -1,17 +1,17 @@
 module ReactComponents
   module Student
-    class SolutionSummary < ReactComponent
+    class Nudge < ReactComponent
       initialize_with :solution
 
       def to_s
-        super("student-solution-summary", {
+        super("student-nudge", {
           solution: SerializeSolution.(solution),
           track: {
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time
           },
-          request: request,
           discussions: discussions,
+          iteration: iteration,
           exercise_type: exercise_type,
           links: links
         })
@@ -24,25 +24,12 @@ module ReactComponents
         solution.exercise.concept_exercise? ? "concept" : "practice"
       end
 
-      def request
-        {
-          endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
-          options: {
-            initialData: {
-              iterations: solution.
-                iterations.
-                map { |iteration| SerializeIteration.(iteration) }
-            }
-          }
-        }
+      def iteration
+        SerializeIteration.(solution.iterations.order(id: :desc).first)
       end
 
       def links
         {
-          tests_passed_locally_article: "#",
-          all_iterations: Exercism::Routes.track_exercise_iterations_path(solution.track, solution.exercise),
-          community_solutions: "#",
-          learn_more_about_mentoring_article: "#",
           mentoring_info: "#",
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
           share_mentoring: "https://some.link/we/need/to-decide-on", # TODO
@@ -77,6 +64,7 @@ module ReactComponents
             is_unread: discussion.posts.where(seen_by_student: false).exists?,
             posts_count: discussion.posts.count,
             created_at: discussion.created_at.iso8601,
+            status: discussion.status,
             links: {
               self: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
-import { MentoringComboButton } from './MentoringComboButton'
+import { MentoringComboButton } from '../MentoringComboButton'
 
 type Links = {
   learnMoreAboutMentoringArticle: string

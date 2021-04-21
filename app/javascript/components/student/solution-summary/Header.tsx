@@ -1,8 +1,7 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
-import { Iteration, IterationStatus } from '../../types'
+import { Iteration, IterationStatus, ExerciseType } from '../../types'
 import pluralize from 'pluralize'
-import { ExerciseType } from '../SolutionSummary'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string

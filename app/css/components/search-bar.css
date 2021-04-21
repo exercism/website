@@ -10,9 +10,10 @@
         &:not(:last-child) {
             @apply mr-24;
         }
+
         @apply rounded-5 border-2 border-transparent h-48;
         @apply pl-40 pr-12;
-        @apply text-16 bg-inputBackgroundColor;
+        @apply text-16 font-medium bg-inputBackgroundColor;
 
         background-size: 18px 18px;
         background-repeat: no-repeat;
@@ -20,6 +21,8 @@
 
         &:focus {
             @apply border-inputBorderColorFocus outline-none;
+            @apply text-textColor2 bg-backgroundColorA;
+            @apply shadow-inputSelected;
         }
         &::placeholder {
             @apply text-textColor6;
@@ -36,8 +39,8 @@
         @apply mr-40 rounded-5 px-24;
         @apply border-buttonBorderColor1;
         &:focus {
-            @apply bg-buttonBorderColor2 text-textColor9;
-            @apply outline-none;
+            @apply border-inputBorderColorFocus outline-none;
+            @apply shadow-inputSelected;
         }
         & .c-icon {
             @apply ml-12;
@@ -58,7 +61,7 @@
         & select {
             height: 48px;
             @apply py-0;
-            @apply text-textColor6;
+            @apply text-textColor5 font-medium;
         }
     }
 }

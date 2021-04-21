@@ -8,14 +8,16 @@ module Components
       include CapybaraHelpers
       include MarkdownEditorHelpers
 
+      # TODO: This needs to be contextual, so show the
+      # mentoring markdown options when in mentoring mode
       test "user sees markdown preview" do
         use_capybara_host do
           sign_in!
           visit test_components_common_markdown_editor_path
-          fill_in_editor "# Hello"
+          fill_in_editor "## Hello"
           find('button.preview').click
 
-          assert_selector "h1", text: "Hello"
+          assert_selector "h3", text: "Hello"
         end
       end
     end

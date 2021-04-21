@@ -21,6 +21,25 @@ class Iteration::DiscussionPostTest < ActiveSupport::TestCase
     refute post.valid?
   end
 
+  test "parses markdown correctly" do
+    markdown = <<~MD
+            # Hello h1
+      #{'      '}
+            ## Oooh h2
+      #{'      '}
+            ### What now h3
+    MD
+
+    html = <<~HTML
+      <h3>Hello h1</h3>
+      <h4>Oooh h2</h4>
+      <h5>What now h3</h5>
+    HTML
+
+    post = create :mentor_discussion_post, content_markdown: markdown
+    assert_equal html, post.content_html
+  end
+
   test "#by_student? returns true if post from student" do
     student = create :user
     solution = create :concept_solution, user: student

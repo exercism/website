@@ -149,7 +149,7 @@ Done')
   end
 
   test "can not remove level one headings" do
-    assert_equal "<h1>Top heading</h1>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
+    assert_equal "<h2>Top heading</h2>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
   end
 
   test "does not remove level one headings in code blocks" do
@@ -161,8 +161,9 @@ Done')
     assert_equal "<h3>Level two</h3>\n<h4>Level three</h4>\n", Markdown::Parse.("## Level two\n\n### Level three")
   end
 
-  test "does not increment level of level one headings" do
-    assert_equal "<h1>Level one</h1>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
+  test "does not increment level of level one heading if stripping" do
+    assert_equal "", Markdown::Parse.("# Level one\n", strip_h1: true)
+    assert_equal "<h2>Level one</h2>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
   end
 
   test "removes html comments" do

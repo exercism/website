@@ -11,7 +11,7 @@
     }
 
     & .exercism-link {
-        margin-right: 88px;
+        margin-right: 56px;
 
         & .c-icon {
             height: 24px;
@@ -27,28 +27,28 @@
         }
 
         & li {
-            @apply mr-32;
+            @apply mr-24;
 
             &.selected {
                 & a {
-                    @apply font-semibold text-textColor1;
+                    @apply text-textColor2;
                 }
-                & .c-icon {
-                    @apply text-textColor9;
+                & .c-icon.main-icon {
+                    filter: var(--white-filter);
                 }
             }
         }
         & a {
             @apply flex items-center relative;
-            @apply text-16 font-medium;
+            @apply text-16 text-textColor6 font-semibold;
             @apply px-8 py-8;
         }
         & .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-20 relative;
+            @apply mr-16 relative;
 
-            &.selected {
+            &.bg-icon {
                 @apply absolute;
                 height: 62px;
                 width: 62px;

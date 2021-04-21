@@ -37,9 +37,9 @@ module ViewComponents
       tag.nav do
         tag.ul do
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
-            nav_li("Learn", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
-            nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
-            nav_li("Contribute", :logo, "#", false)
+            nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
+            nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
+            nav_li("Contribute", :contribute, "#", false)
         end
       end
     end
@@ -56,8 +56,8 @@ module ViewComponents
       tag.li(attrs) do
         link_to url do
           safe_join([
-            (icon('bubbly-background', "Selected", css_class: 'selected') if selected),
-            graphical_icon(icon_name),
+            (icon('bubbly-background', "Selected", css_class: 'selected bg-icon') if selected),
+            graphical_icon(icon_name, css_class: 'main-icon'),
             title
           ].compact)
         end

@@ -150,6 +150,10 @@ import {
   Track as SolutionSummaryTrack,
   SolutionSummaryRequest,
 } from '../components/student/SolutionSummary'
+import {
+  Links as NudgeLinks,
+  Track as NudgeTrack,
+} from '../components/student/Nudge'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as TrackComponents from '../components/track'
 import * as JourneyComponents from '../components/journey'
@@ -323,6 +327,18 @@ initReact({
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
       exerciseType={data.exercise_type}
+    />
+  ),
+  'student-nudge': (data: any) => (
+    <Student.Nudge
+      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
+      track={camelizeKeysAs<NudgeTrack>(data.track)}
+      discussions={camelizeKeysAs<readonly MentorDiscussion[]>(
+        data.discussions
+      )}
+      iteration={camelizeKeysAs<Iteration>(data.iteration)}
+      exerciseType={data.exercise_type}
+      links={camelizeKeysAs<NudgeLinks>(data.links)}
     />
   ),
   'student-iteration-page': (data: any) => (

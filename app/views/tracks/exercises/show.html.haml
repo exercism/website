@@ -9,6 +9,7 @@
           .text You've completed #{@exercise.title}.
           = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(@track))
 
+      = ReactComponents::Student::Nudge.new(@solution) if @solution
       = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
       - if @exercise.tutorial?

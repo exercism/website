@@ -316,3 +316,5 @@ export type MentoredTrack = {
     exercises: string
   }
 }
+
+export type ExerciseType = 'concept' | 'practice' | 'tutorial'

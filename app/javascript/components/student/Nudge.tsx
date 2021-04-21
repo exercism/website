@@ -1,17 +1,27 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Avatar, GraphicalIcon, Icon } from '../../common'
-import { Iteration, IterationStatus } from '../../types'
-import { CompleteExerciseButton } from '../CompleteExerciseButton'
+import { Avatar, GraphicalIcon, Icon } from '../common'
+import {
+  Iteration,
+  IterationStatus,
+  SolutionForStudent,
+  ExerciseType,
+} from '../types'
+import { CompleteExerciseButton } from './CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
 import {
   MentorDiscussion,
   SolutionStatus,
   SolutionMentoringStatus,
-} from '../../types'
-import { Track, ExerciseType } from '../SolutionSummary'
+} from '../types'
+import { SolutionChannel } from '../../channels/solutionChannel'
 import pluralize from 'pluralize'
 
-type Links = {
+export type Track = {
+  title: string
+  medianWaitTime: string
+}
+
+export type Links = {
   mentoringInfo: string
   completeExercise: string
   requestMentoring: string
@@ -21,8 +31,7 @@ type Links = {
 }
 
 type Props = {
-  status: SolutionStatus
-  mentoringStatus: SolutionMentoringStatus
+  solution: SolutionForStudent
   exerciseType: ExerciseType
   iteration?: Iteration
   discussions: readonly MentorDiscussion[]
@@ -38,16 +47,16 @@ type NudgeType =
   | 'testsFailed'
 
 export const Nudge = ({
-  status,
-  mentoringStatus,
+  solution,
   exerciseType,
-  iteration,
+  iteration: initialIteration,
   discussions,
   links,
   track,
 }: Props): JSX.Element | null => {
+  const [iteration, setIteration] = useState(initialIteration)
   const getNudgeType = useCallback(() => {
-    switch (mentoringStatus) {
+    switch (solution.mentoringStatus) {
       case 'requested':
         return 'mentoringRequested'
       case 'in_progress':
@@ -76,10 +85,23 @@ export const Nudge = ({
         }
       }
     }
-  }, [exerciseType, iteration, mentoringStatus])
+  }, [exerciseType, iteration, solution.mentoringStatus])
   const [nudgeType, setNudgeType] = useState<NudgeType | null>(getNudgeType())
   const initNudgeTypeRef = useRef<NudgeType | null>(nudgeType)
   const [shouldAnimate, setShouldAnimate] = useState(false)
+
+  useEffect(() => {
+    const solutionChannel = new SolutionChannel(
+      { id: solution.id },
+      (response) => {
+        setIteration(response.iterations[response.iterations.length - 1])
+      }
+    )
+
+    return () => {
+      solutionChannel.disconnect()
+    }
+  }, [solution])
 
   useEffect(() => {
     setNudgeType(getNudgeType())
@@ -114,7 +136,7 @@ export const Nudge = ({
     case 'completeExercise':
       return (
         <CompleteExerciseNudge
-          status={status}
+          status={solution.status}
           completeExerciseLink={links.completeExercise}
           className={className}
         />
@@ -122,7 +144,7 @@ export const Nudge = ({
     case 'mentoring':
       return (
         <MentoringNudge
-          mentoringStatus={mentoringStatus}
+          mentoringStatus={solution.mentoringStatus}
           discussions={discussions}
           links={links}
           className={className}

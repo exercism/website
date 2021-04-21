@@ -64,6 +64,7 @@ module ReactComponents
             is_unread: discussion.posts.where(seen_by_student: false).exists?,
             posts_count: discussion.posts.count,
             created_at: discussion.created_at.iso8601,
+            status: discussion.status,
             links: {
               self: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             }

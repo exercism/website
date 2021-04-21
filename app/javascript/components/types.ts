@@ -293,10 +293,18 @@ export type MentorDiscussion = {
   isUnread: boolean
   postsCount: number
   createdAt: string
+  status: MentorDiscussionStatus
   links: {
     self: string
   }
 }
+
+export type MentorDiscussionStatus =
+  | 'awaiting_student'
+  | 'awaiting_mentor'
+  | 'mentor_finished'
+  | 'student_finished'
+  | 'both_finished'
 
 export type MentoredTrackExercise = {
   slug: string

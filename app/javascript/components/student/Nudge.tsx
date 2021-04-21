@@ -346,8 +346,9 @@ const InProgressMentoringNudge = ({
           You&apos;re being mentored by
           <strong>{discussion.mentor.handle}</strong>
         </h3>
-        {/* TODO: Add discussion.status to serializer */}
-        {/* TOOD: If status is awating_student show a tag here for "Your turn to respond"*/}
+        {discussion.status === 'awaiting_student' ? (
+          <span>Your turn to respond</span>
+        ) : null}
         <div className="comments">
           <GraphicalIcon icon="comment" />
           {discussion.postsCount} {pluralize('comments', discussion.postsCount)}

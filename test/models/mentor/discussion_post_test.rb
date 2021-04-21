@@ -23,11 +23,9 @@ class Iteration::DiscussionPostTest < ActiveSupport::TestCase
 
   test "parses markdown correctly" do
     markdown = <<~MD
-            # Hello h1
-      #{'      '}
-            ## Oooh h2
-      #{'      '}
-            ### What now h3
+      # Hello h1
+      ## Oooh h2
+      ### What now h3
     MD
 
     html = <<~HTML

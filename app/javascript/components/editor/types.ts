@@ -61,7 +61,7 @@ export enum Keybindings {
 export type WrapSetting = 'off' | 'on' | 'wordWrapColumn' | 'bounded'
 
 export enum Themes {
-  LIGHT = 'light',
+  LIGHT = 'textmate',
   DARK = 'dark',
 }
 

@@ -13,7 +13,7 @@ import AceEditor from 'react-ace'
 import ReactAce from 'react-ace/lib/ace'
 
 import 'ace-builds/src-noconflict/mode-ruby'
-import 'ace-builds/src-noconflict/theme-github'
+import 'ace-builds/src-noconflict/theme-textmate'
 import 'ace-builds/src-noconflict/keybinding-vim'
 import 'ace-builds/src-noconflict/keybinding-emacs'
 
@@ -36,6 +36,10 @@ export function FileEditorAce({
   files: File[]
   wrap: WrapSetting
 }): JSX.Element {
+  /* TODO: These should be set from the track config */
+  const tabSize = 2
+  const useSoftTabs = true
+
   const [tab, setTab] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const editorRefs = useRef(files.map(() => createRef<ReactAce>()))
@@ -46,16 +50,14 @@ export function FileEditorAce({
     })
   }, [])
 
-  const getFiles = useCallback(
-    () =>
-      editorRefs.current?.map((editor, i) => {
-        return {
-          filename: files[i].filename,
-          content: editor.current?.editor.getValue() || '',
-        }
-      }),
-    [files]
-  )
+  const getFiles = useCallback(() => {
+    return editorRefs.current?.map((editor, i) => {
+      return {
+        filename: files[i].filename,
+        content: editor.current?.editor.getValue() || '',
+      }
+    })
+  }, [files])
 
   const openPalette = useCallback(() => null, [])
 
@@ -82,9 +84,12 @@ export function FileEditorAce({
         ))}
       </div>
       {files.map((file, index) => (
-        <div key={file.filename} hidden={index !== tab}>
+        <div className="code" key={file.filename} hidden={index !== tab}>
           <AceEditor
             name={file.filename}
+            height="100%"
+            width="100%"
+            tabSize={tabSize}
             mode={language}
             theme={theme}
             editorProps={{ $blockScrolling: true }}
@@ -92,6 +97,12 @@ export function FileEditorAce({
             wrapEnabled={wrap !== 'off'}
             defaultValue={file.content}
             ref={editorRefs.current[index]}
+            fontSize="15px"
+            setOptions={{
+              useSoftTabs: useSoftTabs,
+              navigateWithinSoftTabs: useSoftTabs,
+              fontFamily: "'Source Code Pro', monospace",
+            }}
             commands={[
               {
                 name: 'Run tests',

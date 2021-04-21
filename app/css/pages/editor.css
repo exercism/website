@@ -142,21 +142,26 @@
 
         @apply flex flex-col;
 
-        & .react-monaco-editor-container {
+        & .code {
+            height: 100%;
+            width: 100%;
         }
 
-        & .monaco-editor {
-            & .monaco-scrollable-element .scrollbar {
-                background: transparent;
-                .arrow-background {
-                    background: purple;
-                }
+        /* & .react-monaco-editor-container { */
+        /* } */
 
-                & .slider {
-                    background: red;
-                }
-            }
-        }
+        /* & .monaco-editor { */
+        /*     & .monaco-scrollable-element .scrollbar { */
+        /*         background: transparent; */
+        /*         .arrow-background { */
+        /*             background: purple; */
+        /*         } */
+
+        /*         & .slider { */
+        /*             background: red; */
+        /*         } */
+        /*     } */
+        /* } */
     }
     & .main-rhs {
         grid-area: main-rhs;

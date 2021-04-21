@@ -73,6 +73,9 @@
         & .unlocked {
             @apply flex;
 
+            & .unlocked-concepts + .unlocked-exercises {
+                @apply ml-24;
+            }
             & .unlocked-concepts,
             & .unlocked-exercises {
                 flex: 1 1 0px;
@@ -90,11 +93,11 @@
                     @apply flex flex-wrap;
                 }
                 & .c-exercise-widget {
-                    @apply mr-8 mb-8;
+                    @apply mr-12 mb-12;
                 }
                 & .unlocked-concept {
                     @apply flex items-center;
-                    @apply mr-8 mb-8 py-8 px-16;
+                    @apply mr-12 mb-12 py-8 px-16;
                     @apply shadow-base rounded-5;
                     transition: box-shadow 0.2s ease-out;
                     &:hover:not(.--locked) {

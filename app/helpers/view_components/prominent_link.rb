@@ -6,7 +6,7 @@ module ViewComponents
       @with_bg = with_bg
       @external = external
 
-      super
+      super()
     end
 
     def to_s

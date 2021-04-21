@@ -233,7 +233,6 @@ module Components
       end
 
       test "edit an existing post" do
-        skip # Skip until this is decided upon
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :mentor_discussion, solution: solution, mentor: mentor

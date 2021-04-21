@@ -301,7 +301,7 @@
                 @apply bg-backgroundColorA shadow-xsZ1;
                 @apply flex;
 
-                @apply py-16 px-24 mb-8;
+                @apply py-16 px-24;
 
                 & .subtitle {
                     @apply text-textColor6 leading-paragraph mb-6;
@@ -364,7 +364,6 @@
             }
 
             & .discussion {
-                @apply mt-20;
                 --header-height: 32px;
 
                 & .timeline-entry {
@@ -373,10 +372,9 @@
                     @apply relative;
 
                     &:first-child {
-                        @apply pt-4;
+                        @apply pt-20;
                     }
                     &:last-child {
-                        @apply pb-0;
                         &:before {
                             bottom: auto;
                             height: 16px;
@@ -495,14 +493,17 @@
                 }
 
                 & .post {
-                    /*&:hover {
-                        @apply bg-backgroundColorB;
-                        & .post-header {
+                    &.--editable:hover {
+                        @apply bg-backgroundColorE;
+                        & .timeline-entry-header {
                             & .edit-button {
-                                @apply visible;
+                                @apply grid;
+                            }
+                            & time {
+                                @apply hidden;
                             }
                         }
-                    }*/
+                    }
 
                     & .timeline-entry-header {
                         @apply flex items-center mb-4;
@@ -512,16 +513,14 @@
                         }
 
                         & .edit-button {
-                            @apply flex items-center ml-32 p-8;
-                            @apply text-textColor6 font-medium leading-huge;
-                            @apply invisible;
-                            & .c-icon {
-                                @apply mr-12;
-                                height: 16px;
-                                width: 16px;
-                            }
+                            width: 32px;
+                            height: 32px;
+                            @apply hidden ml-auto place-items-center;
+                            @apply shadow-xsZ1 rounded-circle bg-backgroundColorA;
 
-                            display: none;
+                            & .c-icon {
+                                width: 50%;
+                            }
                         }
                     }
                 }

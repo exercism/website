@@ -38,7 +38,10 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
     const contentRef = useHighlighting<HTMLDivElement>()
 
     return (
-      <div ref={ref} className="post timeline-entry">
+      <div
+        ref={ref}
+        className={`post timeline-entry ${links.update ? '--editable' : ''}`}
+      >
         <Avatar
           handle={authorHandle}
           src={authorAvatarUrl}

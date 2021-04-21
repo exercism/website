@@ -101,7 +101,6 @@ module Components
       end
 
       test "edit an existing post" do
-        skip # Skip until this is decided upon
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
         track = create :track

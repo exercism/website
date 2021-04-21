@@ -1,5 +1,5 @@
 module HasMarkdownField
-  def has_markdown_field(fields)
+  def has_markdown_field(fields, opts = {})
     fields = Array(fields)
 
     before_save do
@@ -7,7 +7,10 @@ module HasMarkdownField
         html_field = "#{field}_html"
         markdown_field = "#{field}_markdown"
 
-        self[html_field] = Markdown::Parse.(self[markdown_field])
+        self[html_field] = Markdown::Parse.(
+          self[markdown_field],
+          **opts
+        )
       end
     end
   end

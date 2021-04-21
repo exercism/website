@@ -30,7 +30,7 @@ class Markdown::Preprocess
 
   def lower_heading_levels!
     doc.each do |node|
-      next unless node.type == :header && node.header_level > 1
+      next unless node.type == :header && (node.header_level > 1 || !strip_h1)
 
       mutations << { type: :lower_header_level, node: node }
     end

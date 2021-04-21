@@ -125,8 +125,8 @@ module Components
           click_on "Send"
         end
 
-        assert_css "h1", text: "Edited"
-        assert_no_css "h1", text: "Hello"
+        assert_css "h3", text: "Edited"
+        assert_no_css "h3", text: "Hello"
       end
 
       test "shows files per iteration" do

@@ -56,7 +56,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
           />
           <div className="c-select">
             <select>
-              <option>Recommended</option>
+              <option>Sort by Recommended</option>
             </select>
           </div>
         </div>

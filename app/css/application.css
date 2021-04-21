@@ -20,6 +20,7 @@
 
 :root {
     /* TODO: Rename these to match figma */
+    --c-2E57E8: #2e57e8;
     --c-76709F: #76709f;
     --c-5C5589: #5c5589;
     --c-130B43: #130b43;
@@ -135,9 +136,10 @@
 
     --buttonBorderColor1: var(--c-26282D);
     --buttonBorderColor2: var(--c-A9A6BD);
-    --inputBackgroundColor: var(--c-EAECF3);
+    --inputBackgroundColor: var(--c-F0F3F9);
     --inputBorderColor: var(--c-8480A0);
-    --inputBorderColorFocus: var(--c-6A93FF);
+    --inputBorderColorFocus: var(--c-2E57E8);
+    --inputBoxShadowColorFocus: rgba(46, 87, 232, 0.25);
     --tabBackgroundColorSelected: var(--c-E1EBFF);
     --tabIconColorSelected: var(--c-604FCD);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);

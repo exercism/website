@@ -35,6 +35,7 @@ module.exports = {
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
       lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',
       lgZ1: '0px 4px 42px 0px rgba(79, 114, 205, 0.3)',
+      inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
     },
     colors: {
       transparent: 'transparent',

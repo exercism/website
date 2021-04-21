@@ -23,7 +23,7 @@ module Components
         iteration = create :iteration,
           idx: 1,
           solution: solution,
-          created_at: Date.new(2016, 12, 25),
+          created_at: 1.week.ago,
           submission: submission
         create(:mentor_discussion_post,
           discussion: discussion,
@@ -38,11 +38,11 @@ module Components
         end
 
         within(".discussion") { assert_text "Iteration 1" }
-        assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
+        assert_text "Iteration 1was submitted\n7d ago"
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"
         assert_text "student"
-        assert_text "2 days ago"
+        assert_text "2d ago"
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_text "author"
         assert_text "Hello, student"
@@ -101,6 +101,7 @@ module Components
       end
 
       test "edit an existing post" do
+        skip # Skip until this is decided upon
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
         track = create :track

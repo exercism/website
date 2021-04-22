@@ -40,7 +40,7 @@ class SerializeMentorDiscussion
         self: if context == :student
                 Exercism::Routes.track_exercise_mentor_discussion_path(discussion.track, discussion.exercise, discussion)
               else
-                Exercism::Routes.mentoring_discussion_url(discussion)
+                Exercism::Routes.mentoring_discussion_path(discussion)
               end,
         posts: if context == :student
                  Exercism::Routes.api_solution_discussion_posts_url(discussion.solution.uuid, discussion)

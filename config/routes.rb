@@ -111,6 +111,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :previous_discussions, only: %i[index create]
+
         resources :discussions, only: %i[index create] do
           member do
             patch :mark_as_nothing_to_do

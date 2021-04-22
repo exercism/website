@@ -1,3 +1,11 @@
+export type PaginatedResult<T> = {
+  results: T
+  meta: {
+    currentPage: number
+    totalPages: number
+  }
+}
+
 export type ExerciseStatus =
   | 'published'
   | 'completed'

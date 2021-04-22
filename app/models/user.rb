@@ -127,8 +127,11 @@ class User < ApplicationRecord
     relationship ? relationship.favorited? : false
   end
 
-  # TODO
-  def num_previous_mentor_sessions_with(_user)
-    15
+  def num_previous_mentor_sessions_with(user)
+    Mentor::Discussion.
+      finished_for_mentor.
+      joins(:solution).
+      where(mentor: self).
+      where(solutions: { user: user }).count
   end
 end

@@ -102,7 +102,6 @@ module Components
           assert_text student.bio
           assert_text student.formatted_reputation
           # assert_text "english, spanish" # TODO: Renable
-          assert_text "15 previous sessions"
           assert_css "img[src='#{student.avatar_url}']"\
             "[alt=\"Uploaded avatar of student\"]"
           assert_button "Add to favorites"

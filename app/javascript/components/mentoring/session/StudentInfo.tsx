@@ -30,7 +30,7 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
         </div>
         <div className="options">
           {student.links ? <StudentInfoActions student={student} /> : null}
-          <PreviousSessionsLink numSessions={student.numPreviousSessions} />
+          <PreviousSessionsLink student={student} />
         </div>
       </div>
       <Avatar src={student.avatarUrl} handle={student.handle} />
@@ -41,12 +41,10 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
 const StudentInfoActions = ({ student }: { student: Student }) => {
   return (
     <div className="options">
-      {student.isFavorite !== undefined && student.links?.favorite ? (
-        <FavoriteButton
-          isFavorite={student.isFavorite}
-          endpoint={student.links.favorite}
-        />
-      ) : null}
+      <FavoriteButton
+        isFavorite={student.isFavorite}
+        endpoint={student.links.favorite}
+      />
     </div>
   )
 }

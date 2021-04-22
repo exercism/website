@@ -5,10 +5,16 @@ import { sendPostRequest } from '../../../utils/send-request'
 import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { Student, StudentMentorRelationship } from '../Session'
 
 type ComponentProps = {
   endpoint: string
-  onSuccess: () => void
+  onSuccess: (student: Student) => void
+}
+
+type APIResponse = {
+  student: Student
+  relationship: StudentMentorRelationship
 }
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -26,13 +32,18 @@ const Component = ({
   onSuccess,
 }: ComponentProps): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation(() => {
-    return sendPostRequest({
-      endpoint: endpoint,
-      body: null,
-      isMountedRef: isMountedRef,
-    }).then(onSuccess)
-  })
+  const [mutation, { status, error }] = useMutation<APIResponse>(
+    () => {
+      return sendPostRequest({
+        endpoint: endpoint,
+        body: null,
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: (response) => onSuccess(response.student),
+    }
+  )
 
   /* TODO: Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })

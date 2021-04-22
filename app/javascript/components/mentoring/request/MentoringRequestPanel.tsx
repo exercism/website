@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { SessionProps } from '../Session'
 import {
-  MentorSessionDiscussion as Discussion,
+  MentorDiscussion as Discussion,
   MentorSessionRequest as Request,
   Iteration,
 } from '../../types'

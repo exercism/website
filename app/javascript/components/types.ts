@@ -1,3 +1,11 @@
+export type PaginatedResult<T> = {
+  results: T
+  meta: {
+    currentPage: number
+    totalPages: number
+  }
+}
+
 export type ExerciseStatus =
   | 'published'
   | 'completed'
@@ -173,15 +181,6 @@ export type MentorSessionExercise = {
   }
 }
 
-export type MentorSessionDiscussion = {
-  id: string
-  isFinished: boolean
-  links: {
-    posts: string
-    markAsNothingToDo?: string
-    finish?: string
-  }
-}
 export type Track = {
   id: string
   title: string
@@ -315,12 +314,15 @@ export type MentorDiscussion = {
   }
   isFinished: boolean
   isUnread: boolean
+  isStarred: boolean
   postsCount: number
+  iterationsCount: number
   createdAt: string
   updatedAt: string
   links: {
     self: string
     posts: string
+    markAsNothingToDo: string
     finish: string
   }
 }

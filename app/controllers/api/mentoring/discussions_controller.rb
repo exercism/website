@@ -21,7 +21,7 @@ module API
       render json: SerializePaginatedCollection.(
         discussions,
         serializer: SerializeMentorDiscussions,
-        serializer_args: current_user,
+        serializer_args: :mentor,
         meta: {
           awaiting_mentor_total: all_discussions.awaiting_mentor.count,
           awaiting_student_total: all_discussions.awaiting_student.count,

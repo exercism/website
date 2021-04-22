@@ -1,27 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AddFavoriteButton } from './AddFavoriteButton'
 import { RemoveFavoriteButton } from '../session/RemoveFavoriteButton'
+import { Student } from '../Session'
 
 export const FavoriteButton = ({
-  endpoint,
-  ...props
+  student,
+  onSuccess,
 }: {
-  isFavorite: boolean
-  endpoint: string
+  student: Student
+  onSuccess: (student: Student) => void
 }): JSX.Element | null => {
-  const [isFavorite, setIsFavorite] = useState(props.isFavorite)
-
   return (
     <div className="button-wrapper">
-      {isFavorite ? (
+      {student.isFavorite ? (
         <RemoveFavoriteButton
-          endpoint={endpoint}
-          onSuccess={() => setIsFavorite(false)}
+          endpoint={student.links.favorite}
+          onSuccess={(student) => onSuccess(student)}
         />
       ) : (
         <AddFavoriteButton
-          endpoint={endpoint}
-          onSuccess={() => setIsFavorite(true)}
+          endpoint={student.links.favorite}
+          onSuccess={(student) => onSuccess(student)}
         />
       )}
     </div>

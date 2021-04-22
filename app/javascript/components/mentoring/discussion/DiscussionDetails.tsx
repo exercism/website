@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Student, StudentMentorRelationship } from '../Session'
-import { Iteration, MentorSessionDiscussion as Discussion } from '../../types'
+import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 
@@ -11,7 +11,7 @@ export const DiscussionDetails = ({
   relationship,
   userId,
 }: {
-  discussion: Discussion
+  discussion: MentorDiscussion
   iterations: readonly Iteration[]
   student: Student
   relationship: StudentMentorRelationship

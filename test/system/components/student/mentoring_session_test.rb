@@ -194,7 +194,6 @@ module Components
           assert_text mentor.handle.to_s
           assert_text mentor.bio
           assert_text mentor.formatted_reputation
-          assert_text "15 previous sessions"
           assert_css "img[src='#{mentor.avatar_url}']"\
             "[alt=\"Uploaded avatar of mentor\"]"
         end

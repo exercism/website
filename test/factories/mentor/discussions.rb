@@ -22,18 +22,14 @@ FactoryBot.define do
 
     trait :mentor_finished do
       status { :mentor_finished }
-      mentor_finished_at { Time.current }
+      finished_at { Time.current }
+      finished_by { :mentor }
     end
 
     trait :student_finished do
-      status { :student_finished }
-      student_finished_at { Time.current }
-    end
-
-    trait :both_finished do
-      status { :both_finished }
-      student_finished_at { Time.current }
-      mentor_finished_at { Time.current }
+      status { :finished }
+      finished_at { Time.current }
+      finished_by { :student }
     end
   end
 end

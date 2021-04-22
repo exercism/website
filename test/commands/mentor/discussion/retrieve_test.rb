@@ -32,8 +32,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     user = create :user
 
     valid_1 = create :mentor_discussion, :mentor_finished, mentor: user
-    valid_2 = create :mentor_discussion, :both_finished, mentor: user
-    create :mentor_discussion, :student_finished, mentor: user
+    valid_2 = create :mentor_discussion, :student_finished, mentor: user
     create :mentor_discussion, :awaiting_mentor, mentor: user
     create :mentor_discussion, :awaiting_student, mentor: user
 

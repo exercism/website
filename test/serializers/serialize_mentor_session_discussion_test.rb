@@ -49,7 +49,7 @@ class SerializeMentorSessionDiscussionTest < ActiveSupport::TestCase
 
     assert_equal expected, SerializeMentorSessionDiscussion.(discussion, student)
 
-    discussion.update(status: :student_finished)
+    discussion.update(status: :finished)
     assert SerializeMentorSessionDiscussion.(discussion, student)[:is_finished]
   end
 end

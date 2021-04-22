@@ -3,8 +3,11 @@ class Mentor::Discussion < ApplicationRecord
     awaiting_student: 0,
     awaiting_mentor: 1,
     mentor_finished: 2,
-    student_finished: 3,
-    both_finished: 4
+    finished: 4
+  }
+  enum finished_by: {
+    mentor: 1,
+    student: 2
   }
 
   belongs_to :solution
@@ -21,8 +24,8 @@ class Mentor::Discussion < ApplicationRecord
   has_many :iterations, through: :solution
 
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
-  scope :finished_for_student, -> { where(status: %i[student_finished both_finished]) }
-  scope :finished_for_mentor, -> { where(status: %i[mentor_finished both_finished]) }
+  scope :finished_for_student, -> { where(status: :finished) }
+  scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
 
   before_validation do
     self.solution = request.solution unless self.solution
@@ -48,6 +51,10 @@ class Mentor::Discussion < ApplicationRecord
     super.to_sym
   end
 
+  def finished_by
+    super.to_sym
+  end
+
   def student_mentor_relationship
     Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
   end
@@ -67,11 +74,11 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def finished_for_student?
-    %i[student_finished both_finished].include?(status)
+    status == :finished
   end
 
   def finished_for_mentor?
-    %i[mentor_finished both_finished].include?(status)
+    %i[mentor_finished finished].include?(status)
   end
 
   def viewable_by?(user)
@@ -79,10 +86,24 @@ class Mentor::Discussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
+  def student_finished!
+    cols = {
+      status: :finished,
+      awaiting_mentor_since: nil,
+      awaiting_student_since: nil
+    }
+    unless finished_at
+      cols[:finished_at] = Time.current
+      cols[:finished_by] = :student
+    end
+    update_columns(cols)
+  end
+
   def mentor_finished!
     update_columns(
       status: :mentor_finished,
-      mentor_finished_at: Time.current,
+      finished_at: Time.current,
+      finished_by: :mentor,
       awaiting_mentor_since: nil,
       awaiting_student_since: awaiting_student_since || Time.current
     )

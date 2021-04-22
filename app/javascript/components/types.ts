@@ -303,8 +303,7 @@ export type MentorDiscussionStatus =
   | 'awaiting_student'
   | 'awaiting_mentor'
   | 'mentor_finished'
-  | 'student_finished'
-  | 'both_finished'
+  | 'finished'
 
 export type MentoredTrackExercise = {
   slug: string

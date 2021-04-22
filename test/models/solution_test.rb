@@ -216,7 +216,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal discussion, Solution.find(solution.id).in_progress_mentor_discussion
 
     # Finished discussion
-    discussion.update!(status: :student_finished)
+    discussion.update!(status: :finished)
     assert_nil Solution.find(solution.id).in_progress_mentor_discussion
   end
 
@@ -275,10 +275,7 @@ class SolutionTest < ActiveSupport::TestCase
     discussion.update(status: :mentor_finished)
     assert_equal :in_progress, solution.mentoring_status
 
-    discussion.update(status: :student_finished)
-    assert_equal :finished, solution.mentoring_status
-
-    discussion.update(status: :both_finished)
+    discussion.update(status: :finished)
     assert_equal :finished, solution.mentoring_status
 
     discussion.destroy

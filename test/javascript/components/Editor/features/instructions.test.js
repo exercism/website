@@ -1,4 +1,4 @@
-jest.mock('../../../../../app/javascript/components/editor/FileEditor')
+jest.mock('../../../../../app/javascript/components/editor/FileEditorAce')
 
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'

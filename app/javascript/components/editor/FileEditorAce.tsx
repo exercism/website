@@ -14,6 +14,7 @@ import ReactAce from 'react-ace/lib/ace'
 
 import 'ace-builds/src-noconflict/mode-ruby'
 import 'ace-builds/src-noconflict/theme-textmate'
+import 'ace-builds/src-noconflict/theme-solarized_dark'
 import 'ace-builds/src-noconflict/keybinding-vim'
 import 'ace-builds/src-noconflict/keybinding-emacs'
 

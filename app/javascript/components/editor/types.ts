@@ -62,7 +62,7 @@ export type WrapSetting = 'off' | 'on' | 'wordWrapColumn' | 'bounded'
 
 export enum Themes {
   LIGHT = 'textmate',
-  DARK = 'dark',
+  DARK = 'solarized_dark',
 }
 
 export type Assignment = {

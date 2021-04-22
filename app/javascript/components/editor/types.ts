@@ -53,7 +53,7 @@ export enum TestRunStatus {
 }
 
 export enum Keybindings {
-  DEFAULT = 'default',
+  DEFAULT = '',
   VIM = 'vim',
   EMACS = 'emacs',
 }

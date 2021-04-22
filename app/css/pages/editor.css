@@ -146,22 +146,6 @@
             height: 100%;
             width: 100%;
         }
-
-        /* & .react-monaco-editor-container { */
-        /* } */
-
-        /* & .monaco-editor { */
-        /*     & .monaco-scrollable-element .scrollbar { */
-        /*         background: transparent; */
-        /*         .arrow-background { */
-        /*             background: purple; */
-        /*         } */
-
-        /*         & .slider { */
-        /*             background: red; */
-        /*         } */
-        /*     } */
-        /* } */
     }
     & .main-rhs {
         grid-area: main-rhs;

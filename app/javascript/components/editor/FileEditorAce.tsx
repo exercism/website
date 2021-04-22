@@ -7,10 +7,15 @@ import React, {
 } from 'react'
 import { Keybindings, WrapSetting } from './types'
 import { File } from '../types'
-import { FileEditorHandle } from './FileEditorMonaco'
 
 import AceEditor from 'react-ace'
 import ReactAce from 'react-ace/lib/ace'
+
+export type FileEditorHandle = {
+  getFiles: () => File[]
+  setFiles: (files: File[]) => void
+  openPalette: () => void
+}
 
 export function FileEditorAce({
   language,

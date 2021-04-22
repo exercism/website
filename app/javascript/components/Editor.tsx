@@ -44,6 +44,11 @@ import { TabContext } from './common/Tab'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
+export type EditorConfig = {
+  tabSize: number
+  useSoftTabs: boolean
+}
+
 export enum EditorStatus {
   INITIALIZED = 'initialized',
   CREATING_SUBMISSION = 'creatingSubmission',
@@ -74,6 +79,7 @@ export function Editor({
   exampleFiles,
   storageKey,
   debuggingInstructions,
+  config,
 }: {
   endpoint: string
   timeout?: number
@@ -88,6 +94,7 @@ export function Editor({
   exampleFiles: File[]
   storageKey: string
   debuggingInstructions?: string
+  config: EditorConfig
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
   const [theme, setTheme] = useState(Themes.LIGHT)
@@ -402,6 +409,7 @@ export function Editor({
             wrap={wrap}
             onRunTests={runTests}
             onSubmit={submit}
+            config={config}
           />
         </div>
 

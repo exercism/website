@@ -158,7 +158,7 @@ import {
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as TrackComponents from '../components/track'
 import * as JourneyComponents from '../components/journey'
-import { Editor } from '../components/Editor'
+import { Editor, EditorConfig } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
@@ -396,6 +396,7 @@ initReact({
       exampleFiles={data.example_files}
       storageKey={data.storage_key}
       debuggingInstructions={data.debugging_instructions}
+      config={camelizeKeysAs<EditorConfig>(data.config)}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

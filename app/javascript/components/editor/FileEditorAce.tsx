@@ -10,6 +10,7 @@ import { File } from '../types'
 
 import AceEditor from 'react-ace'
 import ReactAce from 'react-ace/lib/ace'
+import { EditorConfig } from '../Editor'
 
 export type FileEditorHandle = {
   getFiles: () => File[]
@@ -26,6 +27,7 @@ export function FileEditorAce({
   keybindings,
   files,
   wrap,
+  config,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
@@ -35,11 +37,8 @@ export function FileEditorAce({
   keybindings: Keybindings
   files: File[]
   wrap: WrapSetting
+  config: EditorConfig
 }): JSX.Element {
-  /* TODO: These should be set from the track config */
-  const tabSize = 2
-  const useSoftTabs = true
-
   const [tab, setTab] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const editorRefs = useRef(files.map(() => createRef<ReactAce>()))
@@ -89,7 +88,7 @@ export function FileEditorAce({
             name={file.filename}
             height="100%"
             width="100%"
-            tabSize={tabSize}
+            tabSize={config.tabSize}
             mode={language}
             theme={theme}
             editorProps={{ $blockScrolling: true }}
@@ -99,8 +98,8 @@ export function FileEditorAce({
             ref={editorRefs.current[index]}
             fontSize="15px"
             setOptions={{
-              useSoftTabs: useSoftTabs,
-              navigateWithinSoftTabs: useSoftTabs,
+              useSoftTabs: config.useSoftTabs,
+              navigateWithinSoftTabs: config.useSoftTabs,
               fontFamily: "'Source Code Pro', monospace",
             }}
             commands={[

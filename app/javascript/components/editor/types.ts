@@ -58,7 +58,7 @@ export enum Keybindings {
   EMACS = 'emacs',
 }
 
-export type WrapSetting = 'off' | 'on' | 'wordWrapColumn' | 'bounded'
+export type WrapSetting = 'off' | 'on'
 
 export enum Themes {
   LIGHT = 'textmate',

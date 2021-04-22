@@ -8,10 +8,10 @@
         = render ViewComponents::ConceptIcon.new(concept, :medium)
         .name= concept.name
         .exercises
-          - concept.concept_exercises.each do |_exercise|
-            .c-ed.--completed.--concept
-          - concept.practice_exercises.each do |_exercise|
-            .c-ed.--available.--practice
+          - concept.concept_exercises.each do |exercise|
+            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
+          - concept.practice_exercises.each do |exercise|
+            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
 
   = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
 

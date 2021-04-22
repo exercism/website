@@ -310,6 +310,14 @@ initReact({
       links={data.links}
     />
   ),
+  'student-exercise-status-dot': (data: any) => (
+    <Student.ExerciseStatusDot
+      slug={data.slug}
+      exerciseStatus={data.exercise_status}
+      type={data.type}
+      links={data.links}
+    />
+  ),
   'student-open-editor-button': (data: any) => (
     <Student.OpenEditorButton
       status={data.status}

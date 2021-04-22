@@ -129,7 +129,7 @@ export const ReportStep = ({
                 </div>
 
                 <div className="field">
-                  <label htmlFor="message">Explain what happened.</label>
+                  <label htmlFor="message">What went wrong?</label>
                   <textarea
                     required
                     ref={messageRef}

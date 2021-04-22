@@ -1,4 +1,53 @@
 @import "../../styles";
 
 #mentor-inbox-page {
+    & .tabs {
+        @apply mb-20;
+
+        @apply flex items-center;
+        @apply flex-grow;
+
+        & .c-tab {
+            line-height: 40px;
+        }
+    }
+    & .container {
+        @apply shadow-lg bg-backgroundColorA rounded-8;
+
+        & header.c-search-bar {
+            @apply py-16 px-24;
+            @apply border-backgroundColorC border-b-1;
+
+            & .c-track-filter {
+                @apply mr-16;
+            }
+            & .--search {
+                @apply mr-16;
+                width: 60%;
+                max-width: 450px;
+            }
+            & .c-select {
+                margin-left: auto;
+            }
+        }
+        & .--no-results {
+            @apply flex flex-col items-center;
+            @apply py-48;
+            & .c-icon {
+                height: 128px;
+                width: 128px;
+                @apply mb-12;
+            }
+            & h3 {
+                @apply text-18 leading-150 font-medium;
+                @apply mb-20;
+            }
+        }
+        & footer {
+            & .c-pagination {
+                @apply px-24 py-16;
+            }
+            @apply border-lightGray border-t-1;
+        }
+    }
 }

@@ -1,5 +1,4 @@
-input[type="text"],
-input[type="password"],
+input:not([type="submit"]),
 textarea {
     @apply rounded-5 border-2 border-transparent;
     @apply py-12 px-16;

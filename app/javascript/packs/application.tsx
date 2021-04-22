@@ -62,7 +62,6 @@ import '../../css/components/iteration-processing-status'
 import '../../css/components/notification-dot'
 
 import '../../css/components/mentor/header'
-import '../../css/components/mentor/inbox'
 import '../../css/components/mentor/solution-row'
 import '../../css/components/mentor/discussion'
 

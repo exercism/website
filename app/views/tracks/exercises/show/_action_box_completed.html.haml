@@ -3,11 +3,18 @@
     = graphical_icon 'completed-check-circle'
     You’ve completed this exercise
   %p
-    %strong You have submitted 5 iterations for this exercise and marked it as complete.
-    You can still submit further iterations or choose a different exercise to solve.
+    %strong
+      You have submitted
+      = link_to pluralize(solution.iterations.size, "iteration"), track_exercise_iterations_path(track, exercise)
+      for this exercise and marked it as complete.
+    You can submit further iterations
+    - if solution.mentoring_status_none?
+      or #{link_to 'request mentoring', new_track_exercise_mentor_request_path(track, exercise)}.
+    - else
+      or try a different exercise.
 
   %h4 Via Exercism Editor
-  = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn" do
+  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn" do
     = graphical_icon :editor
     Continue in Editor
 

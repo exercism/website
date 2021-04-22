@@ -135,12 +135,10 @@
     }
     & .main-lhs {
         grid-area: main-lhs;
-        overflow-x: hidden;
-        overflow-y: hidden;
-
         border-color: var(--border-color);
+
         @apply border-r-1;
-        @apply bg-bgGray;
+        @apply bg-bgGray overflow-hidden;
 
         @apply flex flex-col;
 
@@ -163,7 +161,14 @@
     & .main-rhs {
         grid-area: main-rhs;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: hidden;
+
+        & > .--tab-panel {
+            overflow-y: scroll;
+            height: 100%;
+            /* Make up for the drop shadow on the bottom bar */
+            @apply pb-32;
+        }
 
         & section.instructions {
             @apply py-16 px-32;

@@ -46,7 +46,11 @@ module Components::Student
         submission = create :submission, solution: solution, tests_status: :failed
         create :iteration, idx: 1, solution: solution, submission: submission
         request = create :mentor_request, solution: solution, status: :fulfilled
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request, finished_at: nil
+        discussion = create :mentor_discussion,
+          solution: solution,
+          mentor: mentor,
+          request: request,
+          status: :awaiting_student
         solution.update_mentoring_status!
 
         use_capybara_host do
@@ -54,6 +58,7 @@ module Components::Student
           visit Exercism::Routes.private_solution_path(solution)
 
           assert_text "You're being mentored byMentor"
+          assert_text "Your turn to respond"
           assert_link "Open discussion",
             href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
         end

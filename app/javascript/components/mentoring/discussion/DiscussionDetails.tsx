@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { Student, StudentMentorRelationship } from '../Session'
 import { Iteration, MentorSessionDiscussion as Discussion } from '../../types'
-import { FinishedWizard } from './FinishedWizard'
+import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 
 export const DiscussionDetails = ({
@@ -17,8 +17,9 @@ export const DiscussionDetails = ({
   relationship: StudentMentorRelationship
   userId: number
 }): JSX.Element => {
-  const previouslyNotFinishedRef = useRef(!discussion.isFinished)
-  const step = previouslyNotFinishedRef.current ? 'mentorAgain' : 'finish'
+  const [defaultStep, setDefaultStep] = useState<ModalStep>(
+    discussion.isFinished ? 'finish' : 'mentorAgain'
+  )
 
   return (
     <React.Fragment>
@@ -33,7 +34,7 @@ export const DiscussionDetails = ({
         <FinishedWizard
           student={student}
           relationship={relationship}
-          defaultStep={step}
+          defaultStep={defaultStep}
         />
       ) : null}
     </React.Fragment>

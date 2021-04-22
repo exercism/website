@@ -64,7 +64,6 @@ export const ReputationMenu = ({
             return oldToken.id === token.id ? token : oldToken
           }),
         })
-        queryCache.invalidateQueries(cacheKey)
       },
     }
   )

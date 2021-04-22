@@ -11,7 +11,11 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
         <div className="subtitle">Who you&apos;re mentoring</div>
         <div className="name-block">
           <div className="name">{student.name}</div>
-          <Reputation value={student.reputation.toString()} type="primary" />
+          <Reputation
+            value={student.reputation.toString()}
+            type="primary"
+            size="small"
+          />
         </div>
         <div className="handle">{student.handle}</div>
         <div className="bio">

@@ -61,6 +61,15 @@ class User::ReputationToken::SearchTest < ActiveSupport::TestCase
     assert_equal [token_2, token_1], User::ReputationToken::Search.(user)
   end
 
+  test "sort unseen first by default" do
+    user = create :user
+    token_1 = create :user_code_contribution_reputation_token, user: user, seen: true
+    token_2 = create :user_code_contribution_reputation_token, user: user, seen: false
+    token_3 = create :user_code_contribution_reputation_token, user: user, seen: true
+
+    assert_equal [token_2, token_3, token_1], User::ReputationToken::Search.(user, order: :unseen_first)
+  end
+
   test "returns relationship unless paginated" do
     user = create :user
     create :user_code_contribution_reputation_token, user: user

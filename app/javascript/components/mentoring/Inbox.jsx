@@ -38,26 +38,24 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     <div className="c-mentor-inbox">
       <div className="tabs">
         <StatusTab
-          status="requires_mentor_action"
+          status="awaiting_mentor"
           currentStatus={request.query.status}
           setStatus={setStatus}
         >
           Inbox
           {resolvedData ? (
-            <div className="count">
-              {resolvedData.meta.requiresMentorActionTotal}
-            </div>
+            <div className="count">{resolvedData.meta.awaitingMentorTotal}</div>
           ) : null}
         </StatusTab>
         <StatusTab
-          status="requires_student_action"
+          status="awaiting_student"
           currentStatus={request.query.status}
           setStatus={setStatus}
         >
           Awaiting student
           {resolvedData ? (
             <div className="count">
-              {resolvedData.meta.requiresStudentActionTotal}
+              {resolvedData.meta.awaitingStudentTotal}
             </div>
           ) : null}
         </StatusTab>

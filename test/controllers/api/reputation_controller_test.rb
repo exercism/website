@@ -15,6 +15,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
       @current_user,
       criteria: "ru",
       category: "authoring",
+      order: "unseen_first",
       page: "5",
       per: "20"
     ).returns(User::ReputationToken.page(1).per(10))
@@ -22,6 +23,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
     get api_reputation_index_path(
       criteria: "ru",
       category: "authoring",
+      order: "unseen_first",
       page: 5,
       per_page: 20
     ), headers: @headers, as: :json

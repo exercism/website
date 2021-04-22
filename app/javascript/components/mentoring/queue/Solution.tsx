@@ -6,8 +6,8 @@ import { Icon } from '../../common/Icon'
 import { Avatar } from '../../common/Avatar'
 
 type SolutionProps = {
-  menteeAvatarUrl: string
-  menteeHandle: string
+  studentAvatarUrl: string
+  studentHandle: string
   exerciseTitle: string
   exerciseIconUrl: string
   isStarred: boolean
@@ -20,8 +20,8 @@ type SolutionProps = {
 }
 
 export function Solution({
-  menteeAvatarUrl,
-  menteeHandle,
+  studentAvatarUrl,
+  studentHandle,
   exerciseTitle,
   exerciseIconUrl,
   isStarred,
@@ -42,10 +42,10 @@ export function Solution({
       onBlur={hideMoreInformation}
     >
       <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />
-      <Avatar src={menteeAvatarUrl} handle={menteeHandle} />
+      <Avatar src={studentAvatarUrl} handle={studentHandle} />
       <div className="--info">
         <div className="--handle">
-          {menteeHandle}
+          {studentHandle}
           {isStarred ? <Icon icon="gold-star" alt="Starred student" /> : null}
           {haveMentoredPreviously ? <div className="dot" /> : null}
         </div>

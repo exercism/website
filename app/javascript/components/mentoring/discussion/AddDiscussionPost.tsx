@@ -23,7 +23,7 @@ export const AddDiscussionPost = ({
 
   if (open) {
     return (
-      <div>
+      <>
         <DiscussionPostForm
           onSuccess={handleSuccess}
           endpoint={endpoint}
@@ -39,34 +39,45 @@ export const AddDiscussionPost = ({
         >
           Cancel
         </button>
-      </div>
+        {/* TODO: DRY up the duplication of this */}
+        <div className="note">
+          Check out our {/* TODO */}
+          <a href="#">mentoring docs</a> and be the best mentor you can be.
+        </div>
+      </>
     )
   } else {
     if (isFinished) {
       return (
-        <div>
-          This discussion has ended. Have more to say? You can{' '}
+        <button
+          onClick={() => {
+            setOpen(true)
+          }}
+          className="continuation-btn"
+          type="button"
+        >
+          <strong>This discussion has ended.</strong> Have more to say? You can{' '}
+          <em>still post</em>.
+        </button>
+      )
+    } else {
+      return (
+        <>
           <button
+            className="faux-input"
             onClick={() => {
               setOpen(true)
             }}
             type="button"
           >
-            still post.
+            Add a comment
           </button>
-        </div>
-      )
-    } else {
-      return (
-        <button
-          className="faux-input"
-          onClick={() => {
-            setOpen(true)
-          }}
-          type="button"
-        >
-          Add a comment
-        </button>
+          {/* TODO: DRY up the duplication of this */}
+          <div className="note">
+            Check out our {/* TODO */}
+            <a href="#">mentoring docs</a> and be the best mentor you can be.
+          </div>
+        </>
       )
     }
   }

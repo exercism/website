@@ -9,11 +9,11 @@ class MentoringInboxTest < ReactComponentTestCase
       {
         discussions_request: {
           endpoint: Exercism::Routes.api_mentoring_discussions_path,
-          query: { status: "requires_mentor_action" }
+          query: { status: "awaiting_mentor" }
         },
         tracks_request: {
           endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,
-          query: { status: "requires_mentor_action" }
+          query: { status: "awaiting_mentor" }
         },
         sort_options: [
           { value: 'recent', label: 'Sort by Most Recent' },

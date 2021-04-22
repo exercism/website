@@ -20,8 +20,8 @@ class Mentor::Discussion::ReplyByStudentTest < ActiveSupport::TestCase
       assert discussion_post.seen_by_student?
       refute discussion_post.seen_by_mentor?
 
-      assert_equal Time.current, discussion.requires_mentor_action_since
-      assert_nil discussion.requires_student_action_since
+      assert_equal Time.current, discussion.awaiting_mentor_since
+      assert_nil discussion.awaiting_student_since
     end
   end
 

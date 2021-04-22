@@ -3,13 +3,17 @@ import { Header } from './solution-summary/Header'
 import { IterationLink } from './solution-summary/IterationLink'
 import { CommunitySolutions } from './solution-summary/CommunitySolutions'
 import { Mentoring } from './solution-summary/Mentoring'
-import { Nudge } from './solution-summary/Nudge'
 import { Loading, ProminentLink } from '../common'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
-import { Iteration, MentorDiscussion, SolutionForStudent } from '../types'
+import {
+  Iteration,
+  MentorDiscussion,
+  SolutionForStudent,
+  ExerciseType,
+} from '../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -37,8 +41,6 @@ export type Track = {
   title: string
   medianWaitTime: string
 }
-
-export type ExerciseType = 'concept' | 'practice' | 'tutorial'
 
 export const SolutionSummary = ({
   solution,
@@ -87,15 +89,6 @@ export const SolutionSummary = ({
 
   return (
     <>
-      <Nudge
-        status={solution.status}
-        mentoringStatus={solution.mentoringStatus}
-        track={track}
-        discussions={discussions}
-        iteration={latestIteration}
-        exerciseType={exerciseType}
-        links={links}
-      />
       {latestIteration ? (
         <section className="latest-iteration">
           <Header

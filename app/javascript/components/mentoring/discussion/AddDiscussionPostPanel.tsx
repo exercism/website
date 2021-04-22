@@ -12,7 +12,7 @@ export const AddDiscussionPostPanel = ({
   const { switchToTab } = useContext(TabsContext)
 
   return (
-    <section className="comment-section">
+    <section className="comment-section --comment">
       <NewMessageAlert
         onClick={() => {
           switchToTab('discussion')

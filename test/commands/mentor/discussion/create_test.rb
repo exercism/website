@@ -18,8 +18,8 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
       assert_equal mentor, discussion.mentor
       assert_equal request, discussion.request
       assert_equal request.solution, discussion.solution
-      assert_equal Time.current, discussion.requires_student_action_since
-      assert_nil discussion.requires_mentor_action_since
+      assert_equal Time.current, discussion.awaiting_student_since
+      assert_nil discussion.awaiting_mentor_since
 
       assert_equal 1, discussion.posts.count
       assert_equal content_markdown, discussion.posts.first.content_markdown

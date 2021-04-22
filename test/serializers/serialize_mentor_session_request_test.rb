@@ -9,9 +9,12 @@ class SerializeMentorSessionRequestTest < ActiveSupport::TestCase
       comment: request.comment_html,
       updated_at: request.updated_at.iso8601,
       is_locked: request.locked?,
-      user: {
+      student: {
         handle: request.user.handle,
         avatar_url: request.user.avatar_url
+      },
+      track: {
+        title: request.track.title
       },
       links: {
         lock: Exercism::Routes.lock_api_mentoring_request_path(request),

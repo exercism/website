@@ -116,8 +116,8 @@ module Components
         request = create :mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
                                           updated_at: 2.days.ago
         discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
-        create :iteration, idx: 2, solution: solution, created_at: Date.new(2016, 12, 25)
-        iteration = create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
+        create :iteration, idx: 2, solution: solution, created_at: 1.week.ago
+        iteration = create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
         create(:mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
@@ -131,11 +131,11 @@ module Components
         end
 
         within(".discussion") { assert_text "Iteration 1" }
-        assert_text "Iteration 1\nwas submitted\n25 Dec 2016"
+        assert_text "Iteration 1was submitted\n7d ago"
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"
         assert_text "student"
-        assert_text "2 days ago"
+        assert_text "2d ago"
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "1"
         assert_text "author"
@@ -253,8 +253,8 @@ module Components
           click_on "Send"
         end
 
-        assert_css "h1", text: "Edited"
-        assert_no_css "h1", text: "Hello"
+        assert_css "h3", text: "Edited"
+        assert_no_css "h3", text: "Hello"
       end
 
       test "user can't edit another's post" do
@@ -359,7 +359,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
@@ -380,7 +380,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         create :iteration, solution: solution
 
         use_capybara_host do
@@ -401,7 +401,7 @@ module Components
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
-          requires_mentor_action_since: 1.day.ago
+          awaiting_mentor_since: 1.day.ago
         create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 

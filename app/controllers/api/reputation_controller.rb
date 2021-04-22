@@ -5,6 +5,7 @@ module API
         current_user,
         criteria: params[:criteria],
         category: params[:category],
+        order: params[:order],
         per: params[:per_page],
         page: params[:page]
       )

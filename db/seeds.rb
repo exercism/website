@@ -138,8 +138,9 @@ ruby.practice_exercises.limit(10).each do |exercise|
   req = Mentor::Request.create!(solution: solution, comment_markdown: "Could you please look at my code?")
   discussion = Mentor::Discussion.create!(
     request: req, solution: solution, mentor: iHiD,
-    requires_mentor_action_since: Time.current
+    awaiting_mentor_since: Time.current
   )
+  req.update(status: :fulfilled)
   p "Discussion: #{discussion.uuid}"
 
   Mentor::Testimonial.create!(

@@ -1,0 +1,12 @@
+@import "../styles";
+
+.c-mentor-discussion-post-editor {
+    @apply shadow-lg rounded-8 bg-backgroundColorA;
+    @apply relative z-tooltip;
+    @apply p-16;
+
+    & .c-markdown-editor {
+        width: 500px;
+        height: 350px;
+    }
+}

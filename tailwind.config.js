@@ -29,12 +29,13 @@ module.exports = {
     boxShadow: {
       none: 'none',
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.5)',
-      xsZ1: '0px 4px 4px 0px rgba(79, 114, 205, 0.3)',
+      xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
       lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',
       lgZ1: '0px 4px 42px 0px rgba(79, 114, 205, 0.3)',
+      inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
     },
     colors: {
       transparent: 'transparent',
@@ -218,6 +219,7 @@ module.exports = {
       '-2': '-2',
       '-3': '-3',
       '-4': '-4',
+      '1': '1',
       overlay: '10',
       menu: '40',
       dropdown: '50',

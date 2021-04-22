@@ -110,8 +110,9 @@ class Solution < ApplicationRecord
     mentor_requests.pending.locked.exists?
   end
 
+  memoize
   def in_progress_mentor_discussion
-    mentor_discussions.in_progress.first
+    mentor_discussions.in_progress_for_student.first
   end
 
   def update_status!
@@ -205,9 +206,9 @@ class Solution < ApplicationRecord
   end
 
   def determine_mentoring_status
-    return :in_progress if mentor_discussions.in_progress.exists?
+    return :in_progress if mentor_discussions.in_progress_for_student.exists?
     return :requested if mentor_requests.pending.exists?
-    return :finished if mentor_discussions.finished.exists?
+    return :finished if mentor_discussions.finished_for_student.exists?
 
     :none
   end

@@ -19,9 +19,9 @@ module API
         discussions,
         serializer: SerializeMentorDiscussions,
         meta: {
-          requires_mentor_action_total: all_discussions.requires_mentor_action.count,
-          requires_student_action_total: all_discussions.requires_student_action.count,
-          finished_total: all_discussions.finished.count
+          awaiting_mentor_total: all_discussions.awaiting_mentor.count,
+          awaiting_student_total: all_discussions.awaiting_student.count,
+          finished_total: all_discussions.finished_for_mentor.count
         }
       )
     end
@@ -72,7 +72,7 @@ module API
       render json: {
         discussion: {
           id: discussion.uuid,
-          is_finished: discussion.finished?,
+          is_finished: discussion.finished_for_mentor?,
           links: {
             posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
             mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion),
@@ -89,20 +89,23 @@ module API
       return render_403(:mentor_discussion_not_accessible) unless discussion.viewable_by?(current_user)
       return render_403(:mentor_discussion_not_accessible) unless current_user == discussion.mentor
 
-      discussion.student_action_required!
+      discussion.awaiting_student!
 
-      render json: {}
+      render json: {
+        id: discussion.uuid
+      }
     end
 
     # TODO: An actual implementation of this endpoint.
     # The JSON response below is what I expect for the React component.
     def finish
       discussion = current_user.mentor_discussions.find_by(uuid: params[:id])
-      discussion.update!(finished_at: Time.current)
+      discussion.mentor_finished!
       relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
 
       render json: {
         discussion: {
+          id: discussion.uuid,
           relationship: SerializeMentorStudentRelationship.(relationship),
           is_finished: true,
           links: {

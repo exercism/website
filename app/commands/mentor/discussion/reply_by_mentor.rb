@@ -14,7 +14,7 @@ module Mentor
           seen_by_mentor: true
         )
 
-        discussion.student_action_required!
+        discussion.awaiting_student!
 
         User::Notification::Create.(
           iteration.solution.user,

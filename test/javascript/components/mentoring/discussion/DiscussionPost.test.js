@@ -41,8 +41,8 @@ test('prefills edit form with previous value', async () => {
     },
   }
 
-  const { getByText } = render(<DiscussionPost {...post} />)
-  fireEvent.click(getByText('Edit'))
+  const { getByAltText } = render(<DiscussionPost {...post} />)
+  fireEvent.click(getByAltText('Edit'))
 
   await waitFor(() => {
     const editor = document.querySelector('.CodeMirror').CodeMirror

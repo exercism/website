@@ -1,7 +1,7 @@
 import React from 'react'
-import { MentoringDropdown } from '../MentoringDropdown'
-import { MentorDiscussion, SolutionMentoringStatus } from '../../types'
-import { ComboButton } from '../../common/ComboButton'
+import { MentoringDropdown } from './MentoringDropdown'
+import { MentorDiscussion, SolutionMentoringStatus } from '../types'
+import { ComboButton } from '../common/ComboButton'
 
 type Links = {
   requestMentoring: string

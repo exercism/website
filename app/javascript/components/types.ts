@@ -80,8 +80,8 @@ export type SolutionMentoringStatus =
   | 'finished'
 
 export type DiscussionStatus =
-  | 'requires_mentor_action'
-  | 'requires_student_action'
+  | 'awaiting_mentor'
+  | 'awaiting_student'
   | 'finished'
 
 export type CommunitySolution = {
@@ -143,7 +143,10 @@ export type MentorSessionRequest = {
   comment: string
   updatedAt: string
   isLocked: boolean
-  user: {
+  track: {
+    title: string
+  }
+  student: {
     handle: string
     avatarUrl: string
   }
@@ -290,10 +293,18 @@ export type MentorDiscussion = {
   isUnread: boolean
   postsCount: number
   createdAt: string
+  status: MentorDiscussionStatus
   links: {
     self: string
   }
 }
+
+export type MentorDiscussionStatus =
+  | 'awaiting_student'
+  | 'awaiting_mentor'
+  | 'mentor_finished'
+  | 'student_finished'
+  | 'both_finished'
 
 export type MentoredTrackExercise = {
   slug: string
@@ -313,3 +324,5 @@ export type MentoredTrack = {
     exercises: string
   }
 }
+
+export type ExerciseType = 'concept' | 'practice' | 'tutorial'

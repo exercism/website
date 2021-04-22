@@ -30,7 +30,7 @@ export const DiscussionInfo = ({
           userId={userId}
         />
       </div>
-      <section className="comment-section">
+      <section className="comment-section --comment">
         <NewMessageAlert />
         <AddDiscussionPost
           isFinished={discussion.isFinished}

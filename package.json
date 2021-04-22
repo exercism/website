@@ -41,8 +41,7 @@
     "turbolinks": "^5.2.0",
     "use-is-mounted": "^1.0.0",
     "use-memory-value": "^1.2.0",
-    "uuid": "^8.3.1",
-    "vscode-ws-jsonrpc": "^0.2.0"
+    "uuid": "^8.3.1"
   },
   "version": "0.1.0",
   "devDependencies": {

@@ -34,7 +34,7 @@ module Mentoring
           user_id: mentor.id,
           relationship: nil,
           request: SerializeMentorSessionRequest.(mentor_request),
-          discussion: SerializeMentorSessionDiscussion.(discussion, mentor),
+          discussion: SerializeMentorDiscussion.(discussion, :mentor),
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
@@ -52,9 +52,10 @@ module Mentoring
             avatar_url: student.avatar_url,
             reputation: student.formatted_reputation,
             is_favorite: false,
-            num_previous_sessions: 15,
+            num_previous_sessions: 0,
             links: {
-              favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
+              favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
+              previous_sessions: Exercism::Routes.api_mentoring_previous_discussions_path(handle: student.handle)
             }
           },
 

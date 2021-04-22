@@ -10,7 +10,7 @@ module ReactComponents
             user_id: current_user.id,
             relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
             request: SerializeMentorSessionRequest.(request),
-            discussion: SerializeMentorSessionDiscussion.(discussion, current_user),
+            discussion: SerializeMentorDiscussion.(discussion, :mentor),
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
@@ -26,6 +26,7 @@ module ReactComponents
               num_previous_sessions: current_user.num_previous_mentor_sessions_with(student),
               links: {
                 favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
+                # previous_sessions: Exercism::Routes.
               }
             },
             mentor_solution: mentor_solution,

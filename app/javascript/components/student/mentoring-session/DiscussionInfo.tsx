@@ -4,7 +4,7 @@ import { AddDiscussionPost } from '../../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../../mentoring/discussion/NewMessageAlert'
 import { PostsWrapper } from '../../mentoring/discussion/PostsContext'
 import { MentorInfo } from './MentorInfo'
-import { MentorSessionDiscussion as Discussion, Iteration } from '../../types'
+import { MentorDiscussion as Discussion, Iteration } from '../../types'
 import { Mentor } from '../MentoringSession'
 
 export const DiscussionInfo = ({

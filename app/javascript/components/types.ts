@@ -169,15 +169,6 @@ export type MentorSessionExercise = {
   iconUrl: string
 }
 
-export type MentorSessionDiscussion = {
-  id: string
-  isFinished: boolean
-  links: {
-    posts: string
-    markAsNothingToDo?: string
-    finish?: string
-  }
-}
 export type Track = {
   id: string
   title: string
@@ -289,13 +280,26 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
   }
+  track: {
+    title: string
+    iconUrl: string
+  }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
   isFinished: boolean
   isUnread: boolean
+  isStarred: boolean
   postsCount: number
+  iterationsCount: number
   createdAt: string
   status: MentorDiscussionStatus
   links: {
     self: string
+    posts: string
+    markAsNothingToDo: string
+    finish: string
   }
 }
 

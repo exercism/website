@@ -22,7 +22,7 @@ import { PostsWrapper } from './discussion/PostsContext'
 import {
   MentorSessionRequest as Request,
   Iteration,
-  MentorSessionDiscussion as Discussion,
+  MentorDiscussion as Discussion,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
 } from '../types'
@@ -40,10 +40,11 @@ export type Student = {
   languagesSpoken: string[]
   handle: string
   reputation: number
-  isFavorite?: boolean
+  isFavorite: boolean
   numPreviousSessions: number
-  links?: {
+  links: {
     favorite: string
+    previousSessions: string
   }
 }
 

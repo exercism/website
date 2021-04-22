@@ -29,7 +29,7 @@ module ReactComponents::Student
         {
           user_id: student.id,
           request: SerializeMentorSessionRequest.(mentor_request),
-          discussion: SerializeMentorSessionDiscussion.(discussion, student),
+          discussion: SerializeMentorDiscussion.(discussion, :student),
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
@@ -46,7 +46,7 @@ module ReactComponents::Student
             languages_spoken: mentor.languages_spoken,
             avatar_url: mentor.avatar_url,
             reputation: mentor.formatted_reputation,
-            num_previous_sessions: 15
+            num_previous_sessions: 0
           },
           is_first_time_on_track: true,
           videos: [

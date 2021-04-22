@@ -7,7 +7,7 @@ import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
 
 import {
   Iteration,
-  MentorSessionDiscussion as Discussion,
+  MentorDiscussion as Discussion,
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,

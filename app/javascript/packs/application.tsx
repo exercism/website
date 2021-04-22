@@ -167,7 +167,6 @@ import {
   Track,
   Exercise,
   MentorSessionRequest,
-  MentorSessionDiscussion,
   MentorSessionTrack,
   MentorSessionExercise,
   MentorDiscussion,
@@ -264,7 +263,7 @@ initReact({
   'mentoring-session': (data: any) => (
     <Mentoring.Session
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
@@ -354,7 +353,7 @@ initReact({
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}

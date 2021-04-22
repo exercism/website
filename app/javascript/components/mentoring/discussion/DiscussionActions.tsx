@@ -3,7 +3,7 @@ import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
 import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
 import { SessionProps } from '../Session'
-import { MentorSessionDiscussion as Discussion } from '../../types'
+import { MentorDiscussion as Discussion } from '../../types'
 
 export const DiscussionActions = ({
   links,

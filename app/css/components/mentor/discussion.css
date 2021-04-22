@@ -669,15 +669,8 @@
                         @apply mb-8;
                     }
                     & textarea {
-                        @apply bg-backgroundColorD;
-                        @apply rounded-5;
-                        @apply w-100 py-12 px-16;
-                        @apply text-14 leading-160;
+                        @apply w-100;
                         height: 100px;
-
-                        &::placeholder {
-                            @apply text-textColor7;
-                        }
                     }
                 }
                 & .btn-cta {

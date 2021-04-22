@@ -33,8 +33,10 @@
         & .rhs {
             @apply flex-shrink-0;
             @apply ml-96 pt-140;
-            @apply relative;
 
+            & .avatar-wrapper {
+                @apply relative;
+            }
             & .c-avatar {
                 height: 180px;
                 width: 180px;
@@ -155,13 +157,10 @@
             }
             & textarea {
                 height: 125px;
-                @apply py-12 px-16 mb-16;
-                @apply bg-inputBackgroundColor rounded-5;
-                @apply text-16 leading-160 text-textColor6;
+                @apply mb-32;
             }
             & p.help {
                 @apply text-p-small text-textColor6;
-                @apply mb-48;
             }
         }
     }
@@ -194,9 +193,6 @@
                 & textarea {
                     @apply w-100;
                     height: 125px;
-                    @apply py-12 px-16;
-                    @apply bg-inputBackgroundColor rounded-5;
-                    @apply text-16 leading-160 text-textColor6;
                 }
             }
             & .field + .field {

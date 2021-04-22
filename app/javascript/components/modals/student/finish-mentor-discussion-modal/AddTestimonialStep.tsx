@@ -70,7 +70,7 @@ export const AddTestimonialStep = ({
             </p>
           </div>
           <p className="explanation">
-            Mentors give up their time for free. A nice testimonial is a great
+            Mentors volunteer their time for free. A nice testimonial is a great
             way of thanking them, and encouraging them to continue helping
             others.
           </p>
@@ -84,12 +84,12 @@ export const AddTestimonialStep = ({
               id="testimonial"
               placeholder="Write your testimonial here"
             />
-            <p className="help">
+            {/*<p className="help">
               Testimonials are a place to write what impressed you about a
               mentor.
               <br />
               Mentors can choose to display them on their profiles.
-            </p>
+            </p>*/}
             <div className="form-buttons">
               <FormButton
                 type="button"
@@ -117,13 +117,15 @@ export const AddTestimonialStep = ({
           />
         </div>
         <div className="rhs">
-          <Avatar
-            src={discussion.mentor.avatarUrl}
-            handle={discussion.mentor.handle}
-          />
-          {value.length !== 0 ? (
-            <GraphicalIcon icon="thumb-up-white-on-green" />
-          ) : null}
+          <div className="avatar-wrapper">
+            <Avatar
+              src={discussion.mentor.avatarUrl}
+              handle={discussion.mentor.handle}
+            />
+            {value.length !== 0 ? (
+              <GraphicalIcon icon="thumb-up-white-on-green" />
+            ) : null}
+          </div>
         </div>
       </div>
     </section>

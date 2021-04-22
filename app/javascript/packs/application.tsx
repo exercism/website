@@ -17,6 +17,7 @@ import 'focus-visible'
 // without needing to be specified individually here.
 import '../../css/application'
 import '../../css/layout'
+import '../../css/defaults'
 
 import '../../css/components/badge'
 import '../../css/components/bg-img'

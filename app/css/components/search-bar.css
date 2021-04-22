@@ -11,22 +11,11 @@
             @apply mr-24;
         }
 
-        @apply rounded-5 border-2 border-transparent h-48;
-        @apply pl-40 pr-12;
-        @apply text-16 font-medium bg-inputBackgroundColor;
+        @apply h-48 py-0 pl-40;
 
         background-size: 18px 18px;
         background-repeat: no-repeat;
         background-position: 12px center;
-
-        &:focus {
-            @apply border-inputBorderColorFocus outline-none;
-            @apply text-textColor2 bg-backgroundColorA;
-            @apply shadow-inputSelected;
-        }
-        &::placeholder {
-            @apply text-textColor6;
-        }
     }
     & .--filter-btn,
     & .--reset-btn {

@@ -1,0 +1,19 @@
+input[type="text"],
+input[type="password"],
+textarea {
+    @apply rounded-5 border-2 border-transparent;
+    @apply py-12 px-16;
+    @apply text-16 leading-160 font-medium text-textColor2;
+    @apply bg-inputBackgroundColor;
+
+    &::placeholder {
+        @apply text-textColor6;
+    }
+
+    &:focus {
+        @apply border-inputBorderColorFocus;
+        @apply bg-backgroundColorA;
+        @apply shadow-inputSelected;
+        @apply outline-none !important;
+    }
+}

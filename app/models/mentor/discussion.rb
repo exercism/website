@@ -52,7 +52,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def finished_by
-    super.to_sym
+    super&.to_sym
   end
 
   def student_mentor_relationship

@@ -21,6 +21,14 @@ label.c-checkbox-wrapper {
         border-color: var(--row-selected-border-color) !important;
     }
 
+    & input:disabled + .row {
+        opacity: 0.7;
+        cursor: not-allowed;
+        .c-checkbox {
+            cursor: not-allowed;
+        }
+    }
+
     & input:checked + .row {
         & .c-checkbox .c-icon {
             transform: scale(1);

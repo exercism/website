@@ -5,6 +5,7 @@ module ReactComponents
 
       def to_s
         super("student-finish-mentor-discussion-modal", {
+          discussion: SerializeMentorDiscussion.(discussion),
           links: links
         })
       end

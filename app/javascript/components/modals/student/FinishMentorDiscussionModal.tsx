@@ -1,4 +1,6 @@
 import React from 'react'
+import { MentorDiscussion } from '../../types'
+import { Modal } from '../Modal'
 import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
 import { AddTestimonialStep } from './finish-mentor-discussion-modal/AddTestimonialStep'
 import { CelebrationStep } from './finish-mentor-discussion-modal/CelebrationStep'
@@ -40,10 +42,12 @@ const modalStepMachine = Machine({
   },
 })
 
-export const FinishMentorDiscussionModal = ({
+const Inner = ({
   links,
+  discussion,
 }: {
   links: Links
+  discussion: MentorDiscussion
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
 
@@ -51,6 +55,7 @@ export const FinishMentorDiscussionModal = ({
     case 'rateMentor':
       return (
         <RateMentorStep
+          discussion={discussion}
           onHappy={() => send('HAPPY')}
           onSatisfied={() => send('SATISFIED')}
           onUnhappy={() => send('UNHAPPY')}
@@ -62,6 +67,7 @@ export const FinishMentorDiscussionModal = ({
           onSubmit={() => send('SUBMIT')}
           onBack={() => send('BACK')}
           links={links}
+          discussion={discussion}
         />
       )
     case 'celebration':
@@ -82,6 +88,7 @@ export const FinishMentorDiscussionModal = ({
     case 'report':
       return (
         <ReportStep
+          discussion={discussion}
           links={links}
           onSubmit={() => send('SUBMIT')}
           onBack={() => send('BACK')}
@@ -92,4 +99,23 @@ export const FinishMentorDiscussionModal = ({
     default:
       throw new Error('Unknown modal step')
   }
+}
+
+export const FinishMentorDiscussionModal = ({
+  links,
+  discussion,
+}: {
+  links: Links
+  discussion: MentorDiscussion
+}): JSX.Element => {
+  return (
+    <Modal
+      open={true}
+      cover={true}
+      onClose={() => {}}
+      className="m-finish-student-mentor-discussion"
+    >
+      <Inner links={links} discussion={discussion} />
+    </Modal>
+  )
 }

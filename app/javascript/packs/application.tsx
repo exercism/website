@@ -93,6 +93,7 @@ import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'
 import '../../css/modals/finish-mentor-discussion'
+import '../../css/modals/finish-student-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
 import '../../css/modals/change-mentor-tracks'
@@ -379,6 +380,7 @@ initReact({
       links={camelizeKeysAs<StudentFinishMentorDiscussionModalLinks>(
         data.links
       )}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
     />
   ),
   'student-request-mentoring-button': (data: any) => (

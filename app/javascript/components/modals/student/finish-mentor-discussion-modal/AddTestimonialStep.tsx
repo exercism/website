@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react'
+import { MentorDiscussion } from '../../../types'
+import { Avatar, GraphicalIcon } from '../../../common'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
@@ -15,10 +17,12 @@ export const AddTestimonialStep = ({
   onSubmit,
   onBack,
   links,
+  discussion,
 }: {
   onSubmit: () => void
   onBack: () => void
   links: Links
+  discussion: MentorDiscussion
 }): JSX.Element => {
   const [value, setValue] = useState('')
   const isMountedRef = useIsMounted()
@@ -51,27 +55,77 @@ export const AddTestimonialStep = ({
   const handleChange = useCallback((e) => {
     setValue(e.target.value)
   }, [])
-  const buttonText =
-    value.length === 0 ? 'Skip testimonial' : 'Submit testimonial'
+  const primaryButtonText = value.length === 0 ? 'Skip' : 'Finish'
+  const primaryButtonClass = value.length === 0 ? 'btn' : 'btn-cta'
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="testimonial">Testimonial</label>
-        <textarea value={value} onChange={handleChange} id="testimonial" />
-        <FormButton type="submit" status={status}>
-          {buttonText}
-        </FormButton>
-        {value.length !== 0 ? 'Thumbs up' : null}
-      </form>
-      <FetchingBoundary
-        status={status}
-        error={error}
-        defaultError={DEFAULT_ERROR}
-      />
-      <FormButton type="button" onClick={handleBack} status={status}>
-        Back
-      </FormButton>
-    </div>
+    <section className="testimonial-step">
+      <div className="container">
+        <div className="lhs">
+          <h2>Say thanks to {discussion.mentor.handle}!</h2>
+          <div className="celebration">
+            <p>
+              <strong>That’s awesome!</strong> 🙂 We’re glad you had a good
+              session with {discussion.mentor.handle}.
+            </p>
+          </div>
+          <p className="explanation">
+            Mentors give up their time for free. A nice testimonial is a great
+            way of thanking them, and encouraging them to continue helping
+            others.
+          </p>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="testimonial">
+              Leave {discussion.mentor.handle} a testimonial (optional)
+            </label>
+            <textarea
+              value={value}
+              onChange={handleChange}
+              id="testimonial"
+              placeholder="Write your testimonial here"
+            />
+            <p className="help">
+              Testimonials are a place to write what impressed you about a
+              mentor.
+              <br />
+              Mentors can choose to display them on their profiles.
+            </p>
+            <div className="form-buttons">
+              <FormButton
+                type="button"
+                onClick={handleBack}
+                status={status}
+                className="btn"
+              >
+                <GraphicalIcon icon="arrow-left" />
+                <span>Back</span>
+              </FormButton>
+
+              <FormButton
+                type="submit"
+                status={status}
+                className={primaryButtonClass}
+              >
+                <span>{primaryButtonText}</span>
+              </FormButton>
+            </div>
+          </form>
+          <FetchingBoundary
+            status={status}
+            error={error}
+            defaultError={DEFAULT_ERROR}
+          />
+        </div>
+        <div className="rhs">
+          <Avatar
+            src={discussion.mentor.avatarUrl}
+            handle={discussion.mentor.handle}
+          />
+          {value.length !== 0 ? (
+            <GraphicalIcon icon="thumb-up-white-on-green" />
+          ) : null}
+        </div>
+      </div>
+    </section>
   )
 }

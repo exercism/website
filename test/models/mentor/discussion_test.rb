@@ -197,4 +197,9 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       assert_equal original, discussion.awaiting_mentor_since
     end
   end
+
+  test "finished_by symbolizes" do
+    assert_nil create(:mentor_discussion, finished_by: nil).finished_by
+    assert_equal :mentor, create(:mentor_discussion, finished_by: 'mentor').finished_by
+  end
 end

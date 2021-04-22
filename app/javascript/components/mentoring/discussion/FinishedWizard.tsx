@@ -10,7 +10,7 @@ type State = {
   step: ModalStep
 }
 
-type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
+export type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
 
 type Action =
   | {

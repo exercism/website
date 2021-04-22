@@ -12,7 +12,6 @@ module Flows
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       create :iteration, solution: solution
-      create :mentor_student_relationship, mentor: mentor, student: student
 
       use_capybara_host do
         sign_in!(mentor)
@@ -45,7 +44,6 @@ module Flows
     end
 
     test "mentor chooses not to mentor student again" do
-      skip # TODO: This keeps failing. Fix before launch.
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       exercise = create :concept_exercise
@@ -66,12 +64,11 @@ module Flows
     end
 
     test "mentor adds student as favorite" do
-      skip # TODO: This keeps failing. Fix before launch.
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
-      discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+      discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution
       create :mentor_student_relationship, mentor: mentor, student: student
 
@@ -87,13 +84,11 @@ module Flows
     end
 
     test "mentor skips adding student as favorite" do
-      skip # TODO: This fails all the time. Fix before launch.
-
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
-      discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+      discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution
       create :mentor_student_relationship, mentor: mentor, student: student
 
@@ -109,13 +104,11 @@ module Flows
     end
 
     test "mentor changes preferences" do
-      skip # TODO: This fails all the time. Fix before launch.
-
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
-      discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+      discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution
       create :mentor_student_relationship, mentor: mentor, student: student
 

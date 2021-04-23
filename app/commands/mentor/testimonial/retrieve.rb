@@ -61,7 +61,7 @@ module Mentor
       end
 
       def sort!
-        case order
+        case order&.to_sym
         when :newest
           @testimonials = @testimonials.order("mentor_testimonials.id DESC")
         when :oldest

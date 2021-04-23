@@ -17,7 +17,7 @@ module Mentor
         @mentor = mentor
         @page = page.to_i
         @criteria = criteria
-        @order = order || :newest
+        @order = order
         @track_slug = track_slug
         @include_unrevealed = include_unrevealed
       end
@@ -63,9 +63,11 @@ module Mentor
       def sort!
         case order
         when :newest
-          @testimonials = @testimonials.order("mentor_testimonials.created_at DESC")
+          @testimonials = @testimonials.order("mentor_testimonials.id DESC")
         when :oldest
-          @testimonials = @testimonials.order("mentor_testimonials.created_at ASC")
+          @testimonials = @testimonials.order("mentor_testimonials.id ASC")
+        else
+          @testimonials = @testimonials.order("mentor_testimonials.revealed ASC, mentor_testimonials.id DESC")
         end
       end
 

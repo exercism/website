@@ -48,7 +48,7 @@
         - if @user_track.exercise_unlocked?(@exercise)
           = render "tracks/exercises/show/action_box_start", exercise: @exercise
         - else
-          = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: user_track
+          = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
       - elsif user_signed_in?
         = render "tracks/exercises/show/action_box_join_track", exercise: @exercise, track: @track
       - else

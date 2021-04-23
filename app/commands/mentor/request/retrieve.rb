@@ -52,7 +52,16 @@ module Mentor
       end
 
       def filter!
+        # Don't allow a user to request their own solutions
         @requests = @requests.where.not('solutions.user_id': mentor.id) if mentor
+
+        # Don't show mentor-blocked or student-blocked solutions
+        @requests = @requests.where.not(
+          'solutions.user_id': Mentor::StudentRelationship.
+            where(mentor: mentor).
+            where('blocked_by_mentor = ? OR blocked_by_student = ?', true, true).
+            select(:student_id)
+        )
 
         if exercise_slug.present?
           filter_exercises!

@@ -72,6 +72,8 @@ module ViewComponents
       tag.div(class: "user-section") do
         safe_join(
           [
+            new_testimonial_icon,
+            new_badge_icon,
             ReactComponents::Dropdowns::Notifications.new.to_s,
             render(ReactComponents::Dropdowns::Reputation.new(current_user)),
             render(ViewComponents::UserMenu.new)
@@ -93,6 +95,22 @@ module ViewComponents
           tag.input class: "--search", placeholder: "Search Exercism's docs..."
         end
       end
+    end
+
+    def new_testimonial_icon
+      # TOOD: Cache this?
+      # TOOD: Add test coverage
+      return nil unless current_user.mentor_testimonials.unrevealed.exists?
+
+      link_to('', Exercism::Routes.mentoring_testimonials_path, class: 'new-testimonial')
+    end
+
+    def new_badge_icon
+      # TOOD: Cache this?
+      # TOOD: Add test coverage
+      return nil unless current_user.acquired_badges.unrevealed.exists?
+
+      link_to('', Exercism::Routes.badges_journey_path, class: 'new-badge')
     end
   end
 end

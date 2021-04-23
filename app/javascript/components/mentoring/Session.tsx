@@ -49,7 +49,7 @@ export type Student = {
 
 export type StudentMentorRelationship = {
   isFavorited: boolean
-  isBlocked: boolean
+  isBlockedByMentor: boolean
   links: {
     block: string
     favorite: string

@@ -32,9 +32,9 @@ export const ReportStep = ({
     () => {
       return sendRequest({
         endpoint: links.finish,
-        method: 'PATCh',
+        method: 'PATCH',
         body: JSON.stringify({
-          rating: 'unhappy',
+          rating: 1,
           requeue: state.requeue,
           report: state.report,
           report_reason: reasonRef.current?.value,

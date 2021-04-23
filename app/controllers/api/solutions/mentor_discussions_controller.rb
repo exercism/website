@@ -4,18 +4,16 @@ module API
 
     # TODO
     def finish
-      @discussion.student_finished!
-
-      if params[:requeue]
-        comment = @discussion.request&.comment_markdown || "[No comment provided]"
-        Mentor::Request::Create.(@discussion.solution, comment)
-      end
-
-      # TODO: Create testimonial
-      # TODO: Create abuse report
-      # TODO: Store rating
-      # TODO: Block user if appropriate
-      # TODO: Move all this ^^ into its own service
+      Mentor::Discussion::FinishByStudent.(
+        @discussion,
+        params[:rating],
+        requeue: params[:requeue],
+        report: params[:report],
+        block: params[:block],
+        report_reason: params[:report_reason],
+        report_message: params[:report_message],
+        testimonial: params[:testimonial]
+      )
 
       render json: {}
     end

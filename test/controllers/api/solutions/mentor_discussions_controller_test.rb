@@ -6,6 +6,9 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
   ###
   # Finish
   ###
+
+  # TODO: Test the 404 and 403
+
   test "finishes discussion" do
     freeze_time do
       student = create :user, handle: "student"
@@ -28,30 +31,35 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
     end
   end
 
-  test "requeues if required" do
+  test "proxies correctly" do
     student = create :user, handle: "student"
     setup_user(student)
 
-    comment_markdown = "Pls help me thanks"
-
     solution = create :concept_solution, user: student
-    original_request = create :mentor_request, solution: solution, comment_markdown: comment_markdown
-    original_request.fulfilled!
-    discussion = create :mentor_discussion, solution: solution, request: original_request
+    discussion = create :mentor_discussion, solution: solution
+
+    # Assert we don't do things unless we're asked to
+    Mentor::Discussion::FinishByStudent.expects(:call).with(
+      discussion,
+      4,
+      requeue: "requeue_param",
+      report: "report_param",
+      block: "block_param",
+      report_reason: "report_reason_param",
+      report_message: "report_message_param",
+      testimonial: "testimonial_param"
+    )
 
     patch finish_api_solution_discussion_path(solution.uuid, discussion),
-      params: { requeue: true },
+      params: {
+        rating: 4,
+        requeue: "requeue_param",
+        report: "report_param",
+        block: "block_param",
+        report_reason: "report_reason_param",
+        report_message: "report_message_param",
+        testimonial: "testimonial_param"
+      },
       headers: @headers, as: :json
-    assert_response 200
-
-    # Sanity
-    assert_equal :finished, discussion.reload.status
-
-    solution.reload
-    assert_equal 2, solution.mentor_requests.size
-
-    request = solution.mentor_requests.last
-    refute_equal original_request.id, request.id
-    assert_equal comment_markdown, request.comment_markdown
   end
 end

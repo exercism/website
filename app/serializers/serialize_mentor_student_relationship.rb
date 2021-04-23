@@ -7,8 +7,8 @@ class SerializeMentorStudentRelationship
     return if relationship.blank?
 
     {
-      isFavorited: relationship.favorited?,
-      isBlocked: relationship.blocked?,
+      is_favorited: relationship.favorited?,
+      is_blocked_by_mentor: relationship.blocked_by_mentor?,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(relationship.student.handle),
         favorite: Exercism::Routes.favorite_api_mentoring_student_path(relationship.student.handle)

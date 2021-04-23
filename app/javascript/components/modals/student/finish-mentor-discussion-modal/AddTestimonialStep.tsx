@@ -32,7 +32,7 @@ export const AddTestimonialStep = ({
         endpoint: links.finish,
         method: 'PATCH',
         body: JSON.stringify({
-          rating: 'happy',
+          rating: 5,
           testimonial: value,
         }),
         isMountedRef: isMountedRef,

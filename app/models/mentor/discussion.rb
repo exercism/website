@@ -9,6 +9,12 @@ class Mentor::Discussion < ApplicationRecord
     mentor: 1,
     student: 2
   }
+  enum rating: {
+    great: 5,
+    good: 4,
+    acceptable: 3,
+    problematic: 1
+  }
 
   belongs_to :solution
   has_one :student, through: :solution, source: :user
@@ -51,8 +57,10 @@ class Mentor::Discussion < ApplicationRecord
     super.to_sym
   end
 
-  def finished_by
-    super&.to_sym
+  %i[finished_by rating].each do |meth|
+    define_method meth do
+      super()&.to_sym
+    end
   end
 
   def student_mentor_relationship

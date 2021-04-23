@@ -1,7 +1,12 @@
 module API
   class BugReportsController < BaseController
     def create
-      @report = BugReport.create!(bug_report_params.merge(user: current_user))
+      @report = ProblemReport.create!(
+        bug_report_params.merge(
+          type: :bug,
+          user: current_user
+        )
+      )
 
       render json: { bug_report: @report }
     end

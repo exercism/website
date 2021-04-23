@@ -5,7 +5,7 @@ import { useDropdown } from '../../dropdowns/useDropdown'
 
 const TrackLogo = ({ track }: { track: Track }) => {
   return track.id === 'all' ? (
-    <GraphicalIcon icon="logo" />
+    <GraphicalIcon icon="all-tracks" />
   ) : (
     <TrackIcon iconUrl={track.iconUrl} title={track.title} />
   )
@@ -80,7 +80,7 @@ export const TrackSwitcher = ({
         aria-label="Open the track switcher"
         {...buttonAttributes}
       >
-        <GraphicalIcon icon="logo" />
+        <GraphicalIcon icon="all-tracks" />
         <div className="track-title">{value.title}</div>
         <div className="count">
           {getTotalReputation(value).toLocaleString()} rep

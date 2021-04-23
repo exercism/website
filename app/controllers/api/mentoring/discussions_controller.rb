@@ -1,5 +1,8 @@
 module API
   class Mentoring::DiscussionsController < BaseController
+    include Webpacker::Helper
+    include ActionView::Helpers::AssetUrlHelper
+
     # TODO: Add filters
     def index
       discussions = ::Mentor::Discussion::Retrieve.(
@@ -48,7 +51,10 @@ module API
         {
           slug: nil,
           title: 'All',
-          icon_url: Track.first.icon_url,
+          icon_url: asset_pack_url(
+            "media/images/icons/all-tracks.svg",
+            host: Rails.application.config.action_controller.asset_host
+          ),
           count: track_counts.values.sum
         }
       ].concat(data)

@@ -1,9 +1,12 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { TrackIcon } from '../../common/TrackIcon'
-import { Icon } from '../../common/Icon'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { Avatar } from '../../common/Avatar'
+import {
+  TrackIcon,
+  ExerciseIcon,
+  GraphicalIcon,
+  Avatar,
+  Icon,
+} from '../../common'
 import { MentorDiscussion } from '../../types'
 
 export const Discussion = ({
@@ -16,6 +19,10 @@ export const Discussion = ({
       <TrackIcon
         title={discussion.track.title}
         iconUrl={discussion.track.iconUrl}
+      />
+      <ExerciseIcon
+        title={discussion.exercise.title}
+        iconUrl={discussion.exercise.iconUrl}
       />
       <Avatar
         src={discussion.student.avatarUrl}

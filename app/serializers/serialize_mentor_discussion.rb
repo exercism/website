@@ -33,7 +33,6 @@ class SerializeMentorDiscussion
 
       # TODO: Add all these
       is_finished: true,
-      is_starred: true,
       is_unread: true,
       posts_count: 4,
 

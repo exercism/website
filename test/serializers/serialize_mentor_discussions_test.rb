@@ -14,26 +14,7 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
 
     discussions = Mentor::Discussion::Retrieve.(mentor, :awaiting_mentor, page: 1)
 
-    expected = [
-      {
-        id: discussion.uuid,
-
-        track_title: track.title,
-        track_icon_url: track.icon_url,
-        exercise_title: exercise.title,
-
-        student_handle: student.handle,
-        student_avatar_url: student.avatar_url,
-        updated_at: discussion.created_at.iso8601,
-
-        is_starred: true,
-
-        # TODO: Populate this
-        posts_count: 4,
-
-        url: Exercism::Routes.mentoring_discussion_url(discussion)
-      }
-    ]
+    expected = [SerializeMentorDiscussion.(discussion)]
 
     assert_equal expected, SerializeMentorDiscussions.(discussions)
   end

@@ -14,21 +14,41 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
 
     expected = {
       id: discussion.uuid,
+      status: discussion.status,
+      finished_at: discussion.finished_at,
+      finished_by: discussion.finished_by,
 
-      track_title: track.title,
-      track_icon_url: track.icon_url,
-      exercise_title: exercise.title,
+      track: {
+        title: track.title,
+        icon_url: track.icon_url
+      },
+      exercise: {
+        title: exercise.title,
+        icon_url: exercise.icon_url
+      },
 
-      student_handle: student.handle,
-      student_avatar_url: student.avatar_url,
-      updated_at: discussion.created_at.iso8601,
+      student: {
+        handle: student.handle,
+        avatar_url: student.avatar_url,
+        isStarred: true
+      },
 
-      is_starred: true,
+      mentor: {
+        handle: mentor.handle,
+        avatar_url: mentor.avatar_url
+      },
+
+      created_at: discussion.created_at.iso8601,
+      updated_at: discussion.updated_at.iso8601,
 
       # TODO: Populate this
+      is_finished: true,
+      is_unread: true,
       posts_count: 4,
 
-      url: Exercism::Routes.mentoring_discussion_url(discussion)
+      links: {
+        self: Exercism::Routes.mentoring_discussion_url(discussion)
+      }
     }
 
     assert_equal expected, SerializeMentorDiscussion.(discussion)

@@ -16,10 +16,10 @@ module Flows
 
           use_capybara_host do
             sign_in!(user)
-            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.id)
-            click_on "Happy"
-            fill_in "Testimonial", with: "Good mentor!"
-            click_on "Submit testimonial"
+            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.uuid)
+            click_on "It was good!"
+            fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
+            click_on "Finish"
             click_on "Complete"
 
             assert_text "You've completed the mentor discussion for this exercise"

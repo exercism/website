@@ -32,6 +32,7 @@ module Components
       end
 
       test "shows representer feedback" do
+        skip # Readd when model is readded
         mentor = create :user
         student = create :user, handle: "student"
         feedback_author = create :user, name: "Feedback Author", reputation: 50
@@ -53,7 +54,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          find("summary", text: "student received automated feedback").click
+          find("div", text: "Student received automated feedback").click
         end
 
         assert_text "Exercise feedback"
@@ -63,6 +64,7 @@ module Components
       end
 
       test "shows analyzer feedback" do
+        skip # Readd when model is readded
         mentor = create :user
         student = create :user, handle: "student"
         ruby = create :track, title: "Ruby"
@@ -76,7 +78,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          find("summary", text: "student received automated feedback").click
+          find("div", text: "Student received automated feedback").click
         end
 
         assert_text "What could the default value of the parameter be set to in order to avoid having to use a conditional?"

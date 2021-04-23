@@ -25,14 +25,14 @@ export const IterationMarker = ({
             </div>
             <time>{shortFromNow(iteration.createdAt)}</time>
           </div>
+          {iteration.analyzerFeedback || iteration.representerFeedback ? (
+            <AutomatedFeedbackSummary
+              userIsStudent={userIsStudent}
+              analyzerFeedback={iteration.analyzerFeedback}
+              representerFeedback={iteration.representerFeedback}
+            />
+          ) : null}
         </div>
-        {iteration.analyzerFeedback || iteration.representerFeedback ? (
-          <AutomatedFeedbackSummary
-            userIsStudent={userIsStudent}
-            analyzerFeedback={iteration.analyzerFeedback}
-            representerFeedback={iteration.representerFeedback}
-          />
-        ) : null}
       </div>
     </React.Fragment>
   )

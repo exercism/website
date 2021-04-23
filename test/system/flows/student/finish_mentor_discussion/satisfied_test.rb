@@ -16,8 +16,8 @@ module Flows
 
           use_capybara_host do
             sign_in!(user)
-            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.id)
-            click_on "Satisfied"
+            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.uuid)
+            click_on "Acceptable"
             click_on "No thanks"
 
             assert_text "You've completed the mentor discussion for this exercise"
@@ -39,8 +39,8 @@ module Flows
 
           use_capybara_host do
             sign_in!(user)
-            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.id)
-            click_on "Satisfied"
+            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.uuid)
+            click_on "Acceptable"
             click_on "Yes please"
             click_on "Continue"
 

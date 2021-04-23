@@ -23,7 +23,7 @@ module Mentor
 
       def call
         discussion.student_finished!
-        discussion.update_column(:rating, rating.to_i)
+        discussion.update(rating: rating.to_i)
 
         requeue!
         report!

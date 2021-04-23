@@ -104,11 +104,11 @@ class Mentor::Discussion < ApplicationRecord
       cols[:finished_at] = Time.current
       cols[:finished_by] = :student
     end
-    update_columns(cols)
+    update!(cols)
   end
 
   def mentor_finished!
-    update_columns(
+    update!(
       status: :mentor_finished,
       finished_at: Time.current,
       finished_by: :mentor,
@@ -118,7 +118,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def awaiting_student!
-    update_columns(
+    update!(
       status: :awaiting_student,
       awaiting_mentor_since: nil,
       awaiting_student_since: awaiting_student_since || Time.current
@@ -126,7 +126,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def awaiting_mentor!
-    update_columns(
+    update!(
       status: :awaiting_mentor,
       awaiting_mentor_since: awaiting_mentor_since || Time.current,
       awaiting_student_since: nil

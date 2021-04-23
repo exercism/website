@@ -22,13 +22,14 @@ module Flows
 
           use_capybara_host do
             sign_in!(user)
-            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.id)
-            click_on "Unhappy"
-            check "Report this discussion to an admin"
-            fill_in "Message", with: "Bad mentor"
-            click_on "Submit"
-            click_on "Complete"
+            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.uuid)
+            click_on "Problematic"
+            find('label', text: "Report this discussion to an admin").click
+            fill_in "What went wrong?", with: "Bad mentor"
+            click_on "Finish"
+            click_on "View your solution"
 
+            assert_equal :finished, discussion.reload.status
             assert_text "View mentoring request"
           end
         end

@@ -434,5 +434,35 @@
                 @apply text-14 leading-160 mt-12;
             }
         }
+        &.join {
+            & .icons {
+                @apply flex items-center;
+                @apply mb-12;
+
+                & .c-track-icon,
+                & .c-icon {
+                    height: 48px;
+                    width: 48px;
+                }
+                & .c-icon.plus {
+                    height: 16px;
+                    width: 16px;
+                    @apply mx-12;
+                }
+            }
+            & p {
+                & a {
+                    @apply font-semibold;
+                }
+            }
+            & .buttons {
+                & .btn-cta {
+                    @apply w-100;
+                }
+                & > :first-child {
+                    @apply mb-12;
+                }
+            }
+        }
     }
 }

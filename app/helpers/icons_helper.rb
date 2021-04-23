@@ -22,7 +22,7 @@ module IconsHelper
 
   def track_icon(track, css_class: nil)
     image_tag track.icon_url, alt: track.title,
-                              class: "c-icon c-track-icon #{css_class} --#{track.slug}"
+                              class: "c-track-icon #{css_class} --#{track.slug}"
   end
 
   def exercise_icon(exercise, css_class: nil)

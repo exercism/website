@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :use_profile
+  before_action :use_profile, except: %i[intro new create]
 
   def show
     raise ActiveRecord::RecordNotFound unless @profile

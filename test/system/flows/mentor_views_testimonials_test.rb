@@ -12,14 +12,12 @@ module Flows
       bob = create :concept_exercise, title: "Bob", track: ruby
       solution = create :concept_solution, exercise: bob
       discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
+      create :mentor_testimonial, :revealed,
         mentor: mentor,
         student: student,
         content: "Great mentor!",
         discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: true
-      create :user_track_mentorship, track: ruby, user: mentor
+        created_at: 1.day.ago
 
       use_capybara_host do
         sign_in!(mentor)
@@ -38,19 +36,8 @@ module Flows
       mentor = create :user
       student = create :user, handle: "student"
       other_student = create :user, handle: "otherstudent"
-      ruby = create :track
-      bob = create :concept_exercise, title: "Bob", track: ruby
-      solution = create :concept_solution, exercise: bob
-      discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: student,
-        content: "Great mentor!",
-        discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: true
-      create :mentor_testimonial, mentor: mentor, student: other_student, content: "Too good!", revealed: true
-      create :user_track_mentorship, track: ruby, user: mentor
+      create :mentor_testimonial, :revealed, mentor: mentor, student: student, content: "Great mentor!"
+      create :mentor_testimonial, :revealed, mentor: mentor, student: other_student, content: "Too good!"
 
       use_capybara_host do
         sign_in!(mentor)
@@ -65,21 +52,8 @@ module Flows
     test "mentor switches pages" do
       Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
-      student = create :user, handle: "student"
-      other_student = create :user, handle: "otherstudent"
-      ruby = create :track
-      bob = create :concept_exercise, title: "Bob", track: ruby
-      solution = create :concept_solution, exercise: bob
-      discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: student,
-        content: "Great mentor!",
-        discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: true
-      create :mentor_testimonial, mentor: mentor, student: other_student, content: "Too good!", revealed: true
-      create :user_track_mentorship, track: ruby, user: mentor
+      create :mentor_testimonial, :revealed, content: "Great mentor!", mentor: mentor
+      create :mentor_testimonial, :revealed, content: "Too good!", mentor: mentor
 
       use_capybara_host do
         sign_in!(mentor)
@@ -94,31 +68,17 @@ module Flows
     test "mentor orders testimonials" do
       Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
-      student = create :user, handle: "student"
-      other_student = create :user, handle: "otherstudent"
-      ruby = create :track
-      bob = create :concept_exercise, title: "Bob", track: ruby
-      solution = create :concept_solution, exercise: bob
-      discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: student,
-        content: "Great mentor!",
-        discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: true
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: other_student,
-        content: "Too good!",
-        revealed: true,
-        created_at: 2.days.ago
-      create :user_track_mentorship, track: ruby, user: mentor
+      create :mentor_testimonial, :revealed, content: "Great mentor!", mentor: mentor
+      create :mentor_testimonial, :revealed, content: "Too good!", mentor: mentor
 
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_testimonials_path
         select "Sort by Oldest First"
+
+        assert_text "Great mentor!"
+        assert_no_text "Too good!"
+
         click_on "Last"
 
         assert_text "Too good!"
@@ -128,32 +88,16 @@ module Flows
 
     test "mentor filters testimonial by track" do
       mentor = create :user
-      student = create :user, handle: "student"
-      other_student = create :user, handle: "otherstudent"
       ruby = create :track, slug: "ruby"
       bob = create :concept_exercise, title: "Bob", track: ruby
-      solution = create :concept_solution, exercise: bob
-      discussion = create :mentor_discussion, solution: solution
+      discussion = create :mentor_discussion, solution: create(:concept_solution, exercise: bob)
+
       csharp = create :track, title: "C#", slug: "csharp"
       strings = create :concept_exercise, title: "Strings", track: csharp
-      solution = create :concept_solution, exercise: strings
-      other_discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: student,
-        content: "Great mentor!",
-        discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: true
-      create :mentor_testimonial,
-        mentor: mentor,
-        discussion: other_discussion,
-        student: other_student,
-        content: "Too good!",
-        revealed: true,
-        created_at: 2.days.ago
-      create :user_track_mentorship, track: ruby, user: mentor
-      create :user_track_mentorship, track: csharp, user: mentor
+      other_discussion = create :mentor_discussion, solution: create(:concept_solution, exercise: strings)
+
+      create :mentor_testimonial, :revealed, mentor: mentor, content: "Great mentor!", discussion: discussion
+      create :mentor_testimonial, :revealed, mentor: mentor, discussion: other_discussion, content: "Too good!"
 
       use_capybara_host do
         sign_in!(mentor)
@@ -168,19 +112,7 @@ module Flows
 
     test "mentor views testimonial in a modal" do
       mentor = create :user
-      student = create :user, handle: "student"
-      ruby = create :track, slug: "ruby"
-      bob = create :concept_exercise, title: "Bob", track: ruby
-      solution = create :concept_solution, exercise: bob
-      discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: student,
-        content: "Great mentor!",
-        discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: true
-      create :user_track_mentorship, track: ruby, user: mentor
+      create :mentor_testimonial, :revealed, mentor: mentor, content: "Great mentor!"
 
       use_capybara_host do
         sign_in!(mentor)
@@ -193,19 +125,7 @@ module Flows
 
     test "mentor reveals a testimonial" do
       mentor = create :user
-      student = create :user, handle: "student"
-      ruby = create :track, slug: "ruby"
-      bob = create :concept_exercise, title: "Bob", track: ruby
-      solution = create :concept_solution, exercise: bob
-      discussion = create :mentor_discussion, solution: solution
-      create :mentor_testimonial,
-        mentor: mentor,
-        student: student,
-        content: "Great mentor!",
-        discussion: discussion,
-        created_at: 1.day.ago,
-        revealed: false
-      create :user_track_mentorship, track: ruby, user: mentor
+      create :mentor_testimonial, :unrevealed, mentor: mentor, content: "Great mentor!"
 
       use_capybara_host do
         sign_in!(mentor)

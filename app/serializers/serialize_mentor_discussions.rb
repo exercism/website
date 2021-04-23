@@ -4,7 +4,7 @@ class SerializeMentorDiscussions
   initialize_with :discussions
 
   def call
-    discussions.includes(:exercise, :track).
+    discussions.includes(:exercise, :track, :student).
       map { |r| serialize_discussion(r) }
   end
 

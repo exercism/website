@@ -47,7 +47,7 @@ module ReactComponents
           title: "All",
           slug: nil,
           icon_url: asset_pack_url(
-            "media/images/icons/logo.svg",
+            "media/images/icons/all-tracks.svg",
             host: Rails.application.config.action_controller.asset_host
           )
         )

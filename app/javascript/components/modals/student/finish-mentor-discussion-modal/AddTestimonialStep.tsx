@@ -60,15 +60,9 @@ export const AddTestimonialStep = ({
 
   return (
     <section className="testimonial-step">
+      <h2>We're glad you had a good discussion!</h2>
       <div className="container">
         <div className="lhs">
-          <h2>Say thanks to {discussion.mentor.handle}!</h2>
-          <div className="celebration">
-            <p>
-              <strong>That’s awesome!</strong> 🙂 We’re glad you had a good
-              session with {discussion.mentor.handle}.
-            </p>
-          </div>
           <p className="explanation">
             Mentors volunteer their time for free. A nice testimonial is a great
             way of thanking them, and encouraging them to continue helping

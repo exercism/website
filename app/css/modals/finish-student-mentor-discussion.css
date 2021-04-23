@@ -139,14 +139,6 @@
         }
     }
     & section.testimonial-step {
-        & .celebration {
-            @apply bg-lightOrange;
-            @apply py-12 px-24 mb-16;
-            @apply text-16 leading-160 text-brown font-medium;
-            & strong {
-                @apply font-semibold;
-            }
-        }
         & form {
             @apply mt-24 pt-24;
             @apply border-t-1 border-borderColor6;

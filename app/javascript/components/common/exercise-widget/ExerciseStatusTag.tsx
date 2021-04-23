@@ -6,6 +6,10 @@ export const ExerciseStatusTag = ({
 }: {
   exercise: Exercise
 }): JSX.Element => {
+  if (exercise.isExternal) {
+    return <></>
+  }
+
   if (exercise.isRecommended) {
     return (
       <div className="c-exercise-status-tag --recommended">Recommended</div>

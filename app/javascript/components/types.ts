@@ -124,6 +124,7 @@ type ExerciseCore = {
   difficulty: ExerciseDifficulty
   isRecommended: boolean
   isTutorial: boolean
+  isExternal: boolean
 }
 
 export type ExerciseDifficulty = 'easy'

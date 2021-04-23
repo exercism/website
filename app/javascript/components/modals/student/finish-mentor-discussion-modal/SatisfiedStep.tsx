@@ -27,7 +27,7 @@ export const SatisfiedStep = ({
     (requeue: boolean) => {
       return sendRequest({
         endpoint: links.finish,
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify({ rating: 'satisfied', requeue: requeue }),
         isMountedRef: isMountedRef,
       })

@@ -91,7 +91,7 @@ Rails.application.routes.draw do
 
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
-          post :finish, on: :member
+          patch :finish, on: :member
           resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
         end
       end

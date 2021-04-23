@@ -30,7 +30,7 @@ export const AddTestimonialStep = ({
     () => {
       return sendRequest({
         endpoint: links.finish,
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify({
           rating: 'happy',
           testimonial: value,

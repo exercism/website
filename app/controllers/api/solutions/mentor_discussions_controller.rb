@@ -4,10 +4,18 @@ module API
 
     # TODO
     def finish
-      @discussion.update!(finished_at: Time.current)
+      @discussion.student_finished!
 
-      # TODO
-      Mentor::Request::Create.(@discussion.solution, "temp comment") if params[:requeue]
+      if params[:requeue]
+        comment = @discussion.request&.comment_markdown || "[No comment provided]"
+        Mentor::Request::Create.(@discussion.solution, comment)
+      end
+
+      # TODO: Create testimonial
+      # TODO: Create abuse report
+      # TODO: Store rating
+      # TODO: Block user if appropriate
+      # TODO: Move all this ^^ into its own service
 
       render json: {}
     end

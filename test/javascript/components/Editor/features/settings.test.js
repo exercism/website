@@ -1,4 +1,4 @@
-jest.mock('../../../../../app/javascript/components/editor/FileEditor')
+jest.mock('../../../../../app/javascript/components/editor/FileEditorAce')
 
 import React from 'react'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
@@ -19,7 +19,7 @@ test('change theme', async () => {
   fireEvent.click(screen.getByLabelText('Dark'))
 
   await waitFor(() => {
-    expect(screen.queryByText('Theme: dark')).toBeInTheDocument()
+    expect(screen.queryByText('Theme: solarized_dark')).toBeInTheDocument()
   })
 })
 

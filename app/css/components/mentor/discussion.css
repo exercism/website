@@ -395,6 +395,7 @@
                         width: var(--header-height);
                         @apply mr-16;
                         @apply relative z-1 bg-backgroundColorA;
+                        @apply flex-shrink-0;
                     }
                     & .timeline-content {
                         @apply flex-grow items-center;
@@ -430,65 +431,30 @@
                     }
                 }
 
-                & details.auto-feedback {
-                    @apply mx-24 mt-8;
+                & .auto-feedback {
+                    @apply mt-8;
                     @apply relative;
                     @apply border-1 border-borderColor6 rounded-8;
                     @apply py-8 px-16;
+                    @apply flex items-center;
 
-                    &:before {
-                        content: "";
-                        top: -8px;
-                        height: 8px;
-                        left: 24px;
-
-                        @apply absolute;
-                        @apply border-l-1 border-borderColor6;
+                    & .info-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply text-orange mr-12;
+                        filter: var(--textColor6-filter);
+                    }
+                    & .info {
+                        @apply flex-grow;
+                        @apply text-15 text-textColor6 font-medium leading-150;
+                        @apply mr-12;
                     }
 
-                    & summary {
-                        @apply flex items-center;
-                        & .info-icon {
-                            height: 16px;
-                            width: 16px;
-                            @apply text-orange mr-12;
-                        }
-                        & .info {
-                            @apply flex-grow;
-                            @apply text-15 text-textColor6 font-medium leading-paragraph;
-                        }
-                    }
-                    & .feedback {
-                        @apply border-t-1 border-borderColor6;
-                        @apply mt-8 pt-12 mb-12;
-                        @apply flex flex-col items-start;
-
-                        & .byline {
-                            @apply flex items-center mb-12;
-
-                            & .c-avatar {
-                                @apply mr-8;
-                                height: 32px;
-                                width: 32px;
-                            }
-                            & .name {
-                                @apply mr-12;
-                                @apply text-14 leading-paragraph text-textColor6 font-medium;
-                            }
-                            & .c-icon {
-                                @apply text-textColor6;
-                            }
-                        }
-                    }
-                    & .more-info {
-                        @apply border-t-2 border-borderColor6 pt-16 mt-24;
-                        @apply flex items-center;
-                        @apply text-lightBlue font-medium leading-huge;
-                        & .c-icon {
-                            height: 14px;
-                            width: 14px;
-                            @apply ml-12;
-                        }
+                    & .modal-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply ml-auto;
+                        filter: var(--textColor6-filter);
                     }
                 }
 

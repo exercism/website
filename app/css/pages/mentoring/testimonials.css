@@ -71,14 +71,13 @@
             }
             & .content {
                 @apply text-15 leading-170 text-textColor6;
-                @apply flex-grow;
                 @apply truncate;
-                @apply ml-40 mr-40;
-                max-width: 520px;
+                @apply ml-48 mr-40;
+                width: 520px;
             }
             & time {
                 @apply text-textColor6 leading-140 font-medium;
-                @apply ml-auto;
+                @apply ml-96;
             }
             & .c-icon.action-icon {
                 height: 16px;

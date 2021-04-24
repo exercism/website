@@ -17,25 +17,13 @@ export const AutomatedFeedbackSummary = ({
   representerFeedback?: RepresenterFeedbackProps
   userIsStudent: boolean
 }): JSX.Element => {
-  const addressedTo = userIsStudent ? 'You' : 'Your student'
+  const addressedTo = userIsStudent ? 'You' : 'Student'
 
   return (
-    <details className="c-details auto-feedback">
-      <summary>
-        <GraphicalIcon icon="alert-circle" className="info-icon" />
-        <div className="info">{addressedTo} received automated feedback</div>
-        <GraphicalIcon icon="chevron-right" className="--closed-icon" />
-        <GraphicalIcon icon="chevron-down" className="--open-icon" />
-      </summary>
-      {representerFeedback ? (
-        <RepresenterFeedback {...representerFeedback} />
-      ) : null}
-      {analyzerFeedback ? <AnalyzerFeedback {...analyzerFeedback} /> : null}
-      {/* TODO: Fill out this URL */}
-      <a href="#" className="more-info">
-        Learn more about this feedback
-        <Icon icon="external-link" alt="Opens in new tab" />
-      </a>
-    </details>
+    <div className="auto-feedback">
+      <GraphicalIcon icon="automation" className="info-icon" />
+      <div className="info">{addressedTo} received automated feedback</div>
+      <GraphicalIcon icon="modal" className="modal-icon" />
+    </div>
   )
 }

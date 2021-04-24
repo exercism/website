@@ -1,9 +1,21 @@
 .action-box
   %h3 Continue #{exercise.title}
-  %p You have submitted #{5 * 1} iterations for this exercise. Either continue improving your solution or mark the exercise as completed to proceed.
+  %p
+    %strong
+      You have submitted
+      = link_to pluralize(solution.iterations.size, "iteration"), track_exercise_iterations_path(track, exercise)
+      for this exercise.
+    - if exercise.concept_exercise?
+      Continue improving your solution or mark the exercise as completed to proceed.
+    - else
+      Continue improving your solution
+      - if solution.mentoring_status_none?
+        or #{link_to 'request mentoring', new_track_exercise_mentor_request_path(track, exercise)} to discover new techniques.
+      - else
+        or mark the exercise as completed.
 
   %h4 Via Exercism Editor
-  = link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn" do
+  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn" do
     = graphical_icon :editor
     Continue in Editor
 
@@ -15,4 +27,4 @@
   .complete
     %h3 Done with the exercise?
     = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
-    .explanation By marking #{'Structs' * 1} as complete, you’ll unlock the concepts #{'Agent and Errors' * 1}.
+    = render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise)

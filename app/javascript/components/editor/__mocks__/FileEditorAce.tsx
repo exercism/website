@@ -12,7 +12,7 @@ export enum Keybindings {
   EMACS = 'emacs',
 }
 
-export function FileEditor({
+export function FileEditorAce({
   files,
   language,
   editorDidMount,

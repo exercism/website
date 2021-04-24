@@ -142,19 +142,11 @@
 
         @apply flex flex-col;
 
-        & .react-monaco-editor-container {
-        }
-
-        & .monaco-editor {
-            & .monaco-scrollable-element .scrollbar {
-                background: transparent;
-                .arrow-background {
-                    background: purple;
-                }
-
-                & .slider {
-                    background: red;
-                }
+        & .code {
+            height: 100%;
+            width: 100%;
+            & .ace_content {
+                @apply font-medium;
             }
         }
     }

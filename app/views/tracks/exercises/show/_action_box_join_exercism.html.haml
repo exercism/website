@@ -1,0 +1,20 @@
+.action-box.join
+  .icons
+    = track_icon track
+    = graphical_icon :plus, css_class: "plus"
+    = icon :logo, "Exercism"
+  %h3
+    Ready to start #{exercise.title}?
+  %p
+    Sign up to Exercism to learn and master
+    = link_to track.title, track_path(track)
+    with
+    #{link_to "#{track.num_concepts} concepts", track_concepts_path(track)},
+    #{link_to "#{track.num_exercises} exercises", track_exercise_path(track)},
+    and real human mentoring,
+    %strong all for free.
+
+  .buttons
+    = link_to "Sign up, it’s free!", new_user_registration_path, class: 'btn-cta'
+    = link_to "Log in to Exercism", new_user_session_path, class: 'btn-secondary'
+

@@ -20,10 +20,16 @@ module ViewComponents
     end
 
     def menu_items
+      if current_user.profile
+        profile_path = Exercism::Routes.profile_path(current_user)
+      else
+        profile_path = Exercism::Routes.intro_profiles_path
+      end
+
       [
         { html: profile_item, className: "profile" },
-        { html: link_to("My Journey", "#"), className: "opt" },
-        { html: link_to("Profile", "#"), className: "opt" },
+        { html: link_to("My Journey", Exercism::Routes.journey_path), className: "opt" },
+        { html: link_to("Profile", profile_path), className: "opt" },
         { html: link_to("Settings", "#"), className: "opt" },
         { html: link_to("Sign out", Exercism::Routes.destroy_user_session_path, method: :delete), className: "opt" }
       ]

@@ -10,7 +10,7 @@
         = fields_for current_user do |fu|
           .field
             = fu.label :name, "Full Name"
-            = fu.text_field :name, placeholder: "How do you want to be known?"
+            = fu.text_field :name, placeholder: "How do you want to be known?", required: true
           .field
             = fu.label :location, "Location (optional)"
             = fu.text_field :location, placeholder: "Where do you currently live?"

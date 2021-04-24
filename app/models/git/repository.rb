@@ -58,7 +58,7 @@ module Git
       lookup(sha).tap do |object|
         raise 'wrong-type' if object.type != :commit
       end
-    rescue Rugged::OdbError
+    rescue Rugged::OdbError, Rugged::InvalidError
       raise MissingCommitError unless update_on_failure
 
       fetch!

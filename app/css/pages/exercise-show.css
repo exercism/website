@@ -388,10 +388,17 @@
             }
         }
         & p {
-            @apply text-16 leading-paragraph mb-24;
+            @apply text-16 leading-160 mb-24 text-textColor2;
+
+            & a {
+                @apply text-lightBlue font-medium;
+            }
 
             & strong {
                 @apply font-medium;
+                & a {
+                    @apply border-b-2 border-color22 text-textColor2;
+                }
             }
         }
         & .prereqs {
@@ -420,11 +427,41 @@
             @apply mt-20 pt-20 border-t-1 border-borderLight;
 
             & button {
-                @apply mb-12 w-100;
+                @apply w-100;
             }
 
             & .explanation {
-                @apply text-14 leading-paragraph;
+                @apply text-14 leading-160 mt-12;
+            }
+        }
+        &.join {
+            & .icons {
+                @apply flex items-center;
+                @apply mb-12;
+
+                & .c-track-icon,
+                & .c-icon {
+                    height: 48px;
+                    width: 48px;
+                }
+                & .c-icon.plus {
+                    height: 16px;
+                    width: 16px;
+                    @apply mx-12;
+                }
+            }
+            & p {
+                & a {
+                    @apply font-semibold;
+                }
+            }
+            & .buttons {
+                & .btn-cta {
+                    @apply w-100;
+                }
+                & > :first-child {
+                    @apply mb-12;
+                }
             }
         }
     }

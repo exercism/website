@@ -1,6 +1,9 @@
 require_relative '../base_test_case'
 
 class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
+  include Webpacker::Helper
+  include ActionView::Helpers::AssetUrlHelper
+
   guard_incorrect_token! :api_mentoring_discussions_path
   guard_incorrect_token! :tracks_api_mentoring_discussions_path
   guard_incorrect_token! :api_mentoring_discussions_path, method: :post
@@ -46,8 +49,12 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     get tracks_api_mentoring_discussions_path(per: 1, status: :awaiting_mentor), headers: @headers, as: :json
     assert_response 200
 
+    all_icon = asset_pack_url(
+      "media/images/icons/all-tracks.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
     expected = [
-      { slug: nil, title: 'All', icon_url: Track.first.icon_url, count: 3 },
+      { slug: nil, title: 'All', icon_url: all_icon, count: 3 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
       { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
     ]

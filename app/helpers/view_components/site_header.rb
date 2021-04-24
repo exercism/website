@@ -37,9 +37,9 @@ module ViewComponents
       tag.nav do
         tag.ul do
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
-            nav_li("Learn", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
-            nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
-            nav_li("Contribute", :logo, "#", false)
+            nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
+            nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
+            nav_li("Contribute", :contribute, "#", false)
         end
       end
     end
@@ -56,8 +56,8 @@ module ViewComponents
       tag.li(attrs) do
         link_to url do
           safe_join([
-            (icon('bubbly-background', "Selected", css_class: 'selected') if selected),
-            graphical_icon(icon_name),
+            (icon('bubbly-background', "Selected", css_class: 'selected bg-icon') if selected),
+            graphical_icon(icon_name, css_class: 'main-icon'),
             title
           ].compact)
         end
@@ -72,6 +72,8 @@ module ViewComponents
       tag.div(class: "user-section") do
         safe_join(
           [
+            new_testimonial_icon,
+            new_badge_icon,
             ReactComponents::Dropdowns::Notifications.new.to_s,
             render(ReactComponents::Dropdowns::Reputation.new(current_user)),
             render(ViewComponents::UserMenu.new)
@@ -93,6 +95,22 @@ module ViewComponents
           tag.input class: "--search", placeholder: "Search Exercism's docs..."
         end
       end
+    end
+
+    def new_testimonial_icon
+      # TOOD: Cache this?
+      # TOOD: Add test coverage
+      return nil unless current_user.mentor_testimonials.unrevealed.exists?
+
+      link_to('', Exercism::Routes.mentoring_testimonials_path, class: 'new-testimonial')
+    end
+
+    def new_badge_icon
+      # TOOD: Cache this?
+      # TOOD: Add test coverage
+      return nil unless current_user.acquired_badges.unrevealed.exists?
+
+      link_to('', Exercism::Routes.badges_journey_path, class: 'new-badge')
     end
   end
 end

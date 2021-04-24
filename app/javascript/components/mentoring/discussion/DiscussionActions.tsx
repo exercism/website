@@ -14,9 +14,15 @@ export const DiscussionActions = ({
   session: SessionProps
   setSession: (session: SessionProps) => void
 }): JSX.Element => {
-  const setDiscussion = useCallback(
+  const handleSuccess = useCallback(
     (discussion) => {
-      setSession({ ...session, discussion: discussion })
+      const { relationship, ...discussionProps } = discussion
+
+      setSession({
+        ...session,
+        discussion: discussionProps,
+        relationship: relationship,
+      })
     },
     [setSession, session]
   )
@@ -33,7 +39,7 @@ export const DiscussionActions = ({
           Ended
         </div>
       ) : links.finish ? (
-        <FinishButton endpoint={links.finish} onSuccess={setDiscussion} />
+        <FinishButton endpoint={links.finish} onSuccess={handleSuccess} />
       ) : null}
     </>
   )

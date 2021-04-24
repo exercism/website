@@ -5,7 +5,7 @@ class SerializeMentorDiscussions
 
   def call
     discussions.
-      includes(:exercise, :track).
+      includes(:exercise, :track, :student).
       map { |r| SerializeMentorDiscussion.(r, context) }
   end
 end

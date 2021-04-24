@@ -1,0 +1,12 @@
+.action-box
+  %h3
+    = icon :lock, "This exercise is locked"
+    Unlock #{exercise.title}
+  %p
+    This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
+    %strong #{exercise.title}.
+
+  .prereqs
+    - exercise.prerequisite_exercises.each do |prereq|
+      = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, size: :small)
+

@@ -112,6 +112,7 @@ import '../../css/pages/docs-index'
 import '../../css/pages/docs-tracks'
 import '../../css/pages/editor'
 import '../../css/pages/onboarding'
+import '../../css/pages/profile-intro'
 import '../../css/pages/profile'
 import '../../css/pages/profile-badges'
 import '../../css/pages/profile-solutions'
@@ -306,6 +307,14 @@ initReact({
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart
       exercisesData={data.exercises_data}
+      links={data.links}
+    />
+  ),
+  'student-exercise-status-dot': (data: any) => (
+    <Student.ExerciseStatusDot
+      slug={data.slug}
+      exerciseStatus={data.exercise_status}
+      type={data.type}
       links={data.links}
     />
   ),

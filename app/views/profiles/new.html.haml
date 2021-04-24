@@ -1,0 +1,32 @@
+#page-profile-new
+  .sm-container.container
+    %header
+      = graphical_icon "new-profile", category: 'graphics'
+      %h1 Create your public profile
+      %hr.c-divider
+
+    %section.form-section
+      = form_with url: profiles_path, method: :post, model: @profile do
+        = fields_for current_user do |fu|
+          .field
+            = fu.label :name, "Full Name"
+            = fu.text_field :name, placeholder: "How do you want to be known?"
+          .field
+            = fu.label :location, "Location (optional)"
+            = fu.text_field :location, placeholder: "Where do you currently live?"
+            .note Exercism is made up of people from all over the world 🌎
+          .field
+            = fu.label :bio, "Bio (optional)"
+            = fu.text_area :bio, placeholder: "Tell everyone a bit more about who you are, and what you're in to. e.g. I'm a Rails dev who loves bouldering and coffee"
+            .character-count 0/160 characters
+          .field
+            = fu.label :pronouns, "Pronouns (optional)"
+            = fu.text_field :pronouns, placeholder: "e.g. she/her"
+            .note How should the community address you?
+
+          = button_tag "Create profile", class: "btn-cta"
+      .avatar-selector
+        = avatar(current_user)
+        %h2 Your profile picture
+        .instruction Click/tap it to upload another
+        .formats .jpg + .png accepted

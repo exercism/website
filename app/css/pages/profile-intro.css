@@ -1,6 +1,6 @@
 @import "../styles";
 
-#profile-intro-page {
+#page-profile-intro {
     & .top-section {
         &:before {
             @apply absolute;
@@ -40,6 +40,7 @@
 
         & .container {
             @apply flex flex-col items-center;
+            @apply relative z-1; /* Needed to make the button clickable */
         }
 
         & .c-icon {

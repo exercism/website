@@ -3,8 +3,6 @@ class ProfilesController < ApplicationController
   before_action :use_profile, except: %i[intro new create]
 
   def show
-    raise ActiveRecord::RecordNotFound unless @profile
-
     # TODO: Order all these by most prominent first
     @solutions = @user.solutions.published.first(3)
     @testimonials = @user.mentor_testimonials.published.first(3)
@@ -37,9 +35,41 @@ class ProfilesController < ApplicationController
     render_template_as_json
   end
 
+  def intro
+    return redirect_to profile_path(current_user) if current_user&.profile
+  end
+
+  def new
+    return redirect_to profile_path(current_user) if current_user&.profile
+
+    @profile = User::Profile.new
+  end
+
+  def create
+    if params[:user]
+      current_user.update!(
+        params[:user].
+        permit(:name, :location, :bio, :pronouns)
+      )
+    end
+
+    begin
+      current_user.create_profile!
+    rescue ActiveRecord::RecordNotUnique
+      # Handle a double-click gracefully
+    end
+    redirect_to profile_path(current_user)
+  end
+
   private
   def use_profile
     @user = User.find_by(handle: params[:id])
-    @profile = @user.profile
+    @profile = @user&.profile
+
+    unless @profile  # rubocop:disable Style/GuardClause
+      return redirect_to action: :intro if current_user&.handle == params[:id]
+
+      raise ActiveRecord::RecordNotFound
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_162905) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -214,13 +214,13 @@ ActiveRecord::Schema.define(version: 2021_04_20_162905) do
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
     t.bigint "request_id"
-    t.datetime "awaiting_mentor_since"
+    t.integer "status", limit: 1, default: 0, null: false
     t.datetime "awaiting_student_since"
+    t.datetime "awaiting_mentor_since"
+    t.datetime "mentor_finished_at"
     t.datetime "student_finished_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", limit: 1, default: 0, null: false
-    t.datetime "mentor_finished_at"
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"

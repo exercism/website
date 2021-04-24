@@ -5,10 +5,16 @@ import { useMutation } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
+import { Student, StudentMentorRelationship } from '../Session'
 
 type ComponentProps = {
   endpoint: string
-  onSuccess: () => void
+  onSuccess: (student: Student) => void
+}
+
+type APIResponse = {
+  student: Student
+  relationship: StudentMentorRelationship
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -29,14 +35,19 @@ const Component = ({
   const isMountedRef = useIsMounted()
   const [isHovering, setIsHovering] = useState(false)
 
-  const [mutation, { status, error }] = useMutation(() => {
-    return sendRequest({
-      endpoint: endpoint,
-      method: 'DELETE',
-      body: null,
-      isMountedRef: isMountedRef,
-    }).then(onSuccess)
-  })
+  const [mutation, { status, error }] = useMutation<APIResponse>(
+    () => {
+      return sendRequest({
+        endpoint: endpoint,
+        method: 'DELETE',
+        body: null,
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: (response) => onSuccess(response.student),
+    }
+  )
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 

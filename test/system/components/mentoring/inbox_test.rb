@@ -28,7 +28,7 @@ module Components
           assert_text "on Series"
           assert_text "0"
           assert_text "a year ago"
-          assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
+          assert_link "", href: Exercism::Routes.mentoring_discussion_path(discussion)
           assert_css "img[alt='Starred student']", visible: false
         end
       end

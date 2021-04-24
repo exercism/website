@@ -6,8 +6,10 @@ import { Student } from '../Session'
 
 export const PreviousSessionsLink = ({
   student,
+  setStudent,
 }: {
   student: Student
+  setStudent: (student: Student) => void
 }): JSX.Element | null => {
   const [open, setOpen] = useState(false)
 
@@ -29,6 +31,7 @@ export const PreviousSessionsLink = ({
       <PreviousMentoringSessionsModal
         open={open}
         student={student}
+        setStudent={setStudent}
         onClose={() => setOpen(false)}
       />
     </React.Fragment>

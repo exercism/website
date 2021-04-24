@@ -23,8 +23,12 @@ const DEFAULT_ERROR = new Error('Unable to load discussions')
 export const PreviousMentoringSessionsModal = ({
   onClose,
   student,
+  setStudent,
   ...props
-}: Omit<ModalProps, 'className'> & { student: Student }): JSX.Element => {
+}: Omit<ModalProps, 'className'> & {
+  student: Student
+  setStudent: (student: Student) => void
+}): JSX.Element => {
   const isMountedRef = useIsMounted()
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
@@ -84,8 +88,8 @@ export const PreviousMentoringSessionsModal = ({
         <Avatar src={student.avatarUrl} handle={student.handle} />
         <div className="student-name">{student.handle}</div>
         <FavoriteButton
-          isFavorite={student.isFavorite}
-          endpoint={student.links.favorite}
+          student={student}
+          onSuccess={(student) => setStudent(student)}
         />
       </header>
       <div className="discussions">

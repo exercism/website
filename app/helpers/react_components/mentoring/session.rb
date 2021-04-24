@@ -14,21 +14,7 @@ module ReactComponents
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
-            student: {
-              id: student.id,
-              name: student.name,
-              handle: student.handle,
-              bio: student.bio,
-              languages_spoken: student.languages_spoken,
-              avatar_url: student.avatar_url,
-              reputation: student.formatted_reputation,
-              is_favorite: student.favorited_by?(current_user),
-              num_previous_sessions: current_user.num_previous_mentor_sessions_with(student),
-              links: {
-                favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
-                previous_sessions: Exercism::Routes.api_mentoring_previous_discussions_path(handle: student.handle)
-              }
-            },
+            student: SerializeStudent.(student, current_user),
             mentor_solution: mentor_solution,
             notes: notes,
             links: links

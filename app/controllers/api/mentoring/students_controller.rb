@@ -44,7 +44,10 @@ module API
 
     def render_relationship
       relationship = Mentor::StudentRelationship.find_by!(mentor: current_user, student: @student)
-      render json: { relationship: SerializeMentorStudentRelationship.(relationship) }
+      render json: {
+        relationship: SerializeMentorStudentRelationship.(relationship),
+        student: SerializeStudent.(@student, current_user)
+      }
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end

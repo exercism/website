@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :use_profile, except: %i[intro new create]
+  before_action :use_user, except: %i[intro new create]
+  before_action :use_profile, except: %i[intro new create tooltip]
 
   def show
     # TODO: Order all these by most prominent first
@@ -62,12 +63,15 @@ class ProfilesController < ApplicationController
   end
 
   private
-  def use_profile
+  def use_user
     @user = User.find_by(handle: params[:id])
+  end
+
+  def use_profile
     @profile = @user&.profile
 
     unless @profile # rubocop:disable Style/GuardClause
-      redirect_to action: :intro if current_user&.handle == params[:id]
+      return redirect_to action: :intro if current_user&.handle == params[:id]
 
       raise ActiveRecord::RecordNotFound
     end

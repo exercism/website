@@ -110,11 +110,6 @@ class User < ApplicationRecord
   end
 
   # TODO
-  def bio
-    "Developing software / Learning languages / Love to sail"
-  end
-
-  # TODO
   def languages_spoken
     %w[english spanish]
   end

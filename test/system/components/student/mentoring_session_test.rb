@@ -176,7 +176,7 @@ module Components
 
       test "shows mentor info" do
         student = create :user
-        mentor = create :user, name: "Mentor", handle: "mentor", reputation: 1500
+        mentor = create :user, name: "Mentor", handle: "mentor", reputation: 1500, bio: "I love to do a mentoring"
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student

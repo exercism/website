@@ -160,6 +160,7 @@
                         height: 21px;
                         width: 21px;
                         @apply mr-12;
+                        filter: var(--textColor6-filter);
                     }
                 }
             }

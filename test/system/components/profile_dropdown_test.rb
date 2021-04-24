@@ -12,8 +12,8 @@ module Components
         visit dashboard_path
         find(".user-menu").click
 
-        assert_text "My Journey"
-        assert_text "Profile"
+        assert_text "Public Profile"
+        assert_text "Your Journey"
         assert_text "Settings"
         assert_text "Sign out"
       end

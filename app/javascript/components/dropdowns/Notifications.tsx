@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
-import { UnrevealedBadgesContainer } from './notifications/UnrevealedBadgesContainer'
 import { NotificationMenuItem } from './notifications/NotificationMenuItem'
-import { Notification, UnrevealedBadgeList } from './notifications/types'
+import { Notification } from './notifications/types'
 import { useNotificationDropdown } from './notifications/useNotificationDropdown'
 import { DropdownAttributes } from './useDropdown'
 import { useRequestQuery } from '../../hooks/request-query'
@@ -15,7 +14,6 @@ import { queryCache, QueryStatus } from 'react-query'
 
 export type APIResponse = {
   results: Notification[]
-  unrevealedBadges: UnrevealedBadgeList
   meta: {
     total: number
     unreadCount: number
@@ -49,26 +47,16 @@ const DropdownContent = ({
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
   if (data) {
-    const startIndex = data.unrevealedBadges ? 1 : 0
-
     return (
       <ul {...listAttributes}>
-        {data.unrevealedBadges ? (
-          <li {...itemAttributes(0)}>
-            <UnrevealedBadgesContainer
-              badges={data.unrevealedBadges.badges}
-              url={data.unrevealedBadges.links.badges}
-            />
-          </li>
-        ) : null}
         {data.results.map((notification, i) => {
           return (
-            <li {...itemAttributes(startIndex + i)} key={i}>
+            <li {...itemAttributes(i)} key={i}>
               <NotificationMenuItem {...notification} />
             </li>
           )
         })}
-        <li {...itemAttributes(startIndex + data.results.length)}>
+        <li {...itemAttributes(data.results.length)}>
           <a href={data.meta.links.all} className="c-prominent-link">
             <span>See all your notifications</span>
             <GraphicalIcon icon="arrow-right" />

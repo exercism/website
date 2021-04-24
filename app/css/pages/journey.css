@@ -105,6 +105,7 @@
                     height: 24px;
                     width: 24px;
                     @apply mr-16;
+                    filter: var(--textColor6-filter);
                 }
             }
         }
@@ -188,6 +189,7 @@
                 height: 24px;
                 width: 24px;
                 @apply ml-96;
+                filter: var(--textColor6-filter);
             }
         }
         & .c-pagination {
@@ -254,7 +256,8 @@
                         & .c-icon {
                             height: 16px;
                             width: 16px;
-                            @apply mr-12 text-textColor6;
+                            @apply mr-12;
+                            filter: var(--textColor6-filter);
                         }
                         & + .stat {
                             @apply ml-24;
@@ -275,6 +278,7 @@
                         height: 21px;
                         width: 21px;
                         @apply mr-8;
+                        filter: var(--textColor6-filter);
                     }
                     & .num {
                         @apply flex-grow;

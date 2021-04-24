@@ -18,7 +18,8 @@ import {
 import { File } from './types'
 import { Iteration } from './types'
 import { Header } from './editor/Header'
-import { FileEditor, FileEditorHandle } from './editor/FileEditor'
+import { FileEditorHandle } from './editor/FileEditorAce'
+import { FileEditorAce } from './editor/FileEditorAce'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
@@ -42,6 +43,11 @@ import { sendRequest, sendPostRequest, APIError } from '../utils/send-request'
 import { TabContext } from './common/Tab'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
+
+export type EditorConfig = {
+  tabSize: number
+  useSoftTabs: boolean
+}
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',
@@ -73,6 +79,7 @@ export function Editor({
   exampleFiles,
   storageKey,
   debuggingInstructions,
+  config,
 }: {
   endpoint: string
   timeout?: number
@@ -87,6 +94,7 @@ export function Editor({
   exampleFiles: File[]
   storageKey: string
   debuggingInstructions?: string
+  config: EditorConfig
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
   const [theme, setTheme] = useState(Themes.LIGHT)
@@ -392,7 +400,7 @@ export function Editor({
         </div>
 
         <div className="main-lhs">
-          <FileEditor
+          <FileEditorAce
             editorDidMount={editorDidMount}
             files={files}
             language={language}
@@ -401,6 +409,7 @@ export function Editor({
             wrap={wrap}
             onRunTests={runTests}
             onSubmit={submit}
+            config={config}
           />
         </div>
 

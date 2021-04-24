@@ -7,7 +7,7 @@ export const ResultsZone = (
   props: React.PropsWithChildren<{ isFetching: boolean }>
 ): JSX.Element => {
   const [isFetching, setIsFetching] = useState(false)
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const timerRef = useRef<number | null>(null)
   const classNames = `c-results-zone ${isFetching ? '--fetching' : ''}`
 
   useEffect(() => {

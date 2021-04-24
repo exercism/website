@@ -145,6 +145,9 @@
         & .code {
             height: 100%;
             width: 100%;
+            & .ace_content {
+                @apply font-medium;
+            }
         }
     }
     & .main-rhs {

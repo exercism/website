@@ -66,8 +66,8 @@ class ProfilesController < ApplicationController
     @user = User.find_by(handle: params[:id])
     @profile = @user&.profile
 
-    unless @profile  # rubocop:disable Style/GuardClause
-      return redirect_to action: :intro if current_user&.handle == params[:id]
+    unless @profile # rubocop:disable Style/GuardClause
+      redirect_to action: :intro if current_user&.handle == params[:id]
 
       raise ActiveRecord::RecordNotFound
     end

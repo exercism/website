@@ -175,7 +175,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
-  resources :profiles, only: %i[show new] do
+  resources :profiles, only: %i[show new create] do
     collection do
       get :intro
     end

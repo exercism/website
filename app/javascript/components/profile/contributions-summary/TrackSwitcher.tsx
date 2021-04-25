@@ -80,7 +80,7 @@ export const TrackSwitcher = ({
         aria-label="Open the track switcher"
         {...buttonAttributes}
       >
-        <GraphicalIcon icon="all-tracks" />
+        <TrackLogo track={value} />
         <div className="track-title">{value.title}</div>
         <div className="count">
           {getTotalReputation(value).toLocaleString()} rep

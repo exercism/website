@@ -1,65 +1,10 @@
 .c-notifications-dropdown {
-    width: 100%;
     max-width: 500px;
 
     & ul {
         @apply shadow-lg rounded-8 bg-backgroundColorA;
         @apply py-12 px-16;
         @apply relative z-dropdown;
-
-        & .unrevealed-badges,
-        & .unrevealed-badge {
-            @apply bg-lightOrange;
-            @apply border-1 border-lightGold rounded-8;
-            @apply py-12 px-24 mb-16;
-        }
-        & .unrevealed-badges {
-            @apply flex items-center;
-
-            & .content {
-                @apply flex-grow;
-
-                & .text {
-                    @apply flex-grow;
-                    @apply text-16 leading-150 font-semibold;
-                    @apply mb-8;
-                }
-                & .medallions {
-                    @apply flex;
-                    & .c-badge-medallion {
-                        height: 48px;
-                        width: 48px;
-                        @apply mr-8;
-                    }
-                }
-            }
-
-            & .action-icon {
-                height: 24px;
-                width: 24px;
-                @apply text-textColor3;
-            }
-        }
-
-        & .unrevealed-badge {
-            @apply flex items-center;
-
-            & .c-badge-medallion {
-                height: 48px;
-                width: 48px;
-                @apply mr-20;
-            }
-            & .text {
-                @apply flex-grow;
-                @apply text-16 leading-150 font-semibold;
-            }
-
-            & .action-icon {
-                height: 24px;
-                width: 24px;
-                @apply text-textColor3;
-            }
-        }
 
         & .notification {
             @apply flex items-center;

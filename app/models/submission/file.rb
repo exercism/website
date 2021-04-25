@@ -39,6 +39,7 @@ class Submission::File < ApplicationRecord
 
   def content
     return @content if @content.present?
+    return file_contents if uri.empty?
 
     Exercism.s3_client.get_object(
       bucket: s3_bucket,

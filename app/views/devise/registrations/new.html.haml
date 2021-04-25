@@ -1,37 +1,38 @@
 #page-auth
   %section.form-section
-    = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
-    %p.tagline Code practice and mentorship for everyone
+    .inner
+      = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
+      %p.tagline Code practice and mentorship for everyone
 
-    = link_to omniauth_authorize_path(:user, :github), class: "btn-large github-btn" do
-      = graphical_icon 'external-site-github'
-      Sign Up with GitHub
+      = link_to omniauth_authorize_path(:user, :github), class: "btn-large github-btn" do
+        = graphical_icon 'external-site-github'
+        Sign Up with GitHub
 
-    .divider
-      %span or
+      .divider
+        %span or
 
-    = flash_messages
+      = flash_messages
 
-    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-      .field
-        = f.label :handle, "Username"
-        = f.text_field :handle, placeholder: 'Choose a unique username'
-      .field
-        = f.label :email
-        = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address"
-      .field
-        = f.label :password
-        = f.password_field :password, autocomplete: "new-password", placeholder: "Choose a password (min #{@minimum_password_length} chars)"
-      .field
-        = f.label :password_confirmation
-        = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password"
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        .field
+          = f.label :handle, "Username"
+          = f.text_field :handle, placeholder: 'Choose a unique username'
+        .field
+          = f.label :email
+          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address"
+        .field
+          = f.label :password
+          = f.password_field :password, autocomplete: "new-password", placeholder: "Choose a password (min #{@minimum_password_length} chars)"
+        .field
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password"
 
-      .field
-        = f.label :bot_check, "Confirm you're not a bot"
-        = render ViewComponents::Captcha.new
+        .field
+          = f.label :bot_check, "Confirm you're not a bot"
+          = render ViewComponents::Captcha.new
 
-      = f.button "Sign Up", class: "btn-large-cta"
+        = f.button "Sign Up", class: "btn-large-cta"
 
-    = render "devise/shared/links"
+      = render "devise/shared/links"
 
   = render "devise/shared/information"

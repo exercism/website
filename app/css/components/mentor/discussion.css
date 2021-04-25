@@ -399,6 +399,7 @@
                     }
                     & .timeline-content {
                         @apply flex-grow items-center;
+                        @apply overflow-hidden;
                     }
                 }
                 & .timeline-entry-header {

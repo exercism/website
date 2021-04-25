@@ -89,6 +89,7 @@ import '../../css/components/mentor-discussion-widget'
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
 
+import '../../css/modals/profile-first-time'
 import '../../css/modals/completed-tutorial-exercise'
 import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'

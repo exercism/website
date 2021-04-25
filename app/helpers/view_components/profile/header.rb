@@ -13,6 +13,8 @@ module ViewComponents
 
       def top_three_tracks
         track_ids = @user.reputation_tokens.
+          joins(:track).
+          where("tracks.active": true).
           group(:track_id).
           select("track_id, COUNT(*) as c").
           order("c DESC").

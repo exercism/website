@@ -59,7 +59,7 @@ class ProfilesController < ApplicationController
     rescue ActiveRecord::RecordNotUnique
       # Handle a double-click gracefully
     end
-    redirect_to profile_path(current_user)
+    redirect_to profile_path(current_user, first_time: true)
   end
 
   private

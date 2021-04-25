@@ -1,3 +1,17 @@
+- if params[:first_time]
+  .c-modal.m-profile-first-time
+    .--modal-content
+      %header
+        = graphical_icon :confetti
+        %h2 You now have a public profile!
+        %p
+          %strong Good job!
+          You’ll now see your published solutions, mentoring testimonials, contributions and badges on your public profile.
+      .copy-section
+        %h3 You can share your profile with others too!
+        = render ReactComponents::Common::CopyToClipboardButton.new(profile_url(@profile))
+
+
 #page-profile
   = render ViewComponents::Profile::Header.new(@user, @profile, :summary)
 

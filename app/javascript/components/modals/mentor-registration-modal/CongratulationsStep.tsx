@@ -13,7 +13,7 @@ export const CongratulationsStep = ({
 }): JSX.Element => {
   return (
     <section className="celebrate-section">
-      <GraphicalIcon icon="confetti" />
+      <GraphicalIcon icon="confetti" category="graphics" />
       <h2>You’re now a mentor!</h2>
       <h3>Thank you - we’re so grateful for your commitment 🙏</h3>
       <p className="welcome">

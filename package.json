@@ -2,7 +2,7 @@
   "name": "exercism",
   "private": true,
   "dependencies": {
-    "@exercism/active-background": "^0.6.1",
+    "@exercism/active-background": "^0.6.2",
     "@popperjs/core": "^2.5.2",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",

@@ -1074,10 +1074,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@exercism/active-background@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.6.1.tgz#950baf4cb01c19a38aa7ca3d12139667913fcc0c"
-  integrity sha512-wUSIaebAsuQAwgUBShvn/f7U1cdnsnrvM7Im3asIns6UTQDyZuNi3ASe0EaUMAvCKNnz/+Y1YU0UJdsIRPDaVg==
+"@exercism/active-background@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.6.2.tgz#8f7333adcc37401dac0c2af0e94a9d2a87311666"
+  integrity sha512-oRSlD9o2twN+AwoL8XSYgbxggt8+rgH+n6y84mjXpuC/MsJoQQGG0Y6gkzuJcloLgB1SuBUt87qJunm4lYQzCA==
 
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"

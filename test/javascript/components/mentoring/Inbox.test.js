@@ -29,7 +29,6 @@ let server = setupServer(
             track: {
               title: 'Ruby',
             },
-<<<<<<< HEAD
             exercise: {
               title: 'Lasagna',
             },
@@ -40,7 +39,6 @@ let server = setupServer(
             isNewSubmission: false,
             haveMentoredPreviously: false,
             links: {},
-=======
             student: {
               avatarUrl: '',
             },
@@ -53,7 +51,6 @@ let server = setupServer(
             links: {
               self: '',
             },
->>>>>>> 83a812fc (Use one serializer for Mentor::Discussion)
           },
         ],
         meta: { totalPages: 2 },

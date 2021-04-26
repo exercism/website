@@ -9,13 +9,19 @@ test('has back button in add testimonial step', async () => {
     exercise: '',
     finish: '',
   }
+  const discussion = {
+    finishedBy: 'mentor',
+    mentor: {
+      handle: 'mentor',
+    },
+  }
 
-  render(<FinishMentorDiscussionModal links={links} />)
-  userEvent.click(screen.getByRole('button', { name: 'Happy' }))
+  render(<FinishMentorDiscussionModal links={links} discussion={discussion} />)
+  userEvent.click(screen.getByRole('button', { name: 'It was good!' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
 
   expect(
-    await screen.findByText("It's time to rate your mentor")
+    await screen.findByText("It's time to review this discussion")
   ).toBeInTheDocument()
 })
 
@@ -24,13 +30,19 @@ test('has back button in satisfied step', async () => {
     exercise: '',
     finish: '',
   }
+  const discussion = {
+    finishedBy: 'mentor',
+    mentor: {
+      handle: 'mentor',
+    },
+  }
 
-  render(<FinishMentorDiscussionModal links={links} />)
-  userEvent.click(screen.getByRole('button', { name: 'Satisfied' }))
+  render(<FinishMentorDiscussionModal links={links} discussion={discussion} />)
+  userEvent.click(screen.getByRole('button', { name: 'Acceptable' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
 
   expect(
-    await screen.findByText("It's time to rate your mentor")
+    await screen.findByText("It's time to review this discussion")
   ).toBeInTheDocument()
 })
 
@@ -39,12 +51,18 @@ test('has back button in report step', async () => {
     exercise: '',
     finish: '',
   }
+  const discussion = {
+    finishedBy: 'mentor',
+    mentor: {
+      handle: 'mentor',
+    },
+  }
 
-  render(<FinishMentorDiscussionModal links={links} />)
-  userEvent.click(screen.getByRole('button', { name: 'Unhappy' }))
+  render(<FinishMentorDiscussionModal links={links} discussion={discussion} />)
+  userEvent.click(screen.getByRole('button', { name: 'Problematic' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
 
   expect(
-    await screen.findByText("It's time to rate your mentor")
+    await screen.findByText("It's time to review this discussion")
   ).toBeInTheDocument()
 })

@@ -2,17 +2,23 @@
 
 #page-auth {
     --lhs-width: 550px;
-
-    @apply flex-grow;
-    @apply flex bg-backgroundColorA;
+    background: linear-gradient(360deg, #5141bd 0%, #3e2ea5 100%),
+        linear-gradient(0deg, #2f2768, #2f2768);
+    @apply flex flex-grow relative;
 
     & section.form-section {
-        min-width: var(--lhs-width);
-        max-width: var(--lhs-width);
         @apply py-48 px-48;
+        @apply bg-backgroundColorA;
         margin: 0 auto;
+        max-width: 38%;
+        width: 100%;
 
         @apply flex flex-col items-center;
+
+        & > .inner {
+            width: 100%;
+            max-width: var(--lhs-width);
+        }
 
         & .logo {
             @apply mb-12;
@@ -21,6 +27,7 @@
         }
         & p.tagline {
             @apply text-16 leading-paragraph text-darkGray;
+            @apply text-center;
             @apply mb-32;
         }
         & .intro {
@@ -120,29 +127,20 @@
         }
     }
     & section.information-section {
-        @apply flex-grow;
-        @apply fixed;
+        @apply flex flex-col flex-grow items-center;
+        max-height: 100vh;
+        @apply py-80 px-32;
+        position: sticky;
         top: 0;
-        left: var(--lhs-width);
-        right: 0;
-        bottom: 0;
-        @apply flex-col;
 
-        background: linear-gradient(360deg, #5141bd 0%, #3e2ea5 100%),
-            linear-gradient(0deg, #2f2768, #2f2768);
-
-        & .faces {
-            @apply flex-grow flex items-center;
-            @apply pl-48;
-        }
         & .content {
-            @apply p-48;
-
+            @apply mt-auto text-center;
+            @apply flex flex-col items-center;
             & h2 {
                 @apply text-h3 text-textColor9 mb-12;
             }
             & p {
-                @apply text-18 text-veryLightBlue leading-huge;
+                @apply text-p-large text-veryLightBlue;
                 max-width: 720px;
                 & strong {
                     @apply font-semibold;
@@ -150,12 +148,13 @@
             }
             & .icons {
                 @apply flex items-center mt-32;
-                & .c-icon {
+                & .c-track-icon {
                     height: 64px;
                     width: 64px;
-                    @apply mr-24;
+                    @apply mr-16;
                 }
                 & .more {
+                    @apply ml-8;
                     @apply text-textColor9 font-semibold;
                 }
             }

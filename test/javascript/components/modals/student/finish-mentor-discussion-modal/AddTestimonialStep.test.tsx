@@ -12,14 +12,24 @@ test('button says "Submit testimonial" if text box is populated', async () => {
   const links = {
     finish: '',
   }
+  const discussion = {
+    mentor: {
+      handle: 'mentor',
+    },
+  }
 
   render(
-    <AddTestimonialStep onSubmit={jest.fn()} onBack={jest.fn()} links={links} />
+    <AddTestimonialStep
+      onSubmit={jest.fn()}
+      onBack={jest.fn()}
+      links={links}
+      discussion={discussion}
+    />
   )
-  userEvent.type(screen.getByLabelText('Testimonial'), 'Test')
+  userEvent.type(screen.getByLabelText(/Leave mentor a testimonial/), 'Test')
 
   expect(
-    await screen.findByRole('button', { name: 'Submit testimonial' })
+    await screen.findByRole('button', { name: 'Finish' })
   ).toBeInTheDocument()
 })
 
@@ -27,27 +37,24 @@ test('button says "Skip testimonial" if text box is not populated', async () => 
   const links = {
     finish: '',
   }
-
-  render(
-    <AddTestimonialStep onSubmit={jest.fn()} onBack={jest.fn()} links={links} />
-  )
-
-  expect(
-    await screen.findByRole('button', { name: 'Skip testimonial' })
-  ).toBeInTheDocument()
-})
-
-test('thumbs up icon shows when user starts typing', async () => {
-  const links = {
-    finish: '',
+  const discussion = {
+    mentor: {
+      handle: 'mentor',
+    },
   }
 
   render(
-    <AddTestimonialStep onSubmit={jest.fn()} onBack={jest.fn()} links={links} />
+    <AddTestimonialStep
+      onSubmit={jest.fn()}
+      onBack={jest.fn()}
+      links={links}
+      discussion={discussion}
+    />
   )
-  userEvent.type(screen.getByLabelText('Testimonial'), 'Test')
 
-  expect(await screen.findByText('Thumbs up')).toBeInTheDocument()
+  expect(
+    await screen.findByRole('button', { name: 'Skip' })
+  ).toBeInTheDocument()
 })
 
 test('disables buttons while loading', async () => {
@@ -55,10 +62,15 @@ test('disables buttons while loading', async () => {
     finish: 'https://exercism.test/mentor_ratings',
   }
   const server = setupServer(
-    rest.post('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
     })
   )
+  const discussion = {
+    mentor: {
+      handle: 'mentor',
+    },
+  }
   server.listen()
 
   render(
@@ -67,10 +79,11 @@ test('disables buttons while loading', async () => {
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
-  const submitButton = screen.getByRole('button', { name: 'Skip testimonial' })
+  const submitButton = screen.getByRole('button', { name: 'Skip' })
   const skipButton = screen.getByRole('button', { name: 'Back' })
   userEvent.click(submitButton)
 
@@ -89,10 +102,15 @@ test('shows loading message', async () => {
     finish: 'https://exercism.test/mentor_ratings',
   }
   const server = setupServer(
-    rest.post('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
     })
   )
+  const discussion = {
+    mentor: {
+      handle: 'mentor',
+    },
+  }
   server.listen()
 
   render(
@@ -101,10 +119,11 @@ test('shows loading message', async () => {
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
-  userEvent.click(screen.getByRole('button', { name: 'Skip testimonial' }))
+  userEvent.click(screen.getByRole('button', { name: 'Skip' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
@@ -117,7 +136,7 @@ test('shows error message', async () => {
     finish: 'https://exercism.test/mentor_ratings',
   }
   const server = setupServer(
-    rest.post('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(
         ctx.delay(10),
         ctx.status(422),
@@ -129,6 +148,11 @@ test('shows error message', async () => {
       )
     })
   )
+  const discussion = {
+    mentor: {
+      handle: 'mentor',
+    },
+  }
   server.listen()
 
   render(
@@ -137,10 +161,11 @@ test('shows error message', async () => {
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
-  userEvent.click(screen.getByRole('button', { name: 'Skip testimonial' }))
+  userEvent.click(screen.getByRole('button', { name: 'Skip' }))
 
   expect(await screen.findByText('Unknown error')).toBeInTheDocument()
 
@@ -150,6 +175,11 @@ test('shows error message', async () => {
 test('shows generic error message', async () => {
   silenceConsole()
   const links = { finish: 'weirdendpoint' }
+  const discussion = {
+    mentor: {
+      handle: 'mentor',
+    },
+  }
 
   render(
     <TestQueryCache>
@@ -157,10 +187,11 @@ test('shows generic error message', async () => {
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
-  userEvent.click(screen.getByRole('button', { name: 'Skip testimonial' }))
+  userEvent.click(screen.getByRole('button', { name: 'Skip' }))
 
   expect(
     await screen.findByText('Unable to submit mentor rating')

@@ -13,7 +13,7 @@ test('disables buttons while loading', async () => {
     finish: 'https://exercism.test/mentor_ratings',
   }
   const server = setupServer(
-    rest.post('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
     })
   )
@@ -52,7 +52,7 @@ test('shows loading message', async () => {
     finish: 'https://exercism.test/mentor_ratings',
   }
   const server = setupServer(
-    rest.post('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
     })
   )
@@ -81,7 +81,7 @@ test('shows error message', async () => {
     finish: 'https://exercism.test/mentor_ratings',
   }
   const server = setupServer(
-    rest.post('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(
         ctx.delay(10),
         ctx.status(422),

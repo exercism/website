@@ -113,6 +113,7 @@ export const FinishMentorDiscussionModal = ({
       open={true}
       cover={true}
       onClose={() => {}}
+      ariaHideApp={false}
       className="m-finish-student-mentor-discussion"
     >
       <Inner links={links} discussion={discussion} />

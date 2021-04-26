@@ -26,6 +26,7 @@ module Git
       # TODO: validate track using configlet to prevent invalid track data
 
       # TODO: consider raising error when slug in config is different from track slug
+
       track.update!(
         blurb: head_git_track.config[:blurb],
         active: head_git_track.config[:active],

@@ -35,15 +35,17 @@
             @apply ml-12;
             height: 18px;
             width: 18px;
+            filter: var(--buttonBorderColor1-filter);
         }
     }
     & .--reset-btn {
         @apply border-transparent;
-        @apply text-lightBlue;
+        @apply text-linkColor;
         & .c-icon {
             @apply mr-12;
             height: 18px;
             width: 18px;
+            filter: var(--buttonBorderColor1-filter);
         }
     }
     & .c-select {
@@ -55,8 +57,13 @@
     }
 }
 
-.c-search-bar {
+.theme-light .c-search-bar {
     & input.--search {
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6bm9uZTtzdHJva2U6Y3VycmVudENvbG9yO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6MS41cHg7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5zZWFyY2g8L3RpdGxlPjxjaXJjbGUgY2xhc3M9ImEiIGN4PSI5LjgxMyIgY3k9IjkuODEyIiByPSI5LjA2MyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTMuMDU2IDQuNjIpIHJvdGF0ZSgtMjMuMDI1KSIvPjxsaW5lIGNsYXNzPSJhIiB4MT0iMTYuMjIxIiB5MT0iMTYuMjIiIHgyPSIyMy4yNSIgeTI9IjIzLjI1Ii8+PC9zdmc+");
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6bm9uZTtzdHJva2U6Izc2NzA5RjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLXdpZHRoOjEuNXB4O308L3N0eWxlPjwvZGVmcz48dGl0bGU+c2VhcmNoPC90aXRsZT48Y2lyY2xlIGNsYXNzPSJhIiBjeD0iOS44MTMiIGN5PSI5LjgxMiIgcj0iOS4wNjMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zLjA1NiA0LjYyKSByb3RhdGUoLTIzLjAyNSkiLz48bGluZSBjbGFzcz0iYSIgeDE9IjE2LjIyMSIgeTE9IjE2LjIyIiB4Mj0iMjMuMjUiIHkyPSIyMy4yNSIvPjwvc3ZnPg==");
+    }
+}
+.theme-dark .c-search-bar {
+    & input.--search {
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6bm9uZTtzdHJva2U6I0E5QTZCRDtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLXdpZHRoOjEuNXB4O308L3N0eWxlPjwvZGVmcz48dGl0bGU+c2VhcmNoPC90aXRsZT48Y2lyY2xlIGNsYXNzPSJhIiBjeD0iOS44MTMiIGN5PSI5LjgxMiIgcj0iOS4wNjMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zLjA1NiA0LjYyKSByb3RhdGUoLTIzLjAyNSkiLz48bGluZSBjbGFzcz0iYSIgeDE9IjE2LjIyMSIgeTE9IjE2LjIyIiB4Mj0iMjMuMjUiIHkyPSIyMy4yNSIvPjwvc3ZnPg==");
     }
 }

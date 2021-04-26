@@ -7,10 +7,11 @@
     & .--inner {
         @apply flex items-center justify-center;
         @apply text-16 leading-200 font-semibold;
-        @apply flex-grow bg-textColor2 px-16 rounded-100;
+        @apply flex-grow px-16 rounded-100;
 
-        /* This shouldn't change for theme */
+        /* These shouldn't change for theme */
         color: #fbfcfe;
+        background: #130b43;
     }
 
     & .c-icon {

@@ -20,7 +20,10 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
       # Assert we don't do things unless we're asked to
       Mentor::Request::Create.expects(:call).never
 
-      patch finish_api_solution_discussion_path(solution.uuid, discussion), headers: @headers, as: :json
+      patch finish_api_solution_discussion_path(solution.uuid, discussion),
+        headers: @headers,
+        as: :json,
+        params: { rating: 1 }
 
       assert_response 200
 

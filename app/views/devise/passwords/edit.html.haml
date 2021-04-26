@@ -1,26 +1,26 @@
 #page-auth
   %section.form-section
-    = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
+    .inner
+      = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
 
-    .intro
-      %h2 Change your password
-      %p
-        Choose your new password using the form below. If you don't do anything, your password will remain unchanged.
+      .intro
+        %h2 Change your password
+        %p Choose your new password using the form below. If you don't do anything, your password will remain unchanged.
 
-    = flash_messages
+      = flash_messages
 
-    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-      = render "devise/shared/error_messages", resource: resource
-      = f.hidden_field :reset_password_token
-      .field
-        = f.label :password, "New password"
-        = f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "Enter a new password (min #{@minimum_password_length} chars)"
-      .field
-        = f.label :password_confirmation, "Confirm new password"
-        = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Enter your new password again"
-      .actions
-        = f.button "Change my password", class: "btn-large-cta"
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        = render "devise/shared/error_messages", resource: resource
+        = f.hidden_field :reset_password_token
+        .field
+          = f.label :password, "New password"
+          = f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "Enter a new password (min #{@minimum_password_length} chars)"
+        .field
+          = f.label :password_confirmation, "Confirm new password"
+          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Enter your new password again"
+        .actions
+          = f.button "Change my password", class: "btn-large-cta"
 
-    = render "devise/shared/links"
+      = render "devise/shared/links"
 
   = render "devise/shared/information"

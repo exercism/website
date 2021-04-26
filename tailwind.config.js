@@ -66,6 +66,7 @@ module.exports = {
       textColor8: 'var(--textColor8)',
       textColor9: 'var(--textColor9)',
 
+      linkColor: 'var(--linkColor)',
       buttonBorderColor1: 'var(--buttonBorderColor1)',
       buttonBorderColor2: 'var(--buttonBorderColor2)',
       inputBackgroundColor: 'var(--inputBackgroundColor)',

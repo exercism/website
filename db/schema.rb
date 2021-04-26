@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_131411) do
+ActiveRecord::Schema.define(version: 2021_04_24_142356) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -205,12 +205,12 @@ ActiveRecord::Schema.define(version: 2021_04_23_131411) do
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
     t.bigint "request_id"
-    t.datetime "awaiting_mentor_since"
+    t.integer "status", limit: 1, default: 0, null: false
     t.datetime "awaiting_student_since"
+    t.datetime "awaiting_mentor_since"
     t.datetime "finished_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", limit: 1, default: 0, null: false
     t.integer "finished_by", limit: 1
     t.integer "rating", limit: 1
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
@@ -373,6 +373,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_131411) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
+    t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
   create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -478,6 +479,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_131411) do
     t.string "medium"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_profiles_on_user_id", unique: true
   end
 
   create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -622,6 +624,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_131411) do
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"
+  add_foreign_key "user_profiles", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
   add_foreign_key "user_reputation_tokens", "tracks"
   add_foreign_key "user_reputation_tokens", "users"

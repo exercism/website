@@ -30,7 +30,7 @@ module Flows
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor, finished_at: 1.day.ago
         create :iteration, solution: solution
         create :mentor_student_relationship, mentor: mentor, student: student
 
@@ -52,7 +52,7 @@ module Flows
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor, finished_at: 1.day.ago
         create :iteration, solution: solution
         create :mentor_student_relationship, mentor: mentor, student: student
 
@@ -74,7 +74,7 @@ module Flows
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor, finished_at: 1.day.ago
         create :iteration, solution: solution
         create :mentor_student_relationship, mentor: mentor, student: student
 
@@ -96,7 +96,7 @@ module Flows
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, finished_at: 1.day.ago
+        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor, finished_at: 1.day.ago
         create :iteration, solution: solution
         create :mentor_student_relationship, mentor: mentor, student: student
 

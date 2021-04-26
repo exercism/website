@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
+import { MentorReport } from '../FinishMentorDiscussionModal'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
@@ -14,11 +15,14 @@ export const ReportStep = ({
   onSubmit,
   onBack,
 }: {
-  onSubmit: () => void
+  onSubmit: (report: MentorReport) => void
   onBack: () => void
   discussion: MentorDiscussion
 }): JSX.Element => {
-  const [state, setState] = useState({ requeue: true, report: false })
+  const [state, setState] = useState<MentorReport>({
+    requeue: true,
+    report: false,
+  })
   const reasonRef = useRef<HTMLSelectElement>(null)
   const messageRef = useRef<HTMLTextAreaElement>(null)
   const isMountedRef = useIsMounted()
@@ -38,7 +42,9 @@ export const ReportStep = ({
       })
     },
     {
-      onSuccess: onSubmit,
+      onSuccess: () => {
+        onSubmit(state)
+      },
     }
   )
 

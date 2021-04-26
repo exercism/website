@@ -3,6 +3,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '../../../../../app/javascript/components/modals/student/FinishMentorDiscussionModal'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { TestQueryCache } from '../../support/TestQueryCache'
 
 test('has back button in add testimonial step', async () => {
   const links = {
@@ -86,4 +89,48 @@ test('has back button in report step', async () => {
   expect(
     await screen.findByText("It's time to review this discussion")
   ).toBeInTheDocument()
+})
+
+test('shows summary of report', async () => {
+  const discussion = {
+    finishedBy: 'mentor',
+    mentor: {
+      handle: 'mentor',
+    },
+    links: {
+      finish: 'https://exercism.test/discussions/1/finish',
+    },
+  }
+  const server = setupServer(
+    rest.patch(
+      'https://exercism.test/discussions/1/finish',
+      (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({}))
+      }
+    )
+  )
+  server.listen()
+
+  render(
+    <FinishMentorDiscussionModal
+      open
+      discussion={discussion}
+      links={{}}
+      ariaHideApp={false}
+    />
+  )
+  userEvent.click(screen.getByRole('button', { name: 'Problematic' }))
+  userEvent.click(await screen.findByRole('button', { name: 'Finish' }))
+
+  expect(
+    await screen.findByText('Your solution will be requeued')
+  ).toBeInTheDocument()
+  expect(
+    screen.queryByText('Thank you for your report')
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByText('We hope you have a better next experience')
+  ).not.toBeInTheDocument()
+
+  server.close()
 })

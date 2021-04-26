@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MentorDiscussion } from '../../types'
 import { Modal, ModalProps } from '../Modal'
 import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
@@ -13,6 +13,11 @@ import { Machine } from 'xstate'
 
 export type Links = {
   exercise: string
+}
+
+export type MentorReport = {
+  requeue: boolean
+  report: boolean
 }
 
 const modalStepMachine = Machine({
@@ -49,6 +54,7 @@ const Inner = ({
   links: Links
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
+  const [report, setReport] = useState<MentorReport | null>(null)
 
   switch (currentStep.value) {
     case 'rateMentor':
@@ -87,12 +93,20 @@ const Inner = ({
       return (
         <ReportStep
           discussion={discussion}
-          onSubmit={() => send('SUBMIT')}
+          onSubmit={(report) => {
+            setReport(report)
+            send('SUBMIT')
+          }}
           onBack={() => send('BACK')}
         />
       )
-    case 'unhappy':
-      return <UnhappyStep links={links} />
+    case 'unhappy': {
+      if (!report) {
+        throw new Error('Report should not be null')
+      }
+
+      return <UnhappyStep report={report} links={links} />
+    }
     default:
       throw new Error('Unknown modal step')
   }

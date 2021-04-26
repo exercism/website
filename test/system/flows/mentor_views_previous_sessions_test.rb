@@ -11,7 +11,7 @@ module Flows
 
       lasagna = create :concept_exercise, slug: "lasagna"
       solution = create :concept_solution, exercise: lasagna, user: student
-      lasagna_discussion = create :mentor_discussion, :both_finished, solution: solution, mentor: mentor
+      lasagna_discussion = create :mentor_discussion, :finished, solution: solution, mentor: mentor
       submission = create :submission, solution: solution
       create :iteration, submission: submission
 
@@ -39,7 +39,7 @@ module Flows
 
       lasagna = create :concept_exercise, slug: "lasagna"
       solution = create :concept_solution, exercise: lasagna, user: student
-      create :mentor_discussion, :both_finished, solution: solution, mentor: mentor
+      create :mentor_discussion, :finished, solution: solution, mentor: mentor
       submission = create :submission, solution: solution
       create :iteration, submission: submission
 

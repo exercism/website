@@ -10,7 +10,7 @@ module ReactComponents
             user_id: current_user.id,
             relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
             request: SerializeMentorSessionRequest.(request),
-            discussion: SerializeMentorDiscussion.(discussion, :mentor),
+            discussion: discussion ? SerializeMentorDiscussion.(discussion, :mentor) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,

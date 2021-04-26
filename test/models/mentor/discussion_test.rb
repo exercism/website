@@ -167,6 +167,26 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
+  test "awaiting_student! doesn't override student_finished" do
+    discussion = create :mentor_discussion
+    discussion.student_finished!
+    discussion.awaiting_student!
+
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+    assert_nil discussion.awaiting_student_since
+  end
+
+  test "awaiting_student! doesn't override mentor_finished" do
+    discussion = create :mentor_discussion
+    discussion.mentor_finished!
+    discussion.awaiting_student!
+
+    discussion.reload
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+  end
+
   test "awaiting_mentor!" do
     freeze_time do
       discussion = create :mentor_discussion,
@@ -196,6 +216,25 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       assert_nil discussion.awaiting_student_since
       assert_equal original, discussion.awaiting_mentor_since
     end
+  end
+
+  test "awaiting_mentor! doesn't override student_finished" do
+    discussion = create :mentor_discussion
+    discussion.student_finished!
+    discussion.awaiting_mentor!
+
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+    assert_nil discussion.awaiting_student_since
+  end
+
+  test "awaiting_mentor! doesn't override mentor_finished" do
+    discussion = create :mentor_discussion
+    discussion.mentor_finished!
+    discussion.awaiting_mentor!
+
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
   end
 
   test "finished_by symbolizes" do

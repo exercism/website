@@ -108,6 +108,8 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def mentor_finished!
+    return if status == :finished
+
     update!(
       status: :mentor_finished,
       finished_at: Time.current,
@@ -118,6 +120,8 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def awaiting_student!
+    return if %i[mentor_finished finished].include?(status)
+
     update!(
       status: :awaiting_student,
       awaiting_mentor_since: nil,
@@ -126,6 +130,8 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def awaiting_mentor!
+    return if %i[mentor_finished finished].include?(status)
+
     update!(
       status: :awaiting_mentor,
       awaiting_mentor_since: awaiting_mentor_since || Time.current,

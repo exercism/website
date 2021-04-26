@@ -181,7 +181,7 @@
         @apply shadow-base bg-backgroundColorA;
         z-index: 2;
         width: 570px;
-        min-width: 500px;
+        min-width: 570px;
         height: 100%;
         overflow: hidden;
 

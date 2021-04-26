@@ -6,6 +6,7 @@ import { sendRequest } from '../../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
+import { TestimonialField } from './TestimonialField'
 
 type Links = {
   finish: string
@@ -72,11 +73,12 @@ export const AddTestimonialStep = ({
             <label htmlFor="testimonial">
               Leave {discussion.mentor.handle} a testimonial (optional)
             </label>
-            <textarea
+            <TestimonialField
+              id="testimonial"
+              min={30}
+              max={160}
               value={value}
               onChange={handleChange}
-              id="testimonial"
-              placeholder="Write your testimonial here"
             />
             {/*<p className="help">
               Testimonials are a place to write what impressed you about a

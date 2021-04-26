@@ -9,8 +9,10 @@ import { TestQueryCache } from '../../../../support/TestQueryCache'
 import { silenceConsole } from '../../../../support/silence-console'
 
 test('disables buttons while loading', async () => {
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
+  const discussion = {
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
@@ -25,7 +27,7 @@ test('disables buttons while loading', async () => {
         onRequeued={jest.fn()}
         onNotRequeued={jest.fn()}
         onBack={jest.fn()}
-        links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
@@ -48,8 +50,10 @@ test('disables buttons while loading', async () => {
 })
 
 test('shows loading message', async () => {
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
+  const discussion = {
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
@@ -64,7 +68,7 @@ test('shows loading message', async () => {
         onRequeued={jest.fn()}
         onNotRequeued={jest.fn()}
         onBack={jest.fn()}
-        links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
@@ -77,8 +81,10 @@ test('shows loading message', async () => {
 
 test('shows error message', async () => {
   silenceConsole()
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
+  const discussion = {
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
@@ -101,7 +107,7 @@ test('shows error message', async () => {
         onRequeued={jest.fn()}
         onNotRequeued={jest.fn()}
         onBack={jest.fn()}
-        links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )
@@ -114,7 +120,11 @@ test('shows error message', async () => {
 
 test('shows generic error message', async () => {
   silenceConsole()
-  const links = { finish: 'weirdendpoint' }
+  const discussion = {
+    links: {
+      finish: 'weirdendpoint',
+    },
+  }
 
   render(
     <TestQueryCache>
@@ -122,7 +132,7 @@ test('shows generic error message', async () => {
         onRequeued={jest.fn()}
         onNotRequeued={jest.fn()}
         onBack={jest.fn()}
-        links={links}
+        discussion={discussion}
       />
     </TestQueryCache>
   )

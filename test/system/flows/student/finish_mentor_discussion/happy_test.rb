@@ -12,11 +12,14 @@ module Flows
           track = create :track
           exercise = create :concept_exercise, track: track
           solution = create :concept_solution, exercise: exercise, user: user
+          submission = create :submission, solution: solution
+          create :iteration, solution: solution, submission: submission
           discussion = create :mentor_discussion, solution: solution
 
           use_capybara_host do
             sign_in!(user)
-            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.uuid)
+            visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
+            click_on "End discussion"
             click_on "It was good!"
             fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
             click_on "Finish"

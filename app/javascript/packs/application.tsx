@@ -366,7 +366,7 @@ initReact({
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
@@ -375,14 +375,6 @@ initReact({
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
-    />
-  ),
-  'student-finish-mentor-discussion-modal': (data: any) => (
-    <Student.FinishMentorDiscussionModal
-      links={camelizeKeysAs<StudentFinishMentorDiscussionModalLinks>(
-        data.links
-      )}
-      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
     />
   ),
   'student-request-mentoring-button': (data: any) => (

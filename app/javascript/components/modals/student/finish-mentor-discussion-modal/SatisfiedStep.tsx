@@ -4,20 +4,17 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
-
-type Links = {
-  finish: string
-}
+import { MentorDiscussion } from '../../../types'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
 export const SatisfiedStep = ({
-  links,
+  discussion,
   onRequeued,
   onNotRequeued,
   onBack,
 }: {
-  links: Links
+  discussion: MentorDiscussion
   onRequeued: () => void
   onNotRequeued: () => void
   onBack: () => void
@@ -26,7 +23,7 @@ export const SatisfiedStep = ({
   const [finish, { status, error }] = useMutation(
     (requeue: boolean) => {
       return sendRequest({
-        endpoint: links.finish,
+        endpoint: discussion.links.finish,
         method: 'PATCH',
         body: JSON.stringify({ rating: 3, requeue: requeue }),
         isMountedRef: isMountedRef,

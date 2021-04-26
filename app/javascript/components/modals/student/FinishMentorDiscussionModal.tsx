@@ -1,6 +1,6 @@
 import React from 'react'
 import { MentorDiscussion } from '../../types'
-import { Modal } from '../Modal'
+import { Modal, ModalProps } from '../Modal'
 import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
 import { AddTestimonialStep } from './finish-mentor-discussion-modal/AddTestimonialStep'
 import { CelebrationStep } from './finish-mentor-discussion-modal/CelebrationStep'
@@ -13,7 +13,6 @@ import { Machine } from 'xstate'
 
 export type Links = {
   exercise: string
-  finish: string
 }
 
 const modalStepMachine = Machine({
@@ -43,11 +42,11 @@ const modalStepMachine = Machine({
 })
 
 const Inner = ({
-  links,
   discussion,
+  links,
 }: {
-  links: Links
   discussion: MentorDiscussion
+  links: Links
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
 
@@ -66,7 +65,6 @@ const Inner = ({
         <AddTestimonialStep
           onSubmit={() => send('SUBMIT')}
           onBack={() => send('BACK')}
-          links={links}
           discussion={discussion}
         />
       )
@@ -75,7 +73,7 @@ const Inner = ({
     case 'satisfied':
       return (
         <SatisfiedStep
-          links={links}
+          discussion={discussion}
           onRequeued={() => send('REQUEUED')}
           onBack={() => send('BACK')}
           onNotRequeued={() => {
@@ -89,7 +87,6 @@ const Inner = ({
       return (
         <ReportStep
           discussion={discussion}
-          links={links}
           onSubmit={() => send('SUBMIT')}
           onBack={() => send('BACK')}
         />
@@ -104,18 +101,14 @@ const Inner = ({
 export const FinishMentorDiscussionModal = ({
   links,
   discussion,
-}: {
+  ...props
+}: Omit<ModalProps, 'className'> & {
   links: Links
   discussion: MentorDiscussion
+  onCancel: () => void
 }): JSX.Element => {
   return (
-    <Modal
-      open={true}
-      cover={true}
-      onClose={() => {}}
-      ariaHideApp={false}
-      className="m-finish-student-mentor-discussion"
-    >
+    <Modal cover className="m-finish-student-mentor-discussion" {...props}>
       <Inner links={links} discussion={discussion} />
     </Modal>
   )

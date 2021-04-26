@@ -9,12 +9,12 @@ import { TestQueryCache } from '../../../../support/TestQueryCache'
 import { silenceConsole } from '../../../../support/silence-console'
 
 test('button says "Submit testimonial" if text box is populated', async () => {
-  const links = {
-    finish: '',
-  }
   const discussion = {
     mentor: {
       handle: 'mentor',
+    },
+    links: {
+      finish: '',
     },
   }
 
@@ -22,7 +22,6 @@ test('button says "Submit testimonial" if text box is populated', async () => {
     <AddTestimonialStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      links={links}
       discussion={discussion}
     />
   )
@@ -34,12 +33,12 @@ test('button says "Submit testimonial" if text box is populated', async () => {
 })
 
 test('button says "Skip testimonial" if text box is not populated', async () => {
-  const links = {
-    finish: '',
-  }
   const discussion = {
     mentor: {
       handle: 'mentor',
+    },
+    links: {
+      finish: '',
     },
   }
 
@@ -47,7 +46,6 @@ test('button says "Skip testimonial" if text box is not populated', async () => 
     <AddTestimonialStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      links={links}
       discussion={discussion}
     />
   )
@@ -58,9 +56,6 @@ test('button says "Skip testimonial" if text box is not populated', async () => 
 })
 
 test('disables buttons while loading', async () => {
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
-  }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
@@ -70,6 +65,9 @@ test('disables buttons while loading', async () => {
     mentor: {
       handle: 'mentor',
     },
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   server.listen()
 
@@ -78,7 +76,6 @@ test('disables buttons while loading', async () => {
       <AddTestimonialStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>
@@ -98,9 +95,6 @@ test('disables buttons while loading', async () => {
 })
 
 test('shows loading message', async () => {
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
-  }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
@@ -110,6 +104,9 @@ test('shows loading message', async () => {
     mentor: {
       handle: 'mentor',
     },
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   server.listen()
 
@@ -118,7 +115,6 @@ test('shows loading message', async () => {
       <AddTestimonialStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>
@@ -132,9 +128,6 @@ test('shows loading message', async () => {
 
 test('shows error message', async () => {
   silenceConsole()
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
-  }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(
@@ -152,6 +145,9 @@ test('shows error message', async () => {
     mentor: {
       handle: 'mentor',
     },
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   server.listen()
 
@@ -160,7 +156,6 @@ test('shows error message', async () => {
       <AddTestimonialStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>
@@ -174,11 +169,11 @@ test('shows error message', async () => {
 
 test('shows generic error message', async () => {
   silenceConsole()
-  const links = { finish: 'weirdendpoint' }
   const discussion = {
     mentor: {
       handle: 'mentor',
     },
+    links: { finish: 'weirdendpoint' },
   }
 
   render(
@@ -186,7 +181,6 @@ test('shows generic error message', async () => {
       <AddTestimonialStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>

@@ -1,7 +1,7 @@
 class SerializeMentorDiscussion
   include Mandate
 
-  initialize_with :discussion
+  initialize_with :discussion, :user
 
   def call
     {
@@ -31,15 +31,38 @@ class SerializeMentorDiscussion
       created_at: discussion.created_at.iso8601,
       updated_at: discussion.updated_at.iso8601,
 
-      # TODO: Add all these
-      is_finished: true,
+      is_finished: finished?,
       is_unread: true,
       posts_count: 4,
-
-      # TODO: Rename this to web_url
-      links: {
-        self: Exercism::Routes.mentoring_discussion_url(discussion)
-      }
+      links: links
     }
+  end
+
+  private
+  delegate :mentor, to: :discussion
+
+  def finished?
+    if user == mentor
+      discussion.finished_for_mentor?
+    else
+      discussion.finished_for_student?
+    end
+  end
+
+  def links
+    if user == mentor
+      {
+        self: Exercism::Routes.mentoring_discussion_url(discussion),
+        posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
+        finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion),
+        mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion)
+      }
+    else
+      {
+        self: Exercism::Routes.track_exercise_mentor_discussion_url(discussion.track, discussion.exercise, discussion),
+        posts: Exercism::Routes.api_solution_discussion_posts_url(discussion.solution.uuid, discussion),
+        finish: Exercism::Routes.finish_api_solution_discussion_url(discussion.solution.uuid, discussion.uuid)
+      }
+    end
   end
 end

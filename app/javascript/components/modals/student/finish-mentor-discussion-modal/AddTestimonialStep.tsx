@@ -8,21 +8,15 @@ import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
 import { TestimonialField } from './TestimonialField'
 
-type Links = {
-  finish: string
-}
-
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
 export const AddTestimonialStep = ({
   onSubmit,
   onBack,
-  links,
   discussion,
 }: {
   onSubmit: () => void
   onBack: () => void
-  links: Links
   discussion: MentorDiscussion
 }): JSX.Element => {
   const [value, setValue] = useState('')
@@ -30,7 +24,7 @@ export const AddTestimonialStep = ({
   const [mutation, { status, error }] = useMutation(
     () => {
       return sendRequest({
-        endpoint: links.finish,
+        endpoint: discussion.links.finish,
         method: 'PATCH',
         body: JSON.stringify({
           rating: 5,

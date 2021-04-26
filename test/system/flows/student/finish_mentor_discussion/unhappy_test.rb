@@ -22,7 +22,8 @@ module Flows
 
           use_capybara_host do
             sign_in!(user)
-            visit finish_mentor_discussion_temp_modals_path(discussion_id: discussion.uuid)
+            visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
+            click_on "End discussion"
             click_on "Problematic"
             find('label', text: "Report this discussion to an admin").click
             fill_in "What went wrong?", with: "Bad mentor"

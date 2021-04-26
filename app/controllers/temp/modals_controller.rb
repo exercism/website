@@ -59,9 +59,5 @@ module Temp
     def select_exercise_for_mentoring
       @solutions = Solution.limit(5)
     end
-
-    def finish_mentor_discussion
-      @discussion = Mentor::Discussion.find_by(uuid: params[:discussion_id])
-    end
   end
 end

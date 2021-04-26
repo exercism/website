@@ -9,18 +9,17 @@ import { TestQueryCache } from '../../../../support/TestQueryCache'
 import { silenceConsole } from '../../../../support/silence-console'
 
 test('textarea is shown when Report is checked', async () => {
-  const links = {
-    finish: '',
-  }
   const discussion = {
     mentor: {},
+    links: {
+      finish: '',
+    },
   }
 
   render(
     <ReportStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      links={links}
       discussion={discussion}
     />
   )
@@ -30,18 +29,17 @@ test('textarea is shown when Report is checked', async () => {
 })
 
 test('textarea is hidden when Report is not checked', async () => {
-  const links = {
-    finish: '',
-  }
   const discussion = {
     mentor: {},
+    links: {
+      finish: '',
+    },
   }
 
   render(
     <ReportStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      links={links}
       discussion={discussion}
     />
   )
@@ -50,18 +48,17 @@ test('textarea is hidden when Report is not checked', async () => {
 })
 
 test('requeue is checked by default', async () => {
-  const links = {
-    finish: '',
-  }
   const discussion = {
     mentor: {},
+    links: {
+      finish: '',
+    },
   }
 
   render(
     <ReportStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      links={links}
       discussion={discussion}
     />
   )
@@ -72,9 +69,6 @@ test('requeue is checked by default', async () => {
 })
 
 test('disables buttons while loading', async () => {
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
-  }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
@@ -82,6 +76,9 @@ test('disables buttons while loading', async () => {
   )
   const discussion = {
     mentor: {},
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   server.listen()
 
@@ -90,7 +87,6 @@ test('disables buttons while loading', async () => {
       <ReportStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>
@@ -110,9 +106,6 @@ test('disables buttons while loading', async () => {
 })
 
 test('shows loading message', async () => {
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
-  }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
       return res(ctx.delay(10), ctx.status(200), ctx.json({}))
@@ -120,6 +113,9 @@ test('shows loading message', async () => {
   )
   const discussion = {
     mentor: {},
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   server.listen()
 
@@ -128,7 +124,6 @@ test('shows loading message', async () => {
       <ReportStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>
@@ -142,11 +137,11 @@ test('shows loading message', async () => {
 
 test('shows error message', async () => {
   silenceConsole()
-  const links = {
-    finish: 'https://exercism.test/mentor_ratings',
-  }
   const discussion = {
     mentor: {},
+    links: {
+      finish: 'https://exercism.test/mentor_ratings',
+    },
   }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
@@ -168,7 +163,6 @@ test('shows error message', async () => {
       <ReportStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>
@@ -182,9 +176,9 @@ test('shows error message', async () => {
 
 test('shows generic error message', async () => {
   silenceConsole()
-  const links = { finish: 'weirdendpoint' }
   const discussion = {
     mentor: {},
+    links: { finish: 'weirdendpoint' },
   }
 
   render(
@@ -192,7 +186,6 @@ test('shows generic error message', async () => {
       <ReportStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
-        links={links}
         discussion={discussion}
       />
     </TestQueryCache>

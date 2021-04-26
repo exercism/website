@@ -7,19 +7,13 @@ import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
 
-type Links = {
-  finish: string
-}
-
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
 export const ReportStep = ({
-  links,
+  discussion,
   onSubmit,
   onBack,
-  discussion,
 }: {
-  links: Links
   onSubmit: () => void
   onBack: () => void
   discussion: MentorDiscussion
@@ -31,7 +25,7 @@ export const ReportStep = ({
   const [mutation, { status, error }] = useMutation(
     () => {
       return sendRequest({
-        endpoint: links.finish,
+        endpoint: discussion.links.finish,
         method: 'PATCH',
         body: JSON.stringify({
           rating: 1,

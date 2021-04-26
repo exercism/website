@@ -279,7 +279,6 @@ Rails.application.routes.draw do
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
         get :reputation
         get :mentoring_dropdown
-        get :finish_mentor_discussion
         get :exercise_tooltip
         get :select_exercise_for_mentoring
       end

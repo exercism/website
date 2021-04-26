@@ -168,6 +168,9 @@ export type MentorSessionExercise = {
   id: string
   title: string
   iconUrl: string
+  links: {
+    self: string
+  }
 }
 
 export type MentorSessionDiscussion = {
@@ -317,6 +320,8 @@ export type MentorDiscussion = {
   updatedAt: string
   links: {
     self: string
+    posts: string
+    finish: string
   }
 }
 

@@ -16,7 +16,14 @@ test('has back button in add testimonial step', async () => {
     },
   }
 
-  render(<FinishMentorDiscussionModal links={links} discussion={discussion} />)
+  render(
+    <FinishMentorDiscussionModal
+      open
+      links={links}
+      discussion={discussion}
+      ariaHideApp={false}
+    />
+  )
   userEvent.click(screen.getByRole('button', { name: 'It was good!' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
 
@@ -37,7 +44,14 @@ test('has back button in satisfied step', async () => {
     },
   }
 
-  render(<FinishMentorDiscussionModal links={links} discussion={discussion} />)
+  render(
+    <FinishMentorDiscussionModal
+      open
+      links={links}
+      discussion={discussion}
+      ariaHideApp={false}
+    />
+  )
   userEvent.click(screen.getByRole('button', { name: 'Acceptable' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
 
@@ -58,7 +72,14 @@ test('has back button in report step', async () => {
     },
   }
 
-  render(<FinishMentorDiscussionModal links={links} discussion={discussion} />)
+  render(
+    <FinishMentorDiscussionModal
+      open
+      links={links}
+      discussion={discussion}
+      ariaHideApp={false}
+    />
+  )
   userEvent.click(screen.getByRole('button', { name: 'Problematic' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
 

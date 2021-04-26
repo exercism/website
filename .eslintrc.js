@@ -10,6 +10,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:testing-library/react',
     'prettier',
     'prettier/@typescript-eslint',
   ],
@@ -21,11 +22,32 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['jest', 'react', '@typescript-eslint'],
+  plugins: ['jest', 'react', '@typescript-eslint', 'testing-library'],
   rules: {},
   settings: {
     react: {
       version: 'detect',
     },
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'react/prop-types': 'off',
+      },
+    },
+    {
+      files: ['*.test.ts', '*.test.tsx'],
+      rules: {
+        '@typescript-eslint/no-empty-function': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+      },
+    },
+    {
+      files: ['*.test.tsx'],
+      rules: {
+        'jest/expect-expect': 'off', // testing-library's getBy___ queries are in themselves assertions
+      },
+    },
+  ],
 }

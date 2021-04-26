@@ -73,6 +73,7 @@
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-react": "^7.21.3",
     "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-testing-library": "^4.1.2",
     "flush-promises": "^1.0.2",
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^4.2.5",

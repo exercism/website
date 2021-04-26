@@ -52,7 +52,7 @@ test('disables button while locking mentoring request', async () => {
   server.listen()
   await awaitPopper()
 
-  act(() => {
+  await act(async () => {
     render(<StartMentoringPanel request={request} setRequest={() => null} />)
   })
   await awaitPopper()

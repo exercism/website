@@ -22,14 +22,14 @@ module API
     def block
       # Both of these lines should return the same error so we don't
       # leak whether handles exist or not
-      Mentor::StudentRelationship::ToggleBlocked.(current_user, @student, true)
+      Mentor::StudentRelationship::ToggleBlockedByMentor.(current_user, @student, true)
       render_relationship
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end
 
     def unblock
-      Mentor::StudentRelationship::ToggleBlocked.(current_user, @student, false)
+      Mentor::StudentRelationship::ToggleBlockedByMentor.(current_user, @student, false)
       render_relationship
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)

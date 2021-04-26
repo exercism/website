@@ -50,7 +50,7 @@ module Flows
     end
 
     test "mentor switches pages" do
-      Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
+      ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
       create :mentor_testimonial, :revealed, content: "Great mentor!", mentor: mentor
       create :mentor_testimonial, :revealed, content: "Too good!", mentor: mentor
@@ -66,7 +66,7 @@ module Flows
     end
 
     test "mentor orders testimonials" do
-      Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
+      ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
       create :mentor_testimonial, :revealed, content: "Great mentor!", mentor: mentor
       create :mentor_testimonial, :revealed, content: "Too good!", mentor: mentor

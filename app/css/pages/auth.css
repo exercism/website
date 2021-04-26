@@ -101,17 +101,7 @@
                 }
 
                 & input {
-                    @apply w-100 px-24 py-16 bg-lightGray;
-                    @apply border-lightGray border-2 rounded-5;
-                    @apply text-16 leading-regular;
-
-                    &::placeholder {
-                        @apply font-medium text-unnamed16;
-                    }
-
-                    &:focus {
-                        @apply bg-backgroundColorA border-lightBlue;
-                    }
+                    @apply w-100;
                 }
                 & .forgotten-password {
                     @apply inline-block mt-12;

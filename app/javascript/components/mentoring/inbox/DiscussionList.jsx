@@ -35,8 +35,8 @@ export function DiscussionList({
           </>
         ) : (
           <div className="--conversations">
-            {resolvedData.results.map((conversation, key) => (
-              <Discussion key={key} {...conversation} />
+            {resolvedData.results.map((discussion, key) => (
+              <Discussion key={key} discussion={discussion} />
             ))}
             <footer>
               <Pagination

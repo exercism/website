@@ -1,6 +1,6 @@
 module Mentor
   class StudentRelationship
-    class ToggleBlocked
+    class ToggleBlockedByMentor
       include Mandate
 
       initialize_with :mentor, :student, :blocked
@@ -13,9 +13,9 @@ module Mentor
         )
 
         if blocked
-          relationship.update_columns(blocked: true, favorited: false)
+          relationship.update_columns(blocked_by_mentor: true, favorited: false)
         else
-          relationship.update_columns(blocked: false)
+          relationship.update_columns(blocked_by_mentor: false)
         end
       end
     end

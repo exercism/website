@@ -16,7 +16,7 @@
         @apply flex items-center;
         @apply text-h1 text-31;
         @apply mb-8;
-        & .c-icon {
+        & .c-track-icon {
             height: 54px;
             width: 54px;
             @apply mr-16;

@@ -15,7 +15,7 @@ export const FinishStep = ({
     <div>
       {relationship.isFavorited ? (
         <p>{student.handle} is one of your favorites.</p>
-      ) : relationship.isBlocked ? (
+      ) : relationship.isBlockedByMentor ? (
         <p>You will not see future mentor requests from {student.handle}.</p>
       ) : (
         <p>Thanks for mentoring {student.handle}.</p>

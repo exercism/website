@@ -169,6 +169,10 @@
         hue-rotate(208deg) brightness(94%) contrast(83%);
     --orange-filter: invert(57%) sepia(90%) saturate(682%) hue-rotate(354deg)
         brightness(95%) contrast(104%);
+    --dark-green-filter: invert(55%) sepia(64%) saturate(367%)
+        hue-rotate(111deg) brightness(99%) contrast(87%);
+    --red-filter: invert(78%) sepia(76%) saturate(7147%) hue-rotate(332deg)
+        brightness(105%) contrast(84%);
     --buttonBorderColor1: invert(10%) sepia(2%) saturate(5253%)
         hue-rotate(186deg) brightness(92%) contrast(84%);
 

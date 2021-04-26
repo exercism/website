@@ -38,6 +38,30 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     assert_equal [other_request], Mentor::Request::Retrieve.(mentor: user)
   end
 
+  test "does not mentor-blocked solutions" do
+    mentored_track = create :track
+    mentor = create :user
+    create :user_track_mentorship, user: mentor, track: mentored_track
+
+    good_student = create :user
+    naughty_student = create :user
+    unhappy_student = create :user
+
+    create :mentor_student_relationship, mentor: mentor, student: good_student
+    create :mentor_student_relationship, mentor: mentor, student: naughty_student, blocked_by_mentor: true
+    create :mentor_student_relationship, mentor: mentor, student: unhappy_student, blocked_by_student: true
+
+    good_solution = create :concept_solution, track: mentored_track, user: good_student
+    naughty_solution = create :concept_solution, track: mentored_track, user: naughty_student
+    unhappy_solution = create :concept_solution, track: mentored_track, user: unhappy_student
+
+    good_request = create :mentor_request, solution: good_solution
+    create :mentor_request, solution: naughty_solution
+    create :mentor_request, solution: unhappy_solution
+
+    assert_equal [good_request], Mentor::Request::Retrieve.(mentor: mentor)
+  end
+
   test "only retrieves mentored or selected tracks" do
     mentored_track_1 = create :track, :random_slug
     mentored_track_2 = create :track, :random_slug

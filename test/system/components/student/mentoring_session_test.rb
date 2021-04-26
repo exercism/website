@@ -200,6 +200,24 @@ module Components
         end
       end
 
+      test "shows finished status when discussion is finished for student" do
+        student = create :user
+        mentor = create :user, name: "Mentor", handle: "mentor", reputation: 1500, bio: "I love to do a mentoring"
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :mentor_discussion, :student_finished, solution: solution, mentor: mentor
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(student)
+          visit track_exercise_mentor_discussion_path(ruby, running, discussion)
+
+          assert_text "Ended"
+        end
+      end
+
       test "shows automated feedback" do
         skip # Readd when model is readded
         mentor = create :user

@@ -7,7 +7,10 @@ class SerializeMentorSessionExerciseTest < ActiveSupport::TestCase
     expected = {
       id: exercise.slug,
       title: exercise.title,
-      icon_url: exercise.icon_url
+      icon_url: exercise.icon_url,
+      links: {
+        self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
+      }
     }
 
     assert_equal expected, SerializeMentorSessionExercise.(exercise)

@@ -62,7 +62,6 @@ import '../../css/components/iteration-processing-status'
 import '../../css/components/notification-dot'
 
 import '../../css/components/mentor/header'
-import '../../css/components/mentor/inbox'
 import '../../css/components/mentor/solution-row'
 import '../../css/components/mentor/discussion'
 
@@ -94,6 +93,8 @@ import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'
 import '../../css/modals/finish-mentor-discussion'
+import '../../css/modals/confirm-finish-student-mentor-discussion'
+import '../../css/modals/finish-student-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
 import '../../css/modals/change-mentor-tracks'
@@ -197,6 +198,7 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
+import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -365,7 +367,7 @@ initReact({
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}

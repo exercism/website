@@ -16,7 +16,7 @@ module Components
           :awaiting_mentor,
           solution: solution,
           mentor: mentor,
-          created_at: 1.year.ago
+          updated_at: 1.year.ago
 
         use_capybara_host do
           sign_in!(mentor)

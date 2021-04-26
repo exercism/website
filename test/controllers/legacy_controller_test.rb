@@ -28,7 +28,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get "/solutions/#{solution.uuid}"
-    assert_redirected_to "http://www.example.com/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}"
+    assert_redirected_to "https://test.exercism.io/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}"
   end
 
   test "solution with logged-in published solution" do

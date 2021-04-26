@@ -78,6 +78,17 @@ class Exercise < ApplicationRecord
     "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
   end
 
+  def difficulty_description
+    case difficulty
+    when 1..3
+      "easy"
+    when 4..7
+      "medium"
+    else
+      "hard"
+    end
+  end
+
   def icon_url
     # TOOD: Read correct dir
     "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{slug}.svg"

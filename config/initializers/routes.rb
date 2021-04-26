@@ -28,15 +28,11 @@ class Exercism::Routes
   end
 
   def self.published_solution_url(solution)
-    [
-      host,
-      "tracks",
+    Exercism::Routes.track_exercise_solution_path(
       solution.track.slug,
-      "exercises",
       solution.exercise.slug,
-      "solutions",
       solution.user.handle
-    ].join("/")
+    )
   end
 
   def self.routes

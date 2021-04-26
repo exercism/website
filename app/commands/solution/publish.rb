@@ -5,10 +5,27 @@ class Solution
     initialize_with :solution, :iteration_idxs
 
     def call
-      ActiveRecord::Base.transaction do
-        solution.update(published_at: Time.current)
-        iterations.update(published: true)
+      solution.with_lock do
+        return if solution.published?
+
+        ActiveRecord::Base.transaction do
+          solution.update(published_at: Time.current)
+          iterations.update(published: true)
+        end
       end
+
+      award_reputation!
+    end
+
+    def award_reputation!
+      return unless solution.exercise.practice_exercise?
+
+      AwardReputationTokenJob.perform_later(
+        solution.user,
+        :published_solution,
+        solution: solution,
+        level: solution.exercise.difficulty_description
+      )
     end
 
     def iterations

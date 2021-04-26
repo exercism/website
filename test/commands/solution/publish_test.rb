@@ -52,4 +52,26 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     refute iteration_2.reload.published?
     assert iteration_3.reload.published?
   end
+
+  test "only does things once" do
+    solution = create :practice_solution
+    create :iteration, solution: solution
+
+    AwardReputationTokenJob.expects(:perform_later).once
+    Solution::Publish.(solution, [5])
+    Solution::Publish.(solution, [5])
+  end
+
+  test "does not award for concept exercises" do
+    practice_solution = create :practice_solution
+    concept_solution = create :concept_solution
+    create :iteration, solution: practice_solution
+    create :iteration, solution: concept_solution
+
+    AwardReputationTokenJob.expects(:perform_later).once
+    Solution::Publish.(practice_solution, [5])
+
+    AwardReputationTokenJob.expects(:perform_later).never
+    Solution::Publish.(concept_solution, [5])
+  end
 end

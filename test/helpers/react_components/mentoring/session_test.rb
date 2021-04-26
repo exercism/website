@@ -9,6 +9,8 @@ module Mentoring
       student = create :user
       track = create :track, slug: "ruby"
       exercise = create :concept_exercise, track: track, slug: "clock"
+      old_solution = create :concept_solution, user: student
+      create :mentor_discussion, :mentor_finished, solution: old_solution, mentor: mentor
       solution = create :concept_solution, user: student, exercise: exercise
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       mentor_request = create :mentor_request,
@@ -52,7 +54,7 @@ module Mentoring
             avatar_url: student.avatar_url,
             reputation: student.formatted_reputation,
             is_favorite: false,
-            num_previous_sessions: 0,
+            num_previous_sessions: 1,
             links: {
               favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
               previous_sessions: Exercism::Routes.api_mentoring_previous_discussions_path(handle: student.handle)

@@ -8,12 +8,13 @@ class CreateMentorDiscussions < ActiveRecord::Migration[6.0]
       t.belongs_to :request, foreign_key: { to_table: :mentor_requests }, null: true
 
       t.column :status, :tinyint, null: false, default: 0
+      t.column :rating, :tinyint, null: true
 
       t.datetime :awaiting_student_since, null: true
       t.datetime :awaiting_mentor_since, null: true
 
-      t.datetime :mentor_finished_at, null: true
-      t.datetime :student_finished_at, null: true
+      t.datetime :finished_at, null: true
+      t.column :finished_by, :tinyint, null: true
 
       t.timestamps
     end

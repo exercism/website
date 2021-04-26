@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_26_125026) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -118,13 +118,13 @@ ActiveRecord::Schema.define(version: 2021_04_26_125026) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "blurb", limit: 350
+    t.integer "difficulty", limit: 1, default: 1, null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
     t.integer "position", null: false
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "difficulty", limit: 1, default: 1, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -207,13 +207,13 @@ ActiveRecord::Schema.define(version: 2021_04_26_125026) do
     t.bigint "mentor_id", null: false
     t.bigint "request_id"
     t.integer "status", limit: 1, default: 0, null: false
+    t.integer "rating", limit: 1
     t.datetime "awaiting_student_since"
     t.datetime "awaiting_mentor_since"
     t.datetime "finished_at"
+    t.integer "finished_by", limit: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "finished_by", limit: 1
-    t.integer "rating", limit: 1
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
@@ -238,10 +238,10 @@ ActiveRecord::Schema.define(version: 2021_04_26_125026) do
     t.bigint "student_id", null: false
     t.boolean "favorited", default: false, null: false
     t.boolean "blocked_by_mentor", default: false, null: false
+    t.boolean "blocked_by_student", default: false, null: false
     t.integer "num_discussions", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "blocked_by_student", default: false, null: false
     t.index ["mentor_id", "student_id"], name: "index_mentor_student_relationships_on_mentor_id_and_student_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_student_relationships_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_student_relationships_on_student_id"
@@ -266,15 +266,15 @@ ActiveRecord::Schema.define(version: 2021_04_26_125026) do
 
   create_table "problem_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.text "content_markdown", null: false
-    t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "type", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.bigint "exercise_id"
     t.string "about_type"
     t.bigint "about_id"
+    t.integer "type", limit: 1, default: 0, null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["about_type", "about_id"], name: "index_problem_reports_on_about"
     t.index ["exercise_id"], name: "index_problem_reports_on_exercise_id"
     t.index ["track_id"], name: "index_problem_reports_on_track_id"
@@ -374,6 +374,7 @@ ActiveRecord::Schema.define(version: 2021_04_26_125026) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
+    t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
   create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -604,6 +605,8 @@ ActiveRecord::Schema.define(version: 2021_04_26_125026) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
+  add_foreign_key "problem_reports", "exercises"
+  add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"
   add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "solutions", "exercises"

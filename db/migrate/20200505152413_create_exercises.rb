@@ -10,7 +10,8 @@ class CreateExercises < ActiveRecord::Migration[6.0]
       t.string :title, null: false
       # TODO: Make null: false before launch (Check ETL won't break)
       t.string :blurb, null: true, limit: 350
-      
+      t.column :difficulty, :tinyint, null: false, default: 1
+
       t.string :git_sha, null: false
       t.string :synced_to_git_sha, null: false
 

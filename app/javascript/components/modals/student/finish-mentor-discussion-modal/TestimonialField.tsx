@@ -24,9 +24,10 @@ export const TestimonialField = ({
         maxLength={max}
       />
       <div className="counter">
-        {value.length} / {max}
-        <br />
-        {min} minimum
+        <div>
+          {value.length} / {max}
+        </div>
+        <div>{min} minimum</div>
       </div>
     </>
   )

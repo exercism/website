@@ -41,8 +41,7 @@ module Mentor
           mentor: mentor,
           track_slug: track.slug,
           sorted: false, paginated: false
-        ).group('solutions.exercise_id').
-          count
+        ).group(:exercise_id).count
       end
     end
   end

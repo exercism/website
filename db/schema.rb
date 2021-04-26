@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_111409) do
+ActiveRecord::Schema.define(version: 2021_04_26_225412) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -229,8 +229,12 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "track_id", null: false
+    t.bigint "exercise_id", null: false
+    t.bigint "student_id", null: false
     t.index ["locked_by_id"], name: "index_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
+    t.index ["status", "track_id"], name: "index_mentor_requests_on_status_and_track_id"
   end
 
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

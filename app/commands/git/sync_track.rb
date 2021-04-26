@@ -27,8 +27,11 @@ module Git
 
       # TODO: consider raising error when slug in config is different from track slug
 
+      # TODO: We should raise a bugsnag here too
+      blurb = head_git_track.config[:blurb][0, 350]
+
       track.update!(
-        blurb: head_git_track.config[:blurb],
+        blurb: blurb,
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
         tags: head_git_track.config[:tags].to_a,

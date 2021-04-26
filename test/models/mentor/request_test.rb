@@ -1,6 +1,21 @@
 require 'test_helper'
 
 class Mentor::RequestTest < ActiveSupport::TestCase
+  test "materialises columns correctly" do
+    student = create :user, handle: "someone"
+    track = create :track, slug: "foobar"
+    exercise = create :practice_exercise, track: track, slug: "something"
+    solution = create :practice_solution, user: student, exercise: exercise
+    req = create :mentor_request, solution: solution
+    assert_equal student.id, req.student_id
+    assert_equal track.id, req.track_id
+    assert_equal exercise.id, req.exercise_id
+
+    assert_equal student, req.student
+    assert_equal track, req.track
+    assert_equal exercise, req.exercise
+  end
+
   test "locked?" do
     # No lock
     request = create :mentor_request, locked_until: nil

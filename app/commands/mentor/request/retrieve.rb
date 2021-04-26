@@ -45,19 +45,17 @@ module Mentor
 
       def setup!
         @requests = Mentor::Request.
-          joins(:solution).
-          includes(solution: [:user, { exercise: :track }]).
           pending.
           unlocked_for(mentor)
       end
 
       def filter!
         # Don't allow a user to request their own solutions
-        @requests = @requests.where.not('solutions.user_id': mentor.id) if mentor
+        @requests = @requests.where.not('student_id': mentor.id) if mentor
 
         # Don't show mentor-blocked or student-blocked solutions
         @requests = @requests.where.not(
-          'solutions.user_id': Mentor::StudentRelationship.
+          student_id: Mentor::StudentRelationship.
             where(mentor: mentor).
             where('blocked_by_mentor = ? OR blocked_by_student = ?', true, true).
             select(:student_id)
@@ -70,42 +68,37 @@ module Mentor
         end
       end
 
-      def filter_track!
-        if track_slug.present?
-          @requests = @requests.
-            joins(solution: :track).
-            where('tracks.slug': track_slug)
-        else
-          @requests = @requests.
-            joins(solution: :exercise).
-            where('exercise.track_id': mentor.mentored_tracks)
-        end
-      end
-
       def filter_exercises!
         return if track_slug.blank?
         return if exercise_slug.blank?
 
-        @requests = @requests.
-          joins(solution: { exercise: :track }).
-          where('tracks.slug': track_slug).
-          where('exercises.slug': exercise_slug)
+        exercise_id = Exercise.where(
+          slug: exercise_slug,
+          track_id: Track.find_by(slug: track_slug)
+        ).pick(:id)
+
+        @requests = @requests.where(exercise_id: exercise_id)
+      end
+
+      def filter_track!
+        track_ids = track_slug.present? ? Track.where(slug: track_slug).pick(:id) : mentor.mentored_tracks
+
+        @requests = @requests.where(track_id: track_ids)
       end
 
       def search!
         return if criteria.blank?
 
-        # TODO: This is just a stub implementation
-        @requests = @requests.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
+        @requests = @requests.joins(:student).where("users.handle LIKE ?", "%#{criteria}%")
       end
 
       def sort!
         # TODO: This is just a stub implementation
         case order
         when "exercise"
-          @requests = @requests.joins(solution: :exercise).order("exercises.name ASC")
+          @requests = @requests.joins(:exercise).order("exercises.name ASC")
         when "student"
-          @requests = @requests.joins(:user).order("users.name ASC")
+          @requests = @requests.joins(:student).order("users.name ASC")
         when "recent"
           @requests = @requests.order("mentor_requests.created_at DESC")
         else

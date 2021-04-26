@@ -1,7 +1,7 @@
 class CreateUserProfiles < ActiveRecord::Migration[6.1]
   def change
     create_table :user_profiles do |t|
-      t.bigint :user_id, null: false
+      t.belongs_to :user, null: false, index: {unique: true}, foreign_key: true
       t.string :twitter
       t.string :website
       t.string :github

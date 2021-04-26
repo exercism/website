@@ -1,5 +1,5 @@
 class AwardBadgeJob < ApplicationJob
-  queue_as :low_priority
+  queue_as :reputation
 
   discard_on BadgeCriteriaNotFulfilledError
 

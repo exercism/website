@@ -227,6 +227,7 @@ Rails.application.routes.draw do
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
 
       resources :community_solutions, only: %i[index show], controller: "tracks/community_solutions"
+      resources :solutions, only: %i[show], controller: "tracks/community_solutions"
     end
 
     member do

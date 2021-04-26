@@ -10,6 +10,4 @@
 
   # Custom
   - notifications
-  - critical
-  - low_priority
   - reputation

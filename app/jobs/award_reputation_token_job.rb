@@ -1,5 +1,5 @@
 class AwardReputationTokenJob < ApplicationJob
-  queue_as :low_priority
+  queue_as :reputation
 
   def perform(user, type, params = {})
     User::ReputationToken::Create.(user, type, params)

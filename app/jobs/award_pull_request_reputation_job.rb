@@ -1,5 +1,5 @@
 class AwardPullRequestReputationJob < ApplicationJob
-  queue_as :low_priority
+  queue_as :reputation
 
   def perform(user)
     User::ReputationToken::AwardForPullRequestsForUser.(user)

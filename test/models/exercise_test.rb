@@ -56,4 +56,16 @@ class ExerciseTest < ActiveSupport::TestCase
 
     assert_equal [pre_ex_1, pre_ex_2], exercise.prerequisite_exercises
   end
+
+  test "difficulty_description" do
+    {
+      easy: [1, 2, 3],
+      medium: [4, 5, 6, 7],
+      hard: [8, 9, 10]
+    }.each do |desc, values|
+      values.each do |val|
+        assert_equal desc.to_s, create(:practice_exercise, difficulty: val).difficulty_description
+      end
+    end
+  end
 end

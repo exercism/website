@@ -15,3 +15,9 @@ en:
     code_merge:
       1: >
         You merged <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}
+    mentored:
+      1: >
+        You mentored <strong>%{student_handle}</strong> on <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
+    published_solution:
+      1: >
+        You published your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>

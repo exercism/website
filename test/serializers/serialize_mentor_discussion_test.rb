@@ -41,16 +41,17 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       created_at: discussion.created_at.iso8601,
       updated_at: discussion.updated_at.iso8601,
 
-      # TODO: Populate this
-      is_finished: true,
+      is_finished: false,
       is_unread: true,
       posts_count: 4,
 
       links: {
-        self: Exercism::Routes.mentoring_discussion_url(discussion)
+        self: Exercism::Routes.track_exercise_mentor_discussion_url(track, exercise, discussion),
+        posts: Exercism::Routes.api_solution_discussion_posts_url(solution.uuid, discussion),
+        finish: Exercism::Routes.finish_api_solution_discussion_url(solution.uuid, discussion.uuid)
       }
     }
 
-    assert_equal expected, SerializeMentorDiscussion.(discussion)
+    assert_equal expected, SerializeMentorDiscussion.(discussion, student)
   end
 end

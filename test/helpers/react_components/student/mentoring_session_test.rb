@@ -29,7 +29,7 @@ module ReactComponents::Student
         {
           user_id: student.id,
           request: SerializeMentorSessionRequest.(mentor_request),
-          discussion: SerializeMentorSessionDiscussion.(discussion, student),
+          discussion: SerializeMentorDiscussion.(discussion, student),
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [

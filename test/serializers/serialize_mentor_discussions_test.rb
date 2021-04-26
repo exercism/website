@@ -14,8 +14,8 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
 
     discussions = Mentor::Discussion::Retrieve.(mentor, :awaiting_mentor, page: 1)
 
-    expected = [SerializeMentorDiscussion.(discussion)]
+    expected = [SerializeMentorDiscussion.(discussion, student)]
 
-    assert_equal expected, SerializeMentorDiscussions.(discussions)
+    assert_equal expected, SerializeMentorDiscussions.(discussions, student)
   end
 end

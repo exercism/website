@@ -4,6 +4,8 @@ class SerializeMentorDiscussion
   initialize_with :discussion, :user
 
   def call
+    return if discussion.blank?
+
     {
       id: discussion.uuid,
       status: discussion.status,

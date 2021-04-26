@@ -24,6 +24,7 @@ module Flows
             sign_in!(user)
             visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             click_on "End discussion"
+            within(".m-confirm-finish-student-mentor-discussion") { click_on "End discussion" }
             click_on "Problematic"
             find('label', text: "Report this discussion to an admin").click
             fill_in "What went wrong?", with: "Bad mentor"

@@ -30,7 +30,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       student: {
         handle: student.handle,
         avatar_url: student.avatar_url,
-        isStarred: true
+        is_starred: true
       },
 
       mentor: {

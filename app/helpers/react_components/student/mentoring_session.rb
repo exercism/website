@@ -9,7 +9,7 @@ module ReactComponents
           {
             user_id: student.id,
             request: SerializeMentorSessionRequest.(request),
-            discussion: SerializeMentorDiscussion.(discussion, student),
+            discussion: discussion ? SerializeMentorDiscussion.(discussion, student) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
@@ -56,6 +56,8 @@ module ReactComponents
       end
 
       def videos
+        return [] if discussion
+
         [
           {
             url: "#",
@@ -85,7 +87,7 @@ module ReactComponents
         solution.iterations.map do |iteration|
           counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
           num_comments = discussion ? counts.sum(&:second) : 0
-          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
+          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
 
           SerializeIteration.(iteration).merge(num_comments: num_comments, unread: unread)
         end

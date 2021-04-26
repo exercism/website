@@ -1,11 +1,9 @@
 class SerializeMentorDiscussion
   include Mandate
 
-  initialize_with :discussion, :user
+  initialize_with :discussion, :consumer
 
   def call
-    return if discussion.blank?
-
     {
       id: discussion.uuid,
       status: discussion.status,
@@ -23,7 +21,7 @@ class SerializeMentorDiscussion
       student: {
         handle: discussion.student_handle,
         avatar_url: discussion.student_avatar_url,
-        isStarred: true # Only show this if the user is the mentor
+        is_starred: true # Only show this if the consumer is the mentor
       },
       mentor: {
         handle: discussion.mentor.handle,
@@ -44,7 +42,7 @@ class SerializeMentorDiscussion
   delegate :mentor, to: :discussion
 
   def finished?
-    if user == mentor
+    if consumer == mentor
       discussion.finished_for_mentor?
     else
       discussion.finished_for_student?
@@ -52,7 +50,7 @@ class SerializeMentorDiscussion
   end
 
   def links
-    if user == mentor
+    if consumer == mentor
       {
         self: Exercism::Routes.mentoring_discussion_url(discussion),
         posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),

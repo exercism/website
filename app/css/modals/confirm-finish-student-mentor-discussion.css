@@ -1,0 +1,22 @@
+@import "../styles";
+
+.m-confirm-finish-student-mentor-discussion.c-modal {
+    & .--modal-content {
+        max-width: 490px;
+        @apply p-24;
+    }
+    & h3 {
+        @apply text-h5 mb-8;
+    }
+    & p {
+        @apply text-15 leading-code; /* leading-160 */
+        @apply mb-16;
+    }
+
+    & .buttons {
+        @apply flex items-center justify-end;
+        & button {
+            @apply ml-16;
+        }
+    }
+}

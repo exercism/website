@@ -59,6 +59,7 @@
                 }
             }
             & .info-for-student {
+                @apply flex-grow;
                 @apply text-14 leading-150 text-textColor6;
                 & strong {
                     @apply font-medium text-textColor3;
@@ -180,6 +181,7 @@
         @apply shadow-base bg-backgroundColorA;
         z-index: 2;
         width: 570px;
+        min-width: 500px;
         height: 100%;
         overflow: hidden;
 

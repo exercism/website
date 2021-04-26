@@ -62,9 +62,9 @@ export const ReportStep = ({
 
   return (
     <section className="report-step">
+      <h2>How can we help?</h2>
       <div className="container">
         <div className="lhs">
-          <h2>How can we help?</h2>
           <p className="explanation">
             We’re really sorry that you experienced a problematic mentoring
             discussion, and would like to help ensure your next experience is a

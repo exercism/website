@@ -16,9 +16,9 @@ export const RateMentorStep = ({
 }): JSX.Element => {
   return (
     <section className="rate-step">
+      <h2>It&apos;s time to review this discussion</h2>
       <div className="container">
         <div className="lhs">
-          <h2>It&apos;s time to review this discussion</h2>
           {discussion.finishedBy === 'mentor' &&
           discussion.finishedAt !== undefined ? (
             <div className="finished-info">

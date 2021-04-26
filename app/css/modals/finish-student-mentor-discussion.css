@@ -32,7 +32,7 @@
         }
         & .rhs {
             @apply flex-shrink-0;
-            @apply ml-96 pt-140;
+            @apply ml-96;
 
             & .avatar-wrapper {
                 @apply relative;
@@ -149,10 +149,11 @@
             }
             & textarea {
                 height: 125px;
-                @apply mb-32;
+                @apply mb-16;
             }
-            & p.help {
-                @apply text-p-small text-textColor6;
+            & .counter {
+                @apply text-14 leading-170 text-textColor6;
+                @apply self-end text-right;
             }
         }
     }

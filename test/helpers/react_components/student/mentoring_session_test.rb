@@ -2,7 +2,7 @@ require_relative "../react_component_test_case"
 
 module ReactComponents::Student
   class MentoringSessionTest < ReactComponentTestCase
-    test "mentoring solution renders correctly" do
+    test "mentoring solution renders with discussion" do
       mentor = create :user
       student = create :user
       track = create :track
@@ -33,7 +33,6 @@ module ReactComponents::Student
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
-
             SerializeIteration.(iteration_1).merge(num_comments: 0, unread: false),
             SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
             SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
@@ -48,6 +47,44 @@ module ReactComponents::Student
             reputation: mentor.formatted_reputation,
             num_previous_sessions: 15
           },
+          is_first_time_on_track: true,
+          videos: [],
+          links: {
+            exercise: Exercism::Routes.track_exercise_url(track, exercise),
+            create_mentor_request: Exercism::Routes.api_solution_mentor_request_path(solution.uuid),
+            learn_more_about_private_mentoring: "#",
+            private_mentoring: "https://some.link/we/need/to-decide-on",
+            mentoring_guide: "#"
+          }
+        }
+    end
+
+    test "mentoring solution renders with request" do
+      student = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, user: student, track: track
+      mentor_request = create :mentor_request,
+        solution: solution,
+        comment_markdown: "Hello",
+        updated_at: Time.utc(2016, 12, 25)
+
+      iteration = create :iteration, solution: solution
+
+      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+
+      assert_component component,
+        "student-mentoring-session",
+        {
+          user_id: student.id,
+          request: SerializeMentorSessionRequest.(mentor_request),
+          discussion: nil,
+          track: SerializeMentorSessionTrack.(track),
+          exercise: SerializeMentorSessionExercise.(exercise),
+          iterations: [
+            SerializeIteration.(iteration).merge(num_comments: 0, unread: false)
+          ],
+          mentor: nil,
           is_first_time_on_track: true,
           videos: [
             {

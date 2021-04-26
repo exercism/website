@@ -14,7 +14,7 @@ export const TestimonialField = ({
   onChange: (e: ChangeEvent) => void
 }): JSX.Element => {
   return (
-    <div>
+    <>
       <textarea
         value={value}
         onChange={onChange}
@@ -23,10 +23,11 @@ export const TestimonialField = ({
         minLength={min}
         maxLength={max}
       />
-      <span>{min} minimum</span>
-      <span>
+      <div className="counter">
         {value.length} / {max}
-      </span>
-    </div>
+        <br />
+        {min} minimum
+      </div>
+    </>
   )
 }

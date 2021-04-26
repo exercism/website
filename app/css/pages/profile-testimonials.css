@@ -54,7 +54,7 @@
             & .exercise {
                 @apply flex items-center mb-8;
                 @apply text-16 text-textColor6 leading-paragraph;
-                & .c-icon {
+                & .c-track-icon {
                     height: 24px;
                     width: 24px;
                     @apply mx-8;

@@ -18,10 +18,9 @@ export const ConfirmFinishMentorDiscussionModal = ({
     >
       <h3>Are you sure you want to end this discussion?</h3>
       <p>
-        It&apos;s normally time to end a discussion when the student has got
-        what they wanted from the conversation, or you have taken the
-        conversation as far as you like. It&apos;s generally polite to leave the
-        student a final goodbye.
+        When you feel like the mentoring has reached its natural conclusion, or
+        you simply don’t wish to proceed further, it's time to end the
+        discussion.
       </p>
       <div className="buttons">
         <button
@@ -37,7 +36,7 @@ export const ConfirmFinishMentorDiscussionModal = ({
           className="btn-small-cta"
           onClick={() => onConfirm()}
         >
-          End discussion
+          Review and End discussion...
           <div className="kb-shortcut">F3</div>
         </button>
       </div>

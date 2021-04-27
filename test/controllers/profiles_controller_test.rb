@@ -74,7 +74,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     post profiles_url
     assert user.reload.profile
-    assert_redirected_to profile_path(user)
+    assert_redirected_to profile_path(user, first_time: true)
   end
 
   test "create: redirects to existing profile" do
@@ -83,6 +83,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     post profiles_url
-    assert_redirected_to profile_path(user)
+    assert_redirected_to profile_path(user, first_time: true)
   end
 end

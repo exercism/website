@@ -13,7 +13,8 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    request = create :mentor_request, locked_by: create(:user), locked_until: Time.current + 5.minutes
+    request = create :mentor_request
+    create :mentor_request_lock, request: request
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)

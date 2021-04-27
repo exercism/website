@@ -135,7 +135,8 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   test "create should 400 if the request is locked" do
     setup_user
 
-    mentor_request = create :mentor_request, :locked
+    mentor_request = create :mentor_request
+    create :mentor_request_lock, request: mentor_request
     post api_mentoring_discussions_path(mentor_request_id: mentor_request), headers: @headers, as: :json
     assert_response 400
     expected = { error: {

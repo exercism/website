@@ -8,17 +8,25 @@ class Mentor::Request < ApplicationRecord
   belongs_to :exercise
   belongs_to :track
 
-  belongs_to :locked_by, class_name: "User", optional: true
-  has_one :discussion,
-    inverse_of: :request, dependent: :nullify
+  has_many :locks, class_name: "Mentor::RequestLock", dependent: :destroy
 
-  scope :locked, -> { where("locked_until > ?", Time.current) }
+  has_one :discussion,
+    inverse_of: :request,
+    dependent: :nullify
+
+  scope :locked, lambda {
+    where("EXISTS(SELECT NULL FROM mentor_request_locks
+                  WHERE mentor_request_locks.request_id = mentor_requests.id)")
+  }
+
   scope :unlocked, lambda {
-    where(locked_until: nil).
-      or(where("locked_until < ?", Time.current))
+    where("NOT EXISTS(SELECT NULL FROM mentor_request_locks
+                      WHERE mentor_request_locks.request_id = mentor_requests.id)")
   }
   scope :unlocked_for, lambda { |user|
-    where(locked_by: user).or(unlocked)
+    where("NOT EXISTS(SELECT NULL FROM mentor_request_locks
+                      WHERE mentor_request_locks.request_id = mentor_requests.id
+                      AND locked_by_id != ?)", user.id)
   }
 
   validates :comment_markdown, presence: true
@@ -66,10 +74,15 @@ class Mentor::Request < ApplicationRecord
   # If the solution isn't locked at all then the person timed
   # out but no-one else claimed it so let's carry on
   def lockable_by?(mentor)
-    (pending? && !locked?) || locked_by == mentor
+    return false unless pending?
+
+    latest_lock = locks.last
+    return true unless latest_lock
+
+    latest_lock.locked_by == mentor
   end
 
   def locked?
-    locked_until.present? && Time.current < locked_until
+    locks.exists?
   end
 end

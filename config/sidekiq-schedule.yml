@@ -1,0 +1,4 @@
+clear_mentor_request_locks:
+  cron: "* * * * *"
+  class: "ClearMentorRequestLocksJob"
+  queue: cron

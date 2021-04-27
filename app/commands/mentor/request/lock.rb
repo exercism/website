@@ -17,7 +17,8 @@ module Mentor
           # Guard against not being lockable
           raise SolutionLockedByAnotherMentorError unless request.lockable_by?(mentor)
 
-          request.update!(
+          Mentor::RequestLock.create!(
+            request: request,
             locked_until: Time.zone.now + 30.minutes,
             locked_by: mentor
           )

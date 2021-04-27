@@ -16,7 +16,7 @@ module Components
           :awaiting_mentor,
           solution: solution,
           mentor: mentor,
-          updated_at: 1.year.ago
+          created_at: 1.year.ago
 
         use_capybara_host do
           sign_in!(mentor)
@@ -28,7 +28,7 @@ module Components
           assert_text "on Series"
           assert_text "0"
           assert_text "a year ago"
-          assert_link "", href: Exercism::Routes.mentoring_discussion_path(discussion)
+          assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
           assert_css "img[alt='Starred student']", visible: false
         end
       end

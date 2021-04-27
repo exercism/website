@@ -29,7 +29,7 @@ module Flows
 
         assert_text "You have 1 previous discussion"
         assert_text "student-123"
-        assert_link "Lasagna", href: Exercism::Routes.mentoring_discussion_path(lasagna_discussion)
+        assert_link "Lasagna", href: Exercism::Routes.mentoring_discussion_url(lasagna_discussion)
       end
     end
 

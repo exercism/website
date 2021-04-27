@@ -13,7 +13,11 @@ module ReactComponents
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
-            student: SerializeStudent.(student, mentor_student_relationship, discussion&.anonymous_mode?),
+            student: SerializeStudent.(
+              student,
+              relationship: mentor_student_relationship,
+              anonymous_mode: discussion&.anonymous_mode?
+            ),
             mentor_solution: mentor_solution,
             notes: notes,
             links: links

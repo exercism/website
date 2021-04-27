@@ -98,7 +98,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def student_name
-    anonymous_mode? ? "User in Anonymous mode" : student.handle
+    anonymous_mode? ? "User in Anonymous mode" : student.name
   end
 
   def student_avatar_url

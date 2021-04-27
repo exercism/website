@@ -8,8 +8,8 @@ module API
       mentor_request_comment = MentorRequestComment.from(@discussion)
       posts = @discussion.posts
 
-      serialized_posts = [mentor_request_comment, posts].
-        flatten.
+      serialized_posts = [mentor_request_comment, *posts].
+        compact.
         map { |post| SerializeMentorDiscussionPost.(post, current_user) }
 
       render json: { posts: serialized_posts }
@@ -51,6 +51,7 @@ module API
     end
   end
 
+  # TOOD: Merge into the other identical place
   class MentorRequestComment
     include ActiveModel::Model
 
@@ -58,6 +59,8 @@ module API
 
     def self.from(discussion)
       mentor_request = discussion.request
+      return nil unless mentor_request
+      return nil if mentor_request.comment_html.blank?
 
       if discussion.posts.any?
         iteration_idx = discussion.posts.first.iteration_idx

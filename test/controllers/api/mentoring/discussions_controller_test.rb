@@ -12,18 +12,72 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   ###
   # Index
   ###
+  test "index proxies correctly" do
+    user = create :user
+    setup_user(user)
+
+    ::Mentor::Discussion::Retrieve.expects(:call).with(
+      user,
+      'status_param',
+      page: 'page_param',
+      track_slug: 'track_param',
+      student_handle: 'student_param',
+      criteria: 'criteria_param',
+      order: 'order_param'
+    ).returns(mock(includes: [], total_count: 200, current_page: 1, total_pages: 1))
+
+    get api_mentoring_discussions_path, params: {
+      status: 'status_param',
+      page: 'page_param',
+      track: 'track_param',
+      student: 'student_param',
+      criteria: 'criteria_param',
+      order: 'order_param'
+    }, headers: @headers, as: :json
+  end
+
   test "index retrieves discussions" do
     user = create :user
     setup_user(user)
 
-    discussion = create :mentor_discussion, :awaiting_mentor, mentor: user
+    create :mentor_discussion, :awaiting_mentor, mentor: user
 
     get api_mentoring_discussions_path(status: :awaiting_mentor),
       headers: @headers, as: :json
     assert_response 200
 
-    # TODO: Check JSON
-    assert_includes response.body, discussion.uuid
+    expected = SerializePaginatedCollection.(
+      Mentor::Discussion.page(1).per(10),
+      serializer: SerializeMentorDiscussions,
+      serializer_args: :mentor,
+      meta: {}
+    )
+
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
+  end
+
+  test "index sideloads meta" do
+    user = create :user
+    setup_user(user)
+
+    create :mentor_discussion, :awaiting_mentor, mentor: user
+
+    get api_mentoring_discussions_path(status: :awaiting_mentor, sideload: [:all_discussion_counts]),
+      headers: @headers, as: :json
+    assert_response 200
+
+    expected = SerializePaginatedCollection.(
+      Mentor::Discussion.page(1).per(10),
+      serializer: SerializeMentorDiscussions,
+      serializer_args: :mentor,
+      meta: {
+        awaiting_mentor_total: 1,
+        awaiting_student_total: 0,
+        finished_total: 0
+      }
+    )
+
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
 
   ###

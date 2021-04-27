@@ -33,8 +33,8 @@ class SerializeMentorDiscussion
 
       is_finished: finished?,
       is_unread: unread?,
-      posts_count: discussion.posts.count,
-      iterations_count: discussion.iterations.count,
+      posts_count: discussion.num_posts,
+      iterations_count: discussion.solution.num_iterations,
       links: links
     }
   end
@@ -50,6 +50,7 @@ class SerializeMentorDiscussion
     end
   end
 
+  # TODO: This is an n+1. Cache it on mentor_discussions
   def unread?
     if context == :mentor
       discussion.posts.where(seen_by_mentor: false).exists?

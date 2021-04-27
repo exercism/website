@@ -9,8 +9,6 @@ module Mentoring
       student = create :user
       track = create :track, slug: "ruby"
       exercise = create :concept_exercise, track: track, slug: "clock"
-      old_solution = create :concept_solution, user: student
-      create :mentor_discussion, :mentor_finished, solution: old_solution, mentor: mentor
       solution = create :concept_solution, user: student, exercise: exercise
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       mentor_request = create :mentor_request,
@@ -40,27 +38,11 @@ module Mentoring
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
-
             SerializeIteration.(iteration_1).merge(num_comments: 0, unread: false),
             SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
             SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
           ],
-          student: {
-            id: student.id,
-            name: student.name,
-            handle: student.handle,
-            bio: student.bio,
-            languages_spoken: student.languages_spoken,
-            avatar_url: student.avatar_url,
-            reputation: student.formatted_reputation,
-            is_favorite: false,
-            num_previous_sessions: 1,
-            links: {
-              favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
-              previous_sessions: Exercism::Routes.api_mentoring_previous_discussions_path(handle: student.handle)
-            }
-          },
-
+          student: SerializeStudent.(student, nil),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           links: {

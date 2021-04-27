@@ -28,12 +28,14 @@ export const PreviousSessionsLink = ({
         {pluralize('session', student.numPreviousSessions)}
         <Icon icon="modal" alt="Opens in modal" />
       </button>
-      <PreviousMentoringSessionsModal
-        open={open}
-        student={student}
-        setStudent={setStudent}
-        onClose={() => setOpen(false)}
-      />
+      {open ? (
+        <PreviousMentoringSessionsModal
+          open={open}
+          student={student}
+          setStudent={setStudent}
+          onClose={() => setOpen(false)}
+        />
+      ) : null}
     </React.Fragment>
   )
 }

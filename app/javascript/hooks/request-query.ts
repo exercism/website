@@ -27,11 +27,14 @@ function handleFetch(
   request: Request,
   isMountedRef: React.MutableRefObject<boolean>
 ) {
+  const delimiter =
+    request.endpoint && request.endpoint.includes('?') ? '&' : '?'
   const params = request.query
-    ? `?${stringify(decamelizeKeys(request.query), {
+    ? `${delimiter}${stringify(decamelizeKeys(request.query), {
         arrayFormat: 'brackets',
       })}`
     : ''
+  console.log(request.query)
 
   return sendRequest({
     endpoint: `${request.endpoint}${params}`,

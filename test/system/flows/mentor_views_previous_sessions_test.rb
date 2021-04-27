@@ -16,11 +16,12 @@ module Flows
       create :iteration, submission: submission
 
       running = create :concept_exercise, slug: "running"
-      create :mentor_student_relationship, mentor: mentor, student: student
       solution = create :concept_solution, exercise: running, user: student
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       submission = create :submission, solution: solution
       create :iteration, submission: submission
+
+      create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 2
 
       use_capybara_host do
         sign_in!(mentor)
@@ -36,15 +37,9 @@ module Flows
     test "mentor favorites a student" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
-
-      lasagna = create :concept_exercise, slug: "lasagna"
-      solution = create :concept_solution, exercise: lasagna, user: student
-      create :mentor_discussion, :finished, solution: solution, mentor: mentor
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
+      create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 2
 
       running = create :concept_exercise, slug: "running"
-      create :mentor_student_relationship, mentor: mentor, student: student
       solution = create :concept_solution, exercise: running, user: student
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       submission = create :submission, solution: solution

@@ -25,7 +25,7 @@ module ReactComponents
       private
       def discussions_request
         {
-          endpoint: Exercism::Routes.api_mentoring_discussions_path,
+          endpoint: Exercism::Routes.api_mentoring_discussions_path(sideload: [:all_discussion_counts]),
           query: { status: DEFAULT_STATUS }
         }
       end

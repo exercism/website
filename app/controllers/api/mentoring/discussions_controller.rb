@@ -10,23 +10,28 @@ module API
         params[:status],
         page: params[:page],
         track_slug: params[:track],
+        student_handle: params[:student],
         criteria: params[:criteria],
         order: params[:order]
       )
 
-      all_discussions = Mentor::Discussion.
-        joins(solution: :exercise).
-        where(mentor: current_user)
+      if sideload?(:all_discussion_counts)
+        all_discussions = Mentor::Discussion.
+          joins(solution: :exercise).
+          where(mentor: current_user)
+
+        meta = {
+          awaiting_mentor_total: all_discussions.awaiting_mentor.count,
+          awaiting_student_total: all_discussions.awaiting_student.count,
+          finished_total: all_discussions.finished_for_mentor.count
+        }
+      end
 
       render json: SerializePaginatedCollection.(
         discussions,
         serializer: SerializeMentorDiscussions,
         serializer_args: :mentor,
-        meta: {
-          awaiting_mentor_total: all_discussions.awaiting_mentor.count,
-          awaiting_student_total: all_discussions.awaiting_student.count,
-          finished_total: all_discussions.finished_for_mentor.count
-        }
+        meta: meta || {}
       )
     end
 

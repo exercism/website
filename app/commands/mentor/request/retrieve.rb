@@ -74,7 +74,7 @@ module Mentor
 
         exercise_id = Exercise.where(
           slug: exercise_slug,
-          track_id: Track.find_by(slug: track_slug)
+          track_id: Track.where(slug: track_slug).select(:id)
         ).pick(:id)
 
         @requests = @requests.where(exercise_id: exercise_id)

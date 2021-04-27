@@ -247,6 +247,7 @@ initReact({
       track={camelizeKeysAs<Track>(data.track)}
       solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
       size={data.size}
+      links={data.links}
     />
   ),
   'mentoring-inbox': (data: any) => (

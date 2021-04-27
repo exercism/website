@@ -64,7 +64,7 @@ module API
       new(
         uuid: "",
         iteration_idx: iteration_idx,
-        author: mentor_request.user,
+        author: mentor_request.student,
         by_student: true,
         content_markdown: mentor_request.comment_markdown,
         content_html: mentor_request.comment_html,

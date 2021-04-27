@@ -38,21 +38,18 @@ class SerializeTracksForMentoring
       mentor: mentor,
       track_slug: tracks.map(&:slug),
       sorted: false, paginated: false
-    ).joins(solution: :exercise).
-      group('exercises.track_id').
-      count
+    ).group(:track_id).count
   end
 
   # We don't acutally care about what tracks the person
-  # mentors when we serialize here. We're going to serailize
+  # mentors when we serialize here. We're going to seraialize
   # all the tracks that have been passed in. However we do
   # care about excluding your own solutions, etc.
   def request_counts_without_mentor
     Mentor::Request.
-      joins(solution: :exercise).
       pending.
       unlocked.
-      where('exercises.track_id': tracks).
-      group('exercises.track_id').count
+      where(track_id: tracks).
+      group(:track_id).count
   end
 end

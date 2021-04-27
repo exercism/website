@@ -81,7 +81,7 @@ module Mentor
       end
 
       def filter_track!
-        track_ids = track_slug.present? ? Track.where(slug: track_slug).pick(:id) : mentor.mentored_tracks
+        track_ids = track_slug.present? ? Track.where(slug: track_slug).pluck(:id) : mentor.mentored_tracks
 
         @requests = @requests.where(track_id: track_ids)
       end

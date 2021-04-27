@@ -12,8 +12,8 @@ class SerializeMentorSessionRequest
       updated_at: request.updated_at.iso8601,
       is_locked: request.locked?,
       student: {
-        handle: request.user.handle,
-        avatar_url: request.user.avatar_url
+        handle: request.student_handle,
+        avatar_url: request.student_avatar_url
       },
       track: {
         title: request.track.title

@@ -4,9 +4,9 @@ class Mentor::Request < ApplicationRecord
   enum status: { pending: 0, fulfilled: 1, cancelled: 2 }
 
   belongs_to :solution
-  has_one :user, through: :solution
-  has_one :exercise, through: :solution
-  has_one :track, through: :exercise
+  belongs_to :student, class_name: "User"
+  belongs_to :exercise
+  belongs_to :track
 
   belongs_to :locked_by, class_name: "User", optional: true
   has_one :discussion,
@@ -26,8 +26,14 @@ class Mentor::Request < ApplicationRecord
   has_markdown_field :comment
 
   delegate :title, to: :track, prefix: :track
-  delegate :handle, :avatar_url, to: :user, prefix: :user
+  delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, :icon_url, to: :exercise, prefix: :exercise
+
+  before_validation on: :create do
+    self.student_id = solution.user_id
+    self.track_id = solution.exercise.track_id
+    self.exercise_id = solution.exercise_id
+  end
 
   before_create do
     self.uuid = SecureRandom.compact_uuid

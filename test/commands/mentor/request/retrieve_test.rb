@@ -105,6 +105,23 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
       Mentor::Request::Retrieve.(mentor: user, track_slug: ruby.slug, exercise_slug: ruby_bob.slug)
   end
 
+  test "search works" do
+    mentored_track = create :track
+    user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
+
+    bob = create :user, handle: "Bob"
+    toby = create :user, handle: "Toby"
+    martin = create :user, handle: "Martin"
+
+    bobs = create :mentor_request, solution: create(:practice_solution, user: bob, track: mentored_track)
+    tobys = create :mentor_request, solution: create(:practice_solution, user: toby, track: mentored_track)
+    martins = create :mentor_request, solution: create(:practice_solution, user: martin, track: mentored_track)
+
+    assert_equal [bobs, tobys, martins], Mentor::Request::Retrieve.(mentor: user)
+    assert_equal [bobs, tobys], Mentor::Request::Retrieve.(mentor: user, criteria: "ob")
+  end
+
   test "orders by recency" do
     mentored_track = create :track
     user = create :user

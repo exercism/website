@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_131841) do
+ActiveRecord::Schema.define(version: 2021_03_24_111409) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -208,13 +208,13 @@ ActiveRecord::Schema.define(version: 2021_04_27_131841) do
     t.bigint "request_id"
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "rating", limit: 1
+    t.integer "num_posts", limit: 3, default: 0, null: false
     t.datetime "awaiting_student_since"
     t.datetime "awaiting_mentor_since"
     t.datetime "finished_at"
     t.integer "finished_by", limit: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "num_posts", limit: 3, default: 0, null: false
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
@@ -223,6 +223,9 @@ ActiveRecord::Schema.define(version: 2021_04_27_131841) do
   create_table "mentor_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "solution_id", null: false
+    t.bigint "track_id", null: false
+    t.bigint "exercise_id", null: false
+    t.bigint "student_id", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.text "comment_markdown", null: false
     t.text "comment_html", null: false
@@ -230,13 +233,13 @@ ActiveRecord::Schema.define(version: 2021_04_27_131841) do
     t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "track_id", null: false
-    t.bigint "exercise_id", null: false
-    t.bigint "student_id", null: false
+    t.index ["exercise_id"], name: "index_mentor_requests_on_exercise_id"
     t.index ["locked_by_id"], name: "index_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
     t.index ["status", "exercise_id"], name: "index_mentor_requests_on_status_and_exercise_id"
     t.index ["status", "track_id"], name: "index_mentor_requests_on_status_and_track_id"
+    t.index ["student_id"], name: "index_mentor_requests_on_student_id"
+    t.index ["track_id"], name: "index_mentor_requests_on_track_id"
   end
 
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

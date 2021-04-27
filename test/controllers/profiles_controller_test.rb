@@ -83,6 +83,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     post profiles_url
-    assert_redirected_to profile_path(user)
+    assert_redirected_to profile_path(user, first_time: true)
   end
 end

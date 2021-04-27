@@ -492,6 +492,9 @@ initReact({
       links={data.links}
     />
   ),
+  'profile-first-time-modal': (data: any) => (
+    <Profile.FirstTimeModal links={data.links} />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

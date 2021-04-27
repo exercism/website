@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { default as ReactModal, Props } from 'react-modal'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
@@ -20,11 +20,6 @@ export const Modal = ({
   children,
   ...props
 }: React.PropsWithChildren<ModalProps>): JSX.Element => {
-  useLayoutEffect(() => {
-    // Required for accessibility: http://reactcommunity.org/react-modal/accessibility/#app-element
-    ReactModal.setAppElement(document.querySelector('body') as HTMLElement)
-  })
-
   const overlayClassNames = ['c-modal', className, cover ? '--cover' : '']
 
   return (
@@ -33,6 +28,7 @@ export const Modal = ({
       onRequestClose={onClose}
       className={'--modal-content'}
       overlayClassName={overlayClassNames.join(' ')}
+      appElement={document.querySelector('body') as HTMLElement}
       overlayElement={(props, contentElement) => (
         <div {...props}>
           <Wrapper

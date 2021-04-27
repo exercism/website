@@ -7,13 +7,13 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
   ###
   # Index
   ###
-  test "index returns posts for discussion and iteration" do
+  test "index returns posts for request and discussion" do
     student = create :user, handle: "student"
     setup_user(student)
     solution = create :concept_solution, user: student
     mentor_request = create :mentor_request,
       solution: solution,
-      comment_markdown: "Hello",
+      comment_markdown: "Request comment",
       updated_at: Time.utc(2016, 12, 25)
     discussion = create :mentor_discussion, solution: solution, request: mentor_request
     iteration = create :iteration, idx: 2, solution: solution
@@ -21,7 +21,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       discussion: discussion,
       iteration: iteration,
       author: student,
-      content_markdown: "Hello",
+      content_markdown: "Discussion post",
       updated_at: Time.utc(2016, 12, 25))
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
@@ -36,8 +36,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
-          content_markdown: "Hello",
-          content_html: "<p>Hello</p>\n",
+          content_markdown: "Request comment",
+          content_html: "<p>Request comment</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           links: {
           }
@@ -49,8 +49,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
-          content_markdown: "Hello",
-          content_html: "<p>Hello</p>\n",
+          content_markdown: "Discussion post",
+          content_html: "<p>Discussion post</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           links: {
             update: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
@@ -61,7 +61,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
-  test "index returns mentor request comment for the last iteration if no posts exist yet" do
+  test "index returns just mentor request comment" do
     student = create :user, handle: "student"
     setup_user(student)
 
@@ -111,6 +111,43 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
+  end
+
+  test "index copes with no request" do
+    student = create :user, handle: "student"
+    setup_user(student)
+    solution = create :concept_solution, user: student
+    discussion = create :mentor_discussion, solution: solution, request: nil
+    iteration = create :iteration, idx: 2, solution: solution
+    discussion_post = create(:mentor_discussion_post,
+      discussion: discussion,
+      iteration: iteration,
+      author: student,
+      content_markdown: "Hello",
+      updated_at: Time.utc(2016, 12, 25))
+
+    get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
+
+    assert_response 200
+    expected = {
+      posts: [
+        {
+          id: discussion_post.uuid,
+          iteration_idx: 2,
+          author_id: student.id,
+          author_handle: "student",
+          author_avatar_url: student.avatar_url,
+          by_student: true,
+          content_markdown: "Hello",
+          content_html: "<p>Hello</p>\n",
+          updated_at: Time.utc(2016, 12, 25).iso8601,
+          links: {
+            update: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
+          }
+        }
+      ]
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
   ###

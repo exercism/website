@@ -55,9 +55,8 @@ module API
 
     def self.from(discussion)
       mentor_request = discussion.request
-      # TODO: Add tests
       return nil unless mentor_request
-      return nil if mentor_request.comment_html.present?
+      return nil if mentor_request.comment_html.blank?
 
       if discussion.posts.any?
         iteration_idx = discussion.posts.first.iteration_idx

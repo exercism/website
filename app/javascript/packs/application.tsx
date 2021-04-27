@@ -226,6 +226,9 @@ initReact({
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
+  'common-concept-widget': (data: any) => (
+    <Common.ConceptWidget concept={data.concept} />
+  ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'common-community-solution': (data: any) => (
     <Common.CommunitySolution

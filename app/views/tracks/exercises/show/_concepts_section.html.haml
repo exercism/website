@@ -27,9 +27,7 @@
             = pluralize unlocked_concepts.size, "concept"
           .list
             - unlocked_concepts.each do |unlocked_concept|
-              = link_to unlocked_concept, class: "unlocked-concept" do
-                = render ViewComponents::ConceptIcon.new(unlocked_concept, :small)
-                .name= unlocked_concept.name
+              = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
 
       - if unlocked_exercises.present?
         .unlocked-exercises

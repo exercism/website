@@ -12,7 +12,7 @@ class SerializeStudent
       languages_spoken: student.languages_spoken,
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
-      is_favorite: mentor_relationship&.favorited?,
+      is_favorite: !!mentor_relationship&.favorited?,
       num_previous_sessions: num_previous_sessions,
       links: {
         favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),

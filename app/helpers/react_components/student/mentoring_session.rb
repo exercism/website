@@ -51,14 +51,14 @@ module ReactComponents
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
           reputation: mentor.formatted_reputation,
-          num_previous_sessions: student.num_previous_mentor_sessions_with(mentor)
+          num_previous_sessions: num_previous_sessions
         }
       end
 
       # TODO: I'm not happy with this here. I think the -1 should be done
       # in the JS and this should return num_discussions
       def num_previous_sessions
-        mentor_relationship = Mentor::StudentRelationship.for(mentor: mentor, student: student)
+        mentor_relationship = Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
         num = mentor_relationship&.num_discussions.to_i
 
         # Previous does not include this so reduce it by 1 if there's an active discussion here

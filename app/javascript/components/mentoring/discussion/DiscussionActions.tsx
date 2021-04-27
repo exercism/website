@@ -16,12 +16,12 @@ export const DiscussionActions = ({
 }): JSX.Element => {
   const handleSuccess = useCallback(
     (discussion) => {
-      const { relationship, ...discussionProps } = discussion
+      const { student, ...discussionProps } = discussion
 
       setSession({
         ...session,
         discussion: discussionProps,
-        relationship: relationship,
+        student: student,
       })
     },
     [setSession, session]

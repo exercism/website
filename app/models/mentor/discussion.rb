@@ -50,7 +50,6 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   delegate :title, :icon_url, to: :track, prefix: :track
-  delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, to: :exercise, prefix: :exercise
 
   def status
@@ -92,6 +91,18 @@ class Mentor::Discussion < ApplicationRecord
   def viewable_by?(user)
     # TODO: Admins should also be allowed to view
     [mentor, student].include?(user)
+  end
+
+  def student_handle
+    anonymous_mode? ? "anonymous" : student.handle
+  end
+
+  def student_name
+    anonymous_mode? ? "User in Anonymous mode" : student.handle
+  end
+
+  def student_avatar_url
+    anonymous_mode? ? nil : student.avatar_url
   end
 
   def student_finished!

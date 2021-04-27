@@ -70,8 +70,8 @@ module ReactComponents
               handle: discussion.mentor.handle
             },
             student: {
-              avatar_url: discussion.student.avatar_url,
-              handle: discussion.student.handle
+              avatar_url: discussion.student_avatar_url,
+              handle: discussion.student_handle
             },
             is_finished: discussion.finished_for_student?,
             is_unread: discussion.posts.where(seen_by_student: false).exists?,

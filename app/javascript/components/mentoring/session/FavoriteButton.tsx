@@ -12,7 +12,7 @@ export const FavoriteButton = ({
 }): JSX.Element | null => {
   return (
     <div className="button-wrapper">
-      {student.isFavorite ? (
+      {student.isFavorited ? (
         <RemoveFavoriteButton
           endpoint={student.links.favorite}
           onSuccess={(student) => onSuccess(student)}

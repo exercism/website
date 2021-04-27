@@ -6,10 +6,10 @@ import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { StudentMentorRelationship } from '../../mentoring/Session'
+import { Student } from '../../mentoring/Session'
 
 type Discussion = {
-  relationship: StudentMentorRelationship
+  student: Student
 }
 
 const DEFAULT_ERROR = new Error('Unable to end discussion')

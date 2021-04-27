@@ -2,11 +2,11 @@ import React, { useReducer, useEffect, useRef } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
-import { Student, StudentMentorRelationship } from '../Session'
+import { Student } from '../Session'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 type State = {
-  relationship: StudentMentorRelationship
+  student: Student
   step: ModalStep
 }
 
@@ -15,19 +15,18 @@ export type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
 type Action =
   | {
       type: 'MENTOR_AGAIN'
-      payload: { relationship: StudentMentorRelationship }
+      payload: { student: Student }
     }
   | {
       type: 'WONT_MENTOR_AGAIN'
-      payload: { relationship: StudentMentorRelationship }
+      payload: { student: Student }
     }
-  | { type: 'FAVORITED'; payload: { relationship: StudentMentorRelationship } }
+  | { type: 'FAVORITED'; payload: { student: Student } }
   | { type: 'SKIP_FAVORITE' }
   | { type: 'RESET' }
 
 type Props = {
   student: Student
-  relationship: StudentMentorRelationship
   defaultStep: ModalStep
 }
 
@@ -35,17 +34,17 @@ function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'MENTOR_AGAIN':
       return {
-        relationship: action.payload.relationship,
+        student: action.payload.student,
         step: 'favorite',
       }
     case 'WONT_MENTOR_AGAIN':
       return {
-        relationship: action.payload.relationship,
+        student: action.payload.student,
         step: 'finish',
       }
     case 'FAVORITED':
       return {
-        relationship: action.payload.relationship,
+        student: action.payload.student,
         step: 'finish',
       }
     case 'SKIP_FAVORITE':
@@ -55,14 +54,10 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export const FinishedWizard = ({
-  student,
-  relationship,
-  defaultStep,
-}: Props) => {
+export const FinishedWizard = ({ student, defaultStep }: Props) => {
   const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
-    relationship: relationship,
+    student: student,
     step: defaultStep,
   })
 
@@ -72,7 +67,7 @@ export const FinishedWizard = ({
     }
 
     finishedWizardRef.current.scrollIntoView()
-  }, [relationship])
+  }, [student])
 
   return (
     <div ref={finishedWizardRef} className="finished-wizard">
@@ -82,30 +77,28 @@ export const FinishedWizard = ({
         <div className="--step">
           {state.step === 'mentorAgain' ? (
             <MentorAgainStep
-              student={student}
-              relationship={state.relationship}
-              onYes={(relationship) => {
+              student={state.student}
+              onYes={(student) => {
                 dispatch({
                   type: 'MENTOR_AGAIN',
-                  payload: { relationship: relationship },
+                  payload: { student: student },
                 })
               }}
-              onNo={(relationship) => {
+              onNo={(student) => {
                 dispatch({
                   type: 'WONT_MENTOR_AGAIN',
-                  payload: { relationship: relationship },
+                  payload: { student: student },
                 })
               }}
             />
           ) : null}
           {state.step === 'favorite' ? (
             <FavoriteStep
-              student={student}
-              relationship={state.relationship}
-              onFavorite={(relationship) => {
+              student={state.student}
+              onFavorite={(student) => {
                 dispatch({
                   type: 'FAVORITED',
-                  payload: { relationship: relationship },
+                  payload: { student: student },
                 })
               }}
               onSkip={() => {
@@ -115,8 +108,7 @@ export const FinishedWizard = ({
           ) : null}
           {state.step === 'finish' ? (
             <FinishStep
-              student={student}
-              relationship={state.relationship}
+              student={state.student}
               onReset={() => {
                 dispatch({ type: 'RESET' })
               }}

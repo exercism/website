@@ -118,7 +118,7 @@ module API
       render json: {
         discussion: {
           id: discussion.uuid,
-          relationship: SerializeMentorStudentRelationship.(relationship),
+          student: SerializeStudent.(discussion.student, relationship, discussion.anonymous_mode?),
           is_finished: true,
           links: {
             posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion)

@@ -184,7 +184,6 @@ import { Assignment, Submission } from '../components/editor/types'
 import {
   Student as MentoringSessionStudent,
   Links as MentoringSessionLinks,
-  StudentMentorRelationship,
 } from '../components/mentoring/Session'
 import {
   Mentor as StudentMentoringSessionMentor,
@@ -277,9 +276,6 @@ initReact({
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
-      relationship={camelizeKeysAs<StudentMentorRelationship>(
-        data.relationship
-      )}
       notes={data.notes}
     />
   ),

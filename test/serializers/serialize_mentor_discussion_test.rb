@@ -7,10 +7,13 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution = create :concept_solution, exercise: exercise, user: student
+    create :iteration, solution: solution
     discussion = create :mentor_discussion,
       :awaiting_mentor,
       solution: solution,
       mentor: mentor
+    create :mentor_discussion_post, discussion: discussion
+    create :mentor_discussion_post, discussion: discussion
 
     expected = {
       id: discussion.uuid,
@@ -43,7 +46,8 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
 
       is_finished: false,
       is_unread: true,
-      posts_count: 4,
+      posts_count: 2,
+      iterations_count: 1,
 
       links: {
         self: Exercism::Routes.track_exercise_mentor_discussion_url(track, exercise, discussion),

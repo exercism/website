@@ -49,27 +49,7 @@ module ReactComponents
       end
 
       def discussions
-        solution.mentor_discussions.map do |discussion|
-          {
-            id: discussion.uuid,
-            mentor: {
-              avatar_url: discussion.mentor.avatar_url,
-              handle: discussion.mentor.handle
-            },
-            student: {
-              avatar_url: discussion.student.avatar_url,
-              handle: discussion.student.handle
-            },
-            is_finished: discussion.finished_for_student?,
-            is_unread: discussion.posts.where(seen_by_student: false).exists?,
-            posts_count: discussion.posts.count,
-            created_at: discussion.created_at.iso8601,
-            status: discussion.status,
-            links: {
-              self: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
-            }
-          }
-        end
+        SerializeMentorDiscussions.(solution.mentor_discussions, :student)
       end
     end
   end

@@ -60,7 +60,7 @@ module Components::Student
           assert_text "You're being mentored byMentor"
           assert_text "Your turn to respond"
           assert_link "Open discussion",
-            href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
+            href: Exercism::Routes.track_exercise_mentor_discussion_url(solution.track, solution.exercise, discussion)
         end
       end
     end

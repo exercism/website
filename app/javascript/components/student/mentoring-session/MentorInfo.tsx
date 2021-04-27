@@ -1,6 +1,5 @@
 import React from 'react'
 import { Avatar, Reputation } from '../../common'
-import { PreviousSessionsLink } from '../../mentoring/session/PreviousSessionsLink'
 import { Mentor } from '../MentoringSession'
 
 export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
@@ -22,9 +21,7 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
             }}
           />
         </div>
-        <div className="options">
-          <PreviousSessionsLink numSessions={mentor.numPreviousSessions} />
-        </div>
+        {/* TODO: View previous sessions as a student */}
       </div>
       <Avatar src={mentor.avatarUrl} handle={mentor.handle} />
     </div>

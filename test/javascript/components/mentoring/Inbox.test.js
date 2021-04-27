@@ -39,6 +39,18 @@ let server = setupServer(
             isNewSubmission: false,
             haveMentoredPreviously: false,
             links: {},
+            student: {
+              avatarUrl: '',
+            },
+            exercise: {
+              title: 'Lasagna',
+            },
+            isStarred: false,
+            isNewSubmission: false,
+            haveMentoredPreviously: false,
+            links: {
+              self: '',
+            },
           },
         ],
         meta: { totalPages: 2 },

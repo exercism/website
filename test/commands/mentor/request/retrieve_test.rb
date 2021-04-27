@@ -15,11 +15,13 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     create :mentor_request, status: :fulfilled, solution: solution
 
     # Locked
-    create :mentor_request, locked_until: Time.current + 10.minutes, solution: solution
+    request = create :mentor_request, solution: solution
+    create :mentor_request_lock, request: request
 
-    expired = create :mentor_request, locked_until: Time.current - 10.minutes, solution: solution
+    expired = create :mentor_request, solution: solution
     pending = create :mentor_request, solution: solution
-    locked_by_mentor = create :mentor_request, locked_until: Time.current + 5.minutes, locked_by: mentor
+    locked_by_mentor = create :mentor_request
+    create :mentor_request_lock, request: locked_by_mentor, locked_by: mentor
 
     assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor: mentor)
   end

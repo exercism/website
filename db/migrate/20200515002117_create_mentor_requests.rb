@@ -13,13 +13,12 @@ class CreateMentorRequests < ActiveRecord::Migration[6.0]
       t.text :comment_markdown, null: false
       t.text :comment_html, null: false
 
-      t.belongs_to :locked_by, foreign_key: { to_table: :users }, null: true
-      t.datetime :locked_until, null: true
-
       t.timestamps
 
       t.index [:status, :track_id]
+      t.index [:track_id, :status]
       t.index [:status, :exercise_id]
+      t.index [:exercise_id, :status]
     end
   end
 end

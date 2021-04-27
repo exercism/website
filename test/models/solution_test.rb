@@ -228,17 +228,12 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.reload.has_locked_pending_mentoring_request?
 
     # No lock
-    request = create :mentor_request, locked_until: nil, solution: solution
-    assert solution.reload.has_unlocked_pending_mentoring_request?
-    refute solution.reload.has_locked_pending_mentoring_request?
-
-    # Expired Lock
-    request.update(locked_by: create(:user), locked_until: Time.current - 5.minutes)
+    request = create :mentor_request, solution: solution
     assert solution.reload.has_unlocked_pending_mentoring_request?
     refute solution.reload.has_locked_pending_mentoring_request?
 
     # Current Lock
-    request.update(locked_by: create(:user), locked_until: Time.current + 5.minutes)
+    create :mentor_request_lock, request: request
     refute solution.reload.has_unlocked_pending_mentoring_request?
     assert solution.reload.has_locked_pending_mentoring_request?
 

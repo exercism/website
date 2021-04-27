@@ -117,7 +117,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     assert_response :success
 
     assert request.reload.locked?
-    assert_equal user, request.reload.locked_by
+    assert_equal user, request.reload.locks.last.locked_by
   end
 
   ###

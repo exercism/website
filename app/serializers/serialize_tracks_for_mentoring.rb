@@ -34,11 +34,11 @@ class SerializeTracksForMentoring
   end
 
   def request_counts_with_mentor
-    Mentor::Request::Retrieve.(
-      mentor: mentor,
-      track_slug: tracks.map(&:slug),
-      sorted: false, paginated: false
-    ).group(:track_id).count
+    Mentor::Request.
+      pending.
+      where.not(student_id: mentor.id).
+      where(track_id: tracks).
+      group(:track_id).count
   end
 
   # We don't acutally care about what tracks the person
@@ -48,7 +48,6 @@ class SerializeTracksForMentoring
   def request_counts_without_mentor
     Mentor::Request.
       pending.
-      unlocked.
       where(track_id: tracks).
       group(:track_id).count
   end

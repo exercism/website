@@ -14,10 +14,5 @@ FactoryBot.define do
     trait :cancelled do
       status { :cancelled }
     end
-
-    trait :locked do
-      locked_until { Time.current + 30.minutes }
-      locked_by { create :user }
-    end
   end
 end

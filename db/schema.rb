@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_111409) do
+ActiveRecord::Schema.define(version: 2021_04_27_174645) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -220,6 +220,14 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
   end
 
+  create_table "mentor_request_locks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "request_id", null: false
+    t.bigint "locked_by_id", null: false
+    t.datetime "locked_until", null: false
+    t.index ["request_id", "locked_by_id"], name: "index_mentor_request_locks_on_request_id_and_locked_by_id"
+    t.index ["request_id"], name: "index_mentor_request_locks_on_request_id"
+  end
+
   create_table "mentor_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "solution_id", null: false
@@ -229,16 +237,15 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
     t.integer "status", limit: 1, default: 0, null: false
     t.text "comment_markdown", null: false
     t.text "comment_html", null: false
-    t.bigint "locked_by_id"
-    t.datetime "locked_until"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "status"], name: "index_mentor_requests_on_exercise_id_and_status"
     t.index ["exercise_id"], name: "index_mentor_requests_on_exercise_id"
-    t.index ["locked_by_id"], name: "index_mentor_requests_on_locked_by_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
     t.index ["status", "exercise_id"], name: "index_mentor_requests_on_status_and_exercise_id"
     t.index ["status", "track_id"], name: "index_mentor_requests_on_status_and_track_id"
     t.index ["student_id"], name: "index_mentor_requests_on_student_id"
+    t.index ["track_id", "status"], name: "index_mentor_requests_on_track_id_and_status"
     t.index ["track_id"], name: "index_mentor_requests_on_track_id"
   end
 
@@ -607,8 +614,8 @@ ActiveRecord::Schema.define(version: 2021_03_24_111409) do
   add_foreign_key "mentor_discussions", "mentor_requests", column: "request_id"
   add_foreign_key "mentor_discussions", "solutions"
   add_foreign_key "mentor_discussions", "users", column: "mentor_id"
+  add_foreign_key "mentor_request_locks", "mentor_requests", column: "request_id"
   add_foreign_key "mentor_requests", "solutions"
-  add_foreign_key "mentor_requests", "users", column: "locked_by_id"
   add_foreign_key "mentor_student_relationships", "users", column: "mentor_id"
   add_foreign_key "mentor_student_relationships", "users", column: "student_id"
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"

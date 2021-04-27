@@ -12,6 +12,7 @@ module Mentor
       def initialize(mentor,
                      status,
                      page: nil,
+                     student_handle: nil,
                      criteria: nil, order: nil,
                      track_slug: nil,
                      sorted: true, paginated: true)
@@ -21,6 +22,7 @@ module Mentor
         @mentor = mentor
         @status = status.to_sym
         @page = page || 1
+        @student_handle = student_handle
         @track_slug = track_slug
         @criteria = criteria
         @order = order
@@ -32,8 +34,9 @@ module Mentor
       def call
         setup!
         filter_status!
-        filter_track! if track_slug.present?
-        search! if criteria.present?
+        filter_track!
+        filter_student!
+        search!
         sort! if sorted?
         paginate! if paginated?
 
@@ -41,7 +44,7 @@ module Mentor
       end
 
       private
-      attr_reader :mentor, :status, :page, :track_slug, :criteria, :order
+      attr_reader :mentor, :status, :page, :student_handle, :track_slug, :criteria, :order
 
       %i[sorted paginated].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
@@ -67,11 +70,24 @@ module Mentor
 
       # TODO: This is just a stub implementation
       def filter_track!
+        return if track_slug.blank?
+
         @discussions = @discussions.where(tracks: { slug: track_slug })
+      end
+
+      def filter_student!
+        return if student_handle.blank?
+
+        student_id = User.where(handle: student_handle.strip).pick(:id)
+        return unless student_id
+
+        @discussions = @discussions.where(solutions: { user_id: student_id })
       end
 
       # TODO: This is just a stub implementation
       def search!
+        return if criteria.blank?
+
         @discussions = @discussions.where("exercises.title LIKE ?", "%#{criteria}%")
       end
 

@@ -55,6 +55,18 @@ module ReactComponents
         }
       end
 
+      # TODO: I'm not happy with this here. I think the -1 should be done
+      # in the JS and this should return num_discussions
+      def num_previous_sessions
+        mentor_relationship = Mentor::StudentRelationship.for(mentor: mentor, student: student)
+        num = mentor_relationship&.num_discussions.to_i
+
+        # Previous does not include this so reduce it by 1 if there's an active discussion here
+        return num unless discussion
+
+        num.positive? ? num - 1 : 0
+      end
+
       def videos
         return [] if discussion
 

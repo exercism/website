@@ -118,17 +118,10 @@ class User < ApplicationRecord
     became_mentor_at.present?
   end
 
-  def favorited_by?(mentor)
-    relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
+  # TODO: Remove if not used by launch
+  # def favorited_by?(mentor)
+  #   relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
 
-    relationship ? relationship.favorited? : false
-  end
-
-  def num_previous_mentor_sessions_with(user)
-    Mentor::Discussion.
-      finished_for_mentor.
-      joins(:solution).
-      where(mentor: self).
-      where(solutions: { user: user }).count
-  end
+  #   relationship ? relationship.favorited? : false
+  # end
 end

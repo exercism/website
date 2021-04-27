@@ -241,4 +241,12 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_nil create(:mentor_discussion, finished_by: nil).finished_by
     assert_equal :mentor, create(:mentor_discussion, finished_by: 'mentor').finished_by
   end
+
+  test "num_posts is updated" do
+    discussion = create :mentor_discussion
+    assert_equal 0, discussion.num_posts # Sanity
+
+    create :mentor_discussion_post, discussion: discussion
+    assert_equal 1, discussion.num_posts # Sanity
+  end
 end

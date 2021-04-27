@@ -8,13 +8,13 @@ module ReactComponents
           "mentoring-session",
           {
             user_id: current_user.id,
-            relationship: SerializeMentorStudentRelationship.(student_mentor_relationship),
+            relationship: SerializeMentorStudentRelationship.(mentor_student_relationship),
             request: SerializeMentorSessionRequest.(request),
             discussion: discussion ? SerializeMentorDiscussion.(discussion, :mentor) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
-            student: SerializeStudent.(student, current_user),
+            student: SerializeStudent.(student, mentor_student_relationship),
             mentor_solution: mentor_solution,
             notes: notes,
             links: links
@@ -33,7 +33,7 @@ module ReactComponents
       end
 
       memoize
-      def student_mentor_relationship
+      def mentor_student_relationship
         Mentor::StudentRelationship.find_by(mentor: current_user, student: student)
       end
 

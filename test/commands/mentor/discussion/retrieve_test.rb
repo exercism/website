@@ -89,4 +89,22 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     assert requests.is_a?(ActiveRecord::Relation)
     refute_respond_to requests, :current_page
   end
+
+  test "filter by student" do
+    mentor = create :user
+    student_1 = create :user, handle: "bob"
+    student_2 = create :user, handle: "bobby"
+    student_3 = create :user, handle: "margaret"
+
+    solution_1 = create :practice_solution, user: student_1
+    solution_2 = create :practice_solution, user: student_2
+    solution_3 = create :practice_solution, user: student_3
+
+    discussion_1 = create :mentor_discussion, :awaiting_mentor, solution: solution_1, mentor: mentor
+    discussion_2 = create :mentor_discussion, :awaiting_mentor, solution: solution_2, mentor: mentor
+    discussion_3 = create :mentor_discussion, :awaiting_mentor, solution: solution_3, mentor: mentor
+
+    assert_equal [discussion_1, discussion_2, discussion_3], Mentor::Discussion::Retrieve.(mentor, :all) # Saniry
+    assert_equal [discussion_1], Mentor::Discussion::Retrieve.(mentor, :all, student_handle: "bob")
+  end
 end

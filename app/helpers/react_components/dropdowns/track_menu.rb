@@ -4,6 +4,8 @@ module ReactComponents
       initialize_with :track
 
       def to_s
+        return if user_track.blank? || user_track.external?
+
         super("dropdowns-track-menu", {
           track: {
             title: track.title
@@ -13,8 +15,9 @@ module ReactComponents
       end
 
       private
+      memoize
       def user_track
-        UserTrack.for!(current_user, track)
+        UserTrack.for(current_user, track)
       end
 
       def links

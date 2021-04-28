@@ -100,6 +100,7 @@ module Git
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: exercise_blurb(exercise_config[:slug], 'practice'),
           position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
+          difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           practiced_concepts: exercise_concepts(exercise_config[:practices]),
           status: exercise_config[:status] || :active,

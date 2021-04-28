@@ -62,6 +62,15 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     assert_equal "Allergic? Try this!", exercise.blurb
   end
 
+  test "difficulty is updated when there are changes in config.json" do
+    exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', difficulty: 5, slug: 'anagram', title: 'Anagram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal 2, exercise.difficulty
+  end
+
   test "status is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', status: :active, slug: 'anagram', title: 'Anagram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
@@ -78,7 +87,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise)
 
     assert_equal :active, exercise.status
-  end
+  end    
 
   test "position is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', position: 1, slug: 'hamming', title: 'hamming', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength

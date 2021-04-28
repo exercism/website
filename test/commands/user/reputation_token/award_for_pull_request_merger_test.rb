@@ -130,9 +130,10 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     user = create :user, handle: "Merger-22", github_username: "merger22"
+    reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels, reviews: reviews,
       repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
     )
 
@@ -141,7 +142,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     assert_equal :janitorial, token.level
   end
 
-  test "pull request adds reputation token with reviewal level value if reviewed" do
+  test "pull request adds reputation token with reviewal level value if not reviewed" do
     action = 'closed'
     author = 'user22'
     repo = 'exercism/v3'
@@ -154,7 +155,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
     user = create :user, handle: "Merger-22", github_username: "merger22"
-    reviews = [{ reviewer_username: "reviewer71" }]
+    reviews = []
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels, reviews: reviews,

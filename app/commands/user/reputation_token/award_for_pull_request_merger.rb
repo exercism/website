@@ -40,9 +40,9 @@ class User
       end
 
       def reputation_level
-        return :reviewal if params[:reviews].present?
+        return :janitorial if params[:reviews].present?
 
-        :janitorial
+        :reviewal
       end
     end
   end

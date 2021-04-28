@@ -15,7 +15,7 @@ module Git
       exercise.update!(authors: authors)
 
       # TODO: consider what to do with missing authors
-      missing_authors = authors_config - authors.pluck(:handle)
+      missing_authors = authors_config - authors.pluck(:github_username)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
     end
 

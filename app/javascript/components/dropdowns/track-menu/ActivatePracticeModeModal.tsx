@@ -7,36 +7,15 @@ import { typecheck } from '../../../utils/typecheck'
 import { FormButton } from '../../common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 
-export const LeaveTrackButton = ({
-  endpoint,
-}: {
-  endpoint: string
-}): JSX.Element => {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <React.Fragment>
-      <button type="button" onClick={() => setOpen(true)}>
-        Leave track
-      </button>
-      <LeaveTrackModal
-        open={open}
-        onClose={() => setOpen(false)}
-        endpoint={endpoint}
-      />
-    </React.Fragment>
-  )
-}
-
 type UserTrack = {
   links: {
     self: string
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to leave track')
+const DEFAULT_ERROR = new Error('Unable to switch to practice mode')
 
-export const LeaveTrackModal = ({
+export const ActivatePracticeModeModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
@@ -68,9 +47,9 @@ export const LeaveTrackModal = ({
   )
 
   return (
-    <Modal className="m-leave-track" {...props}>
+    <Modal className="m-activate-practice-mode" {...props}>
       <FormButton onClick={() => mutation()} status={status}>
-        Leave track
+        Activate practice mode
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

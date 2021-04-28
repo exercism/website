@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDropdown } from './useDropdown'
 import { Track } from '../types'
-import { ActivatePracticeModeButton } from './track-menu/ActivatePracticeModeButton'
-import { ResetTrackButton } from './track-menu/ResetTrackButton'
-import { LeaveTrackButton } from './track-menu/LeaveTrackButton'
+import { ActivatePracticeModeModal } from './track-menu/ActivatePracticeModeModal'
+import { ResetTrackModal } from './track-menu/ResetTrackModal'
+import { LeaveTrackModal } from './track-menu/LeaveTrackModal'
 
 type Links = {
   repo: string
@@ -13,6 +13,8 @@ type Links = {
   leave: string
 }
 
+type ModalType = 'practice' | 'reset' | 'leave'
+
 export const TrackMenu = ({
   track,
   links,
@@ -20,6 +22,7 @@ export const TrackMenu = ({
   track: Track
   links: Links
 }): JSX.Element => {
+  const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,
     panelAttributes,
@@ -55,17 +58,40 @@ export const TrackMenu = ({
               </a>
             </li>
             <li {...itemAttributes(2)}>
-              <ActivatePracticeModeButton endpoint={links.practice} />
+              <button type="button" onClick={() => setModal('practice')}>
+                Activate practice mode
+              </button>
             </li>
             <li {...itemAttributes(3)}>
-              <ResetTrackButton endpoint={links.reset} />
+              <button type="button" onClick={() => setModal('reset')}>
+                Reset track
+              </button>
             </li>
             <li {...itemAttributes(4)}>
-              <LeaveTrackButton endpoint={links.leave} />
+              <button type="button" onClick={() => setModal('leave')}>
+                Leave track
+              </button>
             </li>
           </ul>
         </div>
       ) : null}
+      <React.Fragment>
+        <ActivatePracticeModeModal
+          open={modal === 'practice'}
+          onClose={() => setModal(null)}
+          endpoint={links.practice}
+        />
+        <ResetTrackModal
+          open={modal === 'reset'}
+          onClose={() => setModal(null)}
+          endpoint={links.reset}
+        />
+        <LeaveTrackModal
+          open={modal === 'leave'}
+          onClose={() => setModal(null)}
+          endpoint={links.leave}
+        />
+      </React.Fragment>
     </React.Fragment>
   )
 }

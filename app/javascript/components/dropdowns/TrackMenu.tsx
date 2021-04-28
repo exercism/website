@@ -3,12 +3,14 @@ import { useDropdown } from './useDropdown'
 import { Track } from '../types'
 import { ActivatePracticeModeButton } from './track-menu/ActivatePracticeModeButton'
 import { ResetTrackButton } from './track-menu/ResetTrackButton'
+import { LeaveTrackButton } from './track-menu/LeaveTrackButton'
 
 type Links = {
   repo: string
   documentation: string
   practice: string
   reset: string
+  leave: string
 }
 
 export const TrackMenu = ({
@@ -24,7 +26,7 @@ export const TrackMenu = ({
     listAttributes,
     itemAttributes,
     open,
-  } = useDropdown(4, undefined, {
+  } = useDropdown(5, undefined, {
     placement: 'bottom-start',
     modifiers: [
       {
@@ -57,6 +59,9 @@ export const TrackMenu = ({
             </li>
             <li {...itemAttributes(3)}>
               <ResetTrackButton endpoint={links.reset} />
+            </li>
+            <li {...itemAttributes(4)}>
+              <LeaveTrackButton endpoint={links.leave} />
             </li>
           </ul>
         </div>

@@ -22,7 +22,8 @@ module ReactComponents
           repo: track.repo_url,
           documentation: Exercism::Routes.track_docs_url(track),
           practice: Exercism::Routes.activate_practice_mode_api_user_track_url(user_track),
-          reset: Exercism::Routes.reset_api_user_track_url(user_track)
+          reset: Exercism::Routes.reset_api_user_track_url(user_track),
+          leave: Exercism::Routes.leave_api_user_track_url(user_track)
         }
       end
     end

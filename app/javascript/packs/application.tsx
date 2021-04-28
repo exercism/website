@@ -231,6 +231,9 @@ initReact({
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-expander': (data: any) => (
+    <Common.Expander content={data.content} buttonText={data.button_text} />
+  ),
   'common-community-solution': (data: any) => (
     <Common.CommunitySolution
       solution={camelizeKeysAs<CommunitySolution>(data.solution)}

@@ -17,7 +17,7 @@ module Git
         slug: exercise_config[:slug],
         # TODO: Remove the || ... once we have configlet checking things properly.
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
-        deprecated: exercise_config[:deprecated] || false,
+        status: exercise_config[:status] || :active,
         blurb: head_git_exercise.blurb,
         position: exercise_position,
         git_sha: head_git_exercise.synced_git_sha,
@@ -43,7 +43,7 @@ module Git
       exercise_position != exercise.position ||
         exercise_config[:slug] != exercise.slug ||
         exercise_config[:name] != exercise.title ||
-        !!exercise_config[:deprecated] != exercise.deprecated ||
+        (exercise_config[:status] || :active) != exercise.status ||
         exercise_config[:concepts].to_a.sort != exercise.taught_concepts.map(&:slug).sort ||
         exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort
     end

@@ -83,7 +83,7 @@ module Git
           position: position + 1,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
-          deprecated: exercise_config[:deprecated] || false,
+          status: exercise_config[:status] || :active,
           git_sha: head_git_track.commit.oid
         )
       end
@@ -102,7 +102,7 @@ module Git
           position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           practiced_concepts: exercise_concepts(exercise_config[:practices]),
-          deprecated: exercise_config[:deprecated] || false,
+          status: exercise_config[:status] || :active,
           git_sha: head_git_track.commit.oid
         )
       end

@@ -1,11 +1,11 @@
 require "test_helper"
 
-class AwardPullRequestReputationJobTest < ActiveJob::TestCase
+class AwardReputationForUserPullRequestsJobTest < ActiveJob::TestCase
   test "sync pull requests reputation is called" do
     user = mock
 
     User::ReputationToken::AwardForPullRequestsForUser.expects(:call).with(user)
 
-    AwardPullRequestReputationJob.perform_now(user)
+    AwardReputationForUserPullRequestsJob.perform_now(user)
   end
 end

@@ -2,8 +2,8 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
   params :solution
   category :publishing
   reason :published_solution
-  levels %i[easy medium difficulty]
-  values({ easy: 1, medium: 2, difficulty: 3 })
+  levels %i[easy medium hard]
+  values({ easy: 1, medium: 2, hard: 3 })
 
   def guard_params
     "Solution##{solution.id}"

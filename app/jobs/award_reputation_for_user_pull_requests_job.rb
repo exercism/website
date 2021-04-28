@@ -1,4 +1,4 @@
-class AwardPullRequestReputationJob < ApplicationJob
+class AwardReputationForUserPullRequestsJob < ApplicationJob
   queue_as :reputation
 
   def perform(user)

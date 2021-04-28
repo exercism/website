@@ -15,7 +15,8 @@ module ReactComponents
       private
       def links
         {
-          repo: track.repo_url
+          repo: track.repo_url,
+          documentation: Exercism::Routes.track_docs_url(track)
         }
       end
     end

@@ -4,6 +4,7 @@ import { Track } from '../types'
 
 type Links = {
   repo: string
+  documentation: string
 }
 
 export const TrackMenu = ({
@@ -40,6 +41,11 @@ export const TrackMenu = ({
             <li {...itemAttributes(0)}>
               <a href={links.repo} target="_blank" rel="noreferrer">
                 See {track.title} track on Github
+              </a>
+            </li>
+            <li {...itemAttributes(1)}>
+              <a href={links.documentation} target="_blank" rel="noreferrer">
+                {track.title} documentation
               </a>
             </li>
           </ul>

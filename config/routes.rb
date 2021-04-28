@@ -221,8 +221,8 @@ Rails.application.routes.draw do
   resource :dashboard, only: [:show], controller: "dashboard"
 
   resources :docs, only: %i[index]
-  get 'docs/tracks/:track_slug/*slug', to: 'docs#track_show', as: :track_doc
   get 'docs/tracks/:track_slug', to: 'docs#track_index', as: :track_docs
+  get 'docs/tracks/:track_slug/*slug', to: 'docs#track_show', as: :track_doc
   get 'docs/tracks', to: 'docs#tracks'
   get 'docs/:section/*slug', to: 'docs#show', as: :doc
   get 'docs/:section', to: 'docs#section', as: :docs_section

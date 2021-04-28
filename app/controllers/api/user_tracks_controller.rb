@@ -11,5 +11,16 @@ module API
         }
       }
     end
+
+    def reset
+      user_track = UserTrack.find(params[:id])
+      render json: {
+        user_track: {
+          links: {
+            self: Exercism::Routes.reset_temp_user_track_url(user_track)
+          }
+        }
+      }
+    end
   end
 end

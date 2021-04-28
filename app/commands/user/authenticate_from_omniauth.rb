@@ -21,7 +21,7 @@ class User
 
       if user.github_username != auth.info.nickname
         user.update_column(:github_username, auth.info.nickname)
-        AwardReputationForUserPullRequestsJob.perform_later(user)
+        AwardReputationToUserForPullRequestsJob.perform_later(user)
       end
 
       user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
@@ -37,7 +37,7 @@ class User
       user.uid = auth.uid
       user.github_username = auth.info.nickname
 
-      AwardReputationForUserPullRequestsJob.perform_later(user) if user.github_username_changed?
+      AwardReputationToUserForPullRequestsJob.perform_later(user) if user.github_username_changed?
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -74,7 +74,7 @@ class User
 
       if user.save
         User::Bootstrap.(user)
-        AwardReputationForUserPullRequestsJob.perform_later(user)
+        AwardReputationToUserForPullRequestsJob.perform_later(user)
       end
 
       user

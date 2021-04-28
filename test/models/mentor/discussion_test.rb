@@ -249,4 +249,16 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     create :mentor_discussion_post, discussion: discussion
     assert_equal 1, discussion.num_posts # Sanity
   end
+
+  test "student_helpers" do
+    discussion = create :mentor_discussion
+    assert_equal discussion.student.handle, discussion.student_handle
+    assert_equal discussion.student.name, discussion.student_name
+    assert_equal discussion.student.avatar_url, discussion.student_avatar_url
+
+    discussion = create :mentor_discussion, anonymous_mode: true
+    assert_equal "anonymous", discussion.student_handle
+    assert_equal "User in Anonymous mode", discussion.student_name
+    assert_nil discussion.student_avatar_url
+  end
 end

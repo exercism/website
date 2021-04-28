@@ -40,20 +40,13 @@ export type Student = {
   languagesSpoken: string[]
   handle: string
   reputation: number
-  isFavorite: boolean
-  numPreviousSessions: number
-  links: {
-    favorite: string
-    previousSessions: string
-  }
-}
-
-export type StudentMentorRelationship = {
   isFavorited: boolean
-  isBlockedByMentor: boolean
+  isBlocked: boolean
+  numPreviousSessions: number
   links: {
     block: string
     favorite: string
+    previousSessions: string
   }
 }
 
@@ -67,7 +60,6 @@ export type SessionProps = {
   userId: number
   notes: string
   mentorSolution: CommunitySolution
-  relationship: StudentMentorRelationship
   request: Request
 }
 
@@ -87,7 +79,6 @@ export const Session = (props: SessionProps): JSX.Element => {
     links,
     iterations,
     discussion,
-    relationship,
     notes,
     mentorSolution,
     request,
@@ -150,7 +141,6 @@ export const Session = (props: SessionProps): JSX.Element => {
                   discussion={discussion}
                   iterations={iterations}
                   student={student}
-                  relationship={relationship}
                   userId={userId}
                 />
               ) : (

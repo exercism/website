@@ -8,13 +8,16 @@ module ReactComponents
           "mentoring-session",
           {
             user_id: current_user.id,
-            relationship: SerializeMentorStudentRelationship.(mentor_student_relationship),
             request: SerializeMentorSessionRequest.(request),
             discussion: discussion ? SerializeMentorDiscussion.(discussion, :mentor) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
-            student: SerializeStudent.(student, mentor_student_relationship),
+            student: SerializeStudent.(
+              student,
+              relationship: mentor_student_relationship,
+              anonymous_mode: discussion&.anonymous_mode?
+            ),
             mentor_solution: mentor_solution,
             notes: notes,
             links: links

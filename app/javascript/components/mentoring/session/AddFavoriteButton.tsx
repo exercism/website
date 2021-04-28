@@ -5,7 +5,7 @@ import { sendPostRequest } from '../../../utils/send-request'
 import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { Student, StudentMentorRelationship } from '../Session'
+import { Student } from '../Session'
 
 type ComponentProps = {
   endpoint: string
@@ -14,7 +14,6 @@ type ComponentProps = {
 
 type APIResponse = {
   student: Student
-  relationship: StudentMentorRelationship
 }
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {

@@ -6,12 +6,12 @@ import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student, StudentMentorRelationship } from '../../Session'
+import { Student } from '../../Session'
 
-type SuccessFn = (relationship: StudentMentorRelationship) => void
+type SuccessFn = (student: Student) => void
 type Choice = 'yes' | 'no'
 
-const DEFAULT_ERROR = new Error('Unable to update student-mentor relationship')
+const DEFAULT_ERROR = new Error('Unable to update student')
 
 const ErrorHandler = ({ error }: { error: unknown }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
@@ -21,12 +21,10 @@ const ErrorHandler = ({ error }: { error: unknown }) => {
 
 export const MentorAgainStep = ({
   student,
-  relationship,
   onYes,
   onNo,
 }: {
   student: Student
-  relationship: StudentMentorRelationship
   onYes: SuccessFn
   onNo: SuccessFn
 }): JSX.Element => {
@@ -37,7 +35,7 @@ export const MentorAgainStep = ({
       const method = choice === 'yes' ? 'DELETE' : 'POST'
 
       return sendRequest({
-        endpoint: relationship.links.block,
+        endpoint: student.links.block,
         method: method,
         body: null,
         isMountedRef: isMountedRef,
@@ -46,16 +44,16 @@ export const MentorAgainStep = ({
           return
         }
 
-        return typecheck<StudentMentorRelationship>(json, 'relationship')
+        return typecheck<Student>(json, 'student')
       })
     },
     {
-      onSuccess: (relationship) => {
-        if (!relationship) {
+      onSuccess: (student) => {
+        if (!student) {
           return
         }
 
-        choice === 'yes' ? onYes(relationship) : onNo(relationship)
+        choice === 'yes' ? onYes(student) : onNo(student)
       },
     }
   )

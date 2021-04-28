@@ -32,7 +32,6 @@ module Mentoring
         "mentoring-session",
         {
           user_id: mentor.id,
-          relationship: nil,
           request: SerializeMentorSessionRequest.(mentor_request),
           discussion: SerializeMentorDiscussion.(discussion, :mentor),
           track: SerializeMentorSessionTrack.(track),
@@ -42,7 +41,7 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
             SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
           ],
-          student: SerializeStudent.(student, nil),
+          student: SerializeStudent.(student, relationship: nil, anonymous_mode: false),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           links: {

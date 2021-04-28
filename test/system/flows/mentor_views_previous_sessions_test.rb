@@ -51,7 +51,7 @@ module Flows
         click_on "See 1 previous session"
         within(".m-mentoring-sessions") { click_on "Add to favorites" }
 
-        assert_text "Unfavorite?"
+        assert_text "Favorited"
       end
     end
   end

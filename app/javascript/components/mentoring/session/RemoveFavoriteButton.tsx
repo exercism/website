@@ -5,7 +5,7 @@ import { useMutation } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
-import { Student, StudentMentorRelationship } from '../Session'
+import { Student } from '../Session'
 
 type ComponentProps = {
   endpoint: string
@@ -14,7 +14,6 @@ type ComponentProps = {
 
 type APIResponse = {
   student: Student
-  relationship: StudentMentorRelationship
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {

@@ -28,7 +28,7 @@ module ViewComponents
       end
 
       def rhs
-        people
+        people + (render ReactComponents::Dropdowns::TrackMenu.new(track))
       end
 
       def people

@@ -388,6 +388,9 @@ initReact({
   'dropdowns-dropdown': (data: any) => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
+  'dropdowns-track-menu': (data: any) => (
+    <Dropdowns.TrackMenu track={data.track} links={data.links} />
+  ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),

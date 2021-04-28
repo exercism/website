@@ -1,10 +1,12 @@
 import React from 'react'
 import { useDropdown } from './useDropdown'
 import { Track } from '../types'
+import { ActivatePracticeModeButton } from './track-menu/ActivatePracticeModeButton'
 
 type Links = {
   repo: string
   documentation: string
+  practice: string
 }
 
 export const TrackMenu = ({
@@ -47,6 +49,9 @@ export const TrackMenu = ({
               <a href={links.documentation} target="_blank" rel="noreferrer">
                 {track.title} documentation
               </a>
+            </li>
+            <li {...itemAttributes(2)}>
+              <ActivatePracticeModeButton endpoint={links.practice} />
             </li>
           </ul>
         </div>

@@ -40,6 +40,13 @@ Rails.application.routes.draw do
 
     # TODO: This is just a stub
     resources :users, only: [:update]
+    #
+    # TODO: Stub controller
+    resources :user_tracks, only: [] do
+      member do
+        post :activate_practice_mode
+      end
+    end
 
     resource :journey_overview, only: [:show], controller: "journey_overview"
 
@@ -334,6 +341,9 @@ Rails.application.routes.draw do
     resource :user_deletion, only: [:show]
     resource :user_reset, only: [:show]
 
+    resources :user_tracks, only: [] do
+      get :practice_mode, on: :member
+    end
     resources :modals, only: [] do
       collection do
         get :mentoring_sessions

@@ -13,10 +13,15 @@ module ReactComponents
       end
 
       private
+      def user_track
+        UserTrack.for!(current_user, track)
+      end
+
       def links
         {
           repo: track.repo_url,
-          documentation: Exercism::Routes.track_docs_url(track)
+          documentation: Exercism::Routes.track_docs_url(track),
+          practice: Exercism::Routes.activate_practice_mode_api_user_track_url(user_track)
         }
       end
     end

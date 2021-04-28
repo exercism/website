@@ -8,6 +8,13 @@ class Exercise < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
+  enum status: {
+    wip: 0,
+    beta: 1,
+    active: 2,
+    deprecated: 3
+  }
+
   belongs_to :track, counter_cache: :num_exercises
 
   # TODO: Pre-launch: Remove this dependent: :destroy  - exercises should never be destroyed
@@ -51,6 +58,10 @@ class Exercise < ApplicationRecord
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
+  end
+
+  def status
+    super.to_sym
   end
 
   def git_type

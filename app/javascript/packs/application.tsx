@@ -232,7 +232,11 @@ initReact({
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'common-expander': (data: any) => (
-    <Common.Expander content={data.content} buttonText={data.button_text} />
+    <Common.Expander
+      content={data.content}
+      buttonText={data.button_text}
+      className={data.class_name}
+    />
   ),
   'common-community-solution': (data: any) => (
     <Common.CommunitySolution

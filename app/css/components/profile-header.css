@@ -62,7 +62,18 @@ header.c-profile-header {
             & .bio {
                 @apply text-p-base;
                 max-width: 740px;
-                height: 50px;
+
+                &.compressed {
+                    & .content {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        --webkit-line-clamp: 2;
+                        height: 50px;
+                    }
+                }
+                & button {
+                    @apply text-lightBlue font-medium;
+                }
             }
         }
         & .badges-and-tags {

@@ -9,7 +9,7 @@ class SerializeCommunitySolutionsTest < ActiveSupport::TestCase
     ]
 
     assert_equal expected, SerializeCommunitySolutions.(
-      [solution]
+      Solution.all
     )
   end
 end

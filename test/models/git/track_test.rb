@@ -160,5 +160,25 @@ module Git
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       refute track.has_analyzer?
     end
+
+    test "indent_style" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal :space, track.indent_style
+    end
+
+    test "indent_size" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal 2, track.indent_size
+    end
+
+    test "ace_editor_language" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal "ruby", track.ace_editor_language
+    end
+
+    test "highlightjs_language" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal "ruby", track.highlightjs_language
+    end
   end
 end

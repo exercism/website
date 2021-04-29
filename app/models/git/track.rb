@@ -70,6 +70,26 @@ module Git
     end
 
     memoize
+    def indent_style
+      config[:online_editor][:indent_style].to_sym
+    end
+
+    memoize
+    def indent_size
+      config[:online_editor][:indent_size]
+    end
+
+    memoize
+    def ace_editor_language
+      config[:online_editor][:ace_editor_language]
+    end
+
+    memoize
+    def highlightjs_language
+      config[:online_editor][:highlightjs_language]
+    end
+
+    memoize
     def commit
       repo.lookup_commit(git_sha)
     end

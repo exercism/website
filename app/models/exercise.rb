@@ -102,7 +102,7 @@ class Exercise < ApplicationRecord
 
   def icon_url
     # TOOD: Read correct dir
-    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{slug}.svg"
+    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{git.icon_name.presence || slug}.svg"
   end
 
   def prerequisite_exercises

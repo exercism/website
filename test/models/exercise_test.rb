@@ -68,4 +68,14 @@ class ExerciseTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "icon_url for exercise without custom icon" do
+    exercise = create :practice_exercise, slug: 'bob'
+    assert_equal "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/bob.svg", exercise.icon_url
+  end
+
+  test "icon_url for exercise with custom icon" do
+    exercise = create :practice_exercise, slug: 'isogram'
+    assert_equal "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/iso.svg", exercise.icon_url
+  end
 end

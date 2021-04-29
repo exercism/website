@@ -107,4 +107,29 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     refute User::ReputationTokens::CodeMergeToken.exists?
   end
+
+  test "award reputation for pull request review and merge by the same user" do
+    action = 'closed'
+    login = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    merged = true
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    helpful_user = create :user, handle: "Helpful-user", github_username: "helpful_user"
+    create :github_organization_member, username: "helpful_user"
+    reviews = [{ reviewer_username: helpful_user.github_username }]
+
+    User::ReputationToken::AwardForPullRequest.(
+      action: action, author_username: login, url: url, html_url: html_url, labels: labels, reviews: reviews,
+      repo: repo, node_id: node_id, number: number, merged: merged, merged_by_username: helpful_user.github_username
+    )
+
+    assert_equal 6, helpful_user.reload.reputation
+    assert_equal 2, User::ReputationToken.where(user: helpful_user).size
+    assert User::ReputationTokens::CodeMergeToken.where(user: helpful_user).one?
+    assert User::ReputationTokens::CodeReviewToken.where(user: helpful_user).one?
+  end
 end

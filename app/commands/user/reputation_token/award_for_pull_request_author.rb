@@ -8,6 +8,7 @@ class User
       def call
         return unless has_author?
         return unless merged?
+        return if v3_migration_pr?
 
         user = User.find_by(github_username: params[:author_username])
 
@@ -37,6 +38,13 @@ class User
 
       def has_author?
         params[:author_username].present?
+      end
+
+      def v3_migration_pr?
+        return false unless params[:author_username] == 'ErikSchierboom'
+
+        params[:title].start_with?('[v3]') ||
+          params[:labels].include?('v3-migration 🤖')
       end
 
       def reputation_level

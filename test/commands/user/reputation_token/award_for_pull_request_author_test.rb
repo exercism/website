@@ -339,4 +339,46 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
   end
+
+  test "pull requests labelled as v3 migration and authored by ErikSchierboom don't award reputation" do
+    action = 'closed'
+    author = 'ErikSchierboom'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = ['v3-migration 🤖']
+    user = create :user, handle: "ErikSchierboom", github_username: "ErikSchierboom"
+
+    User::ReputationToken::AwardForPullRequestAuthor.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
+    )
+
+    assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
+  end
+
+  test "pull requests with title starting with [v3] and authored by ErikSchierboom don't award reputation" do
+    action = 'closed'
+    author = 'ErikSchierboom'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "[v3] The cat sat on the mat"
+    merged = true
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    user = create :user, handle: "ErikSchierboom", github_username: "ErikSchierboom"
+
+    User::ReputationToken::AwardForPullRequestAuthor.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged
+    )
+
+    assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
+  end
 end

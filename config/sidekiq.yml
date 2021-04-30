@@ -1,16 +1,16 @@
 ---
 :queues:
   # Rails defaults
-  - mailers
-  - default
-  - action_mailbox_routing
-  - action_mailbox_incineration
-  - active_storage_analysis
-  - active_storage_purge
+  - [mailers, 10]
+  - [default, 10]
+  - [action_mailbox_routing, 10]
+  - [action_mailbox_incineration, 10]
+  - [active_storage_analysis, 10]
+  - [active_storage_purge, 10]
 
   # Custom
-  - notifications
-  - reputation
-  - snippets
-  - cron
-  - dribble
+  - [notifications, 10]
+  - [reputation, 10]
+  - [snippets, 10]
+  - [cron, 10]
+  - [dribble, 1]

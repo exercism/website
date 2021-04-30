@@ -21,10 +21,9 @@ module ReactComponents
           files: SerializeFiles.(solution.solution_files),
           language: track.ace_language,
           storage_key: solution.uuid,
-          # TODO: Fill in with correct values
           config: {
-            tab_size: 2,
-            use_soft_tabs: false
+            tab_size: track.indent_size,
+            use_soft_tabs: track.indent_style == :space
           }
         }
       )

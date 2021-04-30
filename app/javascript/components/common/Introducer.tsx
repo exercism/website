@@ -1,0 +1,59 @@
+import React, { useState } from 'react'
+import { GraphicalIcon, Icon } from './'
+import { useMutation } from 'react-query'
+import { sendRequest } from '../../utils/send-request'
+import { useIsMounted } from 'use-is-mounted'
+import { FormButton } from './FormButton'
+import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
+
+const DEFAULT_ERROR = new Error('Unable to hide introducer')
+
+export const Introducer = ({
+  icon,
+  content,
+  endpoint,
+}: {
+  icon: string
+  content: string
+  endpoint: string
+}): JSX.Element | null => {
+  const [hidden, setHidden] = useState(false)
+  const isMountedRef = useIsMounted()
+  const [mutation, { status, error }] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: endpoint,
+        method: 'POST',
+        body: null,
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: () => {
+        setHidden(true)
+      },
+    }
+  )
+
+  if (hidden) {
+    return null
+  }
+
+  return (
+    <div className="c-introducer">
+      <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
+      <div className="info" dangerouslySetInnerHTML={{ __html: content }} />
+      <FormButton
+        className="close"
+        type="button"
+        onClick={() => mutation()}
+        status={status}
+      >
+        <Icon icon="close" alt="Permanently hide this introducer" />
+      </FormButton>
+      <ErrorBoundary resetKeys={[status]}>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </div>
+  )
+}

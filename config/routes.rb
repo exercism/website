@@ -272,6 +272,9 @@ Rails.application.routes.draw do
 
   # TODO: Remove these before launching
   namespace :temp do
+    resources :introducers, only: [] do
+      post :hide, on: :member
+    end
     resources :tracks, only: [:create]
     resources :modals, only: [] do
       collection do
@@ -328,6 +331,7 @@ Rails.application.routes.draw do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
           resource :markdown_editor, controller: "markdown_editor", only: [:show]
           resource :icons, controller: "icons", only: [:show]
+          resource :introducer, controller: "introducer", only: [:show]
           resource :modal, controller: "modal", only: [] do
             get :template
             get :block

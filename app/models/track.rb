@@ -84,14 +84,14 @@ class Track < ApplicationRecord
     "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/tracks/#{slug}.svg"
   end
 
-  # TODO: Create mapping for Highlight.JS, otherwise use slug
   def ace_language
-    slug
+    # TODO: remove || slug once all tracks have updated their config.json
+    git.ace_editor_language || slug
   end
 
-  # TODO: Create mapping for Highlight.JS, otherwise use slug
   def highlightjs_language
-    slug
+    # TODO: remove || slug once all tracks have updated their config.json
+    git.highlightjs_language || slug
   end
 
   # TODO: Set this properly

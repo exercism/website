@@ -29,6 +29,16 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal track.slug, track.to_param
   end
 
+  test "ace_language" do
+    track = create :track
+    assert_equal 'ruby', track.ace_language
+  end
+
+  test "highlightjs_language" do
+    track = create :track
+    assert_equal 'ruby', track.highlightjs_language
+  end
+
   test "Retrieves test_regexp for track with test regex" do
     track = create :track
     assert_equal(/test/, track.test_regexp)

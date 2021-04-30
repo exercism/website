@@ -234,7 +234,8 @@ initReact({
   'common-expander': (data: any) => (
     <Common.Expander
       content={data.content}
-      buttonText={data.button_text}
+      buttonTextCompressed={data.button_text_compressed}
+      buttonTextExpanded={data.button_text_expanded}
       className={data.class_name}
     />
   ),

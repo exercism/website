@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 
 export const Expander = ({
   content,
-  buttonText,
+  buttonTextCompressed,
+  buttonTextExpanded,
   className,
 }: {
   content: string
-  buttonText: string
+  buttonTextCompressed: string
+  buttonTextExpanded: string
   className?: string
 }): JSX.Element => {
-  console.log(className)
   const [isExpanded, setIsExpanded] = useState(false)
 
   const classNames = [
@@ -17,6 +18,8 @@ export const Expander = ({
     'c-expander',
     isExpanded ? 'expanded' : 'compressed',
   ]
+
+  const buttonText = isExpanded ? buttonTextExpanded : buttonTextCompressed
 
   return (
     <div className={classNames.join(' ')}>

@@ -25,7 +25,7 @@
 
 
         - if user.bio.present?
-          = ReactComponents::Common::Expander.new(user.bio, "Read more", class_name: "bio")
+          = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: "Read more", button_text_expanded: "Read less", class_name: "bio")
 
       .badges-and-tags
         .header

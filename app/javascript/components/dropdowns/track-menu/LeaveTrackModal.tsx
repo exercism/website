@@ -17,6 +17,7 @@ const DEFAULT_ERROR = new Error('Unable to leave track')
 
 export const LeaveTrackModal = ({
   endpoint,
+  onClose,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -47,9 +48,12 @@ export const LeaveTrackModal = ({
   )
 
   return (
-    <Modal className="m-leave-track" {...props}>
+    <Modal className="m-leave-track" onClose={onClose} {...props}>
       <FormButton onClick={() => mutation()} status={status}>
         Leave track
+      </FormButton>
+      <FormButton onClick={() => onClose()} status={status}>
+        Cancel
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

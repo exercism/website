@@ -17,6 +17,7 @@ const DEFAULT_ERROR = new Error('Unable to switch to practice mode')
 
 export const ActivatePracticeModeModal = ({
   endpoint,
+  onClose,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -47,9 +48,12 @@ export const ActivatePracticeModeModal = ({
   )
 
   return (
-    <Modal className="m-activate-practice-mode" {...props}>
+    <Modal className="m-activate-practice-mode" onClose={onClose} {...props}>
       <FormButton onClick={() => mutation()} status={status}>
         Activate practice mode
+      </FormButton>
+      <FormButton onClick={() => onClose()} status={status}>
+        Cancel
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

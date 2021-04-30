@@ -17,6 +17,7 @@ const DEFAULT_ERROR = new Error('Unable to reset track')
 
 export const ResetTrackModal = ({
   endpoint,
+  onClose,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -47,9 +48,12 @@ export const ResetTrackModal = ({
   )
 
   return (
-    <Modal className="m-reset-track" {...props}>
+    <Modal className="m-reset-track" onClose={onClose} {...props}>
       <FormButton onClick={() => mutation()} status={status}>
         Reset track
+      </FormButton>
+      <FormButton onClick={() => onClose()} status={status}>
+        Cancel
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

@@ -6,6 +6,10 @@ import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
 import { TestRunFailures } from './TestRunFailures'
 import { SubmitButton } from './SubmitButton'
 import { GraphicalIcon } from '../common'
+import { useRequestQuery } from '../../hooks/request-query'
+import { useIsMounted } from 'use-is-mounted'
+
+const REFETCH_INTERVAL = 2000
 
 export const TestRunSummary = ({
   testRun,
@@ -21,7 +25,20 @@ export const TestRunSummary = ({
   onSubmit: () => void
   isSubmitDisabled: boolean
   cancelLink: string
-}): JSX.Element => {
+}): JSX.Element | null => {
+  const isMountedRef = useIsMounted()
+  const { data } = useRequestQuery<{ testRun: TestRun }>(
+    `test-run-${testRun.submissionUuid}`,
+    {
+      endpoint: testRun.links.self,
+      options: {
+        initialData: { testRun: testRun },
+        refetchInterval:
+          testRun.status === TestRunStatus.QUEUED ? REFETCH_INTERVAL : false,
+      },
+    },
+    isMountedRef
+  )
   const setTestRun = useCallback(
     (testRun) => {
       onUpdate(testRun)
@@ -47,7 +64,7 @@ export const TestRunSummary = ({
     }).then(() => {
       setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
     })
-  }, [cancelLink, setTestRun, testRun])
+  }, [cancelLink, testRun, setTestRun])
   const handleCancelled = useCallback(() => {
     clearTimeout(timer.current)
 
@@ -55,7 +72,19 @@ export const TestRunSummary = ({
   }, [channel, timer])
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-  }, [setTestRun, testRun])
+  }, [testRun, setTestRun])
+
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+
+    if (!data.testRun) {
+      return
+    }
+
+    setTestRun(data.testRun)
+  }, [data, setTestRun])
 
   useEffect(() => {
     switch (testRun.status) {
@@ -76,12 +105,12 @@ export const TestRunSummary = ({
         break
     }
   }, [
-    testRun,
     handleQueued,
     handleTimeout,
     handleCancelling,
     handleCancelled,
     timer,
+    testRun.status,
   ])
 
   useEffect(() => {
@@ -92,7 +121,7 @@ export const TestRunSummary = ({
     return () => {
       channel.current?.disconnect()
     }
-  }, [setTestRun, testRun, testRun.submissionUuid])
+  }, [setTestRun, testRun])
 
   useEffect(() => {
     return () => {

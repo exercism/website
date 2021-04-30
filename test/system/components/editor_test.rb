@@ -30,6 +30,28 @@ module Components
       end
     end
 
+    test "user gets tests results even if websockets broadcast fails" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        click_on "Run Tests"
+        create :submission_test_run,
+          submission: Submission.last,
+          status: "pass",
+          ops_status: 200,
+          raw_results: {
+            version: 2,
+            tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+          }
+
+        assert_text "1 test passed"
+      end
+    end
+
     test "user runs tests and tests fail" do
       user = create :user
       strings = create :concept_exercise

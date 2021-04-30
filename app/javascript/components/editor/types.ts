@@ -24,6 +24,9 @@ export type TestRun = {
   output: string
   outputHtml: string
   tests: Test[]
+  links: {
+    self: string
+  }
 }
 
 export type Test = {

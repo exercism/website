@@ -3,7 +3,7 @@
 # to guard against one of the GitHub webhook calls failing, which would
 # result in reputation not being awarded
 class FetchAndSyncAllPullRequestsReputationJob < ApplicationJob
-  queue_as :default
+  queue_as :dribble
 
   def perform
     Github::PullRequest::SyncRepos.()

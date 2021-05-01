@@ -30,20 +30,18 @@ module Git
       # TODO: We should raise a bugsnag here too
       blurb = head_git_track.config[:blurb][0, 350]
 
+      sync_concept_exercises!
+      sync_practice_exercises!
+
       track.update!(
         blurb: blurb,
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
         tags: head_git_track.config[:tags].to_a,
-        concepts: concepts,
-        exercises: concept_exercises + practice_exercises
+        concepts: concepts
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
-      track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise, force_sync: force_sync) }
-      track.practice_exercises.each do |practice_exercise|
-        Git::SyncPracticeExercise.(practice_exercise, force_sync: force_sync)
-      end
 
       Git::SyncTrackDocs.(track)
 
@@ -70,9 +68,9 @@ module Git
     end
 
     memoize
-    def concept_exercises
-      head_git_track.concept_exercises.each_with_index.map do |exercise_config, position|
-        ::ConceptExercise::Create.(
+    def sync_concept_exercises!
+      head_git_track.concept_exercises.each_with_index do |exercise_config, position|
+        exercise = ::ConceptExercise::Create.(
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
@@ -86,13 +84,15 @@ module Git
           status: exercise_config[:status] || :active,
           git_sha: head_git_track.commit.oid
         )
+
+        Git::SyncConceptExercise.(exercise, force_sync: force_sync)
       end
     end
 
     memoize
-    def practice_exercises
-      head_git_track.practice_exercises.each_with_index.map do |exercise_config, position|
-        ::PracticeExercise::Create.(
+    def sync_practice_exercises!
+      head_git_track.practice_exercises.each_with_index do |exercise_config, position|
+        exercise = ::PracticeExercise::Create.(
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
@@ -106,6 +106,8 @@ module Git
           status: exercise_config[:status] || :active,
           git_sha: head_git_track.commit.oid
         )
+
+        Git::SyncPracticeExercise.(exercise, force_sync: force_sync)
       end
     end
 

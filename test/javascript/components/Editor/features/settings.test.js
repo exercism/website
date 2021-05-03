@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'
+import { awaitPopper } from '../../../support/await-popper'
 
 test('change theme', async () => {
   render(
@@ -32,7 +33,7 @@ test('change keybindings', async () => {
   )
 
   userEvent.click(screen.getByAltText('Settings'))
-  userEvent.click(screen.getByLabelText('Vim'))
+  userEvent.click(await screen.findByLabelText('Vim'))
   act(() => userEvent.click(document.body))
 
   await waitFor(() => {

@@ -24,7 +24,6 @@ type ButtonAttributes = {
   ref: (element: HTMLButtonElement) => void
   onKeyDown: (e: KeyboardEvent) => void
   onClick: () => void
-  onMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 type ItemAttributes = {

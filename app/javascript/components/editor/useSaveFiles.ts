@@ -16,11 +16,17 @@ export const useSaveFiles = (
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const newFiles = getFiles()
+
+      if (JSON.stringify(files) === JSON.stringify(newFiles)) {
+        return
+      }
+
       setFiles(getFiles())
     }, SAVE_INTERVAL)
 
     return () => clearInterval(interval)
-  }, [getFiles, setFiles])
+  }, [files, getFiles, setFiles])
 
   return [files, setFiles]
 }

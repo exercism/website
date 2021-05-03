@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useContext } from 'react'
+import React, { useEffect, useMemo, useContext, useState } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
 import { queryCache } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
@@ -26,36 +26,52 @@ export const DiscussionPostList = ({
   userIsStudent: boolean
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const { cacheKey } = useContext(PostsContext)
+  const { cacheKey, setHasNewMessages } = useContext(PostsContext)
   const { status, data } = useRequestQuery<{ posts: DiscussionPostProps[] }>(
     cacheKey,
     { endpoint: endpoint, options: {} },
     isMountedRef
   )
+  const [posts, setPosts] = useState<DiscussionPostProps[] | undefined>(
+    undefined
+  )
   const iterationsWithPosts = useMemo(() => {
     return iterations.reduce<IterationWithPost[]>(
       (iterationsWithPosts, iteration) => {
-        const posts = data?.posts
-          ? data.posts.filter((post) => post.iterationIdx === iteration.idx)
+        const iterationPosts = posts
+          ? posts.filter((post) => post.iterationIdx === iteration.idx)
           : []
 
-        iterationsWithPosts.push({
-          ...iteration,
-          posts: posts,
-        })
+        iterationsWithPosts.push({ ...iteration, posts: iterationPosts })
 
         return iterationsWithPosts
       },
       []
     )
-  }, [data, iterations])
+  }, [posts, iterations])
   const startIteration = iterationsWithPosts.findIndex(
     (iteration) => iteration.posts.length !== 0
   )
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(
-    data?.posts,
+    posts,
     userId
   )
+
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+
+    setPosts(data.posts)
+
+    if (posts && posts !== data.posts) {
+      const lastPost = posts[posts.length - 1]
+
+      if (lastPost.authorId !== userId) {
+        setHasNewMessages(true)
+      }
+    }
+  }, [data, posts, setHasNewMessages, userId])
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
@@ -78,7 +94,7 @@ export const DiscussionPostList = ({
     )
   }
 
-  if (data) {
+  if (posts) {
     return (
       <div className="discussion">
         {iterationsWithPosts.slice(startIteration).map((iteration) => {

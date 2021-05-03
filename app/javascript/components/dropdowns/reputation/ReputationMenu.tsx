@@ -86,7 +86,7 @@ export const ReputationMenu = ({
           </li>
         )
       })}
-      <li>
+      <li {...itemAttributes(tokens.length)}>
         <a href={links.tokens} className="c-prominent-link">
           See how you earned all your reputation
           <GraphicalIcon icon="arrow-right" />

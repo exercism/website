@@ -6,6 +6,7 @@ import { SessionProps } from '../Session'
 import { MentorDiscussion as Discussion } from '../../types'
 
 export const DiscussionActions = ({
+  status,
   links,
   session,
   setSession,
@@ -29,7 +30,7 @@ export const DiscussionActions = ({
 
   return (
     <>
-      {links.markAsNothingToDo ? (
+      {status === 'awaiting_mentor' ? (
         <MarkAsNothingToDoButton endpoint={links.markAsNothingToDo} />
       ) : null}
 

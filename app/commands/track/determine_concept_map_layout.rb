@@ -48,7 +48,7 @@ class Track
       node_levels.drop(1).flat_map.with_index do |level, level_idx|
         level.flat_map do |node|
           node.prerequisites.
-            map { |prerequisite| graph.node_for_concept(prerequisite.slug) }.
+            map { |prerequisite| graph.node_for_concept(prerequisite) }.
             compact.
             select { |prerequisite_node| prerequisite_node.level == level_idx }.
             map { |prerequisite_node| { from: prerequisite_node.slug, to: node.slug } }
@@ -134,7 +134,7 @@ class Track
               index: nil,
               slug: concept.slug,
               name: concept.name,
-              prerequisites: exercise.prerequisites.to_a
+              prerequisites: exercise.prerequisites.pluck(:slug)
             )
           end
         end
@@ -148,7 +148,7 @@ class Track
       def determine_edges
         nodes.flat_map do |node|
           node.prerequisites.map do |prereq|
-            prereq_node = node_for_concept(prereq.slug)
+            prereq_node = node_for_concept(prereq)
             prereq_node ? Edge.new(from: prereq_node, to: node) : nil
           end
         end.compact.freeze

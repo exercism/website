@@ -35,12 +35,12 @@ class Track
         }
       end
 
-      concepts.sort_by { |concept| concept[:slug] }
+      concepts.sort_by { |concept| concept[:slug] }.freeze
     end
 
     memoize
     def concept_levels
-      node_levels.map { |level| level.map(&:slug) }
+      node_levels.map { |level| level.map(&:slug) }.freeze
     end
 
     memoize
@@ -139,10 +139,7 @@ class Track
           end
         end
 
-        nodes.map.with_index do |node, index|
-          node.index = index
-          node
-        end
+        nodes.each.with_index { |node, idx| node.index = idx }.freeze
       end
 
       def determine_edges

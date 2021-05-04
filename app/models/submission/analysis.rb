@@ -1,6 +1,8 @@
 class Submission::Analysis < ApplicationRecord
   extend Mandate::Memoize
 
+  serialize :data, JSON
+
   belongs_to :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }

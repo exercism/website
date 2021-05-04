@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_174645) do
+ActiveRecord::Schema.define(version: 2021_05_04_224212) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
     t.bigint "source_submission_id", null: false
     t.text "ast", null: false
     t.string "ast_digest", null: false
-    t.json "mapping"
+    t.text "mapping"
     t.integer "feedback_type", limit: 1
     t.text "feedback_markdown"
     t.text "feedback_html"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
     t.string "author_username"
     t.string "merged_by_username"
     t.string "title"
-    t.json "data", null: false
+    t.text "data", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
@@ -337,7 +337,7 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
-    t.json "data"
+    t.text "data"
     t.string "tooling_job_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -371,7 +371,7 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
     t.string "status", null: false
     t.text "message"
     t.integer "ops_status", limit: 2, null: false
-    t.json "raw_results", null: false
+    t.text "raw_results", null: false
     t.integer "version", limit: 1, default: 0, null: false
     t.text "output"
     t.datetime "created_at", precision: 6, null: false
@@ -441,11 +441,11 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
     t.bigint "track_id"
     t.bigint "exercise_id"
     t.bigint "solution_id"
-    t.json "params", null: false
+    t.text "params", null: false
     t.datetime "occurred_at", null: false
     t.string "uniqueness_key", null: false
     t.integer "version", null: false
-    t.json "rendering_data_cache", null: false
+    t.text "rendering_data_cache", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_user_activities_on_exercise_id"
@@ -474,10 +474,10 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
     t.string "path", null: false
     t.string "type", null: false
     t.integer "version", null: false
-    t.json "params", null: false
+    t.text "params", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.string "uniqueness_key", null: false
-    t.json "rendering_data_cache", null: false
+    t.text "rendering_data_cache", null: false
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -510,10 +510,10 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
     t.integer "value", null: false
     t.string "reason", null: false
     t.string "category", null: false
-    t.json "params", null: false
+    t.text "params", null: false
     t.string "level"
     t.integer "version", null: false
-    t.json "rendering_data_cache", null: false
+    t.text "rendering_data_cache", null: false
     t.string "external_url"
     t.boolean "seen", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -547,7 +547,7 @@ ActiveRecord::Schema.define(version: 2021_04_27_174645) do
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
-    t.json "summary_data", null: false
+    t.text "summary_data", null: false
     t.string "summary_key"
     t.boolean "anonymous_during_mentoring", default: false, null: false
     t.datetime "created_at", precision: 6, null: false

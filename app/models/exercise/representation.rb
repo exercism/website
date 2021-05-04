@@ -1,4 +1,5 @@
 class Exercise::Representation < ApplicationRecord
+  serialize :mapping, JSON
   has_markdown_field :feedback
 
   belongs_to :exercise

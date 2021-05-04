@@ -2,6 +2,8 @@ class UserTrack < ApplicationRecord
   extend Mandate::Memoize
   include UserTrack::MentoringSlots
 
+  serialize :summary_data, JSON
+
   belongs_to :user
   belongs_to :track
   has_many :user_track_learnt_concepts, class_name: "UserTrack::LearntConcept", dependent: :destroy

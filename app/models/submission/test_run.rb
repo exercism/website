@@ -1,6 +1,8 @@
 class Submission::TestRun < ApplicationRecord
   extend Mandate::Memoize
 
+  serialize :raw_results, JSON
+
   belongs_to :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }

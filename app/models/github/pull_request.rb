@@ -1,6 +1,8 @@
 class Github::PullRequest < ApplicationRecord
   extend Mandate::Memoize
 
+  serialize :data, JSON
+
   has_many :reviews,
     dependent: :destroy,
     inverse_of: :pull_request,

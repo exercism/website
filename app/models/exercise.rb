@@ -101,7 +101,7 @@ class Exercise < ApplicationRecord
   end
 
   def icon_url
-    # TOOD: Read correct dir
+    # TOOD: Read correct s3 bucket
     "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{git.icon_name.presence || slug}.svg"
   end
 

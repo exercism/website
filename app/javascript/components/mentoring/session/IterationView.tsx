@@ -37,13 +37,12 @@ export const IterationView = ({
         iteration={currentIteration}
         latest={iterations[iterations.length - 1] === currentIteration}
       />
-      <FetchingBoundary
-        error={error}
-        status={status}
-        defaultError={DEFAULT_ERROR}
-      >
-        {/* TODO: Fix CSS for <ResultsZone /> */}
-        <ResultsZone isFetching={isFetching}>
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          error={error}
+          status={status}
+          defaultError={DEFAULT_ERROR}
+        >
           {resolvedData ? (
             <FilePanel
               key={currentIteration.idx}
@@ -51,8 +50,8 @@ export const IterationView = ({
               language={language}
             />
           ) : null}
-        </ResultsZone>
-      </FetchingBoundary>
+        </FetchingBoundary>
+      </ResultsZone>
       <footer className="discussion-footer">
         {iterations.length > 1 ? (
           <IterationsList

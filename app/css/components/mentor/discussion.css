@@ -172,8 +172,11 @@
             & .download-btn {
             }
         }
-        & .c-iteration-pane {
+        & .c-results-zone {
             @apply flex-grow h-1;
+            & .c-iteration-pane {
+                height: 100%;
+            }
         }
     }
     & .rhs {
@@ -801,4 +804,8 @@
             }
         }
     }
+}
+.hello {
+    padding: 20px;
+    background: red;
 }

@@ -35,7 +35,6 @@
         & .iteration {
             @apply mb-16 shadow-lg rounded-8;
             @apply flex flex-col;
-            max-height: 98vh;
 
             & .header {
                 @apply flex items-center py-12 px-24;
@@ -61,9 +60,10 @@
                 }
             }
             & .content {
-                @apply flex-grow overflow-hidden;
+                @apply flex-grow;
                 @apply flex items-stretch;
                 @apply mb-32;
+                max-height: calc(95vh - 80px);
 
                 & .files,
                 & .information {

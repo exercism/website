@@ -122,6 +122,12 @@ module Git
       assert_equal(expected, exercise.source_url)
     end
 
+    test "retrieves icon_name" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal("iso", exercise.icon_name)
+    end
+
     test "retrieves authors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

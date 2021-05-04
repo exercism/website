@@ -42,6 +42,12 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
+      namespace :settings do
+        resources :introducers, only: [] do
+          patch :hide, on: :member
+        end
+      end
+
       resources :tracks, only: %i[index show] do
         resources :exercises, only: %i[index], controller: "exercises" do
           resources :community_solutions, only: [:index], controller: "community_solutions"
@@ -272,9 +278,6 @@ Rails.application.routes.draw do
 
   # TODO: Remove these before launching
   namespace :temp do
-    resources :introducers, only: [] do
-      post :hide, on: :member
-    end
     resources :tracks, only: [:create]
     resources :modals, only: [] do
       collection do

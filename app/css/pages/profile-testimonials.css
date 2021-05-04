@@ -3,6 +3,7 @@
 #page-profile-testimonials {
     @apply mb-80 bg-backgroundColorA;
     & article {
+        @apply pt-32;
         @apply mt-40;
         & .stats {
             @apply grid grid-cols-3;

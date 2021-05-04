@@ -23,7 +23,7 @@ export const Introducer = ({
     () => {
       return sendRequest({
         endpoint: endpoint,
-        method: 'POST',
+        method: 'PATCH',
         body: null,
         isMountedRef: isMountedRef,
       })
@@ -43,17 +43,21 @@ export const Introducer = ({
     <div className="c-introducer">
       <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
       <div className="info" dangerouslySetInnerHTML={{ __html: content }} />
-      <FormButton
-        className="close"
-        type="button"
-        onClick={() => mutation()}
-        status={status}
-      >
-        <Icon icon="close" alt="Permanently hide this introducer" />
-      </FormButton>
-      <ErrorBoundary resetKeys={[status]}>
-        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
-      </ErrorBoundary>
+      {endpoint ? (
+        <>
+          <FormButton
+            className="close"
+            type="button"
+            onClick={() => mutation()}
+            status={status}
+          >
+            <Icon icon="close" alt="Permanently hide this introducer" />
+          </FormButton>
+          <ErrorBoundary resetKeys={[status]}>
+            <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+          </ErrorBoundary>
+        </>
+      ) : null}
     </div>
   )
 }

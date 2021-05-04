@@ -3,7 +3,7 @@
 
   %article
     .lg-container
-      = render ViewComponents::Introducer.new(:profile_solutions, "solutions") do
+      = render ReactComponents::Common::Introducer.new(:profile_solutions, "solutions") do
         %h2 Exercism is built by people like #{@user.handle} and you
         %p See #{@user.handle}'s contributions to Exercism, along with the exercises and concepts they authored for various tracks.
 

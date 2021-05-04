@@ -9,7 +9,7 @@ module ReactComponents
         super("common-introducer", {
           icon: icon,
           content: content,
-          endpoint: Exercism::Routes.hide_temp_introducer_path(id)
+          endpoint: endpoint
         })
       end
 
@@ -20,6 +20,12 @@ module ReactComponents
       # TODO: This is just a temporary implementation
       def hidden?
         (context.session[:hidden_introducers] || []).include?(id.to_s)
+      end
+
+      def endpoint
+        return nil unless user_signed_in?
+
+        Exercism::Routes.hide_api_settings_introducer_url(id)
       end
 
       def render_in(context, *args, &block)

@@ -2,3 +2,8 @@ clear_mentor_request_locks:
   cron: "* * * * *"
   class: "ClearMentorRequestLocksJob"
   queue: cron
+
+fetch_and_sync_all_pull_requests_reputation:
+  cron: "0 1 * * 1"
+  class: "FetchAndSyncAllPullRequestsReputationJob"
+  queue: dribble

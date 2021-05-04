@@ -1,0 +1,11 @@
+- return unless exercise.concept_exercise? && !solution&.completed?
+
+%section.taught-concepts
+  %h3
+    While completing #{exercise.title}, you'll learn
+    %strong= pluralize exercise.taught_concepts.size, 'concept'
+  .concepts
+    - exercise.taught_concepts.each.each do |concept|
+      = link_to track_concept_path(track, concept), class: 'concept' do
+        = render ViewComponents::ConceptIcon.new(concept, :small)
+        = concept.name

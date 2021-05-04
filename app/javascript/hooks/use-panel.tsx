@@ -21,18 +21,23 @@ export function usePanel(options?: any) {
     }
   )
 
-  const handleInnerClick = useCallback((e) => {
-    e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
-  }, [])
+  const handleMouseDown = useCallback(
+    (e) => {
+      if (
+        buttonElement?.contains(e.target) ||
+        panelElement?.contains(e.target)
+      ) {
+        return
+      }
 
-  const handleMouseDown = useCallback(() => {
-    if (!open) {
-      return
-    }
+      if (!open) {
+        return
+      }
 
-    setOpen(false)
-  }, [open])
+      setOpen(false)
+    },
+    [buttonElement, open, panelElement]
+  )
 
   useEffect(() => {
     document.addEventListener('mousedown', handleMouseDown)
@@ -58,13 +63,11 @@ export function usePanel(options?: any) {
     buttonElement,
     buttonAttributes: {
       ref: setButtonElement,
-      onMouseDown: handleInnerClick,
     },
     panelAttributes: {
       ref: setPanelElement,
       style: styles.popper,
       ...attributes.popper,
-      onMouseDown: handleInnerClick,
     },
   }
 }

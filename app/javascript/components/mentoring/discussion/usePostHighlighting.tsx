@@ -3,10 +3,9 @@ import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 
 export const usePostHighlighting = (
-  data: DiscussionPostProps[] | undefined,
+  posts: DiscussionPostProps[] | undefined,
   userId: number
 ) => {
-  const hasLoadedRef = useRef(false)
   const [
     highlightedPost,
     setHighlightedPost,
@@ -25,24 +24,14 @@ export const usePostHighlighting = (
   }, [highlightedPost, highlightedPostRef, userId])
 
   useEffect(() => {
-    if (!data || data.length === 0) {
+    if (!posts || posts.length === 0) {
       return
     }
 
-    if (!hasLoadedRef.current) {
-      hasLoadedRef.current = true
-
-      return
-    }
-
-    const lastPost = data[data.length - 1]
+    const lastPost = posts[posts.length - 1]
 
     setHighlightedPost(lastPost)
-
-    if (lastPost.authorId !== userId) {
-      setHasNewMessages(true)
-    }
-  }, [data, setHasNewMessages, userId])
+  }, [posts, setHasNewMessages, userId])
 
   useEffect(() => {
     if (!highlightedPostRef.current) {
@@ -61,7 +50,7 @@ export const usePostHighlighting = (
     return () => {
       observer.current?.disconnect()
     }
-  }, [data, highlightedPost, highlightedPostRef, setHasNewMessages])
+  }, [posts, highlightedPost, highlightedPostRef, setHasNewMessages])
 
   return {
     highlightedPost,

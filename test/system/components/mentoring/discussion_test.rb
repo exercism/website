@@ -358,9 +358,9 @@ module Components
         exercise = create :concept_exercise
         solution = create :concept_solution, exercise: exercise
         discussion = create :mentor_discussion,
+          :awaiting_mentor,
           solution: solution,
-          mentor: mentor,
-          awaiting_mentor_since: 1.day.ago
+          mentor: mentor
         create :iteration, solution: solution
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
@@ -371,6 +371,25 @@ module Components
         end
 
         assert_text "Loading"
+        assert_no_text "Remove from Inbox"
+      end
+
+      test "mentor is unable to remove discussion from inbox if finished" do
+        mentor = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :mentor_discussion,
+          :mentor_finished,
+          solution: solution,
+          mentor: mentor
+        create :iteration, solution: solution
+        create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        end
+
         assert_no_text "Remove from Inbox"
       end
 

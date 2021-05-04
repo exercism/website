@@ -3,7 +3,7 @@
 .c-exercise-widget {
     @apply flex items-center shadow-base rounded-8 bg-backgroundColorA;
     transition: box-shadow 0.2s ease-out;
-    &:hover:not(.--locked) {
+    &a:hover:not(.--locked) {
         @apply shadow-baseZ1;
     }
 
@@ -91,6 +91,25 @@
         }
     }
 
+    &.--tiny {
+        @apply py-8 px-12;
+
+        & .c-exercise-icon {
+            width: 24px;
+            height: 24px;
+            @apply mr-12;
+        }
+        & .--title {
+            @apply text-16 leading-150 mb-0 font-medium;
+        }
+
+        & .--title .--track,
+        & .--info .--data,
+        & .--info .--blurb,
+        & .--action-icon {
+            @apply hidden;
+        }
+    }
     &.--medium {
         @apply py-20 px-24 w-100;
 

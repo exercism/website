@@ -96,6 +96,7 @@
                         @apply text-15 leading-170 text-textColor6;
                     }
                 }
+                /* TODO: Use .--with-bg */
                 & .c-prominent-link {
                     @apply flex justify-center;
                     @apply mt-32 py-8;

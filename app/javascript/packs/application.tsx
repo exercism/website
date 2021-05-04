@@ -84,6 +84,7 @@ import '../../css/components/profile-header'
 import '../../css/components/track-filter'
 import '../../css/components/track-switcher'
 import '../../css/components/mentor-discussion-widget'
+import '../../css/components/completed-exercise-progress'
 
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
@@ -229,7 +230,18 @@ initReact({
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
+  'common-concept-widget': (data: any) => (
+    <Common.ConceptWidget concept={data.concept} />
+  ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-expander': (data: any) => (
+    <Common.Expander
+      content={data.content}
+      buttonTextCompressed={data.button_text_compressed}
+      buttonTextExpanded={data.button_text_expanded}
+      className={data.class_name}
+    />
+  ),
   'common-community-solution': (data: any) => (
     <Common.CommunitySolution
       solution={camelizeKeysAs<CommunitySolution>(data.solution)}
@@ -254,6 +266,7 @@ initReact({
       track={camelizeKeysAs<Track>(data.track)}
       solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
       size={data.size}
+      links={data.links}
     />
   ),
   'mentoring-inbox': (data: any) => (

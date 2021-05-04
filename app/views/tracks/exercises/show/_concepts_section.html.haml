@@ -1,23 +1,41 @@
-- if solution&.completed?
-  %section.completed-info
-    %h3 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
-    .concepts
-      - exercise.taught_concepts.each do |concept|
-        = render ViewComponents::Concept.new(concept, user_track, :small)
+- return unless exercise.concept_exercise? && solution&.completed?
 
-    = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track))
-    .explanation
-      To master the concepts, you can try completing more exercises for them.
-      %br
-      Or, you can continue to broaden your knowledge and #{link_to 'explore new concepts', track_concepts_path(track)}.
+%section.completed-info.c-completed-exercise-progress
+  %h2 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
+  .progressed-concepts
+    - exercise.taught_concepts.includes(:concept_exercises, :practice_exercises).each do |concept|
+      .concept
+        = render ViewComponents::ConceptIcon.new(concept, :medium)
+        .name= concept.name
+        .exercises
+          - concept.concept_exercises.each do |exercise|
+            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
+          - concept.practice_exercises.each do |exercise|
+            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
 
-- else
-  %section.taught-concepts
-    %h3
-      While completing #{exercise.title}, you'll learn
-      %strong= pluralize exercise.taught_concepts.size, 'concept'
-    .concepts
-      - exercise.taught_concepts.each.each do |concept|
-        = link_to track_concept_path(track, concept), class: 'concept' do
-          = render ViewComponents::ConceptIcon.new(concept, :small)
-          = concept.name
+  = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
+
+  - unlocked_concepts = exercise.unlocked_concepts.to_a
+  - unlocked_exercises = exercise.unlocked_exercises.to_a
+  - if unlocked_concepts.present? || unlocked_exercises.present?
+    .unlocks
+      - if unlocked_concepts.present?
+        .unlocked-concepts
+          %h3
+            You've unlocked
+            = graphical_icon :concepts
+            = pluralize unlocked_concepts.size, "concept"
+          .list
+            - unlocked_concepts.each do |unlocked_concept|
+              = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
+
+      - if unlocked_exercises.present?
+        .unlocked-exercises
+          %h3
+            You've unlocked
+            = graphical_icon :exercises
+            = pluralize unlocked_exercises.size, "exercise"
+          .list
+            - unlocked_exercises.each do |unlocked_exercise|
+              = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, size: :tiny, with_tooltip: true)
+

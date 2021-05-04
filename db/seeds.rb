@@ -5,7 +5,7 @@ iHiD = User.find_by(handle: 'iHiD') || User.create!(
   name: 'Jeremy Walker',
   password: 'password',
   github_username: 'iHiD',
-  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best.",
+  bio: "Co-founder of Exercism. I'm an entrepreneur and software developer, and have been running a variety of businesses and non-for-profits for the last decade in the fields of medicine, education and artificial intelligence",
   location: "Bree, Middle Earth",
   pronouns: "He/Him"
 )

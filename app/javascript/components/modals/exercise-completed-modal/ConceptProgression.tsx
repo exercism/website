@@ -39,16 +39,9 @@ export const ConceptProgression = ({
     <div className="concept">
       <ConceptIcon name={name} size="medium" />
       <div className="name">{name}</div>
-      <ProgressBar isMastered={isMastered} from={from} to={to} total={total} />
-      {isMastered ? (
-        <Icon
-          icon="completed-check-circle"
-          alt="Concept completed"
-          className="completed"
-        />
-      ) : (
-        <div className="completed" />
-      )}
+      <div className="exercises">
+        <div className="c-ed --completed --concept" />
+      </div>
     </div>
   )
 }

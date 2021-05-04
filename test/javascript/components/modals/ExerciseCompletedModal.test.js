@@ -43,11 +43,6 @@ test('shows information', async () => {
   )
   expect(screen.getByText('Ar')).toBeInTheDocument()
   expect(screen.getByText('Arrays')).toBeInTheDocument()
-  expect(screen.getByRole('progressbar')).toHaveAttribute('value', '5')
-  expect(screen.getByRole('progressbar')).toHaveAttribute('max', '5')
-  expect(
-    screen.getByRole('img', { name: 'Concept completed' })
-  ).toBeInTheDocument()
   expect(
     screen.getByRole('heading', { name: "You've unlocked 1 exercise" })
   ).toBeInTheDocument()

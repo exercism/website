@@ -90,7 +90,7 @@ export const StartDiscussionPanel = ({
     <section className="comment-section --comment">
       <form onSubmit={handleSubmit} className="c-markdown-editor">
         <MarkdownEditor
-          contextId="start-discussion"
+          contextId={`start-discussion-request-${request.id}`}
           editorDidMount={handleEditorMount}
         />
         <footer className="editor-footer">

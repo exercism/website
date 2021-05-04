@@ -41,27 +41,15 @@
     & section.completed-info {
         @apply bg-backgroundColorA py-24 px-32 shadow-lg rounded-8 mb-32;
 
-        & h3 {
+        & h2 {
             @apply text-h4 mb-16;
         }
-        & .concepts {
-            @apply flex flex-wrap mb-16;
 
-            & .c-concept {
-                @apply mr-8;
-            }
-        }
-        & .c-prominent-link {
+        & .progressed-concepts {
             @apply mb-16;
         }
-        & .explanation {
-            @apply bg-lightOrange border-1 border-lightGold rounded-8;
-            @apply py-8 px-16;
-            @apply text-14 leading-160 font-medium;
-
-            & a {
-                @apply text-lightBlue font-medium;
-            }
+        & .c-prominent-link {
+            @apply mb-24;
         }
     }
     & .tutorial-introduction {

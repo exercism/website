@@ -42,6 +42,12 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
+      namespace :settings do
+        resources :introducers, only: [] do
+          patch :hide, on: :member
+        end
+      end
+
       resources :tracks, only: %i[index show] do
         resources :exercises, only: %i[index], controller: "exercises" do
           resources :community_solutions, only: [:index], controller: "community_solutions"
@@ -329,6 +335,7 @@ Rails.application.routes.draw do
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
           resource :markdown_editor, controller: "markdown_editor", only: [:show]
           resource :icons, controller: "icons", only: [:show]
+          resource :introducer, controller: "introducer", only: [:show]
           resource :modal, controller: "modal", only: [] do
             get :template
             get :block

@@ -248,6 +248,13 @@ initReact({
       context={data.context}
     />
   ),
+  'common-introducer': (data: any) => (
+    <Common.Introducer
+      icon={data.icon}
+      content={data.content}
+      endpoint={data.endpoint}
+    />
+  ),
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}

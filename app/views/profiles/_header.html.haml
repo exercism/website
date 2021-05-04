@@ -23,10 +23,8 @@
             = graphical_icon(:clock)
             %time Joined #{user.created_at.strftime('%b %Y')}
 
-
         - if user.bio.present?
-          / TODO: Make Read more widget
-          .bio= user.bio
+          = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: "Read more", button_text_expanded: "Read less", class_name: "bio")
 
       .badges-and-tags
         .header

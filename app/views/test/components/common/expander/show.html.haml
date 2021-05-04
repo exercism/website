@@ -1,0 +1,13 @@
+- content = capture_haml do
+  %h1 About Elixir
+
+  %p
+    Elixir is a functional, concurrent, general-purpose programming language that runs on the BEAM virtual machine used
+    to implement the Erlang programming language. Elixir builds on top of Erlang and shares the same abstractions for
+    building distributed, fault-tolerant applications.
+
+  %p
+    Elixir also provides productive tooling and an extensible design. The latter is supported by compile-time
+    metaprogramming with macros and polymorphism via protocols.
+
+= ReactComponents::Common::Expander.new(content, button_text_compressed: "Read more", button_text_expanded: "Read less")

@@ -71,22 +71,22 @@ module Git
 
     memoize
     def indent_style
-      config[:online_editor][:indent_style].to_sym
+      online_editor[:indent_style].to_sym
     end
 
     memoize
     def indent_size
-      config[:online_editor][:indent_size]
+      online_editor[:indent_size]
     end
 
     memoize
     def ace_editor_language
-      config[:online_editor][:ace_editor_language]
+      online_editor[:ace_editor_language]
     end
 
     memoize
     def highlightjs_language
-      config[:online_editor][:highlightjs_language]
+      online_editor[:highlightjs_language]
     end
 
     memoize
@@ -115,6 +115,11 @@ module Git
 
     def absolute_filepath(filepath)
       filepath
+    end
+
+    memoize
+    def online_editor
+      config[:online_editor]
     end
   end
 end

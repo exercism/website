@@ -219,6 +219,7 @@ export type Iteration = {
   createdAt: string
   testsStatus: SubmissionTestsStatus
   isPublished: boolean
+  files?: File[]
   links: {
     self: string
     solution: string

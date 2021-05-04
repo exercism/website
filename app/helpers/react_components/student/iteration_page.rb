@@ -39,7 +39,7 @@ module ReactComponents
               iterations: solution.
                 iterations.
                 order(id: :desc).
-                map { |iteration| SerializeIteration.(iteration) }
+                map { |iteration| SerializeIteration.(iteration, sideload: [:files]) }
             }
           }
         }

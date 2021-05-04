@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { IterationSummary } from '../../track/IterationSummary'
 import { Iteration } from '../../types'
+import { FilePanel } from '../../mentoring/session/FilePanel'
 import { IterationFiles } from '../../mentoring/session/IterationFiles'
 import { Information } from './Information'
 import { Exercise, Track, Links } from '../IterationPage'
@@ -46,10 +47,17 @@ export const IterationReport = ({
       </summary>
       <div className="content">
         <div className="files">
-          <IterationFiles
-            endpoint={iteration.links.files}
-            language={track.highlightJsLanguage}
-          />
+          {iteration.files ? (
+            <FilePanel
+              files={iteration.files}
+              language={track.highlightJsLanguage}
+            />
+          ) : (
+            <IterationFiles
+              endpoint={iteration.links.files}
+              language={track.highlightJsLanguage}
+            />
+          )}
         </div>
         <div className="information">
           <Information

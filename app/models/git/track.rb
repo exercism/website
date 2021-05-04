@@ -71,12 +71,12 @@ module Git
 
     memoize
     def indent_style
-      online_editor[:indent_style].to_sym
+      (online_editor[:indent_style] || 'space').to_sym
     end
 
     memoize
     def indent_size
-      online_editor[:indent_size]
+      online_editor[:indent_size] || 2
     end
 
     memoize

@@ -59,6 +59,9 @@ header.c-profile-header {
                     }
                 }
             }
+            & .c-react-wrapper-common-expander {
+                min-height: 75px;
+            }
             & .bio {
                 @apply text-p-base;
                 max-width: 740px;

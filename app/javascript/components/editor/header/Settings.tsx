@@ -107,32 +107,31 @@ export function Settings({
         <Icon icon="settings" alt="Settings" />
       </button>
       {open ? (
-        <div {...panelAttributes}>
-          <div
-            tabIndex={-1}
-            role="dialog"
-            aria-label="A series of radio buttons to configure the Exercism's code editor"
-            className="settings-dialog"
-          >
-            <Setting
-              title="Theme"
-              value={theme}
-              options={THEMES}
-              onChange={handleThemeChange}
-            />
-            <Setting
-              title="Keybindings"
-              value={localKeybindings}
-              options={KEYBINDINGS}
-              onChange={handleKeybindingsChange}
-            />
-            <Setting
-              title="Wrap"
-              value={wrap}
-              options={WRAP}
-              onChange={handleWrapChange}
-            />
-          </div>
+        <div
+          {...panelAttributes}
+          tabIndex={-1}
+          role="dialog"
+          aria-label="A series of radio buttons to configure the Exercism's code editor"
+          className="settings-dialog"
+        >
+          <Setting
+            title="Theme"
+            value={theme}
+            options={THEMES}
+            onChange={handleThemeChange}
+          />
+          <Setting
+            title="Keybindings"
+            value={localKeybindings}
+            options={KEYBINDINGS}
+            onChange={handleKeybindingsChange}
+          />
+          <Setting
+            title="Wrap"
+            value={wrap}
+            options={WRAP}
+            onChange={handleWrapChange}
+          />
         </div>
       ) : null}
     </React.Fragment>

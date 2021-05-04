@@ -14,6 +14,16 @@ module Components
         visit test_components_common_introducer_path
         assert_no_css ".c-introducer"
       end
+
+      test "does not show hide button for logged out" do
+        selector = ".c-introducer button"
+        visit test_components_common_introducer_path
+        assert_no_css selector
+
+        sign_in!
+        visit test_components_common_introducer_path
+        assert_css selector
+      end
     end
   end
 end

@@ -25,7 +25,7 @@ module ReactComponents
       def endpoint
         return nil unless user_signed_in?
 
-        Exercism::Routes.hide_api_settings_introducer_url(id)
+        Exercism::Routes.hide_api_settings_introducer_path(id)
       end
 
       def render_in(context, *args, &block)

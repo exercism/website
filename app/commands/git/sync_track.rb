@@ -30,6 +30,8 @@ module Git
       # TODO: We should raise a bugsnag here too
       blurb = head_git_track.config[:blurb][0, 350]
 
+      # Concepts must be synced before tracks
+      sync_concepts!
       sync_concept_exercises!
       sync_practice_exercises!
 
@@ -37,8 +39,7 @@ module Git
         blurb: blurb,
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
-        tags: head_git_track.config[:tags].to_a,
-        concepts: concepts
+        tags: head_git_track.config[:tags].to_a
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
@@ -54,7 +55,7 @@ module Git
     attr_reader :track, :force_sync
 
     memoize
-    def concepts
+    def sync_concepts!
       head_git_track.concepts.map do |concept_config|
         ::Track::Concept::Create.(
           concept_config[:uuid],
@@ -74,17 +75,17 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
+          git_sha: head_git_track.commit.oid,
+          synced_to_git_sha: head_git_track.commit.oid,
+          status: exercise_config[:status] || :active,
+          position: position + 1,
 
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: exercise_blurb(exercise_config[:slug], 'concept'),
-          position: position + 1,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
-          prerequisites: exercise_concepts(exercise_config[:prerequisites]),
-          status: exercise_config[:status] || :active,
-          git_sha: head_git_track.commit.oid
+          prerequisites: exercise_concepts(exercise_config[:prerequisites])
         )
-
         Git::SyncConceptExercise.(exercise, force_sync: force_sync)
       end
     end
@@ -96,17 +97,18 @@ module Git
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
+          git_sha: head_git_track.commit.oid,
+          synced_to_git_sha: head_git_track.commit.oid,
+          status: exercise_config[:status] || :active,
+          position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
+
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: exercise_blurb(exercise_config[:slug], 'practice'),
-          position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
           difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
-          practiced_concepts: exercise_concepts(exercise_config[:practices]),
-          status: exercise_config[:status] || :active,
-          git_sha: head_git_track.commit.oid
+          practiced_concepts: exercise_concepts(exercise_config[:practices])
         )
-
         Git::SyncPracticeExercise.(exercise, force_sync: force_sync)
       end
     end

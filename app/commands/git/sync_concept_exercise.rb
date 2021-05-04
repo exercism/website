@@ -15,13 +15,13 @@ module Git
 
       exercise.update!(
         slug: exercise_config[:slug],
-        # TODO: Remove the || ... once we have configlet checking things properly.
-        title: exercise_config[:name].presence || exercise_config[:slug].titleize,
-        status: exercise_config[:status] || :active,
-        blurb: head_git_exercise.blurb,
-        position: exercise_position,
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
+        status: exercise_config[:status] || :active,
+        position: exercise_position,
+        # TODO: Remove the || ... once we have configlet checking things properly.
+        title: exercise_config[:name].presence || exercise_config[:slug].titleize,
+        blurb: head_git_exercise.blurb,
         taught_concepts: find_concepts(exercise_config[:concepts]),
         prerequisites: find_concepts(exercise_config[:prerequisites])
       )

@@ -165,6 +165,15 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     refute_includes track_concept_exercise.taught_concepts, other_track_concept
   end
 
+  test "concept exercises use newly created track concepts for taught concepts" do
+    track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
+
+    Git::SyncTrack.(track)
+
+    track_concept_exercise = track.concept_exercises.find_by(uuid: '71ae39c4-7364-11ea-bc55-0242ac130003')
+    assert_equal 1, track_concept_exercise.taught_concepts.count
+  end
+
   test "concept exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
     track_concept = create :track_concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'

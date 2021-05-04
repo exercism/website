@@ -2,7 +2,7 @@
 .c-ed {
     height: 24px;
     width: 24px;
-    @apply justify-self-center;
+    @apply justify-self-center block;
     @apply rounded-circle;
     transition: box-shadow 0.2s ease-out;
 

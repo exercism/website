@@ -10,6 +10,7 @@
           = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(@track))
 
       = ReactComponents::Student::Nudge.new(@solution) if @solution
+      = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
       = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
       -# TODO: I've just added this here to verify that the temp endpoint works
@@ -20,8 +21,6 @@
         %section.tutorial-introduction
           “Hello, World!” will get you writing some #{@track.title} and familiarise yourself with the Exercism workflow.
           %strong Completing it unlocks the rest of the #{@track.title} Track.
-      - elsif @exercise.concept_exercise?
-        = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
       - elsif @exercise.practice_exercise?
         - introduction = @solution ? @solution.introduction : @exercise.introduction
@@ -29,6 +28,9 @@
           %section.introduction.c-textual-content.--large
             %h2 Introduction
             = raw Markdown::Parse.(introduction)
+
+      - else
+        = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
       %section.instructions.c-textual-content.--large
         %h2 Instructions

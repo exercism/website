@@ -1,9 +1,9 @@
 import React from 'react'
-import { UnlockedExercise } from './UnlockedExercise'
 import { UnlockedConcept } from './UnlockedConcept'
+import { UnlockedExercise } from './UnlockedExercise'
 import { Concept } from '../CompleteExerciseModal'
 import { GraphicalIcon } from '../../common'
-import { Exercise } from '../../types'
+import { Exercise, Track } from '../../types'
 import pluralize from 'pluralize'
 
 export const Unlocks = ({
@@ -15,21 +15,6 @@ export const Unlocks = ({
 }): JSX.Element => {
   return (
     <div className="unlocks" data-testid="unlocks">
-      {unlockedExercises.length > 0 ? (
-        <div className="unlocked-exercises">
-          <h3>
-            You&apos;ve unlocked
-            <GraphicalIcon icon="exercises" />
-            {unlockedExercises.length}{' '}
-            {pluralize('exercise', unlockedExercises.length)}
-          </h3>
-          <div className="exercises">
-            {unlockedExercises.map((exercise) => (
-              <UnlockedExercise key={exercise.title} {...exercise} />
-            ))}
-          </div>
-        </div>
-      ) : null}
       {unlockedConcepts.length > 0 ? (
         <div className="unlocked-concepts">
           <h3>
@@ -38,9 +23,24 @@ export const Unlocks = ({
             {unlockedConcepts.length}{' '}
             {pluralize('concept', unlockedConcepts.length)}
           </h3>
-          <div className="concepts">
+          <div className="list">
             {unlockedConcepts.map((concept) => (
               <UnlockedConcept key={concept.name} {...concept} />
+            ))}
+          </div>
+        </div>
+      ) : null}
+      {unlockedExercises.length > 0 ? (
+        <div className="unlocked-exercises">
+          <h3>
+            You&apos;ve unlocked
+            <GraphicalIcon icon="exercises" />
+            {unlockedExercises.length}{' '}
+            {pluralize('exercise', unlockedExercises.length)}
+          </h3>
+          <div className="list">
+            {unlockedExercises.map((exercise) => (
+              <UnlockedExercise key={exercise.title} {...exercise} />
             ))}
           </div>
         </div>

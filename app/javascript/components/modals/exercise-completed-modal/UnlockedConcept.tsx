@@ -4,9 +4,9 @@ import { Concept } from '../CompleteExerciseModal'
 
 export const UnlockedConcept = ({ name }: Concept): JSX.Element => {
   return (
-    <div className="concept">
+    <div className="unlocked-concept">
       <ConceptIcon name={name} size="small" />
-      <div className="title">{name}</div>
+      <div className="name">{name}</div>
     </div>
   )
 }

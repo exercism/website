@@ -19,6 +19,15 @@ export type ExerciseAuthorship = {
   track: Track
 }
 
+export type Concept = {
+  name: string
+  slug: string
+  links: {
+    self: string
+    tooltip: string
+  }
+}
+
 export type Contribution = {
   id: string
   value: number

@@ -6,13 +6,13 @@
       / TODO: Real values - same as profile page
       .stats
         .stat
-          .number 50
+          .number= @num_solutions_mentored
           .metric Solutions mentored
         .stat
-          .number 50
-          .metric Students helped
+          .number= @num_students_helped
+          .metric #{'Student'.pluralize(@num_students_helped)} helped
         .stat
-          .number 50
+          .number= @num_testimonials
           .metric Testimonials received
 
       .testimonials

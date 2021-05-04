@@ -44,14 +44,18 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
       Mentor::Testimonial::Retrieve.(mentor: mentor, track_slug: ruby.slug, include_unrevealed: true)
   end
 
-  test "orders by id desc" do
+  test "orders correctly" do
     mentor = create :user
 
     first = create :mentor_testimonial, :revealed, mentor: mentor
-    second = create :mentor_testimonial, :revealed, mentor: mentor
+    second = create :mentor_testimonial, :unrevealed, mentor: mentor
     third = create :mentor_testimonial, :revealed, mentor: mentor
 
-    assert_equal [third, second, first], Mentor::Testimonial::Retrieve.(mentor: mentor)
+    assert_equal [second, third, first], Mentor::Testimonial::Retrieve.(mentor: mentor, include_unrevealed: true)
+    assert_equal [first, second, third],
+      Mentor::Testimonial::Retrieve.(mentor: mentor, order: :oldest, include_unrevealed: true)
+    assert_equal [third, second, first],
+      Mentor::Testimonial::Retrieve.(mentor: mentor, order: :newest, include_unrevealed: true)
   end
 
   test "pagination works" do

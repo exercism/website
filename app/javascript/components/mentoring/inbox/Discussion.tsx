@@ -1,49 +1,47 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { TrackIcon } from '../../common/TrackIcon'
-import { Icon } from '../../common/Icon'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { Avatar } from '../../common/Avatar'
+import {
+  TrackIcon,
+  ExerciseIcon,
+  GraphicalIcon,
+  Avatar,
+  Icon,
+} from '../../common'
+import { MentorDiscussion } from '../../types'
 
-type DiscussionProps = {
-  trackTitle: string
-  trackIconUrl: string
-  studentAvatarUrl: string
-  studentHandle: string
-  exerciseTitle: string
-  isStarred: boolean
-  postsCount: number
-  updatedAt: string
-  url: string
-}
-
-export function Discussion({
-  trackTitle,
-  trackIconUrl,
-  studentAvatarUrl,
-  studentHandle,
-  exerciseTitle,
-  isStarred,
-  postsCount,
-  updatedAt,
-  url,
-}: DiscussionProps) {
+export const Discussion = ({
+  discussion,
+}: {
+  discussion: MentorDiscussion
+}): JSX.Element => {
   return (
-    <a className="--solution" href={url}>
-      <TrackIcon title={trackTitle} iconUrl={trackIconUrl} />
-      <Avatar src={studentAvatarUrl} handle={studentHandle} />
+    <a className="--solution" href={discussion.links.self}>
+      <TrackIcon
+        title={discussion.track.title}
+        iconUrl={discussion.track.iconUrl}
+      />
+      <ExerciseIcon
+        title={discussion.exercise.title}
+        iconUrl={discussion.exercise.iconUrl}
+      />
+      <Avatar
+        src={discussion.student.avatarUrl}
+        handle={discussion.student.handle}
+      />
       <div className="--info">
         <div className="--handle">
-          {studentHandle}
-          {isStarred ? <Icon icon="gold-star" alt="Starred student" /> : null}
+          {discussion.student.handle}
+          {discussion.student.isStarred ? (
+            <Icon icon="gold-star" alt="Starred student" />
+          ) : null}
         </div>
-        <div className="--exercise-title">on {exerciseTitle}</div>
+        <div className="--exercise-title">on {discussion.exercise.title}</div>
       </div>
       <div className="--comments-count">
-        <Icon icon="comment" alt={`{postsCount} comments`} />
-        {postsCount}
+        <Icon icon="comment" alt={`{discussion.postsCount} comments`} />
+        {discussion.postsCount}
       </div>
-      <time className="-updated-at">{fromNow(updatedAt)}</time>
+      <time className="-updated-at">{fromNow(discussion.createdAt)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

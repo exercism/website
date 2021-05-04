@@ -15,4 +15,6 @@ class Mentor::Testimonial < ApplicationRecord
 
   # TODO
   scope :published, -> {}
+
+  scope :unrevealed, -> { where(revealed: false) }
 end

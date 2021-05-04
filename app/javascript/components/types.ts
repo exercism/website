@@ -1,3 +1,11 @@
+export type PaginatedResult<T> = {
+  results: T
+  meta: {
+    currentPage: number
+    totalPages: number
+  }
+}
+
 export type ExerciseStatus =
   | 'published'
   | 'completed'
@@ -133,6 +141,7 @@ type ExerciseCore = {
   difficulty: ExerciseDifficulty
   isRecommended: boolean
   isTutorial: boolean
+  isExternal: boolean
 }
 
 export type ExerciseDifficulty = 'easy'
@@ -176,17 +185,11 @@ export type MentorSessionExercise = {
   id: string
   title: string
   iconUrl: string
-}
-
-export type MentorSessionDiscussion = {
-  id: string
-  isFinished: boolean
   links: {
-    posts: string
-    markAsNothingToDo?: string
-    finish?: string
+    self: string
   }
 }
+
 export type Track = {
   id: string
   title: string
@@ -288,32 +291,50 @@ export enum AnalysisStatus {
   CANCELLED = 'cancelled',
 }
 
+export type MentorDiscussionStatus =
+  | 'awaiting_student'
+  | 'awaiting_mentor'
+  | 'mentor_finished'
+  | 'finished'
+
+export type MentorDiscussionFinishedBy = 'mentor' | 'student'
+
 export type MentorDiscussion = {
   id: string
+  status: MentorDiscussionStatus
+  finishedAt?: string
+  finishedBy?: MentorDiscussionFinishedBy
   student: {
     avatarUrl: string
     handle: string
+    isStarred: boolean
   }
   mentor: {
     avatarUrl: string
     handle: string
   }
+  track: {
+    title: string
+    iconUrl: string
+  }
+  exercise: {
+    title: string
+    iconUrl: string
+  }
   isFinished: boolean
   isUnread: boolean
+  isStarred: boolean
   postsCount: number
+  iterationsCount: number
   createdAt: string
-  status: MentorDiscussionStatus
+  updatedAt: string
   links: {
     self: string
+    posts: string
+    markAsNothingToDo: string
+    finish: string
   }
 }
-
-export type MentorDiscussionStatus =
-  | 'awaiting_student'
-  | 'awaiting_mentor'
-  | 'mentor_finished'
-  | 'student_finished'
-  | 'both_finished'
 
 export type MentoredTrackExercise = {
   slug: string

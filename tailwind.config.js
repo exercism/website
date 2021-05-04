@@ -66,6 +66,7 @@ module.exports = {
       textColor8: 'var(--textColor8)',
       textColor9: 'var(--textColor9)',
 
+      linkColor: 'var(--linkColor)',
       buttonBorderColor1: 'var(--buttonBorderColor1)',
       buttonBorderColor2: 'var(--buttonBorderColor2)',
       inputBackgroundColor: 'var(--inputBackgroundColor)',
@@ -116,7 +117,8 @@ module.exports = {
       orange: '#F69605',
       lightOrange: '#FFF3E1',
       red: '#EB5757',
-      lightRed: '#fdeaea',
+      lightRed: '#FDEAEA',
+      veryLightRed: '#FFEDED',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',

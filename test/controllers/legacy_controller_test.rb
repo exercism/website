@@ -38,7 +38,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
     get "/solutions/#{solution.uuid}"
     sign_in!(user)
 
-    assert_redirected_to "https://test.exercism.io/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}/solutions/#{solution.user.handle}" # rubocop:disable Layout/LineLength
+    assert_redirected_to "http://www.example.com/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}/solutions/#{solution.user.handle}" # rubocop:disable Layout/LineLength
   end
 
   test "solution with logged-out published solution" do
@@ -46,7 +46,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
 
     get "/solutions/#{solution.uuid}"
 
-    assert_redirected_to "https://test.exercism.io/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}/solutions/#{solution.user.handle}" # rubocop:disable Layout/LineLength
+    assert_redirected_to "http://www.example.com/tracks/#{solution.track.slug}/exercises/#{solution.exercise.slug}/solutions/#{solution.user.handle}" # rubocop:disable Layout/LineLength
   end
 
   test "solution with logged-in non-published solution" do

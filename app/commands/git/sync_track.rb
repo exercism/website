@@ -26,20 +26,22 @@ module Git
       # TODO: validate track using configlet to prevent invalid track data
 
       # TODO: consider raising error when slug in config is different from track slug
+
+      # TODO: We should raise a bugsnag here too
+      blurb = head_git_track.config[:blurb][0, 350]
+
+      sync_concept_exercises!
+      sync_practice_exercises!
+
       track.update!(
-        blurb: head_git_track.config[:blurb],
+        blurb: blurb,
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
         tags: head_git_track.config[:tags].to_a,
-        concepts: concepts,
-        exercises: concept_exercises + practice_exercises
+        concepts: concepts
       )
 
       track.concepts.each { |concept| Git::SyncConcept.(concept) }
-      track.concept_exercises.each { |concept_exercise| Git::SyncConceptExercise.(concept_exercise, force_sync: force_sync) }
-      track.practice_exercises.each do |practice_exercise|
-        Git::SyncPracticeExercise.(practice_exercise, force_sync: force_sync)
-      end
 
       Git::SyncTrackDocs.(track)
 
@@ -66,9 +68,9 @@ module Git
     end
 
     memoize
-    def concept_exercises
-      head_git_track.concept_exercises.each_with_index.map do |exercise_config, position|
-        ::ConceptExercise::Create.(
+    def sync_concept_exercises!
+      head_git_track.concept_exercises.each_with_index do |exercise_config, position|
+        exercise = ::ConceptExercise::Create.(
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
@@ -79,16 +81,18 @@ module Git
           position: position + 1,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
-          deprecated: exercise_config[:deprecated] || false,
+          status: exercise_config[:status] || :active,
           git_sha: head_git_track.commit.oid
         )
+
+        Git::SyncConceptExercise.(exercise, force_sync: force_sync)
       end
     end
 
     memoize
-    def practice_exercises
-      head_git_track.practice_exercises.each_with_index.map do |exercise_config, position|
-        ::PracticeExercise::Create.(
+    def sync_practice_exercises!
+      head_git_track.practice_exercises.each_with_index do |exercise_config, position|
+        exercise = ::PracticeExercise::Create.(
           exercise_config[:uuid],
           track,
           slug: exercise_config[:slug],
@@ -96,11 +100,14 @@ module Git
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
           blurb: exercise_blurb(exercise_config[:slug], 'practice'),
           position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
+          difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           practiced_concepts: exercise_concepts(exercise_config[:practices]),
-          deprecated: exercise_config[:deprecated] || false,
+          status: exercise_config[:status] || :active,
           git_sha: head_git_track.commit.oid
         )
+
+        Git::SyncPracticeExercise.(exercise, force_sync: force_sync)
       end
     end
 

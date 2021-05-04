@@ -71,6 +71,11 @@ module Git
     end
 
     memoize
+    def icon_name
+      config[:icon]
+    end
+
+    memoize
     def solution_filepaths
       config[:files][:solution]
     end

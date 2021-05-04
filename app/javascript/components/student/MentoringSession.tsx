@@ -4,10 +4,11 @@ import { CloseButton } from '../mentoring/session/CloseButton'
 import { IterationView } from '../mentoring/session/IterationView'
 import { SessionInfo } from './mentoring-session/SessionInfo'
 import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
+import { DiscussionActions } from './mentoring-session/DiscussionActions'
 
 import {
   Iteration,
-  MentorSessionDiscussion as Discussion,
+  MentorDiscussion,
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
@@ -51,7 +52,7 @@ export const MentoringSession = ({
   links,
 }: {
   userId: number
-  discussion?: Discussion
+  discussion?: MentorDiscussion
   mentor?: Mentor
   iterations: readonly Iteration[]
   exercise: Exercise
@@ -73,6 +74,12 @@ export const MentoringSession = ({
         <header className="discussion-header">
           <CloseButton url={links.exercise} />
           <SessionInfo track={track} exercise={exercise} mentor={mentor} />
+          {discussion ? (
+            <DiscussionActions
+              discussion={discussion}
+              links={{ exercise: exercise.links.self }}
+            />
+          ) : null}
         </header>
         <IterationView
           iterations={iterations}

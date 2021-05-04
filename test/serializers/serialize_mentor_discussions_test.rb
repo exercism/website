@@ -14,27 +14,59 @@ class SerializeMentorDiscussionsTest < ActiveSupport::TestCase
 
     discussions = Mentor::Discussion::Retrieve.(mentor, :awaiting_mentor, page: 1)
 
-    expected = [
-      {
-        id: discussion.uuid,
+    expected = [SerializeMentorDiscussion.(discussion, student)]
 
-        track_title: track.title,
-        track_icon_url: track.icon_url,
-        exercise_title: exercise.title,
+    assert_equal expected, SerializeMentorDiscussions.(discussions, student)
+  end
 
-        student_handle: student.handle,
-        student_avatar_url: student.avatar_url,
-        updated_at: discussion.created_at.iso8601,
+  test "for mentor" do
+    student = create :user
+    mentor = create :user
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution = create :concept_solution, exercise: exercise, user: student
+    discussion = create :mentor_discussion,
+      :awaiting_mentor,
+      solution: solution,
+      mentor: mentor
 
-        is_starred: true,
+    links = {
+      self: Exercism::Routes.mentoring_discussion_url(discussion),
+      posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
+      finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion),
+      mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion)
+    }
 
-        # TODO: Populate this
-        posts_count: 4,
+    output = SerializeMentorDiscussion.(discussion, :mentor)
+    refute output[:is_finished]
+    assert_equal links, output[:links]
 
-        url: Exercism::Routes.mentoring_discussion_url(discussion)
-      }
-    ]
+    discussion.update(status: :mentor_finished)
+    assert SerializeMentorDiscussion.(discussion, :mentor)[:is_finished]
+  end
 
-    assert_equal expected, SerializeMentorDiscussions.(discussions)
+  test "for student" do
+    student = create :user
+    mentor = create :user
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution = create :concept_solution, exercise: exercise, user: student
+    discussion = create :mentor_discussion,
+      :awaiting_mentor,
+      solution: solution,
+      mentor: mentor
+
+    links = {
+      self: Exercism::Routes.track_exercise_mentor_discussion_url(discussion.track, discussion.exercise, discussion),
+      posts: Exercism::Routes.api_solution_discussion_posts_url(discussion.solution.uuid, discussion),
+      finish: Exercism::Routes.finish_api_solution_discussion_url(discussion.solution.uuid, discussion.uuid)
+    }
+
+    output = SerializeMentorDiscussion.(discussion, :student)
+    refute output[:is_finished]
+    assert_equal links, output[:links]
+
+    discussion.update(status: :finished)
+    assert SerializeMentorDiscussion.(discussion, :student)[:is_finished]
   end
 end

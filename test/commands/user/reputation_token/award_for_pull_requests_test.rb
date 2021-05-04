@@ -8,7 +8,11 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     create :github_pull_request, :random, author_username: "user-2"
     create :github_pull_request, :random, author_username: "user-1"
 
-    User::ReputationToken::AwardForPullRequests.()
+    assert_enqueued_jobs 3 do
+      User::ReputationToken::AwardForPullRequests.()
+    end
+
+    perform_enqueued_jobs
 
     assert_equal 2, User::ReputationTokens::CodeContributionToken.where(user: user_1).size
     assert_equal 1, User::ReputationTokens::CodeContributionToken.where(user: user_2).size
@@ -24,7 +28,11 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     create :github_organization_member, username: "user-1"
     create :github_organization_member, username: "user-2"
 
-    User::ReputationToken::AwardForPullRequests.()
+    assert_enqueued_jobs 4 do
+      User::ReputationToken::AwardForPullRequests.()
+    end
+
+    perform_enqueued_jobs
 
     assert_equal 1, User::ReputationTokens::CodeReviewToken.where(user: user_1).size
     assert_equal 3, User::ReputationTokens::CodeReviewToken.where(user: user_2).size
@@ -36,7 +44,11 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     create :github_pull_request, :random, merged_by_username: "user-2"
     create :github_pull_request, :random, merged_by_username: "user-1"
 
-    User::ReputationToken::AwardForPullRequests.()
+    assert_enqueued_jobs 2 do
+      User::ReputationToken::AwardForPullRequests.()
+    end
+
+    perform_enqueued_jobs
 
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user_1).size
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user_2).size
@@ -57,7 +69,11 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     create :github_organization_member, username: "user-1"
     create :github_organization_member, username: "user-2"
 
-    User::ReputationToken::AwardForPullRequests.()
+    assert_enqueued_jobs 9 do
+      User::ReputationToken::AwardForPullRequests.()
+    end
+
+    perform_enqueued_jobs
 
     assert_equal 3, User::ReputationTokens::CodeContributionToken.find_each.size
     assert_equal 2, User::ReputationTokens::CodeMergeToken.find_each.size

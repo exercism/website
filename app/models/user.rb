@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include User::Roles
+  include ActionView::Helpers::NumberHelper
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
@@ -62,7 +63,8 @@ class User < ApplicationRecord
 
   def formatted_reputation(*args)
     rep = reputation(*args)
-    return rep.to_s if rep < 1000
+    return number_with_delimiter(rep) if rep < 10_000
+    return "#{((rep * 10) / 1000.0).floor / 10.0}k" if rep < 100_000
 
     "#{(rep / 1000.0).floor}k"
   end
@@ -108,11 +110,6 @@ class User < ApplicationRecord
   end
 
   # TODO
-  def bio
-    "Developing software / Learning languages / Love to sail"
-  end
-
-  # TODO
   def languages_spoken
     %w[english spanish]
   end
@@ -121,14 +118,10 @@ class User < ApplicationRecord
     became_mentor_at.present?
   end
 
-  def favorited_by?(mentor)
-    relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
+  # TODO: Remove if not used by launch
+  # def favorited_by?(mentor)
+  #   relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
 
-    relationship ? relationship.favorited? : false
-  end
-
-  # TODO
-  def num_previous_mentor_sessions_with(_user)
-    15
-  end
+  #   relationship ? relationship.favorited? : false
+  # end
 end

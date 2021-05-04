@@ -1,4 +1,5 @@
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
@@ -91,6 +92,7 @@ Rails.application.routes.draw do
 
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
+          patch :finish, on: :member
           resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
         end
       end
@@ -175,7 +177,11 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
-  resources :profiles, only: [:show] do
+  resources :profiles, only: %i[show new create] do
+    collection do
+      get :intro
+    end
+
     member do
       get :tooltip
 
@@ -222,7 +228,8 @@ Rails.application.routes.draw do
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
       resources :mentor_discussions, only: [:show], controller: "tracks/mentor_discussions"
 
-      resources :community_solutions, only: [:index], controller: "tracks/community_solutions"
+      resources :community_solutions, only: %i[index show], controller: "tracks/community_solutions"
+      resources :solutions, only: %i[show], controller: "tracks/community_solutions"
     end
 
     member do
@@ -318,6 +325,7 @@ Rails.application.routes.draw do
           end
         end
         namespace :common do
+          resource :expander, controller: "expander", only: [:show]
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
           resource :markdown_editor, controller: "markdown_editor", only: [:show]
           resource :icons, controller: "icons", only: [:show]

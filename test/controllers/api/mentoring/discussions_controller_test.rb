@@ -1,6 +1,9 @@
 require_relative '../base_test_case'
 
 class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
+  include Webpacker::Helper
+  include ActionView::Helpers::AssetUrlHelper
+
   guard_incorrect_token! :api_mentoring_discussions_path
   guard_incorrect_token! :tracks_api_mentoring_discussions_path
   guard_incorrect_token! :api_mentoring_discussions_path, method: :post
@@ -9,18 +12,72 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   ###
   # Index
   ###
+  test "index proxies correctly" do
+    user = create :user
+    setup_user(user)
+
+    ::Mentor::Discussion::Retrieve.expects(:call).with(
+      user,
+      'status_param',
+      page: 'page_param',
+      track_slug: 'track_param',
+      student_handle: 'student_param',
+      criteria: 'criteria_param',
+      order: 'order_param'
+    ).returns(mock(includes: [], total_count: 200, current_page: 1, total_pages: 1))
+
+    get api_mentoring_discussions_path, params: {
+      status: 'status_param',
+      page: 'page_param',
+      track: 'track_param',
+      student: 'student_param',
+      criteria: 'criteria_param',
+      order: 'order_param'
+    }, headers: @headers, as: :json
+  end
+
   test "index retrieves discussions" do
     user = create :user
     setup_user(user)
 
-    discussion = create :mentor_discussion, :awaiting_mentor, mentor: user
+    create :mentor_discussion, :awaiting_mentor, mentor: user
 
     get api_mentoring_discussions_path(status: :awaiting_mentor),
       headers: @headers, as: :json
     assert_response 200
 
-    # TODO: Check JSON
-    assert_includes response.body, discussion.uuid
+    expected = SerializePaginatedCollection.(
+      Mentor::Discussion.page(1).per(10),
+      serializer: SerializeMentorDiscussions,
+      serializer_args: :mentor,
+      meta: {}
+    )
+
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
+  end
+
+  test "index sideloads meta" do
+    user = create :user
+    setup_user(user)
+
+    create :mentor_discussion, :awaiting_mentor, mentor: user
+
+    get api_mentoring_discussions_path(status: :awaiting_mentor, sideload: [:all_discussion_counts]),
+      headers: @headers, as: :json
+    assert_response 200
+
+    expected = SerializePaginatedCollection.(
+      Mentor::Discussion.page(1).per(10),
+      serializer: SerializeMentorDiscussions,
+      serializer_args: :mentor,
+      meta: {
+        awaiting_mentor_total: 1,
+        awaiting_student_total: 0,
+        finished_total: 0
+      }
+    )
+
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
 
   ###
@@ -46,8 +103,12 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     get tracks_api_mentoring_discussions_path(per: 1, status: :awaiting_mentor), headers: @headers, as: :json
     assert_response 200
 
+    all_icon = asset_pack_url(
+      "media/images/icons/all-tracks.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
     expected = [
-      { slug: nil, title: 'All', icon_url: Track.first.icon_url, count: 3 },
+      { slug: nil, title: 'All', icon_url: all_icon, count: 3 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
       { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
     ]
@@ -74,7 +135,8 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   test "create should 400 if the request is locked" do
     setup_user
 
-    mentor_request = create :mentor_request, :locked
+    mentor_request = create :mentor_request
+    create :mentor_request_lock, request: mentor_request
     post api_mentoring_discussions_path(mentor_request_id: mentor_request), headers: @headers, as: :json
     assert_response 400
     expected = { error: {

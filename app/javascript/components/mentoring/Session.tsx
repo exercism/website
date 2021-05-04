@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useCallback } from 'react'
 
 import { CommunitySolution } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -22,7 +22,7 @@ import { PostsWrapper } from './discussion/PostsContext'
 import {
   MentorSessionRequest as Request,
   Iteration,
-  MentorSessionDiscussion as Discussion,
+  MentorDiscussion as Discussion,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
 } from '../types'
@@ -40,19 +40,13 @@ export type Student = {
   languagesSpoken: string[]
   handle: string
   reputation: number
-  isFavorite?: boolean
-  numPreviousSessions: number
-  links?: {
-    favorite: string
-  }
-}
-
-export type StudentMentorRelationship = {
   isFavorited: boolean
   isBlocked: boolean
+  numPreviousSessions: number
   links: {
     block: string
     favorite: string
+    previousSessions: string
   }
 }
 
@@ -66,7 +60,6 @@ export type SessionProps = {
   userId: number
   notes: string
   mentorSolution: CommunitySolution
-  relationship: StudentMentorRelationship
   request: Request
 }
 
@@ -86,13 +79,19 @@ export const Session = (props: SessionProps): JSX.Element => {
     links,
     iterations,
     discussion,
-    relationship,
     notes,
     mentorSolution,
     request,
     userId,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
+
+  const setStudent = useCallback(
+    (student: Student) => {
+      setSession({ ...session, student: student })
+    },
+    [session]
+  )
 
   return (
     <div className="c-mentor-discussion">
@@ -136,13 +135,12 @@ export const Session = (props: SessionProps): JSX.Element => {
               </Tab>
             </div>
             <Tab.Panel id="discussion" context={TabsContext}>
-              <StudentInfo student={student} />
+              <StudentInfo student={student} setStudent={setStudent} />
               {discussion ? (
                 <DiscussionDetails
                   discussion={discussion}
                   iterations={iterations}
                   student={student}
-                  relationship={relationship}
                   userId={userId}
                 />
               ) : (

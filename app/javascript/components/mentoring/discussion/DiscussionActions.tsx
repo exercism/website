@@ -3,7 +3,7 @@ import { MarkAsNothingToDoButton } from './MarkAsNothingToDoButton'
 import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
 import { SessionProps } from '../Session'
-import { MentorSessionDiscussion as Discussion } from '../../types'
+import { MentorDiscussion as Discussion } from '../../types'
 
 export const DiscussionActions = ({
   links,
@@ -16,12 +16,12 @@ export const DiscussionActions = ({
 }): JSX.Element => {
   const handleSuccess = useCallback(
     (discussion) => {
-      const { relationship, ...discussionProps } = discussion
+      const { student, ...discussionProps } = discussion
 
       setSession({
         ...session,
         discussion: discussionProps,
-        relationship: relationship,
+        student: student,
       })
     },
     [setSession, session]

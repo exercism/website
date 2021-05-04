@@ -1,5 +1,8 @@
 module API
   class Mentoring::DiscussionsController < BaseController
+    include Webpacker::Helper
+    include ActionView::Helpers::AssetUrlHelper
+
     # TODO: Add filters
     def index
       discussions = ::Mentor::Discussion::Retrieve.(
@@ -7,22 +10,28 @@ module API
         params[:status],
         page: params[:page],
         track_slug: params[:track],
+        student_handle: params[:student],
         criteria: params[:criteria],
         order: params[:order]
       )
 
-      all_discussions = Mentor::Discussion.
-        joins(solution: :exercise).
-        where(mentor: current_user)
+      if sideload?(:all_discussion_counts)
+        all_discussions = Mentor::Discussion.
+          joins(solution: :exercise).
+          where(mentor: current_user)
 
-      render json: SerializePaginatedCollection.(
-        discussions,
-        serializer: SerializeMentorDiscussions,
-        meta: {
+        meta = {
           awaiting_mentor_total: all_discussions.awaiting_mentor.count,
           awaiting_student_total: all_discussions.awaiting_student.count,
           finished_total: all_discussions.finished_for_mentor.count
         }
+      end
+
+      render json: SerializePaginatedCollection.(
+        discussions,
+        serializer: SerializeMentorDiscussions,
+        serializer_args: :mentor,
+        meta: meta || {}
       )
     end
 
@@ -48,7 +57,10 @@ module API
         {
           slug: nil,
           title: 'All',
-          icon_url: Track.first.icon_url,
+          icon_url: asset_pack_url(
+            "media/images/icons/all-tracks.svg",
+            host: Rails.application.config.action_controller.asset_host
+          ),
           count: track_counts.values.sum
         }
       ].concat(data)
@@ -106,7 +118,8 @@ module API
       render json: {
         discussion: {
           id: discussion.uuid,
-          relationship: SerializeMentorStudentRelationship.(relationship),
+          student: SerializeStudent.(discussion.student, relationship: relationship,
+                                                         anonymous_mode: discussion.anonymous_mode?),
           is_finished: true,
           links: {
             posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion)

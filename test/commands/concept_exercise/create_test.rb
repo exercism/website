@@ -17,7 +17,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
       position: 1,
       taught_concepts: [strings],
       prerequisites: [basics, conditionals],
-      deprecated: true,
+      status: :active,
       git_sha: 'HEAD',
       synced_to_git_sha: 'HEAD'
     )
@@ -31,7 +31,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
     assert_equal 'Log Levels', ce.title
     assert_equal [strings], ce.taught_concepts
     assert_equal [conditionals, basics], ce.prerequisites
-    assert ce.deprecated
+    assert_equal :active, ce.status
     assert_equal 'HEAD', ce.git_sha
     assert_equal 'HEAD', ce.synced_to_git_sha
   end
@@ -53,7 +53,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
         position: 1,
         taught_concepts: [strings],
         prerequisites: [basics, conditionals],
-        deprecated: true,
+        status: :active,
         git_sha: 'HEAD',
         synced_to_git_sha: 'HEAD'
       )

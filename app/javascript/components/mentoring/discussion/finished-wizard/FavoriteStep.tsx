@@ -6,7 +6,7 @@ import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student, StudentMentorRelationship } from '../../Session'
+import { Student } from '../../Session'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
@@ -18,20 +18,18 @@ const ErrorHandler = ({ error }: { error: unknown }) => {
 
 export const FavoriteStep = ({
   student,
-  relationship,
   onFavorite,
   onSkip,
 }: {
   student: Student
-  relationship: StudentMentorRelationship
-  onFavorite: (relationship: StudentMentorRelationship) => void
+  onFavorite: (student: Student) => void
   onSkip: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [handleFavorite, { status, error }] = useMutation(
     () => {
       return sendRequest({
-        endpoint: relationship.links.favorite,
+        endpoint: student.links.favorite,
         method: 'POST',
         body: null,
         isMountedRef: isMountedRef,
@@ -40,17 +38,17 @@ export const FavoriteStep = ({
           return
         }
 
-        return typecheck<StudentMentorRelationship>(json, 'relationship')
+        return typecheck<Student>(json, 'student')
       })
     },
     {
-      onSuccess: (relationship) => {
-        if (!relationship) {
+      onSuccess: (student) => {
+        if (!student) {
           return
         }
 
         if (onFavorite) {
-          onFavorite(relationship)
+          onFavorite(student)
         }
       },
     }

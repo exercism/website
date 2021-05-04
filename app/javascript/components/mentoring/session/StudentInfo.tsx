@@ -4,7 +4,13 @@ import { Avatar, Reputation } from '../../common'
 import { FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 
-export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
+export const StudentInfo = ({
+  student,
+  setStudent,
+}: {
+  student: Student
+  setStudent: (student: Student) => void
+}): JSX.Element => {
   return (
     <div className="student-info">
       <div className="info">
@@ -29,8 +35,10 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
           {/*TODO: Map these to codes like above {student.languagesSpoken.join(', ')}*/}
         </div>
         <div className="options">
-          {student.links ? <StudentInfoActions student={student} /> : null}
-          <PreviousSessionsLink numSessions={student.numPreviousSessions} />
+          {student.links ? (
+            <StudentInfoActions student={student} setStudent={setStudent} />
+          ) : null}
+          <PreviousSessionsLink student={student} setStudent={setStudent} />
         </div>
       </div>
       <Avatar src={student.avatarUrl} handle={student.handle} />
@@ -38,15 +46,19 @@ export const StudentInfo = ({ student }: { student: Student }): JSX.Element => {
   )
 }
 
-const StudentInfoActions = ({ student }: { student: Student }) => {
+const StudentInfoActions = ({
+  student,
+  setStudent,
+}: {
+  student: Student
+  setStudent: (student: Student) => void
+}) => {
   return (
     <div className="options">
-      {student.isFavorite !== undefined && student.links?.favorite ? (
-        <FavoriteButton
-          isFavorite={student.isFavorite}
-          endpoint={student.links.favorite}
-        />
-      ) : null}
+      <FavoriteButton
+        student={student}
+        onSuccess={(student) => setStudent(student)}
+      />
     </div>
   )
 }

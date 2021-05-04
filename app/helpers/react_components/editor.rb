@@ -19,8 +19,13 @@ module ReactComponents
           ),
           submission: SerializeSubmission.(solution.submissions.last),
           files: SerializeFiles.(solution.solution_files),
-          language: track.editor_language,
-          storage_key: solution.uuid
+          language: track.ace_language,
+          storage_key: solution.uuid,
+          # TODO: Fill in with correct values
+          config: {
+            tab_size: 2,
+            use_soft_tabs: false
+          }
         }
       )
     end

@@ -6,7 +6,7 @@ class SerializeCommunitySolutions
   end
 
   def call
-    solutions.map do |solution|
+    solutions.includes(:exercise, :track).map do |solution|
       SerializeCommunitySolution.(solution)
     end
   end

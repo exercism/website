@@ -5,7 +5,7 @@ iHiD = User.find_by(handle: 'iHiD') || User.create!(
   name: 'Jeremy Walker',
   password: 'password',
   github_username: 'iHiD',
-  bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best.",
+  bio: "Co-founder of Exercism. I'm an entrepreneur and software developer, and have been running a variety of businesses and non-for-profits for the last decade in the fields of medicine, education and artificial intelligence",
   location: "Bree, Middle Earth",
   pronouns: "He/Him"
 )
@@ -118,7 +118,7 @@ Solution::Create.( erik, ruby.practice_exercises.find_by!(slug: "hello-world")).
 solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
-Iteration.create!( submission: submission, solution: solution, idx: 1)
+Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: solution, idx: 1)
 Mentor::Request.create!(solution: solution, comment_markdown: "I would like to improve the performance of my code")
 
 ## Create mentoring solutions
@@ -129,11 +129,11 @@ ruby.practice_exercises.limit(10).each do |exercise|
   solution = Solution::Create.( karlo, exercise )
   submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
-  Iteration.create!( submission: submission, solution: solution, idx: 1)
+  Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 1)
 
   submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\n\nend", digest: SecureRandom.uuid)
-  Iteration.create!( submission: submission, solution: solution, idx: 2)
+  Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 2)
 
   req = Mentor::Request.create!(solution: solution, comment_markdown: "Could you please look at my code?")
   discussion = Mentor::Discussion.create!(

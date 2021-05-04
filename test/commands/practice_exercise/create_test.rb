@@ -15,7 +15,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
       blurb: 'Annie',
       position: 1,
       prerequisites: [basics, conditionals],
-      deprecated: true,
+      status: :active,
       git_sha: 'HEAD',
       synced_to_git_sha: 'HEAD'
     )
@@ -28,7 +28,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
     assert_equal 'anagram', pe.slug
     assert_equal 'Anagram', pe.title
     assert_equal [conditionals, basics], pe.prerequisites
-    assert pe.deprecated
+    assert_equal :active, pe.status
     assert_equal 'HEAD', pe.git_sha
     assert_equal 'HEAD', pe.synced_to_git_sha
   end
@@ -48,7 +48,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
         blurb: 'Annie',
         position: 1,
         prerequisites: [basics, conditionals],
-        deprecated: true,
+        status: :active,
         git_sha: 'HEAD',
         synced_to_git_sha: 'HEAD'
       )

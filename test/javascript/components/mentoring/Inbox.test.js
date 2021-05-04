@@ -26,10 +26,31 @@ let server = setupServer(
       ctx.json({
         results: [
           {
-            trackTitle: 'Ruby',
+            track: {
+              title: 'Ruby',
+            },
+            exercise: {
+              title: 'Lasagna',
+            },
+            student: {
+              avatarUrl: 'http://exercism.io/avatar',
+            },
             isStarred: false,
             isNewSubmission: false,
             haveMentoredPreviously: false,
+            links: {},
+            student: {
+              avatarUrl: '',
+            },
+            exercise: {
+              title: 'Lasagna',
+            },
+            isStarred: false,
+            isNewSubmission: false,
+            haveMentoredPreviously: false,
+            links: {
+              self: '',
+            },
           },
         ],
         meta: { totalPages: 2 },

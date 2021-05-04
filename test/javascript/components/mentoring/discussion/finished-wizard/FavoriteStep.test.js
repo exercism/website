@@ -10,19 +10,21 @@ import { awaitPopper } from '../../../../support/await-popper'
 import { TestQueryCache } from '../../../../support/TestQueryCache'
 
 test('disables buttons when choosing to favorite', async () => {
-  const student = { handle: 'student' }
-  const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
+  const student = {
+    handle: 'student',
+    links: { favorite: 'https://exercism.test/favorite' },
+  }
 
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ relationship: {} }))
+      return res(ctx.status(200), ctx.json({ student: {} }))
     })
   )
   server.listen()
 
   render(
     <TestQueryCache>
-      <FavoriteStep student={student} relationship={relationship} />
+      <FavoriteStep student={student} />
     </TestQueryCache>
   )
   await awaitPopper()
@@ -42,16 +44,18 @@ test('disables buttons when choosing to favorite', async () => {
 })
 
 test('shows loading message when choosing to favorite', async () => {
-  const student = { handle: 'student' }
-  const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
+  const student = {
+    handle: 'student',
+    links: { favorite: 'https://exercism.test/favorite' },
+  }
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
-      return res(ctx.delay(10), ctx.status(200), ctx.json({ relationship: {} }))
+      return res(ctx.delay(10), ctx.status(200), ctx.json({ student: {} }))
     })
   )
   server.listen()
 
-  render(<FavoriteStep student={student} relationship={relationship} />)
+  render(<FavoriteStep student={student} />)
   await awaitPopper()
 
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
@@ -63,8 +67,10 @@ test('shows loading message when choosing to favorite', async () => {
 
 test('shows API errors when choosing to favorite', async () => {
   silenceConsole()
-  const student = { handle: 'student' }
-  const relationship = { links: { favorite: 'https://exercism.test/favorite' } }
+  const student = {
+    handle: 'student',
+    links: { favorite: 'https://exercism.test/favorite' },
+  }
   const server = setupServer(
     rest.post('https://exercism.test/favorite', (req, res, ctx) => {
       return res(
@@ -75,7 +81,7 @@ test('shows API errors when choosing to favorite', async () => {
   )
   server.listen()
 
-  render(<FavoriteStep student={student} relationship={relationship} />)
+  render(<FavoriteStep student={student} />)
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(
@@ -87,10 +93,9 @@ test('shows API errors when choosing to favorite', async () => {
 
 test('shows generic error when choosing to mentor again', async () => {
   silenceConsole()
-  const student = { handle: 'student' }
-  const relationship = { links: { favorite: 'wrongendpoint' } }
+  const student = { handle: 'student', links: { favorite: 'wrongendpoint' } }
 
-  render(<FavoriteStep student={student} relationship={relationship} />)
+  render(<FavoriteStep student={student} />)
   userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
   expect(

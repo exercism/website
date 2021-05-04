@@ -1,5 +1,5 @@
 class Mentor::DiscussionPost < ApplicationRecord
-  belongs_to :discussion
+  belongs_to :discussion, counter_cache: :num_posts
 
   belongs_to :author, # rubocop:disable Rails/InverseOf
     class_name: "User",

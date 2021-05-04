@@ -15,11 +15,13 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     create :mentor_request, status: :fulfilled, solution: solution
 
     # Locked
-    create :mentor_request, locked_until: Time.current + 10.minutes, solution: solution
+    request = create :mentor_request, solution: solution
+    create :mentor_request_lock, request: request
 
-    expired = create :mentor_request, locked_until: Time.current - 10.minutes, solution: solution
+    expired = create :mentor_request, solution: solution
     pending = create :mentor_request, solution: solution
-    locked_by_mentor = create :mentor_request, locked_until: Time.current + 5.minutes, locked_by: mentor
+    locked_by_mentor = create :mentor_request
+    create :mentor_request_lock, request: locked_by_mentor, locked_by: mentor
 
     assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor: mentor)
   end
@@ -36,6 +38,30 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     create :mentor_request, solution: mentors_solution
 
     assert_equal [other_request], Mentor::Request::Retrieve.(mentor: user)
+  end
+
+  test "does not mentor-blocked solutions" do
+    mentored_track = create :track
+    mentor = create :user
+    create :user_track_mentorship, user: mentor, track: mentored_track
+
+    good_student = create :user
+    naughty_student = create :user
+    unhappy_student = create :user
+
+    create :mentor_student_relationship, mentor: mentor, student: good_student
+    create :mentor_student_relationship, mentor: mentor, student: naughty_student, blocked_by_mentor: true
+    create :mentor_student_relationship, mentor: mentor, student: unhappy_student, blocked_by_student: true
+
+    good_solution = create :concept_solution, track: mentored_track, user: good_student
+    naughty_solution = create :concept_solution, track: mentored_track, user: naughty_student
+    unhappy_solution = create :concept_solution, track: mentored_track, user: unhappy_student
+
+    good_request = create :mentor_request, solution: good_solution
+    create :mentor_request, solution: naughty_solution
+    create :mentor_request, solution: unhappy_solution
+
+    assert_equal [good_request], Mentor::Request::Retrieve.(mentor: mentor)
   end
 
   test "only retrieves mentored or selected tracks" do
@@ -79,6 +105,23 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     ], Mentor::Request::Retrieve.(mentor: user) # Sanity
     assert_equal [ruby_bob_req],
       Mentor::Request::Retrieve.(mentor: user, track_slug: ruby.slug, exercise_slug: ruby_bob.slug)
+  end
+
+  test "search works" do
+    mentored_track = create :track
+    user = create :user
+    create :user_track_mentorship, user: user, track: mentored_track
+
+    bob = create :user, handle: "Bob"
+    toby = create :user, handle: "Toby"
+    martin = create :user, handle: "Martin"
+
+    bobs = create :mentor_request, solution: create(:practice_solution, user: bob, track: mentored_track)
+    tobys = create :mentor_request, solution: create(:practice_solution, user: toby, track: mentored_track)
+    martins = create :mentor_request, solution: create(:practice_solution, user: martin, track: mentored_track)
+
+    assert_equal [bobs, tobys, martins], Mentor::Request::Retrieve.(mentor: user)
+    assert_equal [bobs, tobys], Mentor::Request::Retrieve.(mentor: user, criteria: "ob")
   end
 
   test "orders by recency" do

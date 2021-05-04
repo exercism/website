@@ -1,5 +1,5 @@
 class GenerateIterationSnippetJob < ApplicationJob
-  queue_as :default
+  queue_as :snippets
 
   def perform(iteration)
     # TODO: Set this through Exercism config

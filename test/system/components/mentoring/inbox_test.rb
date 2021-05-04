@@ -26,7 +26,7 @@ module Components
           assert_css "img[src='#{student.avatar_url}'][alt=\"Uploaded avatar of Mentee\"]"
           assert_text "Mentee"
           assert_text "on Series"
-          assert_text "4"
+          assert_text "0"
           assert_text "a year ago"
           assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
           assert_css "img[alt='Starred student']", visible: false

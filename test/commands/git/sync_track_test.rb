@@ -363,7 +363,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "delete concept exercises no longer in config.json" do
-    # TODO: invert this test (verify that concept exercises can't be deleted) before release
+    # TODO: Exercises shouldn't be deletable. Change this test
+    # to ensure that they're not.
+    skip
+
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
     exercise = create :concept_exercise, track: track
 
@@ -373,7 +376,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   end
 
   test "delete practice exercises no longer in config.json" do
-    # TODO: invert this test (verify that practice exercises can't be deleted) before release
+    # TODO: Exercises shouldn't be deletable. Change this test
+    # to ensure that they're not.
+    skip
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
     exercise = create :practice_exercise, track: track
 

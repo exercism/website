@@ -136,6 +136,8 @@ GEM
     e2mmap (0.1.0)
     erubi (1.10.0)
     erubis (2.7.0)
+    et-orbi (1.2.4)
+      tzinfo
     exercism-config (0.62.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
@@ -155,6 +157,9 @@ GEM
     ffi (1.14.2-x64-mingw32)
     friendly_id (5.4.1)
       activerecord (>= 4.0.0)
+    fugit (1.4.5)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.4)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-protobuf (3.14.0)
@@ -277,6 +282,7 @@ GEM
     public_suffix (4.0.6)
     puma (4.3.7)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-proxy (0.6.5)
@@ -383,6 +389,9 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sidekiq-cron (1.2.0)
+      fugit (~> 1.1)
+      sidekiq (>= 4.2.1)
     sidekiq-failures (1.0.0)
       sidekiq (>= 4.0.0)
     simplecov (0.17.1)
@@ -503,6 +512,7 @@ DEPENDENCIES
   selenium-webdriver
   show_me_the_cookies
   sidekiq (~> 6.1)
+  sidekiq-cron (~> 1.1)
   sidekiq-failures
   simplecov (~> 0.17.0)
   solargraph

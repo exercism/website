@@ -8,6 +8,13 @@ class Exercise < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
+  enum status: {
+    wip: 0,
+    beta: 1,
+    active: 2,
+    deprecated: 3
+  }
+
   belongs_to :track, counter_cache: :num_exercises
 
   # TODO: Pre-launch: Remove this dependent: :destroy  - exercises should never be destroyed
@@ -53,6 +60,10 @@ class Exercise < ApplicationRecord
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
   end
 
+  def status
+    super.to_sym
+  end
+
   def git_type
     self.class.name.sub("Exercise", "").downcase
   end
@@ -78,9 +89,20 @@ class Exercise < ApplicationRecord
     "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
   end
 
+  def difficulty_description
+    case difficulty
+    when 1..3
+      "easy"
+    when 4..7
+      "medium"
+    else
+      "hard"
+    end
+  end
+
   def icon_url
     # TOOD: Read correct dir
-    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{slug}.svg"
+    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/#{git.icon_name.presence || slug}.svg"
   end
 
   def prerequisite_exercises

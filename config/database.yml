@@ -27,4 +27,4 @@ test:
 production:
   primary:
     <<: *default
-    database: exercism_v3
+    database: exercism_v3_etl

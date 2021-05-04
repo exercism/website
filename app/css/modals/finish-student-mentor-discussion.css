@@ -1,0 +1,208 @@
+@import "../styles";
+
+.m-finish-student-mentor-discussion.c-modal {
+    @apply pt-80 pb-48 px-48;
+
+    & .--modal-content {
+        max-width: 1120px;
+        min-height: auto;
+        @apply py-40 px-48;
+        @apply relative;
+        @apply overflow-visible;
+        @apply bg-backgroundColorA;
+        @apply shadow-lgZ1 rounded-8;
+    }
+    & h2 {
+        @apply text-h1 mb-16;
+    }
+    & .explanation {
+        @apply text-p-large;
+        max-width: 640px;
+    }
+    & .form-buttons {
+        @apply flex;
+        & button {
+            @apply mr-16;
+        }
+    }
+    & .container {
+        @apply flex;
+        & .lhs {
+            @apply flex-grow;
+        }
+        & .rhs {
+            @apply flex-shrink-0;
+            @apply ml-96;
+
+            & .avatar-wrapper {
+                @apply relative;
+            }
+            & .c-avatar {
+                height: 180px;
+                width: 180px;
+            }
+
+            & .c-icon {
+                height: 64px;
+                width: 64px;
+                @apply absolute;
+                top: 0;
+                right: 0;
+                filter: drop-shadow(0px 4px 16px rgba(79, 114, 205, 0.3));
+            }
+        }
+    }
+    & section.rate-step {
+        & .finished-info {
+            @apply bg-backgroundColorD rounded-8 mb-16;
+            @apply py-12 px-24;
+            @apply flex items-center;
+
+            & .c-avatar {
+                height: 48px;
+                width: 48px;
+                @apply mr-24;
+            }
+            & .mentor {
+                @apply text-h5 mb-4;
+            }
+            & .exercise {
+                @apply text-16 leading-140 text-textColor6 font-medium;
+                @apply flex items-center;
+                & strong {
+                    @apply font-semibold;
+                    @apply mr-6;
+                }
+                & .c-exercise-icon {
+                    height: 32px;
+                    width: 32px;
+                    @apply mr-12;
+                }
+            }
+            & time {
+                @apply ml-48;
+            }
+        }
+        & .buttons-section {
+            @apply mt-24 pt-32;
+            @apply border-t-1 border-borderColor6;
+            & h3 {
+                @apply text-h3 mb-28;
+            }
+
+            & .buttons {
+                @apply flex items-center;
+
+                & button {
+                    @apply border-3 border-borderColor6 rounded-100;
+                    @apply py-12 px-24 mr-24;
+                    @apply text-18 leading-180 text-textColor6 font-semibold;
+                    @apply flex items-center;
+
+                    & .c-icon {
+                        height: 32px;
+                        width: 32px;
+                        filter: var(--textColor6-filter);
+                        @apply mr-16;
+                    }
+                    &:hover {
+                        @apply text-textColor2;
+                    }
+                    &.happy {
+                        &:hover {
+                            @apply bg-veryLightGreen2;
+                            @apply border-darkGreen;
+                            & .c-icon {
+                                filter: var(--dark-green-filter);
+                            }
+                        }
+                    }
+                    &.neutral {
+                        &:hover {
+                            @apply border-textColor2;
+                            & .c-icon {
+                                filter: var(--textColor2-filter);
+                            }
+                        }
+                    }
+                    &.sad {
+                        &:hover {
+                            @apply bg-veryLightRed;
+                            @apply border-red;
+                            & .c-icon {
+                                filter: var(--red-filter);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    & section.testimonial-step {
+        & form {
+            @apply mt-24 pt-24;
+            @apply border-t-1 border-borderColor6;
+            @apply flex flex-col;
+
+            & label {
+                @apply text-h3 mb-16;
+            }
+            & textarea {
+                height: 125px;
+                @apply mb-16;
+            }
+            & .counter {
+                @apply text-14 leading-170 text-textColor6;
+                @apply self-end text-right;
+            }
+        }
+    }
+    & .report-step {
+        & form {
+            @apply mt-24 pt-24;
+            @apply border-t-1 border-borderColor6;
+            @apply flex flex-col;
+        }
+        & h3 {
+            @apply text-h3 mb-16;
+        }
+        & .c-checkbox-wrapper {
+            @apply mb-16;
+
+            @apply text-16 leading-160 text-textColor2;
+
+            & .c-checkbox {
+                @apply mr-16;
+            }
+        }
+        & .report {
+            @apply mt-8 mb-16;
+
+            & .field {
+                & label {
+                    @apply text-16 leading-160 text-textColor2 font-semibold;
+                    @apply block mb-8;
+                }
+                & textarea {
+                    @apply w-100;
+                    height: 125px;
+                }
+            }
+            & .field + .field {
+                @apply mt-16;
+            }
+            & .assurance {
+                @apply mt-12;
+                @apply text-14 leading-150 text-textColor6 font-medium;
+            }
+        }
+        & .form-buttons {
+            @apply mt-8;
+        }
+    }
+    & .unhappy-final-step {
+        & .form-buttons {
+            @apply mt-24;
+        }
+    }
+}

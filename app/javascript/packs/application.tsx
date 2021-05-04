@@ -17,6 +17,7 @@ import 'focus-visible'
 // without needing to be specified individually here.
 import '../../css/application'
 import '../../css/layout'
+import '../../css/defaults'
 
 import '../../css/components/badge'
 import '../../css/components/bg-img'
@@ -61,7 +62,6 @@ import '../../css/components/iteration-processing-status'
 import '../../css/components/notification-dot'
 
 import '../../css/components/mentor/header'
-import '../../css/components/mentor/inbox'
 import '../../css/components/mentor/solution-row'
 import '../../css/components/mentor/discussion'
 
@@ -89,11 +89,14 @@ import '../../css/components/completed-exercise-progress'
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
 
+import '../../css/modals/profile-first-time'
 import '../../css/modals/completed-tutorial-exercise'
 import '../../css/modals/completed-exercise'
 import '../../css/modals/publish-exercise'
 import '../../css/modals/mentoring-sessions'
 import '../../css/modals/finish-mentor-discussion'
+import '../../css/modals/confirm-finish-student-mentor-discussion'
+import '../../css/modals/finish-student-mentor-discussion'
 import '../../css/modals/welcome-to-v3'
 import '../../css/modals/become-mentor'
 import '../../css/modals/change-mentor-tracks'
@@ -113,6 +116,8 @@ import '../../css/pages/docs-index'
 import '../../css/pages/docs-tracks'
 import '../../css/pages/editor'
 import '../../css/pages/onboarding'
+import '../../css/pages/profile-intro'
+import '../../css/pages/profile-new'
 import '../../css/pages/profile'
 import '../../css/pages/profile-badges'
 import '../../css/pages/profile-solutions'
@@ -159,7 +164,7 @@ import {
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as TrackComponents from '../components/track'
 import * as JourneyComponents from '../components/journey'
-import { Editor } from '../components/Editor'
+import { Editor, EditorConfig } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
@@ -168,7 +173,6 @@ import {
   Track,
   Exercise,
   MentorSessionRequest,
-  MentorSessionDiscussion,
   MentorSessionTrack,
   MentorSessionExercise,
   MentorDiscussion,
@@ -181,7 +185,6 @@ import { Assignment, Submission } from '../components/editor/types'
 import {
   Student as MentoringSessionStudent,
   Links as MentoringSessionLinks,
-  StudentMentorRelationship,
 } from '../components/mentoring/Session'
 import {
   Mentor as StudentMentoringSessionMentor,
@@ -195,6 +198,7 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
+import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -230,6 +234,14 @@ initReact({
     <Common.ConceptWidget concept={data.concept} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-expander': (data: any) => (
+    <Common.Expander
+      content={data.content}
+      buttonTextCompressed={data.button_text_compressed}
+      buttonTextExpanded={data.button_text_expanded}
+      className={data.class_name}
+    />
+  ),
   'common-community-solution': (data: any) => (
     <Common.CommunitySolution
       solution={camelizeKeysAs<CommunitySolution>(data.solution)}
@@ -269,7 +281,7 @@ initReact({
   'mentoring-session': (data: any) => (
     <Mentoring.Session
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
@@ -277,9 +289,6 @@ initReact({
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
-      relationship={camelizeKeysAs<StudentMentorRelationship>(
-        data.relationship
-      )}
       notes={data.notes}
     />
   ),
@@ -367,7 +376,7 @@ initReact({
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
       userId={data.user_id}
-      discussion={camelizeKeysAs<MentorSessionDiscussion>(data.discussion)}
+      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
@@ -409,6 +418,7 @@ initReact({
       exampleFiles={data.example_files}
       storageKey={data.storage_key}
       debuggingInstructions={data.debugging_instructions}
+      config={camelizeKeysAs<EditorConfig>(data.config)}
     />
   ),
   'mentored-student-tooltip': (data: any) => (
@@ -491,6 +501,9 @@ initReact({
       handle={data.handle}
       links={data.links}
     />
+  ),
+  'profile-first-time-modal': (data: any) => (
+    <Profile.FirstTimeModal links={data.links} />
   ),
 })
 

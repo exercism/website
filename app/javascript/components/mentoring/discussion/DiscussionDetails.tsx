@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Student, StudentMentorRelationship } from '../Session'
-import { Iteration, MentorSessionDiscussion as Discussion } from '../../types'
+import { Student } from '../Session'
+import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 
@@ -8,13 +8,11 @@ export const DiscussionDetails = ({
   discussion,
   iterations,
   student,
-  relationship,
   userId,
 }: {
-  discussion: Discussion
+  discussion: MentorDiscussion
   iterations: readonly Iteration[]
   student: Student
-  relationship: StudentMentorRelationship
   userId: number
 }): JSX.Element => {
   const [defaultStep, setDefaultStep] = useState<ModalStep>(
@@ -31,11 +29,7 @@ export const DiscussionDetails = ({
         userId={userId}
       />
       {discussion.isFinished ? (
-        <FinishedWizard
-          student={student}
-          relationship={relationship}
-          defaultStep={defaultStep}
-        />
+        <FinishedWizard student={student} defaultStep={defaultStep} />
       ) : null}
     </React.Fragment>
   )

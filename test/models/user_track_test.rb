@@ -390,7 +390,6 @@ class UserTrackTest < ActiveSupport::TestCase
       solution: create(:concept_solution, track: ut.track, user: ut.user)
     disc_3 = create :mentor_discussion, :mentor_finished, solution: create(:concept_solution, track: ut.track, user: ut.user)
     create :mentor_discussion, :student_finished, solution: create(:concept_solution, track: ut.track, user: ut.user)
-    create :mentor_discussion, :both_finished, solution: create(:concept_solution, track: ut.track, user: ut.user)
     assert_equal [disc_1, disc_2, disc_3], UserTrack.find(ut.id).active_mentoring_discussions
   end
 

@@ -7,6 +7,7 @@ hr.c-divider {
 
     &.--small {
         height: 14px;
-        width: 37px;
+        width: 41px;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDEiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCA0MSAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIgOC41TDYuMiA0TDE0IDEwTDIwLjYgNC40NUwyNy41IDEwTDMyLjE1IDQuOUwzOS4yIDEwIiBzdHJva2U9IiMxMzBCNDMiIHN0cm9rZS13aWR0aD0iMyIvPgo8L3N2Zz4K");
     }
 }

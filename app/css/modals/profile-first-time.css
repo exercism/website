@@ -1,0 +1,37 @@
+@import "../styles";
+
+.m-profile-first-time {
+    & .--modal-content {
+        width: 850px;
+        max-width: 95%;
+        @apply py-40 px-32;
+    }
+    & header {
+        @apply flex flex-col items-center;
+        @apply border-b-1 border-borderColor6;
+        @apply pb-32 mb-24;
+        @apply text-center;
+
+        & .c-icon {
+            height: 96px;
+            width: 96px;
+            @apply mb-16;
+        }
+        & h2 {
+            @apply text-h1 mb-16;
+        }
+        & p {
+            @apply text-p-large;
+
+            & strong {
+                @apply font-medium;
+            }
+        }
+    }
+    & .copy-section {
+        & h3 {
+            @apply text-16 leading-170 font-semibold text-textColor2;
+            @apply mb-12;
+        }
+    }
+}

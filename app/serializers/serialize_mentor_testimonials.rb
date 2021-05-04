@@ -4,6 +4,8 @@ class SerializeMentorTestimonials
   initialize_with :testimonials
 
   def call
-    testimonials.map { |t| SerializeMentorTestimonial.(t) }
+    testimonials.
+      includes(:student, :mentor, :exercise, :track).
+      map { |t| SerializeMentorTestimonial.(t) }
   end
 end

@@ -9,7 +9,7 @@ module ReactComponents
           {
             user_id: student.id,
             request: SerializeMentorSessionRequest.(request),
-            discussion: SerializeMentorSessionDiscussion.(discussion, student),
+            discussion: discussion ? SerializeMentorDiscussion.(discussion, student) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
@@ -51,11 +51,25 @@ module ReactComponents
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
           reputation: mentor.formatted_reputation,
-          num_previous_sessions: student.num_previous_mentor_sessions_with(mentor)
+          num_previous_sessions: num_previous_sessions
         }
       end
 
+      # TODO: I'm not happy with this here. I think the -1 should be done
+      # in the JS and this should return num_discussions
+      def num_previous_sessions
+        mentor_relationship = Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+        num = mentor_relationship&.num_discussions.to_i
+
+        # Previous does not include this so reduce it by 1 if there's an active discussion here
+        return num unless discussion
+
+        num.positive? ? num - 1 : 0
+      end
+
       def videos
+        return [] if discussion
+
         [
           {
             url: "#",
@@ -85,7 +99,7 @@ module ReactComponents
         solution.iterations.map do |iteration|
           counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
           num_comments = discussion ? counts.sum(&:second) : 0
-          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
+          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
 
           SerializeIteration.(iteration).merge(num_comments: num_comments, unread: unread)
         end

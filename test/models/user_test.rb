@@ -57,10 +57,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "0", create(:user, reputation: 0).formatted_reputation
     assert_equal "10", create(:user, reputation: 10).formatted_reputation
     assert_equal "100", create(:user, reputation: 100).formatted_reputation
-    assert_equal "1k", create(:user, reputation: 1000).formatted_reputation
-    assert_equal "2k", create(:user, reputation: 2000).formatted_reputation
-    assert_equal "2k", create(:user, reputation: 2999).formatted_reputation
-    assert_equal "12k", create(:user, reputation: 12_999).formatted_reputation
+    assert_equal "1,234", create(:user, reputation: 1234).formatted_reputation
+    assert_equal "9,999", create(:user, reputation: 9999).formatted_reputation
+    assert_equal "12.3k", create(:user, reputation: 12_345).formatted_reputation
+    assert_equal "99.9k", create(:user, reputation: 99_999).formatted_reputation
+    assert_equal "123k", create(:user, reputation: 123_456).formatted_reputation
   end
 
   test "has_badge?" do
@@ -90,28 +91,29 @@ class UserTest < ActiveSupport::TestCase
     refute user.joined_track?(track)
   end
 
-  test "#favorited_by? returns false if no relationship exists" do
-    mentor = create :user
-    student = create :user
+  # TODO: Remove if not used by launch
+  # test "#favorited_by? returns false if no relationship exists" do
+  #   mentor = create :user
+  #   student = create :user
 
-    refute student.favorited_by?(mentor)
-  end
+  #   refute student.favorited_by?(mentor)
+  # end
 
-  test "#favorited_by? returns false if relationship is not a favorite" do
-    mentor = create :user
-    student = create :user
-    create :mentor_student_relationship, mentor: mentor, student: student, favorited: false
+  # test "#favorited_by? returns false if relationship is not a favorite" do
+  #   mentor = create :user
+  #   student = create :user
+  #   create :mentor_student_relationship, mentor: mentor, student: student, favorited: false
 
-    refute student.favorited_by?(mentor)
-  end
+  #   refute student.favorited_by?(mentor)
+  # end
 
-  test "#favorited_by? returns true if relationship is a favorite" do
-    mentor = create :user
-    student = create :user
-    create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
+  # test "#favorited_by? returns true if relationship is a favorite" do
+  #   mentor = create :user
+  #   student = create :user
+  #   create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
 
-    assert student.favorited_by?(mentor)
-  end
+  #   assert student.favorited_by?(mentor)
+  # end
 
   test "unrevealed_badges" do
     user = create :user

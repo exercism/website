@@ -14,32 +14,27 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     awaiting_student = create :mentor_discussion, :awaiting_student
     awaiting_mentor = create :mentor_discussion, :awaiting_mentor
     mentor_finished = create :mentor_discussion, :mentor_finished
-    student_finished = create :mentor_discussion, :student_finished
-    both_finished = create :mentor_discussion, :both_finished
+    finished = create :mentor_discussion, :finished
 
     # TODO: See where these are used to decide if we need it
     assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.in_progress_for_student
-    assert_equal [student_finished, both_finished], Mentor::Discussion.finished_for_student
-    assert_equal [mentor_finished, both_finished], Mentor::Discussion.finished_for_mentor
-    # assert_equal [mentor_finished, student_finished, both_finished], Mentor::Discussion.finished
+    assert_equal [finished], Mentor::Discussion.finished_for_student
+    assert_equal [mentor_finished, finished], Mentor::Discussion.finished_for_mentor
 
     assert_equal [awaiting_student], Mentor::Discussion.awaiting_student
     assert_equal [awaiting_mentor], Mentor::Discussion.awaiting_mentor
     assert_equal [mentor_finished], Mentor::Discussion.mentor_finished
-    assert_equal [student_finished], Mentor::Discussion.student_finished
-    assert_equal [both_finished], Mentor::Discussion.both_finished
+    assert_equal [finished], Mentor::Discussion.finished
 
     refute awaiting_student.finished_for_student?
     refute awaiting_mentor.finished_for_student?
     refute mentor_finished.finished_for_student?
-    assert student_finished.finished_for_student?
-    assert both_finished.finished_for_student?
+    assert finished.finished_for_student?
 
     refute awaiting_student.finished_for_mentor?
     refute awaiting_mentor.finished_for_mentor?
     assert mentor_finished.finished_for_mentor?
-    refute student_finished.finished_for_mentor?
-    assert both_finished.finished_for_mentor?
+    assert finished.finished_for_mentor?
   end
 
   test "#viewable_by? returns true if user is student" do
@@ -73,6 +68,42 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert discussion.finished?
   end
 
+  test "student_finished!" do
+    freeze_time do
+      discussion = create :mentor_discussion,
+        awaiting_mentor_since: Time.current,
+        awaiting_student_since: Time.current,
+        status: :awaiting_mentor
+
+      discussion.student_finished!
+
+      assert :finished, discussion.status
+      assert_nil discussion.awaiting_mentor_since
+      assert_nil discussion.awaiting_student_since
+      assert_equal Time.current, discussion.finished_at
+      assert_equal :student, discussion.finished_by
+    end
+  end
+
+  test "student_finished! doesn't override mentor finish" do
+    freeze_time do
+      discussion = create :mentor_discussion,
+        awaiting_mentor_since: Time.current,
+        awaiting_student_since: Time.current,
+        status: :mentor_finished,
+        finished_by: :mentor,
+        finished_at: 1.week.ago
+
+      discussion.student_finished!
+
+      assert :finished, discussion.status
+      assert_nil discussion.awaiting_mentor_since
+      assert_nil discussion.awaiting_student_since
+      assert_equal 1.week.ago, discussion.finished_at
+      assert_equal :mentor, discussion.finished_by
+    end
+  end
+
   test "mentor_finished!" do
     freeze_time do
       discussion = create :mentor_discussion,
@@ -84,7 +115,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
       assert :mentor_finished, discussion.status
       assert_nil discussion.awaiting_mentor_since
-      assert_equal Time.current, discussion.mentor_finished_at
+      assert_equal Time.current, discussion.finished_at
       assert_equal Time.current, discussion.awaiting_student_since
     end
   end
@@ -136,6 +167,26 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
+  test "awaiting_student! doesn't override student_finished" do
+    discussion = create :mentor_discussion
+    discussion.student_finished!
+    discussion.awaiting_student!
+
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+    assert_nil discussion.awaiting_student_since
+  end
+
+  test "awaiting_student! doesn't override mentor_finished" do
+    discussion = create :mentor_discussion
+    discussion.mentor_finished!
+    discussion.awaiting_student!
+
+    discussion.reload
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+  end
+
   test "awaiting_mentor!" do
     freeze_time do
       discussion = create :mentor_discussion,
@@ -165,5 +216,49 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       assert_nil discussion.awaiting_student_since
       assert_equal original, discussion.awaiting_mentor_since
     end
+  end
+
+  test "awaiting_mentor! doesn't override student_finished" do
+    discussion = create :mentor_discussion
+    discussion.student_finished!
+    discussion.awaiting_mentor!
+
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+    assert_nil discussion.awaiting_student_since
+  end
+
+  test "awaiting_mentor! doesn't override mentor_finished" do
+    discussion = create :mentor_discussion
+    discussion.mentor_finished!
+    discussion.awaiting_mentor!
+
+    assert :finished, discussion.status
+    assert_nil discussion.awaiting_mentor_since
+  end
+
+  test "finished_by symbolizes" do
+    assert_nil create(:mentor_discussion, finished_by: nil).finished_by
+    assert_equal :mentor, create(:mentor_discussion, finished_by: 'mentor').finished_by
+  end
+
+  test "num_posts is updated" do
+    discussion = create :mentor_discussion
+    assert_equal 0, discussion.num_posts # Sanity
+
+    create :mentor_discussion_post, discussion: discussion
+    assert_equal 1, discussion.num_posts # Sanity
+  end
+
+  test "student_helpers" do
+    discussion = create :mentor_discussion
+    assert_equal discussion.student.handle, discussion.student_handle
+    assert_equal discussion.student.name, discussion.student_name
+    assert_equal discussion.student.avatar_url, discussion.student_avatar_url
+
+    discussion = create :mentor_discussion, anonymous_mode: true
+    assert_equal "anonymous", discussion.student_handle
+    assert_equal "User in Anonymous mode", discussion.student_name
+    assert_nil discussion.student_avatar_url
   end
 end

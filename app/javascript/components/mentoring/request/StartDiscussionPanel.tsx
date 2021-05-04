@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
 import {
-  MentorSessionDiscussion as Discussion,
+  MentorDiscussion as Discussion,
   Iteration,
   MentorSessionRequest as Request,
 } from '../../types'

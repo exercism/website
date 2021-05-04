@@ -2,7 +2,7 @@ class CreateSubmissions < ActiveRecord::Migration[6.0]
   def change
     create_table :submissions do |t|
       t.belongs_to :solution, foreign_key: true, null: false
-      t.string :uuid, null: false
+      t.string :uuid, null: false, index: { unique: true }
 
       t.integer :tests_status, null: false, default: 0
       t.integer :representation_status, null: false, default: 0

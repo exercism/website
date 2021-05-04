@@ -85,6 +85,9 @@ Style/DoubleNegation:
 Style/RedundantSelf:
   Enabled: false
 
+Style/MultilineTernaryOperator:
+  Enabled: false
+
 Style/ZeroLengthPredicate:
   Enabled: false
 

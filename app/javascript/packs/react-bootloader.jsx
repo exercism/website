@@ -25,6 +25,7 @@ const renderComponents = (mappings) => {
     document.querySelectorAll(selector).forEach((elem) => {
       const data = JSON.parse(elem.dataset.reactData)
       render(elem, generator(data, elem))
+      elem.classList.add('--hydrated')
     })
   }
 }

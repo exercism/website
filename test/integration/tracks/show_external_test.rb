@@ -13,7 +13,11 @@ class Tracks::ShowExternalTest < ActionDispatch::IntegrationTest
     track = create :track
     create :concept_exercise, track: track
     get "/tracks/ruby"
-    assert_select ".about-section", text: /Ruby is a dynamic, open source programming language/
+
+    assert_select ".about-section .c-react-wrapper-common-expander" do |elems|
+      content = JSON.parse(elems.first.attributes["data-react-data"].value)['content']
+      assert_includes content, 'Ruby is a dynamic, open source programming language'
+    end
   end
 
   test "the snippet is shown" do

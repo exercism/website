@@ -13,7 +13,9 @@ export const AddDiscussionPost = ({
   onSuccess?: () => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(
+    localStorage.getItem(`smde_${contextId}`) || ''
+  )
 
   const handleSuccess = useCallback(() => {
     setOpen(false)

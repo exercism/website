@@ -87,12 +87,11 @@ class SerializeTrackTest < ActiveSupport::TestCase
     # TODO: Change to be completed when that is in the db schema
     # and add a case where it's not completed to check the flag is
     # being used correctly.
-    create :concept_solution, exercise: ces[0], user: user, completed_at: Time.current
+    create :concept_solution, :completed, exercise: ces[0], user: user
     create :concept_solution, exercise: ces[1], user: user
     create :practice_solution, exercise: pes[0], user: user
-    create :practice_solution, exercise: pes[1], user: user, completed_at: Time.current
-    create :practice_solution, exercise: pes[2], user: user, completed_at: Time.current
-    create :user_track_learnt_concept, user_track: user_track, concept: concept
+    create :practice_solution, :completed, exercise: pes[1], user: user
+    create :practice_solution, :completed, exercise: pes[2], user: user
 
     # Remove caching
     user_track = UserTrack.find(user_track.id).reload

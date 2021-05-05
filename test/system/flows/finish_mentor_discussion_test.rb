@@ -39,7 +39,7 @@ module Flows
 
         within(".finished-wizard") do
           click_on "Change preferences"
-          assert_text "Do you want to mentor student-123 again?"
+          assert_text "Do you want to mentor student-123 again?", wait: 2
 
           click_on "Yes"
           assert_text "Add student-123 to your favorites?"
@@ -62,7 +62,7 @@ module Flows
 
         within(".finished-wizard") do
           click_on "Change preferences"
-          assert_text "Do you want to mentor student-123 again?"
+          assert_text "Do you want to mentor student-123 again?", wait: 2
 
           click_on "No"
           assert_text "You will not see future mentor requests from student-123."
@@ -85,7 +85,7 @@ module Flows
 
         within(".finished-wizard") do
           click_on "Change preferences"
-          assert_text "Do you want to mentor student-123 again?"
+          assert_text "Do you want to mentor student-123 again?", wait: 2
 
           click_on "Yes"
           click_on "Add to favorites"
@@ -110,7 +110,7 @@ module Flows
 
         within(".finished-wizard") do
           click_on "Change preferences"
-          assert_text "Do you want to mentor student-123 again?"
+          assert_text "Do you want to mentor student-123 again?", wait: 2
 
           click_on "Yes"
           click_on "Skip"
@@ -134,12 +134,12 @@ module Flows
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         within(".finished-wizard") do
           click_on "Change preferences"
-          assert_text "Do you want to mentor student-123 again?"
+          assert_text "Do you want to mentor student-123 again?", wait: 2
 
           click_on "No"
           click_on "Change preferences"
 
-          assert_text "Do you want to mentor student-123 again?"
+          assert_text "Do you want to mentor student-123 again?", wait: 2
         end
       end
     end

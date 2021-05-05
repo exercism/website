@@ -37,7 +37,6 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
     expected = {
       id: token.uuid,
-      url: "#",
       value: token.value,
       text: "You created <strong>PR##{pr_number}</strong> on <strong>bar</strong>: #{title}",
       icon_url: exercise.icon_url,

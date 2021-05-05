@@ -66,7 +66,6 @@ class User::ReputationToken < ApplicationRecord
   def cacheable_rendering_data
     data = {
       id: uuid,
-      url: "#", # TODO: Fill this in
       value: value,
       text: text,
       icon_url: icon_url,
@@ -95,13 +94,12 @@ class User::ReputationToken < ApplicationRecord
     )
   end
 
-  # TODO: Override in children classes
+  # To be overriden in children classes
   def icon_name
-    # TODO: Choose a good default
     "reputation"
   end
 
-  # TODO: Override in children classes
+  # To be overriden in children classes
   def internal_url
     nil
   end

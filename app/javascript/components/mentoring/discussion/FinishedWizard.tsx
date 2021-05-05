@@ -91,8 +91,7 @@ export const FinishedWizard = ({ student, defaultStep }: Props) => {
                 })
               }}
             />
-          ) : null}
-          {state.step === 'favorite' ? (
+          ) : state.step === 'favorite' ? (
             <FavoriteStep
               student={state.student}
               onFavorite={(student) => {
@@ -105,15 +104,16 @@ export const FinishedWizard = ({ student, defaultStep }: Props) => {
                 dispatch({ type: 'SKIP_FAVORITE' })
               }}
             />
-          ) : null}
-          {state.step === 'finish' ? (
+          ) : state.step === 'finish' ? (
             <FinishStep
               student={state.student}
               onReset={() => {
                 dispatch({ type: 'RESET' })
               }}
             />
-          ) : null}
+          ) : (
+            <>Incorrect state: {state.step} </>
+          )}
         </div>
       </div>
     </div>

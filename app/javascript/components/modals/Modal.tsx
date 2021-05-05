@@ -43,9 +43,9 @@ export const Modal = ({
                     ['#2bebbc', '#05798a'],
                     ['#ffd200', '#b06c00'],
                   ],
-                  confettiPaperCount: 50,
-                  confettiRibbonCount: 10,
-                  speed: 50,
+                  confettiPaperCount: 100,
+                  confettiRibbonCount: 40,
+                  speed: 30,
                 }}
               >
                 {children}

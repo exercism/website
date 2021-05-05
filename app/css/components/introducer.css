@@ -3,6 +3,10 @@
 .c-react-wrapper-common-introducer {
     min-height: 130px;
     @apply mt-8 mb-40;
+
+    &.--hydrated:empty {
+        display: none;
+    }
 }
 
 .c-introducer {

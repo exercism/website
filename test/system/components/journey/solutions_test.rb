@@ -10,7 +10,8 @@ module Components
         user = create :user
         track = create :track, title: "Ruby"
         exercise = create :concept_exercise, title: "Lasagna", track: track, slug: :lasagna
-        solution = create :concept_solution, exercise: exercise, completed_at: Time.current, user: user, status: :completed
+        solution = create :concept_solution, :completed, exercise: exercise, completed_at: Time.current, user: user,
+                                                         num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
         create :submission, solution: solution, created_at: 2.days.ago
         3.times { create :iteration, solution: solution }
 

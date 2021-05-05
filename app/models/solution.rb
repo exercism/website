@@ -131,26 +131,6 @@ class Solution < ApplicationRecord
   end
 
   # TODO
-  def num_views
-    1270
-  end
-
-  # TODO
-  def num_loc
-    18
-  end
-
-  # TODO
-  def num_stars
-    10
-  end
-
-  # TODO
-  def num_comments
-    3
-  end
-
-  # TODO
   def out_of_date?
     true
   end

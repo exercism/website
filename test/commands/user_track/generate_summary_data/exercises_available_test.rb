@@ -30,21 +30,27 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     track = create :track
     exercise = create :concept_exercise, :random_slug, track: track
 
-    prereq_1 = create :track_concept, track: track
+    prereq_1 = create :track_concept, track: track, slug: "bools"
+    prereq_exercise_1 = create :concept_exercise, slug: 'bools-exercise'
+    create(:exercise_taught_concept, exercise: prereq_exercise_1, concept: prereq_1)
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_1)
 
-    prereq_2 = create :track_concept, track: track
+    prereq_2 = create :track_concept, track: track, slug: "conditionals"
+    prereq_exercise_2 = create :concept_exercise, slug: 'conditionals-exercise'
+    create(:exercise_taught_concept, exercise: prereq_exercise_2, concept: prereq_2)
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
 
-    user_track = create :user_track, track: track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
     create :hello_world_solution, :completed, track: track, user: user_track.user
+    refute user_track.exercise_unlocked?(exercise)
 
+    create :concept_solution, :completed, user: user, exercise: prereq_exercise_1
+    user_track.reset_summary!
     refute summary_for(user_track).exercise_unlocked?(exercise)
 
-    create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    refute summary_for(user_track).exercise_unlocked?(exercise)
-
-    create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
+    create :concept_solution, :completed, user: user, exercise: prereq_exercise_2
+    user_track.reset_summary!
     assert summary_for(user_track).exercise_unlocked?(exercise)
   end
 
@@ -69,30 +75,41 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     strings_exercise.prerequisites << basics
     strings_exercise.taught_concepts << strings
 
+    practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
+    practice_exercise.prerequisites << enums
+    practice_exercise.practiced_concepts << enums
+
     user = create :user
     user_track = create :user_track, track: track, user: user
     create :hello_world_solution, :completed, track: track, user: user_track.user
 
-    summary = summary_for(user_track)
-    assert_equal [basics, recursion].map(&:id), summary.unlocked_concept_ids
-    assert summary.concept_unlocked?(recursion)
-    assert summary.concept_unlocked?(basics)
-    refute summary.concept_unlocked?(enums)
-    refute summary.concept_unlocked?(strings)
+    assert_equal [basics, recursion], user_track.unlocked_concepts
+    assert_empty user_track.learnt_concepts
+    assert_empty user_track.mastered_concepts
+    assert user_track.concept_unlocked?(recursion)
+    assert user_track.concept_unlocked?(basics)
+    refute user_track.concept_unlocked?(enums)
+    refute user_track.concept_unlocked?(strings)
 
-    create :user_track_learnt_concept, user_track: user_track, concept: basics
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
 
     summary = summary_for(user_track)
-    assert_equal [basics, enums, recursion].map(&:id), summary.unlocked_concept_ids
+
+    assert_equal [basics, enums, recursion], summary.unlocked_concepts
+    assert_equal [basics], summary.learnt_concepts
+    assert_equal [basics], summary.mastered_concepts
     assert summary.concept_unlocked?(recursion)
     assert summary.concept_unlocked?(basics)
     assert summary.concept_unlocked?(enums)
     refute summary.concept_unlocked?(strings)
 
-    create :user_track_learnt_concept, user_track: user_track, concept: enums
+    create :concept_solution, :completed, exercise: enums_exercise, user: user
 
     summary = summary_for(user_track)
-    assert_equal [basics, enums, strings, recursion].map(&:id), summary.unlocked_concept_ids
+
+    assert_equal [basics, enums, strings, recursion], summary.unlocked_concepts
+    assert_equal [basics, enums], summary.learnt_concepts
+    assert_equal [basics], summary.mastered_concepts
     assert summary.concept_unlocked?(recursion)
     assert summary.concept_unlocked?(basics)
     assert summary.concept_unlocked?(enums)
@@ -114,6 +131,11 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     prereq_1 = create :track_concept, track: track
     prereq_2 = create :track_concept, track: track
 
+    concept_exercise_5 = create :concept_exercise, slug: 'pr1-ex', track: track
+    concept_exercise_5.taught_concepts << prereq_1
+    concept_exercise_6 = create :concept_exercise, slug: 'pr2-ex', track: track
+    concept_exercise_6.taught_concepts << prereq_2
+
     create(:exercise_prerequisite, exercise: concept_exercise_2, concept: prereq_1)
     create(:exercise_prerequisite, exercise: practice_exercise_2, concept: prereq_1)
     create(:exercise_prerequisite, exercise: concept_exercise_3, concept: prereq_1)
@@ -122,33 +144,60 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_2)
     create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
-
-    user_track = create :user_track, track: track
-    hello_world_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user
+    hello_world = hw_solution.exercise
 
     summary = summary_for(user_track)
-    assert_equal [
-      hello_world_solution.exercise, concept_exercise_1, practice_exercise_1
-    ].map(&:id).sort, summary.unlocked_exercise_ids.sort
 
-    create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    summary = summary_for(user_track)
     assert_equal [
-      hello_world_solution.exercise,
+      concept_exercise_1, practice_exercise_1, concept_exercise_5, concept_exercise_6, hello_world
+    ], summary.unlocked_exercises
+    assert_equal [concept_exercise_1, concept_exercise_5, concept_exercise_6], summary.unlocked_concept_exercises
+    assert_equal [practice_exercise_1, hello_world], summary.unlocked_practice_exercises
+
+    create :concept_solution, :completed, user: user, exercise: concept_exercise_5
+
+    summary = summary_for(user_track)
+
+    assert_equal [
       concept_exercise_1,
-      practice_exercise_1,
       concept_exercise_2,
-      practice_exercise_2
-    ].map(&:id).sort, summary.unlocked_exercise_ids.sort
+      practice_exercise_1,
+      practice_exercise_2,
+      concept_exercise_5,
+      concept_exercise_6,
+      hello_world
+    ], summary.unlocked_exercises
 
-    create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
+    assert_equal [concept_exercise_1, concept_exercise_2, concept_exercise_5, concept_exercise_6],
+      summary.unlocked_concept_exercises
+    assert_equal [practice_exercise_1, practice_exercise_2, hello_world], summary.unlocked_practice_exercises
+
+    create :concept_solution, :completed, user: user, exercise: concept_exercise_6
+
     summary = summary_for(user_track)
+
     assert_equal [
-      hello_world_solution.exercise,
-      concept_exercise_1, practice_exercise_1,
-      concept_exercise_2, concept_exercise_3, concept_exercise_4,
-      practice_exercise_2, practice_exercise_3, practice_exercise_4
-    ].map(&:id).sort, summary.unlocked_exercise_ids.sort
+      concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
+      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4,
+      concept_exercise_5, concept_exercise_6,
+      hello_world
+    ], summary.unlocked_exercises
+
+    assert_equal [
+      concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
+      concept_exercise_5, concept_exercise_6
+    ], summary.unlocked_concept_exercises
+
+    assert_equal [
+      practice_exercise_1,
+      practice_exercise_2,
+      practice_exercise_3,
+      practice_exercise_4,
+      hello_world
+    ], summary.unlocked_practice_exercises
   end
 
   private

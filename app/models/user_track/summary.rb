@@ -22,6 +22,11 @@ class UserTrack
     end
 
     memoize
+    def learnt_concepts
+      Track::Concept.where(id: learnt_concept_ids)
+    end
+
+    memoize
     def unlocked_concepts
       Track::Concept.where(id: unlocked_concept_ids)
     end
@@ -238,7 +243,7 @@ class UserTrack
       :id, :slug,
       :num_concept_exercises, :num_practice_exercises,
       :num_completed_concept_exercises, :num_completed_practice_exercises,
-      :unlocked,
+      :unlocked, :learnt,
       keyword_init: true
     ) do
       def num_exercises

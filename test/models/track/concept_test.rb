@@ -77,8 +77,6 @@ class Track::ConceptTest < ActiveSupport::TestCase
     ce.taught_concepts << concept
     pe = create :concept_exercise, track: track
     pe.prerequisites << concept
-    create :user_track_learnt_concept, concept: concept,
-                                       user_track: create(:user_track, track: track)
 
     concept.destroy
     refute Track::Concept.where(id: concept.id).exists?

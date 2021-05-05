@@ -53,101 +53,6 @@ class UserTrackTest < ActiveSupport::TestCase
     assert user_track.exercise_unlocked?(exercise)
   end
 
-  test "exercise_unlocked? with prerequisites" do
-    track = create :track
-    exercise = create :concept_exercise, :random_slug, track: track
-
-    prereq_1 = create :track_concept, track: track
-    create(:exercise_prerequisite, exercise: exercise, concept: prereq_1)
-
-    prereq_2 = create :track_concept, track: track
-    create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
-
-    user_track = create :user_track, track: track
-    create :hello_world_solution, :completed, track: track, user: user_track.user
-    refute user_track.exercise_unlocked?(exercise)
-
-    create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
-    user_track.reset_summary!
-    refute UserTrack.find(user_track.id).exercise_unlocked?(exercise)
-
-    create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
-    user_track.reset_summary!
-    assert UserTrack.find(user_track.id).exercise_unlocked?(exercise)
-  end
-
-  test "unlocked concepts" do
-    track = create :track
-    basics = create :track_concept, track: track, slug: "co_basics"
-    enums = create :track_concept, track: track, slug: "co_enums"
-    strings = create :track_concept, track: track, slug: "co_strings"
-
-    # Nothing teaches recursion
-    recursion = create :track_concept, track: track, slug: "co_recursion"
-
-    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
-    basics_exercise.taught_concepts << basics
-
-    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
-    enums_exercise.prerequisites << basics
-    enums_exercise.taught_concepts << enums
-
-    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
-    strings_exercise.prerequisites << enums
-    strings_exercise.prerequisites << basics
-    strings_exercise.taught_concepts << strings
-
-    user = create :user
-    user_track = create :user_track, track: track, user: user
-    create :hello_world_solution, :completed, track: track, user: user_track.user
-
-    assert_equal [basics, recursion], user_track.unlocked_concepts
-    assert_empty user_track.learnt_concepts
-    assert_empty user_track.mastered_concepts
-    assert user_track.concept_unlocked?(recursion)
-    assert user_track.concept_unlocked?(basics)
-    refute user_track.concept_unlocked?(enums)
-    refute user_track.concept_unlocked?(strings)
-
-    create :user_track_learnt_concept, user_track: user_track, concept: basics
-    create :concept_solution, :completed, exercise: basics_exercise, user: user
-
-    # Reload the user track to override memoizing
-    user_track.reset_summary!
-
-    assert_equal [basics, enums, recursion], user_track.unlocked_concepts
-    assert_equal [basics], user_track.learnt_concepts
-    assert_empty user_track.mastered_concepts
-    assert user_track.concept_unlocked?(recursion)
-    assert user_track.concept_unlocked?(basics)
-    assert user_track.concept_unlocked?(enums)
-    refute user_track.concept_unlocked?(strings)
-
-    create :user_track_learnt_concept, user_track: user_track, concept: enums
-
-    # Reload the user track to override memoizing
-    user_track.reset_summary!
-
-    assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
-    assert_equal [basics, enums], user_track.learnt_concepts
-    assert_empty user_track.mastered_concepts
-    assert user_track.concept_unlocked?(recursion)
-    assert user_track.concept_unlocked?(basics)
-    assert user_track.concept_unlocked?(enums)
-    assert user_track.concept_unlocked?(strings)
-
-    create :concept_solution, user: user, exercise: enums_exercise, completed_at: Time.current
-
-    # Reload the user track to override memoizing
-    user_track.reset_summary!
-
-    assert_equal [basics, enums, strings, recursion], user_track.unlocked_concepts
-    assert_equal [basics, enums], user_track.learnt_concepts
-    assert_equal [enums], user_track.mastered_concepts
-
-    # TODO: Add test for practices exercise
-  end
-
   test "unlocked exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
@@ -171,44 +76,51 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_2)
     create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
-    user_track = create :user_track, track: track
-    hw_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user
     hello_world = hw_solution.exercise
 
     assert_equal [concept_exercise_1, practice_exercise_1, hello_world], user_track.unlocked_exercises
     assert_equal [concept_exercise_1], user_track.unlocked_concept_exercises
     assert_equal [practice_exercise_1, hello_world], user_track.unlocked_practice_exercises
 
+    concept_exercise_5 = create :concept_exercise, slug: 'pr1-ex', track: track
+    concept_exercise_5.taught_concepts << prereq_1
+    create :concept_solution, :completed, user: user, exercise: concept_exercise_5
+
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    create :user_track_learnt_concept, concept: prereq_1, user_track: user_track
     assert_equal [
       concept_exercise_1,
       concept_exercise_2,
       practice_exercise_1,
       practice_exercise_2,
-      hello_world
+      hello_world,
+      concept_exercise_5
     ], user_track.unlocked_exercises
 
-    assert_equal [concept_exercise_1, concept_exercise_2], user_track.unlocked_concept_exercises
+    assert_equal [concept_exercise_1, concept_exercise_2, concept_exercise_5], user_track.unlocked_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2, hello_world], user_track.unlocked_practice_exercises
+
+    concept_exercise_6 = create :concept_exercise, slug: 'pr2-ex', track: track
+    concept_exercise_6.taught_concepts << prereq_2
+    create :concept_solution, :completed, user: user, exercise: concept_exercise_6
 
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    create :user_track_learnt_concept, concept: prereq_2, user_track: user_track
     assert_equal [
       concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
       practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4,
-      hello_world
+      hello_world,
+      concept_exercise_5, concept_exercise_6
     ], user_track.unlocked_exercises
 
     assert_equal [
-      concept_exercise_1,
-      concept_exercise_2,
-      concept_exercise_3,
-      concept_exercise_4
+      concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
+      concept_exercise_5, concept_exercise_6
     ], user_track.unlocked_concept_exercises
 
     assert_equal [

@@ -26,7 +26,7 @@ module ReactComponents
 
       def request
         {
-          endpoint: Exercism::Routes.latest_iteration_status_api_solution_url(solution.uuid),
+          endpoint: Exercism::Routes.latest_status_api_solution_iterations_url(solution.uuid),
           options: {
             initialData: {
               status: solution.latest_iteration ? solution.latest_iteration.status.to_s : nil

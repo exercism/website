@@ -19,15 +19,6 @@ module API
       )
     end
 
-    # TODO
-    def latest_iteration_status
-      solution = Solution.find_by!(uuid: params[:id])
-
-      render json: {
-        status: solution.latest_iteration.status.to_s
-      }
-    end
-
     def show
       begin
         solution = Solution.find_by!(uuid: params[:id])

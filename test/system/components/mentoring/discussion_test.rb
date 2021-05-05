@@ -186,7 +186,7 @@ module Components
           click_on "1"
         end
 
-        assert_text "class Bob"
+        assert_text "class Bob", wait: 2
       end
 
       test "refetches when new post comes in" do

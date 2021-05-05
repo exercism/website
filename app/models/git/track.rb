@@ -70,6 +70,26 @@ module Git
     end
 
     memoize
+    def indent_style
+      (online_editor[:indent_style] || 'space').to_sym
+    end
+
+    memoize
+    def indent_size
+      online_editor[:indent_size] || 2
+    end
+
+    memoize
+    def ace_editor_language
+      online_editor[:ace_editor_language]
+    end
+
+    memoize
+    def highlightjs_language
+      online_editor[:highlightjs_language]
+    end
+
+    memoize
     def commit
       repo.lookup_commit(git_sha)
     end
@@ -95,6 +115,11 @@ module Git
 
     def absolute_filepath(filepath)
       filepath
+    end
+
+    memoize
+    def online_editor
+      config[:online_editor]
     end
   end
 end

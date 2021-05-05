@@ -37,11 +37,13 @@ module Flows
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
 
-        click_on "Change preferences"
-        assert_text "Do you want to mentor student-123 again?"
+        within(".finished-wizard") do
+          click_on "Change preferences"
+          assert_text "Do you want to mentor student-123 again?"
 
-        click_on "Yes"
-        assert_text "Add student-123 to your favorites?"
+          click_on "Yes"
+          assert_text "Add student-123 to your favorites?"
+        end
       end
     end
 
@@ -58,11 +60,13 @@ module Flows
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
 
-        click_on "Change preferences"
-        assert_text "Do you want to mentor student-123 again?"
+        within(".finished-wizard") do
+          click_on "Change preferences"
+          assert_text "Do you want to mentor student-123 again?"
 
-        click_on "No"
-        assert_text "You will not see future mentor requests from student-123."
+          click_on "No"
+          assert_text "You will not see future mentor requests from student-123."
+        end
       end
     end
 
@@ -73,18 +77,21 @@ module Flows
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution
-      create :mentor_student_relationship, mentor: mentor, student: student
+      # create :mentor_student_relationship, mentor: mentor, student: student
 
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "Change preferences"
-        assert_text "Do you want to mentor student-123 again?"
 
-        click_on "Yes"
-        within(".finished-wizard") { click_on "Add to favorites" }
+        within(".finished-wizard") do
+          click_on "Change preferences"
+          assert_text "Do you want to mentor student-123 again?"
 
-        assert_text "student-123 is one of your favorites"
+          click_on "Yes"
+          click_on "Add to favorites"
+
+          assert_text "student-123 is one of your favorites"
+        end
       end
     end
 
@@ -100,11 +107,16 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "Change preferences"
-        click_on "Yes"
-        click_on "Skip"
 
-        assert_text "Thanks for mentoring student-123."
+        within(".finished-wizard") do
+          click_on "Change preferences"
+          assert_text "Do you want to mentor student-123 again?"
+
+          click_on "Yes"
+          click_on "Skip"
+
+          assert_text "Thanks for mentoring student-123."
+        end
       end
     end
 
@@ -120,11 +132,15 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-        click_on "Change preferences"
-        click_on "No"
-        click_on "Change preferences"
+        within(".finished-wizard") do
+          click_on "Change preferences"
+          assert_text "Do you want to mentor student-123 again?"
 
-        assert_text "Do you want to mentor student-123 again?"
+          click_on "No"
+          click_on "Change preferences"
+
+          assert_text "Do you want to mentor student-123 again?"
+        end
       end
     end
   end

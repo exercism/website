@@ -4,11 +4,7 @@
     @apply border-t-1 border-color22;
     @apply mb-24;
 
-    background: linear-gradient(
-        180deg,
-        #e1ebff 0%,
-        rgba(225, 235, 255, 0) 100%
-    );
+    background: var(--exercise-header-gradient);
 
     & .breadcrumbs {
         @apply border-b-1 border-color22;
@@ -19,14 +15,17 @@
             @apply text-14 text-textColor3 leading-150;
         }
 
-        & .c-track-icon {
-            height: 32px;
-            width: 32px;
-            @apply mr-16;
-        }
         & a {
             @apply text-lightBlue font-medium;
             @apply mr-16;
+            @apply flex items-center;
+
+            & .c-icon,
+            & .c-track-icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-12;
+            }
         }
         & .seperator {
             @apply text-15 text-muddy;
@@ -54,7 +53,7 @@
         }
         & h1 {
             @apply flex items-center text-h1 mb-12;
-            & .c-icon {
+            & > .c-icon {
                 height: 32px;
                 width: 32px;
                 @apply ml-16;
@@ -110,8 +109,6 @@
             & .c-tab {
                 line-height: 40px;
             }
-        }
-        & .c-editor-button {
         }
     }
 }

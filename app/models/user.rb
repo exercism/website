@@ -108,7 +108,8 @@ class User < ApplicationRecord
   def avatar_url
     # TOOD: Read correct s3 bucket
     # TODO: Add this image to the repo etc
-    super || "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg"
+    super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"
+    # super || "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg"
   end
 
   # TODO

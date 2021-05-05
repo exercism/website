@@ -10,6 +10,17 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @unscoped_total = @exercise.solutions.published.count
   end
 
+  def show
+    @solution = User.find_by!(handle: params[:id]).
+      solutions.published.find_by!(exercise_id: @exercise.id)
+    @author = @solution.user
+
+    # TODO: Real algorithm here
+    @other_solutions = @exercise.solutions.published.limit(3)
+    @mentor_discussions = @solution.mentor_discussions.
+      finished.not_negatively_rated.includes(:mentor)
+  end
+
   private
   def use_track
     @track = Track.find(params[:track_id])

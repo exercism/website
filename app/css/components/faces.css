@@ -14,9 +14,11 @@
         }
     }
 
-    &:hover {
-        & .face {
-            margin-left: 4px;
+    &:not(.--static) {
+        &:hover {
+            & .face {
+                margin-left: 4px;
+            }
         }
     }
 }

@@ -52,7 +52,7 @@
         = render "tracks/exercises/show/action_box_continue", track: @track, exercise: @exercise, solution: @solution
       - elsif @user_track && !@user_track.external?
         - if @user_track.exercise_unlocked?(@exercise)
-          = render "tracks/exercises/show/action_box_start", exercise: @exercise
+          = render "tracks/exercises/show/action_box_start", track: @track, exercise: @exercise
         - else
           = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
       - elsif user_signed_in?

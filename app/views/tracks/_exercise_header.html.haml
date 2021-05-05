@@ -1,7 +1,12 @@
 .breadcrumbs
   .lg-container.container
-    = track_icon track
-    = link_to track.title, track
+    = link_to tracks_path do
+      = graphical_icon 'tracks', hex: true
+      .span Tracks
+    .seperator /
+    = link_to track do
+      = track_icon track
+      .span= track.title
     .seperator /
     = link_to "Exercises", track_exercises_path(track)
     .seperator /

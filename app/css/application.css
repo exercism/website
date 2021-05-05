@@ -180,6 +180,12 @@
     --mid-gray-filter: invert(72%) sepia(16%) saturate(458%) hue-rotate(181deg)
         brightness(101%) contrast(84%);
 
+    --exercise-header-gradient: linear-gradient(
+        180deg,
+        #e1ebff 0%,
+        rgba(225, 235, 255, 0) 100%
+    );
+
     @apply text-textColor5 bg-backgroundColorB;
 }
 

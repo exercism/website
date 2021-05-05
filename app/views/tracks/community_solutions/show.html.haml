@@ -1,0 +1,91 @@
+#page-community-solution
+  .c-exercise-header
+    .breadcrumbs
+      .lg-container.container
+        = link_to tracks_path do
+          = graphical_icon 'tracks', hex: true
+          .span Tracks
+        .seperator /
+        = link_to @track do
+          = track_icon @track
+          .span= @track.title
+        .seperator /
+        = link_to "Exercises", track_exercises_path(@track)
+        .seperator /
+        = link_to @exercise.title, track_exercise_path(@track, @exercise)
+        .seperator /
+        = link_to "Community Solutions", track_exercise_community_solutions_path(@track, @exercise)
+        .seperator /
+        .exercise-title #{@author.handle}'s solution
+
+    .content.lg-container.container
+      = track_icon @track
+      = avatar @author
+      %h1
+        .name
+          #{@author.handle}'s solution
+          = render ViewComponents::Reputation.new(@author.reputation, size: :small, flashy: true)
+        .to
+          to
+          = link_to @exercise.title, track_exercise_path(@track, @exercise)
+          in
+          = link_to @track.title, @track
+
+      .decorations
+      .buttons
+        %button.share-button
+          .inner
+            = graphical_icon "share-with-gradient"
+            Share
+
+        %button.star-button
+          = icon "star", "Number of stars"
+          %span= @solution.num_stars
+
+        %button.comments-button
+          = icon "comment", "Number of comment"
+          %span= @solution.num_comments
+
+  %article.lg-container.container
+    .lhs
+      .iteration-section
+        = render ReactComponents::Track::IterationSummary.new(@solution.iterations.last)
+        <div class="c-iteration-pane"><div class="tabs" role="tablist"><button class="c-tab selected" role="tab" aria-selected="true" aria-controls="panel-lasagna.rb" id="tab-lasagna.rb" tabindex="0">lasagna.rb</button></div><div class="code"><div id="panel-lasagna.rb" role="tabpanel" aria-labelledby="tab-lasagna.rb" tabindex="0" class="--tab-panel"><pre><code class="ruby hljs" data-highlight-line-numbers="true" data-highlight-line-number-start="1" data-highlighted="true"><ul><li> <div class="idx">1</div> <div class="loc"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lasagna</span></span></div> </li><li> <div class="idx">2</div> <div class="loc">  EXPECTED_MINUTES_IN_OVEN = <span class="hljs-number">40</span></div> </li><li> <div class="idx">3</div> <div class="loc">  PREPARATION_MINUTES_PER_LAYER = <span class="hljs-number">2</span></div> </li><li> <div class="idx">4</div> <div class="loc"></div> </li><li> <div class="idx">5</div> <div class="loc">  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remaining_minutes_in_oven</span><span class="hljs-params">(actual_minutes_in_oven)</span></span></div> </li><li> <div class="idx">6</div> <div class="loc">    EXPECTED_MINUTES_IN_OVEN - actual_minutes_in_oven</div> </li><li> <div class="idx">7</div> <div class="loc">  <span class="hljs-keyword">end</span></div> </li><li> <div class="idx">8</div> <div class="loc"></div> </li><li> <div class="idx">9</div> <div class="loc">  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preparation_time_in_minutes</span><span class="hljs-params">(layers)</span></span></div> </li><li> <div class="idx">10</div> <div class="loc">    layers * PREPARATION_MINUTES_PER_LAYER</div> </li><li> <div class="idx">11</div> <div class="loc">  <span class="hljs-keyword">end</span></div> </li><li> <div class="idx">12</div> <div class="loc"></div> </li><li> <div class="idx">13</div> <div class="loc">  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">total_time_in_minutes</span><span class="hljs-params">(<span class="hljs-symbol">number_of_layers:</span>, <span class="hljs-symbol">actual_minutes_in_oven:</span>)</span></span></div> </li><li> <div class="idx">14</div> <div class="loc">    preparation_time_in_minutes(number_of_layers) + actual_minutes_in_oven</div> </li><li> <div class="idx">15</div> <div class="loc">  <span class="hljs-keyword">end</span></div> </li><li> <div class="idx">16</div> <div class="loc"><span class="hljs-keyword">end</span></div> </li></ul></code></pre></div></div></div>
+
+      - if @mentor_discussions.present?
+        .mentoring
+          .inner
+            .c-faces.--static
+              - @mentor_discussions.each do |discussion|
+                .face= avatar discussion.mentor
+            .info
+              .mentors
+                Mentored by
+                %strong= @mentor_discussions.map { |d| d.mentor.handle }.to_sentence
+              .more
+                = graphical_icon "info-circle"
+                What is this?
+
+            = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)
+
+    .rhs
+      .about
+        %h2
+          About the
+          = track_icon @track
+          = @track.title
+          Exercise
+        = render ReactComponents::Common::ExerciseWidget.new(@exercise, @user_track, size: :medium)
+
+      .other-solutions
+        %h2
+          Other solutions to
+          = @exercise.title
+          .light in
+          = track_icon @track
+          .track-title= @track.title
+
+        - @other_solutions.each do |solution|
+          = render ReactComponents::Common::CommunitySolution.new(solution, context: :exercise)
+
+        = render ViewComponents::ProminentLink.new("Explore other solutions to this exercise", track_exercise_community_solutions_path(@track, @exercise))

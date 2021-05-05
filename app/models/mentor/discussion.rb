@@ -9,6 +9,7 @@ class Mentor::Discussion < ApplicationRecord
     mentor: 1,
     student: 2
   }
+
   enum rating: {
     great: 5,
     good: 4,
@@ -32,6 +33,7 @@ class Mentor::Discussion < ApplicationRecord
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
   scope :finished_for_student, -> { where(status: :finished) }
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
+  scope :not_negatively_rated, -> { where(rating: [nil, 3, 4, 5]) }
 
   before_validation do
     self.solution = request.solution unless self.solution

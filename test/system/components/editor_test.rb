@@ -39,6 +39,7 @@ module Components
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
         click_on "Run Tests"
+        wait_for_submission
         create :submission_test_run,
           submission: Submission.last,
           status: "pass",

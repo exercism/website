@@ -11,6 +11,7 @@ export const initReact = (mappings) => {
 
 const render = (elem, component) => {
   ReactDOM.render(<React.StrictMode>{component}</React.StrictMode>, elem)
+  elem.classList.add('--hydrated')
 
   const unloadOnce = () => {
     ReactDOM.unmountComponentAtNode(elem)
@@ -25,7 +26,6 @@ const renderComponents = (mappings) => {
     document.querySelectorAll(selector).forEach((elem) => {
       const data = JSON.parse(elem.dataset.reactData)
       render(elem, generator(data, elem))
-      elem.classList.add('--hydrated')
     })
   }
 }

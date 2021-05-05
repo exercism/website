@@ -1,9 +1,9 @@
 %h4 Via Exercism Editor
-= link_to start_track_exercise_path(@track, @exercise), method: :patch, class: "editor-btn btn-cta" do
+= link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn-cta" do
   = graphical_icon :editor
   Start in Editor
 
 %h4 Work locally (via CLI)
-= ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
+= ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
 
 = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")

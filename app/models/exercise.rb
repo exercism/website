@@ -80,7 +80,6 @@ class Exercise < ApplicationRecord
     slug
   end
 
-  # TODO
   def download_cmd
     "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
   end

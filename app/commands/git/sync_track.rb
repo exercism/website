@@ -31,7 +31,7 @@ module Git
       blurb = head_git_track.config[:blurb][0, 350]
 
       # Concepts must be synced before tracks
-      sync_concepts!
+      concepts = sync_concepts!
       sync_concept_exercises!
       sync_practice_exercises!
 
@@ -39,10 +39,9 @@ module Git
         blurb: blurb,
         active: head_git_track.config[:active],
         title: head_git_track.config[:language],
-        tags: head_git_track.config[:tags].to_a
+        tags: head_git_track.config[:tags].to_a,
+        concepts: concepts
       )
-
-      track.concepts.each { |concept| Git::SyncConcept.(concept) }
 
       Git::SyncTrackDocs.(track)
 
@@ -64,7 +63,9 @@ module Git
           name: concept_config[:name],
           blurb: concept_blurb(concept_config[:slug]),
           synced_to_git_sha: head_git_track.commit.oid
-        )
+        ).tap do |concept|
+          Git::SyncConcept.(concept) # TODO: Honour force_sync like exercises
+        end
       end
     end
 

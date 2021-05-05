@@ -104,6 +104,9 @@ test('disables submit button unless tests passed', async () => {
             status: 'queued',
             message: '',
             tests: [],
+            links: {
+              self: 'https://exercism.test/test_run',
+            },
           },
         })
       )
@@ -148,6 +151,9 @@ test('disables submit button when files changed', async () => {
             status: 'pass',
             message: '',
             tests: [],
+            links: {
+              self: 'https://exercism.test/test_run',
+            },
           },
         })
       )

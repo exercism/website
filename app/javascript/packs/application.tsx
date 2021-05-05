@@ -366,7 +366,7 @@ initReact({
       discussions={camelizeKeysAs<readonly MentorDiscussion[]>(
         data.discussions
       )}
-      iteration={camelizeKeysAs<Iteration>(data.iteration)}
+      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       exerciseType={data.exercise_type}
       links={camelizeKeysAs<NudgeLinks>(data.links)}
     />

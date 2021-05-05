@@ -6,6 +6,7 @@ import {
   SolutionMentoringStatus,
   SolutionStatus,
 } from '../../../../../app/javascript/components/types'
+import flushPromises from 'flush-promises'
 
 test('does not animate on initial load', async () => {
   const solution = {
@@ -32,6 +33,7 @@ test('does not animate on initial load', async () => {
     <Nudge
       solution={solution}
       exerciseType="concept"
+      request={{ endpoint: 'https://exercism.test/iterations', options: {} }}
       discussions={[]}
       links={{
         mentoringInfo: '',
@@ -46,6 +48,7 @@ test('does not animate on initial load', async () => {
       }}
     />
   )
+  await flushPromises()
 
   expect(container.firstChild).toHaveAttribute(
     'class',

@@ -33,7 +33,10 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
           output: 'foobar',
           output_html: "foobar"
         }
-      ]
+      ],
+      links: {
+        self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
+      }
     }
     assert_equal expected.to_json, actual.to_json
   end

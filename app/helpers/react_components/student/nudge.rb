@@ -11,7 +11,7 @@ module ReactComponents
             median_wait_time: solution.track.median_wait_time
           },
           discussions: discussions,
-          iteration: iteration,
+          request: request,
           exercise_type: exercise_type,
           links: links
         })
@@ -24,8 +24,15 @@ module ReactComponents
         solution.exercise.concept_exercise? ? "concept" : "practice"
       end
 
-      def iteration
-        SerializeIteration.(solution.iterations.order(id: :desc).first)
+      def request
+        {
+          endpoint: Exercism::Routes.latest_status_api_solution_iterations_url(solution.uuid),
+          options: {
+            initialData: {
+              status: solution.latest_iteration ? solution.latest_iteration.status.to_s : nil
+            }
+          }.compact
+        }
       end
 
       def links

@@ -10,12 +10,16 @@ import {
 test('hides cancel button if test run has resolved', async () => {
   const { queryByText } = render(
     <TestRunSummary
+      onUpdate={jest.fn()}
       testRun={{
         id: null,
         submissionUuid: '123',
         status: TestRunStatus.PASS,
         message: '',
         tests: [],
+        links: {
+          self: 'https://exercism.test/test_run',
+        },
       }}
     />
   )
@@ -26,12 +30,16 @@ test('hides cancel button if test run has resolved', async () => {
 test('show header when all tests pass', async () => {
   const { queryByText } = render(
     <TestRunSummary
+      onUpdate={jest.fn()}
       testRun={{
         id: null,
         submissionUuid: '123',
         status: TestRunStatus.PASS,
         message: '',
         tests: [],
+        links: {
+          self: 'https://exercism.test/test_run',
+        },
       }}
     />
   )
@@ -42,6 +50,7 @@ test('show header when all tests pass', async () => {
 test('show header when test run fails', async () => {
   const { queryByText } = render(
     <TestRunSummary
+      onUpdate={jest.fn()}
       testRun={{
         id: null,
         submissionUuid: '123',
@@ -57,6 +66,9 @@ test('show header when test run fails', async () => {
             status: TestStatus.FAIL,
           },
         ],
+        links: {
+          self: 'https://exercism.test/test_run',
+        },
       }}
     />
   )
@@ -68,6 +80,7 @@ test('show header when test run fails', async () => {
 test('shows test failures', async () => {
   render(
     <TestRunSummary
+      onUpdate={jest.fn()}
       testRun={{
         id: null,
         submissionUuid: '123',
@@ -76,6 +89,9 @@ test('shows test failures', async () => {
         tests: [],
         version: 1,
         outputHtml: 'Unable to run tests',
+        links: {
+          self: 'https://exercism.test/test_run',
+        },
       }}
     />
   )

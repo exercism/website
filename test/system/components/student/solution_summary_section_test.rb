@@ -55,6 +55,30 @@ module Components::Student
       submission = create :submission, solution: solution, tests_status: :failed
       iteration.update!(submission: submission)
       SolutionChannel.broadcast!(solution)
+      LatestIterationStatusChannel.broadcast!(solution)
+
+      within "section.latest-iteration header" do
+        assert_text "Your solution failed the tests"
+      end
+      assert_css ".mentoring-prompt-nudge.animate"
+    end
+
+    test "still works when websockets message is not sent" do
+      user = create :user
+      solution = create :practice_solution, user: user
+      iteration = create :iteration, idx: 1, solution: solution
+
+      use_capybara_host do
+        sign_in!(user)
+        visit Exercism::Routes.private_solution_path(solution)
+      end
+
+      within "section.latest-iteration header" do
+        assert_text "Your solution is being processed…"
+      end
+
+      submission = create :submission, solution: solution, tests_status: :failed
+      iteration.update!(submission: submission)
 
       within "section.latest-iteration header" do
         assert_text "Your solution failed the tests"

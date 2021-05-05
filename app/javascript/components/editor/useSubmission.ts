@@ -59,6 +59,9 @@ function reducer(state: State, action: Action): State {
             messageHtml: '',
             output: '',
             outputHtml: '',
+            links: {
+              self: action.payload.submission.links.testRun,
+            },
           },
         },
         status: SubmissionStatus.CREATED,

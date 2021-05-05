@@ -15,7 +15,10 @@ class SerializeSubmissionTestRun
       message_html: message_html,
       output: test_run.output,
       output_html: output_html,
-      tests: test_run.test_results
+      tests: test_run.test_results,
+      links: {
+        self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
+      }
     }
   end
 

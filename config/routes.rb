@@ -82,7 +82,6 @@ Rails.application.routes.draw do
       end
 
       resources :solutions, only: %i[index show update] do
-        # Normal Methods
         member do
           patch :complete
         end
@@ -93,7 +92,9 @@ Rails.application.routes.draw do
           resources :files, only: %i[index], controller: "solutions/submission_files"
         end
 
-        resources :iterations, only: %i[create]
+        resources :iterations, only: %i[create] do
+          get :latest_status, on: :collection
+        end
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
 
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"

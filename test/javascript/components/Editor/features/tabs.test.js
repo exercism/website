@@ -67,6 +67,9 @@ test('opens results tab by default if tests have previously ran', async () => {
             status: 'queued',
             message: '',
             tests: [],
+            links: {
+              self: 'https://exercism.test/test_run',
+            },
           },
         })
       )

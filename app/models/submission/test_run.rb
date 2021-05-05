@@ -7,6 +7,8 @@ class Submission::TestRun < ApplicationRecord
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
+  delegate :solution, to: :submission
+
   before_create do
     self.version = raw_results[:version].to_i
     self.status = raw_results.fetch(:status, :error) unless self.status

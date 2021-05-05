@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from './solution-summary/Header'
 import { IterationLink } from './solution-summary/IterationLink'
 import { CommunitySolutions } from './solution-summary/CommunitySolutions'
@@ -13,6 +13,7 @@ import {
   MentorDiscussion,
   SolutionForStudent,
   ExerciseType,
+  IterationStatus,
 } from '../types'
 
 export type SolutionSummaryLinks = {
@@ -42,6 +43,8 @@ export type Track = {
   medianWaitTime: string
 }
 
+const REFETCH_INTERVAL = 2000
+
 export const SolutionSummary = ({
   solution,
   track,
@@ -59,9 +62,20 @@ export const SolutionSummary = ({
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const CACHE_KEY = `solution-${solution.id}-summary`
+  const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: Iteration[]
-  }>(CACHE_KEY, request, isMountedRef)
+  }>(
+    CACHE_KEY,
+    {
+      ...request,
+      options: {
+        ...request.options,
+        refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
+      },
+    },
+    isMountedRef
+  )
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
@@ -76,6 +90,25 @@ export const SolutionSummary = ({
     }
   }, [CACHE_KEY, solution])
 
+  const latestIteration =
+    resolvedData?.iterations[resolvedData?.iterations.length - 1]
+
+  useEffect(() => {
+    if (!latestIteration) {
+      return
+    }
+
+    switch (latestIteration.status) {
+      case IterationStatus.TESTING:
+      case IterationStatus.ANALYZING:
+        setQueryEnabled(true)
+        break
+      default:
+        setQueryEnabled(false)
+        break
+    }
+  }, [latestIteration])
+
   if (status === 'loading') {
     return <Loading />
   }
@@ -83,9 +116,6 @@ export const SolutionSummary = ({
   if (!resolvedData) {
     return null
   }
-
-  const latestIteration =
-    resolvedData.iterations[resolvedData.iterations.length - 1]
 
   return (
     <>

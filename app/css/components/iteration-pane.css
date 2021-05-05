@@ -26,7 +26,10 @@
         }
     }
     & .code {
-        @apply py-16;
+        & code {
+            @apply block;
+            @apply py-16;
+        }
         & li {
             @apply flex;
             @apply text-15 font-mono leading-huge;

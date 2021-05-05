@@ -144,6 +144,7 @@ import '../../css/pages/journey'
 
 import 'easymde/dist/easymde.min.css'
 import '../../css/highlighters/highlightjs-light'
+import '../../css/highlighters/highlightjs-dark'
 
 import React from 'react'
 import { initReact } from './react-bootloader.jsx'

@@ -27,6 +27,7 @@
         }
         & .--inner {
             @apply text-13 leading-170;
+            @apply px-12;
         }
     }
     &.--large {

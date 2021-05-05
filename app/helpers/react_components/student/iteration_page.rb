@@ -10,7 +10,8 @@ module ReactComponents
             solution_id: solution.uuid,
             request: request,
             exercise: {
-              title: exercise.title
+              title: exercise.title,
+              download_cmd: exercise.download_cmd
             },
             track: {
               title: track.title,

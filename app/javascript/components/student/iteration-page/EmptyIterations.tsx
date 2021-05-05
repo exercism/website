@@ -24,7 +24,13 @@ type Solution = {
 
 const DEFAULT_ERROR = new Error('Unable to start exercise')
 
-export const EmptyIterations = ({ links }: { links: Links }): JSX.Element => {
+export const EmptyIterations = ({
+  downloadCmd,
+  links,
+}: {
+  downloadCmd: string
+  links: Links
+}): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<Solution>(
     () => {
@@ -75,7 +81,7 @@ export const EmptyIterations = ({ links }: { links: Links }): JSX.Element => {
 
           <div className="cli">
             <h4>Work locally (via CLI)</h4>
-            <CopyToClipboardButton textToCopy="exercism download --exercise=pattern" />
+            <CopyToClipboardButton textToCopy={downloadCmd} />
           </div>
         </div>
         <ProminentLink

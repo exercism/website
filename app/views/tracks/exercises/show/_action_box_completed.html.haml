@@ -19,7 +19,7 @@
     Continue in Editor
 
   %h4 Work locally (via CLI)
-  = ReactComponents::Common::CopyToClipboardButton.new("exercism download --exercise=pattern")
+  = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
 
   = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
 

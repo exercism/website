@@ -10,6 +10,7 @@ import { queryCache } from 'react-query'
 
 export type Exercise = {
   title: string
+  downloadCmd: string
 }
 
 export type Track = {
@@ -100,7 +101,7 @@ export const IterationPage = ({
   }
 
   if (resolvedData.iterations.length === 0) {
-    return <EmptyIterations links={links} />
+    return <EmptyIterations links={links} downloadCmd={exercise.downloadCmd} />
   }
 
   return (

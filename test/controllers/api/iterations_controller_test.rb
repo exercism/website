@@ -2,7 +2,29 @@ require_relative './base_test_case'
 
 class API::IterationsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_solution_iterations_path, args: 1, method: :post
+  guard_incorrect_token! :latest_status_api_solution_iterations_path, args: 1
 
+  ###
+  # latst_status
+  ###
+  test "latest_status should 404 if the solution doesn't exist" do
+    setup_user
+    get latest_status_api_solution_iterations_path(999), headers: @headers, as: :json
+    assert_response 404
+  end
+
+  test "latest_status should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
   ###
   # CREATE
   ###

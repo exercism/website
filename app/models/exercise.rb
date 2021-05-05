@@ -2,10 +2,6 @@ class Exercise < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
 
-  # TODO: Remove this once we use external icons
-  include Webpacker::Helper
-  include ActionView::Helpers::AssetUrlHelper
-
   friendly_id :slug, use: [:history]
 
   enum status: {

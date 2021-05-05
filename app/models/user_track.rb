@@ -6,8 +6,6 @@ class UserTrack < ApplicationRecord
 
   belongs_to :user
   belongs_to :track
-  has_many :user_track_learnt_concepts, class_name: "UserTrack::LearntConcept", dependent: :destroy
-  has_many :learnt_concepts, through: :user_track_learnt_concepts, source: :concept
   has_many :solutions,
     lambda { |ut|
       joins(:exercise).

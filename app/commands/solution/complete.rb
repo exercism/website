@@ -8,7 +8,6 @@ class Solution
       # TODO: Guard against already being completed
 
       ActiveRecord::Base.transaction do
-        mark_concepts_as_learnt! if exercise.concept_exercise?
         mark_solution_as_complete!
       end
       record_activity!
@@ -17,12 +16,6 @@ class Solution
     private
     def mark_solution_as_complete!
       solution.update!(completed_at: Time.current)
-    end
-
-    def mark_concepts_as_learnt!
-      exercise.taught_concepts.each do |concept|
-        user_track.learnt_concepts << concept
-      end
     end
 
     def record_activity!

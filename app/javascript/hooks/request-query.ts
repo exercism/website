@@ -34,7 +34,6 @@ function handleFetch(
         arrayFormat: 'brackets',
       })}`
     : ''
-  console.log(request.query)
 
   return sendRequest({
     endpoint: `${request.endpoint}${params}`,

@@ -53,8 +53,7 @@ module Flows
       cars.taught_concepts << conditionals_concept
 
       user = create :user
-      user_track = create :user_track, user: user, track: track
-      user_track.learnt_concepts << basics_concept
+      create :user_track, user: user, track: track
       solution = create :concept_solution, user: user, exercise: strings, completed_at: 1.day.ago
       submission = create :submission, solution: solution
       create :iteration, submission: submission

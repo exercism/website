@@ -52,6 +52,13 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert discussion.viewable_by?(mentor)
   end
 
+  test "#viewable_by? returns true if user is admin" do
+    admin = create :user, roles: [:admin]
+    discussion = create :mentor_discussion
+
+    assert discussion.viewable_by?(admin)
+  end
+
   test "#viewable_by? returns false if user is neither a mentor nor a user" do
     user = create :user
     discussion = create :mentor_discussion

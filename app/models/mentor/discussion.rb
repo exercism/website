@@ -91,7 +91,8 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def viewable_by?(user)
-    # TODO: Admins should also be allowed to view
+    return true if user.admin?
+
     [mentor, student].include?(user)
   end
 

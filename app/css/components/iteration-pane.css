@@ -30,9 +30,11 @@
         & li {
             @apply flex;
             @apply text-15 font-mono leading-huge;
+
             & .idx {
                 @apply flex-shrink-0;
                 @apply text-center text-textColor6;
+                @apply select-none;
                 width: 64px;
             }
             & .loc {

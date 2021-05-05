@@ -77,6 +77,7 @@ Rails.application.routes.draw do
 
       resources :solutions, only: %i[index show update] do
         # Normal Methods
+        get :latest_iteration_status, on: :member
         member do
           patch :complete
         end

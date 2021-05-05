@@ -26,14 +26,12 @@ module ReactComponents
 
       def request
         {
-          endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
+          endpoint: Exercism::Routes.latest_iteration_status_api_solution_url(solution.uuid),
           options: {
             initialData: {
-              iterations: solution.
-                iterations.
-                map { |iteration| SerializeIteration.(iteration) }
+              status: solution.latest_iteration ? solution.latest_iteration.status.to_s : nil
             }
-          }
+          }.compact
         }
       end
 

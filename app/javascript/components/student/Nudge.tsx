@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Avatar, GraphicalIcon, Icon } from '../common'
-import {
-  Iteration,
-  IterationStatus,
-  SolutionForStudent,
-  ExerciseType,
-} from '../types'
+import { IterationStatus, SolutionForStudent, ExerciseType } from '../types'
 import { CompleteExerciseButton } from './CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
 import {
@@ -13,7 +8,7 @@ import {
   SolutionStatus,
   SolutionMentoringStatus,
 } from '../types'
-import { SolutionChannel } from '../../channels/solutionChannel'
+import { LatestIterationStatusChannel } from '../../channels/latestIterationStatusChannel'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import pluralize from 'pluralize'
 import { useIsMounted } from 'use-is-mounted'
@@ -60,10 +55,10 @@ export const Nudge = ({
   track,
 }: Props): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const CACHE_KEY = `solution-${solution.id}-summary`
+  const CACHE_KEY = `nudge-${solution.id}`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
-    iterations: Iteration[]
+    status: IterationStatus
   }>(
     CACHE_KEY,
     {
@@ -76,15 +71,10 @@ export const Nudge = ({
     isMountedRef
   )
 
-  const latestIteration =
-    resolvedData?.iterations[resolvedData?.iterations.length - 1]
+  const iterationStatus = resolvedData?.status
 
   useEffect(() => {
-    if (!latestIteration) {
-      return
-    }
-
-    switch (latestIteration.status) {
+    switch (iterationStatus) {
       case IterationStatus.TESTING:
       case IterationStatus.ANALYZING:
         setQueryEnabled(true)
@@ -93,7 +83,7 @@ export const Nudge = ({
         setQueryEnabled(false)
         break
     }
-  }, [latestIteration])
+  }, [iterationStatus])
 
   const getNudgeType = useCallback(() => {
     switch (solution.mentoringStatus) {
@@ -102,11 +92,7 @@ export const Nudge = ({
       case 'in_progress':
         return 'inProgress'
       default: {
-        if (!latestIteration) {
-          return null
-        }
-
-        switch (latestIteration.status) {
+        switch (iterationStatus) {
           case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
           case IterationStatus.NO_AUTOMATED_FEEDBACK: {
             switch (exerciseType) {
@@ -125,21 +111,21 @@ export const Nudge = ({
         }
       }
     }
-  }, [exerciseType, latestIteration, solution.mentoringStatus])
+  }, [exerciseType, iterationStatus, solution.mentoringStatus])
   const [nudgeType, setNudgeType] = useState<NudgeType | null>(getNudgeType())
   const initNudgeTypeRef = useRef<NudgeType | null>(nudgeType)
   const [shouldAnimate, setShouldAnimate] = useState(false)
 
   useEffect(() => {
-    const solutionChannel = new SolutionChannel(
-      { id: solution.id },
+    const channel = new LatestIterationStatusChannel(
+      solution.id,
       (response) => {
         queryCache.setQueryData(CACHE_KEY, response)
       }
     )
 
     return () => {
-      solutionChannel.disconnect()
+      channel.disconnect()
     }
   }, [CACHE_KEY, solution])
 

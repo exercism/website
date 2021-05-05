@@ -55,6 +55,7 @@ module Components::Student
       submission = create :submission, solution: solution, tests_status: :failed
       iteration.update!(submission: submission)
       SolutionChannel.broadcast!(solution)
+      LatestIterationStatusChannel.broadcast!(solution)
 
       within "section.latest-iteration header" do
         assert_text "Your solution failed the tests"

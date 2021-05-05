@@ -170,6 +170,7 @@ class Solution < ApplicationRecord
 
   def broadcast!
     SolutionChannel.broadcast!(self)
+    LatestIterationStatusChannel.broadcast!(self)
   end
 
   def anonymised_user_handle

@@ -36,7 +36,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
 
   test "unstarted" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :track_concept, track: track, slug: "strings"
     ut = create :user_track, track: track
     create :hello_world_solution, :completed, track: track, user: ut.user
 

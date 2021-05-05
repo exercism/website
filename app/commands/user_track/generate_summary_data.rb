@@ -8,30 +8,42 @@ class UserTrack
       t = Time.now.to_f
       Rails.logger.info "[BM] Starting generating user summary"
 
+      generate!.tap do
+        Rails.logger.info "[BM] Finished generating user summary"
+        Rails.logger.info "[BM] Generating User Summary: #{Time.now.to_f - t}"
+      end
+    end
+
+    def generate!
       generate_exercises_data!
       calculate_unlocking!
       generate_concepts_data!
 
-      d = {
-        concepts: concepts_hash,
-        exercises: exercises_hash
+      {
+        exercises: exercises_hash,
+        concepts: concepts_hash
       }.with_indifferent_access
-
-      Rails.logger.info "[BM] Finished generating user summary"
-      Rails.logger.info "[BM] Generating User Summary: #{Time.now.to_f - t}"
-
-      d
     end
 
+    private
     attr_reader :exercises_data, :concepts_hash
+
+    memoize
+    def exercises_hash
+      exercises_data.transform_values do |exercise|
+        exercise.slice(:id, :slug, :status, :unlocked, :has_solution, :completed)
+      end
+    end
 
     memoize
     def generate_concepts_data!
       @concepts_hash = track.concepts.each.with_object({}) do |concept, hash|
+        concept_exercises_data = exercises_data.select { |_, ex| ex[:type] == :concept }
         concept_exercises = concept_exercises_data.values.
           select { |e| e[:taught_concepts].include?(concept.slug) }.
           map { |e| e[:slug] }
 
+        practice_exercises_data = exercises_data.select { |_, ex| ex[:type] == :practice }
         practice_exercises = practice_exercises_data.values.
           select { |e| e[:practiced_concepts].include?(concept.slug) }.
           map { |e| e[:slug] }
@@ -47,23 +59,20 @@ class UserTrack
           num_practice_exercises: practice_exercises.count,
           num_completed_concept_exercises: num_completed_concept_solutions,
           num_completed_practice_exercises: num_completed_practice_solutions,
-          unlocked: unlocked_concepts.include?(concept.slug),
-          learnt: learnt_concepts.include?(concept.slug)
+          unlocked: unlocked_concept_slugs.include?(concept.slug),
+          learnt: learnt_concept_slugs.include?(concept.slug)
         }
       end
     end
 
-    memoize
-    def exercises_hash
-      exercises_data.transform_values do |exercise|
-        exercise.slice(:id, :slug, :status, :unlocked, :has_solution, :completed)
-      end
-    end
-
-    private
     def generate_exercises_data!
+      exercises = (
+        track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
+        track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
+      ).freeze
+
       @exercises_data = exercises.each_with_object({}) do |exercise, data|
-        prerequisite_concepts = exercise.prerequisites.pluck(:slug)
+        prerequisite_concept_slugs = exercise.prerequisites.pluck(:slug)
         practiced_concepts = exercise.practice_exercise? ? exercise.practiced_concepts.pluck(:slug) : []
 
         solution_data = solutions_data[exercise.slug]
@@ -73,7 +82,7 @@ class UserTrack
           slug: exercise.slug,
           type: exercise.git_type.to_sym,
           tutorial: exercise.tutorial?,
-          prerequisite_concepts: prerequisite_concepts,
+          prerequisite_concept_slugs: prerequisite_concept_slugs,
           practiced_concepts: practiced_concepts,
           has_solution: !!solution_data,
           completed: solution_data&.fetch(:completed) || false
@@ -105,14 +114,6 @@ class UserTrack
       end
     end
 
-    def exercise_is_unlocked?(exercise_data, tutorial_pending)
-      return true unless user_track
-      return true if solutions_data[exercise_data[:slug]]
-      return exercise_data[:tutorial] if tutorial_pending
-
-      (exercise_data[:prerequisite_concepts] - learnt_concepts).empty?
-    end
-
     memoize
     def solutions_data
       return {} unless user_track
@@ -127,46 +128,29 @@ class UserTrack
       end
     end
 
-    memoize
-    def concept_exercises_data
-      exercises_data.select { |_, ex| ex[:type] == :concept }
+    def exercise_is_unlocked?(exercise_data, tutorial_pending)
+      return true unless user_track
+      return true if solutions_data[exercise_data[:slug]]
+      return exercise_data[:tutorial] if tutorial_pending
+
+      (exercise_data[:prerequisite_concept_slugs] - learnt_concept_slugs).empty?
     end
 
     memoize
-    def practice_exercises_data
-      exercises_data.select { |_, ex| ex[:type] == :practice }
+    def unlocked_concept_slugs
+      unlocked = exercises_data.select { |_, exercise| exercise[:unlocked] }.
+        flat_map { |_, exercise| exercise[:taught_concepts] }
+
+      unlocked + track.concepts.not_taught.pluck(:slug)
     end
 
     memoize
-    def exercises
-      (
-        track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
-        track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
-      ).freeze
-    end
-
-    memoize
-    def learnt_concepts
+    def learnt_concept_slugs
       return [] unless user_track
 
       completed_solution_slugs = solutions_data.select { |_, s| s[:completed] }.keys
       exercises_data.select { |slug, _| completed_solution_slugs.include?(slug) }.
         flat_map { |_, exercise_data| exercise_data[:taught_concepts] }
-    end
-
-    memoize
-    def unlocked_concepts
-      concept_ids = Exercise::TaughtConcept.
-        joins(:exercise).
-        where('exercises.slug': unlocked_exercises).
-        select(:track_concept_id)
-
-      track.concepts.not_taught.pluck(:slug) + Track::Concept.where(id: concept_ids).pluck(:slug)
-    end
-
-    memoize
-    def unlocked_exercises
-      exercises_data.select { |_, exercise| exercise[:unlocked] }.keys
     end
   end
 end

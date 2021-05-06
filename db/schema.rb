@@ -329,9 +329,9 @@ ActiveRecord::Schema.define(version: 2021_05_05_220831) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "num_views", limit: 3, default: 0, null: false
-    t.integer "num_loc", limit: 3, default: 0, null: false
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
+    t.integer "num_loc", limit: 3, default: 0, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"

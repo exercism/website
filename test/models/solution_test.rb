@@ -27,7 +27,7 @@ class SolutionTest < ActiveSupport::TestCase
 
     test "#{solution_type}: git_slug and git_sha are set correctly" do
       solution = create solution_type
-      assert_equal solution.track.git_head_sha, solution.git_sha
+      assert_equal solution.exercise.git_sha, solution.git_sha
       assert_equal solution.exercise.slug, solution.git_slug
     end
   end
@@ -41,7 +41,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal "bar", solution.git_slug
 
     solution.update_git_info!
-    assert_equal solution.track.git_head_sha, solution.git_sha
+    assert_equal solution.exercise.git_sha, solution.git_sha
     assert_equal solution.exercise.slug, solution.git_slug
   end
 

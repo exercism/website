@@ -42,7 +42,7 @@ class Solution < ApplicationRecord
     self.uuid = SecureRandom.compact_uuid unless self.uuid
 
     self.git_slug = exercise.slug unless self.git_slug
-    self.git_sha = track.git_head_sha unless self.git_sha # TODO: Should this not be to the exercise's sha?
+    self.git_sha = exercise.git_sha unless self.git_sha
   end
 
   before_update do
@@ -160,7 +160,7 @@ class Solution < ApplicationRecord
   def update_git_info!
     update!(
       git_slug: exercise.slug,
-      git_sha: track.git_head_sha # TODO: Should this not be to the exercise's sha?
+      git_sha: exercise.git_sha
     )
   end
 

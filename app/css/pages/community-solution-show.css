@@ -174,13 +174,6 @@
             & .about {
                 @apply border-b-1 border-borderColor6;
                 @apply pb-24 mb-24;
-
-                & .c-exercise-widget {
-                    @apply pt-12 pb-16;
-                    & .--blurb {
-                        @apply hidden;
-                    }
-                }
             }
             & .other-solutions {
                 & .c-community-solution {

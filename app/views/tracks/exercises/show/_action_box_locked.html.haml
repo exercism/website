@@ -8,5 +8,5 @@
 
   .prereqs
     - exercise.prerequisite_exercises.each do |prereq|
-      = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, size: :small)
+      = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, skinny: true)
 

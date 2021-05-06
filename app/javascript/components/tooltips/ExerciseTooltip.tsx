@@ -47,11 +47,12 @@ export const ExerciseTooltip = React.forwardRef<
         LoadingComponent={LoadingComponent}
       >
         {data ? (
+          /*tooltip*/
           <ExerciseWidget
             exercise={data.exercise}
             solution={data.solution}
             track={data.track}
-            size="tooltip"
+            renderAsLink={false}
           />
         ) : (
           <span>Unable to load information</span>

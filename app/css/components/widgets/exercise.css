@@ -1,10 +1,36 @@
 @import "../../styles";
 
 .c-exercise-widget {
-    @apply flex items-center shadow-base rounded-8 bg-backgroundColorA;
-    transition: box-shadow 0.2s ease-out;
-    &:hover:not(.--locked) {
-        @apply shadow-baseZ1;
+    @apply flex items-center;
+    @apply w-100;
+
+    &.--interactive {
+        @apply shadow-base rounded-8 bg-backgroundColorA;
+        @apply py-16 px-24;
+        transition: box-shadow 0.2s ease-out;
+        &:hover:not(.--locked) {
+            @apply shadow-baseZ1;
+        }
+    }
+
+    &.--skinny {
+        @apply py-8 px-12;
+        & > .c-exercise-icon {
+            height: 24px;
+            width: 24px;
+            @apply mr-12;
+        }
+
+        & > .--info {
+            & > .--title {
+                @apply text-16 mb-0;
+            }
+        }
+        & > .c-icon.--action-icon {
+            height: 16px;
+            width: 16px;
+            @apply ml-8;
+        }
     }
 
     & > .c-exercise-icon {
@@ -57,7 +83,7 @@
                 @apply mr-16;
             }
             & .--iterations-count {
-                @apply ml-16;
+                @apply ml-4;
                 @apply flex items-center;
                 @apply leading-150 font-medium text-textColor6;
 
@@ -69,8 +95,9 @@
                 }
             }
             & .--mentor-comments-count {
+                @apply mr-16;
                 @apply flex items-center;
-                @apply leading-170 font-medium text-textColor6;
+                @apply leading-170 text-orange font-semibold;
 
                 & .c-icon {
                     height: 16px;
@@ -91,23 +118,7 @@
         }
     }
 
-    &.--medium {
-        @apply py-20 px-24 w-100;
-
-        & .--title .--track {
-            @apply hidden;
-        }
-    }
     &.--tooltip {
-        @apply w-100;
-        @apply shadow-none rounded-none;
-
-        & .--blurb {
-            margin-left: -80px;
-        }
-        & .--action-icon {
-            @apply hidden;
-        }
     }
     &.--locked {
         background: rgba(19, 11, 67, 0.005);

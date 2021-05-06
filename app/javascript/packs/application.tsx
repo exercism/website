@@ -270,8 +270,10 @@ initReact({
       exercise={camelizeKeysAs<Exercise>(data.exercise)}
       track={camelizeKeysAs<Track>(data.track)}
       solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-      size={data.size}
       links={data.links}
+      renderAsLink={data.render_as_link}
+      renderBlurb={data.render_blurb}
+      isSkinny={data.skinny}
     />
   ),
   'mentoring-inbox': (data: any) => (

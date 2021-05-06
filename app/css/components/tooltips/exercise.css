@@ -15,4 +15,9 @@
         animation: spin 3s linear infinite;
         filter: var(--textColor7-filter);
     }
+    & .c-exercise-widget {
+        & .--blurb {
+            margin-left: -80px;
+        }
+    }
 }

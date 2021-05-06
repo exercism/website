@@ -51,11 +51,11 @@ export const AuthoringContributionsList = ({
               <div className="exercises">
                 {resolvedData.results.map((authorship) => {
                   return (
+                    /*large*/
                     <ExerciseWidget
                       key={authorship.exercise.slug}
                       exercise={authorship.exercise}
                       track={authorship.track}
-                      size="large"
                     />
                   )
                 })}

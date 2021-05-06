@@ -6,26 +6,28 @@ import { Info } from './exercise-widget/Info'
 import { usePanel } from '../../hooks/use-panel'
 import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
 
-type Size = 'tiny' | 'small' | 'medium' | 'large' | 'tooltip'
-
 type Links = {
   tooltip: string
 }
 
 type Props = {
   exercise: Exercise
-  track: Track
+  track?: Track
   solution?: SolutionForStudent
-  size: Size
   links?: Links
+  renderAsLink: boolean
+  renderBlurb: boolean
+  isSkinny: boolean
 }
 
 export const ExerciseWidget = ({
   exercise,
   track,
   solution,
-  size,
   links,
+  renderAsLink,
+  renderBlurb,
+  isSkinny,
 }: Props): JSX.Element => {
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'right-start',
@@ -51,11 +53,13 @@ export const ExerciseWidget = ({
         exercise={exercise}
         track={track}
         solution={solution}
-        size={size}
+        renderAsLink={renderAsLink}
+        renderBlurb={renderBlurb}
+        isSkinny={isSkinny}
         {...buttonAttributes}
         {...mouseEvents}
       />
-      {open && links ? (
+      {open && links && links.tooltip ? (
         <ExerciseTooltip
           slug={exercise.slug}
           endpoint={links.tooltip}
@@ -72,50 +76,91 @@ const ReferenceElement = forwardRef<
     onMouseEnter?: () => void
     onMouseLeave?: () => void
   }
->(({ exercise, track, solution, size, ...props }, ref) => {
-  if (solution) {
-    return (
-      <a
-        ref={ref as React.RefObject<HTMLAnchorElement>}
-        href={solution.url}
-        className={`c-exercise-widget --${solution.status} --${size}`}
-        {...props}
-      >
-        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-        <Info exercise={exercise} solution={solution} track={track} />
-        <GraphicalIcon icon="chevron-right" className="--action-icon" />
-      </a>
+>(
+  (
+    {
+      exercise,
+      track,
+      solution,
+      renderAsLink,
+      renderBlurb,
+      isSkinny,
+      ...props
+    },
+    ref
+  ) => {
+    const info = (
+      <Info
+        exercise={exercise}
+        solution={solution}
+        track={track}
+        renderBlurb={renderBlurb}
+        isSkinny={isSkinny}
+      />
     )
-  } else if (exercise.isUnlocked) {
-    const classNames = [
-      'c-exercise-widget',
-      '--available',
-      `--${size}`,
-      exercise.isRecommended ? '--recommended' : '',
-    ].filter((name) => name.length > 0)
-    return (
-      <a
-        href={exercise.links.self}
-        className={classNames.join(' ')}
-        ref={ref as React.RefObject<HTMLAnchorElement>}
-        {...props}
-      >
-        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-        <Info exercise={exercise} solution={solution} track={track} />
-        <GraphicalIcon icon="chevron-right" className="--action-icon" />
-      </a>
-    )
-  } else {
-    return (
-      <div
-        className={`c-exercise-widget --locked --${size}`}
-        ref={ref as React.RefObject<HTMLDivElement>}
-        {...props}
-      >
-        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-        <Info exercise={exercise} solution={solution} track={track} />
-        <GraphicalIcon icon="lock" className="--action-icon" />
-      </div>
-    )
+    if (solution || exercise.isUnlocked) {
+      const classNames = [
+        'c-exercise-widget',
+        `--${solution ? solution.status : 'available'}`,
+        exercise.isRecommended ? '--recommended' : '',
+        `--${renderAsLink ? 'interactive' : 'static'}`,
+        isSkinny ? '--skinny' : '',
+      ]
+        .filter((name) => name.length > 0)
+        .join(' ')
+
+      const url = solution
+        ? solution.url
+        : exercise.isUnlocked
+        ? exercise.links.self
+        : '#'
+      return renderAsLink ? (
+        <a
+          ref={ref as React.RefObject<HTMLAnchorElement>}
+          href={url}
+          className={classNames}
+          {...props}
+        >
+          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+          {info}
+          <GraphicalIcon icon="chevron-right" className="--action-icon" />
+        </a>
+      ) : (
+        <div
+          ref={ref as React.RefObject<HTMLDivElement>}
+          className={classNames}
+          {...props}
+        >
+          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+        </div>
+      )
+    } else {
+      const classNames = [
+        'c-exercise-widget',
+        '--locked',
+        `--${renderAsLink ? 'interactive' : 'static'}`,
+        isSkinny ? '--skinny' : '',
+      ]
+        .filter((name) => name.length > 0)
+        .join(' ')
+
+      return (
+        <div
+          className={classNames}
+          ref={ref as React.RefObject<HTMLDivElement>}
+          {...props}
+        >
+          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+          {info}
+          <GraphicalIcon icon="lock" className="--action-icon" />
+        </div>
+      )
+    }
   }
-})
+)
+
+ExerciseWidget.defaultProps = {
+  renderAsLink: true,
+  renderBlurb: true,
+  isSkinny: false,
+}

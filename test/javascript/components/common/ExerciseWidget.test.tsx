@@ -38,12 +38,7 @@ test('renders a solution when passed in', async () => {
   }
 
   render(
-    <ExerciseWidget
-      exercise={exercise}
-      size="medium"
-      track={track}
-      solution={solution}
-    />
+    <ExerciseWidget exercise={exercise} track={track} solution={solution} />
   )
 
   expect(screen.getByRole('link')).toHaveAttribute(
@@ -52,7 +47,7 @@ test('renders a solution when passed in', async () => {
   )
   expect(screen.getByRole('link')).toHaveAttribute(
     'class',
-    'c-exercise-widget --completed --medium'
+    'c-exercise-widget --completed --recommended --interactive'
   )
   expect(
     screen.getByRole('img', {
@@ -92,7 +87,7 @@ test('renders an available exercise', async () => {
     iconUrl: 'https://exercism.test/track_icon',
   }
 
-  render(<ExerciseWidget exercise={exercise} size="medium" track={track} />)
+  render(<ExerciseWidget exercise={exercise} track={track} />)
 
   expect(screen.getByRole('link')).toHaveAttribute(
     'href',
@@ -100,7 +95,7 @@ test('renders an available exercise', async () => {
   )
   expect(screen.getByRole('link')).toHaveAttribute(
     'class',
-    'c-exercise-widget --available --medium --recommended'
+    'c-exercise-widget --available --recommended --interactive'
   )
   expect(
     screen.getByRole('img', {
@@ -142,7 +137,7 @@ test('renders a locked exercise', async () => {
 
   expect(container.firstChild).toHaveAttribute(
     'class',
-    'c-exercise-widget --locked --medium'
+    'c-exercise-widget --locked --interactive'
   )
   expect(screen.getByText("Lucian's Luscious Lasagna")).toBeInTheDocument()
   expect(

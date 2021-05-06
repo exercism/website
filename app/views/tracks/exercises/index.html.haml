@@ -12,7 +12,7 @@
               Learn and practice #{@track.title} by completing #{@track.exercises.count} exercises
               that explore different concepts and ideas.
 
-          = button_to join_track_path(@track), method: :post, class: "btn-cta" do
+          = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do
             = graphical_icon(:plus)
             Join The #{@track.title} Track
 

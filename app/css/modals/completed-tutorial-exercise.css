@@ -40,7 +40,7 @@
     }
     & .btns {
         @apply flex;
-        & .btn-cta {
+        & .btn-primary {
             @apply mr-12;
         }
         & .btn {

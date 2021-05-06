@@ -132,7 +132,7 @@ export const MentoringRequestForm = ({
             aria-describedby="request-mentoring-form-solution-description"
           />
         </div>
-        <FormButton status={status} className="btn-cta">
+        <FormButton status={status} className="btn-primary btn-m">
           Submit mentoring request
         </FormButton>
         <FetchingBoundary

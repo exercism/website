@@ -144,7 +144,7 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
             </button>
           )}
 
-          <button type="submit" className="btn-small-cta">
+          <button type="submit" className="btn-primary btn-s">
             Save
           </button>
         </footer>

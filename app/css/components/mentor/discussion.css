@@ -645,7 +645,7 @@
                         height: 100px;
                     }
                 }
-                & .btn-cta {
+                & .btn-primary {
                     @apply w-100 mb-16;
                 }
                 & .flow-explanation {

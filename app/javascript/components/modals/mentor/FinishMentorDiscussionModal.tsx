@@ -85,7 +85,7 @@ export const FinishMentorDiscussionModal = ({
         </button>
         <button
           type="button"
-          className="btn-small-cta"
+          className="btn-primary btn-s"
           onClick={() => mutation()}
           disabled={status === 'loading'}
         >

@@ -11,9 +11,9 @@ export const SubmitButton = ({
     type="button"
     onClick={onClick}
     disabled={disabled}
-    className="btn-small-cta"
+    className="btn-primary btn-s"
   >
-    Submit
+    <span>Submit</span>
     <div className="kb-shortcut">F3</div>
   </button>
 )

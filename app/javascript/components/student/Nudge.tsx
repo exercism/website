@@ -336,7 +336,7 @@ const MentoringRequestedNudge = ({
           <em>(Median wait time {track.medianWaitTime})</em>
         </p>
       </div>
-      <a href={links.pendingMentorRequest} className="btn-small-cta">
+      <a href={links.pendingMentorRequest} className="btn-primary btn-s">
         Open request
       </a>
     </section>
@@ -385,7 +385,7 @@ const InProgressMentoringNudge = ({
           </div>
         </div>
       </div>
-      <a href={discussion.links.self} className="btn-small-cta">
+      <a href={discussion.links.self} className="btn-primary btn-s">
         Open discussion
       </a>
     </section>

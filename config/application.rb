@@ -31,5 +31,7 @@ module Website
       g.assets false
       g.helper false
     end
+
+    Rails.autoloaders.main.ignore(Rails.root.join('app', 'css'))
   end
 end

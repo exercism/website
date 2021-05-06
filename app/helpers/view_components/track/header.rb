@@ -51,7 +51,7 @@ module ViewComponents
         return if current_user&.joined_track?(track)
 
         url = Exercism::Routes.join_track_path(track)
-        view_context.button_to(url, method: :post, class: "btn-small-cta") do
+        view_context.button_to(url, method: :post, class: "btn-primary btn-s") do
           graphical_icon(:plus) + "Join #{@track.title}"
         end
       end

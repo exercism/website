@@ -15,7 +15,7 @@
         .field
           = f.label :email
           = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: "Enter your email address"
-        = f.button "Resend confirmation instructions", class: "btn-large-cta"
+        = f.button "Resend confirmation instructions", class: "btn-primary btn-l"
 
       = render "devise/shared/links"
 

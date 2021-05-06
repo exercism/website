@@ -19,6 +19,8 @@ import '../../css/application'
 import '../../css/layout'
 import '../../css/defaults'
 
+import '../../css/ui-kit/buttons'
+
 import '../../css/components/badge'
 import '../../css/components/bg-img'
 import '../../css/components/concept'

@@ -35,7 +35,7 @@ export const Information = ({
             Get real 1-to-1 human mentoring on the {exercise.title} exercise and
             start writing better {track.title}.
           </p>
-          <a href={links.getMentoring} className="btn-secondary">
+          <a href={links.getMentoring} className="btn-secondary btn-m">
             Get mentoring
           </a>
         </div>

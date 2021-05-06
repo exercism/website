@@ -116,7 +116,7 @@ export const DiscussionPostForm = ({
         />
         <footer className="editor-footer">
           <button
-            className="btn-small-cta"
+            className="btn-primary btn-s"
             type="submit"
             disabled={status === 'loading'}
           >

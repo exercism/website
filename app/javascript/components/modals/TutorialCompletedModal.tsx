@@ -42,7 +42,7 @@ export const TutorialCompletedModal = ({
         out.
       </div>
       <div className="btns">
-        <a href={track.links.exercises} className="btn-cta">
+        <a href={track.links.exercises} className="btn-primary btn-m">
           Show me more exercises
         </a>
         <button className="btn">Return to “Hello, World!”</button>

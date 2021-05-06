@@ -48,7 +48,7 @@ export const CongratulationsStep = ({
         </div>
         <script src="https://player.vimeo.com/api/player.js"></script>
       </div>
-      <a href={links.dashboard} className="btn-cta">
+      <a href={links.dashboard} className="btn-primary btn-m">
         I&apos;m ready to get started!
       </a>
     </section>

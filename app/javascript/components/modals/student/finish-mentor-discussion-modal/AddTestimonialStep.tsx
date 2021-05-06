@@ -51,7 +51,7 @@ export const AddTestimonialStep = ({
     setValue(e.target.value)
   }, [])
   const primaryButtonText = value.length === 0 ? 'Skip' : 'Finish'
-  const primaryButtonClass = value.length === 0 ? 'btn' : 'btn-cta'
+  const primaryButtonClass = value.length === 0 ? 'btn' : 'btn-primary btn-m'
 
   return (
     <section className="testimonial-step">

@@ -1,10 +1,23 @@
-@import "../styles";
+@import "../ui-kit/buttons";
 
 .c-combo-button {
-    @apply btn-small-cta;
-
+    @apply btn-primary btn-s;
     @apply flex items-stretch;
     @apply p-0;
+
+    box-shadow: 0px 3px 6px rgba(79, 114, 205, 0.4);
+
+    &:not(:disabled):hover {
+        @apply bg-purple;
+    }
+
+    & .--primary-segment,
+    & .--dropdown-segment {
+        transition: background 0.1s ease-in;
+        &:not(:disabled):hover {
+            @apply bg-purpleDarkened;
+        }
+    }
 
     & .--primary-segment {
         @apply flex items-center;

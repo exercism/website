@@ -46,9 +46,6 @@
                     @apply text-textColor3 font-semibold;
                 }
             }
-            & .join-btn {
-                @apply btn-large-cta;
-            }
         }
         & .graphics {
             @apply relative flex-grow flex justify-center items-center;

@@ -19,11 +19,11 @@
           /= @track.blurb
 
         .btns.tw-flex.tw-gap-24
-          = button_to join_track_path(@track), method: :post, class: "btn-large-cta" do
+          = button_to join_track_path(@track), method: :post, class: "btn-primary btn-l" do
             = graphical_icon(:plus)
             %span Join the #{@track.title} Track
 
-          = link_to "#concepts", class: "btn-large-secondary" do
+          = link_to "#concepts", class: "btn-secondary btn-l" do
             Explore concepts
       .graphics
         = track_icon(@track)

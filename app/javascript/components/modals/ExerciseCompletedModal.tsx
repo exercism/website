@@ -47,7 +47,7 @@ export const ExerciseCompletedModal = ({
           unlockedConcepts={unlockedConcepts}
         />
       ) : null}
-      <a href={exercise.links.self} className="btn-cta">
+      <a href={exercise.links.self} className="btn-primary btn-m">
         Continue
       </a>
     </Modal>

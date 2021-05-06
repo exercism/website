@@ -19,7 +19,11 @@ export const TryMentoringButton = ({
 
   return (
     <div>
-      <button type="button" className="btn-cta" onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className="btn-primary btn-m"
+        onClick={() => setOpen(true)}
+      >
         Try mentoring now
       </button>
       <MentorRegistrationModal

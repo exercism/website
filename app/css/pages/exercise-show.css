@@ -136,8 +136,7 @@
                 }
             }
         }
-        & .btn-cta {
-            @apply flex-shrink-0;
+        & .btn-primary {
             @apply ml-40;
         }
     }
@@ -444,7 +443,7 @@
                 }
             }
             & .buttons {
-                & .btn-cta {
+                & .btn-primary {
                     @apply w-100;
                 }
                 & > :first-child {

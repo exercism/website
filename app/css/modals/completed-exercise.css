@@ -21,7 +21,7 @@
     & .progressed-concepts {
         @apply mb-24;
     }
-    & .btn-cta {
+    & .btn-primary {
         @apply mt-24;
     }
 }

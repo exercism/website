@@ -136,6 +136,7 @@
         & .actions-dialog {
             @apply bg-backgroundColorA shadow-lg rounded-8;
             @apply px-16 py-20;
+            @apply z-dropdown;
             min-width: 380px;
 
             & li {

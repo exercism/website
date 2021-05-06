@@ -16,6 +16,10 @@ require 'rails/test_help'
 require 'mocha/minitest'
 require 'minitest/pride'
 require 'webmock/minitest'
+require 'minitest/retry'
+
+# Handle flakey tests in CI
+Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
 
 # Configure mocha to be safe
 Mocha.configure do |c|

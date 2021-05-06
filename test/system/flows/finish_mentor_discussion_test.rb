@@ -77,14 +77,15 @@ module Flows
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution
-      # create :mentor_student_relationship, mentor: mentor, student: student
 
       use_capybara_host do
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
 
         within(".finished-wizard") do
+          assert_text "Change preferences", wait: 2
           click_on "Change preferences"
+          refute_text "Change preferences", wait: 2
           assert_text "Do you want to mentor student-123 again?", wait: 2
 
           click_on "Yes"

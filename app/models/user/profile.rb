@@ -5,6 +5,8 @@ class User::Profile < ApplicationRecord
 
   delegate :to_param, to: :user
 
+  has_one_attached :avatar
+
   memoize
   def solutions_tab?
     user.solutions.published.count > 3

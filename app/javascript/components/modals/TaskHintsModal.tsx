@@ -1,6 +1,7 @@
 import React from 'react'
 import { AssignmentTask } from '../editor/types'
 import { Modal } from './Modal'
+import { GraphicalIcon } from '../common'
 
 export const TaskHintsModal = ({
   task,
@@ -13,17 +14,19 @@ export const TaskHintsModal = ({
   onClose: () => void
 }): JSX.Element => {
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      className="modal-editor-hints"
-      {...props}
-    >
-      <ul>
-        {task.hints.map((hint, idx) => (
-          <li key={idx} dangerouslySetInnerHTML={{ __html: hint }}></li>
-        ))}
-      </ul>
+    <Modal open={open} onClose={onClose} className="m-editor-hints" {...props}>
+      <header>
+        <GraphicalIcon icon="hints" category="graphics" />
+        <h2>Hints and Tips</h2>
+      </header>
+      <div className="single-task-hints">
+        <h3>{task.title}</h3>
+        <ul>
+          {task.hints.map((hint, idx) => (
+            <li key={idx} dangerouslySetInnerHTML={{ __html: hint }}></li>
+          ))}
+        </ul>
+      </div>
     </Modal>
   )
 }

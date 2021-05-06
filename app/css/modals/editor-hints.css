@@ -1,0 +1,68 @@
+@import "../styles";
+
+.m-editor-hints.c-modal {
+    & .--modal-content {
+        padding: 0;
+        width: 100%;
+        max-width: 1100px;
+    }
+    & header {
+        @apply py-16 px-32;
+        @apply border-b-1 border-borderColor5;
+        @apply flex items-center;
+
+        & .c-icon {
+            height: 48px;
+            width: 48px;
+            @apply mr-24;
+        }
+        & h2 {
+            @apply text-h3;
+        }
+    }
+    & .c-details {
+        &:not(:last-child) {
+            @apply border-b-1 border-borderColor5;
+        }
+        &:not([open]) {
+            & .--summary {
+                @apply pb-16;
+            }
+        }
+
+        &[open] {
+            @apply pb-12;
+            & .--summary {
+                @apply pb-4;
+            }
+        }
+
+        & .--summary {
+            @apply px-32 pt-16;
+            @apply text-h5;
+            @apply flex items-center;
+            & .c-icon {
+                @apply ml-auto;
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+    & .single-task-hints {
+        @apply px-32 py-16;
+        & h3 {
+            @apply text-h5 mb-4;
+        }
+        & ul {
+            @apply pl-0;
+        }
+    }
+    & ul {
+        @apply px-32;
+        & li {
+            @apply text-18 leading-170;
+            list-style: disc;
+            @apply ml-20;
+        }
+    }
+}

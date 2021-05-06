@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, WrapSetting, Themes } from '../types'
-import { usePanel } from '../../../hooks/use-panel'
+import { useDropdown } from '../../dropdowns/useDropdown'
 
 const THEMES = [
   { label: 'Light', value: Themes.LIGHT },
@@ -30,7 +30,7 @@ const Setting = ({
   options: { label: string; value: string | Keybindings }[]
   onChange: (e: ChangeEvent) => void
 }) => (
-  <div className="setting">
+  <React.Fragment>
     <div className="name">{title}</div>
     <div className="options">
       {options.map((option) => (
@@ -46,7 +46,7 @@ const Setting = ({
         </label>
       ))}
     </div>
-  </div>
+  </React.Fragment>
 )
 
 export function Settings({
@@ -65,7 +65,24 @@ export function Settings({
   setWrap: (wrap: WrapSetting) => void
 }) {
   const [localKeybindings, setLocalKeybindings] = useState(keybindings)
-  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel()
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    open,
+    setOpen,
+  } = useDropdown(3, undefined, {
+    placement: 'bottom-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [-8, 8],
+        },
+      },
+    ],
+  })
 
   const handleThemeChange = useCallback(
     (e) => {
@@ -96,14 +113,7 @@ export function Settings({
 
   return (
     <React.Fragment>
-      <button
-        className="settings-btn"
-        type="button"
-        aria-haspopup="true"
-        aria-expanded={open}
-        onClick={() => setOpen(!open)}
-        {...buttonAttributes}
-      >
+      <button className="settings-btn" {...buttonAttributes}>
         <Icon icon="settings" alt="Settings" />
       </button>
       {open ? (
@@ -114,24 +124,32 @@ export function Settings({
           aria-label="A series of radio buttons to configure the Exercism's code editor"
           className="settings-dialog"
         >
-          <Setting
-            title="Theme"
-            value={theme}
-            options={THEMES}
-            onChange={handleThemeChange}
-          />
-          <Setting
-            title="Keybindings"
-            value={localKeybindings}
-            options={KEYBINDINGS}
-            onChange={handleKeybindingsChange}
-          />
-          <Setting
-            title="Wrap"
-            value={wrap}
-            options={WRAP}
-            onChange={handleWrapChange}
-          />
+          <ul {...listAttributes}>
+            <li className="setting" {...itemAttributes(0)}>
+              <Setting
+                title="Theme"
+                value={theme}
+                options={THEMES}
+                onChange={handleThemeChange}
+              />
+            </li>
+            <li className="setting" {...itemAttributes(1)}>
+              <Setting
+                title="Keybindings"
+                value={localKeybindings}
+                options={KEYBINDINGS}
+                onChange={handleKeybindingsChange}
+              />
+            </li>
+            <li className="setting" {...itemAttributes(2)}>
+              <Setting
+                title="Wrap"
+                value={wrap}
+                options={WRAP}
+                onChange={handleWrapChange}
+              />
+            </li>
+          </ul>
         </div>
       ) : null}
     </React.Fragment>

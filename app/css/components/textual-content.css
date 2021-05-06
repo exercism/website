@@ -170,8 +170,13 @@
         /* Block-level code blocks */
         & pre {
             @apply border-1 border-borderColor5 rounded-8 bg-backgroundColorA;
-            @apply mb-24 py-12 px-20 overflow-auto;
+            @apply mb-24;
             @apply text-16;
+            @apply overflow-hidden;
+            & code {
+                @apply block;
+                @apply py-12 px-20 overflow-auto;
+            }
         }
         /* Inline code blocks */
         & :not(pre) > code {

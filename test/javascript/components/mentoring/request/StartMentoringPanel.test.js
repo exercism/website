@@ -25,7 +25,9 @@ test('shows loading message while locking mentoring request', async () => {
   server.listen()
   await flushPromises()
 
-  render(<StartMentoringPanel request={request} setRequest={() => null} />)
+  await act(async () => {
+    render(<StartMentoringPanel request={request} setRequest={() => null} />)
+  })
   userEvent.click(
     await screen.findByRole('button', { name: 'Start mentoring' })
   )

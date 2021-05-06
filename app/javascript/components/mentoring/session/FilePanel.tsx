@@ -27,7 +27,7 @@ export const FilePanel = ({
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
           {files.map((file) => (
-            <Tab key={file.filename} id={file.filename} context={TabsContext}>
+            <Tab key={file.digest} id={file.filename} context={TabsContext}>
               {file.filename}
             </Tab>
           ))}
@@ -35,7 +35,7 @@ export const FilePanel = ({
         <div className="code">
           {files.map((file) => (
             <Tab.Panel
-              key={file.filename}
+              key={file.digest}
               id={file.filename}
               context={TabsContext}
             >

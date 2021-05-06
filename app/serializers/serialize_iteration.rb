@@ -26,7 +26,8 @@ class SerializeIteration
       files: sideload.include?(:files) ? iteration.files.map do |file|
         {
           filename: file.filename,
-          content: file.content
+          content: file.content,
+          digest: file.digest
         }
       end : nil,
       links: {

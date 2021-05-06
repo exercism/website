@@ -149,6 +149,7 @@ export type ExerciseDifficulty = 'easy'
 export type File = {
   filename: string
   content: string
+  digest?: string
 }
 
 export type APIError = {

@@ -79,10 +79,20 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert :queued, submission.analysis_status
   end
 
-  test "updates solution status" do
+  test "updates solution" do
     solution = create :concept_solution
     submission = create :submission, solution: solution
+
+    # Sanity checks
+    solution.reload
+    assert_equal :started, solution.status
+    assert_nil solution.iteration_status
+    assert_equal 0, solution.num_iterations
+
     Iteration::Create.(solution, submission)
-    assert_equal :iterated, solution.reload.status
+    solution.reload
+    assert_equal :iterated, solution.status
+    assert_equal :testing, solution.iteration_status
+    assert_equal 1, solution.num_iterations
   end
 end

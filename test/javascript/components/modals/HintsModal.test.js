@@ -44,7 +44,7 @@ test('task hints are shown when clicked on heading', async () => {
     </div>
   )
 
-  const taskheading = getByText('Do complex task')
+  const taskheading = getByText('1. Do complex task')
   expect(taskheading).toBeVisible()
 
   fireEvent.click(taskheading)

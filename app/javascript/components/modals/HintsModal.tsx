@@ -24,7 +24,11 @@ const Hints = ({
       </summary>
       <ul>
         {hints.map((hint, idx) => (
-          <li key={idx} dangerouslySetInnerHTML={{ __html: hint }}></li>
+          <li
+            className="c-textual-content --large"
+            key={idx}
+            dangerouslySetInnerHTML={{ __html: hint }}
+          ></li>
         ))}
       </ul>
     </details>

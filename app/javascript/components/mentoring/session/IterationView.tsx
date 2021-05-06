@@ -44,11 +44,7 @@ export const IterationView = ({
           defaultError={DEFAULT_ERROR}
         >
           {resolvedData ? (
-            <FilePanel
-              key={currentIteration.idx}
-              files={resolvedData.files}
-              language={language}
-            />
+            <FilePanel files={resolvedData.files} language={language} />
           ) : null}
         </FetchingBoundary>
       </ResultsZone>

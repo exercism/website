@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { FileViewer } from './FileViewer'
 import { File } from '../../types'
@@ -15,7 +15,19 @@ export const FilePanel = ({
   files: File[]
   language: string
 }): JSX.Element | null => {
-  const [tab, setTab] = useState<string>(files[0].filename)
+  const [tab, setTab] = useState<string>('')
+
+  useEffect(() => {
+    if (files.length === 0) {
+      return
+    }
+
+    setTab(files[0].filename)
+  }, [files])
+
+  if (files.length === 0) {
+    return null
+  }
 
   return (
     <TabsContext.Provider

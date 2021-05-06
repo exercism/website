@@ -47,7 +47,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     iteration = create :iteration, solution: solution
     create :mentor_discussion, solution: solution, mentor: mentor
     submission = create :submission, solution: solution, iteration: iteration
-    create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
+    file = create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
 
     get api_solution_submission_files_path(solution.uuid, submission),
       headers: @headers,
@@ -58,7 +58,8 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       files: [
         {
           filename: "bob.rb",
-          content: "class Bob"
+          content: "class Bob",
+          digest: file.digest
         }
       ]
     }

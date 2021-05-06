@@ -28,7 +28,7 @@ class Exercism::Routes
   end
 
   def self.published_solution_url(solution)
-    Exercism::Routes.track_exercise_solution_path(
+    Exercism::Routes.track_exercise_solution_url(
       solution.track.slug,
       solution.exercise.slug,
       solution.user.handle

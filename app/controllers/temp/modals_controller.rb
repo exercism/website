@@ -59,5 +59,9 @@ module Temp
     def select_exercise_for_mentoring
       @solutions = Solution.limit(5)
     end
+
+    def share_solution_dropdown
+      @solution = current_user.solutions.first
+    end
   end
 end

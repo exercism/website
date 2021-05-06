@@ -108,6 +108,7 @@ import '../../css/modals/change-mentor-tracks'
 import '../../css/modals/select-exercise-for-mentoring'
 import '../../css/modals/testimonial'
 
+import '../../css/dropdowns/share-solution'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'

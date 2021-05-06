@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
-import { Icon } from '../../common/Icon'
+import { GraphicalIcon, Icon } from '../../common'
 import { BugReportModal } from '../../modals/BugReportModal'
-import { usePanel } from '../../../hooks/use-panel'
+import { useDropdown } from '../../dropdowns/useDropdown'
 
 export const ActionMore = ({
   onRevertToLastIteration,
@@ -13,7 +13,24 @@ export const ActionMore = ({
   isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { open, setOpen, panelAttributes, buttonAttributes } = usePanel()
+  const {
+    buttonAttributes,
+    panelAttributes,
+    listAttributes,
+    itemAttributes,
+    open,
+    setOpen,
+  } = useDropdown(3, undefined, {
+    placement: 'bottom-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [-8, 8],
+        },
+      },
+    ],
+  })
 
   const handleRevertToLastIteration = useCallback(() => {
     onRevertToLastIteration()
@@ -38,30 +55,35 @@ export const ActionMore = ({
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <button
-        {...buttonAttributes}
-        onClick={() => setOpen(!open)}
-        className="more-btn"
-      >
+      <button {...buttonAttributes} className="more-btn">
         <Icon icon="more-horizontal" alt="Open more options" />
       </button>
       {open ? (
-        <div {...panelAttributes}>
-          <div>
-            <button type="button" onClick={handleRevertToExerciseStart}>
-              Revert to exercise start
-            </button>
-            <button
-              onClick={handleRevertToLastIteration}
-              type="button"
-              disabled={isRevertToLastIterationDisabled}
-            >
-              Revert to last iteration submission
-            </button>
-            <button type="button" onClick={handleOpenReport}>
-              Report a bug
-            </button>
-          </div>
+        <div {...panelAttributes} className="actions-dialog">
+          <ul {...listAttributes}>
+            <li {...itemAttributes(0)}>
+              <button type="button" onClick={handleRevertToExerciseStart}>
+                <GraphicalIcon icon="reset" />
+                Revert to exercise start
+              </button>
+            </li>
+            <li {...itemAttributes(1)}>
+              <button
+                onClick={handleRevertToLastIteration}
+                type="button"
+                disabled={isRevertToLastIterationDisabled}
+              >
+                <GraphicalIcon icon="reset" />
+                Revert to last iteration submission
+              </button>
+            </li>
+            <li {...itemAttributes(2)}>
+              <button type="button" onClick={handleOpenReport}>
+                <GraphicalIcon icon="bug" />
+                Report a bug
+              </button>
+            </li>
+          </ul>
         </div>
       ) : null}
     </React.Fragment>

@@ -77,6 +77,7 @@
             @apply bg-backgroundColorA;
             @apply flex flex-col shadow-lg;
             @apply py-24 px-32 text-left;
+            @apply z-dropdown;
 
             & .setting {
                 @apply flex items-center justify-between;
@@ -128,6 +129,34 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+        & .actions-dialog {
+            @apply bg-backgroundColorA shadow-lg rounded-8;
+            @apply px-16 py-20;
+            @apply z-dropdown;
+            min-width: 380px;
+
+            & li {
+                & button {
+                    @apply flex w-100;
+                    @apply px-16 py-8;
+                    @apply text-textColor6 font-medium;
+                    @apply text-16 leading-huge;
+                    @apply bg-backgroundColorA;
+                    @apply flex items-center;
+
+                    & .c-icon {
+                        width: 16px;
+                        height: 16px;
+                        @apply mr-16;
+                    }
+
+                    &:hover {
+                        @apply bg-backgroundColorD;
+                        @apply text-textColor5;
                     }
                 }
             }

@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { Iteration } from '../../types'
 import { IterationsList } from './IterationsList'
-import { IterationFiles } from './IterationFiles'
+import { FilePanel } from './FilePanel'
 import { IterationHeader } from './IterationHeader'
 import { Icon } from '../../common/Icon'
+import { useIsMounted } from 'use-is-mounted'
+import { usePaginatedRequestQuery } from '../../../hooks/request-query'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { File } from '../../types'
+import { ResultsZone } from '../../ResultsZone'
+
+const DEFAULT_ERROR = new Error('Unable to load files')
 
 export const IterationView = ({
   iterations,
@@ -15,6 +22,14 @@ export const IterationView = ({
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
+  const isMountedRef = useIsMounted()
+  const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
+    files: File[]
+  }>(
+    currentIteration.links.files,
+    { endpoint: currentIteration.links.files, options: {} },
+    isMountedRef
+  )
 
   return (
     <React.Fragment>
@@ -22,11 +37,17 @@ export const IterationView = ({
         iteration={currentIteration}
         latest={iterations[iterations.length - 1] === currentIteration}
       />
-      <IterationFiles
-        key={currentIteration.idx}
-        endpoint={currentIteration.links.files}
-        language={language}
-      />
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          error={error}
+          status={status}
+          defaultError={DEFAULT_ERROR}
+        >
+          {resolvedData ? (
+            <FilePanel files={resolvedData.files} language={language} />
+          ) : null}
+        </FetchingBoundary>
+      </ResultsZone>
       <footer className="discussion-footer">
         {iterations.length > 1 ? (
           <IterationsList

@@ -10,7 +10,8 @@ module API
         files = submission.files.map do |file|
           {
             filename: file.filename,
-            content: file.content
+            content: file.content,
+            digest: file.digest
           }
         end
 

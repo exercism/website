@@ -9,6 +9,7 @@ class Iteration < ApplicationRecord
   has_one :test_run, through: :iteration
 
   delegate :tests_status,
+    :files,
     :automated_feedback_pending,
     :representer_feedback,
     :analyzer_feedback, to: :submission

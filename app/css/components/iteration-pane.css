@@ -1,7 +1,6 @@
 .c-iteration-pane {
     @apply flex-grow flex flex-col;
     @apply bg-backgroundColorB;
-    @apply overflow-auto;
 
     & .tabs {
         @apply bg-backgroundColorA;
@@ -26,6 +25,9 @@
         }
     }
     & .code {
+        @apply py-16;
+        @apply overflow-auto;
+
         & code {
             @apply block;
             @apply py-16;

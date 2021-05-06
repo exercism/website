@@ -80,7 +80,7 @@ const Component = ({
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
           {data.files.map((file) => (
-            <Tab key={file.filename} id={file.filename} context={TabsContext}>
+            <Tab key={file.digest} id={file.filename} context={TabsContext}>
               {file.filename}
             </Tab>
           ))}
@@ -88,7 +88,7 @@ const Component = ({
         <div className="code">
           {data.files.map((file) => (
             <Tab.Panel
-              key={file.filename}
+              key={file.digest}
               id={file.filename}
               context={TabsContext}
             >

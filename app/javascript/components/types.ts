@@ -149,6 +149,7 @@ export type ExerciseDifficulty = 'easy'
 export type File = {
   filename: string
   content: string
+  digest?: string
 }
 
 export type APIError = {
@@ -219,6 +220,7 @@ export type Iteration = {
   createdAt: string
   testsStatus: SubmissionTestsStatus
   isPublished: boolean
+  files?: File[]
   links: {
     self: string
     solution: string

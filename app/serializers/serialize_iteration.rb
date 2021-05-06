@@ -1,7 +1,10 @@
 class SerializeIteration
   include Mandate
 
-  initialize_with :iteration
+  def initialize(iteration, sideload: [])
+    @iteration = iteration
+    @sideload = sideload
+  end
 
   def call
     return if iteration.blank?
@@ -20,11 +23,21 @@ class SerializeIteration
       representer_feedback: iteration.representer_feedback,
       analyzer_feedback: iteration.analyzer_feedback,
       is_published: iteration.published?,
+      files: sideload.include?(:files) ? iteration.files.map do |file|
+        {
+          filename: file.filename,
+          content: file.content,
+          digest: file.digest
+        }
+      end : nil,
       links: {
         self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
         solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise),
         files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
       }
-    }
+    }.compact
   end
+
+  private
+  attr_reader :iteration, :sideload
 end

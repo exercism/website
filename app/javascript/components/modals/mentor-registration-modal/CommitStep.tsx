@@ -112,7 +112,7 @@ export const CommitStep = ({
           Back
         </FormButton>
         <FormButton
-          className="btn-cta"
+          className="btn-primary btn-m"
           onClick={handleSubmit}
           status={status}
           disabled={numChecked !== NUM_TO_CHECK}

@@ -154,7 +154,11 @@ export const ReportStep = ({
                 <GraphicalIcon icon="arrow-left" />
                 <span>Back</span>
               </FormButton>
-              <FormButton status={status} type="submit" className="btn-cta">
+              <FormButton
+                status={status}
+                type="submit"
+                className="btn-primary btn-m"
+              >
                 Finish
               </FormButton>
             </div>

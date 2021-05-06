@@ -67,7 +67,7 @@ export const EmptyIterations = ({
               status={status}
               onClick={() => mutation()}
               type="button"
-              className="editor-btn btn-cta"
+              className="editor-btn btn-primary btn-m"
             >
               <GraphicalIcon icon="editor" />
               <span>Start in Editor</span>

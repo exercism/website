@@ -33,7 +33,7 @@ export const ConfirmFinishMentorDiscussionModal = ({
         </button>
         <button
           type="button"
-          className="btn-small-cta"
+          className="btn-primary btn-s"
           onClick={() => onConfirm()}
         >
           Review and End discussion...

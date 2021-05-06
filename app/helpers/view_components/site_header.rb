@@ -84,7 +84,7 @@ module ViewComponents
 
     def signed_out_section
       tag.div(class: "external-section") do
-        link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-small-cta") +
+        link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-primary btn-s") +
           link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-small")
       end
     end

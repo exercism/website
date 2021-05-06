@@ -66,7 +66,7 @@ export const StartMentoringPanel = ({
         type="button"
         onClick={() => lock()}
         disabled={status === 'loading'}
-        className="btn-cta"
+        className="btn-primary btn-m"
       >
         Start mentoring
       </button>

@@ -16,7 +16,7 @@ export function Hints({ assignment }: { assignment: Assignment }) {
       />
       <button
         ref={buttonRef}
-        className="btn-small hints-btn"
+        className="btn-default btn-s hints-btn"
         onClick={() => {
           setIsModalOpen(true)
         }}

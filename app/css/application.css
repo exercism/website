@@ -159,6 +159,10 @@
         hue-rotate(225deg) brightness(94%) contrast(93%);
     --white-filter: invert(99%) sepia(33%) saturate(62%) hue-rotate(352deg)
         brightness(109%) contrast(100%);
+    --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
+        brightness(97%) contrast(80%);
+
+    /* TODO: Replace with purple-filter */
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
         hue-rotate(236deg) brightness(97%) contrast(80%);
     --textColor2-filter: invert(7%) sepia(25%) saturate(7470%)

@@ -47,15 +47,6 @@
 .text-label-timestamp {
     @apply text-14 text-textColor6 leading-150;
 }
-
-.btn--cta {
-    @apply bg-anotherPurple text-textColor9 border-anotherPurple;
-    @apply shadow-buttonS;
-
-    & .c-icon {
-        filter: var(--white-filter);
-    }
-}
 .btn--simple {
     @apply bg-backgroundColorA text-textColor6 border-borderColor5;
 }
@@ -91,17 +82,11 @@
         opacity: 0.5;
     }
 }
-.btn-cta {
-    @apply btn btn--cta;
-}
 .btn-simple {
     @apply btn btn--simple;
 }
-.btn-secondary {
-    @apply btn btn--secondary;
-}
 
-.btn-large {
+.btn-i-large {
     @apply btn;
     @apply px-32 border-3 text-18;
     @apply shadow-buttonS;
@@ -112,11 +97,8 @@
         width: 16px;
     }
 }
-.btn-large-cta {
-    @apply btn-large btn--cta;
-}
 .btn-large-secondary {
-    @apply btn-large btn--secondary;
+    @apply btn-i-large btn--secondary;
 }
 
 .btn-small {
@@ -129,9 +111,6 @@
         height: 14px;
         width: 14px;
     }
-}
-.btn-small-cta {
-    @apply btn-small btn--cta;
 }
 .btn-small-secondary {
     @apply btn-small btn--secondary;

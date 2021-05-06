@@ -19,7 +19,9 @@ const ConfirmButton = ({
 
   switch (status) {
     case 'idle':
-      return <button className="confirm-button btn-large-cta">Confirm</button>
+      return (
+        <button className="confirm-button btn-primary btn-l">Confirm</button>
+      )
     case 'loading':
       return <Loading />
     default:

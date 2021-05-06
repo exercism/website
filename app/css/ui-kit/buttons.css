@@ -1,0 +1,148 @@
+.btn-i-base {
+    @apply font-semibold;
+    @apply flex items-center justify-center;
+    @apply whitespace-no-wrap flex-shrink-0;
+
+    transition: background 0.1s ease-in;
+
+    & > .c-icon {
+        &:first-child {
+            @apply mr-12;
+        }
+        &:last-child {
+            @apply ml-12;
+        }
+    }
+
+    & > .kb-shortcut {
+        @apply font-mono font-bold;
+        @apply ml-8;
+        line-height: 1;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.btn-i-filled {
+    &.btn-xs {
+        box-shadow: 0px 2px 4px rgba(79, 114, 205, 0.2);
+    }
+    &.btn-s {
+        box-shadow: 0px 3px 5px rgba(79, 114, 205, 0.3);
+    }
+    &.btn-m {
+        box-shadow: 0px 4px 6px rgba(79, 114, 205, 0.4);
+    }
+    &.btn-l {
+        box-shadow: 0px 4px 7px rgba(79, 114, 205, 0.4);
+    }
+}
+
+.btn-primary {
+    @apply btn-i-filled;
+    @apply bg-purple text-white;
+    @apply border-1 border-primaryBtnBorder;
+
+    & .c-icon {
+        filter: var(--white-filter);
+    }
+    &:not(:disabled):hover {
+        @apply bg-purpleDarkened;
+    }
+}
+
+.btn-secondary {
+    @apply bg-transparent text-purple;
+    @apply border-1 border-purple;
+    & > .c-icon {
+        filter: var(--purple-filter);
+    }
+    &:not(:disabled):hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.btn-enhanced {
+    @apply btn-i-filled;
+    @apply bg-white text-textColor2;
+    @apply border-1 border-btnBorder;
+    & > .c-icon {
+        filter: var(--textColor2-filter);
+    }
+}
+
+.btn-default {
+    @apply text-textColor2;
+    @apply border-1 border-btnBorder;
+    & > .c-icon {
+        filter: var(--textColor2-filter);
+    }
+    &:not(:disabled):hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.btn-xs {
+    @apply btn-i-base;
+    height: 32px;
+    @apply px-16 rounded-5;
+    @apply text-14;
+
+    & > .c-icon {
+        height: 14px;
+        width: 14px;
+    }
+    & > .kb-shortcut {
+        @apply text-13;
+    }
+}
+.btn-s {
+    @apply btn-i-base;
+    height: 40px;
+    @apply px-16 rounded-5;
+    @apply text-15;
+    line-height: 16px;
+
+    & > .c-icon {
+        height: 16px;
+        width: 16px;
+    }
+
+    & > .kb-shortcut {
+        @apply text-13;
+        line-height: 13px;
+    }
+}
+.btn-m {
+    @apply btn-i-base;
+    height: 48px;
+    @apply px-20 rounded-5;
+    @apply text-16;
+
+    & > .c-icon {
+        height: 18px;
+        width: 18px;
+    }
+
+    & > .kb-shortcut {
+        @apply text-14;
+    }
+}
+.btn-l {
+    @apply btn-i-base;
+    height: 56px;
+    @apply px-24 rounded-8;
+    @apply text-18;
+
+    & > .c-icon {
+        height: 20px;
+        width: 20px;
+    }
+
+    & > .kb-shortcut {
+        @apply text-15;
+    }
+}

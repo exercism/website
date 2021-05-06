@@ -102,7 +102,7 @@ const Task = ({ task, open }: { task: AssignmentTask; open?: boolean }) => {
         />
         <button
           ref={buttonRef}
-          className="btn-small-secondary hints-btn"
+          className="btn-default btn-small hints-btn"
           onClick={() => {
             setIsModalOpen(true)
           }}

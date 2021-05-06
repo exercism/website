@@ -46,7 +46,7 @@ export const UnhappyStep = ({
       </div>
 
       <div className="form-buttons">
-        <a href={links.exercise} className="btn-cta">
+        <a href={links.exercise} className="btn-primary btn-m">
           View your solution
         </a>
       </div>

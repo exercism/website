@@ -28,7 +28,7 @@ module.exports = {
     },
     boxShadow: {
       none: 'none',
-      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.5)',
+      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: '0px 4px 24px 0px rgba(79, 114, 205, 0.15)',
@@ -93,9 +93,12 @@ module.exports = {
       darkBlue: '#6A93FF',
       veryLightBlue: '#E1EBFF',
 
-      purple: 'rgba(103, 93, 172, 1)',
+      btnBorder: '#5C5589',
+      primaryBtnBorder: '#130B43',
+      purple: '#604FCD',
+      purpleDarkened: '#3B2A93',
+      anotherPurple: '#604FCD' /* Remove this */,
       lightPurple: '#B0A8E3',
-      anotherPurple: '#604FCD',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
 

@@ -85,6 +85,7 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'minitest'
+  gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.17.0', require: false

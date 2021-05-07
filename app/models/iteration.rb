@@ -19,6 +19,8 @@ class Iteration < ApplicationRecord
     delegate :"has_#{type}_automated_feedback?", to: :submission
   end
 
+  scope :published, -> { where(published: true) }
+
   after_save_commit do
     solution.update_status!
     solution.update_iteration_status!

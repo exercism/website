@@ -239,6 +239,12 @@ initReact({
     <Common.ConceptWidget concept={data.concept} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-solution-view': (data: any) => (
+    <Common.SolutionView
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      language={data.language}
+    />
+  ),
   'common-expander': (data: any) => (
     <Common.Expander
       content={data.content}

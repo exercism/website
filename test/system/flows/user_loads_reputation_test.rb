@@ -55,7 +55,7 @@ module Flows
         sign_in!(user)
         visit dashboard_path
         find(".c-primary-reputation").click
-        find('li[role="menuitem"]').hover
+        first('li[role="menuitem"]').hover
       end
 
       assert_no_css ".indicator.unseen"

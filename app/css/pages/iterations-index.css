@@ -26,8 +26,11 @@
             & .editor {
                 @apply mr-32;
             }
-            & .c-copy-text-to-clipboard {
-                @apply w-100;
+            & .cli {
+                @apply overflow-hidden;
+                & .c-copy-text-to-clipboard {
+                    @apply w-100;
+                }
             }
         }
     }

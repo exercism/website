@@ -20,6 +20,7 @@
 
           .cli
             %h4 Work locally (via CLI)
+            = render ReactComponents::Common::CopyToClipboardButton.new(@exercise.download_cmd)
 
         = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
 

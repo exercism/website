@@ -46,6 +46,8 @@ class User < ApplicationRecord
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
+  has_one_attached :avatar
+
   before_create do
     self.name = self.handle if self.name.blank?
   end
@@ -111,6 +113,8 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
+    return Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
+
     # TOOD: Read correct s3 bucket
     # TODO: Add this image to the repo etc
     super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"

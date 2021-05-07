@@ -192,6 +192,7 @@ import {
   CommunitySolution,
   Testimonial,
   MentoredTrackExercise,
+  User,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -548,6 +549,11 @@ initReact({
     <CommunitySolutions.StarButton
       defaultNumStars={data.num_stars}
       defaultIsStarred={data.is_starred}
+      links={data.links}
+/>),
+  'profile-avatar-selector': (data: any) => (
+    <Profile.AvatarSelector
+      user={camelizeKeysAs<User>(data.user)}
       links={data.links}
     />
   ),

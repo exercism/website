@@ -64,6 +64,11 @@ export type Testimonial = {
   }
 }
 
+export type User = {
+  avatarUrl: string
+  handle: string
+}
+
 export type Exercise =
   | (ExerciseCore & { isUnlocked: true; links: { self: string } })
   | (ExerciseCore & { isUnlocked: false })

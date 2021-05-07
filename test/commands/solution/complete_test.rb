@@ -39,4 +39,19 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
     assert solution.reload.completed?
   end
+
+  test "creates activity" do
+    exercise = create :practice_exercise
+
+    user = create :user
+    user_track = create :user_track, user: user, track: exercise.track
+    solution = create :practice_solution, user: user, exercise: exercise
+
+    Solution::Complete.(solution, user_track)
+
+    activity = User::Activities::CompletedExerciseActivity.last
+    assert_equal user, activity.user
+    assert_equal exercise.track, activity.track
+    assert_equal solution, activity.solution
+  end
 end

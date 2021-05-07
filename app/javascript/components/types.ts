@@ -74,7 +74,6 @@ export type SolutionForStudent = {
   status: SolutionStatus
   mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean
-  numMentoringComments: number
   numIterations: number
   updatedAt: string
   exercise: {

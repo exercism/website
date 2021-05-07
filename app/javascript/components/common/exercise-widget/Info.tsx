@@ -2,7 +2,7 @@ import React from 'react'
 import pluralize from 'pluralize'
 import { TrackIcon } from '../TrackIcon'
 import { Exercise, Track, SolutionForStudent } from '../../types'
-import { GraphicalIcon } from '../GraphicalIcon'
+import { Icon, GraphicalIcon } from '../../common'
 import { SolutionStatusTag } from './SolutionStatusTag'
 import { ExerciseStatusTag } from './ExerciseStatusTag'
 import { Difficulty } from './Difficulty'
@@ -11,48 +11,72 @@ export const Info = ({
   exercise,
   track,
   solution,
+  renderBlurb,
+  isSkinny,
 }: {
   exercise: Exercise
-  track: Track
+  track?: Track
   solution?: SolutionForStudent
+  renderBlurb: boolean
+  isSkinny: boolean
 }): JSX.Element => {
   return (
     <div className="--info">
       <div className="--title">
         {exercise.title}
-        <div className="--track">
-          in <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-          <div className="--track-title">{track.title}</div>
-        </div>
+        {track && !isSkinny ? (
+          <div className="--track">
+            in <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+            <div className="--track-title">{track.title}</div>
+          </div>
+        ) : null}
         {solution && solution.hasNotifications ? (
           <div className="c-notification-dot">
             <span className="tw-sr-only">has notifications</span>
           </div>
         ) : null}
       </div>
-      <div className="--data">
-        {solution ? (
-          <SolutionStatusTag status={solution.status} />
-        ) : (
-          <ExerciseStatusTag exercise={exercise} />
-        )}
-        {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
+      {isSkinny ? null : (
+        <div className="--data">
+          {solution ? (
+            <SolutionStatusTag status={solution.status} />
+          ) : (
+            <ExerciseStatusTag exercise={exercise} />
+          )}
+          {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
 
-        {solution && solution.numIterations > 0 ? (
-          <div className="--iterations-count">
-            <GraphicalIcon icon="iteration" />
-            {solution.numIterations}{' '}
-            {pluralize('iteration', solution.numIterations)}
-          </div>
-        ) : null}
-        {solution && solution.numMentoringComments > 0 ? (
-          <div className="--mentor-comments-count">
-            <GraphicalIcon icon="mentoring" />
-            {solution.numMentoringComments}
-          </div>
-        ) : null}
-      </div>
-      <div className="--blurb">{exercise.blurb}</div>
+          {solution && solution.mentoringStatus == 'requested' ? (
+            <Icon
+              icon="mentoring-status-requested"
+              alt="Mentoring requested"
+              className="--mentoring-status"
+            />
+          ) : solution && solution.mentoringStatus == 'in_progress' ? (
+            <Icon
+              icon="mentoring-status-in-progress"
+              alt="Mentoring in progress"
+              className="--mentoring-status"
+            />
+          ) : solution && solution.mentoringStatus == 'finished' ? (
+            <Icon
+              icon="mentoring-status-finished"
+              alt="Mentoring finished"
+              className="--mentoring-status"
+            />
+          ) : null}
+
+          {solution && solution.numIterations > 0 ? (
+            <div className="--iterations-count">
+              <GraphicalIcon icon="iteration" />
+              {solution.numIterations}{' '}
+              {pluralize('iteration', solution.numIterations)}
+            </div>
+          ) : null}
+        </div>
+      )}
+      {renderBlurb && !isSkinny ? (
+        <div className="--blurb">{exercise.blurb}</div>
+      ) : null}
     </div>
   )
 }

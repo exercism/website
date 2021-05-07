@@ -276,49 +276,57 @@
                             width: 64px;
                             @apply mr-16;
                         }
-                        & .info {
-                            @apply flex-grow;
-
-                            & .title {
-                                @apply text-h4 mb-6;
+                        & .c-exercise-widget {
+                            & .--blurb {
+                                @apply hidden;
                             }
-                            & .tags {
-                                @apply flex;
-
-                                .c-exercise-status-tag {
-                                    @apply mr-12;
-                                }
-                                & .mentor-comments {
-                                    @apply border-1 rounded-5;
-                                    @apply flex items-center px-12;
-                                    @apply mr-12;
-                                    height: 32px;
-                                    @apply text-textColor3 font-medium;
-
-                                    &.unread {
-                                        @apply border-orange bg-lightOrange;
-                                        & .c-icon {
-                                            @apply text-orange;
-                                        }
-                                    }
-                                    & .c-icon {
-                                        height: 16px;
-                                        width: 16px;
-                                        @apply mr-8;
-                                    }
-                                }
-                                & .unsubmitted-code {
-                                    @apply flex items-center px-12;
-                                    @apply text-textColor6 font-medium;
-
-                                    & .c-icon {
-                                        height: 16px;
-                                        width: 16px;
-                                        @apply mr-12;
-                                    }
-                                }
+                            &:hover {
+                                box-shadow: none;
                             }
                         }
+                        /* & .info { */
+                        /*     @apply flex-grow; */
+
+                        /*     & .title { */
+                        /*         @apply text-h4 mb-6; */
+                        /*     } */
+                        /*     & .tags { */
+                        /*         @apply flex; */
+
+                        /*         & .c-exercise-status-tag { */
+                        /*             @apply mr-12; */
+                        /*         } */
+                        /*         & .mentor-comments { */
+                        /*             @apply border-1 rounded-5; */
+                        /*             @apply flex items-center px-12; */
+                        /*             @apply mr-12; */
+                        /*             height: 32px; */
+                        /*             @apply text-textColor3 font-medium; */
+
+                        /*             &.unread { */
+                        /*                 @apply border-orange bg-lightOrange; */
+                        /*                 & .c-icon { */
+                        /*                     @apply text-orange; */
+                        /*                 } */
+                        /*             } */
+                        /*             & .c-icon { */
+                        /*                 height: 16px; */
+                        /*                 width: 16px; */
+                        /*                 @apply mr-8; */
+                        /*             } */
+                        /*         } */
+                        /*         & .unsubmitted-code { */
+                        /*             @apply flex items-center px-12; */
+                        /*             @apply text-textColor6 font-medium; */
+
+                        /*             & .c-icon { */
+                        /*                 height: 16px; */
+                        /*                 width: 16px; */
+                        /*                 @apply mr-12; */
+                        /*             } */
+                        /*         } */
+                        /*     } */
+                        /* } */
                     }
                 }
                 & > .latest-iteration {

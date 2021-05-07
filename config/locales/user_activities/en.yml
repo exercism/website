@@ -11,3 +11,7 @@ en:
     completed_exercise:
       1: >
         You completed <strong>%{exercise_title}</strong>
+
+    published_exercise:
+      1: >
+        You published <strong>%{exercise_title}</strong>

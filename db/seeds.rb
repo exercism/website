@@ -91,7 +91,7 @@ puts "exercism configure -a http://local.exercism.io:3020/api/v1 -t #{auth_token
 puts ""
 
 ruby = Track.find_by_slug(:ruby)
-UserTrack.create!(user: iHiD, track: ruby)
+user_track = UserTrack.create!(user: iHiD, track: ruby)
 solution = Solution::Create.(
   iHiD,
   ruby.practice_exercises.find_by!(slug: "hello-world")
@@ -108,7 +108,7 @@ submission.files.create!(
 )
 Iteration::Create.(solution, submission)
 
-solution.update!(completed_at: Time.current, status: :completed)
+Solution::Complete.(solution, user_track)
 Solution::Publish.(solution, [])
 
 ## Create mentoring solutions

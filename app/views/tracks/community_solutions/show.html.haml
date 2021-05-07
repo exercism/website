@@ -74,7 +74,7 @@
           = track_icon @track
           = @track.title
           Exercise
-        = render ReactComponents::Common::ExerciseWidget.new(@exercise, @user_track, size: :medium)
+        = render ReactComponents::Common::ExerciseWidget.new(@exercise, @user_track, render_track: false, render_blurb: false)
 
       .other-solutions
         %h2

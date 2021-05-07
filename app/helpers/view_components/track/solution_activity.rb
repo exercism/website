@@ -12,13 +12,12 @@ module ViewComponents
       def header
         tag.header do
           link_to(Exercism::Routes.track_exercise_url(track, exercise), class: 'content') do
-            exercise_icon(exercise) +
-              tag.div(class: 'info') do
-                tag.div(exercise.title, class: 'title') +
-                  tag.div(class: 'tags') do
-                    safe_join([status_tag, mentor_tag, unsubmitted_code_tag])
-                  end
-              end
+            render(
+              ReactComponents::Common::ExerciseWidget.new(
+                exercise, user_track, solution: solution,
+                                      render_as_link: false, render_blurb: false, render_track: false
+              )
+            )
           end + continue_button
         end
       end

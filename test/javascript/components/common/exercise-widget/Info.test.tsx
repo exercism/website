@@ -28,7 +28,6 @@ test('renders has notifications when solution has notifications', async () => {
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {
@@ -62,7 +61,6 @@ test('does not render has notifications when solution has no notifications', asy
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {
@@ -120,7 +118,6 @@ test('renders solution status when passed in', async () => {
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {
@@ -202,7 +199,6 @@ test('does not render exercise difficulty when solution is passed in', async () 
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {
@@ -236,7 +232,6 @@ test('renders number of iterations when solution has more than 0', async () => {
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {
@@ -270,7 +265,6 @@ test('does not render number of iterations when solution has 0', async () => {
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 0,
   }
   const track: Track = {
@@ -308,7 +302,7 @@ test('does not render number of iterations when there is no solution', async () 
   expect(screen.queryByText('iteration')).not.toBeInTheDocument()
 })
 
-test('renders number of mentoring comments when solution has more than 0', async () => {
+test('renders mentoring requested', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
     title: "Lucian's Luscious Lasagna",
@@ -324,12 +318,8 @@ test('renders number of mentoring comments when solution has more than 0', async
   const solution: SolutionForStudent = {
     url: 'https://exercism.test/solution',
     status: 'completed',
-    hasNotifications: true,
-    exercise: {
-      slug: 'ruby',
-    },
-    numMentoringComments: 2,
-    numIterations: 3,
+    mentoringStatus: 'requested',
+    exercise: { slug: 'ruby' },
   }
   const track: Track = {
     id: '1',
@@ -339,7 +329,65 @@ test('renders number of mentoring comments when solution has more than 0', async
 
   render(<Info exercise={exercise} track={track} solution={solution} />)
 
-  expect(screen.getByText('2')).toBeInTheDocument()
+  expect(screen.getByAltText('Mentoring requested')).toBeInTheDocument()
+})
+test('renders mentoring in progress', async () => {
+  const exercise: Exercise = {
+    slug: 'lasagna',
+    title: "Lucian's Luscious Lasagna",
+    iconUrl: 'https://exercism.test/exercise_icon',
+    blurb: 'Tasty exercise',
+    difficulty: 'easy',
+    isUnlocked: true,
+    isRecommended: true,
+    links: {
+      self: 'https://exercism.test/exercise',
+    },
+  }
+  const solution: SolutionForStudent = {
+    url: 'https://exercism.test/solution',
+    status: 'completed',
+    mentoringStatus: 'in_progress',
+    exercise: { slug: 'ruby' },
+  }
+  const track: Track = {
+    id: '1',
+    title: 'Ruby',
+    iconUrl: 'https://exercism.test/track_icon',
+  }
+
+  render(<Info exercise={exercise} track={track} solution={solution} />)
+
+  expect(screen.getByAltText('Mentoring in progress')).toBeInTheDocument()
+})
+test('renders mentoring finished', async () => {
+  const exercise: Exercise = {
+    slug: 'lasagna',
+    title: "Lucian's Luscious Lasagna",
+    iconUrl: 'https://exercism.test/exercise_icon',
+    blurb: 'Tasty exercise',
+    difficulty: 'easy',
+    isUnlocked: true,
+    isRecommended: true,
+    links: {
+      self: 'https://exercism.test/exercise',
+    },
+  }
+  const solution: SolutionForStudent = {
+    url: 'https://exercism.test/solution',
+    status: 'completed',
+    mentoringStatus: 'finished',
+    exercise: { slug: 'ruby' },
+  }
+  const track: Track = {
+    id: '1',
+    title: 'Ruby',
+    iconUrl: 'https://exercism.test/track_icon',
+  }
+
+  render(<Info exercise={exercise} track={track} solution={solution} />)
+
+  expect(screen.getByAltText('Mentoring finished')).toBeInTheDocument()
 })
 
 test('does not render number of mentoring comments when solution has 0', async () => {
@@ -362,7 +410,6 @@ test('does not render number of mentoring comments when solution has 0', async (
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 0,
     numIterations: 0,
   }
   const track: Track = {

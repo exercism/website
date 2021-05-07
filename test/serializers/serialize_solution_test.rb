@@ -17,7 +17,6 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
-      num_mentoring_comments: 2, # TOOD
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,
       updated_at: solution.updated_at.iso8601,

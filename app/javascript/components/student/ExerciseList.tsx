@@ -152,11 +152,10 @@ export const ExerciseList = ({
             <div className="exercises">
               {statusFilter.apply(results).map((result) => {
                 return (
+                  /* Medium */
                   <ExerciseWidget
                     key={result.exercise.slug}
                     exercise={result.exercise}
-                    track={track}
-                    size="medium"
                     solution={result.solution}
                   />
                 )

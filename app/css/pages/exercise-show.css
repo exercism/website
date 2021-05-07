@@ -389,10 +389,10 @@
             }
         }
         & .prereqs {
-            @apply flex;
+            @apply flex flex-wrap;
 
             & .c-exercise-widget {
-                @apply gap-8;
+                @apply mr-8 mb-8;
             }
         }
         & h4 {

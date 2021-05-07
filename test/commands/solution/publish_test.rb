@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Solution::CompleteTest < ActiveSupport::TestCase
+class Solution::PublishTest < ActiveSupport::TestCase
   test "sets solution and iteration as published" do
     solution = create :practice_solution
     iteration = create :iteration, solution: solution

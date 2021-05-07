@@ -114,7 +114,7 @@ export const Reputation = ({
     listAttributes,
     itemAttributes,
     open,
-  } = useDropdown(0, undefined, {
+  } = useDropdown((data?.results.length || 0) + 1, undefined, {
     placement: 'bottom-start',
     modifiers: [
       {

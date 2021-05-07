@@ -13,16 +13,16 @@ class Track
 
     def call
       @tracks = Track.active
-      filter_criteria
-      filter_tags
-      filter_status
+      filter_criteria!
+      filter_tags!
+      filter_status!
       @tracks
     end
 
     private
     attr_reader :criteria, :tags, :status, :user, :tracks
 
-    def filter_criteria
+    def filter_criteria!
       return if criteria.blank?
 
       @tracks = tracks.where(
@@ -30,7 +30,7 @@ class Track
       )
     end
 
-    def filter_tags
+    def filter_tags!
       return if tags.blank?
 
       tags.each do |tag|
@@ -40,7 +40,7 @@ class Track
       end
     end
 
-    def filter_status
+    def filter_status!
       return if status.blank?
       raise TrackSearchStatusWithoutUserError unless user
       raise TrackSearchInvalidStatusError unless STATUSES.include?(status.to_sym)

@@ -8,8 +8,6 @@ class Tracks::ExercisesController < ApplicationController
   disable_site_header! only: [:edit]
 
   def index
-    # TODO: - Sort by whether exercise is started, available, completed.
-    @exercises = @track.exercises.sorted
     @num_completed = @user_track.num_completed_exercises
   end
 

@@ -10,6 +10,7 @@ module API
 
       Exercise::Search.expects(:call).with(
         track,
+        user_track: nil,
         criteria: "ru"
       ).returns(Exercise.page(1))
 

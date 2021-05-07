@@ -10,6 +10,26 @@ module API
 
       Exercise::Search.expects(:call).with(
         track,
+        user_track: nil,
+        criteria: "ru"
+      ).returns(Exercise.page(1))
+
+      get api_track_exercises_path(
+        track,
+        criteria: "ru"
+      ), headers: @headers, as: :json
+
+      assert_response :success
+    end
+
+    test "index should proxy params for user" do
+      setup_user
+      track = create :track
+      user_track = create :user_track, user: @current_user, track: track
+
+      Exercise::Search.expects(:call).with(
+        track,
+        user_track: user_track,
         criteria: "ru"
       ).returns(Exercise.page(1))
 

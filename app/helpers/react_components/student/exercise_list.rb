@@ -1,7 +1,7 @@
 module ReactComponents
   module Student
     class ExerciseList < ReactComponent
-      initialize_with :track
+      initialize_with :track, :user_track
 
       def to_s
         super("student-exercise-list", {
@@ -23,7 +23,7 @@ module ReactComponents
 
         {
           exercises: SerializeExercises.(
-            track.exercises.sorted,
+            Exercise::Search.(track, user_track: user_track),
             user_track: UserTrack.for(current_user, track)
           ),
           solutions: solutions

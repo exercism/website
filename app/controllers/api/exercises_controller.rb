@@ -7,12 +7,13 @@ module API
     def index
       exercises = Exercise::Search.(
         @track,
+        user_track: @user_track,
         criteria: params[:criteria]
       )
       output = {
         exercises: SerializeExercises.(
           exercises,
-          user_track: UserTrack.for(current_user, @track)
+          user_track: @user_track
         )
       }
 
@@ -29,6 +30,7 @@ module API
     private
     def use_track
       @track = Track.find(params[:track_id])
+      @user_track = UserTrack.for(current_user, @track)
     end
   end
 end

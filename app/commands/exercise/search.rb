@@ -2,8 +2,9 @@ class Exercise
   class Search
     include Mandate
 
-    def initialize(track, criteria: nil)
+    def initialize(track, user_track: nil, criteria: nil)
       @track = track
+      @user_track = user_track
       @criteria = criteria
     end
 
@@ -26,11 +27,26 @@ class Exercise
     end
 
     def sort!
-      # TOOD: Formalise this from the config.json
-      @exercises = @exercises.order('id')
+      @exercises = @exercises.order(:position)
+
+      return if !user_track || user_track.external?
+
+      mapping = %i[
+        iterated started
+        available
+        completed published
+        locked
+      ]
+
+      @exercises = @exercises.sort_by do |exercise|
+        status = user_track.exercise_status(exercise).to_sym
+        modifier = mapping.index(status)
+
+        "#{modifier}0000#{exercise.id}".to_i
+      end
     end
 
     private
-    attr_reader :track, :criteria
+    attr_reader :track, :user_track, :criteria
   end
 end

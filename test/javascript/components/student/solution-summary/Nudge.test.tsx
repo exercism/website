@@ -13,7 +13,6 @@ test('does not animate on initial load', async () => {
     id: 'uuid',
     url: 'https://exercism.test/solutions/uuid',
     hasNotifications: false,
-    numMentoringComments: 12,
     status: 'started' as SolutionStatus,
     mentoringStatus: 'requested' as SolutionMentoringStatus,
     numIterations: 10,

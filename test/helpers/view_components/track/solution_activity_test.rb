@@ -1,6 +1,5 @@
 require "test_helper"
 
-# rubocop:disable Layout/LineLength
 class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
   include IconsHelper
   include Webpacker::Helper
@@ -16,13 +15,10 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
       <div class="exercise">
         <header>
           <a class="content" href="https://test.exercism.io/tracks/ruby/exercises/bob">
-            <img alt=\"Bob\" class=\"c-icon c-exercise-icon \" onerror=\"if (this.src != &#39;http://test.host/packs-test/media/images/graphics/missing-exercise-edf3eecaaf596fb574782fa08467149d.svg&#39;) this.src = &#39;http://test.host/packs-test/media/images/graphics/missing-exercise-edf3eecaaf596fb574782fa08467149d.svg&#39;;\" src=\"https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/exercises/bob.svg\" />
-            <div class="info">
-              <div class="title">Bob</div>
-              <div class="tags">
-                <div class="c-exercise-status-tag --started">Started</div>
-              </div>
-            </div>
+          #{render ReactComponents::Common::ExerciseWidget.new(
+            exercise, user_track, solution: solution,
+                                  render_as_link: false, render_blurb: false, render_track: false
+          )}
           </a>
 
           <div class="c-combo-button">
@@ -83,4 +79,3 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
     # assert_include expected, comp.to_s
   end
 end
-# rubocop:enable Layout/LineLength

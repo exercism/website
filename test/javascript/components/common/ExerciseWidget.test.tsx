@@ -24,11 +24,11 @@ test('renders a solution when passed in', async () => {
   const solution: SolutionForStudent = {
     url: 'https://exercism.test/solution',
     status: 'completed',
+    mentoringStatus: 'requested',
     hasNotifications: true,
     exercise: {
       slug: 'ruby',
     },
-    numMentoringComments: 2,
     numIterations: 3,
   }
   const track: Track = {
@@ -63,7 +63,7 @@ test('renders a solution when passed in', async () => {
   expect(screen.getByText('Ruby')).toBeInTheDocument()
   expect(screen.getByText('has notifications')).toBeInTheDocument()
   expect(screen.getByText('Completed')).toBeInTheDocument()
-  expect(screen.getByText('2')).toBeInTheDocument()
+  expect(screen.getByAltText('Mentoring requested')).toBeInTheDocument()
   expect(screen.getByText('3 iterations')).toBeInTheDocument()
   expect(screen.getByText('Tasty exercise')).toBeInTheDocument()
 })

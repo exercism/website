@@ -1,6 +1,8 @@
 module ReactComponents
   module Mentoring
     class Inbox < ReactComponent
+      initialize_with :params
+
       def to_s
         super(
           "mentoring-inbox",
@@ -26,14 +28,20 @@ module ReactComponents
       def discussions_request
         {
           endpoint: Exercism::Routes.api_mentoring_discussions_path(sideload: [:all_discussion_counts]),
-          query: { status: DEFAULT_STATUS }
+          query: {
+            status: params[:status] || DEFAULT_STATUS,
+            order: params[:order],
+            criteria: params[:criteria],
+            page: params[:page],
+            track: params[:track]
+          }.compact
         }
       end
 
       def tracks_request
         {
           endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,
-          query: { status: DEFAULT_STATUS }
+          query: { status: params[:status] || DEFAULT_STATUS }
         }
       end
     end

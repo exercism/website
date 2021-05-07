@@ -20,7 +20,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
 
           assert_css "img[src='#{ruby.icon_url}'][alt='icon for Ruby track']"
           assert_css "img[src='#{student.avatar_url}'][alt=\"Uploaded avatar of Mentee\"]"
@@ -51,7 +51,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
 
           assert_text "on Series"
           assert_no_text "on Tournament"
@@ -80,7 +80,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
           click_on "Open the track filter"
           find("label", text: "Go").click
 
@@ -108,7 +108,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
           fill_in "Filter by student or exercise name", with: "Tourn"
 
           assert_text "on Tournament"
@@ -135,7 +135,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
           select "Sort by Exercise", from: "discussion-sorter-sort", exact: true
 
           assert_text "on Series"
@@ -162,7 +162,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
           click_on "Awaiting student1"
 
           assert_text "on Tournament"
@@ -177,7 +177,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_inbox_url
+          visit mentoring_inbox_url
 
           assert_text "No mentoring discussions"
           assert_link "Mentor a new solution", href: mentoring_queue_path

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { DiscussionList } from './inbox/DiscussionList'
 import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
@@ -8,11 +8,14 @@ import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
+import { useHistory } from '../../hooks/use-history'
+import { useDebounce } from '../../hooks/use-debounce'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const { request, setCriteria, setOrder, setPage, setQuery } = useList(
     props.discussionsRequest
   )
+  const debouncedQuery = useDebounce(request.query, 500)
   const isMountedRef = useIsMounted()
   const {
     status,
@@ -21,10 +24,15 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     isFetching,
     refetch,
   } = usePaginatedRequestQuery(
-    ['mentor-discussion-list', request.endpoint, request.query],
+    ['mentor-discussion-list', request.endpoint, debouncedQuery],
     request,
     isMountedRef
   )
+
+  useHistory({
+    pushOn: debouncedQuery,
+    replaceOn: request.query,
+  })
 
   const setTrack = (track) => {
     setQuery({ ...request.query, track: track, page: 1 })

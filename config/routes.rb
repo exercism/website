@@ -318,12 +318,6 @@ Rails.application.routes.draw do
 
         namespace :mentoring do
           resource :discussion, controller: "discussion", only: [:show]
-          resource :inbox, controller: "inbox", only: [:show] do
-            member do
-              get 'tracks'
-              get 'conversations'
-            end
-          end
         end
         namespace :tooltips do
           resource :tooltip, controller: "tooltip", only: [:show] do

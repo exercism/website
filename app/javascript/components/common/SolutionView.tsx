@@ -30,7 +30,7 @@ export const SolutionView = ({
   )
 
   return (
-    <React.Fragment>
+    <div className="c-solution-iterations">
       <IterationSummaryWithWebsockets iteration={currentIteration} />
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
@@ -43,7 +43,7 @@ export const SolutionView = ({
           ) : null}
         </FetchingBoundary>
       </ResultsZone>
-      <footer className="discussion-footer">
+      <footer className="c-iterations-footer">
         {iterations.length > 1 ? (
           <IterationsList
             iterations={iterations}
@@ -52,6 +52,6 @@ export const SolutionView = ({
           />
         ) : null}
       </footer>
-    </React.Fragment>
+    </div>
   )
 }

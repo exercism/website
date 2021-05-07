@@ -48,7 +48,7 @@ export const IterationView = ({
           ) : null}
         </FetchingBoundary>
       </ResultsZone>
-      <footer className="discussion-footer">
+      <footer className="c-iterations-footer">
         {iterations.length > 1 ? (
           <IterationsList
             iterations={iterations}

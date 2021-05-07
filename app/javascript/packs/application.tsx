@@ -38,6 +38,8 @@ import '../../css/components/underline'
 import '../../css/components/docs-main-nav'
 import '../../css/components/docs-side-nav'
 import '../../css/components/docs-tracks-list'
+import '../../css/components/iterations-footer'
+import '../../css/components/solution-iterations'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'

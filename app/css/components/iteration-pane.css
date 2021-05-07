@@ -25,7 +25,6 @@
         }
     }
     & .code {
-        @apply py-16;
         @apply overflow-auto;
 
         & code {

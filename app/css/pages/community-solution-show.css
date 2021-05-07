@@ -104,9 +104,13 @@
                 & .c-react-wrapper-track-iteration-summary {
                     height: auto;
                 }
-                & .c-iteration-summary {
-                    @apply py-8 px-24;
-                    @apply border-b-1 border-borderColor7;
+                & .c-solution-iterations {
+                    height: 500px;
+
+                    & .c-iteration-summary {
+                        @apply py-8 px-24;
+                        @apply border-b-1 border-borderColor7;
+                    }
                 }
             }
             & .mentoring {

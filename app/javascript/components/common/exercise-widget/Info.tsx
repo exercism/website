@@ -2,7 +2,7 @@ import React from 'react'
 import pluralize from 'pluralize'
 import { TrackIcon } from '../TrackIcon'
 import { Exercise, Track, SolutionForStudent } from '../../types'
-import { GraphicalIcon } from '../GraphicalIcon'
+import { Icon, GraphicalIcon } from '../../common'
 import { SolutionStatusTag } from './SolutionStatusTag'
 import { ExerciseStatusTag } from './ExerciseStatusTag'
 import { Difficulty } from './Difficulty'
@@ -45,11 +45,24 @@ export const Info = ({
           )}
           {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
 
-          {solution && solution.numMentoringComments > 0 ? (
-            <div className="--mentor-comments-count">
-              <GraphicalIcon icon="mentoring" />
-              {solution.numMentoringComments}
-            </div>
+          {solution && solution.mentoringStatus == 'requested' ? (
+            <Icon
+              icon="mentoring-status-requested"
+              alt="Mentoring requested"
+              className="--mentoring-status"
+            />
+          ) : solution && solution.mentoringStatus == 'in_progress' ? (
+            <Icon
+              icon="mentoring-status-in-progress"
+              alt="Mentoring in progress"
+              className="--mentoring-status"
+            />
+          ) : solution && solution.mentoringStatus == 'finished' ? (
+            <Icon
+              icon="mentoring-status-finished"
+              alt="Mentoring finished"
+              className="--mentoring-status"
+            />
           ) : null}
 
           {solution && solution.numIterations > 0 ? (

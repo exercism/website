@@ -83,7 +83,6 @@
                 @apply mr-16;
             }
             & .--iterations-count {
-                @apply ml-4;
                 @apply flex items-center;
                 @apply leading-150 font-medium text-textColor6;
 
@@ -91,20 +90,15 @@
                     height: 16px;
                     width: 16px;
                     filter: var(--textColor6-filter);
-                    @apply mr-8;
+                    @apply mr-6;
                 }
             }
-            & .--mentor-comments-count {
+            & .--mentoring-status {
                 @apply mr-16;
-                @apply flex items-center;
-                @apply leading-170 text-orange font-semibold;
 
-                & .c-icon {
-                    height: 16px;
-                    width: 16px;
-                    filter: var(--orange-filter);
-                    @apply mr-8;
-                }
+                height: 24px;
+                width: 24px;
+                filter: var(--textColor6-filter);
             }
         }
         & > .--blurb {
@@ -118,10 +112,7 @@
         }
     }
 
-    &.--tooltip {
-    }
     &.--locked {
-        background: rgba(19, 11, 67, 0.005);
         @apply shadow-sm;
         cursor: not-allowed;
 

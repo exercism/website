@@ -132,6 +132,7 @@ const ReferenceElement = forwardRef<
           {...props}
         >
           <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+          {info}
         </div>
       )
     } else {

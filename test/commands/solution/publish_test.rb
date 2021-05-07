@@ -74,4 +74,20 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     AwardReputationTokenJob.expects(:perform_later).never
     Solution::Publish.(concept_solution, [5])
   end
+
+  test "creates activity" do
+    exercise = create :practice_exercise
+
+    user = create :user
+    create :user_track, user: user, track: exercise.track
+    solution = create :practice_solution, user: user, exercise: exercise
+    iteration = create :iteration, solution: solution
+
+    Solution::Publish.(solution, [iteration.id])
+
+    activity = User::Activities::PublishedExerciseActivity.last
+    assert_equal user, activity.user
+    assert_equal exercise.track, activity.track
+    assert_equal solution, activity.solution
+  end
 end

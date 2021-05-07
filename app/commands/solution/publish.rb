@@ -15,6 +15,7 @@ class Solution
       end
 
       award_reputation!
+      record_activity!
     end
 
     def award_reputation!
@@ -26,6 +27,18 @@ class Solution
         solution: solution,
         level: solution.exercise.difficulty_description
       )
+    end
+
+    def record_activity!
+      User::Activity::Create.(
+        :published_exercise,
+        solution.user,
+        track: solution.track,
+        solution: solution
+      )
+    rescue StandardError => e
+      Rails.logger.error "Failed to create activity"
+      Rails.logger.error e.message
     end
 
     def iterations

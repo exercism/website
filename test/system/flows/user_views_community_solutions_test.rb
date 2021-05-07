@@ -69,5 +69,33 @@ module Flows
       assert_text "author2's solution"
       assert_no_text "author1's solution"
     end
+
+    test "views iterations per community solution" do
+      user = create :user, handle: "handle"
+      ruby = create :track, slug: "ruby"
+      exercise = create :concept_exercise, track: ruby
+      solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: user
+      submission_1 = create :submission, solution: solution
+      create :submission_file,
+        submission: submission_1,
+        content: "class Bob\nend",
+        filename: "bob.rb"
+      submission_2 = create :submission, solution: solution
+      create :submission_file,
+        submission: submission_2,
+        content: "class Lasagna\nend",
+        filename: "bob.rb"
+      create :iteration, published: true, idx: 1, solution: solution, submission: submission_1
+      create :iteration, published: true, idx: 2, solution: solution, submission: submission_2
+
+      use_capybara_host do
+        sign_in!
+        visit track_exercise_community_solution_path(exercise.track, exercise, user.handle)
+        assert_text "class Lasagna", wait: 2
+
+        within("footer .iterations") { click_on "1" }
+        assert_text "class Bob", wait: 2
+      end
+    end
   end
 end

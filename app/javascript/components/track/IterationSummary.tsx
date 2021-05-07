@@ -38,6 +38,10 @@ export const IterationSummaryWithWebsockets = ({
     }
   }, [channel, iteration, setIteration])
 
+  useEffect(() => {
+    setIteration(initialIteration)
+  }, [initialIteration])
+
   return <IterationSummary iteration={iteration} {...props} />
 }
 

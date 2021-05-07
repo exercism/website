@@ -1,0 +1,18 @@
+@import "../styles";
+
+.c-solution-iterations {
+    @apply flex flex-col;
+    @apply overflow-hidden;
+    & .c-iteration-summary {
+        @apply flex-grow-0;
+    }
+    & .c-results-zone {
+        @apply flex-grow flex flex-col;
+        & .c-iteration-pane {
+            @apply h-1;
+        }
+    }
+    & .c-iterations-footer {
+        @apply flex-grow-0;
+    }
+}

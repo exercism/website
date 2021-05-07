@@ -1,0 +1,52 @@
+.c-iterations-footer {
+    @apply flex items-center px-24 py-16;
+    z-index: 1;
+
+    background: linear-gradient(
+        180deg,
+        var(--backgroundColorB) 0%,
+        var(--backgroundColorA) 50%
+    );
+    box-shadow: 0px -4px 16px var(--backgroundColorB);
+
+    & .iterations {
+        @apply flex flex-grow items-center;
+        @apply mr-24;
+
+        & .iteration {
+            height: 32px;
+            width: 32px;
+            @apply relative flex items-center justify-center ml-20;
+            @apply rounded-circle border-1 border-borderLight;
+            @apply font-semibold font-mono text-13;
+
+            & .comments {
+                top: -12px;
+                left: 20px;
+
+                @apply absolute py-4 px-6 rounded-5;
+                @apply border-1 border-borderLight bg-backgroundColorA;
+                @apply text-darkGray text-13 font-semibold font-mono;
+
+                &.unread {
+                    @apply border-orange bg-lightOrange;
+                }
+            }
+
+            &.active {
+                @apply text-darkGray border-lightBlue bg-veryLightBlue;
+            }
+        }
+        & .previous {
+            @apply ml-64 mr-12;
+        }
+    }
+    & .settings-button {
+        @apply ml-auto;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+}

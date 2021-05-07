@@ -38,6 +38,8 @@ import '../../css/components/underline'
 import '../../css/components/docs-main-nav'
 import '../../css/components/docs-side-nav'
 import '../../css/components/docs-tracks-list'
+import '../../css/components/iterations-footer'
+import '../../css/components/solution-iterations'
 
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
@@ -239,6 +241,12 @@ initReact({
     <Common.ConceptWidget concept={data.concept} />
   ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
+  'common-solution-view': (data: any) => (
+    <Common.SolutionView
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      language={data.language}
+    />
+  ),
   'common-expander': (data: any) => (
     <Common.Expander
       content={data.content}

@@ -76,8 +76,7 @@ class Track < ApplicationRecord
   end
 
   def icon_url
-    # TOOD: Read correct dir
-    "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/tracks/#{slug}.svg"
+    "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
   end
 
   def ace_language

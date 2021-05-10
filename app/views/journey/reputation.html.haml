@@ -1,5 +1,4 @@
 #page-journey
   = render "journey/hero", user_tracks: @user_tracks
 
-  %article.reputation-tab.theme-dark
-    = ReactComponents::Journey::ContributionsList.new
+  = render ReactComponents::Journey::JourneyPage.new("reputation")

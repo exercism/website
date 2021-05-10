@@ -213,6 +213,7 @@ import * as Profile from '../components/profile'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
+import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -228,11 +229,13 @@ initReact({
       })}
     />
   ),
-  'journey-solutions-list': (data: any) => (
-    <JourneyComponents.SolutionsList endpoint={data.endpoint} />
-  ),
-  'journey-contributions-list': (data: any) => (
-    <JourneyComponents.ContributionsList endpoint={data.endpoint} />
+  'journey-journey-page': (data: any) => (
+    <JourneyComponents.JourneyPage
+      categories={camelizeKeysAs<readonly JourneyPageCategory[]>(
+        data.categories
+      )}
+      defaultCategory={data.default_category}
+    />
   ),
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />

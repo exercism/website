@@ -61,7 +61,7 @@ class User::ReputationToken::SearchTest < ActiveSupport::TestCase
     assert_equal [token_2, token_1], User::ReputationToken::Search.(user)
   end
 
-  test "sort unseen first by default" do
+  test "sort by unseen first" do
     user = create :user
     token_1 = create :user_code_contribution_reputation_token, user: user, seen: true
     token_2 = create :user_code_contribution_reputation_token, user: user, seen: false

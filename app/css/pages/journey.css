@@ -4,8 +4,7 @@
     @apply bg-darkThemeBackgroundColor;
 
     & header.hero {
-        @apply mb-48;
-        @apply border-unnamed13 border-b-1;
+        @apply mb-4;
 
         & .container {
             @apply relative;
@@ -92,21 +91,22 @@
             margin-bottom: 116px;
             @apply text-veryLightBlue;
         }
-        & .tabs {
-            @apply flex;
-            @apply py-24;
+    }
+    & .tabs {
+        @apply flex justify-center;
+        @apply py-24 mb-48;
+        @apply border-unnamed13 border-b-1;
 
-            & .c-tab {
-                height: 49px;
-                @apply text-18;
-                @apply mr-24 px-24 py-12;
+        & .c-tab {
+            height: 49px;
+            @apply text-18;
+            @apply mr-24 px-24 py-12;
 
-                & .c-icon {
-                    height: 24px;
-                    width: 24px;
-                    @apply mr-16;
-                    filter: var(--textColor6-filter);
-                }
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                @apply mr-16;
+                filter: var(--textColor6-filter);
             }
         }
     }

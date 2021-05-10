@@ -285,6 +285,9 @@ initReact({
       isSkinny={data.skinny}
     />
   ),
+  'common-share-solution-button': (data: any) => (
+    <Common.ShareSolutionButton title={data.title} links={data.links} />
+  ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
       discussionsRequest={data.discussions_request}

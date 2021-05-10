@@ -33,10 +33,7 @@
 
       .decorations
       .buttons
-        %button.share-button
-          .inner
-            = graphical_icon "share-with-gradient"
-            Share
+        = render ReactComponents::Common::ShareSolutionButton.new(@solution)
 
         %button.star-button
           = icon "star", "Number of stars"

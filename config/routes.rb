@@ -290,7 +290,6 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
         get :exercise_tooltip
         get :select_exercise_for_mentoring
-        get :share_solution_dropdown
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

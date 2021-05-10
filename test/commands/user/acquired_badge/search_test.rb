@@ -38,13 +38,13 @@ class User::AcquiredBadge::SearchTest < ActiveSupport::TestCase
     assert_equal [token_2, token_1], User::AcquiredBadge::Search.(user)
   end
 
-  test "sort unseen first by default" do
+  # TODO: Add third here and switch order of 1/2 when we have a third badge
+  test "sort by unrevealed first" do
     user = create :user
-    token_1 = create :user_acquired_badge, user: user, revealed: true
     token_2 = create :user_acquired_badge, user: user, revealed: false, badge: create(:rookie_badge)
-    # TODO: Add third here when we have a third badge
+    token_1 = create :user_acquired_badge, user: user, revealed: true
     # token_3 = create :user_acquired_badge, user: user, revealed: true
-    # assert_equal [token_2, token_3, token_1], User::AcquiredBadge::Search.(user, order: :unseen_first)
-    assert_equal [token_2, token_1], User::AcquiredBadge::Search.(user, order: :unseen_first)
+    # assert_equal [token_2, token_3, token_1], User::AcquiredBadge::Search.(user, order: :unrevealed_first)
+    assert_equal [token_2, token_1], User::AcquiredBadge::Search.(user, order: :unrevealed_first)
   end
 end

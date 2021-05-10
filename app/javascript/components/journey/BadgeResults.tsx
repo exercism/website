@@ -19,6 +19,7 @@ export const BadgeResults = ({
         </h3>
         <div className="c-select order">
           <select onChange={(e) => setOrder(e.target.value)} value={order}>
+            <option value="unrevealed_first">Sort by Recommended</option>
             <option value="newest_first">Sort by Newest First</option>
             <option value="oldest_first">Sort by Oldest First</option>
           </select>

@@ -91,7 +91,7 @@ module ReactComponents
         if default_category_id == "badges"
           options = {
             initial_data: SerializePaginatedCollection.(
-              User::AcquiredBadge::Search.(current_user),
+              User::AcquiredBadge::Search.(current_user, order: :unrevealed_first),
               serializer: SerializeUserAcquiredBadges
             )
           }

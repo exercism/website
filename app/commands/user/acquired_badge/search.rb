@@ -42,10 +42,12 @@ class User
 
       def sort!
         case order&.to_sym
+        when :unrevealed_first
+          @badges = @badges.order(Arel.sql("revealed ASC")).order(id: :desc)
         when :oldest_first
-          @badges = @badges.order(:created_at)
+          @badges = @badges.order(:id)
         else # :newest_first
-          @badges = @badges.order(created_at: :desc)
+          @badges = @badges.order(id: :desc)
         end
       end
 

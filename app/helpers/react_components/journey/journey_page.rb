@@ -75,8 +75,18 @@ module ReactComponents
         }
       end
 
+      def overview_category
+        {
+          id: "overview",
+          title: "Overview",
+          request: {},
+          path: Exercism::Routes.journey_path,
+          icon: "overview"
+        }
+      end
+
       def categories
-        [solution_category, reputation_category]
+        [overview_category, solution_category, reputation_category]
       end
     end
   end

@@ -1,0 +1,49 @@
+@import "../styles";
+
+.c-share-panel {
+    @apply py-20 px-24;
+    width: 100%;
+
+    & h3 {
+        @apply text-16 leading-150 text-textColor2 font-semibold;
+        @apply mb-12;
+    }
+    & .btns {
+        @apply flex items-center mb-16;
+
+        & a {
+            &:not(:last-child) {
+                @apply mr-12;
+            }
+            @apply py-8 px-12;
+            @apply text-15 leading-160 font-semibold text-white;
+            @apply rounded-5;
+            background: #ff4500;
+
+            @apply flex items-center;
+
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-12;
+                filter: var(--white-filter);
+            }
+
+            &.devto {
+                background: #000;
+            }
+            &.linkedin {
+                background: #2867b2;
+            }
+            &.reddit {
+                background: #ff4500;
+            }
+            &.twitter {
+                background: #1da1f2;
+            }
+            &.facebook {
+                background: #4267b2;
+            }
+        }
+    }
+}

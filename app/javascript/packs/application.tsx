@@ -41,6 +41,7 @@ import '../../css/components/docs-tracks-list'
 import '../../css/components/iterations-footer'
 import '../../css/components/solution-iterations'
 
+import '../../css/components/share-panel'
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
 import '../../css/components/prominent-link'
@@ -108,6 +109,7 @@ import '../../css/modals/change-mentor-tracks'
 import '../../css/modals/select-exercise-for-mentoring'
 import '../../css/modals/testimonial'
 
+import '../../css/dropdowns/share-solution'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
@@ -286,6 +288,9 @@ initReact({
       renderBlurb={data.render_blurb}
       isSkinny={data.skinny}
     />
+  ),
+  'common-share-solution-button': (data: any) => (
+    <Common.ShareSolutionButton title={data.title} links={data.links} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

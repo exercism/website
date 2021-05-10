@@ -71,7 +71,7 @@ export const JourneyPage = ({
     <TabsContext.Provider
       value={{ current: currentCategory.id, switchToTab: switchToTab }}
     >
-      <div className="tabs">
+      <div className="tabs theme-dark">
         {categories.map((category) => {
           return (
             <Tab key={category.id} context={TabsContext} id={category.id}>

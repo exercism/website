@@ -10,6 +10,7 @@ import { GraphicalIcon } from '../common'
 import { TabContext, Tab } from '../common/Tab'
 import { ContributionsList } from './ContributionsList'
 import { SolutionsList } from './SolutionsList'
+import { BadgesList } from './BadgesList'
 
 type CategoryId = 'solutions' | 'reputation'
 
@@ -93,6 +94,12 @@ export const JourneyPage = ({
               {category.id === 'reputation' ? (
                 <ContributionsList
                   isEnabled={currentCategory.id === 'reputation'}
+                  request={category.request}
+                />
+              ) : null}
+              {category.id === 'badges' ? (
+                <BadgesList
+                  isEnabled={currentCategory.id === 'badges'}
                   request={category.request}
                 />
               ) : null}

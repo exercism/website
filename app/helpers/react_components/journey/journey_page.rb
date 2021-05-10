@@ -48,17 +48,19 @@ module ReactComponents
             )
           end
 
-          options = SerializePaginatedCollection.(
-            tokens,
-            data: data,
-            meta: {
-              links: {
-                tokens: Exercism::Routes.reputation_journey_url
-              },
-              total_reputation: current_user.formatted_reputation,
-              is_all_seen: current_user.reputation_tokens.unseen.empty?
-            }
-          )
+          options = {
+            initial_data: SerializePaginatedCollection.(
+              tokens,
+              data: data,
+              meta: {
+                links: {
+                  tokens: Exercism::Routes.reputation_journey_url
+                },
+                total_reputation: current_user.formatted_reputation,
+                is_all_seen: current_user.reputation_tokens.unseen.empty?
+              }
+            )
+          }
         else
           options = {}
         end
@@ -85,8 +87,32 @@ module ReactComponents
         }
       end
 
+      def badges_category
+        if default_category_id == "badges"
+          options = {
+            initial_data: SerializePaginatedCollection.(
+              User::AcquiredBadge::Search.(current_user),
+              serializer: SerializeUserAcquiredBadges
+            )
+          }
+        else
+          options = {}
+        end
+
+        {
+          id: "badges",
+          title: "Badges",
+          request: {
+            endpoint: Exercism::Routes.api_badges_url,
+            options: options
+          },
+          path: Exercism::Routes.badges_journey_path,
+          icon: "badges"
+        }
+      end
+
       def categories
-        [overview_category, solution_category, reputation_category]
+        [overview_category, solution_category, reputation_category, badges_category]
       end
     end
   end

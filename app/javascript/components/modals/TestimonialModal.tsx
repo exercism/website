@@ -34,12 +34,10 @@ export const TestimonialModal = ({
           {fromNow(testimonial.createdAt)}
         </time>
       </div>
-      <div className="share-section">
-        <SharePanel
-          title="Share your testimonial with the world"
-          textToCopy="https://exercism.io/some-url-for-a-publicly-shareable-testimonial"
-        />
-      </div>
+      <SharePanel
+        title="Share your testimonial with the world"
+        textToCopy="https://exercism.io/some-url-for-a-publicly-shareable-testimonial"
+      />
     </Modal>
   )
 }

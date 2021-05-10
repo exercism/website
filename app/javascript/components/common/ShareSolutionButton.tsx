@@ -15,7 +15,15 @@ export const ShareSolutionButton = ({
   links: Links
 }): JSX.Element => {
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'bottom',
+    placement: 'bottom-end',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 6],
+        },
+      },
+    ],
   })
 
   return (
@@ -35,6 +43,7 @@ export const ShareSolutionButton = ({
         <SharePanel
           title={title}
           textToCopy={links.solution}
+          className="c-share-solution-dropdown"
           {...panelAttributes}
         />
       ) : null}

@@ -41,6 +41,7 @@ import '../../css/components/docs-tracks-list'
 import '../../css/components/iterations-footer'
 import '../../css/components/solution-iterations'
 
+import '../../css/components/share-panel'
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
 import '../../css/components/prominent-link'

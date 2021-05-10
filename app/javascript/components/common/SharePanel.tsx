@@ -1,12 +1,17 @@
 import React, { forwardRef, HTMLProps } from 'react'
 import { GraphicalIcon, CopyToClipboardButton } from '.'
 
-type Props = { title: string; textToCopy: string } & HTMLProps<HTMLDivElement>
+type Props = {
+  title: string
+  textToCopy: string
+  className?: string
+} & HTMLProps<HTMLDivElement>
 
 export const SharePanel = forwardRef<HTMLDivElement, Props>(
-  ({ title, textToCopy, ...props }, ref) => {
+  ({ title, textToCopy, className, ...props }, ref) => {
+    const classNames = `${className} c-share-panel`
     return (
-      <div className="c-share-solution-dropdown" {...props} ref={ref}>
+      <div className={classNames} {...props} ref={ref}>
         <h3>{title}</h3>
         {/* TODO: Set link */}
         <div className="btns">

@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { GraphicalIcon, Loading, Pagination } from '../common'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FilterPanel } from './searchable-list/FilterPanel'
@@ -35,22 +35,24 @@ export type FilterValue = Record<string, string>
 const DEFAULT_ERROR = new Error('Unable to fetch list')
 
 export const SearchableList = ({
-  endpoint,
+  request: initialRequest,
   cacheKey,
   placeholder,
   categories,
   ResultsComponent,
+  isEnabled = true,
 }: {
-  endpoint: string
+  request: Request
   cacheKey: string
   placeholder: string
   categories: FilterCategory[]
   ResultsComponent: React.ComponentType<ResultsType>
+  isEnabled?: boolean
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setCriteria, setQuery, setOrder } = useList({
-    endpoint: endpoint,
-  })
+  const { request, setPage, setCriteria, setQuery, setOrder } = useList(
+    initialRequest
+  )
   const {
     status,
     resolvedData,
@@ -59,7 +61,10 @@ export const SearchableList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     [cacheKey, request.endpoint, request.query],
-    request,
+    {
+      ...request,
+      options: { ...request.options, enabled: isEnabled },
+    },
     isMountedRef
   )
 

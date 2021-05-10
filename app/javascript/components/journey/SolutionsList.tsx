@@ -1,6 +1,7 @@
 import React from 'react'
 import { SolutionResults } from './SolutionResults'
 import { SearchableList } from '../common/SearchableList'
+import { Request } from '../../hooks/request-query'
 
 const CATEGORIES = [
   {
@@ -28,17 +29,22 @@ const CATEGORIES = [
 ]
 
 export const SolutionsList = ({
-  endpoint,
+  request,
+  isEnabled,
 }: {
-  endpoint: string
+  request: Request
+  isEnabled: boolean
 }): JSX.Element => {
   return (
-    <SearchableList
-      cacheKey="journey-solutions-list"
-      endpoint={endpoint}
-      placeholder="Search for an exercise"
-      categories={CATEGORIES}
-      ResultsComponent={SolutionResults}
-    />
+    <article className="solutions-tab theme-dark">
+      <SearchableList
+        cacheKey="journey-solutions-list"
+        request={request}
+        placeholder="Search for an exercise"
+        categories={CATEGORIES}
+        ResultsComponent={SolutionResults}
+        isEnabled={isEnabled}
+      />
+    </article>
   )
 }

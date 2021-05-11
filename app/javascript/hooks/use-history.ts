@@ -33,8 +33,6 @@ export function useHistory<TParams>({ pushOn }: { pushOn: TParams }): void {
       return
     }
 
-    console.log('pushing', pushOn)
-
     pushState<TParams>(pushOn)
   }, [pushOn])
 }

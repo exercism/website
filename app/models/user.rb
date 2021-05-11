@@ -94,6 +94,11 @@ class User < ApplicationRecord
     acquired_badges.where(badge_id: badge.id).exists?
   end
 
+  # TODO: Order by rarity
+  def featured_badges
+    badges.limit(5)
+  end
+
   # TODO: This needs fleshing out for mentors
   def may_view_solution?(solution)
     id == solution.user_id

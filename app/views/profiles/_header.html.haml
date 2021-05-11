@@ -29,19 +29,13 @@
       .badges-and-tags
         .header
           = graphical_icon :badges
-          %h3 30 badges collected
+          %h3 #{pluralize user.acquired_badges.count, 'badge'} collected
           = render ViewComponents::ProminentLink.new("See all", "#")
         .badges
-          .c-badge
-            .c-badge-medallion.--ultimate
-          .c-badge
-            .c-badge-medallion.--rare
-          .c-badge
-            .c-badge-medallion.--rare
-          .c-badge
-            .c-badge-medallion.--rare
-          .c-badge
-            .c-badge-medallion.--common
+          - user.featured_badges.each do |badge|
+            .c-badge
+              .c-badge-medallion{ class: "--#{badge.rarity}" }
+                = icon(badge.icon, alt: "Badge: #{badge.name}")
 
         - if user.roles.present?
           .tags

@@ -59,12 +59,12 @@ export const ExerciseCommunitySolutionsList = ({
           placeholder="Search by user"
         />
       </div>
-      <FetchingBoundary
-        status={status}
-        error={error}
-        defaultError={DEFAULT_ERROR}
-      >
-        <ResultsZone isFetching={isFetching}>
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        >
           {resolvedData ? (
             <React.Fragment>
               <div className="solutions">
@@ -86,8 +86,8 @@ export const ExerciseCommunitySolutionsList = ({
               />
             </React.Fragment>
           ) : null}
-        </ResultsZone>
-      </FetchingBoundary>
+        </FetchingBoundary>
+      </ResultsZone>
     </div>
   )
 }

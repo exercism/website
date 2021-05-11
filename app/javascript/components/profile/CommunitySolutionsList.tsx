@@ -83,12 +83,12 @@ export const CommunitySolutionsList = ({
           </select>
         </div>
       </div>
-      <FetchingBoundary
-        status={status}
-        error={error}
-        defaultError={DEFAULT_ERROR}
-      >
-        <ResultsZone isFetching={isFetching}>
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        >
           {resolvedData ? (
             <React.Fragment>
               <div className="solutions">
@@ -110,8 +110,8 @@ export const CommunitySolutionsList = ({
               />
             </React.Fragment>
           ) : null}
-        </ResultsZone>
-      </FetchingBoundary>
+        </FetchingBoundary>
+      </ResultsZone>
     </div>
   )
 }

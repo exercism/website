@@ -44,7 +44,7 @@ module Flows
         exercise = create :concept_exercise
         solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: author
         submission = create :submission, solution: solution
-        create :iteration, published: true, idx: 1, solution: solution, submission: submission
+        create :iteration, idx: 1, solution: solution, submission: submission
         create :solution_star, solution: solution, user: user
 
         use_capybara_host do

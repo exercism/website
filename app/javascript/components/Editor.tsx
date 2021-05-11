@@ -404,7 +404,6 @@ export function Editor({
             />
           </div>
         </div>
-
         <article className="main">
           <div className="lhs">
             <FileEditorAce
@@ -425,11 +424,17 @@ export function Editor({
                 onCancel={cancel}
                 error={apiError?.message}
               />
-              <RunTestsButton onClick={runTests} />
+              <RunTestsButton
+                onClick={runTests}
+                disabled={
+                  submissionStatus === SubmissionStatus.CREATING ||
+                  submission?.testRun?.status === TestRunStatus.QUEUED ||
+                  submission?.testRun?.status === TestRunStatus.CANCELLING
+                }
+              />
               <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
             </footer>
           </div>
-
           <div className="rhs">
             <div className="tabs">
               <InstructionsTab />

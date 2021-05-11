@@ -134,8 +134,10 @@ test('disables submit button unless tests passed', async () => {
     />
   )
 
-  waitFor(() => {
-    expect(screen.getByText('Submit')).toBeDisabled()
+  await waitFor(() => {
+    expect(
+      screen.getAllByRole('button', { name: 'Submit F3' })[0]
+    ).toBeDisabled()
   })
   server.close()
 })

@@ -37,13 +37,18 @@
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw Markdown::Parse.(instructions)
 
-      -# TODO: add styling
-      - if @exercise.source.present? || @exercise.source_url.present?
-        %section.source
-          %h2 Based on
-          - source = @solution ? @solution.source : @exercise.source
-          - source_url = @solution ? @solution.source_url : @exercise.source_url
-          = [source, source_url].compact_blank.join(' - ')
+        - if @exercise.source.present? || @exercise.source_url.present?
+          .source
+            %hr.c-divider.--small
+            %h3 Source
+            - source = @solution ? @solution.source : @exercise.source
+            - source_url = @solution ? @solution.source_url : @exercise.source_url
+            - if source.present? && source_url.present?
+              = external_link_to source, source_url
+            - elsif source.present?
+              = source
+            - else
+              Explore the #{external_link_to 'source of this exercise', source_url}.
 
     .tw-w-1-3.tw-flex-shrink-0.tw-ml-32
       - if @solution&.completed?

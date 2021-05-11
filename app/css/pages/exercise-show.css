@@ -362,6 +362,20 @@
 
     & section.instructions {
         @apply mb-32 px-32 py-24 bg-backgroundColorA rounded-8 shadow-lg;
+        & .source {
+            @apply mt-24;
+            & hr {
+                @apply mb-16;
+            }
+            & a {
+                @apply inline-flex items-center;
+                & .c-icon {
+                    height: 12px;
+                    width: 12px;
+                    @apply ml-6;
+                }
+            }
+        }
     }
     & .action-box {
         @apply shadow-lg py-24 px-32 rounded-8;

@@ -29,11 +29,12 @@ class MentoringQueueTest < ReactComponentTestCase
     create :concept_solution, user: user, exercise: fred
     create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
 
-    component = ReactComponents::Mentoring::Queue.new(user, {
-                                                        criteria: "bo",
-                                                        track_slug: "csharp",
-                                                        exercise_slug: "bob"
-                                                      })
+    component = ReactComponents::Mentoring::Queue.new(
+      user,
+      criteria: "bo",
+      track_slug: "csharp",
+      exercise_slug: "bob"
+    )
 
     assert_component component,
       "mentoring-queue",

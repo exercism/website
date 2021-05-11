@@ -90,12 +90,20 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
     }
 
     return exercises
-      .filter((exercise) =>
-        isShowingExercisesToMentor ? exercise.count !== 0 : true
-      )
-      .filter((exercise) =>
-        isShowingExercisesCompleted ? exercise.completedByMentor : true
-      )
+      .filter((exercise) => {
+        if (exercise.slug === value?.slug) {
+          return true
+        }
+
+        return isShowingExercisesToMentor ? exercise.count !== 0 : true
+      })
+      .filter((exercise) => {
+        if (exercise.slug === value?.slug) {
+          return true
+        }
+
+        return isShowingExercisesCompleted ? exercise.completedByMentor : true
+      })
       .filter((exercise) =>
         exercise.title.match(new RegExp(`^${searchQuery}`, 'i'))
       )
@@ -104,6 +112,7 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
     isShowingExercisesCompleted,
     isShowingExercisesToMentor,
     searchQuery,
+    value?.slug,
   ])
 
   const handleChange = useCallback(

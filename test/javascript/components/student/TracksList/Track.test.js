@@ -123,7 +123,7 @@ test('shows v3 tag if track has more than 5 concepts', () => {
     />
   )
 
-  expect(screen.getByText('V3')).toBeInTheDocument()
+  expect(screen.getByText('Concepts')).toBeInTheDocument()
 })
 
 test('hides v3 tag if track has less than 5 concepts', () => {

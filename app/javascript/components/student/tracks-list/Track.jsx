@@ -13,8 +13,8 @@ export function Track({ track }) {
           <h3 className="--title">{track.title}</h3>
           {track.numConcepts > 5 ? (
             <div className="--v3">
-              <Icon icon="concepts" alt="This track has Concepts" />
-              V3
+              <Icon icon="checkmark" alt="This track has Learning mode" />
+              Concepts
             </div>
           ) : null}
           {track.isNew ? (

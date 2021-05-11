@@ -115,7 +115,7 @@
             @apply flex-grow;
 
             & .--heading {
-                @apply flex items-center mb-8;
+                @apply flex items-center mb-12;
 
                 & .--title {
                     @apply mr-12;
@@ -123,10 +123,11 @@
                 }
                 & .--v3,
                 & .--new {
-                    @apply flex items-center;
+                    @apply flex items-center justify-center flex-shrink-0;
                     @apply text-14 leading-170 font-semibold;
-                    @apply py-4 px-8 rounded-100;
+                    @apply px-12 rounded-100;
                     @apply mr-12;
+                    height: 28px;
 
                     & .c-icon {
                         height: 16px;
@@ -137,12 +138,20 @@
 
                 & .--new {
                     @apply text-orange bg-lightOrange;
+                    & .c-icon {
+                        filter: var(--orange-filter);
+                    }
                 }
                 & .--v3 {
-                    @apply text-darkBlue bg-veryLightBlue;
+                    @apply bg-purple text-white;
+                    @apply border-1 border-textColor2;
+                    & .c-icon {
+                        filter: var(--dark-green-filter);
+                    }
                 }
 
                 & .--joined {
+                    @apply flex-shrink-0;
                     @apply text-14 leading-170 font-semibold text-lightBlue;
                     @apply bg-veryLightBlue;
                     @apply ml-auto;

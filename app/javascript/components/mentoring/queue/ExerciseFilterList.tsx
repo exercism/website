@@ -183,7 +183,7 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
           <ExerciseFilter
             key={exercise.slug}
             onChange={(e) => handleChange(e, exercise)}
-            checked={value === exercise}
+            checked={value?.slug === exercise.slug}
             {...exercise}
           />
         ))}

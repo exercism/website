@@ -189,6 +189,7 @@ import {
   SolutionForStudent,
   CommunitySolution,
   Testimonial,
+  MentoredTrackExercise,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import {
@@ -304,6 +305,9 @@ initReact({
       queueRequest={camelizeKeysAs<Request>(data.queue_request)}
       tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
       defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
+      defaultExercise={camelizeKeysAs<MentoredTrackExercise>(
+        data.default_exercise
+      )}
       links={camelizeKeysAs<MentoringQueueLinks>(data.links)}
       sortOptions={data.sort_options}
     />

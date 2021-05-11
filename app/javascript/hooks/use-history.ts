@@ -24,17 +24,7 @@ function pushState<TParams>(params: TParams) {
   history.pushState(history.state, '', toQuery(params))
 }
 
-function replaceState<TParams>(params: TParams) {
-  history.replaceState(history.state, '', toQuery(params))
-}
-
-export function useHistory<TParams>({
-  pushOn,
-  replaceOn,
-}: {
-  pushOn: TParams
-  replaceOn: TParams
-}): void {
+export function useHistory<TParams>({ pushOn }: { pushOn: TParams }): void {
   const isMounted = useRef(false)
 
   useEffect(() => {
@@ -43,15 +33,8 @@ export function useHistory<TParams>({
       return
     }
 
+    console.log('pushing', pushOn)
+
     pushState<TParams>(pushOn)
   }, [pushOn])
-
-  useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true
-      return
-    }
-
-    replaceState<TParams>(replaceOn)
-  }, [replaceOn])
 }

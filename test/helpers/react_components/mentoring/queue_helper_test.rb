@@ -29,12 +29,23 @@ class MentoringQueueTest < ReactComponentTestCase
     create :concept_solution, user: user, exercise: fred
     create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
 
-    component = ReactComponents::Mentoring::Queue.new(user)
+    component = ReactComponents::Mentoring::Queue.new(user, {
+                                                        criteria: "bo",
+                                                        track_slug: "csharp",
+                                                        exercise_slug: "bob"
+                                                      })
 
     assert_component component,
       "mentoring-queue",
       {
-        queue_request: { endpoint: Exercism::Routes.api_mentoring_requests_path },
+        queue_request: {
+          endpoint: Exercism::Routes.api_mentoring_requests_path,
+          query: {
+            criteria: "bo",
+            track_slug: "csharp",
+            exercise_slug: "bob"
+          }
+        },
         tracks_request: {
           endpoint: Exercism::Routes.mentored_api_mentoring_tracks_url,
           options: {
@@ -107,7 +118,13 @@ class MentoringQueueTest < ReactComponentTestCase
             }
           ]
         },
-
+        default_exercise: {
+          slug: "bob",
+          title: "Bob",
+          icon_url: bob.icon_url,
+          count: 4,
+          completed_by_mentor: false
+        },
         sort_options: [
           { value: 'recent', label: 'Sort by Most Recent' },
           { value: 'exercise', label: 'Sort by Exercise' },
@@ -142,13 +159,13 @@ class MentoringQueueTest < ReactComponentTestCase
     2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
 
     # With none it takes alphabetical
-    component = ReactComponents::Mentoring::Queue.new(user)
+    component = ReactComponents::Mentoring::Queue.new(user, {})
     refute_includes component.to_s, 'zipper'
     assert_includes component.to_s, 'fred'
 
     ruby_mentorship.update!(last_viewed: true)
 
-    component = ReactComponents::Mentoring::Queue.new(user.reload)
+    component = ReactComponents::Mentoring::Queue.new(user.reload, {})
     assert_includes component.to_s, 'zipper'
   end
 end

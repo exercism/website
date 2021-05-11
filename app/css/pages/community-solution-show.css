@@ -70,21 +70,28 @@
                         }
                     }
                 }
-                & .share-button,
-                & .star-button,
-                & .comments-button {
+                & .share-button {
                     height: 40px;
                     @apply flex items-stretch;
                 }
                 & .star-button,
                 & .comments-button {
-                    @apply btn-small;
-                    @apply shadow-xsZ1;
-                    @apply bg-white;
-                    @apply border-1 border-borderColor5;
+                    & .c-icon {
+                        filter: var(--textColor6-filter);
+                    }
                 }
                 & .star-button {
                     @apply ml-24;
+
+                    & span {
+                        min-width: 10px;
+                    }
+
+                    &.--starred {
+                        & .c-icon {
+                            filter: none;
+                        }
+                    }
                 }
                 & .comments-button {
                     @apply ml-12;

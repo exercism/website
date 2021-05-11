@@ -306,7 +306,15 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal 0, solution.num_iterations # Sanity
 
     create :iteration, solution: solution
-    assert_equal 1, solution.num_iterations # Sanity
+    assert_equal 1, solution.num_iterations
+  end
+
+  test "num_stars is updated" do
+    solution = create :concept_solution
+    assert_equal 0, solution.num_stars # Sanity
+
+    create :solution_star, solution: solution
+    assert_equal 1, solution.num_stars
   end
 
   # test "tests and feedback statuses proxy to latest iteration" do

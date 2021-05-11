@@ -50,7 +50,9 @@ Rails.application.routes.draw do
 
       resources :tracks, only: %i[index show] do
         resources :exercises, only: %i[index], controller: "exercises" do
-          resources :community_solutions, only: [:index], controller: "community_solutions"
+          resources :community_solutions, only: [:index], controller: "community_solutions" do
+            resource :star, only: %i[create destroy], controller: "community_solution_stars"
+          end
         end
       end
 

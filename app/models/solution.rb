@@ -23,6 +23,8 @@ class Solution < ApplicationRecord
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
+  has_many :stars, dependent: :destroy
+
   has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy
   has_many :mentor_discussions, class_name: "Mentor::Discussion", dependent: :destroy
   has_many :mentors, through: :mentor_discussions
@@ -55,6 +57,10 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
+
+  def starred_by?(user)
+    stars.exists?(user: user)
+  end
 
   memoize
   def latest_iteration

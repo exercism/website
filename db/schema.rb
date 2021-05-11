@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_220831) do
+ActiveRecord::Schema.define(version: 2021_05_07_230054) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -308,6 +308,15 @@ ActiveRecord::Schema.define(version: 2021_05_05_220831) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
+  end
+
+  create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "solution_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["solution_id"], name: "index_solution_stars_on_solution_id"
+    t.index ["user_id"], name: "index_solution_stars_on_user_id"
   end
 
   create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -621,6 +630,8 @@ ActiveRecord::Schema.define(version: 2021_05_05_220831) do
   add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"
   add_foreign_key "scratchpad_pages", "users"
+  add_foreign_key "solution_stars", "solutions"
+  add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"

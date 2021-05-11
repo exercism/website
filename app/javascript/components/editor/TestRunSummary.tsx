@@ -149,7 +149,6 @@ export const TestRunSummary = ({
 }
 
 TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
-  return <></>
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
       const failed = testRun.tests.filter(

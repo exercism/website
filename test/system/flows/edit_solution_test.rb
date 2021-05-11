@@ -26,7 +26,7 @@ module Components
             raw_results: { tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }] }
           create :submission_file, submission: Submission.last
           Submission::TestRunsChannel.broadcast!(test_run)
-          within(".footer-lhs") { click_on "Submit" }
+          within(".lhs-footer") { click_on "Submit" }
 
           assert_text "Iteration 1", wait: 5
         end
@@ -60,7 +60,7 @@ module Components
 
       private
       def wait_for_submission
-        assert_text "We've queued your code and will run it shortly."
+        assert_text "Running tests..."
       end
     end
   end

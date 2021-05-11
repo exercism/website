@@ -2,8 +2,7 @@ require 'test_helper'
 
 class SerializeTrackTest < ActiveSupport::TestCase
   test "without user" do
-    track_updated_at = Time.current - 1.week
-    track = create :track, tags: ["execution_mode/compiled", "runtime/clr"], updated_at: track_updated_at
+    track = create :track, tags: ["execution_mode/compiled", "runtime/clr"]
 
     num_concept_exercises = 3
     num_concepts = num_concept_exercises + 1
@@ -27,7 +26,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
       num_exercises: num_concept_exercises + num_practice_exercises,
       web_url: "https://test.exercism.io/tracks/#{track.slug}",
       icon_url: track.icon_url,
-      updated_at: track_updated_at.iso8601,
+      last_touched_at: nil,
       tags: ["Compiled", "Common Language Runtime (.NET)"],
 
       # TODO: Set this correctly
@@ -55,13 +54,13 @@ class SerializeTrackTest < ActiveSupport::TestCase
   end
 
   test "updated_at is user_track.updated_at" do
-    updated_at = Time.current - 1.minute
+    last_touched_at = Time.current - 1.minute
     track = create :track, updated_at: Time.current - 2.months
-    user_track = create :user_track, updated_at: updated_at, track: track
+    user_track = create :user_track, last_touched_at: last_touched_at, track: track
 
     data = SerializeTrack.(track, user_track)
 
-    assert_equal updated_at.iso8601, data[:updated_at]
+    assert_equal last_touched_at.iso8601, data[:last_touched_at]
   end
 
   test "with user joined and progressed" do

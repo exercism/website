@@ -16,7 +16,7 @@ class Solution < ApplicationRecord
     },
     foreign_key: :user_id,
     primary_key: :user_id,
-    touch: true,
+    touch: :last_touched_at,
     inverse_of: :solutions
 
   has_many :submissions, dependent: :destroy

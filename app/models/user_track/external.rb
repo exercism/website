@@ -21,6 +21,10 @@ class UserTrack
       true
     end
 
+    def last_touched_at
+      nil
+    end
+
     memoize
     def concept_slugs
       concepts.map(&:slug)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_230054) do
+ActiveRecord::Schema.define(version: 2021_05_11_220511) do
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
@@ -178,7 +178,6 @@ ActiveRecord::Schema.define(version: 2021_05_07_230054) do
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
-    t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
@@ -341,7 +340,9 @@ ActiveRecord::Schema.define(version: 2021_05_07_230054) do
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
     t.integer "num_loc", limit: 3, default: 0, null: false
+    t.bigint "published_iteration_id"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
@@ -556,6 +557,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_230054) do
     t.boolean "anonymous_during_mentoring", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_touched_at", null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
@@ -633,6 +635,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_230054) do
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"
+  add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_files", "submissions"

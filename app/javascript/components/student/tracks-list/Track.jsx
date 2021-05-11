@@ -50,15 +50,17 @@ export function Track({ track }) {
           />
         )}
 
-        <ul className="--tags">
-          {track.tags.slice(0, 3).map((tag) => {
-            return <li key={tag}>{tag}</li>
-          })}
-        </ul>
+        {track.isJoined ? null : (
+          <ul className="--tags">
+            {track.tags.slice(0, 3).map((tag) => {
+              return <li key={tag}>{tag}</li>
+            })}
+          </ul>
+        )}
 
         {track.isJoined && (
           <div className="--last-touched">
-            Last touched {fromNow(track.updatedAt)}
+            Last touched {fromNow(track.lastTouchedAt)}
           </div>
         )}
       </div>

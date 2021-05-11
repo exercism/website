@@ -16,7 +16,7 @@ class SerializeTrack
       web_url: Exercism::Routes.track_url(track),
       icon_url: track.icon_url,
       tags: map_tags(track.tags),
-      updated_at: user_track.updated_at.iso8601,
+      last_touched_at: user_track.last_touched_at&.iso8601,
 
       # TODO: Set these
       is_new: true,

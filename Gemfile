@@ -47,7 +47,7 @@ gem 'commonmarker'
 gem 'ansi-to-html'
 
 # Authentication
-gem 'devise', '~> 4.7.1'
+gem 'devise', '~> 4.8.0'
 
 # Omniauth
 gem 'omniauth-github'

@@ -29,10 +29,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     isMountedRef
   )
 
-  useHistory({
-    pushOn: debouncedQuery,
-    replaceOn: request.query,
-  })
+  useHistory({ pushOn: debouncedQuery })
 
   const setTrack = (track) => {
     setQuery({ ...request.query, track: track, page: 1 })

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTrackList } from './queue/useTrackList'
 import { useExerciseList } from './queue/useExerciseList'
 import { MentoredTrack, MentoredTrackExercise } from '../types'
@@ -27,15 +27,18 @@ export const Queue = ({
   queueRequest,
   tracksRequest,
   defaultTrack,
+  defaultExercise,
   sortOptions,
   links,
 }: {
   queueRequest: Request
   tracksRequest: Request
   defaultTrack: MentoredTrack
+  defaultExercise: MentoredTrackExercise | null
   sortOptions: SortOption[]
   links: Links
 }): JSX.Element => {
+  const isMounted = useRef(false)
   const {
     tracks,
     status: trackListStatus,
@@ -56,7 +59,7 @@ export const Queue = ({
   const [
     selectedExercise,
     setSelectedExercise,
-  ] = useState<MentoredTrackExercise | null>(null)
+  ] = useState<MentoredTrackExercise | null>(defaultExercise)
   const {
     resolvedData,
     latestData,
@@ -88,6 +91,11 @@ export const Queue = ({
   }, [selectedTrack.id, tracks])
 
   useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+      return
+    }
+
     setSelectedExercise(null)
   }, [selectedTrack])
 

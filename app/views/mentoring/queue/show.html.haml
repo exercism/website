@@ -2,4 +2,4 @@
   = render ViewComponents::Mentor::Header.new(:queue)
 
   .lg-container
-    = ReactComponents::Mentoring::Queue.new(current_user)
+    = ReactComponents::Mentoring::Queue.new(current_user, @queue_params)

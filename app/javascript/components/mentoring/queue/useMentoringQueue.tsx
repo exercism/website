@@ -1,8 +1,11 @@
+import { useMemo } from 'react'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useList } from '../../../hooks/use-list'
 import { useIsMounted } from 'use-is-mounted'
 import { MentoredTrack, MentoredTrackExercise } from '../../types'
 import { QueryStatus } from 'react-query'
+import { useDebounce } from '../../../hooks/use-debounce'
+import { useHistory } from '../../../hooks/use-history'
 
 type MentoringRequest = {
   id: string
@@ -54,6 +57,14 @@ export const useMentoringQueue = ({
   const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
   const trackSlug = track?.id
   const exerciseSlug = exercise?.slug
+  const query = useMemo(() => {
+    return {
+      ...request.query,
+      trackSlug: trackSlug,
+      exerciseSlug: exerciseSlug,
+    }
+  }, [exerciseSlug, request.query, trackSlug])
+  const debouncedQuery = useDebounce(query, 500)
   const {
     resolvedData,
     latestData,
@@ -61,20 +72,18 @@ export const useMentoringQueue = ({
     status,
     error,
   } = usePaginatedRequestQuery<APIResponse>(
-    ['mentoring-request', request.query, trackSlug, exerciseSlug],
+    ['mentoring-request', debouncedQuery],
     {
       ...request,
-      query: {
-        ...request.query,
-        trackSlug: trackSlug,
-        exerciseSlug: exerciseSlug,
-      },
+      query: debouncedQuery,
       options: {
         enabled: !!track,
       },
     },
     isMountedRef
   )
+
+  useHistory({ pushOn: debouncedQuery })
 
   return {
     resolvedData,

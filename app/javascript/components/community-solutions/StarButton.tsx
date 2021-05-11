@@ -60,12 +60,17 @@ export const StarButton = ({
   return (
     <React.Fragment>
       <FormButton
-        className="star-button"
+        className={`btn-enhanced btn-s star-button --${
+          state.isStarred ? 'starred' : 'unstarred'
+        }`}
         type="button"
         onClick={() => mutation()}
         status={status}
       >
-        <Icon icon="star" alt="Number of stars" />
+        <Icon
+          icon={state.isStarred ? 'starred' : 'star'}
+          alt="Number of stars"
+        />
         <span>{state.numStars}</span>
       </FormButton>
       {status === 'error' ? (

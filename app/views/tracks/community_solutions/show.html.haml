@@ -38,9 +38,7 @@
             = graphical_icon "share-with-gradient"
             Share
 
-        %button.star-button
-          = icon "star", "Number of stars"
-          %span= @solution.num_stars
+        = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
 
         %button.comments-button
           = icon "comment", "Number of comment"

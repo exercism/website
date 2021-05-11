@@ -58,6 +58,10 @@ class Solution < ApplicationRecord
   delegate :instructions, :introduction, :source, :source_url, to: :git_exercise
   delegate :solution_files, to: :exercise, prefix: 'exercise'
 
+  def starred_by?(user)
+    stars.exists?(user: user)
+  end
+
   memoize
   def latest_iteration
     iterations.last

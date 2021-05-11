@@ -210,6 +210,7 @@ import { Track as MentoringTestimonialsListTrack } from '../components/mentoring
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
+import * as CommunitySolutions from '../components/community-solutions'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
@@ -524,6 +525,13 @@ initReact({
   ),
   'profile-first-time-modal': (data: any) => (
     <Profile.FirstTimeModal links={data.links} />
+  ),
+  'community-solutions-star-button': (data: any) => (
+    <CommunitySolutions.StarButton
+      defaultNumStars={data.num_stars}
+      defaultIsStarred={data.is_starred}
+      links={data.links}
+    />
   ),
 })
 

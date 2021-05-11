@@ -15,10 +15,17 @@ module API
       post api_track_exercise_community_solution_star_path(
         solution.track, solution.exercise, solution.user.handle
       ), headers: @headers, as: :json
-      assert_response 204
 
-      assert_equal 1, solution.stars.count
-      assert_equal @current_user, solution.stars.first.user
+      assert_response 200
+      assert_equal(
+        {
+          "star" => {
+            "num_stars" => 1,
+            "is_starred" => true
+          }
+        },
+        JSON.parse(response.body)
+      )
     end
 
     ###########
@@ -33,9 +40,17 @@ module API
       delete api_track_exercise_community_solution_star_path(
         solution.track, solution.exercise, solution.user.handle
       ), headers: @headers, as: :json
-      assert_response 204
 
-      assert_equal 0, solution.stars.count
+      assert_response 200
+      assert_equal(
+        {
+          "star" => {
+            "num_stars" => 0,
+            "is_starred" => false
+          }
+        },
+        JSON.parse(response.body)
+      )
     end
   end
 end

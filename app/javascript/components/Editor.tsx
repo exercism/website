@@ -427,6 +427,7 @@ export function Editor({
               <RunTestsButton
                 onClick={runTests}
                 disabled={
+                  isEqual(submissionFilesRef.current, files) ||
                   submissionStatus === SubmissionStatus.CREATING ||
                   submission?.testRun?.status === TestRunStatus.QUEUED ||
                   submission?.testRun?.status === TestRunStatus.CANCELLING

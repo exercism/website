@@ -49,7 +49,7 @@ module API
 
       changes = UserTrack::MonitorChanges.(user_track) do
         Solution::Complete.(solution, user_track)
-        Solution::Publish.(solution, solution.iterations.last.idx) if params[:publish]
+        Solution::Publish.(solution, params[:iteration_idx]) if params[:publish]
       end
 
       output = {

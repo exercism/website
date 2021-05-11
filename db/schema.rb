@@ -179,7 +179,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
-    t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
@@ -342,7 +341,9 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
     t.integer "num_loc", limit: 3, default: 0, null: false
+    t.bigint "published_iteration_id"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
@@ -635,6 +636,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"
+  add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_files", "submissions"

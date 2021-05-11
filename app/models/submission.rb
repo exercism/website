@@ -84,10 +84,9 @@ class Submission < ApplicationRecord
     # All mentors can see files on pending requests
     return true if solution.mentor_requests.pending.any? && user.mentor?
 
+    # Non-iteration submissions can never be seen
     # Everyone can see published iterations
-    return true if solution.published? && iteration.published?
-
-    false
+    iteration&.published?
   end
 
   memoize

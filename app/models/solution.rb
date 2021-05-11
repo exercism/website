@@ -6,6 +6,7 @@ class Solution < ApplicationRecord
 
   belongs_to :user
   belongs_to :exercise
+  belongs_to :published_iteration, class_name: "Iteration", optional: true
   has_one :track, through: :exercise
 
   # TODO: This might be horrific for performance

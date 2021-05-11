@@ -15,6 +15,7 @@ module API
       # rescues SubmissionFileTooLargeError exceptions
       return render_error(400, :file_too_large) if files.any? { |file| file[:content].size > 1.megabyte }
 
+      # TODO: Allow rerunning of tests if previous submission was an error / ops error / timeout
       begin
         submission = Submission::Create.(solution, files, :api)
       rescue DuplicateSubmissionError

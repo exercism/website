@@ -426,7 +426,12 @@ export function Editor({
               />
               <RunTestsButton
                 onClick={runTests}
-                haveFilesChanged={!isEqual(submissionFilesRef.current, files)}
+                haveFilesChanged={
+                  !isEqual(submissionFilesRef.current, files) ||
+                  submission?.testRun?.status === TestRunStatus.OPS_ERROR ||
+                  submission?.testRun?.status === TestRunStatus.ERROR ||
+                  submission?.testRun?.status === TestRunStatus.TIMEOUT
+                }
                 isProcessing={
                   submissionStatus === SubmissionStatus.CREATING ||
                   submission?.testRun?.status === TestRunStatus.QUEUED ||

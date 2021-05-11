@@ -3,11 +3,11 @@
     @apply bg-backgroundColorB;
 
     & .tabs {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
         @apply border-b-1 border-borderColor7;
         & .c-tab {
             @apply grid place-items-center;
-            @apply bg-backgroundColorA;
+            @apply bg-backgroundColorB;
             @apply px-16 py-8;
             @apply text-13 text-textColor6 leading-paragraph;
             @apply border-r-1 border-borderColor7;
@@ -16,7 +16,7 @@
             border-bottom: 1px solid transparent;
 
             &.selected {
-                @apply bg-backgroundColorB;
+                @apply bg-backgroundColorA;
                 @apply text-textColor2 font-semibold;
                 border-bottom-color: var(--backgroundColorA);
             }

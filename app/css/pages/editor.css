@@ -35,6 +35,7 @@
                 height: 16px;
                 width: 16px;
                 @apply mr-16;
+                filter: var(--textColor6-filter);
             }
         }
         & .title {
@@ -231,8 +232,8 @@
                     z-index: 4;
                     background: linear-gradient(
                         180deg,
-                        rgba(251, 252, 254, 0) 0%,
-                        #fbfcfe 44.22%
+                        var(--backgroundColorA),
+                        var(--backgroundColorB) 44.22%
                     );
                 }
             }
@@ -642,6 +643,13 @@
     /* Same as the content active line */
     & .ace_gutter-cell.ace_gutter-active-line {
         background: rgba(0, 0, 0, 0.07) !important;
+    }
+}
+
+#page-editor .ace-cobalt {
+    & .ace_gutter,
+    & .ace_scroller {
+        @apply bg-backgroundColorA;
     }
 }
 

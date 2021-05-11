@@ -63,6 +63,13 @@ class Solution < ApplicationRecord
     stars.exists?(user: user)
   end
 
+  def published_iterations
+    return [] unless published?
+    return [published_iteration] if published_iteration
+
+    iterations
+  end
+
   memoize
   def latest_iteration
     iterations.last

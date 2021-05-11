@@ -85,8 +85,8 @@ module Flows
         submission: submission_2,
         content: "class Lasagna\nend",
         filename: "bob.rb"
-      create :iteration, published: true, idx: 1, solution: solution, submission: submission_1
-      create :iteration, published: true, idx: 2, solution: solution, submission: submission_2
+      create :iteration, idx: 1, solution: solution, submission: submission_1
+      create :iteration, idx: 2, solution: solution, submission: submission_2
 
       use_capybara_host do
         sign_in!

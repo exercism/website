@@ -59,6 +59,20 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal :published, solution.reload.status.to_sym
   end
 
+  test "published_iterations" do
+    solution = create :concept_solution
+    it_1 = create :iteration, solution: solution
+    it_2 = create :iteration, solution: solution
+
+    assert_empty solution.published_iterations
+
+    solution.update(published_at: Time.current)
+    assert_equal [it_1, it_2], solution.published_iterations
+
+    solution.update(published_iteration: it_2)
+    assert_equal [it_2], solution.published_iterations
+  end
+
   test "downloaded?" do
     refute create(:concept_solution, downloaded_at: nil).downloaded?
     assert create(:concept_solution, downloaded_at: Time.current).downloaded?

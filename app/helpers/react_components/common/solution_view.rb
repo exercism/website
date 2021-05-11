@@ -6,8 +6,7 @@ module ReactComponents
       def to_s
         super("common-solution-view", {
           iterations: solution.
-            iterations.
-            published.
+            published_iterations.
             order(:idx).
             map { |iteration| SerializeIteration.(iteration) },
           language: solution.track.highlightjs_language

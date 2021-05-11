@@ -64,6 +64,12 @@ export function FileEditorAce({
     editorDidMount({ getFiles, setFiles, openPalette })
   }, [editorDidMount, getFiles, openPalette, setFiles])
 
+  useEffect(() => {
+    editorRefs.current?.map((editor, i) => {
+      setTimeout(() => editor.current?.editor.resize(), 1)
+    })
+  }, [editorDidMount])
+
   const switchTab = useCallback((index) => {
     setTab(index)
   }, [])
@@ -83,7 +89,7 @@ export function FileEditorAce({
         ))}
       </div>
       {files.map((file, index) => (
-        <div className="code" key={file.filename} hidden={index !== tab}>
+        <div className="editor" key={file.filename} hidden={index !== tab}>
           <AceEditor
             name={file.filename}
             height="100%"
@@ -101,6 +107,8 @@ export function FileEditorAce({
               useSoftTabs: config.useSoftTabs,
               navigateWithinSoftTabs: config.useSoftTabs,
               fontFamily: "'Source Code Pro', monospace",
+              showPrintMargin: false,
+              fixedWidthGutter: true,
             }}
             commands={[
               {

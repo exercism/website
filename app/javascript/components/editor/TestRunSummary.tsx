@@ -5,7 +5,7 @@ import { fetchJSON } from '../../utils/fetch-json'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
 import { TestRunFailures } from './TestRunFailures'
 import { SubmitButton } from './SubmitButton'
-import { GraphicalIcon } from '../common'
+import { GraphicalIcon, Loading } from '../common'
 import { useRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 
@@ -149,6 +149,7 @@ export const TestRunSummary = ({
 }
 
 TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
+  return <></>
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
       const failed = testRun.tests.filter(
@@ -267,10 +268,27 @@ TestRunSummary.Content = ({
         onCancel()
       }, [onCancel])
 
+      /* TODO: Read this from db */
+      const averageTestRunTime = 3
+
       return (
-        <div role="status">
-          <p>We've queued your code and will run it shortly.</p>
-          <button type="button" onClick={handleCancel}>
+        <div role="status" className="running">
+          <GraphicalIcon icon="spinner" />
+          <div className="progress">
+            <div
+              className="bar"
+              style={{ animationDuration: `${averageTestRunTime}s` }}
+            />
+          </div>
+          <p>
+            <strong>Running tests...</strong> Estimated running time ~
+            {averageTestRunTime}s
+          </p>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="btn-default btn-xs"
+          >
             Cancel
           </button>
         </div>

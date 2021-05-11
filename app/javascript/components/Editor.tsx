@@ -75,6 +75,7 @@ export function Editor({
   trackTitle,
   exerciseTitle,
   introduction,
+  tests,
   assignment,
   exampleFiles,
   storageKey,
@@ -90,6 +91,7 @@ export function Editor({
   trackTitle: string
   exerciseTitle: string
   introduction: string
+  tests?: string
   assignment: Assignment
   exampleFiles: File[]
   storageKey: string
@@ -376,77 +378,78 @@ export function Editor({
         <div className="header">
           <Header.Back exercisePath={exercisePath} />
           <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
-          <Header.ActionHints assignment={assignment} />
-          <Header.ActionKeyboardShortcuts
-            ref={keyboardShortcutsRef}
-            onClick={toggleKeyboardShortcuts}
-          />
-          <Header.ActionSettings
-            theme={theme}
-            keybindings={keybindings}
-            wrap={wrap}
-            setTheme={setTheme}
-            setKeybindings={setKeybindings}
-            setWrap={setWrap}
-          />
-          <Header.ActionMore
-            onRevertToExerciseStart={revertToExerciseStart}
-            onRevertToLastIteration={revertToLastIteration}
-            isRevertToLastIterationDisabled={isEqual(
-              submissionFilesRef.current,
-              files
-            )}
-          />
-        </div>
-
-        <div className="main-lhs">
-          <FileEditorAce
-            editorDidMount={editorDidMount}
-            files={files}
-            language={language}
-            theme={theme}
-            keybindings={keybindings}
-            wrap={wrap}
-            onRunTests={runTests}
-            onSubmit={submit}
-            config={config}
-          />
-        </div>
-
-        <div className="main-rhs">
-          <InstructionsPanel
-            introduction={introduction}
-            assignment={assignment}
-            exampleFiles={exampleFiles}
-            debuggingInstructions={debuggingInstructions}
-          />
-          <TestsPanel />
-          <ResultsPanel
-            submission={submission}
-            timeout={timeout}
-            onUpdate={updateSubmission}
-            onSubmit={submit}
-            isSubmitDisabled={isSubmitDisabled}
-          />
-        </div>
-
-        <div className="footer-lhs">
-          <EditorStatusSummary
-            status={status}
-            onCancel={cancel}
-            error={apiError?.message}
-          />
-          <RunTestsButton onClick={runTests} />
-          <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
-        </div>
-
-        <div className="footer-rhs">
-          <div className="tabs">
-            <InstructionsTab />
-            <TestsTab />
-            <ResultsTab />
+          <div className="options">
+            <Header.ActionHints assignment={assignment} />
+            <Header.ActionKeyboardShortcuts
+              ref={keyboardShortcutsRef}
+              onClick={toggleKeyboardShortcuts}
+            />
+            <Header.ActionSettings
+              theme={theme}
+              keybindings={keybindings}
+              wrap={wrap}
+              setTheme={setTheme}
+              setKeybindings={setKeybindings}
+              setWrap={setWrap}
+            />
+            <Header.ActionMore
+              onRevertToExerciseStart={revertToExerciseStart}
+              onRevertToLastIteration={revertToLastIteration}
+              isRevertToLastIterationDisabled={isEqual(
+                submissionFilesRef.current,
+                files
+              )}
+            />
           </div>
         </div>
+
+        <article className="main">
+          <div className="lhs">
+            <FileEditorAce
+              editorDidMount={editorDidMount}
+              files={files}
+              language={language}
+              theme={theme}
+              keybindings={keybindings}
+              wrap={wrap}
+              onRunTests={runTests}
+              onSubmit={submit}
+              config={config}
+            />
+
+            <footer className="lhs-footer">
+              <EditorStatusSummary
+                status={status}
+                onCancel={cancel}
+                error={apiError?.message}
+              />
+              <RunTestsButton onClick={runTests} />
+              <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
+            </footer>
+          </div>
+
+          <div className="rhs">
+            <div className="tabs">
+              <InstructionsTab />
+              {tests ? <TestsTab /> : null}
+              <ResultsTab />
+            </div>
+            <InstructionsPanel
+              introduction={introduction}
+              assignment={assignment}
+              exampleFiles={exampleFiles}
+              debuggingInstructions={debuggingInstructions}
+            />
+            {tests ? <TestsPanel tests={tests} /> : null}
+            <ResultsPanel
+              submission={submission}
+              timeout={timeout}
+              onUpdate={updateSubmission}
+              onSubmit={submit}
+              isSubmitDisabled={isSubmitDisabled}
+            />
+          </div>
+        </article>
       </div>
     </TabsContext.Provider>
   )

@@ -72,6 +72,9 @@
     & > .c-icon {
         filter: var(--textColor2-filter);
     }
+    &:not(:disabled):hover {
+        background: rgb(96, 79, 205, 0.02);
+    }
 }
 
 .btn-default {

@@ -3,7 +3,7 @@ import { Tab } from '../common/Tab'
 import { TabsContext } from '../Editor'
 import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
-import { GraphicalIcon } from '../common/GraphicalIcon'
+import { GraphicalIcon, Icon } from '../common'
 import { File } from '../types'
 
 export const InstructionsPanel = ({
@@ -18,7 +18,7 @@ export const InstructionsPanel = ({
   debuggingInstructions?: string
 }) => (
   <Tab.Panel id="instructions" context={TabsContext}>
-    <section className="instructions">
+    <section className="instructions-pane">
       <div className="c-textual-content --small">
         <Introduction introduction={introduction} />
         <Instructions assignment={assignment} />
@@ -57,34 +57,49 @@ const Introduction = ({ introduction }: { introduction: string }) => {
   }
 
   return (
-    <>
+    <div className="introduction">
       <h2>Introduction</h2>
-      <div dangerouslySetInnerHTML={{ __html: introduction }} />
-    </>
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: introduction }}
+      />
+    </div>
   )
 }
 
 const Instructions = ({ assignment }: { assignment: Assignment }) => (
-  <>
+  <div className="instructions">
     <h2>Instructions</h2>
-    <div dangerouslySetInnerHTML={{ __html: assignment.overview }} />
+    <div
+      className="content"
+      dangerouslySetInnerHTML={{ __html: assignment.overview }}
+    />
 
     {assignment.tasks.map((task, idx) => (
-      <Task key={idx} task={task} open={idx === 0} />
+      <Task key={idx} task={task} open={idx === 0} idx={idx} />
     ))}
-  </>
+  </div>
 )
 
-const Task = ({ task, open }: { task: AssignmentTask; open?: boolean }) => {
+const Task = ({
+  task,
+  open,
+  idx,
+}: {
+  task: AssignmentTask
+  open?: boolean
+  idx: number
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
   const detailsProps = open ? { open: true } : {}
 
   return (
-    <details className="c-details" {...detailsProps}>
+    <details className="c-details task" {...detailsProps}>
       <summary className="--summary">
-        <span className="--summary-title">{task.title}</span>
+        <div className="task-marker">Task {idx + 1}</div>
+        <span className="summary-title">{task.title}</span>
         <span className="--closed-icon">
           <GraphicalIcon icon="chevron-right" />
         </span>
@@ -102,13 +117,13 @@ const Task = ({ task, open }: { task: AssignmentTask; open?: boolean }) => {
         />
         <button
           ref={buttonRef}
-          className="btn-default btn-small hints-btn"
+          className="btn-enhanced btn-s hints-btn"
           onClick={() => {
             setIsModalOpen(true)
           }}
         >
-          <GraphicalIcon icon="plus-square" />
-          Show Hints
+          <span>Show Hints</span>
+          <Icon icon="modal" alt="Opens in a modal" />
         </button>
       </div>
     </details>

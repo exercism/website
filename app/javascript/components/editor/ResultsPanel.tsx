@@ -1,7 +1,7 @@
 import React from 'react'
 import { TestRunSummary } from './TestRunSummary'
 import { Submission, TestRun } from './types'
-import { Tab } from '../common/Tab'
+import { GraphicalIcon, Tab } from '../common'
 import { TabsContext } from '../Editor'
 
 export const ResultsPanel = ({
@@ -18,8 +18,8 @@ export const ResultsPanel = ({
   isSubmitDisabled: boolean
 }) => (
   <Tab.Panel id="results" context={TabsContext}>
-    <section className="results">
-      {submission && submission.testRun && (
+    {submission && submission.testRun ? (
+      <section className="results">
         <TestRunSummary
           testRun={submission.testRun}
           cancelLink={submission.links.cancel}
@@ -28,7 +28,22 @@ export const ResultsPanel = ({
           onSubmit={onSubmit}
           isSubmitDisabled={isSubmitDisabled}
         />
-      )}
-    </section>
+      </section>
+    ) : (
+      <section className="run-tests-prompt">
+        <GraphicalIcon icon="run-tests-prompt" />
+        <h2>
+          <button className="btn-keyboard-shortcut">
+            <span>Run tests </span>
+            <span className="--kb">F2</span>
+          </button>{' '}
+          to check your code
+        </h2>
+        <p>
+          We'll run your code against tests to check whether it works, then give
+          you the results here.
+        </p>
+      </section>
+    )}
   </Tab.Panel>
 )

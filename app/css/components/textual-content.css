@@ -85,12 +85,10 @@
         /* HEADINGS */
         /************/
         & h2 {
-            @apply text-h3 mb-8;
-            @apply text-24 mb-8;
+            @apply text-h3 text-21 mb-4;
         }
         & h3 {
-            @apply text-h4 mb-8;
-            @apply text-18 mb-8;
+            @apply text-h4 text-18 mb-4;
         }
         & * + h3 {
             @apply mt-32;

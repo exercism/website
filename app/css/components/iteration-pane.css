@@ -5,12 +5,10 @@
     & .tabs {
         @apply bg-backgroundColorA;
         @apply border-b-1 border-borderColor7;
-        @apply pl-8;
         & .c-tab {
-            height: 30px;
             @apply grid place-items-center;
             @apply bg-backgroundColorA;
-            @apply px-16;
+            @apply px-16 py-8;
             @apply text-13 text-textColor6 leading-paragraph;
             @apply border-r-1 border-borderColor7;
             @apply rounded-none;
@@ -19,7 +17,7 @@
 
             &.selected {
                 @apply bg-backgroundColorB;
-                @apply text-textColor3 font-medium;
+                @apply text-textColor2 font-semibold;
                 border-bottom-color: var(--backgroundColorA);
             }
         }

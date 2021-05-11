@@ -30,7 +30,6 @@ export const TestimonialsSummary = ({
         <header className="section-header">
           <GraphicalIcon icon="testimonials" hex />
           <h2>Testimonials</h2>
-          <div className="total-count">{numTestimonials.toLocaleString()}</div>
           <hr className="c-divider" />
         </header>
         <div className="testimonials">

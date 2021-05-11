@@ -142,12 +142,12 @@ export const ExerciseList = ({
           )
         })}
       </div>
-      <FetchingBoundary
-        status={status}
-        error={error}
-        defaultError={DEFAULT_ERROR}
-      >
-        <ResultsZone isFetching={isFetching}>
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        >
           {results && results.length > 0 ? (
             <div className="exercises">
               {statusFilter.apply(results).map((result) => {
@@ -164,8 +164,8 @@ export const ExerciseList = ({
           ) : (
             <p>No exercises found</p>
           )}
-        </ResultsZone>
-      </FetchingBoundary>
+        </FetchingBoundary>
+      </ResultsZone>
     </div>
   )
 }

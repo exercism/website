@@ -86,12 +86,12 @@ export const TestimonialsList = ({
             </select>
           </div>
         </div>
-        <FetchingBoundary
-          status={status}
-          error={error}
-          defaultError={DEFAULT_ERROR}
-        >
-          <ResultsZone isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
+          <FetchingBoundary
+            status={status}
+            error={error}
+            defaultError={DEFAULT_ERROR}
+          >
             {resolvedData ? (
               <React.Fragment>
                 <div className="testimonials">
@@ -127,8 +127,8 @@ export const TestimonialsList = ({
                 />
               </React.Fragment>
             ) : null}
-          </ResultsZone>
-        </FetchingBoundary>
+          </FetchingBoundary>
+        </ResultsZone>
       </article>
     </div>
   )

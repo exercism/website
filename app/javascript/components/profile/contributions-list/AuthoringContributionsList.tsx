@@ -39,12 +39,12 @@ export const AuthoringContributionsList = ({
   )
 
   return (
-    <FetchingBoundary
-      error={error}
-      status={status}
-      defaultError={DEFAULT_ERROR}
-    >
-      <ResultsZone isFetching={isFetching}>
+    <ResultsZone isFetching={isFetching}>
+      <FetchingBoundary
+        error={error}
+        status={status}
+        defaultError={DEFAULT_ERROR}
+      >
         {resolvedData ? (
           <React.Fragment>
             <div className="authoring">
@@ -69,7 +69,7 @@ export const AuthoringContributionsList = ({
             />
           </React.Fragment>
         ) : null}
-      </ResultsZone>
-    </FetchingBoundary>
+      </FetchingBoundary>
+    </ResultsZone>
   )
 }

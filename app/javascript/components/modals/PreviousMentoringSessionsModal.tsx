@@ -93,12 +93,12 @@ export const PreviousMentoringSessionsModal = ({
         />
       </header>
       <div className="discussions">
-        <FetchingBoundary
-          status={status}
-          error={error}
-          defaultError={DEFAULT_ERROR}
-        >
-          <ResultsZone isFetching={isFetching}>
+        <ResultsZone isFetching={isFetching}>
+          <FetchingBoundary
+            status={status}
+            error={error}
+            defaultError={DEFAULT_ERROR}
+          >
             {resolvedData ? (
               <React.Fragment>
                 {resolvedData.results.map((discussion: MentorDiscussion) => (
@@ -112,8 +112,8 @@ export const PreviousMentoringSessionsModal = ({
                 />
               </React.Fragment>
             ) : null}
-          </ResultsZone>
-        </FetchingBoundary>
+          </FetchingBoundary>
+        </ResultsZone>
       </div>
     </Modal>
   )

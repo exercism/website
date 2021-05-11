@@ -40,12 +40,12 @@ export const BuildingContributionsList = ({
   )
 
   return (
-    <FetchingBoundary
-      error={error}
-      status={status}
-      defaultError={DEFAULT_ERROR}
-    >
-      <ResultsZone isFetching={isFetching}>
+    <ResultsZone isFetching={isFetching}>
+      <FetchingBoundary
+        error={error}
+        status={status}
+        defaultError={DEFAULT_ERROR}
+      >
         {resolvedData ? (
           <React.Fragment>
             <div className="maintaining">
@@ -61,8 +61,8 @@ export const BuildingContributionsList = ({
             />
           </React.Fragment>
         ) : null}
-      </ResultsZone>
-    </FetchingBoundary>
+      </FetchingBoundary>
+    </ResultsZone>
   )
 }
 

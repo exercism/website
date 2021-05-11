@@ -44,7 +44,7 @@ export const FilePanel = ({
             </Tab>
           ))}
         </div>
-        <div className="code">
+        <div className="c-code-pane">
           {files.map((file) => (
             <Tab.Panel
               key={file.digest}

@@ -132,7 +132,7 @@
                             @apply px-12 py-6;
                             @apply cursor-pointer;
                             @apply border-1 border-borderLight rounded-100;
-                            @apply text-textColor6 font-mono font-bold leading-regular;
+                            @apply text-textColor6 font-mono font-bold leading-140;
                         }
 
                         /* Keep it here so it's discoverable by touch
@@ -263,8 +263,6 @@
             & > .--tab-panel {
                 overflow-y: scroll;
                 height: 100%;
-                /* Make up for the drop shadow on the bottom bar */
-                @apply pb-32;
             }
 
             & section.instructions-pane {
@@ -325,6 +323,15 @@
                     }
                 }
                 &.hints-btn {
+                }
+            }
+            & .--tab-panel.tests {
+                &:not([hidden]) {
+                    @apply flex;
+                }
+                & code {
+                    @apply pb-24;
+                    height: 100%;
                 }
             }
             & section.results {
@@ -445,8 +452,8 @@
                     & .tests-group {
                         & .tests-group-summary {
                             @apply inline-flex items-center;
-                            @apply font-semibold text-14 text-darkGray;
-                            @apply border-2 border-lightGray rounded-100;
+                            @apply font-semibold text-14 text-textColor2;
+                            @apply border-2 border-borderColor6 rounded-100;
                             @apply py-8 px-24 mb-12;
                             list-style-type: none;
                             & .c-icon.indicator {
@@ -459,32 +466,49 @@
 
                     & .c-test-summary {
                         @apply flex items-center;
-                        @apply bg-unnamed15 font-mono;
+                        @apply font-mono;
                         @apply mb-12 rounded-8;
+                        @apply border-1 border-borderColor6;
+
+                        &[open] {
+                            @apply bg-backgroundColorG;
+                            & .--summary {
+                                @apply mb-6;
+                            }
+                        }
+                        &:not([open]) {
+                            @apply bg-backgroundColorA;
+                            & .--summary {
+                            }
+                        }
 
                         & .--summary {
                             @apply flex items-center;
-                            @apply py-8 px-24 mb-12;
+                            @apply py-10 px-24;
                             list-style-type: none;
 
                             & .--status {
                                 @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
                                 @apply font-bold uppercase text-13 leading-huge;
-                                @apply text-textColor9 bg-darkGreen;
                                 width: 70px;
+                                & .--dot {
+                                    height: 8px;
+                                    width: 8px;
+                                    @apply mr-12 rounded-circle;
+                                }
                             }
                             & .--summary-details {
                                 @apply flex-grow;
                                 & .--summary-idx {
-                                    @apply font-semibold text-textColor6 leading-huge;
+                                    @apply font-semibold text-textColor6 leading-140;
                                 }
                                 & .--summary-name {
-                                    @apply font-body font-semibold text-15 leading-regular;
+                                    @apply font-body font-semibold text-15 leading-140;
                                 }
                             }
                         }
                         & .--explanation {
-                            @apply py-8 px-24;
+                            @apply px-24 pb-8;
 
                             & .--info {
                                 @apply mb-16;
@@ -492,16 +516,29 @@
                                     @apply font-bold text-darkGray uppercase leading-huge mb-8;
                                 }
                                 & pre {
-                                    @apply bg-backgroundColorA py-16 px-20 whitespace-pre-wrap;
+                                    @apply bg-backgroundColorB py-16 px-20 whitespace-pre-wrap rounded-8;
                                 }
                             }
                         }
 
+                        &.pass {
+                            & summary {
+                                & .--status {
+                                    @apply text-darkGreen;
+                                    & .--dot {
+                                        @apply bg-darkGreen;
+                                    }
+                                }
+                            }
+                        }
                         &.error,
                         &.fail {
                             & summary {
                                 & .--status {
-                                    @apply bg-red text-textColor9;
+                                    @apply text-red;
+                                    & .--dot {
+                                        @apply bg-red;
+                                    }
                                 }
                             }
                         }

@@ -70,7 +70,8 @@ export function Editor({
   timeout = 60000,
   initialSubmission,
   files: initialFiles,
-  language,
+  aceLanguage,
+  highlightJSLanguage,
   exercisePath,
   trackTitle,
   exerciseTitle,
@@ -86,7 +87,8 @@ export function Editor({
   timeout?: number
   initialSubmission?: Submission
   files: File[]
-  language: string
+  aceLanguage: string
+  highlightJSLanguage: string
   exercisePath: string
   trackTitle: string
   exerciseTitle: string
@@ -408,7 +410,7 @@ export function Editor({
             <FileEditorAce
               editorDidMount={editorDidMount}
               files={files}
-              language={language}
+              language={aceLanguage}
               theme={theme}
               keybindings={keybindings}
               wrap={wrap}
@@ -440,7 +442,9 @@ export function Editor({
               exampleFiles={exampleFiles}
               debuggingInstructions={debuggingInstructions}
             />
-            {tests ? <TestsPanel tests={tests} /> : null}
+            {tests ? (
+              <TestsPanel tests={tests} language={highlightJSLanguage} />
+            ) : null}
             <ResultsPanel
               submission={submission}
               timeout={timeout}

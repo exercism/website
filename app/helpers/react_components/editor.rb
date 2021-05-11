@@ -10,7 +10,9 @@ module ReactComponents
           track_title: track.title,
           exercise_title: solution.exercise.title,
           introduction: introduction,
+          # TODO: This should be using the solution sha, not the exercise sha
           assignment: SerializeExerciseAssignment.(solution.exercise),
+          tests: solution.exercise.practice_exercise? ? solution.tests : nil,
           debugging_instructions: debugging_instructions,
           example_files: SerializeFiles.(example_files),
           endpoint: Exercism::Routes.api_solution_submissions_url(
@@ -19,7 +21,8 @@ module ReactComponents
           ),
           submission: SerializeSubmission.(solution.submissions.last),
           files: SerializeFiles.(solution.solution_files),
-          language: track.ace_language,
+          ace_language: track.ace_language,
+          highlightjs_language: track.highlightjs_language,
           storage_key: solution.uuid,
           config: {
             tab_size: track.indent_size,

@@ -30,7 +30,10 @@ export function TestSummary({
       open={defaultOpen}
     >
       <summary className="--summary">
-        <div className="--status">{statusLabels[test.status]}</div>
+        <div className="--status">
+          <div className="--dot" />
+          <span>{statusLabels[test.status]}</span>
+        </div>
         <div className="--summary-details">
           <div className="--summary-idx">Test {test.index}</div>
           <div className="--summary-name">{test.name}</div>

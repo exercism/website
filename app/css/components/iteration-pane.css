@@ -23,31 +23,8 @@
         }
     }
     & .code {
-        @apply overflow-auto;
-
         & code {
-            @apply block;
             @apply py-16;
-        }
-        & li {
-            @apply flex;
-            @apply text-15 font-mono leading-huge;
-
-            & .idx {
-                @apply flex-shrink-0;
-                @apply text-center text-textColor6;
-                @apply select-none;
-                width: 64px;
-            }
-            & .loc {
-                @apply flex-grow;
-                @apply pr-24;
-            }
-
-            &:hover {
-                @apply bg-backgroundColorC;
-                cursor: pointer;
-            }
         }
     }
 }

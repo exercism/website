@@ -40,10 +40,12 @@ export const Tab = ({
 
 const TabPanel = ({
   id,
+  className,
   children,
   context,
 }: {
   id: string
+  className?: string
   children: React.ReactNode
   context: React.Context<TabContext>
 }) => {
@@ -56,7 +58,7 @@ const TabPanel = ({
       aria-labelledby={`tab-${id}`}
       tabIndex={0}
       hidden={id !== current}
-      className="--tab-panel"
+      className={`--tab-panel ${className}`}
     >
       {children}
     </div>

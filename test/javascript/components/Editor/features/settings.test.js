@@ -20,7 +20,7 @@ test('change theme', async () => {
   fireEvent.click(screen.getByLabelText('Dark'))
 
   await waitFor(() => {
-    expect(screen.queryByText('Theme: solarized_dark')).toBeInTheDocument()
+    expect(screen.queryByText('Theme: cobalt')).toBeInTheDocument()
   })
 })
 

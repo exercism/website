@@ -59,9 +59,7 @@ test('shows message when test times out', async () => {
   )
   userEvent.click(await screen.findByText('Run Tests'))
 
-  expect(
-    await screen.findByText("We've queued your code and will run it shortly.")
-  ).toBeInTheDocument()
+  expect(await screen.findByText(/Running tests/)).toBeInTheDocument()
   expect(await screen.findByText('Your tests timed out')).toBeInTheDocument()
 
   server.close()

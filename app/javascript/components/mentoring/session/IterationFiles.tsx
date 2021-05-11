@@ -85,7 +85,7 @@ const Component = ({
             </Tab>
           ))}
         </div>
-        <div className="code">
+        <div className="c-code-pane">
           {data.files.map((file) => (
             <Tab.Panel
               key={file.digest}

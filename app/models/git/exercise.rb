@@ -103,6 +103,10 @@ module Git
       {}
     end
 
+    def tests
+      read_file_blob(test_filepaths.first)
+    end
+
     # Files that should be transported
     # to a user for use in the editor.
     memoize

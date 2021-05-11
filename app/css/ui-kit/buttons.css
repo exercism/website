@@ -67,10 +67,13 @@
 
 .btn-enhanced {
     @apply btn-i-filled;
-    @apply bg-white text-textColor2;
+    @apply bg-backgroundColorA text-textColor2;
     @apply border-1 border-btnBorder;
     & > .c-icon {
         filter: var(--textColor2-filter);
+    }
+    &:not(:disabled):hover {
+        background: rgb(96, 79, 205, 0.02);
     }
 }
 

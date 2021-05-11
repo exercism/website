@@ -129,7 +129,7 @@
         @apply py-6 px-8;
         @apply border-1 border-borderColor5 rounded-5;
         @apply text-textColor6;
-        box-shadow: 0px 1px 0px 1px #cbc9d9 60%;
+        box-shadow: 0px 1px 0px 1px #cbc9d9bb;
 
         & .c-icon {
             height: 12px;

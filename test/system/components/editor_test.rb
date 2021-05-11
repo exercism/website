@@ -172,7 +172,7 @@ module Components
         wait_for_submission
         click_on "Cancel"
 
-        assert_no_text "We've queued your code and will run it shortly."
+        assert_no_text "Running tests..."
       end
     end
 
@@ -260,7 +260,7 @@ module Components
 
     private
     def wait_for_submission
-      assert_text "We've queued your code and will run it shortly."
+      assert_text "Running tests..."
     end
   end
 end

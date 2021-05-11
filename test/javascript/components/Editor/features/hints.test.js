@@ -1,12 +1,12 @@
 jest.mock('../../../../../app/javascript/components/editor/FileEditorAce')
 
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 
 test('show hints', async () => {
-  const { queryByText } = render(
+  render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
       assignment={{
@@ -17,10 +17,8 @@ test('show hints', async () => {
     />
   )
 
-  fireEvent.click(queryByText('Hints'))
+  fireEvent.click(await screen.findByAltText('View all hints'))
 
-  await waitFor(() => expect(queryByText('General')).toBeInTheDocument())
-  await waitFor(() =>
-    expect(queryByText('Really you should!')).toBeInTheDocument()
-  )
+  expect(await screen.findByText('General')).toBeInTheDocument()
+  expect(await screen.findByText('Really you should!')).toBeInTheDocument()
 })

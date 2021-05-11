@@ -23,6 +23,7 @@ import '../../css/ui-kit/buttons'
 
 import '../../css/components/badge'
 import '../../css/components/bg-img'
+import '../../css/components/code-pane'
 import '../../css/components/concept'
 import '../../css/components/concept-icon'
 import '../../css/components/concept-progress-bar'
@@ -444,7 +445,9 @@ initReact({
       endpoint={data.endpoint}
       initialSubmission={camelizeKeysAs<Submission>(data.submission)}
       files={data.files}
-      language={data.language}
+      tests={data.tests}
+      aceLanguage={data.ace_language}
+      highlightJSLanguage={data.highlightjs_language}
       exercisePath={data.exercise_path}
       trackTitle={data.track_title}
       exerciseTitle={data.exercise_title}

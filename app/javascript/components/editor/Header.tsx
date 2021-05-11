@@ -12,7 +12,7 @@ export const Header = ({ children }: { children: React.ReactNode }) => (
 Header.Back = ({ exercisePath }: { exercisePath: string }) => (
   <a href={exercisePath} className="close-btn">
     <GraphicalIcon icon="arrow-left" />
-    Exit Editor
+    Back to Exercise
   </a>
 )
 
@@ -39,7 +39,6 @@ Header.ActionKeyboardShortcuts = forwardRef<
   return (
     <button
       ref={ref}
-      type="button"
       onClick={() => {
         onClick()
       }}

@@ -21,6 +21,7 @@
 :root {
     /* TODO: Rename these to match figma */
     --c-2E57E8: #2e57e8;
+    --c-211D2F: #211d2f;
     --c-2E57E8: #2e57e8;
     --c-76709F: #76709f;
     --c-5C5589: #5c5589;
@@ -50,6 +51,7 @@
     --c-C8D5EF: #c8d5ef;
     --c-FAFAFF: #fafaff;
     --c-E8EDF7: #e8edf7;
+    --c-F6F7FB: #f6f7fb;
 
     --darkThemeBackgroundColor: var(--c-282339);
     --track-color-c: 52, 19, 148;
@@ -120,6 +122,7 @@
     --backgroundColorD: var(--c-F0F3F9);
     --backgroundColorE: var(--c-F4F7FD);
     --backgroundColorF: var(--c-FAFAFF);
+    --backgroundColorG: var(--c-F6F7FB);
     --borderColor1: var(--c-000000);
     --borderColor3: var(--c-26282D);
     --borderColor4: var(--c-6D6986);
@@ -196,13 +199,14 @@
 .theme-dark {
     --backgroundColorA: var(--c-282339);
     --backgroundColorA-RGB: 40, 35, 57;
-    --backgroundColorB: var(--c-282339);
+    --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-322C44);
     --borderColor3: var(--c-8480A0);
     --borderColor5: #ccc;
+    --borderColor6: var(--c-433F56);
     --borderColor7: var(--c-433F56);
     --textColor1: var(--c-FFFFFF);
-    --textColor2: var(--c-FFFFFF);
+    --textColor2: var(--c-F0F3F9);
     --textColor5: var(--c-CBC9D9);
     --textColor6: var(--c-A9A6BD);
     --textColor7: #ccc;
@@ -215,6 +219,11 @@
     --tabBackgroundColorSelected: var(--c-604FCD);
     --successColor: var(--c-4FCDA7);
 
+    /* This is yellow */
+    --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)
+        brightness(106%) contrast(96%);
+    --textColor2-filter: invert(93%) sepia(31%) saturate(246%)
+        hue-rotate(177deg) brightness(100%) contrast(96%);
     --textColor6-filter: invert(71%) sepia(18%) saturate(258%)
         hue-rotate(208deg) brightness(93%) contrast(86%);
     --buttonBorderColor1-filter: invert(52%) sepia(9%) saturate(862%)

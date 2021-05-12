@@ -14,7 +14,7 @@ module Flows
       ruby = create :track, :random_slug
       create :track, :random_slug
       create :track, :random_slug
-      create :user_track, track: ruby, user: user, updated_at: 2.days.ago
+      create :user_track, track: ruby, user: user, last_touched_at: 2.days.ago
 
       use_capybara_host do
         sign_in!(user)

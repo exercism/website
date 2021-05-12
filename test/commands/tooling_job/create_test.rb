@@ -1,27 +1,29 @@
 require 'test_helper'
 
 class ToolingJob::CreateTest < ActiveSupport::TestCase
-  test "proxies to dynamodb" do
+  test "stores correctly in redis" do
     freeze_time do
       type = "foobars"
-      uuid = SecureRandom.uuid
-      SecureRandom.expects(:uuid).returns(uuid)
+      submission_uuid = SecureRandom.uuid
+      language = "ruby"
+      exercise = "two-fer"
+      attributes = { foo: :bar }
 
-      # TODO: Test via the db rather than mocks
-      client = mock
-      Exercism.expects(:dynamodb_client).returns(client)
-      client.expects(:put_item).with(
-        table_name: Exercism.config.dynamodb_tooling_jobs_table,
-        item: {
-          id: uuid,
-          created_at: Time.current.utc.to_i,
-          type: type,
-          job_status: :queued,
-          foo: :bar
-        }
-      )
+      job_id = ToolingJob::Create.(type, submission_uuid, language, exercise, attributes)
 
-      ToolingJob::Create.(type, { foo: :bar })
+      redis = Exercism.redis_tooling_client
+      expected = {
+        foo: :bar,
+        id: job_id,
+        submission_uuid: submission_uuid,
+        type: type,
+        language: language,
+        exercise: exercise,
+        created_at: Time.current.utc.to_i
+      }.to_json
+      assert_equal expected, redis.get("job:#{job_id}")
+      assert_equal job_id, redis.lindex(Exercism::ToolingJob.key_for_queued, 0)
+      assert_equal job_id, redis.get("submission:#{submission_uuid}:#{type}")
     end
   end
 end

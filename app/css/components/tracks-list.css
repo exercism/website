@@ -124,7 +124,7 @@
                 & .--v3,
                 & .--new {
                     @apply flex items-center justify-center flex-shrink-0;
-                    @apply text-14 leading-170 font-semibold;
+                    @apply text-13 leading-170 font-semibold;
                     @apply px-12 rounded-100;
                     @apply mr-12;
                     height: 28px;

@@ -5,6 +5,8 @@ import { sendRequest } from '../../../utils/send-request'
 import { Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { IterationSelector } from './IterationSelector'
+import { Iteration } from '../../types'
 
 const DEFAULT_ERROR = new Error('Unable to complete exercise')
 
@@ -31,19 +33,27 @@ const ConfirmButton = ({
 
 export const PublishExerciseForm = ({
   endpoint,
+  iterations,
   onSuccess,
 }: {
   endpoint: string
+  iterations: readonly Iteration[]
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
   const [toPublish, setToPublish] = useState(true)
+  const [iterationIdxToPublish, setIterationIdxToPublish] = useState<
+    number | null
+  >(null)
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<ExerciseCompletion>(
     () => {
       return sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
-        body: JSON.stringify({ publish: toPublish }),
+        body: JSON.stringify({
+          publish: toPublish,
+          iteration_idx: iterationIdxToPublish,
+        }),
         isMountedRef: isMountedRef,
       })
     },
@@ -83,6 +93,13 @@ export const PublishExerciseForm = ({
           </div>
         </div>
       </label>
+      {toPublish ? (
+        <IterationSelector
+          iterationIdx={iterationIdxToPublish}
+          setIterationIdx={setIterationIdxToPublish}
+          iterations={iterations}
+        />
+      ) : null}
       <label className="c-radio-wrapper">
         <input
           type="radio"

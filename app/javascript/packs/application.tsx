@@ -376,7 +376,10 @@ initReact({
     />
   ),
   'student-complete-exercise-button': (data: any) => (
-    <Student.CompleteExerciseButton endpoint={data.endpoint} />
+    <Student.CompleteExerciseButton
+      endpoint={data.endpoint}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+    />
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
@@ -396,6 +399,7 @@ initReact({
         data.discussions
       )}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       exerciseType={data.exercise_type}
       links={camelizeKeysAs<NudgeLinks>(data.links)}
     />

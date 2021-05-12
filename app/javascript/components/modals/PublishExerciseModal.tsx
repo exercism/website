@@ -3,14 +3,17 @@ import { Modal } from './Modal'
 import { GraphicalIcon } from '../common'
 import { PublishExerciseForm } from './publish-exercise-modal/PublishExerciseForm'
 import { ExerciseCompletion } from './CompleteExerciseModal'
+import { Iteration } from '../types'
 
 export const PublishExerciseModal = ({
   open,
+  iterations,
   endpoint,
   onSuccess,
   ...props
 }: {
   open: boolean
+  iterations: readonly Iteration[]
   endpoint: string
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
@@ -29,7 +32,11 @@ export const PublishExerciseModal = ({
           can choose which iterations you publish, add more iterations once its
           publish, and unpublish it at any time.
         </p>
-        <PublishExerciseForm endpoint={endpoint} onSuccess={onSuccess} />
+        <PublishExerciseForm
+          endpoint={endpoint}
+          iterations={iterations}
+          onSuccess={onSuccess}
+        />
       </div>
       <GraphicalIcon
         icon="laptop-man-1"

@@ -13,6 +13,7 @@ module ReactComponents
           discussions: discussions,
           request: request,
           exercise_type: exercise_type,
+          iterations: solution.iterations.map { |iteration| SerializeIteration.(iteration) },
           links: links
         })
       end

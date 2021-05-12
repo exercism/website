@@ -23,3 +23,5 @@
 
   = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
 
+  - if solution.published?
+    %h3 Your published solution

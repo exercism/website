@@ -19,6 +19,7 @@ module Git
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
         status: exercise_config[:status] || :active,
         difficulty: exercise_config[:difficulty],
+        icon_name: head_git_exercise.icon_name,
         blurb: head_git_exercise.blurb,
         position: exercise_position,
         git_sha: head_git_exercise.synced_git_sha,
@@ -53,7 +54,8 @@ module Git
     def exercise_config_modified?
       return false unless filepath_in_diff?(head_git_exercise.config_absolute_filepath)
 
-      head_git_exercise.blurb != exercise.blurb
+      head_git_exercise.blurb != exercise.blurb ||
+        head_git_exercise.icon_name != exercise.icon_name
     end
 
     def exercise_files_modified?

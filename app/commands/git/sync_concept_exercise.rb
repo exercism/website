@@ -18,6 +18,7 @@ module Git
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         status: exercise_config[:status] || :active,
+        icon_name: head_git_exercise.icon_name,
         position: exercise_position,
         # TODO: Remove the || ... once we have configlet checking things properly.
         title: exercise_config[:name].presence || exercise_config[:slug].titleize,
@@ -51,7 +52,8 @@ module Git
     def exercise_config_modified?
       return false unless filepath_in_diff?(head_git_exercise.config_absolute_filepath)
 
-      head_git_exercise.blurb != exercise.blurb
+      head_git_exercise.blurb != exercise.blurb ||
+        head_git_exercise.icon_name != exercise.icon_name
     end
 
     def exercise_files_modified?

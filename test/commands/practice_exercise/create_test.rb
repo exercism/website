@@ -13,6 +13,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
       slug: 'anagram',
       title: 'Anagram',
       blurb: 'Annie',
+      icon_name: 'anagram',
       position: 1,
       prerequisites: [basics, conditionals],
       status: :active,
@@ -27,6 +28,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
     assert_equal track, pe.track
     assert_equal 'anagram', pe.slug
     assert_equal 'Anagram', pe.title
+    assert_equal 'anagram', pe.icon_name
     assert_equal [conditionals, basics], pe.prerequisites
     assert_equal :active, pe.status
     assert_equal 'HEAD', pe.git_sha
@@ -46,6 +48,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
         slug: 'anagram',
         title: 'Anagram',
         blurb: 'Annie',
+        icon_name: 'anagram',
         position: 1,
         prerequisites: [basics, conditionals],
         status: :active,

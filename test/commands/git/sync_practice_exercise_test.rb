@@ -71,6 +71,15 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     assert_equal 2, exercise.difficulty
   end
 
+  test "icon_name is updated when there are changes in config.json" do
+    exercise = create :practice_exercise, uuid: '782d71b7-7ed8-4b5b-89b8-8f0ec10f81a8', icon_name: 'going-iso', slug: 'isogram', title: 'Isogram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+
+    Git::SyncPracticeExercise.(exercise)
+
+    assert_equal 'iso', exercise.icon_name
+  end
+
   test "status is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', status: :active, slug: 'anagram', title: 'Anagram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')

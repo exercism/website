@@ -16,6 +16,7 @@ class UserTrack < ApplicationRecord
     inverse_of: :user_track
 
   before_create do
+    self.last_touched_at = Time.current unless self.last_touched_at
     self.summary_data = {}
   end
 

@@ -46,6 +46,39 @@ class UserTrackTest < ActiveSupport::TestCase
     assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
   end
 
+  test "touching only changes updated_at" do
+    user_track = freeze_time { create :user_track }
+    original_time = user_track.updated_at
+
+    travel 1.day do
+      user_track.touch
+      assert_equal Time.current, user_track.updated_at
+      assert_equal original_time, user_track.last_touched_at
+    end
+  end
+
+  test "updating solution updates last_touched_at and updated_at" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+
+    solution = nil
+
+    travel 1.day do
+      solution = create :concept_solution, user: user, track: track
+      user_track.reload
+      assert_equal Time.current, user_track.updated_at
+      assert_equal Time.current, user_track.last_touched_at
+    end
+
+    travel 2.days do
+      solution.update(status: "published")
+      user_track.reload
+      assert_equal Time.current, user_track.updated_at
+      assert_equal Time.current, user_track.last_touched_at
+    end
+  end
+
   test "exercise_unlocked? with no prerequisites" do
     exercise = create :concept_exercise
     user_track = create :user_track, track: exercise.track

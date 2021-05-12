@@ -30,21 +30,24 @@ export const TestimonialsSummary = ({
         <header className="section-header">
           <GraphicalIcon icon="testimonials" hex />
           <h2>Testimonials</h2>
-          <div className="total-count">{numTestimonials}</div>
           <hr className="c-divider" />
         </header>
         <div className="testimonials">
           <div className="stats">
             <div className="stat">
-              <div className="number">{numSolutionsMentored}</div>
+              <div className="number">
+                {numSolutionsMentored.toLocaleString()}
+              </div>
               <div className="metric">Solutions mentored</div>
             </div>
             <div className="stat">
-              <div className="number">{numStudentsHelped}</div>
+              <div className="number">{numStudentsHelped.toLocaleString()}</div>
               <div className="metric">Students helped</div>
             </div>
             <div className="stat">
-              <div className="number">{numTestimonialsReceived}</div>
+              <div className="number">
+                {numTestimonialsReceived.toLocaleString()}
+              </div>
               <div className="metric">Testimonials received</div>
             </div>
           </div>

@@ -433,6 +433,12 @@ initReact({
       links={camelizeKeysAs<RequestMentoringButtonLinks>(data.links)}
     />
   ),
+  'student-publish-solution-button': (data: any) => (
+    <Student.PublishSolutionButton
+      endpoint={data.endpoint}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+    />
+  ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
 

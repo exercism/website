@@ -210,7 +210,7 @@ import {
   IterationPageRequest,
 } from '../components/student/IterationPage'
 import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
-import { Links as PublishSettingsLinks } from '../components/student/PublishSettings'
+import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -440,12 +440,12 @@ initReact({
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
     />
   ),
-  'student-publish-settings': (data: any) => (
-    <Student.PublishSettings
-      endpoint={data.endpoint}
+  'student-published-solution': (data: any) => (
+    <Student.PublishedSolution
+      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
       publishedIterationIdx={data.published_iteration_idx}
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      links={camelizeKeysAs<PublishSettingsLinks>(data.links)}
+      links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

@@ -1,12 +1,13 @@
 module ReactComponents
   module Student
-    class PublishSettings < ReactComponent
+    class PublishedSolution < ReactComponent
       initialize_with :solution
 
       def to_s
         super(
-          "student-publish-settings",
+          "student-published-solution",
           {
+            solution: SerializeCommunitySolution.(solution),
             published_iteration_idx: solution.published_iteration.try(:idx),
             iterations: solution.iterations.order(idx: :desc).map { |iteration| SerializeIteration.(iteration) },
             links: {

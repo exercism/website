@@ -62,6 +62,25 @@ module Flows
       end
     end
 
+    test "user sees their published solution" do
+      track = create :track
+      strings = create :concept_exercise, track: track
+      user = create :user, handle: "User"
+      create :user_track, user: user, track: track
+      solution = create :concept_solution, :completed, :published, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      iteration_2 = create :iteration, idx: 2, submission: submission
+      solution.update!(published_iteration: iteration_2)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_url(track, strings)
+
+        assert_text "Your published solution"
+        assert_link "User's solution", href: Exercism::Routes.published_solution_url(solution)
+      end
+    end
+
     test "user changes a published iteration" do
       track = create :track
       strings = create :concept_exercise, track: track

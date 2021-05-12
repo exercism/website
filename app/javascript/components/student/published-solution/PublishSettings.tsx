@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useDropdown } from '../dropdowns/useDropdown'
-import { ChangePublishedIterationModal } from '../modals/ChangePublishedIterationModal'
-import { UnpublishSolutionModal } from '../modals/UnpublishSolutionModal'
-import { Iteration } from '../types'
+import { useDropdown } from '../../dropdowns/useDropdown'
+import { ChangePublishedIterationModal } from '../../modals/ChangePublishedIterationModal'
+import { UnpublishSolutionModal } from '../../modals/UnpublishSolutionModal'
+import { Iteration } from '../../types'
 
 type ModalId = 'changePublishedIteration' | 'unpublish'
 
-export type Links = {
+type Links = {
   changeIteration: string
   unpublish: string
 }
@@ -16,7 +16,6 @@ export const PublishSettings = ({
   iterations,
   links,
 }: {
-  endpoint: string
   publishedIterationIdx: number | null
   iterations: readonly Iteration[]
   links: Links

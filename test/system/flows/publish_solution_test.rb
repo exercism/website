@@ -2,7 +2,7 @@ require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
 
 module Flows
-  class PublishExerciseTest < ApplicationSystemTestCase
+  class PublishSolutionTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
     test "user publishes solution when completing it" do

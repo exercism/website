@@ -1,6 +1,6 @@
 import React from 'react'
-import { Icon } from '../../common'
-import { ConceptIcon } from '../../common/ConceptIcon'
+import { Icon } from '../../../common'
+import { ConceptIcon } from '../../../common/ConceptIcon'
 
 const ProgressBar = ({
   isMastered,

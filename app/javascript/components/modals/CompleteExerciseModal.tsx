@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { PublishExerciseModal } from './PublishExerciseModal'
-import { ExerciseCompletedModal } from './ExerciseCompletedModal'
-import { TutorialCompletedModal } from './TutorialCompletedModal'
+import { PublishSolutionModal } from './complete-exercise-modal/PublishSolutionModal'
+import { ExerciseCompletedModal } from './complete-exercise-modal/ExerciseCompletedModal'
+import { TutorialCompletedModal } from './complete-exercise-modal/TutorialCompletedModal'
 import { Track, Exercise, Iteration } from '../types'
 
 export type ExerciseCompletion = {
@@ -42,7 +42,7 @@ export const CompleteExerciseModal = ({
     )
   } else {
     return (
-      <PublishExerciseModal
+      <PublishSolutionModal
         open={open}
         endpoint={endpoint}
         iterations={iterations}

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Modal } from './Modal'
-import { GraphicalIcon } from '../common'
-import { PublishExerciseForm } from './publish-exercise-modal/PublishExerciseForm'
-import { ExerciseCompletion } from './CompleteExerciseModal'
-import { Iteration } from '../types'
+import { Modal } from '../Modal'
+import { GraphicalIcon } from '../../common'
+import { PublishSolutionForm } from './PublishSolutionForm'
+import { ExerciseCompletion } from '../CompleteExerciseModal'
+import { Iteration } from '../../types'
 
-export const PublishExerciseModal = ({
+export const PublishSolutionModal = ({
   open,
   iterations,
   endpoint,
@@ -32,7 +32,7 @@ export const PublishExerciseModal = ({
           can choose which iterations you publish, add more iterations once its
           publish, and unpublish it at any time.
         </p>
-        <PublishExerciseForm
+        <PublishSolutionForm
           endpoint={endpoint}
           iterations={iterations}
           onSuccess={onSuccess}

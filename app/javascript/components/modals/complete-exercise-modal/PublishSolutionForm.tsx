@@ -31,7 +31,7 @@ const ConfirmButton = ({
   }
 }
 
-export const PublishExerciseForm = ({
+export const PublishSolutionForm = ({
   endpoint,
   iterations,
   onSuccess,

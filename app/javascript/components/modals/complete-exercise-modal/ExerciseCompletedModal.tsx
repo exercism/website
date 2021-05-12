@@ -1,9 +1,9 @@
 import React from 'react'
-import { Modal } from './Modal'
-import { ExerciseIcon } from '../common'
+import { Modal } from '../Modal'
+import { ExerciseIcon } from '../../common'
 import { ConceptProgression } from './exercise-completed-modal/ConceptProgression'
 import { Unlocks } from './exercise-completed-modal/Unlocks'
-import { ExerciseCompletion } from './CompleteExerciseModal'
+import { ExerciseCompletion } from '../CompleteExerciseModal'
 
 export const ExerciseCompletedModal = ({
   open,

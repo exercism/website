@@ -7,6 +7,7 @@ import { typecheck } from '../../utils/typecheck'
 import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
+import { IterationSelector } from './student/IterationSelector'
 
 const DEFAULT_ERROR = new Error('Unable to publish solution')
 
@@ -54,39 +55,11 @@ export const PublishSolutionModal = ({
   return (
     <Modal {...props}>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="published_iterations"
-              checked={iterationIdx === null}
-              onChange={() => setIterationIdx(null)}
-            />
-            All iterations
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="published_iterations"
-              checked={iterationIdx !== null}
-              onChange={() => setIterationIdx(iterations[0].idx)}
-            />
-            Single iteration
-          </label>
-          {iterationIdx !== null ? (
-            <select onChange={(e) => setIterationIdx(parseInt(e.target.value))}>
-              {iterations.map((iteration) => {
-                return (
-                  <option key={iteration.idx} value={iteration.idx}>
-                    Iteration {iteration.idx}
-                  </option>
-                )
-              })}
-            </select>
-          ) : null}
-        </div>
+        <IterationSelector
+          iterationIdx={iterationIdx}
+          setIterationIdx={setIterationIdx}
+          iterations={iterations}
+        />
         <FormButton type="submit" status={status}>
           Submit
         </FormButton>

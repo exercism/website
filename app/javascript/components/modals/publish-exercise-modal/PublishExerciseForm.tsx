@@ -5,7 +5,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { IterationSelector } from './IterationSelector'
+import { IterationSelector } from '../student/IterationSelector'
 import { Iteration } from '../../types'
 
 const DEFAULT_ERROR = new Error('Unable to complete exercise')

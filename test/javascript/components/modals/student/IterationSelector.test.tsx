@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { IterationSelector } from '../../../../../app/javascript/components/modals/publish-exercise-modal/IterationSelector'
+import { IterationSelector } from '../../../../../app/javascript/components/modals/student/IterationSelector'
 import { createIteration } from '../../../factories/IterationFactory'
 import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'

@@ -40,6 +40,6 @@ class Tracks::ShowExternalTest < ActionDispatch::IntegrationTest
   test "the source_url is shown" do
     create :practice_exercise
     get "/tracks/ruby/exercises/bob/"
-    assert_select ".source", text: %r{http://pine.fm/LearnToProgram/\?Chapter=06}
+    assert_select ".source", text: /Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial/
   end
 end

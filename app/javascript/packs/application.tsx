@@ -210,6 +210,7 @@ import {
   IterationPageRequest,
 } from '../components/student/IterationPage'
 import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
+import { Links as PublishSettingsLinks } from '../components/student/PublishSettings'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -444,6 +445,7 @@ initReact({
       endpoint={data.endpoint}
       publishedIterationIdx={data.published_iteration_idx}
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      links={camelizeKeysAs<PublishSettingsLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

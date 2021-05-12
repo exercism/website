@@ -1,18 +1,27 @@
 import React, { useState } from 'react'
 import { useDropdown } from '../dropdowns/useDropdown'
 import { ChangePublishedIterationModal } from '../modals/ChangePublishedIterationModal'
+import { UnpublishSolutionModal } from '../modals/UnpublishSolutionModal'
 import { Iteration } from '../types'
 
+type ModalId = 'changePublishedIteration' | 'unpublish'
+
+export type Links = {
+  changeIteration: string
+  unpublish: string
+}
+
 export const PublishSettings = ({
-  endpoint,
   publishedIterationIdx,
   iterations,
+  links,
 }: {
   endpoint: string
   publishedIterationIdx: number | null
   iterations: readonly Iteration[]
+  links: Links
 }): JSX.Element => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
   const {
     buttonAttributes,
     panelAttributes,
@@ -38,20 +47,34 @@ export const PublishSettings = ({
         <div {...panelAttributes}>
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
-              <button type="button" onClick={() => setIsModalOpen(true)}>
+              <button
+                type="button"
+                onClick={() => setOpenedModal('changePublishedIteration')}
+              >
                 Change published iteration
+              </button>
+            </li>
+            <li {...itemAttributes(1)}>
+              <button type="button" onClick={() => setOpenedModal('unpublish')}>
+                Unpublish
               </button>
             </li>
           </ul>
         </div>
       ) : null}
       <ChangePublishedIterationModal
-        endpoint={endpoint}
+        endpoint={links.changeIteration}
         iterations={iterations}
         defaultIterationIdx={publishedIterationIdx}
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        open={openedModal === 'changePublishedIteration'}
+        onClose={() => setOpenedModal(null)}
         className="m-change-published-iteration"
+      />
+      <UnpublishSolutionModal
+        endpoint={links.unpublish}
+        open={openedModal === 'unpublish'}
+        onClose={() => setOpenedModal(null)}
+        className="m-unpublish-solution"
       />
     </React.Fragment>
   )

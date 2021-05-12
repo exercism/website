@@ -89,6 +89,7 @@ Rails.application.routes.draw do
         member do
           patch :complete
           patch :publish
+          patch :unpublish
           patch :published_iteration
         end
 

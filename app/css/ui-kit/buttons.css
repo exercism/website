@@ -74,6 +74,10 @@
     }
     &:not(:disabled):hover {
         background: rgb(96, 79, 205, 0.02);
+        &.btn-l {
+            background: rgb(96, 79, 205, 0.05);
+            box-shadow: 0px 4px 8px rgba(79, 114, 205, 0.6);
+        }
     }
 }
 

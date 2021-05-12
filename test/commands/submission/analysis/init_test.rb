@@ -13,9 +13,9 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
 
     ToolingJob::Create.expects(:call).with(
       :analyzer,
-      submission_uuid: submission.uuid,
-      language: solution.track.slug,
-      exercise: solution.exercise.slug,
+      submission.uuid,
+      solution.track.slug,
+      solution.exercise.slug,
       source: {
         submission_efs_root: submission.uuid,
         submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],

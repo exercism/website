@@ -8,9 +8,9 @@ class Submission
       def call
         ToolingJob::Create.(
           :analyzer,
-          submission_uuid: submission.uuid,
-          language: solution.track.slug,
-          exercise: solution.exercise.slug,
+          submission.uuid,
+          solution.track.slug,
+          solution.exercise.slug,
           source: {
             submission_efs_root: submission.uuid,
             submission_filepaths: submission.valid_filepaths,

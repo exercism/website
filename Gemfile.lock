@@ -138,7 +138,7 @@ GEM
     erubis (2.7.0)
     et-orbi (1.2.4)
       tzinfo
-    exercism-config (0.64.0)
+    exercism-config (0.66.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -486,7 +486,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   devise (~> 4.7.1)
-  exercism-config (>= 0.64.0)
+  exercism-config (>= 0.66.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml-rails (~> 2.0)

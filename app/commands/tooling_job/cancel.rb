@@ -1,4 +1,4 @@
-class ToolingJob
+module ToolingJob
   class Cancel
     include Mandate
 
@@ -27,7 +27,7 @@ class ToolingJob
     end
 
     def job
-      ToolingJob.find_queued(submission_uuid, type)
+      Exercism::ToolingJob.find_for_submission_uuid_and_type(submission_uuid, type)
     rescue StandardError
       nil
     end

@@ -1,4 +1,4 @@
-class ToolingJob
+module ToolingJob
   class Process
     include Mandate
 
@@ -24,16 +24,7 @@ class ToolingJob
 
     memoize
     def job
-      # Strong consistency can take up to a second to resolve
-      # If getting the tooling job fails, then let's wait for
-      # half a second then try again, until 2s have passed
-      loop.with_index do |_, attempt|
-        return ToolingJob.find(id, full: true, strongly_consistent: true)
-      rescue StandardError
-        raise if attempt >= 4
-
-        sleep(0.5)
-      end
+      Exercism::ToolingJob.find(id)
     end
   end
 end

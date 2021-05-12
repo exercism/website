@@ -97,6 +97,11 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   def setup
+    # Clear out redis
+    redis = Exercism.redis_tooling_client
+    keys = redis.keys("#{Exercism.env}:*")
+    redis.del(*keys) if keys.present?
+
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
     # protections against unstubbing unecessary methods.
@@ -126,9 +131,9 @@ class ActiveSupport::TestCase
     assert_equal(expected, actual)
   end
 
-  ####################
-  # DynamoDB Helpers #
-  ####################
+  ###################
+  # Tooling Helpers #
+  ###################
   def create_test_runner_job!(submission, execution_status: nil, results: nil)
     results ? execution_output = { "results.json" => results.to_json } : execution_output = nil
     create_tooling_job!(
@@ -165,34 +170,13 @@ class ActiveSupport::TestCase
   end
 
   def create_tooling_job!(submission, type, params = {})
-    id = SecureRandom.uuid
-    write_to_dynamodb(
-      Exercism.config.dynamodb_tooling_jobs_table,
-      {
-        "id" => id,
-        "type" => type,
-        "submission_uuid" => submission.uuid,
-        "job_status" => "queued"
-      }.merge(params)
+    ToolingJob::Create.(
+      type,
+      submission.uuid,
+      submission.track.slug,
+      submission.exercise.slug,
+      params
     )
-    ToolingJob.find(id, full: true)
-  end
-
-  def write_to_dynamodb(table_name, item)
-    Exercism.dynamodb_client.put_item(
-      table_name: table_name,
-      item: item
-    )
-  end
-
-  def read_from_dynamodb(table_name, key, attributes)
-    Exercism.dynamodb_client.get_item(
-      table_name: table_name,
-      key: key,
-      attributes_to_get: attributes,
-      # Required for attribute queries to return the correct value immediately after updating
-      consistent_read: true
-    ).item
   end
 
   def upload_to_s3(bucket, key, body) # rubocop:disable Naming/VariableNumber

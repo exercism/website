@@ -131,9 +131,9 @@ class ActiveSupport::TestCase
     assert_equal(expected, actual)
   end
 
-  ####################
-  # DynamoDB Helpers #
-  ####################
+  ###################
+  # Tooling Helpers #
+  ###################
   def create_test_runner_job!(submission, execution_status: nil, results: nil)
     results ? execution_output = { "results.json" => results.to_json } : execution_output = nil
     create_tooling_job!(

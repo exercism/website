@@ -25,7 +25,6 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     basics_solution = Solution::Create.(user, concept_exercise_lasagna)
 
     # Submit an submission
-    ToolingJob::Create.stubs(:call)
     basics_submission_1 = Submission::Create.(
       basics_solution,
       [{ filename: 'basics.rb', content: 'my code' }],

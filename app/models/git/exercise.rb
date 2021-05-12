@@ -72,7 +72,7 @@ module Git
 
     memoize
     def icon_name
-      config[:icon]
+      config[:icon] || exercise_slug.to_s
     end
 
     memoize

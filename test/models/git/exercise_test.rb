@@ -128,6 +128,12 @@ module Git
       assert_equal("iso", exercise.icon_name)
     end
 
+    test "use slug as icon_name if not present" do
+      exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal("allergies", exercise.icon_name)
+    end
+
     test "retrieves authors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

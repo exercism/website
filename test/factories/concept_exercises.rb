@@ -8,6 +8,7 @@ FactoryBot.define do
     slug { 'strings' }
     blurb { 'strings are super useful' }
     title { slug.to_s.titleize }
+    icon_name { 'strings' }
     position { 1 }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }

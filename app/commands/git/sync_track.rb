@@ -56,12 +56,13 @@ module Git
     memoize
     def sync_concepts!
       head_git_track.concepts.map do |concept_config|
+        git_concept = Git::Concept.new(concept_config[:slug], git_repo.head_sha, repo: git_repo)
         ::Track::Concept::Create.(
           concept_config[:uuid],
           track,
           slug: concept_config[:slug],
           name: concept_config[:name],
-          blurb: concept_blurb(concept_config[:slug]),
+          blurb: git_concept.blurb,
           synced_to_git_sha: head_git_track.commit.oid
         ).tap do |concept|
           Git::SyncConcept.(concept) # TODO: Honour force_sync like exercises
@@ -72,6 +73,7 @@ module Git
     memoize
     def sync_concept_exercises!
       head_git_track.concept_exercises.each_with_index do |exercise_config, position|
+        git_exercise = Git::Exercise.new(exercise_config[:slug], 'concept', git_repo.head_sha, repo: git_repo)
         exercise = ::ConceptExercise::Create.(
           exercise_config[:uuid],
           track,
@@ -79,11 +81,12 @@ module Git
           git_sha: head_git_track.commit.oid,
           synced_to_git_sha: head_git_track.commit.oid,
           status: exercise_config[:status] || :active,
+          icon_name: git_exercise.icon_name,
           position: position + 1,
 
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
-          blurb: exercise_blurb(exercise_config[:slug], 'concept'),
+          blurb: git_exercise.blurb,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
           prerequisites: exercise_concepts(exercise_config[:prerequisites])
         )
@@ -94,6 +97,7 @@ module Git
     memoize
     def sync_practice_exercises!
       head_git_track.practice_exercises.each_with_index do |exercise_config, position|
+        git_exercise = Git::Exercise.new(exercise_config[:slug], 'practice', git_repo.head_sha, repo: git_repo)
         exercise = ::PracticeExercise::Create.(
           exercise_config[:uuid],
           track,
@@ -101,11 +105,12 @@ module Git
           git_sha: head_git_track.commit.oid,
           synced_to_git_sha: head_git_track.commit.oid,
           status: exercise_config[:status] || :active,
+          icon_name: git_exercise.icon_name,
           position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
 
           # TODO: Remove the || ... once we have configlet checking things properly.
           title: exercise_config[:name].presence || exercise_config[:slug].titleize,
-          blurb: exercise_blurb(exercise_config[:slug], 'practice'),
+          blurb: git_exercise.blurb,
           difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           practiced_concepts: exercise_concepts(exercise_config[:practices])
@@ -127,16 +132,6 @@ module Git
         missing_concepts = concept_slugs.to_a - concepts.map(&:slug)
         Rails.logger.error "Missing concepts: #{missing_concepts.join(', ')}" if missing_concepts.present?
       end
-    end
-
-    def exercise_blurb(slug, git_type)
-      git_exercise = Git::Exercise.new(slug, git_type, git_repo.head_sha, repo: git_repo)
-      git_exercise.blurb
-    end
-
-    def concept_blurb(slug)
-      git_concept = Git::Concept.new(slug, git_repo.head_sha, repo: git_repo)
-      git_concept.blurb
     end
 
     def fetch_git_repo!

@@ -8,6 +8,7 @@ FactoryBot.define do
     slug { 'bob' }
     blurb { 'Hey Bob!' }
     title { slug.to_s.titleize }
+    icon_name { 'bob' }
     position { 1 }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }

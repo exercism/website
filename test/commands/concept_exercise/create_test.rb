@@ -14,6 +14,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
       slug: 'log-levels',
       title: 'Log Levels',
       blurb: 'Learn about strings by processing logs',
+      icon_name: 'logs',
       position: 1,
       taught_concepts: [strings],
       prerequisites: [basics, conditionals],
@@ -29,6 +30,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
     assert_equal track, ce.track
     assert_equal 'log-levels', ce.slug
     assert_equal 'Log Levels', ce.title
+    assert_equal 'logs', ce.icon_name
     assert_equal [strings], ce.taught_concepts
     assert_equal [conditionals, basics], ce.prerequisites
     assert_equal :active, ce.status
@@ -50,6 +52,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
         slug: 'log-levels',
         title: 'Log Levels',
         blurb: 'Learn about strings by processing logs',
+        icon_name: 'logs',
         position: 1,
         taught_concepts: [strings],
         prerequisites: [basics, conditionals],

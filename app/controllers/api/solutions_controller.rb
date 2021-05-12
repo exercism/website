@@ -98,6 +98,25 @@ module API
       }, status: :ok
     end
 
+    def published_iteration
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      user_track = UserTrack.for(current_user, solution.track)
+      return render_404(:track_not_joined) unless user_track
+
+      solution.update!(published_iteration: solution.iterations.find_by(idx: params[:iteration_idx]))
+
+      render json: {
+        exercise: SerializeExercise.(solution.exercise, user_track: user_track)
+      }, status: :ok
+    end
+
     private
     def set_track
       @track = Track.find_by!(slug: params[:track_id])

@@ -439,6 +439,13 @@ initReact({
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
     />
   ),
+  'student-publish-settings': (data: any) => (
+    <Student.PublishSettings
+      endpoint={data.endpoint}
+      publishedIterationIdx={data.published_iteration_idx}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+    />
+  ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
 

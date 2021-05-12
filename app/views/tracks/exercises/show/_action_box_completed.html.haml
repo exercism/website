@@ -26,5 +26,6 @@
 
   - if solution.published?
     %h3 Your published solution
+    = render ReactComponents::Student::PublishSettings.new(solution)
   - else
     = render ReactComponents::Student::PublishSolutionButton.new(solution)

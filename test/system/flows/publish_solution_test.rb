@@ -61,5 +61,33 @@ module Flows
         assert_equal iteration_2, solution.published_iteration
       end
     end
+
+    test "user changes a published iteration" do
+      track = create :track
+      strings = create :concept_exercise, track: track
+      user = create :user
+      create :user_track, user: user, track: track
+      solution = create :concept_solution, :completed, :published, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      iteration_2 = create :iteration, idx: 2, submission: submission
+      submission = create :submission, solution: solution
+      create :iteration, idx: 1, submission: submission
+      solution.update!(published_iteration: iteration_2)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_url(track, strings)
+
+        click_on "Publish settings"
+        click_on "Change published iteration"
+        choose "All iterations"
+        click_on "Submit"
+
+        assert_text "Your published solution"
+        # There is no way to determine from the screen which iteration was published. We can only check the solution record.
+        solution.reload
+        assert_nil solution.published_iteration
+      end
+    end
   end
 end

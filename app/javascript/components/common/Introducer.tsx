@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import { GraphicalIcon, Icon } from './'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
@@ -18,7 +18,6 @@ export const Introducer = ({
   endpoint: string
 }): JSX.Element | null => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const [hidden, setHidden] = useState(false)
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
     () => {

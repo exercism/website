@@ -6,6 +6,7 @@ class Solution < ApplicationRecord
 
   belongs_to :user
   belongs_to :exercise
+  belongs_to :published_iteration, class_name: "Iteration", optional: true
   has_one :track, through: :exercise
 
   # TODO: This might be horrific for performance
@@ -60,6 +61,13 @@ class Solution < ApplicationRecord
 
   def starred_by?(user)
     stars.exists?(user: user)
+  end
+
+  def published_iterations
+    return [] unless published?
+    return [published_iteration] if published_iteration
+
+    iterations
   end
 
   memoize

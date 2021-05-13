@@ -70,7 +70,8 @@ export type Exercise =
 
 export type SolutionForStudent = {
   id: string
-  url: string
+  privateUrl: string
+  publicUrl: string
   status: SolutionStatus
   mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean

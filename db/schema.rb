@@ -12,6 +12,34 @@
 
 ActiveRecord::Schema.define(version: 2021_05_12_081543) do
 
+  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.string "name", null: false
@@ -179,7 +207,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
-    t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
@@ -342,7 +369,9 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
     t.integer "num_loc", limit: 3, default: 0, null: false
+    t.bigint "published_iteration_id"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
@@ -596,6 +625,8 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "documents", "tracks"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
@@ -635,6 +666,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"
+  add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_files", "submissions"

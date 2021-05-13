@@ -88,6 +88,9 @@ Rails.application.routes.draw do
       resources :solutions, only: %i[index show update] do
         member do
           patch :complete
+          patch :publish
+          patch :unpublish
+          patch :published_iteration
         end
 
         resources :submissions, only: %i[create], controller: "solutions/submissions" do

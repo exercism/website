@@ -59,7 +59,10 @@ export const ActionMore = ({
         <Icon icon="more-horizontal" alt="Open more options" />
       </button>
       {open ? (
-        <div {...panelAttributes} className="actions-dialog">
+        <div
+          {...panelAttributes}
+          className="actions-dialog c-dropdown-generic-menu"
+        >
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
               <button type="button" onClick={handleRevertToExerciseStart}>

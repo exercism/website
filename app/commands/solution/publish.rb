@@ -2,15 +2,17 @@ class Solution
   class Publish
     include Mandate
 
-    initialize_with :solution, :iteration_idxs
+    initialize_with :solution, :iteration_idx
 
     def call
       solution.with_lock do
         return if solution.published?
 
         ActiveRecord::Base.transaction do
-          solution.update(published_at: Time.current)
-          iterations.update(published: true)
+          solution.update(
+            published_at: Time.current,
+            published_iteration_id: published_iteration_id
+          )
         end
       end
 
@@ -41,9 +43,10 @@ class Solution
       Rails.logger.error e.message
     end
 
-    def iterations
-      is = (solution.iterations.where(idx: iteration_idxs) if iteration_idxs.present?)
-      is.presence || solution.iterations.last
+    def published_iteration_id
+      return nil unless iteration_idx
+
+      solution.iterations.where(idx: iteration_idx).pick(:id)
     end
   end
 end

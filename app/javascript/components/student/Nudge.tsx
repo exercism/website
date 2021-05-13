@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Avatar, GraphicalIcon, Icon } from '../common'
-import { IterationStatus, SolutionForStudent, ExerciseType } from '../types'
+import {
+  IterationStatus,
+  SolutionForStudent,
+  ExerciseType,
+  Iteration,
+} from '../types'
 import { CompleteExerciseButton } from './CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
 import {
@@ -34,6 +39,7 @@ type Props = {
   request: Request
   discussions: readonly MentorDiscussion[]
   links: Links
+  iterations: readonly Iteration[]
   track: Track
 }
 
@@ -52,6 +58,7 @@ export const Nudge = ({
   request,
   discussions,
   links,
+  iterations,
   track,
 }: Props): JSX.Element | null => {
   const isMountedRef = useIsMounted()
@@ -163,6 +170,7 @@ export const Nudge = ({
       return (
         <CompleteExerciseNudge
           status={solution.status}
+          iterations={iterations}
           completeExerciseLink={links.completeExercise}
           className={className}
         />
@@ -187,10 +195,12 @@ export const Nudge = ({
 
 const CompleteExerciseNudge = ({
   status,
+  iterations,
   completeExerciseLink,
   className = '',
 }: {
   status: SolutionStatus
+  iterations: readonly Iteration[]
   completeExerciseLink: string
   className?: string
 }) => {
@@ -215,7 +225,10 @@ const CompleteExerciseNudge = ({
           </strong>
         </p>
       </div>
-      <CompleteExerciseButton endpoint={completeExerciseLink} />
+      <CompleteExerciseButton
+        iterations={iterations}
+        endpoint={completeExerciseLink}
+      />
     </section>
   )
 }

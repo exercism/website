@@ -435,6 +435,40 @@
                 @apply text-14 leading-160 mt-12;
             }
         }
+        & .publish-section {
+            @apply border-t-1 border-borderColor5;
+            @apply mt-16 pt-20;
+
+            & .header {
+                @apply flex items-center;
+                @apply mb-6;
+                & h3 {
+                    @apply text-h4 mb-0;
+                }
+                & button {
+                    @apply ml-auto;
+                    & .c-icon {
+                        filter: var(--textColor6-filter);
+                    }
+                }
+                & .published-solution-menu {
+                    @apply pt-10;
+                    min-width: 380px;
+                }
+            }
+            & p {
+                @apply mb-16;
+            }
+            & button.publish-btn {
+                @apply w-100;
+            }
+            & .c-community-solution {
+                & pre {
+                    @apply hidden;
+                }
+            }
+        }
+
         &.join {
             & .icons {
                 @apply flex items-center;

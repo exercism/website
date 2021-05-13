@@ -7,15 +7,25 @@ import { FilePanel } from '../mentoring/session/FilePanel'
 import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
 import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { PublishSettings } from '../student/published-solution/PublishSettings'
+
+export type Links = {
+  changeIteration?: string
+  unpublish?: string
+}
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
 export const SolutionView = ({
   iterations,
+  publishedIterationIdx,
   language,
+  links,
 }: {
   iterations: readonly Iteration[]
+  publishedIterationIdx: number | null
   language: string
+  links: Links
 }): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -49,6 +59,17 @@ export const SolutionView = ({
             iterations={iterations}
             onClick={setCurrentIteration}
             current={currentIteration}
+          />
+        ) : null}
+        {links.changeIteration && links.unpublish ? (
+          <PublishSettings
+            links={{
+              changeIteration: links.changeIteration,
+              unpublish: links.unpublish,
+            }}
+            publishedIterationIdx={publishedIterationIdx}
+            iterations={iterations}
+            redirectType="public"
           />
         ) : null}
       </footer>

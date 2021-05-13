@@ -110,7 +110,10 @@ import '../../css/modals/become-mentor'
 import '../../css/modals/change-mentor-tracks'
 import '../../css/modals/select-exercise-for-mentoring'
 import '../../css/modals/testimonial'
+import '../../css/modals/change-published-iteration'
+import '../../css/modals/unpublish-solution'
 
+import '../../css/dropdowns/generic-menu'
 import '../../css/dropdowns/share-solution'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
@@ -211,6 +214,7 @@ import {
   IterationPageRequest,
 } from '../components/student/IterationPage'
 import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
+import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
@@ -220,6 +224,7 @@ import { TrackData as ProfileCommunitySolutionsListTrackData } from '../componen
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
+import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -254,6 +259,8 @@ initReact({
     <Common.SolutionView
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       language={data.language}
+      publishedIterationIdx={data.published_iteration_idx}
+      links={camelizeKeysAs<SolutionViewLinks>(data.links)}
     />
   ),
   'common-expander': (data: any) => (
@@ -377,7 +384,10 @@ initReact({
     />
   ),
   'student-complete-exercise-button': (data: any) => (
-    <Student.CompleteExerciseButton endpoint={data.endpoint} />
+    <Student.CompleteExerciseButton
+      endpoint={data.endpoint}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+    />
   ),
   'student-solution-summary': (data: any) => (
     <Student.SolutionSummary
@@ -397,6 +407,7 @@ initReact({
         data.discussions
       )}
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       exerciseType={data.exercise_type}
       links={camelizeKeysAs<NudgeLinks>(data.links)}
     />
@@ -428,6 +439,20 @@ initReact({
     <Student.RequestMentoringButton
       request={data.request}
       links={camelizeKeysAs<RequestMentoringButtonLinks>(data.links)}
+    />
+  ),
+  'student-publish-solution-button': (data: any) => (
+    <Student.PublishSolutionButton
+      endpoint={data.endpoint}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+    />
+  ),
+  'student-published-solution': (data: any) => (
+    <Student.PublishedSolution
+      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
+      publishedIterationIdx={data.published_iteration_idx}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
     />
   ),
   'concept-map': (data: any) => {

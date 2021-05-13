@@ -1,6 +1,23 @@
 require "test_helper"
 
 class IterationTest < ActiveSupport::TestCase
+  test "published?" do
+    solution = create :concept_solution
+    iteration = create :iteration, solution: solution
+    other_iteration = create :iteration, solution: solution
+
+    refute iteration.published?
+
+    solution.update(published_at: Time.current)
+    assert iteration.published?
+
+    solution.update(published_iteration: other_iteration)
+    refute iteration.published?
+
+    solution.update(published_iteration: iteration)
+    assert iteration.published?
+  end
+
   test "broadcast broadcasts self and solution" do
     iteration = create :iteration
 

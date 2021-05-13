@@ -49,7 +49,7 @@ module API
 
       changes = UserTrack::MonitorChanges.(user_track) do
         Solution::Complete.(solution, user_track)
-        Solution::Publish.(solution, solution.iterations.last.idx) if params[:publish]
+        Solution::Publish.(solution, params[:iteration_idx]) if params[:publish]
       end
 
       output = {
@@ -75,6 +75,67 @@ module API
         end
       }
       render json: output, status: :ok
+    end
+
+    def publish
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      # TODO: Add check if solution is not complete
+
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      user_track = UserTrack.for(current_user, solution.track)
+      return render_404(:track_not_joined) unless user_track
+
+      Solution::Publish.(solution, params[:iteration_idx])
+
+      render json: {
+        solution: SerializeSolution.(solution)
+      }, status: :ok
+    end
+
+    def published_iteration
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      user_track = UserTrack.for(current_user, solution.track)
+      return render_404(:track_not_joined) unless user_track
+
+      solution.update!(published_iteration: solution.iterations.find_by(idx: params[:published_iteration_idx]))
+
+      render json: {
+        solution: SerializeSolution.(solution)
+      }, status: :ok
+    end
+
+    def unpublish
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      # TODO: Add check if solution is not complete
+
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      user_track = UserTrack.for(current_user, solution.track)
+      return render_404(:track_not_joined) unless user_track
+
+      solution.update!(published_at: nil, published_iteration_id: nil)
+
+      render json: {
+        solution: SerializeSolution.(solution)
+      }, status: :ok
     end
 
     private

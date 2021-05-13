@@ -5,14 +5,14 @@ import {
   CommunitySolutionContext,
 } from '../types'
 import { useHighlighting } from '../../utils/highlight'
-import { fromNow } from '../../utils/time'
+import { shortFromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
     <>
-      <time dateTime={solution.publishedAt}>{`Published ${fromNow(
+      <time dateTime={solution.publishedAt}>{`Published ${shortFromNow(
         solution.publishedAt
       )}`}</time>
       <div className="--counts">

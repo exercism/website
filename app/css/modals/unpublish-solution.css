@@ -1,0 +1,19 @@
+@import "../styles";
+
+.m-unpublish-solution {
+    & .--modal-content {
+        max-width: 820px;
+    }
+    & h3 {
+        @apply text-h3 mb-8;
+    }
+    & p {
+        @apply text-18 leading-160 mb-24;
+    }
+    & .btns {
+        @apply flex items-center;
+        & button {
+            @apply mr-16;
+        }
+    }
+}

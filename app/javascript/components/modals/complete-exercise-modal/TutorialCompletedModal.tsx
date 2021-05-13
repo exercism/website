@@ -1,7 +1,7 @@
 import React from 'react'
-import { Modal } from './Modal'
-import { GraphicalIcon } from '../common'
-import { Track } from '../types'
+import { Modal } from '../Modal'
+import { GraphicalIcon } from '../../common'
+import { Track } from '../../types'
 
 export const TutorialCompletedModal = ({
   open,
@@ -37,7 +37,7 @@ export const TutorialCompletedModal = ({
         )}
       </p>
       <div className="info">
-        You’ll now have access to the mentoring section on your track too. Go to
+        You’ll now have access to the mentoring section on your track too.Go to
         the <a href={track.links.self}>{track.title} track page</a> to check it
         out.
       </div>

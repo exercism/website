@@ -3,54 +3,38 @@ require "test_helper"
 class Solution::PublishTest < ActiveSupport::TestCase
   test "sets solution and iteration as published" do
     solution = create :practice_solution
-    iteration = create :iteration, solution: solution
+    iteration = create :iteration, solution: solution, idx: 1
+    other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, [iteration.idx])
+    Solution::Publish.(solution, 1)
 
     assert solution.reload.published?
     assert iteration.reload.published?
+    refute other_iteration.reload.published?
   end
 
-  test "sets correct iterations as published" do
+  test "all iterations are published if none are passed" do
     solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution, idx: 1
-    iteration_2 = create :iteration, solution: solution, idx: 2
-    iteration_3 = create :iteration, solution: solution, idx: 3
+    iteration = create :iteration, solution: solution, idx: 1
+    other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, [iteration_1.idx, iteration_3.idx])
+    Solution::Publish.(solution, nil)
 
     assert solution.reload.published?
-    assert iteration_1.reload.published?
-    refute iteration_2.reload.published?
-    assert iteration_3.reload.published?
+    assert iteration.reload.published?
+    assert other_iteration.reload.published?
   end
 
-  test "defaults to last iteration with no iterations" do
+  test "all iterations are published if incorrect is passed" do
     solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution, idx: 1
-    iteration_2 = create :iteration, solution: solution, idx: 2
-    iteration_3 = create :iteration, solution: solution, idx: 3
+    iteration = create :iteration, solution: solution, idx: 1
+    other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, [])
+    Solution::Publish.(solution, 5)
 
     assert solution.reload.published?
-    refute iteration_1.reload.published?
-    refute iteration_2.reload.published?
-    assert iteration_3.reload.published?
-  end
-
-  test "defaults to last iteration with incorrect iterations" do
-    solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution, idx: 1
-    iteration_2 = create :iteration, solution: solution, idx: 2
-    iteration_3 = create :iteration, solution: solution, idx: 3
-
-    Solution::Publish.(solution, [5])
-
-    assert solution.reload.published?
-    refute iteration_1.reload.published?
-    refute iteration_2.reload.published?
-    assert iteration_3.reload.published?
+    assert iteration.reload.published?
+    assert other_iteration.reload.published?
   end
 
   test "only does things once" do
@@ -58,8 +42,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: solution
 
     AwardReputationTokenJob.expects(:perform_later).once
-    Solution::Publish.(solution, [5])
-    Solution::Publish.(solution, [5])
+    Solution::Publish.(solution, nil)
+    Solution::Publish.(solution, nil)
   end
 
   test "does not award for concept exercises" do
@@ -69,10 +53,10 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: concept_solution
 
     AwardReputationTokenJob.expects(:perform_later).once
-    Solution::Publish.(practice_solution, [5])
+    Solution::Publish.(practice_solution, nil)
 
     AwardReputationTokenJob.expects(:perform_later).never
-    Solution::Publish.(concept_solution, [5])
+    Solution::Publish.(concept_solution, nil)
   end
 
   test "creates activity" do
@@ -83,7 +67,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, exercise: exercise
     iteration = create :iteration, solution: solution
 
-    Solution::Publish.(solution, [iteration.id])
+    Solution::Publish.(solution, iteration.idx)
 
     activity = User::Activities::PublishedExerciseActivity.last
     assert_equal user, activity.user

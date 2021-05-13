@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { ExerciseCompletedModal } from '../../../../app/javascript/components/modals/ExerciseCompletedModal'
+import { ExerciseCompletedModal } from '../../../../../app/javascript/components/modals/complete-exercise-modal/ExerciseCompletedModal'
 
 test('shows information', async () => {
   const completion = {

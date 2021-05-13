@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { PublishExerciseModal } from '../../../../app/javascript/components/modals/PublishExerciseModal'
-import { silenceConsole } from '../../support/silence-console'
+import { PublishSolutionModal } from '../../../../../app/javascript/components/modals/complete-exercise-modal/PublishSolutionModal'
+import { silenceConsole } from '../../../support/silence-console'
 
 test('shows loading status', async () => {
   const server = setupServer(
@@ -16,7 +16,7 @@ test('shows loading status', async () => {
   server.listen()
 
   render(
-    <PublishExerciseModal
+    <PublishSolutionModal
       endpoint="https://exercism.test/publish"
       open={true}
       ariaHideApp={false}
@@ -47,7 +47,7 @@ test('shows errors', async () => {
   server.listen()
 
   render(
-    <PublishExerciseModal
+    <PublishSolutionModal
       endpoint="https://exercism.test/publish"
       open={true}
       ariaHideApp={false}
@@ -67,7 +67,7 @@ test('shows generic errors', async () => {
   silenceConsole()
 
   render(
-    <PublishExerciseModal
+    <PublishSolutionModal
       endpoint="weirdendpoint"
       open={true}
       ariaHideApp={false}

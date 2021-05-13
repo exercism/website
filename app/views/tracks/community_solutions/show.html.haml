@@ -20,11 +20,20 @@
 
     .content.lg-container.container
       = track_icon @track
-      = avatar @author
+      .avatar
+        - if @author.profile
+          = link_to avatar(@author), profile_path(@author)
+        - else
+          = avatar(@author)
+
       %h1
         .name
-          #{@author.handle}'s solution
-          = render ViewComponents::Reputation.new(@author.reputation, size: :small, flashy: true)
+          - if @author.profile
+            = link_to "#{@author.handle}'s", profile_path(@author)
+          - else
+            #{@author.handle}'s
+          solution
+          = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
         .to
           to
           = link_to @exercise.title, track_exercise_path(@track, @exercise)

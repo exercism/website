@@ -15,19 +15,31 @@
                 @apply mr-32;
             }
 
-            & .c-avatar {
-                height: 80px;
-                width: 80px;
+            & .avatar {
                 @apply mr-32;
+
+                & a {
+                    @apply block;
+                }
+
+                & .c-avatar {
+                    height: 80px;
+                    width: 80px;
+                }
             }
 
             & h1 {
-                @apply text-h2;
+                @apply text-h2 leading-120;
                 @apply flex flex-col items-start;
                 & .name {
-                    @apply mb-4;
+                    @apply mb-8;
                     @apply flex items-center;
 
+                    & a {
+                        @apply mr-10;
+                        @apply border-b-2 border-borderColor6;
+                        margin-bottom: -2px; /* Visually compensate for the border */
+                    }
                     & .c-primary-reputation {
                         @apply ml-16;
                     }
@@ -102,7 +114,7 @@
     & article {
         @apply flex;
         & .lhs {
-            @apply flex-grow;
+            @apply flex-grow w-arbitary;
 
             & .iteration-section {
                 @apply bg-white shadow-base rounded-8;

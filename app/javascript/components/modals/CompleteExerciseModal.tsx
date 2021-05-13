@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { PublishExerciseModal } from './PublishExerciseModal'
-import { ExerciseCompletedModal } from './ExerciseCompletedModal'
-import { TutorialCompletedModal } from './TutorialCompletedModal'
-import { Track, Exercise } from '../types'
+import { PublishSolutionModal } from './complete-exercise-modal/PublishSolutionModal'
+import { ExerciseCompletedModal } from './complete-exercise-modal/ExerciseCompletedModal'
+import { TutorialCompletedModal } from './complete-exercise-modal/TutorialCompletedModal'
+import { Track, Exercise, Iteration } from '../types'
 
 export type ExerciseCompletion = {
   track: Track
@@ -25,9 +25,11 @@ export type Concept = {
 
 export const CompleteExerciseModal = ({
   endpoint,
+  iterations,
   open,
 }: {
   endpoint: string
+  iterations: readonly Iteration[]
   open: boolean
 }): JSX.Element => {
   const [completion, setCompletion] = useState<ExerciseCompletion | null>(null)
@@ -40,9 +42,10 @@ export const CompleteExerciseModal = ({
     )
   } else {
     return (
-      <PublishExerciseModal
+      <PublishSolutionModal
         open={open}
         endpoint={endpoint}
+        iterations={iterations}
         onSuccess={(completion) => {
           setCompletion(completion)
         }}

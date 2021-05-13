@@ -10,12 +10,9 @@
         height: 16px;
         width: 16px;
     }
-    & .--dot,
-    & .c-icon {
-        @apply mr-12;
-    }
     & .--status {
         @apply font-mono font-bold;
+        @apply ml-12;
     }
     &.--processing {
         @apply text-orange;

@@ -5,7 +5,7 @@ import pluralize from 'pluralize'
 
 export type SolutionProps = {
   id: string
-  url: string
+  privateUrl: string
   status: string
   numViews: number
   numStars: number
@@ -24,7 +24,7 @@ export type SolutionProps = {
 }
 
 export const Solution = ({
-  url,
+  privateUrl,
   status,
   numViews,
   numStars,
@@ -36,7 +36,7 @@ export const Solution = ({
   track,
 }: SolutionProps): JSX.Element => {
   return (
-    <a href={url} className="solution">
+    <a href={privateUrl} className="solution">
       <div className="main">
         <div className="exercise">
           <ExerciseIcon iconUrl={exercise.iconUrl} />

@@ -67,6 +67,7 @@ export const useErrorHandler = (
       handler(defaultError)
     } else if (error instanceof Response) {
       error
+        .clone()
         .json()
         .then((res: { error: APIError }) => {
           handler(new Error(res.error.message))

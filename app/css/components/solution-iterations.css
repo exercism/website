@@ -14,5 +14,13 @@
     }
     & .c-iterations-footer {
         @apply flex-grow-0;
+        @apply flex items-center;
+
+        & .c-publish-settings {
+            @apply ml-auto;
+            & .c-icon {
+                filter: var(--textColor6-filter);
+            }
+        }
     }
 }

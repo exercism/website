@@ -31,7 +31,6 @@ module Flows
         visit track_exercise_url(track, strings)
 
         click_on "Mark as complete"
-        find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
 
         assert_text "You've completed\nStrings!"
@@ -75,7 +74,6 @@ module Flows
         visit track_exercise_url(track, strings)
 
         within("section.completion-nudge") { click_on "Mark as complete" }
-        find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
 
         assert_text "You've completed\nStrings!"

@@ -19,8 +19,6 @@ class Iteration < ApplicationRecord
     delegate :"has_#{type}_automated_feedback?", to: :submission
   end
 
-  scope :published, -> { where(published: true) }
-
   after_save_commit do
     solution.update_status!
     solution.update_iteration_status!
@@ -37,6 +35,13 @@ class Iteration < ApplicationRecord
 
       :no_automated_feedback
     }.())
+  end
+
+  def published?
+    solution.published? && (
+      !solution.published_iteration_id ||
+      solution.published_iteration_id == id
+    )
   end
 
   def viewable_by?(user)

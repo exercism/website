@@ -22,7 +22,7 @@ test('renders a solution when passed in', async () => {
     },
   }
   const solution: SolutionForStudent = {
-    url: 'https://exercism.test/solution',
+    privateUrl: 'https://exercism.test/solution',
     status: 'completed',
     mentoringStatus: 'requested',
     hasNotifications: true,

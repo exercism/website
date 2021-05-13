@@ -220,6 +220,7 @@ import { TrackData as ProfileCommunitySolutionsListTrackData } from '../componen
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
+import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -254,6 +255,8 @@ initReact({
     <Common.SolutionView
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       language={data.language}
+      publishedIterationIdx={data.published_iteration_idx}
+      links={camelizeKeysAs<SolutionViewLinks>(data.links)}
     />
   ),
   'common-expander': (data: any) => (

@@ -7,15 +7,24 @@ import { FilePanel } from '../mentoring/session/FilePanel'
 import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
 import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { ChangeIterationButton } from './solution-view/ChangeIterationButton'
+
+export type Links = {
+  changeIteration?: string
+}
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
 export const SolutionView = ({
   iterations,
+  publishedIterationIdx,
   language,
+  links,
 }: {
   iterations: readonly Iteration[]
+  publishedIterationIdx: number | null
   language: string
+  links: Links
 }): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -49,6 +58,13 @@ export const SolutionView = ({
             iterations={iterations}
             onClick={setCurrentIteration}
             current={currentIteration}
+          />
+        ) : null}
+        {links.changeIteration ? (
+          <ChangeIterationButton
+            endpoint={links.changeIteration}
+            publishedIterationIdx={publishedIterationIdx}
+            iterations={iterations}
           />
         ) : null}
       </footer>

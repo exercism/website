@@ -34,7 +34,7 @@ export const RunTestsButton = ({
   }, [haveFilesChanged, setOpen])
 
   return (
-    <React.Fragment>
+    <div>
       <div {...buttonAttributes} {...mouseEvents}>
         <button
           type="button"
@@ -48,10 +48,14 @@ export const RunTestsButton = ({
         </button>
       </div>
       {open ? (
-        <div {...panelAttributes}>
+        /* TODO: Remove zIndex. I just added this in because the tooltip was not visible. */
+        <div
+          {...panelAttributes}
+          style={{ ...panelAttributes.style, zIndex: 1000 }}
+        >
           You have not made any changes since your last run
         </div>
       ) : null}
-    </React.Fragment>
+    </div>
   )
 }

@@ -23,13 +23,16 @@ export const PublishedSolution = ({
   links: Links
 }): JSX.Element => {
   return (
-    <div>
+    <div className="publish-section">
+      <div className="header">
+        <h3>Your published solution</h3>
+        <PublishSettings
+          publishedIterationIdx={publishedIterationIdx}
+          iterations={iterations}
+          links={links}
+        />
+      </div>
       <CommunitySolution solution={solution} context="exercise" />
-      <PublishSettings
-        publishedIterationIdx={publishedIterationIdx}
-        iterations={iterations}
-        links={links}
-      />
     </div>
   )
 }

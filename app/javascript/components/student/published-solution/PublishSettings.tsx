@@ -3,6 +3,7 @@ import { useDropdown } from '../../dropdowns/useDropdown'
 import { ChangePublishedIterationModal } from '../../modals/ChangePublishedIterationModal'
 import { UnpublishSolutionModal } from '../../modals/UnpublishSolutionModal'
 import { Iteration } from '../../types'
+import { Icon } from '../../common'
 
 type ModalId = 'changePublishedIteration' | 'unpublish'
 
@@ -28,12 +29,12 @@ export const PublishSettings = ({
     itemAttributes,
     open,
   } = useDropdown(2, undefined, {
-    placement: 'top',
+    placement: 'top-end',
     modifiers: [
       {
         name: 'offset',
         options: {
-          offset: [0, 8],
+          offset: [10, 8],
         },
       },
     ],
@@ -41,21 +42,23 @@ export const PublishSettings = ({
 
   return (
     <React.Fragment>
-      <button {...buttonAttributes}>Publish settings</button>
+      <button {...buttonAttributes} className="c-publish-settings">
+        <Icon icon="settings" alt="Publish settings" />
+      </button>
       {open ? (
-        <div {...panelAttributes}>
+        <div {...panelAttributes} className="c-dropdown-generic-menu">
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
               <button
                 type="button"
                 onClick={() => setOpenedModal('changePublishedIteration')}
               >
-                Change published iteration
+                Change published iterations…
               </button>
             </li>
             <li {...itemAttributes(1)}>
               <button type="button" onClick={() => setOpenedModal('unpublish')}>
-                Unpublish
+                Unpublish solution…
               </button>
             </li>
           </ul>

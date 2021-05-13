@@ -34,13 +34,33 @@ export const UnpublishSolutionModal = ({
   )
 
   return (
-    <Modal {...props}>
-      <FormButton type="button" onClick={props.onClose} status={status}>
-        Cancel
-      </FormButton>
-      <FormButton type="button" onClick={() => mutation()} status={status}>
-        Confirm
-      </FormButton>
+    <Modal {...props} className="m-unpublish-solution">
+      <h3>Do you want to unpublish your solution?</h3>
+      <p>
+        Unpublishing your solution will mean it no longer appears on your
+        profile and can longer be viewed under Community Solutions. All stars
+        and comments will be lost, and any associated reputation will be
+        removed.
+      </p>
+
+      <div className="btns">
+        <FormButton
+          type="button"
+          onClick={() => mutation()}
+          status={status}
+          className="btn-primary btn-m"
+        >
+          Unpublish solution
+        </FormButton>
+        <FormButton
+          type="button"
+          onClick={props.onClose}
+          status={status}
+          className="btn-default btn-m"
+        >
+          Cancel
+        </FormButton>
+      </div>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
       </ErrorBoundary>

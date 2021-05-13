@@ -54,18 +54,35 @@ export const ChangePublishedIterationModal = ({
 
   return (
     <Modal {...props}>
+      <h3>Change published iterations</h3>
+      <p>
+        We recommend publishing all iterations to help others learn from your
+        journey, but you can also choose just your favourite iteration to
+        showcase instead.
+      </p>
       <form onSubmit={handleSubmit}>
         <IterationSelector
           iterationIdx={iterationIdx}
           setIterationIdx={setIterationIdx}
           iterations={iterations}
         />
-        <FormButton type="submit" status={status}>
-          Submit
-        </FormButton>
-        <FormButton type="button" onClick={props.onClose} status={status}>
-          Cancel
-        </FormButton>
+        <div className="btns">
+          <FormButton
+            type="submit"
+            status={status}
+            className="btn-primary btn-m"
+          >
+            Update published solution
+          </FormButton>
+          <FormButton
+            type="button"
+            onClick={props.onClose}
+            status={status}
+            className="btn-default btn-m"
+          >
+            Cancel
+          </FormButton>
+        </div>
         <ErrorBoundary>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>

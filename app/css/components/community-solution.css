@@ -72,6 +72,7 @@
                     height: 18px;
                     width: 18px;
                     @apply mr-8;
+                    filter: var(--textColor6-filter);
                 }
                 & > .--num {
                     @apply flex-grow;

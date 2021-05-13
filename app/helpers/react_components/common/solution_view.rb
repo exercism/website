@@ -9,11 +9,22 @@ module ReactComponents
           language: solution.track.highlightjs_language,
           published_iteration_idx: solution.published_iteration.try(:idx),
           links: {
-            change_iteration: if solution.user == current_user
-                                Exercism::Routes.published_iteration_api_solution_url(solution.uuid)
-                              end
+            change_iteration: change_iteration_link,
+            unpublish: unpublish_link
           }
         })
+      end
+
+      def change_iteration_link
+        return unless solution.user == current_user
+
+        Exercism::Routes.published_iteration_api_solution_url(solution.uuid)
+      end
+
+      def unpublish_link
+        return unless solution.user == current_user
+
+        Exercism::Routes.unpublish_api_solution_url(solution.uuid)
       end
     end
   end

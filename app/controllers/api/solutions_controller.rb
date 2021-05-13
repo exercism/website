@@ -110,7 +110,7 @@ module API
       user_track = UserTrack.for(current_user, solution.track)
       return render_404(:track_not_joined) unless user_track
 
-      solution.update!(published_iteration: solution.iterations.find_by(idx: params[:iteration_idx]))
+      solution.update!(published_iteration: solution.iterations.find_by(idx: params[:published_iteration_idx]))
 
       render json: {
         solution: SerializeSolution.(solution)

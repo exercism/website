@@ -1,9 +1,11 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
+require_relative "../../support/ace_helpers"
 
 module Components
   class EditorTest < ApplicationSystemTestCase
     include CapybaraHelpers
+    include AceHelpers
 
     test "user runs tests and tests pass" do
       user = create :user
@@ -13,6 +15,7 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -38,6 +41,7 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
         create :submission_test_run,
@@ -61,6 +65,7 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -86,6 +91,7 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -113,6 +119,7 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
@@ -141,6 +148,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit test_components_editor_path(solution_id: solution.id)
+          fill_in_editor "test"
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }
@@ -168,6 +176,7 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
         click_on "Cancel"
@@ -195,28 +204,6 @@ module Components
         visit test_components_editor_path(solution_id: solution.id)
 
         assert_text "1 test passed"
-      end
-    end
-
-    test "user sees submission errors" do
-      expecting_errors do
-        user = create :user
-        strings = create :concept_exercise
-        solution = create :concept_solution, user: user, exercise: strings
-        submission = create :submission, solution: solution
-        create :submission_file,
-          submission: submission,
-          content: "stub content",
-          filename: "log_line_parser.rb",
-          digest: Digest::SHA1.hexdigest("stub content")
-
-        use_capybara_host do
-          sign_in!(user)
-          visit test_components_editor_path(solution_id: solution.id)
-          click_on "Run Tests"
-
-          assert_text "No files you submitted have changed since your last submission"
-        end
       end
     end
 

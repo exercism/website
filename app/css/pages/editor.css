@@ -192,12 +192,31 @@
             }
         }
     }
+    /* This appears in various places in the UI */
+    /* This whole thing is to get round issues with
+     * disabled buttons not firing mouse events */
+    & .run-tests-btn {
+        @apply relative;
+
+        & .disabled-wrapper {
+            @apply hidden absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        & button[disabled] + .disabled-wrapper {
+            @apply block;
+            cursor: not-allowed;
+        }
+    }
+
     & article.main {
         @apply flex flex-grow items-stretch overflow-hidden;
 
         & .lhs {
             @apply flex flex-col flex-grow;
-            @apply bg-backgroundColorB overflow-hidden;
+            @apply bg-backgroundColorB;
 
             & .c-iteration-pane {
                 height: 100%;
@@ -220,6 +239,11 @@
 
                 & button {
                     @apply ml-20;
+                }
+                & .run-tests-btn {
+                    & button {
+                        @apply ml-0;
+                    }
                 }
 
                 &:before {

@@ -25,6 +25,10 @@ class Submission < ApplicationRecord
     self.git_sha = solution.git_sha
   end
 
+  after_save_commit do
+    solution.update_iteration_status! if iteration
+  end
+
   def to_param
     uuid
   end

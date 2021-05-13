@@ -8,6 +8,25 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.analysis_not_queued?
   end
 
+  test "update solution's iteration_status" do
+    solution = create :practice_solution
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission
+
+    solution.expects(:update_iteration_status!).at_least_once
+
+    submission.update(git_slug: "bar")
+  end
+
+  test "does not update iteration_status if no iteration" do
+    solution = create :practice_solution
+    submission = create :submission, solution: solution
+
+    solution.expects(:update_iteration_status!).never
+
+    submission.update(git_slug: "foo")
+  end
+
   test "submissions get their solution's git data" do
     solution = create :concept_solution
     submission = create :submission, solution: solution

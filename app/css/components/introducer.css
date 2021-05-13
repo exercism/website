@@ -4,8 +4,16 @@
     min-height: 130px;
     @apply mt-8 mb-40;
 
-    &.--hydrated:empty {
-        display: none;
+    /* We get rid of this parent container when
+     * things are hidden, rather than the child */
+    transition: max-height 0.2s ease-in, margin 0.2s ease-in;
+    max-height: 160px;
+    overflow: hidden;
+
+    &.hidden {
+        min-height: 0;
+        max-height: 0;
+        margin: 0;
     }
 }
 
@@ -22,12 +30,12 @@
         @apply mr-32;
     }
     & .info {
-        max-width: 640px;
         & h2 {
             @apply text-h4 mb-4;
         }
         & p {
             @apply text-p-base;
+            max-width: 680px;
         }
     }
     & .close {

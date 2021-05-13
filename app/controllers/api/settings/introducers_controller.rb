@@ -3,7 +3,7 @@ module API
     class IntroducersController < BaseController
       # TODO: This is just a temporary implementation
       def hide
-        session[:hidden_introducers] = [params[:id]]
+        # session[:hidden_introducers] = [params[:id]]
 
         render json: {}
       end

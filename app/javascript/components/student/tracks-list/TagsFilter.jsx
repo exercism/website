@@ -3,7 +3,7 @@ import { TagOptionList } from './TagOptionList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import pluralize from 'pluralize'
 
-export function TagsFilter({ options, dispatch, value, numTracks }) {
+export function TagsFilter({ options, setTags, value, numTracks }) {
   const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState([])
   const [hasExpandedEver, markAsExpanded] = useState(false)
@@ -42,7 +42,7 @@ export function TagsFilter({ options, dispatch, value, numTracks }) {
   function handleSubmit(e) {
     e.preventDefault()
 
-    dispatch({ type: 'tags.changed', payload: { tags: selectedTags } })
+    setTags(selectedTags)
     setExpanded(false)
   }
 
@@ -56,7 +56,7 @@ export function TagsFilter({ options, dispatch, value, numTracks }) {
     e.preventDefault()
 
     setSelectedTags([])
-    dispatch({ type: 'tags.changed', payload: { tags: [] } })
+    setTags([])
   }
 
   return (

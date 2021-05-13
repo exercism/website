@@ -58,6 +58,7 @@ export const CroppingStep = ({
 
   return (
     <>
+      <h3>Crop your photo</h3>
       <ReactCrop
         src={state.imageToCrop}
         crop={state.cropSettings}

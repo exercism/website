@@ -16,18 +16,19 @@ type Links = {
 type Unit = 'px' | '%'
 export type CropProps = {
   aspect?: number
+  width?: number
   height?: number
   x?: number
   y?: number
   unit?: Unit
 }
-export const CROP_DEFAULTS: Required<CropProps> = {
+export const CROP_DEFAULTS = {
   aspect: 1,
   height: 50,
   x: 25,
   y: 10,
   unit: '%',
-}
+} as const
 
 export const AvatarSelector = ({
   user,

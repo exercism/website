@@ -1,15 +1,24 @@
+@import "../styles";
+
 .m-crop-avatar {
     & .--modal-content {
         @apply flex flex-col items-center;
         @apply py-32 px-64;
         min-width: 600px;
     }
+    & h3 {
+        @apply text-h4 mb-16;
+    }
 
     & .cropper-container {
         position: relative;
     }
     & .cropped-image {
-        height: 50vh;
+        height: 128px;
+        width: 128px;
+        @apply rounded-circle;
+        @apply shadow-xsZ1;
+        @apply border-1 border-borderColor6;
     }
 
     & .btns {

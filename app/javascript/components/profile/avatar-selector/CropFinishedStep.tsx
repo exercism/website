@@ -61,6 +61,7 @@ export const CropFinishedStep = ({
 
   return (
     <>
+      <h3>Happy with the result?</h3>
       <ResultsZone isFetching={status === 'loading'}>
         <img
           src={URL.createObjectURL(state.croppedImage)}

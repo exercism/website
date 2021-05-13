@@ -1,4 +1,3 @@
-import ReactCrop from 'react-image-crop'
 import { Status, CROP_DEFAULTS, CropProps } from '../AvatarSelector'
 
 export type State = {
@@ -11,7 +10,7 @@ export type State = {
 
 export type Action =
   | { type: 'crop.start'; payload: { imageToCrop: string } }
-  | { type: 'crop.changed'; payload: { cropSettings: ReactCrop.Crop } }
+  | { type: 'crop.changed'; payload: { cropSettings: CropProps } }
   | { type: 'crop.finished'; payload: { croppedImage: Blob } }
   | { type: 'crop.redo' }
   | { type: 'crop.cancelled' }

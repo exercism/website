@@ -1,6 +1,8 @@
+import { CropProps } from '../../profile/AvatarSelector'
+
 export function cropImage(
   image: HTMLImageElement,
-  crop: ReactCrop.Crop
+  crop: CropProps
 ): Promise<Blob | null> {
   if (!crop.width || !crop.height || !crop.x || !crop.y) {
     return Promise.resolve(null)

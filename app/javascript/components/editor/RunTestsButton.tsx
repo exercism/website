@@ -58,7 +58,7 @@ export const RunTestsButton = ({
           {...panelAttributes}
           style={{ ...panelAttributes.style }}
         >
-          You have not made any changes since your last run
+          You have not made any changes since you last ran the tests
         </div>
       ) : null}
     </>

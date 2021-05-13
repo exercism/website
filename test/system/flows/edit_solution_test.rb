@@ -1,10 +1,12 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
+require_relative "../../support/ace_helpers"
 
 module Components
   module Flows
     class EditSolutionTest < ApplicationSystemTestCase
       include CapybaraHelpers
+      include AceHelpers
 
       test "user submits code" do
         Submission::File.any_instance.stubs(:content)
@@ -16,6 +18,7 @@ module Components
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
+          fill_in_editor "test"
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }
@@ -42,6 +45,7 @@ module Components
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
+          fill_in_editor "test"
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }

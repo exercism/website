@@ -10,14 +10,17 @@ import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
 
 const DEFAULT_ERROR = new Error('Unable to change published iteration')
+export type RedirectType = 'public' | 'private'
 
 export const ChangePublishedIterationModal = ({
   endpoint,
+  redirectType,
   defaultIterationIdx,
   iterations,
   ...props
 }: ModalProps & {
   endpoint: string
+  redirectType: RedirectType
   defaultIterationIdx: number | null
   iterations: readonly Iteration[]
 }): JSX.Element => {
@@ -38,7 +41,11 @@ export const ChangePublishedIterationModal = ({
     },
     {
       onSuccess: (solution) => {
-        window.location.replace(solution.privateUrl)
+        if (redirectType == 'public') {
+          window.location.replace(solution.publicUrl)
+        } else {
+          window.location.replace(solution.privateUrl)
+        }
       },
     }
   )

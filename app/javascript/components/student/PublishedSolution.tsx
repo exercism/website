@@ -29,6 +29,7 @@ export const PublishedSolution = ({
         <PublishSettings
           publishedIterationIdx={publishedIterationIdx}
           iterations={iterations}
+          redirectType="private"
           links={links}
         />
       </div>

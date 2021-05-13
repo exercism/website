@@ -69,6 +69,7 @@ export const SolutionView = ({
             }}
             publishedIterationIdx={publishedIterationIdx}
             iterations={iterations}
+            redirectType="public"
           />
         ) : null}
       </footer>

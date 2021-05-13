@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useDropdown } from '../../dropdowns/useDropdown'
-import { ChangePublishedIterationModal } from '../../modals/ChangePublishedIterationModal'
+import {
+  ChangePublishedIterationModal,
+  RedirectType,
+} from '../../modals/ChangePublishedIterationModal'
 import { UnpublishSolutionModal } from '../../modals/UnpublishSolutionModal'
 import { Iteration } from '../../types'
 import { Icon } from '../../common'
@@ -13,10 +16,12 @@ type Links = {
 }
 
 export const PublishSettings = ({
+  redirectType,
   publishedIterationIdx,
   iterations,
   links,
 }: {
+  redirectType: RedirectType
   publishedIterationIdx: number | null
   iterations: readonly Iteration[]
   links: Links
@@ -66,6 +71,7 @@ export const PublishSettings = ({
       ) : null}
       <ChangePublishedIterationModal
         endpoint={links.changeIteration}
+        redirectType={redirectType}
         iterations={iterations}
         defaultIterationIdx={publishedIterationIdx}
         open={openedModal === 'changePublishedIteration'}

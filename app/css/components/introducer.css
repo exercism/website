@@ -6,7 +6,8 @@
 
     /* We get rid of this parent container when
      * things are hidden, rather than the child */
-    transition: max-height 0.2s ease-in, margin 0.2s ease-in;
+    transition: max-height 0.2s ease-in, margin 0.2s ease-in,
+        opacity 0.15s ease-in;
     max-height: 160px;
     overflow: hidden;
 
@@ -14,6 +15,7 @@
         min-height: 0;
         max-height: 0;
         margin: 0;
+        opacity: 0;
     }
 }
 

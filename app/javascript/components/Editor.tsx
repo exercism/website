@@ -430,7 +430,8 @@ export function Editor({
                   !isEqual(submissionFilesRef.current, files) ||
                   submission?.testRun?.status === TestRunStatus.OPS_ERROR ||
                   submission?.testRun?.status === TestRunStatus.ERROR ||
-                  submission?.testRun?.status === TestRunStatus.TIMEOUT
+                  submission?.testRun?.status === TestRunStatus.TIMEOUT ||
+                  submission?.testRun?.status === TestRunStatus.CANCELLED
                 }
                 isProcessing={
                   submissionStatus === SubmissionStatus.CREATING ||

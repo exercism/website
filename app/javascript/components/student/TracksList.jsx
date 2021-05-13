@@ -5,20 +5,18 @@ import { List } from './tracks-list/List'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useList } from '../../hooks/use-list'
+import { queryCache } from 'react-query'
 
 export function TracksList({ statusOptions, tagOptions, ...props }) {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setQuery } = useList(props.request)
+  const CACHE_KEY = ['track-list', request.endpoint, request.query]
   const {
     resolvedData,
     latestData,
     isError,
     isFetching,
-  } = usePaginatedRequestQuery(
-    ['track-list', request.endpoint, request.query],
-    request,
-    isMountedRef
-  )
+  } = usePaginatedRequestQuery(CACHE_KEY, request, isMountedRef)
 
   const setTags = useCallback(
     (tags) => {
@@ -26,6 +24,14 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
     },
     [request.query, setQuery]
   )
+
+  const sortedTracks = resolvedData?.tracks.sort((a, b) => {
+    if (a.lastTouchedAt === null || b.lastTouchedAt === null) {
+      return 0
+    }
+
+    return a.lastTouchedAt > b.lastTouchedAt ? -1 : 1
+  })
 
   return (
     <div className="c-tracks-list">
@@ -55,7 +61,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
         {isError && <p>Something went wrong</p>}
         {resolvedData && (
           <ResultsZone isFetching={isFetching}>
-            <List data={resolvedData} />
+            {sortedTracks ? <List data={sortedTracks} /> : null}
           </ResultsZone>
         )}
       </section>

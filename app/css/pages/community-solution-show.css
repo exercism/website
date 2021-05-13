@@ -38,6 +38,7 @@
                     & a {
                         @apply mr-10;
                         @apply border-b-2 border-borderColor6;
+                        margin-bottom: -2px; /* Visually compensate for the border */
                     }
                     & .c-primary-reputation {
                         @apply ml-16;

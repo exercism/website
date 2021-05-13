@@ -31,11 +31,19 @@ export const InitializedStep = ({
   )
 
   return (
-    <div>
+    <>
       <label htmlFor="avatar">
         <Avatar handle={user.handle} src={state.avatarUrl} />
       </label>
-      <input type="file" id="avatar" onChange={handleFileAttach} />
-    </div>
+      <h2>Your profile picture</h2>
+      <div className="faux-button">
+        <div className="btn btn-enhanced btn-s">Upload new image</div>
+        <input type="file" id="avatar" onChange={handleFileAttach} />
+        <div className="hover-bg" />
+      </div>
+      <div className="cropping">
+        You’ll get to crop the image after uploading
+      </div>
+    </>
   )
 }

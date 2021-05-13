@@ -1,0 +1,25 @@
+.m-crop-avatar {
+    & .--modal-content {
+        @apply flex flex-col items-center;
+        @apply py-32 px-64;
+        min-width: 600px;
+    }
+
+    & .cropper-container {
+        position: relative;
+    }
+    & .cropped-image {
+        height: 50vh;
+    }
+
+    & .btns {
+        @apply self-stretch;
+        @apply flex items-center justify-center;
+        @apply border-t-2 border-borderColor6;
+        @apply mt-24 pt-24;
+
+        & button + button {
+            @apply ml-24;
+        }
+    }
+}

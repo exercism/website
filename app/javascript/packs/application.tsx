@@ -21,6 +21,7 @@ import '../../css/defaults'
 
 import '../../css/ui-kit/buttons'
 
+import '../../css/components/avatar-selector'
 import '../../css/components/badge'
 import '../../css/components/bg-img'
 import '../../css/components/code-pane'
@@ -96,6 +97,7 @@ import '../../css/components/completed-exercise-progress'
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
 
+import '../../css/modals/crop-avatar'
 import '../../css/modals/editor-hints'
 import '../../css/modals/profile-first-time'
 import '../../css/modals/completed-tutorial-exercise'
@@ -550,7 +552,8 @@ initReact({
       defaultNumStars={data.num_stars}
       defaultIsStarred={data.is_starred}
       links={data.links}
-/>),
+    />
+  ),
   'profile-avatar-selector': (data: any) => (
     <Profile.AvatarSelector
       user={camelizeKeysAs<User>(data.user)}

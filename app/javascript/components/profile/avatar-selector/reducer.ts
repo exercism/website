@@ -1,12 +1,12 @@
 import ReactCrop from 'react-image-crop'
-import { Status, CROP_DEFAULTS } from '../AvatarSelector'
+import { Status, CROP_DEFAULTS, CropProps } from '../AvatarSelector'
 
 export type State = {
   avatarUrl: string
   imageToCrop: string | null
   croppedImage: Blob | null
   status: Status
-  cropSettings: ReactCrop.Crop
+  cropSettings: CropProps
 }
 
 export type Action =

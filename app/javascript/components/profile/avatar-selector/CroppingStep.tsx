@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react'
 import ReactCrop from 'react-image-crop'
 import { State, Action } from './reducer'
 import { cropImage } from './cropImage'
+import { CropProps } from '../AvatarSelector'
 
 export const CroppingStep = ({
   state,
@@ -35,6 +36,13 @@ export const CroppingStep = ({
       return
     }
 
+    /* The lib breaks if x or y are 0 */
+    if (state.cropSettings.y == 0) {
+      state.cropSettings.y = 1
+    }
+    if (state.cropSettings.x == 0) {
+      state.cropSettings.x = 1
+    }
     cropImage(imageToCropRef.current, state.cropSettings).then((blob) => {
       if (!blob) {
         throw new Error('Unable to crop image')
@@ -49,19 +57,33 @@ export const CroppingStep = ({
   }, [dispatch])
 
   return (
-    <div>
+    <>
       <ReactCrop
         src={state.imageToCrop}
         crop={state.cropSettings}
+        circularCrop={true}
         onChange={handleCropChange}
         onImageLoaded={handleImageLoaded}
+        className="cropper"
+        imageStyle={{ height: '50vh' }}
+        keepSelection={true}
       />
-      <button type="button" onClick={handleCropCancel}>
-        Cancel
-      </button>
-      <button type="button" onClick={handleCropFinish}>
-        Finish
-      </button>
-    </div>
+      <div className="btns">
+        <button
+          type="button"
+          onClick={handleCropCancel}
+          className="btn-default btn-s"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={handleCropFinish}
+          className="btn-primary btn-s"
+        >
+          Crop
+        </button>
+      </div>
+    </>
   )
 }

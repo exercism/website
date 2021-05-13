@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react'
 import 'react-image-crop/lib/ReactCrop.scss'
 import { User } from '../types'
+import { Modal } from '../modals/Modal'
 import { InitializedStep } from './avatar-selector/InitializedStep'
 import { CroppingStep } from './avatar-selector/CroppingStep'
 import { CropFinishedStep } from './avatar-selector/CropFinishedStep'
@@ -12,8 +13,20 @@ type Links = {
   update: string
 }
 
-export const CROP_DEFAULTS = {
-  aspect: 1 / 1,
+type Unit = 'px' | '%'
+export type CropProps = {
+  aspect?: number
+  height?: number
+  x?: number
+  y?: number
+  unit?: Unit
+}
+export const CROP_DEFAULTS: Required<CropProps> = {
+  aspect: 1,
+  height: 50,
+  x: 25,
+  y: 10,
+  unit: '%',
 }
 
 export const AvatarSelector = ({
@@ -31,42 +44,20 @@ export const AvatarSelector = ({
     croppedImage: null,
   })
 
+  const modalOpen = state.status == 'cropping' || state.status == 'cropFinished'
+
   return (
-    <div className="avatar-selector">
-      <CurrentStep
-        user={user}
-        state={state}
-        dispatch={dispatch}
-        links={links}
-      />
-      <h2>Your profile picture</h2>
-      <div className="instructions">Click / tap it to upload another</div>
-      <div className="formats">.jpg + .png accepted</div>
+    <div className="c-avatar-selector">
+      <InitializedStep user={user} state={state} dispatch={dispatch} />
+      {modalOpen ? (
+        <Modal open={true} className="m-crop-avatar" onClose={() => {}}>
+          {state.status == 'cropping' ? (
+            <CroppingStep state={state} dispatch={dispatch} />
+          ) : (
+            <CropFinishedStep state={state} dispatch={dispatch} links={links} />
+          )}
+        </Modal>
+      ) : null}
     </div>
   )
-}
-
-const CurrentStep = ({
-  user,
-  state,
-  dispatch,
-  links,
-}: {
-  user: User
-  state: State
-  dispatch: React.Dispatch<Action>
-  links: Links
-}) => {
-  switch (state.status) {
-    case 'initialized':
-      return <InitializedStep user={user} state={state} dispatch={dispatch} />
-    case 'cropping':
-      return <CroppingStep state={state} dispatch={dispatch} />
-    case 'cropFinished':
-      return (
-        <CropFinishedStep state={state} dispatch={dispatch} links={links} />
-      )
-    default:
-      return null
-  }
 }

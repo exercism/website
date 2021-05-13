@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { State, Action } from './reducer'
 import { useMutation } from 'react-query'
 import { typecheck } from '../../../utils/typecheck'
-import { FormButton } from '../../common'
+import { FormButton, GraphicalIcon } from '../../common'
 import { ResultsZone } from '../../ResultsZone'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 import { User } from '../../types'
@@ -60,19 +60,33 @@ export const CropFinishedStep = ({
   }, [submit])
 
   return (
-    <div>
+    <>
       <ResultsZone isFetching={status === 'loading'}>
-        <img src={URL.createObjectURL(state.croppedImage)} />
+        <img
+          src={URL.createObjectURL(state.croppedImage)}
+          className="cropped-image"
+        />
       </ResultsZone>
-      <FormButton status={status} onClick={handleRedo}>
-        Redo
-      </FormButton>
-      <FormButton status={status} onClick={handleSubmit}>
-        Submit
-      </FormButton>
+      <div className="btns">
+        <FormButton
+          status={status}
+          onClick={handleRedo}
+          className="btn-default btn-s"
+        >
+          <GraphicalIcon icon="reset" />
+          Recrop
+        </FormButton>
+        <FormButton
+          status={status}
+          onClick={handleSubmit}
+          className="btn-primary btn-s"
+        >
+          Save image
+        </FormButton>
+      </div>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
       </ErrorBoundary>
-    </div>
+    </>
   )
 }

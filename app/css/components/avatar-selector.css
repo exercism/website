@@ -1,0 +1,54 @@
+@import "../styles";
+
+.c-avatar-selector {
+    @apply ml-auto;
+    @apply flex flex-col items-center;
+
+    & .c-avatar {
+        height: 128px;
+        width: 128px;
+        @apply mb-24;
+        cursor: pointer;
+    }
+    & h2 {
+        @apply text-h5 mb-12;
+        @apply text-center;
+    }
+    & .faux-button {
+        --height: 48px;
+        width: 230px;
+        height: var(--height);
+        @apply relative mb-16;
+
+        & input {
+            height: var(--height);
+            opacity: 0;
+            cursor: pointer;
+            position: relative;
+        }
+        & .btn {
+            z-index: -2;
+            height: var(--height);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        & .hover-bg {
+            z-index: -1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+        }
+        & input:hover + .hover-bg {
+            background: rgb(96, 79, 205, 0.05);
+        }
+    }
+    & .cropping {
+        @apply text-textColor6 leading-160 mb-8;
+        @apply text-center;
+    }
+}

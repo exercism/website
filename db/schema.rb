@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_081543) do
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
->>>>>>> 8cac8bd3 (Install ActiveStorage)
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false

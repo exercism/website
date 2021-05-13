@@ -1695,13 +1695,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-image-crop@^8.1.2":
-  version "8.1.2"
-  resolved "https://registry.yarnpkg.com/@types/react-image-crop/-/react-image-crop-8.1.2.tgz#9c16d6b0b577a63a854a1a895180cc76800e2988"
-  integrity sha512-K6mbw1Bj/CeePnRa78E3v3gIn/EeqlCof5IVU9IPLdzMjOsf+ccn3Qv/vagsH/6eANGgoDz4hG41eJ2kggiuuw==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-modal@^3.12.0":
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.12.0.tgz#91fa86a76fd7fc57e36d2cf9b76efe5735a855a1"

@@ -12,7 +12,7 @@ export const RunTestsButton = ({
 } & React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
   const isDisabled = !haveFilesChanged || isProcessing
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'top',
+    placement: 'right',
     modifiers: [
       {
         name: 'offset',
@@ -34,8 +34,8 @@ export const RunTestsButton = ({
   }, [haveFilesChanged, setOpen])
 
   return (
-    <div>
-      <div {...buttonAttributes} {...mouseEvents}>
+    <>
+      <div className="run-tests-btn">
         <button
           type="button"
           className="btn-enhanced btn-s"
@@ -46,16 +46,21 @@ export const RunTestsButton = ({
           <span>Run Tests</span>
           <div className="kb-shortcut">F2</div>
         </button>
+        <div
+          className="disabled-wrapper"
+          {...mouseEvents}
+          {...buttonAttributes}
+        />
       </div>
       {open ? (
-        /* TODO: Remove zIndex. I just added this in because the tooltip was not visible. */
         <div
+          className="c-tooltip"
           {...panelAttributes}
-          style={{ ...panelAttributes.style, zIndex: 1000 }}
+          style={{ ...panelAttributes.style }}
         >
           You have not made any changes since your last run
         </div>
       ) : null}
-    </div>
+    </>
   )
 }

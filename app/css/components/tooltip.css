@@ -1,0 +1,8 @@
+.c-tooltip {
+    @apply z-tooltip;
+    @apply bg-backgroundColorH;
+    @apply p-8 p-12;
+    @apply text-textColor9;
+    @apply rounded-8;
+    box-shadow: 0px 4px 24px 0px #00000026;
+}

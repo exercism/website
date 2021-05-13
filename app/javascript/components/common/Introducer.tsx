@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { GraphicalIcon, Icon } from './'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
@@ -17,7 +17,7 @@ export const Introducer = ({
   content: string
   endpoint: string
 }): JSX.Element | null => {
-  const [hidden, setHidden] = useState(false)
+  const ref = useRef<HTMLDivElement | null>(null)
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
     () => {
@@ -30,17 +30,13 @@ export const Introducer = ({
     },
     {
       onSuccess: () => {
-        setHidden(true)
+        ref.current!.parentElement!.classList.add('hidden')
       },
     }
   )
 
-  if (hidden) {
-    return null
-  }
-
   return (
-    <div className="c-introducer">
+    <div ref={ref} className="c-introducer">
       <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
       <div className="info" dangerouslySetInnerHTML={{ __html: content }} />
       {endpoint ? (

@@ -10,8 +10,15 @@ export const initReact = (mappings) => {
 }
 
 const render = (elem, component) => {
-  ReactDOM.render(<React.StrictMode>{component}</React.StrictMode>, elem)
-  elem.classList.add('--hydrated')
+  ReactDOM.render(
+    <React.StrictMode>{component}</React.StrictMode>,
+    elem,
+    () => {
+      setTimeout(() => {
+        elem.classList.add('--hydrated')
+      }, 1)
+    }
+  )
 
   const unloadOnce = () => {
     ReactDOM.unmountComponentAtNode(elem)

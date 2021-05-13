@@ -1,5 +1,6 @@
 import React from 'react'
 import { Iteration } from '../../types'
+import { useIterationSelector } from './useIterationSelector'
 
 export const IterationSelector = ({
   iterations,
@@ -10,6 +11,12 @@ export const IterationSelector = ({
   iterationIdx: number | null
   setIterationIdx: (idx: number | null) => void
 }): JSX.Element => {
+  const { selected, onSelected } = useIterationSelector({
+    iterationIdx,
+    setIterationIdx,
+    iterations,
+  })
+
   return (
     <div>
       <div>
@@ -17,8 +24,8 @@ export const IterationSelector = ({
           <input
             type="radio"
             name="published_iterations"
-            checked={iterationIdx === null}
-            onChange={() => setIterationIdx(null)}
+            checked={selected === 'allIterations'}
+            onChange={() => onSelected('allIterations')}
           />
           All iterations
         </label>
@@ -28,12 +35,12 @@ export const IterationSelector = ({
           <input
             type="radio"
             name="published_iterations"
-            checked={iterationIdx !== null}
-            onChange={() => setIterationIdx(iterations[0].idx)}
+            checked={selected === 'singleIteration'}
+            onChange={() => onSelected('singleIteration')}
           />
           Single iteration
         </label>
-        {iterationIdx !== null ? (
+        {selected === 'singleIteration' ? (
           <select onChange={(e) => setIterationIdx(parseInt(e.target.value))}>
             {iterations.map((iteration) => {
               return (

@@ -162,7 +162,7 @@ module Components
 
         submission.update!(tests_status: :passed)
         IterationChannel.broadcast!(iteration)
-        assert_css ".c-iteration-processing-status", visible: false, text: "Processing"
+        assert_css ".c-iteration-processing-status", visible: false, text: "Passed"
       end
 
       test "shows files per iteration" do

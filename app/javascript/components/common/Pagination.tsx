@@ -53,6 +53,7 @@ export function Pagination({
               disabled={disabled || page === current}
               aria-label={`Go to page ${page}`}
               aria-current={page === current ? 'page' : undefined}
+              className={page === current ? 'current' : undefined}
             >
               {page}
             </button>

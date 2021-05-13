@@ -130,12 +130,28 @@ test('page button has an aria-current tag if on the page', () => {
   expect(button).toHaveAttribute('aria-current', 'page')
 })
 
+test('page button has the "current" className if on the page', () => {
+  const { getByText } = render(<Pagination current={1} total={2} />)
+
+  const button = getByText('1')
+
+  expect(button).toHaveAttribute('class', 'current')
+})
+
 test('page button does not have an aria-current tag if not on the page', () => {
   const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('2')
 
   expect(button).not.toHaveAttribute('aria-current')
+})
+
+test('page button does not have the "current" className if not on the page', () => {
+  const { getByText } = render(<Pagination current={1} total={2} />)
+
+  const button = getByText('2')
+
+  expect(button).not.toHaveAttribute('className')
 })
 
 test('button for current page is disabled', () => {

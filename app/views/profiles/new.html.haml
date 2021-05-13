@@ -25,8 +25,4 @@
             .note How should the community address you?
 
           = button_tag "Create profile", class: "btn-primary btn-m"
-      .avatar-selector
-        = avatar(current_user)
-        %h2 Your profile picture
-        .instruction Click/tap it to upload another
-        .formats .jpg + .png accepted
+      = render ReactComponents::Profile::AvatarSelector.new

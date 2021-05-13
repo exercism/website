@@ -24,6 +24,7 @@
         @apply flex;
         & form {
             width: 540px;
+            @apply mr-64;
 
             & .field {
                 @apply flex flex-col;
@@ -48,25 +49,6 @@
                 @apply mt-12;
                 @apply self-end;
             }
-        }
-    }
-    & .avatar-selector {
-        @apply ml-auto;
-        @apply flex flex-col items-center;
-
-        & .c-avatar {
-            height: 128px;
-            width: 128px;
-            @apply mb-24;
-        }
-        & h2 {
-            @apply text-h5 mb-4;
-        }
-        & .instruction {
-            @apply text-16 text-textColor6 leading-160 mb-8;
-        }
-        & .format {
-            @apply text-textColor6 leading-160 mb-8;
         }
     }
 }

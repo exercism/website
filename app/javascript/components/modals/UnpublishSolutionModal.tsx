@@ -4,7 +4,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
-import { Exercise } from '../types'
+import { SolutionForStudent } from '../types'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
@@ -15,7 +15,7 @@ export const UnpublishSolutionModal = ({
   ...props
 }: ModalProps & { endpoint: string }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation<Exercise>(
+  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
       return sendRequest({
         endpoint: endpoint,
@@ -23,16 +23,12 @@ export const UnpublishSolutionModal = ({
         body: null,
         isMountedRef: isMountedRef,
       }).then((json) => {
-        return typecheck<Exercise>(json, 'exercise')
+        return typecheck<SolutionForStudent>(json, 'solution')
       })
     },
     {
-      onSuccess: (exercise) => {
-        if (!exercise.isUnlocked) {
-          throw new Error('Expected to redirect to exercise')
-        }
-
-        window.location.replace(exercise.links.self)
+      onSuccess: (solution) => {
+        window.location.replace(solution.privateUrl)
       },
     }
   )

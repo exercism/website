@@ -10,7 +10,8 @@ class SerializeSolution
   def call
     {
       id: solution.uuid,
-      url: Exercism::Routes.private_solution_url(solution),
+      private_url: Exercism::Routes.private_solution_url(solution),
+      public_url: Exercism::Routes.published_solution_url(solution),
       status: solution.status,
       mentoring_status: solution.mentoring_status,
       has_notifications: has_notifications?,

@@ -94,7 +94,7 @@ module API
       Solution::Publish.(solution, params[:iteration_idx])
 
       render json: {
-        exercise: SerializeExercise.(solution.exercise, user_track: user_track)
+        solution: SerializeSolution.(solution)
       }, status: :ok
     end
 
@@ -113,7 +113,7 @@ module API
       solution.update!(published_iteration: solution.iterations.find_by(idx: params[:iteration_idx]))
 
       render json: {
-        exercise: SerializeExercise.(solution.exercise, user_track: user_track)
+        solution: SerializeSolution.(solution)
       }, status: :ok
     end
 
@@ -134,7 +134,7 @@ module API
       solution.update!(published_at: nil, published_iteration_id: nil)
 
       render json: {
-        exercise: SerializeExercise.(solution.exercise, user_track: user_track)
+        solution: SerializeSolution.(solution)
       }, status: :ok
     end
 

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { ModalProps, Modal } from './Modal'
-import { Iteration, Exercise } from '../types'
+import { Iteration, SolutionForStudent } from '../types'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
@@ -25,7 +25,7 @@ export const ChangePublishedIterationModal = ({
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )
-  const [mutation, { status, error }] = useMutation<Exercise>(
+  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
       return sendRequest({
         endpoint: endpoint,
@@ -33,16 +33,12 @@ export const ChangePublishedIterationModal = ({
         body: JSON.stringify({ published_iteration_idx: iterationIdx }),
         isMountedRef: isMountedRef,
       }).then((response) => {
-        return typecheck<Exercise>(response, 'exercise')
+        return typecheck<SolutionForStudent>(response, 'solution')
       })
     },
     {
-      onSuccess: (exercise) => {
-        if (!exercise.isUnlocked) {
-          throw new Error('Expected to redirect to exercise')
-        }
-
-        window.location.replace(exercise.links.self)
+      onSuccess: (solution) => {
+        window.location.replace(solution.privateUrl)
       },
     }
   )

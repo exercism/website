@@ -110,7 +110,7 @@ const ReferenceElement = forwardRef<
         .join(' ')
 
       const url = solution
-        ? solution.url
+        ? solution.privateUrl
         : exercise.isUnlocked
         ? exercise.links.self
         : '#'

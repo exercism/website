@@ -26,13 +26,33 @@
         }
 
         & label {
-            @apply flex items-center mb-8;
+            @apply flex items-center mb-4;
             @apply text-20;
             @apply cursor-pointer;
 
             & .label {
-                @apply text-18 font-medium leading-huge;
+                @apply text-18 font-semibold leading-huge;
                 @apply pl-16;
+            }
+        }
+        & label + label {
+            @apply mt-4;
+        }
+        & .iteration-selector {
+            height: 50px;
+            @apply ml-48 mb-16;
+            @apply flex items-center;
+            & label {
+                @apply mr-24 mb-0;
+                & .label {
+                    @apply text-16 font-medium;
+                }
+            }
+            & label + label {
+                @apply ml-8 mt-0;
+            }
+            & .c-select select {
+                @apply py-8;
             }
         }
         & .confirm-button {

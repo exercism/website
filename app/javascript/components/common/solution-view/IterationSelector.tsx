@@ -18,7 +18,7 @@ export const IterationSelector = ({
   })
 
   return (
-    <div>
+    <div className="iteration-selector">
       <div>
         <label>
           <input

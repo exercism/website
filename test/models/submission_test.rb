@@ -58,10 +58,10 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal er, submission.exercise_representation
   end
 
-  test "automated_feedback_pending without feedback" do
+  test "automated_feedback_pending" do
     # Pending without queued
     submission = create :submission, representation_status: :not_queued, analysis_status: :not_queued
-    assert submission.automated_feedback_pending?
+    refute submission.automated_feedback_pending?
 
     # Pending with queued
     submission = create :submission, representation_status: :queued, analysis_status: :queued

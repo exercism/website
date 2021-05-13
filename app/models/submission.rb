@@ -48,7 +48,9 @@ class Submission < ApplicationRecord
   def automated_feedback_pending?
     return false if (representation_exceptioned? || representation_cancelled?) &&
                     (analysis_exceptioned? || analysis_cancelled?)
+    return false if representation_not_queued? && analysis_not_queued?
     return true if !representation_generated? && !analysis_completed?
+
     return false if has_automated_feedback?
     return true if representation_queued? || representation_not_queued?
     return true if analysis_queued? || analysis_not_queued?

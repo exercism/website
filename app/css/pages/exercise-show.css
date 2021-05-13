@@ -441,7 +441,7 @@
 
             & .header {
                 @apply flex items-center;
-                @apply mb-16;
+                @apply mb-6;
                 & h3 {
                     @apply text-h4 mb-0;
                 }
@@ -452,8 +452,15 @@
                     }
                 }
                 & .published-solution-menu {
+                    @apply pt-10;
                     min-width: 380px;
                 }
+            }
+            & p {
+                @apply mb-16;
+            }
+            & button.publish-btn {
+                @apply w-100;
             }
             & .c-community-solution {
                 & pre {

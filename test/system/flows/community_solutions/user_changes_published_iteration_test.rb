@@ -21,10 +21,12 @@ module Flows
         use_capybara_host do
           sign_in!(author)
           visit track_exercise_community_solution_url(track, exercise, "author")
+          refute_button "1"
+
           click_on "Publish settings"
-          assert_button "2", disabled: true
-          choose "All iterations"
-          click_on "Submit"
+          click_on "Change published iterations…"
+          find("label", text: "All iterations").click
+          click_on "Update published solution"
 
           assert_button "1"
           assert_button "2", disabled: true

@@ -22,7 +22,7 @@ module Flows
 
         click_on "Mark as complete"
         find("label", text: "Yes, I'd like to share my solution with the community.").click
-        choose "Single iteration"
+        find("label", text: "Single iteration").click
         select "Iteration 2"
         click_on "Confirm"
 
@@ -51,11 +51,12 @@ module Flows
         visit track_exercise_url(track, strings)
 
         click_on "Publish solution"
-        choose "Single iteration"
+        find("label", text: "Single iteration").click
         select "Iteration 2"
-        click_on "Submit"
+        click_on "Publish"
 
         assert_text "Your published solution"
+
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.
         solution.reload
         assert_equal iteration_2, solution.published_iteration
@@ -99,8 +100,8 @@ module Flows
 
         click_on "Publish settings"
         click_on "Change published iteration"
-        choose "All iterations"
-        click_on "Submit"
+        find("label", text: "All iterations").click
+        click_on "Update published solution"
 
         assert_text "Your published solution"
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.
@@ -127,7 +128,7 @@ module Flows
 
         click_on "Publish settings"
         click_on "Unpublish"
-        click_on "Confirm"
+        click_on "Unpublish solution"
 
         assert_button "Publish solution"
       end

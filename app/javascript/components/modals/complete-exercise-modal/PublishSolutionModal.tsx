@@ -19,6 +19,7 @@ export const PublishSolutionModal = ({
 }): JSX.Element => {
   return (
     <Modal
+      cover={true}
       open={open}
       className="m-publish-exercise"
       onClose={() => {}}

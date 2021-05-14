@@ -200,8 +200,16 @@
                 @apply flex-grow;
                 @apply pt-12;
                 @apply bg-backgroundColorA;
+                overflow-y: auto;
                 & .ace_content {
                     @apply font-medium;
+                }
+
+                /* These bits handle things resizing correctly */
+                @apply flex h-arbitary;
+                & .ace_editor {
+                    @apply flex-grow;
+                    @apply w-100;
                 }
             }
 

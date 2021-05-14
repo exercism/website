@@ -92,8 +92,8 @@ export function FileEditorAce({
         <div className="editor" key={file.filename} hidden={index !== tab}>
           <AceEditor
             name={file.filename}
-            height="100%"
             width="100%"
+            maxLines={Infinity}
             tabSize={config.tabSize}
             mode={language}
             theme={theme}

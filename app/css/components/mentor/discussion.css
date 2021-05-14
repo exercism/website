@@ -130,7 +130,7 @@
             }
         }
         & .c-results-zone {
-            @apply flex-grow h-1;
+            @apply flex-grow h-arbitary;
             & .c-iteration-pane {
                 height: 100%;
             }

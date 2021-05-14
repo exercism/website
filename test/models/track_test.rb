@@ -41,7 +41,7 @@ class TrackTest < ActiveSupport::TestCase
 
   test "average_test_run_time" do
     track = create :track
-    assert_equal 1.2, track.average_test_run_time
+    assert_equal 2.2, track.average_test_run_time
   end
 
   test "Retrieves test_regexp for track with test regex" do

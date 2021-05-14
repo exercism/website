@@ -16,7 +16,7 @@ class Track < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   delegate :test_regexp, :ignore_regexp, :key_features, :about, :snippet,
-    :indent_style, :indent_size, :average_test_run_time,
+    :indent_style, :indent_size,
     to: :git
 
   delegate :head_sha, to: :git, prefix: :git
@@ -89,6 +89,10 @@ class Track < ApplicationRecord
     git.highlightjs_language || slug
   end
 
+  def average_test_run_time
+    git.average_test_run_time + INFRASTRUCTURE_TIME
+  end
+
   # TODO: Set this properly
   def median_wait_time
     "6 hrs"
@@ -153,4 +157,6 @@ class Track < ApplicationRecord
       web_development: "Web development"
     }
   }.with_indifferent_access.freeze
+
+  INFRASTRUCTURE_TIME = 1.0
 end

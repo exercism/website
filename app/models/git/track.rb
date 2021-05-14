@@ -90,6 +90,11 @@ module Git
     end
 
     memoize
+    def average_run_time
+      test_runner[:average_run_time] || 3.0
+    end
+
+    memoize
     def commit
       repo.lookup_commit(git_sha)
     end
@@ -120,6 +125,11 @@ module Git
     memoize
     def online_editor
       config[:online_editor]
+    end
+
+    memoize
+    def test_runner
+      config[:test_runner]
     end
   end
 end

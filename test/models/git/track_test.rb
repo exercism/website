@@ -180,5 +180,10 @@ module Git
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal "ruby", track.highlightjs_language
     end
+
+    test "average_run_time" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal 1.2, track.average_run_time
+    end
   end
 end

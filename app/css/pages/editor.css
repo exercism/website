@@ -207,6 +207,7 @@
 
                 /* These bits handle things resizing correctly */
                 @apply flex h-arbitary;
+                padding-bottom: 47px; /* Can be removed if footer shadow becomes inset */
                 & .ace_editor {
                     @apply flex-grow;
                     @apply w-100;

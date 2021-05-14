@@ -165,7 +165,7 @@ module.exports = {
       '64': '64px',
     },
     height: {
-      '1': '1px',
+      arbitary: '1px',
       '48': '48px',
     },
     lineHeight: {

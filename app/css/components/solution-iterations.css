@@ -9,7 +9,7 @@
     & .c-results-zone {
         @apply flex-grow flex flex-col;
         & .c-iteration-pane {
-            @apply h-1;
+            @apply h-arbitary;
         }
     }
     & .c-iterations-footer {

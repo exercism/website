@@ -200,9 +200,19 @@
                 @apply flex-grow;
                 @apply pt-12;
                 @apply bg-backgroundColorA;
+                @apply overflow-scroll;
                 & .ace_content {
                     @apply font-medium;
                 }
+
+                /* These bits handle things resizing correctly */
+                @apply flex h-arbitary;
+                & .ace_editor {
+                    @apply flex flex-grow;
+                    @apply w-100;
+                }
+                /* & .ace_gutter { @apply flex-grow; } */
+                /* & .ace_editor { @apply flex-grow; } */
             }
 
             /*@apply border-t-1 border-borderColor6;*/

@@ -89,8 +89,8 @@ class Track < ApplicationRecord
     git.highlightjs_language || slug
   end
 
-  def average_test_run_time
-    git.average_test_run_time + INFRASTRUCTURE_TIME
+  def average_test_duration
+    git.average_test_duration + INFRASTRUCTURE_DURATION_S
   end
 
   # TODO: Set this properly
@@ -158,5 +158,5 @@ class Track < ApplicationRecord
     }
   }.with_indifferent_access.freeze
 
-  INFRASTRUCTURE_TIME = 1.0
+  INFRASTRUCTURE_DURATION_S = 1.0
 end

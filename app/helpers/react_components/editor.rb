@@ -23,7 +23,7 @@ module ReactComponents
           files: SerializeFiles.(solution.solution_files),
           ace_language: track.ace_language,
           highlightjs_language: track.highlightjs_language,
-          average_test_run_time: track.average_test_run_time,
+          average_test_duration: track.average_test_duration,
           storage_key: solution.uuid,
           config: {
             tab_size: track.indent_size,

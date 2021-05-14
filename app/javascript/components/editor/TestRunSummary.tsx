@@ -18,7 +18,7 @@ export const TestRunSummary = ({
   onSubmit,
   isSubmitDisabled,
   cancelLink,
-  averageTestRunTime,
+  averageTestDuration,
 }: {
   testRun: TestRun
   timeout: number
@@ -26,7 +26,7 @@ export const TestRunSummary = ({
   onSubmit: () => void
   isSubmitDisabled: boolean
   cancelLink: string
-  averageTestRunTime: number
+  averageTestDuration: number
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { data } = useRequestQuery<{ testRun: TestRun }>(
@@ -145,7 +145,7 @@ export const TestRunSummary = ({
         onSubmit={onSubmit}
         isSubmitDisabled={isSubmitDisabled}
         onCancel={cancel}
-        averageTestRunTime={averageTestRunTime}
+        averageTestDuration={averageTestDuration}
       />
     </>
   )
@@ -201,13 +201,13 @@ TestRunSummary.Content = ({
   onSubmit,
   isSubmitDisabled,
   onCancel,
-  averageTestRunTime,
+  averageTestDuration,
 }: {
   testRun: TestRun
   onSubmit: () => void
   isSubmitDisabled: boolean
   onCancel: () => void
-  averageTestRunTime: number
+  averageTestDuration: number
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS:
@@ -278,12 +278,12 @@ TestRunSummary.Content = ({
           <div className="progress">
             <div
               className="bar"
-              style={{ animationDuration: `${averageTestRunTime}s` }}
+              style={{ animationDuration: `${averageTestDuration}s` }}
             />
           </div>
           <p>
             <strong>Running tests...</strong> Estimated running time ~
-            {averageTestRunTime}s
+            {averageTestDuration}s
           </p>
           <button
             type="button"

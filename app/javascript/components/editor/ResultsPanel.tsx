@@ -10,14 +10,14 @@ export const ResultsPanel = ({
   onUpdate,
   onSubmit,
   isSubmitDisabled,
-  averageTestRunTime,
+  averageTestDuration,
 }: {
   submission: Submission | undefined
   timeout: number
   onUpdate: (testRun: TestRun) => void
   onSubmit: () => void
   isSubmitDisabled: boolean
-  averageTestRunTime: number
+  averageTestDuration: number
 }) => (
   <Tab.Panel id="results" context={TabsContext}>
     {submission && submission.testRun ? (
@@ -29,7 +29,7 @@ export const ResultsPanel = ({
           onUpdate={onUpdate}
           onSubmit={onSubmit}
           isSubmitDisabled={isSubmitDisabled}
-          averageTestRunTime={averageTestRunTime}
+          averageTestDuration={averageTestDuration}
         />
       </section>
     ) : (

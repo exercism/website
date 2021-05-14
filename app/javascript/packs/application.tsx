@@ -477,7 +477,7 @@ initReact({
       tests={data.tests}
       aceLanguage={data.ace_language}
       highlightJSLanguage={data.highlightjs_language}
-      averageTestRunTime={data.average_test_run_time}
+      averageTestDuration={data.average_test_duration}
       exercisePath={data.exercise_path}
       trackTitle={data.track_title}
       exerciseTitle={data.exercise_title}

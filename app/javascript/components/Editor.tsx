@@ -72,7 +72,7 @@ export function Editor({
   files: initialFiles,
   aceLanguage,
   highlightJSLanguage,
-  averageTestRunTime,
+  averageTestDuration,
   exercisePath,
   trackTitle,
   exerciseTitle,
@@ -90,7 +90,7 @@ export function Editor({
   files: File[]
   aceLanguage: string
   highlightJSLanguage: string
-  averageTestRunTime: number
+  averageTestDuration: number
   exercisePath: string
   trackTitle: string
   exerciseTitle: string
@@ -464,7 +464,7 @@ export function Editor({
               onUpdate={updateSubmission}
               onSubmit={submit}
               isSubmitDisabled={isSubmitDisabled}
-              averageTestRunTime={averageTestRunTime}
+              averageTestDuration={averageTestDuration}
             />
           </div>
         </article>

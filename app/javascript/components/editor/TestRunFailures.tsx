@@ -7,7 +7,7 @@ export const TestRunFailures = ({
 }: {
   testRun: TestRun
 }): JSX.Element => {
-  return testRun.version == 2 ? (
+  return testRun.version === 2 || testRun.version === 3 ? (
     <TestsGroupList tests={testRun.tests} />
   ) : (
     <pre className="v1-output">

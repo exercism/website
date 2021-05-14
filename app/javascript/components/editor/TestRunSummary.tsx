@@ -208,7 +208,9 @@ TestRunSummary.Content = ({
     case TestRunStatus.PASS:
       return (
         <>
-          {testRun.version == 2 ? <TestRunFailures testRun={testRun} /> : null}
+          {testRun.version === 2 || testRun.version === 3 ? (
+            <TestRunFailures testRun={testRun} />
+          ) : null}
           <div className="success-box">
             <GraphicalIcon icon="balloons" category="graphics" />
             <div className="content">

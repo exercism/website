@@ -7,7 +7,33 @@ module Components
     include CapybaraHelpers
     include AceHelpers
 
-    test "user runs tests and tests pass" do
+    test "user runs tests and tests pass with - v3 test runner" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
+        click_on "Run Tests"
+        wait_for_submission
+        2.times { wait_for_websockets }
+        test_run = create :submission_test_run,
+          submission: Submission.last,
+          status: "pass",
+          ops_status: 200,
+          raw_results: {
+            version: 3,
+            tests: [{ name: :test_a_name_given, status: :pass, output: "Hello", task_id: 1 }]
+          }
+        Submission::TestRunsChannel.broadcast!(test_run)
+
+        assert_text "1 test passed"
+      end
+    end
+
+    test "user runs tests and tests pass - v2 test runner" do
       user = create :user
       strings = create :concept_exercise
       solution = create :concept_solution, user: user, exercise: strings
@@ -30,6 +56,31 @@ module Components
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "1 test passed"
+      end
+    end
+
+    test "user runs tests and tests pass with - v1 test runner" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
+        click_on "Run Tests"
+        wait_for_submission
+        2.times { wait_for_websockets }
+        test_run = create :submission_test_run,
+          submission: Submission.last,
+          status: "pass",
+          ops_status: 200,
+          raw_results: {
+            version: 1
+          }
+        Submission::TestRunsChannel.broadcast!(test_run)
+
+        assert_text "ALL TESTS PASSED"
       end
     end
 
@@ -57,7 +108,33 @@ module Components
       end
     end
 
-    test "user runs tests and tests fail" do
+    test "user runs tests and tests fail - v3 test runner" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        fill_in_editor "test"
+        click_on "Run Tests"
+        wait_for_submission
+        2.times { wait_for_websockets }
+        test_run = create :submission_test_run,
+          submission: Submission.last,
+          status: "fail",
+          ops_status: 200,
+          raw_results: {
+            version: 3,
+            tests: [{ name: :test_no_name_given, status: :fail, task_id: 1 }]
+          }
+        Submission::TestRunsChannel.broadcast!(test_run)
+
+        assert_text "1 test failed"
+      end
+    end
+
+    test "user runs tests and tests fail - v2 test runner" do
       user = create :user
       strings = create :concept_exercise
       solution = create :concept_solution, user: user, exercise: strings
@@ -185,7 +262,29 @@ module Components
       end
     end
 
-    test "user sees previous test results" do
+    test "user sees previous test results - v3 test runner" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      create :submission_test_run,
+        submission: submission,
+        status: "pass",
+        ops_status: 200,
+        raw_results: {
+          version: 3,
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello", task_id: 1 }]
+        }
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+
+        assert_text "1 test passed"
+      end
+    end
+
+    test "user sees previous test results - v2 test runner" do
       user = create :user
       strings = create :concept_exercise
       solution = create :concept_solution, user: user, exercise: strings

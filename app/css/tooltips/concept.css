@@ -26,8 +26,9 @@
                 }
                 & .in {
                     @apply mr-8;
+                    @apply text-textColor2;
                 }
-                & .c-icon {
+                & .c-track-icon {
                     height: 32px;
                     width: 32px;
                 }

@@ -39,6 +39,11 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal 'ruby', track.highlightjs_language
   end
 
+  test "average_test_duration" do
+    track = create :track
+    assert_equal 2.2, track.average_test_duration
+  end
+
   test "Retrieves test_regexp for track with test regex" do
     track = create :track
     assert_equal(/test/, track.test_regexp)

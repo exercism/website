@@ -4,7 +4,6 @@ import React, {
   useRef,
   useState,
   useEffect,
-  useLayoutEffect,
 } from 'react'
 import { Keybindings, WrapSetting } from './types'
 import { File } from '../types'

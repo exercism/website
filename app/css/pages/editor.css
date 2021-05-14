@@ -200,7 +200,7 @@
                 @apply flex-grow;
                 @apply pt-12;
                 @apply bg-backgroundColorA;
-                @apply overflow-scroll;
+                overflow-y: auto;
                 & .ace_content {
                     @apply font-medium;
                 }

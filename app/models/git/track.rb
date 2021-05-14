@@ -90,7 +90,7 @@ module Git
     end
 
     memoize
-    def average_run_time
+    def average_test_run_time
       test_runner[:average_run_time] || 3.0
     end
 

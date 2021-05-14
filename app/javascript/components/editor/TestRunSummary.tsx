@@ -18,6 +18,7 @@ export const TestRunSummary = ({
   onSubmit,
   isSubmitDisabled,
   cancelLink,
+  averageTestRunTime,
 }: {
   testRun: TestRun
   timeout: number
@@ -25,6 +26,7 @@ export const TestRunSummary = ({
   onSubmit: () => void
   isSubmitDisabled: boolean
   cancelLink: string
+  averageTestRunTime: number
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { data } = useRequestQuery<{ testRun: TestRun }>(
@@ -143,6 +145,7 @@ export const TestRunSummary = ({
         onSubmit={onSubmit}
         isSubmitDisabled={isSubmitDisabled}
         onCancel={cancel}
+        averageTestRunTime={averageTestRunTime}
       />
     </>
   )
@@ -198,11 +201,13 @@ TestRunSummary.Content = ({
   onSubmit,
   isSubmitDisabled,
   onCancel,
+  averageTestRunTime,
 }: {
   testRun: TestRun
   onSubmit: () => void
   isSubmitDisabled: boolean
   onCancel: () => void
+  averageTestRunTime: number
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS:
@@ -266,9 +271,6 @@ TestRunSummary.Content = ({
       const handleCancel = useCallback(() => {
         onCancel()
       }, [onCancel])
-
-      /* TODO: Read this from db */
-      const averageTestRunTime = 3
 
       return (
         <div role="status" className="running">

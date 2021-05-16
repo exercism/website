@@ -129,7 +129,7 @@ module Git
 
     memoize
     def test_runner
-      config[:test_runner]
+      config[:test_runner] || {}
     end
   end
 end

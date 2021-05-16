@@ -54,7 +54,7 @@ export const RunTestsButton = ({
       </div>
       {open ? (
         <div
-          className="c-tooltip"
+          className="c-generic-tooltip"
           {...panelAttributes}
           style={{ ...panelAttributes.style }}
         >

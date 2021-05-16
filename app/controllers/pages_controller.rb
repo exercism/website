@@ -3,6 +3,8 @@ class PagesController < ApplicationController
 
   def index
     # solution = Solution.first
+    resp = RestClient.get("https://raw.githubusercontent.com/exercism/v3-beta/main/README.md?q=#{Time.current.min}")
+    @content = Markdown::Parse.(resp.body)
   end
 
   def health_check

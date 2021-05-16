@@ -30,7 +30,7 @@ module ViewComponents
         selected = :mentoring
       elsif controller_name == "dashboard"
         selected = :dashboard
-      else
+      elsif %w[tracks exercises concepts].include?(controller_name)
         selected = :tracks
       end
 

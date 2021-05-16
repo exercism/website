@@ -6,16 +6,21 @@ module Flows
     include CapybaraHelpers
 
     test "user is onboarded before being able to do anything on the website" do
-      user = create :user, :not_onboarded
-      sign_in!(user)
+      freeze_time do
+        stub_request(:get, "https://raw.githubusercontent.com/exercism/v3-beta/main/README.md?q=#{Time.current.min}").
+          to_return(status: 200, body: "")
 
-      use_capybara_host do
-        visit root_path
-        find('label', text: "I accept Exercism's Terms of Service").click
-        find('label', text: "I accept Exercism's Privacy Policy").click
-        click_on "Save & Get Started"
+        user = create :user, :not_onboarded
+        sign_in!(user)
 
-        assert_page :staging
+        use_capybara_host do
+          visit root_path
+          find('label', text: "I accept Exercism's Terms of Service").click
+          find('label', text: "I accept Exercism's Privacy Policy").click
+          click_on "Save & Get Started"
+
+          assert_page :staging
+        end
       end
     end
   end

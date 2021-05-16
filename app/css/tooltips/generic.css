@@ -1,4 +1,4 @@
-.c-tooltip {
+.c-generic-tooltip {
     @apply z-tooltip;
     @apply bg-backgroundColorH;
     @apply p-8 p-12;

@@ -7,6 +7,17 @@
         @apply text-h1 mb-24;
     }
     & .c-textual-content {
-        max-width: 800px;
+        max-width: 820px;
+        & h3 {
+            @apply border-t-1 border-borderColor6;
+            @apply pt-16 mt-16;
+            @apply text-h3;
+        }
+        & h4 {
+            @apply text-h4;
+        }
+        & h5 {
+            @apply text-h5;
+        }
     }
 }

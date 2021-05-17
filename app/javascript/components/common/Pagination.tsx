@@ -73,15 +73,26 @@ export function Pagination({
         })}
       </div>
       {current !== total ? (
-        <button
-          onClick={() => {
-            setPage(total)
-          }}
-          disabled={disabled}
-          aria-label="Go to last page"
-        >
-          Last
-        </button>
+        <React.Fragment>
+          <button
+            onClick={() => {
+              setPage(current + 1)
+            }}
+            disabled={disabled}
+            aria-label="Go to next page"
+          >
+            Next
+          </button>
+          <button
+            onClick={() => {
+              setPage(total)
+            }}
+            disabled={disabled}
+            aria-label="Go to last page"
+          >
+            Last
+          </button>
+        </React.Fragment>
       ) : null}
     </div>
   )

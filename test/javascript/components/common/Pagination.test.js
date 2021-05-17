@@ -186,3 +186,20 @@ test('"Previous" button is hidden when on the first page', () => {
     screen.queryByRole('button', { name: 'Go to previous page' })
   ).not.toBeInTheDocument()
 })
+
+test('clicking on "Next" button sets next page', () => {
+  const setPage = jest.fn()
+
+  render(<Pagination current={2} total={10} setPage={setPage} />)
+  userEvent.click(screen.getByRole('button', { name: 'Go to next page' }))
+
+  expect(setPage.mock.calls).toEqual([[3]])
+})
+
+test('"Next" button is hidden when on the next page', () => {
+  render(<Pagination current={10} total={10} />)
+
+  expect(
+    screen.queryByRole('button', { name: 'Go to next page' })
+  ).not.toBeInTheDocument()
+})

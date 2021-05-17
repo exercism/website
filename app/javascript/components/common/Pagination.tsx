@@ -33,15 +33,26 @@ export function Pagination({
   return (
     <div className="c-pagination">
       {current !== 1 ? (
-        <button
-          onClick={() => {
-            setPage(1)
-          }}
-          disabled={disabled}
-          aria-label="Go to first page"
-        >
-          First
-        </button>
+        <React.Fragment>
+          <button
+            onClick={() => {
+              setPage(1)
+            }}
+            disabled={disabled}
+            aria-label="Go to first page"
+          >
+            First
+          </button>
+          <button
+            onClick={() => {
+              setPage(current - 1)
+            }}
+            disabled={disabled}
+            aria-label="Go to previous page"
+          >
+            Previous
+          </button>
+        </React.Fragment>
       ) : null}
       <div className="--pages">
         {range.map((page) => {

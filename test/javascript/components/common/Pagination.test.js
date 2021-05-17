@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { Pagination } from '../../../../app/javascript/components/common/Pagination'
 
@@ -167,4 +168,21 @@ test('does not show pages above the total', () => {
   )
 
   expect(queryByText('11')).toBeNull()
+})
+
+test('clicking on "Previous" button sets previous page', () => {
+  const setPage = jest.fn()
+
+  render(<Pagination current={2} total={10} setPage={setPage} />)
+  userEvent.click(screen.getByRole('button', { name: 'Go to previous page' }))
+
+  expect(setPage.mock.calls).toEqual([[1]])
+})
+
+test('"Previous" button is hidden when on the first page', () => {
+  render(<Pagination current={1} total={10} />)
+
+  expect(
+    screen.queryByRole('button', { name: 'Go to previous page' })
+  ).not.toBeInTheDocument()
 })

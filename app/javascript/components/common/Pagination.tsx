@@ -61,16 +61,17 @@ export function Pagination({
           )
         })}
       </div>
-      <button
-        onClick={() => {
-          setPage(total)
-        }}
-        disabled={disabled || current === total}
-        aria-label="Go to last page"
-        aria-current={current === total ? 'page' : undefined}
-      >
-        Last
-      </button>
+      {current !== total ? (
+        <button
+          onClick={() => {
+            setPage(total)
+          }}
+          disabled={disabled}
+          aria-label="Go to last page"
+        >
+          Last
+        </button>
+      ) : null}
     </div>
   )
 }

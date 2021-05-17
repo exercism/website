@@ -13,7 +13,7 @@ export function Pagination({
   current = 1,
   total,
   setPage,
-  around = 3,
+  around = 4,
 }: PaginationProps) {
   if (total <= 1) {
     return null

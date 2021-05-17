@@ -53,6 +53,9 @@
     --c-FAFAFF: #fafaff;
     --c-E8EDF7: #e8edf7;
     --c-F6F7FB: #f6f7fb;
+    --c-403A66: #403a66;
+    --c-6A6781: #6a6781;
+    --c-3A3557: #3a3557;
 
     --darkThemeBackgroundColor: var(--c-282339);
     --track-color-c: 52, 19, 148;
@@ -204,16 +207,16 @@
     --backgroundColorA-RGB: 40, 35, 57;
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-322C44);
-    --backgroundColorD: var(--c-322C44);
+    --backgroundColorD: var(--c-3A3557); /* Confirmed */
     --borderColor3: var(--c-8480A0);
-    --borderColor5: var(--c-333F56);
+    --borderColor5: var(--c-433F56); /* Confirmed */
     --borderColor6: var(--c-433F56);
     --borderColor7: var(--c-533F56);
     --textColor1: var(--c-FFFFFF);
-    --textColor2: var(--c-F0F3F9);
+    --textColor2: var(--c-F0F3F9); /* Confirmed */
     --textColor5: var(--c-CBC9D9);
-    --textColor6: var(--c-A9A6BD);
-    --textColor7: var(--c-89A6BD);
+    --textColor6: var(--c-A9A6BD); /* Confirmed */
+    --textColor7: var(--c-6A6781); /* Confirmed */
     --textColor9: var(--c-000000);
 
     --linkColor: var(--c-CBC9D9);
@@ -223,8 +226,8 @@
     --tabBackgroundColorSelected: var(--c-604FCD);
     --successColor: var(--c-4FCDA7);
 
-    --paginationCurrentBorderColor: var(--c-433F56);
-    --paginationCurrentBackgroundColor: var(--c-322C44);
+    --paginationCurrentBorderColor: var(--c-6A6781);
+    --paginationCurrentBackgroundColor: var(--c-403A66);
 
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)

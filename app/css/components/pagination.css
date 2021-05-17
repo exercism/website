@@ -1,5 +1,6 @@
 .c-pagination {
     @apply flex justify-between items-center;
+    @apply mt-32;
 
     & button,
     & .--pagination-more {

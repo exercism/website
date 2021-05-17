@@ -203,3 +203,27 @@ test('"Next" button is hidden when on the next page', () => {
     screen.queryByRole('button', { name: 'Go to next page' })
   ).not.toBeInTheDocument()
 })
+
+test('shows left gap indicator when above the window', () => {
+  render(<Pagination current={3} total={3} around={1} />)
+
+  expect(screen.getByText('...')).toBeInTheDocument()
+})
+
+test('hides left gap indicator when above the window', () => {
+  render(<Pagination current={2} total={3} around={1} />)
+
+  expect(screen.queryByText('...')).not.toBeInTheDocument()
+})
+
+test('shows right gap indicator when above the window', () => {
+  render(<Pagination current={1} total={3} around={1} />)
+
+  expect(screen.getByText('...')).toBeInTheDocument()
+})
+
+test('hides right gap indicator when above the window', () => {
+  render(<Pagination current={2} total={3} around={1} />)
+
+  expect(screen.queryByText('...')).not.toBeInTheDocument()
+})

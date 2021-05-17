@@ -33,7 +33,7 @@ export function Pagination({
   return (
     <div className="c-pagination">
       {current !== 1 ? (
-        <React.Fragment>
+        <div>
           <button
             onClick={() => {
               setPage(1)
@@ -52,8 +52,9 @@ export function Pagination({
           >
             Previous
           </button>
-        </React.Fragment>
+        </div>
       ) : null}
+      {current - around > 1 ? <span>...</span> : null}
       <div className="--pages">
         {range.map((page) => {
           return (
@@ -72,8 +73,9 @@ export function Pagination({
           )
         })}
       </div>
+      {total - current > around ? <span>...</span> : null}
       {current !== total ? (
-        <React.Fragment>
+        <div>
           <button
             onClick={() => {
               setPage(current + 1)
@@ -92,7 +94,7 @@ export function Pagination({
           >
             Last
           </button>
-        </React.Fragment>
+        </div>
       ) : null}
     </div>
   )

@@ -79,6 +79,10 @@ module.exports = {
       successColor: 'var(--successColor)',
       lockedColor: 'var(--lockedColor)',
 
+      paginationCurrentBackgroundColor:
+        'var(--paginationCurrentBackgroundColor)',
+      paginationCurrentBorderColor: 'var(--paginationCurrentBorderColor)',
+
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
       unnamed15: '#F0F3F9',

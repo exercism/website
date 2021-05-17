@@ -20,6 +20,7 @@
 
 :root {
     /* TODO: Rename these to match figma */
+    --c-6E82AA: #6e82aa;
     --c-2E57E8: #2e57e8;
     --c-211D2F: #211d2f;
     --c-2E57E8: #2e57e8;
@@ -150,6 +151,8 @@
     --tabIconColorSelected: var(--c-604FCD);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);
     --lockedColor: var(--c-E8EDF7);
+    --paginationCurrentBorderColor: var(--c-6E82AA);
+    --paginationCurrentBackgroundColor: var(--c-E1EBFF);
 
     /* https://codepen.io/sosuke/pen/Pjoqqp */
     --notifications-active-filter: invert(76%) sepia(54%) saturate(3406%)
@@ -201,15 +204,16 @@
     --backgroundColorA-RGB: 40, 35, 57;
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-322C44);
+    --backgroundColorD: var(--c-322C44);
     --borderColor3: var(--c-8480A0);
-    --borderColor5: #ccc;
+    --borderColor5: var(--c-333F56);
     --borderColor6: var(--c-433F56);
-    --borderColor7: var(--c-433F56);
+    --borderColor7: var(--c-533F56);
     --textColor1: var(--c-FFFFFF);
     --textColor2: var(--c-F0F3F9);
     --textColor5: var(--c-CBC9D9);
     --textColor6: var(--c-A9A6BD);
-    --textColor7: #ccc;
+    --textColor7: var(--c-89A6BD);
     --textColor9: var(--c-000000);
 
     --linkColor: var(--c-CBC9D9);
@@ -218,6 +222,9 @@
     --inputBorderColorFocus: var(--c-8480A0);
     --tabBackgroundColorSelected: var(--c-604FCD);
     --successColor: var(--c-4FCDA7);
+
+    --paginationCurrentBorderColor: var(--c-433F56);
+    --paginationCurrentBackgroundColor: var(--c-322C44);
 
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)

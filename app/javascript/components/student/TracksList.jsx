@@ -42,7 +42,7 @@ export function TracksList({ statusOptions, tagOptions, ...props }) {
             placeholder="Search language tracks"
             className="--search"
             onChange={(e) => setCriteria(e.target.value)}
-            value={request.query.criteria}
+            value={request.query.criteria || ''}
           />
           <TagsFilter
             setTags={setTags}

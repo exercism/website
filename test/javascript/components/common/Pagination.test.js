@@ -25,19 +25,11 @@ test('clicking on "First" sets page to 1', () => {
 })
 
 test('"First" button has correct aria-label tag', () => {
-  const { getByText } = render(<Pagination current={1} total={2} />)
+  const { getByText } = render(<Pagination current={2} total={2} />)
 
   const button = getByText('First')
 
   expect(button).toHaveAttribute('aria-label', 'Go to first page')
-})
-
-test('"First" button has an aria-current tag if on the first page', () => {
-  const { getByText } = render(<Pagination current={1} total={2} />)
-
-  const button = getByText('First')
-
-  expect(button).toHaveAttribute('aria-current', 'page')
 })
 
 test('"First" button does not have an aria-current tag if not on the first page', () => {
@@ -48,14 +40,14 @@ test('"First" button does not have an aria-current tag if not on the first page'
   expect(button).not.toHaveAttribute('aria-current')
 })
 
-test('"First" button is disabled if current is 1', () => {
+test('"First" button is hidden if current is 1', () => {
   const setPage = jest.fn()
-  const { getByText } = render(
-    <Pagination current={1} total={10} setPage={setPage} />
-  )
 
-  const button = getByText('First')
-  expect(button).toBeDisabled()
+  render(<Pagination current={1} total={10} setPage={setPage} />)
+
+  expect(
+    screen.queryByRole('button', { name: 'Go to first page' })
+  ).not.toBeInTheDocument()
 })
 
 test('clicking on "Last" sets page to last page', () => {

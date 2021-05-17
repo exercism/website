@@ -32,16 +32,17 @@ export function Pagination({
 
   return (
     <div className="c-pagination">
-      <button
-        onClick={() => {
-          setPage(1)
-        }}
-        disabled={disabled || current === 1}
-        aria-label="Go to first page"
-        aria-current={current === 1 ? 'page' : undefined}
-      >
-        First
-      </button>
+      {current !== 1 ? (
+        <button
+          onClick={() => {
+            setPage(1)
+          }}
+          disabled={disabled}
+          aria-label="Go to first page"
+        >
+          First
+        </button>
+      ) : null}
       <div className="--pages">
         {range.map((page) => {
           return (

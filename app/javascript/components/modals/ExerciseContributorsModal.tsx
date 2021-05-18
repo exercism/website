@@ -4,6 +4,7 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { ModalProps, Modal } from './Modal'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { User } from '../types'
 
 const DEFAULT_ERROR = new Error('Unable to load exercise contributors')
 

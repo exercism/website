@@ -1,0 +1,56 @@
+@import "../styles";
+
+.c-modal.m-exercise-makers {
+    & .--modal-content {
+        width: 100%;
+        max-width: 810px;
+        @apply px-32 py-24;
+    }
+    & .c-prominent-link {
+        @apply mb-24;
+    }
+    & .heading {
+        @apply flex items-center justify-between;
+        & h3 {
+            @apply flex items-center;
+            @apply text-h3 mb-12;
+            & .count {
+                @apply border-1 border-borderColor5;
+                @apply rounded-circle;
+                @apply px-12 py-4 ml-12;
+                @apply text-14 leading-160 font-medium text-textColor6;
+            }
+        }
+        & .subtitle {
+            @apply text-15 leading-170 text-textColor6;
+        }
+    }
+    & .authors + .contributors {
+        @apply mt-24;
+    }
+    & a.maker:hover {
+        @apply bg-backgroundColorE;
+    }
+
+    & .maker {
+        @apply flex items-center;
+        @apply py-8 px-16;
+        @apply border-b-1 border-borderColor7;
+
+        & .c-avatar {
+            height: 48px;
+            width: 48px;
+            @apply mr-16;
+        }
+        & .handle {
+            @apply flex-grow;
+            @apply text-textColor2 text-16 leading-170 font-semibold;
+        }
+        & > .c-icon,
+        & .faux-icon {
+            height: 16px;
+            width: 16px;
+            @apply ml-48;
+        }
+    }
+}

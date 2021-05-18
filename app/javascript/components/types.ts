@@ -64,9 +64,14 @@ export type Testimonial = {
   }
 }
 
+type UserLinks = {
+  self?: string
+}
 export type User = {
   avatarUrl: string
   handle: string
+  reputation?: string
+  links?: UserLinks
 }
 
 export type Exercise =

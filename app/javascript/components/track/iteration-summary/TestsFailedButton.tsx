@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TestsFailedModal } from '../../modals/TestsFailedModal'
+import { TestRunModal } from '../../modals/TestRunModal'
 
 export const TestsFailedButton = ({
   endpoint,
@@ -15,11 +15,10 @@ export const TestsFailedButton = ({
       <button type="button" onClick={() => setOpen(!open)} {...props}>
         {children}
       </button>
-      <TestsFailedModal
+      <TestRunModal
         open={open}
         onClose={() => setOpen(false)}
         endpoint={endpoint}
-        className="m-tests-failed"
       />
     </React.Fragment>
   )

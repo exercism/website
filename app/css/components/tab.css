@@ -39,6 +39,15 @@
             }
         }
     }
+    &.--small {
+        @apply text-14 font-semibold;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+        }
+    }
 }
 .light-theme .c-tab {
 }

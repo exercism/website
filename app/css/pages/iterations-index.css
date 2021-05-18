@@ -78,8 +78,23 @@
                 }
 
                 & .information {
-                    @apply w-1-3 flex-grow-0 flex-shrink-0 px-24 py-24;
+                    @apply w-1-3 flex-grow-0 flex-shrink-0;
                     @apply border-l-1 border-borderLight;
+                    @apply flex flex-col;
+
+                    & .tabs {
+                        @apply flex;
+                        @apply px-24 py-16;
+                        & .c-tab {
+                            line-height: 38px;
+                        }
+                    }
+                    & .panels {
+                        @apply overflow-auto;
+                    }
+                    & .analysis-panel {
+                        @apply px-24 pb-16;
+                    }
 
                     & .automated-feedback-pending,
                     & .automated-feedback-absent {

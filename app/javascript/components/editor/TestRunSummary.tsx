@@ -19,7 +19,7 @@ export const TestRunSummary = ({
   averageTestDuration?: number
 }): JSX.Element => {
   return (
-    <React.Fragment>
+    <div className="c-test-run">
       <TestRunSummaryHeader testRun={testRun} />
       <TestRunSummaryContent
         testRun={testRun}
@@ -28,7 +28,7 @@ export const TestRunSummary = ({
         onCancel={onCancel}
         averageTestDuration={averageTestDuration}
       />
-    </React.Fragment>
+    </div>
   )
 }
 

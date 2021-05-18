@@ -41,7 +41,7 @@ TestsGroup.Tests = (): JSX.Element => {
   const { tests } = useContext(TestsGroupContext)
 
   return (
-    <div>
+    <>
       {tests.map((test) => (
         <TestSummary
           key={test.name}
@@ -49,7 +49,7 @@ TestsGroup.Tests = (): JSX.Element => {
           defaultOpen={test.defaultOpen}
         />
       ))}
-    </div>
+    </>
   )
 }
 

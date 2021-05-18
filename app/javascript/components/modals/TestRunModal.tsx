@@ -13,10 +13,10 @@ type APIResponse = {
 
 const DEFAULT_ERROR = new Error('Unable to fetch test run')
 
-export const TestsFailedModal = ({
+export const TestRunModal = ({
   endpoint,
   ...props
-}: ModalProps & { endpoint: string }): JSX.Element => {
+}: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const { resolvedData, status, error, isFetching } = usePaginatedRequestQuery<
     APIResponse
@@ -27,7 +27,7 @@ export const TestsFailedModal = ({
   )
 
   return (
-    <Modal {...props}>
+    <Modal className="m-test-run" {...props}>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
           status={status}

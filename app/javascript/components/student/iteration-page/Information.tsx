@@ -4,6 +4,7 @@ import { TestsInformation } from './TestsInformation'
 import { Iteration } from '../../types'
 import { Exercise, Track, Links } from '../IterationPage'
 import { Tab, TabContext } from '../../common/Tab'
+import { GraphicalIcon } from '../../common'
 
 type TabIndex = 'analysis' | 'tests'
 
@@ -32,28 +33,36 @@ export const Information = ({
         switchToTab: (id: string) => setTab(id as TabIndex),
       }}
     >
-      <Tab id="analysis" context={TabsContext}>
-        Analysis
-      </Tab>
-      <Tab id="tests" context={TabsContext}>
-        Tests
-      </Tab>
-      <Tab.Panel id="analysis" context={TabsContext}>
-        <AnalysisInformation
-          iteration={iteration}
-          exercise={exercise}
-          track={track}
-          links={links}
-        />
-      </Tab.Panel>
-      <Tab.Panel id="tests" context={TabsContext}>
-        <TestsInformation
-          request={{
-            endpoint: iteration.links.testRun,
-            options: { enabled: tab === 'tests' },
-          }}
-        />
-      </Tab.Panel>
+      <div className="tabs">
+        <Tab id="analysis" context={TabsContext} className="--small">
+          <GraphicalIcon icon="automation" />
+          Analysis
+        </Tab>
+        <Tab id="tests" context={TabsContext} className="--small">
+          <GraphicalIcon icon="tests" />
+          Tests
+        </Tab>
+      </div>
+      <div className="panels">
+        <Tab.Panel id="analysis" context={TabsContext}>
+          <div className="analysis-panel">
+            <AnalysisInformation
+              iteration={iteration}
+              exercise={exercise}
+              track={track}
+              links={links}
+            />
+          </div>
+        </Tab.Panel>
+        <Tab.Panel id="tests" context={TabsContext}>
+          <TestsInformation
+            request={{
+              endpoint: iteration.links.testRun,
+              options: { enabled: tab === 'tests' },
+            }}
+          />
+        </Tab.Panel>
+      </div>
     </TabsContext.Provider>
   )
 }

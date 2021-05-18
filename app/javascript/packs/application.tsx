@@ -97,8 +97,10 @@ import '../../css/components/completed-exercise-progress'
 
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
+import '../../css/components/test-run'
 
 import '../../css/modals/exercise-makers'
+import '../../css/modals/test-run'
 import '../../css/modals/crop-avatar'
 import '../../css/modals/editor-hints'
 import '../../css/modals/profile-first-time'
@@ -272,7 +274,8 @@ initReact({
     <Common.Expander
       content={data.content}
       buttonTextCompressed={data.button_text_compressed}
-      buttonTextExpanded={data.button_text_expanded}
+      buttonTextExpanded={data.button_text_expanded}D
+
       className={data.class_name}
     />
   ),

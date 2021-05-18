@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TestRunSummary } from '../../../../app/javascript/components/editor/TestRunSummary'
+import { TestRunSummaryContainer } from '../../../../app/javascript/components/editor/TestRunSummaryContainer'
 import {
   TestRunStatus,
   TestStatus,
@@ -9,7 +9,7 @@ import {
 
 test('hides cancel button if test run has resolved', async () => {
   const { queryByText } = render(
-    <TestRunSummary
+    <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
         id: null,
@@ -29,7 +29,7 @@ test('hides cancel button if test run has resolved', async () => {
 
 test('show header when all tests pass', async () => {
   const { queryByText } = render(
-    <TestRunSummary
+    <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
         id: null,
@@ -49,7 +49,7 @@ test('show header when all tests pass', async () => {
 
 test('show header when test run fails', async () => {
   const { queryByText } = render(
-    <TestRunSummary
+    <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
         id: null,
@@ -79,7 +79,7 @@ test('show header when test run fails', async () => {
 
 test('shows test failures', async () => {
   render(
-    <TestRunSummary
+    <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
         id: null,

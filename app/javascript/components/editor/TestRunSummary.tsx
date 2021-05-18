@@ -1,157 +1,38 @@
-import React, { useEffect, useCallback, useRef } from 'react'
+import React from 'react'
 import { TestRun, TestRunStatus, TestStatus } from './types'
-import { TestRunChannel } from '../../channels/testRunChannel'
-import { fetchJSON } from '../../utils/fetch-json'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
 import { TestRunFailures } from './TestRunFailures'
 import { SubmitButton } from './SubmitButton'
-import { GraphicalIcon, Loading } from '../common'
-import { useRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
-
-const REFETCH_INTERVAL = 2000
+import { GraphicalIcon } from '../common'
 
 export const TestRunSummary = ({
   testRun,
-  timeout,
-  onUpdate,
   onSubmit,
   isSubmitDisabled,
-  cancelLink,
+  onCancel,
   averageTestDuration,
 }: {
   testRun: TestRun
-  timeout: number
-  onUpdate: (testRun: TestRun) => void
-  onSubmit: () => void
-  isSubmitDisabled: boolean
-  cancelLink: string
-  averageTestDuration: number
-}): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
-  const { data } = useRequestQuery<{ testRun: TestRun }>(
-    `test-run-${testRun.submissionUuid}`,
-    {
-      endpoint: testRun.links.self,
-      options: {
-        initialData: { testRun: testRun },
-        refetchInterval:
-          testRun.status === TestRunStatus.QUEUED ? REFETCH_INTERVAL : false,
-      },
-    },
-    isMountedRef
-  )
-  const setTestRun = useCallback(
-    (testRun) => {
-      onUpdate(testRun)
-    },
-    [onUpdate]
-  )
-  const channel = useRef<TestRunChannel | undefined>()
-  const timer = useRef<number | undefined>()
-  const handleQueued = useCallback(() => {
-    timer.current = window.setTimeout(() => {
-      setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
-      timer.current = undefined
-    }, timeout)
-  }, [setTestRun, testRun, timeout])
-  const handleTimeout = useCallback(() => {
-    channel.current?.disconnect()
-  }, [channel])
-  const handleCancelling = useCallback(() => {
-    clearTimeout(timer.current)
-
-    fetchJSON(cancelLink, {
-      method: 'POST',
-    }).then(() => {
-      setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-    })
-  }, [cancelLink, testRun, setTestRun])
-  const handleCancelled = useCallback(() => {
-    clearTimeout(timer.current)
-
-    channel.current?.disconnect()
-  }, [channel, timer])
-  const cancel = useCallback(() => {
-    setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-  }, [testRun, setTestRun])
-
-  useEffect(() => {
-    if (!data) {
-      return
-    }
-
-    if (!data.testRun) {
-      return
-    }
-
-    setTestRun(data.testRun)
-  }, [data, setTestRun])
-
-  useEffect(() => {
-    switch (testRun.status) {
-      case TestRunStatus.QUEUED:
-        handleQueued()
-        break
-      case TestRunStatus.TIMEOUT:
-        handleTimeout()
-        break
-      case TestRunStatus.CANCELLING:
-        handleCancelling()
-        break
-      case TestRunStatus.CANCELLED:
-        handleCancelled()
-        break
-      default:
-        clearTimeout(timer.current)
-        break
-    }
-  }, [
-    handleQueued,
-    handleTimeout,
-    handleCancelling,
-    handleCancelled,
-    timer,
-    testRun.status,
-  ])
-
-  useEffect(() => {
-    channel.current = new TestRunChannel(testRun, (updatedTestRun: TestRun) => {
-      setTestRun(updatedTestRun)
-    })
-
-    return () => {
-      channel.current?.disconnect()
-    }
-  }, [setTestRun, testRun])
-
-  useEffect(() => {
-    return () => {
-      channel.current?.disconnect()
-    }
-  }, [channel])
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(timer.current)
-    }
-  }, [timer])
-
+  onSubmit?: () => void
+  isSubmitDisabled?: boolean
+  onCancel?: () => void
+  averageTestDuration?: number
+}): JSX.Element => {
   return (
-    <>
-      <TestRunSummary.Header testRun={testRun} />
-      <TestRunSummary.Content
+    <React.Fragment>
+      <TestRunSummaryHeader testRun={testRun} />
+      <TestRunSummaryContent
         testRun={testRun}
         onSubmit={onSubmit}
         isSubmitDisabled={isSubmitDisabled}
-        onCancel={cancel}
+        onCancel={onCancel}
         averageTestDuration={averageTestDuration}
       />
-    </>
+    </React.Fragment>
   )
 }
 
-TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
+const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
       const failed = testRun.tests.filter(
@@ -196,7 +77,7 @@ TestRunSummary.Header = ({ testRun }: { testRun: TestRun }) => {
   }
 }
 
-TestRunSummary.Content = ({
+const TestRunSummaryContent = ({
   testRun,
   onSubmit,
   isSubmitDisabled,
@@ -204,13 +85,13 @@ TestRunSummary.Content = ({
   averageTestDuration,
 }: {
   testRun: TestRun
-  onSubmit: () => void
-  isSubmitDisabled: boolean
-  onCancel: () => void
-  averageTestDuration: number
+  onSubmit?: () => void
+  isSubmitDisabled?: boolean
+  onCancel?: () => void
+  averageTestDuration?: number
 }) => {
   switch (testRun.status) {
-    case TestRunStatus.PASS:
+    case TestRunStatus.PASS: {
       return (
         <>
           {testRun.version === 2 || testRun.version === 3 ? (
@@ -225,11 +106,14 @@ TestRunSummary.Content = ({
                 done, submit your solution to get automated feedback and request
                 mentoring.
               </p>
-              <SubmitButton onClick={onSubmit} disabled={isSubmitDisabled} />
+              {onSubmit !== undefined && isSubmitDisabled !== undefined ? (
+                <SubmitButton onClick={onSubmit} disabled={isSubmitDisabled} />
+              ) : null}
             </div>
           </div>
         </>
       )
+    }
     case TestRunStatus.FAIL:
       return <TestRunFailures testRun={testRun} />
     case TestRunStatus.ERROR:
@@ -269,33 +153,36 @@ TestRunSummary.Content = ({
           </p>
         </div>
       )
-    case TestRunStatus.QUEUED:
-      const handleCancel = useCallback(() => {
-        onCancel()
-      }, [onCancel])
-
+    case TestRunStatus.QUEUED: {
       return (
         <div role="status" className="running">
           <GraphicalIcon icon="spinner" />
           <div className="progress">
-            <div
-              className="bar"
-              style={{ animationDuration: `${averageTestDuration}s` }}
-            />
+            {averageTestDuration ? (
+              <div
+                className="bar"
+                style={{ animationDuration: `${averageTestDuration}s` }}
+              />
+            ) : null}
           </div>
           <p>
-            <strong>Running tests...</strong> Estimated running time ~
-            {averageTestDuration}s
+            <strong>Running tests...</strong>
+            {averageTestDuration !== undefined ? (
+              <span>Estimated running time ~ {averageTestDuration}s</span>
+            ) : null}
           </p>
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="btn-default btn-xs"
-          >
-            Cancel
-          </button>
+          {onCancel !== undefined ? (
+            <button
+              type="button"
+              onClick={() => onCancel()}
+              className="btn-default btn-xs"
+            >
+              Cancel
+            </button>
+          ) : null}
         </div>
       )
+    }
     default:
       return null
   }

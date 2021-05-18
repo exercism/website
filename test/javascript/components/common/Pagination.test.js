@@ -41,14 +41,14 @@ test('"First" button does not have an aria-current tag if not on the first page'
   expect(button).not.toHaveAttribute('aria-current')
 })
 
-test('"First" button is hidden if current is 1', () => {
+test('"First" button is disabled if current is 1', () => {
   const setPage = jest.fn()
 
   render(<Pagination current={1} total={10} setPage={setPage} />)
 
   expect(
-    screen.queryByRole('button', { name: 'Go to first page' })
-  ).not.toBeInTheDocument()
+    screen.getByRole('button', { name: 'Go to first page' })
+  ).toBeDisabled()
 })
 
 test('clicking on "Last" sets page to last page', () => {
@@ -70,12 +70,10 @@ test('"Last" button has correct aria-label tag', () => {
   expect(button).toHaveAttribute('aria-label', 'Go to last page')
 })
 
-test('"Last" button is hidden when on the last page', () => {
+test('"Last" button is disabled when on the last page', () => {
   render(<Pagination current={2} total={2} />)
 
-  expect(
-    screen.queryByRole('button', { name: 'Go to last page' })
-  ).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Go to last page' })).toBeDisabled()
 })
 
 test('"Last" button does not have an aria-current tag if not on the first page', () => {
@@ -179,12 +177,12 @@ test('clicking on "Previous" button sets previous page', () => {
   expect(setPage.mock.calls).toEqual([[1]])
 })
 
-test('"Previous" button is hidden when on the first page', () => {
+test('"Previous" button is disabled when on the first page', () => {
   render(<Pagination current={1} total={10} />)
 
   expect(
-    screen.queryByRole('button', { name: 'Go to previous page' })
-  ).not.toBeInTheDocument()
+    screen.getByRole('button', { name: 'Go to previous page' })
+  ).toBeDisabled()
 })
 
 test('clicking on "Next" button sets next page', () => {
@@ -196,34 +194,32 @@ test('clicking on "Next" button sets next page', () => {
   expect(setPage.mock.calls).toEqual([[3]])
 })
 
-test('"Next" button is hidden when on the next page', () => {
+test('"Next" button is disabled when on the last page', () => {
   render(<Pagination current={10} total={10} />)
 
-  expect(
-    screen.queryByRole('button', { name: 'Go to next page' })
-  ).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Go to next page' })).toBeDisabled()
 })
 
 test('shows left gap indicator when above the window', () => {
   render(<Pagination current={3} total={3} around={1} />)
 
-  expect(screen.getByText('...')).toBeInTheDocument()
+  expect(screen.getByText('…')).toBeInTheDocument()
 })
 
 test('hides left gap indicator when above the window', () => {
   render(<Pagination current={2} total={3} around={1} />)
 
-  expect(screen.queryByText('...')).not.toBeInTheDocument()
+  expect(screen.queryByText('…')).not.toBeInTheDocument()
 })
 
 test('shows right gap indicator when above the window', () => {
   render(<Pagination current={1} total={3} around={1} />)
 
-  expect(screen.getByText('...')).toBeInTheDocument()
+  expect(screen.getByText('…')).toBeInTheDocument()
 })
 
 test('hides right gap indicator when above the window', () => {
   render(<Pagination current={2} total={3} around={1} />)
 
-  expect(screen.queryByText('...')).not.toBeInTheDocument()
+  expect(screen.queryByText('…')).not.toBeInTheDocument()
 })

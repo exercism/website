@@ -15,7 +15,6 @@ export function Pagination({
   setPage,
   around = 2,
 }: PaginationProps) {
-  console.log(current)
   if (total <= 1) {
     return null
   }

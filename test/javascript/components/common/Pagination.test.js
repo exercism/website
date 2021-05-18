@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { Pagination } from '../../../../app/javascript/components/common/Pagination'
 
@@ -25,19 +26,11 @@ test('clicking on "First" sets page to 1', () => {
 })
 
 test('"First" button has correct aria-label tag', () => {
-  const { getByText } = render(<Pagination current={1} total={2} />)
+  const { getByText } = render(<Pagination current={2} total={2} />)
 
   const button = getByText('First')
 
   expect(button).toHaveAttribute('aria-label', 'Go to first page')
-})
-
-test('"First" button has an aria-current tag if on the first page', () => {
-  const { getByText } = render(<Pagination current={1} total={2} />)
-
-  const button = getByText('First')
-
-  expect(button).toHaveAttribute('aria-current', 'page')
 })
 
 test('"First" button does not have an aria-current tag if not on the first page', () => {
@@ -50,12 +43,12 @@ test('"First" button does not have an aria-current tag if not on the first page'
 
 test('"First" button is disabled if current is 1', () => {
   const setPage = jest.fn()
-  const { getByText } = render(
-    <Pagination current={1} total={10} setPage={setPage} />
-  )
 
-  const button = getByText('First')
-  expect(button).toBeDisabled()
+  render(<Pagination current={1} total={10} setPage={setPage} />)
+
+  expect(
+    screen.getByRole('button', { name: 'Go to first page' })
+  ).toBeDisabled()
 })
 
 test('clicking on "Last" sets page to last page', () => {
@@ -69,30 +62,18 @@ test('clicking on "Last" sets page to last page', () => {
   expect(setPage.mock.calls).toEqual([[10]])
 })
 
-test('"Last" button is disabled when current = total', () => {
-  const setPage = jest.fn()
-  const { getByText } = render(
-    <Pagination current={10} total={10} setPage={setPage} />
-  )
-
-  const button = getByText('Last')
-  expect(button).toBeDisabled()
-})
-
 test('"Last" button has correct aria-label tag', () => {
-  const { getByText } = render(<Pagination current={2} total={2} />)
+  const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('Last')
 
   expect(button).toHaveAttribute('aria-label', 'Go to last page')
 })
 
-test('"Last" button has an aria-current tag if on the last page', () => {
-  const { getByText } = render(<Pagination current={2} total={2} />)
+test('"Last" button is disabled when on the last page', () => {
+  render(<Pagination current={2} total={2} />)
 
-  const button = getByText('Last')
-
-  expect(button).toHaveAttribute('aria-current', 'page')
+  expect(screen.getByRole('button', { name: 'Go to last page' })).toBeDisabled()
 })
 
 test('"Last" button does not have an aria-current tag if not on the first page', () => {
@@ -130,12 +111,28 @@ test('page button has an aria-current tag if on the page', () => {
   expect(button).toHaveAttribute('aria-current', 'page')
 })
 
+test('page button has the "current" className if on the page', () => {
+  const { getByText } = render(<Pagination current={1} total={2} />)
+
+  const button = getByText('1')
+
+  expect(button).toHaveAttribute('class', 'current')
+})
+
 test('page button does not have an aria-current tag if not on the page', () => {
   const { getByText } = render(<Pagination current={1} total={2} />)
 
   const button = getByText('2')
 
   expect(button).not.toHaveAttribute('aria-current')
+})
+
+test('page button does not have the "current" className if not on the page', () => {
+  const { getByText } = render(<Pagination current={1} total={2} />)
+
+  const button = getByText('2')
+
+  expect(button).not.toHaveAttribute('className')
 })
 
 test('button for current page is disabled', () => {
@@ -169,4 +166,60 @@ test('does not show pages above the total', () => {
   )
 
   expect(queryByText('11')).toBeNull()
+})
+
+test('clicking on "Previous" button sets previous page', () => {
+  const setPage = jest.fn()
+
+  render(<Pagination current={2} total={10} setPage={setPage} />)
+  userEvent.click(screen.getByRole('button', { name: 'Go to previous page' }))
+
+  expect(setPage.mock.calls).toEqual([[1]])
+})
+
+test('"Previous" button is disabled when on the first page', () => {
+  render(<Pagination current={1} total={10} />)
+
+  expect(
+    screen.getByRole('button', { name: 'Go to previous page' })
+  ).toBeDisabled()
+})
+
+test('clicking on "Next" button sets next page', () => {
+  const setPage = jest.fn()
+
+  render(<Pagination current={2} total={10} setPage={setPage} />)
+  userEvent.click(screen.getByRole('button', { name: 'Go to next page' }))
+
+  expect(setPage.mock.calls).toEqual([[3]])
+})
+
+test('"Next" button is disabled when on the last page', () => {
+  render(<Pagination current={10} total={10} />)
+
+  expect(screen.getByRole('button', { name: 'Go to next page' })).toBeDisabled()
+})
+
+test('shows left gap indicator when above the window', () => {
+  render(<Pagination current={3} total={3} around={1} />)
+
+  expect(screen.getByText('…')).toBeInTheDocument()
+})
+
+test('hides left gap indicator when above the window', () => {
+  render(<Pagination current={2} total={3} around={1} />)
+
+  expect(screen.queryByText('…')).not.toBeInTheDocument()
+})
+
+test('shows right gap indicator when above the window', () => {
+  render(<Pagination current={1} total={3} around={1} />)
+
+  expect(screen.getByText('…')).toBeInTheDocument()
+})
+
+test('hides right gap indicator when above the window', () => {
+  render(<Pagination current={2} total={3} around={1} />)
+
+  expect(screen.queryByText('…')).not.toBeInTheDocument()
 })

@@ -1,14 +1,50 @@
 .c-pagination {
     @apply flex justify-between items-center;
+    @apply mt-32;
 
-    & button {
+    & button,
+    & .--pagination-more {
         @apply py-8 px-16;
-        @apply font-mono font-semibold text-13 text-textColor6 leading-huge;
-        @apply border-1 border-borderLight rounded-5;
+        @apply font-medium text-14 text-textColor6 leading-160;
+        @apply border-1 border-transparent;
+    }
+    & button {
+        @apply border-borderColor5 rounded-5;
+
+        &.current {
+            @apply border-paginationCurrentBorderColor;
+            @apply bg-paginationCurrentBackgroundColor;
+            @apply text-textColor2;
+        }
     }
 
-    & .--pages {
-        @apply grid gap-8;
-        grid-auto-flow: column;
+    & .--pagination-lhs,
+    & .--pagination-rhs {
+        @apply flex;
+        flex: 1 1 0;
+        & button + button {
+            @apply ml-12;
+        }
+
+        & button:disabled {
+            @apply bg-backgroundColorD;
+            @apply text-textColor7;
+            @apply border-transparent;
+        }
+    }
+
+    & .--pagination-lhs {
+        @apply justify-start;
+    }
+
+    & .--pagination-pages {
+        @apply flex-grow flex justify-center;
+
+        & button {
+            @apply mx-6;
+        }
+    }
+    & .--pagination-rhs {
+        @apply justify-end;
     }
 }

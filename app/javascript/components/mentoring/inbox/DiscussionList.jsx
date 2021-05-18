@@ -41,7 +41,7 @@ export function DiscussionList({
             <footer>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.currentPage}
+                current={resolvedData.meta.currentPage}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

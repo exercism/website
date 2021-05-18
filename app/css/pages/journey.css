@@ -192,9 +192,6 @@
                 filter: var(--textColor6-filter);
             }
         }
-        & .c-pagination {
-            @apply mt-16;
-        }
     }
 
     & article.solutions-tab {

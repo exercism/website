@@ -13,7 +13,7 @@ export function Pagination({
   current = 1,
   total,
   setPage,
-  around = 3,
+  around = 2,
 }: PaginationProps) {
   if (total <= 1) {
     return null
@@ -32,17 +32,41 @@ export function Pagination({
 
   return (
     <div className="c-pagination">
-      <button
-        onClick={() => {
-          setPage(1)
-        }}
-        disabled={disabled || current === 1}
-        aria-label="Go to first page"
-        aria-current={current === 1 ? 'page' : undefined}
-      >
-        First
-      </button>
-      <div className="--pages">
+      <div className="--pagination-lhs">
+        <button
+          onClick={() => {
+            setPage(1)
+          }}
+          disabled={disabled || current == 1}
+          aria-label="Go to first page"
+        >
+          First
+        </button>
+        <button
+          onClick={() => {
+            setPage(current - 1)
+          }}
+          disabled={disabled || current == 1}
+          aria-label="Go to previous page"
+        >
+          Previous
+        </button>
+      </div>
+      <div className="--pagination-pages">
+        {current - around > 1 ? (
+          <>
+            <button
+              key={1}
+              onClick={() => {
+                setPage(1)
+              }}
+              aria-label={'Go to page 1'}
+            >
+              1
+            </button>
+            <div className="--pagination-more">…</div>
+          </>
+        ) : null}
         {range.map((page) => {
           return (
             <button
@@ -53,22 +77,47 @@ export function Pagination({
               disabled={disabled || page === current}
               aria-label={`Go to page ${page}`}
               aria-current={page === current ? 'page' : undefined}
+              className={page === current ? 'current' : undefined}
             >
               {page}
             </button>
           )
         })}
+        {total - current > around ? (
+          <>
+            <div className="--pagination-more">…</div>
+            <button
+              key={total}
+              onClick={() => {
+                setPage(total)
+              }}
+              aria-label={`Go to page ${total}`}
+            >
+              {total}
+            </button>
+          </>
+        ) : null}
       </div>
-      <button
-        onClick={() => {
-          setPage(total)
-        }}
-        disabled={disabled || current === total}
-        aria-label="Go to last page"
-        aria-current={current === total ? 'page' : undefined}
-      >
-        Last
-      </button>
+      <div className="--pagination-rhs">
+        <button
+          onClick={() => {
+            setPage(current + 1)
+          }}
+          disabled={disabled || current == total}
+          aria-label="Go to next page"
+        >
+          Next
+        </button>
+        <button
+          onClick={() => {
+            setPage(total)
+          }}
+          disabled={disabled || current == total}
+          aria-label="Go to last page"
+        >
+          Last
+        </button>
+      </div>
     </div>
   )
 }

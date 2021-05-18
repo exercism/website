@@ -35,13 +35,15 @@ export const IterationReport = ({
           isOpen ? onCompressed() : onExpanded()
         }}
       >
-        <IterationSummary iteration={iteration} />
-        <div className="opener">
-          <div className="--closed-icon">
-            <GraphicalIcon icon="chevron-right" />
-          </div>
-          <div className="--open-icon">
-            <GraphicalIcon icon="chevron-down" />
+        <div className="--summary-inner">
+          <IterationSummary iteration={iteration} />
+          <div className="opener">
+            <div className="--closed-icon">
+              <GraphicalIcon icon="chevron-right" />
+            </div>
+            <div className="--open-icon">
+              <GraphicalIcon icon="chevron-down" />
+            </div>
           </div>
         </div>
       </summary>

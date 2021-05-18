@@ -17,10 +17,12 @@ const Hints = ({
   return (
     <details className="c-details">
       <summary className="--summary">
-        {heading}
+        <div className="--summary-inner">
+          {heading}
 
-        <GraphicalIcon icon="plus-circle" className="--closed-icon" />
-        <GraphicalIcon icon="minus-circle" className="--open-icon" />
+          <GraphicalIcon icon="plus-circle" className="--closed-icon" />
+          <GraphicalIcon icon="minus-circle" className="--open-icon" />
+        </div>
       </summary>
       <ul>
         {hints.map((hint, idx) => (

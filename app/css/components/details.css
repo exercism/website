@@ -2,12 +2,17 @@
     & > summary {
         @apply cursor-pointer;
         list-style-type: none;
+        &::-webkit-details-marker {
+            @apply hidden;
+        }
 
-        & > .c-icon.--closed-icon,
-        & > .c-icon.--open-icon {
-            height: 12px;
-            width: 12px;
-            @apply ml-16;
+        & .--summary-inner {
+            & > .c-icon.--closed-icon,
+            & > .c-icon.--open-icon {
+                height: 12px;
+                width: 12px;
+                @apply ml-16;
+            }
         }
     }
 

@@ -40,8 +40,10 @@
             @apply flex flex-col;
 
             & .header {
-                @apply flex items-center py-12 px-24;
-                @apply border-b-1 border-borderLight border-opacity-50;
+                & .--summary-inner {
+                    @apply flex items-center py-12 px-24;
+                    @apply border-b-1 border-borderLight border-opacity-50;
+                }
 
                 & .opener {
                     @apply pl-24 ml-32;

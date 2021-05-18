@@ -297,41 +297,40 @@
                     @apply mt-24 pt-16;
 
                     & > .--summary {
-                        @apply flex items-center;
                         @apply mb-10;
-                        list-style-type: none;
+                        & > .--summary-inner {
+                            @apply flex items-center;
 
-                        & .task-marker {
-                            @apply mr-20;
-                            @apply py-4 px-8;
-                            @apply bg-lightGold text-unnamed13 rounded-3;
-                            @apply font-mono font-bold text-12 leading-120;
-                            @apply flex-shrink-0 self-start;
-                            margin-top: 2px;
-                        }
-                        & .summary-title {
-                            @apply flex-grow;
-                            @apply text-18 font-semibold leading-140;
-                        }
+                            & .task-marker {
+                                @apply mr-20;
+                                @apply py-4 px-8;
+                                @apply bg-lightGold text-unnamed13 rounded-3;
+                                @apply font-mono font-bold text-12 leading-120;
+                                @apply flex-shrink-0 self-start;
+                                margin-top: 2px;
+                            }
+                            & .summary-title {
+                                @apply flex-grow;
+                                @apply text-18 font-semibold leading-140;
+                            }
 
-                        & .--closed-icon,
-                        & .--open-icon {
-                            height: 24px;
-                            width: 24px;
+                            & .--closed-icon,
+                            & .--open-icon {
+                                height: 24px;
+                                width: 24px;
 
-                            @apply flex flex-shrink-0 items-center justify-center;
-                            @apply border-gray border-1 rounded-circle;
-                            @apply text-darkGray;
-                            @apply ml-16;
+                                @apply flex flex-shrink-0 items-center justify-center;
+                                @apply border-gray border-1 rounded-circle;
+                                @apply text-darkGray;
+                                @apply ml-16;
 
-                            & .c-icon {
-                                height: 11px;
-                                width: 11px;
+                                & .c-icon {
+                                    height: 11px;
+                                    width: 11px;
+                                }
                             }
                         }
                     }
-                }
-                &.hints-btn {
                 }
             }
             & .--tab-panel.tests {

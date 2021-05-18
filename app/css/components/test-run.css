@@ -67,11 +67,14 @@
 
         & .tests-group {
             & .tests-group-summary {
-                @apply inline-flex items-center;
-                @apply font-semibold text-14 text-textColor2;
-                @apply border-2 border-borderColor6 rounded-100;
-                @apply py-8 px-24 mb-12;
-                list-style-type: none;
+                @apply inline-block;
+                & .--summary-inner {
+                    @apply flex items-center;
+                    @apply py-8 px-24;
+                    @apply border-2 border-borderColor6 rounded-100;
+                    @apply font-semibold text-14 text-textColor2;
+                }
+                @apply mb-12;
                 & .c-icon.indicator {
                     height: 24px;
                     width: 24px;
@@ -99,9 +102,10 @@
             }
 
             & .--summary {
-                @apply flex items-center;
-                @apply py-10 px-24;
-                list-style-type: none;
+                & .--summary-inner {
+                    @apply flex items-center;
+                    @apply py-10 px-24;
+                }
 
                 & .--status {
                     @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;

@@ -2,7 +2,9 @@ module API
   module Solutions
     class SubmissionTestRunsController < BaseController
       def show
-        submission = current_user.submissions.find_by!(uuid: params[:submission_id])
+        submission = Submission.find_by!(uuid: params[:submission_id])
+
+        return render_403(:submission_not_accessible) unless submission.viewable_by?(current_user)
 
         test_run = SerializeSubmissionTestRun.(submission.test_run)
 

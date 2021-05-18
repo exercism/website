@@ -235,6 +235,7 @@ export type Iteration = {
     self: string
     solution: string
     files: string
+    testRun: string
   }
 }
 

@@ -33,6 +33,7 @@ class SerializeIteration
       links: {
         self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
         solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise),
+        test_run: Exercism::Routes.api_solution_submission_test_run_url(iteration.solution.uuid, iteration.submission.uuid),
         files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
       }
     }.compact

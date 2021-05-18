@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { shortFromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
-import { ProcessingStatusSummary } from '../common/ProcessingStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
+import { ProcessingStatusButton } from './iteration-summary/ProcessingStatusButton'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 
@@ -79,7 +79,7 @@ export function IterationSummary({
           </time>
         </div>
       </div>
-      <ProcessingStatusSummary iterationStatus={iteration.status} />
+      <ProcessingStatusButton iteration={iteration} />
       <AnalysisStatusSummary
         numEssentialAutomatedComments={iteration.numEssentialAutomatedComments}
         numActionableAutomatedComments={

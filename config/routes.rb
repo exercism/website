@@ -41,11 +41,6 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
-    # TODO: This is just a stub
-    resources :exercise, only: [] do
-      resources :contributors, only: [:index], controller: "exercises/contributors"
-    end
-
     scope :v2 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
@@ -58,6 +53,7 @@ Rails.application.routes.draw do
 
       resources :tracks, only: %i[index show] do
         resources :exercises, only: %i[index], controller: "exercises" do
+          resources :makers, only: [:index], controller: "exercises/makers"
           resources :community_solutions, only: [:index], controller: "community_solutions" do
             resource :star, only: %i[create destroy], controller: "community_solution_stars"
           end

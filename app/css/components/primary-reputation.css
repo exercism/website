@@ -26,7 +26,8 @@
             width: 16px;
         }
         & .--inner {
-            @apply text-13 leading-170;
+            height: 23px;
+            @apply text-13 leading-100;
             @apply px-12;
         }
     }

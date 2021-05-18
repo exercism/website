@@ -2,7 +2,7 @@ require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
 
 module Flows
-  class UserViewsExerciseContributorsTest < ApplicationSystemTestCase
+  class UserViewsExerciseMakersTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
     test "user views exercise contributors" do

@@ -21,6 +21,7 @@ import '../../css/defaults'
 
 import '../../css/ui-kit/buttons'
 
+import '../../css/components/exercise-makers-button'
 import '../../css/components/avatar-selector'
 import '../../css/components/badge'
 import '../../css/components/bg-img'
@@ -97,6 +98,7 @@ import '../../css/components/completed-exercise-progress'
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
 
+import '../../css/modals/exercise-makers'
 import '../../css/modals/crop-avatar'
 import '../../css/modals/editor-hints'
 import '../../css/modals/profile-first-time'
@@ -292,9 +294,10 @@ initReact({
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
-  'track-exercise-contributors': (data: any) => (
-    <TrackComponents.ExerciseContributors
+  'track-exercise-makers-button': (data: any) => (
+    <TrackComponents.ExerciseMakersButton
       authors={camelizeKeysAs<readonly User[]>(data.authors)}
+      numAuthors={data.num_authors}
       numContributors={data.num_contributors}
       links={data.links}
     />

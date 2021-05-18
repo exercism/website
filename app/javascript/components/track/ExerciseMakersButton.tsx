@@ -2,18 +2,20 @@ import React, { useState } from 'react'
 import pluralize from 'pluralize'
 import { Avatar } from '../common'
 import { User } from '../types'
-import { ExerciseContributorsModal } from '../modals/ExerciseContributorsModal'
+import { ExerciseMakersModal } from '../modals/ExerciseMakersModal'
 
 type Links = {
-  contributors: string
+  makers: string
 }
 
-export const ExerciseContributors = ({
+export const ExerciseMakersButton = ({
   authors,
+  numAuthors,
   numContributors,
   links,
 }: {
   authors: readonly User[]
+  numAuthors: number
   numContributors: number
   links: Links
 }): JSX.Element => {
@@ -21,7 +23,11 @@ export const ExerciseContributors = ({
 
   return (
     <React.Fragment>
-      <button type="button" className="makers" onClick={() => setOpen(!open)}>
+      <button
+        type="button"
+        className="c-exercise-makers-button"
+        onClick={() => setOpen(!open)}
+      >
         <div className="c-faces">
           {authors.map((author) => {
             return (
@@ -32,9 +38,11 @@ export const ExerciseContributors = ({
           })}
         </div>
         <div className="stats">
-          <div className="authors">
-            {authors.length} {pluralize('author', authors.length)}
-          </div>
+          {numAuthors > 0 ? (
+            <div className="authors">
+              {authors.length} {pluralize('author', numAuthors)}
+            </div>
+          ) : null}
           {numContributors > 0 ? (
             <div className="contributors">
               {numContributors} {pluralize('contributor', numContributors)}
@@ -42,11 +50,10 @@ export const ExerciseContributors = ({
           ) : null}
         </div>
       </button>
-      <ExerciseContributorsModal
+      <ExerciseMakersModal
         open={open}
         onClose={() => setOpen(false)}
-        endpoint={links.contributors}
-        className="m-exercise-contributors"
+        endpoint={links.makers}
       />
     </React.Fragment>
   )

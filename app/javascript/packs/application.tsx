@@ -292,6 +292,13 @@ initReact({
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
+  'track-exercise-contributors': (data: any) => (
+    <TrackComponents.ExerciseContributors
+      authors={camelizeKeysAs<readonly User[]>(data.authors)}
+      numContributors={data.num_contributors}
+      links={data.links}
+    />
+  ),
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}

@@ -34,12 +34,4 @@
   .decorations
 
   / TODO: Cache this
-  .makers
-    .c-faces
-      - exercise.authors.each do |author|
-        .face{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(author.handle), "data-handle": author.handle }
-          = avatar(author)
-    .stats
-      .authors= pluralize exercise.authors.size, "author"
-      - if exercise.contributors.present?
-        .contributors= pluralize exercise.contributors.size, "contributor"
+  = render ReactComponents::Track::ExerciseContributors.new(exercise)

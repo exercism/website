@@ -4,7 +4,8 @@
     @apply z-dropdown;
 
     & li {
-        & button {
+        & button,
+        & a {
             @apply flex w-100;
             @apply px-16 py-8;
             @apply text-textColor6 font-medium;

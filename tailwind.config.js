@@ -37,6 +37,7 @@ module.exports = {
       lg: 'var(--box-shadow-lg)',
       lgZ1: '0px 4px 42px 0px rgba(79, 114, 205, 0.3)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
+      keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',
     },
     colors: {
       transparent: 'transparent',

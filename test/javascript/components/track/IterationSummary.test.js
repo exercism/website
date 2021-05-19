@@ -13,13 +13,14 @@ test('shows details', async () => {
         testsStatus: 'queued',
         numEssentialAutomatedComments: 2,
       }}
+      showSubmissionMethod={true}
     />
   )
 
   expect(screen.getByText('Iteration 2')).toBeInTheDocument()
   expect(screen.getByAltText('Submitted via CLI')).toBeInTheDocument()
   expect(screen.getByTestId('details')).toHaveTextContent(
-    'Submitted via CLI, now'
+    'Submitted via CLI, a few seconds ago'
   )
   expect(
     screen.getByRole('status', { name: 'Processing status' })
@@ -27,6 +28,26 @@ test('shows details', async () => {
   expect(
     screen.getByRole('status', { name: 'Analysis status' })
   ).toHaveTextContent('2')
+})
+
+test('honours showSubmissionMethod', async () => {
+  render(
+    <IterationSummary
+      iteration={{
+        idx: 2,
+        submissionMethod: 'cli',
+        createdAt: Date.now() - 1,
+        testsStatus: 'queued',
+        numEssentialAutomatedComments: 2,
+      }}
+      showSubmissionMethod={false}
+    />
+  )
+
+  expect(screen.getByText('Iteration 2')).toBeInTheDocument()
+  expect(screen.getByTestId('details')).toHaveTextContent(
+    'Submitted a few seconds ago'
+  )
 })
 
 test('shows published tag when published', async () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Iteration } from '../../types'
-import { IterationSummary } from '../../track/IterationSummary'
+import { IterationSummaryWithWebsockets } from '../../track/IterationSummary'
 
 export const IterationHeader = ({
   iteration,
@@ -11,7 +11,7 @@ export const IterationHeader = ({
 }): JSX.Element => {
   return (
     <header className="iteration-header">
-      <IterationSummary
+      <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={false}
         isLatest={isLatest}

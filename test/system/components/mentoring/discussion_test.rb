@@ -156,11 +156,12 @@ module Components
         end
 
         assert_text "Iteration 1"
-        assert_text "latest"
+        assert_text "Latest"
         assert_text "Submitted 2 days ago"
         assert_css ".c-iteration-processing-status", visible: false, text: "Failed"
 
         submission.update!(tests_status: :passed)
+        assert_equal :no_automated_feedback, iteration.status.to_sym
         IterationChannel.broadcast!(iteration)
         assert_css ".c-iteration-processing-status", visible: false, text: "Passed"
       end

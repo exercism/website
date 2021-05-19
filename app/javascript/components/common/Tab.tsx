@@ -9,14 +9,16 @@ export const Tab = ({
   context,
   id,
   children,
+  className,
 }: {
   context: React.Context<TabContext>
   id: string
   children?: React.ReactNode
+  className?: string
 }): JSX.Element => {
   const { current, switchToTab } = useContext(context)
 
-  const classNames = ['c-tab']
+  const classNames = ['c-tab', className]
   if (id === current) {
     classNames.push('selected')
   }

@@ -35,7 +35,7 @@ export const IterationView = ({
     <React.Fragment>
       <IterationHeader
         iteration={currentIteration}
-        latest={iterations[iterations.length - 1] === currentIteration}
+        isLatest={iterations[iterations.length - 1] === currentIteration}
       />
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { shortFromNow } from '../../utils/time'
+import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
-import { ProcessingStatusSummary } from '../common/ProcessingStatusSummary'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
+import { ProcessingStatusButton } from './iteration-summary/ProcessingStatusButton'
+import { ProcessingStatusSummary } from '../common/ProcessingStatusSummary'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 
@@ -14,6 +15,9 @@ const SUBMISSION_METHOD_LABELS = {
 type IterationSummaryProps = {
   iteration: Iteration
   className?: string
+  isLatest: boolean
+  showSubmissionMethod: boolean
+  showTestsStatusAsButton: boolean
 }
 
 export const IterationSummaryWithWebsockets = ({
@@ -48,17 +52,24 @@ export const IterationSummaryWithWebsockets = ({
 export function IterationSummary({
   iteration,
   className,
+  isLatest,
+  showSubmissionMethod,
+  showTestsStatusAsButton,
 }: IterationSummaryProps): JSX.Element {
   return (
     <div className={`c-iteration-summary ${className}`}>
-      <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
+      {showSubmissionMethod ? (
+        <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
+      ) : null}
       <div className="--info">
         <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
           <div className="--dot" role="presentation"></div>
-          <div className="--latest" aria-label="Latest iteration">
-            Latest
-          </div>
+          {isLatest ? (
+            <div className="--latest" aria-label="Latest iteration">
+              Latest
+            </div>
+          ) : null}
 
           {iteration.isPublished ? (
             <div
@@ -70,16 +81,23 @@ export function IterationSummary({
           ) : null}
         </div>
         <div className="--details" data-testid="details">
-          Submitted via {SUBMISSION_METHOD_LABELS[iteration.submissionMethod]},{' '}
+          Submitted{' '}
+          {showSubmissionMethod
+            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}, `
+            : null}
           <time
             dateTime={iteration.createdAt.toString()}
             title={iteration.createdAt.toString()}
           >
-            {shortFromNow(iteration.createdAt)}
+            {fromNow(iteration.createdAt)}
           </time>
         </div>
       </div>
-      <ProcessingStatusSummary iterationStatus={iteration.status} />
+      {showTestsStatusAsButton ? (
+        <ProcessingStatusButton iteration={iteration} />
+      ) : (
+        <ProcessingStatusSummary iterationStatus={iteration.status} />
+      )}
       <AnalysisStatusSummary
         numEssentialAutomatedComments={iteration.numEssentialAutomatedComments}
         numActionableAutomatedComments={

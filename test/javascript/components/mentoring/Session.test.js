@@ -47,12 +47,14 @@ test('highlights currently selected iteration', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
     {
       idx: 2,
       links: {
         files: 'https://exercism.test/iterations/2/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
   expectConsoleError(async () => {
@@ -109,6 +111,7 @@ test('shows back button', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
 
@@ -162,12 +165,14 @@ test('hides latest label if on old iteration', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
     {
       idx: 2,
       links: {
         files: 'https://exercism.test/iterations/2/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
 
@@ -224,6 +229,7 @@ test('switches to posts tab when comment success', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
   const server = setupServer(
@@ -297,6 +303,7 @@ test('switches tabs', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
 
@@ -357,12 +364,14 @@ test('go to previous iteration', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
     {
       idx: 2,
       links: {
         files: 'https://exercism.test/iterations/2/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
 
@@ -421,12 +430,14 @@ test('go to next iteration', async () => {
       links: {
         files: 'https://exercism.test/iterations/1/files',
       },
+      createdAt: new Date().toISOString(),
     },
     {
       idx: 2,
       links: {
         files: 'https://exercism.test/iterations/2/files',
       },
+      createdAt: new Date().toISOString(),
     },
   ]
 

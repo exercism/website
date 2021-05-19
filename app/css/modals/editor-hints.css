@@ -37,7 +37,7 @@
             }
         }
 
-        & .--summary {
+        & .--summary-inner {
             @apply px-32 pt-16;
             @apply text-h5;
             @apply flex items-center;

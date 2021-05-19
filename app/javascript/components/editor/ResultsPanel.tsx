@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRunSummary } from './TestRunSummary'
+import { TestRunSummaryContainer } from './TestRunSummaryContainer'
 import { Submission, TestRun } from './types'
 import { GraphicalIcon, Tab } from '../common'
 import { TabsContext } from '../Editor'
@@ -22,7 +22,7 @@ export const ResultsPanel = ({
   <Tab.Panel id="results" context={TabsContext}>
     {submission && submission.testRun ? (
       <section className="results">
-        <TestRunSummary
+        <TestRunSummaryContainer
           testRun={submission.testRun}
           cancelLink={submission.links.cancel}
           timeout={timeout}

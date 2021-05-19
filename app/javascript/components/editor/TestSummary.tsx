@@ -25,21 +25,20 @@ export function TestSummary({
   }, [])
 
   return (
-    <details
-      className={`c-details c-test-summary ${test.status}`}
-      open={defaultOpen}
-    >
+    <details className={`c-details c-test-summary ${test.status}`} open={defaultOpen}>
       <summary className="--summary">
-        <div className="--status">
-          <div className="--dot" />
-          <span>{statusLabels[test.status]}</span>
+        <div className="--summary-inner">
+          <div className="--status">
+            <div className="--dot" />
+            <span>{statusLabels[test.status]}</span>
+          </div>
+          <div className="--summary-details">
+            <div className="--summary-idx">Test {test.index}</div>
+            <div className="--summary-name">{test.name}</div>
+          </div>
+          <GraphicalIcon icon="chevron-right" className="--closed-icon" />
+          <GraphicalIcon icon="chevron-down" className="--open-icon" />
         </div>
-        <div className="--summary-details">
-          <div className="--summary-idx">Test {test.index}</div>
-          <div className="--summary-name">{test.name}</div>
-        </div>
-        <GraphicalIcon icon="chevron-right" className="--closed-icon" />
-        <GraphicalIcon icon="chevron-down" className="--open-icon" />
       </summary>
       <div className="--explanation">
         {isPresent(test.testCode) ? (

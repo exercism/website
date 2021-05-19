@@ -97,8 +97,10 @@ import '../../css/components/completed-exercise-progress'
 
 import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
+import '../../css/components/test-run'
 
 import '../../css/modals/exercise-makers'
+import '../../css/modals/test-run'
 import '../../css/modals/crop-avatar'
 import '../../css/modals/editor-hints'
 import '../../css/modals/profile-first-time'
@@ -477,6 +479,9 @@ initReact({
     <TrackComponents.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       className={data.class_name}
+      showTestsStatusAsButton={!!data.show_tests_status_as_button}
+      isLatest={false}
+      showSubmissionMethod={true}
     />
   ),
   editor: (data: any) => (

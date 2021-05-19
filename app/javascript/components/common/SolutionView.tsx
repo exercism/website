@@ -41,7 +41,12 @@ export const SolutionView = ({
 
   return (
     <div className="c-solution-iterations">
-      <IterationSummaryWithWebsockets iteration={currentIteration} />
+      <IterationSummaryWithWebsockets
+        iteration={currentIteration}
+        isLatest={true}
+        showSubmissionMethod={true}
+        showTestsStatusAsButton={true}
+      />
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
           error={error}

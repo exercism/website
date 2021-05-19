@@ -35,13 +35,17 @@ TestsGroup.Header = ({
   children,
 }: {
   children: React.ReactNode
-}): JSX.Element => <summary className="tests-group-summary">{children}</summary>
+}): JSX.Element => (
+  <summary className="tests-group-summary">
+    <div className="--summary-inner">{children}</div>
+  </summary>
+)
 
 TestsGroup.Tests = (): JSX.Element => {
   const { tests } = useContext(TestsGroupContext)
 
   return (
-    <div>
+    <>
       {tests.map((test) => (
         <TestSummary
           key={test.name}
@@ -49,7 +53,7 @@ TestsGroup.Tests = (): JSX.Element => {
           defaultOpen={test.defaultOpen}
         />
       ))}
-    </div>
+    </>
   )
 }
 

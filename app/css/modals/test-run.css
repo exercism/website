@@ -1,0 +1,7 @@
+.c-modal.m-test-run {
+    & .--modal-content {
+        @apply p-0;
+        border-radius: 0 0 5px 5px;
+        max-width: 1000px;
+    }
+}

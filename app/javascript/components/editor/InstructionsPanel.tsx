@@ -98,14 +98,16 @@ const Task = ({
   return (
     <details className="c-details task" {...detailsProps}>
       <summary className="--summary">
-        <div className="task-marker">Task {idx + 1}</div>
-        <span className="summary-title">{task.title}</span>
-        <span className="--closed-icon">
-          <GraphicalIcon icon="chevron-right" />
-        </span>
-        <span className="--open-icon">
-          <GraphicalIcon icon="chevron-down" />
-        </span>
+        <div className="--summary-inner">
+          <div className="task-marker">Task {idx + 1}</div>
+          <span className="summary-title">{task.title}</span>
+          <span className="--closed-icon">
+            <GraphicalIcon icon="chevron-right" />
+          </span>
+          <span className="--open-icon">
+            <GraphicalIcon icon="chevron-down" />
+          </span>
+        </div>
       </summary>
       <div dangerouslySetInnerHTML={{ __html: task.text }} />
 

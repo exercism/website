@@ -1,9 +1,17 @@
-import React from 'react'
-import { GraphicalIcon } from '../../common'
-import { Iteration, IterationStatus } from '../../types'
+import React, { useState, createContext } from 'react'
+import { AnalysisInformation } from './AnalysisInformation'
+import { TestsInformation } from './TestsInformation'
+import { Iteration } from '../../types'
 import { Exercise, Track, Links } from '../IterationPage'
-import { RepresenterFeedback } from './RepresenterFeedback'
-import { AnalyzerFeedback } from './AnalyzerFeedback'
+import { Tab, TabContext } from '../../common/Tab'
+import { GraphicalIcon } from '../../common'
+
+type TabIndex = 'analysis' | 'tests'
+
+export const TabsContext = createContext<TabContext>({
+  current: 'analysis',
+  switchToTab: () => {},
+})
 
 export const Information = ({
   iteration,
@@ -16,45 +24,45 @@ export const Information = ({
   track: Track
   links: Links
 }): JSX.Element | null => {
-  switch (iteration.status) {
-    case IterationStatus.TESTING:
-    case IterationStatus.ANALYZING:
-      return (
-        <div className="automated-feedback-pending">
-          <GraphicalIcon icon="spinner" />
-          <h3>We&apos;re analysing your code for suggestions</h3>
-          <p>This usually takes 10-30 seconds.</p>
-        </div>
-      )
-    case IterationStatus.NO_AUTOMATED_FEEDBACK:
-      return (
-        <div className="automated-feedback-absent">
-          <GraphicalIcon icon="mentoring" category="graphics" />
-          <h3>No auto suggestions? Try human mentoring.</h3>
-          <p>
-            Get real 1-to-1 human mentoring on the {exercise.title} exercise and
-            start writing better {track.title}.
-          </p>
-          <a href={links.getMentoring} className="btn-secondary btn-m">
-            Get mentoring
-          </a>
-        </div>
-      )
-    default: {
-      return (
-        <React.Fragment>
-          {iteration.representerFeedback ? (
-            <RepresenterFeedback {...iteration.representerFeedback} />
-          ) : null}
-          {iteration.analyzerFeedback ? (
-            <AnalyzerFeedback
-              {...iteration.analyzerFeedback}
+  const [tab, setTab] = useState<TabIndex>('analysis')
+
+  return (
+    <TabsContext.Provider
+      value={{
+        current: tab,
+        switchToTab: (id: string) => setTab(id as TabIndex),
+      }}
+    >
+      <div className="tabs">
+        <Tab id="analysis" context={TabsContext} className="--small">
+          <GraphicalIcon icon="automation" />
+          Analysis
+        </Tab>
+        <Tab id="tests" context={TabsContext} className="--small">
+          <GraphicalIcon icon="tests" />
+          Tests
+        </Tab>
+      </div>
+      <div className="panels">
+        <Tab.Panel id="analysis" context={TabsContext}>
+          <div className="analysis-panel">
+            <AnalysisInformation
+              iteration={iteration}
+              exercise={exercise}
               track={track}
-              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+              links={links}
             />
-          ) : null}
-        </React.Fragment>
-      )
-    }
-  }
+          </div>
+        </Tab.Panel>
+        <Tab.Panel id="tests" context={TabsContext}>
+          <TestsInformation
+            request={{
+              endpoint: iteration.links.testRun,
+              options: { enabled: tab === 'tests' },
+            }}
+          />
+        </Tab.Panel>
+      </div>
+    </TabsContext.Provider>
+  )
 }

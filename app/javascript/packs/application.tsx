@@ -125,6 +125,7 @@ import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'
 import '../../css/modals/test-run'
+import '../../css/modals/activate-practice-mode'
 import '../../css/modals/crop-avatar'
 import '../../css/modals/profile-first-time'
 import '../../css/modals/completed-tutorial-exercise'
@@ -224,6 +225,7 @@ import {
 
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
+import { Links as TrackMenuLinks } from '../components/dropdowns/TrackMenu'
 import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
 import * as Contributing from '../components/contributing'
@@ -389,7 +391,10 @@ initReact({
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
   'dropdowns-track-menu': (data: any) => (
-    <Dropdowns.TrackMenu track={data.track} links={data.links} />
+    <Dropdowns.TrackMenu
+      track={data.track}
+      links={camelizeKeysAs<TrackMenuLinks>(data.links)}
+    />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />

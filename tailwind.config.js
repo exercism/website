@@ -146,6 +146,7 @@ module.exports = {
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',
+      lightBrown: '#955D09',
 
       warning: '#F69605',
       warningBtnBorder: '#704D19',

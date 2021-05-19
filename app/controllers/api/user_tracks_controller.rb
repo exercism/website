@@ -1,12 +1,15 @@
 # TODO: This is just a stub
 module API
   class UserTracksController < BaseController
+    before_action :use_track
+
     def activate_practice_mode
-      user_track = UserTrack.find(params[:id])
+      @user_track.update(practice_mode: true)
+
       render json: {
         user_track: {
           links: {
-            self: Exercism::Routes.practice_mode_temp_user_track_url(user_track)
+            self: track_url(@track)
           }
         }
       }
@@ -32,6 +35,13 @@ module API
           }
         }
       }
+    end
+
+    private
+    def use_track
+      @track = Track.find(params[:track_id])
+      # TODO: Rescue and handle
+      @user_track = UserTrack.for!(current_user, @track)
     end
   end
 end

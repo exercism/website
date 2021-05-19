@@ -704,6 +704,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_061801) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "last_touched_at", null: false
     t.text "objectives"
+    t.boolean "practice_mode", default: false, null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"

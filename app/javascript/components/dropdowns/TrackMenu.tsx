@@ -6,10 +6,11 @@ import { ActivatePracticeModeModal } from './track-menu/ActivatePracticeModeModa
 import { ResetTrackModal } from './track-menu/ResetTrackModal'
 import { LeaveTrackModal } from './track-menu/LeaveTrackModal'
 
-type Links = {
+export type Links = {
   repo: string
   documentation: string
-  practice: string
+  activatePracticeMode: string
+  deactivatePracticeMode: string
   reset: string
   leave: string
 }
@@ -54,6 +55,7 @@ export const TrackMenu = ({
               <a href={links.repo} target="_blank" rel="noreferrer">
                 <GraphicalIcon icon="external-site-github" />
                 See {track.title} track on Github
+                <GraphicalIcon icon="external-link" className="external-link" />
               </a>
             </li>
             <li {...itemAttributes(1)}>
@@ -62,21 +64,24 @@ export const TrackMenu = ({
                 {track.title} documentation
               </a>
             </li>
-            <li {...itemAttributes(2)}>
-              <button type="button" onClick={() => setModal('practice')}>
-                <GraphicalIcon icon="practice-mode" />
-                Activate practice mode
-              </button>
-            </li>
+            {links.activatePracticeMode ? (
+              <li {...itemAttributes(2)}>
+                <button type="button" onClick={() => setModal('practice')}>
+                  <GraphicalIcon icon="practice-mode" />
+                  Activate practice mode…
+                </button>
+              </li>
+            ) : null}
             <li {...itemAttributes(3)}>
               <button type="button" onClick={() => setModal('reset')}>
                 <GraphicalIcon icon="reset" />
-                Reset track
+                Reset track…
               </button>
             </li>
             <li {...itemAttributes(4)}>
               <button type="button" onClick={() => setModal('leave')}>
-                👋 Leave track
+                <div className="emoji">👋</div>
+                Leave track…
               </button>
             </li>
           </ul>
@@ -85,7 +90,7 @@ export const TrackMenu = ({
       <ActivatePracticeModeModal
         open={modal === 'practice'}
         onClose={() => setModal(null)}
-        endpoint={links.practice}
+        endpoint={links.activatePracticeMode}
       />
       <ResetTrackModal
         open={modal === 'reset'}

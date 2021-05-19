@@ -4,7 +4,7 @@ import { useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
-import { FormButton } from '../../common/FormButton'
+import { FormButton, GraphicalIcon } from '../../common'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 
 type UserTrack = {
@@ -25,7 +25,7 @@ export const ActivatePracticeModeModal = ({
     () => {
       return sendRequest({
         endpoint: endpoint,
-        method: 'POST',
+        method: 'PATCH',
         body: null,
         isMountedRef: isMountedRef,
       }).then((json) => {
@@ -49,11 +49,22 @@ export const ActivatePracticeModeModal = ({
 
   return (
     <Modal className="m-activate-practice-mode" onClose={onClose} {...props}>
-      <FormButton onClick={() => mutation()} status={status}>
+      <GraphicalIcon icon="practice-mode" category="graphics" />
+      <h2>Activate Practice Mode</h2>
+      <p>
+        Activating Practice Mode will unlock all the Practice Exercises on this
+        track, but will disable Concepts and Learning exercises.
+      </p>
+      <div className="warning">
+        You can switch in and out of practice mode at any time.
+      </div>
+
+      <FormButton
+        onClick={() => mutation()}
+        status={status}
+        className="btn-primary btn-m"
+      >
         Activate practice mode
-      </FormButton>
-      <FormButton onClick={() => onClose()} status={status}>
-        Cancel
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

@@ -82,15 +82,55 @@
 
         & .lhs {
             @apply flex-grow;
+            margin-top: -130px;
         }
         & .rhs {
             @apply ml-64 flex-shrink-0 pt-32;
             width: 400px;
         }
 
+        & section.hello-world {
+            @apply flex;
+            @apply shadow-baseZ1 bg-backgroundColorF rounded-8;
+            @apply py-24 px-32;
+            @apply mb-32 relative;
+
+            /* TODO: Use gradient */
+            border: 2px solid #9e00ff;
+
+            &:before {
+                content: "";
+                @apply absolute bg-borderColor7;
+                width: 2px;
+                bottom: -32px;
+                height: 30px;
+                left: 50px;
+            }
+
+            & > .c-icon {
+                height: 80px;
+                width: 80px;
+                @apply mr-32;
+            }
+            & > .content {
+                @apply flex flex-col items-start;
+
+                & h3 {
+                    @apply text-21 leading-150 font-medium text-textColor2;
+                    @apply mb-8;
+                    & strong {
+                        @apply font-semibold;
+                    }
+                }
+
+                & p {
+                    @apply text-p-base mb-16;
+                }
+            }
+        }
+
         & section.progress-chart {
             background: #fff;
-            margin-top: -130px;
             @apply shadow-lg bg-backgroundColorA rounded-8;
             @apply pt-20 pb-28 px-32;
 
@@ -171,70 +211,27 @@
                 }
             }
         }
-        & section.start-track {
-            @apply flex flex-col;
-            @apply mb-64;
 
-            & .start-track-cta {
-                @apply flex;
-                @apply shadow-baseZ1 bg-backgroundColorF rounded-8;
-                @apply py-24 px-32;
-                @apply mt-32 relative;
+        & section.activities-zero-state {
+            @apply mt-40 py-16 px-24 items-center;
+            @apply flex items-center relative;
+            @apply bg-backgroundColorD rounded-8;
 
-                /* TODO: Use gradient */
-                border: 2px solid #9e00ff;
-
-                &:before {
-                    content: "";
-                    @apply absolute bg-lightGray;
-                    width: 2px;
-                    top: -32px;
-                    height: 30px;
-                    left: 50px;
-                }
-
-                & > .c-icon {
-                    height: 80px;
-                    width: 80px;
-                    @apply mr-32;
-                }
-                & > .content {
-                    @apply flex flex-col items-start;
-
-                    & h3 {
-                        @apply text-21 leading-150 font-medium text-textColor2;
-                        @apply mb-8;
-                        & strong {
-                            @apply font-semibold;
-                        }
-                    }
-
-                    & p {
-                        @apply text-p-base mb-16;
-                    }
-                }
+            &:before {
+                content: "";
+                @apply absolute bg-borderColor7;
+                width: 2px;
+                top: -40px;
+                height: 40px;
+                left: 50px;
             }
-            & .placeholder-activity {
-                @apply mt-40 py-16 px-24 items-center;
-                @apply flex items-center relative;
-                @apply bg-backgroundColorD rounded-8;
-
-                &:before {
-                    content: "";
-                    @apply absolute bg-lightGray;
-                    width: 2px;
-                    top: -40px;
-                    height: 40px;
-                    left: 50px;
-                }
-                & .c-icon {
-                    height: 24px;
-                    width: 24px;
-                    @apply mr-24;
-                }
-                & p {
-                    @apply text-17 leading-170 font-medium text-textColor7;
-                }
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                @apply mr-24;
+            }
+            & p {
+                @apply text-17 leading-170 font-medium text-textColor7;
             }
         }
 
@@ -246,7 +243,7 @@
                 @apply mt-32 relative;
                 &:before {
                     content: "";
-                    @apply absolute bg-lightGray;
+                    @apply absolute bg-borderColor7;
                     width: 2px;
                     top: -32px;
                     left: 31px;

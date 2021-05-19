@@ -17,7 +17,7 @@
 
             &.selected {
                 @apply bg-backgroundColorA;
-                @apply text-textColor2 font-semibold;
+                @apply text-textColor2 font-medium;
                 border-bottom-color: var(--backgroundColorA);
             }
         }

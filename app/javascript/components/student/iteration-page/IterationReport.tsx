@@ -36,7 +36,10 @@ export const IterationReport = ({
         }}
       >
         <div className="--summary-inner">
-          <IterationSummary iteration={iteration} />
+          <IterationSummary
+            iteration={iteration}
+            showTestsStatusAsButton={false}
+          />
           <div className="opener">
             <div className="--closed-icon">
               <GraphicalIcon icon="chevron-right" />

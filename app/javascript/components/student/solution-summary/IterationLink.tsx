@@ -10,7 +10,7 @@ export const IterationLink = ({
 }): JSX.Element => {
   return (
     <a className="iteration" href={iteration.links.self}>
-      <IterationSummary iteration={iteration} />
+      <IterationSummary iteration={iteration} showTestsStatusAsButton={false} />
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

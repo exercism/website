@@ -25,10 +25,7 @@ export function TestSummary({
   }, [])
 
   return (
-    <details
-      className={`c-details c-test-summary ${test.status}`}
-      open={defaultOpen}
-    >
+    <details className={`c-details c-test-summary ${test.status}`} open={defaultOpen}>
       <summary className="--summary">
         <div className="--summary-inner">
           <div className="--status">

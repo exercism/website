@@ -479,6 +479,7 @@ initReact({
     <TrackComponents.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
       className={data.class_name}
+      showTestsStatusAsButton={!!data.show_tests_status_as_button}
     />
   ),
   editor: (data: any) => (

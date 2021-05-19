@@ -49,7 +49,7 @@
             @apply flex items-center;
 
             & > h3 {
-                @apply font-semibold text-16 leading-170;
+                @apply font-semibold text-16 leading-170 text-textColor2;
                 @apply mr-12;
             }
             & > .--dot {
@@ -69,7 +69,7 @@
             }
         }
         & > .--details {
-            @apply text-label-timestamp;
+            @apply text-14 text-textColor6 font-medium leading-160;
         }
     }
     & .--feedback {

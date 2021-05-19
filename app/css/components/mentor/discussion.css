@@ -94,39 +94,11 @@
         }
 
         & .iteration-header {
-            @apply flex items-center py-8 px-24;
+            @apply py-8 px-24;
             @apply border-b-1 border-borderColor6;
 
-            & .info {
-                @apply flex-grow mr-24;
-
-                & .title {
-                    @apply flex items-center;
-
-                    & h2 {
-                        @apply font-semibold text-15 leading-170 text-textColor2;
-                    }
-                    & .latest {
-                        height: 22px;
-                        @apply flex items-center ml-16 rounded-5;
-                        @apply font-medium text-12 text-textColor6 px-8;
-                        @apply border-1 border-borderColor5;
-                    }
-                    & .c-iteration-processing-status {
-                        @apply ml-16;
-                        & .--status {
-                            @apply hidden;
-                        }
-                    }
-                }
-
-                & .submitted-time {
-                    @apply flex items-center;
-                    @apply font-medium text-textColor6;
-                    @apply leading-160;
-                }
-            }
-            & .download-btn {
+            & .--idx .--dot {
+                @apply hidden;
             }
         }
         & .c-results-zone {

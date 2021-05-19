@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { shortFromNow } from '../../utils/time'
+import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 import { ProcessingStatusButton } from './iteration-summary/ProcessingStatusButton'
@@ -15,8 +15,8 @@ const SUBMISSION_METHOD_LABELS = {
 type IterationSummaryProps = {
   iteration: Iteration
   className?: string
-  isLatest?: boolean
-  showSubmissionMethod?: boolean
+  isLatest: boolean
+  showSubmissionMethod: boolean
   showTestsStatusAsButton: boolean
 }
 
@@ -52,20 +52,20 @@ export const IterationSummaryWithWebsockets = ({
 export function IterationSummary({
   iteration,
   className,
-  isLatest /* Treated as false by default */,
-  showSubmissionMethod /* Treated as true by default */,
+  isLatest,
+  showSubmissionMethod,
   showTestsStatusAsButton,
 }: IterationSummaryProps): JSX.Element {
   return (
     <div className={`c-iteration-summary ${className}`}>
-      {showSubmissionMethod === false ? null : (
+      {showSubmissionMethod ? (
         <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
-      )}
+      ) : null}
       <div className="--info">
         <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
           <div className="--dot" role="presentation"></div>
-          {isLatest === true ? (
+          {isLatest ? (
             <div className="--latest" aria-label="Latest iteration">
               Latest
             </div>
@@ -82,14 +82,14 @@ export function IterationSummary({
         </div>
         <div className="--details" data-testid="details">
           Submitted{' '}
-          {showSubmissionMethod === false
-            ? null
-            : `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}, `}
+          {showSubmissionMethod
+            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}, `
+            : null}
           <time
             dateTime={iteration.createdAt.toString()}
             title={iteration.createdAt.toString()}
           >
-            {shortFromNow(iteration.createdAt)}
+            {fromNow(iteration.createdAt)}
           </time>
         </div>
       </div>

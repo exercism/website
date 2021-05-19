@@ -38,6 +38,8 @@ export const IterationReport = ({
         <div className="--summary-inner">
           <IterationSummary
             iteration={iteration}
+            isLatest={false}
+            showSubmissionMethod={true}
             showTestsStatusAsButton={false}
           />
           <div className="opener">

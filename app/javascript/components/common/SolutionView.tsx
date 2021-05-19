@@ -44,6 +44,7 @@ export const SolutionView = ({
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
         isLatest={true}
+        showSubmissionMethod={true}
         showTestsStatusAsButton={true}
       />
       <ResultsZone isFetching={isFetching}>

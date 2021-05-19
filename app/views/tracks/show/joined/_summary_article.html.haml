@@ -1,6 +1,9 @@
 %article.summary-article
   .lg-container.container
     .lhs
+      - unless user_track.tutorial_exercise_completed?
+        = render "tracks/show/joined/start_track_section", track: track
+
       %section.progress-chart
         %h2
           - if user_track.completed_percentage.zero?
@@ -46,9 +49,9 @@
         %section.activities
           - recent_solutions.each do |solution|
             = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
-
       - else
-        = render "tracks/show/joined/start_track_section", track: track
+        = render "tracks/show/joined/activities_zero_state_section"
+
     .rhs
       - if user_track.tutorial_exercise_completed?
         %section.weekly-count

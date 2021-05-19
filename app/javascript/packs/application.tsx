@@ -296,7 +296,7 @@ initReact({
   ),
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
-      authors={camelizeKeysAs<readonly User[]>(data.authors)}
+      avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
       numAuthors={data.num_authors}
       numContributors={data.num_contributors}
       links={data.links}

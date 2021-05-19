@@ -9,12 +9,12 @@ type Links = {
 }
 
 export const ExerciseMakersButton = ({
-  authors,
+  avatarUrls,
   numAuthors,
   numContributors,
   links,
 }: {
-  authors: readonly User[]
+  avatarUrls: readonly string[]
   numAuthors: number
   numContributors: number
   links: Links
@@ -29,18 +29,14 @@ export const ExerciseMakersButton = ({
         onClick={() => setOpen(!open)}
       >
         <div className="c-faces">
-          {authors.map((author) => {
-            return (
-              <div className="face" key={author.handle}>
-                <Avatar src={author.avatarUrl} handle={author.handle} />
-              </div>
-            )
-          })}
+          {avatarUrls.map((avatarUrl) => (
+            <Avatar className="face" src={avatarUrl} key={avatarUrl} />
+          ))}
         </div>
         <div className="stats">
           {numAuthors > 0 ? (
             <div className="authors">
-              {authors.length} {pluralize('author', numAuthors)}
+              {numAuthors} {pluralize('author', numAuthors)}
             </div>
           ) : null}
           {numContributors > 0 ? (

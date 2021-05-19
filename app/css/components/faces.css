@@ -8,7 +8,8 @@
         transition: margin 0.2s ease-out;
         cursor: pointer;
 
-        & .c-avatar {
+        & .c-avatar,
+        &.c-avatar {
             height: 32px;
             width: 32px;
         }
@@ -17,7 +18,7 @@
     &:not(.--static) {
         &:hover {
             & .face {
-                margin-left: 4px;
+                margin-left: 1px;
             }
         }
     }

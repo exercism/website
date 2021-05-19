@@ -87,4 +87,43 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     get track_exercise_url(track, exercise)
     assert_template "tracks/exercises/show"
   end
+
+  test "edit: is fine if there's a solution" do
+    user = create :user
+    track = create :track
+    exercise = create :practice_exercise, track: track, slug: "hello-world"
+
+    create :user_track, user: user, track: track
+    create :practice_solution, user: user, exercise: exercise
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+    assert_template "tracks/exercises/edit"
+  end
+
+  test "edit: creates a solution if one is missing" do
+    user = create :user
+    track = create :track
+    exercise = create :practice_exercise, track: track, slug: "hello-world"
+
+    create :user_track, user: user, track: track
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+    assert_template "tracks/exercises/edit"
+    assert PracticeSolution.find_by(user: user, exercise: exercise)
+  end
+
+  test "edit: redirects if track not joined" do
+    user = create :user
+    track = create :track
+    exercise = create :practice_exercise, track: track, slug: "hello-world"
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+    assert_redirected_to action: :show
+  end
 end

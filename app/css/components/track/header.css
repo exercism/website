@@ -28,7 +28,8 @@
     }
 
     & .people {
-        @apply flex items-center;
+        min-width: 200px;
+        @apply flex items-center justify-end;
         & .c-faces {
             @apply mr-16;
         }

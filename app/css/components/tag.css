@@ -11,4 +11,9 @@
     &.--small {
         @apply text-13 leading-150 px-10;
     }
+
+    &.--practice-mode {
+        @apply border-backgroundColorH;
+        @apply text-textColor9 bg-textColor6;
+    }
 }

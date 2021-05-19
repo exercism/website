@@ -7,18 +7,22 @@ module ReactComponents
         return if num_authors.zero? && num_contributors.zero?
 
         super("track-exercise-makers-button", {
-          authors: exercise.authors.order("RAND()").limit(3).map do |author|
-            {
-              handle: author.handle,
-              avatar_url: author.avatar_url
-            }
-          end,
+          avatar_urls: avatar_urls,
           num_authors: num_authors,
           num_contributors: num_contributors,
           links: {
             makers: Exercism::Routes.api_track_exercise_makers_url(exercise.track, exercise)
           }
         })
+      end
+
+      def avatar_urls
+        target = 3
+        urls = exercise.authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url)
+        if urls.size < 3 && num_contributors.positive?
+          urls += exercise.contributors.order("RAND()").limit(target - urls.size).select(:avatar_url).to_a.map(&:avatar_url)
+        end
+        urls.compact
       end
 
       memoize

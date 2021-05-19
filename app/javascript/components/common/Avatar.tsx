@@ -6,17 +6,16 @@ export const Avatar = ({
   className,
 }: {
   src: string
-  handle: string
+  handle?: string
   className?: string
-}): JSX.Element => (
-  <div
-    className={`c-avatar ${className}`}
-    style={{ backgroundImage: `url(${src})` }}
-  >
-    <img
-      src={src}
-      alt={`Uploaded avatar of ${handle}`}
-      className="tw-sr-only"
-    />
-  </div>
-)
+}): JSX.Element => {
+  const alt = handle ? `Uploaded avatar of ${handle}` : ''
+  return (
+    <div
+      className={`c-avatar ${className}`}
+      style={{ backgroundImage: `url(${src})` }}
+    >
+      <img src={src} alt={alt} className="tw-sr-only" />
+    </div>
+  )
+}

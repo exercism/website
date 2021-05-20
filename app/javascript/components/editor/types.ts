@@ -56,7 +56,7 @@ export enum TestRunStatus {
 }
 
 export enum Keybindings {
-  DEFAULT = '',
+  DEFAULT = 'default',
   VIM = 'vim',
   EMACS = 'emacs',
 }
@@ -64,8 +64,8 @@ export enum Keybindings {
 export type WrapSetting = 'off' | 'on'
 
 export enum Themes {
-  LIGHT = 'textmate',
-  DARK = 'cobalt',
+  LIGHT = 'light',
+  DARK = 'dark',
 }
 
 export type Assignment = {

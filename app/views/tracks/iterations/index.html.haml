@@ -14,7 +14,7 @@
         .box
           .editor
             %h4 Via Exercism Editor
-            .editor-btn.btn-primary.btn-m
+            = link_to edit_track_exercise_path(@track, @exercise), class: 'editor-btn btn-primary btn-m' do
               = graphical_icon "editor"
               %span Start in Editor
 

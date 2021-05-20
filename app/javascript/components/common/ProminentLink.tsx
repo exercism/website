@@ -17,7 +17,7 @@ export const ProminentLink = ({
 
   if (external) {
     return (
-      <a href={link} className={className} target="_blank" rel="noreferrer">
+      <a href={link} className={className} target="_blank" rel="noopener">
         <span>{text}</span>
         <Icon
           icon="external-link"

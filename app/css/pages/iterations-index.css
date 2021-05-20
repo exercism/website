@@ -97,6 +97,9 @@
                     & .analysis-panel {
                         @apply px-24 pb-16;
                     }
+                    & .tests-panel {
+                        @apply pb-16;
+                    }
 
                     & .automated-feedback-pending,
                     & .automated-feedback-absent {

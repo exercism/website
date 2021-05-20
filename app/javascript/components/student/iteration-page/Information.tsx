@@ -44,17 +44,19 @@ export const Information = ({
         </Tab>
       </div>
       <div className="panels">
-        <Tab.Panel id="analysis" context={TabsContext}>
-          <div className="analysis-panel">
-            <AnalysisInformation
-              iteration={iteration}
-              exercise={exercise}
-              track={track}
-              links={links}
-            />
-          </div>
+        <Tab.Panel
+          id="analysis"
+          context={TabsContext}
+          className="analysis-panel"
+        >
+          <AnalysisInformation
+            iteration={iteration}
+            exercise={exercise}
+            track={track}
+            links={links}
+          />
         </Tab.Panel>
-        <Tab.Panel id="tests" context={TabsContext}>
+        <Tab.Panel id="tests" context={TabsContext} className="tests-panel">
           <TestsInformation
             request={{
               endpoint: iteration.links.testRun,

@@ -17,8 +17,8 @@ export const TestRunSummary = ({
   isSubmitDisabled?: boolean
   onCancel?: () => void
   averageTestDuration?: number
-}): JSX.Element => {
-  return (
+}): JSX.Element =>
+  testRun ? (
     <div className="c-test-run">
       <TestRunSummaryHeader testRun={testRun} />
       <TestRunSummaryContent
@@ -29,8 +29,13 @@ export const TestRunSummary = ({
         averageTestDuration={averageTestDuration}
       />
     </div>
+  ) : (
+    <div className="automated-feedback-pending">
+      <GraphicalIcon icon="spinner" />
+      <h3>We&apos;re testing your code to check it works</h3>
+      <p>This usually takes 5-20 seconds.</p>
+    </div>
   )
-}
 
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {

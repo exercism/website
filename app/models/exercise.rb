@@ -50,6 +50,10 @@ class Exercise < ApplicationRecord
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
 
+  def self.for(track_slug, exercise_slug)
+    joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
+  end
+
   delegate :solution_files, :introduction, :instructions, :source, :source_url, to: :git
 
   before_create do

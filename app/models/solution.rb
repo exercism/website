@@ -52,8 +52,18 @@ class Solution < ApplicationRecord
     self.status = determine_status
   end
 
-  def self.for(user, exercise)
-    Solution.find_by(exercise: exercise, user: user)
+  def self.for(*args)
+    if args.size == 2
+      user, exercise = args
+      find_by(user: user, exercise: exercise)
+    else
+      user_handle, track_slug, exercise_slug = args
+      joins(:user, exercise: :track).find_by(
+        'users.handle': user_handle,
+        'tracks.slug': track_slug,
+        'exercises.slug': exercise_slug
+      )
+    end
   end
 
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise

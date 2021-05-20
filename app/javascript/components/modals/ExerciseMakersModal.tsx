@@ -61,6 +61,7 @@ const Content = ({
         link={links.github}
         text="See the full history of this exercise on GitHub"
         withBg={true}
+        external
       />
       {authors.length > 0 ? (
         <div className="authors">

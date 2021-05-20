@@ -26,5 +26,6 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
       }
     )
     Submission::Analysis::Init.(submission)
+    assert_equal 'queued', submission.analysis_status
   end
 end

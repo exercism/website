@@ -26,5 +26,6 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
       }
     )
     Submission::Representation::Init.(submission)
+    assert_equal 'queued', submission.representation_status
   end
 end

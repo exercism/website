@@ -95,4 +95,23 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal :testing, solution.iteration_status
     assert_equal 1, solution.num_iterations
   end
+
+  test "updates solution for tested submission" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution, tests_status: :passed
+
+    # Sanity checks
+    solution.reload
+    assert_equal :started, solution.status
+    assert_nil solution.iteration_status
+    assert_equal 0, solution.num_iterations
+
+    Iteration::Create.(solution, submission)
+    solution.reload
+    assert_equal 'queued', submission.representation_status
+    assert_equal 'queued', submission.analysis_status
+    assert_equal :iterated, solution.status
+    assert_equal :analyzing, solution.iteration_status
+    assert_equal 1, solution.num_iterations
+  end
 end

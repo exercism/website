@@ -13,11 +13,12 @@ class Iteration
       })
 
       Iteration.find(id).tap do |iteration|
+        init_services
+
         solution.update_status!
         solution.update_iteration_status!
         Solution.reset_counters(solution.id, :iterations)
 
-        init_services
         GenerateIterationSnippetJob.perform_later(iteration)
         record_activity!(iteration)
       end

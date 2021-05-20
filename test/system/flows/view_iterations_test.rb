@@ -201,6 +201,24 @@ module Flows
       end
     end
 
+    test "user views iteration with failed tests" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+      submission = create :submission, solution: solution, tests_status: :failed
+      create :iteration, solution: solution, submission: submission
+      create :submission_file, submission: submission
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
+
+        assert_text "No auto suggestions? Try human mentoring."
+      end
+    end
+
     test "user views representer feedback" do
       user = create :user
       author = create :user, name: "Feedback author"

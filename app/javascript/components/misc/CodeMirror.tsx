@@ -8,6 +8,7 @@ import { indentUnit } from '@codemirror/language'
 /* TODO: Add support for more languages */
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { ruby } from '@codemirror/legacy-modes/mode/ruby'
+// import { javascript } from '@codemirror/lang-javascript'
 import { Themes } from '../editor/types'
 
 const wrapCompartment = new Compartment()
@@ -19,6 +20,7 @@ export type Handler = {
 }
 
 export const CodeMirror = ({
+  hidden,
   value,
   language,
   commands,
@@ -28,6 +30,7 @@ export const CodeMirror = ({
   tabSize,
   editorDidMount,
 }: {
+  hidden: boolean
   value: string
   language: string
   theme: Themes
@@ -74,9 +77,10 @@ export const CodeMirror = ({
         doc: value,
         extensions: [
           basicSetup,
+          //javascript(),
+          StreamLanguage.define(ruby),
           keymap.of([defaultTabBinding]),
           EditorState.tabSize.of(tabSize),
-          StreamLanguage.define(ruby),
           indentUnit.of(useSoftTabs ? '  ' : '	'),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
           themeCompartment.of(
@@ -115,5 +119,5 @@ export const CodeMirror = ({
     })
   }, [theme])
 
-  return <div ref={setTextarea} />
+  return <div className="editor" hidden={hidden} ref={setTextarea} />
 }

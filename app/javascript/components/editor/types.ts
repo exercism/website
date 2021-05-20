@@ -65,7 +65,7 @@ export type WrapSetting = 'off' | 'on'
 
 export enum Themes {
   LIGHT = 'light',
-  DARK = 'dark',
+  DARK = 'material-ocean',
 }
 
 export type Assignment = {

@@ -5,6 +5,7 @@
     "@codemirror/basic-setup": "^0.18.1",
     "@codemirror/legacy-modes": "^0.18.0",
     "@codemirror/stream-parser": "^0.18.2",
+    "@codemirror/lang-javascript": "^0.18.0",
     "@exercism/active-background": "^0.6.2",
     "@popperjs/core": "^2.5.2",
     "@rails/actioncable": "^6.0.0",

@@ -77,42 +77,42 @@ export function FileEditorCodeMirror({
         ))}
       </div>
       {files.map((file, index) => (
-        <div className="editor" key={file.filename} hidden={index !== tab}>
-          <CodeMirror
-            value={file.content}
-            editorDidMount={(editor) => {
-              const oldEditors = [...editorRefs.current]
+        <CodeMirror
+          key={file.filename}
+          hidden={index !== tab}
+          value={file.content}
+          editorDidMount={(editor) => {
+            const oldEditors = [...editorRefs.current]
 
-              oldEditors[index] = editor
+            oldEditors[index] = editor
 
-              editorRefs.current = oldEditors
-            }}
-            tabSize={config.tabSize}
-            useSoftTabs={config.useSoftTabs}
-            language={language}
-            wrap={wrap !== 'off'}
-            theme={theme}
-            commands={[
-              {
-                key: 'F2',
-                run: () => {
-                  onRunTests()
-                  return true
-                },
+            editorRefs.current = oldEditors
+          }}
+          tabSize={config.tabSize}
+          useSoftTabs={config.useSoftTabs}
+          language={language}
+          wrap={wrap !== 'off'}
+          theme={theme}
+          commands={[
+            {
+              key: 'F2',
+              run: () => {
+                onRunTests()
+                return true
               },
-              {
-                key: 'F3',
-                run: () => {
-                  onSubmit()
-                  return true
-                },
+            },
+            {
+              key: 'F3',
+              run: () => {
+                onSubmit()
+                return true
               },
-            ]}
-            // options={{
-            //   keyMap: keybindings,
-            // }}
-          />
-        </div>
+            },
+          ]}
+          // options={{
+          //   keyMap: keybindings,
+          // }}
+        />
       ))}
     </div>
   )

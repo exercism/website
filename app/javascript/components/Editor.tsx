@@ -429,6 +429,7 @@ export function Editor({
               <RunTestsButton
                 onClick={runTests}
                 haveFilesChanged={
+                  submission === null ||
                   !isEqual(submissionFilesRef.current, files) ||
                   submission?.testRun?.status === TestRunStatus.OPS_ERROR ||
                   submission?.testRun?.status === TestRunStatus.TIMEOUT ||

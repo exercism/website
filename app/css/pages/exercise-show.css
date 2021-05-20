@@ -169,7 +169,7 @@
                     @apply mr-32;
                 }
                 & a.more-info {
-                    @apply text-16 text-lightBlue leading-170 font-semibold;
+                    @apply text-16 text-lightBlue leading-170 font-semibold ml-16;
                     @apply flex items-center;
 
                     & .c-icon {

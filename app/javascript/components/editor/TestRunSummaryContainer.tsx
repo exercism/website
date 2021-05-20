@@ -141,6 +141,7 @@ export const TestRunSummaryContainer = ({
       isSubmitDisabled={isSubmitDisabled}
       onCancel={cancel}
       averageTestDuration={averageTestDuration}
+      showSuccessBox={true}
     />
   )
 }

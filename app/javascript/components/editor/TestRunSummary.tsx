@@ -11,12 +11,14 @@ export const TestRunSummary = ({
   isSubmitDisabled,
   onCancel,
   averageTestDuration,
+  showSuccessBox,
 }: {
   testRun: TestRun
   onSubmit?: () => void
   isSubmitDisabled?: boolean
   onCancel?: () => void
   averageTestDuration?: number
+  showSuccessBox: boolean
 }): JSX.Element =>
   testRun ? (
     <div className="c-test-run">
@@ -27,6 +29,7 @@ export const TestRunSummary = ({
         isSubmitDisabled={isSubmitDisabled}
         onCancel={onCancel}
         averageTestDuration={averageTestDuration}
+        showSuccessBox={showSuccessBox}
       />
     </div>
   ) : (
@@ -88,12 +91,14 @@ const TestRunSummaryContent = ({
   isSubmitDisabled,
   onCancel,
   averageTestDuration,
+  showSuccessBox,
 }: {
   testRun: TestRun
   onSubmit?: () => void
   isSubmitDisabled?: boolean
   onCancel?: () => void
   averageTestDuration?: number
+  showSuccessBox: boolean
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS: {
@@ -102,20 +107,25 @@ const TestRunSummaryContent = ({
           {testRun.version === 2 || testRun.version === 3 ? (
             <TestRunFailures testRun={testRun} />
           ) : null}
-          <div className="success-box">
-            <GraphicalIcon icon="balloons" category="graphics" />
-            <div className="content">
-              <h3>Sweet. Looks like you’ve solved the exercise!</h3>
-              <p>
-                Good job! You can continue to improve your code or, if you're
-                done, submit your solution to get automated feedback and request
-                mentoring.
-              </p>
-              {onSubmit !== undefined && isSubmitDisabled !== undefined ? (
-                <SubmitButton onClick={onSubmit} disabled={isSubmitDisabled} />
-              ) : null}
+          {showSuccessBox ? (
+            <div className="success-box">
+              <GraphicalIcon icon="balloons" category="graphics" />
+              <div className="content">
+                <h3>Sweet. Looks like you’ve solved the exercise!</h3>
+                <p>
+                  Good job! You can continue to improve your code or, if you're
+                  done, submit your solution to get automated feedback and
+                  request mentoring.
+                </p>
+                {onSubmit !== undefined && isSubmitDisabled !== undefined ? (
+                  <SubmitButton
+                    onClick={onSubmit}
+                    disabled={isSubmitDisabled}
+                  />
+                ) : null}
+              </div>
             </div>
-          </div>
+          ) : null}
         </>
       )
     }

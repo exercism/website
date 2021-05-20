@@ -308,7 +308,9 @@ const TestsFailedNudge = ({
         <h3>Struggling with this exercise?</h3>
         <p>Get some help from our awesome {track.title} mentors.</p>
         <div className="options">
-          <a href={links.requestMentoring}>Request mentoring</a>
+          <a href={links.requestMentoring} className="btn-primary btn-s">
+            Request mentoring
+          </a>
           <a
             href={links.mentoringInfo}
             className="more-info"

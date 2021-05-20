@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TestRunModal } from '../../modals/TestRunModal'
 
-export const TestsFailedButton = ({
+export const TestRunStatusButton = ({
   endpoint,
   children,
   ...props

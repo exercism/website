@@ -35,7 +35,10 @@ export const TestRunModal = ({
           defaultError={DEFAULT_ERROR}
         >
           {resolvedData ? (
-            <TestRunSummary testRun={resolvedData.testRun} />
+            <TestRunSummary
+              testRun={resolvedData.testRun}
+              showSuccessBox={false}
+            />
           ) : null}
         </FetchingBoundary>
       </ResultsZone>

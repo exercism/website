@@ -1,7 +1,7 @@
 import React from 'react'
 import { Iteration, IterationStatus } from '../../types'
 import { ProcessingStatusSummary } from '../../common/ProcessingStatusSummary'
-import { TestsFailedButton } from './TestsFailedButton'
+import { TestRunStatusButton } from './TestRunStatusButton'
 
 export const ProcessingStatusButton = ({
   iteration,
@@ -10,10 +10,14 @@ export const ProcessingStatusButton = ({
 }): JSX.Element => {
   switch (iteration.status) {
     case IterationStatus.TESTS_FAILED:
+    case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK:
+    case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK:
+    case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+    case IterationStatus.NO_AUTOMATED_FEEDBACK:
       return (
-        <TestsFailedButton endpoint={iteration.links.testRun}>
+        <TestRunStatusButton endpoint={iteration.links.testRun}>
           <ProcessingStatusSummary iterationStatus={iteration.status} />
-        </TestsFailedButton>
+        </TestRunStatusButton>
       )
     default:
       return <ProcessingStatusSummary iterationStatus={iteration.status} />

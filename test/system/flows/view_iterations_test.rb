@@ -174,6 +174,9 @@ module Flows
         visit track_exercise_iterations_url(track, exercise)
 
         assert_text "We're analysing your code for suggestions"
+
+        click_on "Tests"
+        assert_text "We're testing your code to check it works"
       end
     end
 

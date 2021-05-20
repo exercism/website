@@ -6,16 +6,16 @@ module Github
       initialize_with :repo
 
       def call
-        issues.each do |pr|
+        issues.each do |issue|
           Github::Issue::CreateOrUpdate.(
-            pr[:node_id],
-            number: pr[:number],
-            title: pr[:title],
-            author_username: pr[:author_username],
-            merged_by_username: pr[:merged_by_username],
-            repo: pr[:repo],
-            reviews: pr[:reviews],
-            data: pr
+            issue[:node_id],
+            number: issue[:number],
+            title: issue[:title],
+            state: issue[:state],
+            repo: issue[:repo],
+            labels: issue[:labels],
+            opened_at: issue[:opened_at],
+            opened_by_username: issue[:opened_by_username]
           )
         end
       end
@@ -29,68 +29,32 @@ module Github
         loop do
           page_data = fetch_page(cursor)
 
-          # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
           results += issues_from_page_data(page_data)
-          break results unless page_data.dig(:data, :repository, :pullRequests, :pageInfo, :hasNextPage)
+          break results unless page_data.dig(:data, :repository, :issues, :pageInfo, :hasNextPage)
 
-          cursor = page_data.dig(:data, :repository, :pullRequests, :pageInfo, :endCursor)
+          cursor = page_data.dig(:data, :repository, :issues, :pageInfo, :endCursor)
           handle_rate_limit(page_data.dig(:data, :rateLimit))
         end
       end
 
       def fetch_page(cursor)
-        # TODO: implement
-        # {
-        #   repository(owner: "exercism", name: "javascript") {
-        #     nameWithOwner
-        #     issues(first: 100) {
-        #       nodes {
-        #         id
-        #         number
-        #         title
-        #         labels(first: 100) {
-        #           nodes {
-        #             name
-        #           }
-        #         }
-        #       }
-        #     }
-        #   }
-        # }
-
         query = <<~QUERY.strip
-          query {
+          {
             repository(owner: "#{repo_owner}", name: "#{repo_name}") {
               nameWithOwner
-              pullRequests(first: 100,
-                          states:[CLOSED, MERGED]
-                          #{%(, after: "#{cursor}") if cursor}) {
+              issues(first: 100 #{%(, after: "#{cursor}") if cursor}) {
                 nodes {
-                  id
-                  url
-                  title
+                  id#{'                '}
                   number
+                  title
+                  state
                   createdAt
-                  merged
-                  mergedAt
-                  mergedBy {
+                  author {
                     login
                   }
                   labels(first: 100) {
                     nodes {
                       name
-                    }
-                  }
-                  author {
-                    login
-                  }
-                  reviews(first: 100) {
-                    nodes {
-                      id
-                      submittedAt
-                      author {
-                        login
-                      }
                     }
                   }
                 }
@@ -111,33 +75,16 @@ module Github
       end
 
       def issues_from_page_data(response)
-        # We're transforming the GraphQL response to the format used to call
-        # User::ReputationToken::AwardForPullRequest that is called when the
-        # pull request update webhook fires.
-        # This allows us to work with pull requests using a single code path.
-        response[:data][:repository][:pullRequests][:nodes].map do |pr|
+        response[:data][:repository][:issues][:nodes].map do |issue|
           {
-            action: 'closed',
-            author_username: pr[:author].present? ? pr[:author][:login] : nil,
-            url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
-            html_url: pr[:url],
-            labels: pr[:labels][:nodes].map { |node| node[:name] },
-            state: 'closed',
-            node_id: pr[:id],
-            number: pr[:number],
-            title: pr[:title],
+            node_id: issue[:id],
+            number: issue[:number],
+            title: issue[:title],
+            state: issue[:state],
             repo: response[:data][:repository][:nameWithOwner],
-            created_at: pr[:createdAt].present? ? Time.parse(pr[:createdAt]).utc : nil,
-            merged: pr[:merged],
-            merged_at: pr[:mergedAt].present? ? Time.parse(pr[:mergedAt]).utc : nil,
-            merged_by_username: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,
-            reviews: pr[:reviews][:nodes].map do |node|
-              {
-                node_id: node[:id],
-                submitted_at: node[:submittedAt].present? ? Time.parse(node[:submittedAt]).utc : nil,
-                reviewer_username: node[:author].present? ? node[:author][:login] : nil
-              }
-            end
+            labels: issue[:labels][:nodes].map { |label| label[:name] },
+            opened_at: issue[:createdAt].present? ? Time.parse(issue[:createdAt]).utc : nil,
+            opened_by_username: issue[:author].present? ? issue[:author][:login] : nil
           }
         end
       end

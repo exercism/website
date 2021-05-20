@@ -6,27 +6,37 @@ module Github
       initialize_with :node_id, :attributes
 
       def call
-        # TODO: implement
-        # pull_request = ::Github::PullRequest.create_or_find_by!(node_id: node_id) do |pr|
-        #   pr.number = attributes[:number]
-        #   pr.title = attributes[:title]
-        #   pr.repo = attributes[:repo]
-        #   pr.author_username = attributes[:author_username]
-        #   pr.merged_by_username = attributes[:merged_by_username]
-        #   pr.data = attributes[:data]
-        # end
+        issue = ::Github::Issue.create_or_find_by!(node_id: node_id) do |i|
+          i.number = attributes[:number]
+          i.title = attributes[:title]
+          i.status = status
+          i.repo = attributes[:repo]
+          i.opened_at = attributes[:opened_at]
+          i.opened_by_username = attributes[:opened_by_username]
+        end
 
-        # pull_request.update!(
-        #   number: attributes[:number],
-        #   title: attributes[:title],
-        #   repo: attributes[:repo],
-        #   author_username: attributes[:author_username],
-        #   merged_by_username: attributes[:merged_by_username],
-        #   data: attributes[:data],
-        #   reviews: reviews(pull_request)
-        # )
+        issue.update!(
+          number: attributes[:number],
+          title: attributes[:title],
+          status: status,
+          repo: attributes[:repo],
+          opened_at: attributes[:opened_at],
+          opened_by_username: attributes[:opened_by_username],
+          labels: labels(issue)
+        )
 
-        # pull_request
+        issue
+      end
+
+      private
+      def labels(issue)
+        attributes[:labels].to_a.map do |label|
+          Github::IssueLabel::CreateOrUpdate.(issue, label)
+        end
+      end
+
+      def status
+        attributes[:state].downcase.to_sym
       end
     end
   end

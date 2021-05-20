@@ -170,12 +170,23 @@ ActiveRecord::Schema.define(version: 2021_05_20_092005) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "github_issue_labels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "github_issue_id", null: false
+    t.string "label", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_issue_id", "label"], name: "index_github_issue_labels_on_github_issue_id_and_label", unique: true
+    t.index ["github_issue_id"], name: "index_github_issue_labels_on_github_issue_id"
+  end
+
   create_table "github_issues", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "node_id", null: false
     t.integer "number", null: false
-    t.string "repo", null: false
     t.string "title", null: false
-    t.json "data", null: false
+    t.integer "status", limit: 1, default: 0, null: false
+    t.string "repo", null: false
+    t.string "opened_by_username", null: false
+    t.datetime "opened_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["node_id"], name: "index_github_issues_on_node_id", unique: true
@@ -654,6 +665,7 @@ ActiveRecord::Schema.define(version: 2021_05_20_092005) do
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
+  add_foreign_key "github_issue_labels", "github_issues"
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"

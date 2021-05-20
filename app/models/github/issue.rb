@@ -1,10 +1,11 @@
 class Github::Issue < ApplicationRecord
-  extend Mandate::Memoize
+  enum status: { open: 0, closed: 1 }
 
-  serialize :data, JSON
+  has_many :labels,
+    dependent: :destroy,
+    inverse_of: :issue,
+    class_name: "Github::IssueLabel",
+    foreign_key: "github_issue_id"
 
-  memoize
-  def data
-    super.deep_symbolize_keys
-  end
+  scope :open, -> { where(status: :open) }
 end

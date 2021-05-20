@@ -1,27 +1,17 @@
 FactoryBot.define do
   factory :github_issue, class: 'Github::Issue' do
-    # node_id { "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz" }
-    # number { 2 }
-    # title { "The cat sat on the mat" }
-    # repo { "exercism/ruby" }
+    node_id { "MDExOlB1bGxSZXF1ZXN0Mzk0NTa4TYmm" }
+    number { 3 }
+    title { "Restructure tests" }
+    status { :open }
+    repo { "exercism/ruby" }
+    opened_by_username { "ErikSchierboom" }
+    opened_at { Date.new(2021, 0o3, 18) }
 
-    # data do
-    #   {
-    #     # TODO: use correct data
-    #     node_id: node_id,
-    #     number: number,
-    #     title: title,
-    #     repo: repo,
-    #     url: "https://api.github.com/repos/exercism/ruby/pulls/#{number}",
-    #     html_url: "https://github.com/exercism/ruby/pull/#{number}",
-    #     state: "closed",
-    #     action: "closed",
-    #     author_username: author_username,
-    #     labels: [],
-    #     merged: true,
-    #     merged_by_username: merged_by_username,
-    #     reviews: []
-    #   }
-    # end
+    trait :random do
+      node_id { SecureRandom.hex }
+      number { SecureRandom.random_number(100_000) }
+      opened_at { Time.current }
+    end
   end
 end

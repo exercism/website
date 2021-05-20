@@ -27,6 +27,7 @@ export const AnalysisInformation = ({
         </div>
       )
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
+    case IterationStatus.TESTS_FAILED:
       return (
         <div className="automated-feedback-absent">
           <GraphicalIcon icon="mentoring" category="graphics" />

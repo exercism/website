@@ -20,6 +20,7 @@ import { Iteration } from './types'
 import { Header } from './editor/Header'
 import { FileEditorHandle } from './editor/FileEditorAce'
 import { FileEditorAce } from './editor/FileEditorAce'
+import { FileEditorCodeMirror } from './editor/FileEditorCodeMirror'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
@@ -103,7 +104,7 @@ export function Editor({
   config: EditorConfig
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
-  const [theme, setTheme] = useState(Themes.LIGHT)
+  const [theme, setTheme] = useState<Themes>(Themes.LIGHT)
   const [
     { status: revertStatus, apiError: revertApiError },
     revertDispatch,
@@ -408,7 +409,7 @@ export function Editor({
         </div>
         <article className="main">
           <div className="lhs">
-            <FileEditorAce
+            <FileEditorCodeMirror
               editorDidMount={editorDidMount}
               files={files}
               language={aceLanguage}

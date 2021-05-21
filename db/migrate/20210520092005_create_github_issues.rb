@@ -6,7 +6,7 @@ class CreateGithubIssues < ActiveRecord::Migration[6.1]
       t.string :title, null: false
       t.column :status, :tinyint, null: false, default: 0
       t.string :repo, null: false      
-      t.string :opened_by_username, null: false
+      t.string :opened_by_username, null: true
       t.datetime :opened_at, null: false
 
       t.timestamps

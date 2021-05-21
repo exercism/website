@@ -185,7 +185,7 @@ ActiveRecord::Schema.define(version: 2021_05_20_092005) do
     t.string "title", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "repo", null: false
-    t.string "opened_by_username", null: false
+    t.string "opened_by_username"
     t.datetime "opened_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

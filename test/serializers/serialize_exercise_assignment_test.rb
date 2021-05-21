@@ -2,9 +2,9 @@ require 'test_helper'
 
 class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
   test "serialize general hints for concept exercise" do
-    exercise = create :concept_exercise
+    solution = create :concept_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = [
       "<p>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</p>\n", # rubocop:disable Layout/LineLength
@@ -14,9 +14,9 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
   end
 
   test "serialize general hints for practice exercise" do
-    exercise = create :practice_exercise
+    solution = create :practice_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = ["<p>There are many useful string methods built-in</p>\n"]
     assert_equal expected, serialized[:general_hints]
@@ -24,16 +24,17 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize general hints for practice exercise without hints" do
     exercise = create :practice_exercise, slug: 'allergies'
+    solution = create :practice_solution, exercise: exercise
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     assert_empty serialized[:general_hints]
   end
 
   test "serialize overview for concept exercise" do
-    exercise = create :concept_exercise
+    solution = create :concept_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = "<p>In this exercise you'll be processing log-lines.</p>
 <p>Each log line is a string formatted as follows: <code>\"[&lt;LEVEL&gt;]: &lt;MESSAGE&gt;\"</code>.</p>
@@ -50,35 +51,36 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize overview for practice exercise without appends" do
     exercise = create :practice_exercise, slug: 'allergies'
+    solution = create :practice_solution, exercise: exercise
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = "<p>Instructions for allergies</p>\n"
     assert_equal expected, serialized[:overview]
   end
 
   test "serialize overview for practice exercise with appends" do
-    exercise = create :practice_exercise
+    solution = create :practice_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = "<p>Instructions for bob</p>\n<p>Extra instructions for bob</p>\n"
     assert_equal expected, serialized[:overview]
   end
 
   test "serialize concept exercise task titles" do
-    exercise = create :concept_exercise
+    solution = create :concept_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = ['Get message from a log line', 'Get log level from a log line', 'Reformat a log line']
     assert_equal expected, (serialized[:tasks].map { |task| task[:title] })
   end
 
   test "serialize concept exercise task text" do
-    exercise = create :concept_exercise
+    solution = create :concept_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = [
       "<p>Implement the <code>LogLineParser.message</code> method to return a log line's message:</p>\n<pre><code class=\"language-ruby\">LogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n</code></pre>\n<p>Any leading or trailing white space should be removed:</p>\n<pre><code class=\"language-ruby\">LogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
@@ -89,9 +91,9 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
   end
 
   test "serialize concept exercise task hints" do
-    exercise = create :concept_exercise
+    solution = create :concept_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     expected = [
       ["<p>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">Ruby language official\ndocumentation</a>.</p>\n", # rubocop:disable Layout/LineLength
@@ -104,16 +106,18 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize concept exercise without general hints" do
     exercise = create :concept_exercise, slug: 'numbers'
+    solution = create :concept_solution, exercise: exercise
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     assert_empty serialized[:general_hints]
   end
 
   test "serialize concept exercise with some tasks missing hints" do
     exercise = create :concept_exercise, slug: 'booleans'
+    solution = create :concept_solution, exercise: exercise
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     assert_equal 3, serialized[:tasks].length
     assert serialized[:tasks][0][:hints].present?
@@ -122,10 +126,20 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
   end
 
   test "practice exercise does not have any tasks" do
-    exercise = create :practice_exercise
+    solution = create :practice_solution
 
-    serialized = SerializeExerciseAssignment.(exercise)
+    serialized = SerializeExerciseAssignment.(solution)
 
     assert_empty serialized[:tasks]
+  end
+
+  test "uses solution git sha instead of exercise sha" do
+    exercise = create :concept_exercise, slug: 'arrays', git_sha: '0913c69f21b3f81477337b259a21fb7278393bc1'
+    solution = create :concept_solution, exercise: exercise, git_sha: 'ef19c86ee73dfbd3df8f3d49251008783a51de91'
+
+    serialized = SerializeExerciseAssignment.(solution)
+
+    refute_includes serialized[:overview], 'that keeps track of how'
+    assert_includes serialized[:overview], 'that tracks how'
   end
 end

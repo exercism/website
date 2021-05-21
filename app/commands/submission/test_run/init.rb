@@ -19,8 +19,9 @@ class Submission
             exercise_git_dir: exercise_repo.dir,
             exercise_filepaths: exercise_filepaths
           }
-        )
-        submission.tests_queued!
+        ).tap do
+          submission.tests_queued!
+        end
       end
 
       memoize

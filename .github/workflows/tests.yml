@@ -22,10 +22,16 @@ jobs:
         uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
           ruby-version: .ruby-version
-          bundler-cache: true
+          
+      - name: Install gems
+        run: |
+          gem install rubocop -v 1.7.0
+          gem install rubocop-minitest -v 0.11.0
+          gem install rubocop-performance -v 1.10.1
+          gem install rubocop-rails -v 2.9.1
 
       - name: Run Rubocop
-        run: bundle exec rubocop --except Metrics
+        run: rubocop --except Metrics
 
   ###################
   ##### JS TESTS ####

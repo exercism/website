@@ -9,6 +9,6 @@ fetch_and_sync_all_pull_requests_reputation:
   queue: dribble
 
 sync_issues:
-  cron: "0 2 * * 1"
+  cron: "0 1 * * 2"
   class: "SyncIssuesJob"
   queue: dribble

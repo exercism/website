@@ -8,7 +8,7 @@
     "module": "es2020",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "jsx": "react",
     "strict": true,
     "noEmit": true,

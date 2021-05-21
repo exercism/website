@@ -1,141 +1,126 @@
 require "test_helper"
 
-class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
-  test "create pull request with reviewers" do
-    node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
-    number = 2
-    repo = "exercism/ruby"
-    author = "iHiD"
-    merged_by = "ErikSchierboom"
-    reviews = [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer_username: "ErikSchierboom" }]
-    data = {
-      url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-      repo: repo,
-      node_id: node_id,
-      number: number,
-      state: "closed",
-      action: "closed",
-      author_username: author,
-      labels: [],
-      merged: true,
-      merged_by_username: merged_by,
-      reviews: reviews,
-      html_url: "https://github.com/exercism/ruby/pull/2"
-    }
-
-    pr = Github::PullRequest::CreateOrUpdate.(
-      node_id,
-      number: number,
-      author_username: author,
-      merged_by_username: merged_by,
-      repo: repo,
-      reviews: reviews,
-      data: data
+class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
+  test "create issue with labels" do
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby",
+      labels: %w[bug good-first-issue],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
     )
 
-    assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
-    assert_equal 2, pr.number
-    assert_equal "exercism/ruby", pr.repo
-    assert_equal "iHiD", pr.author_username
-    assert_equal "ErikSchierboom", pr.merged_by_username
-    assert_equal data, pr.data
-    assert_equal 1, pr.reviews.size
-    assert_equal "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", pr.reviews.first.node_id
-    assert_equal "ErikSchierboom", pr.reviews.first.reviewer_username
+    assert_equal "MDU6SXNzdWU3MjM2MjUwMTI=", issue.node_id
+    assert_equal 999, issue.number
+    assert_equal "grep is failing on Windows", issue.title
+    assert_equal "exercism/ruby", issue.repo
+    assert_equal :open, issue.status
+    assert_equal %w[bug good-first-issue], issue.labels.pluck(:label).sort
+    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
+    assert_equal "SleeplessByte", issue.opened_by_username
   end
 
-  test "create pull request without reviewers" do
-    node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
-    number = 2
-    repo = "exercism/ruby"
-    author = "iHiD"
-    merged_by = "ErikSchierboom"
-    reviews = []
-    data = {
-      url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-      repo: repo,
-      node_id: node_id,
-      number: number,
-      state: "closed",
-      action: "closed",
-      author_username: author,
+  test "create issue without labels" do
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby",
       labels: [],
-      merged: true,
-      merged_by_username: merged_by,
-      reviews: reviews,
-      html_url: "https://github.com/exercism/ruby/pull/2"
-    }
-
-    pr = Github::PullRequest::CreateOrUpdate.(
-      node_id,
-      number: number,
-      author_username: author,
-      merged_by_username: merged_by,
-      repo: repo,
-      reviews: reviews,
-      data: data
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
     )
 
-    assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
-    assert_equal 2, pr.number
-    assert_equal "exercism/ruby", pr.repo
-    assert_equal "iHiD", pr.author_username
-    assert_equal "ErikSchierboom", pr.merged_by_username
-    assert_equal data, pr.data
-    assert_empty pr.reviews
+    assert_equal "MDU6SXNzdWU3MjM2MjUwMTI=", issue.node_id
+    assert_equal 999, issue.number
+    assert_equal "grep is failing on Windows", issue.title
+    assert_equal "exercism/ruby", issue.repo
+    assert_equal :open, issue.status
+    assert_empty issue.labels
+    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
+    assert_equal "SleeplessByte", issue.opened_by_username
   end
 
-  test "update pull request if data has changed" do
-    pr = create :github_pull_request
-    changed_data = pr.data
-    changed_data[:labels] = ["new-label"]
-
-    Github::PullRequest::CreateOrUpdate.(
-      pr.node_id,
-      number: pr.number,
-      author_username: pr.author_username,
-      merged_by_username: pr.merged_by_username,
-      repo: pr.repo,
-      reviews: pr.reviews,
-      data: changed_data
+  test "create issue without author" do
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: nil
     )
 
-    assert_equal changed_data, pr.reload.data
+    assert_equal "MDU6SXNzdWU3MjM2MjUwMTI=", issue.node_id
+    assert_equal 999, issue.number
+    assert_equal "grep is failing on Windows", issue.title
+    assert_equal "exercism/ruby", issue.repo
+    assert_equal :open, issue.status
+    assert_empty issue.labels
+    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
+    assert issue.opened_by_username.nil?
+  end
+
+  test "update issue if data has changed" do
+    issue = create :github_issue
+
+    Github::Issue::CreateOrUpdate.(
+      issue.node_id,
+      number: issue.number,
+      title: "grep is unsuccessful on Windows",
+      state: issue.status.to_s.upcase,
+      repo: issue.repo,
+      labels: %w[bug good-first-issue help-wanted],
+      opened_at: issue.opened_at,
+      opened_by_username: issue.opened_by_username
+    )
+
+    issue.reload
+    assert_equal "grep is unsuccessful on Windows", issue.title
+    assert_equal %w[bug good-first-issue help-wanted], issue.labels.pluck(:label).sort
   end
 
   test "does not update pull request if data has not changed" do
     freeze_time do
-      pr = create :github_pull_request
-      updated_at_before_call = pr.updated_at
+      issue = create :github_issue
+      updated_at_before_call = issue.updated_at
 
-      Github::PullRequest::CreateOrUpdate.(
-        pr.node_id,
-        number: pr.number,
-        author_username: pr.author_username,
-        merged_by_username: pr.merged_by_username,
-        repo: pr.repo,
-        reviews: pr.reviews,
-        data: pr.data
+      Github::Issue::CreateOrUpdate.(
+        issue.node_id,
+        number: issue.number,
+        title: issue.title,
+        state: issue.status.to_s.upcase,
+        repo: issue.repo,
+        labels: issue.labels.pluck(:label),
+        opened_at: issue.opened_at,
+        opened_by_username: issue.opened_by_username
       )
 
-      assert_equal updated_at_before_call, pr.reload.updated_at
+      assert_equal updated_at_before_call, issue.reload.updated_at
     end
   end
 
-  test "removes reviewers if no longer present" do
-    pr = create :github_pull_request
-    create :github_pull_request_review, pull_request: pr
+  test "removes labels if no longer present" do
+    issue = create :github_issue
+    create :github_issue_label, issue: issue
 
-    Github::PullRequest::CreateOrUpdate.(
-      pr.node_id,
-      number: pr.number,
-      author_username: pr.author_username,
-      merged_by_username: pr.merged_by_username,
-      repo: pr.repo,
-      reviews: [],
-      data: pr.data
+    Github::Issue::CreateOrUpdate.(
+      issue.node_id,
+      number: issue.number,
+      title: issue.title,
+      state: issue.status.to_s.upcase,
+      repo: issue.repo,
+      labels: [],
+      opened_at: issue.opened_at,
+      opened_by_username: issue.opened_by_username
     )
 
-    assert_empty pr.reload.reviews
+    assert_empty issue.reload.labels
   end
 end

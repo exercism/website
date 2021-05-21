@@ -12,36 +12,36 @@ class Github::IssueTest < ActiveSupport::TestCase
     refute_includes issue.labels, label_3
   end
 
-  test "open?" do
+  test "status_open?" do
     issue = create :github_issue, status: :open
 
-    assert issue.open?
-    refute issue.closed?
+    assert issue.status_open?
+    refute issue.status_closed?
   end
 
-  test "open!" do
+  test "status_open!" do
     issue = create :github_issue, status: :closed
 
-    issue.open!
+    issue.status_open!
 
-    assert issue.open?
-    refute issue.closed?
+    assert issue.status_open?
+    refute issue.status_closed?
   end
 
-  test "closed?" do
+  test "status_closed?" do
     issue = create :github_issue, status: :closed
 
-    refute issue.open?
-    assert issue.closed?
+    refute issue.status_open?
+    assert issue.status_closed?
   end
 
-  test "closed!" do
+  test "status_closed!" do
     issue = create :github_issue, status: :open
 
-    issue.closed!
+    issue.status_closed!
 
-    refute issue.open?
-    assert issue.closed?
+    refute issue.status_open?
+    assert issue.status_closed?
   end
 
   test "open scope" do

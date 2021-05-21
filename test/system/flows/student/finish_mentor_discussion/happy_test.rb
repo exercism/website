@@ -12,8 +12,11 @@ module Flows
           track = create :track
           exercise = create :concept_exercise, track: track
           solution = create :concept_solution, exercise: exercise, user: user
-          submission = create :submission, solution: solution
-          create :iteration, solution: solution, submission: submission
+          submission = create :submission, solution: solution,
+                                           tests_status: :passed,
+                                           representation_status: :generated,
+                                           analysis_status: :completed
+          create :iteration, idx: 1, solution: solution, submission: submission
           discussion = create :mentor_discussion, solution: solution
 
           use_capybara_host do
@@ -26,7 +29,7 @@ module Flows
             click_on "Finish"
             click_on "Complete"
 
-            assert_text "You've completed the mentor discussion for this exercise"
+            assert_text "Nice, it looks like you’re done here!"
           end
         end
       end

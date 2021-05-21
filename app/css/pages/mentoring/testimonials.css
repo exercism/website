@@ -19,6 +19,27 @@
             }
         }
 
+        & .no-testimonials {
+            @apply flex flex-col items-center;
+            @apply border-t-1 border-borderColor6;
+            @apply pt-48 pb-64;
+
+            & .c-icon {
+                height: 48px;
+                width: 48px;
+                @apply mb-12;
+                filter: var(--textColor6-filter);
+            }
+            & h2 {
+                @apply text-18 leading-160 font-medium text-textColor6;
+                @apply mb-8;
+            }
+            & p {
+                @apply text-16 leading-160 text-textColor6;
+                @apply text-center;
+                max-width: 420px;
+            }
+        }
         & .testimonial {
             @apply py-12 px-24;
             @apply border-t-1 border-borderColor6;

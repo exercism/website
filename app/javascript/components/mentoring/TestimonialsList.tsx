@@ -7,7 +7,7 @@ import { Testimonial } from '../types'
 import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
 import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
 import { useList } from '../../hooks/use-list'
-import { Pagination } from '../common/Pagination'
+import { GraphicalIcon, Pagination } from '../common'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
 
 export type PaginatedResult = {
@@ -93,39 +93,50 @@ export const TestimonialsList = ({
             defaultError={DEFAULT_ERROR}
           >
             {resolvedData ? (
-              <React.Fragment>
-                <div className="testimonials">
-                  {resolvedData.results.map((testimonial) => {
-                    return testimonial.isRevealed ? (
-                      <RevealedTestimonial
-                        key={testimonial.id}
-                        testimonial={testimonial}
-                        isRevealed={revealedTestimonials.includes(
-                          testimonial.id
-                        )}
-                      />
-                    ) : (
-                      <UnrevealedTestimonial
-                        key={testimonial.id}
-                        testimonial={testimonial}
-                        cacheKey={cacheKey}
-                        onRevealed={() =>
-                          setRevealedTestimonials([
-                            ...revealedTestimonials,
-                            testimonial.id,
-                          ])
-                        }
-                      />
-                    )
-                  })}
+              resolvedData.results.length == 0 ? (
+                <div className="no-testimonials">
+                  <GraphicalIcon icon="testimonials" />
+                  <h2>You currently have no testimonials</h2>
+                  <p>
+                    Testimonials are left by students on ending successful
+                    mentoring discussions.
+                  </p>
                 </div>
-                <Pagination
-                  disabled={latestData === undefined}
-                  current={request.query.page}
-                  total={resolvedData.meta.totalPages}
-                  setPage={setPage}
-                />
-              </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <div className="testimonials">
+                    {resolvedData.results.map((testimonial) => {
+                      return testimonial.isRevealed ? (
+                        <RevealedTestimonial
+                          key={testimonial.id}
+                          testimonial={testimonial}
+                          isRevealed={revealedTestimonials.includes(
+                            testimonial.id
+                          )}
+                        />
+                      ) : (
+                        <UnrevealedTestimonial
+                          key={testimonial.id}
+                          testimonial={testimonial}
+                          cacheKey={cacheKey}
+                          onRevealed={() =>
+                            setRevealedTestimonials([
+                              ...revealedTestimonials,
+                              testimonial.id,
+                            ])
+                          }
+                        />
+                      )
+                    })}
+                  </div>
+                  <Pagination
+                    disabled={latestData === undefined}
+                    current={request.query.page}
+                    total={resolvedData.meta.totalPages}
+                    setPage={setPage}
+                  />
+                </React.Fragment>
+              )
             ) : null}
           </FetchingBoundary>
         </ResultsZone>

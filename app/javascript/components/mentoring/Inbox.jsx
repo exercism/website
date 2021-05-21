@@ -9,13 +9,16 @@ import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useHistory } from '../../hooks/use-history'
-import { useDebounce } from '../../hooks/use-debounce'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
-  const { request, setCriteria, setOrder, setPage, setQuery } = useList(
-    props.discussionsRequest
-  )
-  const debouncedQuery = useDebounce(request.query, 500)
+  const [criteria, setCriteria] = useState('')
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setOrder,
+    setPage,
+    setQuery,
+  } = useList(props.discussionsRequest)
   const isMountedRef = useIsMounted()
   const {
     status,
@@ -24,12 +27,22 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     isFetching,
     refetch,
   } = usePaginatedRequestQuery(
-    ['mentor-discussion-list', request.endpoint, debouncedQuery],
+    ['mentor-discussion-list', request.endpoint, request.query],
     request,
     isMountedRef
   )
 
-  useHistory({ pushOn: debouncedQuery })
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 500)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: request.query })
 
   const setTrack = (track) => {
     setQuery({ ...request.query, track: track, page: 1 })
@@ -83,7 +96,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
             setTrack={setTrack}
           />
           <TextFilter
-            filter={request.query.criteria}
+            filter={criteria}
             setFilter={setCriteria}
             id="discussion-filter"
             placeholder="Filter by student or exercise name"

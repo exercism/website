@@ -154,9 +154,8 @@ class Solution < ApplicationRecord
     update(mentoring_status: new_status) if mentoring_status != new_status
   end
 
-  # TODO
   def out_of_date?
-    true
+    git_sha != exercise.git_sha
   end
 
   def solution_files

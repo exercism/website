@@ -24,7 +24,7 @@
                 @apply text-label-code-caps mb-12;
             }
             & .editor {
-                @apply mr-32;
+                @apply mr-32 flex-shrink-0;
             }
             & .cli {
                 @apply overflow-hidden;

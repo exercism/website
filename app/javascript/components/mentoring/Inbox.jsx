@@ -35,7 +35,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
   useEffect(() => {
     const handler = setTimeout(() => {
       setRequestCriteria(criteria)
-    }, 500)
+    }, 200)
 
     return () => {
       clearTimeout(handler)

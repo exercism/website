@@ -14,12 +14,13 @@ import {
   WrapSetting,
   Themes,
   Assignment,
+  TabBehavior,
 } from './editor/types'
 import { File } from './types'
 import { Iteration } from './types'
 import { Header } from './editor/Header'
 import { FileEditorHandle } from './editor/FileEditorAce'
-import { FileEditorAce } from './editor/FileEditorAce'
+import { FileEditorCodeMirror } from './editor/FileEditorCodeMirror'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
@@ -103,7 +104,7 @@ export function Editor({
   config: EditorConfig
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
-  const [theme, setTheme] = useState(Themes.LIGHT)
+  const [theme, setTheme] = useState<Themes>(Themes.LIGHT)
   const [
     { status: revertStatus, apiError: revertApiError },
     revertDispatch,
@@ -119,6 +120,7 @@ export function Editor({
     Keybindings.DEFAULT
   )
   const [wrap, setWrap] = useState<WrapSetting>('on')
+  const [tabBehavior, setTabBehavior] = useState<TabBehavior>('default')
   const isMountedRef = useIsMounted()
   const [
     { submission, status: submissionStatus, apiError: submissionApiError },
@@ -392,9 +394,11 @@ export function Editor({
               theme={theme}
               keybindings={keybindings}
               wrap={wrap}
+              tabBehavior={tabBehavior}
               setTheme={setTheme}
               setKeybindings={setKeybindings}
               setWrap={setWrap}
+              setTabBehavior={setTabBehavior}
             />
             <Header.ActionMore
               onRevertToExerciseStart={revertToExerciseStart}
@@ -408,13 +412,14 @@ export function Editor({
         </div>
         <article className="main">
           <div className="lhs">
-            <FileEditorAce
+            <FileEditorCodeMirror
               editorDidMount={editorDidMount}
               files={files}
               language={aceLanguage}
               theme={theme}
               keybindings={keybindings}
               wrap={wrap}
+              tabBehavior={tabBehavior}
               onRunTests={runTests}
               onSubmit={submit}
               config={config}

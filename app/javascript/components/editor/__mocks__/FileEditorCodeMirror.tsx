@@ -12,13 +12,14 @@ export enum Keybindings {
   EMACS = 'emacs',
 }
 
-export function FileEditorAce({
+export function FileEditorCodeMirror({
   files,
   language,
   editorDidMount,
   wrap,
   theme,
   keybindings,
+  tabBehavior,
 }): JSX.Element {
   const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const textareaRef = useRef(files.map(() => createRef()))
@@ -51,6 +52,7 @@ export function FileEditorAce({
       <p>Keybindings: {keybindings}</p>
       <p>Wrap: {wrap}</p>
       <p>Palette open: {isPaletteOpen.toString()}</p>
+      <p>Tab behavior: {tabBehavior}</p>
       {files.map((file, i) => (
         <div key={file.filename}>
           <p>Value: {file.content}</p>

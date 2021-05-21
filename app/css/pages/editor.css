@@ -119,12 +119,12 @@
                 & .name {
                     @apply text-16 font-medium text-darkGray;
                     @apply mr-56;
-                    width: 100px;
+                    width: 110px;
                 }
 
                 & .options {
                     @apply bg-borderLight rounded-100;
-                    @apply flex items-center;
+                    @apply flex items-center flex-grow-0;
                     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
 
                     & label {
@@ -192,6 +192,7 @@
         & .lhs {
             @apply flex flex-col flex-grow;
             @apply bg-backgroundColorB;
+            @apply overflow-hidden;
 
             & .c-iteration-pane {
                 height: 100%;
@@ -201,13 +202,13 @@
                 @apply pt-12;
                 @apply bg-backgroundColorA;
                 overflow-y: auto;
+
                 & .ace_content {
                     @apply font-medium;
                 }
 
                 /* These bits handle things resizing correctly */
                 @apply flex h-arbitary;
-                padding-bottom: 47px; /* Can be removed if footer shadow becomes inset */
                 & .ace_editor {
                     @apply flex-grow;
                     @apply w-100;
@@ -217,9 +218,10 @@
             /*@apply border-t-1 border-borderColor6;*/
             & footer.lhs-footer {
                 @apply flex-shrink-0 flex-grow-0;
-                @apply flex items-center justify-end px-32 pb-24;
+                @apply flex items-center justify-end px-32 py-24;
                 @apply bg-backgroundColorB;
                 @apply relative;
+                box-shadow: inset 0 24px 24px -24px var(--backgroundColorA);
 
                 & button {
                     @apply ml-20;
@@ -229,27 +231,12 @@
                         @apply ml-0;
                     }
                 }
-
-                &:before {
-                    content: "";
-                    height: 48px;
-                    top: -48px;
-                    left: 0;
-                    right: 0;
-                    position: absolute;
-                    z-index: 4;
-                    background: linear-gradient(
-                        180deg,
-                        var(--backgroundColorA),
-                        var(--backgroundColorB) 44.22%
-                    );
-                }
             }
         }
         & .rhs {
             @apply bg-backgroundColorA;
-            @apply flex flex-col;
-            width: 40%;
+            @apply flex flex-col flex-grow-0 flex-shrink-0;
+            width: 500px;
             /* Put a shadow over the LHS */
             @apply shadow-xsZ1;
             z-index: 20;
@@ -430,75 +417,116 @@
         }
     }
 }
-/* General overrides */
+
 #page-editor {
-    & .ace_editor {
-        line-height: 170%;
-    }
-    & .ace_gutter,
-    & .ace_gutter-layer {
-        width: 70px !important;
+    & .cm-editor {
+        width: 100%;
 
-        & .ace_gutter-cell {
-            padding-left: 0px !important;
-            padding-right: 16px !important;
-            text-align: center;
+        &.cm-focused,
+        & .focus-visible {
+            /* TODO: Find a way to set outline for a11y only */
+            outline: none;
         }
-    }
-    & .ace_scroller {
-        left: 70px !important;
-    }
-    & .ace_scroller.ace_scroll-left {
-        box-shadow: 17px 2px 16px -16px rgba(79, 114, 205, 0.3) inset;
-    }
 
-    /* Stop brackets from filling the full line height */
-    & .ace_bracket {
-        max-height: 20px;
-        margin-top: 3px;
-    }
-    & .ace_dialog.ace_dialog-bottom {
-        @apply border-t-1 border-borderColor6;
-        @apply bg-backgroundColorB;
-        @apply pl-16;
-        &,
-        & input {
-            @apply text-15 font-semibold font-mono;
-            @apply text-darkGreen;
+        & .cm-scroller {
+            @apply text-15 font-mono leading-160;
         }
-        & input {
-            @apply w-100;
-            background: transparent;
-            @apply pl-4;
-            &:focus {
-                outline: none !important;
-                border: none !important;
-                box-shadow: none !important;
+        & .cm-gutters {
+            @apply bg-backgroundColorB;
+            @apply border-borderColor7;
+
+            & .cm-lineNumbers .cm-gutterElement {
+                @apply text-center text-textColor7;
+                @apply px-16;
+            }
+            & .cm-foldGutter .cm-gutterElement {
+                @apply pr-4;
+                & span {
+                    vertical-align: top;
+                    line-height: 13px;
+                    &[title="Unfold line"] {
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+        & .cm-content {
+            & .cm-line {
+                @apply pl-8 pr-8;
             }
         }
     }
 }
 
-/* Light theme overrides */
-#page-editor .ace-tm {
-    & .ace_gutter {
-        @apply bg-backgroundColorA;
-    }
-    & .ace_gutter-cell {
-        @apply text-textColor7;
-    }
-    /* Same as the content active line */
-    & .ace_gutter-cell.ace_gutter-active-line {
-        background: rgba(0, 0, 0, 0.07) !important;
-    }
-}
+/* General overrides */
+/* #page-editor { */
+/*     & .ace_editor { */
+/*         line-height: 170%; */
+/*     } */
+/*     & .ace_gutter, */
+/*     & .ace_gutter-layer { */
+/*         width: 70px !important; */
 
-#page-editor .ace-cobalt {
-    & .ace_gutter,
-    & .ace_scroller {
-        @apply bg-backgroundColorA;
-    }
-}
+/*         & .ace_gutter-cell { */
+/*             padding-left: 0px !important; */
+/*             padding-right: 16px !important; */
+/*             text-align: center; */
+/*         } */
+/*     } */
+/*     & .ace_scroller { */
+/*         left: 70px !important; */
+/*     } */
+/*     & .ace_scroller.ace_scroll-left { */
+/*         box-shadow: 17px 2px 16px -16px rgba(79, 114, 205, 0.3) inset; */
+/*     } */
+
+/*     /1* Stop brackets from filling the full line height *1/ */
+/*     & .ace_bracket { */
+/*         max-height: 20px; */
+/*         margin-top: 3px; */
+/*     } */
+/*     & .ace_dialog.ace_dialog-bottom { */
+/*         @apply border-t-1 border-borderColor6; */
+/*         @apply bg-backgroundColorB; */
+/*         @apply pl-16; */
+/*         &, */
+/*         & input { */
+/*             @apply text-15 font-semibold font-mono; */
+/*             @apply text-darkGreen; */
+/*         } */
+/*         & input { */
+/*             @apply w-100; */
+/*             background: transparent; */
+/*             @apply pl-4; */
+/*             &:focus { */
+/*                 outline: none !important; */
+/*                 border: none !important; */
+/*                 box-shadow: none !important; */
+/*             } */
+/*         } */
+/*     } */
+/* } */
+
+/* /1* Light theme overrides *1/ */
+/* #page-editor .ace-tm { */
+/*     & .ace_gutter { */
+/*         @apply bg-backgroundColorA; */
+/*     } */
+/*     & .ace_gutter-cell { */
+/*         @apply text-textColor7; */
+/*     } */
+/*     /1* Same as the content active line *1/ */
+/*     & .ace_gutter-cell.ace_gutter-active-line { */
+/*         background: rgba(0, 0, 0, 0.07) !important; */
+/*     } */
+/* } */
+
+/* #page-editor .ace-cobalt { */
+/*     & .ace_gutter, */
+/*     & .ace_scroller { */
+/*         @apply bg-backgroundColorA; */
+/*     } */
+/* } */
 
 .c-modal.modal-editor-hints {
     & .--modal-content {

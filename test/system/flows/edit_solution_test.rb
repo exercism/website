@@ -6,7 +6,7 @@ module Components
   module Flows
     class EditSolutionTest < ApplicationSystemTestCase
       include CapybaraHelpers
-      include AceHelpers
+      include CodeMirrorHelpers
 
       test "user submits code" do
         Submission::File.any_instance.stubs(:content)

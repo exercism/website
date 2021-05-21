@@ -166,7 +166,7 @@ import '../../css/highlighters/highlightjs-light'
 import '../../css/highlighters/highlightjs-dark'
 
 import React from 'react'
-import { initReact } from './react-bootloader.jsx'
+import { initReact } from '../utils/react-bootloader.jsx'
 import * as Common from '../components/common'
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'

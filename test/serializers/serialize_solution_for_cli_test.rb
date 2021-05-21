@@ -20,7 +20,8 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
             language: solution.track.title
           }
         },
-        file_download_base_url: "https://api.exercism.io/v1/solutions/#{solution.uuid}/files/",
+        # TODO: Change to exercism.io
+        file_download_base_url: "https://exercism.lol/api/v1/solutions/#{solution.uuid}/files/",
         files: Set.new([
                          "README.md", "HELP.md", "HINTS.md", ".meta/config.json",
                          "log_line_parser.rb", "log_line_parser_test.rb"

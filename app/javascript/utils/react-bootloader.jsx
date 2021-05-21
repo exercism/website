@@ -8,6 +8,16 @@ Bugsnag.start({
   releaseStage: process.env.NODE_ENV,
   plugins: [new BugsnagPluginReact()],
   enabledReleaseStages: ['production'],
+  collectUserIp: false,
+  onError: function (event) {
+    const tag = document.querySelector('meta[name="user-id"]')
+
+    if (!tag) {
+      return true
+    }
+
+    event.setUser(tag.content)
+  },
 })
 
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)

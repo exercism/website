@@ -11,7 +11,7 @@ jobs:
   ##################
   rubocop:
     # TODO: Change this to website when merging
-    if: github.repository == 'exercism/website'
+    # if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
 
@@ -31,7 +31,7 @@ jobs:
   ##### JS TESTS ####
   ###################
   js-tests:
-    if: github.repository == 'exercism/website'
+    # if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
     steps:
@@ -68,7 +68,7 @@ jobs:
   ##### RUBY TESTS ####
   #####################
   ruby-tests:
-    if: github.repository == 'exercism/website'
+    # if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
     services:
@@ -156,7 +156,7 @@ jobs:
   ##### SYSTEM TESTS ####
   #######################
   system-tests:
-    if: github.repository == 'exercism/website'
+    # if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
     services:
@@ -253,7 +253,7 @@ jobs:
   ##### ASSET TESTS ####
   ######################
   asset-tests:
-    if: github.repository == 'exercism/website'
+    # if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
     steps:

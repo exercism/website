@@ -4,12 +4,8 @@ import { basicSetup } from '@codemirror/basic-setup'
 import { defaultTabBinding } from '@codemirror/commands'
 import { EditorState, Compartment } from '@codemirror/state'
 import { indentUnit } from '@codemirror/language'
-
-/* TODO: Add support for more languages */
-import { StreamLanguage } from '@codemirror/stream-parser'
-import { ruby } from '@codemirror/legacy-modes/mode/ruby'
-// import { javascript } from '@codemirror/lang-javascript'
 import { Themes } from '../editor/types'
+import { languageCompartment } from './CodeMirror/languageCompartment'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -80,8 +76,8 @@ export const CodeMirror = ({
         doc: value,
         extensions: [
           basicSetup,
+          languageCompartment(language),
           //javascript(),
-          StreamLanguage.define(ruby),
           tabCaptureCompartment.of(
             keymap.of(isTabCaptured ? [defaultTabBinding] : [])
           ),

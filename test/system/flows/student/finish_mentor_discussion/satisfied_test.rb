@@ -27,7 +27,7 @@ module Flows
             click_on "Acceptable"
             click_on "No thanks"
 
-            assert_text "You've completed the mentor discussion for this exercise"
+            assert_text "Nice, it looks like you’re done here!"
           end
         end
 

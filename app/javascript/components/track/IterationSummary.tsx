@@ -18,6 +18,7 @@ type IterationSummaryProps = {
   isLatest: boolean
   showSubmissionMethod: boolean
   showTestsStatusAsButton: boolean
+  showFeedbackIndicator: boolean
 }
 
 export const IterationSummaryWithWebsockets = ({
@@ -55,6 +56,7 @@ export function IterationSummary({
   isLatest,
   showSubmissionMethod,
   showTestsStatusAsButton,
+  showFeedbackIndicator,
 }: IterationSummaryProps): JSX.Element {
   return (
     <div className={`c-iteration-summary ${className}`}>
@@ -98,15 +100,19 @@ export function IterationSummary({
       ) : (
         <ProcessingStatusSummary iterationStatus={iteration.status} />
       )}
-      <AnalysisStatusSummary
-        numEssentialAutomatedComments={iteration.numEssentialAutomatedComments}
-        numActionableAutomatedComments={
-          iteration.numActionableAutomatedComments
-        }
-        numNonActionableAutomatedComments={
-          iteration.numNonActionableAutomatedComments
-        }
-      />
+      {showFeedbackIndicator ? (
+        <AnalysisStatusSummary
+          numEssentialAutomatedComments={
+            iteration.numEssentialAutomatedComments
+          }
+          numActionableAutomatedComments={
+            iteration.numActionableAutomatedComments
+          }
+          numNonActionableAutomatedComments={
+            iteration.numNonActionableAutomatedComments
+          }
+        />
+      ) : null}
       <time
         dateTime={iteration.createdAt.toString()}
         title={iteration.createdAt.toString()}

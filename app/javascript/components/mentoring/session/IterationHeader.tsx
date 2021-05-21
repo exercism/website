@@ -16,6 +16,7 @@ export const IterationHeader = ({
         showSubmissionMethod={false}
         isLatest={isLatest}
         showTestsStatusAsButton={true}
+        showFeedbackIndicator={false}
       />
     </header>
   )

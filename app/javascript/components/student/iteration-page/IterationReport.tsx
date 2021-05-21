@@ -41,6 +41,7 @@ export const IterationReport = ({
             isLatest={false}
             showSubmissionMethod={true}
             showTestsStatusAsButton={false}
+            showFeedbackIndicator={true}
           />
           <div className="opener">
             <div className="--closed-icon">

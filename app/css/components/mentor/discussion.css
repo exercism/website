@@ -97,8 +97,7 @@
             @apply py-8 px-24;
             @apply border-b-1 border-borderColor6;
 
-            & .--idx .--dot,
-            & .--feedback {
+            & .--idx .--dot {
                 @apply hidden;
             }
         }

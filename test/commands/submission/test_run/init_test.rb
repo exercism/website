@@ -19,7 +19,7 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         submission_efs_root: submission.uuid,
         submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
         exercise_git_repo: solution.track.slug,
-        exercise_git_sha: solution.track.git_head_sha,
+        exercise_git_sha: solution.git_sha,
         exercise_git_dir: "exercises/concept/strings",
         # Check we exclude .docs, README and the overriden source file
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]

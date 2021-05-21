@@ -14,7 +14,7 @@
         .seperator /
         = link_to @exercise.title, track_exercise_path(@track, @exercise)
         .seperator /
-        = link_to "Community Solutions", track_exercise_community_solutions_path(@track, @exercise)
+        = link_to "Community Solutions", track_exercise_solutions_path(@track, @exercise)
         .seperator /
         .exercise-title #{@author.handle}'s solution
 
@@ -91,4 +91,4 @@
         - @other_solutions.each do |solution|
           = render ReactComponents::Common::CommunitySolution.new(solution, context: :exercise)
 
-        = render ViewComponents::ProminentLink.new("Explore other solutions to this exercise", track_exercise_community_solutions_path(@track, @exercise))
+        = render ViewComponents::ProminentLink.new("Explore other solutions to this exercise", track_exercise_solutions_path(@track, @exercise))

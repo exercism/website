@@ -7,3 +7,8 @@ fetch_and_sync_all_pull_requests_reputation:
   cron: "0 1 * * 1"
   class: "FetchAndSyncAllPullRequestsReputationJob"
   queue: dribble
+
+sync_issues:
+  cron: "0 1 * * 2"
+  class: "SyncIssuesJob"
+  queue: dribble

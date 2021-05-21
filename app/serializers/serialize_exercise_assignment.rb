@@ -1,7 +1,7 @@
 class SerializeExerciseAssignment
   include Mandate
 
-  initialize_with :exercise
+  initialize_with :solution
 
   def call
     {
@@ -15,7 +15,7 @@ class SerializeExerciseAssignment
   def overview
     # Practice exercises don't have any tasks, so we can just return
     # the entire instructions without doing any parsing
-    return Markdown::Parse.(instructions) if exercise.practice_exercise?
+    return Markdown::Parse.(instructions) if solution.exercise.practice_exercise?
 
     # Instructions documents are structured as a series of headers and lists:
     # e.g.
@@ -56,7 +56,7 @@ class SerializeExerciseAssignment
 
   def tasks
     # Practice exercises don't have any tasks
-    return [] if exercise.practice_exercise?
+    return [] if solution.exercise.practice_exercise?
 
     instructions_doc.each.
       # Skip the overview part of the instructions
@@ -75,8 +75,8 @@ class SerializeExerciseAssignment
 
   def instructions
     [
-      Markdown::Render.(exercise.git.instructions, :text).strip,
-      Markdown::Render.(exercise.git.instructions_append, :text).strip
+      Markdown::Render.(solution.git_exercise.instructions, :text).strip,
+      Markdown::Render.(solution.git_exercise.instructions_append, :text).strip
     ].join("\n\n").strip
   end
 
@@ -87,7 +87,7 @@ class SerializeExerciseAssignment
 
   memoize
   def hints_doc
-    Markdown::Render.(exercise.git.hints, :doc)
+    Markdown::Render.(solution.git_exercise.hints, :doc)
   end
 
   def parse_title(header)

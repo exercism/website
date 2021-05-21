@@ -10,8 +10,7 @@ module ReactComponents
           track_title: track.title,
           exercise_title: solution.exercise.title,
           introduction: introduction,
-          # TODO: This should be using the solution sha, not the exercise sha
-          assignment: SerializeExerciseAssignment.(solution.exercise),
+          assignment: SerializeExerciseAssignment.(solution),
           tests: solution.exercise.practice_exercise? ? solution.tests : nil,
           debugging_instructions: debugging_instructions,
           example_files: SerializeFiles.(example_files),

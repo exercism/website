@@ -5,6 +5,7 @@ module API
       before_action :authenticate_user
       before_action :use_exercise
 
+      # TODO: This needs test coverage
       def index
         mapper = proc do |user|
           {
@@ -12,7 +13,7 @@ module API
             handle: user.handle,
             reputation: user.formatted_reputation,
             links: {
-              self: user.profile ? profile_url(user) : user
+              self: user.profile ? profile_url(user) : nil
             }
           }
         end

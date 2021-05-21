@@ -19,19 +19,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@a699edbce608a2c128dedad88e3b6a0e28687b3c
+        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
-          ruby-version: 2.6.6
-
-      - name: Install gems
-        run: |
-          gem install rubocop -v 1.7.0
-          gem install rubocop-minitest -v 0.11.0
-          gem install rubocop-performance -v 1.10.1
-          gem install rubocop-rails -v 2.9.1
+          ruby-version: .ruby-version
+          bundler-cache: true
 
       - name: Run Rubocop
-        run: rubocop --except Metrics
+        run: bundle exec rubocop --except Metrics
 
   ###################
   ##### JS TESTS ####
@@ -61,7 +55,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       ###
-      # Install bundler and yarn dependencies
+      # Install yarn dependencies
       - name: Install dependencies
         run: yarn install
 
@@ -110,11 +104,11 @@ jobs:
       - uses: actions/checkout@v2
 
       ###
-      # Setup Ruby - this needs to match the version in the Gemfile
+      # Setup Ruby
       - name: Set up Ruby
-        uses: ruby/setup-ruby@a699edbce608a2c128dedad88e3b6a0e28687b3c
+        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
-          ruby-version: 2.6.6
+          ruby-version: .ruby-version
           bundler-cache: true
 
       ###
@@ -199,9 +193,9 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@a699edbce608a2c128dedad88e3b6a0e28687b3c
+        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
-          ruby-version: 2.6.6
+          ruby-version: .ruby-version
           bundler-cache: true
 
       ###
@@ -270,9 +264,9 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@a699edbce608a2c128dedad88e3b6a0e28687b3c
+        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
-          ruby-version: 2.6.6
+          ruby-version: .ruby-version
           bundler-cache: true
 
       ###

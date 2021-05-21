@@ -45,6 +45,9 @@ export function ProcessingStatusSummary({
 }: {
   iterationStatus: IterationStatus
 }): JSX.Element {
+  if (iterationStatus == IterationStatus.UNTESTED) {
+    return <></>
+  }
   const status = transformStatus(iterationStatus)
 
   return (

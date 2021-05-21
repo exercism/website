@@ -82,6 +82,7 @@ export const Nudge = ({
 
   useEffect(() => {
     switch (iterationStatus) {
+      case IterationStatus.UNTESTED:
       case IterationStatus.TESTING:
       case IterationStatus.ANALYZING:
         setQueryEnabled(true)

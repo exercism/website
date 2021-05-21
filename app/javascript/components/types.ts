@@ -270,6 +270,7 @@ export enum SubmissionTestsStatus {
 }
 
 export enum IterationStatus {
+  UNTESTED = 'untested',
   TESTING = 'testing',
   TESTS_FAILED = 'tests_failed',
   ANALYZING = 'analyzing',

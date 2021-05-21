@@ -26,7 +26,8 @@ class Iteration < ApplicationRecord
 
   def status
     Status.new(lambda {
-      return :testing                           if submission.tests_pending?
+      return :untested                          if submission.tests_not_queued?
+      return :testing                           if submission.tests_queued?
       return :tests_failed                      unless submission.tests_passed?
       return :analyzing                         if submission.automated_feedback_pending?
       return :essential_automated_feedback      if submission.has_essential_automated_feedback?
@@ -71,7 +72,7 @@ class Iteration < ApplicationRecord
     end
 
     %i[
-      testing tests_failed analyzing
+      untested testing tests_failed analyzing
       essential_automated_feedback actionable_automated_feedback
       non_actionable_automated_feedback no_automated_feedback
     ].each do |s|

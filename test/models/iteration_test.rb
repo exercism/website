@@ -27,16 +27,6 @@ class IterationTest < ActiveSupport::TestCase
     iteration.broadcast!
   end
 
-  test "tests_pending?" do
-    assert create(:submission, tests_status: :not_queued).tests_pending?
-    assert create(:submission, tests_status: :queued).tests_pending?
-    refute create(:submission, tests_status: :passed).tests_pending?
-    refute create(:submission, tests_status: :failed).tests_pending?
-    refute create(:submission, tests_status: :errored).tests_pending?
-    refute create(:submission, tests_status: :exceptioned).tests_pending?
-    refute create(:submission, tests_status: :cancelled).tests_pending?
-  end
-
   test "tests_passed?" do
     refute create(:submission, tests_status: :not_queued).tests_passed?
     refute create(:submission, tests_status: :queued).tests_passed?
@@ -47,9 +37,15 @@ class IterationTest < ActiveSupport::TestCase
     refute create(:submission, tests_status: :cancelled).tests_passed?
   end
 
-  test "status: tests pending" do
+  test "status: tests not_queued" do
+    submission = create :submission, tests_status: :not_queued
+    iteration = create :iteration, submission: submission
+
+    assert iteration.status.untested?
+  end
+
+  test "status: tests queued" do
     submission = create :submission, tests_status: :queued
-    submission.expects(tests_pending?: true)
     iteration = create :iteration, submission: submission
 
     assert iteration.status.testing?
@@ -58,7 +54,8 @@ class IterationTest < ActiveSupport::TestCase
   test "status: tests failed" do
     submission = create :submission, tests_status: :queued
     submission.expects(
-      tests_pending?: false,
+      tests_not_queued?: false,
+      tests_queued?: false,
       tests_passed?: false
     )
     iteration = create :iteration, submission: submission
@@ -69,7 +66,8 @@ class IterationTest < ActiveSupport::TestCase
   test "status: pending feedback" do
     submission = create :submission, tests_status: :queued
     submission.expects(
-      tests_pending?: false,
+      tests_not_queued?: false,
+      tests_queued?: false,
       tests_passed?: true,
       automated_feedback_pending?: true
     )
@@ -81,7 +79,8 @@ class IterationTest < ActiveSupport::TestCase
   test "status: no feedback" do
     submission = create :submission, tests_status: :queued
     submission.expects(
-      tests_pending?: false,
+      tests_not_queued?: false,
+      tests_queued?: false,
       tests_passed?: true,
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: false,
@@ -96,7 +95,8 @@ class IterationTest < ActiveSupport::TestCase
   test "status: essential feedback" do
     submission = create :submission, tests_status: :queued
     submission.expects(
-      tests_pending?: false,
+      tests_not_queued?: false,
+      tests_queued?: false,
       tests_passed?: true,
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: true
@@ -109,7 +109,8 @@ class IterationTest < ActiveSupport::TestCase
   test "status: actionable feedback" do
     submission = create :submission, tests_status: :queued
     submission.expects(
-      tests_pending?: false,
+      tests_not_queued?: false,
+      tests_queued?: false,
       tests_passed?: true,
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: false,
@@ -123,7 +124,8 @@ class IterationTest < ActiveSupport::TestCase
   test "status: non_actionable feedback" do
     submission = create :submission, tests_status: :queued
     submission.expects(
-      tests_pending?: false,
+      tests_not_queued?: false,
+      tests_queued?: false,
       tests_passed?: true,
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: false,
@@ -162,6 +164,6 @@ class IterationTest < ActiveSupport::TestCase
 
     solution.reload
     assert_equal :iterated, solution.status
-    assert_equal :testing, solution.iteration_status
+    assert_equal :untested, solution.iteration_status
   end
 end

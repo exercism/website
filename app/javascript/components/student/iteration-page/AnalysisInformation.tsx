@@ -26,6 +26,7 @@ export const AnalysisInformation = ({
           <p>This usually takes 10-30 seconds.</p>
         </div>
       )
+    case IterationStatus.UNTESTED:
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
     case IterationStatus.TESTS_FAILED:
       return (

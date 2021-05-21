@@ -331,6 +331,16 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal 1, solution.num_stars
   end
 
+  test "out_of_date" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    refute solution.out_of_date?
+
+    solution.update(git_sha: "foobar")
+    assert solution.out_of_date?
+  end
+
   # test "tests and feedback statuses proxy to latest iteration" do
   #   solution = create :concept_solution
   #   create :iteration, solution: solution

@@ -20,11 +20,13 @@ export const SolutionView = ({
   iterations,
   publishedIterationIdx,
   language,
+  outOfDate,
   links,
 }: {
   iterations: readonly Iteration[]
   publishedIterationIdx: number | null
   language: string
+  outOfDate: boolean
   links: Links
 }): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
@@ -43,9 +45,11 @@ export const SolutionView = ({
     <div className="c-solution-iterations">
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
-        isLatest={true}
+        isLatest={true} /* TODO: This should change per iteration */
+        isOutOfDate={outOfDate}
         showSubmissionMethod={true}
         showTestsStatusAsButton={true}
+        showFeedbackIndicator={false}
       />
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

@@ -7,6 +7,7 @@ module ReactComponents
         super("common-solution-view", {
           iterations: solution.published_iterations.map { |iteration| SerializeIteration.(iteration) },
           language: solution.track.highlightjs_language,
+          out_of_date: solution.out_of_date?,
           published_iteration_idx: solution.published_iteration.try(:idx),
           links: {
             change_iteration: change_iteration_link,

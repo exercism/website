@@ -12,9 +12,10 @@ export const IterationLink = ({
     <a className="iteration" href={iteration.links.self}>
       <IterationSummary
         iteration={iteration}
-        showTestsStatusAsButton={false}
         isLatest={false}
         showSubmissionMethod={true}
+        showTestsStatusAsButton={false}
+        showFeedbackIndicator={true}
       />
 
       <GraphicalIcon icon="chevron-right" className="action-icon" />

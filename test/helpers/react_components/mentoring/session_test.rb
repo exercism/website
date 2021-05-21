@@ -44,6 +44,7 @@ module Mentoring
           student: SerializeStudent.(student, relationship: nil, anonymous_mode: false),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
+          out_of_date: false,
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),

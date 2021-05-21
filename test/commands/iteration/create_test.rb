@@ -52,6 +52,22 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     end
   end
 
+  test "starts test run if untested" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    Submission::TestRun::Init.expects(:call).with(submission)
+    Iteration::Create.(solution, submission)
+  end
+
+  test "does not start test run if already running" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution, tests_status: :queued
+
+    Submission::TestRun::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
   test "starts analysis and representation" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"
@@ -68,9 +84,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     SecureRandom.stubs(uuid: job_id)
 
     Submission::Representation::Init.expects(:call).with(submission)
-
-    # TODO: Readd this when analyses are reenabled
-    # Submission::Analysis::Init.expects(:call).with(submission)
+    Submission::Analysis::Init.expects(:call).with(submission)
 
     Iteration::Create.(solution, submission)
 

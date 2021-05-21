@@ -15,9 +15,11 @@ const DEFAULT_ERROR = new Error('Unable to load files')
 export const IterationView = ({
   iterations,
   language,
+  isOutOfDate,
 }: {
   iterations: readonly Iteration[]
   language: string
+  isOutOfDate: boolean
 }): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -36,6 +38,7 @@ export const IterationView = ({
       <IterationHeader
         iteration={currentIteration}
         isLatest={iterations[iterations.length - 1] === currentIteration}
+        isOutOfDate={isOutOfDate}
       />
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

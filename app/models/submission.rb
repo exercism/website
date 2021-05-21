@@ -37,10 +37,6 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
-  def tests_pending?
-    %w[not_queued queued].include?(tests_status)
-  end
-
   def tests_passed?
     tests_status == "passed"
   end

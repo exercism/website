@@ -14,6 +14,7 @@ test('shows details', async () => {
         numEssentialAutomatedComments: 2,
       }}
       showSubmissionMethod={true}
+      showFeedbackIndicator={true}
     />
   )
 

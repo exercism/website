@@ -21,7 +21,7 @@ module Components
       test "Untested iteration" do
         user = create :user
         solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution, tests_status: :untested
+        submission = create :submission, solution: solution, tests_status: :not_queued
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.untested? # Sanity
 
@@ -31,9 +31,7 @@ module Components
         end
 
         assert_text "Iteration 1"
-        within "section.latest-iteration header" do
-          refute_text "Your solution is being processed…"
-        end
+        assert_no_css "section.latest-iteration header"
         assert_no_css "section.completion-nudge"
         assert_no_css "section.mentoring-prompt-nudge"
         assert_no_css "section.mentoring-request-nudge"

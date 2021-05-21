@@ -6,7 +6,8 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   values({ minor: 2, regular: 5, major: 10 })
 
   before_validation on: :create do
-    self.track_id = Track.where(repo_url: "https://github.com/#{repo}").pick(:id) unless track
+    normalized_repo = repo.gsub(/-(test-runner|analyzer|representer)$/, '')
+    self.track_id = Track.where(repo_url: "https://github.com/#{normalized_repo}").pick(:id) unless track
   end
 
   def guard_params

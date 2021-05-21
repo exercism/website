@@ -20,7 +20,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         uuid: iteration.uuid,
         submission_uuid: submission.uuid,
         idx: 0,
-        status: "testing",
+        status: "untested",
         num_essential_automated_comments: 5,
         num_actionable_automated_comments: 2,
         num_non_actionable_automated_comments: 1,

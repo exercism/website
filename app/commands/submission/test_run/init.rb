@@ -20,6 +20,7 @@ class Submission
             exercise_filepaths: exercise_filepaths
           }
         )
+        submission.tests_queued!
       end
 
       memoize

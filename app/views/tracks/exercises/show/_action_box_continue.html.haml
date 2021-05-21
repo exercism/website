@@ -1,4 +1,10 @@
 .action-box
+  .complete
+    %h3 Done with the exercise?
+    %p Taken this exercise as far as you want to? Tick it off your list, and optionally publish your solution for the community to learn from.
+    = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
+    = render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise)
+
   %h3 Continue #{exercise.title}
   %p
     %strong
@@ -15,16 +21,12 @@
         or mark the exercise as completed.
 
   %h4 Via Exercism Editor
-  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn" do
+  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn-default btn-m" do
     = graphical_icon :editor
-    Continue in Editor
+    Continue in editor
 
   %h4 Work locally (via CLI)
   = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
 
   = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
 
-  .complete
-    %h3 Done with the exercise?
-    = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
-    = render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise)

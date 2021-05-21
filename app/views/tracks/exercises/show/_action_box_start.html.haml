@@ -7,7 +7,7 @@
   %h4 Via Exercism Editor
   = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn-primary btn-m" do
     = graphical_icon :editor
-    Start in Editor
+    Start in editor
 
   %h4 Work locally (via CLI)
   = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)

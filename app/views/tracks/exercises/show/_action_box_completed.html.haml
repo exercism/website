@@ -1,4 +1,9 @@
 .action-box
+  - if solution.published?
+    = render ReactComponents::Student::PublishedSolution.new(solution)
+  - else
+    = render ReactComponents::Student::PublishSolutionButton.new(solution)
+
   %h3
     = graphical_icon 'completed-check-circle'
     You’ve completed this exercise
@@ -14,17 +19,11 @@
       or try a different exercise.
 
   %h4 Via Exercism Editor
-  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn" do
+  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn-default btn-m" do
     = graphical_icon :editor
-    Continue in Editor
+    Open in editor
 
   %h4 Work locally (via CLI)
   = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
 
   = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
-
-  - if solution.published?
-    = render ReactComponents::Student::PublishedSolution.new(solution)
-  - else
-    .publish-section
-      = render ReactComponents::Student::PublishSolutionButton.new(solution)

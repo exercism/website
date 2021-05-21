@@ -29,7 +29,7 @@ export const OpenEditorButton = (
       break
     case 'published':
     case 'completed':
-      primarySegment = <a href={props.links.exercise}>Open editor</a>
+      primarySegment = <a href={props.links.exercise}>Open in editor</a>
       break
     default:
       primarySegment = <a href={props.links.exercise}>Continue in editor</a>

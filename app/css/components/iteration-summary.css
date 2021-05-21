@@ -72,6 +72,16 @@
             @apply text-14 text-textColor6 font-medium leading-160;
         }
     }
+    & .--out-of-date {
+        @apply flex items-center;
+        @apply mr-24;
+        @apply text-14 font-bold font-mono text-orange;
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+        }
+    }
     & .--feedback {
         @apply border-1 border-borderColor5 rounded-5;
         @apply flex items-center;

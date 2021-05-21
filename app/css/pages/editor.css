@@ -119,12 +119,12 @@
                 & .name {
                     @apply text-16 font-medium text-darkGray;
                     @apply mr-56;
-                    width: 100px;
+                    width: 110px;
                 }
 
                 & .options {
                     @apply bg-borderLight rounded-100;
-                    @apply flex items-center;
+                    @apply flex items-center flex-grow-0;
                     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
 
                     & label {

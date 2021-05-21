@@ -158,7 +158,7 @@ export function Settings({
               set={(theme) => setTheme(theme as Themes)}
               {...itemAttributes(0)}
             />
-            <Setting
+            {/*<Setting
               title="Keybindings"
               value={localKeybindings}
               options={KEYBINDINGS}
@@ -166,7 +166,7 @@ export function Settings({
                 setLocalKeybindings(keybinding as Keybindings)
               }
               {...itemAttributes(1)}
-            />
+            />*/}
             <Setting
               title="Wrap"
               value={wrap}

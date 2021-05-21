@@ -3,7 +3,7 @@ import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 import { ProcessingStatusButton } from './iteration-summary/ProcessingStatusButton'
-import { ProcessingStatusSummary } from '../common/ProcessingStatusSummary'
+import { GraphicalIcon, ProcessingStatusSummary } from '../common'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 
@@ -16,6 +16,7 @@ type IterationSummaryProps = {
   iteration: Iteration
   className?: string
   isLatest: boolean
+  isOutOfDate?: boolean
   showSubmissionMethod: boolean
   showTestsStatusAsButton: boolean
 }
@@ -53,6 +54,7 @@ export function IterationSummary({
   iteration,
   className,
   isLatest,
+  isOutOfDate,
   showSubmissionMethod,
   showTestsStatusAsButton,
 }: IterationSummaryProps): JSX.Element {
@@ -93,6 +95,13 @@ export function IterationSummary({
           </time>
         </div>
       </div>
+      {isOutOfDate ? (
+        <div className="--out-of-date">
+          <GraphicalIcon icon="warning" />
+          <div className="--status">Outdated</div>
+        </div>
+      ) : null}
+
       {showTestsStatusAsButton ? (
         <ProcessingStatusButton iteration={iteration} />
       ) : (

@@ -267,6 +267,7 @@ initReact({
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       language={data.language}
       publishedIterationIdx={data.published_iteration_idx}
+      outOfDate={data.out_of_date}
       links={camelizeKeysAs<SolutionViewLinks>(data.links)}
     />
   ),
@@ -349,6 +350,7 @@ initReact({
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       notes={data.notes}
+      outOfDate={data.out_of_date}
     />
   ),
   'mentoring-try-mentoring-button': (data: any) => (

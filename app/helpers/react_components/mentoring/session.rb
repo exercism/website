@@ -20,6 +20,7 @@ module ReactComponents
             ),
             mentor_solution: mentor_solution,
             notes: notes,
+            out_of_date: solution.out_of_date?,
             links: links
           }
         )

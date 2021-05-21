@@ -59,6 +59,7 @@ export type SessionProps = {
   iterations: readonly Iteration[]
   userId: number
   notes: string
+  outOfDate: boolean
   mentorSolution: CommunitySolution
   request: Request
 }
@@ -81,6 +82,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     discussion,
     notes,
     mentorSolution,
+    outOfDate,
     request,
     userId,
   } = session
@@ -109,6 +111,7 @@ export const Session = (props: SessionProps): JSX.Element => {
         </header>
         <IterationView
           iterations={iterations}
+          isOutOfDate={outOfDate}
           language={track.highlightjsLanguage}
         />
       </div>

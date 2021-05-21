@@ -1,6 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createPopper } from '@popperjs/core'
+import Bugsnag from '@bugsnag/js'
+import BugsnagPluginReact from '@bugsnag/plugin-react'
+
+Bugsnag.start({
+  apiKey: process.env.BUGSNAG_API_KEY,
+  releaseStage: process.env.NODE_ENV,
+  plugins: [new BugsnagPluginReact()],
+  enabledReleaseStages: ['production'],
+})
+
+const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
 
 export const initReact = (mappings) => {
   document.addEventListener('turbolinks:load', () => {
@@ -11,7 +21,9 @@ export const initReact = (mappings) => {
 
 const render = (elem, component) => {
   ReactDOM.render(
-    <React.StrictMode>{component}</React.StrictMode>,
+    <React.StrictMode>
+      <ErrorBoundary>{component}</ErrorBoundary>
+    </React.StrictMode>,
     elem,
     () => {
       setTimeout(() => {

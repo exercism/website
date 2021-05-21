@@ -2,6 +2,8 @@
   "name": "exercism",
   "private": true,
   "dependencies": {
+    "@bugsnag/js": "^7.10.0",
+    "@bugsnag/plugin-react": "^7.10.0",
     "@codemirror/view": "^0.18.13",
     "@codemirror/basic-setup": "^0.18.2",
     "@codemirror/lang-cpp": "^0.18.0",

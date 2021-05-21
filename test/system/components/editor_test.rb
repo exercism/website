@@ -5,7 +5,7 @@ require_relative "../../support/ace_helpers"
 module Components
   class EditorTest < ApplicationSystemTestCase
     include CapybaraHelpers
-    include AceHelpers
+    include CodeMirrorHelpers
 
     test "user runs tests and tests pass with - v3 test runner" do
       user = create :user

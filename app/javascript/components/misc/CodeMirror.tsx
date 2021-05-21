@@ -13,6 +13,7 @@ import { Themes } from '../editor/types'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
+const tabCaptureCompartment = new Compartment()
 
 export type Handler = {
   setValue: (value: string) => void
@@ -28,6 +29,7 @@ export const CodeMirror = ({
   wrap,
   useSoftTabs,
   tabSize,
+  isTabCaptured,
   editorDidMount,
 }: {
   hidden: boolean
@@ -37,6 +39,7 @@ export const CodeMirror = ({
   commands: KeyBinding[]
   wrap: boolean
   useSoftTabs: boolean
+  isTabCaptured: boolean
   tabSize: number
   editorDidMount: (handler: Handler) => void
 }): JSX.Element => {
@@ -79,7 +82,9 @@ export const CodeMirror = ({
           basicSetup,
           //javascript(),
           StreamLanguage.define(ruby),
-          keymap.of([defaultTabBinding]),
+          tabCaptureCompartment.of(
+            keymap.of(isTabCaptured ? [defaultTabBinding] : [])
+          ),
           EditorState.tabSize.of(tabSize),
           indentUnit.of(useSoftTabs ? '  ' : '	'),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
@@ -118,6 +123,18 @@ export const CodeMirror = ({
       ),
     })
   }, [theme])
+
+  useEffect(() => {
+    if (!viewRef.current) {
+      return
+    }
+
+    viewRef.current.dispatch({
+      effects: tabCaptureCompartment.reconfigure(
+        keymap.of(isTabCaptured ? [defaultTabBinding] : [])
+      ),
+    })
+  }, [isTabCaptured])
 
   return <div className="editor" hidden={hidden} ref={setTextarea} />
 }

@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Icon } from '../../common/Icon'
-import { Keybindings, WrapSetting, Themes } from '../types'
+import { Keybindings, WrapSetting, Themes, TabBehavior } from '../types'
 import { useDropdown } from '../../dropdowns/useDropdown'
 
 const THEMES = [
@@ -17,6 +17,11 @@ const KEYBINDINGS = [
 const WRAP = [
   { label: 'On', value: 'on' },
   { label: 'Off', value: 'off' },
+]
+
+const TAB_ENABLED = [
+  { label: 'On', value: 'captured' },
+  { label: 'Off', value: 'default' },
 ]
 
 const Setting = React.forwardRef<
@@ -90,16 +95,20 @@ export function Settings({
   theme,
   keybindings,
   wrap,
+  tabBehavior,
   setTheme,
   setKeybindings,
   setWrap,
+  setTabBehavior,
 }: {
   theme: string
   keybindings: Keybindings
   wrap: WrapSetting
+  tabBehavior: TabBehavior
   setTheme: (theme: Themes) => void
   setKeybindings: (keybinding: Keybindings) => void
   setWrap: (wrap: WrapSetting) => void
+  setTabBehavior: (behavior: TabBehavior) => void
 }) {
   const [localKeybindings, setLocalKeybindings] = useState(keybindings)
   const {
@@ -164,6 +173,13 @@ export function Settings({
               options={WRAP}
               set={(wrap) => setWrap(wrap as WrapSetting)}
               {...itemAttributes(2)}
+            />
+            <Setting
+              title="Tab enabled"
+              value={tabBehavior}
+              options={TAB_ENABLED}
+              set={(tabBehavior) => setTabBehavior(tabBehavior as TabBehavior)}
+              {...itemAttributes(3)}
             />
           </ul>
         </div>

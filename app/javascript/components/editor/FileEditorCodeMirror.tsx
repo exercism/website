@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react'
-import { Keybindings, WrapSetting, Themes } from './types'
+import { Keybindings, WrapSetting, Themes, TabBehavior } from './types'
 import { File } from '../types'
 
 import { CodeMirror, Handler } from '../misc/CodeMirror'
@@ -21,6 +21,7 @@ export function FileEditorCodeMirror({
   keybindings,
   files,
   wrap,
+  tabBehavior,
   config,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
@@ -31,6 +32,7 @@ export function FileEditorCodeMirror({
   keybindings: Keybindings
   files: File[]
   wrap: WrapSetting
+  tabBehavior: TabBehavior
   config: EditorConfig
 }): JSX.Element {
   const [tab, setTab] = useState(0)
@@ -92,6 +94,7 @@ export function FileEditorCodeMirror({
           useSoftTabs={config.useSoftTabs}
           language={language}
           wrap={wrap !== 'off'}
+          isTabCaptured={tabBehavior === 'captured'}
           theme={theme}
           commands={[
             {
@@ -109,9 +112,6 @@ export function FileEditorCodeMirror({
               },
             },
           ]}
-          // options={{
-          //   keyMap: keybindings,
-          // }}
         />
       ))}
     </div>

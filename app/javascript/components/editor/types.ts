@@ -68,6 +68,8 @@ export enum Themes {
   DARK = 'material-ocean',
 }
 
+export type TabBehavior = 'default' | 'captured'
+
 export type Assignment = {
   overview: string
   generalHints: string[]

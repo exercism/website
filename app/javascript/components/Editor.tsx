@@ -14,6 +14,7 @@ import {
   WrapSetting,
   Themes,
   Assignment,
+  TabBehavior,
 } from './editor/types'
 import { File } from './types'
 import { Iteration } from './types'
@@ -120,6 +121,7 @@ export function Editor({
     Keybindings.DEFAULT
   )
   const [wrap, setWrap] = useState<WrapSetting>('on')
+  const [tabBehavior, setTabBehavior] = useState<TabBehavior>('default')
   const isMountedRef = useIsMounted()
   const [
     { submission, status: submissionStatus, apiError: submissionApiError },
@@ -393,9 +395,11 @@ export function Editor({
               theme={theme}
               keybindings={keybindings}
               wrap={wrap}
+              tabBehavior={tabBehavior}
               setTheme={setTheme}
               setKeybindings={setKeybindings}
               setWrap={setWrap}
+              setTabBehavior={setTabBehavior}
             />
             <Header.ActionMore
               onRevertToExerciseStart={revertToExerciseStart}
@@ -416,6 +420,7 @@ export function Editor({
               theme={theme}
               keybindings={keybindings}
               wrap={wrap}
+              tabBehavior={tabBehavior}
               onRunTests={runTests}
               onSubmit={submit}
               config={config}

@@ -25,22 +25,22 @@ test('change theme', async () => {
   })
 })
 
-test('change keybindings', async () => {
-  render(
-    <Editor
-      files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
-      assignment={{ overview: '', generalHints: [], tasks: [] }}
-    />
-  )
+// test('change keybindings', async () => {
+//   render(
+//     <Editor
+//       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
+//       assignment={{ overview: '', generalHints: [], tasks: [] }}
+//     />
+//   )
 
-  userEvent.click(screen.getByAltText('Settings'))
-  userEvent.click(await screen.findByLabelText('Vim'))
-  act(() => userEvent.click(document.body))
+//   userEvent.click(screen.getByAltText('Settings'))
+//   userEvent.click(await screen.findByLabelText('Vim'))
+//   act(() => userEvent.click(document.body))
 
-  await waitFor(() => {
-    expect(screen.queryByText('Keybindings: vim')).toBeInTheDocument()
-  })
-})
+//   await waitFor(() => {
+//     expect(screen.queryByText('Keybindings: vim')).toBeInTheDocument()
+//   })
+// })
 
 test('change wrapping', async () => {
   render(

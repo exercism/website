@@ -53,6 +53,7 @@ module Git
         "README.md",
         "HELP.md",
         "HINTS.md",
+        ".meta/config.json",
         "bob.rb",
         "bob_test.rb",
         "subdir/more_bob.rb"
@@ -67,6 +68,7 @@ module Git
       expected_filepaths = [
         "README.md",
         "HELP.md",
+        ".meta/config.json",
         "anagram.rb",
         "anagram_test.rb"
       ]

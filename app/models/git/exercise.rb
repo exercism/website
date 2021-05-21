@@ -148,7 +148,7 @@ module Git
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         next if filepath.match?(track.ignore_regexp) # TODO: remove this
         next if filepath.start_with?('.docs/')
-        next if filepath.start_with?('.meta/')
+        next if filepath.start_with?('.meta/') && filepath != config_filepath
 
         true
       end

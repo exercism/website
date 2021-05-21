@@ -22,7 +22,7 @@ export const OpenEditorButton = (
 
   switch (props.status) {
     case 'locked':
-      primarySegment = <div>Open editor</div>
+      primarySegment = <div>Open in editor</div>
       break
     case 'available':
       primarySegment = <StartExerciseButton endpoint={props.links.start} />

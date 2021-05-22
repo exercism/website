@@ -127,9 +127,9 @@ class MentoringQueueTest < ReactComponentTestCase
           completed_by_mentor: false
         },
         sort_options: [
-          { value: 'recent', label: 'Sort by Most Recent' },
-          { value: 'exercise', label: 'Sort by Exercise' },
-          { value: 'student', label: 'Sort by Student' }
+
+          { value: "", label: "Sort by Oldest First" },
+          { value: "recent", label: "Sort by Most Recent" }
         ],
         links: {
           tracks: Exercism::Routes.api_mentoring_tracks_url,

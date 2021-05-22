@@ -15,6 +15,7 @@ module ReactComponents
       end
 
       SORT_OPTIONS = [
+        { value: '', label: 'Sort by Oldest First' },
         { value: 'recent', label: 'Sort by Most Recent' },
         { value: 'exercise', label: 'Sort by Exercise' },
         { value: 'student', label: 'Sort by Student' }

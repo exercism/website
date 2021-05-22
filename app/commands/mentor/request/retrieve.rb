@@ -95,12 +95,7 @@ module Mentor
       end
 
       def sort!
-        # TODO: This is just a stub implementation
         case order
-        when "exercise"
-          @requests = @requests.joins(:exercise).order("exercises.name ASC")
-        when "student"
-          @requests = @requests.joins(:student).order("users.name ASC")
         when "recent"
           @requests = @requests.order("mentor_requests.created_at DESC")
         else

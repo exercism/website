@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useRef } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
-import { Student } from '../Session'
+import { Student } from '../../types'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 type State = {

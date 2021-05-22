@@ -1,6 +1,6 @@
 import React, { useState, createContext, useCallback } from 'react'
 
-import { CommunitySolution } from '../types'
+import { CommunitySolution, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
 import { Guidance } from './session/Guidance'
@@ -30,24 +30,6 @@ import {
 export type Links = {
   mentorDashboard: string
   scratchpad: string
-}
-
-export type Student = {
-  id: number
-  avatarUrl: string
-  name: string
-  bio: string
-  languagesSpoken: string[]
-  handle: string
-  reputation: number
-  isFavorited: boolean
-  isBlocked: boolean
-  numPreviousSessions: number
-  links: {
-    block: string
-    favorite: string
-    previousSessions: string
-  }
 }
 
 export type SessionProps = {

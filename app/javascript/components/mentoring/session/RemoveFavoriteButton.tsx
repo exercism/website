@@ -5,7 +5,7 @@ import { useMutation } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
-import { Student } from '../Session'
+import { Student } from '../../types'
 
 type ComponentProps = {
   endpoint: string

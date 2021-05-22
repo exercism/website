@@ -28,7 +28,7 @@ class SerializeMentorRequests
       is_starred: true,
       have_mentored_previously: true,
       status: "First timer",
-      tooltip_url: "#",
+      tooltip_url: Exercism::Routes.api_mentoring_student_path(request.student),
 
       # TODO: Rename this to web_url
       url: Exercism::Routes.mentoring_request_url(request)

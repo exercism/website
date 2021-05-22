@@ -2,11 +2,20 @@ module API
   class Mentoring::StudentsController < BaseController
     before_action :use_student
 
+    def show
+      relationship = Mentor::StudentRelationship.find_by(mentor: current_user, student: @student)
+      render json: {
+        student: SerializeStudent.(
+          @student, relationship: relationship, anonymous_mode: false
+        )
+      }
+    end
+
     def favorite
       # Both of these lines should return the same error so we don't
       # leak whether handles exist or not
       Mentor::StudentRelationship::ToggleFavorited.(current_user, @student, true)
-      render_relationship
+      render_serialized_student
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end
@@ -14,7 +23,7 @@ module API
     def unfavorite
       # See comment in create
       Mentor::StudentRelationship::ToggleFavorited.(current_user, @student, false)
-      render_relationship
+      render_serialized_student
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end
@@ -23,14 +32,14 @@ module API
       # Both of these lines should return the same error so we don't
       # leak whether handles exist or not
       Mentor::StudentRelationship::ToggleBlockedByMentor.(current_user, @student, true)
-      render_relationship
+      render_serialized_student
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end
 
     def unblock
       Mentor::StudentRelationship::ToggleBlockedByMentor.(current_user, @student, false)
-      render_relationship
+      render_serialized_student
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end
@@ -42,7 +51,7 @@ module API
       render_400(:invalid_mentor_student_relationship)
     end
 
-    def render_relationship
+    def render_serialized_student
       relationship = Mentor::StudentRelationship.find_by!(mentor: current_user, student: @student)
       render json: {
         student: SerializeStudent.(

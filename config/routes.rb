@@ -150,7 +150,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :students, only: [] do
+        resources :students, only: [:show] do
           member do
             post :block
             delete :block, to: "students#unblock"

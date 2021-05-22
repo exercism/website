@@ -1,0 +1,70 @@
+@import "../styles";
+@import "./base";
+
+.c-student-tooltip {
+    @apply c-tooltip-base;
+    min-height: 124px;
+
+    & .header {
+        @apply flex items-center;
+        @apply mb-16;
+        & .c-avatar {
+            height: 48px;
+            width: 48px;
+            @apply mr-16;
+        }
+        & .info {
+            & .handle {
+                @apply text-16 font-semibold leading-160 text-textColor2;
+            }
+            & .name {
+                @apply text-15 font-medium leading-160 text-textColor6;
+                @apply mr-32;
+            }
+        }
+        & .c-primary-reputation {
+            @apply ml-auto;
+        }
+    }
+    & .track-objectives {
+        & h3 {
+            @apply text-16 leading-170 text-textColor2 font-semibold;
+        }
+        & p {
+            @apply text-15 leading-160;
+            max-width: 400px;
+        }
+    }
+    & .location {
+        @apply flex mt-8;
+        @apply text-textColor2 font-medium;
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+        }
+    }
+    & .previous-sessions {
+        @apply mt-16;
+        @apply bg-backgroundColorD rounded-8;
+        @apply py-8 px-16;
+        @apply text-textColor6 leading-160 font-medium;
+        @apply text-center;
+        & strong {
+            @apply font-semibold text-textColor2;
+        }
+    }
+    & .favorited {
+        @apply mt-12;
+        @apply flex items-center justify-center;
+        @apply bg-lightOrange rounded-8 leading-180;
+        @apply text-caution font-semibold;
+        @apply py-6;
+
+        & .c-icon {
+            height: 20px;
+            width: 20px;
+            @apply mr-6;
+        }
+    }
+}

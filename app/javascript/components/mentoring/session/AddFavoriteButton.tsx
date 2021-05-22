@@ -5,7 +5,7 @@ import { sendPostRequest } from '../../../utils/send-request'
 import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { Student } from '../Session'
+import { Student } from '../../types'
 
 type ComponentProps = {
   endpoint: string

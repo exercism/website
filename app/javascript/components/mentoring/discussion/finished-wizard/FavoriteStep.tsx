@@ -6,7 +6,7 @@ import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student } from '../../Session'
+import { Student } from '../../../types'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 

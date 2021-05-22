@@ -6,7 +6,7 @@ import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student } from '../../Session'
+import { Student } from '../../../types'
 
 type SuccessFn = (student: Student) => void
 type Choice = 'yes' | 'no'

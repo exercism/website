@@ -1,7 +1,7 @@
 import React from 'react'
 import { AddFavoriteButton } from './AddFavoriteButton'
 import { RemoveFavoriteButton } from '../session/RemoveFavoriteButton'
-import { Student } from '../Session'
+import { Student } from '../../types'
 
 export const FavoriteButton = ({
   student,

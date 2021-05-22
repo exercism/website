@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Icon } from '../../common/Icon'
 import pluralize from 'pluralize'
 import { PreviousMentoringSessionsModal } from '../../modals/PreviousMentoringSessionsModal'
-import { Student } from '../Session'
+import { Student } from '../../types'
 
 export const PreviousSessionsLink = ({
   student,

@@ -18,11 +18,13 @@ test('renders recommended when exercise is recommended', async () => {
     },
   }
 
-  const { container } = render(<ExerciseStatusTag exercise={exercise} />)
+  const { container } = render(
+    <ExerciseStatusTag exercise={exercise} size="small" />
+  )
 
   expect(container.firstChild).toHaveAttribute(
     'class',
-    'c-exercise-status-tag --recommended'
+    'c-exercise-status-tag --recommended --small'
   )
   expect(screen.getByText('Recommended')).toBeInTheDocument()
 })
@@ -41,11 +43,13 @@ test('renders available when exercise is available', async () => {
     },
   }
 
-  const { container } = render(<ExerciseStatusTag exercise={exercise} />)
+  const { container } = render(
+    <ExerciseStatusTag exercise={exercise} size="small" />
+  )
 
   expect(container.firstChild).toHaveAttribute(
     'class',
-    'c-exercise-status-tag --available'
+    'c-exercise-status-tag --available --small'
   )
   expect(screen.getByText('Available')).toBeInTheDocument()
 })
@@ -61,11 +65,13 @@ test('renders locked when exercise is locked', async () => {
     isRecommended: false,
   }
 
-  const { container } = render(<ExerciseStatusTag exercise={exercise} />)
+  const { container } = render(
+    <ExerciseStatusTag exercise={exercise} size="small" />
+  )
 
   expect(container.firstChild).toHaveAttribute(
     'class',
-    'c-exercise-status-tag --locked'
+    'c-exercise-status-tag --locked --small'
   )
   expect(screen.getByText('Locked')).toBeInTheDocument()
 })

@@ -6,12 +6,14 @@ export const Difficulty = ({
   size,
 }: {
   difficulty: ExerciseDifficulty
-  size: Size
+  size?: Size
 }): JSX.Element => {
+  const sizeClassName = size ? `--${size}` : ''
+
   switch (difficulty) {
     case 'easy':
       return (
-        <div className={`c-difficulty-tag --${size} --easy`}>
+        <div className={`c-difficulty-tag --easy ${sizeClassName}`}>
           <div className="icon"></div>Easy
         </div>
       )

@@ -346,7 +346,7 @@ export type MentorDiscussion = {
   student: {
     avatarUrl: string
     handle: string
-    isStarred: boolean
+    isFavorited: boolean
   }
   mentor: {
     avatarUrl: string
@@ -362,7 +362,7 @@ export type MentorDiscussion = {
   }
   isFinished: boolean
   isUnread: boolean
-  isStarred: boolean
+  isFavorited: boolean
   postsCount: number
   iterationsCount: number
   createdAt: string

@@ -1,7 +1,7 @@
 class SerializeMentorRequests
   include Mandate
 
-  initialize_with :requests
+  initialize_with :requests, :mentor
 
   def call
     requests.includes(:student, :exercise, :track).
@@ -10,6 +10,10 @@ class SerializeMentorRequests
 
   private
   def serialize_request(request)
+    relationship = relationships[request.student_id]
+    had_mentoring_previously = students_who_have_had_mentoring.include?(request.student_id)
+    status = "First timer" unless had_mentoring_previously
+
     {
       # TODO: Maybe expose a UUID instead?
       id: request.uuid,
@@ -24,14 +28,24 @@ class SerializeMentorRequests
       # TODO: Should this be requested_at?
       updated_at: request.created_at.iso8601,
 
-      # TODO: Add all these
-      is_starred: true,
-      have_mentored_previously: true,
-      status: "First timer",
+      have_mentored_previously: !!relationship,
+      is_favorited: !!relationship&.favorited?,
+      status: status,
       tooltip_url: Exercism::Routes.api_mentoring_student_path(request.student),
 
       # TODO: Rename this to web_url
       url: Exercism::Routes.mentoring_request_url(request)
     }
+  end
+
+  memoize
+  def relationships
+    Mentor::StudentRelationship.where(mentor: mentor, student_id: requests.map(&:student_id)).
+      index_by(&:student_id)
+  end
+
+  memoize
+  def students_who_have_had_mentoring
+    Mentor::Discussion.joins(:solution).where('solutions.user_id': requests.map(&:student_id)).distinct.pluck(:user_id)
   end
 end

@@ -15,8 +15,8 @@ test('correct information is displayed', async () => {
             id: 1,
             avatar_url: 'https://robohash.org/exercism',
             handle: 'mentee',
-            is_starred: true,
             have_mentored_previously: true,
+            is_favorited: true,
             status: 'First timer',
             updated_at: '2019-10-29T10:31:29Z',
           })

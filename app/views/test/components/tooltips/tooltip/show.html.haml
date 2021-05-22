@@ -3,10 +3,10 @@
 %h2 Mentored Student
 
 %ol.mentored-students
-  %li{ "data-tooltip-type": "mentored-student", "data-endpoint": mentored_student_test_components_tooltips_tooltip_path(1) }
+  %li{ "data-tooltip-type": "mentored-student", "data-endpoint": api_mentoring_student_path(User.first.handle) }
     Mentored student #1
 
-  %li{ "data-tooltip-type": "mentored-student", "data-endpoint": mentored_student_test_components_tooltips_tooltip_path(2) }
+  %li{ "data-tooltip-type": "mentored-student", "data-endpoint": api_mentoring_student_path(User.second.handle) }
     Mentored student #2
 
 %h2 Users

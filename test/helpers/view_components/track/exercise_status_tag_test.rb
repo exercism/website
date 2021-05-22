@@ -16,7 +16,7 @@ class ViewComponents::Track::ExerciseStatusTagTest < ActionView::TestCase
   end
 
   test "in_progress" do
-    assert_tag(:in_progress, "In progress", "in-progress")
+    assert_tag(:iterated, "In progress", "in-progress")
   end
 
   test "completed" do

@@ -75,7 +75,8 @@
             & .c-exercise-status-tag {
                 @apply mr-16;
             }
-            & .c-difficulty-tag {
+            & .c-difficulty-tag,
+            & .c-exercise-type-tag {
                 margin-left: -8px;
                 @apply mr-16;
             }

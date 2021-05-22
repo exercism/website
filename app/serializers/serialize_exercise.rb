@@ -17,6 +17,7 @@ class SerializeExercise
       is_unlocked: unlocked?,
       is_recommended: recommended?,
       is_tutorial: exercise.tutorial?,
+      is_concept: exercise.concept_exercise?,
       links: links
     }
   end

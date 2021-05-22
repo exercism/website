@@ -153,6 +153,7 @@ type ExerciseCore = {
   difficulty: ExerciseDifficulty
   isRecommended: boolean
   isTutorial: boolean
+  isConcept: boolean
   isExternal: boolean
 }
 

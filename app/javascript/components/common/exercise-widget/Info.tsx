@@ -5,6 +5,7 @@ import { Exercise, Track, SolutionForStudent } from '../../types'
 import { Icon, GraphicalIcon } from '../../common'
 import { SolutionStatusTag } from './SolutionStatusTag'
 import { ExerciseStatusTag } from './ExerciseStatusTag'
+import { ExerciseTypeTag } from './ExerciseTypeTag'
 import { Difficulty } from './Difficulty'
 
 export const Info = ({
@@ -43,7 +44,11 @@ export const Info = ({
           ) : (
             <ExerciseStatusTag exercise={exercise} size="small" />
           )}
-          {solution ? null : (
+          {solution ? null : exercise.isConcept ? (
+            <ExerciseTypeTag type="concept" size="small" />
+          ) : exercise.isTutorial ? (
+            <ExerciseTypeTag type="tutorial" size="small" />
+          ) : (
             <Difficulty difficulty={exercise.difficulty} size="small" />
           )}
 

@@ -1,9 +1,7 @@
+@import "../components/tag";
+
 .c-exercise-status-tag {
-    @apply rounded-100;
-    @apply border-1;
-    @apply flex items-center px-10;
-    @apply text-13 font-semibold leading-200;
-    /*height: 32px;*/
+    @apply c-tag;
 
     &.--locked {
         @apply bg-veryLightBlue border-borderLight;
@@ -24,6 +22,7 @@
         @apply text-textColor6;
         @apply border-buttonBorderColor2;
     }
+
     &.--in-progress {
         @apply border-lightBlue bg-veryLightBlue;
         @apply text-lightBlue;

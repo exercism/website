@@ -11,6 +11,7 @@ import {
 test('renders a solution when passed in', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -71,6 +72,7 @@ test('renders a solution when passed in', async () => {
 test('renders an available exercise', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -118,6 +120,7 @@ test('renders an available exercise', async () => {
 test('renders a locked exercise', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',

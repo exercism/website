@@ -6,6 +6,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     expected = {
       slug: exercise.slug,
+      type: "concept",
       title: exercise.title,
       icon_url: exercise.icon_url,
       blurb: exercise.blurb,
@@ -13,7 +14,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
-      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -27,6 +27,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     expected = {
       slug: exercise.slug,
+      type: "practice",
       title: exercise.title,
       icon_url: exercise.icon_url,
       blurb: exercise.blurb,
@@ -34,7 +35,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
-      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -48,6 +48,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     expected = {
       slug: exercise.slug,
+      type: "concept",
       title: exercise.title,
       icon_url: exercise.icon_url,
       blurb: exercise.blurb,
@@ -55,7 +56,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: true,
       is_unlocked: true,
       is_recommended: false,
-      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
       }
@@ -77,6 +77,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     expected = {
       slug: exercise.slug,
+      type: "concept",
       title: exercise.title,
       icon_url: exercise.icon_url,
       blurb: exercise.blurb,
@@ -84,7 +85,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: true,
       is_recommended: false,
-      is_tutorial: false,
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
@@ -106,8 +106,8 @@ class SerializeExerciseTest < ActiveSupport::TestCase
     create :hello_world_solution, :completed, track: track, user: user
 
     expected = {
-
       slug: exercise.slug,
+      type: "practice",
       title: exercise.title,
       icon_url: exercise.icon_url,
       blurb: exercise.blurb,
@@ -115,7 +115,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: false,
       is_recommended: false,
-      is_tutorial: false,
       links: {}
     }
 
@@ -131,6 +130,6 @@ class SerializeExerciseTest < ActiveSupport::TestCase
     create :user_track, user: user, track: track
     exercise = create :practice_exercise, track: track, slug: "hello-world"
 
-    assert SerializeExercise.(exercise)[:is_tutorial]
+    assert_equal "tutorial", SerializeExercise.(exercise)[:type]
   end
 end

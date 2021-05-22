@@ -1,8 +1,6 @@
 @import "../styles";
 
 .c-exercise-tooltip {
-    width: 100%;
-    max-width: 460px;
     min-height: 124px;
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
     @apply relative z-tooltip;
@@ -16,7 +14,11 @@
         filter: var(--textColor7-filter);
     }
     & .c-exercise-widget {
+        & .--action-icon {
+            @apply hidden;
+        }
         & .--blurb {
+            max-width: 350px;
             margin-left: -80px;
         }
     }

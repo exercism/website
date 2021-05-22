@@ -5,6 +5,7 @@ import { Exercise, Track, SolutionForStudent } from '../../types'
 import { Icon, GraphicalIcon } from '../../common'
 import { SolutionStatusTag } from './SolutionStatusTag'
 import { ExerciseStatusTag } from './ExerciseStatusTag'
+import { ExerciseTypeTag } from './ExerciseTypeTag'
 import { Difficulty } from './Difficulty'
 
 export const Info = ({
@@ -39,11 +40,15 @@ export const Info = ({
       {isSkinny ? null : (
         <div className="--data">
           {solution ? (
-            <SolutionStatusTag status={solution.status} />
+            <SolutionStatusTag status={solution.status} size="small" />
           ) : (
-            <ExerciseStatusTag exercise={exercise} />
+            <ExerciseStatusTag exercise={exercise} size="small" />
           )}
-          {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
+          {solution ? null : exercise.type == 'practice' ? (
+            <Difficulty difficulty={exercise.difficulty} size="small" />
+          ) : (
+            <ExerciseTypeTag type={exercise.type} size="small" />
+          )}
 
           {solution && solution.mentoringStatus == 'requested' ? (
             <Icon

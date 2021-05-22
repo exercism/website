@@ -35,7 +35,7 @@ export const CompleteExerciseModal = ({
   const [completion, setCompletion] = useState<ExerciseCompletion | null>(null)
 
   if (completion) {
-    return completion.exercise.isTutorial ? (
+    return completion.exercise.type == 'tutorial' ? (
       <TutorialCompletedModal track={completion.track} open={open} />
     ) : (
       <ExerciseCompletedModal completion={completion} open={open} />

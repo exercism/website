@@ -4,22 +4,28 @@ module ViewComponents
       initialize_with :exercise, :user_track
 
       def to_s
-        case user_track.exercise_status(exercise).to_sym
+        status = user_track.exercise_status(exercise).to_sym
+        case status
         when :available
           tag.div("Available", class: 'c-exercise-status-tag --available')
         when :locked
           tag.div("Locked", class: 'c-exercise-status-tag --locked')
         when :started
           tag.div("Started", class: 'c-exercise-status-tag --started')
-        when :in_progress
+        when :iterated
           tag.div("In progress", class: 'c-exercise-status-tag --in-progress')
         when :completed
           tag.div("Completed", class: 'c-exercise-status-tag --completed')
         when :published
           tag.div("Published", class: 'c-exercise-status-tag --published')
-        else
+        when :external
           ""
+        else
+          raise "ExerciseStatusTag: Invalid status: #{status}"
         end
+      rescue StandardError => e
+        Bugsnag.notify(e)
+        ""
       end
     end
   end

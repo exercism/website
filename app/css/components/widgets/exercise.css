@@ -1,4 +1,5 @@
 @import "../../styles";
+@import "../../components/tag";
 
 .c-exercise-widget {
     @apply flex items-center;
@@ -74,12 +75,9 @@
             & .c-exercise-status-tag {
                 @apply mr-16;
             }
-            & .--difficulty {
-                background-size: 16px;
-                background-repeat: no-repeat;
-                background-position: left center;
-
-                @apply text-textColor6 font-semibold leading-170;
+            & .c-difficulty-tag,
+            & .c-exercise-type-tag {
+                margin-left: -8px;
                 @apply mr-16;
             }
             & .--iterations-count {

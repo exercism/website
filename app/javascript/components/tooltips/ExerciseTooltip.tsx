@@ -47,11 +47,11 @@ export const ExerciseTooltip = React.forwardRef<
         LoadingComponent={LoadingComponent}
       >
         {data ? (
-          /*tooltip*/
+          /* If we want the track we need to add a pivot to this,
+           * and use track={data.track}*/
           <ExerciseWidget
             exercise={data.exercise}
             solution={data.solution}
-            track={data.track}
             renderAsLink={false}
           />
         ) : (

@@ -61,19 +61,9 @@
         }
         & .tags {
             @apply flex items-center;
-            & .difficulty-tag {
-                @apply inline-flex py-8 px-12 rounded-100;
-                @apply text-darkGreen font-medium;
-                @apply border-1 border-darkGreen bg-veryLightGreen2;
-            }
-            & .tutorial-tag {
-                @apply rounded-100 bg-textColor1;
-                @apply border-1 border-textColor1;
-                @apply flex items-center px-12;
-                @apply text-13 text-textColor9 font-semibold leading-200;
-            }
+
             & .c-exercise-status-tag {
-                @apply ml-12;
+                @apply mr-12;
             }
         }
         & .decorations {

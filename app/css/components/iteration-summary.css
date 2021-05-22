@@ -93,10 +93,16 @@
             @apply py-4 px-12;
 
             &.--essential {
+                & .c-icon {
+                    filter: var(--red-filter);
+                }
                 @apply text-red;
             }
 
             &.--actionable {
+                & .c-icon {
+                    filter: var(--orange-filter);
+                }
                 @apply text-orange;
             }
 

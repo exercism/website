@@ -1,14 +1,12 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
-import { Size } from '../../types'
-
-type Type = 'concept' | 'tutorial'
+import { Size, ExerciseType } from '../../types'
 
 export const ExerciseTypeTag = ({
   type,
   size,
 }: {
-  type: Type
+  type: ExerciseType
   size?: Size
 }): JSX.Element => {
   const sizeClassName = size ? `--${size}` : ''
@@ -26,5 +24,7 @@ export const ExerciseTypeTag = ({
           Tutorial Exercise
         </div>
       )
+    default:
+      return <></>
   }
 }

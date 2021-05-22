@@ -8,6 +8,8 @@ export type PaginatedResult<T> = {
   }
 }
 
+export type ExerciseType = 'tutorial' | 'concept' | 'practice'
+
 export type ExerciseStatus =
   | 'published'
   | 'completed'
@@ -147,13 +149,12 @@ export type CommunitySolutionContext = 'mentoring' | 'profile' | 'exercise'
 
 type ExerciseCore = {
   slug: string
+  type: ExerciseType
   title: string
   iconUrl: string
   blurb: string
   difficulty: ExerciseDifficulty
   isRecommended: boolean
-  isTutorial: boolean
-  isConcept: boolean
   isExternal: boolean
 }
 
@@ -371,5 +372,3 @@ export type MentoredTrack = {
     exercises: string
   }
 }
-
-export type ExerciseType = 'concept' | 'practice' | 'tutorial'

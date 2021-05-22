@@ -44,12 +44,10 @@ export const Info = ({
           ) : (
             <ExerciseStatusTag exercise={exercise} size="small" />
           )}
-          {solution ? null : exercise.isConcept ? (
-            <ExerciseTypeTag type="concept" size="small" />
-          ) : exercise.isTutorial ? (
-            <ExerciseTypeTag type="tutorial" size="small" />
-          ) : (
+          {solution ? null : exercise.type == 'practice' ? (
             <Difficulty difficulty={exercise.difficulty} size="small" />
+          ) : (
+            <ExerciseTypeTag type={exercise.type} size="small" />
           )}
 
           {solution && solution.mentoringStatus == 'requested' ? (

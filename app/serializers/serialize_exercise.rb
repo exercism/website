@@ -9,6 +9,7 @@ class SerializeExercise
   def call
     {
       slug: exercise.slug,
+      type: exercise.tutorial? ? "tutorial" : exercise.git_type,
       title: exercise.title,
       icon_url: exercise.icon_url,
       difficulty: "easy", # TOOD
@@ -16,8 +17,6 @@ class SerializeExercise
       is_external: user_track.external?,
       is_unlocked: unlocked?,
       is_recommended: recommended?,
-      is_tutorial: exercise.tutorial?,
-      is_concept: exercise.concept_exercise?,
       links: links
     }
   end

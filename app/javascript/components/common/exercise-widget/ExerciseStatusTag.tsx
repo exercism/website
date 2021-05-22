@@ -1,10 +1,12 @@
 import React from 'react'
-import { Exercise } from '../../types'
+import { Exercise, Size } from '../../types'
 
 export const ExerciseStatusTag = ({
   exercise,
+  size,
 }: {
   exercise: Exercise
+  size: Size
 }): JSX.Element => {
   if (exercise.isExternal) {
     return <></>
@@ -12,11 +14,19 @@ export const ExerciseStatusTag = ({
 
   if (exercise.isRecommended) {
     return (
-      <div className="c-exercise-status-tag --recommended">Recommended</div>
+      <div className={`c-exercise-status-tag --recommended --${size}`}>
+        Recommended
+      </div>
     )
   } else if (exercise.isUnlocked) {
-    return <div className="c-exercise-status-tag --available">Available</div>
+    return (
+      <div className={`c-exercise-status-tag --available --${size}`}>
+        Available
+      </div>
+    )
   } else {
-    return <div className="c-exercise-status-tag --locked">Locked</div>
+    return (
+      <div className={`c-exercise-status-tag --locked --${size}`}>Locked</div>
+    )
   }
 }

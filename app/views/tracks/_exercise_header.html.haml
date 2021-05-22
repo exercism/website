@@ -20,16 +20,19 @@
       - if solution&.completed?
         = icon 'completed-check-circle', "Exercise is completed"
     .tags
-      - if exercise.tutorial?
-        .tutorial-tag Tutorial Exercise
-      - elsif exercise.concept_exercise?
-        / TODO
-        .concept-tag Concept Exercise
-      - else
-        / TODO
-        .difficulty-tag Easy
-
       = render ViewComponents::Track::ExerciseStatusTag.new(exercise, user_track)
+
+      - if exercise.tutorial?
+        .c-exercise-type-tag.--tutorial Tutorial Exercise
+      - elsif exercise.concept_exercise?
+        .c-exercise-type-tag.--concept
+          = graphical_icon 'concept-exercise'
+          Concept Exercise
+      - else
+        / TODO: Use the React component for this
+        .c-difficulty-tag.--easy
+          .icon
+          Easy
 
   .decorations
 

@@ -39,11 +39,13 @@ export const Info = ({
       {isSkinny ? null : (
         <div className="--data">
           {solution ? (
-            <SolutionStatusTag status={solution.status} />
+            <SolutionStatusTag status={solution.status} size="small" />
           ) : (
-            <ExerciseStatusTag exercise={exercise} />
+            <ExerciseStatusTag exercise={exercise} size="small" />
           )}
-          {solution ? null : <Difficulty difficulty={exercise.difficulty} />}
+          {solution ? null : (
+            <Difficulty difficulty={exercise.difficulty} size="small" />
+          )}
 
           {solution && solution.mentoringStatus == 'requested' ? (
             <Icon

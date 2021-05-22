@@ -84,6 +84,9 @@ module.exports = {
         'var(--paginationCurrentBackgroundColor)',
       paginationCurrentBorderColor: 'var(--paginationCurrentBorderColor)',
 
+      easy: '#5FB268',
+      easyLight: '#EFFFF1',
+
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
       unnamed15: '#F0F3F9',

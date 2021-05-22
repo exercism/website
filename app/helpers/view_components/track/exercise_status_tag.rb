@@ -11,14 +11,14 @@ module ViewComponents
           tag.div("Locked", class: 'c-exercise-status-tag --locked')
         when :started
           tag.div("Started", class: 'c-exercise-status-tag --started')
-        when :in_progress
+        when :iterated
           tag.div("In progress", class: 'c-exercise-status-tag --in-progress')
         when :completed
           tag.div("Completed", class: 'c-exercise-status-tag --completed')
         when :published
           tag.div("Published", class: 'c-exercise-status-tag --published')
         else
-          ""
+          user_track.exercise_status(exercise).to_sym
         end
       end
     end

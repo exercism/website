@@ -1,0 +1,17 @@
+@import "../components/tag";
+.c-difficulty-tag {
+    @apply c-tag;
+
+    & .icon {
+        height: 8px;
+        width: 8px;
+        @apply mr-8;
+        border-radius: 1px;
+    }
+    &.--easy {
+        & .icon {
+            @apply bg-easy;
+        }
+        @apply text-easy border-easy bg-easyLight;
+    }
+}

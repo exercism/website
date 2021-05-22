@@ -1,3 +1,5 @@
+export type Size = 'small' | 'large'
+
 export type PaginatedResult<T> = {
   results: T
   meta: {

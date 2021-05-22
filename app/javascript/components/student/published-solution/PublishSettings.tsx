@@ -47,7 +47,10 @@ export const PublishSettings = ({
 
   return (
     <React.Fragment>
-      <button {...buttonAttributes} className="c-publish-settings">
+      <button
+        {...buttonAttributes}
+        className="c-publish-settings btn-xs btn-enhanced"
+      >
         <Icon icon="settings" alt="Publish settings" />
       </button>
       {open ? (

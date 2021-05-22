@@ -16,7 +16,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit track_exercise_community_solutions_path(exercise.track, exercise)
+        visit track_exercise_solutions_path(exercise.track, exercise)
       end
 
       assert_text "author's solution"
@@ -38,7 +38,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit track_exercise_community_solutions_path(exercise.track, exercise)
+        visit track_exercise_solutions_path(exercise.track, exercise)
         fill_in "Search by user", with: "author2"
       end
 
@@ -62,7 +62,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit track_exercise_community_solutions_path(exercise.track, exercise)
+        visit track_exercise_solutions_path(exercise.track, exercise)
         click_on "2"
       end
 
@@ -90,7 +90,7 @@ module Flows
 
       use_capybara_host do
         sign_in!
-        visit track_exercise_community_solution_path(exercise.track, exercise, user.handle)
+        visit track_exercise_solution_path(exercise.track, exercise, user.handle)
         assert_text "class Lasagna", wait: 2
 
         within("footer .iterations") { click_on "1" }

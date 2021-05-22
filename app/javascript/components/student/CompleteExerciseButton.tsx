@@ -16,7 +16,7 @@ export const CompleteExerciseButton = ({
     <React.Fragment>
       <button
         onClick={() => setIsModalOpen(!isModalOpen)}
-        className="btn-primary btn-m"
+        className="btn-enhanced btn-m"
       >
         <GraphicalIcon icon="check-circle" />
         <span>Mark as complete</span>

@@ -24,7 +24,7 @@ module Flows
 
         use_capybara_host do
           sign_in!
-          visit track_exercise_community_solution_url(track, exercise, "author")
+          visit track_exercise_solution_url(track, exercise, "author")
           click_on "Failed"
 
           assert_text "1 test failed"

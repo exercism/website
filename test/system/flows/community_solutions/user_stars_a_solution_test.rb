@@ -16,7 +16,7 @@ module Flows
 
         use_capybara_host do
           sign_in!
-          visit track_exercise_community_solution_path(exercise.track, exercise, author.handle)
+          visit track_exercise_solution_path(exercise.track, exercise, author.handle)
 
           within(".star-button") { assert_text "3" }
         end
@@ -31,7 +31,7 @@ module Flows
 
         use_capybara_host do
           sign_in!
-          visit track_exercise_community_solution_path(exercise.track, exercise, author.handle)
+          visit track_exercise_solution_path(exercise.track, exercise, author.handle)
           find(".star-button").click
 
           within(".star-button") { assert_text "1" }
@@ -49,7 +49,7 @@ module Flows
 
         use_capybara_host do
           sign_in!(user)
-          visit track_exercise_community_solution_path(exercise.track, exercise, author.handle)
+          visit track_exercise_solution_path(exercise.track, exercise, author.handle)
           find(".star-button").click
 
           within(".star-button") { assert_text "0" }

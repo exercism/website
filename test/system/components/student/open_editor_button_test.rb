@@ -36,7 +36,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_url(track, exercise)
-          within(".navbar") { click_on "Open editor" }
+          within(".navbar") { click_on "Open in editor" }
 
           assert_page "editor"
         end
@@ -54,7 +54,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_url(track, exercise)
-          within(".navbar") { click_on "Open editor" }
+          within(".navbar") { click_on "Open in editor" }
 
           assert_page "editor"
         end
@@ -90,7 +90,7 @@ module Components
           visit track_exercise_url(track, exercise)
 
           within(".navbar") do
-            assert_text "Open editor"
+            assert_text "Open in editor"
             assert_css ".c-combo-button.--disabled"
           end
         end

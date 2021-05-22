@@ -12,7 +12,7 @@ test('disabled when status is locked', async () => {
     'class',
     'c-combo-button --disabled'
   )
-  expect(screen.getByText('Open editor')).toBeInTheDocument()
+  expect(screen.getByText('Open in editor')).toBeInTheDocument()
 })
 
 test('shows button to start exercise when available', async () => {
@@ -38,7 +38,7 @@ test('shows link to exercise when completed', async () => {
     />
   )
 
-  expect(screen.getByRole('link', { name: 'Open editor' })).toHaveAttribute(
+  expect(screen.getByRole('link', { name: 'Open in editor' })).toHaveAttribute(
     'href',
     'https://exercism.test/exercise'
   )
@@ -53,7 +53,7 @@ test('shows link to exercise when published', async () => {
     />
   )
 
-  expect(screen.getByRole('link', { name: 'Open editor' })).toHaveAttribute(
+  expect(screen.getByRole('link', { name: 'Open in editor' })).toHaveAttribute(
     'href',
     'https://exercism.test/exercise'
   )

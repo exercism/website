@@ -381,7 +381,7 @@
         @apply shadow-lg py-24 px-32 rounded-8;
 
         & h3 {
-            @apply flex items-center text-h4 mb-12;
+            @apply flex items-center text-h4 mb-8;
             & .c-icon {
                 height: 24px;
                 width: 24px;
@@ -389,7 +389,7 @@
             }
         }
         & p {
-            @apply text-16 leading-160 mb-24 text-textColor2;
+            @apply text-16 leading-160 mb-16 text-textColor2;
 
             & a {
                 @apply text-lightBlue font-medium;
@@ -425,7 +425,7 @@
         }
 
         & .complete {
-            @apply mt-20 pt-20 border-t-1 border-borderLight;
+            @apply mb-24 pb-20 border-b-1 border-borderLight;
 
             & button {
                 @apply w-100;
@@ -436,17 +436,18 @@
             }
         }
         & .publish-section {
-            @apply border-t-1 border-borderColor5;
-            @apply mt-16 pt-20;
+            @apply border-b-1 border-borderColor5;
+            @apply mb-24 pb-20;
 
             & .header {
                 @apply flex items-center;
-                @apply mb-6;
+                @apply mb-16;
                 & h3 {
                     @apply text-h4 mb-0;
                 }
-                & button {
+                & button.c-publish-settings {
                     @apply ml-auto;
+                    @apply px-0 border-borderColor6;
                     & .c-icon {
                         filter: var(--textColor6-filter);
                     }

@@ -12,8 +12,8 @@ class SerializeStudent
 
     {
       id: student.id,
-      name: student.name.presence, # TODO: We need a flag to protect this maybe?
       handle: student.handle,
+      name: student.name.presence, # TODO: We need a flag to protect this maybe?
       bio: student.bio.presence,
       location: student.location.presence,
       languages_spoken: student.languages_spoken,

@@ -2,6 +2,7 @@ module API
   class Mentoring::StudentsController < BaseController
     before_action :use_student
 
+    # TODO: Add test coverage
     def show
       relationship = Mentor::StudentRelationship.find_by(mentor: current_user, student: @student)
       render json: {

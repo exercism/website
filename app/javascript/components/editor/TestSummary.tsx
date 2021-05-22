@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { TestStatus, Test } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
+import { useHighlighting } from '../../utils/highlight'
 
 const statusLabels = {
   [TestStatus.PASS]: 'Passed',
@@ -24,8 +25,13 @@ export function TestSummary({
     return str !== undefined && str !== null && str !== ''
   }, [])
 
+  const testCodeRef = useHighlighting<HTMLPreElement>()
+
   return (
-    <details className={`c-details c-test-summary ${test.status}`} open={defaultOpen}>
+    <details
+      className={`c-details c-test-summary ${test.status}`}
+      open={defaultOpen}
+    >
       <summary className="--summary">
         <div className="--summary-inner">
           <div className="--status">
@@ -44,7 +50,9 @@ export function TestSummary({
         {isPresent(test.testCode) ? (
           <div className="--info">
             <h3>Code Run</h3>
-            <pre>{test.testCode}</pre>
+            <pre ref={testCodeRef}>
+              <code className="ruby">{test.testCode}</code>
+            </pre>
           </div>
         ) : null}
         {isPresent(test.message) ? (

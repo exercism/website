@@ -99,8 +99,11 @@ export const CommunitySolution = ({
 
         <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
       </header>
-      <pre ref={snippetRef} className={solution.track.highlightjsLanguage}>
-        <code dangerouslySetInnerHTML={{ __html: solution.snippet }} />
+      <pre ref={snippetRef}>
+        <code
+          className={solution.track.highlightjsLanguage}
+          dangerouslySetInnerHTML={{ __html: solution.snippet }}
+        />
       </pre>
       <footer className="--footer">
         {solution.publishedAt ? (

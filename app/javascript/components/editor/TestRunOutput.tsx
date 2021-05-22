@@ -2,7 +2,7 @@ import React from 'react'
 import { TestRun } from './types'
 import { TestsGroupList } from './TestsGroupList'
 
-export const TestRunFailures = ({
+export const TestRunOutput = ({
   testRun,
 }: {
   testRun: TestRun

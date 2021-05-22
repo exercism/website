@@ -62,7 +62,7 @@ export function Solution({
         </div>
         <div className="--exercise-title">on {exerciseTitle}</div>
       </div>
-      <div className="--status">{status}</div>
+      {status ? <div className="--status">{status}</div> : null}
       <time className="-updated-at">{fromNow(updatedAt)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>

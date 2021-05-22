@@ -18,8 +18,10 @@ module Components
       end
 
       test "user tooltip renders correctly" do
+        # Create these first so they have the first two ids
         create :user, handle: 'mentee', name: 'Erik ShireBOOM'
 
+        sign_in!
         visit test_components_tooltips_tooltip_path
 
         users = all('ol.users > li')

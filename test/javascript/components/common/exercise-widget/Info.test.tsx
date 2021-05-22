@@ -11,6 +11,7 @@ import {
 test('renders has notifications when solution has notifications', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -44,6 +45,7 @@ test('renders has notifications when solution has notifications', async () => {
 test('does not render has notifications when solution has no notifications', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -77,6 +79,7 @@ test('does not render has notifications when solution has no notifications', asy
 test('does not render has notifications when ther is no solution', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -101,6 +104,7 @@ test('does not render has notifications when ther is no solution', async () => {
 test('renders solution status when passed in', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -134,6 +138,7 @@ test('renders solution status when passed in', async () => {
 test('renders exercise status when there is no solution', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -158,6 +163,7 @@ test('renders exercise status when there is no solution', async () => {
 test('renders exercise difficulty when there is no solution', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -182,6 +188,7 @@ test('renders exercise difficulty when there is no solution', async () => {
 test('does not render exercise difficulty when solution is passed in', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -212,9 +219,36 @@ test('does not render exercise difficulty when solution is passed in', async () 
   expect(screen.queryByText('Easy')).not.toBeInTheDocument()
 })
 
+test('renders type not difficulty if concept', async () => {
+  const exercise: Exercise = {
+    slug: 'lasagna',
+    type: 'concept',
+    title: "Lucian's Luscious Lasagna",
+    iconUrl: 'https://exercism.test/exercise_icon',
+    blurb: 'Tasty exercise',
+    difficulty: 'easy',
+    isUnlocked: true,
+    isRecommended: true,
+    links: {
+      self: 'https://exercism.test/exercise',
+    },
+  }
+  const track: Track = {
+    id: '1',
+    title: 'Ruby',
+    iconUrl: 'https://exercism.test/track_icon',
+  }
+
+  render(<Info exercise={exercise} track={track} />)
+
+  expect(screen.queryByText('Easy')).not.toBeInTheDocument()
+  expect(screen.queryByText('Learning Exercise')).toBeInTheDocument()
+})
+
 test('renders number of iterations when solution has more than 0', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',
@@ -248,6 +282,7 @@ test('renders number of iterations when solution has more than 0', async () => {
 test('does not render number of iterations when solution has 0', async () => {
   const exercise: Exercise = {
     slug: 'lasagna',
+    type: 'practice',
     title: "Lucian's Luscious Lasagna",
     iconUrl: 'https://exercism.test/exercise_icon',
     blurb: 'Tasty exercise',

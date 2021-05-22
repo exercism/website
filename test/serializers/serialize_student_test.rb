@@ -79,4 +79,20 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       anonymous_mode: true
     )
   end
+
+  test "bio, location, rep" do
+    bio = "some bio"
+    location = "some loc"
+    student = create :user, bio: bio, location: location, reputation: 12_345
+
+    result = SerializeStudent.(
+      student,
+      relationship: nil,
+      anonymous_mode: false
+    )
+
+    assert_equal bio, result[:bio]
+    assert_equal location, result[:location]
+    assert_equal "12.3k", result[:reputation]
+  end
 end

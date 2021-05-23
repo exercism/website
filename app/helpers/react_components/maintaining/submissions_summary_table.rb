@@ -42,7 +42,7 @@ module ReactComponents
         def tests_data
           data = submission.tests_status
           if submission.tests_exceptioned?
-            job = ToolingJob.find(submission.test_run.tooling_job_id, full: true)
+            job = Exercism::ToolingJob.find(submission.test_run.tooling_job_id)
             data += "\n\nSTDOUT:\n------\n#{job.stdout}"
             data += "\n\nSTDERR:\n------\n#{job.stderr}"
           end
@@ -52,7 +52,7 @@ module ReactComponents
         def representer_data
           data = submission.representation_status
           if submission.representation_exceptioned?
-            job = ToolingJob.find(submission.submission_representation.tooling_job_id, full: true)
+            job = Exercism::ToolingJob.find(submission.submission_representation.tooling_job_id)
             data += "\n\nSTDOUT:\n------\n#{job.stdout}"
             data += "\n\nSTDERR:\n------\n#{job.stderr}"
           end
@@ -62,7 +62,7 @@ module ReactComponents
         def analyzer_data
           data = submission.analysis_status
           if submission.analysis_exceptioned?
-            job = ToolingJob.find(submission.analysis.tooling_job_id, full: true)
+            job = Exercism::ToolingJob.find(submission.analysis.tooling_job_id)
             data += "\n\nSTDOUT:\n------\n#{job.stdout}"
             data += "\n\nSTDERR:\n------\n#{job.stderr}"
           elsif submission.analysis

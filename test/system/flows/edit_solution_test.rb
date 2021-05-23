@@ -24,9 +24,11 @@ module Components
           2.times { wait_for_websockets }
           test_run = create :submission_test_run,
             submission: Submission.last,
-            status: "pass",
             ops_status: 200,
-            raw_results: { tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }] }
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
           create :submission_file, submission: Submission.last
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".lhs-footer") { click_on "Submit" }
@@ -51,9 +53,11 @@ module Components
           2.times { wait_for_websockets }
           test_run = create :submission_test_run,
             submission: Submission.last,
-            status: "pass",
             ops_status: 200,
-            raw_results: { tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }] }
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
           create :submission_file, submission: Submission.last
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".success-box") { click_on "Submit" }

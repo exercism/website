@@ -23,7 +23,7 @@ class SerializeStudent
       is_blocked: !!relationship&.blocked_by_mentor?,
       track_objectives: "Come from an OO background, looking to get into functional.", # TODO
       num_total_discussions: num_total_discussions,
-      num_previous_sessions: num_previous_sessions,
+      num_discussions_with_mentor: relationship&.num_discussions.to_i,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
         favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
@@ -41,15 +41,8 @@ class SerializeStudent
       name: "User in Anonymous mode",
       handle: "anonymous",
       reputation: 0,
-      num_previous_sessions: 0
+      num_discussions_with_mentor: 0
     }
-  end
-
-  # TODO: I'm not happy with this here. I think the -1 should be done
-  # in the JS and this should return num_discussions
-  def num_previous_sessions
-    num = relationship&.num_discussions.to_i
-    num.positive? ? num - 1 : 0 # Previous does not include this
   end
 
   def num_total_discussions

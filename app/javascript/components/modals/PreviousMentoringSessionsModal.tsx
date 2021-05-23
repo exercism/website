@@ -43,6 +43,8 @@ export const PreviousMentoringSessionsModal = ({
     Error | Response
   >([request.endpoint, request.query], request, isMountedRef)
 
+  const numPrevious = student.numDiscussionsWithMentor - 1
+
   const DiscussionLink = ({ discussion }: { discussion: MentorDiscussion }) => {
     return (
       <a
@@ -80,8 +82,7 @@ export const PreviousMentoringSessionsModal = ({
     <Modal {...props} onClose={onClose} className="m-mentoring-sessions">
       <header>
         <strong>
-          You have {student.numPreviousSessions} previous{' '}
-          {pluralize('discussion', student.numPreviousSessions)}
+          You have {numPrevious} previous {pluralize('discussion', numPrevious)}
         </strong>
         with
         <Avatar src={student.avatarUrl} handle={student.handle} />

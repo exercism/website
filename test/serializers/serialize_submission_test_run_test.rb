@@ -10,7 +10,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     test_run = create :submission_test_run,
       ops_status: 200,
       status: "pass",
-      raw_results: { tests: [test] }
+      raw_results: { tests: [test], status: "pass" }
 
     actual = SerializeSubmissionTestRun.(test_run)
 
@@ -84,7 +84,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
   test "message: returns nil if there is no message" do
     test_run = create :submission_test_run,
       ops_status: 200,
-      raw_results: { message: nil }
+      raw_results: { message: nil, status: "pass" }
 
     output = SerializeSubmissionTestRun.(test_run)
 

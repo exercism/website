@@ -51,20 +51,13 @@ module ReactComponents
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
           reputation: mentor.formatted_reputation,
-          num_previous_sessions: num_previous_sessions
+          num_discussions: num_discussions_with_mentor
         }
       end
 
-      # TODO: I'm not happy with this here. I think the -1 should be done
-      # in the JS and this should return num_discussions
-      def num_previous_sessions
+      def num_discussions_with_mentor
         mentor_relationship = Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
-        num = mentor_relationship&.num_discussions.to_i
-
-        # Previous does not include this so reduce it by 1 if there's an active discussion here
-        return num unless discussion
-
-        num.positive? ? num - 1 : 0
+        mentor_relationship&.num_discussions.to_i
       end
 
       def videos

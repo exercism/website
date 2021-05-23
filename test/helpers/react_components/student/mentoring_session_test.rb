@@ -45,7 +45,7 @@ module ReactComponents::Student
             languages_spoken: mentor.languages_spoken,
             avatar_url: mentor.avatar_url,
             reputation: mentor.formatted_reputation,
-            num_previous_sessions: 0
+            num_discussions: 0
           },
           is_first_time_on_track: true,
           videos: [],

@@ -85,11 +85,12 @@ export const StudentTooltip = React.forwardRef<
               <div className="previous-sessions">
                 Mentored <strong>{data.student.numTotalDiscussions}</strong>{' '}
                 {pluralize('time', data.student.numTotalDiscussions)}
-                {data.student.numPreviousSessions > 0 ? (
+                {data.student.numDiscussionsWithMentor > 0 ? (
                   <>
                     , of which{' '}
-                    <strong>{data.student.numPreviousSessions}</strong>{' '}
-                    {pluralize('time', data.student.numPreviousSessions)} by you
+                    <strong>{data.student.numDiscussionsWithMentor}</strong>{' '}
+                    {pluralize('time', data.student.numDiscussionsWithMentor)}{' '}
+                    by you
                   </>
                 ) : (
                   <>
@@ -111,7 +112,6 @@ export const StudentTooltip = React.forwardRef<
               </div>
             ) : null}
           </>
-
         ) : (
           <span>Unable to load information</span>
         )}
@@ -119,4 +119,3 @@ export const StudentTooltip = React.forwardRef<
     </div>
   )
 })
-

@@ -95,7 +95,7 @@ export type Student = {
   isBlocked: boolean
   trackObjectives: string
   numTotalDiscussions: number
-  numPreviousSessions: number
+  numDiscussionsWithMentor: number
   links: {
     block: string
     favorite: string

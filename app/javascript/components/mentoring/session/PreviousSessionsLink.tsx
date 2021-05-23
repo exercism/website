@@ -13,9 +13,11 @@ export const PreviousSessionsLink = ({
 }): JSX.Element | null => {
   const [open, setOpen] = useState(false)
 
-  if (student.numPreviousSessions === 0) {
+  if (student.numDiscussionsWithMentor < 2) {
     return null
   }
+
+  const numPrevious = student.numDiscussionsWithMentor - 1
 
   return (
     <React.Fragment>
@@ -24,8 +26,7 @@ export const PreviousSessionsLink = ({
         className="previous-sessions"
         onClick={() => setOpen(true)}
       >
-        See {student.numPreviousSessions} previous{' '}
-        {pluralize('session', student.numPreviousSessions)}
+        See {numPrevious} previous {pluralize('session', numPrevious)}
         <Icon icon="modal" alt="Opens in modal" />
       </button>
       {open ? (

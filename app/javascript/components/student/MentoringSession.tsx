@@ -36,7 +36,7 @@ export type Mentor = {
   bio: string
   handle: string
   reputation: number
-  numPreviousSessions: number
+  numDiscussions: number
 }
 
 export const MentoringSession = ({

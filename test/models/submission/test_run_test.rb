@@ -13,6 +13,10 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert create(:submission_test_run, ops_status: 201).ops_errored?
   end
 
+  test "override ops error if no status" do
+    assert create(:submission_test_run, raw_results: {}).ops_errored?
+  end
+
   test "explodes raw_results" do
     version = 5
     status = "foobar"

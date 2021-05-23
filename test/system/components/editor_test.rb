@@ -21,10 +21,10 @@ module Components
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "pass",
           ops_status: 200,
           raw_results: {
             version: 3,
+            status: "pass",
             tests: [{ name: :test_a_name_given, status: :pass, output: "Hello", task_id: 1 }]
           }
         Submission::TestRunsChannel.broadcast!(test_run)
@@ -47,10 +47,10 @@ module Components
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "pass",
           ops_status: 200,
           raw_results: {
             version: 2,
+            status: "pass",
             tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
           }
         Submission::TestRunsChannel.broadcast!(test_run)
@@ -73,10 +73,10 @@ module Components
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "pass",
           ops_status: 200,
           raw_results: {
-            version: 1
+            version: 1,
+            status: "pass"
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
@@ -97,10 +97,10 @@ module Components
         wait_for_submission
         create :submission_test_run,
           submission: Submission.last,
-          status: "pass",
           ops_status: 200,
           raw_results: {
             version: 2,
+            status: "pass",
             tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
           }
 
@@ -122,10 +122,10 @@ module Components
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "fail",
           ops_status: 200,
           raw_results: {
             version: 3,
+            status: "fail",
             tests: [{ name: :test_no_name_given, status: :fail, task_id: 1 }]
           }
         Submission::TestRunsChannel.broadcast!(test_run)
@@ -148,10 +148,10 @@ module Components
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "fail",
           ops_status: 200,
           raw_results: {
             version: 2,
+            status: "fail",
             tests: [{ name: :test_no_name_given, status: :fail }]
           }
         Submission::TestRunsChannel.broadcast!(test_run)
@@ -175,10 +175,10 @@ module Components
         output = "Oh dear Foobar - here's some stuff"
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "fail",
           ops_status: 200,
           raw_results: {
             version: 1,
+            status: "fail",
             output: output
           }
         Submission::TestRunsChannel.broadcast!(test_run)
@@ -202,11 +202,11 @@ module Components
         2.times { wait_for_websockets }
         test_run = create :submission_test_run,
           submission: Submission.last,
-          status: "error",
           message: "Undefined local variable",
           ops_status: 200,
           raw_results: {
             version: 2,
+            status: "error",
             tests: []
           }
         Submission::TestRunsChannel.broadcast!(test_run)
@@ -231,11 +231,12 @@ module Components
           2.times { wait_for_websockets }
           test_run = create :submission_test_run,
             submission: Submission.last,
-            status: "error",
             message: "Can't run the tests",
             ops_status: 400,
             raw_results: {
-              version: 2, tests: []
+              version: 2,
+              status: "error",
+              tests: []
             }
           Submission::TestRunsChannel.broadcast!(test_run)
 
@@ -269,10 +270,10 @@ module Components
       submission = create :submission, solution: solution
       create :submission_test_run,
         submission: submission,
-        status: "pass",
         ops_status: 200,
         raw_results: {
           version: 3,
+          status: "pass",
           tests: [{ name: :test_a_name_given, status: :pass, output: "Hello", task_id: 1 }]
         }
 
@@ -291,10 +292,10 @@ module Components
       submission = create :submission, solution: solution
       create :submission_test_run,
         submission: submission,
-        status: "pass",
         ops_status: 200,
         raw_results: {
           version: 2,
+          status: "pass",
           tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
         }
 

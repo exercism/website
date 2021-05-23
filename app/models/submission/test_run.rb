@@ -11,9 +11,11 @@ class Submission::TestRun < ApplicationRecord
 
   before_create do
     self.version = raw_results[:version].to_i
-    self.status = raw_results.fetch(:status, :error) unless self.status
     self.message = raw_results[:message] unless self.message
     self.output = raw_results[:output] unless self.output
+    self.status = raw_results.fetch(:status, :error) unless self.status
+
+    self.ops_status = 400 unless raw_results[:status]
   end
 
   def status

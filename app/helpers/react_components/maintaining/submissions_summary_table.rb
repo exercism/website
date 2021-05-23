@@ -41,7 +41,7 @@ module ReactComponents
 
         def tests_data
           data = submission.tests_status
-          if submission.tests_exceptioned?
+          if submission.tests_errored? || submission.tests_exceptioned?
             job = Exercism::ToolingJob.find(submission.test_run.tooling_job_id)
             data += "\n\nSTDOUT:\n------\n#{job.stdout}"
             data += "\n\nSTDERR:\n------\n#{job.stderr}"

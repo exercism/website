@@ -15,10 +15,10 @@ module Flows
         create :iteration, submission: submission
         create :submission_test_run,
           submission: submission,
-          status: "fail",
           ops_status: 200,
           raw_results: {
             version: 3,
+            status: "fail",
             tests: [{ name: :test_no_name_given, status: :fail, task_id: 1 }]
           }
 

@@ -1,3 +1,3 @@
-export { Student } from './Student'
+export { StudentTooltip } from './StudentTooltip'
 export { UserTooltip } from './UserTooltip'
 export { ConceptTooltip } from './ConceptTooltip'

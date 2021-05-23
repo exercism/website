@@ -64,9 +64,7 @@ export function useRequestQuery<TResult = unknown, TError = unknown>(
 ): QueryResult<TResult, TError> {
   return useQuery<TResult, TError>(
     key,
-    () => {
-      return handleFetch(request, isMountedRef)
-    },
+    () => (handleFetch(request, isMountedRef)),
     { refetchOnWindowFocus: false, ...camelizeKeys(request.options) }
   )
 }

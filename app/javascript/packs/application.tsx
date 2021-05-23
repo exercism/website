@@ -510,7 +510,7 @@ initReact({
     />
   ),
   'mentored-student-tooltip': (data: any) => (
-    <Tooltips.Student endpoint={data.endpoint} />
+    <Tooltips.StudentTooltip requestId={data.endpoint}  endpoint={data.endpoint} />
   ),
   'user-tooltip': (data: any, elem: HTMLElement) => (
     <Tooltips.UserTooltip

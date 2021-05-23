@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { fromNow } from '../../../utils/time'
 import { ExerciseIcon } from '../../common/ExerciseIcon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Icon } from '../../common/Icon'
 import { Avatar } from '../../common/Avatar'
+import { StudentTooltip } from '../../tooltips'
+import { usePanel } from '../../../hooks/use-panel'
 
 type SolutionProps = {
   studentAvatarUrl: string
@@ -15,11 +17,10 @@ type SolutionProps = {
   status: string
   updatedAt: string
   url: string
-  showMoreInformation: (e: React.MouseEvent | React.FocusEvent) => void
-  hideMoreInformation: () => void
+  tooltipUrl: string
 }
 
-export function Solution({
+export const Solution = ({
   studentAvatarUrl,
   studentHandle,
   exerciseTitle,
@@ -29,42 +30,71 @@ export function Solution({
   status,
   updatedAt,
   url,
-  showMoreInformation,
-  hideMoreInformation,
-}: SolutionProps) {
+  tooltipUrl,
+}: SolutionProps): JSX.Element => {
+  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
+    placement: 'right',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [-20, -0],
+        },
+      },
+    ],
+  })
+
   return (
-    <a
-      href={url}
-      className="--solution"
-      onMouseEnter={showMoreInformation}
-      onMouseLeave={hideMoreInformation}
-      onFocus={showMoreInformation}
-      onBlur={hideMoreInformation}
-    >
-      <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />
-      <Avatar src={studentAvatarUrl} handle={studentHandle} />
-      <div className="--info">
-        <div className="--handle">
-          {studentHandle}
-          {isFavorited ? (
-            <Icon
-              icon="gold-star"
-              alt="Favorite student"
-              className="favorited"
-            />
-          ) : haveMentoredPreviously ? (
-            <Icon
-              icon="mentoring"
-              alt="Mentored previously"
-              className="previously-mentored"
-            />
-          ) : null}
+    <>
+      <ReferenceElement
+        href={url}
+        className="--solution"
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
+        <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />
+        <Avatar src={studentAvatarUrl} handle={studentHandle} />
+        <div className="--info">
+          <div className="--handle">
+            {studentHandle}
+            {isFavorited ? (
+              <Icon
+                icon="gold-star"
+                alt="Favorite student"
+                className="favorited"
+              />
+            ) : haveMentoredPreviously ? (
+              <Icon
+                icon="mentoring"
+                alt="Mentored previously"
+                className="previously-mentored"
+              />
+            ) : null}
+          </div>
+          <div className="--exercise-title">on {exerciseTitle}</div>
         </div>
-        <div className="--exercise-title">on {exerciseTitle}</div>
-      </div>
-      {status ? <div className="--status">{status}</div> : null}
-      <time className="-updated-at">{fromNow(updatedAt)}</time>
-      <GraphicalIcon icon="chevron-right" className="action-icon" />
-    </a>
+        {status ? <div className="--status">{status}</div> : null}
+        <time className="-updated-at">{fromNow(updatedAt)}</time>
+        <GraphicalIcon icon="chevron-right" className="action-icon" />
+      </ReferenceElement>
+      {open ? (
+        <StudentTooltip
+          endpoint={tooltipUrl}
+          requestId={tooltipUrl}
+          {...panelAttributes}
+        />
+      ) : null}
+    </>
   )
 }
+
+const ReferenceElement = forwardRef<
+  HTMLElement,
+  React.HTMLProps<HTMLAnchorElement>
+>(({ ...props }, ref) => {
+  return (
+    <a ref={ref as React.RefObject<HTMLAnchorElement>} {...props}>
+      {props.children}
+    </a>
+  )
+})

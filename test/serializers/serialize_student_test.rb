@@ -18,7 +18,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       is_blocked: false,
       track_objectives: "Come from an OO background, looking to get into functional.",
       num_total_discussions: 3,
-      num_discussions_with_mentor: 4,
+      num_discussions_with_mentor: 5,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
         favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),

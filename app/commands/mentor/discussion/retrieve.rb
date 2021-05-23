@@ -96,6 +96,8 @@ module Mentor
         case order
         when "exercise"
           @discussions = @discussions.order("exercises.title")
+        when 'recent'
+          @discussions = @discussions.order(awaiting_mentor_since: :desc)
         else
           @discussions = @discussions.order(awaiting_mentor_since: :asc)
         end

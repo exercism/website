@@ -2,9 +2,9 @@ require_relative "../react_component_test_case"
 
 class MentoringInboxTest < ReactComponentTestCase
   test "mentoring inbox rendered correctly" do
-    component = ReactComponents::Mentoring::Inbox.new({
-                                                        criteria: "Ruby"
-                                                      })
+    component = ReactComponents::Mentoring::Inbox.new(
+      criteria: "Ruby"
+    )
 
     assert_component component,
       "mentoring-inbox",
@@ -18,9 +18,10 @@ class MentoringInboxTest < ReactComponentTestCase
           query: { status: "awaiting_mentor" }
         },
         sort_options: [
-          { value: 'recent', label: 'Sort by Most Recent' },
-          { value: 'exercise', label: 'Sort by Exercise' },
-          { value: 'student', label: 'Sort by Student' }
+          { value: '', label: 'Sort by oldest first' },
+          { value: 'recent', label: 'Sort by recent first' },
+          { value: 'exercise', label: 'Sort by exercise' },
+          { value: 'student', label: 'Sort by student' }
         ]
       }
   end

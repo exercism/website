@@ -136,7 +136,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_inbox_url
-          select "Sort by Exercise", from: "discussion-sorter-sort", exact: true
+          select "Sort by exercise", from: "discussion-sorter-sort", exact: true
 
           assert_text "on Series"
         end

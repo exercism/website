@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { Student } from '../../../../app/javascript/components/tooltips/Student'
+import { StudentTooltip } from '../../../../app/javascript/components/tooltips/StudentTooltip'
 
 test('correct information is displayed', async () => {
   const server = setupServer(
@@ -28,10 +28,9 @@ test('correct information is displayed', async () => {
   server.listen()
 
   const { getByText } = render(
-    <Student endpoint="https://exercism.test/tooltips/mentored_student/1" />
+    <StudentTooltip endpoint="https://exercism.test/tooltips/mentored_student/1" />
   )
 
-  await waitFor(() => expect(getByText('Loading')).toBeInTheDocument())
   await waitFor(() => expect(getByText('mentee')).toBeInTheDocument())
 
   server.close()

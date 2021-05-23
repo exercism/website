@@ -108,24 +108,34 @@ module Components
         end
       end
 
-      test "sort by student" do
+      test "sort by recent" do
         ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+
         mentor = create :user
         ruby = create :track, title: "Ruby"
         create :user_track_mentorship, track: ruby, user: mentor
-        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        student = create :user, name: "User 2"
-        create_mentor_request exercise: series, student: student
+
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        other_student = create :user, name: "User 1"
-        create_mentor_request exercise: tournament, student: other_student
+        create_mentor_request exercise: tournament, created_at: Time.current - 1.week
+
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        create_mentor_request exercise: series, created_at: Time.current
 
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_queue_path
-          select "Sort by Student", from: "mentoring-queue-sorter", exact: true
 
+          # Check default
           assert_text "on Tournament"
+          refute_text "on Series"
+
+          select "Sort by recent first", from: "mentoring-queue-sorter", exact: true
+          refute_text "on Tournament"
+          assert_text "on Series"
+
+          select "Sort by oldest first", from: "mentoring-queue-sorter", exact: true
+          assert_text "on Tournament"
+          refute_text "on Series"
         end
       end
 

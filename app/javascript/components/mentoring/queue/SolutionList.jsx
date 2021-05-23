@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Solution } from './Solution'
-import * as Tooltips from '../../tooltips'
 import { Pagination } from '../../common/Pagination'
-import { usePopper } from 'react-popper'
 import { FetchingBoundary } from '../../FetchingBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
@@ -20,19 +18,6 @@ export const SolutionList = ({ status, error, ...props }) => {
 }
 
 function Component({ resolvedData, latestData, page, setPage }) {
-  const [tooltipTrigger, setTooltipTrigger] = useState(null)
-  const [tooltipElement, setTooltipElement] = useState(null)
-
-  const { styles } = usePopper(tooltipTrigger?.element, tooltipElement)
-
-  const showTooltip = (referenceElement, tooltipUrl) => {
-    setTooltipTrigger({ element: referenceElement, endpoint: tooltipUrl })
-  }
-
-  const hideTooltip = () => {
-    // setTooltipTrigger(null)
-  }
-
   return (
     <>
       {resolvedData.results.length > 0 ? (
@@ -43,21 +28,9 @@ function Component({ resolvedData, latestData, page, setPage }) {
                   <Solution
                     key={key}
                     {...solution}
-                    showMoreInformation={(e) =>
-                      showTooltip(e.target, solution.tooltipUrl)
-                    }
-                    hideMoreInformation={() => hideTooltip()}
                   />
                 ))
               : 'No discussions found'}
-          </div>
-          <div ref={setTooltipElement}>
-            {tooltipTrigger ? (
-              <Tooltips.Student
-                endpoint={tooltipTrigger.endpoint}
-                styles={styles.popper}
-              />
-            ) : null}
           </div>
           <footer>
             <Pagination

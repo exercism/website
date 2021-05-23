@@ -1,6 +1,6 @@
 import React from 'react'
-import { Student } from '../../Session'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
+import { Student } from '../../../types'
 
 export const FinishStep = ({
   student,

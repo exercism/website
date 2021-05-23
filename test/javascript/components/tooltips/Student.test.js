@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { MentoredStudent } from '../../../../app/javascript/components/tooltips/MentoredStudent'
+import { Student } from '../../../../app/javascript/components/tooltips/Student'
 
 test('correct information is displayed', async () => {
   const server = setupServer(
@@ -12,13 +12,14 @@ test('correct information is displayed', async () => {
       (req, res, ctx) => {
         return res(
           ctx.json({
-            id: 1,
-            avatar_url: 'https://robohash.org/exercism',
-            handle: 'mentee',
-            is_starred: true,
-            have_mentored_previously: true,
-            status: 'First timer',
-            updated_at: '2019-10-29T10:31:29Z',
+            student: {
+              id: 1,
+              avatar_url: 'https://robohash.org/exercism',
+              handle: 'mentee',
+              have_mentored_previously: true,
+              is_favorited: true,
+              updated_at: '2019-10-29T10:31:29Z',
+            },
           })
         )
       }
@@ -27,7 +28,7 @@ test('correct information is displayed', async () => {
   server.listen()
 
   const { getByText } = render(
-    <MentoredStudent endpoint="https://exercism.test/tooltips/mentored_student/1" />
+    <Student endpoint="https://exercism.test/tooltips/mentored_student/1" />
   )
 
   await waitFor(() => expect(getByText('Loading')).toBeInTheDocument())

@@ -10,7 +10,7 @@ type SolutionProps = {
   studentHandle: string
   exerciseTitle: string
   exerciseIconUrl: string
-  isStarred: boolean
+  isFavorited: boolean
   haveMentoredPreviously: boolean
   status: string
   updatedAt: string
@@ -24,7 +24,7 @@ export function Solution({
   studentHandle,
   exerciseTitle,
   exerciseIconUrl,
-  isStarred,
+  isFavorited,
   haveMentoredPreviously,
   status,
   updatedAt,
@@ -46,12 +46,23 @@ export function Solution({
       <div className="--info">
         <div className="--handle">
           {studentHandle}
-          {isStarred ? <Icon icon="gold-star" alt="Starred student" /> : null}
-          {haveMentoredPreviously ? <div className="dot" /> : null}
+          {isFavorited ? (
+            <Icon
+              icon="gold-star"
+              alt="Favorite student"
+              className="favorited"
+            />
+          ) : haveMentoredPreviously ? (
+            <Icon
+              icon="mentoring"
+              alt="Mentored previously"
+              className="previously-mentored"
+            />
+          ) : null}
         </div>
         <div className="--exercise-title">on {exerciseTitle}</div>
       </div>
-      <div className="--status">{status}</div>
+      {status ? <div className="--status">{status}</div> : null}
       <time className="-updated-at">{fromNow(updatedAt)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>

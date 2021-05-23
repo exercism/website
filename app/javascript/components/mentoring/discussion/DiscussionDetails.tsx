@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Student } from '../Session'
-import { Iteration, MentorDiscussion } from '../../types'
+import { Student, Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 

@@ -12,14 +12,17 @@ class SerializeStudent
 
     {
       id: student.id,
-      name: student.name,
       handle: student.handle,
-      bio: student.bio,
+      name: student.name.presence, # TODO: We need a flag to protect this maybe?
+      bio: student.bio.presence,
+      location: student.location.presence,
       languages_spoken: student.languages_spoken,
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
       is_favorited: !!relationship&.favorited?,
       is_blocked: !!relationship&.blocked_by_mentor?,
+      track_objectives: "Come from an OO background, looking to get into functional.", # TODO
+      num_total_discussions: num_total_discussions,
       num_previous_sessions: num_previous_sessions,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
@@ -47,5 +50,9 @@ class SerializeStudent
   def num_previous_sessions
     num = relationship&.num_discussions.to_i
     num.positive? ? num - 1 : 0 # Previous does not include this
+  end
+
+  def num_total_discussions
+    Mentor::Discussion.joins(:solution).where('solutions.user_id': student.id).count
   end
 end

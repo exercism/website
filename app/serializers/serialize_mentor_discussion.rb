@@ -21,7 +21,7 @@ class SerializeMentorDiscussion
       student: {
         handle: discussion.student_handle,
         avatar_url: discussion.student_avatar_url,
-        is_starred: true # Only show this if the context is the mentor
+        is_favorited: true # TODO: Only show this if the context is the mentor
       },
       mentor: {
         handle: discussion.mentor.handle,

@@ -15,7 +15,7 @@ type MentoringRequest = {
   student_handle: string
   student_avatar_url: string
   updated_at: string
-  is_starred: boolean
+  isFavorited: boolean
   have_mentored_previously: boolean
   status: string
   tooltip_url: string

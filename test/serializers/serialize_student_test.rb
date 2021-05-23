@@ -4,16 +4,20 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
   test "with relationship" do
     student = create :user
     relationship = create :mentor_student_relationship, student: student, num_discussions: 5, favorited: true
+    3.times { create :mentor_discussion, solution: create(:practice_solution, user: student) }
     expected = {
       id: student.id,
-      name: student.name,
       handle: student.handle,
-      bio: student.bio,
-      languages_spoken: student.languages_spoken,
+      name: student.name,
+      bio: nil,
+      location: nil,
+      languages_spoken: %w[english spanish],
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
       is_favorited: true,
       is_blocked: false,
+      track_objectives: "Come from an OO background, looking to get into functional.",
+      num_total_discussions: 3,
       num_previous_sessions: 4,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
@@ -32,14 +36,17 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     student = create :user
     expected = {
       id: student.id,
-      name: student.name,
       handle: student.handle,
-      bio: student.bio,
+      name: student.name,
+      bio: nil,
+      location: nil,
       languages_spoken: student.languages_spoken,
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
       is_favorited: false,
       is_blocked: false,
+      track_objectives: "Come from an OO background, looking to get into functional.",
+      num_total_discussions: 0,
       num_previous_sessions: 0,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
@@ -71,5 +78,21 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       relationship: nil,
       anonymous_mode: true
     )
+  end
+
+  test "bio, location, rep" do
+    bio = "some bio"
+    location = "some loc"
+    student = create :user, bio: bio, location: location, reputation: 12_345
+
+    result = SerializeStudent.(
+      student,
+      relationship: nil,
+      anonymous_mode: false
+    )
+
+    assert_equal bio, result[:bio]
+    assert_equal location, result[:location]
+    assert_equal "12.3k", result[:reputation]
   end
 end

@@ -82,6 +82,27 @@ export type Exercise =
   | (ExerciseCore & { isUnlocked: true; links: { self: string } })
   | (ExerciseCore & { isUnlocked: false })
 
+export type Student = {
+  id: number
+  avatarUrl: string
+  name: string
+  bio: string
+  location: string
+  languagesSpoken: string[]
+  handle: string
+  reputation: string
+  isFavorited: boolean
+  isBlocked: boolean
+  trackObjectives: string
+  numTotalDiscussions: number
+  numPreviousSessions: number
+  links: {
+    block: string
+    favorite: string
+    previousSessions: string
+  }
+}
+
 export type SolutionForStudent = {
   id: string
   privateUrl: string
@@ -325,7 +346,7 @@ export type MentorDiscussion = {
   student: {
     avatarUrl: string
     handle: string
-    isStarred: boolean
+    isFavorited: boolean
   }
   mentor: {
     avatarUrl: string
@@ -341,7 +362,7 @@ export type MentorDiscussion = {
   }
   isFinished: boolean
   isUnread: boolean
-  isStarred: boolean
+  isFavorited: boolean
   postsCount: number
   iterationsCount: number
   createdAt: string

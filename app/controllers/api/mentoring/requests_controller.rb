@@ -31,6 +31,7 @@ module API
       render json: SerializePaginatedCollection.(
         requests,
         serializer: SerializeMentorRequests,
+        serializer_args: current_user,
         meta: {
           unscoped_total: unscoped_total
         }

@@ -6,7 +6,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { Student } from '../../mentoring/Session'
+import { Student } from '../../types'
 
 type Discussion = {
   student: Student

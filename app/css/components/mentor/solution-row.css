@@ -37,14 +37,14 @@
                     @apply ml-8;
                 }
 
-                & .c-icon {
+                & .favorited {
                     height: 22px;
                     width: 22px;
                 }
-                & .dot {
-                    @apply rounded-circle bg-lightBlue;
-                    height: 9px;
-                    width: 9px;
+                & .previously-mentored {
+                    height: 18px;
+                    width: 18px;
+                    filter: var(--orange-filter);
                 }
             }
             & .--exercise-title {

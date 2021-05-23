@@ -8,12 +8,11 @@ import {
   ExerciseIcon,
 } from '../common'
 import { Modal, ModalProps } from './Modal'
-import { Student } from '../mentoring/Session'
 import pluralize from 'pluralize'
 import { FavoriteButton } from '../mentoring/session/FavoriteButton'
 import { useList } from '../../hooks/use-list'
 import { useIsMounted } from 'use-is-mounted'
-import { PaginatedResult, MentorDiscussion } from '../types'
+import { PaginatedResult, MentorDiscussion, Student } from '../types'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'

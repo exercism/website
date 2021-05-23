@@ -61,9 +61,11 @@ import '../../css/components/radio'
 import '../../css/components/checkbox'
 import '../../css/components/select'
 import '../../css/tooltips/generic'
+import '../../css/tooltips/base'
 import '../../css/tooltips/concept'
 import '../../css/tooltips/user'
 import '../../css/tooltips/exercise'
+import '../../css/tooltips/student'
 import '../../css/components/user_activity'
 import '../../css/components/search-bar'
 import '../../css/components/community-solution'
@@ -206,10 +208,8 @@ import {
   User,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
-import {
-  Student as MentoringSessionStudent,
-  Links as MentoringSessionLinks,
-} from '../components/mentoring/Session'
+import { Student as MentoringSessionStudent } from '../components/types'
+import { Links as MentoringSessionLinks } from '../components/mentoring/Session'
 import {
   Mentor as StudentMentoringSessionMentor,
   Video as StudentMentoringSessionVideo,
@@ -510,7 +510,7 @@ initReact({
     />
   ),
   'mentored-student-tooltip': (data: any) => (
-    <Tooltips.MentoredStudent endpoint={data.endpoint} />
+    <Tooltips.Student endpoint={data.endpoint} />
   ),
   'user-tooltip': (data: any, elem: HTMLElement) => (
     <Tooltips.UserTooltip

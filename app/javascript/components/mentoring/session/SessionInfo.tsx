@@ -1,7 +1,7 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Avatar } from '../../common/Avatar'
-import { Student } from '../Session'
+import { Student } from '../../types'
 import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,

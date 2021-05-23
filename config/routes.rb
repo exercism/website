@@ -150,7 +150,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :students, only: [] do
+        resources :students, only: [:show] do
           member do
             post :block
             delete :block, to: "students#unblock"
@@ -332,7 +332,6 @@ Rails.application.routes.draw do
         end
         namespace :tooltips do
           resource :tooltip, controller: "tooltip", only: [:show] do
-            get 'mentored_student/:id', to: 'tooltip#mentored_student', as: 'mentored_student'
             get 'user_summary/:id', to: 'tooltip#user_summary', as: 'user_summary'
           end
         end

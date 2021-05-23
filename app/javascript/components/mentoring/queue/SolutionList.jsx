@@ -30,7 +30,7 @@ function Component({ resolvedData, latestData, page, setPage }) {
   }
 
   const hideTooltip = () => {
-    setTooltipTrigger(null)
+    // setTooltipTrigger(null)
   }
 
   return (
@@ -53,7 +53,7 @@ function Component({ resolvedData, latestData, page, setPage }) {
           </div>
           <div ref={setTooltipElement}>
             {tooltipTrigger ? (
-              <Tooltips.MentoredStudent
+              <Tooltips.Student
                 endpoint={tooltipTrigger.endpoint}
                 styles={styles.popper}
               />

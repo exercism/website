@@ -138,6 +138,7 @@ module.exports = {
       anotherGold: '#FAE54D',
 
       muddy: '#6E82AA',
+      caution: '#955D09',
       color22: '#C8D5EF',
 
       commonBadge: '#F0F3F9',

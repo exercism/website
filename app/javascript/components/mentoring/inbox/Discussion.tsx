@@ -31,8 +31,12 @@ export const Discussion = ({
       <div className="--info">
         <div className="--handle">
           {discussion.student.handle}
-          {discussion.student.isStarred ? (
-            <Icon icon="gold-star" alt="Starred student" />
+          {discussion.student.isFavorited ? (
+            <Icon
+              icon="gold-star"
+              alt="Favorite student"
+              className="favorited"
+            />
           ) : null}
         </div>
         <div className="--exercise-title">on {discussion.exercise.title}</div>

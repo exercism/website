@@ -1,10 +1,11 @@
 @import "../styles";
+@import "./base";
 
 .c-concept-tooltip {
-    max-width: 460px;
-
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
     @apply relative z-tooltip;
+
+    max-width: 460px;
 
     /* TODO: add fade in transition for opacity */
 

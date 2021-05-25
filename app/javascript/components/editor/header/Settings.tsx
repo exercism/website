@@ -19,9 +19,9 @@ const WRAP = [
   { label: 'Off', value: 'off' },
 ]
 
-const TAB_ENABLED = [
-  { label: 'On', value: 'captured' },
-  { label: 'Off', value: 'default' },
+const TAB_MODE = [
+  { label: 'Editor', value: 'captured' },
+  { label: 'Accesibility', value: 'default' },
 ]
 
 const Setting = React.forwardRef<
@@ -175,9 +175,9 @@ export function Settings({
               {...itemAttributes(2)}
             />
             <Setting
-              title="Tab enabled"
+              title="Tab mode"
               value={tabBehavior}
-              options={TAB_ENABLED}
+              options={TAB_MODE}
               set={(tabBehavior) => setTabBehavior(tabBehavior as TabBehavior)}
               {...itemAttributes(3)}
             />

@@ -16,6 +16,7 @@ class SerializeSubmissionTestRun
       output: test_run.output,
       output_html: output_html,
       tests: test_run.test_results,
+      highlightjs_language: test_run.solution.track.highlightjs_language,
       links: {
         self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
       }

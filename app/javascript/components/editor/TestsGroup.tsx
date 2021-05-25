@@ -5,17 +5,23 @@ import { Test } from './types'
 
 export type TestWithToggle = Test & { defaultOpen: boolean }
 
-const TestsGroupContext = createContext<{ tests: TestWithToggle[] }>({
+const TestsGroupContext = createContext<{
+  tests: TestWithToggle[]
+  language: string
+}>({
   tests: [],
+  language: '',
 })
 
 export const TestsGroup = ({
   open = false,
   tests,
+  language,
   children,
 }: {
   open?: boolean
   tests: TestWithToggle[]
+  language: string
   children: React.ReactNode
 }): JSX.Element | null => {
   if (tests.length === 0) {
@@ -23,7 +29,7 @@ export const TestsGroup = ({
   }
 
   return (
-    <TestsGroupContext.Provider value={{ tests: tests }}>
+    <TestsGroupContext.Provider value={{ tests: tests, language: language }}>
       <details open={open} className="tests-group c-details">
         {children}
       </details>
@@ -42,7 +48,7 @@ TestsGroup.Header = ({
 )
 
 TestsGroup.Tests = (): JSX.Element => {
-  const { tests } = useContext(TestsGroupContext)
+  const { tests, language } = useContext(TestsGroupContext)
 
   return (
     <>
@@ -51,6 +57,7 @@ TestsGroup.Tests = (): JSX.Element => {
           key={test.name}
           test={test}
           defaultOpen={test.defaultOpen}
+          language={language}
         />
       ))}
     </>

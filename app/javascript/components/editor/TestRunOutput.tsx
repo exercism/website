@@ -8,7 +8,10 @@ export const TestRunOutput = ({
   testRun: TestRun
 }): JSX.Element => {
   return testRun.version === 2 || testRun.version === 3 ? (
-    <TestsGroupList tests={testRun.tests} />
+    <TestsGroupList
+      tests={testRun.tests}
+      language={testRun.highlightjsLanguage}
+    />
   ) : (
     <pre className="v1-message">
       <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />

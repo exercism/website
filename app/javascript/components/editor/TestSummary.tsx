@@ -17,9 +17,11 @@ const messageLabels = {
 export function TestSummary({
   test,
   defaultOpen,
+  language,
 }: {
   test: Test
   defaultOpen: boolean
+  language: string
 }): JSX.Element {
   const isPresent = useCallback((str) => {
     return str !== undefined && str !== null && str !== ''
@@ -51,7 +53,7 @@ export function TestSummary({
           <div className="--info">
             <h3>Code Run</h3>
             <pre ref={testCodeRef}>
-              <code className="ruby">{test.testCode}</code>
+              <code className={language}>{test.testCode}</code>
             </pre>
           </div>
         ) : null}

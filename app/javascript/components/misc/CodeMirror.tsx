@@ -2,15 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import { EditorView, keymap, KeyBinding } from '@codemirror/view'
 import { basicSetup } from '@codemirror/basic-setup'
 import { EditorState, Compartment } from '@codemirror/state'
-import { showPanel } from '@codemirror/panel'
 import { indentUnit } from '@codemirror/language'
 import { Themes } from '../editor/types'
 import { languageCompartment } from './CodeMirror/languageCompartment'
-import {
-  a11yTabBinding,
-  a11yTabBindingPanel,
-  a11yTabBindingPanelTheme,
-} from './CodeMirror/a11yTabBinding'
+import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
+import { defaultTabBinding } from '@codemirror/commands'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -80,12 +76,11 @@ export const CodeMirror = ({
         doc: value,
         extensions: [
           basicSetup,
-          showPanel.of(a11yTabBindingPanel),
-          a11yTabBindingPanelTheme,
-          languageCompartment(language),
+          a11yTabBindingPanel(),
           tabCaptureCompartment.of(
-            keymap.of(isTabCaptured ? [a11yTabBinding] : [])
+            keymap.of(isTabCaptured ? [defaultTabBinding] : [])
           ),
+          languageCompartment(language),
           EditorState.tabSize.of(tabSize),
           indentUnit.of(useSoftTabs ? '  ' : '	'),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
@@ -132,7 +127,7 @@ export const CodeMirror = ({
 
     viewRef.current.dispatch({
       effects: tabCaptureCompartment.reconfigure(
-        keymap.of(isTabCaptured ? [a11yTabBinding] : [])
+        keymap.of(isTabCaptured ? [defaultTabBinding] : [])
       ),
     })
   }, [isTabCaptured])

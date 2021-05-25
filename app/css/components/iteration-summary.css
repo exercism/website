@@ -85,35 +85,30 @@
     & .--feedback {
         @apply border-1 border-borderColor5 rounded-5;
         @apply flex items-center;
-        @apply py-4 ml-32;
+        @apply px-12 py-6 ml-32;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-12;
+            filter: var(--textColor6-filter);
+        }
 
         & .--count {
-            @apply text-textColor3 font-bold font-mono;
+            @apply text-textColor3 font-bold font-mono text-15 leading-120;
             @apply flex items-center;
-            @apply py-4 px-12;
 
             &.--essential {
-                & .c-icon {
-                    filter: var(--red-filter);
-                }
-                @apply text-red;
+                @apply text-darkRed;
             }
 
             &.--actionable {
-                & .c-icon {
-                    filter: var(--orange-filter);
-                }
                 @apply text-orange;
-            }
-
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-                @apply mr-8;
             }
 
             & + .--count {
                 @apply border-l-1 border-borderColor5;
+                @apply ml-12 pl-12;
             }
         }
     }

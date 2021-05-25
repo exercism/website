@@ -22,23 +22,22 @@ export function AnalysisStatusSummary({
 
   return (
     <div className="--feedback" role="status" aria-label="Analysis status">
+      <Icon icon="automation" alt="Essential automated comments" />
+
       {numEssentialAutomatedComments > 0 ? (
         <div className="--count --essential">
-          <Icon icon="automation" alt="Essential automated comments" />
           {numEssentialAutomatedComments}
         </div>
       ) : null}
 
       {numActionableAutomatedComments > 0 ? (
         <div className="--count --actionable">
-          <Icon icon="automation" alt="Recommended automated comments" />
           {numActionableAutomatedComments}
         </div>
       ) : null}
 
       {numNonActionableAutomatedComments > 0 ? (
         <div className="--count --non-actionable">
-          <Icon icon="automation" alt="Other automated comments" />
           {numNonActionableAutomatedComments}
         </div>
       ) : null}

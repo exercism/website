@@ -41,7 +41,7 @@
             @apply text-p-base mb-12;
         }
     }
-    & .v1-output {
+    & .v1-message {
         @apply px-24 pb-48;
         white-space: pre-wrap;
     }

@@ -31,21 +31,45 @@ function tabPressed(changes: any): boolean {
   return changes.inserted.some((insert) => insert.text == '\t')
 }
 
-// This changes the desired value every time tab is pressed.
+// This cycles though the desired value every time tab is pressed.
 // This is useful for ensuring that screen-readers don't just
 // think the text is the same as it previously was and ignore it.
-const text1 = 'Press Escape then Tab to exit the editor'
-const text2 = 'To exit the editor, press Escape then tab'
+//
+// Currently this cycles whenever tab is pressed, whether or not we announce
+// it via the aria-live region (ie whether the box is blank or not at the time)
+// We may want to change this but I've not yet worked out how.
+//
+// Announcements only seem to happen once per prompt however many
+// times it is cycled into the box (I presume that's a non-spamming feature)
+// so for now I have 5 different prompts which means this is announced a maximum
+// of 5 times. There's also a chance this is just down to something weird
+// in VoiceOver (which seems to be quite random to me) so this might be entirelty
+// unncessary and we can just switch between twodifferent ones as per a previous
+// commit in the PR that adds this.
+const prompts = [
+  'Press Escape then Tab to exit the editor',
+  'To exit the editor, press Escape then tab',
+  'Press Escape followed by tab to exit the editor',
+  'If you want to exit the editor, press Escape then Tab',
+  'In order to exit the editor, press Escape then Tab',
+]
 const a11yTabBindingState = StateField.define<string>({
-  create: () => text1,
+  create: () => '',
   update(value, tr) {
-    if (tabPressed(tr.changes)) {
-      if (value == text1) {
-        value = text2
-      } else {
-        value = text1
-      }
+    if (!tabPressed(tr.changes)) {
+      return value
     }
+    let found = false
+    const newValue = prompts.find((prompt) => {
+      if (found) {
+        return value
+      }
+
+      if (value == prompt) {
+        found = true
+      }
+    })
+    value = newValue || prompts[0]
     return value
   },
 })

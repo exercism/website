@@ -1832,17 +1832,17 @@
     "@codemirror/view" "^0.18.0"
     lezer-tree "^0.13.0"
 
-"@codemirror/basic-setup@^0.18.1":
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/@codemirror/basic-setup/-/basic-setup-0.18.1.tgz#3be5a5b5cc922eaef7f2c0009ea02b598f5a5831"
-  integrity sha512-ItDjFVGtVzAlIHWFWoLEf+CL28CplNpiXpzFKVVfnJaJivWRx7jRYo8HbglpA445tUc1LF2OsRaP5jXn86/mgA==
+"@codemirror/basic-setup@^0.18.2":
+  version "0.18.2"
+  resolved "https://registry.yarnpkg.com/@codemirror/basic-setup/-/basic-setup-0.18.2.tgz#a766b7e8898ce5d4cd4782c1ebf87d15a0f1965f"
+  integrity sha512-4UNFQ4jhU7wKxJH23AJcZW6Ho54VXUpmbtFnN5amIdtGci4ZLvci4M7JKgKFraHmKfDIYQnSzN8d8ohXR7CRhw==
   dependencies:
     "@codemirror/autocomplete" "^0.18.0"
     "@codemirror/closebrackets" "^0.18.0"
     "@codemirror/commands" "^0.18.0"
     "@codemirror/comment" "^0.18.0"
     "@codemirror/fold" "^0.18.0"
-    "@codemirror/gutter" "^0.18.0"
+    "@codemirror/gutter" "^0.18.3"
     "@codemirror/highlight" "^0.18.0"
     "@codemirror/history" "^0.18.0"
     "@codemirror/language" "^0.18.0"
@@ -1896,7 +1896,7 @@
     "@codemirror/state" "^0.18.0"
     "@codemirror/view" "^0.18.0"
 
-"@codemirror/gutter@^0.18.0":
+"@codemirror/gutter@^0.18.0", "@codemirror/gutter@^0.18.3":
   version "0.18.3"
   resolved "https://registry.yarnpkg.com/@codemirror/gutter/-/gutter-0.18.3.tgz#d195e2f69c6bdba037ec9c4d97eee0b46b1f02b7"
   integrity sha512-9ZLpR3s3MCPtB5fpRAy8af89GjO763XB4GE4HLBnESS7E1CHAuHFSTyd/ZqKHZogueF1mJhv9IQnCamEYcNMQw==

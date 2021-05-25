@@ -13,22 +13,20 @@ test('shows nothing when all zero', async () => {
   )
 
   expect(
-    screen.queryByRole('img', { name: 'Essential automated comments' })
+    screen.queryByRole('img', { name: 'Automated comments' })
   ).not.toBeInTheDocument()
-  expect(
-    screen.queryByRole('img', { name: 'Recommended automated comments' })
-  ).not.toBeInTheDocument()
-  expect(
-    screen.queryByRole('img', { name: 'Other automated comments' })
-  ).not.toBeInTheDocument()
+  expect(screen.queryByTitle('Essential')).not.toBeInTheDocument()
+  expect(screen.queryByTitle('Actionable')).not.toBeInTheDocument()
+  expect(screen.queryByTitle('Other')).not.toBeInTheDocument()
 })
 
 test('shows essential automated comments if they exist', async () => {
   render(<AnalysisStatusSummary numEssentialAutomatedComments={5} />)
 
   expect(
-    screen.getByRole('img', { name: 'Essential automated comments' })
+    screen.getByRole('img', { name: 'Automated comments' })
   ).toBeInTheDocument()
+  expect(screen.getByTitle('Essential')).toBeInTheDocument()
   expect(screen.getByText('5')).toBeInTheDocument()
 })
 
@@ -36,8 +34,9 @@ test('shows actionable automated comments if they exist', async () => {
   render(<AnalysisStatusSummary numActionableAutomatedComments={4} />)
 
   expect(
-    screen.getByRole('img', { name: 'Recommended automated comments' })
+    screen.getByRole('img', { name: 'Automated comments' })
   ).toBeInTheDocument()
+  expect(screen.getByTitle('Actionable')).toBeInTheDocument()
   expect(screen.getByText('4')).toBeInTheDocument()
 })
 
@@ -45,7 +44,8 @@ test('shows non-actionable utomated comments if they exist', async () => {
   render(<AnalysisStatusSummary numNonActionableAutomatedComments={3} />)
 
   expect(
-    screen.getByRole('img', { name: 'Other automated comments' })
+    screen.getByRole('img', { name: 'Automated comments' })
   ).toBeInTheDocument()
+  expect(screen.getByTitle('Other')).toBeInTheDocument()
   expect(screen.getByText('3')).toBeInTheDocument()
 })

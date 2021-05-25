@@ -68,26 +68,28 @@ export const Concept = ({
 
   return (
     <div role="presentation">
-      <a
+      <div
         ref={conceptRef}
-        href={webUrl}
         id={conceptSlugToId(slug)}
         className={classes.join(' ')}
         data-concept-slug={slug}
         data-concept-status={status}
-        onFocus={() => setHasFocus(true)}
-        onBlur={() => setHasFocus(false)}
-        onMouseEnter={wrapAnimationFrame(handleEnter)}
-        onMouseLeave={wrapAnimationFrame(handleLeave)}
       >
-        <div className="display">
+        <a
+          className="display"
+          href={webUrl}
+          onMouseEnter={wrapAnimationFrame(handleEnter)}
+          onMouseLeave={wrapAnimationFrame(handleLeave)}
+          onFocus={() => setHasFocus(true)}
+          onBlur={() => setHasFocus(false)}
+        >
           <ConceptIcon name={name} size="medium" />
           <span className="name" aria-label={getAriaLabel(status)}>
             {name}
           </span>
-        </div>
+        </a>
         {!isLocked && <PureExerciseStatusBar exercisesData={exercisesData} />}
-      </a>
+      </div>
       <ConceptTooltip
         contentEndpoint={tooltipUrl}
         hoverRequestToShow={isActiveHover}

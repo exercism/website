@@ -30,7 +30,7 @@
             @apply flex justify-evenly items-center flex-wrap;
 
             & .card {
-                @apply rounded-8 py-16 px-24;
+                @apply rounded-8;
                 @apply box-border pointer-events-auto;
                 @apply relative;
                 @apply flex flex-col justify-between m-40;
@@ -96,6 +96,7 @@
 
                 & .display {
                     @apply flex items-center justify-center;
+                    @apply py-16 px-24;
 
                     & .name {
                         @apply text-18 font-semibold leading-150;
@@ -107,13 +108,17 @@
                         width: 16px;
                         height: 16px;
                     }
+
+                    &:hover {
+                        @apply bg-backgroundColorE;
+                    }
                 }
             }
 
             & .exercise-status-bar {
+                @apply py-10 px-24;
                 @apply flex justify-center align-middle;
-                @apply mt-16 pt-10 border-t-1 border-borderColor7;
-                margin-bottom: -6px;
+                @apply border-t-1 border-borderColor7;
 
                 & .c-ed {
                     @apply m-6;

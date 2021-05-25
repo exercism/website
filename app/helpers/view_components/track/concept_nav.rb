@@ -11,7 +11,7 @@ module ViewComponents
                 track_icon(track),
                 link_to(track.title, Exercism::Routes.track_path(track), class: 'title'),
                 tag.div("/", class: 'divider'),
-                link_to("Concepts", Exercism::Routes.track_concepts_path(track), class: 'item')
+                link_to("Syllabus", Exercism::Routes.track_concepts_path(track), class: 'item')
               ]
             )
           end

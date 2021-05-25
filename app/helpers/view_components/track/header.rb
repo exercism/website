@@ -65,7 +65,7 @@ module ViewComponents
           ),
 
           link_to(
-            graphical_icon(:concepts) + tag.span("Concepts"),
+            graphical_icon(:concepts) + tag.span("Syllabus"),
             Exercism::Routes.track_concepts_path(track),
             class: tab_class(:concepts)
           ),

@@ -60,13 +60,13 @@ export function TestSummary({
         {isPresent(test.message) ? (
           <div className="--info">
             <h3>{messageLabels[test.status]}</h3>
-            <pre>{test.message}</pre>
+            <pre dangerouslySetInnerHTML={{ __html: test.messageHtml }}></pre>
           </div>
         ) : null}
         {isPresent(test.output) ? (
           <div className="--info">
             <h3>Your Output</h3>
-            <pre>{test.output}</pre>
+            <pre dangerouslySetInnerHTML={{ __html: test.outputHtml }}></pre>
           </div>
         ) : null}
       </div>

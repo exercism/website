@@ -82,6 +82,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
       status: status.to_sym,
       test_code: test_code,
       message: message,
+      message_html: message,
       expected: expected,
       output: output,
       output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>"

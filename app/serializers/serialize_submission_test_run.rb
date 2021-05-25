@@ -12,9 +12,9 @@ class SerializeSubmissionTestRun
       version: test_run.version,
       status: status,
       message: message,
-      message_html: message_html,
+      message_html: Ansi::RenderHTML.(message),
       output: test_run.output,
-      output_html: output_html,
+      output_html: Ansi::RenderHTML.(test_run.output),
       tests: test_run.test_results,
       highlightjs_language: test_run.solution.track.highlightjs_language,
       links: {
@@ -31,27 +31,11 @@ class SerializeSubmissionTestRun
     test_run.status
   end
 
-  def message_html
-    return nil unless message
-
-    sanitized_message = message.gsub("\e\[K", '')
-    Ansi::To::Html.new(sanitized_message).to_html
-  end
-
   memoize
   def message
     return "An unknown error occurred" if !test_run.ops_success? && test_run.message.blank?
 
     test_run.message
-  end
-
-  def output_html
-    return if test_run.output.blank?
-
-    # The ansi-to-html library does not support unicode escape sequence
-    # See https://github.com/rburns/ansi-to-html/issues/48
-    sanitized_output = test_run.output.gsub("\e\[K", '')
-    Ansi::To::Html.new(sanitized_output).to_html
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

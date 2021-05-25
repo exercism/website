@@ -64,6 +64,8 @@ export interface IConceptMap {
 export type ConceptLayer = string[]
 
 export type ExerciseData = {
+  url: string
+  tooltipUrl: string
   status: ExerciseStatus[]
   type: string
 }

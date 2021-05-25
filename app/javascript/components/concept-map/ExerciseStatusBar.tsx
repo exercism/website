@@ -21,9 +21,10 @@ export const PureExerciseStatusBar = React.memo(ExerciseStatusBar)
 
 const statusMapper = (data: ExerciseData, key: number): JSX.Element => {
   return (
-    <div
+    <a
+      href={data.url}
       key={key}
-      className={`c-ed --${data.status} --${data.type} disabled`}
+      className={`c-ed --${data.status} --${data.type}`}
     />
   )
 }

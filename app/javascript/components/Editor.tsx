@@ -120,7 +120,7 @@ export function Editor({
     Keybindings.DEFAULT
   )
   const [wrap, setWrap] = useState<WrapSetting>('on')
-  const [tabBehavior, setTabBehavior] = useState<TabBehavior>('default')
+  const [tabBehavior, setTabBehavior] = useState<TabBehavior>('captured')
   const isMountedRef = useIsMounted()
   const [
     { submission, status: submissionStatus, apiError: submissionApiError },

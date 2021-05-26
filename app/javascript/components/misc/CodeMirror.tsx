@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { EditorView, keymap, KeyBinding } from '@codemirror/view'
 import { basicSetup } from '@codemirror/basic-setup'
-import { defaultTabBinding } from '@codemirror/commands'
 import { EditorState, Compartment } from '@codemirror/state'
 import { indentUnit } from '@codemirror/language'
 import { Themes } from '../editor/types'
 import { languageCompartment } from './CodeMirror/languageCompartment'
+import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
+import { defaultTabBinding } from '@codemirror/commands'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -15,7 +16,6 @@ export type Handler = {
   setValue: (value: string) => void
   getValue: () => string
 }
-
 export const CodeMirror = ({
   hidden,
   value,
@@ -76,11 +76,11 @@ export const CodeMirror = ({
         doc: value,
         extensions: [
           basicSetup,
-          languageCompartment(language),
-          //javascript(),
+          a11yTabBindingPanel(),
           tabCaptureCompartment.of(
             keymap.of(isTabCaptured ? [defaultTabBinding] : [])
           ),
+          languageCompartment(language),
           EditorState.tabSize.of(tabSize),
           indentUnit.of(useSoftTabs ? '  ' : '	'),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
